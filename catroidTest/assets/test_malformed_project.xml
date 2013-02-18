@@ -39,10 +39,10 @@
       <scriptList>
         <StartScript>
           <brickList>
-            <SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
+            <SetLookBrick>
+              <lookData reference="../../../../../lookDataList/LookData"/>
               <sprite reference="../../../../.."/>
-            </SetCostumeBrick>
+            </SetLookBrick>
           </brickList>
           <sprite reference="../../.."/>
         </StartScript>
@@ -50,28 +50,28 @@
       <soundList/>
     </Sprite>
     <Sprite>
-      <costumeDataList>
-        <CostumeData>
+      <lookDataList>
+        <LookData>
           <fileName>143780EBC24495149123CCAF3A1CDC35_normalCat</fileName>
           <name>normalCat</name>
-        </CostumeData>
-        <CostumeData>
+        </LookData>
+        <LookData>
           <fileName>FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat</fileName>
           <name>banzaiCat</name>
-        </CostumeData>
-        <CostumeData>
+        </LookData>
+        <LookData>
           <fileName>3673EC84679EE425A215B86B085EC292_cheshireCat</fileName>
           <name>cheshireCat</name>
-        </CostumeData>
-      </costumeDataList>
+        </LookData>
+      </lookDataList>
       <name>Catroid</name>
       <scriptList>
         <StartScript>
           <brickList>
-            <SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
+            <SetLookBrick>
+              <lookData reference="../../../../../lookDataList/LookData"/>
               <sprite reference="../../../../.."/>
-            </SetCostumeBrick>
+            </SetLookBrick>
             <RepeatBrick>
               <loopEndBrick>
                 <loopBeginBrick class="RepeatBrick" reference="../.."/>
@@ -89,26 +89,26 @@
         </StartScript>
         <WhenScript>
           <brickList>
-            <SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/CostumeData[2]"/>
+            <SetLookBrick>
+              <lookData reference="../../../../../lookDataList/LookData[2]"/>
               <sprite reference="../../../../.."/>
-            </SetCostumeBrick>
+            </SetLookBrick>
             <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>500</timeToWaitInMilliSeconds>
             </WaitBrick>
-            <SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/CostumeData[3]"/>
+            <SetLookBrick>
+              <lookData reference="../../../../../lookDataList/LookData[3]"/>
               <sprite reference="../../../../.."/>
-            </SetCostumeBrick>
+            </SetLookBrick>
             <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>500</timeToWaitInMilliSeconds>
             </WaitBrick>
-            <SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
+            <SetLookBrick>
+              <lookData reference="../../../../../lookDataList/LookData"/>
               <sprite reference="../../../../.."/>
-            </SetCostumeBrick>
+            </SetLookBrick>
           </brickList>
           <sprite reference="../../.."/>
           <action>Tapped</action>

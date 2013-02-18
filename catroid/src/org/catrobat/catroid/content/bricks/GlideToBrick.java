@@ -71,7 +71,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 		//				latch.countDown();
 		//			}
 		//		});
-		//		sprite.costume.action(action);
+		//		sprite.look.action(action);
 		//		try {
 		//			latch.await();
 		//		} catch (InterruptedException e) {
@@ -110,22 +110,22 @@ public class GlideToBrick implements Brick, OnClickListener {
 		if (!sprite.isAlive(Thread.currentThread())) {
 			// -stay at last position
 		} else {
-			sprite.costume.aquireXYWidthHeightLock();
-			sprite.costume.setXYPosition(xDestination, yDestination);
-			sprite.costume.releaseXYWidthHeightLock();
+			sprite.look.aquireXYWidthHeightLock();
+			sprite.look.setXYPosition(xDestination, yDestination);
+			sprite.look.releaseXYWidthHeightLock();
 		}
 	}
 
 	private void updatePositions(int timePassed, int duration) {
-		sprite.costume.aquireXYWidthHeightLock();
-		float xPosition = sprite.costume.getXPosition();
-		float yPosition = sprite.costume.getYPosition();
+		sprite.look.aquireXYWidthHeightLock();
+		float xPosition = sprite.look.getXPosition();
+		float yPosition = sprite.look.getYPosition();
 
 		xPosition += ((float) timePassed / duration) * (xDestination - xPosition);
 		yPosition += ((float) timePassed / duration) * (yDestination - yPosition);
 
-		sprite.costume.setXYPosition(xPosition, yPosition);
-		sprite.costume.releaseXYWidthHeightLock();
+		sprite.look.setXYPosition(xPosition, yPosition);
+		sprite.look.releaseXYWidthHeightLock();
 	}
 
 	@Override

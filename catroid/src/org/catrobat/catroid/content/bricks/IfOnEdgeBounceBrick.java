@@ -52,18 +52,18 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 	@Override
 	public void execute() {
-		float size = sprite.costume.getSize();
+		float size = sprite.look.getSize();
 
-		sprite.costume.aquireXYWidthHeightLock();
-		float width = sprite.costume.getWidth() * size;
-		float height = sprite.costume.getHeight() * size;
-		int xPosition = (int) sprite.costume.getXPosition();
-		int yPosition = (int) sprite.costume.getYPosition();
-		sprite.costume.releaseXYWidthHeightLock();
+		sprite.look.aquireXYWidthHeightLock();
+		float width = sprite.look.getWidth() * size;
+		float height = sprite.look.getHeight() * size;
+		int xPosition = (int) sprite.look.getXPosition();
+		int yPosition = (int) sprite.look.getYPosition();
+		sprite.look.releaseXYWidthHeightLock();
 
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().virtualScreenWidth / 2;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().virtualScreenHeight / 2;
-		float rotationResult = -sprite.costume.rotation + 90f;
+		float rotationResult = -sprite.look.rotation + 90f;
 
 		if (xPosition < -virtualScreenWidth + width / 2) {
 
@@ -102,11 +102,11 @@ public class IfOnEdgeBounceBrick implements Brick {
 			yPosition = -virtualScreenHeight + (int) (height / 2);
 		}
 
-		sprite.costume.rotation = -rotationResult + 90f;
+		sprite.look.rotation = -rotationResult + 90f;
 
-		sprite.costume.aquireXYWidthHeightLock();
-		sprite.costume.setXYPosition(xPosition, yPosition);
-		sprite.costume.releaseXYWidthHeightLock();
+		sprite.look.aquireXYWidthHeightLock();
+		sprite.look.setXYPosition(xPosition, yPosition);
+		sprite.look.releaseXYWidthHeightLock();
 	}
 
 	@Override

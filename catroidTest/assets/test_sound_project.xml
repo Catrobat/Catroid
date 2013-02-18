@@ -44,30 +44,30 @@
 </Header>
 	<SpriteList>
 		<Sprite>
-			<CostumeList>
-				<Costume>
+			<LookList>
+				<Look>
 					<FileName>0DEF8C14B49199844FD59481AA9D41D5_catroidTemp.png</FileName>
 					<Name>catroidTemp</Name>
-				</Costume>
-			</CostumeList>
+				</Look>
+			</LookList>
 			<Name>Hintergrund</Name>
 			<ScriptList>
 				<StartScript>
 					<BrickList>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look"/>
+						</SetLookBrick>
 					</BrickList>
 				</StartScript>
 			</ScriptList>
 		</Sprite>
 		<Sprite>
-			<CostumeList>
-				<Costume>
+			<LookList>
+				<Look>
 					<FileName>DDE77D9A1B82482DF205137F1DBE1359_geige.png</FileName>
 					<Name>geige</Name>
-				</Costume>
-			</CostumeList>
+				</Look>
+			</LookList>
 			<Name>geige</Name>
 			<ScriptList>
 				<StartScript>
@@ -76,9 +76,9 @@
 							<XPosition>-127</XPosition>
 							<YPosition>155</YPosition>
 						</PlaceAtBrick>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look"/>
+						</SetLookBrick>
 						<SetSizeToBrick>
 							<Size>115.0</Size>
 						</SetSizeToBrick>
@@ -115,12 +115,12 @@
 			</SoundList>
 		</Sprite>
 		<Sprite>
-			<CostumeList>
-				<Costume>
+			<LookList>
+				<Look>
 					<FileName>2D9B2E92AA843760991AC43CA6B9F29D_schlagzeug.png</FileName>
 					<Name>schlagzeug</Name>
-				</Costume>
-			</CostumeList>
+				</Look>
+			</LookList>
 			<Name>schlagzeug</Name>
 			<ScriptList>
 				<StartScript>
@@ -132,9 +132,9 @@
 							<XPosition>130</XPosition>
 							<YPosition>-200</YPosition>
 						</PlaceAtBrick>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look"/>
+						</SetLookBrick>
 					</BrickList>
 				</StartScript>
 				<WhenScript>
@@ -164,12 +164,12 @@
 			</SoundList>
 		</Sprite>
 		<Sprite>
-			<CostumeList>
-				<Costume>
+			<LookList>
+				<Look>
 					<FileName>B11E89643ACD8B48ACC8BE956557D3EF_saxo.png</FileName>
 					<Name>saxo</Name>
-				</Costume>
-			</CostumeList>
+				</Look>
+			</LookList>
 			<Name>saxophon</Name>
 			<ScriptList>
 				<StartScript>
@@ -181,9 +181,9 @@
 							<XPosition>-130</XPosition>
 							<YPosition>-200</YPosition>
 						</PlaceAtBrick>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look"/>
+						</SetLookBrick>
 					</BrickList>
 				</StartScript>
 				<WhenScript>
@@ -213,12 +213,12 @@
 			</SoundList>
 		</Sprite>
 		<Sprite>
-			<CostumeList>
-				<Costume>
+			<LookList>
+				<Look>
 					<FileName>FC6E4546FB8D3A1448B379A3A9144AEF_klavier.png</FileName>
 					<Name>klavier</Name>
-				</Costume>
-			</CostumeList>
+				</Look>
+			</LookList>
 			<Name>klavier</Name>
 			<ScriptList>
 				<StartScript>
@@ -230,9 +230,9 @@
 							<XPosition>130</XPosition>
 							<YPosition>155</YPosition>
 						</PlaceAtBrick>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look"/>
+						</SetLookBrick>
 					</BrickList>
 				</StartScript>
 				<WhenScript>
@@ -262,19 +262,19 @@
 			</SoundList>
 		</Sprite>
 		<Sprite>
-			<CostumeList>
-				<Costume>
+			<LookList>
+				<Look>
 					<FileName>20C0147B08D1DBCD108F8A5E640C278E_a_button.png</FileName>
 					<Name>a_button</Name>
-				</Costume>
-			</CostumeList>
+				</Look>
+			</LookList>
 			<Name>Catroid</Name>
 			<ScriptList>
 				<StartScript>
 					<BrickList>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look"/>
+						</SetLookBrick>
 						<SetSizeToBrick>
 							<Size>180.0</Size>
 						</SetSizeToBrick>

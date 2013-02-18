@@ -24,7 +24,7 @@ package org.catrobat.catroid.test.common;
 
 import java.io.IOException;
 
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Project;
@@ -62,12 +62,12 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 		assertEquals("wrong number of sprites.", 2, testProject.getSpriteList().size());
 
 		int backgroundSpriteIndex = 0;
-		int backgroundCostumeDataIndex = 0;
+		int backgroundLookDataIndex = 0;
 		int catroidSpriteIndex = 1;
-		CostumeData backgroundCostumeData = testProject.getSpriteList().get(backgroundSpriteIndex).getCostumeDataList()
-				.get(backgroundCostumeDataIndex);
-		assertEquals("wrong size of background image", Values.SCREEN_WIDTH, backgroundCostumeData.getResolution()[0]);
-		assertEquals("wrong size of background image", Values.SCREEN_HEIGHT, backgroundCostumeData.getResolution()[1]);
+		LookData backgroundLookData = testProject.getSpriteList().get(backgroundSpriteIndex).getLookDataList()
+				.get(backgroundLookDataIndex);
+		assertEquals("wrong size of background image", Values.SCREEN_WIDTH, backgroundLookData.getResolution()[0]);
+		assertEquals("wrong size of background image", Values.SCREEN_HEIGHT, backgroundLookData.getResolution()[1]);
 		assertEquals("wrong number of scripts in the Catroid sprite", 2,
 				testProject.getSpriteList().get(catroidSpriteIndex).getNumberOfScripts());
 
@@ -77,9 +77,9 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 		assertEquals("wrong number of bricks in the touch script", 5, whenScript.getBrickList().size());
 
 		for (int cat_number = 0; cat_number < 3; ++cat_number) {
-			CostumeData catCostumeData = testProject.getSpriteList().get(catroidSpriteIndex).getCostumeDataList()
+			LookData catLookData = testProject.getSpriteList().get(catroidSpriteIndex).getLookDataList()
 					.get(cat_number);
-			assertEquals("wrong size of cat image", Values.SCREEN_WIDTH / 3, catCostumeData.getResolution()[0]);
+			assertEquals("wrong size of cat image", Values.SCREEN_WIDTH / 3, catLookData.getResolution()[0]);
 		}
 
 	}

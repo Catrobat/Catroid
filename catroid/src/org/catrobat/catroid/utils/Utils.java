@@ -37,10 +37,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Project;
@@ -55,7 +56,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -68,10 +68,10 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class Utils {
@@ -119,7 +119,8 @@ public class Utils {
 		ConnectivityManager connectivityManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-		return activeNetworkInfo != null;
+
+		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 
 	/**
@@ -149,17 +150,6 @@ public class Utils {
 	static public String buildProjectPath(String projectName) {
 		return buildPath(Constants.DEFAULT_ROOT, deleteSpecialCharactersInString(projectName));
 	}
-
-	/**
-	 * @param projectFileName
-	 * @return the project name without the default file extension, else returns unchanged string
-	 */
-	//	public static String getProjectName(String projectFileName) {
-	//		if (projectFileName.endsWith(Constants.PROJECT_EXTENTION)) {
-	//			return projectFileName.substring(0, projectFileName.length() - Constants.PROJECT_EXTENTION.length());
-	//		}
-	//		return projectFileName;
-	//	}
 
 	public static void displayErrorMessageFragment(FragmentManager fragmentManager, String errorMessage) {
 		DialogFragment errorDialog = ErrorDialogFragment.newInstance(errorMessage);
@@ -293,21 +283,21 @@ public class Utils {
 		return stringToAdapt.replaceAll("[\"*/:<>?\\\\|]", "");
 	}
 
-	public static String getUniqueCostumeName(String name) {
-		return searchForNonExistingCostumeName(name, 0);
+	public static String getUniqueLookName(String name) {
+		return searchForNonExistingLookName(name, 0);
 	}
 
-	private static String searchForNonExistingCostumeName(String name, int nextNumber) {
+	private static String searchForNonExistingLookName(String name, int nextNumber) {
 		String newName;
-		ArrayList<CostumeData> costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+		ArrayList<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
 		if (nextNumber == 0) {
 			newName = name;
 		} else {
 			newName = name + nextNumber;
 		}
-		for (CostumeData costumeData : costumeDataList) {
-			if (costumeData.getCostumeName().equals(newName)) {
-				return searchForNonExistingCostumeName(name, ++nextNumber);
+		for (LookData lookData : lookDataList) {
+			if (lookData.getLookName().equals(newName)) {
+				return searchForNonExistingLookName(name, ++nextNumber);
 			}
 		}
 		return newName;
@@ -351,13 +341,14 @@ public class Utils {
 		if (isUnderTest) {
 			return false;
 		} else {
-			return (context.getApplicationContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+			return BuildConfig.DEBUG;
 		}
 	}
 
 	public static Pixmap getPixmapFromFile(File imageFile) {
 		Pixmap pixmap = null;
 		try {
+			GdxNativesLoader.load();
 			pixmap = new Pixmap(new FileHandle(imageFile));
 		} catch (GdxRuntimeException e) {
 			return null;
@@ -365,14 +356,5 @@ public class Utils {
 			return null;
 		}
 		return pixmap;
-	}
-
-	public static void setBottomBarActivated(Activity activity, boolean isActive) {
-		LinearLayout bottomBarLayout = (LinearLayout) activity.findViewById(R.id.bottom_bar);
-
-		if (bottomBarLayout != null) {
-			bottomBarLayout.findViewById(R.id.button_add).setClickable(isActive);
-			bottomBarLayout.findViewById(R.id.button_play).setClickable(isActive);
-		}
 	}
 }

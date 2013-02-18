@@ -36,8 +36,8 @@ public class UtilDeviceInfo {
 			return null;
 		}
 		Account[] accounts = AccountManager.get(context).getAccountsByType("com.google");
-		for (Account account : accounts) {
-			return account.name;
+		if (accounts.length > 0) {
+			return accounts[0].name;
 		}
 		return null;
 	}

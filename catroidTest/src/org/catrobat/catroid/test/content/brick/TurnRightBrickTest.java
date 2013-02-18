@@ -26,7 +26,7 @@ import java.io.File;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -46,7 +46,7 @@ public class TurnRightBrickTest extends InstrumentationTestCase {
 
 	private final String projectName = "testProject";
 	private File testImage;
-	private CostumeData costumeData;
+	private LookData lookData;
 
 	@Override
 	public void setUp() throws Exception {
@@ -64,9 +64,9 @@ public class TurnRightBrickTest extends InstrumentationTestCase {
 		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
-		costumeData = new CostumeData();
-		costumeData.setCostumeFilename(testImage.getName());
-		costumeData.setCostumeName("CostumeName");
+		lookData = new LookData();
+		lookData.setLookFilename(testImage.getName());
+		lookData.setLookName("LookName");
 
 		Values.SCREEN_HEIGHT = 800;
 		Values.SCREEN_WIDTH = 480;
@@ -88,24 +88,24 @@ public class TurnRightBrickTest extends InstrumentationTestCase {
 
 	public void testTurnRightTwice() {
 		Sprite sprite = new Sprite("test");
-		sprite.costume.setCostumeData(costumeData);
+		sprite.look.setLookData(lookData);
 
 		TurnRightBrick turnRightBrick = new TurnRightBrick(sprite, 10);
 
 		turnRightBrick.execute();
-		assertEquals("Wrong direction", -10f, sprite.costume.rotation, 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
-		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
+		assertEquals("Wrong direction", -10f, sprite.look.rotation, 1e-3);
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
 
 		turnRightBrick.execute();
-		assertEquals("Wrong direction", -20f, sprite.costume.rotation, 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
-		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
+		assertEquals("Wrong direction", -20f, sprite.look.rotation, 1e-3);
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
 	}
 
 	public void testTurnRightAndScale() {
 		Sprite sprite = new Sprite("test");
-		sprite.costume.setCostumeData(costumeData);
+		sprite.look.setLookData(lookData);
 
 		TurnRightBrick turnRightBrick = new TurnRightBrick(sprite, 10);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, 50);
@@ -113,14 +113,14 @@ public class TurnRightBrickTest extends InstrumentationTestCase {
 		turnRightBrick.execute();
 		setSizeToBrick.execute();
 
-		assertEquals("Wrong direction", -10f, sprite.costume.rotation, 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
-		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
+		assertEquals("Wrong direction", -10f, sprite.look.rotation, 1e-3);
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
 	}
 
 	public void testScaleandTurnRight() {
 		Sprite sprite = new Sprite("test");
-		sprite.costume.setCostumeData(costumeData);
+		sprite.look.setLookData(lookData);
 
 		TurnRightBrick turnRightBrick = new TurnRightBrick(sprite, 10);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, 50);
@@ -128,40 +128,40 @@ public class TurnRightBrickTest extends InstrumentationTestCase {
 		setSizeToBrick.execute();
 		turnRightBrick.execute();
 
-		assertEquals("Wrong direction", -10f, sprite.costume.rotation, 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
-		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
+		assertEquals("Wrong direction", -10f, sprite.look.rotation, 1e-3);
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
 	}
 
 	public void testTurnRightNegative() {
 		Sprite sprite = new Sprite("test");
-		sprite.costume.setCostumeData(costumeData);
+		sprite.look.setLookData(lookData);
 
 		TurnRightBrick turnRightBrick = new TurnRightBrick(sprite, -10);
 
 		turnRightBrick.execute();
-		assertEquals("Wrong direction", 10f, sprite.costume.rotation, 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
-		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
+		assertEquals("Wrong direction", 10f, sprite.look.rotation, 1e-3);
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
 
 	}
 
 	public void testTurnRight() {
 		Sprite sprite = new Sprite("test");
-		sprite.costume.setCostumeData(costumeData);
+		sprite.look.setLookData(lookData);
 
 		TurnRightBrick turnRightBrick = new TurnRightBrick(sprite, 370);
 
 		turnRightBrick.execute();
-		assertEquals("Wrong direction", -370f, sprite.costume.rotation, 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
-		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
+		assertEquals("Wrong direction", -370f, sprite.look.rotation, 1e-3);
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
 
 	}
 
 	public void testTurnRightAndTurnLeft() {
 		Sprite sprite = new Sprite("test");
-		sprite.costume.setCostumeData(costumeData);
+		sprite.look.setLookData(lookData);
 
 		TurnRightBrick turnRightBrick = new TurnRightBrick(sprite, 50);
 		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, 20);
@@ -169,8 +169,8 @@ public class TurnRightBrickTest extends InstrumentationTestCase {
 		turnRightBrick.execute();
 		turnLeftBrick.execute();
 
-		assertEquals("Wrong direction!", -30f, sprite.costume.rotation, 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
-		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
+		assertEquals("Wrong direction!", -30f, sprite.look.rotation, 1e-3);
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
 	}
 }

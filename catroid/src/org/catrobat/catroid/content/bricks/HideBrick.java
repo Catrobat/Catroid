@@ -50,7 +50,7 @@ public class HideBrick implements Brick {
 
 	@Override
 	public void execute() {
-		sprite.costume.show = false;
+		sprite.look.show = false;
 	}
 
 	@Override

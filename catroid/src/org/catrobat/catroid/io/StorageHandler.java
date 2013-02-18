@@ -34,7 +34,7 @@ import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
@@ -315,8 +315,8 @@ public class StorageHandler {
 				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 			}
 
-			for (CostumeData costumeData : currentSprite.getCostumeDataList()) {
-				container.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+			for (LookData lookData : currentSprite.getLookDataList()) {
+				container.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 			}
 		}
 	}
