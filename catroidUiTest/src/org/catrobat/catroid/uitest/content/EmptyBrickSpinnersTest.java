@@ -42,7 +42,6 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.uitest.util.XMLValidationUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.json.JSONException;
 
@@ -110,7 +109,7 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		String projectXMLPath = Utils.buildPath(Utils.buildProjectPath(testProjectName), Constants.PROJECTCODE_NAME);
-		XMLValidationUtil.sendProjectXMLToServerForValidating(projectXMLPath);
+		//		XMLValidationUtil.sendProjectXMLToServerForValidating(projectXMLPath);
 	}
 
 	private void createSpinnerProject() {

@@ -28,8 +28,8 @@ import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -234,12 +234,12 @@ public class MediaPathTest extends InstrumentationTestCase {
 	public void testLookDataListAndSoundInfoListInProjectFile() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
 		String projectString = TestUtils.getProjectfileAsString(projectName);
-		assertTrue("LookDataList not in project", projectString.contains("LookList"));
-		assertTrue("SoundList not in project", projectString.contains("SoundList"));
+		assertTrue("LookDataList not in project", projectString.contains("lookList"));
+		assertTrue("SoundList not in project", projectString.contains("soundList"));
 		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), null, false);
 		projectString = TestUtils.getProjectfileAsString(projectName);
-		assertTrue("LookDataList not in project", projectString.contains("LookList"));
-		assertTrue("SoundList not in project", projectString.contains("SoundList"));
+		assertTrue("LookDataList not in project", projectString.contains("lookList"));
+		assertTrue("SoundList not in project", projectString.contains("soundList"));
 	}
 
 	private void fillProjectWithAllBricksAndMediaFiles() throws IOException {
