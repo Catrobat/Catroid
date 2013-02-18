@@ -57,6 +57,14 @@ public class WaitBrick implements Brick, OnClickListener {
 		return NO_RESOURCES;
 	}
 
+	public int getTimeToWait() {
+		return timeToWaitInMilliSeconds;
+	}
+
+	public void setTimeToWait(int timeToWaitInMilliSeconds) {
+		this.timeToWaitInMilliSeconds = timeToWaitInMilliSeconds;
+	}
+
 	@Override
 	public void execute() {
 		long startTime = System.currentTimeMillis();

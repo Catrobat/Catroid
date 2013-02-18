@@ -27,8 +27,21 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -165,5 +178,66 @@ public class UtilsTest extends AndroidTestCase {
 		// Ensure Utils  returns true in isApplicationDebuggable
 		Reflection.setPrivateField(Utils.class, "isUnderTest", false);
 		assertTrue("Debug flag not set!", Utils.isApplicationDebuggable(getContext()));
+	}
+
+	public void testCompareToStandardProject() {
+		try {
+			Values.SCREEN_WIDTH = 480;
+			Values.SCREEN_HEIGHT = 800;
+
+			Project project = StandardProjectHandler.createAndSaveStandardProject(
+					getContext().getString(R.string.default_project_name), getContext());
+			assertTrue("Failed to recognize the standard project",
+					Utils.compareToStandardProject(project, getContext()));
+
+			Sprite sprite = new Sprite();
+			project.addSprite(sprite);
+			assertFalse("Failed to recognize that the project is not standard after adding a new sprite",
+					Utils.compareToStandardProject(project, getContext()));
+			project.removeSprite(sprite);
+
+			Sprite catroidSprite = project.getSpriteList().get(1);
+			WhenScript whenScript = new WhenScript();
+			catroidSprite.addScript(whenScript);
+			assertFalse("Failed to recognize that the project is not standard after adding a new script",
+					Utils.compareToStandardProject(project, getContext()));
+			catroidSprite.removeScript(whenScript);
+
+			Brick brick = new HideBrick();
+			Script catroidScript = catroidSprite.getScript(1);
+			catroidScript.addBrick(brick);
+			assertFalse("Failed to recognize that the project is not standard after adding a new brick",
+					Utils.compareToStandardProject(project, getContext()));
+			catroidScript.removeBrick(brick);
+
+			ArrayList<Brick> brickList = catroidScript.getBrickList();
+			SetLookBrick setLookBrick = null;
+			WaitBrick waitBrick = null;
+			for (int i = 0; i < brickList.size(); i++) {
+				if (brickList.get(i) instanceof SetLookBrick) {
+					setLookBrick = (SetLookBrick) brickList.get(i);
+				}
+				if (brickList.get(i) instanceof WaitBrick) {
+					waitBrick = (WaitBrick) brickList.get(i);
+				}
+			}
+
+			if (setLookBrick != null) {
+				LookData lookData = new LookData();
+				setLookBrick.setLook(lookData);
+				assertFalse("Failed to recognize that the project is not standard after changing the set look brick",
+						Utils.compareToStandardProject(project, getContext()));
+			}
+
+			if (waitBrick != null) {
+				waitBrick.setTimeToWait(2345);
+				assertFalse("Failed to recognize that the project is not standard after changing the wait brick",
+						Utils.compareToStandardProject(project, getContext()));
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

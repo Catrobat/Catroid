@@ -83,7 +83,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	public void tearDown() throws Exception {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
-		UiTestUtils.goBackToHome(getInstrumentation());
+		//UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -273,7 +273,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		assertTrue("Project was successfully downloaded", serverProjectName.equalsIgnoreCase(projectName));
 	}
 
-	public void testUploadProjectWithDefaultName() throws Throwable {
+	public void testUploadStandardProject() throws Throwable {
 		if (!createAndSaveStandardProject() || this.standardProject == null) {
 			fail("Standard project not created");
 		}
@@ -290,6 +290,19 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		assertTrue("When uploading a project with the standard project name,  the error message should be shown",
 				solo.searchText(solo.getString(R.string.error_upload_project_with_default_name)));
+
+		solo.clickOnButton(solo.getString(R.string.close));
+
+		while (solo.scrollUp()) {
+
+		}
+		solo.clearEditText(0);
+		solo.enterText(0, testProject);
+		solo.clickOnButton(uploadButtonText);
+		solo.waitForDialogToClose(10000);
+
+		assertTrue("Upload of unmodified standard project should not be possible, but succeeded",
+				solo.searchText(solo.getString(R.string.error_upload_default_project)));
 
 	}
 

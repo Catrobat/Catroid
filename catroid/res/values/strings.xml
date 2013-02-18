@@ -343,6 +343,7 @@
     <string name="error_project_compatability">The project is not compatible with this version of catroid.</string>
     <string name="error_copy_project">An error occurred while copying the project.</string>
     <string name="error_upload_project_with_default_name">You cannot upload a project with the name \'My first project\'. Please rename the project.</string>
+    <string name="error_upload_default_project">You cannot upload this project because it is the same as \'My first project\'. Please modify it, and try again.</string>
     <!--  -->
 
 

@@ -58,6 +58,10 @@ public class SetLookBrick implements Brick {
 		this.look = lookData;
 	}
 
+	public LookData getLook() {
+		return this.look;
+	}
+
 	@Override
 	public void execute() {
 		if (look != null && sprite != null && sprite.getLookDataList().contains(look)) {
@@ -114,8 +118,7 @@ public class SetLookBrick implements Brick {
 	}
 
 	private ArrayAdapter<?> createLookAdapter(Context context) {
-		ArrayAdapter<LookData> arrayAdapter = new ArrayAdapter<LookData>(context,
-				android.R.layout.simple_spinner_item);
+		ArrayAdapter<LookData> arrayAdapter = new ArrayAdapter<LookData>(context, android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		LookData dummyLookData = new LookData();
 		dummyLookData.setLookName(context.getString(R.string.broadcast_nothing_selected));

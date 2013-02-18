@@ -227,6 +227,12 @@ public class UploadProjectDialog extends DialogFragment {
 			return;
 		}
 
+		Context context = getActivity().getApplicationContext();
+		if (Utils.compareToStandardProject(projectManager.getCurrentProject(), context)) {
+			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_upload_default_project));
+			return;
+		}
+
 		if (!uploadName.equals(currentProjectName)) {
 			try {
 				projectRename.setVisibility(View.VISIBLE);

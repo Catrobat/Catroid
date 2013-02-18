@@ -42,8 +42,14 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.dialogs.ErrorDialogFragment;
 
@@ -377,4 +383,90 @@ public class Utils {
 			bottomBarLayout.findViewById(R.id.button_play).setClickable(isActive);
 		}
 	}
+
+	public static boolean compareToStandardProject(Project projectToCheck, Context context) {
+		try {
+			Project standardProject = StandardProjectHandler.createAndSaveStandardProject(
+					context.getString(R.string.default_project_name), context);
+
+			List<Sprite> standardProjectSprites = standardProject.getSpriteList();
+			List<Sprite> projectToCheckSprites = projectToCheck.getSpriteList();
+
+			if (standardProjectSprites.size() != projectToCheckSprites.size()) {
+				Log.v("FALSE", "Returning false because the number of sprites is not ok");
+				return false;
+			}
+
+			Sprite standardSprite;
+			Sprite checkSprite;
+			Script standardScript;
+			Script checkScript;
+			ArrayList<Brick> standardBricks;
+			ArrayList<Brick> checkBricks;
+			Brick standardBrick;
+			Brick checkBrick;
+
+			for (int spriteIndex = 0; spriteIndex < standardProjectSprites.size(); spriteIndex++) {
+				standardSprite = standardProjectSprites.get(spriteIndex);
+				checkSprite = projectToCheckSprites.get(spriteIndex);
+
+				if (standardSprite.getNumberOfScripts() != checkSprite.getNumberOfScripts()) {
+					return false;
+				}
+
+				for (int scriptIndex = 0; scriptIndex < standardSprite.getNumberOfScripts(); scriptIndex++) {
+					standardScript = standardSprite.getScript(scriptIndex);
+					checkScript = checkSprite.getScript(scriptIndex);
+
+					if (standardScript.getScriptBrick().getClass() != checkScript.getScriptBrick().getClass()) {
+						return false;
+
+					}
+
+					standardBricks = standardScript.getBrickList();
+					checkBricks = checkScript.getBrickList();
+
+					if (standardBricks.size() != checkBricks.size()) {
+						return false;
+					}
+
+					for (int brickIndex = 0; brickIndex < standardBricks.size(); brickIndex++) {
+						standardBrick = standardBricks.get(brickIndex);
+						checkBrick = checkBricks.get(brickIndex);
+
+						if (standardBrick.getClass() != checkBrick.getClass()) {
+							return false;
+						}
+
+						if (standardBrick instanceof SetLookBrick) {
+							SetLookBrick standardLookBrick = (SetLookBrick) standardBrick;
+							SetLookBrick checkLookBrick = (SetLookBrick) checkBrick;
+
+							if (!standardLookBrick.getImagePath().equals(checkLookBrick.getImagePath())) {
+								return false;
+							}
+
+						} else if (standardBrick instanceof WaitBrick) {
+							WaitBrick standardWaitBrick = (WaitBrick) standardBrick;
+							WaitBrick checkWaitBrick = (WaitBrick) checkBrick;
+
+							if (standardWaitBrick.getTimeToWait() != checkWaitBrick.getTimeToWait()) {
+								return false;
+							}
+
+						}
+
+					}
+				}
+
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return true;
+	}
+
 }
