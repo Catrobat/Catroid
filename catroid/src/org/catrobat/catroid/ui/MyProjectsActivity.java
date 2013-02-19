@@ -26,8 +26,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
-import org.catrobat.catroid.utils.ErrorListenerInterface;
-import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,7 +38,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MyProjectsActivity extends SherlockFragmentActivity implements ErrorListenerInterface {
+public class MyProjectsActivity extends SherlockFragmentActivity {
 
 	private ActionBar actionBar;
 
@@ -109,11 +107,6 @@ public class MyProjectsActivity extends SherlockFragmentActivity implements Erro
 		actionBar = getSupportActionBar();
 		actionBar.setTitle(title);
 		actionBar.setHomeButtonEnabled(true);
-	}
-
-	@Override
-	public void showErrorDialog(String errorMessage) {
-		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
 	}
 
 	public void handleAddButton(View view) {
