@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,29 +19,27 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Sound.Medium"
-    android:gravity="center_vertical"
-    android:orientation="vertical" >
+ */
+package org.catrobat.catroid.stage;
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_speak" >
-    </TextView>
+import java.util.HashMap;
+import java.util.Map;
 
-    <TextView
-        android:id="@+id/brick_speak_prototype_text_view"
-        style="@style/BrickPrototypeTextView"
-        android:layout_width="match_parent" >
-    </TextView>
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 
-    <EditText
-        android:id="@+id/brick_speak_edit_text"
-        style="@style/BrickEditText"
-        android:layout_width="match_parent"
-        android:gravity="left"
-        android:inputType="text" >
-    </EditText>
+public class OnUtteranceCompletedListenerContainer implements OnUtteranceCompletedListener {
+	private final Map<String, OnUtteranceCompletedListener> listeners = new HashMap<String, TextToSpeech.OnUtteranceCompletedListener>();
 
-</LinearLayout>
+	public synchronized void addOnUtteranceCompletedListener(OnUtteranceCompletedListener onUtteranceCompletedListener,
+			String utteranceId) {
+		listeners.put(utteranceId, onUtteranceCompletedListener);
+	}
+
+	@Override
+	public synchronized void onUtteranceCompleted(String utteranceId) {
+		listeners.get(utteranceId).onUtteranceCompleted(utteranceId);
+		listeners.remove(utteranceId);
+	}
+
+}

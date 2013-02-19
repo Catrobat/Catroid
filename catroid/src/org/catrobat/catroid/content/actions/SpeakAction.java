@@ -23,54 +23,44 @@
 package org.catrobat.catroid.content.actions;
 
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.stage.PreStageActivity;
 
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
-import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class SpeakAction extends TemporalAction {
 
-	private static final String LOG_TAG = SpeakBrick.class.getSimpleName();
-	private static HashMap<String, SpeakBrick> activeSpeakBricks = new HashMap<String, SpeakBrick>();
 	private String text;
 	private SpeakBrick speakBrick;
+	private static AtomicInteger utteranceIdPool = new AtomicInteger();
 
 	@Override
 	protected void update(float percent) {
 		OnUtteranceCompletedListener listener = new OnUtteranceCompletedListener() {
+
 			@Override
 			public void onUtteranceCompleted(String utteranceId) {
-				SpeakBrick speakBrick = activeSpeakBricks.get(utteranceId);
-				if (speakBrick == null) {
-					return;
-				}
-				synchronized (speakBrick) {
-					speakBrick.notifyAll();
+				synchronized (this) {
+					this.notify();
 				}
 			}
 		};
-
-		String utteranceId = this.hashCode() + "";
-		activeSpeakBricks.put(utteranceId, speakBrick);
-
 		HashMap<String, String> speakParameter = new HashMap<String, String>();
-		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceId);
+		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
+				String.valueOf(utteranceIdPool.getAndIncrement()));
 
-		long time = System.currentTimeMillis();
-		PreStageActivity.textToSpeech(text, listener, speakParameter);
-		try {
-			this.wait();
-		} catch (InterruptedException e) {
-			// nothing to do
+		synchronized (listener) {
+			PreStageActivity.textToSpeech(getText(), listener, speakParameter);
+			try {
+				listener.wait();
+			} catch (InterruptedException interruptedException) {
+			}
 		}
-		Log.i(LOG_TAG, "speak Time: " + (System.currentTimeMillis() - time));
-		activeSpeakBricks.remove(utteranceId);
-
 	}
 
 	public String getText() {

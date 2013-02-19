@@ -25,17 +25,17 @@ package org.catrobat.catroid.test.content.actions;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.SpeakAction;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 
 import android.test.AndroidTestCase;
 
 public class SpeakActionTest extends AndroidTestCase {
 
-	private String text = "hello world!";
-	private String text2 = "nice to meet you.";
-
 	public void testSpeak() {
-		Sprite sprite = new Sprite("new sprite");
+		String text = "hello world!";
+		String text2 = "hello world, hello!";
+		Sprite sprite = new Sprite("testSprite");
 		SpeakBrick speakBrick = new SpeakBrick(sprite, text);
 		SpeakAction action = ExtendedActions.speak(text, speakBrick);
 		assertEquals("Text is not updated after SpeakBrick executed", text, speakBrick.getText());
@@ -47,6 +47,7 @@ public class SpeakActionTest extends AndroidTestCase {
 	}
 
 	public void testNullSprite() {
+		String text = "hello world!";
 		SpeakBrick speakBrick = new SpeakBrick(null, text);
 		SpeakAction action = ExtendedActions.speak(text, speakBrick);
 		try {
@@ -55,5 +56,11 @@ public class SpeakActionTest extends AndroidTestCase {
 		} catch (NullPointerException expected) {
 			// expected behavior
 		}
+		assertEquals("Stored wrong text in speak brick", text, speakBrick.getText());
+	}
+
+	public void testRequirements() {
+		SpeakBrick speakBrick = new SpeakBrick(null, null);
+		assertEquals("Wrong required brick resources", Brick.TEXT_TO_SPEECH, speakBrick.getRequiredResources());
 	}
 }

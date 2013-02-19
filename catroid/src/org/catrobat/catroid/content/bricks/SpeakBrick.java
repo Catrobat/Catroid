@@ -50,7 +50,6 @@ public class SpeakBrick implements Brick {
 	}
 
 	public SpeakBrick() {
-
 	}
 
 	@Override
