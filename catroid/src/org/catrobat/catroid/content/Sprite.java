@@ -24,9 +24,7 @@ package org.catrobat.catroid.content;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.FileChecksumContainer;
@@ -48,10 +46,6 @@ public class Sprite implements Serializable {
 
 	public transient boolean isPaused;
 	public transient boolean isFinished;
-
-	private Map<Thread, Boolean> activeThreads;
-
-	//private Map<Script, List<Thread>> activeScripts;
 
 	private Object readResolve() {
 		//filling FileChecksumContainer:
@@ -81,8 +75,6 @@ public class Sprite implements Serializable {
 		if (lookList == null) {
 			lookList = new ArrayList<LookData>();
 		}
-		activeThreads = new HashMap<Thread, Boolean>();
-		//activeScripts = new HashMap<Script, List<Thread>>();
 	}
 
 	public Sprite(String name) {
@@ -95,16 +87,6 @@ public class Sprite implements Serializable {
 
 	public Sprite() {
 
-	}
-
-	public void startWhenScripts(String action) {
-		for (Script s : scriptList) {
-			if (s instanceof WhenScript) {
-				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
-					createActionSequence(s);
-				}
-			}
-		}
 	}
 
 	public void createStartScriptActionSequence() {
@@ -248,20 +230,5 @@ public class Sprite implements Serializable {
 	@Override
 	public String toString() {
 		return name;
-	}
-
-	public synchronized boolean isAlive(Thread thread) {
-		if (activeThreads.containsKey(thread)) {
-			return activeThreads.get(thread);
-		} else {
-			return true;
-		}
-
-	}
-
-	public synchronized void setInactive(Thread thread) {
-		if (activeThreads.containsKey(thread)) {
-			activeThreads.remove(thread);
-		}
 	}
 }

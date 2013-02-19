@@ -47,7 +47,9 @@ public class StartThreadsTest extends AndroidTestCase {
 
 		testSprite.createStartScriptActionSequence();
 
-		Thread.sleep(200);
+		while (testSprite.look.getActions().size != 0) {
+			testSprite.look.act(1.0f);
+		}
 
 		assertFalse("Sprite is not hidden", testSprite.look.show);
 		assertEquals("the size is not as expected", (float) size / 100, testSprite.look.getScaleX());
@@ -68,21 +70,20 @@ public class StartThreadsTest extends AndroidTestCase {
 
 		testSprite.createStartScriptActionSequence();
 
-		Thread.sleep(100);
+		testSprite.look.act(1.0f);
+		testSprite.look.act(1.0f);
 
 		testSprite.pause();
 		assertFalse("Sprite is not hidden", testSprite.look.show);
 		testSprite.resume();
 
-		Thread.sleep(400);
+		testSprite.look.act(1.0f);
 
 		assertTrue("Sprite is hidden", testSprite.look.show);
 
 		testScript.getBrickList().clear();
 		testScript.addBrick(hideBrick);
 		testSprite.createStartScriptActionSequence();
-
-		Thread.sleep(100);
 
 		assertTrue("Sprite is hidden - this script shall not be execute", testSprite.look.show);
 	}

@@ -81,26 +81,6 @@ public abstract class Script implements Serializable {
 		}
 	}
 
-	public void run() {
-		isFinished = false;
-		for (int i = 0; i < brickList.size(); i++) {
-			if (!sprite.isAlive(Thread.currentThread())) {
-				break;
-			}
-			while (paused) {
-				if (finish) {
-					isFinished = true;
-					return;
-				}
-				Thread.yield();
-			}
-			executingBrickIndex = i;
-			//brickList.get(i).execute();
-			i = executingBrickIndex;
-		}
-		isFinished = true;
-	}
-
 	public void addBrick(Brick brick) {
 		if (brick != null) {
 			brickList.add(brick);
@@ -121,11 +101,11 @@ public abstract class Script implements Serializable {
 		return brickList;
 	}
 
-	public synchronized void setPaused(boolean paused) {
+	public void setPaused(boolean paused) {
 		this.paused = paused;
 	}
 
-	public synchronized void setFinish(boolean finish) {
+	public void setFinish(boolean finish) {
 		this.finish = finish;
 	}
 
