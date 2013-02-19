@@ -20,33 +20,31 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.brick;
+package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.content.actions.ShowAction;
 
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 
-public class SetGhostEffectBrickTest extends InstrumentationTestCase {
+public class ShowActionTest extends AndroidTestCase {
 
-	private double effectValue = 50.5;
+	public void testShow() {
+		Sprite sprite = new Sprite("new sprite");
+		sprite.look.show = false;
+		assertFalse("Sprite is still visible after calling hide", sprite.look.show);
 
-	public void testGhostEffect() {
-		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite scale value", 1f, sprite.look.getAlphaValue());
-
-		SetGhostEffectBrick setGhostEffectBrick = new SetGhostEffectBrick(sprite, effectValue);
-		//		setGhostEffectBrick.execute();
-		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed",
-				(100 - (float) effectValue) / 100, sprite.look.getAlphaValue());
+		ShowAction action = ExtendedActions.show(sprite);
+		action.act(1.0f);
+		assertTrue("Sprite is not visible after ShowBrick executed", sprite.look.show);
 	}
 
 	public void testNullSprite() {
-		SetGhostEffectBrick setGhostEffectBrick = new SetGhostEffectBrick(null, effectValue);
-
+		ShowAction action = ExtendedActions.show(null);
 		try {
-			//			setGhostEffectBrick.execute();
-			fail("Execution of SetGhostEffectBrick with null Sprite did not cause a NullPointerException to be thrown");
+			action.act(1.0f);
+			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 			// expected behavior
 		}

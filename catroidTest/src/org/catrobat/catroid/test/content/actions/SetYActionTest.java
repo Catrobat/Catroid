@@ -20,14 +20,15 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.brick;
+package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.SetYBrick;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.content.actions.SetYAction;
 
 import android.test.AndroidTestCase;
 
-public class SetYBrickTest extends AndroidTestCase {
+public class SetYActionTest extends AndroidTestCase {
 
 	private int yPosition = 100;
 
@@ -36,17 +37,17 @@ public class SetYBrickTest extends AndroidTestCase {
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXPosition());
 		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYPosition());
 
-		SetYBrick setYBrick = new SetYBrick(sprite, yPosition);
-		//		setYBrick.execute();
+		SetYAction action = ExtendedActions.setY(sprite, yPosition);
+		action.act(1.0f);
 
 		assertEquals("Incorrect sprite y position after SetYBrick executed", (float) yPosition,
 				sprite.look.getYPosition());
 	}
 
 	public void testNullSprite() {
-		SetYBrick setYBrick = new SetYBrick(null, yPosition);
+		SetYAction action = ExtendedActions.setY(null, yPosition);
 		try {
-			//			setYBrick.execute();
+			action.act(1.0f);
 			fail("Execution of SetYBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 			// expected behavior
@@ -56,14 +57,14 @@ public class SetYBrickTest extends AndroidTestCase {
 	public void testBoundaryPositions() {
 		Sprite sprite = new Sprite("testSprite");
 
-		SetYBrick setYBrick = new SetYBrick(sprite, Integer.MAX_VALUE);
-		//		setYBrick.execute();
+		SetYAction action = ExtendedActions.setY(sprite, Integer.MAX_VALUE);
+		action.act(1.0f);
 
 		assertEquals("SetYBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
 				(int) sprite.look.getYPosition());
 
-		setYBrick = new SetYBrick(sprite, Integer.MIN_VALUE);
-		//		setYBrick.execute();
+		action = ExtendedActions.setY(sprite, Integer.MIN_VALUE);
+		action.act(1.0f);
 
 		assertEquals("SetYBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
 				(int) sprite.look.getYPosition());

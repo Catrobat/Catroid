@@ -85,4 +85,29 @@ public class GlideToActionTest extends AndroidTestCase {
 		assertEquals("PlaceAtBrick failed to place Sprite at minimum y float value", (float) Integer.MIN_VALUE,
 				sprite.look.getYPosition());
 	}
+
+	public void testPauseResume() throws InterruptedException {
+		Sprite sprite = new Sprite("testSprite");
+		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXPosition());
+		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYPosition());
+		sprite.look.setWidth(100.0f);
+		sprite.look.setHeight(50.0f);
+
+		GlideToAction action = ExtendedActions.glideTo(xPosition, yPosition, duration);
+		sprite.look.addAction(action);
+		long currentTimeDelta = System.currentTimeMillis();
+		do {
+			currentTimeDelta = System.currentTimeMillis() - currentTimeDelta;
+			if (currentTimeDelta > 400) {
+				sprite.pause();
+				Thread.sleep(200);
+				sprite.resume();
+			}
+		} while (!action.act(currentTimeDelta));
+
+		assertEquals("Incorrect sprite x position after GlideToBrick executed", (float) xPosition,
+				sprite.look.getXPosition());
+		assertEquals("Incorrect sprite y position after GlideToBrick executed", (float) yPosition,
+				sprite.look.getYPosition());
+	}
 }

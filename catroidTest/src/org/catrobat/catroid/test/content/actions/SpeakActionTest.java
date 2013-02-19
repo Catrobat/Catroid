@@ -20,29 +20,38 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.brick;
+package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.content.actions.SpeakAction;
+import org.catrobat.catroid.content.bricks.SpeakBrick;
 
 import android.test.AndroidTestCase;
 
-public class HideBrickTest extends AndroidTestCase {
+public class SpeakActionTest extends AndroidTestCase {
 
-	public void testHide() {
+	private String text = "hello world!";
+	private String text2 = "nice to meet you.";
+
+	public void testSpeak() {
 		Sprite sprite = new Sprite("new sprite");
-		assertTrue("Unexpected default visibility", sprite.look.show);
-		HideBrick hideBrick = new HideBrick(sprite);
-		//		hideBrick.execute();
-		assertFalse("Sprite is still visible after HideBrick executed", sprite.look.show);
+		SpeakBrick speakBrick = new SpeakBrick(sprite, text);
+		SpeakAction action = ExtendedActions.speak(text, speakBrick);
+		assertEquals("Text is not updated after SpeakBrick executed", text, speakBrick.getText());
+		assertEquals("Text is not updated after SpeakBrick executed", text, action.getText());
+		speakBrick = new SpeakBrick(sprite, text2);
+		action = ExtendedActions.speak(text, speakBrick);
+		assertEquals("Text is not updated after SpeakBrick executed", text2, speakBrick.getText());
+		assertEquals("Text is not updated after SpeakBrick executed", text, action.getText());
 	}
 
 	public void testNullSprite() {
-		HideBrick hideBrick = new HideBrick(null);
-
+		SpeakBrick speakBrick = new SpeakBrick(null, text);
+		SpeakAction action = ExtendedActions.speak(text, speakBrick);
 		try {
-			//			hideBrick.execute();
-			fail("Execution of HideBrick with null Sprite did not cause a NullPointerException to be thrown");
+			action.act(1.0f);
+			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 			// expected behavior
 		}

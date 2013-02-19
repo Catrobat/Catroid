@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.brick;
+package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 
 import android.test.AndroidTestCase;
 
-public class PointToBrickTest extends AndroidTestCase {
+public class PointToActionTest extends AndroidTestCase {
 
 	public void testPointTo() {
 
@@ -58,14 +58,22 @@ public class PointToBrickTest extends AndroidTestCase {
 		startScript1.addBrick(pointToBrick);
 		sprite1.addScript(startScript1);
 
-		sprite2.startStartScripts();
-		sprite1.startStartScripts();
-
 		project.addSprite(sprite1);
 		project.addSprite(sprite2);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite1);
 		ProjectManager.getInstance().setCurrentScript(startScript1);
+
+		sprite2.createStartScriptActionSequence();
+		sprite1.createStartScriptActionSequence();
+
+		while (sprite2.look.getActions().size != 0) {
+			sprite2.look.act(1.0f);
+		}
+
+		while (sprite1.look.getActions().size != 0) {
+			sprite1.look.act(1.0f);
+		}
 
 		try {
 			Thread.sleep(1000);

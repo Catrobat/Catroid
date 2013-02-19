@@ -20,38 +20,36 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.brick;
+package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.content.actions.SetXAction;
 
 import android.test.AndroidTestCase;
 
-public class PlaceAtBrickTest extends AndroidTestCase {
+public class SetXActionTest extends AndroidTestCase {
 
 	private int xPosition = 100;
-	private int yPosition = 200;
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXPosition());
 		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYPosition());
 
-		PlaceAtBrick brick = new PlaceAtBrick(sprite, xPosition, yPosition);
-		//		brick.execute();
+		SetXAction action = ExtendedActions.setX(sprite, xPosition);
+		action.act(1.0f);
 
-		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", xPosition,
-				(int) sprite.look.getXPosition());
-		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", yPosition,
-				(int) sprite.look.getYPosition());
+		assertEquals("Incorrect sprite x position after SetXBrick executed", (float) xPosition,
+				sprite.look.getXPosition());
 	}
 
 	public void testNullSprite() {
-		PlaceAtBrick placeAtBrick = new PlaceAtBrick(null, xPosition, yPosition);
+		SetXAction action = ExtendedActions.setX(null, xPosition);
 		try {
-			//			placeAtBrick.execute();
+			action.act(1.0f);
 			fail("Execution of PlaceAtBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
-		} catch (NullPointerException e) {
+		} catch (NullPointerException expected) {
 			// expected behavior
 		}
 	}
@@ -59,20 +57,16 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 	public void testBoundaryPositions() {
 		Sprite sprite = new Sprite("testSprite");
 
-		PlaceAtBrick placeAtBrick = new PlaceAtBrick(sprite, Integer.MAX_VALUE, Integer.MAX_VALUE);
-		//		placeAtBrick.execute();
+		SetXAction action = ExtendedActions.setX(sprite, Integer.MAX_VALUE);
+		action.act(1.0f);
 
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
+		assertEquals("SetXBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
 				(int) sprite.look.getXPosition());
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
-				(int) sprite.look.getYPosition());
 
-		placeAtBrick = new PlaceAtBrick(sprite, Integer.MIN_VALUE, Integer.MIN_VALUE);
-		//		placeAtBrick.execute();
+		action = ExtendedActions.setX(sprite, Integer.MIN_VALUE);
+		action.act(1.0f);
 
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
+		assertEquals("SetXBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
 				(int) sprite.look.getXPosition());
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
-				(int) sprite.look.getYPosition());
 	}
 }

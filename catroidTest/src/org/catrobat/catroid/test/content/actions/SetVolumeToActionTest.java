@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.brick;
+package org.catrobat.catroid.test.content.actions;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,8 +28,8 @@ import java.io.IOException;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.content.actions.SetVolumeToAction;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
@@ -38,7 +38,7 @@ import org.catrobat.catroid.utils.UtilFile;
 
 import android.test.InstrumentationTestCase;
 
-public class SetVolumeToBrickTest extends InstrumentationTestCase {
+public class SetVolumeToActionTest extends InstrumentationTestCase {
 
 	private static final int SOUND_FILE_ID = R.raw.testsound;
 	private File soundFile;
@@ -63,9 +63,8 @@ public class SetVolumeToBrickTest extends InstrumentationTestCase {
 	}
 
 	public void testVolume() {
-		Sprite sprite = new Sprite("testSprite");
-		SetVolumeToBrick setVolumeToBrick = new SetVolumeToBrick(sprite, volume);
-		//		setVolumeToBrick.execute();
+		SetVolumeToAction action = ExtendedActions.setVolumeTo(volume);
+		action.act(1.0f);
 		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", volume, SoundManager
 				.getInstance().getVolume());
 	}

@@ -27,11 +27,9 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ComeToFrontAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import android.test.AndroidTestCase;
-import android.view.View;
 
 public class ComeToFrontActionTest extends AndroidTestCase {
 
@@ -88,12 +86,5 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 
 		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution", Integer.MAX_VALUE,
 				sprite.look.zPosition);
-	}
-
-	public void testGetView() {
-		ProjectManager.getInstance().setProject(new Project(getContext(), "testProject"));
-		ComeToFrontBrick brick = new ComeToFrontBrick(new Sprite("testSprite"));
-		View view = brick.getView(getContext(), 1, null);
-		assertNotNull("getView returned null", view);
 	}
 }

@@ -20,33 +20,30 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.brick;
+package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 
 import android.test.AndroidTestCase;
 
-public class SpeakBrickTest extends AndroidTestCase {
+public class WhenActionTest extends AndroidTestCase {
 
-	private String text = "hello world!";
-	private String text2 = "nice to meet you.";
+	public void testWhenBrick() throws InterruptedException {
+		int testPosition = 100;
 
-	public void testSpeak() {
 		Sprite sprite = new Sprite("new sprite");
-		SpeakBrick speakBrick = new SpeakBrick(sprite, text);
-		assertEquals("Text is not updated after SpeakBrick executed", text, speakBrick.getText());
-		speakBrick = new SpeakBrick(sprite, text2);
-		assertEquals("Text is not updated after SpeakBrick executed", text2, speakBrick.getText());
-	}
+		WhenScript whenScript = new WhenScript(sprite);
+		whenScript.setAction(1);
+		Brick placeAtBrick = new PlaceAtBrick(sprite, testPosition, testPosition);
+		whenScript.addBrick(placeAtBrick);
+		sprite.addScript(whenScript);
+		sprite.createWhenScriptActionSequence(whenScript.getAction());
 
-	public void testNullSprite() {
-		SpeakBrick speakBrick = new SpeakBrick(null, text);
-		try {
-			//			speakBrick.execute();
-			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException expected) {
-			// expected behavior
-		}
+		sprite.look.act(1.0f);
+
+		assertEquals("Simple broadcast failed", (float) testPosition, sprite.look.getX());
 	}
 }

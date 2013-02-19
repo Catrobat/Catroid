@@ -302,7 +302,7 @@ public class StageListener implements ApplicationListener {
 		if (firstStart) {
 			int spriteSize = sprites.size();
 			for (int i = 0; i < spriteSize; i++) {
-				sprites.get(i).startStartScripts();
+				sprites.get(i).createStartScriptActionSequence();
 			}
 			firstStart = false;
 		}

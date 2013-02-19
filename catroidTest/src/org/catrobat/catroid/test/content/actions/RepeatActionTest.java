@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.InstrumentationTestCase;
@@ -55,20 +56,16 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNegativeRepeats() throws InterruptedException {
-		final int decoyDeltaY = -150;
-		final int expectedDeltaY = 150;
+		RepeatBrick repeatBrick = new RepeatBrick(testSprite, -1);
+		SequenceAction sequence = ExtendedActions.sequence();
+		repeatBrick.addActionToSequence(sequence);
+		RepeatAction repeatAction = (RepeatAction) sequence.getActions().get(0);
 
-		RepeatAction repeatAction = ExtendedActions.repeat(0,
-				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, decoyDeltaY)));
-		SequenceAction action = ExtendedActions.sequence(repeatAction,
-				ExtendedActions.changeYByN(testSprite, expectedDeltaY));
-		while (!action.act(1.0f)) {
+		while (!sequence.act(1.0f)) {
 		}
 		int executedCount = (Integer) Reflection.getPrivateField(repeatAction, "executedCount");
 
 		assertEquals("Executed the wrong number of times!", 0, executedCount);
-		assertEquals("Loop was executed although repeats were set to zero!", expectedDeltaY,
-				(int) testSprite.look.getYPosition());
 	}
 
 	public void testZeroRepeats() throws InterruptedException {

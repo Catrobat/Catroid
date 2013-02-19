@@ -107,7 +107,7 @@ public class Sprite implements Serializable {
 		}
 	}
 
-	public void startStartScripts() {
+	public void createStartScriptActionSequence() {
 		for (Script s : scriptList) {
 			if (s instanceof StartScript) {
 				if (!s.isFinished()) {
@@ -121,15 +121,14 @@ public class Sprite implements Serializable {
 		}
 	}
 
-	public SequenceAction createWhenScriptActionSequence(String action) {
+	public void createWhenScriptActionSequence(String action) {
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript) {
 				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
-					return createActionSequence(s);
+					look.addAction(createActionSequence(s));
 				}
 			}
 		}
-		return null;
 	}
 
 	public SequenceAction createBroadcastScriptActionSequence(BroadcastScript script) {

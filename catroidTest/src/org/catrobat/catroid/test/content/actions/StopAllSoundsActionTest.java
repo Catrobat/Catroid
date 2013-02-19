@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.brick;
+package org.catrobat.catroid.test.content.actions;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +30,9 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.content.actions.PlaySoundAction;
+import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
@@ -40,11 +42,10 @@ import org.catrobat.catroid.utils.UtilFile;
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
 
-public class PlaySoundBrickTest extends InstrumentationTestCase {
-	private static final int SOUND_FILE_ID = R.raw.testsound;
+public class StopAllSoundsActionTest extends InstrumentationTestCase {
+	private static final int SOUND_FILE_ID = R.raw.longtestsound;
 	private File soundFile;
 	private String projectName = "projectName";
-	private SoundInfo tempSoundInfo;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -63,7 +64,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		super.tearDown();
 	}
 
-	public void testPlaySound() throws InterruptedException {
+	public void testStopOneSound() {
 		final String soundFilePath = soundFile.getAbsolutePath();
 		assertNotNull("Could not open test sound file", soundFilePath);
 		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
@@ -71,74 +72,57 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
 		Sprite testSprite = new Sprite("1");
-		PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
-		tempSoundInfo = getSoundInfo();
-		playSoundBrick.setSoundInfo(tempSoundInfo);
-		testSprite.getSoundList().add(tempSoundInfo);
-		//		playSoundBrick.execute();
-		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
-	}
-
-	public void testIllegalArgument() {
-		Sprite testSprite = new Sprite("2");
-		PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
-		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setSoundFileName("illegalFileName");
-		playSoundBrick.setSoundInfo(soundInfo);
+		SoundInfo soundInfo = getSoundInfo();
 		testSprite.getSoundList().add(soundInfo);
-		try {
-			//			playSoundBrick.execute();
-			fail("Execution of PlaySoundBrick with illegal file path did not cause an IllegalArgumentException to be thrown");
-		} catch (IllegalArgumentException e) {
-			// expected behavior
-		}
-	}
-
-	public void testPlaySimultaneousSounds() throws InterruptedException {
-		Thread soundThread01 = new Thread(new Runnable() {
-			PlaySoundBrick playSoundBrick = new PlaySoundBrick(new Sprite("4"));
-
-			public void run() {
-				playSoundBrick.setSoundInfo(getSoundInfo());
-				//				playSoundBrick.execute();
-			}
-		});
-
-		Thread soundThread02 = new Thread(new Runnable() {
-			PlaySoundBrick playSoundBrick2 = new PlaySoundBrick(new Sprite("5"));
-
-			public void run() {
-				playSoundBrick2.setSoundInfo(getSoundInfo());
-				//				playSoundBrick2.execute();
-			}
-		});
-
-		soundThread01.start();
-		soundThread02.start();
-		Thread.sleep(500);
-		//Test fails if MediaPlayer throws IllegalArgumentException
-	}
-
-	public void testPauseAndResume() throws InterruptedException {
-		final String soundFilePath = soundFile.getAbsolutePath();
-		assertNotNull("Could not open test sound file", soundFilePath);
-		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
-
-		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-
-		Sprite testSprite = new Sprite("4");
-		PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
-		tempSoundInfo = getSoundInfo();
-		playSoundBrick.setSoundInfo(tempSoundInfo);
-		testSprite.getSoundList().add(tempSoundInfo);
-		//		playSoundBrick.execute();
+		PlaySoundAction playSoundAction = ExtendedActions.playSound(testSprite, soundInfo);
+		StopAllSoundsAction stopAllSoundsAction = ExtendedActions.stopAllSounds();
+		playSoundAction.act(1.0f);
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
+		stopAllSoundsAction.act(1.0f);
+		assertFalse("MediaPlayer is still playing", mediaPlayer.isPlaying());
 
-		mediaPlayer.pause();
-		assertFalse("MediaPlayer is still playing after pause", mediaPlayer.isPlaying());
+	}
 
-		mediaPlayer.start();
-		assertTrue("MediaPlayer is not playing after resume", mediaPlayer.isPlaying());
+	public void testStopSimultaneousPlayingSounds() throws InterruptedException {
+		final MediaPlayer mediaPlayer1 = SoundManager.getInstance().getMediaPlayer();
+		final MediaPlayer mediaPlayer2 = SoundManager.getInstance().getMediaPlayer();
+
+		class ThreadSound1 extends Thread {
+			Sprite testSprite = new Sprite("8");
+
+			@Override
+			public void run() {
+				SoundInfo soundInfo = getSoundInfo();
+				PlaySoundAction action = ExtendedActions.playSound(testSprite, soundInfo);
+				testSprite.getSoundList().add(soundInfo);
+				action.act(1.0f);
+			}
+		}
+
+		class ThreadSound2 extends Thread {
+			Sprite testSprite = new Sprite("9");;
+
+			@Override
+			public void run() {
+				SoundInfo soundInfo = getSoundInfo();
+				PlaySoundAction action = ExtendedActions.playSound(testSprite, soundInfo);
+				testSprite.getSoundList().add(soundInfo);
+				action.act(1.0f);
+			}
+		}
+
+		StopAllSoundsAction action = ExtendedActions.stopAllSounds();
+		ThreadSound1 threadSound1 = new ThreadSound1();
+		ThreadSound2 threadSound2 = new ThreadSound2();
+		threadSound1.start();
+		threadSound2.start();
+		Thread.sleep(200);
+		assertTrue("mediaPlayer1 is not playing", mediaPlayer1.isPlaying());
+		assertTrue("mediaPlayer2 is not playing", mediaPlayer2.isPlaying());
+		action.act(1.0f);
+		assertFalse("mediaPlayer1 is not stopped", mediaPlayer1.isPlaying());
+		assertFalse("mediaPlayer2 is not stopped", mediaPlayer2.isPlaying());
+		Thread.sleep(1000);
 	}
 
 	private void createTestProject() throws IOException {
@@ -150,7 +134,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 	}
 
 	private void setUpSoundFile() throws IOException {
-		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
+		soundFile = TestUtils.saveFileToProject(projectName, "longtestsound", SOUND_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
 	}
 

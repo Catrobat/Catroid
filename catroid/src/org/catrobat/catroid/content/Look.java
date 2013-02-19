@@ -36,7 +36,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
@@ -96,10 +95,7 @@ public class Look extends Image {
 
 		if (x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight()) {
 			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
-				SequenceAction action = sprite.createWhenScriptActionSequence("Tapped");
-				if (action != null) {
-					addAction(action);
-				}
+				sprite.createWhenScriptActionSequence("Tapped");
 				return true;
 			}
 		}

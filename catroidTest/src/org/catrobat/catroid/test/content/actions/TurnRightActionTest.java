@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.brick;
+package org.catrobat.catroid.test.content.actions;
 
 import java.io.File;
 
@@ -30,9 +30,10 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.content.bricks.TurnLeftBrick;
-import org.catrobat.catroid.content.bricks.TurnRightBrick;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.content.actions.SetSizeToAction;
+import org.catrobat.catroid.content.actions.TurnLeftAction;
+import org.catrobat.catroid.content.actions.TurnRightAction;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -40,7 +41,7 @@ import org.catrobat.catroid.utils.UtilFile;
 
 import android.test.InstrumentationTestCase;
 
-public class TurnLeftBrickTest extends InstrumentationTestCase {
+public class TurnRightActionTest extends InstrumentationTestCase {
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 
@@ -70,6 +71,7 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 
 		Values.SCREEN_HEIGHT = 800;
 		Values.SCREEN_WIDTH = 480;
+
 	}
 
 	@Override
@@ -85,91 +87,91 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 		super.tearDown();
 	}
 
-	public void testTurnLeftTwice() {
+	public void testTurnRightTwice() {
 		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
-		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, 10);
+		TurnRightAction action = ExtendedActions.turnRight(sprite, 10.0f);
+		action.act(1.0f);
 
-		//		turnLeftBrick.execute();
-		assertEquals("Wrong direction!", 10f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction", -10f, sprite.look.getRotation(), 1e-3);
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
 
-		//		turnLeftBrick.execute();
-		assertEquals("Wrong direction!", 20f, sprite.look.getRotation(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
-	}
+		action.restart();
+		action.act(1.0f);
 
-	public void testTurnLeftAndScale() {
-		Sprite sprite = new Sprite("test");
-		sprite.look.setLookData(lookData);
-
-		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, 10);
-		SetSizeToBrick brickScale = new SetSizeToBrick(sprite, 50);
-
-		//		turnLeftBrick.execute();
-		//		brickScale.execute();
-
-		assertEquals("Wrong direction!", 10f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction", -20f, sprite.look.getRotation(), 1e-3);
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
 	}
 
-	public void testScaleAndTurnLeft() {
+	public void testTurnRightAndScale() {
 		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
-		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, 10);
-		SetSizeToBrick brickScale = new SetSizeToBrick(sprite, 50);
+		TurnRightAction turnRightAction = ExtendedActions.turnRight(sprite, 10.0f);
+		SetSizeToAction setSizeToAction = ExtendedActions.setSizeTo(sprite, 50.0f);
 
-		//		brickScale.execute();
-		//		turnLeftBrick.execute();
+		turnRightAction.act(1.0f);
+		setSizeToAction.act(1.0f);
 
-		assertEquals("Wrong direction!", 10f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction", -10f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
+	}
+
+	public void testScaleandTurnRight() {
+		Sprite sprite = new Sprite("test");
+		sprite.look.setLookData(lookData);
+
+		TurnRightAction turnRightAction = ExtendedActions.turnRight(sprite, 10.0f);
+		SetSizeToAction setSizeToAction = ExtendedActions.setSizeTo(sprite, 50.0f);
+
+		setSizeToAction.act(1.0f);
+		turnRightAction.act(1.0f);
+
+		assertEquals("Wrong direction", -10f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
+	}
+
+	public void testTurnRightNegative() {
+		Sprite sprite = new Sprite("test");
+		sprite.look.setLookData(lookData);
+
+		TurnRightAction action = ExtendedActions.turnRight(sprite, -10.0f);
+		action.act(1.0f);
+
+		assertEquals("Wrong direction", 10f, sprite.look.getRotation(), 1e-3);
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
 
 	}
 
-	public void testTurnLeftNegative() {
+	public void testTurnRight() {
 		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
-		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, -10);
+		TurnRightAction action = ExtendedActions.turnRight(sprite, 370.0f);
+		action.act(1.0f);
 
-		//		turnLeftBrick.execute();
-
-		assertEquals("Wrong direction!", -10f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction", -370f, sprite.look.getRotation(), 1e-3);
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
+
 	}
 
-	public void testTurnLeft() {
+	public void testTurnRightAndTurnLeft() {
 		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
-		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, 370);
+		TurnRightAction turnRightAction = ExtendedActions.turnRight(sprite, 50.0f);
+		TurnLeftAction turnLeftAction = ExtendedActions.turnLeft(sprite, 20.0f);
+		turnRightAction.act(1.0f);
+		turnLeftAction.act(1.0f);
 
-		//		turnLeftBrick.execute();
-
-		assertEquals("Wrong direction!", 370f, sprite.look.getRotation(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
-	}
-
-	public void testTurnLeftAndTurnRight() {
-		Sprite sprite = new Sprite("test");
-		sprite.look.setLookData(lookData);
-
-		TurnLeftBrick brickTurnLeft = new TurnLeftBrick(sprite, 50);
-		TurnRightBrick brickTurnRight = new TurnRightBrick(sprite, 30);
-
-		//		brickTurnLeft.execute();
-		//		brickTurnRight.execute();
-
-		assertEquals("Wrong direction!", 20f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction!", -30f, sprite.look.getRotation(), 1e-3);
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
 	}

@@ -108,7 +108,7 @@ public class SpriteTest extends AndroidTestCase {
 
 		testSprite.addScript(testScript);
 
-		testSprite.startStartScripts();
+		testSprite.createStartScriptActionSequence();
 
 		Thread.sleep(20);
 

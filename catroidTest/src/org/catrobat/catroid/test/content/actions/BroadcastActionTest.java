@@ -20,9 +20,11 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.brick;
+package org.catrobat.catroid.test.content.actions;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -33,7 +35,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 
 import android.test.AndroidTestCase;
 
-public class BroadcastBricksTest extends AndroidTestCase {
+public class BroadcastActionTest extends AndroidTestCase {
 
 	public void testBroadcast() {
 		Sprite sprite = new Sprite("testSprite");
@@ -51,10 +53,14 @@ public class BroadcastBricksTest extends AndroidTestCase {
 		broadcastScript.addBrick(testBrick);
 		sprite.addScript(broadcastScript);
 
-		sprite.startStartScripts();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException ignored) {
+		Project project = new Project(getContext(), "testProject");
+		project.addSprite(sprite);
+		ProjectManager.getInstance().setProject(project);
+
+		sprite.createStartScriptActionSequence();
+
+		while (sprite.look.getActions().size != 0) {
+			sprite.look.act(1.0f);
 		}
 
 		assertEquals("Simple broadcast failed", testPosition, (int) sprite.look.getXPosition());
@@ -81,11 +87,14 @@ public class BroadcastBricksTest extends AndroidTestCase {
 		broadcastScript.addBrick(setXBrick2);
 		sprite.addScript(broadcastScript);
 
-		sprite.startStartScripts();
+		Project project = new Project(getContext(), "testProject");
+		project.addSprite(sprite);
+		ProjectManager.getInstance().setProject(project);
 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException ignored) {
+		sprite.createStartScriptActionSequence();
+
+		while (sprite.look.getActions().size != 0) {
+			sprite.look.act(1.0f);
 		}
 
 		assertEquals("Broadcast and wait failed", testPosition, (int) sprite.look.getXPosition());
