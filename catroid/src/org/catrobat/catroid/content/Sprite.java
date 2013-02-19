@@ -144,9 +144,9 @@ public class Sprite implements Serializable {
 	}
 
 	public void finish() {
-		for (Script s : scriptList) {
-			s.setFinish(true);
-		}
+		//		for (Script s : scriptList) {
+		//			s.setFinish(true);
+		//		}
 		this.isFinished = true;
 	}
 
