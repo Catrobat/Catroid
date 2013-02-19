@@ -24,8 +24,10 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -63,7 +65,6 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 	private String motor;
 	private transient Motor motorEnum;
 	private int degrees;
-	private static final int NO_DELAY = 0;
 
 	private transient EditText editX;
 
@@ -85,32 +86,6 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
 	}
-
-	//	@Override
-	//	public void execute() {
-	//		int temp_angle = degrees;
-	//		int direction = 1;
-	//		if (degrees < 0) {
-	//			direction = -1;
-	//			temp_angle = degrees + (-2 * degrees);
-	//		}
-	//
-	//		if (motorEnum.equals(Motor.MOTOR_A_C)) {
-	//			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), -1 * direction * 30, temp_angle);
-	//			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), direction * 30, temp_angle);
-	//		} else {
-	//			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), direction * 30, temp_angle);
-	//		}
-	//
-	//		/*
-	//		 * if (inverse == false) {
-	//		 * LegoNXT.sendBTCMotorMessage(NO_DELAY, motor, 30, angle);
-	//		 * } else {
-	//		 * LegoNXT.sendBTCMotorMessage(NO_DELAY, motor, -30, angle);
-	//		 * }
-	//		 */
-	//
-	//	}
 
 	@Override
 	public Sprite getSprite() {
@@ -177,6 +152,7 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 		return brickView;
 	}
 
+	@SuppressLint("ValidFragment")
 	private class EditNxtMotorTurnAngleBrickDialog extends DialogFragment {
 
 		@Override
@@ -257,16 +233,9 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
+		sequence.addAction(ExtendedActions.legoNxtMotorTurnAngle(motorEnum, degrees));
 		return null;
 	}
 }

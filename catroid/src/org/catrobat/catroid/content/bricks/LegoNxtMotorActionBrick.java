@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -61,7 +62,6 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 	private transient Motor motorEnum;
 	private int speed;
 
-	private static final int NO_DELAY = 0;
 	private static final int MIN_SPEED = -100;
 	private static final int MAX_SPEED = 100;
 
@@ -86,18 +86,6 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
 	}
-
-	//	@Override
-	//	public void execute() {
-	//
-	//		if (motorEnum.equals(Motor.MOTOR_A_C)) {
-	//			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), speed, 0);
-	//			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), speed, 0);
-	//		} else {
-	//			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), speed, 0);
-	//		}
-	//		//LegoNXT.sendBTCMotorMessage((int) (duration * 1000), motor, 0, 0);
-	//	}
 
 	@Override
 	public Sprite getSprite() {
@@ -262,16 +250,9 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_nxt_moto_action_brick");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
+		sequence.addAction(ExtendedActions.legoNxtMotorAction(motor, motorEnum, speed));
 		return null;
 	}
 }

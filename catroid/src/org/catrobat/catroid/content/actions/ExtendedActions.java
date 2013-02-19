@@ -156,6 +156,37 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static LegoNxtMotorActionAction legoNxtMotorAction(String motor,
+			org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick.Motor motorEnum, int speed) {
+		LegoNxtMotorActionAction action = action(LegoNxtMotorActionAction.class);
+		action.setMotor(motor);
+		action.setMotorEnum(motorEnum);
+		action.setSpeed(speed);
+		return action;
+	}
+
+	public static LegoNxtMotorStopAction legoNxtMotorStop(
+			org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick.Motor motorEnum) {
+		LegoNxtMotorStopAction action = action(LegoNxtMotorStopAction.class);
+		action.setMotorEnum(motorEnum);
+		return action;
+	}
+
+	public static LegoNxtMotorTurnAngleAction legoNxtMotorTurnAngle(
+			org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick.Motor motorEnum, int degrees) {
+		LegoNxtMotorTurnAngleAction action = action(LegoNxtMotorTurnAngleAction.class);
+		action.setMotorEnum(motorEnum);
+		action.setDegrees(degrees);
+		return action;
+	}
+
+	public static LegoNxtPlayToneAction legoNxtPlayTone(int hertz, int durationInMilliSeconds) {
+		LegoNxtPlayToneAction action = action(LegoNxtPlayToneAction.class);
+		action.setHertz(hertz);
+		action.setDurationInMilliSeconds(durationInMilliSeconds);
+		return action;
+	}
+
 	public static MoveNStepsAction moveNSteps(Sprite sprite, float steps) {
 		MoveNStepsAction action = action(MoveNStepsAction.class);
 		action.setSprite(sprite);

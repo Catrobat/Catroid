@@ -23,8 +23,8 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -71,12 +71,6 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
 	}
-
-	//	@Override
-	//	public void execute() {
-	//		LegoNXT.sendBTCPlayToneMessage(hertz, durationInMilliSeconds);
-	//
-	//	}
 
 	@Override
 	public Sprite getSprite() {
@@ -262,16 +256,9 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_nxt_play_tone_brick");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
+		sequence.addAction(ExtendedActions.legoNxtPlayTone(hertz, durationInMilliSeconds));
 		return null;
 	}
 }

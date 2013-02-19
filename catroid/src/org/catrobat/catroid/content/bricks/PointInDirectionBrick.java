@@ -27,6 +27,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -140,6 +141,7 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_point_in_direction_brick");
 	}
 
+	@SuppressLint("ValidFragment")
 	private class EditPointInDirectionBrickDialog extends DialogFragment {
 
 		private EditText input;

@@ -25,7 +25,6 @@ package org.catrobat.catroid.stage;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Comparator;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
@@ -53,7 +52,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -84,7 +82,6 @@ public class StageListener implements ApplicationListener {
 	private BitmapFont font;
 
 	private List<Sprite> sprites;
-	private Comparator<Actor> lookComparator;
 
 	private float virtualWidthHalf;
 	private float virtualHeightHalf;
@@ -129,8 +126,6 @@ public class StageListener implements ApplicationListener {
 		font.setScale(1.2f);
 
 		pathForScreenshot = Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()) + "/";
-
-		lookComparator = new LookComparator();
 
 		project = ProjectManager.getInstance().getCurrentProject();
 
@@ -276,8 +271,6 @@ public class StageListener implements ApplicationListener {
 			renderTextures();
 			texturesRendered = true;
 		}
-
-		//stage.getRoot().sortChildren(lookComparator);
 
 		switch (screenMode) {
 			case MAXIMIZE:
