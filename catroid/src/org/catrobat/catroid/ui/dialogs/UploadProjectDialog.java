@@ -25,9 +25,9 @@ package org.catrobat.catroid.ui.dialogs;
 import java.io.File;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.ProjectUploadService;
-import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -45,7 +45,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -57,7 +56,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class UploadProjectDialog extends DialogFragment {
 
@@ -221,16 +219,14 @@ public class UploadProjectDialog extends DialogFragment {
 			return;
 		}
 		if (!uploadName.equals(currentProjectName)) {
-			try {
-				projectRename.setVisibility(View.VISIBLE);
-				boolean renamed = projectManager.renameProjectNameAndDescription(newProjectName, projectDescription,
-						getActivity(), (ErrorListenerInterface) getActivity());
-				if (!renamed) {
-					return;
-				}
-			} catch (ClassCastException exception) {
-				Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
+
+			projectRename.setVisibility(View.VISIBLE);
+			boolean renamed = projectManager.renameProjectNameAndDescription(newProjectName, projectDescription,
+					getActivity());
+			if (!renamed) {
+				return;
 			}
+
 		} else if (uploadName.equals(currentProjectName) && (!projectDescription.equals(currentProjectDescription))) {
 			projectManager.getCurrentProject().setDescription(projectDescription);
 		}

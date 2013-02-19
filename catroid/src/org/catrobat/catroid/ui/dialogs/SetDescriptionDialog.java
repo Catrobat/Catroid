@@ -23,11 +23,9 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.utils.ErrorListenerInterface;
+import org.catrobat.catroid.R;
 
 import android.os.Bundle;
-import android.util.Log;
-import org.catrobat.catroid.R;
 
 public class SetDescriptionDialog extends MultiLineTextDialog {
 
@@ -62,15 +60,11 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
 			input.setText(projectManager.getCurrentProject().getDescription());
 		} else {
-			try {
-				projectManager.loadProject(projectToChangeName, getActivity(), (ErrorListenerInterface) getActivity(),
-						false); //TODO: check something
-				input.setText(projectManager.getCurrentProject().getDescription());
-				projectManager.loadProject(currentProjectName, getActivity(), (ErrorListenerInterface) getActivity(),
-						false);
-			} catch (ClassCastException exception) {
-				Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
-			}
+
+			projectManager.loadProject(projectToChangeName, getActivity(), false); //TODO: check something
+			input.setText(projectManager.getCurrentProject().getDescription());
+			projectManager.loadProject(currentProjectName, getActivity(), false);
+
 		}
 	}
 
@@ -85,15 +79,11 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 			dismiss();
 			return false;
 		}
-		try {
-			projectManager.loadProject(projectToChangeName, getActivity(), (ErrorListenerInterface) getActivity(),
-					false);
-			setDescription(description);
-			projectManager
-					.loadProject(currentProjectName, getActivity(), (ErrorListenerInterface) getActivity(), false);
-		} catch (ClassCastException exception) {
-			Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
-		}
+
+		projectManager.loadProject(projectToChangeName, getActivity(), false);
+		setDescription(description);
+		projectManager.loadProject(currentProjectName, getActivity(), false);
+
 		updateProjectDescriptionListener();
 		dismiss();
 		return true;
