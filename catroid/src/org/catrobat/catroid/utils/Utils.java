@@ -152,11 +152,6 @@ public class Utils {
 		return buildPath(Constants.DEFAULT_ROOT, deleteSpecialCharactersInString(projectName));
 	}
 
-	public static void displayErrorMessageFragment(FragmentManager fragmentManager, String errorMessage) {
-		DialogFragment errorDialog = ErrorDialogFragment.newInstance(errorMessage);
-		errorDialog.show(fragmentManager, ErrorDialogFragment.DIALOG_FRAGMENT_TAG);
-	}
-
 	public static void showErrorDialog(Context context, String errorMessage) {
 		Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle(context.getString(R.string.error));
@@ -167,6 +162,7 @@ public class Utils {
 			}
 		});
 		Dialog errorDialog = builder.create();
+		errorDialog.show();
 	}
 
 	public static String md5Checksum(File file) {

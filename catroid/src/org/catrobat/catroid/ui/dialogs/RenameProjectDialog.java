@@ -64,12 +64,11 @@ public class RenameProjectDialog extends TextDialog {
 		String newProjectName = (input.getText().toString()).trim();
 
 		if (newProjectName.equalsIgnoreCase("")) {
-			Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
-					getString(R.string.notification_invalid_text_entered));
+			Utils.showErrorDialog(getActivity(), getString(R.string.notification_invalid_text_entered));
 			return false;
 		} else if (StorageHandler.getInstance().projectExistsIgnoreCase(newProjectName)
 				&& !oldProjectName.equalsIgnoreCase(newProjectName)) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_project_exists));
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_project_exists));
 			return false;
 		}
 
@@ -100,8 +99,7 @@ public class RenameProjectDialog extends TextDialog {
 				onProjectRenameListener.onProjectRename(isCurrentProject);
 			}
 		} else {
-			Utils.displayErrorMessageFragment(getFragmentManager(),
-					getString(R.string.notification_invalid_text_entered));
+			Utils.showErrorDialog(getActivity(), getActivity().getString(R.string.notification_invalid_text_entered));
 			return false;
 		}
 
