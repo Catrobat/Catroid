@@ -856,7 +856,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnText(actionSetDescriptionText);
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
 		assertTrue("description is not shown in edittext", solo.searchText("Lorem ipsum"));
-		ProjectManager.INSTANCE.loadProject(UiTestUtils.PROJECTNAME1, getActivity(), getActivity(), true);
+		ProjectManager.INSTANCE.loadProject(UiTestUtils.PROJECTNAME1, getActivity(), true);
 		assertTrue("description is not set in project", ProjectManager.INSTANCE.getCurrentProject().getDescription()
 				.equalsIgnoreCase(lorem));
 	}
