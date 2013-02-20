@@ -47,7 +47,7 @@ public class StartThreadsTest extends AndroidTestCase {
 
 		testSprite.createStartScriptActionSequence();
 
-		while (testSprite.look.getActions().size != 0) {
+		while (!testSprite.look.getAllActionsAreFinished()) {
 			testSprite.look.act(1.0f);
 		}
 

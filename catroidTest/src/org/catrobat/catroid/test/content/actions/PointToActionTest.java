@@ -67,17 +67,12 @@ public class PointToActionTest extends AndroidTestCase {
 		sprite2.createStartScriptActionSequence();
 		sprite1.createStartScriptActionSequence();
 
-		while (sprite2.look.getActions().size != 0) {
+		while (!sprite2.look.getAllActionsAreFinished()) {
 			sprite2.look.act(1.0f);
 		}
 
-		while (sprite1.look.getActions().size != 0) {
+		while (!sprite1.look.getAllActionsAreFinished()) {
 			sprite1.look.act(1.0f);
-		}
-
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
 		}
 
 		assertEquals("Wrong direction", -135.0, sprite1.look.getRotation(), 1e-3);

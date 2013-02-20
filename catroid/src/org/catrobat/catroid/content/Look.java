@@ -57,6 +57,7 @@ public class Look extends Image {
 	protected HashMap<String, SequenceAction> broadcastWaitSequenceList;
 	protected ArrayList<SequenceAction> whenSequenceList;
 	private boolean broadcastFirst = true;
+	private boolean allActionAreFinished = false;
 
 	public Look(Sprite sprite) {
 		this.sprite = sprite;
@@ -177,9 +178,16 @@ public class Look extends Image {
 	@Override
 	public void act(float delta) {
 		Array<Action> actions = getActions();
+		allActionAreFinished = false;
+		int finishedCount = 0;
 		for (int i = 0, n = actions.size; i < n; i++) {
 			Action action = actions.get(i);
-			action.act(delta);
+			if (action.act(delta)) {
+				finishedCount++;
+			}
+		}
+		if (finishedCount == actions.size) {
+			allActionAreFinished = true;
 		}
 	}
 
@@ -365,5 +373,9 @@ public class Look extends Image {
 
 	public void removeBroadcast(String broadcastMessage) {
 		broadcastMap.remove(broadcastMessage);
+	}
+
+	public boolean getAllActionsAreFinished() {
+		return allActionAreFinished;
 	}
 }

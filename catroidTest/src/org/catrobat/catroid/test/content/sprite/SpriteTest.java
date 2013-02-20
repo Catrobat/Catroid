@@ -121,7 +121,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertFalse("Sprite is paused", testSprite.isPaused);
 		assertFalse("Script is paused", testScript.isPaused());
 
-		while (testSprite.look.getActions().size != 0) {
+		while (!testSprite.look.getAllActionsAreFinished()) {
 			testSprite.look.act(1.0f);
 		}
 

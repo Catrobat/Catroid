@@ -22,70 +22,81 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.BroadcastBrick;
+import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
+import org.catrobat.catroid.content.bricks.SetXBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
+
 import android.test.AndroidTestCase;
 
 public class BroadcastActionTest extends AndroidTestCase {
 
-	//	public void testBroadcast() {
-	//		Sprite sprite = new Sprite("testSprite");
-	//		Script script = new StartScript(sprite);
-	//		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);
-	//		String message = "simpleTest";
-	//		broadcastBrick.setSelectedMessage(message);
-	//		script.addBrick(broadcastBrick);
-	//		sprite.addScript(script);
-	//
-	//		BroadcastScript broadcastScript = new BroadcastScript(sprite);
-	//		int testPosition = 100;
-	//		SetXBrick testBrick = new SetXBrick(sprite, testPosition);
-	//		broadcastScript.setBroadcastMessage(message);
-	//		broadcastScript.addBrick(testBrick);
-	//		sprite.addScript(broadcastScript);
-	//
-	//		Project project = new Project(getContext(), "testProject");
-	//		project.addSprite(sprite);
-	//		ProjectManager.getInstance().setProject(project);
-	//
-	//		sprite.createStartScriptActionSequence();
-	//
-	//		while (sprite.look.getActions().size != 0) {
-	//			sprite.look.act(1.0f);
-	//		}
-	//
-	//		assertEquals("Simple broadcast failed", testPosition, (int) sprite.look.getXPosition());
-	//	}
-	//
-	//	public void testBroadcastWait() {
-	//		Sprite sprite = new Sprite("spriteOne");
-	//		Script scriptWait = new StartScript(sprite);
-	//		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite);
-	//		String message = "waitTest";
-	//		broadcastWaitBrick.setSelectedMessage(message);
-	//		int testPosition = 100;
-	//		SetXBrick setXBrick = new SetXBrick(sprite, testPosition);
-	//		scriptWait.addBrick(broadcastWaitBrick);
-	//		scriptWait.addBrick(setXBrick);
-	//		sprite.addScript(scriptWait);
-	//
-	//		BroadcastScript broadcastScript = new BroadcastScript(sprite);
-	//		WaitBrick waitBrick = new WaitBrick(sprite, 500);
-	//		int setTestPosition = 20;
-	//		SetXBrick setXBrick2 = new SetXBrick(sprite, setTestPosition);
-	//		broadcastScript.setBroadcastMessage(message);
-	//		broadcastScript.addBrick(waitBrick);
-	//		broadcastScript.addBrick(setXBrick2);
-	//		sprite.addScript(broadcastScript);
-	//
-	//		Project project = new Project(getContext(), "testProject");
-	//		project.addSprite(sprite);
-	//		ProjectManager.getInstance().setProject(project);
-	//
-	//		sprite.createStartScriptActionSequence();
-	//
-	//		while (sprite.look.getActions().size != 0) {
-	//			sprite.look.act(1.0f);
-	//		}
-	//
-	//		assertEquals("Broadcast and wait failed", testPosition, (int) sprite.look.getXPosition());
-	//	}
+	public void testBroadcast() {
+		Sprite sprite = new Sprite("testSprite");
+		Script script = new StartScript(sprite);
+		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);
+		String message = "simpleTest";
+		broadcastBrick.setSelectedMessage(message);
+		script.addBrick(broadcastBrick);
+		sprite.addScript(script);
+
+		BroadcastScript broadcastScript = new BroadcastScript(sprite);
+		int testPosition = 100;
+		SetXBrick testBrick = new SetXBrick(sprite, testPosition);
+		broadcastScript.setBroadcastMessage(message);
+		broadcastScript.addBrick(testBrick);
+		sprite.addScript(broadcastScript);
+
+		Project project = new Project(getContext(), "testProject");
+		project.addSprite(sprite);
+		ProjectManager.getInstance().setProject(project);
+
+		sprite.createStartScriptActionSequence();
+
+		while (!sprite.look.getAllActionsAreFinished()) {
+			sprite.look.act(1.0f);
+		}
+
+		assertEquals("Simple broadcast failed", testPosition, (int) sprite.look.getXPosition());
+	}
+
+	public void testBroadcastWait() {
+		Sprite sprite = new Sprite("spriteOne");
+		Script scriptWait = new StartScript(sprite);
+		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite);
+		String message = "waitTest";
+		broadcastWaitBrick.setSelectedMessage(message);
+		int testPosition = 100;
+		SetXBrick setXBrick = new SetXBrick(sprite, testPosition);
+		scriptWait.addBrick(broadcastWaitBrick);
+		scriptWait.addBrick(setXBrick);
+		sprite.addScript(scriptWait);
+
+		BroadcastScript broadcastScript = new BroadcastScript(sprite);
+		WaitBrick waitBrick = new WaitBrick(sprite, 500);
+		int setTestPosition = 20;
+		SetXBrick setXBrick2 = new SetXBrick(sprite, setTestPosition);
+		broadcastScript.setBroadcastMessage(message);
+		broadcastScript.addBrick(waitBrick);
+		broadcastScript.addBrick(setXBrick2);
+		sprite.addScript(broadcastScript);
+
+		Project project = new Project(getContext(), "testProject");
+		project.addSprite(sprite);
+		ProjectManager.getInstance().setProject(project);
+
+		sprite.createStartScriptActionSequence();
+
+		while (!sprite.look.getAllActionsAreFinished()) {
+			sprite.look.act(1.0f);
+		}
+
+		assertEquals("Broadcast and wait failed", testPosition, (int) sprite.look.getXPosition());
+	}
 }
