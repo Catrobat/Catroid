@@ -51,6 +51,7 @@ import org.catrobat.catroid.ui.dialogs.ErrorDialogFragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -151,9 +152,17 @@ public class Utils {
 		return buildPath(Constants.DEFAULT_ROOT, deleteSpecialCharactersInString(projectName));
 	}
 
-	public static void displayErrorMessageFragment(FragmentManager fragmentManager, String errorMessage) {
-		DialogFragment errorDialog = ErrorDialogFragment.newInstance(errorMessage);
-		errorDialog.show(fragmentManager, ErrorDialogFragment.DIALOG_FRAGMENT_TAG);
+	public static void showErrorDialog(Context context, String errorMessage) {
+		Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle(context.getString(R.string.error));
+		builder.setMessage(errorMessage);
+		builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+		Dialog errorDialog = builder.create();
+		errorDialog.show();
 	}
 
 	public static String md5Checksum(File file) {
@@ -263,18 +272,18 @@ public class Utils {
 		edit.commit();
 	}
 
-	public static void loadProjectIfNeeded(Context context, ErrorListenerInterface errorListener) {
+	public static void loadProjectIfNeeded(Context context) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 
 			if (projectName != null) {
-				ProjectManager.getInstance().loadProject(projectName, context, errorListener, false);
+				ProjectManager.getInstance().loadProject(projectName, context, false);
 			} else if (ProjectManager.INSTANCE.canLoadProject(context.getString(R.string.default_project_name))) {
 				ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name), context,
-						errorListener, false);
+						false);
 			} else {
-				ProjectManager.getInstance().initializeDefaultProject(context, errorListener);
+				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
 		}
 	}

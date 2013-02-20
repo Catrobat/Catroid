@@ -134,12 +134,12 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 		String projectDescription = newProjectDescriptionEditText.getText().toString().trim();
 
 		if (projectName.length() == 0) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_no_name_entered));
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_no_name_entered));
 			return false;
 		}
 
 		if (StorageHandler.getInstance().projectExistsIgnoreCase(projectName)) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_project_exists));
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_project_exists));
 			return false;
 		}
 
@@ -148,7 +148,7 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 			ProjectManager.INSTANCE.getCurrentProject().setDescription(projectDescription);
 
 		} catch (IOException e) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_new_project));
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_new_project));
 			dismiss();
 		}
 

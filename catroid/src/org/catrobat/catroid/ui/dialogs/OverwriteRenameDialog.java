@@ -26,8 +26,6 @@ import java.util.UUID;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
@@ -48,20 +46,12 @@ public class OverwriteRenameDialog extends Dialog implements OnClickListener {
 	protected String projectName, zipFileString;
 	protected Context context;
 	protected EditText projectText;
-	protected ErrorListenerInterface errorListenerInterface;
 
-	public OverwriteRenameDialog(Context context, String projectName, String zipFileString,
-			ErrorListenerInterface errorListenerInterface) {
+	public OverwriteRenameDialog(Context context, String projectName, String zipFileString) {
 		super(context);
 		this.projectName = projectName;
 		this.zipFileString = zipFileString;
 		this.context = context;
-		this.errorListenerInterface = errorListenerInterface;
-	}
-
-	public void setActivity(MainMenuActivity activity) {
-		this.context = activity;
-		this.errorListenerInterface = activity;
 	}
 
 	@Override
@@ -88,25 +78,24 @@ public class OverwriteRenameDialog extends Dialog implements OnClickListener {
 			case R.id.dialog_overwrite_project_button_ok:
 				if (replaceButton.isChecked()) {
 					UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
-					ProjectManager.INSTANCE.loadProject(projectName, context, errorListenerInterface, false);
+					ProjectManager.INSTANCE.loadProject(projectName, context, false);
 				} else if (renameButton.isChecked()) {
 					String newProjectName = projectName + UUID.randomUUID();
-					ProjectManager.INSTANCE.loadProject(projectName, context, errorListenerInterface, false);
-					ProjectManager.INSTANCE.renameProject(newProjectName, context, errorListenerInterface);
+					ProjectManager.INSTANCE.loadProject(projectName, context, false);
+					ProjectManager.INSTANCE.renameProject(newProjectName, context);
 					UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
-					ProjectManager.INSTANCE.loadProject(projectName, context, errorListenerInterface, false);
-					boolean error = !ProjectManager.INSTANCE.renameProject(projectText.getText().toString(), context,
-							errorListenerInterface);
+					ProjectManager.INSTANCE.loadProject(projectName, context, false);
+					boolean error = !ProjectManager.INSTANCE.renameProject(projectText.getText().toString(), context);
+
 					if (error) {
 						ProjectManager.INSTANCE.deleteCurrentProject();
 					}
-					ProjectManager.INSTANCE.loadProject(newProjectName, context, errorListenerInterface, false);
-					ProjectManager.INSTANCE.renameProject(projectName, context, errorListenerInterface);
+					ProjectManager.INSTANCE.loadProject(newProjectName, context, false);
+					ProjectManager.INSTANCE.renameProject(projectName, context);
 					if (error) {
 						break;
 					}
-					ProjectManager.INSTANCE.loadProject(projectText.getText().toString(), context,
-							errorListenerInterface, false);
+					ProjectManager.INSTANCE.loadProject(projectText.getText().toString(), context, false);
 				}
 				Toast.makeText(context, R.string.success_project_download, Toast.LENGTH_SHORT).show();
 				dismiss();
