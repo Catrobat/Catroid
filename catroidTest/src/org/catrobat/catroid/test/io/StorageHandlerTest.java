@@ -193,6 +193,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertTrue("Image " + catroidLookList.get(2).getLookFileName() + " does not exist", testFile.exists());
 	}
 
+	// TODO: add XML header validation based on xsd 
 	//	public void testAliasesAndXmlHeader() {
 	//
 	//		String projectName = "myProject";

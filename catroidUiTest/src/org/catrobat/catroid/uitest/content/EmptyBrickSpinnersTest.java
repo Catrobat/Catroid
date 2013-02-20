@@ -109,6 +109,7 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		String projectXMLPath = Utils.buildPath(Utils.buildProjectPath(testProjectName), Constants.PROJECTCODE_NAME);
+		// TODO: add XML validation based on xsd
 		//		XMLValidationUtil.sendProjectXMLToServerForValidating(projectXMLPath);
 	}
 

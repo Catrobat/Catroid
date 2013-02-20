@@ -113,7 +113,7 @@ public class XMLValidatingTest extends AndroidTestCase {
 
 		assertTrue("no bricks added to the start script", startScript.getBrickList().size() > 0);
 		StorageHandler.getInstance().saveProject(project);
-
+		// TODO: add XML validation based on xsd
 		//	XMLValidationUtil.sendProjectXMLToServerForValidating(project);
 	}
 
