@@ -1,3 +1,25 @@
+/**
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2013 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://developer.catrobat.org/license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
+ *  
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.catrobat.catroid.uitest.content.brick;
 
 import org.catrobat.catroid.R;
@@ -70,46 +92,51 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String XPositionValueSetX = Integer.toString(BrickValues.X_POSITION);
 		assertEquals("Value in Brick SetXTo are not correct", XPositionValueSetX, SetXtoPrototype);
 
+		solo.searchText(solo.getString(R.string.brick_set_y));
 		TextView SetYTo = (TextView) solo.getView(R.id.brick_set_y_prototype_text_view);
 		String SetYtoPrototype = SetYTo.getText().toString();
 		String YPositionValueSetY = Integer.toString(BrickValues.Y_POSITION);
 		assertEquals("Value in Brick SetYTo are not correct", YPositionValueSetY, SetYtoPrototype);
 
-		solo.scrollDown();
-
+		//solo.scrollDown();
+		solo.searchText(solo.getString(R.string.brick_change_x_by));
 		TextView ChangeXBy = (TextView) solo.getView(R.id.brick_change_x_prototype_text_view);
 		String ChangeXByPrototype = ChangeXBy.getText().toString();
 		String XPositionValueChangeXBy = Integer.toString(BrickValues.CHANGE_X_BY);
 		assertEquals("Value in Brick ChangeXBy are not correct", XPositionValueChangeXBy, ChangeXByPrototype);
 
+		solo.searchText(solo.getString(R.string.brick_change_y_by));
 		TextView ChangeYBy = (TextView) solo.getView(R.id.brick_change_y_prototype_text_view);
 		String ChangeYByPrototype = ChangeYBy.getText().toString();
 		String XPositionValueChangeYBy = Integer.toString(BrickValues.CHANGE_Y_BY);
 		assertEquals("Value in Brick ChangeYBy are not correct", XPositionValueChangeYBy, ChangeYByPrototype);
 
+		solo.searchText(solo.getString(R.string.brick_move_n_steps));
 		TextView MoveNSteps = (TextView) solo.getView(R.id.brick_move_n_steps_prototype_text_view);
 		String MoveNStepsPrototype = MoveNSteps.getText().toString();
 		String StepsValue = Float.toString(BrickValues.Move_Steps_Value);
 		assertEquals("Value in Brick MoveNSteps are not correct", StepsValue, MoveNStepsPrototype);
 
-		solo.scrollDown();
-
+		solo.searchText(solo.getString(R.string.brick_turn_left));
 		TextView TurnLeft = (TextView) solo.getView(R.id.brick_turn_left_prototype_text_view);
 		String TurnLeftPrototype = TurnLeft.getText().toString();
 		String TurnLeftDegreesValue = Float.toString(BrickValues.TURN_REIGTH);
 		assertEquals("Value in Brick TurnLeft are not correct", TurnLeftDegreesValue, TurnLeftPrototype);
 
+		solo.searchText(solo.getString(R.string.brick_turn_right));
 		TextView TurnRight = (TextView) solo.getView(R.id.brick_turn_right_prototype_text_view);
 		String TurnRightPrototype = TurnRight.getText().toString();
 		String TurnRightDegreesValue = Float.toString(BrickValues.TURN_REIGTH);
 		assertEquals("Value in Brick TurnRight are not correct", TurnRightDegreesValue, TurnRightPrototype);
 
+		solo.searchText(solo.getString(R.string.brick_point_in_direction));
 		TextView PointInDirection = (TextView) solo.getView(R.id.brick_point_in_direction_prototype_text_view);
 		String PointInDirectionPrototype = PointInDirection.getText().toString();
 		String PointInDirectionValue = Float.toString(BrickValues.POINT_IN_DIRECTION);
 		assertEquals("Value in Brick PointInDirection are not correct", PointInDirectionValue,
 				PointInDirectionPrototype);
 
+		solo.searchText(solo.getString(R.string.brick_glide));
 		TextView GlideSeconds = (TextView) solo.getView(R.id.brick_glide_to_prototype_text_view_duration);
 		String GlideSecondsPrototype = GlideSeconds.getText().toString();
 		int seconds = BrickValues.GLIDE_SECONDS / 1000;
@@ -147,23 +174,25 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String ChangeSizeByValue = Float.toString(BrickValues.CHANGE_SIZE_BY);
 		assertEquals("Value in Brick ChangeSizeBy are not correct", ChangeSizeByValue, ChangeSizeByPrototype);
 
-		solo.scrollDown();
-
+		solo.searchText(solo.getString(R.string.brick_set_ghost_effect));
 		TextView SetGhostEffect = (TextView) solo.getView(R.id.brick_set_ghost_effect_to_prototype_text_view);
 		String SetGhostEffectPrototype = SetGhostEffect.getText().toString();
 		String SetGhostEffectValue = Float.toString(BrickValues.SET_GHOST_EFFECT);
 		assertEquals("Value in Brick SetGhostEffect are not correct", SetGhostEffectValue, SetGhostEffectPrototype);
 
+		solo.searchText(solo.getString(R.string.brick_change_ghost_effect));
 		TextView ChangeGhostEffect = (TextView) solo.getView(R.id.brick_set_ghost_effect_to_prototype_text_view);
 		String ChangeGhostEffectPrototype = ChangeGhostEffect.getText().toString();
 		String ChngeGhostEffectValue = Float.toString(BrickValues.SET_GHOST_EFFECT);
 		assertEquals("Value in Brick SetGhostEffect are not correct", ChngeGhostEffectValue, ChangeGhostEffectPrototype);
 
+		solo.searchText(solo.getString(R.string.brick_set_brightness));
 		TextView SetBrightness = (TextView) solo.getView(R.id.brick_set_brightness_prototype_text_view);
 		String SetBrightnessPrototype = SetBrightness.getText().toString();
 		String SetBrightnessValue = Float.toString(BrickValues.SET_BRIGHTNESS_TO);
 		assertEquals("Value in Brick SetBrightness are not correct", SetBrightnessValue, SetBrightnessPrototype);
 
+		solo.searchText(solo.getString(R.string.brick_change_brightness));
 		TextView ChangeBrightness = (TextView) solo.getView(R.id.brick_change_brightness_prototype_text_view);
 		String ChangeBrightnessPrototype = ChangeBrightness.getText().toString();
 		String ChangeBrightnessValue = Float.toString(BrickValues.CHANGE_BRITHNESS_BY);
@@ -192,6 +221,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String ChangeVolumenToValue = Float.toString(BrickValues.CHANGE_VOLUMEN_BY);
 		assertEquals("Value in Brick SetVolumenTo are not correct", ChangeVolumenToValue, ChangeVolumenToPrototype);
 
+		solo.searchText(solo.getString(R.string.brick_speak));
 		TextView Speak = (TextView) solo.getView(R.id.brick_speak_prototype_text_view);
 		String SpeakPrototype = Speak.getText().toString();
 		String SpeakValue = BrickValues.SPEAK;
@@ -214,13 +244,13 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String WaitValue = Integer.toString(BrickValues.WAIT);
 		assertEquals("Value in Brick Wait are not correct", WaitValue, WaitPrototype);
 
-		solo.scrollDown();
-
+		solo.searchText(solo.getString(R.string.brick_note));
 		TextView Note = (TextView) solo.getView(R.id.brick_note_prototype_text_view);
 		String NotePrototype = Note.getText().toString();
 		String NoteValue = BrickValues.NOTE;
 		assertEquals("Value in Note Speak are not correct", NoteValue, NotePrototype);
 
+		solo.searchText(solo.getString(R.string.brick_repeat));
 		TextView Repeate = (TextView) solo.getView(R.id.brick_repeat_prototype_text_view);
 		String RepeatePrototype = Repeate.getText().toString();
 		String RepeateValue = Integer.toString(BrickValues.REPEAT);
@@ -248,6 +278,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String NXTMoveMotorValue = Integer.toString(BrickValues.SPEED);
 		assertEquals("Value in Brick NXTMoveMotor are not correct", NXTMoveMotorValue, NXTMoveMotorPrototype);
 
+		solo.searchText(solo.getString(R.string.nxt_play_tone));
 		TextView NXTPlayToneSeconds = (TextView) solo.getView(R.id.nxt_tone_duration_text_view);
 		String NXTPlayTonePrototype = NXTPlayToneSeconds.getText().toString();
 		int seconds = BrickValues.SECONDS / 1000;
@@ -259,6 +290,11 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		int frequenz = BrickValues.FREQUENCY / 100;
 		String NXTPlayToneFreqValue = Integer.toString(frequenz);
 		assertEquals("Value in Brick NXTPlayTone are not correct", NXTPlayToneFreqValue, NXTPlayToneFreqPrototype);
+
+	}
+
+	@Smoke
+	public void test() {
 
 	}
 
