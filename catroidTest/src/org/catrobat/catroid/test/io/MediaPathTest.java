@@ -236,7 +236,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertTrue("LookDataList not in project", projectString.contains("lookList"));
 		assertTrue("SoundList not in project", projectString.contains("soundList"));
-		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), null, false);
+		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
 		projectString = TestUtils.getProjectfileAsString(projectName);
 		assertTrue("LookDataList not in project", projectString.contains("lookList"));
 		assertTrue("SoundList not in project", projectString.contains("soundList"));
