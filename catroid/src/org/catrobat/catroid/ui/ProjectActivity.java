@@ -29,8 +29,6 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
-import org.catrobat.catroid.utils.ErrorListenerInterface;
-import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,7 +42,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class ProjectActivity extends SherlockFragmentActivity implements ErrorListenerInterface {
+public class ProjectActivity extends SherlockFragmentActivity {
 
 	private SpritesListFragment spritesListFragment;
 
@@ -161,7 +159,7 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 			ProjectManager projectManager = ProjectManager.getInstance();
 			int currentSpritePos = projectManager.getCurrentSpritePosition();
 			int currentScriptPos = projectManager.getCurrentScriptPosition();
-			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, this, false);
+			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 			projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 			projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		}
@@ -187,11 +185,6 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 	public void handlePlayButton(View view) {
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-	}
-
-	@Override
-	public void showErrorDialog(String errorMessage) {
-		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
 	}
 
 	@Override

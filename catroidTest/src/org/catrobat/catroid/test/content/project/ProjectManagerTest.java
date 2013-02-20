@@ -99,7 +99,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertNotNull("no current script set", projectManager.getCurrentScript());
 
 		// loadProject
-		projectManager.loadProject(projectNameOne, context, null, false);
+		projectManager.loadProject(projectNameOne, context, false);
 		assertNotNull("no current project set", projectManager.getCurrentProject());
 		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
 				.getName());
@@ -132,7 +132,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		createTestProject(oldProjectName);
-		if (!projectManager.renameProject(newProjectName, getInstrumentation().getContext(), null)) {
+		if (!projectManager.renameProject(newProjectName, getInstrumentation().getContext())) {
 			fail("could not rename Project");
 		}
 		projectManager.saveProject();
