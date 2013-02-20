@@ -206,7 +206,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		String checksumSound = Utils.md5Checksum(testSound);
 
 		projectManager.setFileChecksumContainer(null); //hack to delete the filechecksumcontainer and see if a new one is created on load
-		projectManager.loadProject(projectName, getInstrumentation().getTargetContext(), null, false);
+		projectManager.loadProject(projectName, getInstrumentation().getTargetContext(), false);
 
 		assertTrue("does not contain checksum",
 				projectManager.getFileChecksumContainer().containsChecksum(checksumImage));
@@ -226,7 +226,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		fillProjectWithAllBricksAndMediaFiles();
 		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
-		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), null, false);
+		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
 		projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
 	}

@@ -37,7 +37,6 @@ import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
-import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
@@ -59,8 +58,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener,
-		ErrorListenerInterface {
+public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener {
 
 	private class DownloadReceiver extends ResultReceiver {
 
@@ -112,7 +110,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		actionBar.setTitle(R.string.app_name);
 
 		projectManager = ProjectManager.getInstance();
-		Utils.loadProjectIfNeeded(this, this);
+		Utils.loadProjectIfNeeded(this);
 
 		if (projectManager.getCurrentProject() == null) {
 			findViewById(R.id.main_menu_button_continue).setEnabled(false);
@@ -150,8 +148,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			int b = path.lastIndexOf('.');
 			String projectName = path.substring(a, b);
 			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
-				Utils.displayErrorMessageFragment(getSupportFragmentManager(),
-						getResources().getString(R.string.error_load_project));
+				Utils.showErrorDialog(this, getResources().getString(R.string.error_load_project));
 			}
 		}
 	}
@@ -215,7 +212,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		}
 		ignoreResume = false;
 
-		ProjectManager.INSTANCE.loadProject(ProjectManager.INSTANCE.getCurrentProject().getName(), this, this, false);
+		ProjectManager.INSTANCE.loadProject(ProjectManager.INSTANCE.getCurrentProject().getName(), this, false);
 
 		StatusBarNotificationManager.INSTANCE.displayDialogs(this);
 	}
@@ -325,10 +322,5 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	private void showLoginRegisterDialog() {
 		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
 		loginRegisterDialog.show(getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
-	}
-
-	@Override
-	public void showErrorDialog(String errorMessage) {
-		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
 	}
 }
