@@ -291,7 +291,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(200);
 		solo.clickOnButton(buttonCloseText);
 
-		// Check if button deactivated when adding sprite without name ""
+		//Check if button deactivated when adding sprite without name ""
 		UiTestUtils.enterText(solo, 0, "");
 		solo.sleep(200);
 
