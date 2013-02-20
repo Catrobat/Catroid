@@ -5,6 +5,8 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.TextView;
@@ -14,6 +16,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private Solo solo;
+	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
 
 	//private static final TextView TextView = null;
 
@@ -24,6 +27,13 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 
 	@Override
 	public void setUp() throws Exception {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+		// disable mindstorm bricks, if enabled at start
+		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
+			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
+		}
+
 		super.setUp();
 		solo = new Solo(getInstrumentation(), getActivity());
 		getIntoActivity();
@@ -64,6 +74,8 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String SetYtoPrototype = SetYTo.getText().toString();
 		String YPositionValueSetY = Integer.toString(BrickValues.Y_POSITION);
 		assertEquals("Value in Brick SetYTo are not correct", YPositionValueSetY, SetYtoPrototype);
+
+		solo.scrollDown();
 
 		TextView ChangeXBy = (TextView) solo.getView(R.id.brick_change_x_prototype_text_view);
 		String ChangeXByPrototype = ChangeXBy.getText().toString();
@@ -218,16 +230,52 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 
 	}
 
+	@Smoke
+	public void testifEditTextLegoNXTEqualBrickValue() {
+
+		String categoryLegoNXTText = solo.getString(R.string.category_lego_nxt);
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.clickOnText(categoryLegoNXTText);
+
+		TextView NXTturnMotor = (TextView) solo.getView(R.id.motor_turn_angle_text_view);
+		String NXTturnMotorPrototype = NXTturnMotor.getText().toString();
+		String NXTturnMotorValue = Integer.toString(BrickValues.ANGLE);
+		assertEquals("Value in Brick NXTturnMotor are not correct", NXTturnMotorValue, NXTturnMotorPrototype);
+
+		TextView NXTMoveMotor = (TextView) solo.getView(R.id.motor_action_speed_text_view);
+		String NXTMoveMotorPrototype = NXTMoveMotor.getText().toString();
+		String NXTMoveMotorValue = Integer.toString(BrickValues.SPEED);
+		assertEquals("Value in Brick NXTMoveMotor are not correct", NXTMoveMotorValue, NXTMoveMotorPrototype);
+
+		TextView NXTPlayToneSeconds = (TextView) solo.getView(R.id.nxt_tone_duration_text_view);
+		String NXTPlayTonePrototype = NXTPlayToneSeconds.getText().toString();
+		int seconds = BrickValues.SECONDS / 1000;
+		String NXTPlayToneValue = Float.toString(seconds);
+		assertEquals("Value in Brick NXTPlayTone are not correct", NXTPlayToneValue, NXTPlayTonePrototype);
+
+		TextView NXTPlayToneFreq = (TextView) solo.getView(R.id.nxt_tone_freq_text_view);
+		String NXTPlayToneFreqPrototype = NXTPlayToneFreq.getText().toString();
+		int frequenz = BrickValues.FREQUENCY / 100;
+		String NXTPlayToneFreqValue = Integer.toString(frequenz);
+		assertEquals("Value in Brick NXTPlayTone are not correct", NXTPlayToneFreqValue, NXTPlayToneFreqPrototype);
+
+	}
+
 	//private void createProject() {
 	//	// TODO Auto-generated method stub
 
 	//}
 
 	private void getIntoActivity() {
-		//SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createEmptyProject();
+
+		if (!sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
+			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
+		}
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
