@@ -153,6 +153,13 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String GlideYValue = Integer.toString(BrickValues.Y_POSITION);
 		assertEquals("Value in Brick GlideY are not correct", GlideYValue, GlideYPrototype);
 
+		solo.clickOnText(solo.getString(R.string.brick_point_in_direction));
+		solo.clickOnScreen(200, 200);
+
+		TextView PointinDirectionSelect = (TextView) solo.getView(R.id.brick_point_in_direction_edit_text);
+		String EditText = PointinDirectionSelect.getText().toString();
+		assertEquals("Value in Selected Brick PointInDirection are not correct", PointInDirectionValue, EditText);
+
 		solo.goBack();
 	}
 
@@ -199,6 +206,13 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		assertEquals("Value in Brick ChangeBrightness are not correct", ChangeBrightnessValue,
 				ChangeBrightnessPrototype);
 
+		solo.clickOnText(solo.getString(R.string.brick_change_brightness));
+		solo.clickOnScreen(200, 200);
+
+		TextView ChangeBrightnessSelect = (TextView) solo.getView(R.id.brick_change_brightness_edit_text);
+		String EditText = ChangeBrightnessSelect.getText().toString();
+		assertEquals("Value in Selected Brick ChangeBrightness are not correct", ChangeBrightnessValue, EditText);
+
 		solo.goBack();
 
 	}
@@ -226,6 +240,13 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String SpeakPrototype = Speak.getText().toString();
 		String SpeakValue = BrickValues.SPEAK;
 		assertEquals("Value in Brick Speak are not correct", SpeakValue, SpeakPrototype);
+
+		solo.clickOnText(solo.getString(R.string.brick_speak));
+		solo.clickOnScreen(200, 200);
+
+		TextView SpeakSelect = (TextView) solo.getView(R.id.brick_speak_edit_text);
+		String EditText = SpeakSelect.getText().toString();
+		assertEquals("Value in Selected Brick Speak are not correct", SpeakValue, EditText);
 
 		solo.goBack();
 
@@ -255,6 +276,13 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String RepeatePrototype = Repeate.getText().toString();
 		String RepeateValue = Integer.toString(BrickValues.REPEAT);
 		assertEquals("Value in Repeate Wait are not correct", RepeateValue, RepeatePrototype);
+
+		solo.clickOnText(solo.getString(R.string.brick_repeat));
+		solo.clickOnScreen(200, 200);
+
+		TextView RepeateSelect = (TextView) solo.getView(R.id.brick_repeat_edit_text);
+		String EditText = RepeateSelect.getText().toString();
+		assertEquals("Value in Selected Brick Repeate are not correct", RepeateValue, EditText);
 
 		solo.goBack();
 
@@ -291,17 +319,14 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String NXTPlayToneFreqValue = Integer.toString(frequenz);
 		assertEquals("Value in Brick NXTPlayTone are not correct", NXTPlayToneFreqValue, NXTPlayToneFreqPrototype);
 
+		solo.clickOnText(solo.getString(R.string.nxt_play_tone));
+		solo.clickOnScreen(200, 200);
+
+		TextView NXTPlayToneSelect = (TextView) solo.getView(R.id.nxt_tone_freq_edit_text);
+		String EditText = NXTPlayToneSelect.getText().toString();
+		assertEquals("Value in Selected Brick Repeate are not correct", NXTPlayToneFreqValue, EditText);
+
 	}
-
-	@Smoke
-	public void test() {
-
-	}
-
-	//private void createProject() {
-	//	// TODO Auto-generated method stub
-
-	//}
 
 	private void getIntoActivity() {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
