@@ -24,8 +24,10 @@ package org.catrobat.catroid.content;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import com.badlogic.gdx.graphics.Pixmap;
@@ -35,9 +37,10 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 
 public class Look extends Image {
 	protected boolean imageChanged = false;
@@ -50,6 +53,10 @@ public class Look extends Image {
 	public int zPosition;
 	protected Pixmap pixmap;
 	private HashMap<String, ArrayList<BroadcastScript>> broadcastMap;
+	protected HashMap<String, SequenceAction> broadcastSequenceList;
+	protected HashMap<String, SequenceAction> broadcastWaitSequenceList;
+	protected ArrayList<SequenceAction> whenSequenceList;
+	private boolean broadcastFirst = true;
 
 	public Look(Sprite sprite) {
 		this.sprite = sprite;
@@ -63,6 +70,9 @@ public class Look extends Image {
 		this.show = true;
 		this.zPosition = 0;
 		this.broadcastMap = new HashMap<String, ArrayList<BroadcastScript>>();
+		this.whenSequenceList = new ArrayList<SequenceAction>();
+		this.broadcastSequenceList = new HashMap<String, SequenceAction>();
+		this.broadcastWaitSequenceList = new HashMap<String, SequenceAction>();
 		this.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -95,7 +105,12 @@ public class Look extends Image {
 
 		if (x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight()) {
 			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
-				sprite.createWhenScriptActionSequence("Tapped");
+				if (whenSequenceList.isEmpty()) {
+					sprite.createWhenScriptActionSequence("Tapped");
+				}
+				for (SequenceAction action : whenSequenceList) {
+					action.restart();
+				}
 				return true;
 			}
 		}
@@ -103,25 +118,51 @@ public class Look extends Image {
 	}
 
 	public void doHandleBroadcastEvent(String broadcastMessage) {
-		if (broadcastMap.containsKey(broadcastMessage)) {
-			ArrayList<BroadcastScript> broadcastList = broadcastMap.get(broadcastMessage);
-			ParallelAction parallelAction = ExtendedActions.parallel();
-			for (BroadcastScript script : broadcastList) {
-				parallelAction.addAction(sprite.createBroadcastScriptActionSequence(script));
+		//		if (broadcastMap.containsKey(broadcastMessage)) {
+		//			ArrayList<BroadcastScript> broadcastList = broadcastMap.get(broadcastMessage);
+		//			ParallelAction parallelAction = ExtendedActions.parallel();
+		//			for (BroadcastScript script : broadcastList) {
+		//				parallelAction.addAction(sprite.createBroadcastScriptActionSequence(script));
+		//			}
+		//			addAction(parallelAction);
+		//		}
+		if (broadcastSequenceList.containsKey(broadcastMessage)) {
+			Set<String> keys = broadcastSequenceList.keySet();
+			if (broadcastFirst) {
+				for (String key : keys) {
+					addAction(broadcastSequenceList.get(key));
+				}
+				broadcastFirst = false;
 			}
-			addAction(parallelAction);
+			broadcastSequenceList.get(broadcastMessage).restart();
 		}
 	}
 
 	public void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
-		if (broadcastMap.containsKey(broadcastMessage)) {
-			Action broadcastNotifyAction = ExtendedActions.broadcastNotify(event);
-			ArrayList<BroadcastScript> broadcastList = broadcastMap.get(broadcastMessage);
-			ParallelAction parallelAction = ExtendedActions.parallel();
-			for (BroadcastScript script : broadcastList) {
-				parallelAction.addAction(sprite.createBroadcastScriptActionSequence(script));
+		//		if (broadcastMap.containsKey(broadcastMessage)) {
+		//			Action broadcastNotifyAction = ExtendedActions.broadcastNotify(event);
+		//			ArrayList<BroadcastScript> broadcastList = broadcastMap.get(broadcastMessage);
+		//			ParallelAction parallelAction = ExtendedActions.parallel();
+		//			for (BroadcastScript script : broadcastList) {
+		//				parallelAction.addAction(sprite.createBroadcastScriptActionSequence(script));
+		//			}
+		//			addAction(ExtendedActions.sequence(parallelAction, broadcastNotifyAction));
+		//		}
+		if (broadcastSequenceList.containsKey(broadcastMessage)) {
+			if (broadcastWaitSequenceList.isEmpty()) {
+				Set<String> keys = broadcastSequenceList.keySet();
+				for (String key : keys) {
+					SequenceAction action = ExtendedActions.sequence(broadcastSequenceList.get(key),
+							ExtendedActions.broadcastNotify(event));
+					broadcastWaitSequenceList.put(key, action);
+					addAction(action);
+				}
 			}
-			addAction(ExtendedActions.sequence(parallelAction, broadcastNotifyAction));
+			SequenceAction action = broadcastWaitSequenceList.get(broadcastMessage);
+			Array<Action> actions = action.getActions();
+			BroadcastNotifyAction notifyAction = (BroadcastNotifyAction) actions.get(actions.size - 1);
+			notifyAction.setEvent(event);
+			action.restart();
 		}
 	}
 
@@ -130,6 +171,15 @@ public class Look extends Image {
 		checkImageChanged();
 		if (this.show && this.getDrawable() != null) {
 			super.draw(batch, this.alphaValue);
+		}
+	}
+
+	@Override
+	public void act(float delta) {
+		Array<Action> actions = getActions();
+		for (int i = 0, n = actions.size; i < n; i++) {
+			Action action = actions.get(i);
+			action.act(delta);
 		}
 	}
 

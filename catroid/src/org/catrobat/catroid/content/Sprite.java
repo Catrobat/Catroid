@@ -98,7 +98,9 @@ public class Sprite implements Serializable {
 			}
 			if (s instanceof BroadcastScript) {
 				BroadcastScript script = (BroadcastScript) s;
-				look.putBroadcast(script.getBroadcastMessage(), script);
+				SequenceAction action = createBroadcastScriptActionSequence(script);
+				look.broadcastSequenceList.put(script.getBroadcastMessage(), action);
+				//look.putBroadcast(script.getBroadcastMessage(), script);
 			}
 		}
 	}
@@ -107,7 +109,9 @@ public class Sprite implements Serializable {
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript) {
 				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
-					look.addAction(createActionSequence(s));
+					SequenceAction sequence = createActionSequence(s);
+					look.whenSequenceList.add(sequence);
+					look.addAction(sequence);
 				}
 			}
 		}
