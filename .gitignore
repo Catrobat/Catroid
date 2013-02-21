@@ -5,6 +5,13 @@
 # workspace settings
 *.metadata
 
+#IntelliJ IDEA
+.idea
+*.iml
+*.ipr
+*.iws
+out
+
 # files for the dex VM
 *.dex
 
