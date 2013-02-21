@@ -28,29 +28,37 @@ import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Group;
+
 public class GoNStepsBackActionTest extends AndroidTestCase {
 
 	private final int steps = 17;
 
 	public void testSteps() {
+		Group parentGroup = new Group();
+		for (int i = 0; i < 20; i++) {
+			Sprite spriteBefore = new Sprite("before" + i);
+			parentGroup.addActor(spriteBefore.look);
+		}
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite Z position", 0, sprite.look.zPosition);
+		parentGroup.addActor(sprite.look);
+		assertEquals("Unexpected initial sprite Z position", 20, sprite.look.getZIndex());
 
-		int oldPosition = sprite.look.zPosition;
+		int oldPosition = sprite.look.getZIndex();
 
 		GoNStepsBackAction action = ExtendedActions.goNStepsBack(sprite, steps);
 		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed", (oldPosition - steps),
-				sprite.look.zPosition);
+				sprite.look.getZIndex());
 
-		oldPosition = sprite.look.zPosition;
+		oldPosition = sprite.look.getZIndex();
 
 		action = ExtendedActions.goNStepsBack(sprite, -steps);
 		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed", (oldPosition + steps),
-				sprite.look.zPosition);
+				sprite.look.getZIndex());
 	}
 
 	public void testNullSprite() {
@@ -64,31 +72,31 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 	}
 
 	public void testBoundarySteps() {
-		Sprite sprite = new Sprite("testSprite");
+		Group parentGroup = new Group();
 
-		int oldPosition = sprite.look.zPosition;
+		Sprite background = new Sprite("background");
+		parentGroup.addActor(background.look);
+		assertEquals("Unexpected initial sprite Z position", 0, background.look.getZIndex());
+
+		Sprite sprite = new Sprite("testSprite");
+		parentGroup.addActor(sprite.look);
+		assertEquals("Unexpected initial sprite Z position", 1, sprite.look.getZIndex());
+
+		Sprite sprite2 = new Sprite("testSprite2");
+		parentGroup.addActor(sprite2.look);
+		assertEquals("Unexpected initial sprite Z position", 2, sprite2.look.getZIndex());
 
 		GoNStepsBackAction action = ExtendedActions.goNStepsBack(sprite, Integer.MAX_VALUE);
 		sprite.look.addAction(action);
 		action.act(1.0f);
-		assertEquals("GoNStepsBackBrick execution failed. Wrong Z position.", (oldPosition - Integer.MAX_VALUE),
-				sprite.look.zPosition);
-
-		action = ExtendedActions.goNStepsBack(sprite, Integer.MAX_VALUE);
-		sprite.look.addAction(action);
-		action.act(1.0f);
-		action.restart();
-		action.act(1.0f);
-		assertEquals("An unwanted Integer underflow occured during GoNStepsBackBrick execution.", Integer.MIN_VALUE,
-				sprite.look.zPosition);
+		assertEquals("GoNStepsBackBrick execution failed. Z position should be zero.", 1, sprite.look.getZIndex());
+		assertEquals("Unexpected sprite Z position", 2, sprite2.look.getZIndex());
 
 		action = ExtendedActions.goNStepsBack(sprite, Integer.MIN_VALUE);
 		sprite.look.addAction(action);
 		action.act(1.0f);
-		action.restart();
-		action.act(1.0f);
-		assertEquals("An unwanted Integer overflow occured during GoNStepsBackBrick execution.", Integer.MAX_VALUE,
-				sprite.look.zPosition);
+		assertEquals("An unwanted Integer overflow occured during GoNStepsBackBrick execution.", 2,
+				sprite.look.getZIndex());
 	}
 
 }

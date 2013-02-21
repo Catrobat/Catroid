@@ -31,6 +31,8 @@ import org.catrobat.catroid.test.utils.TestUtils;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Group;
+
 public class ComeToFrontActionTest extends AndroidTestCase {
 
 	@Override
@@ -41,23 +43,32 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 
 	public void testComeToFront() {
 		Project project = new Project(getContext(), "testProject");
+		Group parentGroup = new Group();
 
 		Sprite bottomSprite = new Sprite("catroid");
-		assertEquals("Unexpected initial z position of bottomSprite", 0, bottomSprite.look.zPosition);
+		parentGroup.addActor(bottomSprite.look);
+		assertEquals("Unexpected initial z position of bottomSprite", 0, bottomSprite.look.getZIndex());
+
+		Sprite middleSprite = new Sprite("catroid cat");
+		parentGroup.addActor(middleSprite.look);
+		assertEquals("Unexpected initial z position of middleSprite", 1, middleSprite.look.getZIndex());
 
 		Sprite topSprite = new Sprite("scratch");
-		assertEquals("Unexpected initial z position of topSprite", 0, topSprite.look.zPosition);
+		parentGroup.addActor(topSprite.look);
+		assertEquals("Unexpected initial z position of topSprite", 2, topSprite.look.getZIndex());
 
-		topSprite.look.zPosition = 2;
-		assertEquals("topSprite z position should now be 2", 2, topSprite.look.zPosition);
+		middleSprite.look.setZIndex(2);
+		assertEquals("topSprite z position should now be 2", 2, middleSprite.look.getZIndex());
 		project.addSprite(bottomSprite);
+		project.addSprite(middleSprite);
 		project.addSprite(topSprite);
 		ProjectManager.getInstance().setProject(project);
 
 		ComeToFrontAction action = ExtendedActions.comeToFront(bottomSprite);
 		bottomSprite.look.addAction(action);
 		action.act(1.0f);
-		assertEquals("bottomSprite z position should now be 3", bottomSprite.look.zPosition, 3);
+		assertEquals("bottomSprite z position should now be 2", bottomSprite.look.getZIndex(),
+				getZMaxValue(bottomSprite));
 	}
 
 	public void testNullSprite() {
@@ -73,18 +84,30 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 
 	public void testBoundaries() {
 		Project project = new Project(getContext(), "testProject");
+		Group parentGroup = new Group();
 
-		Sprite sprite = new Sprite("testSprite");
-		sprite.look.zPosition = Integer.MAX_VALUE;
+		Sprite firstSprite = new Sprite("firstSprite");
+		parentGroup.addActor(firstSprite.look);
+		project.addSprite(firstSprite);
 
-		project.addSprite(sprite);
+		for (int i = 0; i < 10; i++) {
+			Sprite sprite = new Sprite("testSprite" + i);
+			parentGroup.addActor(sprite.look);
+			sprite.look.setZIndex(Integer.MAX_VALUE);
+			project.addSprite(sprite);
+		}
+
 		ProjectManager.getInstance().setProject(project);
 
-		ComeToFrontAction action = ExtendedActions.comeToFront(sprite);
-		sprite.look.addAction(action);
+		ComeToFrontAction action = ExtendedActions.comeToFront(firstSprite);
+		firstSprite.look.addAction(action);
 		action.act(1.0f);
 
-		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution", Integer.MAX_VALUE,
-				sprite.look.zPosition);
+		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution", getZMaxValue(firstSprite),
+				firstSprite.look.getZIndex());
+	}
+
+	private int getZMaxValue(Sprite sprite) {
+		return sprite.look.getParent().getChildren().size - 1;
 	}
 }

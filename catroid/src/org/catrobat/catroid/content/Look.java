@@ -50,7 +50,6 @@ public class Look extends Image {
 	protected float alphaValue;
 	protected float brightnessValue;
 	public boolean show;
-	public int zPosition;
 	protected Pixmap pixmap;
 	private HashMap<String, ArrayList<BroadcastScript>> broadcastMap;
 	protected HashMap<String, ArrayList<SequenceAction>> broadcastSequenceList;
@@ -69,7 +68,6 @@ public class Look extends Image {
 		this.alphaValue = 1f;
 		this.brightnessValue = 1f;
 		this.show = true;
-		this.zPosition = 0;
 		this.broadcastMap = new HashMap<String, ArrayList<BroadcastScript>>();
 		this.whenSequenceList = new ArrayList<SequenceAction>();
 		this.broadcastSequenceList = new HashMap<String, ArrayList<SequenceAction>>();

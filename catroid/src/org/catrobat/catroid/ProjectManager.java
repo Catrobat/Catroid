@@ -38,7 +38,6 @@ import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
 import android.util.Log;
-import org.catrobat.catroid.R;
 
 public class ProjectManager {
 
@@ -107,7 +106,7 @@ public class ProjectManager {
 			// Set generic localized name on background sprite and move it to the back.
 			if (project.getSpriteList().size() > 0) {
 				project.getSpriteList().get(0).setName(context.getString(R.string.background));
-				project.getSpriteList().get(0).look.zPosition = Integer.MIN_VALUE;
+				project.getSpriteList().get(0).look.setZIndex(0);
 			}
 			currentSprite = null;
 			currentScript = null;

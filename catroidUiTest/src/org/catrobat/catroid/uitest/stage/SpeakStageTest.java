@@ -103,7 +103,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		//				assertEquals("TextToSpeech exectuted with wrong utterance id", String.valueOf(index),
 		//						textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 		//			}
-		assertTrue(true);
+		assertTrue("Only for fix test", true);
 	}
 
 	//	public void testNormalBehavior() throws InterruptedException {
@@ -185,7 +185,6 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 	//		NonBlockingSpeakBrickExecutionThread thread2 = new NonBlockingSpeakBrickExecutionThread(speakBrick);
 	//
 	//		thread1.start();
-	//		Thread.sleep(100);
 	//		assertFalse("Thread1 already finished", thread1.finished);
 	//
 	//		Reflection.setPrivateField(speakBrick, "text", "short");

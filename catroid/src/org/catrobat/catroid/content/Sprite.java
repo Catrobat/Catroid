@@ -101,7 +101,6 @@ public class Sprite implements Serializable {
 				SequenceAction action = createBroadcastScriptActionSequence(script);
 				if (look.broadcastSequenceList.containsKey(script.getBroadcastMessage())) {
 					look.broadcastSequenceList.get(script.getBroadcastMessage()).add(action);
-					int test = 1;
 				} else {
 					ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
 					actionList.add(action);

@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import java.util.List;
-
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
@@ -35,21 +32,7 @@ public class ComeToFrontAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		int highestPosition = 0;
-		for (Sprite sprite : spriteList) {
-			if (highestPosition < sprite.look.zPosition) {
-				highestPosition = sprite.look.zPosition;
-				if (sprite == this.sprite) {
-					highestPosition--;
-				}
-			}
-		}
-		if (highestPosition > highestPosition + 1) {
-			sprite.look.zPosition = Integer.MAX_VALUE;
-		} else {
-			sprite.look.zPosition = highestPosition + 1;
-		}
+		sprite.look.toFront();
 	}
 
 	public Sprite getSprite() {

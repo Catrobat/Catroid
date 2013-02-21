@@ -31,16 +31,20 @@ import org.catrobat.catroid.content.Sprite;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 public class LookTest extends InstrumentationTestCase {
 	private Look look;
 	private Sprite sprite;
+	private Group parentGroup;
 	private Project project;
 
 	@Override
 	protected void setUp() {
+		parentGroup = new Group();
 		sprite = new Sprite("test");
+		parentGroup.addActor(sprite.look);
 		look = sprite.look;
 	}
 
@@ -57,7 +61,7 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals("Wrong initialization!", 1f, look.getAlphaValue());
 		assertEquals("Wrong initialization!", 1f, look.getBrightnessValue());
 		assertEquals("Wrong initialization!", 1f, look.getSize());
-		assertEquals("Wrong initialization!", 0, look.zPosition);
+		assertEquals("Wrong initialization!", 0, look.getZIndex());
 		assertEquals("Wrong initialization!", true, look.show);
 		assertEquals("Wrong initialization!", Touchable.enabled, look.getTouchable());
 		assertEquals("Wrong initialization!", "", look.getImagePath());

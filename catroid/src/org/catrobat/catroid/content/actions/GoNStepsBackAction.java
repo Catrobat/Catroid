@@ -33,13 +33,13 @@ public class GoNStepsBackAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		int zPosition = sprite.look.zPosition;
-		if (steps > 0 && (zPosition - steps) > zPosition) {
-			sprite.look.zPosition = Integer.MIN_VALUE;
+		int zPosition = sprite.look.getZIndex();
+		if (steps > 0 && (zPosition - steps) < 1) {
+			sprite.look.setZIndex(1);
 		} else if (steps < 0 && (zPosition - steps) < zPosition) {
-			sprite.look.zPosition = Integer.MAX_VALUE;
+			sprite.look.toFront();
 		} else {
-			sprite.look.zPosition -= steps;
+			sprite.look.setZIndex(zPosition - steps);
 		}
 	}
 
