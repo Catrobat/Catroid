@@ -23,7 +23,6 @@
 package org.catrobat.catroid.uitest.stage;
 
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.FileChecksumContainer;
@@ -32,11 +31,9 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.stage.OnUtteranceCompletedListenerContainer;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -65,15 +62,15 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 
-		textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext());
-
-		OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer = new OnUtteranceCompletedListenerContainer();
-		textToSpeechMock.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
-
-		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
-		Reflection.setPrivateField(PreStageActivity.class, "onUtteranceCompletedListenerContainer",
-				onUtteranceCompletedListenerContainer);
-		Reflection.setPrivateField(SpeakAction.class, "utteranceIdPool", new AtomicInteger());
+		//		textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext());
+		//
+		//		OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer = new OnUtteranceCompletedListenerContainer();
+		//		textToSpeechMock.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
+		//
+		//		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
+		//		Reflection.setPrivateField(PreStageActivity.class, "onUtteranceCompletedListenerContainer",
+		//				onUtteranceCompletedListenerContainer);
+		//		Reflection.setPrivateField(SpeakAction.class, "utteranceIdPool", new AtomicInteger());
 	}
 
 	@Override
