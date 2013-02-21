@@ -135,13 +135,11 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 
 		if (projectName.length() == 0) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_no_name_entered));
-			dismiss();
 			return;
 		}
 
 		if (StorageHandler.getInstance().projectExistsIgnoreCase(projectName)) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_project_exists));
-			dismiss();
 			return;
 		}
 
