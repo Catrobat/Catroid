@@ -234,12 +234,12 @@ public class MediaPathTest extends InstrumentationTestCase {
 	public void testLookDataListAndSoundInfoListInProjectFile() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
 		String projectString = TestUtils.getProjectfileAsString(projectName);
-		assertTrue("LookDataList not in project", projectString.contains("LookList"));
-		assertTrue("SoundList not in project", projectString.contains("SoundList"));
+		assertTrue("LookDataList not in project", projectString.contains("lookList"));
+		assertTrue("SoundList not in project", projectString.contains("soundList"));
 		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
 		projectString = TestUtils.getProjectfileAsString(projectName);
-		assertTrue("LookDataList not in project", projectString.contains("LookList"));
-		assertTrue("SoundList not in project", projectString.contains("SoundList"));
+		assertTrue("LookDataList not in project", projectString.contains("lookList"));
+		assertTrue("SoundList not in project", projectString.contains("soundList"));
 	}
 
 	private void fillProjectWithAllBricksAndMediaFiles() throws IOException {
