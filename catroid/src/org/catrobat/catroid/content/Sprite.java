@@ -99,8 +99,14 @@ public class Sprite implements Serializable {
 			if (s instanceof BroadcastScript) {
 				BroadcastScript script = (BroadcastScript) s;
 				SequenceAction action = createBroadcastScriptActionSequence(script);
-				look.broadcastSequenceList.put(script.getBroadcastMessage(), action);
-				//look.putBroadcast(script.getBroadcastMessage(), script);
+				if (look.broadcastSequenceList.containsKey(script.getBroadcastMessage())) {
+					look.broadcastSequenceList.get(script.getBroadcastMessage()).add(action);
+					int test = 1;
+				} else {
+					ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
+					actionList.add(action);
+					look.broadcastSequenceList.put(script.getBroadcastMessage(), actionList);
+				}
 			}
 		}
 	}

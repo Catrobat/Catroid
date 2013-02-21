@@ -53,8 +53,8 @@ public class Look extends Image {
 	public int zPosition;
 	protected Pixmap pixmap;
 	private HashMap<String, ArrayList<BroadcastScript>> broadcastMap;
-	protected HashMap<String, SequenceAction> broadcastSequenceList;
-	protected HashMap<String, SequenceAction> broadcastWaitSequenceList;
+	protected HashMap<String, ArrayList<SequenceAction>> broadcastSequenceList;
+	protected HashMap<String, ArrayList<SequenceAction>> broadcastWaitSequenceList;
 	protected ArrayList<SequenceAction> whenSequenceList;
 	private boolean broadcastFirst = true;
 	private boolean allActionAreFinished = false;
@@ -72,8 +72,8 @@ public class Look extends Image {
 		this.zPosition = 0;
 		this.broadcastMap = new HashMap<String, ArrayList<BroadcastScript>>();
 		this.whenSequenceList = new ArrayList<SequenceAction>();
-		this.broadcastSequenceList = new HashMap<String, SequenceAction>();
-		this.broadcastWaitSequenceList = new HashMap<String, SequenceAction>();
+		this.broadcastSequenceList = new HashMap<String, ArrayList<SequenceAction>>();
+		this.broadcastWaitSequenceList = new HashMap<String, ArrayList<SequenceAction>>();
 		this.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -119,51 +119,41 @@ public class Look extends Image {
 	}
 
 	public void doHandleBroadcastEvent(String broadcastMessage) {
-		//		if (broadcastMap.containsKey(broadcastMessage)) {
-		//			ArrayList<BroadcastScript> broadcastList = broadcastMap.get(broadcastMessage);
-		//			ParallelAction parallelAction = ExtendedActions.parallel();
-		//			for (BroadcastScript script : broadcastList) {
-		//				parallelAction.addAction(sprite.createBroadcastScriptActionSequence(script));
-		//			}
-		//			addAction(parallelAction);
-		//		}
 		if (broadcastSequenceList.containsKey(broadcastMessage)) {
 			Set<String> keys = broadcastSequenceList.keySet();
 			if (broadcastFirst) {
 				for (String key : keys) {
-					addAction(broadcastSequenceList.get(key));
+					for (SequenceAction action : broadcastSequenceList.get(key)) {
+						addAction(action);
+					}
 				}
 				broadcastFirst = false;
 			}
-			broadcastSequenceList.get(broadcastMessage).restart();
+			for (SequenceAction action : broadcastSequenceList.get(broadcastMessage)) {
+				action.restart();
+			}
 		}
 	}
 
 	public void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
-		//		if (broadcastMap.containsKey(broadcastMessage)) {
-		//			Action broadcastNotifyAction = ExtendedActions.broadcastNotify(event);
-		//			ArrayList<BroadcastScript> broadcastList = broadcastMap.get(broadcastMessage);
-		//			ParallelAction parallelAction = ExtendedActions.parallel();
-		//			for (BroadcastScript script : broadcastList) {
-		//				parallelAction.addAction(sprite.createBroadcastScriptActionSequence(script));
-		//			}
-		//			addAction(ExtendedActions.sequence(parallelAction, broadcastNotifyAction));
-		//		}
 		if (broadcastSequenceList.containsKey(broadcastMessage)) {
-			if (broadcastWaitSequenceList.isEmpty()) {
-				Set<String> keys = broadcastSequenceList.keySet();
-				for (String key : keys) {
-					SequenceAction action = ExtendedActions.sequence(broadcastSequenceList.get(key),
+			if (!broadcastWaitSequenceList.containsKey(broadcastMessage)) {
+				ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
+				for (SequenceAction broadcastAction : broadcastSequenceList.get(broadcastMessage)) {
+					SequenceAction broadcastWaitAction = ExtendedActions.sequence(broadcastAction,
 							ExtendedActions.broadcastNotify(event));
-					broadcastWaitSequenceList.put(key, action);
-					addAction(action);
+					actionList.add(broadcastWaitAction);
+					addAction(broadcastWaitAction);
 				}
+				broadcastWaitSequenceList.put(broadcastMessage, actionList);
 			}
-			SequenceAction action = broadcastWaitSequenceList.get(broadcastMessage);
-			Array<Action> actions = action.getActions();
-			BroadcastNotifyAction notifyAction = (BroadcastNotifyAction) actions.get(actions.size - 1);
-			notifyAction.setEvent(event);
-			action.restart();
+			ArrayList<SequenceAction> actionList = broadcastWaitSequenceList.get(broadcastMessage);
+			for (SequenceAction action : actionList) {
+				Array<Action> actions = action.getActions();
+				BroadcastNotifyAction notifyAction = (BroadcastNotifyAction) actions.get(actions.size - 1);
+				notifyAction.setEvent(event);
+				action.restart();
+			}
 		}
 	}
 

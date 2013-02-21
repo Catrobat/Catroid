@@ -31,36 +31,36 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.Action;
 
-public class SpeakAction extends TemporalAction {
+public class SpeakAction extends Action {
 
 	private String text;
 	private SpeakBrick speakBrick;
 	private static AtomicInteger utteranceIdPool = new AtomicInteger();
+	private boolean executeOnce = true;
+	private boolean speakFinished = false;
 
 	@Override
-	protected void update(float percent) {
-		OnUtteranceCompletedListener listener = new OnUtteranceCompletedListener() {
+	public boolean act(float delta) {
+		if (executeOnce) {
+			OnUtteranceCompletedListener listener = new OnUtteranceCompletedListener() {
 
-			@Override
-			public void onUtteranceCompleted(String utteranceId) {
-				synchronized (this) {
-					this.notify();
+				@Override
+				public void onUtteranceCompleted(String utteranceId) {
+					speakFinished = true;
 				}
-			}
-		};
-		HashMap<String, String> speakParameter = new HashMap<String, String>();
-		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
-				String.valueOf(utteranceIdPool.getAndIncrement()));
-
-		synchronized (listener) {
+			};
+			HashMap<String, String> speakParameter = new HashMap<String, String>();
+			speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
+					String.valueOf(utteranceIdPool.getAndIncrement()));
 			PreStageActivity.textToSpeech(getText(), listener, speakParameter);
-			try {
-				listener.wait();
-			} catch (InterruptedException interruptedException) {
-			}
+			executeOnce = false;
 		}
+		if (speakFinished) {
+			return true;
+		}
+		return false;
 	}
 
 	public String getText() {
