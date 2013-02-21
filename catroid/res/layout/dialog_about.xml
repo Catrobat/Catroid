@@ -20,6 +20,7 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -47,5 +48,21 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:textSize="8dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialog_about_text_view_version_name"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/dialog_about_ok_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/bottom_separator"
+            android:text="@string/ok" />
+    </LinearLayout>
 
 </LinearLayout>
