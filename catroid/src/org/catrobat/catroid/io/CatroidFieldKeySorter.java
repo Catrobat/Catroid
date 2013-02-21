@@ -39,16 +39,16 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 		final Map map = new TreeMap(new Comparator() {
 
 			@Override
-			public int compare(final Object o1, final Object o2) {
-				final FieldKey fieldKey1 = (FieldKey) o1;
-				final FieldKey fieldKey2 = (FieldKey) o2;
-				int i = fieldKey1.getDepth() - fieldKey2.getDepth();
-				if (i == 0) {
-					String fieldNameOrAlias1 = getFieldNameOrAlias(fieldKey1);
-					String fieldNameOrAlias2 = getFieldNameOrAlias(fieldKey2);
-					i = fieldNameOrAlias1.compareTo(fieldNameOrAlias2);
+			public int compare(final Object objectOne, final Object objectTwo) {
+				final FieldKey fieldKeyOne = (FieldKey) objectOne;
+				final FieldKey fieldKeyTwo = (FieldKey) objectTwo;
+				int fieldKeyComparator = fieldKeyOne.getDepth() - fieldKeyTwo.getDepth();
+				if (fieldKeyComparator == 0) {
+					String fieldNameOrAlias1 = getFieldNameOrAlias(fieldKeyOne);
+					String fieldNameOrAlias2 = getFieldNameOrAlias(fieldKeyTwo);
+					fieldKeyComparator = fieldNameOrAlias1.compareTo(fieldNameOrAlias2);
 				}
-				return i;
+				return fieldKeyComparator;
 			}
 		});
 		map.putAll(keyedByFieldKey);
