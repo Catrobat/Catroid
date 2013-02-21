@@ -34,6 +34,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
@@ -134,12 +135,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
 
-		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-		try {
-			Utils.loadProjectIfNeeded(scriptActivity, scriptActivity);
-		} catch (ClassCastException exception) {
-			Log.e("CATROID", scriptActivity.toString() + " does not implement ErrorListenerInterface", exception);
-		}
+		Utils.loadProjectIfNeeded(getActivity());
 	}
 
 	@Override
@@ -235,7 +231,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			stopSoundAndUpdateList();
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), false);
+			BottomBar.disableButtons(getActivity());
 			isRenameActionMode = true;
 		}
 	}
@@ -246,7 +242,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			stopSoundAndUpdateList();
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), false);
+			BottomBar.disableButtons(getActivity());
 			isRenameActionMode = false;
 		}
 	}
@@ -333,8 +329,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		}
 
 		if (audioPath.equalsIgnoreCase("")) {
-			Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
-					getString(R.string.error_load_sound));
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_load_sound));
 		} else {
 			new CopyAudioFilesTask().execute(audioPath);
 		}
@@ -532,8 +527,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				String soundTitle = fileName.substring(fileName.indexOf('_') + 1, fileName.lastIndexOf('.'));
 				updateSoundAdapter(soundTitle, fileName);
 			} else {
-				Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
-						getString(R.string.error_load_sound));
+				Utils.showErrorDialog(getActivity(), getString(R.string.error_load_sound));
 			}
 		}
 	}
@@ -601,7 +595,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			setActionModeActive(false);
 
 			registerForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), true);
+			BottomBar.enableButtons(getActivity());
 		}
 	};
 
@@ -652,7 +646,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			setActionModeActive(false);
 
 			registerForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), true);
+			BottomBar.enableButtons(getActivity());
 		}
 	};
 

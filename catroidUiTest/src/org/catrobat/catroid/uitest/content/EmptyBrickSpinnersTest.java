@@ -26,7 +26,6 @@ import java.io.IOException;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.SoundInfo;
@@ -42,8 +41,6 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.uitest.util.XMLValidationUtil;
-import org.catrobat.catroid.utils.Utils;
 import org.json.JSONException;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -109,8 +106,9 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 		solo.goBack();
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
-		String projectXMLPath = Utils.buildPath(Utils.buildProjectPath(TEST_PROJECT_NAME), Constants.PROJECTCODE_NAME);
-		XMLValidationUtil.sendProjectXMLToServerForValidating(projectXMLPath);
+		// TODO: add XML validation based on xsd
+		//	String projectXMLPath = Utils.buildPath(Utils.buildProjectPath(TEST_PROJECT_NAME), Constants.PROJECTCODE_NAME);
+		//	XMLValidationUtil.sendProjectXMLToServerForValidating(projectXMLPath);
 	}
 
 	private void createSpinnerProject() {

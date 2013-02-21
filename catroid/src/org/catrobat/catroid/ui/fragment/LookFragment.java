@@ -35,6 +35,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
 import org.catrobat.catroid.ui.adapter.LookAdapter.OnLookEditListener;
@@ -68,7 +69,6 @@ import android.support.v4.content.Loader;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -146,12 +146,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		adapter.setOnLookEditListener(this);
 		setListAdapter(adapter);
 
-		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-		try {
-			Utils.loadProjectIfNeeded(scriptActivity, scriptActivity);
-		} catch (ClassCastException exception) {
-			Log.e("CATROID", scriptActivity.toString() + " does not implement ErrorListenerInterface", exception);
-		}
+		Utils.loadProjectIfNeeded(getActivity());
+
 	}
 
 	@Override
@@ -318,7 +314,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 
 		if (catchedExpetion || (data == null && originalImagePath.equals(""))) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_load_image));
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_load_image));
 			return;
 		}
 		copyImageToCatroid(originalImagePath);
@@ -376,7 +372,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
 			unregisterForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), false);
+			BottomBar.disableButtons(getActivity());
 			isRenameActionMode = false;
 		}
 	}
@@ -386,7 +382,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), false);
+			BottomBar.disableButtons(getActivity());
 			isRenameActionMode = true;
 		}
 	}
@@ -396,7 +392,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), false);
+			BottomBar.disableButtons(getActivity());
 			isRenameActionMode = false;
 		}
 	}
@@ -478,7 +474,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
 
 		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_load_image));
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_load_image));
 			return;
 		}
 
@@ -511,8 +507,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				pixmap = Utils.getPixmapFromFile(imageFile);
 
 				if (pixmap == null) {
-					Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
-							getString(R.string.error_load_image));
+					Utils.showErrorDialog(getActivity(), getString(R.string.error_load_image));
 					StorageHandler.getInstance().deleteFile(imageFile.getAbsolutePath());
 					return;
 				}
@@ -520,7 +515,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			pixmap = null;
 			updateLookAdapter(imageName, imageFileName);
 		} catch (IOException e) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_load_image));
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_load_image));
 		}
 		getLoaderManager().destroyLoader(ID_LOADER_MEDIA_IMAGE);
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
@@ -557,7 +552,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		int[] imageDimensions = ImageEditing.getImageDimensions(pathOfPaintroidImage);
 		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), this.getString(R.string.error_load_image));
+			Utils.showErrorDialog(getActivity(), this.getString(R.string.error_load_image));
 			return;
 		}
 
@@ -591,7 +586,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 			int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
 			if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
-				Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_load_image));
+				Utils.showErrorDialog(getActivity(), getString(R.string.error_load_image));
 				return;
 			}
 			copyImageToCatroid(originalImagePath);
@@ -720,7 +715,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			setActionModeActive(false);
 
 			registerForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), true);
+			BottomBar.enableButtons(getActivity());
 		}
 	};
 
@@ -763,7 +758,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			setActionModeActive(false);
 
 			registerForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), true);
+			BottomBar.enableButtons(getActivity());
 		}
 	};
 
@@ -812,7 +807,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			setActionModeActive(false);
 
 			registerForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), true);
+			BottomBar.enableButtons(getActivity());
 		}
 	};
 
@@ -838,7 +833,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 			updateLookAdapter(imageName, imageFileName);
 		} catch (IOException e) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_load_image));
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_load_image));
 			e.printStackTrace();
 		}
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));

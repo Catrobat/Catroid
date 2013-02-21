@@ -28,6 +28,7 @@
  */
 package org.catrobat.catroid.ui.dragndrop;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.utils.Utils;
@@ -49,7 +50,6 @@ import android.view.View.OnLongClickListener;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
-import org.catrobat.catroid.R;
 
 public class DragAndDropListView extends ListView implements OnLongClickListener {
 
@@ -379,9 +379,9 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		}
 	}
 
-	public boolean setHoveringBrick() {
+	public void animateHoveringBrick() {
 		if (dragView == null) {
-			return false;
+			return;
 		}
 
 		WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView.getLayoutParams();
@@ -393,8 +393,6 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			getWindowManager().addView(dragView, dragViewParameters);
 			blinkAnimationTimestamp = now + 800;
 		}
-
-		return true;
 	}
 
 	public boolean isCurrentlyDragging() {
