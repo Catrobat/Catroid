@@ -33,8 +33,6 @@ import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
-import org.catrobat.catroid.utils.ErrorListenerInterface;
-import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
 import android.media.AudioManager;
@@ -54,7 +52,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class ScriptActivity extends SherlockFragmentActivity implements ErrorListenerInterface {
+public class ScriptActivity extends SherlockFragmentActivity {
 	public static final int FRAGMENT_SCRIPTS = 0;
 	public static final int FRAGMENT_LOOKS = 1;
 	public static final int FRAGMENT_SOUNDS = 2;
@@ -270,7 +268,7 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 			ProjectManager projectManager = ProjectManager.getInstance();
 			int currentSpritePosition = projectManager.getCurrentSpritePosition();
 			int currentScriptPosition = projectManager.getCurrentScriptPosition();
-			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, this, false);
+			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 			projectManager.setCurrentSpriteWithPosition(currentSpritePosition);
 			projectManager.setCurrentScriptWithPosition(currentScriptPosition);
 		}
@@ -305,11 +303,6 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 			Intent intent = new Intent(this, PreStageActivity.class);
 			startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 		}
-	}
-
-	@Override
-	public void showErrorDialog(String errorMessage) {
-		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
 	}
 
 	@Override

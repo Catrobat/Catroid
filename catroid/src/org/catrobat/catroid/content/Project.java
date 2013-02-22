@@ -30,10 +30,11 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.xml.parser.XMLAlias;
 
 import android.content.Context;
 import android.os.Build;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public class Project implements Serializable {
 
@@ -42,9 +43,9 @@ public class Project implements Serializable {
 
 	private String programName;
 	private String description;
-	@XMLAlias("screenWidth")
+	@XStreamAlias("screenWidth")
 	public int virtualScreenWidth = 0;
-	@XMLAlias("screenHeight")
+	@XStreamAlias("screenHeight")
 	public int virtualScreenHeight = 0;
 	private float catrobatLanguageVersion;
 

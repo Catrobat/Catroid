@@ -33,7 +33,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
@@ -58,8 +57,7 @@ public class ProjectManager {
 		return INSTANCE;
 	}
 
-	public boolean loadProject(String projectName, Context context, ErrorListenerInterface errorListener,
-			boolean errorMessage) {
+	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
 		fileChecksumContainer = new FileChecksumContainer();
 		messageContainer = new MessageContainer();
 		Project oldProject = project;
@@ -74,31 +72,31 @@ public class ProjectManager {
 					try {
 						project = StandardProjectHandler.createAndSaveStandardProject(context);
 					} catch (IOException e) {
-						if (errorMessage && errorListener != null) {
-							errorListener.showErrorDialog(context.getString(R.string.error_load_project));
+						if (errorMessage) {
+							Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
 						}
 						Log.e("CATROID", "Cannot load project.", e);
 						return false;
 					}
 				}
 			}
-			if (errorMessage && errorListener != null) {
-				errorListener.showErrorDialog(context.getString(R.string.error_load_project));
+			if (errorMessage) {
+				Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
 			}
 			return false;
 		} else if (!Utils.isApplicationDebuggable(context)
 				&& (project.getCatrobatLanguageVersion() > Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION)) {
 			project = oldProject;
-			if (errorMessage && errorListener != null) {
-				errorListener.showErrorDialog(context.getString(R.string.error_project_compatability));
+			if (errorMessage) {
+				Utils.showErrorDialog(context, context.getString(R.string.error_project_compatability));
 				// TODO show dialog to download latest catroid version instead
 			}
 			return false;
 		} else if (!Utils.isApplicationDebuggable(context)
 				&& (project.getCatrobatLanguageVersion() < Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION)) {
 			project = oldProject;
-			if (errorMessage && errorListener != null) {
-				errorListener.showErrorDialog(context.getString(R.string.error_project_compatability));
+			if (errorMessage) {
+				Utils.showErrorDialog(context, context.getString(R.string.error_project_compatability));
 				// TODO show dialog to convert project to a supported version
 			}
 			return false;
@@ -131,7 +129,7 @@ public class ProjectManager {
 		return StorageHandler.getInstance().saveProject(project);
 	}
 
-	public boolean initializeDefaultProject(Context context, ErrorListenerInterface errorListener) {
+	public boolean initializeDefaultProject(Context context) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
 			messageContainer = new MessageContainer();
@@ -141,7 +139,7 @@ public class ProjectManager {
 			return true;
 		} catch (Exception e) {
 			Log.e("CATROID", "Cannot initialize default project.", e);
-			errorListener.showErrorDialog(context.getString(R.string.error_load_project));
+			Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
 			return false;
 		}
 	}
@@ -172,9 +170,9 @@ public class ProjectManager {
 		project = null;
 	}
 
-	public boolean renameProject(String newProjectName, Context context, ErrorListenerInterface errorListener) {
+	public boolean renameProject(String newProjectName, Context context) {
 		if (StorageHandler.getInstance().projectExistsCheckCase(newProjectName)) {
-			errorListener.showErrorDialog(context.getString(R.string.error_project_exists));
+			Utils.showErrorDialog(context, context.getString(R.string.error_project_exists));
 			return false;
 		}
 
@@ -203,16 +201,15 @@ public class ProjectManager {
 		}
 
 		if (!directoryRenamed) {
-			errorListener.showErrorDialog(context.getString(R.string.error_rename_project));
+			Utils.showErrorDialog(context, context.getString(R.string.error_rename_project));
 		}
 
 		return directoryRenamed;
 	}
 
-	public boolean renameProjectNameAndDescription(String newProjectName, String newProjectDescription,
-			Context context, ErrorListenerInterface errorListener) {
+	public boolean renameProjectNameAndDescription(String newProjectName, String newProjectDescription, Context context) {
 		if (StorageHandler.getInstance().projectExistsCheckCase(newProjectName)) {
-			errorListener.showErrorDialog(context.getString(R.string.error_project_exists));
+			Utils.showErrorDialog(context, context.getString(R.string.error_project_exists));
 			return false;
 		}
 
@@ -242,7 +239,7 @@ public class ProjectManager {
 		}
 
 		if (!directoryRenamed) {
-			errorListener.showErrorDialog(context.getString(R.string.error_rename_project));
+			Utils.showErrorDialog(context, context.getString(R.string.error_rename_project));
 		}
 
 		return directoryRenamed;

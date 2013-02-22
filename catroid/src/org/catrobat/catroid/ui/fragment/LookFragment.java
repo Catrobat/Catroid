@@ -69,7 +69,6 @@ import android.support.v4.content.Loader;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -147,12 +146,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		adapter.setOnLookEditListener(this);
 		setListAdapter(adapter);
 
-		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-		try {
-			Utils.loadProjectIfNeeded(scriptActivity, scriptActivity);
-		} catch (ClassCastException exception) {
-			Log.e("CATROID", scriptActivity.toString() + " does not implement ErrorListenerInterface", exception);
-		}
+		Utils.loadProjectIfNeeded(getActivity());
+
 	}
 
 	@Override
@@ -319,7 +314,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 
 		if (catchedExpetion || (data == null && originalImagePath.equals(""))) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_load_image));
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_load_image));
 			return;
 		}
 		copyImageToCatroid(originalImagePath);
@@ -479,7 +474,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
 
 		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_load_image));
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_load_image));
 			return;
 		}
 
@@ -512,8 +507,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				pixmap = Utils.getPixmapFromFile(imageFile);
 
 				if (pixmap == null) {
-					Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
-							getString(R.string.error_load_image));
+					Utils.showErrorDialog(getActivity(), getString(R.string.error_load_image));
 					StorageHandler.getInstance().deleteFile(imageFile.getAbsolutePath());
 					return;
 				}
@@ -521,7 +515,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			pixmap = null;
 			updateLookAdapter(imageName, imageFileName);
 		} catch (IOException e) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_load_image));
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_load_image));
 		}
 		getLoaderManager().destroyLoader(ID_LOADER_MEDIA_IMAGE);
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
@@ -558,7 +552,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		int[] imageDimensions = ImageEditing.getImageDimensions(pathOfPaintroidImage);
 		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), this.getString(R.string.error_load_image));
+			Utils.showErrorDialog(getActivity(), this.getString(R.string.error_load_image));
 			return;
 		}
 
@@ -592,7 +586,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 			int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
 			if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
-				Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_load_image));
+				Utils.showErrorDialog(getActivity(), getString(R.string.error_load_image));
 				return;
 			}
 			copyImageToCatroid(originalImagePath);
@@ -839,7 +833,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 			updateLookAdapter(imageName, imageFileName);
 		} catch (IOException e) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_load_image));
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_load_image));
 			e.printStackTrace();
 		}
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
