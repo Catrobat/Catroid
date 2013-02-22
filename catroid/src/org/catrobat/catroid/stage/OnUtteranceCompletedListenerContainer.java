@@ -20,25 +20,26 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.brick;
+package org.catrobat.catroid.stage;
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.SpeakBrick;
+import java.util.HashMap;
+import java.util.Map;
 
-import android.test.AndroidTestCase;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 
-public class SpeakBrickTest extends AndroidTestCase {
+public class OnUtteranceCompletedListenerContainer implements OnUtteranceCompletedListener {
+	private final Map<String, OnUtteranceCompletedListener> listeners = new HashMap<String, TextToSpeech.OnUtteranceCompletedListener>();
 
-	public void testSpeak() {
-		String text = "hello world!";
-		Sprite sprite = new Sprite("testSprite");
-		SpeakBrick speakBrick = new SpeakBrick(sprite, text);
-		assertEquals("Stored wrong text in speak brick", text, speakBrick.getText());
+	public synchronized void addOnUtteranceCompletedListener(OnUtteranceCompletedListener onUtteranceCompletedListener,
+			String utteranceId) {
+		listeners.put(utteranceId, onUtteranceCompletedListener);
 	}
 
-	public void testRequirements() {
-		SpeakBrick speakBrick = new SpeakBrick(null, null);
-		assertEquals("Wrong required brick resources", Brick.TEXT_TO_SPEECH, speakBrick.getRequiredResources());
+	@Override
+	public synchronized void onUtteranceCompleted(String utteranceId) {
+		listeners.get(utteranceId).onUtteranceCompleted(utteranceId);
+		listeners.remove(utteranceId);
 	}
+
 }
