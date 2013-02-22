@@ -22,16 +22,20 @@
  */
 package org.catrobat.catroid.uitest.ui.fragment;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -66,7 +70,6 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
 		}
 
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -129,8 +132,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.goBack();
 
 		solo.clickOnText(categoryLooksLabel);
-		assertTrue("AddBrickDialog was not opened after selecting a category",
-				solo.waitForText(brickSetLook, 0, 2000));
+		assertTrue("AddBrickDialog was not opened after selecting a category", solo.waitForText(brickSetLook, 0, 2000));
 		solo.goBack();
 
 		solo.clickOnText(categorySoundLabel);
@@ -225,6 +227,21 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testBackgroundBricks() {
+		Project standardProject = null;
+		try {
+			standardProject = StandardProjectHandler.createAndSaveStandardProject(
+					UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
+		} catch (IOException e) {
+			fail("Could not create standard project");
+			e.printStackTrace();
+		}
+
+		if (standardProject == null) {
+			fail("Could not create standard project");
+		}
+		ProjectManager.INSTANCE.setProject(standardProject);
+		StorageHandler.getInstance().saveProject(standardProject);
+
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		String categoryLooks = solo.getString(R.string.category_looks);
 		String categoryMotion = solo.getString(R.string.category_motion);
