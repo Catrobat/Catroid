@@ -22,8 +22,13 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -38,6 +43,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private Solo solo;
+	private Project project;
 	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
 
 	//private static final TextView TextView = null;
@@ -57,6 +63,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		}
 
 		super.setUp();
+		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 		getIntoActivity();
 	}
@@ -98,7 +105,6 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String YPositionValueSetY = Integer.toString(BrickValues.Y_POSITION);
 		assertEquals("Value in Brick SetYTo are not correct", YPositionValueSetY, SetYtoPrototype);
 
-		//solo.scrollDown();
 		solo.searchText(solo.getString(R.string.brick_change_x_by));
 		TextView ChangeXBy = (TextView) solo.getView(R.id.brick_change_x_prototype_text_view);
 		String ChangeXByPrototype = ChangeXBy.getText().toString();
@@ -152,6 +158,11 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String GlideYPrototype = GlideY.getText().toString();
 		String GlideYValue = Integer.toString(BrickValues.Y_POSITION);
 		assertEquals("Value in Brick GlideY are not correct", GlideYValue, GlideYPrototype);
+
+		//TextView GoBack = (TextView) solo.getView(R.id.brick_go_back_prototype_text_view);
+		//String GoBackPrototype = GoBack.getText().toString();
+		//String GoBackValue = Integer.toString(BrickValues.GO_BACK);
+		//assertEquals("Value in Brick GoBack are not correct", GoBackValue, GoBackPrototype);
 
 		solo.clickOnText(solo.getString(R.string.brick_point_in_direction));
 		solo.clickOnScreen(200, 200);
@@ -339,6 +350,18 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		}
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+	}
+
+	private void createProject() {
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Sprite sprite = new Sprite("Dog");
+		Script script = new StartScript(sprite);
+		sprite.addScript(script);
+		project.addSprite(sprite);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(script);
 	}
 
 }
