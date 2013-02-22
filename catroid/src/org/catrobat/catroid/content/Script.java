@@ -42,7 +42,6 @@ public abstract class Script implements Serializable {
 	//private transient volatile boolean finish;
 	private transient int executingBrickIndex;
 	protected Sprite sprite;
-	private transient ArrayList<SequenceAction> sequenceList;
 
 	public Script() {
 	}
@@ -56,7 +55,6 @@ public abstract class Script implements Serializable {
 
 	public Script(Sprite sprite) {
 		brickList = new ArrayList<Brick>();
-		sequenceList = new ArrayList<SequenceAction>();
 		this.sprite = sprite;
 		init();
 	}
@@ -67,7 +65,7 @@ public abstract class Script implements Serializable {
 	}
 
 	public void run(SequenceAction sequence) {
-		sequenceList.clear();
+		ArrayList<SequenceAction> sequenceList = new ArrayList<SequenceAction>();
 		sequenceList.add(sequence);
 		for (int i = 0; i < brickList.size(); i++) {
 			SequenceAction action = brickList.get(i).addActionToSequence(sequenceList.get(sequenceList.size() - 1));
