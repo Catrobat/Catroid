@@ -631,7 +631,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 
 		View currentBrickView;
-		if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position) instanceof DeadEndBrick) {
+		if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position - 1) instanceof DeadEndBrick) {
 			currentBrickView = ((AllowedAfterDeadEndBrick) item).getNoPuzzleView(context, position, this);
 		} else {
 			currentBrickView = ((Brick) item).getView(context, position, this);
