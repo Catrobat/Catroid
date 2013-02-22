@@ -63,6 +63,12 @@ public class SpeakAction extends Action {
 		return false;
 	}
 
+	@Override
+	public void restart() {
+		executeOnce = true;
+		speakFinished = false;
+	}
+
 	public String getText() {
 		return text;
 	}

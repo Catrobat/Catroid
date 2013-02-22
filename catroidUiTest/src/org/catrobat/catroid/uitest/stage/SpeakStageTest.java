@@ -23,16 +23,19 @@
 package org.catrobat.catroid.uitest.stage;
 
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.content.actions.SpeakAction;
+import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
-import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
@@ -49,7 +52,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 	private Solo solo;
 	private TextToSpeechMock textToSpeechMock;
 	private Object textToSpeechInitLock = new Object();
-	private Sprite sprite1, sprite2;
+	private Sprite sprite1, sprite2, sprite3;
 	private String textMessage = "This is a very long test text.";
 
 	public SpeakStageTest() {
@@ -60,17 +63,19 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 	public void setUp() throws Exception {
 		createProjectToInitializeTextToSpeech();
 		solo = new Solo(getInstrumentation(), getActivity());
-		super.setUp();
 
-		//		textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext());
-		//
+		synchronized (textToSpeechInitLock) {
+			textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext());
+			textToSpeechInitLock.wait(2000);
+		}
+
 		//		OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer = new OnUtteranceCompletedListenerContainer();
 		//		textToSpeechMock.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
-		//
-		//		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
+
+		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
 		//		Reflection.setPrivateField(PreStageActivity.class, "onUtteranceCompletedListenerContainer",
 		//				onUtteranceCompletedListenerContainer);
-		//		Reflection.setPrivateField(SpeakAction.class, "utteranceIdPool", new AtomicInteger());
+		Reflection.setPrivateField(SpeakAction.class, "utteranceIdPool", new AtomicInteger());
 	}
 
 	@Override
@@ -83,119 +88,98 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		textToSpeechMock = null;
 	}
 
-	//	public void testNullText() {
-	//		assertEquals("Initialized TextToSpeechMock with wrong text value", null, textToSpeechMock.text);
-	//		PreStageActivity.textToSpeech(null, null, new HashMap<String, String>());
-	//		assertEquals("Null-text isn't converted into empty string", "", textToSpeechMock.text);
-	//	}
-
-	public void testUtteranceId() throws InterruptedException {
-		//solo.waitForActivity(PreStageActivity.class.getName());
-		//			for (int index = 0; index < 3; index++) {
-		//				sprite1.look.clearActions();
-		//				sprite1.createStartScriptActionSequence();
-		//				while (!sprite1.look.getAllActionsAreFinished()) {
-		//					sprite1.look.act(1.0f);
-		//				}
-		//				assertEquals("TextToSpeech exectuted with wrong utterance id", String.valueOf(index),
-		//						textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
-		//			}
-		assertTrue("Only for fix test", true);
+	public void testNullText() {
+		assertEquals("Initialized TextToSpeechMock with wrong text value", null, textToSpeechMock.text);
+		PreStageActivity.textToSpeech(null, null, new HashMap<String, String>());
+		assertEquals("Null-text isn't converted into empty string", "", textToSpeechMock.text);
 	}
 
-	//	public void testNormalBehavior() throws InterruptedException {
-	//		//		String text = "Hello.";
-	//		//		SpeakBrick speakBrick = new SpeakBrick(null, text);
-	//		//		NonBlockingSpeakBrickExecutionThread speakBrickThread = new NonBlockingSpeakBrickExecutionThread(speakBrick);
-	//		//
-	//		//		assertFalse("SpeakBrick already executed", speakBrickThread.isFinished());
-	//		//
-	//		//		speakBrickThread.start();
-	//		//		speakBrickThread.join(2000);
-	//
-	//		sprite1.look.clearActions();
-	//		sprite1.createStartScriptActionSequence();
-	//
-	//		while (!sprite1.look.getAllActionsAreFinished()) {
-	//			sprite1.look.act(1.0f);
-	//		}
-	//
-	//		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
-	//
-	//		HashMap<String, String> speakParameter = new HashMap<String, String>();
-	//		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "0");
-	//		assertEquals("TextToSpeech executed with wrong parameter", speakParameter, textToSpeechMock.parameters);
-	//
-	//		//		assertTrue("SpeakBrick not finished yet", speakBrickThread.isFinished());
-	//		assertEquals("TextToSpeech executed with wrong text", textMessage, textToSpeechMock.text);
-	//	}
+	public void testUtteranceId() throws InterruptedException {
+		sprite1.createStartScriptActionSequence();
+		for (int index = 0; index < 3; index++) {
+			sprite1.look.getActions().get(0).restart();
+			do {
+				sprite1.look.act(1.0f);
+			} while (!sprite1.look.getAllActionsAreFinished());
+			assertEquals("TextToSpeech exectuted with wrong utterance id", String.valueOf(index),
+					textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
+		}
+	}
 
-	//	public void testSuccessiveTextToSpeech() throws InterruptedException {
-	//		SpeakBrick firstSpeakBrick = new SpeakBrick(null, "Hello");
-	//		NonBlockingSpeakBrickExecutionThread firstSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
-	//				firstSpeakBrick);
-	//
-	//		SpeakBrick secondSpeakBrick = new SpeakBrick(null, "World");
-	//		NonBlockingSpeakBrickExecutionThread secondSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
-	//				secondSpeakBrick);
-	//
-	//		firstSpeakBrickThread.start();
-	//		firstSpeakBrickThread.join(1500);
-	//		assertTrue("First SpeakBrick not finished yet", firstSpeakBrickThread.finished);
-	//
-	//		secondSpeakBrickThread.start();
-	//		secondSpeakBrickThread.join(1500);
-	//		assertTrue("First SpeakBrick not finished yet", secondSpeakBrickThread.finished);
-	//	}
-	//
-	//	public void testSimultaneousTextToSpeech() throws InterruptedException {
-	//		SpeakBrick firstSpeakBrick = new SpeakBrick(null, "This very long text will be interrupted.");
-	//		NonBlockingSpeakBrickExecutionThread firstSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
-	//				firstSpeakBrick);
-	//
-	//		SpeakBrick interruptSpeakBrick = new SpeakBrick(null, "Interrupt.");
-	//		NonBlockingSpeakBrickExecutionThread interruptSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
-	//				interruptSpeakBrick);
-	//
-	//		firstSpeakBrickThread.start();
-	//		synchronized (this) {
-	//			wait(50);
-	//		}
-	//		assertFalse("First SpeakBrick already executed", firstSpeakBrickThread.isFinished());
-	//		assertFalse("Interrupted SpeakBrick already executed", interruptSpeakBrickThread.isFinished());
-	//
-	//		interruptSpeakBrickThread.start();
-	//		synchronized (this) {
-	//			wait(100);
-	//		}
-	//		assertTrue("First SpeakBrick not finished yet", firstSpeakBrickThread.isFinished());
-	//		assertFalse("Interrupted SpeakBrick not finished yet", interruptSpeakBrickThread.isFinished());
-	//
-	//		interruptSpeakBrickThread.join(1500);
-	//		assertTrue("Interrupted SpeakBrick not finished yet", interruptSpeakBrickThread.isFinished());
-	//	}
-	//
-	//	public void testExecuteOneSpeakBrickWithTwoDifferentThreads() throws InterruptedException {
-	//		SpeakBrick speakBrick = new SpeakBrick(null, "This brick will be called twice from difference threads.");
-	//
-	//		NonBlockingSpeakBrickExecutionThread thread1 = new NonBlockingSpeakBrickExecutionThread(speakBrick);
-	//		NonBlockingSpeakBrickExecutionThread thread2 = new NonBlockingSpeakBrickExecutionThread(speakBrick);
-	//
-	//		thread1.start();
-	//		assertFalse("Thread1 already finished", thread1.finished);
-	//
-	//		Reflection.setPrivateField(speakBrick, "text", "short");
-	//		thread2.start();
-	//		thread2.join(1500);
-	//
-	//		assertTrue("Thread1 not finished yet", thread1.finished);
-	//		assertTrue("Thread2 not finished yet", thread2.finished);
-	//	}
+	public void testNormalBehavior() throws InterruptedException {
+		sprite1.createStartScriptActionSequence();
+
+		do {
+			sprite1.look.act(1.0f);
+		} while (!sprite1.look.getAllActionsAreFinished());
+
+		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
+
+		HashMap<String, String> speakParameter = new HashMap<String, String>();
+		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "0");
+		assertEquals("TextToSpeech executed with wrong parameter", speakParameter, textToSpeechMock.parameters);
+
+		assertEquals("TextToSpeech executed with wrong text", textMessage, textToSpeechMock.text);
+	}
+
+	public void testSuccessiveTextToSpeech() throws InterruptedException {
+		sprite1.createStartScriptActionSequence();
+		sprite2.createStartScriptActionSequence();
+
+		do {
+			sprite1.look.act(1.0f);
+		} while (!sprite1.look.getAllActionsAreFinished());
+
+		assertTrue("First SpeakBrick not finished yet", sprite1.look.getAllActionsAreFinished());
+
+		do {
+			sprite2.look.act(1.0f);
+		} while (!sprite2.look.getAllActionsAreFinished());
+
+		assertTrue("First SpeakBrick not finished yet", sprite2.look.getAllActionsAreFinished());
+	}
+
+	public void testSimultaneousTextToSpeech() throws InterruptedException {
+		//		SpeakBrick firstSpeakBrick = new SpeakBrick(null, "This very long text will be interrupted.");
+		//		NonBlockingSpeakBrickExecutionThread firstSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
+		//				firstSpeakBrick);
+		//
+		//		SpeakBrick interruptSpeakBrick = new SpeakBrick(null, "Interrupt.");
+		//		NonBlockingSpeakBrickExecutionThread interruptSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
+		//				interruptSpeakBrick);
+		//
+		//		firstSpeakBrickThread.start();
+		//		synchronized (this) {
+		//			wait(50);
+		//		}
+		//		assertFalse("First SpeakBrick already executed", firstSpeakBrickThread.isFinished());
+		//		assertFalse("Interrupted SpeakBrick already executed", interruptSpeakBrickThread.isFinished());
+		//
+		//		interruptSpeakBrickThread.start();
+		//		synchronized (this) {
+		//			wait(100);
+		//		}
+		//		assertTrue("First SpeakBrick not finished yet", firstSpeakBrickThread.isFinished());
+		//		assertFalse("Interrupted SpeakBrick not finished yet", interruptSpeakBrickThread.isFinished());
+		//
+		//		interruptSpeakBrickThread.join(1500);
+		//		assertTrue("Interrupted SpeakBrick not finished yet", interruptSpeakBrickThread.isFinished());
+
+		sprite3.createStartScriptActionSequence();
+
+		do {
+			sprite3.look.act(1.0f);
+		} while (!sprite3.look.getAllActionsAreFinished());
+
+		assertTrue("First SpeakBrick not finished yet", sprite3.look.getAllActionsAreFinished());
+
+	}
 
 	private void createProjectToInitializeTextToSpeech() {
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		sprite1 = new Sprite("cat");
 		sprite2 = new Sprite("cat2");
+		sprite3 = new Sprite("cat3");
 
 		Script startScript = new StartScript(sprite1);
 		SpeakBrick speakBrick = new SpeakBrick(sprite1, textMessage);
@@ -205,15 +189,35 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		project.addSprite(sprite1);
 
 		Script startScript2 = new StartScript(sprite2);
-		SpeakBrick speakBrickLong = new SpeakBrick(sprite2, "This is another very long text to check a Interrupt!");
-		WaitBrick waitBrick = new WaitBrick(sprite2, 1000);
-		SpeakBrick speakBrickInterrupt = new SpeakBrick(sprite2, "Interrupt.");
-		startScript2.addBrick(speakBrickLong);
-		startScript2.addBrick(waitBrick);
+		SpeakBrick speakBrickInterrupt = new SpeakBrick(sprite2, "Hello.");
 		startScript2.addBrick(speakBrickInterrupt);
 
 		sprite2.addScript(startScript2);
 		project.addSprite(sprite2);
+
+		Script startScript3 = new StartScript(sprite3);
+		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite3);
+		broadcastBrick.setSelectedMessage("double");
+		startScript3.addBrick(broadcastBrick);
+
+		sprite3.addScript(startScript3);
+		project.addSprite(sprite3);
+
+		BroadcastScript broadcastScript1 = new BroadcastScript(sprite3);
+		broadcastScript1.setBroadcastMessage("double");
+		SpeakBrick speak1 = new SpeakBrick(sprite3, "This is very very long long.");
+		broadcastScript1.addBrick(speak1);
+
+		sprite3.addScript(broadcastScript1);
+		project.addSprite(sprite3);
+
+		BroadcastScript broadcastScript2 = new BroadcastScript(sprite3);
+		broadcastScript2.setBroadcastMessage("double");
+		SpeakBrick speak2 = new SpeakBrick(sprite3, "This is very very long long.");
+		broadcastScript1.addBrick(speak2);
+
+		sprite3.addScript(broadcastScript2);
+		project.addSprite(sprite3);
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
@@ -268,8 +272,11 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 			super(context, new OnInitListener() {
 				public void onInit(int status) {
 					if (status == SUCCESS) {
-						textToSpeechMock.textToSpeech = (TextToSpeech) Reflection.getPrivateField(
-								PreStageActivity.class, "textToSpeech");
+						synchronized (textToSpeechInitLock) {
+							textToSpeechMock.textToSpeech = (TextToSpeech) Reflection.getPrivateField(
+									PreStageActivity.class, "textToSpeech");
+							textToSpeechInitLock.notifyAll();
+						}
 					} else {
 						fail("TextToSpeech couldn't be initialized");
 					}
