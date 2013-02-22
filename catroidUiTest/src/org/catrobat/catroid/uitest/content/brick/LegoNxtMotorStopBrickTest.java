@@ -90,7 +90,7 @@ public class LegoNxtMotorStopBrickTest extends ActivityInstrumentationTestCase2<
 
 		int legoSpinnerIndex = 1;
 
-		if (Build.VERSION.SDK_INT < 15) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			legoSpinnerIndex = 0;
 		}
 
