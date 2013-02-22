@@ -90,10 +90,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	private static final String PROJECTNAME_TAG = "fname=";
 
 	private ProjectManager projectManager;
-
 	private ActionBar actionBar;
-
 	private boolean ignoreResume = false;
+	private ViewSwitchLock viewSwitchLock = new ViewSwitchLock();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -201,6 +200,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	protected void onResume() {
 		super.onResume();
+
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
@@ -220,6 +220,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
+		if (hasFocus) {
+			viewSwitchLock.unlock();
+		}
 
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			return;
@@ -269,6 +272,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	}
 
 	public void handleContinueButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
@@ -276,16 +282,28 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	}
 
 	public void handleNewButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		NewProjectDialog dialog = new NewProjectDialog();
 		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	public void handleProgramsButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		Intent intent = new Intent(MainMenuActivity.this, MyProjectsActivity.class);
 		startActivity(intent);
 	}
 
 	public void handleUploadButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		String token = preferences.getString(Constants.TOKEN, null);
 
@@ -299,11 +317,17 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	}
 
 	public void handleWebButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catroid_website).toString()));
 		startActivity(browserIntent);
 	}
 
 	public void handleForumButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		Intent browerIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catrobat_forum).toString()));
 		startActivity(browerIntent);
 	}

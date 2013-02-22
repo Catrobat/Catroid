@@ -43,6 +43,8 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
+import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -374,5 +376,13 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(500);
 		assertEquals("Number of bricks in background sprite was wrong - standard project was overwritten", 4,
 				ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
+	}
+
+	public void testFastDoubleClickOnContinue() {
+		UiTestUtils.checkFastDoubleClickOnButtonOpensViewOnlyOnce(solo, R.id.main_menu_button_new,
+				NewProjectDialog.DIALOG_FRAGMENT_TAG);
+
+		UiTestUtils.checkFastDoubleClickOnButtonOpensViewOnlyOnce(solo, R.id.main_menu_button_upload,
+				LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
 	}
 }

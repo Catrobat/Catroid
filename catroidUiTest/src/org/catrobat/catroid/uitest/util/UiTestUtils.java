@@ -913,4 +913,36 @@ public class UiTestUtils {
 			return solo.getCurrentSpinners().get(ACTION_BAR_SPINNER_INDEX).getAdapter().getCount();
 		}
 	}
+
+	public static void checkFastDoubleClickOnButtonOpensViewOnlyOnce(Solo solo, int buttonId,
+			String openedDialogFragmentTag) {
+		View button = solo.getCurrentActivity().findViewById(buttonId);
+
+		solo.clickOnView(button, true);
+		solo.clickOnView(button, true);
+
+		if (!solo.waitForFragmentByTag(openedDialogFragmentTag, 1000)) {
+			fail("Couldn't find opened view after clicking on button");
+		}
+		solo.goBack();
+		solo.goBack();
+
+		if (!solo.waitForView(button, 1000, true) || !solo.getCurrentActivity().hasWindowFocus()) {
+			fail("Didn't return to view which contains the button");
+		}
+	}
+
+	public static void checkFastDoubleClickOnButtonOpensViewOnlyOnce(Solo solo, int buttonId) {
+		View button = solo.getCurrentActivity().findViewById(buttonId);
+
+		solo.clickOnView(button, true);
+		solo.clickOnView(button, true);
+
+		solo.sleep(5000);
+		solo.goBack();
+
+		if (!solo.waitForView(button, 10000, true)) {
+			fail("Didn't return to view which contains the button");
+		}
+	}
 }
