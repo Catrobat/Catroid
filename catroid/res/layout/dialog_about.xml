@@ -22,13 +22,13 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="10dp" >
+    android:orientation="vertical" >
 
     <TextView
+        android:id="@+id/dialog_about_text_view_license_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -40,29 +40,24 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColorLink="#E68B00"
-        android:textSize="20dp" />
+        android:layout_below="@id/dialog_about_text_view_license_info"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/dialog_about_text_view_version_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
-        android:textSize="8dp" />
+        android:layout_below="@id/dialog_about_text_view_url"
+        android:textSize="8sp" />
 
-    <LinearLayout
+    <Button
+        android:id="@+id/dialog_about_ok_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dialog_about_text_view_version_name"
-        android:orientation="horizontal" >
+        android:layout_below="@id/dialog_about_text_view_version_name"
+        android:background="@android:color/transparent"
+        android:drawableTop="@drawable/bottom_separator"
+        android:text="@string/ok" />
 
-        <Button
-            android:id="@+id/dialog_about_ok_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:background="@android:color/transparent"
-            android:drawableTop="@drawable/bottom_separator"
-            android:text="@string/ok" />
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
