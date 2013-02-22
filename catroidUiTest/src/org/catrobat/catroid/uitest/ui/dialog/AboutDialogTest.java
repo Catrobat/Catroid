@@ -69,11 +69,9 @@ public class AboutDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		Button aboutDialogButton = (Button) solo.getView(R.id.dialog_about_ok_button);
 		solo.clickOnButton(solo.getString(R.string.ok));
-
 		solo.sleep(200);
 
 		ArrayList<View> currentViews = solo.getCurrentViews();
-		boolean success = !currentViews.contains(aboutDialogButton);
-		assertTrue("Not returned to MainMenuActivity", success);
+		assertTrue("Not returned to MainMenuActivity", !currentViews.contains(aboutDialogButton));
 	}
 }
