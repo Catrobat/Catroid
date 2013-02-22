@@ -631,10 +631,18 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 
 		View currentBrickView;
-		if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position - 1) instanceof DeadEndBrick) {
-			currentBrickView = ((AllowedAfterDeadEndBrick) item).getNoPuzzleView(context, position, this);
+		if (position == 0) {
+			if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position) instanceof DeadEndBrick) {
+				currentBrickView = ((AllowedAfterDeadEndBrick) item).getNoPuzzleView(context, position, this);
+			} else {
+				currentBrickView = ((Brick) item).getView(context, position, this);
+			}
 		} else {
-			currentBrickView = ((Brick) item).getView(context, position, this);
+			if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position - 1) instanceof DeadEndBrick) {
+				currentBrickView = ((AllowedAfterDeadEndBrick) item).getNoPuzzleView(context, position, this);
+			} else {
+				currentBrickView = ((Brick) item).getView(context, position, this);
+			}
 		}
 
 		// this one is working but causes null pointer exceptions on movement and control bricks?!
