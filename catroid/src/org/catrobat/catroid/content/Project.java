@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.utils.Utils;
 
@@ -89,10 +90,8 @@ public class Project implements Serializable {
 		virtualScreenWidth = Values.SCREEN_WIDTH;
 		virtualScreenHeight = Values.SCREEN_HEIGHT;
 		setDeviceData(context);
-		ifLandscapeSwitchWidthAndHeight();
-		virtualScreenWidth = Values.SCREEN_WIDTH;
-		virtualScreenHeight = Values.SCREEN_HEIGHT;
-		setDeviceData(context);
+
+		MessageContainer.clear();
 
 		if (context == null) {
 			return;
