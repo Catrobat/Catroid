@@ -43,20 +43,20 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		Project project = new Project(getContext(), "testProject");
 
 		Sprite bottomSprite = new Sprite("catroid");
-		assertEquals("Unexpected initial z position of bottomSprite", 0, bottomSprite.costume.zPosition);
+		assertEquals("Unexpected initial z position of bottomSprite", 0, bottomSprite.look.zPosition);
 
 		Sprite topSprite = new Sprite("scratch");
-		assertEquals("Unexpected initial z position of topSprite", 0, topSprite.costume.zPosition);
+		assertEquals("Unexpected initial z position of topSprite", 0, topSprite.look.zPosition);
 
-		topSprite.costume.zPosition = 2;
-		assertEquals("topSprite z position should now be 2", 2, topSprite.costume.zPosition);
+		topSprite.look.zPosition = 2;
+		assertEquals("topSprite z position should now be 2", 2, topSprite.look.zPosition);
 		project.addSprite(bottomSprite);
 		project.addSprite(topSprite);
 
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(bottomSprite);
 		ProjectManager.getInstance().setProject(project);
 		comeToFrontBrick.execute();
-		assertEquals("bottomSprite z position should now be 3", bottomSprite.costume.zPosition, 3);
+		assertEquals("bottomSprite z position should now be 3", bottomSprite.look.zPosition, 3);
 	}
 
 	public void testNullSprite() {
@@ -74,7 +74,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		Project project = new Project(getContext(), "testProject");
 
 		Sprite sprite = new Sprite("testSprite");
-		sprite.costume.zPosition = Integer.MAX_VALUE;
+		sprite.look.zPosition = Integer.MAX_VALUE;
 
 		project.addSprite(sprite);
 
@@ -83,7 +83,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		brick.execute();
 
 		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution", Integer.MAX_VALUE,
-				sprite.costume.zPosition);
+				sprite.look.zPosition);
 	}
 
 	public void testGetView() {

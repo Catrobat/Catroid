@@ -57,9 +57,9 @@
 							<Size>0.8</Size>
 						</SetSizeToBrick>
 						<ComeToFrontBrick/>
-						<SetCostumeBrick>
-							<Costume reference=""/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference=""/>
+						</SetLookBrick>
 						<PointInDirectionBrick>
 							<Degrees>-90.0</Degrees>
 						</PointInDirectionBrick>

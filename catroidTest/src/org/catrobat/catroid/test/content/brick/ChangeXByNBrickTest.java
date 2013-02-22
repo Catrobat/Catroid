@@ -33,17 +33,17 @@ public class ChangeXByNBrickTest extends AndroidTestCase {
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite x position", 0f, sprite.costume.getXPosition());
-		assertEquals("Unexpected initial sprite y position", 0f, sprite.costume.getYPosition());
+		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXPosition());
+		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYPosition());
 
-		int xPosition = (int) sprite.costume.getXPosition();
+		int xPosition = (int) sprite.look.getXPosition();
 
 		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(sprite, xMovement);
 		changeXByNBrick.execute();
 
 		xPosition += xMovement;
 		assertEquals("Incorrect sprite x position after ChangeXByNBrick executed", (float) xPosition,
-				sprite.costume.getXPosition());
+				sprite.look.getXPosition());
 	}
 
 	public void testNullSprite() {
@@ -60,20 +60,20 @@ public class ChangeXByNBrickTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("testSprite");
 
 		int xPosition = 10;
-		sprite.costume.setXYPosition(xPosition, sprite.costume.getYPosition());
+		sprite.look.setXYPosition(xPosition, sprite.look.getYPosition());
 		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(sprite, Integer.MAX_VALUE);
 		changeXByNBrick.execute();
 
 		assertEquals("ChangeXByNBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
-				(int) sprite.costume.getXPosition());
+				(int) sprite.look.getXPosition());
 
 		xPosition = -10;
-		sprite.costume.setXYPosition(xPosition, sprite.costume.getYPosition());
+		sprite.look.setXYPosition(xPosition, sprite.look.getYPosition());
 		changeXByNBrick = new ChangeXByNBrick(sprite, Integer.MIN_VALUE);
 		changeXByNBrick.execute();
 
 		assertEquals("ChangeXByNBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
-				(int) sprite.costume.getXPosition());
+				(int) sprite.look.getXPosition());
 
 	}
 }

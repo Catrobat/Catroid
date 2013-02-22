@@ -111,8 +111,7 @@ public class ProjectDownloadService extends IntentService {
 			try {
 				//The context of the calling activity is needed, otherwise an exception occurs
 				MainMenuActivity activity = StatusBarNotificationManager.INSTANCE.getActivity(notificationId);
-				OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, projectName, zipFileString,
-						activity);
+				OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, projectName, zipFileString);
 				renameDialog.show();
 			} catch (RuntimeException e) {
 				e.printStackTrace();
