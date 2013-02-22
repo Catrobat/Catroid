@@ -631,6 +631,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 
 		View currentBrickView;
+		// dirty HACK
+		// without the footer, position can be 0, and list.get(-1) caused an Indexoutofboundsexception
+		// no clean solution was found
 		if (position == 0) {
 			if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position) instanceof DeadEndBrick) {
 				currentBrickView = ((AllowedAfterDeadEndBrick) item).getNoPuzzleView(context, position, this);

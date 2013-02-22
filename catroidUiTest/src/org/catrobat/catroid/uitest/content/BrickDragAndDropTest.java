@@ -68,7 +68,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 	public void testClickOnEmptySpace() {
 		solo.clickOnScreen(20, Values.SCREEN_HEIGHT - 150);
 		solo.sleep(200);
-		assertFalse("Brickcategories did not show up", solo.searchText(solo.getString(R.string.categories)));
+		assertFalse("Brickcategories should not be shown", solo.searchText(solo.getString(R.string.categories)));
 	}
 
 	public void testPutHoveringBrickDown() {
