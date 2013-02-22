@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
@@ -213,8 +214,10 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 
 		BroadcastScript broadcastScript2 = new BroadcastScript(sprite3);
 		broadcastScript2.setBroadcastMessage("double");
-		SpeakBrick speak2 = new SpeakBrick(sprite3, "This is very very long long.");
-		broadcastScript1.addBrick(speak2);
+		WaitBrick waitBrick = new WaitBrick(sprite3, 1000);
+		broadcastScript2.addBrick(waitBrick);
+		SpeakBrick speak2 = new SpeakBrick(sprite3, "Interrupt.");
+		broadcastScript2.addBrick(speak2);
 
 		sprite3.addScript(broadcastScript2);
 		project.addSprite(sprite3);
