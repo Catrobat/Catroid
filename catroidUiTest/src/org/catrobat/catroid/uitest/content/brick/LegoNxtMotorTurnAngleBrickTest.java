@@ -79,7 +79,7 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -129,7 +129,7 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 
 		int legoSpinnerIndex = 1;
 
-		if (Build.VERSION.SDK_INT < 15) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			legoSpinnerIndex = 0;
 		}
 

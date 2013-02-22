@@ -54,7 +54,11 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
-import org.xmlpull.v1.XmlSerializer;
+import org.catrobat.catroid.xml.parser.CatroidXMLConstants;
+import org.catrobat.catroid.xml.parser.FullParser;
+import org.catrobat.catroid.xml.parser.ParseException;
+import org.catrobat.catroid.xml.serializer.SerializeException;
+import org.catrobat.catroid.xml.serializer.XmlSerializer;
 
 import android.test.InstrumentationTestCase;
 import android.util.Log;

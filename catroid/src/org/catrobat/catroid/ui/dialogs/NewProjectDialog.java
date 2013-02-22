@@ -129,27 +129,27 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	protected boolean handleOkButtonClick() {
+	protected void handleOkButtonClick() {
 		String projectName = newProjectEditText.getText().toString().trim();
 		String projectDescription = newProjectDescriptionEditText.getText().toString().trim();
 
 		if (projectName.length() == 0) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_no_name_entered));
-			return false;
+			return;
 		}
 
 		if (StorageHandler.getInstance().projectExistsIgnoreCase(projectName)) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_project_exists));
-			return false;
+			return;
 		}
 
 		try {
 			ProjectManager.INSTANCE.initializeNewProject(projectName, getActivity());
 			ProjectManager.INSTANCE.getCurrentProject().setDescription(projectDescription);
-
 		} catch (IOException e) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_new_project));
 			dismiss();
+			return;
 		}
 
 		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
@@ -157,7 +157,6 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 		getActivity().startActivity(intent);
 
 		dismiss();
-		return true;
 	}
 
 	protected boolean handleCancelButtonClick() {

@@ -22,8 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -42,17 +42,19 @@ import android.widget.Spinner;
 public class BroadcastReceiverBrick extends ScriptBrick {
 
 	private static final long serialVersionUID = 1L;
-	private transient final ProjectManager projectManager;
 	private BroadcastScript receiveScript;
 	private Sprite sprite;
 
 	private transient View view;
 	private transient View prototype;
 
+	public BroadcastReceiverBrick() {
+
+	}
+
 	public BroadcastReceiverBrick(Sprite sprite, BroadcastScript receiveScript) {
 		this.sprite = sprite;
 		this.receiveScript = receiveScript;
-		this.projectManager = ProjectManager.getInstance();
 	}
 
 	@Override
@@ -78,7 +80,7 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_receive_spinner);
-		broadcastSpinner.setAdapter(projectManager.getMessageContainer().getMessageAdapter(context));
+		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
 		broadcastSpinner.setClickable(true);
 		broadcastSpinner.setFocusable(true);
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -104,8 +106,7 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 			}
 		});
 
-		int position = projectManager.getMessageContainer().getPositionOfMessageInAdapter(
-				receiveScript.getBroadcastMessage());
+		int position = MessageContainer.getPositionOfMessageInAdapter(receiveScript.getBroadcastMessage());
 		if (position > 0) {
 			broadcastSpinner.setSelection(position);
 		}
@@ -134,7 +135,7 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 						}
 
 						receiveScript.setBroadcastMessage(newMessage);
-						int position = projectManager.getMessageContainer().getPositionOfMessageInAdapter(newMessage);
+						int position = MessageContainer.getPositionOfMessageInAdapter(newMessage);
 
 						broadcastSpinner.setSelection(position);
 
@@ -170,14 +171,10 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		return receiveScript;
 	}
 
-	public BroadcastReceiverBrick() {
-		this.projectManager = ProjectManager.getInstance();
-	}
-
 	@Override
 	public View setDefaultValues(Context context) {
 		prototype = View.inflate(context, R.layout.brick_broadcast_receive, null);
 		return prototype;
-
 	}
+
 }
