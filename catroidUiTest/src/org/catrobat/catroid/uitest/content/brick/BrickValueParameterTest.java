@@ -345,6 +345,4 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
 	}
 
-	public static void getIntoScriptActivityFromMainMenu(Solo solo, int spriteIndex) {
-	}
 }
