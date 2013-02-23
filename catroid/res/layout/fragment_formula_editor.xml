@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <at.tugraz.ist.catroid.formulaeditor.FormulaEditorEditText
+    <org.catrobat.catroid.formulaeditor.FormulaEditorEditText
         android:id="@+id/formula_editor_edit_field"
         android:layout_width="match_parent"
         android:layout_height="0dp"

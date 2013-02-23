@@ -384,7 +384,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		Fragment formulaEditorFragment = fragmentManager
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		fragTransaction.hide(formulaEditorFragment);
-		fragTransaction.add(android.R.id.tabhost, this, FormulaEditorVariableListFragment.VARIABLE_TAG);
+		fragTransaction.add(R.id.script_fragment_container, this, FormulaEditorVariableListFragment.VARIABLE_TAG);
 		fragTransaction.commit();
 
 	}
