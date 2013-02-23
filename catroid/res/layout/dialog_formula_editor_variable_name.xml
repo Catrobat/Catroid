@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <EditText
+        android:id="@+id/dialog_formula_editor_variable_name_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:ems="10"
+        android:hint="@string/formula_editor_variable_dialog_hint"
+        android:inputType="text" />
+
+    <RadioGroup 
+        android:id="@+id/dialog_formula_editor_variable_name_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_formula_editor_variable_name_edit_text"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal">
+                
+    	<RadioButton
+       		 android:id="@+id/dialog_formula_editor_variable_name_radio_button_left"
+       		 android:text="@string/formula_editor_variable_dialog_for_all_sprites"/>
+
+    	<RadioButton
+      		 android:id="@+id/dialog_formula_editor_variable_name_radio_button_right"
+      		 android:text="@string/formula_editor_variable_dialog_for_this_sprite_only"/>
+    
+</RadioGroup>
+
+</RelativeLayout>

@@ -386,4 +386,74 @@
     <string name="number_to_big">Wert ist zu groß!</string>
     <!--  -->
 
+
+    <!-- Formula Editor Strings -->
+    <string name="formula_editor_decimal_mark">,</string>
+    <string name="formula_editor_title">Formel Editor</string>
+    <string name="formula_editor_button_undo">Rückgängig</string>
+    <string name="formula_editor_button_redo">Wiederholen</string>
+    <string name="formula_editor_changes_saved">Änderungen gespeichert!</string>
+    <string name="formula_editor_changes_discarded">Änderungen verworfen!</string>
+    <string name="formula_editor_parse_fail">Fehler in der Eingabe! Zum Verwerfen erneut klicken.</string>
+    <string name="formula_nothing_selected">Bitte Wert eingeben!</string>
+    <string name="formula_editor_parse_fail_formula_too_long">Formel zu lang! Zum Verwerfen erneut klicken.</string>
+    <string name="formula_editor_choose_look_variable">Aussehen Variable auswählen:</string>
+    <string name="formula_editor_existing_user_variable">Name wird bereits verwendet!</string>
+    <string name="formula_editor_bracket_open">(</string>
+    <string name="formula_editor_bracket_close">)</string>
+    <string name="formula_editor_function_sin">sin</string>
+    <string name="formula_editor_function_cos">cos</string>
+    <string name="formula_editor_function_tan">tan</string>
+    <string name="formula_editor_function_ln">ln</string>
+    <string name="formula_editor_function_log">log</string>
+    <string name="formula_editor_function_pi">pi</string>
+    <string name="formula_editor_function_sqrt">wurzel</string>
+    <string name="formula_editor_function_e">e</string>
+    <string name="formula_editor_function_rand">zufall</string>
+    <string name="formula_editor_function_abs">abs</string>
+    <string name="formula_editor_function_round">round</string>
+    <string name="formula_editor_sensor_x_acceleration">x_beschleunigung</string>
+    <string name="formula_editor_sensor_y_acceleration">y_beschleunigung</string>
+    <string name="formula_editor_sensor_z_acceleration">z_beschleunigung</string>
+    <string name="formula_editor_sensor_z_orientation">z_orientierung</string>
+    <string name="formula_editor_sensor_x_orientation">x_orientierung</string>
+    <string name="formula_editor_sensor_y_orientation">y_orientierung</string>
+    <string name="formula_editor_look_x">aussehen_x</string>
+    <string name="formula_editor_look_y">aussehen_y</string>
+    <string name="formula_editor_look_ghosteffect">aussehen_durchsichtigkeits_effekt</string>
+    <string name="formula_editor_look_brightness">aussehen_helligkeit</string>
+    <string name="formula_editor_look_size">aussehen_größe</string>
+    <string name="formula_editor_look_rotation">aussehen_rotation</string>
+    <string name="formula_editor_look_layer">aussehen_ebene</string>
+    <string name="formula_editor_undo">Undo</string>
+    <string name="formula_editor_redo">Redo</string>
+    <string name="formula_editor_compute">Compute</string>
+    <string name="formula_editor_delete">Delete</string>
+    <string name="formula_editor_object">Object</string>
+    <string name="formula_editor_math">Math</string>
+    <string name="formula_editor_logic">Logic</string>
+    <string name="formula_editor_sensors">Sensors</string>
+    <string name="formula_editor_variables">Variables</string>
+    <string name="formula_editor_logic_notequal">&#x2260;</string>
+    <string name="formula_editor_logic_lesserthan">&lt;</string>
+    <string name="formula_editor_logic_greaterthan">&gt;</string>
+    <string name="formula_editor_logic_and">AND</string>
+    <string name="formula_editor_logic_or">OR</string>
+    <string name="formula_editor_logic_not">NOT</string>
+    <string name="formula_editor_logic_greaterequal">&#x2265;</string>
+    <string name="formula_editor_logic_leserequal">&#x2264;</string>
+    <string name="formula_editor_logic_equal">=</string>
+    <string name="formula_editor_operator_mult">×</string>
+    <string name="formula_editor_operator_plus">+</string>
+    <string name="formula_editor_operator_minus">-</string>
+    <string name="formula_editor_operator_divide">÷</string>
+    <string name="formula_editor_operator_modulus">%</string>
+    <string name="formula_editor_operator_power">^</string>
+    <string name="formula_editor_new_variable">make a new variable</string>
+    <string name="formula_editor_variable_dialog_for_all_sprites">For all sprites</string>
+    <string name="formula_editor_variable_dialog_for_this_sprite_only">For this sprite only</string>
+    <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
+    <string name="formula_editor_variable_context_action_item_selected">items selected!</string>
+    <!--  -->
+
 </resources>
