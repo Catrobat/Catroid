@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -45,8 +44,6 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class LegoNxtPlayToneBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 
-	private static final int MIN_FREQ = 200;
-	private static final int MAX_FREQ = 14000;
 	private static final double SET_DURATION = 3.0;
 	private static final int SET_FREQUENCY = 70;
 	private static final int SET_FREQUENCY_INITIALLY = 20;

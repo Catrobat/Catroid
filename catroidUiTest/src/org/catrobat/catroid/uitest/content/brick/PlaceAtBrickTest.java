@@ -38,7 +38,6 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -101,12 +100,6 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 		int xPosition = 987;
 		int yPosition = 654;
-
-		UiTestUtils.clickEnterClose(solo, 0, xPosition + "");
-
-		int currentXPosition = (Integer) Reflection.getPrivateField(placeAtBrick, "xPosition");
-		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
-		assertEquals("Value in Brick is not updated", xPosition, currentXPosition);
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 2, xPosition, "xPosition", placeAtBrick);
 		solo.sleep(200);

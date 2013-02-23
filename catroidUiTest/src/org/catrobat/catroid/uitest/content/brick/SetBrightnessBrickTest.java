@@ -46,7 +46,7 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 	private Solo solo;
 	private Project project;
-	private SetBrightnessBrick SetBrightnessBrick;
+	private SetBrightnessBrick setBrightnessBrick;
 
 	public SetBrightnessBrickTest() {
 		super(ScriptActivity.class);
@@ -92,8 +92,8 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		SetBrightnessBrick = new SetBrightnessBrick(sprite, 30.5);
-		script.addBrick(SetBrightnessBrick);
+		setBrightnessBrick = new SetBrightnessBrick(sprite, 30.5);
+		script.addBrick(setBrightnessBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

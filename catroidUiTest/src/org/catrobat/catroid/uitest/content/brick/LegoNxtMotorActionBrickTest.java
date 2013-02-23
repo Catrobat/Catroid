@@ -47,8 +47,6 @@ import com.jayway.android.robotium.solo.Solo;
 public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private static final int SET_SPEED = 30;
 	private static final int SET_SPEED_INITIALLY = -70;
-	private static final int MAX_SPEED = 100;
-	private static final int MIN_SPEED = -100;
 
 	private Solo solo;
 	private Project project;
