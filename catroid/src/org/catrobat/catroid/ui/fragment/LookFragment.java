@@ -140,7 +140,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				lookFromCameraUri = UtilCamera.getDefaultLookFromCameraUri(defLookName);
 			}
 		}
-		lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
+		lookDataList = ProjectManager.INSTANCE.getCurrentSprite().getLookDataList();
 
 		adapter = new LookAdapter(getActivity(), R.layout.fragment_look_looklist_item, lookDataList, false);
 		adapter.setOnLookEditListener(this);
@@ -258,9 +258,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.context_menu_copy:
+			case R.id.context_menu_copy: {
 				copyLook(selectedLookPosition);
 				break;
+			}
 
 			case R.id.context_menu_cut:
 				break;
@@ -271,13 +272,15 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			case R.id.context_menu_move:
 				break;
 
-			case R.id.context_menu_rename:
+			case R.id.context_menu_rename: {
 				showRenameDialog();
 				break;
+			}
 
-			case R.id.context_menu_delete:
+			case R.id.context_menu_delete: {
 				showDeleteDialog();
 				break;
+			}
 		}
 		return super.onContextItemSelected(item);
 	}

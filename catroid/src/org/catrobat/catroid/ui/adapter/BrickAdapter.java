@@ -24,9 +24,12 @@ package org.catrobat.catroid.ui.adapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -86,6 +89,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private List<Brick> brickList;
 	private List<Brick> animatedBricks;
+	private SortedSet<Integer> checkedBricks = new TreeSet<Integer>();
+
+	private int selectMode;
 
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
@@ -97,16 +103,18 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		firstDrag = true;
 		retryScriptDragging = false;
 		animatedBricks = new ArrayList<Brick>();
+		this.selectMode = Constants.SELECT_NONE;
 		initBrickList();
 	}
 
 	private void initBrickList() {
 		brickList = new ArrayList<Brick>();
 
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite sprite = ProjectManager.INSTANCE.getCurrentSprite();
 
-		for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
-			Script script = sprite.getScript(i);
+		int numberOfScripts = sprite.getNumberOfScripts();
+		for (int scriptPosition = 0; scriptPosition < numberOfScripts; scriptPosition++) {
+			Script script = sprite.getScript(scriptPosition);
 			brickList.add(script.getScriptBrick());
 			for (Brick brick : script.getBrickList()) {
 				brickList.add(brick);
@@ -489,13 +497,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			return;
 		}
 
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite currentSprite = ProjectManager.INSTANCE.getCurrentSprite();
 		int scriptCount = currentSprite.getNumberOfScripts();
 		if (scriptCount == 0 && brickToBeAdded instanceof ScriptBrick) {
 			currentSprite.addScript(((ScriptBrick) brickToBeAdded).initScript(currentSprite));
 			initBrickList();
 			notifyDataSetChanged();
-
 			return;
 		}
 
@@ -579,7 +586,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			brickList.remove(draggedBrick);
 		} else {
 			int temp[] = getScriptAndBrickIndexFromProject(index);
-			Script script = ProjectManager.getInstance().getCurrentSprite().getScript(temp[0]);
+			Script script = ProjectManager.INSTANCE.getCurrentSprite().getScript(temp[0]);
 			Brick brick = script.getBrick(temp[1]);
 			if (brick instanceof NestingBrick) {
 				for (Brick tempBrick : ((NestingBrick) brick).getAllNestingBrickParts()) {
@@ -882,5 +889,25 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	public boolean getShowDetails() {
 		return showDetails;
+	}
+
+	public void setSelectMode(int mode) {
+		selectMode = mode;
+	}
+
+	public int getSelectMode() {
+		return selectMode;
+	}
+
+	public int getAmountOfCheckedItems() {
+		return checkedBricks.size();
+	}
+
+	public SortedSet<Integer> getCheckedItems() {
+		return checkedBricks;
+	}
+
+	public void clearCheckedItems() {
+		checkedBricks.clear();
 	}
 }

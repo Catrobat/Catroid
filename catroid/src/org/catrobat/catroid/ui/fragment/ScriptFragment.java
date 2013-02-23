@@ -22,18 +22,24 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import java.util.Iterator;
+import java.util.SortedSet;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.AddBrickDialog;
 import org.catrobat.catroid.ui.dialogs.BrickCategoryDialog;
 import org.catrobat.catroid.ui.dialogs.BrickCategoryDialog.OnBrickCategoryDialogDismissCancelListener;
 import org.catrobat.catroid.ui.dialogs.BrickCategoryDialog.OnCategorySelectedListener;
+import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.utils.Utils;
 
@@ -52,6 +58,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
 public class ScriptFragment extends ScriptActivityFragment implements OnCategorySelectedListener,
@@ -59,6 +66,14 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	private static final String ARGUMENTS_SELECTED_CATEGORY = "selected_category";
 	private static final String TAG = ScriptFragment.class.getSimpleName();
+
+	private static String actionModeTitle;
+	private static String singleItemAppendixActionMode;
+	private static String multipleItemAppendixActionMode;
+
+	private static int selectedBrickPosition = Constants.NO_POSITION;
+
+	private ActionMode actionMode;
 
 	private BrickAdapter adapter;
 	private DragAndDropListView listView;
@@ -70,7 +85,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	private boolean addNewScript;
 	private boolean createNewBrick;
 	private boolean addScript;
-	private boolean isCanceled;
+	private boolean isCancelled;
 
 	private NewBrickAddedReceiver brickAddedReceiver;
 	private BrickListChangedReceiver brickListChangedReceiver;
@@ -96,7 +111,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		createNewBrick = true;
 		addScript = false;
-		isCanceled = false;
+		isCancelled = false;
 
 		if (savedInstanceState != null) {
 			selectedCategory = savedInstanceState.getString(ARGUMENTS_SELECTED_CATEGORY);
@@ -109,6 +124,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.rename).setVisible(false);
+		menu.findItem(R.id.copy).setVisible(false);
 		super.onPrepareOptionsMenu(menu);
 	}
 
@@ -119,28 +135,10 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
-
-		ProjectManager projectManager = ProjectManager.getInstance();
-		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
-		}
-
-		if (brickAddedReceiver != null) {
-			getActivity().unregisterReceiver(brickAddedReceiver);
-		}
-
-		if (brickListChangedReceiver != null) {
-			getActivity().unregisterReceiver(brickListChangedReceiver);
-		}
-	}
-
-	@Override
 	public void onStart() {
 		super.onStart();
 
-		sprite = ProjectManager.getInstance().getCurrentSprite();
+		sprite = ProjectManager.INSTANCE.getCurrentSprite();
 		if (sprite == null) {
 			return;
 		}
@@ -174,13 +172,32 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
+	public void onPause() {
+		super.onPause();
+
+		ProjectManager projectManager = ProjectManager.INSTANCE;
+		if (projectManager.getCurrentProject() != null) {
+			projectManager.saveProject();
+		}
+
+		if (brickAddedReceiver != null) {
+			getActivity().unregisterReceiver(brickAddedReceiver);
+		}
+
+		if (brickListChangedReceiver != null) {
+			getActivity().unregisterReceiver(brickListChangedReceiver);
+		}
+	}
+
+	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		if (view.getId() == R.id.brick_list_view) {
+			//selectedBrickData = adapter.getItem(selectedBrickPosition);
 			menu.setHeaderTitle(R.string.script_context_menu_title);
 
 			if (adapter.getItem(listView.getTouchedListPosition()) instanceof ScriptBrick) {
 				scriptToEdit = ((ScriptBrick) adapter.getItem(listView.getTouchedListPosition()))
-						.initScript(ProjectManager.getInstance().getCurrentSprite());
+						.initScript(ProjectManager.INSTANCE.getCurrentSprite());
 				MenuInflater inflater = getActivity().getMenuInflater();
 				inflater.inflate(R.menu.menu_script, menu);
 			}
@@ -193,14 +210,19 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			case R.id.script_menu_delete: {
 				sprite.removeScript(scriptToEdit);
 				if (sprite.getNumberOfScripts() == 0) {
-					ProjectManager.getInstance().setCurrentScript(null);
+					ProjectManager.INSTANCE.setCurrentScript(null);
 					adapter.updateProjectBrickList();
-					return true;
+					break;
 				}
 				int lastScriptIndex = sprite.getNumberOfScripts() - 1;
 				Script lastScript = sprite.getScript(lastScriptIndex);
-				ProjectManager.getInstance().setCurrentScript(lastScript);
+				ProjectManager.INSTANCE.setCurrentScript(lastScript);
 				adapter.updateProjectBrickList();
+				break;
+			}
+			case R.id.script_menu_copy: {
+				//currently not supported
+				break;
 			}
 		}
 
@@ -245,21 +267,16 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onBrickCategoryDialogDismiss() {
-		if (createNewBrick) {
-			if (!isCanceled) {
-				if (addScript) {
-					setAddNewScript();
-					addScript = false;
-				}
-			}
-			isCanceled = false;
+		if (createNewBrick && !isCancelled && addScript) {
+			setAddNewScript();
+			addScript = false;
 		}
 		createNewBrick = true;
 	}
 
 	@Override
 	public void onBrickCategoryDialogCancel() {
-		isCanceled = true;
+		isCancelled = true;
 	}
 
 	public void updateAdapterAfterAddNewBrick(Brick brickToBeAdded) {
@@ -276,14 +293,14 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void initListeners() {
-		sprite = ProjectManager.getInstance().getCurrentSprite();
+		sprite = ProjectManager.INSTANCE.getCurrentSprite();
 		if (sprite == null) {
 			return;
 		}
 
 		adapter = new BrickAdapter(getActivity(), sprite, listView);
-		if (ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() > 0) {
-			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).initScript(sprite));
+		if (ProjectManager.INSTANCE.getCurrentSprite().getNumberOfScripts() > 0) {
+			ProjectManager.INSTANCE.setCurrentScript(((ScriptBrick) adapter.getItem(0)).initScript(sprite));
 		}
 
 		listView.setOnCreateContextMenuListener(this);
@@ -291,6 +308,87 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		listView.setAdapter(adapter);
 		registerForContextMenu(listView);
 		addNewScript = false;
+	}
+
+	private void showCategoryDialog() {
+		BrickCategoryDialog brickCategoryDialog = new BrickCategoryDialog();
+		brickCategoryDialog.setOnCategorySelectedListener(ScriptFragment.this);
+		brickCategoryDialog.setOnBrickCategoryDialogDismissCancelListener(ScriptFragment.this);
+		brickCategoryDialog.show(getFragmentManager(), BrickCategoryDialog.DIALOG_FRAGMENT_TAG);
+
+		adapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public boolean getShowDetails() {
+		//Currently no showDetails option
+		return false;
+	}
+
+	@Override
+	public void setShowDetails(boolean showDetails) {
+		//Currently no showDetails option
+	}
+
+	@Override
+	protected void showRenameDialog() {
+		//Rename not supported
+	}
+
+	@Override
+	public void startRenameActionMode() {
+		//Rename not supported
+	}
+
+	@Override
+	public void startCopyActionMode() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void handleAddButton() {
+		if (listView.isCurrentlyDragging()) {
+			listView.animateHoveringBrick();
+			return;
+		}
+		showCategoryDialog();
+	}
+
+	@Override
+	public boolean getActionModeActive() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int getSelectMode() {
+		// TODO Auto-generated method stub
+		return adapter.getSelectMode();
+	}
+
+	@Override
+	public void setSelectMode(int selectMode) {
+		// TODO Auto-generated method stub
+		adapter.setSelectMode(selectMode);
+		adapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void startDeleteActionMode() {
+		// TODO Auto-generated method stub
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+			unregisterForContextMenu(listView);
+			BottomBar.disableButtons(getActivity());
+			//isRenameActionMode = false;
+		}
+	}
+
+	@Override
+	protected void showDeleteDialog() {
+		// TODO Auto-generated method stub
+		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedBrickPosition);
+		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private class NewBrickAddedReceiver extends BroadcastReceiver {
@@ -321,74 +419,61 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 	}
 
-	private void showCategoryDialog() {
-		BrickCategoryDialog brickCategoryDialog = new BrickCategoryDialog();
-		brickCategoryDialog.setOnCategorySelectedListener(ScriptFragment.this);
-		brickCategoryDialog.setOnBrickCategoryDialogDismissCancelListener(ScriptFragment.this);
-		brickCategoryDialog.show(getFragmentManager(), BrickCategoryDialog.DIALOG_FRAGMENT_TAG);
+	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
 
-		adapter.notifyDataSetChanged();
-	}
-
-	@Override
-	public void setShowDetails(boolean showDetails) {
-		// Currently no showDetails option
-	}
-
-	@Override
-	public boolean getShowDetails() {
-		return false;
-	}
-
-	@Override
-	public void startCopyActionMode() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void handleAddButton() {
-		if (listView.isCurrentlyDragging()) {
-			listView.animateHoveringBrick();
-			return;
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
 		}
-		showCategoryDialog();
-	}
 
-	@Override
-	public boolean getActionModeActive() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(Constants.MULTI_SELECT);
+			setActionModeActive(true);
 
-	@Override
-	public void setSelectMode(int selectMode) {
-		// TODO Auto-generated method stub
-	}
+			actionModeTitle = getString(R.string.delete);
+			singleItemAppendixActionMode = getString(R.string.look);
+			multipleItemAppendixActionMode = getString(R.string.looks);
 
-	@Override
-	public int getSelectMode() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+			mode.setTitle(actionModeTitle);
 
-	@Override
-	public void startRenameActionMode() {
-		// TODO Auto-generated method stub
-	}
+			return true;
+		}
 
-	@Override
-	public void startDeleteActionMode() {
-		// TODO Auto-generated method stub
-	}
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
 
-	@Override
-	protected void showRenameDialog() {
-		// TODO Auto-generated method stub
-	}
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			SortedSet<Integer> checkedBricks = adapter.getCheckedItems();
+			Iterator<Integer> iterator = checkedBricks.iterator();
 
-	@Override
-	protected void showDeleteDialog() {
-		// TODO Auto-generated method stub
-	}
+			int numberDeleted = 0;
 
+			while (iterator.hasNext()) {
+				int position = iterator.next();
+				deleteBrick(position - numberDeleted);
+				++numberDeleted;
+			}
+			setSelectMode(Constants.SELECT_NONE);
+			adapter.clearCheckedItems();
+
+			actionMode = null;
+			setActionModeActive(false);
+
+			registerForContextMenu(listView);
+			BottomBar.enableButtons(getActivity());
+		}
+	};
+
+	private void deleteBrick(int position) {
+		//StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath());
+
+		//lookDataList.remove(position);
+		//ProjectManager.INSTANCE.getCurrentSprite().setLookDataList(lookDataList);
+
+		//getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
+	}
 }
