@@ -29,6 +29,6 @@
 
     <TextView
         style="@style/BrickText"
-        android:text="@string/brick_if_else" />
+        android:text="@string/brick_if_end"/>
 
 </LinearLayout>
