@@ -296,6 +296,11 @@
     <string name="brick_repeat">Wiederhole</string>
     <string name="times_label">mal</string>
     <string name="brick_loop_end">Wiederholen beenden</string>
+    <string name="brick_if_begin">Falls</string>
+    <string name="brick_if_begin_second_part">ist wahr, dann</string>
+    <string name="brick_if_else">sonst</string>
+    <string name="brick_if_end">sonst Ende</string>
+    <string name="brick_set_variable">Setze Variable</string>
     <!--  -->
 
 
@@ -382,8 +387,6 @@
     <string name="nxt_tone_frequency">Frequenz</string>
     <string name="tone_duration">Dauer</string>
     <string name="nxt_tone_hundred_hz">x100Hz</string>
-    <string name="number_to_small">Wert ist zu klein!</string>
-    <string name="number_to_big">Wert ist zu groß!</string>
     <!--  -->
 
 
@@ -425,8 +428,6 @@
     <string name="formula_editor_look_size">aussehen_größe</string>
     <string name="formula_editor_look_rotation">aussehen_rotation</string>
     <string name="formula_editor_look_layer">aussehen_ebene</string>
-    <string name="formula_editor_undo">Undo</string>
-    <string name="formula_editor_redo">Redo</string>
     <string name="formula_editor_compute">Compute</string>
     <string name="formula_editor_delete">Delete</string>
     <string name="formula_editor_object">Object</string>
@@ -447,7 +448,6 @@
     <string name="formula_editor_operator_plus">+</string>
     <string name="formula_editor_operator_minus">-</string>
     <string name="formula_editor_operator_divide">÷</string>
-    <string name="formula_editor_operator_modulus">%</string>
     <string name="formula_editor_operator_power">^</string>
     <string name="formula_editor_new_variable">make a new variable</string>
     <string name="formula_editor_variable_dialog_for_all_sprites">For all sprites</string>
