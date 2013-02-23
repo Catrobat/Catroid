@@ -652,7 +652,7 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
 		TextView computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
-		assertEquals("-2.0", computeTextView.getText().toString());
+		assertEquals("computeTextView did not contain the correct value", "-2.0", computeTextView.getText().toString());
 
 		solo.goBack();
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
@@ -667,7 +667,7 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
 		computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
-		assertEquals("-8.11", computeTextView.getText().toString());
+		assertEquals("computeTextView did not contain the correct value", "-8.11", computeTextView.getText().toString());
 
 		solo.goBack();
 
