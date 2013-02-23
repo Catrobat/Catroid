@@ -31,13 +31,12 @@
 
     <TextView
         android:id="@+id/if_label"
-        style="@style/brick_text_style"
+        style="@style/BrickText"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:text="@string/brick_if_begin" 
-        android:paddingRight="5dip">
+        android:paddingRight="5dip"
+        android:text="@string/brick_if_begin" >
     </TextView>
-
 
     <TextView
         android:id="@+id/brick_if_text_view1"
@@ -64,22 +63,22 @@
         android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:visibility="gone"
         android:gravity="right"
         android:inputType="number|numberDecimal"
         android:maxLength="10"
         android:maxLines="1"
         android:minWidth="75dip"
-        android:text="0" >
+        android:text="0"
+        android:visibility="gone" >
     </EditText>
-    
+
     <TextView
         android:id="@+id/if_label_second_part"
-        style="@style/brick_text_style"
+        style="@style/BrickText"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:text="@string/brick_if_begin_second_part" 
-        android:paddingRight="5dip">
+        android:paddingRight="5dip"
+        android:text="@string/brick_if_begin_second_part" >
     </TextView>
 
 </RelativeLayout>

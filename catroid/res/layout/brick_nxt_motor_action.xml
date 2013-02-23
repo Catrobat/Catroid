@@ -39,7 +39,7 @@
             android:layout_centerVertical="true" >
 
             <TextView
-                style="@style/brick_text_style"
+                style="@style/BrickText"
                 android:layout_centerVertical="true"
                 android:paddingRight="10dip"
                 android:text="@string/brick_motor_action" >
@@ -70,7 +70,7 @@
             android:layout_centerVertical="true" >
 
             <TextView
-                style="@style/brick_text_style"
+                style="@style/BrickText"
                 android:layout_centerVertical="true"
                 android:paddingRight="10dip"
                 android:text="@string/motor_speed" >
@@ -104,24 +104,22 @@
                     android:clickable="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
-                    android:visibility="gone"
                     android:gravity="right"
                     android:inputType="number|numberDecimal|numberSigned"
                     android:maxLength="4"
                     android:maxLines="1"
-                    android:text="0" >
+                    android:text="0"
+                    android:visibility="gone" >
                 </EditText>
 
                 <TextView
-                    style="@style/brick_text_style"
+                    style="@style/BrickText"
                     android:layout_centerVertical="true"
                     android:paddingRight="10dip"
                     android:text="@string/percent_symbol" >
                 </TextView>
             </LinearLayout>
         </RelativeLayout>
-
-        
     </LinearLayout>
 
 </LinearLayout>
