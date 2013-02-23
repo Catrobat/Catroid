@@ -297,7 +297,7 @@
     <string name="times_label">mal</string>
     <string name="brick_loop_end">Wiederholen beenden</string>
     <string name="brick_if_begin">Falls</string>
-    <string name="brick_if_begin_second_part">ist wahr, dann</string>
+    <string name="brick_if_begin_second_part">wahr ist, dann</string>
     <string name="brick_if_else">sonst</string>
     <string name="brick_if_end">sonst Ende</string>
     <string name="brick_set_variable">Setze Variable</string>
