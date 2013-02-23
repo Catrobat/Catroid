@@ -70,8 +70,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		 */
 		Thread.sleep(expectedDelay * (REPEAT_TIMES + 1));
 
-		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY,
-				(int) testSprite.look.getYPosition());
+		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY, (int) testSprite.look.getYPosition());
 	}
 
 	@FlakyTest(tolerance = 3)
