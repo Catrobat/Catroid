@@ -61,7 +61,6 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -100,8 +99,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
-		assertEquals("Incorrect number of elements in listView", 3 + 1, UiTestUtils.getScriptListView(solo)
-				.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of elements in listView", 3, UiTestUtils.getScriptListView(solo).getChildCount());
 
 		solo.clickLongOnText(solo.getString(R.string.brick_broadcast_receive));
 		solo.clickOnText(buttonDeleteText);
@@ -109,16 +107,14 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in list", 0, numberOfScripts);
-		assertEquals("Incorrect number of elements in listView", 0 + 1, UiTestUtils.getScriptListView(solo)
-				.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of elements in listView", 0, UiTestUtils.getScriptListView(solo).getChildCount());
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_hide);
 		solo.clickOnText(brickWhenStartedText);
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
-		assertEquals("Incorrect number of elements in listView", 2 + 1, UiTestUtils.getScriptListView(solo)
-				.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of elements in listView", 2, UiTestUtils.getScriptListView(solo).getChildCount());
 	}
 
 	private void createTestProject(String projectName) {
