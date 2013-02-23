@@ -26,13 +26,13 @@
  *			Copyright (c) Josh Clemm 2010
  *			Licensed under the Apache License, Version 2.0
  *
- -->
+-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-	android:shape="rectangle">
+    android:shape="rectangle" >
 
     <gradient
-        android:startColor="#dddddd"
+        android:centerColor="@color/solid_black"
         android:endColor="@color/solid_black"
-        android:centerColor="@color/solid_black" />
-    
+        android:startColor="#dddddd" />
+
 </shape>

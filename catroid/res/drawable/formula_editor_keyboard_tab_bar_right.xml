@@ -26,16 +26,18 @@
  *			Copyright (c) Josh Clemm 2010
  *			Licensed under the Apache License, Version 2.0
  *
- -->
+-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-	android:shape="rectangle">
+    android:shape="rectangle" >
 
-<!--     <gradient
-        android:startColor="@color/formula_editor_background"
-        android:endColor="#99CCFF" /> -->
+    <!--
          <gradient
-            android:startColor="@color/solid_black"
-            android:endColor="#dddddd"
-            android:centerColor="@color/solid_black" />
-    
+        android:startColor="@color/formula_editor_background"
+        android:endColor="#99CCFF" />
+    -->
+    <gradient
+        android:centerColor="@color/solid_black"
+        android:endColor="#dddddd"
+        android:startColor="@color/solid_black" />
+
 </shape>

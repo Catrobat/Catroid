@@ -20,335 +20,331 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/solid_black"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
- 	android:layout_height="wrap_content" >
- 
-	<LinearLayout
- 	android:layout_width="fill_parent"
- 	android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="@color/solid_black"
+    android:orientation="vertical" >
 
-	<Button
- 		android:id="@+id/formula_editor_keyboard_undo"
- 		android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
- 		android:text="@string/formula_editor_button_undo" 
- 		android:layout_weight="0.175"
- 		android:layout_marginTop="@dimen/key_margin"
- 		android:layout_marginLeft="@dimen/key_margin"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin"
- 		android:textColor="@color/white" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
 
-	<Button
- 		android:id="@+id/formula_editor_keyboard_redo"
- 		android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
- 		android:text="@string/formula_editor_button_redo"
- 		android:layout_weight="0.175" 
- 		android:layout_marginTop="@dimen/key_margin"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin"
- 		android:textColor="@color/white"  />
+        <Button
+            android:id="@+id/formula_editor_keyboard_undo"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginLeft="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_marginTop="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="@string/formula_editor_button_undo"
+            android:textColor="@color/white" />
 
-	<Button
-	    android:id="@+id/formula_editor_keyboard_compute"
-	    android:layout_width="0dp"
-	    android:layout_height="@dimen/key_height"
-	    android:layout_marginBottom="@dimen/key_margin"
-	    android:layout_marginRight="@dimen/key_margin"
-	    android:layout_marginTop="@dimen/key_margin"
-	    android:layout_weight="0.36"
-	    android:text="@string/formula_editor_compute"
-	    android:textColor="@color/white" />
+        <Button
+            android:id="@+id/formula_editor_keyboard_redo"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_marginTop="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="@string/formula_editor_button_redo"
+            android:textColor="@color/white" />
 
-	<Button
-    	android:id="@+id/formula_editor_keyboard_delete"
-    	android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
-    	android:text="@string/formula_editor_delete"
-    	android:layout_weight="0.30"
- 		android:textColor="@color/white"
- 		android:layout_marginTop="@dimen/key_margin"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
+        <Button
+            android:id="@+id/formula_editor_keyboard_compute"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_marginTop="@dimen/key_margin"
+            android:layout_weight="0.36"
+            android:text="@string/formula_editor_compute"
+            android:textColor="@color/white" />
 
-	</LinearLayout>
+        <Button
+            android:id="@+id/formula_editor_keyboard_delete"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_marginTop="@dimen/key_margin"
+            android:layout_weight="0.30"
+            android:text="@string/formula_editor_delete"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
-	<LinearLayout
- 	android:layout_width="fill_parent"
- 	android:layout_height="wrap_content" >
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
 
-	<Button
- 		android:id="@+id/formula_editor_keyboard_7"
- 		android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
- 		android:text="7" 
- 		android:layout_weight="0.175"
- 		android:textColor="@color/white"
- 		android:layout_marginLeft="@dimen/key_margin"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
+        <Button
+            android:id="@+id/formula_editor_keyboard_7"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginLeft="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="7"
+            android:textColor="@color/white" />
 
-	<Button
- 		android:id="@+id/formula_editor_keyboard_8"
- 		android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
- 		android:text="8"
- 		android:layout_weight="0.175" 
- 		android:textColor="@color/white"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
+        <Button
+            android:id="@+id/formula_editor_keyboard_8"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="8"
+            android:textColor="@color/white" />
 
-	<Button
-    	android:id="@+id/formula_editor_keyboard_9"
-    	android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
-    	android:text="9"
-    	android:layout_weight="0.175"
-    	android:textColor="@color/white"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
+        <Button
+            android:id="@+id/formula_editor_keyboard_9"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="9"
+            android:textColor="@color/white" />
 
-	<Button
-    	android:id="@+id/formula_editor_keyboard_divide"
-    	android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
-    	android:text="@string/formula_editor_operator_divide"
-    	android:layout_weight="0.175"
- 		android:textColor="@color/white"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
-	
-		<Button
-    	android:id="@+id/formula_editor_keyboard_object"
-    	android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
-    	android:text="@string/formula_editor_object"
-    	android:layout_weight="0.30"
- 		android:textColor="@color/white"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
+        <Button
+            android:id="@+id/formula_editor_keyboard_divide"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="@string/formula_editor_operator_divide"
+            android:textColor="@color/white" />
 
-	</LinearLayout>
-	<LinearLayout
- 	android:layout_width="fill_parent"
- 	android:layout_height="wrap_content" >
+        <Button
+            android:id="@+id/formula_editor_keyboard_object"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.30"
+            android:text="@string/formula_editor_object"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
-	<Button
- 		android:id="@+id/formula_editor_keyboard_4"
- 		android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
- 		android:text="4" 
- 		android:layout_weight="0.175"
- 		android:textColor="@color/white"
- 		android:layout_marginLeft="@dimen/key_margin"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
 
-	<Button
- 		android:id="@+id/formula_editor_keyboard_5"
- 		android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
- 		android:text="5"
- 		android:layout_weight="0.175" 
- 		android:textColor="@color/white"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
+        <Button
+            android:id="@+id/formula_editor_keyboard_4"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginLeft="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="4"
+            android:textColor="@color/white" />
 
-	<Button
-    	android:id="@+id/formula_editor_keyboard_6"
-    	android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
-    	android:text="6"
-    	android:layout_weight="0.175"
-    	android:textColor="@color/white"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
+        <Button
+            android:id="@+id/formula_editor_keyboard_5"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="5"
+            android:textColor="@color/white" />
 
-	<Button
-    	android:id="@+id/formula_editor_keyboard_mult"
-    	android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
-    	android:text="@string/formula_editor_operator_mult"
-    	android:layout_weight="0.175"
- 		android:textColor="@color/white"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
-	
-		<Button
-    	android:id="@+id/formula_editor_keyboard_math"
-    	android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
-    	android:text="@string/formula_editor_math"
-    	android:layout_weight="0.30"
- 		android:textColor="@color/white"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
+        <Button
+            android:id="@+id/formula_editor_keyboard_6"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="6"
+            android:textColor="@color/white" />
 
-	</LinearLayout>
+        <Button
+            android:id="@+id/formula_editor_keyboard_mult"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="@string/formula_editor_operator_mult"
+            android:textColor="@color/white" />
 
-	<LinearLayout
- 	android:layout_width="fill_parent"
- 	android:layout_height="wrap_content" >
+        <Button
+            android:id="@+id/formula_editor_keyboard_math"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.30"
+            android:text="@string/formula_editor_math"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
-	<Button
- 		android:id="@+id/formula_editor_keyboard_1"
- 		android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
- 		android:text="1" 
- 		android:layout_weight="0.175"
- 		android:textColor="@color/white"
- 		android:layout_marginLeft="@dimen/key_margin"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
 
-	<Button
- 		android:id="@+id/formula_editor_keyboard_2"
- 		android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
- 		android:text="2"
- 		android:layout_weight="0.175" 
- 		android:textColor="@color/white"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
+        <Button
+            android:id="@+id/formula_editor_keyboard_1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginLeft="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="1"
+            android:textColor="@color/white" />
 
-	<Button
-    	android:id="@+id/formula_editor_keyboard_3"
-    	android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
-    	android:text="3"
-    	android:layout_weight="0.175"
-    	android:textColor="@color/white"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
+        <Button
+            android:id="@+id/formula_editor_keyboard_2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="2"
+            android:textColor="@color/white" />
 
-	<Button
-    	android:id="@+id/formula_editor_keyboard_minus"
-    	android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
-    	android:text="@string/formula_editor_operator_minus"
-    	android:layout_weight="0.175"
- 		android:textColor="@color/white"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
-	
-		<Button
-    	android:id="@+id/formula_editor_keyboard_logic"
-    	android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
-    	android:text="@string/formula_editor_logic"
-    	android:layout_weight="0.30"
- 		android:textColor="@color/white"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
+        <Button
+            android:id="@+id/formula_editor_keyboard_3"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="3"
+            android:textColor="@color/white" />
 
-	</LinearLayout>
-	
-	<LinearLayout
- 	android:layout_width="fill_parent"
- 	android:layout_height="wrap_content" >
+        <Button
+            android:id="@+id/formula_editor_keyboard_minus"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="@string/formula_editor_operator_minus"
+            android:textColor="@color/white" />
 
-	<Button
- 		android:id="@+id/formula_editor_keyboard_decimal_mark"
- 		android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
- 		android:text="@string/formula_editor_decimal_mark" 
- 		android:layout_weight="0.175"
- 		android:textColor="@color/white"
- 		android:layout_marginLeft="@dimen/key_margin"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin"/>
+        <Button
+            android:id="@+id/formula_editor_keyboard_logic"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.30"
+            android:text="@string/formula_editor_logic"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
-	<Button
- 		android:id="@+id/formula_editor_keyboard_0"
- 		android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
- 		android:text="0"
- 		android:layout_weight="0.175" 
- 		android:textColor="@color/white"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
 
-	<Button
-    	android:id="@+id/formula_editor_keyboard_equal"
-    	android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
-    	android:text="@string/formula_editor_logic_equal"
-    	android:layout_weight="0.175"
-    	android:textColor="@color/white"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
+        <Button
+            android:id="@+id/formula_editor_keyboard_decimal_mark"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginLeft="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="@string/formula_editor_decimal_mark"
+            android:textColor="@color/white" />
 
-	<Button
-    	android:id="@+id/formula_editor_keyboard_plus"
-    	android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
-    	android:text="@string/formula_editor_operator_plus"
-    	android:layout_weight="0.175"
- 		android:textColor="@color/white"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
-	
-		<Button
-    	android:id="@+id/formula_editor_keyboard_sensors"
-    	android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
-    	android:text="@string/formula_editor_sensors"
-    	android:layout_weight="0.30"
- 		android:textColor="@color/white"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
+        <Button
+            android:id="@+id/formula_editor_keyboard_0"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="0"
+            android:textColor="@color/white" />
 
-	</LinearLayout>
-	
-	<LinearLayout
- 	android:layout_width="fill_parent"
- 	android:layout_height="wrap_content" >
+        <Button
+            android:id="@+id/formula_editor_keyboard_equal"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="@string/formula_editor_logic_equal"
+            android:textColor="@color/white" />
 
-	<Button
- 		android:id="@+id/formula_editor_keyboard_bracket_open"
- 		android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
- 		android:text="@string/formula_editor_bracket_open" 
- 		android:layout_weight="0.175"
- 		android:textColor="@color/white"
- 		android:layout_marginLeft="@dimen/key_margin"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
-	
-		<Button
- 		android:id="@+id/formula_editor_keyboard_bracket_close"
- 		android:layout_width="0dp"
- 		android:layout_height="@dimen/key_height"
- 		android:text="@string/formula_editor_bracket_close" 
- 		android:layout_weight="0.175"
- 		android:textColor="@color/white"
- 		android:layout_marginRight="@dimen/key_margin"
- 		android:layout_marginBottom="@dimen/key_margin" />
+        <Button
+            android:id="@+id/formula_editor_keyboard_plus"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="@string/formula_editor_operator_plus"
+            android:textColor="@color/white" />
 
-	<Button
-	    android:id="@+id/formula_editor_keyboard_random"
-	    android:layout_width="0dp"
-	    android:layout_height="@dimen/key_height"
-	    android:layout_marginBottom="@dimen/key_margin"
-	    android:layout_marginRight="@dimen/key_margin"
-	    android:layout_weight="0.355"
-	    android:text="@string/formula_editor_function_rand"
-	    android:textColor="@color/white" />
-	
-	<Button
-		android:id="@+id/formula_editor_keyboard_variables"
-	    android:layout_width="0dp"
-	    android:layout_height="@dimen/key_height"
-	    android:layout_marginBottom="@dimen/key_margin"
-	    android:layout_marginRight="@dimen/key_margin"
-	    android:layout_weight="0.295"
-	    android:text="@string/formula_editor_variables"
-	    android:textColor="@color/white" />
+        <Button
+            android:id="@+id/formula_editor_keyboard_sensors"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.30"
+            android:text="@string/formula_editor_sensors"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
-	</LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/formula_editor_keyboard_bracket_open"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginLeft="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="@string/formula_editor_bracket_open"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/formula_editor_keyboard_bracket_close"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="@string/formula_editor_bracket_close"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/formula_editor_keyboard_random"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.355"
+            android:text="@string/formula_editor_function_rand"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/formula_editor_keyboard_variables"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/key_height"
+            android:layout_marginBottom="@dimen/key_margin"
+            android:layout_marginRight="@dimen/key_margin"
+            android:layout_weight="0.295"
+            android:text="@string/formula_editor_variables"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
 </LinearLayout>

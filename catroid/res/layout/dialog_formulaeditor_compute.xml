@@ -20,21 +20,20 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" 
+    android:orientation="vertical"
     android:paddingLeft="40dp"
-    android:paddingRight="40dp">
-    
+    android:paddingRight="40dp" >
 
     <TextView
         android:id="@+id/formula_editor_compute_dialog_textview"
         android:layout_width="fill_parent"
         android:layout_height="100dp"
+        android:background="@color/white"
         android:gravity="center"
-        android:textSize="40dp" 
-        android:background="@color/white"/>
+        android:textSize="40dp" />
 
 </RelativeLayout>

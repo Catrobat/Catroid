@@ -20,7 +20,7 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -35,22 +35,21 @@
         android:hint="@string/formula_editor_variable_dialog_hint"
         android:inputType="text" />
 
-    <RadioGroup 
+    <RadioGroup
         android:id="@+id/dialog_formula_editor_variable_name_radio_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dialog_formula_editor_variable_name_edit_text"
         android:layout_alignParentLeft="true"
-        android:orientation="horizontal">
-                
-    	<RadioButton
-       		 android:id="@+id/dialog_formula_editor_variable_name_radio_button_left"
-       		 android:text="@string/formula_editor_variable_dialog_for_all_sprites"/>
+        android:layout_below="@id/dialog_formula_editor_variable_name_edit_text"
+        android:orientation="horizontal" >
 
-    	<RadioButton
-      		 android:id="@+id/dialog_formula_editor_variable_name_radio_button_right"
-      		 android:text="@string/formula_editor_variable_dialog_for_this_sprite_only"/>
-    
-</RadioGroup>
+        <RadioButton
+            android:id="@+id/dialog_formula_editor_variable_name_radio_button_left"
+            android:text="@string/formula_editor_variable_dialog_for_all_sprites" />
+
+        <RadioButton
+            android:id="@+id/dialog_formula_editor_variable_name_radio_button_right"
+            android:text="@string/formula_editor_variable_dialog_for_this_sprite_only" />
+    </RadioGroup>
 
 </RelativeLayout>

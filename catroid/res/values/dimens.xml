@@ -40,6 +40,6 @@
     <dimen name="key_height">35dip</dimen>
     <dimen name="key_margin">3dip</dimen>
     <dimen name="text_size_xxsmall">10sp</dimen>
-	<dimen name="text_size_xxlarge">24sp</dimen>
+    <dimen name="text_size_xxlarge">24sp</dimen>
 
 </resources>
