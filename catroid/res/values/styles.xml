@@ -248,4 +248,18 @@
         <item name="android:textSize">@dimen/text_size_small</item>
     </style>
 
+    <style name="dialog_fullscreen">
+        <item name="android:windowBackground">@color/formula_editor_background</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    
+    <style name="brick_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

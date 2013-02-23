@@ -3,7 +3,7 @@ package org.catrobat.catroid.formulaeditor;
 import java.util.LinkedList;
 import java.util.List;
 
-import at.tugraz.ist.catroid.R;
+import org.catrobat.catroid.R;
 
 public class InternFormulaHelper {
 

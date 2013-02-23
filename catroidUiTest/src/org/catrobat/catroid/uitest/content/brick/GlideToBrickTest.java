@@ -25,9 +25,9 @@ package org.catrobat.catroid.uitest.content.brick;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -62,31 +62,46 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testNumberInput() {
-		String whenStartedText = solo.getString(R.string.brick_when_started);
-
-		UiTestUtils.addNewBrick(solo, R.string.brick_glide);
-		solo.clickOnText(whenStartedText);
-
 		double duration = 1.5;
 		int xPosition = 123;
 		int yPosition = 567;
 
-		// This is a hack. On my device and on Jenkins, the click on the first EditText could not be completed.
-		// Doing it manually here
-		solo.clickOnView(solo.getView(R.id.brick_glide_to_edit_text_duration));
-		UiTestUtils.clickEnterClose(solo, 0, String.valueOf(duration));
-		UiTestUtils.clickEnterClose(solo, 1, String.valueOf(xPosition));
-		UiTestUtils.clickEnterClose(solo, 2, String.valueOf(yPosition));
+		solo.clickOnEditText(0);
+		UiTestUtils.insertDoubleIntoEditText(solo, duration);
+
+		solo.goBack();
+
+		solo.clickOnEditText(1);
+		UiTestUtils.insertDoubleIntoEditText(solo, xPosition);
+		solo.goBack();
+
+		solo.clickOnEditText(2);
+		UiTestUtils.insertDoubleIntoEditText(solo, yPosition);
+		solo.goBack();
+
+		assertEquals("Text not updated within FormulaEditor", duration,
+				Double.parseDouble(solo.getEditText(0).getText().toString()));
+		assertEquals("Text not updated within FormulaEditor", xPosition,
+				Integer.parseInt(solo.getEditText(1).getText().toString().substring(0, 3)));
+		assertEquals("Text not updated within FormulaEditor", yPosition,
+				Integer.parseInt(solo.getEditText(2).getText().toString().substring(0, 3)));
+
+		solo.goBack();
 
 		ProjectManager manager = ProjectManager.getInstance();
 		List<Brick> brickList = manager.getCurrentSprite().getScript(0).getBrickList();
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(0);
 
-		assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000),
-				glideToBrick.getDurationInMilliSeconds());
-		assertEquals("Wrong x input in Glide to brick", xPosition,
-				Reflection.getPrivateField(glideToBrick, "xDestination"));
-		assertEquals("Wrong y input in Glide to brick", yPosition,
-				Reflection.getPrivateField(glideToBrick, "yDestination"));
+		Formula formula = (Formula) Reflection.getPrivateField(glideToBrick, "durationInSeconds");
+		float temp = formula.interpretFloat();
+
+		assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000), Math.round(temp * 1000));
+		formula = (Formula) Reflection.getPrivateField(glideToBrick, "xDestination");
+		int temp2 = formula.interpretInteger();
+		assertEquals("Wrong x input in Glide to brick", xPosition, temp2);
+
+		formula = (Formula) Reflection.getPrivateField(glideToBrick, "yDestination");
+		temp2 = formula.interpretInteger();
+		assertEquals("Wrong y input in Glide to brick", yPosition, temp2);
 	}
 }

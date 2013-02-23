@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -101,10 +100,7 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_move)));
 
-		UiTestUtils.clickEnterClose(solo, 0, STEPS_TO_MOVE + "");
-
-		assertEquals("Wrong text in field.", STEPS_TO_MOVE, Reflection.getPrivateField(moveNStepsBrick, "steps"));
-		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE + "", solo.getEditText(0).getText().toString());
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, STEPS_TO_MOVE, "steps", moveNStepsBrick);
 	}
 
 }

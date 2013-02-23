@@ -23,7 +23,7 @@
 package org.catrobat.catroid.formulaeditor;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Costume;
+import org.catrobat.catroid.content.Look;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -160,11 +160,11 @@ public class SensorHandler implements SensorEventListener {
 		return sensorValue;
 	}
 
-	private static Costume getCurrentObjectLook() {
+	private static Look getCurrentObjectLook() {
 		if (ProjectManager.getInstance().getCurrentSprite() == null) {
 			return null;
 		}
-		return ProjectManager.getInstance().getCurrentSprite().costume;
+		return ProjectManager.getInstance().getCurrentSprite().look;
 	}
 
 	@Override

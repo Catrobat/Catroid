@@ -24,21 +24,19 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private double changeBrightness;
+	private Formula changeBrightness;
 	private Sprite sprite;
 
 	private transient View view;
@@ -47,7 +45,12 @@ public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 
 	}
 
-	public ChangeBrightnessByNBrick(Sprite sprite, double changeBrightness) {
+	public ChangeBrightnessByNBrick(Sprite sprite, double changeBrightnessValue) {
+		this.sprite = sprite;
+		changeBrightness = new Formula(Double.toString(changeBrightnessValue));
+	}
+
+	public ChangeBrightnessByNBrick(Sprite sprite, Formula changeBrightness) {
 		this.sprite = sprite;
 		this.changeBrightness = changeBrightness;
 	}
@@ -59,16 +62,13 @@ public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-		sprite.look.changeBrightnessValueBy((float) (this.changeBrightness / 100));
+		float changeBrightnessValue = changeBrightness.interpretFloat() / 100F;
+		sprite.look.changeBrightnessValueBy(changeBrightnessValue);
 	}
 
 	@Override
 	public Sprite getSprite() {
 		return this.sprite;
-	}
-
-	public double getChangeBrightness() {
-		return changeBrightness;
 	}
 
 	@Override
@@ -78,7 +78,8 @@ public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_brightness_prototype_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_change_brightness_edit_text);
-		editX.setText(String.valueOf(changeBrightness));
+		changeBrightness.setTextFieldId(R.id.brick_change_brightness_edit_text);
+		changeBrightness.refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -95,34 +96,11 @@ public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new ChangeBrightnessByNBrick(getSprite(), getChangeBrightness());
+		return new ChangeBrightnessByNBrick(getSprite(), changeBrightness);
 	}
 
 	@Override
 	public void onClick(View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(changeBrightness));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-						| InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					changeBrightness = Double.parseDouble(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_brightness_brick");
+		FormulaEditorFragment.showFragment(view, this, changeBrightness);
 	}
 }

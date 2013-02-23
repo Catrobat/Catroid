@@ -52,6 +52,8 @@ public class Sprite implements Serializable {
 	private transient Map<Thread, Boolean> activeThreads;
 	private transient Map<Script, List<Thread>> activeScripts;
 
+	public static transient String SCRIPT_THREAD_NAME_PREFIX = "sprite_name_";
+
 	private Object readResolve() {
 		//filling FileChecksumContainer:
 		if (soundList != null && lookList != null && ProjectManager.getInstance().getCurrentProject() != null) {
@@ -123,7 +125,7 @@ public class Sprite implements Serializable {
 			public void run() {
 				script.run();
 			}
-		});
+		}, SCRIPT_THREAD_NAME_PREFIX + name);
 		if (script instanceof WhenScript) {
 			if (!activeScripts.containsKey(script)) {
 				activeScripts.put(script, new LinkedList<Thread>());

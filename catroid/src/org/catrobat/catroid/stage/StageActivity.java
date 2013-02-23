@@ -25,6 +25,7 @@ package org.catrobat.catroid.stage;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 
 import android.content.pm.ActivityInfo;
@@ -55,6 +56,7 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onBackPressed() {
+		SensorHandler.stopSensorListeners();
 		pause();
 		stageDialog.show();
 	}
@@ -68,11 +70,13 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	public void pause() {
+		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
 	}
 
 	public void resume() {
 		stageListener.menuResume();
+		SensorHandler.startSensorListener(this);
 	}
 
 	public boolean getResizePossible() {

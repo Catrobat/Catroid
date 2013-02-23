@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010-2011 The Catroid Team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
@@ -11,15 +11,15 @@
  *  
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
+ *  http://www.catroid.org/catroid_license_additional_term
  *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU Affero General Public License for more details.
- *  
+ *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -39,7 +39,7 @@
             android:layout_centerVertical="true" >
 
             <TextView
-                style="@style/BrickText"
+                style="@style/brick_text_style"
                 android:layout_centerVertical="true"
                 android:paddingRight="10dip"
                 android:text="@string/brick_motor_action" >
@@ -70,7 +70,7 @@
             android:layout_centerVertical="true" >
 
             <TextView
-                style="@style/BrickText"
+                style="@style/brick_text_style"
                 android:layout_centerVertical="true"
                 android:paddingRight="10dip"
                 android:text="@string/motor_speed" >
@@ -104,16 +104,16 @@
                     android:clickable="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
+                    android:visibility="gone"
                     android:gravity="right"
                     android:inputType="number|numberDecimal|numberSigned"
                     android:maxLength="4"
                     android:maxLines="1"
-                    android:text="0"
-                    android:visibility="gone" >
+                    android:text="0" >
                 </EditText>
 
                 <TextView
-                    style="@style/BrickText"
+                    style="@style/brick_text_style"
                     android:layout_centerVertical="true"
                     android:paddingRight="10dip"
                     android:text="@string/percent_symbol" >
@@ -121,42 +121,7 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" >
-
-                <Button
-                    android:id="@+id/speed_down_btn"
-                    android:layout_width="30dip"
-                    android:layout_height="35dip"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:text="@string/minus_symbol" />
-
-                <SeekBar
-                    android:id="@+id/seekBarSpeedMotorAction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:clickable="false"
-                    android:focusable="false" >
-                </SeekBar>
-
-                <Button
-                    android:id="@+id/speed_up_btn"
-                    android:layout_width="30dip"
-                    android:layout_height="35dip"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:text="@string/plus_symbol" />
-            </LinearLayout>
-        </RelativeLayout>
+        
     </LinearLayout>
 
 </LinearLayout>

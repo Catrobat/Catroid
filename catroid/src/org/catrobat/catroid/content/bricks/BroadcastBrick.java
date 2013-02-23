@@ -189,4 +189,9 @@ public class BroadcastBrick implements Brick {
 	public BroadcastBrick() {
 
 	}
+
+	@Override
+	public void onClick(View view) {
+
+	}
 }

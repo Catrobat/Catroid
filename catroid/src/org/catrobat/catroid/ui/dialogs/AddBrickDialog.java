@@ -47,6 +47,7 @@ import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
@@ -63,9 +64,10 @@ import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
@@ -270,6 +272,8 @@ public class AddBrickDialog extends DialogFragment {
 		controlBrickList.add(new NoteBrick(sprite));
 		controlBrickList.add(new ForeverBrick(sprite));
 		controlBrickList.add(new RepeatBrick(sprite, 3));
+		controlBrickList.add(new IfLogicBeginBrick(sprite, 0));
+		controlBrickList.add(new SetVariableBrick(sprite, 42));
 		brickMap.put(context.getString(R.string.category_control), controlBrickList);
 
 		List<Brick> legoNXTBrickList = new ArrayList<Brick>();

@@ -1,7 +1,7 @@
 /**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010-2011 The Catroid Team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
@@ -10,18 +10,19 @@
  *  
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
+ *  http://www.catroid.org/catroid_license_additional_term
  *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU Affero General Public License for more details.
- *  
+ *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.content.Sprite;
 
@@ -32,17 +33,12 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
-import org.catrobat.catroid.R;
 
 public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C, ALL_MOTORS
-	}
-
-	public LegoNxtMotorStopBrick() {
-
 	}
 
 	private Sprite sprite;
@@ -126,4 +122,10 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
 	}
+
+	@Override
+	public void onClick(View view) {
+
+	}
+
 }

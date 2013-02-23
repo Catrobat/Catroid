@@ -145,4 +145,9 @@ public class NoteBrick implements Brick {
 	public Brick clone() {
 		return new NoteBrick(this.sprite, this.note);
 	}
+
+	@Override
+	public void onClick(View view) {
+
+	}
 }

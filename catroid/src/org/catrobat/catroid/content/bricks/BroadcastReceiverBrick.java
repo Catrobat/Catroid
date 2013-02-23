@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
@@ -30,6 +29,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
+import org.catrobat.catroid.R;
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -168,5 +168,10 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		}
 
 		return receiveScript;
+	}
+
+	@Override
+	public void onClick(View view) {
+
 	}
 }

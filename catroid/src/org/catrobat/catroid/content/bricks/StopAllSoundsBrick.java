@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
 
 public class StopAllSoundsBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -76,5 +76,10 @@ public class StopAllSoundsBrick implements Brick {
 	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_stop_all_sounds, null);
+	}
+
+	@Override
+	public void onClick(View view) {
+
 	}
 }

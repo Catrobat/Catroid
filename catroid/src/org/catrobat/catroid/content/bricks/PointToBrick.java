@@ -200,4 +200,9 @@ public class PointToBrick implements Brick {
 	public Brick clone() {
 		return new PointToBrick(sprite, pointedSprite);
 	}
+
+	@Override
+	public void onClick(View view) {
+
+	}
 }

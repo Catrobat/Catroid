@@ -24,28 +24,31 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class WaitBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int timeToWaitInMilliSeconds;
+	private Formula timeToWaitInSeconds;
 	private Sprite sprite;
 
 	private transient View view;
 
-	public WaitBrick(Sprite sprite, int timeToWaitInMilliseconds) {
-		this.timeToWaitInMilliSeconds = timeToWaitInMilliseconds;
+	public WaitBrick(Sprite sprite, int timeToWaitInMillisecondsValue) {
 		this.sprite = sprite;
+		timeToWaitInSeconds = new Formula(Double.toString(timeToWaitInMillisecondsValue / 1000.0));
+	}
+
+	public WaitBrick(Sprite sprite, Formula timeToWaitInSecondsFormula) {
+		this.sprite = sprite;
+		this.timeToWaitInSeconds = timeToWaitInSecondsFormula;
 	}
 
 	public WaitBrick() {
@@ -59,14 +62,15 @@ public class WaitBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
+		int timeToWaitInMilliSeconds = (int) (timeToWaitInSeconds.interpretFloat() * 1000f);
+
 		long startTime = System.currentTimeMillis();
-		int timeToWait = timeToWaitInMilliSeconds;
-		while (System.currentTimeMillis() <= (startTime + timeToWait)) {
+		while (System.currentTimeMillis() <= (startTime + timeToWaitInMilliSeconds)) {
 			if (!sprite.isAlive(Thread.currentThread())) {
 				break;
 			}
 			if (sprite.isPaused) {
-				timeToWait = timeToWait - (int) (System.currentTimeMillis() - startTime);
+				timeToWaitInMilliSeconds = timeToWaitInMilliSeconds - (int) (System.currentTimeMillis() - startTime);
 				while (sprite.isPaused) {
 					if (sprite.isFinished) {
 						return;
@@ -90,8 +94,8 @@ public class WaitBrick implements Brick, OnClickListener {
 
 		TextView text = (TextView) view.findViewById(R.id.brick_wait_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_wait_edit_text);
-		edit.setText((timeToWaitInMilliSeconds / 1000.0) + "");
-
+		timeToWaitInSeconds.setTextFieldId(R.id.brick_wait_edit_text);
+		timeToWaitInSeconds.refreshTextField(view);
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
@@ -106,33 +110,11 @@ public class WaitBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new WaitBrick(getSprite(), timeToWaitInMilliSeconds);
+		return new WaitBrick(getSprite(), timeToWaitInSeconds);
 	}
 
 	@Override
 	public void onClick(View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(timeToWaitInMilliSeconds / 1000.0));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					timeToWaitInMilliSeconds = (int) (Double.parseDouble(input.getText().toString()) * 1000);
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_wait_brick");
+		FormulaEditorFragment.showFragment(view, this, timeToWaitInSeconds);
 	}
 }

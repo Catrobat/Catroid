@@ -120,4 +120,9 @@ public class NextLookBrick implements Brick {
 
 		return view;
 	}
+
+	@Override
+	public void onClick(View view) {
+
+	}
 }

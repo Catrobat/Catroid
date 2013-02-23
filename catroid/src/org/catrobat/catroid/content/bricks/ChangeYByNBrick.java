@@ -24,21 +24,19 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ChangeYByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int yMovement;
+	private Formula yMovement;
 	private Sprite sprite;
 
 	private transient View view;
@@ -47,8 +45,15 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 
 	}
 
-	public ChangeYByNBrick(Sprite sprite, int yMovement) {
+	public ChangeYByNBrick(Sprite sprite, int yMovementValue) {
 		this.sprite = sprite;
+
+		yMovement = new Formula(Integer.toString(yMovementValue));
+	}
+
+	public ChangeYByNBrick(Sprite sprite, Formula yMovement) {
+		this.sprite = sprite;
+
 		this.yMovement = yMovement;
 	}
 
@@ -59,15 +64,17 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
+		int yMovementValue = yMovement.interpretInteger();
+
 		sprite.look.aquireXYWidthHeightLock();
 		int yPosition = (int) sprite.look.getYPosition();
 
-		if (yPosition > 0 && yMovement > 0 && yPosition + yMovement < 0) {
+		if (yPosition > 0 && yMovementValue > 0 && yPosition + yMovementValue < 0) {
 			yPosition = Integer.MAX_VALUE;
-		} else if (yPosition < 0 && yMovement < 0 && yPosition + yMovement > 0) {
+		} else if (yPosition < 0 && yMovementValue < 0 && yPosition + yMovementValue > 0) {
 			yPosition = Integer.MIN_VALUE;
 		} else {
-			yPosition += yMovement;
+			yPosition += yMovementValue;
 		}
 
 		sprite.look.setXYPosition(sprite.look.getXPosition(), yPosition);
@@ -86,7 +93,8 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_change_y_prototype_text_view);
 		EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
-		editY.setText(String.valueOf(yMovement));
+		yMovement.setTextFieldId(R.id.brick_change_y_edit_text);
+		yMovement.refreshTextField(view);
 
 		textY.setVisibility(View.GONE);
 		editY.setVisibility(View.VISIBLE);
@@ -107,28 +115,6 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public void onClick(View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(yMovement));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					yMovement = Integer.parseInt(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_y_by_brick");
+		FormulaEditorFragment.showFragment(view, this, yMovement);
 	}
 }

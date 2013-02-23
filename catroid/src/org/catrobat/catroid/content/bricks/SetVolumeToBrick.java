@@ -24,26 +24,29 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class SetVolumeToBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private Sprite sprite;
-	private float volume;
+	private Formula volume;
 
-	public SetVolumeToBrick(Sprite sprite, float volume) {
+	public SetVolumeToBrick(Sprite sprite, float volumeValue) {
+		this.sprite = sprite;
+		volume = new Formula(Float.toString(volumeValue));
+	}
+
+	public SetVolumeToBrick(Sprite sprite, Formula volume) {
 		this.sprite = sprite;
 		this.volume = volume;
 	}
@@ -59,12 +62,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-		if (volume < 0.0f) {
-			volume = 0.0f;
-		} else if (volume > 100.0f) {
-			volume = 100.0f;
-		}
-		SoundManager.getInstance().setVolume(volume);
+		SoundManager.getInstance().setVolume(volume.interpretFloat(0.0f, 100.0f));
 	}
 
 	@Override
@@ -78,8 +76,8 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 
 		TextView text = (TextView) view.findViewById(R.id.brick_set_volume_to_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_set_volume_to_edit_text);
-		edit.setText(String.valueOf(volume));
-
+		volume.setTextFieldId(R.id.brick_set_volume_to_edit_text);
+		volume.refreshTextField(view);
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 
@@ -100,28 +98,6 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 
 	@Override
 	public void onClick(View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(volume));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					volume = Float.parseFloat(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_set_volume_to_brick");
+		FormulaEditorFragment.showFragment(view, this, volume);
 	}
 }

@@ -108,11 +108,10 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
 		assertEquals("Value in Brick is not updated", xPosition, currentXPosition);
 
-		UiTestUtils.clickEnterClose(solo, 1, yPosition + "");
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 2, xPosition, "xPosition", placeAtBrick);
+		solo.sleep(200);
 
-		int currentYPosition = (Integer) Reflection.getPrivateField(placeAtBrick, "yPosition");
-		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
-		assertEquals("Value in Brick is not updated", yPosition, currentYPosition);
+		UiTestUtils.testBrickWithFormulaEditor(solo, 1, 2, yPosition, "yPosition", placeAtBrick);
 	}
 
 	private void createProject() {

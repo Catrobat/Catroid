@@ -23,12 +23,12 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
 
 public class IfOnEdgeBounceBrick implements Brick {
 
@@ -131,6 +131,11 @@ public class IfOnEdgeBounceBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new IfOnEdgeBounceBrick(sprite);
+	}
+
+	@Override
+	public void onClick(View view) {
+
 	}
 
 }

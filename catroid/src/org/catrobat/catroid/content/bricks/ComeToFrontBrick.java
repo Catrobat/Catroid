@@ -94,4 +94,9 @@ public class ComeToFrontBrick implements Brick {
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_go_to_front, null);
 	}
+
+	@Override
+	public void onClick(View view) {
+
+	}
 }

@@ -24,24 +24,22 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private double steps;
+	private Formula steps;
 
 	private transient View view;
 
@@ -49,8 +47,14 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	}
 
-	public MoveNStepsBrick(Sprite sprite, double steps) {
+	public MoveNStepsBrick(Sprite sprite, double stepsValue) {
 		this.sprite = sprite;
+		steps = new Formula(Double.toString(stepsValue));
+	}
+
+	public MoveNStepsBrick(Sprite sprite, Formula steps) {
+		this.sprite = sprite;
+
 		this.steps = steps;
 	}
 
@@ -61,12 +65,14 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
+		float stepsValue = steps.interpretFloat();
+
 		sprite.look.aquireXYWidthHeightLock();
 
 		double radians = Math.toRadians(sprite.look.rotation);
 
-		int newXPosition = (int) Math.round(sprite.look.getXPosition() + steps * Math.cos(radians));
-		int newYPosition = (int) Math.round(sprite.look.getYPosition() + steps * Math.sin(radians));
+		int newXPosition = (int) Math.round(sprite.look.getXPosition() + stepsValue * Math.cos(radians));
+		int newYPosition = (int) Math.round(sprite.look.getYPosition() + stepsValue * Math.sin(radians));
 
 		sprite.look.setXYPosition(newXPosition, newYPosition);
 		sprite.look.releaseXYWidthHeightLock();
@@ -86,7 +92,9 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		TextView text = (TextView) view.findViewById(R.id.brick_move_n_steps_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
-		edit.setText(String.valueOf(steps));
+		steps.setTextFieldId(R.id.brick_move_n_steps_edit_text);
+		steps.refreshTextField(view);
+
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
@@ -108,29 +116,6 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	@Override
 	public void onClick(View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(steps));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-						| InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					steps = Double.parseDouble(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_move_n_steps_brick");
+		FormulaEditorFragment.showFragment(view, this, steps);
 	}
 }

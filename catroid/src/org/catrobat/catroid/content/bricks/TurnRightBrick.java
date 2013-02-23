@@ -24,17 +24,15 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class TurnRightBrick implements Brick, OnClickListener {
 
@@ -42,7 +40,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	private Sprite sprite;
 
-	private double degrees;
+	private Formula degrees;
 
 	private transient View view;
 
@@ -50,9 +48,14 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	}
 
-	public TurnRightBrick(Sprite sprite, double degrees) {
+	public TurnRightBrick(Sprite sprite, double degreesValue) {
 		this.sprite = sprite;
-		this.degrees = degrees;
+		degrees = new Formula(Double.toString(degreesValue));
+	}
+
+	public TurnRightBrick(Sprite sprite, Formula degreesFormula) {
+		this.sprite = sprite;
+		this.degrees = degreesFormula;
 	}
 
 	@Override
@@ -62,7 +65,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-		sprite.look.rotation = (sprite.look.rotation % 360) - (float) degrees;
+		sprite.look.rotation = (sprite.look.rotation % 360f) - degrees.interpretFloat();
 	}
 
 	@Override
@@ -77,8 +80,8 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
 		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_right_edit_text);
-		editDegrees.setText(String.valueOf(degrees));
-
+		degrees.setTextFieldId(R.id.brick_turn_right_edit_text);
+		degrees.refreshTextField(view);
 		textDegrees.setVisibility(View.GONE);
 		editDegrees.setVisibility(View.VISIBLE);
 		editDegrees.setOnClickListener(this);
@@ -98,29 +101,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	@Override
 	public void onClick(View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(degrees));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					degrees = Double.parseDouble(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_turn_right_brick");
+		FormulaEditorFragment.showFragment(view, this, degrees);
 	}
 
 }

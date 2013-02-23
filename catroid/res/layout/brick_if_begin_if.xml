@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010-2011 The Catroid Team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout01"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/brick_yellow"
+    android:focusable="false"
+    android:focusableInTouchMode="false" >
+
+    <TextView
+        android:id="@+id/if_label"
+        style="@style/brick_text_style"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:text="@string/brick_if_begin" 
+        android:paddingRight="5dip">
+    </TextView>
+
+
+    <TextView
+        android:id="@+id/brick_if_text_view1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dip"
+        android:layout_toRightOf="@+id/if_label"
+        android:background="@color/white"
+        android:gravity="right"
+        android:minHeight="30dip"
+        android:minWidth="50dip"
+        android:paddingRight="5dip"
+        android:text="0"
+        android:textSize="20dip" >
+    </TextView>
+
+    <EditText
+        android:id="@+id/brick_if_edit_text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/if_label"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:visibility="gone"
+        android:gravity="right"
+        android:inputType="number|numberDecimal"
+        android:maxLength="10"
+        android:maxLines="1"
+        android:minWidth="75dip"
+        android:text="0" >
+    </EditText>
+    
+    <TextView
+        android:id="@+id/if_label_second_part"
+        style="@style/brick_text_style"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="@string/brick_if_begin_second_part" 
+        android:paddingRight="5dip">
+    </TextView>
+
+</RelativeLayout>

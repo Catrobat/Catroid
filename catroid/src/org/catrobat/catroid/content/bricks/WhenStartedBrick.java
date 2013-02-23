@@ -89,4 +89,9 @@ public class WhenStartedBrick extends ScriptBrick {
 
 		return script;
 	}
+
+	@Override
+	public void onClick(View view) {
+
+	}
 }

@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -85,12 +84,7 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_turn_right)));
 
-		UiTestUtils.clickEnterClose(solo, 0, TURN_DEGREES + "");
-
-		double actualDegrees = (Double) Reflection.getPrivateField(turnRightBrick, "degrees");
-
-		assertEquals("Wrong text in field", TURN_DEGREES, actualDegrees);
-		assertEquals("Text not updated", TURN_DEGREES, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, TURN_DEGREES, "degrees", turnRightBrick);
 	}
 
 	private void createProject() {

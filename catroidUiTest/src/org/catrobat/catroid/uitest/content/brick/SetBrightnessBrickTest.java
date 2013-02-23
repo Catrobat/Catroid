@@ -85,10 +85,7 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 		double newBrightness = 65.5;
 
-		UiTestUtils.clickEnterClose(solo, 0, newBrightness + "");
-
-		assertEquals("Wrong text in field", newBrightness, SetBrightnessBrick.getBrightnessValue());
-		assertEquals("Text not updated", newBrightness, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, newBrightness, "brightness", setBrightnessBrick);
 	}
 
 	private void createProject() {

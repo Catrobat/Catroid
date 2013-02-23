@@ -25,9 +25,10 @@ package org.catrobat.catroid.formulaeditor;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.catrobat.catroid.R;
+
 import android.content.Context;
 import android.util.Log;
-import at.tugraz.ist.catroid.R;
 
 public class InternFormula {
 

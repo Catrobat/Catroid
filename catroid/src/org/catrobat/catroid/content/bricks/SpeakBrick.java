@@ -152,4 +152,9 @@ public class SpeakBrick implements Brick {
 	public Brick clone() {
 		return new SpeakBrick(this.sprite, this.text);
 	}
+
+	@Override
+	public void onClick(View view) {
+
+	}
 }

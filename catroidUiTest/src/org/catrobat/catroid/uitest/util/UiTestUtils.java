@@ -53,6 +53,7 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
@@ -140,27 +141,84 @@ public class UiTestUtils {
 	 * @param value
 	 *            The value you want to put into the EditText
 	 */
-	public static void insertIntegerIntoEditText(Solo solo, int editTextId, int value) {
-		insertValue(solo, editTextId, value + "");
+	public static void insertIntegerIntoEditText(Solo solo, int value) {
+		insertValue(solo, value + "");
 	}
 
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the double value and closes the Dialog
 	 * 
-	 * @param editTextIndex
+	 * @param editTextId
 	 *            The ID of the EditText to click on
 	 * @param value
 	 *            The value you want to put into the EditText
 	 */
-	public static void insertDoubleIntoEditText(Solo solo, int editTextIndex, double value) {
-		insertValue(solo, editTextIndex, value + "");
+	public static void insertDoubleIntoEditText(Solo solo, double value) {
+		insertValue(solo, value + "");
 	}
 
-	private static void insertValue(Solo solo, int editTextIndex, String value) {
-		solo.clickOnEditText(editTextIndex);
-		solo.sleep(50);
-		solo.clearEditText(editTextIndex);
-		solo.enterText(editTextIndex, value);
+	private static void insertValue(Solo solo, String value) {
+
+		for (char item : (value.toCharArray())) {
+			switch (item) {
+				case '0':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+					break;
+				case '1':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
+					break;
+				case '2':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_2));
+					break;
+				case '3':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_3));
+					break;
+				case '4':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_4));
+					break;
+				case '5':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_5));
+					break;
+				case '6':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_6));
+					break;
+				case '7':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_7));
+					break;
+				case '8':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_8));
+					break;
+				case '9':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
+					break;
+				case '.':
+				case ',':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_decimal_mark));
+			}
+		}
+	}
+
+	/**
+	 * For bricks using the FormulaEditor. Tests starting the FE, entering a new number/formula and
+	 * ensures its set correctly to the brick´s edit text field
+	 */
+	public static void testBrickWithFormulaEditor(Solo solo, int editTextNumber, int numberOfEditTextsInBrick,
+			double newValue, String fieldName, Object theBrick) {
+
+		solo.clickOnEditText(editTextNumber);
+		insertDoubleIntoEditText(solo, newValue);
+
+		assertEquals("Text not updated within FormulaEditor", newValue,
+				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()));
+		solo.goBack();
+		solo.sleep(200);
+
+		Formula formula = (Formula) Reflection.getPrivateField(theBrick, fieldName);
+
+		assertEquals("Wrong text in field", newValue, formula.interpretFloat(), 0.01f);
+		assertEquals("Text not updated in the brick list", newValue,
+				Double.parseDouble(solo.getEditText(editTextNumber).getText().toString()), 0.01f);
+
 	}
 
 	public static void clickEnterClose(Solo solo, int editTextIndex, String value) {
@@ -912,5 +970,43 @@ public class UiTestUtils {
 		} else {
 			return solo.getCurrentSpinners().get(ACTION_BAR_SPINNER_INDEX).getAdapter().getCount();
 		}
+	}
+
+	public static View getViewContainerByIds(Solo solo, int id, int container_id) {
+		View parent = solo.getView(container_id);
+		List<View> views = solo.getViews(parent);
+		for (View view : views) {
+			if (view.getId() == id) {
+				return view;
+			}
+		}
+		return null;
+	}
+
+	public static View getViewContainerByString(Solo solo, String text, int containerId) {
+		View parent = solo.getView(containerId);
+		List<TextView> views = solo.getCurrentTextViews(parent);
+		for (TextView view : views) {
+
+			if (view.getText().equals(text)) {
+				return view;
+			}
+
+		}
+		return null;
+	}
+
+	public static View getViewContainerByString(String text, List<TextView> views) {
+		for (TextView view : views) {
+			if (view.getText().equals(text)) {
+				return view;
+			}
+		}
+		return null;
+	}
+
+	public static List<TextView> getViewsByParentId(Solo solo, int parentId) {
+		View parent = solo.getView(parentId);
+		return solo.getCurrentTextViews(parent);
 	}
 }
