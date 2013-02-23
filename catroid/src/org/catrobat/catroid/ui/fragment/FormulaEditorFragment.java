@@ -188,7 +188,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			public boolean onTouch(View view, MotionEvent event) {
 				Log.i("info", "viewId: " + view.getId());
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					view.setBackgroundResource(R.drawable.brick_blue);
+					view.setBackgroundResource(R.drawable.bg_dialog);
 					view.setPressed(false);
 					return true;
 				}
@@ -254,7 +254,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			for (int nestedIndex = 0; nestedIndex < child.getChildCount(); nestedIndex++) {
 				Button key = (Button) child.getChildAt(nestedIndex);
 				key.setOnTouchListener(touchListener);
-				key.setBackgroundResource(R.drawable.brick_blue);
+				key.setBackgroundResource(R.drawable.bg_dialog);
 				key.setLines(MAX_BUTTON_LINES);
 				key.setEllipsize(TruncateAt.END);
 			}
