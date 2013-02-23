@@ -29,7 +29,6 @@ import java.util.List;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.formulaeditor.UserVariableScope.ScopeType;
 
-
 public class UserVariablesContainer implements Serializable {
 	private static final long serialVersionUID = 1L;
 

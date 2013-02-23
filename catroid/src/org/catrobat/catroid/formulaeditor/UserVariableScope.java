@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import org.catrobat.catroid.ProjectManager;
 
-
 public class UserVariableScope implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String name;

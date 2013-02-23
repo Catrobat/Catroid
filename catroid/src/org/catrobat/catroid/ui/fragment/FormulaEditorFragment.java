@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -80,6 +81,10 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 	public boolean restoreInstance = false;
 
+	//	public FormulaEditorFragment() {
+	//
+	//	}
+
 	public FormulaEditorFragment(Brick brick, Formula formula) {
 		currentBrick = brick;
 		currentFormula = formula;
@@ -114,8 +119,11 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			formulaEditorDialog = new FormulaEditorFragment(brick, formula);
 			FragmentManager fragmentManager = activity.getSupportFragmentManager();
 			FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
-			fragTransaction.replace(android.R.id.tabhost, formulaEditorDialog, FORMULA_EDITOR_FRAGMENT_TAG);
+			fragTransaction.replace(R.id.script_fragment_container, formulaEditorDialog, FORMULA_EDITOR_FRAGMENT_TAG);
+
 			fragTransaction.commit();
+			activity.getSupportActionBar().setTitle(ProjectManager.INSTANCE.getCurrentSprite().getName());
+			activity.findViewById(R.id.bottom_bar).setVisibility(View.GONE);
 
 		} else {
 			formulaEditorDialog.setInputFormula(formula, SET_FORMULA_ON_SWITCH_EDIT_TEXT);
@@ -130,8 +138,13 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		SherlockFragmentActivity activity = getSherlockActivity();
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
-		fragTransaction.remove(fragmentManager.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG));
+		ScriptFragment scriptFragment = (ScriptFragment) fragmentManager
+				.findFragmentById(R.id.fragment_script_relative_layout);
+		fragTransaction.replace(R.id.script_fragment_container, scriptFragment);
 		fragTransaction.commit();
+		activity.getSupportActionBar().setTitle(ProjectManager.getInstance().getCurrentSprite().getName());
+
+		getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
 
 	}
 
@@ -175,7 +188,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			public boolean onTouch(View view, MotionEvent event) {
 				Log.i("info", "viewId: " + view.getId());
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					view.setBackgroundResource(R.drawable.bg_dialog);
+					view.setBackgroundResource(R.drawable.brick_blue);
 					view.setPressed(false);
 					return true;
 				}
@@ -241,7 +254,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			for (int nestedIndex = 0; nestedIndex < child.getChildCount(); nestedIndex++) {
 				Button key = (Button) child.getChildAt(nestedIndex);
 				key.setOnTouchListener(touchListener);
-				key.setBackgroundResource(R.drawable.bg_dialog);
+				key.setBackgroundResource(R.drawable.brick_blue);
 				key.setLines(MAX_BUTTON_LINES);
 				key.setEllipsize(TruncateAt.END);
 			}
@@ -393,6 +406,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		} else {
 			onUserDismiss();
 		}
+
 	}
 
 	public void refreshFormulaPreviewString() {
