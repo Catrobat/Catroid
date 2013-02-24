@@ -26,10 +26,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:longClickable="true"
     android:orientation="horizontal"
-    android:paddingLeft="6dp"
-    android:paddingRight="6dp" >
+     >
     
 	<CheckBox
         android:id="@+id/brick_set_x_checkbox"

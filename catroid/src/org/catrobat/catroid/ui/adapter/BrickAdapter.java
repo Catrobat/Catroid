@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
@@ -633,6 +634,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 
 		Object item = getItem(position);
+
+		//test:
+		if (item instanceof ChangeYByNBrick) {
+			((ChangeYByNBrick) item).checkbox.setVisibility(View.VISIBLE);
+		}
+		//
 
 		if (item instanceof ScriptBrick && (!initInsertedBrick || position != positionOfInsertedBrick)) {
 			return ((Brick) item).getView(context, position, this);

@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.StartScript;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 
 public class WhenStartedBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
@@ -38,6 +39,8 @@ public class WhenStartedBrick extends ScriptBrick {
 	private Sprite sprite;
 
 	private transient View view;
+
+	public CheckBox checkbox;
 
 	public WhenStartedBrick(Sprite sprite, Script script) {
 		this.script = script;
@@ -66,6 +69,7 @@ public class WhenStartedBrick extends ScriptBrick {
 	public View getView(Context context, int brickId, final BaseAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_when_started, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_when_started_checkbox);
 		}
 
 		return view;

@@ -32,6 +32,7 @@ import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,8 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int yMovement;
 	private Sprite sprite;
+
+	public CheckBox checkbox;
 
 	private transient View view;
 
@@ -86,6 +89,7 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_change_y_prototype_text_view);
 		EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
+		checkbox = (CheckBox) view.findViewById(R.id.brick_change_y_checkbox);
 		editY.setText(String.valueOf(yMovement));
 
 		textY.setVisibility(View.GONE);
