@@ -74,8 +74,7 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 
 	@Override
 	public void setUp() throws Exception {
-
-		createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "CatKeyboard");
+		createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME + this.getClass());
 		this.solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
@@ -93,6 +92,23 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		this.project = null;
 		solo.sleep(1000);
 		super.tearDown();
+
+	}
+
+	private void createProject(String projectName) throws InterruptedException {
+		this.project = new Project(null, projectName);
+		firstSprite = new Sprite("nom nom nom");
+		startScript1 = new StartScript(firstSprite);
+		changeBrick = new ChangeSizeByNBrick(firstSprite, 0);
+		Formula longFormula = createVeryLongFormula();
+		WaitBrick waitBrick = new WaitBrick(firstSprite, longFormula);
+		firstSprite.addScript(startScript1);
+		startScript1.addBrick(changeBrick);
+		startScript1.addBrick(waitBrick);
+		project.addSprite(firstSprite);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 	}
 
@@ -786,23 +802,4 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 
 		return formula;
 	}
-
-	private void createProject(String projectName) throws InterruptedException {
-
-		this.project = new Project(null, projectName);
-		firstSprite = new Sprite("nom nom nom");
-		startScript1 = new StartScript(firstSprite);
-		changeBrick = new ChangeSizeByNBrick(firstSprite, 0);
-		Formula longFormula = createVeryLongFormula();
-		WaitBrick waitBrick = new WaitBrick(firstSprite, longFormula);
-		firstSprite.addScript(startScript1);
-		startScript1.addBrick(changeBrick);
-		startScript1.addBrick(waitBrick);
-		project.addSprite(firstSprite);
-
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-
-	}
-
 }

@@ -59,7 +59,6 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 	private static final int X_POS_EDIT_TEXT_ID = 0;
 	private static final int Y_POS_EDIT_TEXT_ID = 1;
-	private static final int SCROLL_DOWN_INDEX = 0;
 
 	private static final String QUOTE = "\"";
 
@@ -69,8 +68,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 	@Override
 	public void setUp() throws Exception {
-
-		createProject("testProjectFomulaEditorKeyboard");
+		createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME + this.getClass());
 		this.solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}

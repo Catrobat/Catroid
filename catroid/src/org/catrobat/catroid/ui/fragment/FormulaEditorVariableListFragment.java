@@ -153,7 +153,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		getSherlockActivity().getSupportActionBar().setNavigationMode(
 				com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_STANDARD);
 		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
-		getSherlockActivity().getSupportActionBar().setTitle(getString(R.string.formula_editor_variables));
+		getSherlockActivity().getSupportActionBar().setTitle(mActionBarTitle);
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 	}
 

@@ -68,7 +68,6 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 
 	@Override
 	public void setUp() throws Exception {
-		//createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 	}
