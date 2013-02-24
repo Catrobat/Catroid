@@ -36,29 +36,31 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Motion.Small" >
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_go_back" >
-    </TextView>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/BrickContainer.Motion.Small" >
 
-    <TextView
-        android:id="@+id/brick_go_back_prototype_text_view"
-        style="@style/BrickPrototypeTextView" >
-    </TextView>
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_go_back" >
+        </TextView>
 
-    <EditText
-        android:id="@+id/brick_go_back_edit_text"
-        style="@style/BrickEditText"
-        android:inputType="number" >
-    </EditText>
+        <TextView
+            android:id="@+id/brick_go_back_prototype_text_view"
+            style="@style/BrickPrototypeTextView" >
+        </TextView>
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_go_back_layers" >
-    </TextView>
+        <EditText
+            android:id="@+id/brick_go_back_edit_text"
+            style="@style/BrickEditText"
+            android:inputType="number" >
+        </EditText>
+
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_go_back_layers" >
+        </TextView>
+    </LinearLayout>
 
 </LinearLayout>
-</LinearLayout><AbsoluteLayout ></Abs

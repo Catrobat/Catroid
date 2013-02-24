@@ -68,6 +68,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	private static final String TAG = ScriptFragment.class.getSimpleName();
 
 	private static String actionModeTitle;
+
+	//these strings are just for the title (brick vs bricks..)
 	private static String singleItemAppendixActionMode;
 	private static String multipleItemAppendixActionMode;
 
@@ -432,8 +434,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			setActionModeActive(true);
 
 			actionModeTitle = getString(R.string.delete);
-			singleItemAppendixActionMode = getString(R.string.look);
-			multipleItemAppendixActionMode = getString(R.string.looks);
+			singleItemAppendixActionMode = getString(R.string.brick_single);
+			multipleItemAppendixActionMode = getString(R.string.brick_multiple);
 
 			mode.setTitle(actionModeTitle);
 

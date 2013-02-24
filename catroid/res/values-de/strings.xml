@@ -218,7 +218,11 @@
     <string name="new_broadcast_message">Neu…</string>
     <string name="broadcast_nothing_selected">Nichts…</string>
     <!--  -->
-
+	
+	<!-- Brick general -->
+    <string name="brick_single">Baustein</string>
+    <string name="brick_multiple">Bausteine</string>
+    <!--  -->
 
     <!-- Brick categories -->
     <string name="categories">Kategorien</string>

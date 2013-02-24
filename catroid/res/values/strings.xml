@@ -223,7 +223,11 @@
     <string name="broadcast_nothing_selected">Nothing…</string>
     <!--  -->
 
-
+	<!-- Brick general -->
+    <string name="brick_single">Brick</string>
+    <string name="brick_multiple">Bricks</string>
+    <!--  -->
+	
     <!-- Brick categories -->
     <string name="categories">Categories</string>
     <string name="category_motion">Motion</string>
