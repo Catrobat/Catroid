@@ -27,9 +27,9 @@ import java.util.List;
 
 import org.catrobat.catroid.R;
 
-public class InternFormulaHelper {
+public class InternFormulaKeyboardAdapter {
 
-	public List<InternToken> createInternTokensByCatKeyEvent(int resource, String userVariableName) {
+	public List<InternToken> createInternTokenListByResourceId(int resource, String userVariableName) {
 
 		//USER VARIABLES
 		if ((resource == 0) && (!(userVariableName.length() == 0))) {
