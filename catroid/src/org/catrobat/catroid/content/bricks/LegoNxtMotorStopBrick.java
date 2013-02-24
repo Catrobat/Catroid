@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.content.Sprite;
 
@@ -31,8 +32,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.Spinner;
-import org.catrobat.catroid.R;
 
 public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
@@ -48,6 +49,7 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	private Sprite sprite;
 	private transient Motor motorEnum;
 	private String motor;
+	private CheckBox checkbox;
 
 	private static final int NO_DELAY = 0;
 
@@ -101,20 +103,21 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		View brickView = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
+		View view = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
 
+		checkbox = (CheckBox) view.findViewById(R.id.brick_nxt_motor_stop_checkbox);
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.stop_motor_spinner);
+		Spinner motorSpinner = (Spinner) view.findViewById(R.id.stop_motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);
 		motorSpinner.setClickable(true);
 		motorSpinner.setEnabled(true);
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setSelection(motorEnum.ordinal());
 
-		return brickView;
+		return view;
 	}
 
 	@Override
@@ -125,5 +128,10 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

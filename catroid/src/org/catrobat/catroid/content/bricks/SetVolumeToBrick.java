@@ -33,6 +33,7 @@ import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +43,8 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 
 	private Sprite sprite;
 	private float volume;
+
+	private CheckBox checkbox;
 
 	public SetVolumeToBrick(Sprite sprite, float volume) {
 		this.sprite = sprite;
@@ -76,6 +79,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		View view = View.inflate(context, R.layout.brick_set_volume_to, null);
 
+		checkbox = (CheckBox) view.findViewById(R.id.brick_set_volume_to_checkbox);
 		TextView text = (TextView) view.findViewById(R.id.brick_set_volume_to_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_set_volume_to_edit_text);
 		edit.setText(String.valueOf(volume));
@@ -123,5 +127,10 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_set_volume_to_brick");
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

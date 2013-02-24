@@ -32,6 +32,7 @@ import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
+	private CheckBox checkbox;
 
 	public GlideToBrick() {
 
@@ -142,6 +144,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_glide_to, null);
 
+		checkbox = (CheckBox) view.findViewById(R.id.brick_glide_to_checkbox);
 		TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_x);
 		EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_x);
 		editX.setText(String.valueOf(xDestination));
@@ -220,5 +223,10 @@ public class GlideToBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_glide_to_brick");
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

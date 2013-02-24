@@ -33,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	private double steps;
 
 	private transient View view;
+	private CheckBox checkbox;
 
 	public MoveNStepsBrick() {
 
@@ -83,6 +85,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_move_n_steps, null);
 
+		checkbox = (CheckBox) view.findViewById(R.id.brick_move_n_steps_checkbox);
 		TextView text = (TextView) view.findViewById(R.id.brick_move_n_steps_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
@@ -132,5 +135,10 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_move_n_steps_brick");
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

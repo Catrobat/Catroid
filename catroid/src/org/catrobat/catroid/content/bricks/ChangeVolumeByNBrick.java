@@ -33,6 +33,7 @@ import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,8 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 	private double volume;
 
 	private transient View view;
+
+	private CheckBox checkbox;
 
 	public ChangeVolumeByNBrick() {
 
@@ -84,6 +87,7 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		view = View.inflate(context, R.layout.brick_change_volume_by, null);
 
+		checkbox = (CheckBox) view.findViewById(R.id.brick_change_volume_by_checkbox);
 		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
 		edit.setText(String.valueOf(volume));
@@ -133,5 +137,10 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_volume_by_brick");
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

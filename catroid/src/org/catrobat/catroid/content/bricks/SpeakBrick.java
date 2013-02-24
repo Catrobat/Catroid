@@ -37,6 +37,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -49,6 +50,7 @@ public class SpeakBrick implements Brick {
 	private String text = "";
 
 	private transient View view;
+	private CheckBox checkbox;
 
 	public SpeakBrick(Sprite sprite, String text) {
 		this.sprite = sprite;
@@ -110,6 +112,7 @@ public class SpeakBrick implements Brick {
 	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
 		view = View.inflate(context, R.layout.brick_speak, null);
 
+		checkbox = (CheckBox) view.findViewById(R.id.brick_speak_checkbox);
 		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
 		EditText editText = (EditText) view.findViewById(R.id.brick_speak_edit_text);
 		editText.setText(text);
@@ -151,5 +154,10 @@ public class SpeakBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new SpeakBrick(this.sprite, this.text);
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

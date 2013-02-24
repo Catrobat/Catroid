@@ -32,6 +32,7 @@ import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +43,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	private double size;
 
 	private transient View view;
+	private CheckBox checkbox;
 
 	public ChangeSizeByNBrick() {
 
@@ -76,6 +78,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_change_size_by_n, null);
 
+		checkbox = (CheckBox) view.findViewById(R.id.brick_change_size_by_checkbox);
 		TextView text = (TextView) view.findViewById(R.id.brick_change_size_by_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
 		edit.setText(String.valueOf(size));
@@ -124,5 +127,10 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_size_by_n_brick");
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

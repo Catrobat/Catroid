@@ -45,6 +45,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,6 +77,7 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 
 	private transient Direction direction;
 	private transient EditText setAngleEditText;
+	private CheckBox checkbox;
 
 	protected Object readResolve() {
 		for (Direction direction : Direction.values()) {
@@ -113,6 +115,7 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 		View view = View.inflate(context, R.layout.brick_point_in_direction, null);
 
+		checkbox = (CheckBox) view.findViewById(R.id.brick_point_in_direction_checkbox);
 		TextView setAngleTextView = (TextView) view.findViewById(R.id.brick_point_in_direction_prototype_text_view);
 		setAngleEditText = (EditText) view.findViewById(R.id.brick_point_in_direction_edit_text);
 
@@ -291,5 +294,10 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 			final Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
 			input.addTextChangedListener(getInputTextChangedListener(buttonPositive));
 		}
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

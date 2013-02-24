@@ -35,6 +35,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 
 public class PointToBrick implements Brick {
@@ -42,6 +43,7 @@ public class PointToBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private Sprite pointedSprite;
+	private CheckBox checkbox;
 
 	public PointToBrick(Sprite sprite, Sprite pointedSprite) {
 		this.sprite = sprite;
@@ -131,9 +133,10 @@ public class PointToBrick implements Brick {
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.brick_point_to, null);
+		View view = inflater.inflate(R.layout.brick_point_to, null);
 
-		final Spinner spinner = (Spinner) brickView.findViewById(R.id.brick_point_to_spinner);
+		checkbox = (CheckBox) view.findViewById(R.id.brick_point_to_checkbox);
+		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
 		spinner.setFocusableInTouchMode(false);
 		spinner.setFocusable(false);
 		spinner.setClickable(true);
@@ -186,7 +189,7 @@ public class PointToBrick implements Brick {
 			spinner.setSelection(0);
 		}
 
-		return brickView;
+		return view;
 	}
 
 	@Override
@@ -199,5 +202,10 @@ public class PointToBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new PointToBrick(sprite, pointedSprite);
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

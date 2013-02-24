@@ -32,6 +32,7 @@ import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
+	private CheckBox checkbox;
 
 	public PlaceAtBrick() {
 
@@ -75,6 +77,7 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_place_at, null);
+		checkbox = (CheckBox) view.findViewById(R.id.brick_place_at_checkbox);
 		TextView textX = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_x);
 		EditText editX = (EditText) view.findViewById(R.id.brick_place_at_edit_text_x);
 		editX.setText(String.valueOf(xPosition));
@@ -138,4 +141,10 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_place_at_brick");
 	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
+	}
+
 }

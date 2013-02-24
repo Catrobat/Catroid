@@ -33,6 +33,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 
 public class PlaySoundBrick implements Brick, OnItemSelectedListener {
@@ -40,6 +41,8 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 
 	private SoundInfo sound;
 	private Sprite sprite;
+
+	private CheckBox checkbox;
 
 	public PlaySoundBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -70,6 +73,7 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 		View view = View.inflate(context, R.layout.brick_play_sound, null);
 
+		checkbox = (CheckBox) view.findViewById(R.id.brick_play_sound_checkbox);
 		Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
 		soundbrickSpinner.setAdapter(createSoundAdapter(context));
 		soundbrickSpinner.setClickable(true);
@@ -125,4 +129,10 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
 	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
+	}
+
 }

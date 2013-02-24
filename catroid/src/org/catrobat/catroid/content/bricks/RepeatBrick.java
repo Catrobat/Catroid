@@ -33,6 +33,7 @@ import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ import android.widget.Toast;
 public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int timesToRepeat;
+	private CheckBox checkbox;
 
 	public RepeatBrick(Sprite sprite, int timesToRepeat) {
 		this.sprite = sprite;
@@ -76,6 +78,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 		View view = View.inflate(context, R.layout.brick_repeat, null);
 
+		checkbox = (CheckBox) view.findViewById(R.id.brick_repeat_checkbox);
 		TextView text = (TextView) view.findViewById(R.id.brick_repeat_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
 		edit.setText(timesToRepeat + "");
@@ -118,5 +121,10 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_repeat_brick");
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

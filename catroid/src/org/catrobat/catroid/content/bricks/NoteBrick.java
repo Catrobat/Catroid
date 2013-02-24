@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ public class NoteBrick implements Brick {
 	private String note = "";
 
 	private transient View view;
+	private CheckBox checkbox;
 
 	public NoteBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -80,6 +82,7 @@ public class NoteBrick implements Brick {
 
 		view = View.inflate(context, R.layout.brick_note, null);
 
+		checkbox = (CheckBox) view.findViewById(R.id.brick_note_checkbox);
 		TextView textHolder = (TextView) view.findViewById(R.id.brick_note_prototype_text_view);
 		EditText editText = (EditText) view.findViewById(R.id.brick_note_edit_text);
 		editText.setText(note);
@@ -144,5 +147,10 @@ public class NoteBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new NoteBrick(this.sprite, this.note);
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

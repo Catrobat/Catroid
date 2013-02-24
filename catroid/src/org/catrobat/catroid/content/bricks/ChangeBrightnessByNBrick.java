@@ -32,6 +32,7 @@ import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +43,7 @@ public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
+	private CheckBox checkbox;
 
 	public ChangeBrightnessByNBrick() {
 
@@ -76,6 +78,7 @@ public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_change_brightness, null);
 
+		checkbox = (CheckBox) view.findViewById(R.id.brick_change_brightness_checkbox);
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_brightness_prototype_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_change_brightness_edit_text);
 		editX.setText(String.valueOf(changeBrightness));
@@ -124,5 +127,10 @@ public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_brightness_brick");
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

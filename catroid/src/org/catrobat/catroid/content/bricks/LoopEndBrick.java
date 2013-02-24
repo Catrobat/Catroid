@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
@@ -33,7 +34,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
+import android.widget.CheckBox;
 
 public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBrick {
 	static final int FOREVER = -1;
@@ -44,6 +45,7 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	private Sprite sprite;
 	private LoopBeginBrick loopBeginBrick;
 	private transient int timesToRepeat;
+	private CheckBox checkbox;
 
 	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
 		this.sprite = sprite;
@@ -110,7 +112,9 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_loop_end, null);
+		View view = inflater.inflate(R.layout.brick_loop_end, null);
+		checkbox = (CheckBox) view.findViewById(R.id.brick_loop_end_checkbox);
+		return view;
 	}
 
 	@Override
@@ -162,4 +166,8 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		return inflater.inflate(R.layout.brick_loop_end_no_puzzle, null);
 	}
 
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
+	}
 }

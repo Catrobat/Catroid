@@ -32,6 +32,7 @@ import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private int steps;
+	private CheckBox checkbox;
 
 	public GoNStepsBackBrick(Sprite sprite, int steps) {
 		this.sprite = sprite;
@@ -76,6 +78,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		View view = View.inflate(context, R.layout.brick_go_back, null);
 
+		checkbox = (CheckBox) view.findViewById(R.id.brick_go_back_checkbox);
 		TextView text = (TextView) view.findViewById(R.id.brick_go_back_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_go_back_edit_text);
 
@@ -122,5 +125,10 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_go_n_steps_brick");
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

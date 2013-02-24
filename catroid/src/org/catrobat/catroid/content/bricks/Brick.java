@@ -52,4 +52,5 @@ public interface Brick extends Serializable {
 
 	public int getRequiredResources();
 
+	public void setCheckboxVisibility(int visibility);
 }

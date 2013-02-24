@@ -22,19 +22,21 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
+import android.widget.CheckBox;
 
 public class ClearGraphicEffectBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 
 	private transient View view;
+	private CheckBox checkbox;
 
 	public ClearGraphicEffectBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -64,6 +66,7 @@ public class ClearGraphicEffectBrick implements Brick {
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_clear_graphic_effect, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_clear_graphic_effect_checkbox);
 		}
 
 		return view;
@@ -78,5 +81,10 @@ public class ClearGraphicEffectBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new ClearGraphicEffectBrick(getSprite());
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

@@ -22,17 +22,20 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
+import android.widget.CheckBox;
 
 public class ForeverBrick extends LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View view;
+
+	private CheckBox checkbox;
 
 	public ForeverBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -61,6 +64,7 @@ public class ForeverBrick extends LoopBeginBrick {
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_forever, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_forever_checkbox);
 		}
 
 		return view;
@@ -74,5 +78,10 @@ public class ForeverBrick extends LoopBeginBrick {
 	@Override
 	public void initialize() {
 		loopEndBrick = new LoopEndlessBrick(sprite, this);
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

@@ -40,6 +40,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 
 public class BroadcastBrick implements Brick {
@@ -50,6 +51,7 @@ public class BroadcastBrick implements Brick {
 	private String broadcastMessage = "";
 
 	private transient View view;
+	private CheckBox checkbox;
 
 	public BroadcastBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -106,6 +108,7 @@ public class BroadcastBrick implements Brick {
 
 		view = View.inflate(context, R.layout.brick_broadcast, null);
 
+		checkbox = (CheckBox) view.findViewById(R.id.brick_broadcast_checkbox);
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);
 		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
 		broadcastSpinner.setClickable(true);
@@ -188,5 +191,10 @@ public class BroadcastBrick implements Brick {
 
 	public BroadcastBrick() {
 
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(View.VISIBLE);
 	}
 }

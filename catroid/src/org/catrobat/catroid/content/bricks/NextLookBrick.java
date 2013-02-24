@@ -32,6 +32,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 public class NextLookBrick implements Brick {
@@ -39,6 +40,7 @@ public class NextLookBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private transient View view;
+	private CheckBox checkbox;
 
 	public NextLookBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -89,6 +91,7 @@ public class NextLookBrick implements Brick {
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.brick_next_look, null);
+		checkbox = (CheckBox) view.findViewById(R.id.brick_next_look_checkbox);
 		if (sprite.getName().equals(context.getString(R.string.background))) {
 			TextView textView = (TextView) view.findViewById(R.id.brick_next_look_text_view);
 			textView.setText(R.string.brick_next_background);
@@ -119,5 +122,10 @@ public class NextLookBrick implements Brick {
 		}
 
 		return view;
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

@@ -23,12 +23,13 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
+import android.widget.CheckBox;
 
 public class IfOnEdgeBounceBrick implements Brick {
 
@@ -36,6 +37,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 	private Sprite sprite;
 
 	private transient View view;
+	private CheckBox checkbox;
 
 	public IfOnEdgeBounceBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -118,6 +120,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_if_on_edge_bounce_checkbox);
 		}
 
 		return view;
@@ -133,4 +136,8 @@ public class IfOnEdgeBounceBrick implements Brick {
 		return new IfOnEdgeBounceBrick(sprite);
 	}
 
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
+	}
 }

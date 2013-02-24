@@ -32,6 +32,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -40,6 +41,7 @@ public class SetLookBrick implements Brick {
 	private Sprite sprite;
 	private LookData look;
 	private transient View view;
+	private CheckBox checkbox;
 
 	public SetLookBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -79,6 +81,7 @@ public class SetLookBrick implements Brick {
 
 		view = View.inflate(context, R.layout.brick_set_look, null);
 
+		checkbox = (CheckBox) view.findViewById(R.id.brick_set_look_checkbox);
 		Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.setlook_spinner);
 		lookbrickSpinner.setAdapter(createLookAdapter(context));
 		lookbrickSpinner.setClickable(true);
@@ -114,8 +117,7 @@ public class SetLookBrick implements Brick {
 	}
 
 	private ArrayAdapter<?> createLookAdapter(Context context) {
-		ArrayAdapter<LookData> arrayAdapter = new ArrayAdapter<LookData>(context,
-				android.R.layout.simple_spinner_item);
+		ArrayAdapter<LookData> arrayAdapter = new ArrayAdapter<LookData>(context, android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		LookData dummyLookData = new LookData();
 		dummyLookData.setLookName(context.getString(R.string.broadcast_nothing_selected));
@@ -144,5 +146,10 @@ public class SetLookBrick implements Brick {
 		}
 
 		return clonedBrick;
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

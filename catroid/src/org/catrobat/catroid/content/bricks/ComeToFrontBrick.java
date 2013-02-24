@@ -31,12 +31,14 @@ import org.catrobat.catroid.content.Sprite;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 
 public class ComeToFrontBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 
 	private transient View view;
+	private CheckBox checkbox;
 
 	public ComeToFrontBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -80,6 +82,7 @@ public class ComeToFrontBrick implements Brick {
 
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_go_to_front, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_go_to_front_checkbox);
 		}
 
 		return view;
@@ -93,5 +96,10 @@ public class ComeToFrontBrick implements Brick {
 	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_go_to_front, null);
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

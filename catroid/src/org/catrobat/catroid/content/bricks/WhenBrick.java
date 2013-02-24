@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
@@ -29,8 +30,8 @@ import org.catrobat.catroid.content.WhenScript;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 public class WhenBrick extends ScriptBrick {
 	protected WhenScript whenScript;
@@ -38,6 +39,7 @@ public class WhenBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View view;
+	private CheckBox checkbox;
 
 	public WhenBrick(Sprite sprite, WhenScript whenScript) {
 		this.whenScript = whenScript;
@@ -65,6 +67,7 @@ public class WhenBrick extends ScriptBrick {
 	@Override
 	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
 		view = View.inflate(context, R.layout.brick_when, null);
+		checkbox = (CheckBox) view.findViewById(R.id.brick_when_checkbox);
 		TextView spinnerActionText = (TextView) view.findViewById(R.id.WhenBrickActionTapped);
 		spinnerActionText.setText(" " + spinnerActionText.getText());
 
@@ -129,4 +132,8 @@ public class WhenBrick extends ScriptBrick {
 		return whenScript;
 	}
 
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
+	}
 }

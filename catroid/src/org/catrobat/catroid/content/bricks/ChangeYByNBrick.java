@@ -87,9 +87,9 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_change_y, null);
 
+		checkbox = (CheckBox) view.findViewById(R.id.brick_change_y_checkbox);
 		TextView textY = (TextView) view.findViewById(R.id.brick_change_y_prototype_text_view);
 		EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
-		checkbox = (CheckBox) view.findViewById(R.id.brick_change_y_checkbox);
 		editY.setText(String.valueOf(yMovement));
 
 		textY.setVisibility(View.GONE);
@@ -134,5 +134,10 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_y_by_brick");
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

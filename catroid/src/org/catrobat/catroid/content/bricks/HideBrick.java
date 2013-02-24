@@ -22,18 +22,20 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
+import android.widget.CheckBox;
 
 public class HideBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 
 	private transient View view;
+	private CheckBox checkbox;
 
 	public HideBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -62,6 +64,7 @@ public class HideBrick implements Brick {
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_hide, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_hide_checkbox);
 		}
 
 		return view;
@@ -75,5 +78,10 @@ public class HideBrick implements Brick {
 	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_hide, null);
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

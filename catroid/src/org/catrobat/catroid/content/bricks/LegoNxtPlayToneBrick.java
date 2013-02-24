@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -33,12 +34,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarChangeListener {
 	private static final long serialVersionUID = 1L;
@@ -58,6 +59,8 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 
 	private transient EditText editFreq;
 	private transient SeekBar freqBar;
+
+	private CheckBox checkbox;
 
 	public LegoNxtPlayToneBrick(Sprite sprite, int hertz, int duration) {
 		this.sprite = sprite;
@@ -96,10 +99,11 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		View brickView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
+		View view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 
-		TextView textDuration = (TextView) brickView.findViewById(R.id.nxt_tone_duration_text_view);
-		EditText editDuration = (EditText) brickView.findViewById(R.id.nxt_tone_duration_edit_text);
+		checkbox = (CheckBox) view.findViewById(R.id.brick_nxt_play_tone_checkbox);
+		TextView textDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_text_view);
+		EditText editDuration = (EditText) view.findViewById(R.id.nxt_tone_duration_edit_text);
 		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
 		//		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, duration, MIN_DURATION,
 		//				MAX_DURATION);
@@ -112,8 +116,8 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 
 		editDuration.setOnClickListener(this);
 
-		TextView textFreq = (TextView) brickView.findViewById(R.id.nxt_tone_freq_text_view);
-		editFreq = (EditText) brickView.findViewById(R.id.nxt_tone_freq_edit_text);
+		TextView textFreq = (TextView) view.findViewById(R.id.nxt_tone_freq_text_view);
+		editFreq = (EditText) view.findViewById(R.id.nxt_tone_freq_edit_text);
 		editFreq.setText(String.valueOf(hertz / 100));
 		//		dialogFreq = new EditIntegerDialog(context, editFreq, frequency, true, MIN_FREQ, MAX_FREQ);
 		//		dialogFreq.setOnDismissListener(this);
@@ -125,13 +129,13 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 
 		editFreq.setOnClickListener(this);
 
-		freqBar = (SeekBar) brickView.findViewById(R.id.seekBarNXTToneFrequency);
+		freqBar = (SeekBar) view.findViewById(R.id.seekBarNXTToneFrequency);
 		freqBar.setOnSeekBarChangeListener(this);
 		freqBar.setMax(MAX_FREQ_IN_HERTZ / 100);
 		freqBar.setEnabled(true);
 		freqToSeekBarVal();
 
-		Button freqDown = (Button) brickView.findViewById(R.id.freq_down_btn);
+		Button freqDown = (Button) view.findViewById(R.id.freq_down_btn);
 		freqDown.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -146,7 +150,7 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 			}
 		});
 
-		Button freqUp = (Button) brickView.findViewById(R.id.freq_up_btn);
+		Button freqUp = (Button) view.findViewById(R.id.freq_up_btn);
 		freqUp.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -161,7 +165,7 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 			}
 		});
 
-		return brickView;
+		return view;
 	}
 
 	@Override
@@ -258,5 +262,10 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_nxt_play_tone_brick");
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

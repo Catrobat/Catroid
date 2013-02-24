@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -36,13 +37,13 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -66,6 +67,7 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 
 	private transient EditText editSpeed;
 	private transient SeekBar speedBar;
+	private CheckBox checkbox;
 
 	protected Object readResolve() {
 		if (motor != null) {
@@ -119,10 +121,11 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		View brickView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
+		View view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 
-		TextView textSpeed = (TextView) brickView.findViewById(R.id.motor_action_speed_text_view);
-		editSpeed = (EditText) brickView.findViewById(R.id.motor_action_speed_edit_text);
+		checkbox = (CheckBox) view.findViewById(R.id.brick_nxt_motor_action_checkbox);
+		TextView textSpeed = (TextView) view.findViewById(R.id.motor_action_speed_text_view);
+		editSpeed = (EditText) view.findViewById(R.id.motor_action_speed_edit_text);
 		editSpeed.setText(String.valueOf(speed));
 
 		textSpeed.setVisibility(View.GONE);
@@ -133,7 +136,7 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
 				android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.motor_spinner);
+		Spinner motorSpinner = (Spinner) view.findViewById(R.id.motor_spinner);
 		motorSpinner.setClickable(true);
 		motorSpinner.setEnabled(true);
 		motorSpinner.setAdapter(motorAdapter);
@@ -153,13 +156,13 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 
 		motorSpinner.setSelection(motorEnum.ordinal());
 
-		speedBar = (SeekBar) brickView.findViewById(R.id.seekBarSpeedMotorAction);
+		speedBar = (SeekBar) view.findViewById(R.id.seekBarSpeedMotorAction);
 		speedBar.setOnSeekBarChangeListener(this);
 		speedBar.setMax(MAX_SPEED * 2);
 		speedBar.setEnabled(true);
 		speedToSeekBarVal();
 
-		Button speedDown = (Button) brickView.findViewById(R.id.speed_down_btn);
+		Button speedDown = (Button) view.findViewById(R.id.speed_down_btn);
 		speedDown.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -174,7 +177,7 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 			}
 		});
 
-		Button speedUp = (Button) brickView.findViewById(R.id.speed_up_btn);
+		Button speedUp = (Button) view.findViewById(R.id.speed_up_btn);
 		speedUp.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -189,7 +192,7 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 			}
 		});
 
-		return brickView;
+		return view;
 	}
 
 	@Override
@@ -259,5 +262,10 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_nxt_moto_action_brick");
+	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
 	}
 }

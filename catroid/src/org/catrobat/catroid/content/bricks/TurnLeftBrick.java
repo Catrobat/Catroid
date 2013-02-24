@@ -32,6 +32,7 @@ import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 	private double degrees;
 
 	private transient View view;
+	private CheckBox checkbox;
 
 	public TurnLeftBrick(Sprite sprite, double degrees) {
 		this.sprite = sprite;
@@ -73,6 +75,7 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_turn_left, null);
 
+		checkbox = (CheckBox) view.findViewById(R.id.brick_turn_left_checkbox);
 		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_left_prototype_text_view);
 		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_left_edit_text);
 		editDegrees.setText(String.valueOf(degrees));
@@ -121,4 +124,8 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_turn_left_brick");
 	}
 
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
+	}
 }

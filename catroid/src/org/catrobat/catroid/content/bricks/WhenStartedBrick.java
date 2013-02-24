@@ -93,4 +93,10 @@ public class WhenStartedBrick extends ScriptBrick {
 
 		return script;
 	}
+
+	@Override
+	public void setCheckboxVisibility(int visibility) {
+		checkbox.setVisibility(visibility);
+	}
+
 }
