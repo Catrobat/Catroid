@@ -347,14 +347,6 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
-		itemString = solo.getString(R.string.formula_editor_function_e);
-		solo.clickOnText(itemString);
-		solo.sleep(100);
-		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 
 		itemString = solo.getString(R.string.formula_editor_function_rand);
 		solo.clickOnText(itemString);
@@ -700,6 +692,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
 		solo.goBack();
+		solo.sleep(100);
 		solo.clickOnText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_variable_dialog_hint));
 		solo.sendKey(KeyEvent.KEYCODE_L);
