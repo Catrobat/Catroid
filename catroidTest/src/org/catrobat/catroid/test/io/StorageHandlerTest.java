@@ -40,6 +40,7 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -75,7 +76,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		int xPosition = 457;
 		int yPosition = 598;
-		double size = 0.8;
+		float size = 0.8f;
 
 		Project project = new Project(getContext(), "testProject");
 		Sprite firstSprite = new Sprite("first");
@@ -131,17 +132,17 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("Title missmatch after deserialization", project.getName(), loadedProject.getName());
 
 		// Test random brick values
-		int actualXPosition = (Integer) Reflection.getPrivateField(
-				(postSpriteList.get(2).getScript(0).getBrickList().get(0)), "xPosition");
-		int actualYPosition = (Integer) Reflection.getPrivateField(
-				(postSpriteList.get(2).getScript(0).getBrickList().get(0)), "yPosition");
+		Formula actualXPosition = (Formula) Reflection.getPrivateField((postSpriteList.get(2).getScript(0)
+				.getBrickList().get(0)), "xPosition");
+		Formula actualYPosition = (Formula) Reflection.getPrivateField((postSpriteList.get(2).getScript(0)
+				.getBrickList().get(0)), "yPosition");
 
-		double actualSize = (Double) Reflection.getPrivateField(
+		Formula actualSize = (Formula) Reflection.getPrivateField(
 				(postSpriteList.get(1).getScript(0).getBrickList().get(2)), "size");
 
-		assertEquals("Size was not deserialized right", size, actualSize);
-		assertEquals("XPosition was not deserialized right", xPosition, actualXPosition);
-		assertEquals("YPosition was not deserialized right", yPosition, actualYPosition);
+		assertEquals("Size was not deserialized right", size, actualSize.interpretFloat());
+		assertEquals("XPosition was not deserialized right", xPosition, actualXPosition.interpretInteger());
+		assertEquals("YPosition was not deserialized right", yPosition, actualYPosition.interpretInteger());
 
 		assertFalse("paused should not be set in script", preSpriteList.get(1).getScript(0).isPaused());
 
