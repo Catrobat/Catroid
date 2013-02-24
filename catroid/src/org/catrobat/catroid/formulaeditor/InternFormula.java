@@ -246,7 +246,7 @@ public class InternFormula {
 
 	private CursorTokenPropertiesAfterModification replaceSelection(List<InternToken> tokenListToInsert) {
 
-		if (InternToken.isPeriodToken(tokenListToInsert)) {
+		if (InternFormulaUtils.isPeriodToken(tokenListToInsert)) {
 			tokenListToInsert = new LinkedList<InternToken>();
 			tokenListToInsert.add(new InternToken(InternTokenType.NUMBER, "0."));
 		}
@@ -266,7 +266,7 @@ public class InternFormula {
 			tokenListToRemove.add(internTokenFormulaList.get(internTokenSelectionStart + tokensToRemove));
 		}
 
-		if (InternTokenGroups.isFunction(tokenListToRemove)) {
+		if (InternFormulaUtils.isFunction(tokenListToRemove)) {
 			cursorPositionInternToken = tokenListToRemove.get(0);
 			cursorPositionInternTokenIndex = internTokenSelectionStart;
 			return replaceCursorPositionInternTokenByTokenList(tokenListToInsert);
@@ -363,7 +363,7 @@ public class InternFormula {
 					return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 				}
 
-				InternToken modifiedToken = InternTokenModify.deleteNumberByOffset(tokenToDelete, externNumberOffset);
+				InternToken modifiedToken = InternFormulaUtils.deleteNumberByOffset(tokenToDelete, externNumberOffset);
 
 				if (modifiedToken == null) {
 					internTokenFormulaList.remove(internTokenIndex);
@@ -377,7 +377,7 @@ public class InternFormula {
 				return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
 			case FUNCTION_NAME:
-				List<InternToken> functionInternTokens = InternTokenGroups.getFunctionByName(internTokenFormulaList,
+				List<InternToken> functionInternTokens = InternFormulaUtils.getFunctionByName(internTokenFormulaList,
 						internTokenIndex);
 
 				if (functionInternTokens.size() == 0) {
@@ -397,7 +397,7 @@ public class InternFormula {
 				return CursorTokenPropertiesAfterModification.LEFT;
 
 			case FUNCTION_PARAMETERS_BRACKET_OPEN:
-				functionInternTokens = InternTokenGroups.getFunctionByFunctionBracketOpen(internTokenFormulaList,
+				functionInternTokens = InternFormulaUtils.getFunctionByFunctionBracketOpen(internTokenFormulaList,
 						internTokenIndex);
 
 				if (functionInternTokens == null || functionInternTokens.size() == 0) {
@@ -417,7 +417,7 @@ public class InternFormula {
 				return CursorTokenPropertiesAfterModification.LEFT;
 
 			case FUNCTION_PARAMETERS_BRACKET_CLOSE:
-				functionInternTokens = InternTokenGroups.getFunctionByFunctionBracketClose(internTokenFormulaList,
+				functionInternTokens = InternFormulaUtils.getFunctionByFunctionBracketClose(internTokenFormulaList,
 						internTokenIndex);
 
 				if (functionInternTokens == null || functionInternTokens.size() == 0) {
@@ -437,7 +437,7 @@ public class InternFormula {
 				return CursorTokenPropertiesAfterModification.LEFT;
 
 			case FUNCTION_PARAMETER_DELIMITER:
-				functionInternTokens = InternTokenGroups.getFunctionByParameterDelimiter(internTokenFormulaList,
+				functionInternTokens = InternFormulaUtils.getFunctionByParameterDelimiter(internTokenFormulaList,
 						internTokenIndex);
 
 				if (functionInternTokens == null || functionInternTokens.size() == 0) {
@@ -522,7 +522,7 @@ public class InternFormula {
 
 		switch (cursorPositionInternToken.getInternTokenType()) {
 			case FUNCTION_NAME:
-				List<InternToken> functionInternTokens = InternTokenGroups.getFunctionByName(internTokenFormulaList,
+				List<InternToken> functionInternTokens = InternFormulaUtils.getFunctionByName(internTokenFormulaList,
 						cursorPositionInternTokenIndex);
 
 				if (functionInternTokens.size() == 0) {
@@ -540,7 +540,7 @@ public class InternFormula {
 				break;
 			case FUNCTION_PARAMETERS_BRACKET_OPEN:
 
-				functionInternTokens = InternTokenGroups.getFunctionByFunctionBracketOpen(internTokenFormulaList,
+				functionInternTokens = InternFormulaUtils.getFunctionByFunctionBracketOpen(internTokenFormulaList,
 						cursorPositionInternTokenIndex);
 
 				if (functionInternTokens == null || functionInternTokens.size() == 0) {
@@ -558,7 +558,7 @@ public class InternFormula {
 
 				break;
 			case FUNCTION_PARAMETERS_BRACKET_CLOSE:
-				functionInternTokens = InternTokenGroups.getFunctionByFunctionBracketClose(internTokenFormulaList,
+				functionInternTokens = InternFormulaUtils.getFunctionByFunctionBracketClose(internTokenFormulaList,
 						cursorPositionInternTokenIndex);
 
 				if (functionInternTokens == null || functionInternTokens.size() == 0) {
@@ -576,7 +576,7 @@ public class InternFormula {
 				break;
 
 			case FUNCTION_PARAMETER_DELIMITER:
-				functionInternTokens = InternTokenGroups.getFunctionByParameterDelimiter(internTokenFormulaList,
+				functionInternTokens = InternFormulaUtils.getFunctionByParameterDelimiter(internTokenFormulaList,
 						cursorPositionInternTokenIndex);
 
 				if (functionInternTokens == null || functionInternTokens.size() == 0) {
@@ -595,7 +595,7 @@ public class InternFormula {
 				break;
 
 			case BRACKET_OPEN:
-				List<InternToken> bracketsInternTokens = InternTokenGroups.generateTokenListByBracketOpen(
+				List<InternToken> bracketsInternTokens = InternFormulaUtils.generateTokenListByBracketOpen(
 						internTokenFormulaList, cursorPositionInternTokenIndex);
 
 				if (bracketsInternTokens == null || bracketsInternTokens.size() == 0) {
@@ -615,7 +615,7 @@ public class InternFormula {
 
 			case BRACKET_CLOSE:
 
-				bracketsInternTokens = InternTokenGroups.generateTokenListByBracketClose(internTokenFormulaList,
+				bracketsInternTokens = InternFormulaUtils.generateTokenListByBracketClose(internTokenFormulaList,
 						cursorPositionInternTokenIndex);
 
 				if (bracketsInternTokens == null || bracketsInternTokens.size() == 0) {
@@ -649,35 +649,35 @@ public class InternFormula {
 			firstLeftInternToken = internTokenFormulaList.get(cursorPositionInternTokenIndex - 1);
 		}
 
-		if (cursorPositionInternToken.isNumber() && InternToken.isNumberToken(internTokensToInsert)) {
+		if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isNumberToken(internTokensToInsert)) {
 
 			String numberToInsert = internTokensToInsert.get(0).getTokenSringValue();
 
-			InternTokenModify.insertIntoNumberToken(cursorPositionInternToken, 0, numberToInsert);
+			InternFormulaUtils.insertIntoNumberToken(cursorPositionInternToken, 0, numberToInsert);
 			externCursorPosition++;
 
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
-		} else if (cursorPositionInternToken.isNumber() && InternToken.isPeriodToken(internTokensToInsert)) {
+		} else if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
 			String numberString = cursorPositionInternToken.getTokenSringValue();
 			if (numberString.contains(".")) {
 				return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 			}
 
-			InternTokenModify.insertIntoNumberToken(cursorPositionInternToken, 0, "0.");
+			InternFormulaUtils.insertIntoNumberToken(cursorPositionInternToken, 0, "0.");
 			externCursorPosition += 2;
 
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
 		} else if (firstLeftInternToken != null && firstLeftInternToken.isNumber()
-				&& InternToken.isNumberToken(internTokensToInsert)) {
+				&& InternFormulaUtils.isNumberToken(internTokensToInsert)) {
 
 			firstLeftInternToken.appendToTokenStringValue(internTokensToInsert);
 
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
 		} else if (firstLeftInternToken != null && firstLeftInternToken.isNumber()
-				&& InternToken.isPeriodToken(internTokensToInsert)) {
+				&& InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
 
 			String numberString = firstLeftInternToken.getTokenSringValue();
 			if (numberString.contains(".")) {
@@ -690,7 +690,7 @@ public class InternFormula {
 
 		} else if (cursorPositionInternToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN) {
 			return replaceCursorPositionInternTokenByTokenList(internTokensToInsert);
-		} else if (InternToken.isPeriodToken(internTokensToInsert)) {
+		} else if (InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
 			internTokenFormulaList.add(cursorPositionInternTokenIndex, new InternToken(InternTokenType.NUMBER, "0."));
 
 			cursorPositionInternToken = null;
@@ -706,13 +706,13 @@ public class InternFormula {
 	private CursorTokenPropertiesAfterModification insertRightToCurrentToken(List<InternToken> internTokensToInsert) {
 		Log.i("info", "insertRightToCurrentToken:enter");
 
-		if (cursorPositionInternToken.isNumber() && InternToken.isNumberToken(internTokensToInsert)) {
+		if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isNumberToken(internTokensToInsert)) {
 
 			cursorPositionInternToken.appendToTokenStringValue(internTokensToInsert);
 
 			return CursorTokenPropertiesAfterModification.RIGHT;
 
-		} else if (cursorPositionInternToken.isNumber() && InternToken.isPeriodToken(internTokensToInsert)) {
+		} else if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
 			String numberString = cursorPositionInternToken.getTokenSringValue();
 			if (numberString.contains(".")) {
 				return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
@@ -721,7 +721,7 @@ public class InternFormula {
 
 			return CursorTokenPropertiesAfterModification.RIGHT;
 
-		} else if (InternToken.isPeriodToken(internTokensToInsert)) {
+		} else if (InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
 
 			internTokenFormulaList.add(cursorPositionInternTokenIndex + 1,
 					new InternToken(InternTokenType.NUMBER, "0."));
@@ -746,7 +746,7 @@ public class InternFormula {
 
 		if (firstLeftToken == null) {
 
-			if (InternToken.isPeriodToken(internTokensToAppend)) {
+			if (InternFormulaUtils.isPeriodToken(internTokensToAppend)) {
 				internTokensToAppend = new LinkedList<InternToken>();
 				internTokensToAppend.add(new InternToken(InternTokenType.NUMBER, "0."));
 			}
@@ -754,14 +754,14 @@ public class InternFormula {
 
 			return setCursorPositionAndSelectionAfterInput(0);
 
-		} else if (firstLeftToken.isNumber() && InternToken.isNumberToken(internTokensToAppend)) {
+		} else if (firstLeftToken.isNumber() && InternFormulaUtils.isNumberToken(internTokensToAppend)) {
 
 			firstLeftToken.appendToTokenStringValue(internTokensToAppend);
 
 			externCursorPosition++;
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
-		} else if (firstLeftToken.isNumber() && InternToken.isPeriodToken(internTokensToAppend)) {
+		} else if (firstLeftToken.isNumber() && InternFormulaUtils.isPeriodToken(internTokensToAppend)) {
 			String numberString = firstLeftToken.getTokenSringValue();
 			if (numberString.contains(".")) {
 				return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
@@ -771,7 +771,7 @@ public class InternFormula {
 			externCursorPosition++;
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
-		} else if (InternToken.isPeriodToken(internTokensToAppend)) {
+		} else if (InternFormulaUtils.isPeriodToken(internTokensToAppend)) {
 			internTokenFormulaList.add(firstLeftTokenListIndex + 1, new InternToken(InternTokenType.NUMBER, "0."));
 
 			cursorPositionInternToken = null;
@@ -794,7 +794,7 @@ public class InternFormula {
 
 		switch (insertedInternToken.getInternTokenType()) {
 			case FUNCTION_NAME:
-				List<InternToken> functionInternTokenList = InternTokenGroups.getFunctionByName(internTokenFormulaList,
+				List<InternToken> functionInternTokenList = InternFormulaUtils.getFunctionByName(internTokenFormulaList,
 						insertedInternTokenIndex);
 
 				if (functionInternTokenList.size() < 4) {
@@ -803,7 +803,7 @@ public class InternFormula {
 					return CursorTokenPropertiesAfterModification.RIGHT;
 				}
 
-				List<List<InternToken>> functionParameters = InternTokenGroups
+				List<List<InternToken>> functionParameters = InternFormulaUtils
 						.getFunctionParameterInternTokensAsLists(functionInternTokenList);
 
 				if (functionParameters.size() < 1) {
@@ -837,7 +837,7 @@ public class InternFormula {
 
 		Log.i("info", "replaceCursorPositionInternTokenByTokenList:enter");
 
-		if (cursorPositionInternToken.isNumber() && InternToken.isNumberToken(internTokensToReplaceWith)) {
+		if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isNumberToken(internTokensToReplaceWith)) {
 
 			InternToken numberTokenToInsert = internTokensToReplaceWith.get(0);
 
@@ -848,13 +848,13 @@ public class InternFormula {
 				return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 			}
 
-			InternTokenModify.insertIntoNumberToken(cursorPositionInternToken, externNumberOffset,
+			InternFormulaUtils.insertIntoNumberToken(cursorPositionInternToken, externNumberOffset,
 					numberTokenToInsert.getTokenSringValue());
 
 			externCursorPosition++;
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
-		} else if (cursorPositionInternToken.isNumber() && InternToken.isPeriodToken(internTokensToReplaceWith)) {
+		} else if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isPeriodToken(internTokensToReplaceWith)) {
 
 			String numberString = cursorPositionInternToken.getTokenSringValue();
 			if (numberString.contains(".")) {
@@ -868,14 +868,14 @@ public class InternFormula {
 				return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 			}
 
-			InternTokenModify.insertIntoNumberToken(cursorPositionInternToken, externNumberOffset, ".");
+			InternFormulaUtils.insertIntoNumberToken(cursorPositionInternToken, externNumberOffset, ".");
 			externCursorPosition++;
 
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
 		} else if (cursorPositionInternToken.isFunctionName()) {
 
-			List<InternToken> functionInternTokens = InternTokenGroups.getFunctionByName(internTokenFormulaList,
+			List<InternToken> functionInternTokens = InternFormulaUtils.getFunctionByName(internTokenFormulaList,
 					cursorPositionInternTokenIndex);
 
 			if (functionInternTokens.size() == 0) {
@@ -886,14 +886,14 @@ public class InternFormula {
 			InternToken lastFunctionToken = functionInternTokens.get(lastListIndex);
 			int endIndexToReplace = internTokenFormulaList.indexOf(lastFunctionToken);
 
-			List<InternToken> tokensToInsert = InternTokenModify.replaceFunctionByTokens(functionInternTokens,
+			List<InternToken> tokensToInsert = InternFormulaUtils.replaceFunctionByTokens(functionInternTokens,
 					internTokensToReplaceWith);
 
 			replaceInternTokens(tokensToInsert, cursorPositionInternTokenIndex, endIndexToReplace);
 
 			return setCursorPositionAndSelectionAfterInput(cursorPositionInternTokenIndex);
 
-		} else if (InternToken.isPeriodToken(internTokensToReplaceWith)) {
+		} else if (InternFormulaUtils.isPeriodToken(internTokensToReplaceWith)) {
 			internTokenFormulaList.add(cursorPositionInternTokenIndex + 1,
 					new InternToken(InternTokenType.NUMBER, "0."));
 
