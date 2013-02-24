@@ -152,6 +152,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String GlideYValue = Integer.toString(BrickValues.Y_POSITION);
 		assertEquals("Value in Brick GlideY are not correct", GlideYValue, GlideYPrototype);
 
+		//TODO fail when tested with 2 Sprits ...
 		solo.searchText(solo.getString(R.string.brick_go_back));
 		TextView GoBack = (TextView) solo.getView(R.id.brick_go_back_prototype_text_view);
 		String GoBackPrototype = GoBack.getText().toString();
