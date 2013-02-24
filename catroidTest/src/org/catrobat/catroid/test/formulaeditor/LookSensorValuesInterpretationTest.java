@@ -25,6 +25,8 @@ package org.catrobat.catroid.test.formulaeditor;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Sensors;
 
 import android.test.AndroidTestCase;
@@ -57,30 +59,37 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 
 	public void testLookSensorValues() {
 
-		Formula lookXPositionFormula = new Formula(Sensors.LOOK_X_.sensorName);
+		Formula lookXPositionFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.LOOK_X_.sensorName,
+				null));
 		assertEquals("Formula interpretation is not as expected", LOOK_X_POSITION,
 				lookXPositionFormula.interpretFloat(), DELTA);
 
-		Formula lookYPositionFormula = new Formula(Sensors.LOOK_Y_.sensorName);
+		Formula lookYPositionFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.LOOK_Y_.sensorName,
+				null));
 		assertEquals("Formula interpretation is not as expected", LOOK_Y_POSITION,
 				lookYPositionFormula.interpretFloat(), DELTA);
 
-		Formula lookAlphaValueFormula = new Formula(Sensors.LOOK_GHOSTEFFECT_.sensorName);
+		Formula lookAlphaValueFormula = new Formula(new FormulaElement(ElementType.SENSOR,
+				Sensors.LOOK_GHOSTEFFECT_.sensorName, null));
 		assertEquals("Formula interpretation is not as expected", LOOK_ALPHA, lookAlphaValueFormula.interpretFloat(),
 				DELTA);
 
-		Formula lookBrightnessFormula = new Formula(Sensors.LOOK_BRIGHTNESS_.sensorName);
+		Formula lookBrightnessFormula = new Formula(new FormulaElement(ElementType.SENSOR,
+				Sensors.LOOK_BRIGHTNESS_.sensorName, null));
 		assertEquals("Formula interpretation is not as expected", LOOK_BRIGHTNESS,
 				lookBrightnessFormula.interpretFloat(), DELTA);
 
-		Formula lookScaleFormula = new Formula(Sensors.LOOK_SIZE_.sensorName);
+		Formula lookScaleFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.LOOK_SIZE_.sensorName,
+				null));
 		assertEquals("Formula interpretation is not as expected", LOOK_SCALE, lookScaleFormula.interpretFloat(), DELTA);
 
-		Formula lookRotateFormula = new Formula(Sensors.LOOK_ROTATION_.sensorName);
+		Formula lookRotateFormula = new Formula(new FormulaElement(ElementType.SENSOR,
+				Sensors.LOOK_ROTATION_.sensorName, null));
 		assertEquals("Formula interpretation is not as expected", LOOK_ROTATION, lookRotateFormula.interpretFloat(),
 				DELTA);
 
-		Formula lookZPositionFormula = new Formula(Sensors.LOOK_LAYER_.sensorName);
+		Formula lookZPositionFormula = new Formula(new FormulaElement(ElementType.SENSOR,
+				Sensors.LOOK_LAYER_.sensorName, null));
 		assertEquals("Formula interpretation is not as expected", LOOK_ZPOSITION,
 				lookZPositionFormula.interpretInteger());
 
