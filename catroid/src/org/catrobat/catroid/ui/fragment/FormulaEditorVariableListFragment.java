@@ -68,7 +68,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -140,13 +139,22 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-
 		super.onPrepareOptionsMenu(menu);
-		//		menu.removeItem(R.id.menu_add);
-		//		menu.removeItem(R.id.menu_start);
-		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
-		actionBar.setTitle(mActionBarTitle);
-		actionBar.setDisplayHomeAsUpEnabled(false);
+		menu.findItem(R.id.delete).setVisible(true);
+		menu.findItem(R.id.copy).setVisible(false);
+		menu.findItem(R.id.cut).setVisible(false);
+		menu.findItem(R.id.show_details).setVisible(false);
+		menu.findItem(R.id.insert_below).setVisible(false);
+		menu.findItem(R.id.move).setVisible(false);
+		menu.findItem(R.id.rename).setVisible(false);
+		menu.findItem(R.id.show_details).setVisible(false);
+		menu.findItem(R.id.settings).setVisible(false);
+
+		getSherlockActivity().getSupportActionBar().setNavigationMode(
+				com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_STANDARD);
+		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
+		getSherlockActivity().getSupportActionBar().setTitle(getString(R.string.formula_editor_variables));
+		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 	}
 
 	@Override
@@ -389,6 +397,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		fragTransaction.hide(formulaEditorFragment);
 		fragTransaction.add(R.id.script_fragment_container, this, FormulaEditorVariableListFragment.VARIABLE_TAG);
+		fragTransaction.show(this);
 		fragTransaction.commit();
 
 	}
@@ -401,7 +410,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 				Log.i("info", "KEYCODE_BACK pressed in FE-ListFragment!");
 				FragmentTransaction fragTransaction = getSherlockActivity().getSupportFragmentManager()
 						.beginTransaction();
-				fragTransaction.remove(this);
+				fragTransaction.hide(this);
 				fragTransaction.show(getSherlockActivity().getSupportFragmentManager().findFragmentByTag(
 						FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
 				fragTransaction.commit();

@@ -112,21 +112,31 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		SherlockFragmentActivity activity = null;
 		activity = (SherlockFragmentActivity) view.getContext();
 
-		FormulaEditorFragment formulaEditorDialog = (FormulaEditorFragment) activity.getSupportFragmentManager()
+		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) activity.getSupportFragmentManager()
 				.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG);
 
-		if (formulaEditorDialog == null) {
-			formulaEditorDialog = new FormulaEditorFragment(brick, formula);
-			FragmentManager fragmentManager = activity.getSupportFragmentManager();
-			FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
-			fragTransaction.replace(R.id.script_fragment_container, formulaEditorDialog, FORMULA_EDITOR_FRAGMENT_TAG);
+		FragmentManager fragmentManager = activity.getSupportFragmentManager();
+		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
 
+		if (formulaEditorFragment == null) {
+			formulaEditorFragment = new FormulaEditorFragment(brick, formula);
+			fragTransaction.add(R.id.script_fragment_container, formulaEditorFragment, FORMULA_EDITOR_FRAGMENT_TAG);
+			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
+			fragTransaction.show(formulaEditorFragment);
 			fragTransaction.commit();
-			activity.getSupportActionBar().setTitle(ProjectManager.INSTANCE.getCurrentSprite().getName());
 			activity.findViewById(R.id.bottom_bar).setVisibility(View.GONE);
 
+		} else if (formulaEditorFragment.isHidden()) {
+			FormulaEditorFragment updatedFormulaEditorFragment = new FormulaEditorFragment(brick, formula);
+			fragTransaction.remove(formulaEditorFragment);
+			fragTransaction.add(R.id.script_fragment_container, updatedFormulaEditorFragment,
+					FORMULA_EDITOR_FRAGMENT_TAG);
+			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
+			fragTransaction.show(updatedFormulaEditorFragment);
+			fragTransaction.commit();
+			activity.findViewById(R.id.bottom_bar).setVisibility(View.GONE);
 		} else {
-			formulaEditorDialog.setInputFormula(formula, SET_FORMULA_ON_SWITCH_EDIT_TEXT);
+			formulaEditorFragment.setInputFormula(formula, SET_FORMULA_ON_SWITCH_EDIT_TEXT);
 		}
 
 	}
@@ -138,9 +148,8 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		SherlockFragmentActivity activity = getSherlockActivity();
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
-		ScriptFragment scriptFragment = (ScriptFragment) fragmentManager
-				.findFragmentById(R.id.fragment_script_relative_layout);
-		fragTransaction.replace(R.id.script_fragment_container, scriptFragment);
+		fragTransaction.hide(this);
+		fragTransaction.show(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
 		fragTransaction.commit();
 		activity.getSupportActionBar().setTitle(ProjectManager.getInstance().getCurrentSprite().getName());
 
@@ -265,9 +274,20 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
-		menu.clear();
-		getSherlockActivity().getSupportActionBar().setTitle(getString(R.string.formula_editor_title));
+		menu.findItem(R.id.delete).setVisible(false);
+		menu.findItem(R.id.copy).setVisible(false);
+		menu.findItem(R.id.cut).setVisible(false);
+		menu.findItem(R.id.show_details).setVisible(false);
+		menu.findItem(R.id.insert_below).setVisible(false);
+		menu.findItem(R.id.move).setVisible(false);
+		menu.findItem(R.id.rename).setVisible(false);
+		menu.findItem(R.id.show_details).setVisible(false);
+		menu.findItem(R.id.settings).setVisible(false);
 
+		getSherlockActivity().getSupportActionBar().setNavigationMode(
+				com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_STANDARD);
+		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
+		getSherlockActivity().getSupportActionBar().setTitle(getString(R.string.formula_editor_title));
 	}
 
 	@Override

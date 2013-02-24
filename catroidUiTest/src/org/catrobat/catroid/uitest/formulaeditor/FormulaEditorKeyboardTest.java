@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -44,6 +45,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -58,7 +60,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 	private static final int X_POS_EDIT_TEXT_ID = 0;
 	private static final int Y_POS_EDIT_TEXT_ID = 1;
-	private static final int SCROLL_DOWN_INDEX = 2;
+	private static final int SCROLL_DOWN_INDEX = 0;
 
 	private static final String QUOTE = "\"";
 
@@ -202,6 +204,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
+		solo.goBack();
 	}
 
 	public void testObjectFragment() {
@@ -268,6 +271,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
+		solo.goBack();
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
@@ -388,6 +392,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
+		solo.goBack();
 	}
 
 	public void testLogicFragment() {
@@ -472,6 +477,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
+		solo.goBack();
 	}
 
 	public void testSensorsFragment() {
@@ -535,6 +541,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
+		solo.goBack();
 	}
 
 	public void testCreateUserVariable() {
@@ -568,6 +575,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("zzz");
 
+		solo.goBack();
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
@@ -612,6 +620,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("del");
 
+		solo.goBack();
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
@@ -680,6 +689,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
+		solo.goBack();
 
 	}
 
@@ -729,8 +739,13 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
+		solo.goBack();
 
 		solo.clickOnText("secondSprite");
+		solo.clickOnText(solo.getString(R.string.scripts));
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForView(ListView.class);
+		solo.sleep(200);
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
@@ -807,7 +822,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
-
+		solo.goBack();
 	}
 
 }

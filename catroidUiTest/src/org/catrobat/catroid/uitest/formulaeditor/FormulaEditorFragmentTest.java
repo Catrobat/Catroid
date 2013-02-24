@@ -48,8 +48,8 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 	private static final int INITIAL_Y = 7;
 
 	private static final int X_POS_EDIT_TEXT_ID = 0;
-	private static final int Y_POS_EDIT_TEXT_ID = 3;
-	private static final int FORMULA_EDITOR_EDIT_TEXT_ID = 4;
+	private static final int Y_POS_EDIT_TEXT_ID = 1;
+	private static final int FORMULA_EDITOR_EDIT_TEXT_ID = 2;
 
 	public FormulaEditorFragmentTest() {
 		super(MainMenuActivity.class);
@@ -60,6 +60,7 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		super.setUp();
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -128,15 +129,15 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		solo.sleep(100);
 		assertEquals("Value not saved!", "1 ", solo.getEditText(X_POS_EDIT_TEXT_ID).getText().toString());
 
-		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID - 2);
+		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID + 2);
+		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 		assertTrue("Fix error message not found!", solo.searchText(solo.getString(R.string.formula_editor_parse_fail)));
 		solo.sleep(500);
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID + 2);
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID + 2);
+		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 		assertTrue("Changes saved message not found!",
 				solo.searchText(solo.getString(R.string.formula_editor_changes_discarded)));
 
@@ -153,13 +154,13 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		assertEquals("Wrong text in FormulaEditor", "1 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText()
 				.toString());
 		solo.sleep(100);
-		assertEquals("Wrong text in X EditText", "1 ", solo.getEditText(X_POS_EDIT_TEXT_ID + 2).getText().toString());
+		assertEquals("Wrong text in X EditText", "1 ", solo.getEditText(X_POS_EDIT_TEXT_ID).getText().toString());
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_2));
 
 		assertEquals("Wrong text in FormulaEditor", "12 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText()
 				.toString());
-		assertEquals("Wrong text in X EditText", "12 ", solo.getEditText(X_POS_EDIT_TEXT_ID + 2).getText().toString());
+		assertEquals("Wrong text in X EditText", "12 ", solo.getEditText(X_POS_EDIT_TEXT_ID).getText().toString());
 
 		solo.goBack();
 		solo.sleep(50);
@@ -207,7 +208,7 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 
 		solo.goBack();
 
-		assertEquals("Undo did something wrong", "1 - 2", solo.getEditText(X_POS_EDIT_TEXT_ID).getText().toString());
+		assertEquals("Undo did something wrong", "1 - 2 ", solo.getEditText(X_POS_EDIT_TEXT_ID).getText().toString());
 
 		solo.goBack();
 		solo.goBack();
@@ -320,7 +321,7 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		assertTrue("Save failed toast not found",
 				solo.searchText(solo.getString(R.string.formula_editor_changes_saved)));
 
-		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID - 2);
+		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
@@ -332,7 +333,7 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_3));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID + 2);
+		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 		assertTrue("Changes saved toast not found",
 				solo.searchText(solo.getString(R.string.formula_editor_changes_saved)));
 
@@ -382,7 +383,7 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 
 		String newYFormula = "random(7.0,1)";
 
-		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID - 2);
+		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_7));
@@ -429,7 +430,7 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 
 		String newYFormula = "rand(4,1)";
 
-		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID - 2);
+		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_4));

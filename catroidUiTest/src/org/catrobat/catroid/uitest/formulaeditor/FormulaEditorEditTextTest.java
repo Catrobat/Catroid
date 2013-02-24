@@ -62,7 +62,7 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 	Script startScript1;
 
 	private static final int X_POS_EDIT_TEXT_ID = 0;
-	private static final int FORMULA_EDITOR_EDIT_TEXT_ID = 3;
+	private static final int FORMULA_EDITOR_EDIT_TEXT_ID = 1;
 	private static final int FORMULA_EDITOR_EDIT_TEXT_RID = R.id.formula_editor_edit_field;
 
 	private int totalLinesForTheInput;
@@ -75,8 +75,9 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 	@Override
 	public void setUp() throws Exception {
 
-		createProject("testProjectCatKeyboard");
+		createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "CatKeyboard");
 		this.solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -159,7 +160,7 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().getSpanEnd(COLOR_HIGHLIGHT));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
-		assertFalse("Text found but shouldnt", solo.searchText("11111"));
+		assertFalse("Text found but shouldnt", solo.searchText("11111", true));
 		assertTrue("Error cursor found in text, but should not be", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)
 				.getText().getSpanStart(COLOR_HIGHLIGHT) == -1);
 
@@ -278,6 +279,9 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		assertEquals("Text deletion was wrong!", editTextString, solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)
 				.getText().toString());
 
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
 		solo.goBack();
 		solo.goBack();
 	}
