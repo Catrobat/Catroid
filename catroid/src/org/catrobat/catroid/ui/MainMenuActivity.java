@@ -47,10 +47,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -124,6 +128,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 		PreStageActivity.shutdownPersistentResources();
 		Utils.loadProjectIfNeeded(this);
+		setMainMenuButtonContinueText();
 		findViewById(R.id.main_menu_button_continue).setEnabled(true);
 		StatusBarNotificationManager.INSTANCE.displayDialogs(this);
 	}
@@ -284,5 +289,21 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				Utils.showErrorDialog(this, getResources().getString(R.string.error_load_project));
 			}
 		}
+	}
+
+	private void setMainMenuButtonContinueText() {
+		Button mainMenuButtonContinue = (Button) this.findViewById(R.id.main_menu_button_continue);
+		TextAppearanceSpan textAppearanceSpan = new TextAppearanceSpan(this, R.style.MainMenuButtonTextSecondLine);
+		SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+		String mainMenuContinue = this.getString(R.string.main_menu_continue);
+
+		spannableStringBuilder.append(mainMenuContinue);
+		spannableStringBuilder.append("\n");
+		spannableStringBuilder.append(ProjectManager.INSTANCE.getCurrentProject().getName());
+
+		spannableStringBuilder.setSpan(textAppearanceSpan, mainMenuContinue.length() + 1,
+				spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+		mainMenuButtonContinue.setText(spannableStringBuilder);
 	}
 }
