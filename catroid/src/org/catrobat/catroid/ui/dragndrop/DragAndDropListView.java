@@ -48,6 +48,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -66,6 +67,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	private int upperDragBound;
 	private int lowerDragBound;
 
+	private CheckBox selectionBox;
 	private ImageView dragView;
 	private int position;
 	private boolean newView;

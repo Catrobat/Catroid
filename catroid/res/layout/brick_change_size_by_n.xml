@@ -20,29 +20,48 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Look.Small" >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:longClickable="true"
+    android:orientation="horizontal"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp" >
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_change_size_by" >
-    </TextView>
+    <CheckBox
+        android:id="@+id/brick_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/brick_change_size_by_prototype_text_view"
-        style="@style/BrickPrototypeTextView" >
-    </TextView>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/BrickContainer.Look.Small" >
 
-    <EditText
-        android:id="@+id/brick_change_size_by_edit_text"
-        style="@style/BrickEditText"
-        android:inputType="number|numberDecimal|numberSigned" >
-    </EditText>
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_change_size_by" >
+        </TextView>
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/percent_symbol" >
-    </TextView>
+        <TextView
+            android:id="@+id/brick_change_size_by_prototype_text_view"
+            style="@style/BrickPrototypeTextView" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/brick_change_size_by_edit_text"
+            style="@style/BrickEditText"
+            android:inputType="number|numberDecimal|numberSigned" >
+        </EditText>
+
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:text="@string/percent_symbol" >
+        </TextView>
+    </LinearLayout>
 
 </LinearLayout>

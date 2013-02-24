@@ -20,36 +20,56 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Look.Medium"
-    android:gravity="center_vertical"
-    android:orientation="vertical" >
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_change_ghost_effect" >
-    </TextView>
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:longClickable="true"
+    android:orientation="horizontal"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp" >
+
+    <CheckBox
+        android:id="@+id/brick_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/BrickContainer.Look.Medium"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/by_label" >
+            android:text="@string/brick_change_ghost_effect" >
         </TextView>
 
-        <TextView
-            android:id="@+id/brick_change_ghost_effect_prototype_text_view"
-            style="@style/BrickPrototypeTextView" >
-        </TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
-        <EditText
-            android:id="@+id/brick_change_ghost_effect_edit_text"
-            style="@style/BrickEditText"
-            android:inputType="number|numberDecimal|numberSigned" >
-        </EditText>
+            <TextView
+                style="@style/BrickText.SingleLine"
+                android:text="@string/by_label" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/brick_change_ghost_effect_prototype_text_view"
+                style="@style/BrickPrototypeTextView" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/brick_change_ghost_effect_edit_text"
+                style="@style/BrickEditText"
+                android:inputType="number|numberDecimal|numberSigned" >
+            </EditText>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

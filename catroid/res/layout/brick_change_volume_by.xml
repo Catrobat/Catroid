@@ -22,6 +22,21 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:longClickable="true"
+    android:orientation="horizontal"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp" >
+
+    <CheckBox
+        android:id="@+id/brick_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/BrickContainer.Sound.Small" >
 
     <TextView
@@ -40,4 +55,5 @@
         android:inputType="number|numberDecimal" >
     </EditText>
 
+</LinearLayout>
 </LinearLayout>

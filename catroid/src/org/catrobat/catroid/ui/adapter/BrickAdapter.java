@@ -107,6 +107,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				brickList.add(brick);
 			}
 		}
+
 	}
 
 	@Override
