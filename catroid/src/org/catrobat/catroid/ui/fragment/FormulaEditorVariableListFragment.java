@@ -281,6 +281,9 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 								Button positiveButton = ((AlertDialog) dialogNewVariable)
 										.getButton(AlertDialog.BUTTON_POSITIVE);
 
+								Button negativeButton = ((AlertDialog) dialogNewVariable)
+										.getButton(AlertDialog.BUTTON_NEGATIVE);
+
 								if (ProjectManager
 										.getInstance()
 										.getCurrentProject()
@@ -294,6 +297,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 									toast.show();
 
 									positiveButton.setClickable(false);
+
 									positiveButton.setTextColor(getResources().getColorStateList(R.color.gray));
 
 									dialogEdittext.setBackgroundColor(getResources().getColor(R.color.solid_red));
@@ -302,7 +306,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 									dialogEdittext.setBackgroundColor(getResources().getColor(R.color.transparent));
 									positiveButton.setClickable(true);
-									positiveButton.setTextColor(getResources().getColorStateList(R.color.solid_black));
+									positiveButton.setTextColor(negativeButton.getTextColors());
 								}
 							}
 						});

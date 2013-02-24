@@ -37,10 +37,12 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.test.suitebuilder.annotation.Smoke;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -69,8 +71,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 		createProject("testProjectFomulaEditorKeyboard");
 		this.solo = new Solo(getInstrumentation(), getActivity());
-		solo.clickOnButton("Current Project");// TODO insert R.id from mastebranch
-		solo.clickOnText("Background");
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -768,14 +769,23 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.sendKey(KeyEvent.KEYCODE_R);
 		solo.sendKey(KeyEvent.KEYCODE_1);
 
+		assertTrue("Toast not shown when UserVariableName already exists",
+				solo.searchText(solo.getString(R.string.formula_editor_existing_user_variable), true));
+
+		Button positiveButton = solo.getButton(solo.getString(R.string.ok));
+		ColorStateList actualPositiveButtonTextColor = positiveButton.getTextColors();
+		ColorStateList expectedPositiveButtonTextColor = solo.getCurrentActivity().getResources()
+				.getColorStateList(R.color.gray);
+
+		assertEquals("Wrong PositiveButton TextColor", expectedPositiveButtonTextColor, actualPositiveButtonTextColor);
+
 		EditText userVariableNameEditText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		ColorDrawable cd = (ColorDrawable) userVariableNameEditText.getBackground();
 		int colorBackground = (Integer) Reflection.getPrivateField(Reflection.getPrivateField(cd, "mState"),
 				"mBaseColor");
 		int colorMustBe = solo.getCurrentActivity().getResources().getColor(R.color.solid_red);
+
 		assertEquals("Wrong BackgroundColor when UserVariableName already exists", colorMustBe, colorBackground);
-		assertTrue("Toast not shown when UserVariableName already exists",
-				solo.searchText(solo.getString(R.string.formula_editor_existing_user_variable), true));
 
 		solo.sendKey(KeyEvent.KEYCODE_DEL);
 
