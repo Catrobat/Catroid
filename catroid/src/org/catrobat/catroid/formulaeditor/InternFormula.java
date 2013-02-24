@@ -96,8 +96,8 @@ public class InternFormula {
 
 	public synchronized void handleKeyInput(int resourceId, Context context, String userVariableName) {
 
-		List<InternToken> keyInputInternTokenList = new InternFormulaKeyboardAdapter().createInternTokenListByResourceId(
-				resourceId, userVariableName);
+		List<InternToken> keyInputInternTokenList = new InternFormulaKeyboardAdapter()
+				.createInternTokenListByResourceId(resourceId, userVariableName);
 
 		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
@@ -316,8 +316,6 @@ public class InternFormula {
 			case NUMBER:
 				int externNumberOffset = externInternRepresentationMapping.getExternTokenStartOffset(
 						externCursorPosition, internTokenIndex);
-
-				Log.i("info", "Delete number offset = " + externNumberOffset);
 
 				if (externNumberOffset == -1) {
 					return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
