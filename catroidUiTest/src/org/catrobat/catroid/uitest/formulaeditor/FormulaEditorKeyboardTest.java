@@ -41,7 +41,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.test.suitebuilder.annotation.Smoke;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -60,6 +60,8 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 	private static final int X_POS_EDIT_TEXT_ID = 0;
 	private static final int Y_POS_EDIT_TEXT_ID = 1;
 
+	private static final int ACTIONMODE_INDEX = 0;
+
 	private static final String QUOTE = "\"";
 
 	public FormulaEditorKeyboardTest() {
@@ -75,17 +77,10 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.sleep(1000);
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
-		this.project = null;
 		super.tearDown();
+		solo = null;
 	}
 
 	private void createProject(String projectName) throws InterruptedException {
@@ -196,12 +191,6 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	public void testObjectFragment() {
@@ -267,12 +256,6 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.sleep(100);
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	public void testMathFragment() {
@@ -370,12 +353,6 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	public void testLogicFragment() {
@@ -455,12 +432,6 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.sleep(100);
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	public void testSensorsFragment() {
@@ -519,12 +490,6 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.sleep(100);
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	public void testCreateUserVariable() {
@@ -533,65 +498,41 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-
-		ArrayList<EditText> textList = solo.getCurrentEditTexts();
-		EditText text = textList.get(textList.size() - 1);
-
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_variable_dialog_hint));
-		solo.sendKey(KeyEvent.KEYCODE_Z);
-		solo.sendKey(KeyEvent.KEYCODE_Z);
-		solo.sendKey(KeyEvent.KEYCODE_Z);
+
 		itemString = "zzz";
-		solo.sendKey(KeyEvent.KEYCODE_BACK);
-		solo.clickOnButton(solo.getString(R.string.ok));
+		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
+		UiTestUtils.clickEnterClose(solo, editText, itemString, 2);
+
 		solo.clickOnText(itemString);
-		solo.sleep(100);
 		itemString = QUOTE + itemString + QUOTE;
-		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
+		solo.sleep(250);
+		EditText text = (EditText) solo.getView(R.id.formula_editor_edit_field);
+		String editTextString = text.getText().toString();
+		assertEquals("Wrong text in EditText", itemString, editTextString.substring(0, itemString.length()));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("zzz");
-
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-
 	}
 
 	public void testDeleteUserVariableWithLongPress() {
 
-		String itemString = "";
+		String itemString = "del";
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-
-		ArrayList<EditText> textList = solo.getCurrentEditTexts();
-		EditText text = textList.get(textList.size() - 1);
-
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_variable_dialog_hint));
-		solo.sendKey(KeyEvent.KEYCODE_D);
-		solo.sendKey(KeyEvent.KEYCODE_E);
-		solo.sendKey(KeyEvent.KEYCODE_L);
-		itemString = "del";
-		solo.sendKey(KeyEvent.KEYCODE_BACK);
-		solo.clickOnButton(solo.getString(R.string.ok));
+
+		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
+		UiTestUtils.clickEnterClose(solo, editText, itemString, 2);
+
 		solo.clickOnText(itemString);
-		solo.sleep(100);
+		solo.sleep(250);
+		EditText text = (EditText) solo.getView(R.id.formula_editor_edit_field);
 		itemString = QUOTE + itemString + QUOTE;
+		Log.i("info", "editText: " + text.getText().toString());
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
@@ -599,127 +540,77 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		itemString = "del";
 		solo.clickLongOnText(itemString);
 		solo.clickOnText(solo.getString(R.string.delete));
-		assertFalse(solo.searchText(itemString, true));
+		assertFalse(itemString + " not found!", solo.searchText(itemString, true));
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("del");
-
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	public void testDeleteUserVariableWithMultipleChoice() {
 
-		String itemString = "";
-		String itemString2nd = "";
-		String itemString3rd = "";
+		String itemString = "del";
+		String itemString2nd = "var";
+		String itemString3rd = "2ndDel";
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_variable_dialog_hint));
-		solo.sendKey(KeyEvent.KEYCODE_D);
-		solo.sendKey(KeyEvent.KEYCODE_E);
-		solo.sendKey(KeyEvent.KEYCODE_L);
-		itemString = "del";
-		solo.sendKey(KeyEvent.KEYCODE_BACK);
-		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sleep(250);
+		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
+		UiTestUtils.clickEnterClose(solo, editText, itemString, 2);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_variable_dialog_hint));
-		solo.sendKey(KeyEvent.KEYCODE_V);
-		solo.sendKey(KeyEvent.KEYCODE_A);
-		solo.sendKey(KeyEvent.KEYCODE_R);
-		itemString2nd = "var";
-		solo.sendKey(KeyEvent.KEYCODE_BACK);
-		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sleep(250);
+		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
+		UiTestUtils.clickEnterClose(solo, editText, itemString2nd, 2);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_variable_dialog_hint));
-		solo.sendKey(KeyEvent.KEYCODE_D);
-		solo.sendKey(KeyEvent.KEYCODE_E);
-		solo.sendKey(KeyEvent.KEYCODE_L);
-		solo.sendKey(KeyEvent.KEYCODE_2);
-		itemString3rd = "del2";
-		solo.sendKey(KeyEvent.KEYCODE_BACK);
-		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sleep(250);
+		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
+		UiTestUtils.clickEnterClose(solo, editText, itemString3rd, 2);
 
 		solo.clickOnMenuItem(solo.getString(R.string.delete), true);
 		solo.clickOnText(itemString);
 		solo.clickOnText(itemString3rd);
-		solo.clickOnImage(0);
+		solo.clickOnImage(ACTIONMODE_INDEX);
 
-		assertFalse(solo.searchButton(itemString, true));
-		assertTrue(solo.searchButton(itemString2nd, true));
-		assertFalse(solo.searchButton(itemString, true));
+		assertFalse(itemString + " should not be found!", solo.searchButton(itemString, true));
+		assertTrue(itemString2nd + " not found!", solo.searchButton(itemString2nd, true));
+		assertFalse(itemString3rd + " should not be found!", solo.searchButton(itemString3rd, true));
 
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("del");
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var");
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("del2");
-
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString);
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString2nd);
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString3rd);
 
 	}
 
 	public void testScopeOfUserVariable() {
 
-		String itemString = "";
-		String itemString2nd = "";
+		String itemString = "local";
+		String itemString2nd = "global";
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
-
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
 		solo.goBack();
-		solo.sleep(100);
+		solo.sleep(250);
 		solo.clickOnText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_variable_dialog_hint));
-		solo.sendKey(KeyEvent.KEYCODE_L);
-		solo.sendKey(KeyEvent.KEYCODE_O);
-		solo.sendKey(KeyEvent.KEYCODE_C);
-		solo.sendKey(KeyEvent.KEYCODE_A);
-		solo.sendKey(KeyEvent.KEYCODE_L);
-		itemString = "local";
-		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.ok));
-		assertTrue(solo.searchText(itemString, true));
+
+		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
+		UiTestUtils.clickEnterClose(solo, editText, itemString, 2);
+		assertTrue(itemString + " not found:", solo.searchText(itemString, true));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
 		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.formula_editor_variable_dialog_for_all_sprites));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_variable_dialog_hint));
-		solo.sendKey(KeyEvent.KEYCODE_G);
-		solo.sendKey(KeyEvent.KEYCODE_L);
-		solo.sendKey(KeyEvent.KEYCODE_O);
-		solo.sendKey(KeyEvent.KEYCODE_B);
-		solo.sendKey(KeyEvent.KEYCODE_A);
-		solo.sendKey(KeyEvent.KEYCODE_L);
-		itemString2nd = "global";
-		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.ok));
-		assertTrue(solo.searchText(itemString2nd, true));
+		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 
-		solo.goBack();
+		UiTestUtils.clickEnterClose(solo, editText, itemString2nd, 2);
+		assertTrue(itemString2nd + " not found:", solo.searchText(itemString2nd, true));
+
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
@@ -733,17 +624,11 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
-		assertFalse(solo.searchText(itemString, true));
-		assertTrue(solo.searchText(itemString2nd, true));
+		assertFalse(itemString + "  should not be found:", solo.searchText(itemString, true));
+		assertTrue(itemString2nd + " not found:", solo.searchText(itemString2nd, true));
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("local");
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("global");
-
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 
 	}
 
@@ -753,23 +638,20 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_variable_dialog_hint));
-		solo.sendKey(KeyEvent.KEYCODE_V);
-		solo.sendKey(KeyEvent.KEYCODE_A);
-		solo.sendKey(KeyEvent.KEYCODE_R);
-		solo.sendKey(KeyEvent.KEYCODE_1);
-		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.ok));
+
+		String itemString = "var1";
+		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
+		UiTestUtils.clickEnterClose(solo, editText, itemString, 2);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_variable_dialog_hint));
-		solo.sendKey(KeyEvent.KEYCODE_V);
-		solo.sendKey(KeyEvent.KEYCODE_A);
-		solo.sendKey(KeyEvent.KEYCODE_R);
-		solo.sendKey(KeyEvent.KEYCODE_1);
+		solo.sleep(250);
+		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 
+		solo.clearEditText(editText);
+		solo.sleep(500);
+		solo.enterText(editText, itemString);
 		assertTrue("Toast not shown when UserVariableName already exists",
-				solo.searchText(solo.getString(R.string.formula_editor_existing_user_variable), true));
+				solo.searchText(solo.getString(R.string.formula_editor_existing_user_variable)));
 
 		Button positiveButton = solo.getButton(solo.getString(R.string.ok));
 		ColorStateList actualPositiveButtonTextColor = positiveButton.getTextColors();
@@ -786,7 +668,8 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 		assertEquals("Wrong BackgroundColor when UserVariableName already exists", colorMustBe, colorBackground);
 
-		solo.sendKey(KeyEvent.KEYCODE_DEL);
+		solo.clearEditText(editText);
+		solo.enterText(editText, "var2");
 
 		userVariableNameEditText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		cd = (ColorDrawable) userVariableNameEditText.getBackground();
@@ -794,19 +677,11 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		colorMustBe = solo.getCurrentActivity().getResources().getColor(R.color.transparent);
 		assertEquals("Wrong BackgroundColor", colorMustBe, colorBackground);
 
-		solo.sendKey(KeyEvent.KEYCODE_2);
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var");
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var1");
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var2");
 
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 }

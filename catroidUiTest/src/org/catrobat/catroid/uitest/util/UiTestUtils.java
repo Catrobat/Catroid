@@ -78,6 +78,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -232,6 +233,18 @@ public class UiTestUtils {
 		} catch (AssertionFailedError e) {
 			solo.sendKey(Solo.ENTER);
 		}
+		solo.sleep(50);
+	}
+
+	public static void clickEnterClose(Solo solo, EditText editText, String value, int buttonIndex) {
+		Log.v("debug", "Solo.Enter clickEnterClose");
+		solo.clearEditText(editText);
+		solo.enterText(editText, value);
+
+		solo.sleep(250);
+
+		solo.clickOnButton(buttonIndex);
+
 		solo.sleep(50);
 	}
 
