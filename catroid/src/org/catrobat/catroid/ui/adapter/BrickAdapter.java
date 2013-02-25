@@ -76,9 +76,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private List<Brick> brickList;
 	private List<Brick> animatedBricks;
-	private SortedSet<Integer> checkedBricks = new TreeSet<Integer>();
+	//private SortedSet<Integer> checkedBricks = new TreeSet<Integer>();
+	private SortedSet<Brick> checkedBricks = new TreeSet<Brick>();
 
 	private int selectMode;
+	private OnBrickEditListener onBrickEditListener;
 
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
@@ -814,7 +816,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		return checkedBricks.size();
 	}
 
-	public SortedSet<Integer> getCheckedItems() {
+	public SortedSet<Brick> getCheckedItems() {
 		return checkedBricks;
 	}
 
@@ -825,6 +827,33 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	public void setCheckboxVisibility(int visibility) {
 		for (Brick brick : brickList) {
 			brick.setCheckboxVisibility(visibility);
+		}
+	}
+
+	public interface OnBrickEditListener {
+
+		public void onBrickEdit(View v);
+
+		public void onBrickChecked();
+	}
+
+	public void setOnBrickEditListener(OnBrickEditListener listener) {
+		onBrickEditListener = listener;
+	}
+
+	public void handleCheck(Brick brick, boolean isChecked) {
+		if (isChecked) {
+			if (selectMode == Constants.SINGLE_SELECT) {
+				clearCheckedItems();
+			}
+			checkedBricks.add(brick);
+		} else {
+			checkedBricks.remove(brick);
+		}
+		notifyDataSetChanged();
+
+		if (onBrickEditListener != null) {
+			onBrickEditListener.onBrickChecked();
 		}
 	}
 }

@@ -42,4 +42,5 @@ public abstract class ScriptBrick implements AllowedAfterDeadEndBrick {
 
 	@Override
 	public abstract Brick clone();
+
 }

@@ -26,6 +26,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.view.View;
@@ -141,4 +142,15 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 		}
 	}
 
+	private transient BrickAdapter adapter;
+
+	@Override
+	public void setBrickAdapter(BrickAdapter adapter) {
+		this.adapter = adapter;
+	}
+
+	@Override
+	public CheckBox getCheckBox() {
+		return checkbox;
+	}
 }

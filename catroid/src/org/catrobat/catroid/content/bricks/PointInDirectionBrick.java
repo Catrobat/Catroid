@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -303,5 +304,17 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 		if (checkbox != null) {
 			checkbox.setVisibility(visibility);
 		}
+	}
+
+	private transient BrickAdapter adapter;
+
+	@Override
+	public void setBrickAdapter(BrickAdapter adapter) {
+		this.adapter = adapter;
+	}
+
+	@Override
+	public CheckBox getCheckBox() {
+		return checkbox;
 	}
 }

@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.ui.adapter.BrickAdapter.OnBrickEditListener;
 import org.catrobat.catroid.ui.dialogs.AddBrickDialog;
 import org.catrobat.catroid.ui.dialogs.BrickCategoryDialog;
 import org.catrobat.catroid.ui.dialogs.BrickCategoryDialog.OnBrickCategoryDialogDismissCancelListener;
@@ -50,6 +51,9 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -62,7 +66,7 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
 public class ScriptFragment extends ScriptActivityFragment implements OnCategorySelectedListener,
-		OnBrickCategoryDialogDismissCancelListener {
+		OnBrickCategoryDialogDismissCancelListener, OnBrickEditListener {
 
 	private static final String ARGUMENTS_SELECTED_CATEGORY = "selected_category";
 	private static final String TAG = ScriptFragment.class.getSimpleName();
@@ -301,6 +305,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 
 		adapter = new BrickAdapter(getActivity(), sprite, listView);
+		adapter.setOnBrickEditListener(this);
+
 		if (ProjectManager.INSTANCE.getCurrentSprite().getNumberOfScripts() > 0) {
 			ProjectManager.INSTANCE.setCurrentScript(((ScriptBrick) adapter.getItem(0)).initScript(sprite));
 		}
@@ -450,14 +456,15 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			SortedSet<Integer> checkedBricks = adapter.getCheckedItems();
-			Iterator<Integer> iterator = checkedBricks.iterator();
+			SortedSet<Brick> checkedBricks = adapter.getCheckedItems();
+			Iterator<Brick> iterator = checkedBricks.iterator();
 
 			int numberDeleted = 0;
 
 			while (iterator.hasNext()) {
-				int position = iterator.next();
-				deleteBrick(position - numberDeleted);
+				Brick brick = iterator.next();
+				//deleteBrick(position - numberDeleted);
+				deleteBrick(brick);
 				++numberDeleted;
 			}
 			setSelectMode(Constants.SELECT_NONE);
@@ -471,12 +478,48 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 	};
 
-	private void deleteBrick(int position) {
+	private void deleteBrick(Brick brick) {
 		//StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath());
 
 		//lookDataList.remove(position);
 		//ProjectManager.INSTANCE.getCurrentSprite().setLookDataList(lookDataList);
 
 		//getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
+	}
+
+	@Override
+	public void onBrickEdit(View view) {
+
+	}
+
+	@Override
+	public void onBrickChecked() {
+		if (actionMode == null) {
+			return;
+		}
+
+		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
+
+		if (numberOfSelectedItems == 0) {
+			actionMode.setTitle(actionModeTitle);
+		} else {
+			String appendix = multipleItemAppendixActionMode;
+
+			if (numberOfSelectedItems == 1) {
+				appendix = singleItemAppendixActionMode;
+			}
+
+			String numberOfItems = Integer.toString(numberOfSelectedItems);
+			String completeTitle = actionModeTitle + " " + numberOfItems + " " + appendix;
+
+			int titleLength = actionModeTitle.length();
+
+			Spannable completeSpannedTitle = new SpannableString(completeTitle);
+			completeSpannedTitle.setSpan(
+					new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)), titleLength + 1,
+					titleLength + (1 + numberOfItems.length()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+			actionMode.setTitle(completeSpannedTitle);
+		}
 	}
 }

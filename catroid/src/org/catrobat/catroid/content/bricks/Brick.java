@@ -25,10 +25,12 @@ package org.catrobat.catroid.content.bricks;
 import java.io.Serializable;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 
 public interface Brick extends Serializable {
 
@@ -53,4 +55,8 @@ public interface Brick extends Serializable {
 	public int getRequiredResources();
 
 	public void setCheckboxVisibility(int visibility);
+
+	public void setBrickAdapter(BrickAdapter adapter);
+
+	public CheckBox getCheckBox();
 }

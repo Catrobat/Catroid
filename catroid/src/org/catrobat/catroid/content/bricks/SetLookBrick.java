@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.view.View;
@@ -154,5 +155,17 @@ public class SetLookBrick implements Brick {
 		if (checkbox != null) {
 			checkbox.setVisibility(visibility);
 		}
+	}
+
+	private transient BrickAdapter adapter;
+
+	@Override
+	public void setBrickAdapter(BrickAdapter adapter) {
+		this.adapter = adapter;
+	}
+
+	@Override
+	public CheckBox getCheckBox() {
+		return checkbox;
 	}
 }
