@@ -25,8 +25,8 @@ package org.catrobat.catroid.formulaeditor;
 import java.util.EnumSet;
 
 public enum Functions {
-	SIN("sin"), COS("cos"), TAN("tan"), LN("ln"), LOG("log"), SQRT("sqrt"), RAND("random"), ROUND("round"), ABS("abs"), EULER(
-			"e"), PI("pi");
+	SIN("sin"), COS("cos"), TAN("tan"), LN("ln"), LOG("log"), SQRT("sqrt"), RAND("random"), ROUND("round"), ABS("abs"), PI(
+			"pi");
 	public final String functionName;
 
 	Functions(String value) {

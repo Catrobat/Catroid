@@ -87,7 +87,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.LN.functionName));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.EULER.functionName));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2.7182818"));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
@@ -137,18 +137,6 @@ public class ParserTestFunctions extends AndroidTestCase {
 
 		assertNotNull("Formula is not parsed correctly: sqrt(100)", parseTree);
 		assertEquals("Formula interpretation is not as expected", 10d, parseTree.interpretRecursive(), DELTA);
-	}
-
-	public void testEuler() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
-
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.EULER.functionName));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNotNull("Formula is not parsed correctly: euler", parseTree);
-		assertEquals("Formula interpretation is not as expected", Math.E, parseTree.interpretRecursive(), DELTA);
 	}
 
 	public void testRandomNaturalNumbers() {

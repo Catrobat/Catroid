@@ -76,8 +76,6 @@ public class InternFormulaKeyboardAdapter {
 				return buildFunctionWithoutParametersAndBrackets(Functions.PI);
 			case R.string.formula_editor_function_sqrt:
 				return buildSingleParameterFunction(Functions.SQRT, "0");
-			case R.string.formula_editor_function_e:
-				return buildFunctionWithoutParametersAndBrackets(Functions.EULER);
 			case R.string.formula_editor_function_rand:
 				return buildDoubleParameterFunction(Functions.RAND, "0", "1");
 			case R.string.formula_editor_function_abs:

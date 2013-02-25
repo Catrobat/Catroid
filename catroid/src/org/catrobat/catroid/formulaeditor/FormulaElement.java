@@ -273,9 +273,6 @@ public class FormulaElement implements Serializable {
 			if (value.equals(Functions.PI.functionName)) {
 				returnValue = java.lang.Math.PI;
 			}
-			if (value.equals(Functions.EULER.functionName)) {
-				returnValue = java.lang.Math.E;
-			}
 		} else if (type == ElementType.SENSOR) {
 			returnValue = SensorHandler.getSensorValue(value);
 		} else if (type == ElementType.USER_VARIABLE) {
