@@ -44,8 +44,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 
 public class NewProjectDialog extends DialogFragment implements OnRegistrationCompleteListener {
@@ -54,7 +56,7 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 
 	private EditText newProjectEditText;
 	private EditText newProjectDescriptionEditText;
-	private Dialog dialog;
+	private Dialog newProjectDialog;
 
 	//	@Override
 	//	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -129,57 +131,61 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 		newProjectEditText.setText("");
 		newProjectDescriptionEditText.setText("");
 
-		dialog = new AlertDialog.Builder(getActivity()).setView(dialogView).setTitle(R.string.new_project_dialog_title)
+		newProjectDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
+				.setTitle(R.string.new_project_dialog_title)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-
-						handleOkButtonClick();
 					}
 				}).setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						handleCancelButtonClick();
 					}
 				}).create();
 
-		dialog.show();
+		newProjectDialog.setCanceledOnTouchOutside(true);
+		newProjectDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-		((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-
-		newProjectEditText.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				if (newProjectEditText.length() == 0) {
-					((AlertDialog) dialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
-				} else {
-					((AlertDialog) dialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
-				}
-			}
-		});
-
-		dialog.setCanceledOnTouchOutside(true);
-		dialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-
-		dialog.setOnShowListener(new OnShowListener() {
+		newProjectDialog.setOnShowListener(new OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
 				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
 						Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(newProjectEditText, InputMethodManager.SHOW_IMPLICIT);
+
+				((AlertDialog) newProjectDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
+				newProjectEditText.addTextChangedListener(new TextWatcher() {
+
+					@Override
+					public void onTextChanged(CharSequence s, int start, int before, int count) {
+					}
+
+					@Override
+					public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+					}
+
+					@Override
+					public void afterTextChanged(Editable s) {
+						if (newProjectEditText.length() == 0) {
+							((AlertDialog) newProjectDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
+						} else {
+							((AlertDialog) newProjectDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
+						}
+					}
+				});
+
+				Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+				positiveButton.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						handleOkButtonClick();
+					}
+				});
 			}
 		});
 
-		return dialog;
+		return newProjectDialog;
 	}
 
 	@Override
@@ -221,7 +227,7 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 	}
 
 	protected boolean handleCancelButtonClick() {
-		dismiss();
+		//dismiss();
 		return false;
 	}
 
