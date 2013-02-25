@@ -41,7 +41,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 
@@ -69,8 +68,8 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_function_cos, R.string.formula_editor_function_tan,
 			R.string.formula_editor_function_ln, R.string.formula_editor_function_log,
 			R.string.formula_editor_function_pi, R.string.formula_editor_function_sqrt,
-			R.string.formula_editor_function_e, R.string.formula_editor_function_rand,
-			R.string.formula_editor_function_abs, R.string.formula_editor_function_round };
+			R.string.formula_editor_function_rand, R.string.formula_editor_function_abs,
+			R.string.formula_editor_function_round };
 
 	private final int[] SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
@@ -129,11 +128,22 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		menu.clear();
 		super.onPrepareOptionsMenu(menu);
-		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
-		actionBar.setTitle(mActionBarTitle);
-		actionBar.setDisplayHomeAsUpEnabled(false);
+		menu.findItem(R.id.delete).setVisible(false);
+		menu.findItem(R.id.copy).setVisible(false);
+		menu.findItem(R.id.cut).setVisible(false);
+		menu.findItem(R.id.show_details).setVisible(false);
+		menu.findItem(R.id.insert_below).setVisible(false);
+		menu.findItem(R.id.move).setVisible(false);
+		menu.findItem(R.id.rename).setVisible(false);
+		menu.findItem(R.id.show_details).setVisible(false);
+		menu.findItem(R.id.settings).setVisible(false);
+
+		getSherlockActivity().getSupportActionBar().setNavigationMode(
+				com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_STANDARD);
+		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
+		getSherlockActivity().getSupportActionBar().setTitle(mActionBarTitle);
+		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 	}
 
 	@Override
@@ -151,6 +161,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		fragTransaction.hide(formulaEditorFragment);
 		fragTransaction.add(R.id.script_fragment_container, this, mTag);
+		fragTransaction.show(this);
 		fragTransaction.commit();
 	}
 
@@ -162,7 +173,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 				Log.i("info", "KEYCODE_BACK pressed in FE-ListFragment!");
 				FragmentTransaction fragTransaction = getSherlockActivity().getSupportFragmentManager()
 						.beginTransaction();
-				fragTransaction.remove(this);
+				fragTransaction.hide(this);
 				fragTransaction.show(getSherlockActivity().getSupportFragmentManager().findFragmentByTag(
 						FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
 				fragTransaction.commit();

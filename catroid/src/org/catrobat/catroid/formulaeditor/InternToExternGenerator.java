@@ -48,7 +48,6 @@ public class InternToExternGenerator {
 		internExternLanguageConverterMap.put(Functions.LOG.functionName, R.string.formula_editor_function_log);
 		internExternLanguageConverterMap.put(Functions.PI.functionName, R.string.formula_editor_function_pi);
 		internExternLanguageConverterMap.put(Functions.SQRT.functionName, R.string.formula_editor_function_sqrt);
-		internExternLanguageConverterMap.put(Functions.EULER.functionName, R.string.formula_editor_function_e);
 		internExternLanguageConverterMap.put(Functions.RAND.functionName, R.string.formula_editor_function_rand);
 		internExternLanguageConverterMap.put(Functions.ABS.functionName, R.string.formula_editor_function_abs);
 		internExternLanguageConverterMap.put(Functions.ROUND.functionName, R.string.formula_editor_function_round);

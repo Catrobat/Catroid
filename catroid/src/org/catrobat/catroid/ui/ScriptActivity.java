@@ -29,6 +29,9 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.ui.fragment.FormulaEditorListFragment;
+import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -39,6 +42,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +82,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	private ScriptActivityFragment currentFragment = null;
 
 	private static int currentFragmentPosition;
+	private String currentFragmentTag;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -144,6 +149,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				if (scriptFragment == null) {
 					scriptFragment = new ScriptFragment();
 					fragmentExists = false;
+					currentFragmentTag = ScriptFragment.TAG;
 				}
 				currentFragment = scriptFragment;
 				break;
@@ -151,6 +157,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				if (lookFragment == null) {
 					lookFragment = new LookFragment();
 					fragmentExists = false;
+					currentFragmentTag = LookFragment.TAG;
 				}
 				currentFragment = lookFragment;
 				break;
@@ -158,6 +165,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				if (soundFragment == null) {
 					soundFragment = new SoundFragment();
 					fragmentExists = false;
+					currentFragmentTag = SoundFragment.TAG;
 				}
 				currentFragment = soundFragment;
 				break;
@@ -166,7 +174,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		if (fragmentExists) {
 			fragmentTransaction.show(currentFragment);
 		} else {
-			fragmentTransaction.add(R.id.script_fragment_container, currentFragment);
+			fragmentTransaction.add(R.id.script_fragment_container, currentFragment, currentFragmentTag);
 		}
 	}
 
@@ -276,6 +284,39 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+		Log.i("info", "onKeyDown() ScriptTabActivity.... keyCode: " + keyCode);
+
+		FragmentManager fragmentManager = getSupportFragmentManager();
+
+		for (String tag : FormulaEditorListFragment.TAGS) {
+			FormulaEditorListFragment fragment = (FormulaEditorListFragment) fragmentManager.findFragmentByTag(tag);
+			if (fragment != null) {
+				if (fragment.isVisible()) {
+					return fragment.onKey(null, keyCode, event);
+				}
+			}
+		}
+
+		FormulaEditorVariableListFragment formulaEditorVariableListFragment = (FormulaEditorVariableListFragment) getSupportFragmentManager()
+				.findFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
+
+		if (formulaEditorVariableListFragment != null) {
+			if (formulaEditorVariableListFragment.isVisible()) {
+				return formulaEditorVariableListFragment.onKey(null, keyCode, event);
+			}
+		}
+
+		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSupportFragmentManager().findFragmentByTag(
+				FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+
+		if (formulaEditor != null) {
+			if (formulaEditor.isVisible()) {
+				scriptFragment.getAdapter().updateProjectBrickList();
+				return formulaEditor.onKey(null, keyCode, event);
+			}
+		}
+
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (currentFragmentPosition == FRAGMENT_SCRIPTS) {
 				DragAndDropListView listView = scriptFragment.getListView();

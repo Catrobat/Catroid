@@ -29,7 +29,7 @@ public class ExternInternRepresentationMapping {
 	private SparseArray<Integer> externInternMapping;
 	private SparseArray<ExternToken> internExternMapping;
 
-	private int externStringLength = 10;
+	private int externStringLength = 0;
 
 	public ExternInternRepresentationMapping() {
 		externInternMapping = new SparseArray<Integer>();

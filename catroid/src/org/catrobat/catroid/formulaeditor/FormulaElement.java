@@ -39,7 +39,6 @@ public class FormulaElement implements Serializable {
 		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, BRACKET
 	}
 
-	public boolean isFloat;
 	private ElementType type;
 	private String value;
 	private FormulaElement leftChild = null;
@@ -150,7 +149,6 @@ public class FormulaElement implements Serializable {
 			returnValue = rightChild.interpretRecursive();
 		}
 		if (type == ElementType.NUMBER) {
-			isFloat = value.contains(".");
 			returnValue = Double.parseDouble(value);
 		} else if (type == ElementType.OPERATOR) {
 			if (leftChild != null) {// binär operator
@@ -250,7 +248,9 @@ public class FormulaElement implements Serializable {
 
 				Double randomDouble = minimum + (java.lang.Math.random() * (maximum - minimum));
 
-				if (isInteger(minimum) && isInteger(maximum) && !rightChild.isFloat && !leftChild.isFloat) {
+				if (isInteger(minimum) && isInteger(maximum)
+						&& (rightChild.type == ElementType.NUMBER && !rightChild.value.contains("."))
+						&& (leftChild.type == ElementType.NUMBER && !leftChild.value.contains("."))) {
 					Log.i("info", "randomDouble: " + randomDouble);
 
 					if ((Math.abs(randomDouble) - (int) Math.abs(randomDouble)) >= 0.5) {
@@ -272,9 +272,6 @@ public class FormulaElement implements Serializable {
 			}
 			if (value.equals(Functions.PI.functionName)) {
 				returnValue = java.lang.Math.PI;
-			}
-			if (value.equals(Functions.EULER.functionName)) {
-				returnValue = java.lang.Math.E;
 			}
 		} else if (type == ElementType.SENSOR) {
 			returnValue = SensorHandler.getSensorValue(value);
