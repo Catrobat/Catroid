@@ -214,16 +214,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	public boolean onContextItemSelected(android.view.MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.script_menu_delete: {
-				sprite.removeScript(scriptToEdit);
-				if (sprite.getNumberOfScripts() == 0) {
-					ProjectManager.INSTANCE.setCurrentScript(null);
-					adapter.updateProjectBrickList();
-					break;
-				}
-				int lastScriptIndex = sprite.getNumberOfScripts() - 1;
-				Script lastScript = sprite.getScript(lastScriptIndex);
-				ProjectManager.INSTANCE.setCurrentScript(lastScript);
-				adapter.updateProjectBrickList();
+				handleDelete();
 				break;
 			}
 			case R.id.script_menu_copy: {
@@ -233,6 +224,19 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 
 		return true;
+	}
+
+	public void handleDelete() {
+		sprite.removeScript(scriptToEdit);
+		if (sprite.getNumberOfScripts() == 0) {
+			ProjectManager.INSTANCE.setCurrentScript(null);
+			adapter.updateProjectBrickList();
+		} else {
+			int lastScriptIndex = sprite.getNumberOfScripts() - 1;
+			Script lastScript = sprite.getScript(lastScriptIndex);
+			ProjectManager.INSTANCE.setCurrentScript(lastScript);
+			adapter.updateProjectBrickList();
+		}
 	}
 
 	public void setCreateNewBrick(boolean createNewBrick) {
@@ -488,7 +492,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		//int brickPosition = adapter.brickList.indexOf(brick);
 		//adapter.brickList.remove(brickPosition);
+
 		adapter.brickList.remove(brick);
+		//handleDelete();
 	}
 
 	@Override
