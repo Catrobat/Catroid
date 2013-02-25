@@ -28,6 +28,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
@@ -91,7 +92,10 @@ public class SetVariableBrick implements Brick, OnClickListener {
 		edit_text.setOnClickListener(this);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.variable_spinner);
-		variableSpinner.setAdapter(createUserVariableAdapter(context));
+		UserVariableAdapter variabeAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables().createUserVariableAdapter(context, sprite.getName());
+		variabeAdapter.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
+		variableSpinner.setAdapter(variabeAdapter);
+
 		variableSpinner.setClickable(true);
 		variableSpinner.setFocusable(true);
 

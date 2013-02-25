@@ -43,6 +43,8 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 	private int selectMode;
 	private SortedSet<Integer> checkedVariables = new TreeSet<Integer>();
 	private OnCheckedChangeListener onCheckedChangeListener = null;
+	private int itemLayout;
+	int textViewId;
 
 	private static class ViewHolder {
 		private TextView text1;
@@ -56,6 +58,13 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		this.projectVariables = projectVariables;
 		this.context = context;
 		this.selectMode = Constants.SELECT_NONE;
+		this.itemLayout = R.layout.fragment_formula_editor_variablelist_item;
+		this.textViewId = R.id.text1;
+	}
+
+	public void setItemLayout(int itemLayout, int textViewId) {
+		this.itemLayout = itemLayout;
+		this.textViewId = textViewId;
 	}
 
 	@Override
@@ -86,15 +95,18 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		View view = convertView;
 		ViewHolder holder;
 		if (view == null) {
-			view = View.inflate(context, R.layout.fragment_formula_editor_variablelist_item, null);
+			view = View.inflate(context, itemLayout, null);
 			holder = new ViewHolder();
-			holder.text1 = (TextView) view.findViewById(R.id.text1);
+			holder.text1 = (TextView) view.findViewById(textViewId);
 			holder.checkbox = (CheckBox) view.findViewById(R.id.checkbox);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
 		holder.text1.setText(variable.getName());
+
+		if(holder.checkbox == null)
+			return view;
 
 		if (selectMode != Constants.SELECT_NONE) {
 			holder.checkbox.setVisibility(View.VISIBLE);
@@ -103,6 +115,7 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 			holder.checkbox.setChecked(false);
 			clearCheckedItems();
 		}
+
 
 		holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
@@ -128,6 +141,23 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		}
 
 
+		return view;
+	}
+
+	@Override
+	public View getDropDownView(final int position, View convertView, ViewGroup parent) {
+		UserVariable variable = getItem(position);
+		View view = convertView;
+		ViewHolder holder;
+		if (view == null) {
+			view = View.inflate(context, android.R.layout.simple_spinner_dropdown_item, null);
+			holder = new ViewHolder();
+			holder.text1 = (TextView) view.findViewById(android.R.id.text1);
+			view.setTag(holder);
+		} else {
+			holder = (ViewHolder) view.getTag();
+		}
+		holder.text1.setText(variable.getName());
 		return view;
 	}
 
