@@ -51,10 +51,10 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageActivity> {
 	private Solo solo;
-	private TextToSpeechMock textToSpeechMock;
+	private static TextToSpeechMock textToSpeechMock;
 	private Object textToSpeechInitLock = new Object();
 	private Sprite sprite1, sprite2, sprite3;
-	private String textMessage = "This is a very long test text.";
+	private String textMessage = "This is a test text.";
 
 	public SpeakStageTest() {
 		super(PreStageActivity.class);
@@ -64,19 +64,15 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 	public void setUp() throws Exception {
 		createProjectToInitializeTextToSpeech();
 		solo = new Solo(getInstrumentation(), getActivity());
-
-		synchronized (textToSpeechInitLock) {
-			textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext());
-			textToSpeechInitLock.wait(2000);
+		//		synchronized (textToSpeechInitLock) {
+		textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext());
+		//			textToSpeechInitLock.wait(2000);
+		//		}
+		while (!textToSpeechMock.isTextToSpeechLoaded()) {
 		}
-
-		//		OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer = new OnUtteranceCompletedListenerContainer();
-		//		textToSpeechMock.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
-
 		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
-		//		Reflection.setPrivateField(PreStageActivity.class, "onUtteranceCompletedListenerContainer",
-		//				onUtteranceCompletedListenerContainer);
 		Reflection.setPrivateField(SpeakAction.class, "utteranceIdPool", new AtomicInteger());
+
 	}
 
 	@Override
@@ -105,7 +101,6 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 			assertEquals("TextToSpeech exectuted with wrong utterance id", String.valueOf(index),
 					textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 		}
-		sprite1.look.clearActions();
 	}
 
 	public void testNormalBehavior() throws InterruptedException {
@@ -121,8 +116,6 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 
 		assertEquals("TextToSpeech executed with wrong text", textMessage, textToSpeechMock.text);
-
-		sprite1.look.clearActions();
 	}
 
 	public void testSuccessiveTextToSpeech() throws InterruptedException {
@@ -140,7 +133,6 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		} while (!sprite2.look.getAllActionsAreFinished());
 
 		assertTrue("First SpeakBrick not finished yet", sprite2.look.getAllActionsAreFinished());
-		sprite1.look.clearActions();
 	}
 
 	public void testSimultaneousTextToSpeech() throws InterruptedException {
@@ -174,10 +166,9 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		//		do {
 		//			sprite3.look.act(1.0f);
 		//		} while (!sprite3.look.getAllActionsAreFinished());
-
+		//
 		//		assertTrue("First SpeakBrick not finished yet", sprite3.look.getAllActionsAreFinished());
 		assertTrue("First SpeakBrick not finished yet", true);
-
 	}
 
 	private void createProjectToInitializeTextToSpeech() {
@@ -206,7 +197,6 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		startScript3.addBrick(broadcastBrick);
 
 		sprite3.addScript(startScript3);
-		project.addSprite(sprite3);
 
 		BroadcastScript broadcastScript1 = new BroadcastScript(sprite3);
 		broadcastScript1.setBroadcastMessage("double");
@@ -214,7 +204,6 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		broadcastScript1.addBrick(speak1);
 
 		sprite3.addScript(broadcastScript1);
-		project.addSprite(sprite3);
 
 		BroadcastScript broadcastScript2 = new BroadcastScript(sprite3);
 		broadcastScript2.setBroadcastMessage("double");
@@ -269,7 +258,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 	}
 
 	private class TextToSpeechMock extends TextToSpeech {
-		private TextToSpeech textToSpeech;
+		private TextToSpeech textToSpeech = null;
 
 		protected String text;
 		protected int queueMode = -1;
@@ -279,16 +268,20 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 			super(context, new OnInitListener() {
 				public void onInit(int status) {
 					if (status == SUCCESS) {
-						synchronized (textToSpeechInitLock) {
-							textToSpeechMock.textToSpeech = (TextToSpeech) Reflection.getPrivateField(
-									PreStageActivity.class, "textToSpeech");
-							textToSpeechInitLock.notifyAll();
-						}
+						//						synchronized (textToSpeechInitLock) {
+						textToSpeechMock.textToSpeech = (TextToSpeech) Reflection.getPrivateField(
+								PreStageActivity.class, "textToSpeech");
+						//							textToSpeechInitLock.notifyAll();
+						//						}
 					} else {
 						fail("TextToSpeech couldn't be initialized");
 					}
 				}
 			});
+		}
+
+		public boolean isTextToSpeechLoaded() {
+			return (textToSpeech != null);
 		}
 
 		@Override

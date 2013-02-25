@@ -31,13 +31,13 @@ import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 public class OnUtteranceCompletedListenerContainer implements OnUtteranceCompletedListener {
 	private final Map<String, OnUtteranceCompletedListener> listeners = new HashMap<String, TextToSpeech.OnUtteranceCompletedListener>();
 
-	public synchronized void addOnUtteranceCompletedListener(OnUtteranceCompletedListener onUtteranceCompletedListener,
+	public void addOnUtteranceCompletedListener(OnUtteranceCompletedListener onUtteranceCompletedListener,
 			String utteranceId) {
 		listeners.put(utteranceId, onUtteranceCompletedListener);
 	}
 
 	@Override
-	public synchronized void onUtteranceCompleted(String utteranceId) {
+	public void onUtteranceCompleted(String utteranceId) {
 		listeners.get(utteranceId).onUtteranceCompleted(utteranceId);
 		listeners.remove(utteranceId);
 	}
