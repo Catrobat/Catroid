@@ -214,7 +214,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	public boolean onContextItemSelected(android.view.MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.script_menu_delete: {
-				handleDelete();
+				handleScriptDelete();
 				break;
 			}
 			case R.id.script_menu_copy: {
@@ -226,7 +226,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		return true;
 	}
 
-	public void handleDelete() {
+	public void handleScriptDelete() {
 		sprite.removeScript(scriptToEdit);
 		if (sprite.getNumberOfScripts() == 0) {
 			ProjectManager.INSTANCE.setCurrentScript(null);
@@ -493,8 +493,12 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		//int brickPosition = adapter.brickList.indexOf(brick);
 		//adapter.brickList.remove(brickPosition);
 
-		adapter.brickList.remove(brick);
-		//handleDelete();
+		//adapter.brickList.remove(brick);
+		//adapter.updateProjectBrickList();
+		//ProjectManager.INSTANCE.saveProject();
+		//handleScriptDelete();
+		int brickPosition = adapter.brickList.indexOf(brick);
+		adapter.removeFromBrickListAndProject(brickPosition);
 	}
 
 	@Override

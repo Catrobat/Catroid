@@ -564,7 +564,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		removeFromBrickListAndProject(fromBeginDrag);
 	}
 
-	private void removeFromBrickListAndProject(int index) {
+	public void removeFromBrickListAndProject(int index) {
 		if (addingNewBrick) {
 			brickList.remove(draggedBrick);
 		} else {
