@@ -41,7 +41,7 @@ public class SetLookBrick implements Brick {
 	private Sprite sprite;
 	private LookData look;
 	private transient View view;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public SetLookBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -78,39 +78,40 @@ public class SetLookBrick implements Brick {
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_set_look, null);
 
-		view = View.inflate(context, R.layout.brick_set_look, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_set_look_checkbox);
+			Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.setlook_spinner);
+			lookbrickSpinner.setAdapter(createLookAdapter(context));
+			lookbrickSpinner.setClickable(true);
+			lookbrickSpinner.setFocusable(true);
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_set_look_checkbox);
-		Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.setlook_spinner);
-		lookbrickSpinner.setAdapter(createLookAdapter(context));
-		lookbrickSpinner.setClickable(true);
-		lookbrickSpinner.setFocusable(true);
-
-		lookbrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position == 0) {
-					look = null;
-				} else {
-					look = (LookData) parent.getItemAtPosition(position);
+			lookbrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+					if (position == 0) {
+						look = null;
+					} else {
+						look = (LookData) parent.getItemAtPosition(position);
+					}
 				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+				}
+			});
+
+			if (sprite.getLookDataList().contains(look)) {
+				lookbrickSpinner.setSelection(sprite.getLookDataList().indexOf(look) + 1, true);
+			} else {
+				lookbrickSpinner.setSelection(0);
 			}
 
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
+			if (sprite.getName().equals(context.getString(R.string.background))) {
+				TextView textView = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
+				textView.setText(R.string.brick_set_background);
 			}
-		});
-
-		if (sprite.getLookDataList().contains(look)) {
-			lookbrickSpinner.setSelection(sprite.getLookDataList().indexOf(look) + 1, true);
-		} else {
-			lookbrickSpinner.setSelection(0);
-		}
-
-		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
-			textView.setText(R.string.brick_set_background);
 		}
 
 		return view;
@@ -150,6 +151,8 @@ public class SetLookBrick implements Brick {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

@@ -43,7 +43,8 @@ public class PointToBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private Sprite pointedSprite;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
+	private transient View view;
 
 	public PointToBrick(Sprite sprite, Sprite pointedSprite) {
 		this.sprite = sprite;
@@ -132,63 +133,65 @@ public class PointToBrick implements Brick {
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.brick_point_to, null);
+		if (view == null) {
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			view = inflater.inflate(R.layout.brick_point_to, null);
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_point_to_checkbox);
-		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
-		spinner.setFocusableInTouchMode(false);
-		spinner.setFocusable(false);
-		spinner.setClickable(true);
-		spinner.setEnabled(true);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_point_to_checkbox);
+			final Spinner spinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
+			spinner.setFocusableInTouchMode(false);
+			spinner.setFocusable(false);
+			spinner.setClickable(true);
+			spinner.setEnabled(true);
 
-		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
-		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinnerAdapter.add(context.getString(R.string.broadcast_nothing_selected));
+			ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context,
+					android.R.layout.simple_spinner_item);
+			spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			spinnerAdapter.add(context.getString(R.string.broadcast_nothing_selected));
 
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
-				.getSpriteList();
-		for (Sprite sprite : spriteList) {
-			String spriteName = sprite.getName();
-			String temp = this.sprite.getName();
-			if (!spriteName.equals(temp) && !spriteName.equals("Background")) {
-				spinnerAdapter.add(sprite.getName());
-			}
-		}
-		spinner.setAdapter(spinnerAdapter);
-
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				String itemSelected = parent.getSelectedItem().toString();
-				String nothingSelected = context.getString(R.string.broadcast_nothing_selected);
-				final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance()
-						.getCurrentProject().getSpriteList();
-
-				if (itemSelected.equals(nothingSelected)) {
-					pointedSprite = null;
+			final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
+					.getSpriteList();
+			for (Sprite sprite : spriteList) {
+				String spriteName = sprite.getName();
+				String temp = this.sprite.getName();
+				if (!spriteName.equals(temp) && !spriteName.equals("Background")) {
+					spinnerAdapter.add(sprite.getName());
 				}
-				for (Sprite sprite : spriteList) {
-					String spriteName = sprite.getName();
-					if (spriteName.equals(itemSelected)) {
-						pointedSprite = sprite;
+			}
+			spinner.setAdapter(spinnerAdapter);
+
+			spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+					String itemSelected = parent.getSelectedItem().toString();
+					String nothingSelected = context.getString(R.string.broadcast_nothing_selected);
+					final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance()
+							.getCurrentProject().getSpriteList();
+
+					if (itemSelected.equals(nothingSelected)) {
+						pointedSprite = null;
+					}
+					for (Sprite sprite : spriteList) {
+						String spriteName = sprite.getName();
+						if (spriteName.equals(itemSelected)) {
+							pointedSprite = sprite;
+						}
 					}
 				}
-			}
 
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+				}
+			});
 
-		if (spriteList.contains(pointedSprite)) {
-			int pointedSpriteIndex = spinnerAdapter.getPosition(pointedSprite.getName());
-			spinner.setSelection(pointedSpriteIndex);
-		} else {
-			spinner.setSelection(0);
+			if (spriteList.contains(pointedSprite)) {
+				int pointedSpriteIndex = spinnerAdapter.getPosition(pointedSprite.getName());
+				spinner.setSelection(pointedSpriteIndex);
+			} else {
+				spinner.setSelection(0);
+			}
 		}
-
 		return view;
 	}
 
@@ -206,6 +209,8 @@ public class PointToBrick implements Brick {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

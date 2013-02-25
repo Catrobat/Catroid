@@ -66,7 +66,8 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 	private static final int NO_DELAY = 0;
 
 	private transient EditText editX;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
+	private transient View view;
 
 	protected Object readResolve() {
 		if (motor != null) {
@@ -130,52 +131,53 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
-		View view = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_nxt_motor_turn_checkbox);
-		TextView textX = (TextView) view.findViewById(R.id.motor_turn_angle_text_view);
-		editX = (EditText) view.findViewById(R.id.motor_turn_angle_edit_text);
-		editX.setText(String.valueOf(degrees));
+			checkbox = (CheckBox) view.findViewById(R.id.brick_nxt_motor_turn_checkbox);
+			TextView textX = (TextView) view.findViewById(R.id.motor_turn_angle_text_view);
+			editX = (EditText) view.findViewById(R.id.motor_turn_angle_edit_text);
+			editX.setText(String.valueOf(degrees));
 
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
+			textX.setVisibility(View.GONE);
+			editX.setVisibility(View.VISIBLE);
 
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
-				android.R.layout.simple_spinner_item);
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
+					R.array.nxt_motor_chooser, android.R.layout.simple_spinner_item);
+			motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		Spinner motorSpinner = (Spinner) view.findViewById(R.id.motor_spinner);
-		motorSpinner.setClickable(true);
-		motorSpinner.setEnabled(true);
-		motorSpinner.setAdapter(motorAdapter);
-		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			Spinner motorSpinner = (Spinner) view.findViewById(R.id.motor_spinner);
+			motorSpinner.setClickable(true);
+			motorSpinner.setEnabled(true);
+			motorSpinner.setAdapter(motorAdapter);
+			motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				motorEnum = Motor.values()[position];
-				motor = motorEnum.name();
-			}
+				@Override
+				public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
+					motorEnum = Motor.values()[position];
+					motor = motorEnum.name();
+				}
 
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+				}
 
-		});
+			});
 
-		motorSpinner.setSelection(motorEnum.ordinal());
+			motorSpinner.setSelection(motorEnum.ordinal());
 
-		Button directionsButton = (Button) view.findViewById(R.id.directions_btn);
-		directionsButton.setClickable(true);
-		directionsButton.setEnabled(true);
-		directionsButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				ScriptActivity activity = (ScriptActivity) context;
-				EditNxtMotorTurnAngleBrickDialog dialog = new EditNxtMotorTurnAngleBrickDialog();
-				dialog.show(activity.getSupportFragmentManager(), "dialog_nxt_motor_turn_angle_brick");
-			}
-		});
-
+			Button directionsButton = (Button) view.findViewById(R.id.directions_btn);
+			directionsButton.setClickable(true);
+			directionsButton.setEnabled(true);
+			directionsButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					ScriptActivity activity = (ScriptActivity) context;
+					EditNxtMotorTurnAngleBrickDialog dialog = new EditNxtMotorTurnAngleBrickDialog();
+					dialog.show(activity.getSupportFragmentManager(), "dialog_nxt_motor_turn_angle_brick");
+				}
+			});
+		}
 		return view;
 	}
 
@@ -261,6 +263,8 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

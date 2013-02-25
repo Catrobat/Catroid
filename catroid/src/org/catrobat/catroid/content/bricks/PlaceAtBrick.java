@@ -44,7 +44,7 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public PlaceAtBrick() {
 
@@ -76,24 +76,25 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.brick_place_at, null);
-		checkbox = (CheckBox) view.findViewById(R.id.brick_place_at_checkbox);
-		TextView textX = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_x);
-		EditText editX = (EditText) view.findViewById(R.id.brick_place_at_edit_text_x);
-		editX.setText(String.valueOf(xPosition));
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_place_at, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_place_at_checkbox);
+			TextView textX = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_x);
+			EditText editX = (EditText) view.findViewById(R.id.brick_place_at_edit_text_x);
+			editX.setText(String.valueOf(xPosition));
 
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
-		editX.setOnClickListener(this);
+			textX.setVisibility(View.GONE);
+			editX.setVisibility(View.VISIBLE);
+			editX.setOnClickListener(this);
 
-		TextView textY = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_y);
-		EditText editY = (EditText) view.findViewById(R.id.brick_place_at_edit_text_y);
-		editY.setText(String.valueOf(yPosition));
+			TextView textY = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_y);
+			EditText editY = (EditText) view.findViewById(R.id.brick_place_at_edit_text_y);
+			editY.setText(String.valueOf(yPosition));
 
-		textY.setVisibility(View.GONE);
-		editY.setVisibility(View.VISIBLE);
-		editY.setOnClickListener(this);
-
+			textY.setVisibility(View.GONE);
+			editY.setVisibility(View.VISIBLE);
+			editY.setOnClickListener(this);
+		}
 		return view;
 	}
 
@@ -144,7 +145,9 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 
 }

@@ -44,7 +44,7 @@ public class NoteBrick implements Brick {
 	private String note = "";
 
 	private transient View view;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public NoteBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -80,61 +80,63 @@ public class NoteBrick implements Brick {
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.brick_note, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_note, null);
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_note_checkbox);
-		TextView textHolder = (TextView) view.findViewById(R.id.brick_note_prototype_text_view);
-		EditText editText = (EditText) view.findViewById(R.id.brick_note_edit_text);
-		editText.setText(note);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_note_checkbox);
+			TextView textHolder = (TextView) view.findViewById(R.id.brick_note_prototype_text_view);
+			EditText editText = (EditText) view.findViewById(R.id.brick_note_edit_text);
+			editText.setText(note);
 
-		textHolder.setVisibility(View.GONE);
-		editText.setVisibility(View.VISIBLE);
+			textHolder.setVisibility(View.GONE);
+			editText.setVisibility(View.VISIBLE);
 
-		editText.setOnClickListener(new OnClickListener() {
+			editText.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				ScriptActivity activity = (ScriptActivity) view.getContext();
+				@Override
+				public void onClick(View v) {
+					ScriptActivity activity = (ScriptActivity) view.getContext();
 
-				BrickTextDialog editDialog = new BrickTextDialog() {
-					@Override
-					protected void initialize() {
-						input.setText(note);
-						input.setSelectAllOnFocus(true);
-					}
+					BrickTextDialog editDialog = new BrickTextDialog() {
+						@Override
+						protected void initialize() {
+							input.setText(note);
+							input.setSelectAllOnFocus(true);
+						}
 
-					@Override
-					protected boolean getPositiveButtonEnabled() {
-						return true;
-					}
+						@Override
+						protected boolean getPositiveButtonEnabled() {
+							return true;
+						}
 
-					@Override
-					protected TextWatcher getInputTextChangedListener(Button buttonPositive) {
-						return new TextWatcher() {
-							@Override
-							public void onTextChanged(CharSequence s, int start, int before, int count) {
-							}
+						@Override
+						protected TextWatcher getInputTextChangedListener(Button buttonPositive) {
+							return new TextWatcher() {
+								@Override
+								public void onTextChanged(CharSequence s, int start, int before, int count) {
+								}
 
-							@Override
-							public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-							}
+								@Override
+								public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+								}
 
-							@Override
-							public void afterTextChanged(Editable s) {
-							}
-						};
-					}
+								@Override
+								public void afterTextChanged(Editable s) {
+								}
+							};
+						}
 
-					@Override
-					protected boolean handleOkButton() {
-						note = (input.getText().toString()).trim();
-						return true;
-					}
-				};
+						@Override
+						protected boolean handleOkButton() {
+							note = (input.getText().toString()).trim();
+							return true;
+						}
+					};
 
-				editDialog.show(activity.getSupportFragmentManager(), "dialog_note_brick");
-			}
-		});
+					editDialog.show(activity.getSupportFragmentManager(), "dialog_note_brick");
+				}
+			});
+		}
 
 		return view;
 	}
@@ -151,6 +153,8 @@ public class NoteBrick implements Brick {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

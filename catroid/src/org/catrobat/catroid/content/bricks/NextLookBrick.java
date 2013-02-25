@@ -40,7 +40,7 @@ public class NextLookBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private transient View view;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public NextLookBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -126,6 +126,8 @@ public class NextLookBrick implements Brick {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

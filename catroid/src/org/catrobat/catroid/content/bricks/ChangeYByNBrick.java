@@ -84,18 +84,18 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_change_y, null);
 
-		view = View.inflate(context, R.layout.brick_change_y, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_change_y_checkbox);
+			TextView textY = (TextView) view.findViewById(R.id.brick_change_y_prototype_text_view);
+			EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
+			editY.setText(String.valueOf(yMovement));
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_change_y_checkbox);
-		TextView textY = (TextView) view.findViewById(R.id.brick_change_y_prototype_text_view);
-		EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
-		editY.setText(String.valueOf(yMovement));
-
-		textY.setVisibility(View.GONE);
-		editY.setVisibility(View.VISIBLE);
-		editY.setOnClickListener(this);
-
+			textY.setVisibility(View.GONE);
+			editY.setVisibility(View.VISIBLE);
+			editY.setOnClickListener(this);
+		}
 		return view;
 	}
 
@@ -138,6 +138,8 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

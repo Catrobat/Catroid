@@ -38,7 +38,7 @@ public class StopAllSoundsBrick implements Brick {
 
 	private transient View view;
 
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public StopAllSoundsBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -84,6 +84,8 @@ public class StopAllSoundsBrick implements Brick {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

@@ -44,7 +44,8 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 	private float volume;
 
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
+	private transient View view;
 
 	public SetVolumeToBrick(Sprite sprite, float volume) {
 		this.sprite = sprite;
@@ -77,18 +78,19 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		View view = View.inflate(context, R.layout.brick_set_volume_to, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_set_volume_to, null);
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_set_volume_to_checkbox);
-		TextView text = (TextView) view.findViewById(R.id.brick_set_volume_to_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_set_volume_to_edit_text);
-		edit.setText(String.valueOf(volume));
+			checkbox = (CheckBox) view.findViewById(R.id.brick_set_volume_to_checkbox);
+			TextView text = (TextView) view.findViewById(R.id.brick_set_volume_to_prototype_text_view);
+			EditText edit = (EditText) view.findViewById(R.id.brick_set_volume_to_edit_text);
+			edit.setText(String.valueOf(volume));
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
+			text.setVisibility(View.GONE);
+			edit.setVisibility(View.VISIBLE);
 
-		edit.setOnClickListener(this);
-
+			edit.setOnClickListener(this);
+		}
 		return view;
 	}
 
@@ -131,6 +133,8 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

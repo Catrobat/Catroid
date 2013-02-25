@@ -45,7 +45,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public GlideToBrick() {
 
@@ -141,33 +141,33 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_glide_to, null);
 
-		view = View.inflate(context, R.layout.brick_glide_to, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_glide_to_checkbox);
+			TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_x);
+			EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_x);
+			editX.setText(String.valueOf(xDestination));
+			editX.setOnClickListener(this);
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_glide_to_checkbox);
-		TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_x);
-		EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_x);
-		editX.setText(String.valueOf(xDestination));
-		editX.setOnClickListener(this);
+			TextView textY = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_y);
+			EditText editY = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_y);
+			editY.setText(String.valueOf(yDestination));
+			editY.setOnClickListener(this);
 
-		TextView textY = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_y);
-		EditText editY = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_y);
-		editY.setText(String.valueOf(yDestination));
-		editY.setOnClickListener(this);
+			TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
+			EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_duration);
+			editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
 
-		TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
-		EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_duration);
-		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
+			textDuration.setVisibility(View.GONE);
+			editDuration.setVisibility(View.VISIBLE);
+			textX.setVisibility(View.GONE);
+			editX.setVisibility(View.VISIBLE);
+			textY.setVisibility(View.GONE);
+			editY.setVisibility(View.VISIBLE);
 
-		textDuration.setVisibility(View.GONE);
-		editDuration.setVisibility(View.VISIBLE);
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
-		textY.setVisibility(View.GONE);
-		editY.setVisibility(View.VISIBLE);
-
-		editDuration.setOnClickListener(this);
-
+			editDuration.setOnClickListener(this);
+		}
 		return view;
 	}
 
@@ -227,6 +227,8 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

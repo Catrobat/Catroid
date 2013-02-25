@@ -43,7 +43,7 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public SetBrightnessBrick() {
 
@@ -76,18 +76,19 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.brick_set_brightness, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_set_brightness, null);
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_set_brightness_checkbox);
-		TextView textX = (TextView) view.findViewById(R.id.brick_set_brightness_prototype_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_set_brightness_edit_text);
-		editX.setText(String.valueOf(brightness));
+			checkbox = (CheckBox) view.findViewById(R.id.brick_set_brightness_checkbox);
+			TextView textX = (TextView) view.findViewById(R.id.brick_set_brightness_prototype_text_view);
+			EditText editX = (EditText) view.findViewById(R.id.brick_set_brightness_edit_text);
+			editX.setText(String.valueOf(brightness));
 
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
+			textX.setVisibility(View.GONE);
+			editX.setVisibility(View.VISIBLE);
 
-		editX.setOnClickListener(this);
-
+			editX.setOnClickListener(this);
+		}
 		return view;
 	}
 
@@ -130,6 +131,8 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

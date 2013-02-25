@@ -43,7 +43,7 @@ public class ChangeGhostEffectByNBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public ChangeGhostEffectByNBrick() {
 
@@ -75,18 +75,18 @@ public class ChangeGhostEffectByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_change_ghost_effect, null);
 
-		view = View.inflate(context, R.layout.brick_change_ghost_effect, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_change_ghost_effect_checkbox);
+			TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
+			EditText editX = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
+			editX.setText(String.valueOf(changeGhostEffect));
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_change_ghost_effect_checkbox);
-		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
-		editX.setText(String.valueOf(changeGhostEffect));
-
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
-		editX.setOnClickListener(this);
-
+			textX.setVisibility(View.GONE);
+			editX.setVisibility(View.VISIBLE);
+			editX.setOnClickListener(this);
+		}
 		return view;
 	}
 
@@ -130,6 +130,8 @@ public class ChangeGhostEffectByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

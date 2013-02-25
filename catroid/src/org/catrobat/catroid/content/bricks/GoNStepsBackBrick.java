@@ -41,7 +41,8 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private int steps;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
+	private transient View view;
 
 	public GoNStepsBackBrick(Sprite sprite, int steps) {
 		this.sprite = sprite;
@@ -76,17 +77,18 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		View view = View.inflate(context, R.layout.brick_go_back, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_go_back, null);
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_go_back_checkbox);
-		TextView text = (TextView) view.findViewById(R.id.brick_go_back_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_go_back_edit_text);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_go_back_checkbox);
+			TextView text = (TextView) view.findViewById(R.id.brick_go_back_prototype_text_view);
+			EditText edit = (EditText) view.findViewById(R.id.brick_go_back_edit_text);
 
-		edit.setText(String.valueOf(steps));
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
-		edit.setOnClickListener(this);
-
+			edit.setText(String.valueOf(steps));
+			text.setVisibility(View.GONE);
+			edit.setVisibility(View.VISIBLE);
+			edit.setOnClickListener(this);
+		}
 		return view;
 	}
 
@@ -129,6 +131,8 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

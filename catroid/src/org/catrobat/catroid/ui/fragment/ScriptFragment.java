@@ -383,6 +383,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			unregisterForContextMenu(listView);
 			BottomBar.disableButtons(getActivity());
 			//isRenameActionMode = false;
+			adapter.setCheckboxVisibility(View.VISIBLE);
 		}
 	}
 

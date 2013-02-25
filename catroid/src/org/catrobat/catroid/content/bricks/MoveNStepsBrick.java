@@ -45,7 +45,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	private double steps;
 
 	private transient View view;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public MoveNStepsBrick() {
 
@@ -82,18 +82,18 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_move_n_steps, null);
 
-		view = View.inflate(context, R.layout.brick_move_n_steps, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_move_n_steps_checkbox);
+			TextView text = (TextView) view.findViewById(R.id.brick_move_n_steps_prototype_text_view);
+			EditText edit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_move_n_steps_checkbox);
-		TextView text = (TextView) view.findViewById(R.id.brick_move_n_steps_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
-
-		edit.setText(String.valueOf(steps));
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
-		edit.setOnClickListener(this);
-
+			edit.setText(String.valueOf(steps));
+			text.setVisibility(View.GONE);
+			edit.setVisibility(View.VISIBLE);
+			edit.setOnClickListener(this);
+		}
 		return view;
 	}
 
@@ -139,6 +139,8 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

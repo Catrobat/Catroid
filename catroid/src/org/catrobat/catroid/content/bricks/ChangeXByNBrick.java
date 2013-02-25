@@ -43,7 +43,7 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public ChangeXByNBrick() {
 
@@ -83,18 +83,18 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_change_x, null);
 
-		view = View.inflate(context, R.layout.brick_change_x, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_change_x_checkbox);
+			TextView textX = (TextView) view.findViewById(R.id.brick_change_x_prototype_text_view);
+			EditText editX = (EditText) view.findViewById(R.id.brick_change_x_edit_text);
+			editX.setText(String.valueOf(xMovement));
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_when_started_checkbox);
-		TextView textX = (TextView) view.findViewById(R.id.brick_change_x_prototype_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_change_x_edit_text);
-		editX.setText(String.valueOf(xMovement));
-
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
-		editX.setOnClickListener(this);
-
+			textX.setVisibility(View.GONE);
+			editX.setVisibility(View.VISIBLE);
+			editX.setOnClickListener(this);
+		}
 		return view;
 	}
 
@@ -137,6 +137,8 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

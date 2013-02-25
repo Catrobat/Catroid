@@ -50,7 +50,7 @@ public class SpeakBrick implements Brick {
 	private String text = "";
 
 	private transient View view;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public SpeakBrick(Sprite sprite, String text) {
 		this.sprite = sprite;
@@ -110,39 +110,41 @@ public class SpeakBrick implements Brick {
 
 	@Override
 	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
-		view = View.inflate(context, R.layout.brick_speak, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_speak, null);
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_speak_checkbox);
-		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
-		EditText editText = (EditText) view.findViewById(R.id.brick_speak_edit_text);
-		editText.setText(text);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_speak_checkbox);
+			TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
+			EditText editText = (EditText) view.findViewById(R.id.brick_speak_edit_text);
+			editText.setText(text);
 
-		textHolder.setVisibility(View.GONE);
-		editText.setVisibility(View.VISIBLE);
+			textHolder.setVisibility(View.GONE);
+			editText.setVisibility(View.VISIBLE);
 
-		editText.setOnClickListener(new OnClickListener() {
+			editText.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				ScriptActivity activity = (ScriptActivity) context;
+				@Override
+				public void onClick(View v) {
+					ScriptActivity activity = (ScriptActivity) context;
 
-				BrickTextDialog editDialog = new BrickTextDialog() {
-					@Override
-					protected void initialize() {
-						input.setText(text);
-						input.setSelectAllOnFocus(true);
-					}
+					BrickTextDialog editDialog = new BrickTextDialog() {
+						@Override
+						protected void initialize() {
+							input.setText(text);
+							input.setSelectAllOnFocus(true);
+						}
 
-					@Override
-					protected boolean handleOkButton() {
-						text = (input.getText().toString()).trim();
-						return true;
-					}
-				};
+						@Override
+						protected boolean handleOkButton() {
+							text = (input.getText().toString()).trim();
+							return true;
+						}
+					};
 
-				editDialog.show(activity.getSupportFragmentManager(), "dialog_speak_brick");
-			}
-		});
+					editDialog.show(activity.getSupportFragmentManager(), "dialog_speak_brick");
+				}
+			});
+		}
 		return view;
 	}
 
@@ -158,6 +160,8 @@ public class SpeakBrick implements Brick {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

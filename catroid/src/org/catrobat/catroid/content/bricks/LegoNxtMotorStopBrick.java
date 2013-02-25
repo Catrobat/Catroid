@@ -49,7 +49,8 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	private Sprite sprite;
 	private transient Motor motorEnum;
 	private String motor;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
+	private transient View view;
 
 	private static final int NO_DELAY = 0;
 
@@ -103,20 +104,21 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		View view = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_nxt_motor_stop_checkbox);
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
-				R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_nxt_motor_stop_checkbox);
+			ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
+					R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
+			motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		Spinner motorSpinner = (Spinner) view.findViewById(R.id.stop_motor_spinner);
-		motorSpinner.setOnItemSelectedListener(this);
-		motorSpinner.setClickable(true);
-		motorSpinner.setEnabled(true);
-		motorSpinner.setAdapter(motorAdapter);
-		motorSpinner.setSelection(motorEnum.ordinal());
-
+			Spinner motorSpinner = (Spinner) view.findViewById(R.id.stop_motor_spinner);
+			motorSpinner.setOnItemSelectedListener(this);
+			motorSpinner.setClickable(true);
+			motorSpinner.setEnabled(true);
+			motorSpinner.setAdapter(motorAdapter);
+			motorSpinner.setSelection(motorEnum.ordinal());
+		}
 		return view;
 	}
 
@@ -132,6 +134,8 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

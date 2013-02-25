@@ -35,7 +35,7 @@ public class HideBrick implements Brick {
 	private Sprite sprite;
 
 	private transient View view;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public HideBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -82,6 +82,8 @@ public class HideBrick implements Brick {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

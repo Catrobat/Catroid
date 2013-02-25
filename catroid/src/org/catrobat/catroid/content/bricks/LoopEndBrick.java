@@ -45,7 +45,8 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	private Sprite sprite;
 	private LoopBeginBrick loopBeginBrick;
 	private transient int timesToRepeat;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
+	private transient View view;
 
 	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
 		this.sprite = sprite;
@@ -111,9 +112,11 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.brick_loop_end, null);
-		checkbox = (CheckBox) view.findViewById(R.id.brick_loop_end_checkbox);
+		if (view == null) {
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			view = inflater.inflate(R.layout.brick_loop_end, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_end_checkbox);
+		}
 		return view;
 	}
 
@@ -168,6 +171,9 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

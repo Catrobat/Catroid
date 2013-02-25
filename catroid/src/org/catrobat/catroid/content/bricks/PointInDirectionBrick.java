@@ -77,7 +77,8 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 
 	private transient Direction direction;
 	private transient EditText setAngleEditText;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
+	private transient View view;
 
 	protected Object readResolve() {
 		for (Direction direction : Direction.values()) {
@@ -113,19 +114,20 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
-		View view = View.inflate(context, R.layout.brick_point_in_direction, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_point_in_direction, null);
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_point_in_direction_checkbox);
-		TextView setAngleTextView = (TextView) view.findViewById(R.id.brick_point_in_direction_prototype_text_view);
-		setAngleEditText = (EditText) view.findViewById(R.id.brick_point_in_direction_edit_text);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_point_in_direction_checkbox);
+			TextView setAngleTextView = (TextView) view.findViewById(R.id.brick_point_in_direction_prototype_text_view);
+			setAngleEditText = (EditText) view.findViewById(R.id.brick_point_in_direction_edit_text);
 
-		setAngleEditText.setText(String.valueOf(degrees));
+			setAngleEditText.setText(String.valueOf(degrees));
 
-		setAngleTextView.setVisibility(View.GONE);
-		setAngleEditText.setVisibility(View.VISIBLE);
+			setAngleTextView.setVisibility(View.GONE);
+			setAngleEditText.setVisibility(View.VISIBLE);
 
-		setAngleEditText.setOnClickListener(this);
-
+			setAngleEditText.setOnClickListener(this);
+		}
 		return view;
 	}
 
@@ -298,6 +300,8 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

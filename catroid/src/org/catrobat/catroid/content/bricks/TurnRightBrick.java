@@ -47,7 +47,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	private transient View view;
 
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public TurnRightBrick() {
 
@@ -75,18 +75,18 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_turn_right, null);
 
-		view = View.inflate(context, R.layout.brick_turn_right, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_turn_right_checkbox);
+			TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
+			EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_right_edit_text);
+			editDegrees.setText(String.valueOf(degrees));
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_turn_right_checkbox);
-		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
-		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_right_edit_text);
-		editDegrees.setText(String.valueOf(degrees));
-
-		textDegrees.setVisibility(View.GONE);
-		editDegrees.setVisibility(View.VISIBLE);
-		editDegrees.setOnClickListener(this);
-
+			textDegrees.setVisibility(View.GONE);
+			editDegrees.setVisibility(View.VISIBLE);
+			editDegrees.setOnClickListener(this);
+		}
 		return view;
 	}
 
@@ -129,6 +129,8 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

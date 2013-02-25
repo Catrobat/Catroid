@@ -69,7 +69,7 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 
 	private static class ViewHolder {
 		private ImageView lookImageView;
-		private CheckBox checkbox;
+		private transient CheckBox checkbox;
 		private TextView lookNameTextView;
 		private LinearLayout lookDetailsLinearLayout;
 		private TextView lookFileSizeTextView;

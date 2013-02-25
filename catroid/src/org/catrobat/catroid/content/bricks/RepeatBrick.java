@@ -41,7 +41,8 @@ import android.widget.Toast;
 public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int timesToRepeat;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
+	private transient View view;
 
 	public RepeatBrick(Sprite sprite, int timesToRepeat) {
 		this.sprite = sprite;
@@ -76,17 +77,19 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		View view = View.inflate(context, R.layout.brick_repeat, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_repeat, null);
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_repeat_checkbox);
-		TextView text = (TextView) view.findViewById(R.id.brick_repeat_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
-		edit.setText(timesToRepeat + "");
+			checkbox = (CheckBox) view.findViewById(R.id.brick_repeat_checkbox);
+			TextView text = (TextView) view.findViewById(R.id.brick_repeat_prototype_text_view);
+			EditText edit = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
+			edit.setText(timesToRepeat + "");
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
+			text.setVisibility(View.GONE);
+			edit.setVisibility(View.VISIBLE);
 
-		edit.setOnClickListener(this);
+			edit.setOnClickListener(this);
+		}
 		return view;
 	}
 
@@ -125,6 +128,8 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

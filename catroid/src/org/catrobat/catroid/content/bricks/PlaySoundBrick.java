@@ -42,7 +42,8 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	private SoundInfo sound;
 	private Sprite sprite;
 
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
+	private transient View view;
 
 	public PlaySoundBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -71,19 +72,22 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
-		View view = View.inflate(context, R.layout.brick_play_sound, null);
+		if (view == null) {
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_play_sound_checkbox);
-		Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
-		soundbrickSpinner.setAdapter(createSoundAdapter(context));
-		soundbrickSpinner.setClickable(true);
-		soundbrickSpinner.setFocusable(true);
-		soundbrickSpinner.setOnItemSelectedListener(this);
+			view = View.inflate(context, R.layout.brick_play_sound, null);
 
-		if (sprite.getSoundList().contains(sound)) {
-			soundbrickSpinner.setSelection(sprite.getSoundList().indexOf(sound) + 1, true);
-		} else {
-			soundbrickSpinner.setSelection(0);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_play_sound_checkbox);
+			Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
+			soundbrickSpinner.setAdapter(createSoundAdapter(context));
+			soundbrickSpinner.setClickable(true);
+			soundbrickSpinner.setFocusable(true);
+			soundbrickSpinner.setOnItemSelectedListener(this);
+
+			if (sprite.getSoundList().contains(sound)) {
+				soundbrickSpinner.setSelection(sprite.getSoundList().indexOf(sound) + 1, true);
+			} else {
+				soundbrickSpinner.setSelection(0);
+			}
 		}
 
 		return view;
@@ -132,7 +136,9 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 
 }

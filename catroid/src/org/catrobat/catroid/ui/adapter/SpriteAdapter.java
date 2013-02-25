@@ -66,7 +66,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 	}
 
 	private static class ViewHolder {
-		private CheckBox checkbox;
+		private transient CheckBox checkbox;
 		private TextView text;
 		private ImageView image;
 		private View divider;

@@ -43,7 +43,7 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 	private double size;
 
 	private transient View view;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public SetSizeToBrick(Sprite sprite, double size) {
 		this.sprite = sprite;
@@ -71,18 +71,18 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_set_size_to, null);
 
-		view = View.inflate(context, R.layout.brick_set_size_to, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_set_size_to_checkbox);
+			TextView text = (TextView) view.findViewById(R.id.brick_set_size_to_prototype_text_view);
+			EditText edit = (EditText) view.findViewById(R.id.brick_set_size_to_edit_text);
+			edit.setText(String.valueOf(size));
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_set_size_to_checkbox);
-		TextView text = (TextView) view.findViewById(R.id.brick_set_size_to_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_set_size_to_edit_text);
-		edit.setText(String.valueOf(size));
-
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
-		edit.setOnClickListener(this);
-
+			text.setVisibility(View.GONE);
+			edit.setVisibility(View.VISIBLE);
+			edit.setOnClickListener(this);
+		}
 		return view;
 	}
 
@@ -125,6 +125,8 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

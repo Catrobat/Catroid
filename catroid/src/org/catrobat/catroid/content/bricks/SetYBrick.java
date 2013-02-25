@@ -43,7 +43,7 @@ public class SetYBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public SetYBrick(Sprite sprite, int yPosition) {
 		this.sprite = sprite;
@@ -73,18 +73,18 @@ public class SetYBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_set_y, null);
 
-		view = View.inflate(context, R.layout.brick_set_y, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_set_y_checkbox);
+			TextView textY = (TextView) view.findViewById(R.id.brick_set_y_prototype_text_view);
+			EditText editY = (EditText) view.findViewById(R.id.brick_set_y_edit_text);
+			editY.setText(String.valueOf(yPosition));
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_set_y_checkbox);
-		TextView textY = (TextView) view.findViewById(R.id.brick_set_y_prototype_text_view);
-		EditText editY = (EditText) view.findViewById(R.id.brick_set_y_edit_text);
-		editY.setText(String.valueOf(yPosition));
-
-		textY.setVisibility(View.GONE);
-		editY.setVisibility(View.VISIBLE);
-		editY.setOnClickListener(this);
-
+			textY.setVisibility(View.GONE);
+			editY.setVisibility(View.VISIBLE);
+			editY.setOnClickListener(this);
+		}
 		return view;
 	}
 
@@ -128,6 +128,8 @@ public class SetYBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

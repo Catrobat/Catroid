@@ -40,7 +40,7 @@ public class WhenStartedBrick extends ScriptBrick {
 
 	private transient View view;
 
-	public CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public WhenStartedBrick(Sprite sprite, Script script) {
 		this.script = script;
@@ -96,7 +96,9 @@ public class WhenStartedBrick extends ScriptBrick {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 
 }

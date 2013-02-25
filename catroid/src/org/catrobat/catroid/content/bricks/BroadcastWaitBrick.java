@@ -51,7 +51,7 @@ public class BroadcastWaitBrick implements Brick {
 	private String broadcastMessage = "";
 
 	private transient View view;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public BroadcastWaitBrick() {
 
@@ -111,74 +111,76 @@ public class BroadcastWaitBrick implements Brick {
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.brick_broadcast_wait, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_broadcast_wait, null);
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_broadcast_wait_checkbox);
-		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_wait_spinner);
-		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
-		broadcastSpinner.setClickable(true);
-		broadcastSpinner.setFocusable(true);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_broadcast_wait_checkbox);
+			final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_wait_spinner);
+			broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
+			broadcastSpinner.setClickable(true);
+			broadcastSpinner.setFocusable(true);
 
-		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			private boolean start = true;
+			broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+				private boolean start = true;
 
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-				if (start) {
-					start = false;
-					return;
-				}
-				broadcastMessage = ((String) parent.getItemAtPosition(pos)).trim();
-				if (broadcastMessage == context.getString(R.string.broadcast_nothing_selected)) {
-					broadcastMessage = "";
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
-
-		int position = MessageContainer.getPositionOfMessageInAdapter(broadcastMessage);
-		if (position > 0) {
-			broadcastSpinner.setSelection(position);
-		}
-
-		Button newBroadcastMessage = (Button) view.findViewById(R.id.brick_broadcast_wait_button_new_message);
-		newBroadcastMessage.setClickable(true);
-		newBroadcastMessage.setFocusable(true);
-		newBroadcastMessage.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				ScriptActivity activity = (ScriptActivity) context;
-
-				BrickTextDialog editDialog = new BrickTextDialog() {
-					@Override
-					protected void initialize() {
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+					if (start) {
+						start = false;
+						return;
 					}
+					broadcastMessage = ((String) parent.getItemAtPosition(pos)).trim();
+					if (broadcastMessage == context.getString(R.string.broadcast_nothing_selected)) {
+						broadcastMessage = "";
+					}
+				}
 
-					@Override
-					protected boolean handleOkButton() {
-						String newMessage = (input.getText().toString()).trim();
-						if (newMessage.length() == 0
-								|| newMessage.equals(context.getString(R.string.broadcast_nothing_selected))) {
-							dismiss();
-							return false;
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+				}
+			});
+
+			int position = MessageContainer.getPositionOfMessageInAdapter(broadcastMessage);
+			if (position > 0) {
+				broadcastSpinner.setSelection(position);
+			}
+
+			Button newBroadcastMessage = (Button) view.findViewById(R.id.brick_broadcast_wait_button_new_message);
+			newBroadcastMessage.setClickable(true);
+			newBroadcastMessage.setFocusable(true);
+			newBroadcastMessage.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					ScriptActivity activity = (ScriptActivity) context;
+
+					BrickTextDialog editDialog = new BrickTextDialog() {
+						@Override
+						protected void initialize() {
 						}
-						broadcastMessage = newMessage;
-						MessageContainer.addMessage(broadcastMessage);
-						int position = MessageContainer.getPositionOfMessageInAdapter(broadcastMessage);
 
-						broadcastSpinner.setSelection(position);
+						@Override
+						protected boolean handleOkButton() {
+							String newMessage = (input.getText().toString()).trim();
+							if (newMessage.length() == 0
+									|| newMessage.equals(context.getString(R.string.broadcast_nothing_selected))) {
+								dismiss();
+								return false;
+							}
+							broadcastMessage = newMessage;
+							MessageContainer.addMessage(broadcastMessage);
+							int position = MessageContainer.getPositionOfMessageInAdapter(broadcastMessage);
 
-						return true;
-					}
-				};
+							broadcastSpinner.setSelection(position);
 
-				editDialog.show(activity.getSupportFragmentManager(), "dialog_broadcast_wait_brick");
-			}
-		});
+							return true;
+						}
+					};
+
+					editDialog.show(activity.getSupportFragmentManager(), "dialog_broadcast_wait_brick");
+				}
+			});
+		}
 		return view;
 	}
 
@@ -194,6 +196,8 @@ public class BroadcastWaitBrick implements Brick {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }

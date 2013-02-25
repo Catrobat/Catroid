@@ -44,7 +44,7 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 	private double degrees;
 
 	private transient View view;
-	private CheckBox checkbox;
+	private transient CheckBox checkbox;
 
 	public TurnLeftBrick(Sprite sprite, double degrees) {
 		this.sprite = sprite;
@@ -72,18 +72,18 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_turn_left, null);
 
-		view = View.inflate(context, R.layout.brick_turn_left, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_turn_left_checkbox);
+			TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_left_prototype_text_view);
+			EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_left_edit_text);
+			editDegrees.setText(String.valueOf(degrees));
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_turn_left_checkbox);
-		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_left_prototype_text_view);
-		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_left_edit_text);
-		editDegrees.setText(String.valueOf(degrees));
-
-		textDegrees.setVisibility(View.GONE);
-		editDegrees.setVisibility(View.VISIBLE);
-		editDegrees.setOnClickListener(this);
-
+			textDegrees.setVisibility(View.GONE);
+			editDegrees.setVisibility(View.VISIBLE);
+			editDegrees.setOnClickListener(this);
+		}
 		return view;
 	}
 
@@ -126,6 +126,8 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setCheckboxVisibility(int visibility) {
-		checkbox.setVisibility(visibility);
+		if (checkbox != null) {
+			checkbox.setVisibility(visibility);
+		}
 	}
 }
