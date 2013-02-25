@@ -105,6 +105,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 			assertEquals("TextToSpeech exectuted with wrong utterance id", String.valueOf(index),
 					textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 		}
+		sprite1.look.clearActions();
 	}
 
 	public void testNormalBehavior() throws InterruptedException {
@@ -121,6 +122,8 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		assertEquals("TextToSpeech executed with wrong parameter", speakParameter, textToSpeechMock.parameters);
 
 		assertEquals("TextToSpeech executed with wrong text", textMessage, textToSpeechMock.text);
+
+		sprite1.look.clearActions();
 	}
 
 	public void testSuccessiveTextToSpeech() throws InterruptedException {
@@ -138,6 +141,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		} while (!sprite2.look.getAllActionsAreFinished());
 
 		assertTrue("First SpeakBrick not finished yet", sprite2.look.getAllActionsAreFinished());
+		sprite1.look.clearActions();
 	}
 
 	public void testSimultaneousTextToSpeech() throws InterruptedException {
