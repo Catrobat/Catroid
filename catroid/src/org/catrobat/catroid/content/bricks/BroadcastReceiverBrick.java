@@ -49,6 +49,7 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 
 	private transient View view;
 	private transient CheckBox checkbox;
+	private transient boolean checked;
 
 	public BroadcastReceiverBrick() {
 
@@ -74,7 +75,7 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter adapter) {
+	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 		if (receiveScript == null) {
 			receiveScript = new BroadcastScript(sprite);
 		}
@@ -83,6 +84,16 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 			view = View.inflate(context, R.layout.brick_broadcast_receive, null);
 
 			checkbox = (CheckBox) view.findViewById(R.id.brick_broadcast_receive_checkbox);
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
 			final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_receive_spinner);
 			broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
 			broadcastSpinner.setClickable(true);

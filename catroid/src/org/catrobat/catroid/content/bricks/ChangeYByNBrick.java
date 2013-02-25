@@ -43,9 +43,9 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 	private int yMovement;
 	private Sprite sprite;
 
-	public CheckBox checkbox;
-
+	private transient CheckBox checkbox;
 	private transient View view;
+	private transient boolean checked;
 
 	public ChangeYByNBrick() {
 
@@ -84,11 +84,21 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_change_y, null);
 
 			checkbox = (CheckBox) view.findViewById(R.id.brick_change_y_checkbox);
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
 			TextView textY = (TextView) view.findViewById(R.id.brick_change_y_prototype_text_view);
 			EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
 			editY.setText(String.valueOf(yMovement));

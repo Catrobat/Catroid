@@ -45,6 +45,8 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 
 	private transient View view;
 	private transient CheckBox checkbox;
+	private transient BrickAdapter adapter;
+	private transient boolean checked = false;
 
 	public ChangeXByNBrick() {
 
@@ -83,11 +85,32 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_change_x, null);
 
 			checkbox = (CheckBox) view.findViewById(R.id.brick_change_x_checkbox);
+			final Brick brickInstance = this;
+
+			/*
+			 * does not work at all:
+			 * checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			 * 
+			 * @Override
+			 * public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			 * adapter.handleCheck(brickInstance, isChecked);
+			 * }
+			 * });
+			 */
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
 			TextView textX = (TextView) view.findViewById(R.id.brick_change_x_prototype_text_view);
 			EditText editX = (EditText) view.findViewById(R.id.brick_change_x_edit_text);
 			editX.setText(String.valueOf(xMovement));
@@ -142,8 +165,6 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 			checkbox.setVisibility(visibility);
 		}
 	}
-
-	private transient BrickAdapter adapter;
 
 	@Override
 	public void setBrickAdapter(BrickAdapter adapter) {

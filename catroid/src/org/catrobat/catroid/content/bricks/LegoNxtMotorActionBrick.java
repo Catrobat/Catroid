@@ -70,6 +70,7 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 	private transient SeekBar speedBar;
 	private transient CheckBox checkbox;
 	private transient View view;
+	private transient boolean checked;
 
 	protected Object readResolve() {
 		if (motor != null) {
@@ -121,12 +122,22 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 
 			checkbox = (CheckBox) view.findViewById(R.id.brick_nxt_motor_action_checkbox);
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
 			TextView textSpeed = (TextView) view.findViewById(R.id.motor_action_speed_text_view);
 			editSpeed = (EditText) view.findViewById(R.id.motor_action_speed_edit_text);
 			editSpeed.setText(String.valueOf(speed));

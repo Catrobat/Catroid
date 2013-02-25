@@ -52,6 +52,7 @@ public class SpeakBrick implements Brick {
 
 	private transient View view;
 	private transient CheckBox checkbox;
+	private transient boolean checked;
 
 	public SpeakBrick(Sprite sprite, String text) {
 		this.sprite = sprite;
@@ -110,11 +111,23 @@ public class SpeakBrick implements Brick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
+	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_speak, null);
 
 			checkbox = (CheckBox) view.findViewById(R.id.brick_speak_checkbox);
+
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
+
 			TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
 			EditText editText = (EditText) view.findViewById(R.id.brick_speak_edit_text);
 			editText.setText(text);

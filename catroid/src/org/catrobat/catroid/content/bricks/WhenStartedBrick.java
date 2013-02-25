@@ -30,10 +30,9 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class WhenStartedBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
@@ -44,6 +43,7 @@ public class WhenStartedBrick extends ScriptBrick {
 	private transient View view;
 	private transient CheckBox checkbox;
 	private transient BrickAdapter adapter;
+	private transient boolean checked = false;
 
 	public WhenStartedBrick(Sprite sprite, Script script) {
 		this.script = script;
@@ -69,14 +69,18 @@ public class WhenStartedBrick extends ScriptBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, final BaseAdapter adapter) {
+	public View getView(Context context, int brickId, final BaseAdapter baseAdapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_when_started, null);
 			checkbox = (CheckBox) view.findViewById(R.id.brick_when_started_checkbox);
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
 				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					//((BrickAdapter) adapter).handleCheck(this, isChecked);
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
 				}
 			});
 		}

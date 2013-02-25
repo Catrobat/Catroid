@@ -24,8 +24,6 @@ package org.catrobat.catroid.ui.adapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -74,10 +72,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	private boolean retryScriptDragging;
 	private boolean showDetails = false;
 
-	private List<Brick> brickList;
+	//public for testing:
+	public List<Brick> brickList;
 	private List<Brick> animatedBricks;
 	//private SortedSet<Integer> checkedBricks = new TreeSet<Integer>();
-	private SortedSet<Brick> checkedBricks = new TreeSet<Brick>();
+	private List<Brick> checkedBricks = new ArrayList<Brick>();
 
 	private int selectMode;
 	private OnBrickEditListener onBrickEditListener;
@@ -107,6 +106,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			brickList.add(script.getScriptBrick());
 			for (Brick brick : script.getBrickList()) {
 				brickList.add(brick);
+				brick.setBrickAdapter(this);
 			}
 		}
 
@@ -816,12 +816,14 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		return checkedBricks.size();
 	}
 
-	public SortedSet<Brick> getCheckedItems() {
+	public List<Brick> getCheckedItems() {
 		return checkedBricks;
 	}
 
 	public void clearCheckedItems() {
 		checkedBricks.clear();
+		setCheckboxVisibility(View.GONE);
+		notifyDataSetChanged();
 	}
 
 	public void setCheckboxVisibility(int visibility) {

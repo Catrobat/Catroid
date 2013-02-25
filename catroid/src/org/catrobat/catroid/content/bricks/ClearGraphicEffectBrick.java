@@ -29,6 +29,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
@@ -38,6 +39,7 @@ public class ClearGraphicEffectBrick implements Brick {
 
 	private transient View view;
 	private transient CheckBox checkbox;
+	private transient boolean checked;
 
 	public ClearGraphicEffectBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -64,10 +66,20 @@ public class ClearGraphicEffectBrick implements Brick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_clear_graphic_effect, null);
 			checkbox = (CheckBox) view.findViewById(R.id.brick_clear_graphic_effect_checkbox);
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
 		}
 
 		return view;

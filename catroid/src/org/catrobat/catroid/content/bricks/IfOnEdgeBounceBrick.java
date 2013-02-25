@@ -29,6 +29,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
@@ -39,6 +40,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 	private transient View view;
 	private transient CheckBox checkbox;
+	private transient boolean checked;
 
 	public IfOnEdgeBounceBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -118,10 +120,20 @@ public class IfOnEdgeBounceBrick implements Brick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
 			checkbox = (CheckBox) view.findViewById(R.id.brick_if_on_edge_bounce_checkbox);
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
 		}
 
 		return view;

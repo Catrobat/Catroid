@@ -46,6 +46,7 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 
 	private transient View view;
 	private transient CheckBox checkbox;
+	private transient boolean checked;
 
 	public TurnLeftBrick(Sprite sprite, double degrees) {
 		this.sprite = sprite;
@@ -72,11 +73,21 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_turn_left, null);
 
 			checkbox = (CheckBox) view.findViewById(R.id.brick_turn_left_checkbox);
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
 			TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_left_prototype_text_view);
 			EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_left_edit_text);
 			editDegrees.setText(String.valueOf(degrees));

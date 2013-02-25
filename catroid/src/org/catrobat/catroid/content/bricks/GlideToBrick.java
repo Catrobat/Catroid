@@ -47,6 +47,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	private transient View view;
 	private transient CheckBox checkbox;
+	private transient boolean checked;
 
 	public GlideToBrick() {
 
@@ -141,11 +142,21 @@ public class GlideToBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_glide_to, null);
 
 			checkbox = (CheckBox) view.findViewById(R.id.brick_glide_to_checkbox);
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
 			TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_x);
 			EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_x);
 			editX.setText(String.valueOf(xDestination));

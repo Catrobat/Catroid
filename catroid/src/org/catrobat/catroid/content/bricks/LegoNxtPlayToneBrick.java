@@ -62,6 +62,7 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 	private transient SeekBar freqBar;
 	private transient CheckBox checkbox;
 	private transient View view;
+	private transient boolean checked;
 
 	public LegoNxtPlayToneBrick(Sprite sprite, int hertz, int duration) {
 		this.sprite = sprite;
@@ -99,11 +100,23 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 
 			checkbox = (CheckBox) view.findViewById(R.id.brick_nxt_play_tone_checkbox);
+
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
+
 			TextView textDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_text_view);
 			EditText editDuration = (EditText) view.findViewById(R.id.nxt_tone_duration_edit_text);
 			editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));

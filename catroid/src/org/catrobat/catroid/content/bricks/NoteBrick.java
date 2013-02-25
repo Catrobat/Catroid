@@ -46,6 +46,7 @@ public class NoteBrick implements Brick {
 
 	private transient View view;
 	private transient CheckBox checkbox;
+	private transient boolean checked;
 
 	public NoteBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -79,12 +80,23 @@ public class NoteBrick implements Brick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter adapter) {
+	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_note, null);
 
 			checkbox = (CheckBox) view.findViewById(R.id.brick_note_checkbox);
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
+
 			TextView textHolder = (TextView) view.findViewById(R.id.brick_note_prototype_text_view);
 			EditText editText = (EditText) view.findViewById(R.id.brick_note_edit_text);
 			editText.setText(note);

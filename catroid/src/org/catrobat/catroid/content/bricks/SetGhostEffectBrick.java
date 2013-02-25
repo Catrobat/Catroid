@@ -45,6 +45,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 
 	private transient View view;
 	private transient CheckBox checkbox;
+	private transient boolean checked;
 
 	public SetGhostEffectBrick(Sprite sprite, double ghostEffectValue) {
 		this.sprite = sprite;
@@ -75,11 +76,23 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_set_ghost_effect, null);
 
 			checkbox = (CheckBox) view.findViewById(R.id.brick_set_ghost_effect_checkbox);
+
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
+
 			TextView textX = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to_prototype_text_view);
 			EditText editX = (EditText) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
 			editX.setText(String.valueOf(transparency));

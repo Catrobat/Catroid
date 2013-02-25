@@ -45,6 +45,7 @@ public class WaitBrick implements Brick, OnClickListener {
 
 	private transient View view;
 	private transient CheckBox checkbox;
+	private transient boolean checked;
 
 	public WaitBrick(Sprite sprite, int timeToWaitInMilliseconds) {
 		this.timeToWaitInMilliSeconds = timeToWaitInMilliseconds;
@@ -88,11 +89,23 @@ public class WaitBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_wait, null);
 
 			checkbox = (CheckBox) view.findViewById(R.id.brick_wait_checkbox);
+
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
+
 			TextView text = (TextView) view.findViewById(R.id.brick_wait_prototype_text_view);
 			EditText edit = (EditText) view.findViewById(R.id.brick_wait_edit_text);
 			edit.setText((timeToWaitInMilliSeconds / 1000.0) + "");

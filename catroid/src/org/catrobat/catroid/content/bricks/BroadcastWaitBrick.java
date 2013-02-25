@@ -53,6 +53,7 @@ public class BroadcastWaitBrick implements Brick {
 
 	private transient View view;
 	private transient CheckBox checkbox;
+	private transient boolean checked;
 
 	public BroadcastWaitBrick() {
 
@@ -110,12 +111,22 @@ public class BroadcastWaitBrick implements Brick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter adapter) {
+	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_broadcast_wait, null);
 
 			checkbox = (CheckBox) view.findViewById(R.id.brick_broadcast_wait_checkbox);
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
 			final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_wait_spinner);
 			broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
 			broadcastSpinner.setClickable(true);

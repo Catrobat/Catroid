@@ -32,6 +32,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ public class NextLookBrick implements Brick {
 	private Sprite sprite;
 	private transient View view;
 	private transient CheckBox checkbox;
+	private transient boolean checked;
 
 	public NextLookBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -92,7 +94,7 @@ public class NextLookBrick implements Brick {
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.brick_next_look, null);
-		checkbox = (CheckBox) view.findViewById(R.id.brick_next_look_checkbox);
+
 		if (sprite.getName().equals(context.getString(R.string.background))) {
 			TextView textView = (TextView) view.findViewById(R.id.brick_next_look_text_view);
 			textView.setText(R.string.brick_next_background);
@@ -112,9 +114,21 @@ public class NextLookBrick implements Brick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_next_look, null);
+
+			checkbox = (CheckBox) view.findViewById(R.id.brick_next_look_checkbox);
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
 		}
 
 		if (sprite.getName().equals(context.getString(R.string.background))) {

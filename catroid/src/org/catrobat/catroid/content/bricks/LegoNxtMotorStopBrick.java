@@ -29,6 +29,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -52,6 +53,7 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	private String motor;
 	private transient CheckBox checkbox;
 	private transient View view;
+	private transient boolean checked;
 
 	private static final int NO_DELAY = 0;
 
@@ -104,11 +106,21 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
 
 			checkbox = (CheckBox) view.findViewById(R.id.brick_nxt_motor_stop_checkbox);
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
 			ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 					R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
 			motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -44,6 +44,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	private int timesToRepeat;
 	private transient CheckBox checkbox;
 	private transient View view;
+	private transient boolean checked;
 
 	public RepeatBrick(Sprite sprite, int timesToRepeat) {
 		this.sprite = sprite;
@@ -76,12 +77,23 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_repeat, null);
 
 			checkbox = (CheckBox) view.findViewById(R.id.brick_repeat_checkbox);
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
+
 			TextView text = (TextView) view.findViewById(R.id.brick_repeat_prototype_text_view);
 			EditText edit = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
 			edit.setText(timesToRepeat + "");

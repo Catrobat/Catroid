@@ -30,6 +30,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -45,6 +46,7 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 
 	private transient CheckBox checkbox;
 	private transient View view;
+	private transient boolean checked;
 
 	public PlaySoundBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -72,12 +74,24 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter adapter) {
+	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null) {
 
 			view = View.inflate(context, R.layout.brick_play_sound, null);
 
 			checkbox = (CheckBox) view.findViewById(R.id.brick_play_sound_checkbox);
+
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
+
 			Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
 			soundbrickSpinner.setAdapter(createSoundAdapter(context));
 			soundbrickSpinner.setClickable(true);

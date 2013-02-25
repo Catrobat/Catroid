@@ -23,7 +23,7 @@
 package org.catrobat.catroid.ui.fragment;
 
 import java.util.Iterator;
-import java.util.SortedSet;
+import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -456,7 +456,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			SortedSet<Brick> checkedBricks = adapter.getCheckedItems();
+			List<Brick> checkedBricks = adapter.getCheckedItems();
 			Iterator<Brick> iterator = checkedBricks.iterator();
 
 			int numberDeleted = 0;
@@ -485,6 +485,10 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		//ProjectManager.INSTANCE.getCurrentSprite().setLookDataList(lookDataList);
 
 		//getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
+
+		//int brickPosition = adapter.brickList.indexOf(brick);
+		//adapter.brickList.remove(brickPosition);
+		adapter.brickList.remove(brick);
 	}
 
 	@Override

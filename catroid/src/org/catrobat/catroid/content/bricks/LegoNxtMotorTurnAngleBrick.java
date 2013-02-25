@@ -69,6 +69,7 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 	private transient EditText editX;
 	private transient CheckBox checkbox;
 	private transient View view;
+	private transient boolean checked;
 
 	protected Object readResolve() {
 		if (motor != null) {
@@ -131,11 +132,21 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter adapter) {
+	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 
 			checkbox = (CheckBox) view.findViewById(R.id.brick_nxt_motor_turn_checkbox);
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
 			TextView textX = (TextView) view.findViewById(R.id.motor_turn_angle_text_view);
 			editX = (EditText) view.findViewById(R.id.motor_turn_angle_edit_text);
 			editX.setText(String.valueOf(degrees));
