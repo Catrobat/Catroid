@@ -117,9 +117,8 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
 
-		HashMap<String, String> speakParameter = new HashMap<String, String>();
-		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "0");
-		assertEquals("TextToSpeech executed with wrong parameter", speakParameter, textToSpeechMock.parameters);
+		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
+				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 
 		assertEquals("TextToSpeech executed with wrong text", textMessage, textToSpeechMock.text);
 
