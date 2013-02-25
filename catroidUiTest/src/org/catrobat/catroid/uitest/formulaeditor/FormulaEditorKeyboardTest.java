@@ -500,7 +500,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-
+		solo.sleep(250);
 		itemString = "zzz";
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		UiTestUtils.clickEnterClose(solo, editText, itemString, 2);
@@ -524,7 +524,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-
+		solo.sleep(250);
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		UiTestUtils.clickEnterClose(solo, editText, itemString, 2);
 
@@ -638,7 +638,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-
+		solo.sleep(250);
 		String itemString = "var1";
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		UiTestUtils.clickEnterClose(solo, editText, itemString, 2);
