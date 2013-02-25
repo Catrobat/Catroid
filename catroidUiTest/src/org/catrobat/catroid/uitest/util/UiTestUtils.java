@@ -240,11 +240,8 @@ public class UiTestUtils {
 		Log.v("debug", "Solo.Enter clickEnterClose");
 		solo.clearEditText(editText);
 		solo.enterText(editText, value);
-
 		solo.sleep(250);
-
 		solo.clickOnButton(buttonIndex);
-
 		solo.sleep(50);
 	}
 
