@@ -20,10 +20,29 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.utils;
+package org.catrobat.catroid.ui;
 
-public interface ErrorListenerInterface {
+import org.catrobat.catroid.R;
 
-	public void showErrorDialog(String errorMessage);
+import android.app.Activity;
+import android.widget.LinearLayout;
 
+public class BottomBar {
+
+	public static void disableButtons(Activity activity) {
+		setButtonClickable(activity, false);
+	}
+
+	public static void enableButtons(Activity activity) {
+		setButtonClickable(activity, true);
+	}
+
+	private static void setButtonClickable(Activity activity, boolean clickable) {
+		LinearLayout bottomBarLayout = (LinearLayout) activity.findViewById(R.id.bottom_bar);
+
+		if (bottomBarLayout != null) {
+			bottomBarLayout.findViewById(R.id.button_add).setClickable(clickable);
+			bottomBarLayout.findViewById(R.id.button_play).setClickable(clickable);
+		}
+	}
 }

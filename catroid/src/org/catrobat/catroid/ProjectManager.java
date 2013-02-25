@@ -27,18 +27,15 @@ import java.io.IOException;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
 import android.util.Log;
-import org.catrobat.catroid.R;
 
 public class ProjectManager {
 
@@ -48,21 +45,17 @@ public class ProjectManager {
 	public static final ProjectManager INSTANCE = new ProjectManager();
 
 	private FileChecksumContainer fileChecksumContainer;
-	private MessageContainer messageContainer;
 
 	private ProjectManager() {
 		fileChecksumContainer = new FileChecksumContainer();
-		messageContainer = new MessageContainer();
 	}
 
 	public static ProjectManager getInstance() {
 		return INSTANCE;
 	}
 
-	public boolean loadProject(String projectName, Context context, ErrorListenerInterface errorListener,
-			boolean errorMessage) {
+	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
 		fileChecksumContainer = new FileChecksumContainer();
-		messageContainer = new MessageContainer();
 		Project oldProject = project;
 		project = StorageHandler.getInstance().loadProject(projectName);
 
@@ -75,31 +68,31 @@ public class ProjectManager {
 					try {
 						project = StandardProjectHandler.createAndSaveStandardProject(context);
 					} catch (IOException e) {
-						if (errorMessage && errorListener != null) {
-							errorListener.showErrorDialog(context.getString(R.string.error_load_project));
+						if (errorMessage) {
+							Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
 						}
 						Log.e("CATROID", "Cannot load project.", e);
 						return false;
 					}
 				}
 			}
-			if (errorMessage && errorListener != null) {
-				errorListener.showErrorDialog(context.getString(R.string.error_load_project));
+			if (errorMessage) {
+				Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
 			}
 			return false;
 		} else if (!Utils.isApplicationDebuggable(context)
 				&& (project.getCatrobatLanguageVersion() > Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION)) {
 			project = oldProject;
-			if (errorMessage && errorListener != null) {
-				errorListener.showErrorDialog(context.getString(R.string.error_project_compatability));
+			if (errorMessage) {
+				Utils.showErrorDialog(context, context.getString(R.string.error_project_compatability));
 				// TODO show dialog to download latest catroid version instead
 			}
 			return false;
 		} else if (!Utils.isApplicationDebuggable(context)
 				&& (project.getCatrobatLanguageVersion() < Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION)) {
 			project = oldProject;
-			if (errorMessage && errorListener != null) {
-				errorListener.showErrorDialog(context.getString(R.string.error_project_compatability));
+			if (errorMessage) {
+				Utils.showErrorDialog(context, context.getString(R.string.error_project_compatability));
 				// TODO show dialog to convert project to a supported version
 			}
 			return false;
@@ -132,24 +125,22 @@ public class ProjectManager {
 		return StorageHandler.getInstance().saveProject(project);
 	}
 
-	public boolean initializeDefaultProject(Context context, ErrorListenerInterface errorListener) {
+	public boolean initializeDefaultProject(Context context) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
-			messageContainer = new MessageContainer();
 			project = StandardProjectHandler.createAndSaveStandardProject(context);
 			currentSprite = null;
 			currentScript = null;
 			return true;
 		} catch (Exception e) {
 			Log.e("CATROID", "Cannot initialize default project.", e);
-			errorListener.showErrorDialog(context.getString(R.string.error_load_project));
+			Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
 			return false;
 		}
 	}
 
 	public void initializeNewProject(String projectName, Context context) throws IOException {
 		fileChecksumContainer = new FileChecksumContainer();
-		messageContainer = new MessageContainer();
 		project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
 
 		currentSprite = null;
@@ -173,9 +164,9 @@ public class ProjectManager {
 		project = null;
 	}
 
-	public boolean renameProject(String newProjectName, Context context, ErrorListenerInterface errorListener) {
+	public boolean renameProject(String newProjectName, Context context) {
 		if (StorageHandler.getInstance().projectExistsCheckCase(newProjectName)) {
-			errorListener.showErrorDialog(context.getString(R.string.error_project_exists));
+			Utils.showErrorDialog(context, context.getString(R.string.error_project_exists));
 			return false;
 		}
 
@@ -204,16 +195,15 @@ public class ProjectManager {
 		}
 
 		if (!directoryRenamed) {
-			errorListener.showErrorDialog(context.getString(R.string.error_rename_project));
+			Utils.showErrorDialog(context, context.getString(R.string.error_rename_project));
 		}
 
 		return directoryRenamed;
 	}
 
-	public boolean renameProjectNameAndDescription(String newProjectName, String newProjectDescription,
-			Context context, ErrorListenerInterface errorListener) {
+	public boolean renameProjectNameAndDescription(String newProjectName, String newProjectDescription, Context context) {
 		if (StorageHandler.getInstance().projectExistsCheckCase(newProjectName)) {
-			errorListener.showErrorDialog(context.getString(R.string.error_project_exists));
+			Utils.showErrorDialog(context, context.getString(R.string.error_project_exists));
 			return false;
 		}
 
@@ -243,7 +233,7 @@ public class ProjectManager {
 		}
 
 		if (!directoryRenamed) {
-			errorListener.showErrorDialog(context.getString(R.string.error_rename_project));
+			Utils.showErrorDialog(context, context.getString(R.string.error_rename_project));
 		}
 
 		return directoryRenamed;
@@ -340,9 +330,5 @@ public class ProjectManager {
 
 	public void setFileChecksumContainer(FileChecksumContainer fileChecksumContainer) {
 		this.fileChecksumContainer = fileChecksumContainer;
-	}
-
-	public MessageContainer getMessageContainer() {
-		return this.messageContainer;
 	}
 }

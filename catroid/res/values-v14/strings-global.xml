@@ -1,4 +1,5 @@
-/**
+<?xml version="1.0" encoding="utf-8"?>
+<!--
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -19,30 +20,12 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package org.catrobat.catroid.xml.parser;
+-->
+<!-- Strings that need no translation -->
+<resources>
 
-public enum HeaderTags {
+    <!-- Settings -->
+    <string name="scrolling_cache_enabled">true</string>
+    <string name="animation_cache_enabled">true</string>
 
-	APPLICATIONBUILDNAME("ApplicationBuildName"), APPLICATIONBUILDNUMBER("ApplicationBuildNumber"), APPLICATIONNAME(
-			"ApplicationName"), APPLICATIONVERSION("ApplicationVersion"), CATROBATLANGUAGEVERSION(
-			"CatrobatLanguageVersion"), DATETIMEUPLOAD("DateTimeUpload"), DESCRIPTION("Description"), DEVICENAME(
-			"DeviceName"), MEDIALICENSE("MediaLicense"), PLATFORM("Platform"), PLATFORMVERSION("PlatformVersion"), PROGRAMLICENSE(
-			"ProgramLicense"), PROGRAMNAME("ProgramName"), REMIXOF("RemixOf"), SCREENHEIGHT("ScreenHeight"), SCREENWIDTH(
-			"ScreenWidth"), URL("URL"), USERHANDLE("UserHandle");
-
-	private String xmlTagString;
-
-	HeaderTags(String xmlTag) {
-		setXmlTagString(xmlTag);
-	}
-
-	public void setXmlTagString(String xmlTagString) {
-		this.xmlTagString = xmlTagString;
-	}
-
-	public String getXmlTagString() {
-		return xmlTagString;
-	}
-
-}
+</resources>
