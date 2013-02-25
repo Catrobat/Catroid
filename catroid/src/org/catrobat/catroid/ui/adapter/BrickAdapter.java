@@ -104,6 +104,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		for (int scriptPosition = 0; scriptPosition < numberOfScripts; scriptPosition++) {
 			Script script = sprite.getScript(scriptPosition);
 			brickList.add(script.getScriptBrick());
+			script.getScriptBrick().setBrickAdapter(this);
 			for (Brick brick : script.getBrickList()) {
 				brickList.add(brick);
 				brick.setBrickAdapter(this);
