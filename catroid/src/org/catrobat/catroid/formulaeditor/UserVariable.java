@@ -29,11 +29,15 @@ import java.util.List;
 public class UserVariable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public static enum ScopeType {
+		SPRITE, PROJECT
+	}
+
 	private String name;
 	private Double value;
-	private UserVariableScope scope;
+	private ScopeType scope;
 
-	public UserVariable(String name, Double value, UserVariableScope scope) {
+	public UserVariable(String name, Double value, ScopeType scope) {
 		this.name = name;
 		this.value = value;
 		this.scope = scope;
@@ -47,43 +51,6 @@ public class UserVariable implements Serializable {
 		this.name = name; //TODO encode Name
 	}
 
-	public static UserVariable getUserVariable(String userVariableName, List<UserVariable> userVariables,
-			String spriteName) {
-		for (UserVariable userVariable : userVariables) {
-			if (userVariable.name.equals(userVariableName) && userVariable.scope.checkScope(spriteName)) {
-				return userVariable;
-			}
-		}
-		return null;
-	}
-
-	public static List<UserVariable> getUserVariables(List<UserVariable> userVariables, String scopeName) {
-		List<UserVariable> returnList = new LinkedList<UserVariable>();
-		for (UserVariable userVariable : userVariables) {
-			if (userVariable.scope.checkScope(scopeName)) {
-				returnList.add(userVariable);
-			}
-		}
-		return returnList;
-	}
-
-	public static void deleteUserVariableByName(String userVariableName, List<UserVariable> userVariables,
-			String spriteName) {
-		UserVariable userVariableToDelete = null;
-		boolean deleteItem = false;
-		for (UserVariable userVariable : userVariables) {
-			if (userVariable.name.equals(userVariableName) && userVariable.scope.checkScope(spriteName)) {
-				userVariableToDelete = userVariable;
-				deleteItem = true;
-				break;
-			}
-		}
-		if (deleteItem) {
-			userVariables.remove(userVariableToDelete);
-		}
-
-	}
-
 	@Override
 	public String toString() {
 		return name;
@@ -95,6 +62,10 @@ public class UserVariable implements Serializable {
 
 	public void setValue(double value) {
 		this.value = value;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 }

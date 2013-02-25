@@ -1,4 +1,5 @@
-/**
+<?xml version="1.0" encoding="utf-8"?>
+<!--
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -19,44 +20,30 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package org.catrobat.catroid.formulaeditor;
+ -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:longClickable="true"
+    android:orientation="horizontal"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp" >
 
-import java.io.Serializable;
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
+        
+    <TextView style="@style/fragment_text"
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:gravity="center_vertical"
+        android:textColor="@color/solid_black" />
 
-import org.catrobat.catroid.ProjectManager;
-
-public class UserVariableScope implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private String name;
-	private ScopeType scopeType;
-
-	public static enum ScopeType {
-		SPRITE, PROJECT
-	}
-
-	public UserVariableScope(String name, ScopeType scopeType) {
-		this.scopeType = scopeType;
-		this.name = name;
-	}
-
-	public boolean checkScope(String spriteName) {
-
-		switch (scopeType) {
-			case SPRITE:
-				if (spriteName.equals(name)) {
-					return true;
-				}
-				break;
-			case PROJECT:
-				if (ProjectManager.getInstance().getCurrentProject().getName().equals(name)) {
-					return true;
-				}
-				break;
-		}
-
-		return false;
-
-	}
-
-}
+</LinearLayout>
