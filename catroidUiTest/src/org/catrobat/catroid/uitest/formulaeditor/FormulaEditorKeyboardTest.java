@@ -527,7 +527,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.sleep(250);
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		UiTestUtils.clickEnterClose(solo, editText, itemString, 2);
-
+		solo.sleep(250);
 		solo.clickOnText(itemString);
 		solo.sleep(250);
 		EditText text = (EditText) solo.getView(R.id.formula_editor_edit_field);
