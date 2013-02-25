@@ -114,18 +114,6 @@ public class SetVariableBrick implements Brick, OnClickListener {
 		return view;
 	}
 
-	private ArrayAdapter<?> createUserVariableAdapter(Context context) {
-		ArrayAdapter<UserVariable> arrayAdapter = new ArrayAdapter<UserVariable>(context,
-				android.R.layout.simple_spinner_item);
-		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		UserVariablesContainer userVariablesContainer = ProjectManager.getInstance().getCurrentProject()
-				.getUserVariables();
-		for (UserVariable userVariable : userVariablesContainer.getUserVariables(sprite.getName())) {
-			arrayAdapter.add(userVariable);
-		}
-		return arrayAdapter;
-	}
-
 	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_set_variable, null);
