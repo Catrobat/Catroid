@@ -72,7 +72,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
 
-public class FormulaEditorVariableListFragment extends SherlockListFragment implements Dialog.OnKeyListener, UserVariableAdapter.OnCheckedChangeListener {
+public class FormulaEditorVariableListFragment extends SherlockListFragment implements Dialog.OnKeyListener, UserVariableAdapter.OnCheckedChangeListener, UserVariableAdapter.OnListItemClickListener {
 
 	String mTag;
 	public static final String VARIABLE_TAG = "variableFragment";
@@ -109,6 +109,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		adapter = userVariableContainer.createUserVariableAdapter(context, currentSpriteName);
 		setListAdapter(adapter);
 		adapter.setOnCheckedChangeListener(this);
+		adapter.setOnListItemClickListener(this);
 	}
 
 	@Override
@@ -154,7 +155,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	}
 
 	@Override
-	public void onListItemClick(ListView listView, View view, int position, long id) {
+	public void onListItemClick(int position) {
 		Log.i("info", "FEVLF.onLISTItemClick()");
 		if (!mInContextMode) {
 			mFormulaEditorEditText.handleKeyEvent(0, "" + adapter.getItem(position).getName());
@@ -177,6 +178,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	public void onStart() {
 
 		this.registerForContextMenu(getListView());
+		getListView().setItemsCanFocus(true);
 		getListView().setLongClickable(true);
 		getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {

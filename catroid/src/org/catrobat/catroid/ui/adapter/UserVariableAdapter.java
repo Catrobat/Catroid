@@ -43,6 +43,7 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 	private int selectMode;
 	private SortedSet<Integer> checkedVariables = new TreeSet<Integer>();
 	private OnCheckedChangeListener onCheckedChangeListener = null;
+	private OnListItemClickListener onListItemClickListener = null;
 	private int itemLayout;
 	int textViewId;
 
@@ -89,6 +90,10 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		this.onCheckedChangeListener = onCheckedChangeListener;
 	}
 
+	public void setOnListItemClickListener(OnListItemClickListener onListItemClickListener) {
+		this.onListItemClickListener = onListItemClickListener;
+	}
+
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		UserVariable variable = getItem(position);
@@ -104,6 +109,18 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 			holder = (ViewHolder) view.getTag();
 		}
 		holder.text1.setText(variable.getName());
+
+		view.setClickable(true);
+		view.setFocusable(true);
+
+		if(onListItemClickListener != null) {
+			view.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					onListItemClickListener.onListItemClick(position);
+				}
+			});
+		}
 
 		if(holder.checkbox == null)
 			return view;
@@ -206,7 +223,10 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 
 	public interface OnCheckedChangeListener {
 		public void onCheckedChange();
+	}
 
+	public interface OnListItemClickListener {
+		public void onListItemClick(int position);
 	}
 
 }
