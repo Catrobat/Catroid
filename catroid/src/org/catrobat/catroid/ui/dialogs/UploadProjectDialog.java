@@ -52,7 +52,6 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -94,8 +93,6 @@ public class UploadProjectDialog extends DialogFragment {
 	private EditText projectDescriptionField;
 	private TextView projectRename;
 	private TextView sizeOfProject;
-	private Button uploadButton;
-	private Button cancelButton;
 
 	private String currentProjectName;
 	private String currentProjectDescription;
@@ -234,9 +231,9 @@ public class UploadProjectDialog extends DialogFragment {
 				if (s.length() == 0) {
 					Toast.makeText(getActivity(), R.string.notification_invalid_text_entered, Toast.LENGTH_SHORT)
 							.show();
-					uploadButton.setEnabled(false);
+					((AlertDialog) getDialog()).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
 				} else {
-					uploadButton.setEnabled(true);
+					((AlertDialog) getDialog()).getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
 				}
 			}
 
