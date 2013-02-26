@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -44,7 +43,6 @@ import android.test.suitebuilder.annotation.Smoke;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -492,20 +490,36 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 	}
 
-	public void clickOnDialogOk(EditText editText, String itemString) {
+	private void clickOnDialogOk(String itemString) {
+		clickOnDialogOk(itemString, true);
+
+	}
+
+	public void clickOnDialogOk(String itemString, boolean isGlobalVariable) {
 		int iteration = 0;
 		while (!solo.searchText(solo.getString(R.string.formula_editor_new_variable), true)) {
 
-			if (iteration++ != 0) {
+			//				fail("ROBOTIUM Error!");
+
+			if (iteration++ > 0) {
 				solo.goBack();
-				assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable), 0, 2000));
+				assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable), 0, 4000));
 				solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
 				assertTrue(solo.waitForText("Variable name ?"));
+
+				EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 				solo.enterText(editText, itemString);
+
+				if (!isGlobalVariable) {
+					assertTrue(solo.waitForText(solo
+							.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only)));
+					solo.clickOnText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only));
+				}
 			}
+			Log.i("info", "(" + iteration + ")OkButton-found: " + solo.searchButton(solo.getString(R.string.ok)));
 
 			solo.clickOnButton(solo.getString(R.string.ok));
-			solo.waitForText(solo.getString(R.string.formula_editor_new_variable), 0, 2000);
+			solo.waitForText(solo.getString(R.string.formula_editor_new_variable), 0, 4000);
 
 		}
 	}
@@ -528,7 +542,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		//		UiTestUtils.clickEnterClose(solo, editText, itemString, 2);
 		solo.enterText(editText, itemString);
 		//		solo.clickOnButton(2);
-		clickOnDialogOk(editText, itemString);
+		clickOnDialogOk(itemString);
 
 		solo.clickOnText(itemString);
 		itemString = QUOTE + itemString + QUOTE;
@@ -555,7 +569,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 
 		solo.enterText(editText, itemString);
-		clickOnDialogOk(editText, itemString);
+		clickOnDialogOk(itemString);
 
 		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
 		solo.clickOnText(itemString);
@@ -592,19 +606,19 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		assertTrue(solo.waitForText("Variable name ?"));
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		solo.enterText(editText, itemString);
-		clickOnDialogOk(editText, itemString);
+		clickOnDialogOk(itemString);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
 		assertTrue(solo.waitForText("Variable name ?"));
 		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		solo.enterText(editText, itemString2nd);
-		clickOnDialogOk(editText, itemString2nd);
+		clickOnDialogOk(itemString2nd);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
 		assertTrue(solo.waitForText("Variable name ?"));
 		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		solo.enterText(editText, itemString3rd);
-		clickOnDialogOk(editText, itemString3rd);
+		clickOnDialogOk(itemString3rd);
 
 		solo.clickOnMenuItem(solo.getString(R.string.delete), true);
 		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
@@ -630,37 +644,43 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
+		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
+
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
+		assertTrue(solo.waitForText("Variable name ?"));
 		solo.goBack();
-		solo.sleep(250);
+		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only)));
 		solo.clickOnText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only));
 
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
-		UiTestUtils.clickEnterClose(solo, editText, itemString, 2);
+		solo.enterText(editText, itemString);
+		clickOnDialogOk(itemString, false);
+
 		assertTrue(itemString + " not found:", solo.searchText(itemString, true));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
+		assertTrue(solo.waitForText("Variable name ?"));
+		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only)));
 		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.formula_editor_variable_dialog_for_all_sprites));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_variable_dialog_hint));
+
 		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 
-		UiTestUtils.clickEnterClose(solo, editText, itemString2nd, 2);
+		solo.enterText(editText, itemString2nd);
+		clickOnDialogOk(itemString2nd);
 		assertTrue(itemString2nd + " not found:", solo.searchText(itemString2nd, true));
 
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
+		solo.goBack();
 
-		solo.clickOnText("secondSprite");
-		solo.clickOnText(solo.getString(R.string.scripts));
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		solo.waitForView(ListView.class);
-		solo.sleep(200);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
+
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
+		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
 		assertFalse(itemString + "  should not be found:", solo.searchText(itemString, true));
 		assertTrue(itemString2nd + " not found:", solo.searchText(itemString2nd, true));
 
@@ -681,7 +701,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 
 		solo.enterText(editText, itemString);
-		clickOnDialogOk(editText, itemString);
+		clickOnDialogOk(itemString);
 
 		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
@@ -722,7 +742,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		colorMustBe = solo.getCurrentActivity().getResources().getColor(R.color.transparent);
 		assertEquals("Wrong BackgroundColor", colorMustBe, colorBackground);
 
-		clickOnDialogOk(editText, "var2");
+		clickOnDialogOk("var2");
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var1");
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var2");
