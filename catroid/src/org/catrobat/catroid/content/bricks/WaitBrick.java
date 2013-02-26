@@ -38,13 +38,13 @@ import android.widget.Toast;
 
 public class WaitBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private float timeToWaitInMilliSeconds;
+	private int timeToWaitInMilliSeconds;
 	private Sprite sprite;
 
 	private transient View view;
 	private transient View prototype;
 
-	public WaitBrick(Sprite sprite, float timeToWaitInMilliseconds) {
+	public WaitBrick(Sprite sprite, int timeToWaitInMilliseconds) {
 		this.timeToWaitInMilliSeconds = timeToWaitInMilliseconds;
 		this.sprite = sprite;
 	}

@@ -49,7 +49,7 @@ public class BrickValues {
 	public static final String SPEAK = "Hello!";
 
 	//Constants Control
-	public static final Float WAIT = 1000f;
+	public static final int WAIT = 1000;
 	public static final String MESSAGE = "message 1";
 	public static final String NOTE = "add comment here...";
 	public static final int REPEAT = 10;
