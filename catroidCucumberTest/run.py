@@ -4,6 +4,9 @@
 import os, subprocess, argparse
 
 def main ():
+    #calabash_android = 'calabash-android/ruby-gem/bin/calabash-android'
+    calabash_android = 'calabash-android'
+
     arg_parser = argparse.ArgumentParser(description='Catroid Cucumber Test')
     arg_parser.add_argument('-c', '--clean', action='store_true', dest='build_clean',
         help='Run ant clean before building the apk.', default=False)
@@ -25,7 +28,7 @@ def main ():
         print("APK not found. You need to build it first.")
         return
 
-    proc = subprocess.Popen(['calabash-android', 'run', apk_path])
+    proc = subprocess.Popen([calabash_android, 'run', apk_path])
     proc.wait()
 
 if __name__=='__main__':
