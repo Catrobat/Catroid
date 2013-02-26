@@ -238,11 +238,9 @@ public class UiTestUtils {
 
 	public static void clickEnterClose(Solo solo, EditText editText, String value, int buttonIndex) {
 		Log.v("debug", "Solo.Enter clickEnterClose");
-		solo.clearEditText(editText);
 		solo.enterText(editText, value);
-		solo.sleep(250);
+		solo.waitForText(solo.getString(R.string.ok));
 		solo.clickOnButton(buttonIndex);
-		solo.sleep(50);
 	}
 
 	private static void initBrickCategoryMap() {
