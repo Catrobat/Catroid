@@ -1,2 +1,2 @@
-rvm_gemset_create_on_use_flag=1
-rvm 1.9.3-p327@catrobat
+create_on_use_flag=1
+rvm use ruby-1.9.3-head@catroid
