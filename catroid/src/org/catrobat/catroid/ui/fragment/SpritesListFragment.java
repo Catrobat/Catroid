@@ -30,16 +30,16 @@ import java.util.Set;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter.OnSpriteCheckedListener;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
-import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.BroadcastReceiver;
@@ -114,7 +114,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		}
 
 		try {
-			Utils.loadProjectIfNeeded(getActivity(), (ErrorListenerInterface) getActivity());
+			Utils.loadProjectIfNeeded(getActivity());
 		} catch (ClassCastException exception) {
 			Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
 		}
@@ -217,28 +217,29 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		menu.setHeaderTitle(spriteToEdit.getName());
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
+		menu.findItem(R.id.context_menu_copy).setVisible(false);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.copy:
+			case R.id.context_menu_copy:
 				break;
 
-			case R.id.cut:
+			case R.id.context_menu_cut:
 				break;
 
-			case R.id.insert_below:
+			case R.id.context_menu_insert_below:
 				break;
 
-			case R.id.move:
+			case R.id.context_menu_move:
 				break;
 
-			case R.id.rename:
+			case R.id.context_menu_rename:
 				showRenameDialog();
 				break;
 
-			case R.id.delete:
+			case R.id.context_menu_delete:
 				deleteSprite();
 				break;
 
@@ -280,7 +281,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	public void startRenameActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
-			setBottomBarActivated(false);
+			BottomBar.disableButtons(getActivity());
 			isRenameActionMode = true;
 		}
 	}
@@ -288,7 +289,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
-			setBottomBarActivated(false);
+			BottomBar.disableButtons(getActivity());
 			isRenameActionMode = false;
 		}
 	}
@@ -299,7 +300,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	public void handleCheckBoxClick(View view) {
 		int position = getListView().getPositionForView(view);
-		getListView().setItemChecked(position, ((CheckBox) view.findViewById(R.id.checkbox)).isChecked());
+		getListView().setItemChecked(position, ((CheckBox) view.findViewById(R.id.sprite_checkbox)).isChecked());
 	}
 
 	public void showRenameDialog() {
@@ -416,7 +417,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			actionMode = null;
 			actionModeActive = false;
 
-			setBottomBarActivated(true);
+			BottomBar.enableButtons(getActivity());
 		}
 	};
 
@@ -457,7 +458,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			actionMode = null;
 			actionModeActive = false;
 
-			setBottomBarActivated(true);
+			BottomBar.enableButtons(getActivity());
 		}
 	};
 
@@ -497,19 +498,15 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	}
 
 	private void deleteSpriteFiles() {
-		List<CostumeData> costumeDataList = spriteToEdit.getCostumeDataList();
+		List<LookData> lookDataList = spriteToEdit.getLookDataList();
 		List<SoundInfo> soundInfoList = spriteToEdit.getSoundList();
 
-		for (CostumeData currentCostumeData : costumeDataList) {
-			StorageHandler.getInstance().deleteFile(currentCostumeData.getAbsolutePath());
+		for (LookData currentLookData : lookDataList) {
+			StorageHandler.getInstance().deleteFile(currentLookData.getAbsolutePath());
 		}
 
 		for (SoundInfo currentSoundInfo : soundInfoList) {
 			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath());
 		}
-	}
-
-	private void setBottomBarActivated(boolean isActive) {
-		Utils.setBottomBarActivated(getActivity(), isActive);
 	}
 }

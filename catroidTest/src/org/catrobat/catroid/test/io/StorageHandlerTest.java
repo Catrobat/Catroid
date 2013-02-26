@@ -29,33 +29,21 @@ import java.util.ArrayList;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.WhenScript;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
-import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
-import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.content.bricks.PlaySoundBrick;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.content.bricks.SetXBrick;
-import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
-import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.xml.serializer.XmlSerializer;
 
 import android.test.AndroidTestCase;
 
@@ -183,79 +171,80 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		//test if images are existing:
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		ArrayList<CostumeData> backgroundCostumeList = currentProject.getSpriteList().get(0).getCostumeDataList();
-		ArrayList<CostumeData> catroidCostumeList = currentProject.getSpriteList().get(1).getCostumeDataList();
-		assertEquals("no background picture or too many pictures in background sprite", 1, backgroundCostumeList.size());
-		assertEquals("wrong number of pictures in catroid sprite", 3, catroidCostumeList.size());
+		ArrayList<LookData> backgroundLookList = currentProject.getSpriteList().get(0).getLookDataList();
+		ArrayList<LookData> catroidLookList = currentProject.getSpriteList().get(1).getLookDataList();
+		assertEquals("no background picture or too many pictures in background sprite", 1, backgroundLookList.size());
+		assertEquals("wrong number of pictures in catroid sprite", 3, catroidLookList.size());
 
-		String imagePath = backgroundCostumeList.get(0).getAbsolutePath();
+		String imagePath = backgroundLookList.get(0).getAbsolutePath();
 		File testFile = new File(imagePath);
-		assertTrue("Image " + backgroundCostumeList.get(0).getCostumeFileName() + " does not exist", testFile.exists());
+		assertTrue("Image " + backgroundLookList.get(0).getLookFileName() + " does not exist", testFile.exists());
 
-		imagePath = catroidCostumeList.get(0).getAbsolutePath();
+		imagePath = catroidLookList.get(0).getAbsolutePath();
 		testFile = new File(imagePath);
-		assertTrue("Image " + catroidCostumeList.get(0).getCostumeFileName() + " does not exist", testFile.exists());
+		assertTrue("Image " + catroidLookList.get(0).getLookFileName() + " does not exist", testFile.exists());
 
-		imagePath = catroidCostumeList.get(1).getAbsolutePath();
+		imagePath = catroidLookList.get(1).getAbsolutePath();
 		testFile = new File(imagePath);
-		assertTrue("Image " + catroidCostumeList.get(1).getCostumeFileName() + " does not exist", testFile.exists());
+		assertTrue("Image " + catroidLookList.get(1).getLookFileName() + " does not exist", testFile.exists());
 
-		imagePath = catroidCostumeList.get(2).getAbsolutePath();
+		imagePath = catroidLookList.get(2).getAbsolutePath();
 		testFile = new File(imagePath);
-		assertTrue("Image " + catroidCostumeList.get(2).getCostumeFileName() + " does not exist", testFile.exists());
+		assertTrue("Image " + catroidLookList.get(2).getLookFileName() + " does not exist", testFile.exists());
 	}
 
-	public void testAliasesAndXmlHeader() {
-
-		String projectName = "myProject";
-
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-
-		Project project = new Project(getContext(), projectName);
-		Sprite sprite = new Sprite("testSprite");
-		Script startScript = new StartScript(sprite);
-		Script whenScript = new WhenScript(sprite);
-		sprite.addScript(startScript);
-		sprite.addScript(whenScript);
-		project.addSprite(sprite);
-
-		ArrayList<Brick> startScriptBrickList = new ArrayList<Brick>();
-		ArrayList<Brick> whenScriptBrickList = new ArrayList<Brick>();
-		startScriptBrickList.add(new ChangeXByNBrick(sprite, 4));
-		startScriptBrickList.add(new ChangeYByNBrick(sprite, 5));
-		startScriptBrickList.add(new ComeToFrontBrick(sprite));
-		startScriptBrickList.add(new GoNStepsBackBrick(sprite, 5));
-		startScriptBrickList.add(new HideBrick(sprite));
-		startScriptBrickList.add(new WhenStartedBrick(sprite, startScript));
-
-		whenScriptBrickList.add(new PlaySoundBrick(sprite));
-		whenScriptBrickList.add(new SetSizeToBrick(sprite, 50));
-		whenScriptBrickList.add(new SetCostumeBrick(sprite));
-		whenScriptBrickList.add(new SetXBrick(sprite, 50));
-		whenScriptBrickList.add(new SetYBrick(sprite, 50));
-		whenScriptBrickList.add(new ShowBrick(sprite));
-		whenScriptBrickList.add(new WaitBrick(sprite, 1000));
-
-		for (Brick b : startScriptBrickList) {
-			startScript.addBrick(b);
-		}
-		for (Brick b : whenScriptBrickList) {
-			whenScript.addBrick(b);
-		}
-
-		storageHandler.saveProject(project);
-		String projectString = TestUtils.getProjectfileAsString(projectName);
-		assertFalse("project contains package information", projectString.contains("org.catrobat"));
-
-		String xmlHeader = (String) Reflection.getPrivateField(XmlSerializer.class, "XML_HEADER");
-		assertTrue("Project file did not contain correct XML header.", projectString.startsWith(xmlHeader));
-
-		projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-	}
+	// TODO: add XML header validation based on xsd 
+	//	public void testAliasesAndXmlHeader() {
+	//
+	//		String projectName = "myProject";
+	//
+	//		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
+	//		if (projectFile.exists()) {
+	//			UtilFile.deleteDirectory(projectFile);
+	//		}
+	//
+	//		Project project = new Project(getContext(), projectName);
+	//		Sprite sprite = new Sprite("testSprite");
+	//		Script startScript = new StartScript(sprite);
+	//		Script whenScript = new WhenScript(sprite);
+	//		sprite.addScript(startScript);
+	//		sprite.addScript(whenScript);
+	//		project.addSprite(sprite);
+	//
+	//		ArrayList<Brick> startScriptBrickList = new ArrayList<Brick>();
+	//		ArrayList<Brick> whenScriptBrickList = new ArrayList<Brick>();
+	//		startScriptBrickList.add(new ChangeXByNBrick(sprite, 4));
+	//		startScriptBrickList.add(new ChangeYByNBrick(sprite, 5));
+	//		startScriptBrickList.add(new ComeToFrontBrick(sprite));
+	//		startScriptBrickList.add(new GoNStepsBackBrick(sprite, 5));
+	//		startScriptBrickList.add(new HideBrick(sprite));
+	//		startScriptBrickList.add(new WhenStartedBrick(sprite, startScript));
+	//
+	//		whenScriptBrickList.add(new PlaySoundBrick(sprite));
+	//		whenScriptBrickList.add(new SetSizeToBrick(sprite, 50));
+	//		whenScriptBrickList.add(new SetLookBrick(sprite));
+	//		whenScriptBrickList.add(new SetXBrick(sprite, 50));
+	//		whenScriptBrickList.add(new SetYBrick(sprite, 50));
+	//		whenScriptBrickList.add(new ShowBrick(sprite));
+	//		whenScriptBrickList.add(new WaitBrick(sprite, 1000));
+	//
+	//		for (Brick b : startScriptBrickList) {
+	//			startScript.addBrick(b);
+	//		}
+	//		for (Brick b : whenScriptBrickList) {
+	//			whenScript.addBrick(b);
+	//		}
+	//
+	//		storageHandler.saveProject(project);
+	//		String projectString = TestUtils.getProjectfileAsString(projectName);
+	//		assertFalse("project contains package information", projectString.contains("org.catrobat"));
+	//
+	//		String xmlHeader = (String) Reflection.getPrivateField(XmlSerializer.class, "XML_HEADER");
+	//		assertTrue("Project file did not contain correct XML header.", projectString.startsWith(xmlHeader));
+	//
+	//		projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
+	//		if (projectFile.exists()) {
+	//			UtilFile.deleteDirectory(projectFile);
+	//		}
+	//	}
 }

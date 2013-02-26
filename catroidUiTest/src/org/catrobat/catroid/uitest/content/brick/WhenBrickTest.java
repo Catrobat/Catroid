@@ -78,7 +78,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ArrayList<Integer> yPosition;
 		int addedYPosition;
 
-		assertEquals("Incorrect number of bricks.", 4 + 1, dragDropListView.getCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 4, dragDropListView.getCount());
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());

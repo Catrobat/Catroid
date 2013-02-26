@@ -44,7 +44,6 @@ import org.catrobat.catroid.ui.dialogs.RenameProjectDialog;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog.OnUpdateProjectDescriptionListener;
-import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
@@ -152,7 +151,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				try {
 					if (!ProjectManager.getInstance().loadProject((adapter.getItem(position)).projectName,
-							getActivity(), (ErrorListenerInterface) getActivity(), true)) {
+							getActivity(), true)) {
 						return; // error message already in ProjectManager
 								// loadProject
 					}
@@ -249,11 +248,10 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		try {
 			projectList.remove(projectToEdit);
 			if (projectList.size() == 0) {
-				projectManager.initializeDefaultProject(getActivity(), (ErrorListenerInterface) getActivity());
+				projectManager.initializeDefaultProject(getActivity());
 			} else {
 
-				projectManager.loadProject((projectList.get(0)).projectName, getActivity(),
-						(ErrorListenerInterface) getActivity(), false);
+				projectManager.loadProject((projectList.get(0)).projectName, getActivity(), false);
 				projectManager.saveProject();
 			}
 		} catch (ClassCastException exception) {

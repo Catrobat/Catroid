@@ -44,45 +44,45 @@
     </Header>  
 	<SpriteList>
 		<Sprite>
-			<CostumeList>
-				<Costume>
+			<LookList>
+				<Look>
 					<FileName>B978398F6E8D16B857AA81618F3EF879_background</FileName>
 					<Name>background</Name>
-				</Costume>
-			</CostumeList>
+				</Look>
+			</LookList>
 			<Name>Hintergrund</Name>
 			<ScriptList>
 				<StartScript>
 					<BrickList>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look"/>
+						</SetLookBrick>
 					</BrickList>
 				</StartScript>
 			</ScriptList>
 		</Sprite>
 		<Sprite>
-			<CostumeList>
-				<Costume>
+			<LookList>
+				<Look>
 					<FileName>143780EBC24495149123CCAF3A1CDC35_normalCat</FileName>
 					<Name>normalCat</Name>
-				</Costume>
-				<Costume>
+				</Look>
+				<Look>
 					<FileName>FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat</FileName>
 					<Name>banzaiCat</Name>
-				</Costume>
-				<Costume>
+				</Look>
+				<Look>
 					<FileName>3673EC84679EE425A215B86B085EC292_cheshireCat</FileName>
 					<Name>cheshireCat</Name>
-				</Costume>
-			</CostumeList>
+				</Look>
+			</LookList>
 			<Name>Catroid</Name>
 			<ScriptList>
 				<StartScript>
 					<BrickList>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look"/>
+						</SetLookBrick>
 						<RepeatBrick>
 							<LoopEndBrick reference="../../LoopEndBrick"/>
 							<TimesToRepeat>3</TimesToRepeat>
@@ -97,21 +97,21 @@
         <Action>Tapped</Action>
 					<BrickList>
           	
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume[2]"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look[2]"/>
+						</SetLookBrick>
 						<WaitBrick>
 							<TimeToWaitInMilliSeconds>500</TimeToWaitInMilliSeconds>
 						</WaitBrick>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume[3]"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look[3]"/>
+						</SetLookBrick>
 						<WaitBrick>
 							<TimeToWaitInMilliSeconds>500</TimeToWaitInMilliSeconds>
 						</WaitBrick>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look"/>
+						</SetLookBrick>
 					</BrickList>
 				</WhenScript>
 			</ScriptList>

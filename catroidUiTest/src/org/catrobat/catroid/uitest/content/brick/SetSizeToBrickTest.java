@@ -28,14 +28,14 @@ import java.util.ArrayList;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
@@ -66,7 +66,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	private Solo solo;
 	private Project project;
 	private SetSizeToBrick setSizeToBrick;
-	private SetCostumeBrick setCostumeBrick;
+	private SetLookBrick setLookBrick;
 	private int imageRawId = org.catrobat.catroid.uitest.R.raw.red_quad;
 
 	public SetSizeToBrickTest() {
@@ -100,7 +100,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 3 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 3, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 2, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -143,7 +143,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
-		Bitmap blackQuad = BitmapFactory.decodeFile(setCostumeBrick.getImagePath());
+		Bitmap blackQuad = BitmapFactory.decodeFile(setLookBrick.getImagePath());
 		int blackQuadHeight = blackQuad.getHeight();
 		int blackQuadWidth = blackQuad.getWidth();
 		Log.v(TAG, "black_quad.png x: " + blackQuadHeight + " y: " + blackQuadWidth);
@@ -170,10 +170,10 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		setSizeToBrick = new SetSizeToBrick(sprite, 100);
-		setCostumeBrick = new SetCostumeBrick(sprite);
+		setLookBrick = new SetLookBrick(sprite);
 
 		script.addBrick(setSizeToBrick);
-		script.addBrick(setCostumeBrick);
+		script.addBrick(setLookBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
@@ -186,13 +186,13 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		File image = UiTestUtils.saveFileToProject(projectName, "black_quad.png", imageRawId, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.IMAGE);
 		Log.v(TAG, image.getName());
-		CostumeData costumeData = new CostumeData();
-		costumeData.setCostumeFilename(image.getName());
-		costumeData.setCostumeName("image");
-		setCostumeBrick.setCostume(costumeData);
-		sprite.getCostumeDataList().add(costumeData);
+		LookData lookData = new LookData();
+		lookData.setLookFilename(image.getName());
+		lookData.setLookName("image");
+		setLookBrick.setLook(lookData);
+		sprite.getLookDataList().add(lookData);
 		ProjectManager.getInstance().getFileChecksumContainer()
-				.addChecksum(costumeData.getChecksum(), image.getAbsolutePath());
+				.addChecksum(lookData.getChecksum(), image.getAbsolutePath());
 		ProjectManager.getInstance().saveProject();
 	}
 

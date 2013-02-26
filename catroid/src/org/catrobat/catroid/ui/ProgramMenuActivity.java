@@ -26,8 +26,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.utils.ErrorListenerInterface;
-import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,7 +37,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class ProgramMenuActivity extends SherlockFragmentActivity implements ErrorListenerInterface {
+public class ProgramMenuActivity extends SherlockFragmentActivity {
 	private ActionBar actionBar;
 
 	@Override
@@ -62,9 +60,9 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 	protected void onResume() {
 		super.onResume();
 		if (ProjectManager.INSTANCE.getCurrentSpritePosition() == 0) {
-			((Button) findViewById(R.id.program_menu_button_costumes)).setText(R.string.backgrounds);
+			((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.backgrounds);
 		} else {
-			((Button) findViewById(R.id.program_menu_button_costumes)).setText(R.string.costumes);
+			((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.looks);
 		}
 	}
 
@@ -78,7 +76,7 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 			ProjectManager projectManager = ProjectManager.getInstance();
 			int currentSpritePos = projectManager.getCurrentSpritePosition();
 			int currentScriptPos = projectManager.getCurrentScriptPosition();
-			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, this, false);
+			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 			projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 			projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		}
@@ -111,8 +109,8 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 		startScriptActivity(ScriptActivity.FRAGMENT_SCRIPTS);
 	}
 
-	public void handleCostumesButton(View v) {
-		startScriptActivity(ScriptActivity.FRAGMENT_COSTUMES);
+	public void handleLooksButton(View v) {
+		startScriptActivity(ScriptActivity.FRAGMENT_LOOKS);
 	}
 
 	public void handleSoundsButton(View v) {
@@ -122,11 +120,6 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 	public void handlePlayButton(View view) {
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-	}
-
-	@Override
-	public void showErrorDialog(String errorMessage) {
-		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
 	}
 
 	private void startScriptActivity(int fragmentPosition) {

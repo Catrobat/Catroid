@@ -23,12 +23,12 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
 import android.os.Bundle;
-import org.catrobat.catroid.R;
 
 public class RenameSpriteDialog extends TextDialog {
 
@@ -60,7 +60,7 @@ public class RenameSpriteDialog extends TextDialog {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		if (projectManager.spriteExists(newSpriteName) && !newSpriteName.equalsIgnoreCase(oldSpriteName)) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.spritename_already_exists));
+			Utils.showErrorDialog(getActivity(), getString(R.string.spritename_already_exists));
 			return false;
 		}
 
@@ -74,7 +74,7 @@ public class RenameSpriteDialog extends TextDialog {
 			intent.putExtra(EXTRA_NEW_SPRITE_NAME, newSpriteName);
 			getActivity().sendBroadcast(intent);
 		} else {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.spritename_invalid));
+			Utils.showErrorDialog(getActivity(), getString(R.string.spritename_invalid));
 			return false;
 		}
 

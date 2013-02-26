@@ -48,6 +48,8 @@ public abstract class ScriptActivityFragment extends SherlockListFragment {
 
 	public abstract int getSelectMode();
 
+	public abstract void startCopyActionMode();
+
 	public abstract void startRenameActionMode();
 
 	public abstract void startDeleteActionMode();
