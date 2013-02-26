@@ -70,8 +70,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	private String testProject3 = UiTestUtils.PROJECTNAME3;
 	private String projectNameWithBlacklistedCharacters = "<H/ey, lo\"ok, :I'\\m s*pe?ci>al! ?äö|üß<>";
 	private String projectNameWithWhitelistedCharacters = "[Hey+, =lo_ok. I'm; -special! ?äöüß<>]";
-	private String projectCurrentOne = "projectCurrentOne";
-	private String projectCurrentTwo = "projectCurrentTwo";
 
 	private static final float CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED = 0.0f;
 
@@ -92,8 +90,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		UiTestUtils.clearAllUtilTestProjects();
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithBlacklistedCharacters)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithWhitelistedCharacters)));
-		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectCurrentOne)));
-		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectCurrentTwo)));
 		super.tearDown();
 		solo = null;
 	}
@@ -380,34 +376,26 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 				ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
 	}
 
-	public void testCurrentProjectNameVisible() {
-		String directoryPathOne = Utils.buildProjectPath(projectCurrentOne);
-		File directoryOne = new File(directoryPathOne);
-		UtilFile.deleteDirectory(directoryOne);
-
-		String directoryPathTwo = Utils.buildProjectPath(projectCurrentTwo);
-		File directoryTwo = new File(directoryPathTwo);
-		UtilFile.deleteDirectory(directoryTwo);
-
-		StorageHandler.getInstance().saveProject(new Project(getActivity(), projectCurrentOne));
-		StorageHandler.getInstance().saveProject(new Project(getActivity(), projectCurrentTwo));
+	public void testProjectNameVisible() {
+		createTestProject(testProject);
+		createTestProject(testProject2);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.clickOnText(projectCurrentOne);
+		solo.clickOnText(testProject);
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		solo.goBack();
 		assertTrue("The name of the current project is not displayed on the continue button", solo.getButton(0)
-				.getText().toString().endsWith(projectCurrentOne));
+				.getText().toString().endsWith(testProject));
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.clickOnText(projectCurrentTwo);
+		solo.clickOnText(testProject2);
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		solo.goBack();
 		assertTrue("The name of the current project is not displayed on the continue button", solo.getButton(0)
-				.getText().toString().endsWith(projectCurrentTwo));
+				.getText().toString().endsWith(testProject2));
 	}
 }
