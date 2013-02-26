@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
+#
+# TODO: translate this script into a Rakefile
 
 import os, subprocess, argparse
 
-def main ():
-    #calabash_android = 'calabash-android/ruby-gem/bin/calabash-android'
-    calabash_android = 'calabash-android'
-
+def main():
     arg_parser = argparse.ArgumentParser(description='Catroid Cucumber Test')
     arg_parser.add_argument('-c', '--clean', action='store_true', dest='build_clean',
         help='Run ant clean before building the apk.', default=False)
@@ -17,10 +16,12 @@ def main ():
     catroid_dir = os.path.abspath('..%scatroid' % os.sep)
     apk_path = catroid_dir + '%sbin%scatroid-debug.apk' % (os.sep, os.sep)
 
+    # --clean: run ant clean for Catroid.
     if args.build_clean:
         proc = subprocess.Popen(['ant', 'clean'], cwd=catroid_dir)
         proc.wait()
 
+    # --no-build: skip building the Catroid apk (or build it).
     if not args.skip_build:
         proc = subprocess.Popen(['ant', 'debug'], cwd=catroid_dir)
         proc.wait()
@@ -28,11 +29,12 @@ def main ():
         print("APK not found. You need to build it first.")
         return
 
-    proc = subprocess.Popen([calabash_android, 'run', apk_path])
+    # Finally, run calabash with the Catroid apk.
+    proc = subprocess.Popen(['calabash-android', 'run', apk_path])
     proc.wait()
 
-if __name__=='__main__':
+if __name__ == '__main__':
     try:
-        main ()
+        main()
     except KeyboardInterrupt:
         pass
