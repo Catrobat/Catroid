@@ -263,7 +263,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		@Override
 		public boolean onDoubleTap(MotionEvent e) {
 
-			internFormula.setCursorAndSelection(absoluteCursorPosition, true);
+			internFormula.setCursorAndSelection(absoluteCursorPosition, false);
 			history.updateCurrentSelection(internFormula.getSelection());
 			highlightSelection();
 
@@ -322,24 +322,11 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 				setSelection(absoluteCursorPosition);
 				postInvalidate();
 
-				InternToken internToken = internFormula.getFirstLeftInternToken(absoluteCursorPosition);
+				internFormula.setCursorAndSelection(absoluteCursorPosition, true);
 
-				if (internToken != null) {
-					InternTokenType internTokenType = internToken.getInternTokenType();
+				highlightSelection();
+				history.updateCurrentSelection(internFormula.getSelection());
 
-					if ((internFormula.getFirstLeftInternToken(absoluteCursorPosition - 1) == internToken)
-							&& ((internTokenType == InternTokenType.FUNCTION_NAME)
-									|| (internTokenType == InternTokenType.SENSOR)
-									|| (internTokenType == InternTokenType.USER_VARIABLE) || (internTokenType == InternTokenType.LOOK))) {
-						internFormula.setCursorAndSelection(absoluteCursorPosition, true);
-					} else {
-						internFormula.setCursorAndSelection(absoluteCursorPosition, false);
-					}
-
-					highlightSelection();
-
-					history.updateCurrentSelection(internFormula.getSelection());
-				}
 				formulaEditorDialog.refreshFormulaPreviewString();
 			}
 			return true;

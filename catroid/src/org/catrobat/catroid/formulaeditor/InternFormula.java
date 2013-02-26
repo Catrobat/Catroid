@@ -81,15 +81,23 @@ public class InternFormula {
 
 	}
 
-	public void setCursorAndSelection(int externCursorPosition, boolean tokenIsSelected) {
+	public void setCursorAndSelection(int externCursorPosition, boolean isSingleTab) {
 		this.externCursorPosition = externCursorPosition;
 
 		updateInternCursorPosition();
 
-		if (tokenIsSelected) {
-			selectCursorPositionInternToken(TokenSelectionType.USER_SELECTION);
+		if (isSingleTab) {
+
+			if (externInternRepresentationMapping.getInternTokenByExternIndex(externCursorPosition) != null
+					&& getFirstLeftInternToken(externCursorPosition - 1) == cursorPositionInternToken
+					&& ((cursorPositionInternToken.isFunctionName()) || (cursorPositionInternToken.isSensor())
+							|| (cursorPositionInternToken.isUserVariable()) || (cursorPositionInternToken.isLook()))) {
+				selectCursorPositionInternToken(TokenSelectionType.USER_SELECTION);
+			} else {
+				internFormulaTokenSelection = null;
+			}
 		} else {
-			internFormulaTokenSelection = null;
+			selectCursorPositionInternToken(TokenSelectionType.USER_SELECTION);
 		}
 
 	}

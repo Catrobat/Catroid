@@ -34,7 +34,7 @@ import android.util.Log;
 
 public class SensorHandler implements SensorEventListener {
 	private static SensorHandler instance = null;
-	private static android.hardware.SensorManager mySensorManager = null;
+	private static SensorManager mySensorManager = null;
 	private static Sensor mAccelerometer = null;
 	private static Sensor mRotationVector = null;
 	private static float[] rotationMatrix = new float[16];

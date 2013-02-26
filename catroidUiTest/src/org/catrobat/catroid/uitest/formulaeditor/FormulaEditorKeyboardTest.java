@@ -539,9 +539,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 		itemString = "zzz";
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
-		//		UiTestUtils.clickEnterClose(solo, editText, itemString, 2);
 		solo.enterText(editText, itemString);
-		//		solo.clickOnButton(2);
 		clickOnDialogOk(itemString);
 
 		solo.clickOnText(itemString);
@@ -710,11 +708,10 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		solo.enterText(editText, itemString);
 
-		solo.sleep(2000);
+		assertTrue("Toast not shown when UserVariableName already exists",
+				solo.waitForText(solo.getString(R.string.formula_editor_existing_user_variable), 0, 5000));
 
-		//TODO test Toast !!
-		//		assertTrue("Toast not shown when UserVariableName already exists",
-		//				solo.searchText(solo.getString(R.string.formula_editor_existing_user_variable)));
+		solo.waitForText(itemString);
 
 		Button positiveButton = solo.getButton(solo.getString(R.string.ok));
 		ColorStateList actualPositiveButtonTextColor = positiveButton.getTextColors();
@@ -748,5 +745,4 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var2");
 
 	}
-
 }
