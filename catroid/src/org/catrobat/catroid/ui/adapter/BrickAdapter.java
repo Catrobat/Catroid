@@ -874,9 +874,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private void handleBrickEnabledState(Brick brick, boolean enableState) {
 		brick.getCheckBox().setEnabled(enableState);
-
-		//TODO: grey bricks, animation
-
+		//TODO: grey bricks
 	}
 
 	private boolean smartBrickSelection(Brick brick, boolean check) {

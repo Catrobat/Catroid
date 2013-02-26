@@ -455,10 +455,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 			while (iterator.hasNext()) {
 				Brick brick = iterator.next();
-				//deleteBrick(position - numberDeleted);
-				if (brick instanceof ScriptBrick) {
-					deleteBrick(brick);
-				}
+				deleteBrick(brick);
 				++numberDeleted;
 			}
 			setSelectMode(Constants.SELECT_NONE);
@@ -487,7 +484,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		//adapter.updateProjectBrickList();
 		//ProjectManager.INSTANCE.saveProject();
 		//handleScriptDelete();
-		adapter.brickList.indexOf(brick);
+
 		if (brick instanceof ScriptBrick) {
 			//scriptToEdit = ((ScriptBrick) adapter.getItem(listView.getTouchedListPosition()))
 			//		.initScript(ProjectManager.INSTANCE.getCurrentSprite());
