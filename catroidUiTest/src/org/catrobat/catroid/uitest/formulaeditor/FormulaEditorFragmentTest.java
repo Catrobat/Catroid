@@ -68,6 +68,7 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	private void createProject() {
@@ -304,7 +305,7 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 		//		catKeyboardClicker.clearEditTextWithCursorBehindLastCharacterOnlyQuickly(FORMULA_EDITOR_EDIT_TEXT_ID);
 
-		solo.sleep(50);
+		solo.sleep(250);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
@@ -317,7 +318,7 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_4));
 		solo.goBack();
-		solo.sleep(50);
+		solo.sleep(250);
 		assertTrue("Save failed toast not found",
 				solo.searchText(solo.getString(R.string.formula_editor_changes_saved)));
 
@@ -341,7 +342,7 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 				.getText().toString());
 
 		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
-		solo.sleep(50);
+		solo.sleep(250);
 		assertEquals("Wrong text in FormulaEditor", newYFormula, solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)
 				.getText().toString());
 

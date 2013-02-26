@@ -81,18 +81,10 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
-		this.project = null;
-		solo.sleep(1000);
 		super.tearDown();
-
+		solo = null;
 	}
 
 	private void createProject(String projectName) throws InterruptedException {
@@ -639,9 +631,6 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_round));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_e));
-
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_pi));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
@@ -770,31 +759,31 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "999999999999999999"));
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "888888888888888888"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "777777777777777777"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "666666666666666666"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "555555555555555555"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "444444444444444444"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "333333333333333333"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "222222222222222222"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "111111111111111111"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "000000000000000000"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "919191919191919191"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "828282828282828282"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "737373737373737373"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "646464646464646464"));
+		//		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
+		//		internTokenList.add(new InternToken(InternTokenType.NUMBER, "777777777777777777"));
+		//		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
+		//		internTokenList.add(new InternToken(InternTokenType.NUMBER, "666666666666666666"));
+		//		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
+		//		internTokenList.add(new InternToken(InternTokenType.NUMBER, "555555555555555555"));
+		//		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
+		//		internTokenList.add(new InternToken(InternTokenType.NUMBER, "444444444444444444"));
+		//		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
+		//		internTokenList.add(new InternToken(InternTokenType.NUMBER, "333333333333333333"));
+		//		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
+		//
+		//		internTokenList.add(new InternToken(InternTokenType.NUMBER, "222222222222222222"));
+		//		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
+		//		internTokenList.add(new InternToken(InternTokenType.NUMBER, "111111111111111111"));
+		//		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
+		//		internTokenList.add(new InternToken(InternTokenType.NUMBER, "000000000000000000"));
+		//		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
+		//		internTokenList.add(new InternToken(InternTokenType.NUMBER, "919191919191919191"));
+		//		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
+		//		internTokenList.add(new InternToken(InternTokenType.NUMBER, "828282828282828282"));
+		//		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
+		//		internTokenList.add(new InternToken(InternTokenType.NUMBER, "737373737373737373"));
+		//		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
+		//		internTokenList.add(new InternToken(InternTokenType.NUMBER, "646464646464646464"));
 		totalLinesForTheInput = internTokenList.size();
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement root = internParser.parseFormula();

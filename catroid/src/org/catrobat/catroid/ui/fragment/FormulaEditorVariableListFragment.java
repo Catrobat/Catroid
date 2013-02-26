@@ -300,7 +300,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 												ProjectManager.getInstance().getCurrentSprite().getName()) != null) {
 
 									Toast toast = Toast.makeText(getActivity(),
-											R.string.formula_editor_existing_user_variable, Toast.LENGTH_SHORT);
+											R.string.formula_editor_existing_user_variable, Toast.LENGTH_LONG);
 									toast.setGravity(Gravity.CENTER, 0, 0);
 									toast.show();
 
