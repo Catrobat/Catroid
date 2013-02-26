@@ -215,7 +215,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		switch (item.getItemId()) {
 			case R.id.script_menu_delete: {
-				adapter.handleScriptDelete(scriptToEdit);
+				adapter.handleScriptDelete(sprite, scriptToEdit);
 				break;
 			}
 			case R.id.script_menu_copy: {
@@ -485,11 +485,12 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		//adapter.updateProjectBrickList();
 		//ProjectManager.INSTANCE.saveProject();
 		//handleScriptDelete();
+		if (brick instanceof ScriptBrick) {
+			adapter.handleScriptDelete(sprite, scriptToEdit);
+			return;
+		}
 		int brickPosition = adapter.brickList.indexOf(brick);
 		adapter.removeFromBrickListAndProject(brickPosition, true);
-		if (brick instanceof ScriptBrick) {
-			//adapter.handleScriptDelete(scriptToEdit);
-		}
 	}
 
 	@Override
