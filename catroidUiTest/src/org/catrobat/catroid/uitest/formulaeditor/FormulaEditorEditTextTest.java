@@ -688,15 +688,17 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 
 	public void testComputeDialog() {
 
-		solo.clickOnEditText(0);
+		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
 		View preview = UiTestUtils.getViewContainerByIds(solo, R.id.brick_change_size_by_edit_text,
 				R.id.formula_editor_brick_space);
 
+		solo.sleep(250);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_2));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
+		solo.sleep(250);
 		TextView computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
 		assertEquals("computeTextView did not contain the correct value", "-2.0", computeTextView.getText().toString());
 
@@ -713,6 +715,7 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
 		computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
+		solo.sleep(250);
 		assertEquals("computeTextView did not contain the correct value", "-8.11", computeTextView.getText().toString());
 
 		solo.goBack();
@@ -732,6 +735,7 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
+		solo.sleep(250);
 		computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
 		int maxLoops = 10;
 		String lastComputeString = computeTextView.getText().toString();
