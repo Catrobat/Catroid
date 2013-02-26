@@ -116,6 +116,7 @@ public class WaitBrick implements Brick, OnClickListener {
 		TextView textWait = (TextView) prototype.findViewById(R.id.brick_wait_prototype_text_view);
 		textWait.setText((timeToWaitInMilliSeconds / 1000) + "");
 		return prototype;
+
 	}
 
 	@Override

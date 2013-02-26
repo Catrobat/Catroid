@@ -64,8 +64,8 @@ import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -282,7 +282,6 @@ public class AddBrickDialog extends DialogFragment {
 		looksBrickList.add(new SetLookBrick(sprite));
 		looksBrickList.add(new NextLookBrick(sprite));
 
-
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, BrickValues.SET_SIZE_TO);
 		setSizeToBrick.setDefaultValues(context);
 		looksBrickList.add(setSizeToBrick);
@@ -347,9 +346,7 @@ public class AddBrickDialog extends DialogFragment {
 		waitBrick.setDefaultValues(context);
 		controlBrickList.add(waitBrick);
 
-		BroadcastReceiverBrick broadcastReceiverBrick = new BroadcastReceiverBrick(sprite, new BroadcastScript(sprite));
-		broadcastReceiverBrick.setDefaultValues(context);
-		controlBrickList.add(broadcastReceiverBrick);
+		controlBrickList.add(new BroadcastReceiverBrick(sprite, new BroadcastScript(sprite)));
 
 		controlBrickList.add(new BroadcastBrick(sprite));
 		controlBrickList.add(new BroadcastWaitBrick(sprite));
