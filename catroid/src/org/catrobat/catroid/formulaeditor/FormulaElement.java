@@ -249,8 +249,8 @@ public class FormulaElement implements Serializable {
 				Double randomDouble = minimum + (java.lang.Math.random() * (maximum - minimum));
 
 				if (isInteger(minimum) && isInteger(maximum)
-						&& (rightChild.type == ElementType.NUMBER && !rightChild.value.contains("."))
-						&& (leftChild.type == ElementType.NUMBER && !leftChild.value.contains("."))) {
+						&& !(rightChild.type == ElementType.NUMBER && rightChild.value.contains("."))
+						&& !(leftChild.type == ElementType.NUMBER && leftChild.value.contains("."))) {
 					Log.i("info", "randomDouble: " + randomDouble);
 
 					if ((Math.abs(randomDouble) - (int) Math.abs(randomDouble)) >= 0.5) {
