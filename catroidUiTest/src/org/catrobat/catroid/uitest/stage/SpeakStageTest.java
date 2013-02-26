@@ -51,7 +51,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageActivity> {
 	private Solo solo;
-	private static TextToSpeechMock textToSpeechMock;
+	private TextToSpeechMock textToSpeechMock;
 	private Object textToSpeechInitLock = new Object();
 	private Sprite sprite1, sprite2, sprite3;
 	private String textMessage = "This is a test text.";
