@@ -873,6 +873,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 	}
 
+	private void handleBrickEnabledState(Brick brick, boolean enableState) {
+		brick.getCheckBox().setEnabled(enableState);
+	}
+
 	private boolean smartBrickSelection(Brick brick, boolean check) {
 
 		if (brick instanceof ScriptBrick) {
@@ -893,6 +897,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					checkedBricks.remove(currentBrick);
 				}
 				currentBrick.getCheckBox().setChecked(check);
+				handleBrickEnabledState(currentBrick, !check);
 				notifyDataSetChanged();
 				brickPosition++;
 			}
@@ -918,12 +923,15 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				}
 				currentBrick.getCheckBox().setChecked(check);
 				notifyDataSetChanged();
-
 			}
+			Brick ToBrick = brickList.get(to);
 			if (from > to) {
+				handleBrickEnabledState(ToBrick, !check);
 				int temp = from;
 				from = to;
 				to = temp;
+			} else {
+				handleBrickEnabledState(ToBrick, !check);
 			}
 			from++;
 			while (from < to) {
@@ -934,6 +942,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					checkedBricks.remove(currentBrick);
 				}
 				currentBrick.getCheckBox().setChecked(check);
+				handleBrickEnabledState(currentBrick, !check);
 				notifyDataSetChanged();
 				from++;
 			}
@@ -948,6 +957,19 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	private void addElementToCheckedBricks(Brick brick) {
 		if (!(checkedBricks.contains(brick))) {
 			checkedBricks.add(brick);
+		}
+	}
+
+	public void handleScriptDelete(Script scriptToDelete) {
+		sprite.removeScript(scriptToDelete);
+		if (sprite.getNumberOfScripts() == 0) {
+			ProjectManager.INSTANCE.setCurrentScript(null);
+			updateProjectBrickList();
+		} else {
+			int lastScriptIndex = sprite.getNumberOfScripts() - 1;
+			Script lastScript = sprite.getScript(lastScriptIndex);
+			ProjectManager.INSTANCE.setCurrentScript(lastScript);
+			updateProjectBrickList();
 		}
 	}
 }
