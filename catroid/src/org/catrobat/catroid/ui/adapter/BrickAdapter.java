@@ -874,6 +874,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private void handleBrickEnabledState(Brick brick, boolean enableState) {
 		brick.getCheckBox().setEnabled(enableState);
+
+		//TODO: grey bricks, animation
+
 	}
 
 	private boolean smartBrickSelection(Brick brick, boolean check) {
@@ -881,6 +884,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if (brick instanceof ScriptBrick) {
 			if (check) {
 				addElementToCheckedBricks(brick);
+				animatedBricks.add(brick);
 			} else {
 				checkedBricks.remove(brick);
 			}
@@ -892,6 +896,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				Brick currentBrick = brickList.get(brickPosition);
 				if (check) {
 					addElementToCheckedBricks(currentBrick);
+					animatedBricks.add(currentBrick);
 				} else {
 					checkedBricks.remove(currentBrick);
 				}
@@ -900,6 +905,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				notifyDataSetChanged();
 				brickPosition++;
 			}
+
+			animateSelectedBricks();
+
 			if (onBrickEditListener != null) {
 				onBrickEditListener.onBrickChecked();
 			}
@@ -910,6 +918,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			int to = 0;
 			for (Brick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts()) {
 				if (check) {
+					animatedBricks.add(currentBrick);
 					addElementToCheckedBricks(currentBrick);
 				} else {
 					checkedBricks.remove(currentBrick);
@@ -936,6 +945,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			while (from < to) {
 				Brick currentBrick = brickList.get(from);
 				if (check) {
+					animatedBricks.add(currentBrick);
 					addElementToCheckedBricks(currentBrick);
 				} else {
 					checkedBricks.remove(currentBrick);
@@ -945,12 +955,27 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				notifyDataSetChanged();
 				from++;
 			}
+
+			animateSelectedBricks();
+
 			if (onBrickEditListener != null) {
 				onBrickEditListener.onBrickChecked();
 			}
 			return true;
 		}
 		return false;
+	}
+
+	private void animateSelectedBricks() {
+		if (!animatedBricks.isEmpty()) {
+			Animation animation = AnimationUtils.loadAnimation(context, R.anim.blink);
+			for (Brick animationBrick : animatedBricks) {
+				int position = animatedBricks.indexOf(animationBrick);
+				View view = animationBrick.getView(context, position, this);
+				view.startAnimation(animation);
+			}
+		}
+		animatedBricks.clear();
 	}
 
 	private void addElementToCheckedBricks(Brick brick) {

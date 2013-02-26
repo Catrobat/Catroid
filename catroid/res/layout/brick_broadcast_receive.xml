@@ -20,15 +20,13 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
->
+    android:orientation="horizontal" >
 
     <CheckBox
         android:id="@+id/brick_broadcast_receive_checkbox"
@@ -42,13 +40,6 @@
         style="@style/BrickContainer.Control.Medium"
         android:background="@drawable/brick_script"
         android:orientation="vertical" >
-
-        <CheckBox
-            android:id="@+id/brick_set_y_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:visibility="gone" />
 
         <TextView
             style="@style/BrickText.SingleLine"
