@@ -38,8 +38,7 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        style="@style/BrickContainer.Control.Medium"
-        android:orientation="vertical" >
+        style="@style/BrickContainer.Control.Small" >
 
         <TextView
             style="@style/BrickText.SingleLine"
