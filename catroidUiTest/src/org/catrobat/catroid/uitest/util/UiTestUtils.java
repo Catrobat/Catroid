@@ -46,10 +46,13 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
@@ -295,6 +298,75 @@ public class UiTestUtils {
 		projectManager.setCurrentScript(testScript);
 
 		return brickList;
+	}
+
+	public static List<Brick> createTestProjectNestedLoops() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+
+		Script testScript = new StartScript(firstSprite);
+
+		ArrayList<Brick> brickList = new ArrayList<Brick>();
+
+		ForeverBrick firstForeverBrick = new ForeverBrick(firstSprite);
+		ForeverBrick secondForeverBrick = new ForeverBrick(firstSprite);
+
+		brickList.add(firstForeverBrick);
+		brickList.add(new ShowBrick(firstSprite));
+		brickList.add(secondForeverBrick);
+		brickList.add(new ComeToFrontBrick(firstSprite));
+		brickList.add(new LoopEndBrick(firstSprite, secondForeverBrick));
+		brickList.add(new LoopEndBrick(firstSprite, firstForeverBrick));
+
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(testScript);
+
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		return brickList;
+	}
+
+	public static void createTestProjectForActionModeDelete() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+
+		Script firstScript = new StartScript(firstSprite);
+
+		ArrayList<Brick> firstBrickList = new ArrayList<Brick>();
+		firstBrickList.add(new HideBrick(firstSprite));
+		firstBrickList.add(new ShowBrick(firstSprite));
+
+		for (Brick brick : firstBrickList) {
+			firstScript.addBrick(brick);
+		}
+
+		Script secondScript = new WhenScript(firstSprite);
+		ArrayList<Brick> secondBrickList = new ArrayList<Brick>();
+		secondBrickList.add(new HideBrick(firstSprite));
+		secondBrickList.add(new ShowBrick(firstSprite));
+
+		for (Brick brick : secondBrickList) {
+			secondScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(firstScript);
+		firstSprite.addScript(secondScript);
+
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(firstScript);
+
 	}
 
 	public static void createEmptyProject() {
