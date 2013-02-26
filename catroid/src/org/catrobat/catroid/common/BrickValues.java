@@ -52,7 +52,7 @@ public class BrickValues {
 	public static final Float WAIT = 1000f;
 	public static final String MESSAGE = "message 1";
 	public static final String NOTE = "add comment here...";
-	public static final int REPEAT = 3;
+	public static final int REPEAT = 10;
 
 	//Constants Lego
 	public static final String MOTOR = "A";

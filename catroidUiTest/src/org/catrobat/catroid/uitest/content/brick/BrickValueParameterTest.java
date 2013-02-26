@@ -22,8 +22,13 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -57,6 +62,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		}
 
 		super.setUp();
+		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 		getIntoActivity();
 	}
@@ -344,6 +350,22 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		}
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
+	}
+
+	private void createProject() {
+		Project project = new Project(null, UiTestUtils.PROJECTNAME1);
+		Sprite sprite = new Sprite("Dog");
+		Sprite sprite1 = new Sprite("Cat");
+		Script script = new StartScript(sprite);
+		Script script1 = new StartScript(sprite1);
+		sprite.addScript(script);
+		sprite.addScript(script1);
+		project.addSprite(sprite);
+		project.addSprite(sprite1);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(script);
 	}
 
 }
