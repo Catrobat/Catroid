@@ -398,7 +398,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		solo.goBack();
-		assertTrue("The name of the current project is not displayed", solo.searchText(projectCurrentOne));
+		assertTrue("The name of the current project is not displayed on the continue button", solo.getButton(0)
+				.getText().toString().endsWith(projectCurrentOne));
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -406,6 +407,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		solo.goBack();
-		assertTrue("The name of the current project is not displayed", solo.searchText(projectCurrentTwo));
+		assertTrue("The name of the current project is not displayed on the continue button", solo.getButton(0)
+				.getText().toString().endsWith(projectCurrentTwo));
 	}
 }
