@@ -74,7 +74,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class FormulaEditorVariableListFragment extends SherlockListFragment implements Dialog.OnKeyListener {
+public class FormulaEditorVariableListFragment_ extends SherlockListFragment implements Dialog.OnKeyListener {
 
 	String mTag;
 	public static final String VARIABLE_TAG = "variableFragment";
@@ -88,7 +88,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	private RadioButton rightDialogRadioButton;
 	private Dialog dialogNewVariable;
 
-	public FormulaEditorVariableListFragment(FormulaEditorEditText formulaEditorEditText, String actionBarTitle,
+	public FormulaEditorVariableListFragment_(FormulaEditorEditText formulaEditorEditText, String actionBarTitle,
 			String fragmentTag) {
 		mFormulaEditorEditText = formulaEditorEditText;
 		mActionBarTitle = actionBarTitle;
