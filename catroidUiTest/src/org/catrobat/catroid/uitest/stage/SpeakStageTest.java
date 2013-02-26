@@ -50,7 +50,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageActivity> {
-	private Solo solo;
+	private static Solo solo;
 	private TextToSpeechMock textToSpeechMock;
 	private Object textToSpeechInitLock = new Object();
 	private Sprite sprite1, sprite2, sprite3;
@@ -58,17 +58,19 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 
 	public SpeakStageTest() throws InterruptedException {
 		super(PreStageActivity.class);
-		Thread.sleep(2000);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		createProjectToInitializeTextToSpeech();
-		solo = new Solo(getInstrumentation(), getActivity());
-		if (textToSpeechMock == null) {
+		if (solo == null) {
+			solo = new Solo(getInstrumentation(), getActivity());
+			solo.waitForActivity(PreStageActivity.class.getName());
+			TextToSpeech textToSpeech = (TextToSpeech) Reflection.getPrivateField(PreStageActivity.class,
+					"textToSpeech");
 			//			synchronized (textToSpeechInitLock) {
 			textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext());
-			Thread.sleep(2000);
+			textToSpeechMock.setTextToSpeech(textToSpeech);
 			//				textToSpeechInitLock.wait(2000);
 			//			}
 			Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
@@ -87,13 +89,105 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		textToSpeechMock = null;
 	}
 
-	public void testNullText() {
+	//	public void testNullText() {
+	//		assertEquals("Initialized TextToSpeechMock with wrong text value", null, textToSpeechMock.text);
+	//		PreStageActivity.textToSpeech(null, null, new HashMap<String, String>());
+	//		assertEquals("Null-text isn't converted into empty string", "", textToSpeechMock.text);
+	//	}
+	//
+	//	public void testUtteranceId() throws InterruptedException {
+	//		sprite1.createStartScriptActionSequence();
+	//		for (int index = 0; index < 3; index++) {
+	//			sprite1.look.getActions().get(0).restart();
+	//			do {
+	//				sprite1.look.act(1.0f);
+	//			} while (!sprite1.look.getAllActionsAreFinished());
+	//			//			AtomicInteger utteranceIdPool = (AtomicInteger) Reflection.getPrivateField(SpeakAction.class,
+	//			//					"utteranceIdPool");
+	//			//			assertEquals("TextToSpeech exectuted with wrong utterance id", String.valueOf(index), utteranceIdPool.get());
+	//			assertEquals("TextToSpeech exectuted with wrong utterance id", String.valueOf(index),
+	//					textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
+	//		}
+	//	}
+	//
+	//	public void testNormalBehavior() throws InterruptedException {
+	//		sprite1.createStartScriptActionSequence();
+	//
+	//		do {
+	//			sprite1.look.act(1.0f);
+	//		} while (!sprite1.look.getAllActionsAreFinished());
+	//
+	//		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
+	//		//		AtomicInteger utteranceIdPool = (AtomicInteger) Reflection
+	//		//				.getPrivateField(SpeakAction.class, "utteranceIdPool");
+	//		//
+	//		//		assertEquals("TextToSpeech exectuted with wrong utterance id", "0", utteranceIdPool.get());
+	//		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
+	//				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
+	//
+	//		//		String text = ((SpeakAction) ((SequenceAction) sprite1.look.getActions().get(0)).getActions().get(0)).getText();
+	//		//		assertEquals("TextToSpeech executed with wrong text", textMessage, text);
+	//		assertEquals("TextToSpeech executed with wrong text", textMessage, textToSpeechMock.text);
+	//	}
+	//
+	//	public void testSuccessiveTextToSpeech() throws InterruptedException {
+	//		sprite1.createStartScriptActionSequence();
+	//		sprite2.createStartScriptActionSequence();
+	//
+	//		do {
+	//			sprite1.look.act(1.0f);
+	//		} while (!sprite1.look.getAllActionsAreFinished());
+	//
+	//		assertTrue("First SpeakBrick not finished yet", sprite1.look.getAllActionsAreFinished());
+	//
+	//		do {
+	//			sprite2.look.act(1.0f);
+	//		} while (!sprite2.look.getAllActionsAreFinished());
+	//
+	//		assertTrue("First SpeakBrick not finished yet", sprite2.look.getAllActionsAreFinished());
+	//	}
+
+	//	public void testSimultaneousTextToSpeech() throws InterruptedException {
+	//		//		SpeakBrick firstSpeakBrick = new SpeakBrick(null, "This very long text will be interrupted.");
+	//		//		NonBlockingSpeakBrickExecutionThread firstSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
+	//		//				firstSpeakBrick);
+	//		//
+	//		//		SpeakBrick interruptSpeakBrick = new SpeakBrick(null, "Interrupt.");
+	//		//		NonBlockingSpeakBrickExecutionThread interruptSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
+	//		//				interruptSpeakBrick);
+	//		//
+	//		//		firstSpeakBrickThread.start();
+	//		//		synchronized (this) {
+	//		//			wait(50);
+	//		//		}
+	//		//		assertFalse("First SpeakBrick already executed", firstSpeakBrickThread.isFinished());
+	//		//		assertFalse("Interrupted SpeakBrick already executed", interruptSpeakBrickThread.isFinished());
+	//		//
+	//		//		interruptSpeakBrickThread.start();
+	//		//		synchronized (this) {
+	//		//			wait(100);
+	//		//		}
+	//		//		assertTrue("First SpeakBrick not finished yet", firstSpeakBrickThread.isFinished());
+	//		//		assertFalse("Interrupted SpeakBrick not finished yet", interruptSpeakBrickThread.isFinished());
+	//		//
+	//		//		interruptSpeakBrickThread.join(1500);
+	//		//		assertTrue("Interrupted SpeakBrick not finished yet", interruptSpeakBrickThread.isFinished());
+	//
+	//		//		sprite3.createStartScriptActionSequence();
+	//		//
+	//		//		do {
+	//		//			sprite3.look.act(1.0f);
+	//		//		} while (!sprite3.look.getAllActionsAreFinished());
+	//		//
+	//		//		assertTrue("First SpeakBrick not finished yet", sprite3.look.getAllActionsAreFinished());
+	//		assertTrue("First SpeakBrick not finished yet", true);
+	//	}
+
+	public void testComplexSpeak() {
 		assertEquals("Initialized TextToSpeechMock with wrong text value", null, textToSpeechMock.text);
 		PreStageActivity.textToSpeech(null, null, new HashMap<String, String>());
 		assertEquals("Null-text isn't converted into empty string", "", textToSpeechMock.text);
-	}
 
-	public void testUtteranceId() throws InterruptedException {
 		sprite1.createStartScriptActionSequence();
 		for (int index = 0; index < 3; index++) {
 			sprite1.look.getActions().get(0).restart();
@@ -103,24 +197,20 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 			assertEquals("TextToSpeech exectuted with wrong utterance id", String.valueOf(index),
 					textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 		}
-	}
+		sprite1.look.clearActions();
 
-	public void testNormalBehavior() throws InterruptedException {
 		sprite1.createStartScriptActionSequence();
-
 		do {
 			sprite1.look.act(1.0f);
 		} while (!sprite1.look.getAllActionsAreFinished());
 
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
-
-		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
+		assertEquals("TextToSpeech exectuted with wrong utterance id", "3",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 
 		assertEquals("TextToSpeech executed with wrong text", textMessage, textToSpeechMock.text);
-	}
+		sprite1.look.clearActions();
 
-	public void testSuccessiveTextToSpeech() throws InterruptedException {
 		sprite1.createStartScriptActionSequence();
 		sprite2.createStartScriptActionSequence();
 
@@ -135,42 +225,18 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		} while (!sprite2.look.getAllActionsAreFinished());
 
 		assertTrue("First SpeakBrick not finished yet", sprite2.look.getAllActionsAreFinished());
-	}
 
-	public void testSimultaneousTextToSpeech() throws InterruptedException {
-		//		SpeakBrick firstSpeakBrick = new SpeakBrick(null, "This very long text will be interrupted.");
-		//		NonBlockingSpeakBrickExecutionThread firstSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
-		//				firstSpeakBrick);
-		//
-		//		SpeakBrick interruptSpeakBrick = new SpeakBrick(null, "Interrupt.");
-		//		NonBlockingSpeakBrickExecutionThread interruptSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
-		//				interruptSpeakBrick);
-		//
-		//		firstSpeakBrickThread.start();
-		//		synchronized (this) {
-		//			wait(50);
-		//		}
-		//		assertFalse("First SpeakBrick already executed", firstSpeakBrickThread.isFinished());
-		//		assertFalse("Interrupted SpeakBrick already executed", interruptSpeakBrickThread.isFinished());
-		//
-		//		interruptSpeakBrickThread.start();
-		//		synchronized (this) {
-		//			wait(100);
-		//		}
-		//		assertTrue("First SpeakBrick not finished yet", firstSpeakBrickThread.isFinished());
-		//		assertFalse("Interrupted SpeakBrick not finished yet", interruptSpeakBrickThread.isFinished());
-		//
-		//		interruptSpeakBrickThread.join(1500);
-		//		assertTrue("Interrupted SpeakBrick not finished yet", interruptSpeakBrickThread.isFinished());
+		sprite1.look.clearActions();
+		sprite2.look.clearActions();
 
-		//		sprite3.createStartScriptActionSequence();
-		//
-		//		do {
-		//			sprite3.look.act(1.0f);
-		//		} while (!sprite3.look.getAllActionsAreFinished());
-		//
-		//		assertTrue("First SpeakBrick not finished yet", sprite3.look.getAllActionsAreFinished());
-		assertTrue("First SpeakBrick not finished yet", true);
+		sprite3.createStartScriptActionSequence();
+
+		do {
+			sprite3.look.act(1.0f);
+		} while (!sprite3.look.getAllActionsAreFinished());
+
+		assertTrue("First SpeakBrick not finished yet", sprite3.look.getAllActionsAreFinished());
+		sprite3.look.clearActions();
 	}
 
 	private void createProjectToInitializeTextToSpeech() {
@@ -269,21 +335,21 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		public TextToSpeechMock(Context context) {
 			super(context, new OnInitListener() {
 				public void onInit(int status) {
-					if (status == SUCCESS) {
-						//						synchronized (textToSpeechInitLock) {
-						textToSpeechMock.textToSpeech = (TextToSpeech) Reflection.getPrivateField(
-								PreStageActivity.class, "textToSpeech");
-						//							textToSpeechInitLock.notifyAll();
-						//						}
-					} else {
-						fail("TextToSpeech couldn't be initialized");
-					}
+					//					if (status == SUCCESS) {
+					//						//						synchronized (textToSpeechInitLock) {
+					//						textToSpeechMock.textToSpeech = (TextToSpeech) Reflection.getPrivateField(
+					//								PreStageActivity.class, "textToSpeech");
+					//						//							textToSpeechInitLock.notifyAll();
+					//						//						}
+					//					} else {
+					//						fail("TextToSpeech couldn't be initialized");
+					//					}
 				}
 			});
 		}
 
-		public boolean isTextToSpeechLoaded() {
-			return (textToSpeech != null);
+		public void setTextToSpeech(TextToSpeech textToSpeech) {
+			this.textToSpeech = textToSpeech;
 		}
 
 		@Override
