@@ -498,7 +498,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		//ProjectManager.INSTANCE.saveProject();
 		//handleScriptDelete();
 		int brickPosition = adapter.brickList.indexOf(brick);
-		adapter.removeFromBrickListAndProject(brickPosition);
+		adapter.removeFromBrickListAndProject(brickPosition, true);
 	}
 
 	@Override

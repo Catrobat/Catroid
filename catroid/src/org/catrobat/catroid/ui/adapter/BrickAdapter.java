@@ -411,6 +411,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		int[] returnValue = new int[2];
 
 		if (position >= brickList.size()) {
+
+			//just a hack for the moment:
+			position = brickList.size() - 1;
+
 			returnValue[0] = sprite.getNumberOfScripts() - 1;
 			if (returnValue[0] < 0) {
 				returnValue[0] = 0;
@@ -561,10 +565,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	@Override
 	public void remove(int iWillBeIgnored) {
 		// list will not be changed until user action ACTION_UP - therefore take the value from the begin
-		removeFromBrickListAndProject(fromBeginDrag);
+		removeFromBrickListAndProject(fromBeginDrag, false);
 	}
 
-	public void removeFromBrickListAndProject(int index) {
+	public void removeFromBrickListAndProject(int index, boolean removeScript) {
 		if (addingNewBrick) {
 			brickList.remove(draggedBrick);
 		} else {
@@ -577,6 +581,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				}
 			} else {
 				script.removeBrick(brick);
+			}
+			if (removeScript) {
+				brickList.remove(script);
 			}
 		}
 
@@ -772,7 +779,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				if (items.get(item).equals(context.getText(R.string.brick_context_dialog_move_brick))) {
 					view.performLongClick();
 				} else if (items.get(item).equals(context.getText(R.string.brick_context_dialog_delete_brick))) {
-					removeFromBrickListAndProject(itemPosition);
+					removeFromBrickListAndProject(itemPosition, false);
 				} else if (items.get(item).equals(context.getText(R.string.brick_context_dialog_animate_bricks))) {
 					int itemPosition = calculateItemPositionAndTouchPointY(view);
 					Brick brick = brickList.get(itemPosition);
@@ -849,14 +856,98 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			if (selectMode == Constants.SINGLE_SELECT) {
 				clearCheckedItems();
 			}
-			checkedBricks.add(brick);
+			if (brick.getCheckBox().isChecked() && smartBrickSelection(brick, isChecked)) {
+				return;
+			}
+			addElementToCheckedBricks(brick);
 		} else {
+			if (!brick.getCheckBox().isChecked() && smartBrickSelection(brick, isChecked)) {
+				return;
+			}
 			checkedBricks.remove(brick);
 		}
 		notifyDataSetChanged();
 
 		if (onBrickEditListener != null) {
 			onBrickEditListener.onBrickChecked();
+		}
+	}
+
+	private boolean smartBrickSelection(Brick brick, boolean check) {
+
+		if (brick instanceof ScriptBrick) {
+			if (check) {
+				addElementToCheckedBricks(brick);
+			} else {
+				checkedBricks.remove(brick);
+			}
+			brick.getCheckBox().setChecked(check);
+			notifyDataSetChanged();
+
+			int brickPosition = brickList.indexOf(brick) + 1;
+			while ((brickPosition < brickList.size()) && !(brickList.get(brickPosition) instanceof ScriptBrick)) {
+				Brick currentBrick = brickList.get(brickPosition);
+				if (check) {
+					addElementToCheckedBricks(currentBrick);
+				} else {
+					checkedBricks.remove(currentBrick);
+				}
+				currentBrick.getCheckBox().setChecked(check);
+				notifyDataSetChanged();
+				brickPosition++;
+			}
+			if (onBrickEditListener != null) {
+				onBrickEditListener.onBrickChecked();
+			}
+			return true;
+		} else if (brick instanceof NestingBrick) {
+			int counter = 1;
+			int from = 0;
+			int to = 0;
+			for (Brick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts()) {
+				if (check) {
+					addElementToCheckedBricks(currentBrick);
+				} else {
+					checkedBricks.remove(currentBrick);
+				}
+				if (counter == 1) {
+					from = brickList.indexOf(currentBrick);
+					counter++;
+				} else {
+					to = brickList.indexOf(currentBrick);
+				}
+				currentBrick.getCheckBox().setChecked(check);
+				notifyDataSetChanged();
+
+			}
+			if (from > to) {
+				int temp = from;
+				from = to;
+				to = temp;
+			}
+			from++;
+			while (from < to) {
+				Brick currentBrick = brickList.get(from);
+				if (check) {
+					addElementToCheckedBricks(currentBrick);
+				} else {
+					checkedBricks.remove(currentBrick);
+				}
+				currentBrick.getCheckBox().setChecked(check);
+				notifyDataSetChanged();
+				from++;
+			}
+			if (onBrickEditListener != null) {
+				onBrickEditListener.onBrickChecked();
+			}
+			return true;
+		}
+		return false;
+	}
+
+	private void addElementToCheckedBricks(Brick brick) {
+		if (!(checkedBricks.contains(brick))) {
+			checkedBricks.add(brick);
 		}
 	}
 }

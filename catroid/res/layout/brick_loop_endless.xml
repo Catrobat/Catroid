@@ -20,13 +20,13 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
->
+    android:orientation="horizontal" >
 
     <CheckBox
         android:id="@+id/brick_loop_endless_checkbox"
@@ -34,13 +34,15 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Control.Small"
-    android:background="@drawable/brick_yellow_end" >
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_loop_end" />
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/BrickContainer.Control.Small"
+        android:background="@drawable/brick_yellow_end" >
 
-</LinearLayout>
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_loop_end" />
+    </LinearLayout>
+
 </LinearLayout>

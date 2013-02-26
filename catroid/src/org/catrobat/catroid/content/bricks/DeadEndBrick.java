@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-
 public interface DeadEndBrick extends Brick {
 
 }
