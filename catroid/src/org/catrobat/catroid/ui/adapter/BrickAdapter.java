@@ -960,14 +960,14 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 	}
 
-	public void handleScriptDelete(Script scriptToDelete) {
-		sprite.removeScript(scriptToDelete);
-		if (sprite.getNumberOfScripts() == 0) {
+	public void handleScriptDelete(Sprite spriteToEdit, Script scriptToDelete) {
+		spriteToEdit.removeScript(scriptToDelete);
+		if (spriteToEdit.getNumberOfScripts() == 0) {
 			ProjectManager.INSTANCE.setCurrentScript(null);
 			updateProjectBrickList();
 		} else {
-			int lastScriptIndex = sprite.getNumberOfScripts() - 1;
-			Script lastScript = sprite.getScript(lastScriptIndex);
+			int lastScriptIndex = spriteToEdit.getNumberOfScripts() - 1;
+			Script lastScript = spriteToEdit.getScript(lastScriptIndex);
 			ProjectManager.INSTANCE.setCurrentScript(lastScript);
 			updateProjectBrickList();
 		}

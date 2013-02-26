@@ -212,6 +212,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public boolean onContextItemSelected(android.view.MenuItem item) {
+
 		switch (item.getItemId()) {
 			case R.id.script_menu_delete: {
 				adapter.handleScriptDelete(scriptToEdit);
@@ -487,7 +488,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		int brickPosition = adapter.brickList.indexOf(brick);
 		adapter.removeFromBrickListAndProject(brickPosition, true);
 		if (brick instanceof ScriptBrick) {
-			adapter.handleScriptDelete(scriptToEdit);
+			//adapter.handleScriptDelete(scriptToEdit);
 		}
 	}
 
