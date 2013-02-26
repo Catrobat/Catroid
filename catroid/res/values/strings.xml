@@ -302,7 +302,6 @@
     <string name="brick_repeat">Repeat</string>
     <string name="times_label">times</string>
     <string name="brick_loop_end">End of loop</string>
-    <string name="brick_broadcast_prototype">"message 1"</string>
     <string name="brick_note_prototype">"add comment here..."</string>
     
     <!--  -->

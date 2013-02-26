@@ -298,7 +298,6 @@
     <string name="brick_repeat">Wiederhole</string>
     <string name="times_label">mal</string>
     <string name="brick_loop_end">Wiederholen beenden</string>
-    <string name="brick_broadcast_prototype">"Nachricht 1"</string>
     <string name="brick_note_prototype">"Anmerkung hier hinzufügen..." </string>
     <!--  -->
 
