@@ -56,22 +56,24 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 	private Sprite sprite1, sprite2, sprite3;
 	private String textMessage = "This is a test text.";
 
-	public SpeakStageTest() {
+	public SpeakStageTest() throws InterruptedException {
 		super(PreStageActivity.class);
+		Thread.sleep(2000);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		createProjectToInitializeTextToSpeech();
 		solo = new Solo(getInstrumentation(), getActivity());
-		//		synchronized (textToSpeechInitLock) {
-		textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext());
-		//			textToSpeechInitLock.wait(2000);
-		//		}
-		while (!textToSpeechMock.isTextToSpeechLoaded()) {
+		if (textToSpeechMock == null) {
+			//			synchronized (textToSpeechInitLock) {
+			textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext());
+			Thread.sleep(2000);
+			//				textToSpeechInitLock.wait(2000);
+			//			}
+			Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
+			Reflection.setPrivateField(SpeakAction.class, "utteranceIdPool", new AtomicInteger());
 		}
-		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
-		Reflection.setPrivateField(SpeakAction.class, "utteranceIdPool", new AtomicInteger());
 
 	}
 
