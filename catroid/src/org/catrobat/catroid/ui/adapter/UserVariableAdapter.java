@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.adapter;
 
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -176,7 +177,8 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		View view = convertView;
 		ViewHolder holder;
 		if (view == null) {
-			view = View.inflate(context, android.R.layout.simple_spinner_dropdown_item, null);
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			view =  inflater.inflate(android.R.layout.simple_spinner_dropdown_item, parent, false);
 			holder = new ViewHolder();
 			holder.text1 = (TextView) view.findViewById(android.R.id.text1);
 			view.setTag(holder);
