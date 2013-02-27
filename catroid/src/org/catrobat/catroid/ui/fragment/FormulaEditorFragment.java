@@ -127,18 +127,25 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			activity.findViewById(R.id.bottom_bar).setVisibility(View.GONE);
 
 		} else if (formulaEditorFragment.isHidden()) {
-			FormulaEditorFragment updatedFormulaEditorFragment = new FormulaEditorFragment(brick, formula);
-			fragTransaction.remove(formulaEditorFragment);
-			fragTransaction.add(R.id.script_fragment_container, updatedFormulaEditorFragment,
-					FORMULA_EDITOR_FRAGMENT_TAG);
+			formulaEditorFragment.updateBrickViewAndFormula(brick, formula);
 			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
-			fragTransaction.show(updatedFormulaEditorFragment);
+			fragTransaction.show(formulaEditorFragment);
 			fragTransaction.commit();
 			activity.findViewById(R.id.bottom_bar).setVisibility(View.GONE);
 		} else {
 			formulaEditorFragment.setInputFormula(formula, SET_FORMULA_ON_SWITCH_EDIT_TEXT);
 		}
 
+	}
+
+	public void updateBrickViewAndFormula(Brick newBrick, Formula newFormula) {
+		formulaEditorBrick.removeAllViews();
+		View newBrickView = newBrick.getView(context, 0, null);
+		formulaEditorBrick.addView(newBrickView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.MATCH_PARENT));
+		brickView = newBrickView;
+		currentFormula = newFormula;
+		setInputFormula(newFormula, SET_FORMULA_ON_CREATE_VIEW);
 	}
 
 	private void onUserDismiss() {
@@ -436,6 +443,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 		if (fragment == null) {
 			fragment = new FormulaEditorListFragment(formulaEditorEditText, context.getString(actionbarResId), tag);
+			fragmentManager.beginTransaction().add(R.id.script_fragment_container, fragment, tag).commit();
 		}
 		((FormulaEditorListFragment) fragment).showFragment(context);
 	}
@@ -447,6 +455,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		if (fragment == null) {
 			fragment = new FormulaEditorVariableListFragment(formulaEditorEditText, context.getString(actionbarResId),
 					tag);
+			fragmentManager.beginTransaction().add(R.id.script_fragment_container, fragment, tag).commit();
 		}
 		((FormulaEditorVariableListFragment) fragment).showFragment(context);
 	}

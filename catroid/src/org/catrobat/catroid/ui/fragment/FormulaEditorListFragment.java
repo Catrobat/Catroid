@@ -160,7 +160,6 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		Fragment formulaEditorFragment = fragmentManager
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		fragTransaction.hide(formulaEditorFragment);
-		fragTransaction.add(R.id.script_fragment_container, this, mTag);
 		fragTransaction.show(this);
 		fragTransaction.commit();
 	}

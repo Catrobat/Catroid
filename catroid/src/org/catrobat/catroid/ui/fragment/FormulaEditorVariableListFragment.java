@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -46,7 +47,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
@@ -70,9 +70,9 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
 
-public class FormulaEditorVariableListFragment extends SherlockListFragment implements Dialog.OnKeyListener, UserVariableAdapter.OnCheckedChangeListener, UserVariableAdapter.OnListItemClickListener {
+public class FormulaEditorVariableListFragment extends SherlockListFragment implements Dialog.OnKeyListener,
+		UserVariableAdapter.OnCheckedChangeListener, UserVariableAdapter.OnListItemClickListener {
 
 	String mTag;
 	public static final String VARIABLE_TAG = "variableFragment";
@@ -249,7 +249,6 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 									adapter.notifyDataSetChanged();
 								}
 
-
 							}
 						}).create();
 
@@ -397,7 +396,6 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		Fragment formulaEditorFragment = fragmentManager
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		fragTransaction.hide(formulaEditorFragment);
-		fragTransaction.add(R.id.script_fragment_container, this, FormulaEditorVariableListFragment.VARIABLE_TAG);
 		fragTransaction.show(this);
 		fragTransaction.commit();
 
@@ -457,8 +455,9 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			UserVariablesContainer userVariablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
-			for(UserVariable var : adapter.getCheckedUserVariables()) {
+			UserVariablesContainer userVariablesContainer = ProjectManager.getInstance().getCurrentProject()
+					.getUserVariables();
+			for (UserVariable var : adapter.getCheckedUserVariables()) {
 				userVariablesContainer.deleteUserVariableByName(var.getName());
 			}
 			adapter.setSelectMode(Constants.SELECT_NONE);
