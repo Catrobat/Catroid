@@ -52,6 +52,7 @@ public class Look extends Image {
 	public boolean show;
 	protected Pixmap pixmap;
 	private HashMap<String, ArrayList<BroadcastScript>> broadcastMap;
+	private Set<String> addedBroadcastSequences;
 	protected HashMap<String, ArrayList<SequenceAction>> broadcastSequenceList;
 	protected HashMap<String, ArrayList<SequenceAction>> broadcastWaitSequenceList;
 	protected ArrayList<SequenceAction> whenSequenceList;
@@ -118,17 +119,12 @@ public class Look extends Image {
 
 	public void doHandleBroadcastEvent(String broadcastMessage) {
 		if (broadcastSequenceList.containsKey(broadcastMessage)) {
-			Set<String> keys = broadcastSequenceList.keySet();
-			if (broadcastFirst) {
-				for (String key : keys) {
-					for (SequenceAction action : broadcastSequenceList.get(key)) {
-						addAction(action);
-					}
-				}
-				broadcastFirst = false;
-			}
 			for (SequenceAction action : broadcastSequenceList.get(broadcastMessage)) {
-				action.restart();
+				if (action.getActor() == null) {
+					addAction(action);
+				} else {
+					action.restart();
+				}
 			}
 		}
 	}
