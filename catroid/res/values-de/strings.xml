@@ -301,6 +301,7 @@
     <string name="brick_if_else">sonst</string>
     <string name="brick_if_end">sonst Ende</string>
     <string name="brick_set_variable">Setze Variable</string>
+    <string name="brick_change_variable">Ändere Variable</string>
     <!--  -->
 
 
