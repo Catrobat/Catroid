@@ -110,8 +110,6 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		}
 		holder.text1.setText(variable.getName());
 
-		view.setClickable(true);
-		view.setFocusable(true);
 
 		if(onListItemClickListener != null) {
 			view.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +122,9 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 
 		if(holder.checkbox == null)
 			return view;
+
+		view.setClickable(true);
+		view.setFocusable(true);
 
 		if (selectMode != Constants.SELECT_NONE) {
 			holder.checkbox.setVisibility(View.VISIBLE);
