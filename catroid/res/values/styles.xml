@@ -112,17 +112,22 @@
     </style>
 
     <style name="ProgramMenuButton">
+        <item name="android:layout_marginTop">3dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0dip</item>
-        <item name="android:layout_weight">0.3</item>
-        <item name="android:paddingLeft">20dp</item>
-        <item name="android:paddingRight">20dip</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:background">@drawable/program_menu_button_background</item>
+        <item name="android:drawablePadding">25dp</item>
+        <item name="android:drawableRight">@drawable/ic_main_menu_button_arrow</item>
         <item name="android:gravity">left|center_vertical</item>
-        <item name="android:drawablePadding">10dip</item>
-        <item name="android:textSize">@dimen/text_size_xlarge</item>
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:background">@null</item>
-        <item name="android:singleLine">true</item>
+        <item name="android:paddingLeft">25dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:textSize">@dimen/text_size_xxlarge</item>
+        <item name="android:textColor">@color/program_menu_button_text_color</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">@color/program_menu_button_text_shadow_color</item>
+        <item name="android:shadowRadius">1.5</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">3</item>
     </style>
 
     <style name="BrickText">

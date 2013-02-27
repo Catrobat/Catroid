@@ -26,6 +26,7 @@
     android:id="@+id/bottom_bar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/actionbar_height"
+    android:background="@drawable/bottom_bar_background"
     android:layout_alignParentBottom="true"
     android:orientation="horizontal" >
 
@@ -34,7 +35,7 @@
         android:layout_width="0dip"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="#B3B3B3"
+        android:background="@drawable/bottom_bar_background"
         android:clickable="true"
         android:onClick="handleAddButton"
         android:orientation="horizontal" >
@@ -63,15 +64,18 @@
     <ImageView
         android:id="@+id/bottom_bar_separator"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@drawable/bottombar_separator" />
+        android:layout_height="@dimen/actionbar_height"
+        android:scaleType="fitXY"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:src="@drawable/bottombar_separator" />
 
     <LinearLayout
         android:id="@+id/button_play"
         android:layout_width="0dip"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="#B3B3B3"
+        android:background="@drawable/bottom_bar_background"
         android:clickable="true"
         android:onClick="handlePlayButton"
         android:orientation="horizontal" >
