@@ -26,6 +26,7 @@ import java.util.UUID;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 
@@ -74,6 +75,7 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						handleOkButton();
 					}
 				}).setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
 					@Override
@@ -140,6 +142,10 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 		}
 		Toast.makeText(context, R.string.success_project_download, Toast.LENGTH_SHORT).show();
 		dismiss();
+
+		StatusBarNotificationManager.INSTANCE.downloadProjectName.remove(projectName);
+		StatusBarNotificationManager.INSTANCE.downloadProjectZipFileString.remove(zipFileString);
+
 		return true;
 	}
 
