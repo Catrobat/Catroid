@@ -65,7 +65,7 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 	private static final int FORMULA_EDITOR_EDIT_TEXT_ID = 1;
 	private static final int FORMULA_EDITOR_EDIT_TEXT_RID = R.id.formula_editor_edit_field;
 
-	private int totalLinesForTheInput;
+	private String veryLongFormulaString = "9999999999999999999.888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888877777777777777777777777777777777777777777777777777777777777777777777777777777666666666666666666666666666666666666666666666666666666666666666666665555555555555555555555555555555555555555555555555555555555555433";
 
 	public FormulaEditorEditTextTest() {
 		super(MainMenuActivity.class);
@@ -81,18 +81,10 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
-		this.project = null;
-		solo.sleep(1000);
 		super.tearDown();
-
+		solo = null;
 	}
 
 	private void createProject(String projectName) throws InterruptedException {
@@ -477,21 +469,21 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 
 		solo.clickOnEditText(1);
 
-		assertTrue("Text could not be found!", solo.searchText("999999999999999999 ")); //note always ALL the text can be found by solo, not just the part currently visible due to scroll position 
-		setAbsoluteCursorPosition("999999999999999999".length());
+		assertTrue("Text could not be found!", solo.searchText("9999999999999999999")); //note always ALL the text can be found by solo, not just the part currently visible due to scroll position 
+		setAbsoluteCursorPosition("9999999999999999999".length());
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
-		assertTrue("Wrong number of characters deleted!", solo.searchText("9999999999999999 "));
+		assertTrue("Wrong number of characters deleted!", solo.searchText("99999999999999999"));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
-		setAbsoluteCursorPosition("9999999999999999999 + ".length() * totalLinesForTheInput - 4);
+		setAbsoluteCursorPosition(veryLongFormulaString.length());
 
-		assertTrue("Text could not be found!", solo.searchText(" 646464646464646464 "));
+		assertTrue("Text could not be found!", solo.searchText("33 "));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		assertTrue("Wrong number of characters deleted!", solo.searchText(" 6464646464646464 "));
+		assertTrue("Wrong number of characters deleted!", solo.searchText("4 "));
 
 		solo.goBack();
 		solo.goBack();
@@ -639,9 +631,6 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_round));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_e));
-
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_pi));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
@@ -699,15 +688,17 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 
 	public void testComputeDialog() {
 
-		solo.clickOnEditText(0);
+		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
 		View preview = UiTestUtils.getViewContainerByIds(solo, R.id.brick_change_size_by_edit_text,
 				R.id.formula_editor_brick_space);
 
+		solo.sleep(250);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_2));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
+		solo.sleep(250);
 		TextView computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
 		assertEquals("computeTextView did not contain the correct value", "-2.0", computeTextView.getText().toString());
 
@@ -724,6 +715,7 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
 		computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
+		solo.sleep(250);
 		assertEquals("computeTextView did not contain the correct value", "-8.11", computeTextView.getText().toString());
 
 		solo.goBack();
@@ -743,6 +735,7 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
+		solo.sleep(250);
 		computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
 		int maxLoops = 10;
 		String lastComputeString = computeTextView.getText().toString();
@@ -767,35 +760,7 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "999999999999999999"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "888888888888888888"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "777777777777777777"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "666666666666666666"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "555555555555555555"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "444444444444444444"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "333333333333333333"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "222222222222222222"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "111111111111111111"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "000000000000000000"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "919191919191919191"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "828282828282828282"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "737373737373737373"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "646464646464646464"));
-		totalLinesForTheInput = internTokenList.size();
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, veryLongFormulaString));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement root = internParser.parseFormula();
 		Formula formula = new Formula(root);

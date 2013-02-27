@@ -78,6 +78,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -233,6 +234,13 @@ public class UiTestUtils {
 			solo.sendKey(Solo.ENTER);
 		}
 		solo.sleep(50);
+	}
+
+	public static void clickEnterClose(Solo solo, EditText editText, String value, int buttonIndex) {
+		Log.v("debug", "Solo.Enter clickEnterClose");
+		solo.enterText(editText, value);
+		solo.waitForText(solo.getString(R.string.ok));
+		solo.clickOnButton(buttonIndex);
 	}
 
 	private static void initBrickCategoryMap() {

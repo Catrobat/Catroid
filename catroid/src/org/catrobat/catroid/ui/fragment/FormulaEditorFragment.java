@@ -399,7 +399,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	}
 
 	public void showToast(int ressourceId) {
-		Toast.makeText(context, getString(ressourceId), Toast.LENGTH_SHORT).show();
+		Toast.makeText(context, getString(ressourceId), Toast.LENGTH_LONG).show();
 	}
 
 	@Override
