@@ -608,68 +608,88 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_abs));
-
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.scrollUp();
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_sin));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_function_cos));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_cos));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_function_tan));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_tan));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_function_ln));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_ln));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_function_log));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_log));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_function_sqrt));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_sqrt));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_function_round));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_round));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_function_pi));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_pi));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_x_acceleration));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_x_acceleration));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_y_acceleration));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_y_acceleration));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_z_acceleration));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_z_acceleration));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_z_orientation));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_z_orientation));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_y_orientation));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_y_orientation));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_x_orientation));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_x_orientation));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_look_x));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_look_x));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_look_y));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_look_y));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_look_ghosteffect));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_look_ghosteffect));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_look_brightness));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_look_brightness));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_look_size));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_look_size));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_look_rotation));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_look_rotation));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_look_layer));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_look_layer));
 
 		String editTextString = formulaEditorEditText.getText().toString();

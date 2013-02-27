@@ -21,25 +21,25 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources>
+<!--
+     Copyright (C) 2007 The Android Open Source Project
 
-    <dimen name="actionbar_height">48dip</dimen>
-    <dimen name="actionbar_catroid_logo">110dip</dimen>
-    <dimen name="project_thumbnail_height">133dip</dimen>
-    <dimen name="project_thumbnail_width">80dip</dimen>
-    <dimen name="tab_widget_height">40dip</dimen>
-    <dimen name="text_size_small">13sp</dimen>
-    <dimen name="text_size_medium">16sp</dimen>
-    <dimen name="text_size_large">18sp</dimen>
-    <dimen name="text_size_xlarge">20sp</dimen>
-    <dimen name="text_size_xxlarge">26sp</dimen>
-    <dimen name="brick_edit_text_and_prototype_text_view_minimum_width">48dp</dimen>
-    <dimen name="brick_height_small">72dp</dimen>
-    <dimen name="brick_height_medium">96dp</dimen>
-    <dimen name="brick_height_big">120dp</dimen>
-    <dimen name="key_height">35dip</dimen>
-    <dimen name="key_margin">1dip</dimen>
-    <dimen name="text_size_xxsmall">10sp</dimen>
-    <dimen name="text_size_xxlarge">24sp</dimen>
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
 
-</resources>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/formula_editor_button" android:state_pressed="false" />
+    <item android:drawable="@drawable/formula_editor_button_pressed" android:state_pressed="true" />
+
+</selector>

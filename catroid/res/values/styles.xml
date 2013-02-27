@@ -253,5 +253,10 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+    
+    <style name="FormulaEditorButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:background">@drawable/formula_editor_keyboard_button</item>
+        </style>
 
 </resources>

@@ -263,11 +263,6 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-
 		ArrayList<EditText> textList = solo.getCurrentEditTexts();
 		EditText text = (EditText) solo.getView(R.id.formula_editor_edit_field);
 
