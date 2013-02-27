@@ -22,39 +22,32 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.content.Context;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.*;
+import android.widget.AdapterView.OnItemSelectedListener;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import android.content.Context;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-public class SetVariableBrick implements Brick, OnClickListener {
+public class ChangeVariableBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private UserVariable userVariable;
 	private transient View view;
 	private Formula variable_formula;
 
-	public SetVariableBrick(Sprite sprite, Formula variable_formula) {
+	public ChangeVariableBrick(Sprite sprite, Formula variable_formula) {
 		this.sprite = sprite;
 		this.variable_formula = variable_formula;
 	}
 
-	public SetVariableBrick(Sprite sprite, double value) {
+	public ChangeVariableBrick(Sprite sprite, double value) {
 		this.sprite = sprite;
 		this.variable_formula = new Formula(Double.toString(value));
 	}
@@ -69,8 +62,9 @@ public class SetVariableBrick implements Brick, OnClickListener {
 		if (userVariable == null) {
 			return;
 		}
+		double original_value = userVariable.getValue();
 		double value = variable_formula.interpretFloat();
-		userVariable.setValue(value);
+		userVariable.setValue(original_value + value);
 	}
 
 	@Override
@@ -81,12 +75,12 @@ public class SetVariableBrick implements Brick, OnClickListener {
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.brick_set_variable, null);
+		view = View.inflate(context, R.layout.brick_change_variable_by, null);
 
-		TextView prototype_text = (TextView) view.findViewById(R.id.brick_set_variable_prototype_view);
-		EditText edit_text = (EditText) view.findViewById(R.id.brick_set_variable_edit_text);
+		TextView prototype_text = (TextView) view.findViewById(R.id.brick_change_variable_prototype_view);
+		EditText edit_text = (EditText) view.findViewById(R.id.brick_change_variable_edit_text);
 		prototype_text.setVisibility(View.GONE);
-		variable_formula.setTextFieldId(R.id.brick_set_variable_edit_text);
+		variable_formula.setTextFieldId(R.id.brick_change_variable_edit_text);
 		variable_formula.refreshTextField(view);
 		edit_text.setVisibility(View.VISIBLE);
 		edit_text.setOnClickListener(this);
@@ -116,12 +110,12 @@ public class SetVariableBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_set_variable, null);
+		return View.inflate(context, R.layout.brick_change_variable_by, null);
 	}
 
 	@Override
 	public Brick clone() {
-		SetVariableBrick clonedBrick = new SetVariableBrick(getSprite(), variable_formula);
+		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(getSprite(), variable_formula);
 		return clonedBrick;
 	}
 

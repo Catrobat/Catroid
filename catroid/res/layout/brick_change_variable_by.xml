@@ -27,7 +27,7 @@
 
     <TextView
         style="@style/BrickText.SingleLine"
-        android:text="@string/brick_set_variable" />
+        android:text="@string/brick_change_variable" />
 
     <Spinner
         android:id="@+id/variable_spinner"
@@ -43,14 +43,14 @@
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/to_label" />
+            android:text="@string/by_label" />
 
         <TextView
             style="@style/BrickPrototypeTextView"
-            android:id="@+id/brick_set_variable_prototype_view" />
+            android:id="@+id/brick_change_variable_prototype_view" />
 
         <EditText
-            android:id="@+id/brick_set_variable_edit_text"
+            android:id="@+id/brick_change_variable_edit_text"
             style="@style/BrickEditText"
             android:layout_width="match_parent"
             android:inputType="number|numberDecimal|numberSigned" />

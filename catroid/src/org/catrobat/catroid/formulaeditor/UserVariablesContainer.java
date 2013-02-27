@@ -23,45 +23,79 @@
 package org.catrobat.catroid.formulaeditor;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
+import android.content.Context;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.formulaeditor.UserVariableScope.ScopeType;
+import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
 
 public class UserVariablesContainer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private List<UserVariable> userVariables;
+	private List<UserVariable> projectVariables;
+	private Map<String, List<UserVariable>> spriteVariables;
 
 	public UserVariablesContainer() {
-		userVariables = new LinkedList<UserVariable>();
+		projectVariables = new ArrayList<UserVariable>();
+		spriteVariables = new HashMap<String, List<UserVariable>>();
+	}
+
+	public UserVariableAdapter createUserVariableAdapter(Context context, String spriteName) {
+		return new UserVariableAdapter(context, getOrCreateVariableListForSprite(spriteName), projectVariables);
 	}
 
 	public UserVariable getUserVariable(String userVariableName, String spriteName) {
-		return UserVariable.getUserVariable(userVariableName, userVariables, spriteName);
-	}
-
-	public List<UserVariable> getUserVariables(String scopeName) {
-		return UserVariable.getUserVariables(userVariables, scopeName);
+		UserVariable var;
+		var = findUserVariable(userVariableName, getOrCreateVariableListForSprite(spriteName));
+		if(var == null)
+			var = findUserVariable(userVariableName, projectVariables);
+		return var;
 	}
 
 	public void addSpriteUserVariable(String userVariableName, Double userVariableValue) {
 		String spriteName = ProjectManager.getInstance().getCurrentSprite().getName();
-		UserVariableScope userVariableScope = new UserVariableScope(spriteName, ScopeType.SPRITE);
-		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue, userVariableScope);
-		userVariables.add(userVariableToAdd);
+		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue, UserVariable.ScopeType.SPRITE);
+		List<UserVariable> varList = getOrCreateVariableListForSprite(spriteName);
+		varList.add(userVariableToAdd);
 	}
 
 	public void addProjectUserVariable(String userVariableName, Double userVariableValue) {
-		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-		UserVariableScope userVariableScope = new UserVariableScope(projectName, ScopeType.PROJECT);
-		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue, userVariableScope);
-		userVariables.add(userVariableToAdd);
+		String spriteName = ProjectManager.getInstance().getCurrentSprite().getName();
+		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue, UserVariable.ScopeType.PROJECT);
+		projectVariables.add(userVariableToAdd);
 	}
 
 	public void deleteUserVariableByName(String userVariableName) {
 		String spriteName = ProjectManager.getInstance().getCurrentSprite().getName();
-		UserVariable.deleteUserVariableByName(userVariableName, userVariables, spriteName);
+		UserVariable variableToDelete;
+		List<UserVariable> spriteVariables = getOrCreateVariableListForSprite(spriteName);
+		variableToDelete = findUserVariable(userVariableName, spriteVariables);
+		if(variableToDelete != null)
+			spriteVariables.remove(variableToDelete);
+
+		variableToDelete = findUserVariable(userVariableName, projectVariables);
+		if(variableToDelete != null)
+			projectVariables.remove(variableToDelete);
 	}
+
+	private List<UserVariable> getOrCreateVariableListForSprite(String sprite) {
+		List vars = spriteVariables.get(sprite);
+		if(vars == null) {
+			vars = new ArrayList();
+			spriteVariables.put(sprite, vars);
+		}
+		return vars;
+	}
+
+	private UserVariable findUserVariable(String name, List<UserVariable> variables) {
+		if(variables == null)
+			return null;
+		for(UserVariable variable : variables) {
+			if(variable.getName().endsWith(name))
+				return variable;
+		}
+		return null;
+	}
+
 }
