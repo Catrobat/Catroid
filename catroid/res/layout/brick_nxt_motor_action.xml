@@ -20,14 +20,17 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
+
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
->
+    android:orientation="horizontal" >
 
     <CheckBox
         android:id="@+id/brick_nxt_motor_action_checkbox"
@@ -35,143 +38,145 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" >
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/brick_red"
-        android:orientation="vertical" >
+        android:orientation="horizontal" >
 
-        <RelativeLayout
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true" >
+            android:background="@drawable/brick_red"
+            android:orientation="vertical" >
 
-            <TextView
-                style="@style/BrickText"
-                android:layout_centerVertical="true"
-                android:paddingRight="10dip"
-                android:text="@string/brick_motor_action" >
-            </TextView>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true" >
-
-                <Spinner
-                    android:id="@+id/motor_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:clickable="false"
-                    android:focusable="false" >
-
-                    <!-- do not add spinner items here! -->
-                </Spinner>
-            </LinearLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true" >
-
-            <TextView
-                style="@style/BrickText"
-                android:layout_centerVertical="true"
-                android:paddingRight="10dip"
-                android:text="@string/motor_speed" >
-            </TextView>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" >
-
-                <TextView
-                    android:id="@+id/motor_action_speed_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dip"
-                    android:background="@color/white"
-                    android:gravity="right"
-                    android:minHeight="30dip"
-                    android:minWidth="50dip"
-                    android:paddingRight="5dip"
-                    android:text="0"
-                    android:textSize="20dip" >
-                </TextView>
-
-                <EditText
-                    android:id="@+id/motor_action_speed_edit_text"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:gravity="right"
-                    android:inputType="number|numberDecimal|numberSigned"
-                    android:maxLength="4"
-                    android:maxLines="1"
-                    android:text="0"
-                    android:visibility="gone" >
-                </EditText>
 
                 <TextView
                     style="@style/BrickText"
                     android:layout_centerVertical="true"
                     android:paddingRight="10dip"
-                    android:text="@string/percent_symbol" >
+                    android:text="@string/brick_motor_action" >
                 </TextView>
-            </LinearLayout>
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" >
-
-                <Button
-                    android:id="@+id/speed_down_btn"
-                    android:layout_width="30dip"
-                    android:layout_height="35dip"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:text="@string/minus_symbol" />
-
-                <SeekBar
-                    android:id="@+id/seekBarSpeedMotorAction"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:clickable="false"
-                    android:focusable="false" >
-                </SeekBar>
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" >
 
-                <Button
-                    android:id="@+id/speed_up_btn"
-                    android:layout_width="30dip"
-                    android:layout_height="35dip"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:text="@string/plus_symbol" />
-            </LinearLayout>
-        </RelativeLayout>
+                    <Spinner
+                        android:id="@+id/motor_spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="false"
+                        android:focusable="false" >
+
+                        <!-- do not add spinner items here! -->
+                    </Spinner>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true" >
+
+                <TextView
+                    style="@style/BrickText"
+                    android:layout_centerVertical="true"
+                    android:paddingRight="10dip"
+                    android:text="@string/motor_speed" >
+                </TextView>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" >
+
+                    <TextView
+                        android:id="@+id/motor_action_speed_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dip"
+                        android:background="@color/white"
+                        android:gravity="right"
+                        android:minHeight="30dip"
+                        android:minWidth="50dip"
+                        android:paddingRight="5dip"
+                        android:text="0"
+                        android:textSize="20dip" >
+                    </TextView>
+
+                    <EditText
+                        android:id="@+id/motor_action_speed_edit_text"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:gravity="right"
+                        android:inputType="number|numberDecimal|numberSigned"
+                        android:maxLength="4"
+                        android:maxLines="1"
+                        android:text="0"
+                        android:visibility="gone" >
+                    </EditText>
+
+                    <TextView
+                        style="@style/BrickText"
+                        android:layout_centerVertical="true"
+                        android:paddingRight="10dip"
+                        android:text="@string/percent_symbol" >
+                    </TextView>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" >
+
+                    <Button
+                        android:id="@+id/speed_down_btn"
+                        android:layout_width="30dip"
+                        android:layout_height="35dip"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:text="@string/minus_symbol" />
+
+                    <SeekBar
+                        android:id="@+id/seekBarSpeedMotorAction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="false"
+                        android:focusable="false" >
+                    </SeekBar>
+
+                    <Button
+                        android:id="@+id/speed_up_btn"
+                        android:layout_width="30dip"
+                        android:layout_height="35dip"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:text="@string/plus_symbol" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
 </LinearLayout>

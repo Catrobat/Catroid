@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 
@@ -44,6 +45,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -575,16 +577,19 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		} else {
 			int temp[] = getScriptAndBrickIndexFromProject(index);
 			Script script = ProjectManager.INSTANCE.getCurrentSprite().getScript(temp[0]);
-			Brick brick = script.getBrick(temp[1]);
-			if (brick instanceof NestingBrick) {
-				for (Brick tempBrick : ((NestingBrick) brick).getAllNestingBrickParts()) {
-					script.removeBrick(tempBrick);
+			if (script != null) {
+
+				Brick brick = script.getBrick(temp[1]);
+				if (brick instanceof NestingBrick) {
+					for (Brick tempBrick : ((NestingBrick) brick).getAllNestingBrickParts()) {
+						script.removeBrick(tempBrick);
+					}
+				} else {
+					script.removeBrick(brick);
 				}
-			} else {
-				script.removeBrick(brick);
-			}
-			if (removeScript) {
-				brickList.remove(script);
+				if (removeScript) {
+					brickList.remove(script);
+				}
 			}
 		}
 
@@ -843,7 +848,14 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	public void clearCheckedItems() {
 		checkedBricks.clear();
 		setCheckboxVisibility(View.GONE);
+		uncheckAllItems();
 		notifyDataSetChanged();
+	}
+
+	private void uncheckAllItems() {
+		for (Brick brick : brickList) {
+			brick.getCheckBox().setChecked(false);
+		}
 	}
 
 	public void setCheckboxVisibility(int visibility) {
@@ -889,6 +901,22 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		brick.getCheckBox().setEnabled(enableState);
 		//TODO: grey bricks
 		View view = brick.getView(context, brickList.indexOf(brick), this);
+		Drawable background = null; //view.getBackground();
+		//background.setAlpha(0);
+		//background.setLevel(1);
+		if (background != null) {
+			background.setAlpha(50);
+			background.setLevel(1);
+			//view.setBackgroundDrawable(background)
+		}
+
+		if (brick instanceof SetXBrick) {
+			if (enableState) {
+				view = ((SetXBrick) brick).getViewWithAlpha(255);
+			} else {
+				view = ((SetXBrick) brick).getViewWithAlpha(50);
+			}
+		}
 
 		//view.draw(canvas)
 	}

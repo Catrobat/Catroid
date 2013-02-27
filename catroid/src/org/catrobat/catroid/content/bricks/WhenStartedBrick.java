@@ -111,6 +111,9 @@ public class WhenStartedBrick extends ScriptBrick {
 	public void setCheckboxVisibility(int visibility) {
 		if (checkbox != null) {
 			checkbox.setVisibility(visibility);
+			if (visibility == View.GONE) {
+				checked = false;
+			}
 		}
 	}
 

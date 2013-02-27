@@ -59,4 +59,6 @@ public interface Brick extends Serializable {
 	public void setBrickAdapter(BrickAdapter adapter);
 
 	public CheckBox getCheckBox();
+
+	//public View getViewWithAlpha(int alphaValue);
 }

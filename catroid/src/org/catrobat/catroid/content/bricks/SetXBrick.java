@@ -29,12 +29,14 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -98,6 +100,15 @@ public class SetXBrick implements Brick, OnClickListener {
 			editX.setVisibility(View.VISIBLE);
 			editX.setOnClickListener(this);
 		}
+		return view;
+	}
+
+	//@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_x_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		//background.setLevel(1);
 		return view;
 	}
 

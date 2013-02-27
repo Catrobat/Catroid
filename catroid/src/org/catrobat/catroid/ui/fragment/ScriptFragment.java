@@ -474,7 +474,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		//lookDataList.remove(position);
 		//ProjectManager.INSTANCE.getCurrentSprite().setLookDataList(lookDataList);
 
-		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
+		//getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
 
 		//int brickPosition = adapter.brickList.indexOf(brick);
 		//adapter.brickList.remove(brickPosition);

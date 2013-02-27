@@ -27,7 +27,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    android:orientation="horizontal" 
+    android:src="@drawable/layers" 
+>
 
     <CheckBox
         android:id="@+id/brick_when_started_checkbox"
