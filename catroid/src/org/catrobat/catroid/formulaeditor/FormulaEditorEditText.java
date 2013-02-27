@@ -126,6 +126,12 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 			int line = layout.getLineForOffset(absoluteCursorPosition);
 			int paddingYOffset = line == 0 ? 10 : 5;
+
+			// Quick fix for 2.3 EditText (caused by padding)
+			if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
+				paddingYOffset = layout.getLineCount() == 1 ? 31 : paddingYOffset;
+			}
+
 			int baseline = layout.getLineBaseline(line);
 			int ascent = layout.getLineAscent(line) + paddingYOffset;
 
