@@ -105,6 +105,12 @@
         <item name="android:shadowDy">3</item>
     </style>
 
+    <style name="MainMenuButtonTextSecondLine">
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textColor">@color/main_menu_button_text_second_line_color</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="ProgramMenuButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dip</item>
