@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.content.brick;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.util.Log;
+import android.view.View;
 import android.widget.Spinner;
 import com.jayway.android.robotium.solo.Solo;
 import org.catrobat.catroid.ProjectManager;
@@ -40,6 +41,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class VariableBricksTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
@@ -75,8 +77,8 @@ public class VariableBricksTest extends ActivityInstrumentationTestCase2<ScriptA
 	public void testVariableBricks() {
 		Log.d("TEST", solo.getCurrentSpinners().toString());
 
-		Spinner set_var_spinner = solo.getCurrentSpinners().get(1);
-		Spinner change_var_spinner = solo.getCurrentSpinners().get(2);
+		Spinner set_var_spinner = (Spinner) ((View)Reflection.getPrivateField(setVariableBrick, "view")).findViewById(R.id.variable_spinner);
+		Spinner change_var_spinner = (Spinner) ((View)Reflection.getPrivateField(changeVariableBrick, "view")).findViewById(R.id.variable_spinner);
 
 		solo.clickOnView(set_var_spinner);
 		solo.clickOnText("p2");
