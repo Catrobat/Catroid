@@ -808,7 +808,7 @@ public class UiTestUtils {
 		String continueString = solo.getString(R.string.main_menu_continue);
 		solo.waitForText(continueString);
 
-		solo.clickOnButton(continueString);
+		solo.clickOnText(continueString);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
 	}
