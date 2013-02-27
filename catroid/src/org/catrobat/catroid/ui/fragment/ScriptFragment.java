@@ -356,8 +356,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public boolean getActionModeActive() {
-		// TODO Auto-generated method stub
-		return false;
+		return actionModeActive;
 	}
 
 	@Override
@@ -448,7 +447,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			List<Brick> checkedBricks = adapter.getCheckedItems();
+			List<Brick> checkedBricks = adapter.getCheckedBrickList();
 			Iterator<Brick> iterator = checkedBricks.iterator();
 
 			int numberDeleted = 0;
@@ -475,7 +474,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		//lookDataList.remove(position);
 		//ProjectManager.INSTANCE.getCurrentSprite().setLookDataList(lookDataList);
 
-		//getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
 
 		//int brickPosition = adapter.brickList.indexOf(brick);
 		//adapter.brickList.remove(brickPosition);
@@ -492,7 +491,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			adapter.handleScriptDelete(sprite, scriptToEdit);
 			return;
 		}
-		int brickPosition = adapter.brickList.indexOf(brick);
+		int brickId = adapter.brickList.indexOf(brick);
+		int brickPosition = listView.getPositionForView(brick.getView(getActivity(), brickId, adapter));
 		adapter.removeFromBrickListAndProject(brickPosition, true);
 	}
 

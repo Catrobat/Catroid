@@ -35,6 +35,7 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ public class WaitBrick implements Brick, OnClickListener {
 	private transient View view;
 	private transient CheckBox checkbox;
 	private transient boolean checked;
+	public transient LinearLayout layout;
 
 	public WaitBrick(Sprite sprite, int timeToWaitInMilliseconds) {
 		this.timeToWaitInMilliSeconds = timeToWaitInMilliseconds;
@@ -106,6 +108,7 @@ public class WaitBrick implements Brick, OnClickListener {
 				}
 			});
 
+			layout = (LinearLayout) view.findViewById(R.id.brick_wait_layout);
 			TextView text = (TextView) view.findViewById(R.id.brick_wait_prototype_text_view);
 			EditText edit = (EditText) view.findViewById(R.id.brick_wait_edit_text);
 			edit.setText((timeToWaitInMilliSeconds / 1000.0) + "");

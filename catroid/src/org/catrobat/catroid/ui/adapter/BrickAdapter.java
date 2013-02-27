@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.adapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -54,7 +55,8 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-public class BrickAdapter extends BaseAdapter implements DragAndDropListener, OnClickListener {
+public class BrickAdapter extends BaseAdapter implements DragAndDropListener, OnClickListener,
+		ScriptActivityAdapterInterface {
 
 	private static final String TAG = BrickAdapter.class.getSimpleName();
 	private Context context;
@@ -803,30 +805,41 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		return itemPosition;
 	}
 
+	@Override
 	public void setShowDetails(boolean showDetails) {
 		this.showDetails = showDetails;
 	}
 
+	@Override
 	public boolean getShowDetails() {
 		return showDetails;
 	}
 
+	@Override
 	public void setSelectMode(int mode) {
 		selectMode = mode;
 	}
 
+	@Override
 	public int getSelectMode() {
 		return selectMode;
 	}
 
+	@Override
 	public int getAmountOfCheckedItems() {
 		return checkedBricks.size();
 	}
 
-	public List<Brick> getCheckedItems() {
+	@Override
+	public Set<Integer> getCheckedItems() {
+		return null;
+	}
+
+	public List<Brick> getCheckedBrickList() {
 		return checkedBricks;
 	}
 
+	@Override
 	public void clearCheckedItems() {
 		checkedBricks.clear();
 		setCheckboxVisibility(View.GONE);
@@ -875,6 +888,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	private void handleBrickEnabledState(Brick brick, boolean enableState) {
 		brick.getCheckBox().setEnabled(enableState);
 		//TODO: grey bricks
+		View view = brick.getView(context, brickList.indexOf(brick), this);
+
+		//view.draw(canvas)
 	}
 
 	private boolean smartBrickSelection(Brick brick, boolean check) {

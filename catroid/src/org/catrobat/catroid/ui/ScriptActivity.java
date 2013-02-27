@@ -284,7 +284,6 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 					BrickAdapter adapter = scriptFragment.getAdapter();
 					adapter.removeDraggedBrick();
-
 					return true;
 				}
 			}
@@ -310,7 +309,12 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		//Dismiss ActionMode without effecting sounds
 		if (currentFragment != null && currentFragment.getActionModeActive()) {
 			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-				ListAdapter adapter = currentFragment.getListAdapter();
+				ListAdapter adapter = null;
+				if (currentFragment instanceof ScriptFragment) {
+					adapter = ((ScriptFragment) currentFragment).getAdapter();
+				} else {
+					adapter = currentFragment.getListAdapter();
+				}
 				((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
 			}
 		}
@@ -352,4 +356,5 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		}
 		return fragment;
 	}
+
 }
