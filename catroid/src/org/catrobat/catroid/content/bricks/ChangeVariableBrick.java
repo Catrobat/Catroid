@@ -93,6 +93,10 @@ public class ChangeVariableBrick implements Brick, OnClickListener {
 		variableSpinner.setClickable(true);
 		variableSpinner.setFocusable(true);
 
+		if(userVariable != null) {
+			variableSpinner.setSelection(variabeAdapter.getPositionOfItem(userVariable));
+		}
+
 		variableSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

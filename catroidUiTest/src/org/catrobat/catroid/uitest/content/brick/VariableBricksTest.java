@@ -74,22 +74,33 @@ public class VariableBricksTest extends ActivityInstrumentationTestCase2<ScriptA
 	@Smoke
 	public void testVariableBricks() {
 		Log.d("TEST", solo.getCurrentSpinners().toString());
+
 		Spinner set_var_spinner = solo.getCurrentSpinners().get(1);
 		Spinner change_var_spinner = solo.getCurrentSpinners().get(2);
 
 		solo.clickOnView(set_var_spinner);
 		solo.clickOnText("p2");
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, 50, "variable_formula", setVariableBrick);
-
 		solo.clickOnView(change_var_spinner);
-		solo.clickOnText("p2");
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, -8, "variable_formula", changeVariableBrick);
+		solo.clickOnText("p2", 1);
+
+
+//		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, 50, "variable_formula", setVariableBrick);
+		solo.clickOnText("0");
+		UiTestUtils.insertIntegerIntoEditText(solo,50);
+		solo.goBack();
+
+
+
+//		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, -8, "variable_formula", changeVariableBrick);
+		solo.clickOnText("1");
+		UiTestUtils.insertDoubleIntoEditText(solo, -8.0);
+		solo.goBack();
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(1000);
+		solo.sleep(1500);
 
-		assertEquals("Variable has the wrong value after stage", 42, userVariablesContainer.getUserVariable("p2", "cat").getValue());
+		assertEquals("Variable has the wrong value after stage", 42.0, userVariablesContainer.getUserVariable("p2", "cat").getValue());
 
 		solo.goBack();
 		solo.goBack();
@@ -111,7 +122,7 @@ public class VariableBricksTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		setVariableBrick = new SetVariableBrick(sprite, 0.0);
 		script.addBrick(setVariableBrick);
-		changeVariableBrick = new ChangeVariableBrick(sprite, 0.0);
+		changeVariableBrick = new ChangeVariableBrick(sprite, 1.1);
 		script.addBrick(changeVariableBrick);
 
 		sprite.addScript(script);

@@ -49,14 +49,16 @@ public class SetVariableBrick implements Brick, OnClickListener {
 	private transient View view;
 	private Formula variable_formula;
 
-	public SetVariableBrick(Sprite sprite, Formula variable_formula) {
+	public SetVariableBrick(Sprite sprite, Formula variable_formula, UserVariable userVariable) {
 		this.sprite = sprite;
 		this.variable_formula = variable_formula;
+		this.userVariable = userVariable;
 	}
 
 	public SetVariableBrick(Sprite sprite, double value) {
 		this.sprite = sprite;
 		this.variable_formula = new Formula(Double.toString(value));
+		this.userVariable = null;
 	}
 
 	@Override
@@ -99,6 +101,10 @@ public class SetVariableBrick implements Brick, OnClickListener {
 		variableSpinner.setClickable(true);
 		variableSpinner.setFocusable(true);
 
+		if(userVariable != null) {
+			variableSpinner.setSelection(variabeAdapter.getPositionOfItem(userVariable));
+		}
+
 		variableSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -121,7 +127,7 @@ public class SetVariableBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		SetVariableBrick clonedBrick = new SetVariableBrick(getSprite(), variable_formula);
+		SetVariableBrick clonedBrick = new SetVariableBrick(getSprite(), variable_formula, userVariable);
 		return clonedBrick;
 	}
 

@@ -162,6 +162,9 @@ public class UiTestUtils {
 
 		for (char item : (value.toCharArray())) {
 			switch (item) {
+				case '-':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
+					break;
 				case '0':
 					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
 					break;

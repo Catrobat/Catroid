@@ -86,6 +86,14 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		return position;
 	}
 
+	public int getPositionOfItem(UserVariable item) {
+		for (int i = 0; i < getCount(); i++) {
+			if(getItem(i) == item)
+				return i;
+		}
+		return -1;
+	}
+
 	public void setOnCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {
 		this.onCheckedChangeListener = onCheckedChangeListener;
 	}
