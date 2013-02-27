@@ -42,8 +42,7 @@
 
     <TextView
         android:id="@+id/brick_move_n_steps_step_text_view"
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_move_n_steps" >
+        style="@style/BrickText.SingleLine" >
     </TextView>
 
 </LinearLayout>

@@ -98,12 +98,18 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 		UiTestUtils.clickEnterClose(solo, 0, "1");
 		TextView secondsTextView = (TextView) solo.getView(R.id.brick_go_back_layers_text_view);
-		assertTrue("Specifier hasn't changed from plural to singular",
-				secondsTextView.getText().equals(solo.getString(R.string.brick_go_back_layers_singular)));
+		assertTrue(
+				"Specifier hasn't changed from plural to singular",
+				secondsTextView.getText().equals(
+						dragDropListView.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural, 1)));
+
 		UiTestUtils.clickEnterClose(solo, 0, "2");
 		secondsTextView = (TextView) solo.getView(R.id.brick_go_back_layers_text_view);
-		assertTrue("Specifier hasn't changed from singular to plural",
-				secondsTextView.getText().equals(solo.getString(R.string.brick_go_back_layers)));
+		assertTrue(
+				"Specifier hasn't changed from singular to plural",
+				secondsTextView.getText().equals(
+						dragDropListView.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural, 2)));
+
 	}
 
 	private void createProject() {

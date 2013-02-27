@@ -42,8 +42,7 @@
     
     <TextView
         android:id="@+id/brick_repeat_time_text_view"
-        style="@style/BrickText.SingleLine"
-        android:text="@string/times_label" >
+        style="@style/BrickText.SingleLine" >
     </TextView>
 
 </LinearLayout>

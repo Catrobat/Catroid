@@ -37,6 +37,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Utils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
@@ -110,12 +111,17 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 
 		UiTestUtils.clickEnterClose(solo, 0, "1.0");
 		TextView stepTextView = (TextView) solo.getView(R.id.brick_move_n_steps_step_text_view);
-		assertTrue("Specifier hasn't changed from plural to singular",
-				stepTextView.getText().equals(solo.getString(R.string.brick_move_n_steps_singular)));
+		assertTrue(
+				"Specifier hasn't changed from plural to singular",
+				stepTextView.getText().equals(
+						stepTextView.getResources().getQuantityString(R.plurals.brick_move_n_step_plural, 1)));
 		UiTestUtils.clickEnterClose(solo, 0, "1.4");
 		stepTextView = (TextView) solo.getView(R.id.brick_move_n_steps_step_text_view);
-		assertTrue("Specifier hasn't changed from singular to plural",
-				stepTextView.getText().equals(solo.getString(R.string.brick_move_n_steps)));
+		assertTrue(
+				"Specifier hasn't changed from singular to plural",
+				stepTextView.getText().equals(
+						stepTextView.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
+								Utils.convertDoubleToPluralInteger(1.4))));
 	}
 
 }

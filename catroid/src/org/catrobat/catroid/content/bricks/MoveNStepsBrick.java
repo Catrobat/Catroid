@@ -26,6 +26,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
 import android.text.InputType;
@@ -87,10 +88,10 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		EditText edit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
 		edit.setText(String.valueOf(steps));
-		if (steps == 1.0) {
-			TextView times = (TextView) view.findViewById(R.id.brick_move_n_steps_step_text_view);
-			times.setText(R.string.brick_move_n_steps_singular);
-		}
+		TextView times = (TextView) view.findViewById(R.id.brick_move_n_steps_step_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
+				Utils.convertDoubleToPluralInteger(steps)));
+
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
@@ -102,6 +103,9 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.brick_move_n_steps, null);
+		TextView times = (TextView) view.findViewById(R.id.brick_move_n_steps_step_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
+				Utils.convertDoubleToPluralInteger(steps)));
 		return view;
 	}
 

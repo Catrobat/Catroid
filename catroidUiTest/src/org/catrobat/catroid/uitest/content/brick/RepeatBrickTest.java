@@ -85,11 +85,13 @@ public class RepeatBrickTest extends ActivityInstrumentationTestCase2<ScriptActi
 		UiTestUtils.clickEnterClose(solo, 0, "1");
 		TextView timesTextView = (TextView) solo.getView(R.id.brick_repeat_time_text_view);
 		assertTrue("Specifier hasn't changed from plural to singular",
-				timesTextView.getText().equals(solo.getString(R.string.times_label_singular)));
+				timesTextView.getText()
+						.equals(timesTextView.getResources().getQuantityString(R.plurals.time_plural, 1)));
 		UiTestUtils.clickEnterClose(solo, 0, "5");
 		timesTextView = (TextView) solo.getView(R.id.brick_repeat_time_text_view);
 		assertTrue("Specifier hasn't changed from singular to plural",
-				timesTextView.getText().equals(solo.getString(R.string.times_label)));
+				timesTextView.getText()
+						.equals(timesTextView.getResources().getQuantityString(R.plurals.time_plural, 5)));
 	}
 
 	private void createProject() {

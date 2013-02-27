@@ -48,8 +48,7 @@
 
         <TextView
             android:id="@+id/brick_glide_to_seconds_text_view"
-            style="@style/BrickText.SingleLine"
-            android:text="@string/seconds" >
+            style="@style/BrickText.SingleLine" >
         </TextView>
     </LinearLayout>
 

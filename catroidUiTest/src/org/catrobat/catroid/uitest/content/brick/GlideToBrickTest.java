@@ -97,11 +97,15 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		UiTestUtils.clickEnterClose(solo, 0, "1");
 		TextView secondsTextView = (TextView) solo.getView(R.id.brick_glide_to_seconds_text_view);
-		assertTrue("Specifier hasn't changed from plural to singular",
-				secondsTextView.getText().equals(solo.getString(R.string.second)));
+		assertTrue(
+				"Specifier hasn't changed from plural to singular",
+				secondsTextView.getText().equals(
+						secondsTextView.getResources().getQuantityString(R.plurals.second_plural, 1)));
 		UiTestUtils.clickEnterClose(solo, 0, "5.0");
 		secondsTextView = (TextView) solo.getView(R.id.brick_glide_to_seconds_text_view);
-		assertTrue("Specifier hasn't changed from singular to plural",
-				secondsTextView.getText().equals(solo.getString(R.string.seconds)));
+		assertTrue(
+				"Specifier hasn't changed from singular to plural",
+				secondsTextView.getText().equals(
+						secondsTextView.getResources().getQuantityString(R.plurals.second_plural, 5)));
 	}
 }
