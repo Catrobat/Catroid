@@ -125,10 +125,11 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 			lineHeight = getTextSize() + 5;
 
 			int line = layout.getLineForOffset(absoluteCursorPosition);
+			int paddingYOffset = line == 0 ? 10 : 5;
 			int baseline = layout.getLineBaseline(line);
-			int ascent = layout.getLineAscent(line);
+			int ascent = layout.getLineAscent(line) + paddingYOffset;
 
-			float xCoordinate = layout.getPrimaryHorizontal(absoluteCursorPosition);
+			float xCoordinate = layout.getPrimaryHorizontal(absoluteCursorPosition) + 5;
 			float startYCoordinate = baseline + ascent;
 			float endYCoordinate = baseline + ascent + lineHeight;
 

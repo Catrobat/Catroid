@@ -21,38 +21,44 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
-    android:theme="@android:style/Theme.Light"
-    android:windowFullscreen="true" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/darkblue"
+    android:theme="@android:style/Theme.Light" >
 
     <LinearLayout
         android:id="@+id/formula_editor_brick_space"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" />
 
     <org.catrobat.catroid.formulaeditor.FormulaEditorEditText
         android:id="@+id/formula_editor_edit_field"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/formula_editor_brick_space"
+        android:layout_marginTop="5dp"
         android:background="@color/white"
-        android:gravity="top"
         android:hint="@string/formula_nothing_selected"
         android:inputType="textMultiLine"
-        android:minLines="3"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:maxLines="5"
         android:scrollbars="vertical"
         android:singleLine="false"
+        android:textColor="@color/solid_black"
         android:textSize="@dimen/text_size_xxlarge" />
 
     <include
         android:id="@+id/formula_editor_keyboardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         layout="@layout/formula_editor_keyboard" />
 
-</LinearLayout>
+</RelativeLayout>

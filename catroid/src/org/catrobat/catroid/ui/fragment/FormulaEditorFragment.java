@@ -165,16 +165,14 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		fragmentView.requestFocus();
 
 		context = getActivity();
+		brickView = currentBrick.getView(context, 0, null);
+
 		formulaEditorBrick = (LinearLayout) fragmentView.findViewById(R.id.formula_editor_brick_space);
-		if (formulaEditorBrick != null) {
-			brickView = currentBrick.getView(context, 0, null);
-			formulaEditorBrick.addView(brickView);
-		}
+
+		formulaEditorBrick.addView(brickView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.MATCH_PARENT));
 
 		formulaEditorEditText = (FormulaEditorEditText) fragmentView.findViewById(R.id.formula_editor_edit_field);
-		if (formulaEditorBrick != null) {
-			formulaEditorBrick.measure(0, 0);
-		}
 
 		formulaEditorKeyboard = (LinearLayout) fragmentView.findViewById(R.id.formula_editor_keyboardview);
 
