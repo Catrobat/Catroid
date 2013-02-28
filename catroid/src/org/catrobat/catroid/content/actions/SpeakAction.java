@@ -54,7 +54,7 @@ public class SpeakAction extends Action {
 			HashMap<String, String> speakParameter = new HashMap<String, String>();
 			speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
 					String.valueOf(utteranceIdPool.getAndIncrement()));
-			PreStageActivity.textToSpeech(getText(), listener, speakParameter);
+			PreStageActivity.textToSpeech(text, listener, speakParameter);
 			executeOnce = false;
 		}
 		if (speakFinished) {
