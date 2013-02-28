@@ -126,17 +126,18 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.clearEditText(0);
 		solo.enterText(0, "");
-		Button okButton = (Button) solo.getView(R.id.new_project_ok_button);
+
+		Button okButton = solo.getButton(getActivity().getString(R.string.ok));
 
 		assertFalse("New project ok button is enabled!", okButton.isEnabled());
-		solo.clickOnButton(0);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject);
 		directory.mkdirs();
 		solo.sleep(50);
 		solo.clearEditText(0);
 		solo.enterText(0, testProject);
-		solo.clickOnButton(0);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.clickOnButton(0);
@@ -147,7 +148,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(50);
 		solo.clearEditText(0);
 		solo.enterText(0, name);
-		solo.clickOnButton(0);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.clickOnButton(solo.getString(R.string.close));
