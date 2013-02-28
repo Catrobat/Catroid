@@ -43,6 +43,10 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 
 	private TextView computeTextView;
 
+	private int logicalFormulaResultIdentifier;
+
+	private float floatInterpretationResult;
+
 	public FormulaEditorComputeDialog(Context context) {
 		super(context);
 		this.context = context;
@@ -57,6 +61,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		computeTextView = (TextView) findViewById(R.id.formula_editor_compute_dialog_textview);
 		computeTextView.setText("Hello 5");
 		showFormulaResult();
+
 	}
 
 	public void setFormula(Formula formula) {
@@ -83,13 +88,23 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 
 		if (formulaToCompute.isLogicalFormula()) {
 			boolean result = formulaToCompute.interpretBoolean();
-			int stringToDisplayIdentifier = result ? R.string.formula_editor_true : R.string.formula_editor_false;
-			computeTextView.setText(context.getString(stringToDisplayIdentifier));
+			logicalFormulaResultIdentifier = result ? R.string.formula_editor_true : R.string.formula_editor_false;
+			computeTextView.post(new Runnable() {
+				@Override
+				public void run() {
+					computeTextView.setText(context.getString(logicalFormulaResultIdentifier));
+				}
+			});
 		} else {
-			float result = formulaToCompute.interpretFloat();
-			result *= 100;
-			result = Math.round(result) / 100f;
-			computeTextView.setText(result + "");
+			floatInterpretationResult = formulaToCompute.interpretFloat();
+			floatInterpretationResult *= 100;
+			floatInterpretationResult = Math.round(floatInterpretationResult) / 100f;
+			computeTextView.post(new Runnable() {
+				@Override
+				public void run() {
+					computeTextView.setText(floatInterpretationResult + "");
+				}
+			});
 		}
 
 	}

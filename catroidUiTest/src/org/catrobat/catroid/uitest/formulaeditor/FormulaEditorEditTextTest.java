@@ -40,8 +40,10 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
+import org.catrobat.catroid.uitest.util.SimulatedSensorManager;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.graphics.Rect;
@@ -708,17 +710,20 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 
 	public void testComputeDialog() {
 
+		//initialize singleton SensorHandler
+		SensorHandler.startSensorListener(solo.getCurrentActivity());
+		SensorHandler.stopSensorListeners();
+		SimulatedSensorManager sensorManager = new SimulatedSensorManager();
+		Reflection.setPrivateField(SensorHandler.class, "sensorManager", sensorManager);
+
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
-		View preview = UiTestUtils.getViewContainerByIds(solo, R.id.brick_change_size_by_edit_text,
-				R.id.formula_editor_brick_space);
-
-		solo.sleep(250);
+		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_2));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
-		solo.sleep(250);
+		solo.waitForView(solo.getView(R.id.formula_editor_compute_dialog_textview));
 		TextView computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
 		assertEquals("computeTextView did not contain the correct value", "-2.0", computeTextView.getText().toString());
 
@@ -734,15 +739,22 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
+		solo.waitForView(solo.getView(R.id.formula_editor_compute_dialog_textview));
 		computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
-		solo.sleep(250);
+		computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
 		assertEquals("computeTextView did not contain the correct value", "-8.11", computeTextView.getText().toString());
 
 		solo.goBack();
 
+		View preview = UiTestUtils.getViewContainerByIds(solo, R.id.brick_change_size_by_edit_text,
+				R.id.formula_editor_brick_space);
+
 		solo.clickOnView(preview);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_x_acceleration));
+
+		solo.waitForView(solo.getView(R.id.formula_editor_compute_dialog_textview));
+
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));
 
@@ -754,8 +766,10 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
 
+		sensorManager.startSimulation();
+
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
-		solo.sleep(250);
+		solo.waitForView(solo.getView(R.id.formula_editor_compute_dialog_textview));
 		computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
 		int maxLoops = 10;
 		String lastComputeString = computeTextView.getText().toString();
@@ -765,6 +779,8 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 				break;
 			}
 		}
+
+		sensorManager.stopSimulation();
 
 		assertTrue("Sensor interpretation error", maxLoops > 0);
 
