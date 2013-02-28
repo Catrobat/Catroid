@@ -58,69 +58,6 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 	private EditText newProjectDescriptionEditText;
 	private Dialog newProjectDialog;
 
-	//	@Override
-	//	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	//		View rootView = inflater.inflate(R.layout.dialog_new_project, container);
-	//
-	//		newProjectEditText = (EditText) rootView.findViewById(R.id.project_name_edittext);
-	//		newProjectDescriptionEditText = (EditText) rootView.findViewById(R.id.project_description_edittext);
-	//		okButton = (Button) rootView.findViewById(R.id.new_project_ok_button);
-	//		cancelButton = (Button) rootView.findViewById(R.id.new_project_cancel_button);
-	//
-	//		newProjectEditText.setText("");
-	//		newProjectDescriptionEditText.setText("");
-	//
-	//		okButton.setEnabled(false);
-	//
-	//		newProjectEditText.addTextChangedListener(new TextWatcher() {
-	//
-	//			@Override
-	//			public void onTextChanged(CharSequence s, int start, int before, int count) {
-	//			}
-	//
-	//			@Override
-	//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-	//			}
-	//
-	//			@Override
-	//			public void afterTextChanged(Editable s) {
-	//				if (newProjectEditText.length() == 0) {
-	//					okButton.setEnabled(false);
-	//				} else {
-	//					okButton.setEnabled(true);
-	//				}
-	//			}
-	//		});
-	//
-	//		okButton.setOnClickListener(new OnClickListener() {
-	//			@Override
-	//			public void onClick(View v) {
-	//				handleOkButtonClick();
-	//			}
-	//		});
-	//		cancelButton.setOnClickListener(new OnClickListener() {
-	//			@Override
-	//			public void onClick(View v) {
-	//				handleCancelButtonClick();
-	//			}
-	//		});
-	//
-	//		getDialog().setTitle(R.string.new_project_dialog_title);
-	//		getDialog().setCanceledOnTouchOutside(true);
-	//		getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-	//
-	//		getDialog().setOnShowListener(new OnShowListener() {
-	//			@Override
-	//			public void onShow(DialogInterface dialog) {
-	//				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
-	//						Context.INPUT_METHOD_SERVICE);
-	//				inputManager.showSoftInput(newProjectEditText, InputMethodManager.SHOW_IMPLICIT);
-	//			}
-	//		});
-	//
-	//		return rootView;
-	//	}
-
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_project, null);

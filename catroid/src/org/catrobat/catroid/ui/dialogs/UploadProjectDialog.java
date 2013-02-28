@@ -99,37 +99,6 @@ public class UploadProjectDialog extends DialogFragment {
 	private String newProjectName;
 	private Activity activity;
 
-	//	@Override
-	//	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	//		View rootView = inflater.inflate(R.layout.dialog_upload_project, container);
-	//
-	//		projectRename = (TextView) rootView.findViewById(R.id.tv_project_rename);
-	//		projectDescriptionField = (EditText) rootView.findViewById(R.id.project_description_upload);
-	//		projectUploadName = (EditText) rootView.findViewById(R.id.project_upload_name);
-	//		cancelButton = (Button) rootView.findViewById(R.id.cancel_button);
-	//		uploadButton = (Button) rootView.findViewById(R.id.upload_button);
-	//		sizeOfProject = (TextView) rootView.findViewById(R.id.dialog_upload_size_of_project);
-	//
-	//		initControls();
-	//
-	//		getDialog().setTitle(R.string.upload_project_dialog_title);
-	//		getDialog().setCanceledOnTouchOutside(true);
-	//		getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-	//
-	//		getDialog().setOnShowListener(new OnShowListener() {
-	//			@Override
-	//			public void onShow(DialogInterface dialog) {
-	//				initListeners();
-	//
-	//				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
-	//						Context.INPUT_METHOD_SERVICE);
-	//				inputManager.showSoftInput(projectUploadName, InputMethodManager.SHOW_IMPLICIT);
-	//			}
-	//		});
-	//
-	//		return rootView;
-	//	}
-
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_upload_project, null);
@@ -181,19 +150,6 @@ public class UploadProjectDialog extends DialogFragment {
 		projectDescriptionField.setText(currentProjectDescription);
 		projectUploadName.requestFocus();
 		projectUploadName.selectAll();
-
-		//		uploadButton.setOnClickListener(new OnClickListener() {
-		//			@Override
-		//			public void onClick(View v) {
-		//				handleUploadButtonClick();
-		//			}
-		//		});
-		//		cancelButton.setOnClickListener(new OnClickListener() {
-		//			@Override
-		//			public void onClick(View v) {
-		//				handleCancelButtonClick();
-		//			}
-		//		});
 	}
 
 	private void initListeners() {
