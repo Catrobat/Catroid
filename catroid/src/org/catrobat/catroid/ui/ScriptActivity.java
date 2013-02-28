@@ -285,7 +285,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-		Log.i("info", "onKeyDown() ScriptTabActivity.... keyCode: " + keyCode);
+		Log.i("info", "onKeyDown() ScriptActivity.... keyCode: " + keyCode);
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
 
