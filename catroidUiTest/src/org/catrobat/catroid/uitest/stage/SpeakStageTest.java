@@ -130,7 +130,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 		assertEquals("TextToSpeech executed with wrong text", textMessageTest, textToSpeechMock.text);
-		solo.sleep(2000);
+		solo.sleep(2200);
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "1",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
