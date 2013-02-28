@@ -29,26 +29,26 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.util.Log;
 
 public class SensorHandler implements SensorEventListener {
 	private static SensorHandler instance = null;
-	private static SensorManager mySensorManager = null;
-	private static Sensor mAccelerometer = null;
-	private static Sensor mRotationVector = null;
+	private static SensorManagerInterface sensorManager = null;
+	private static Sensor accelerometerSensor = null;
+	private static Sensor rotationVectorSensor = null;
 	private static float[] rotationMatrix = new float[16];
 	private static float[] rotationVector = new float[3];
-	private static float radianToDegreeConst = 180f / (float) Math.PI;
+	private static final float radianToDegreeConst = 180f / (float) Math.PI;
 
 	private static float linearAcceleartionX = 0f;
 	private static float linearAcceleartionY = 0f;
 	private static float linearAcceleartionZ = 0f;
 
 	private SensorHandler(Context context) {
-		mySensorManager = (android.hardware.SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-		mAccelerometer = mySensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-		mRotationVector = mySensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+		sensorManager = new SensorManager(
+				(android.hardware.SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
+		accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+		rotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
 	}
 
 	public static void startSensorListener(Context context) {
@@ -56,31 +56,35 @@ public class SensorHandler implements SensorEventListener {
 		if (instance == null) {
 			instance = new SensorHandler(context);
 		}
-		mySensorManager.unregisterListener(instance);
-		mySensorManager.registerListener(instance, mAccelerometer, android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
-		mySensorManager.registerListener(instance, mRotationVector, android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
+		sensorManager.unregisterListener(instance);
+		sensorManager.registerListener(instance, accelerometerSensor,
+				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
+		sensorManager.registerListener(instance, rotationVectorSensor,
+				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
 	}
 
 	public static void registerListener(SensorEventListener listener) {
 		if (instance == null) {
 			return;
 		}
-		mySensorManager.registerListener(listener, mAccelerometer, android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
-		mySensorManager.registerListener(listener, mRotationVector, android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
+		sensorManager.registerListener(listener, accelerometerSensor,
+				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
+		sensorManager.registerListener(listener, rotationVectorSensor,
+				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
 	}
 
 	public static void unregisterListener(SensorEventListener listener) {
 		if (instance == null) {
 			return;
 		}
-		mySensorManager.unregisterListener(listener);
+		sensorManager.unregisterListener(listener);
 	}
 
 	public static void stopSensorListeners() {
 		if (instance == null) {
 			return;
 		}
-		mySensorManager.unregisterListener(instance);
+		sensorManager.unregisterListener(instance);
 	}
 
 	public static Double getSensorValue(String sensorName) {
@@ -96,36 +100,36 @@ public class SensorHandler implements SensorEventListener {
 			sensorValue = Double.valueOf(linearAcceleartionZ);
 		}
 		if (sensorName.equals(Sensors.Z_ORIENTATION_.sensorName)) {
-			if (mySensorManager == null) {
+			if (sensorManager == null) {
 				return 0d;
 			}
 
 			float[] orientations = new float[3];
 			getRotationMatrixFromVector(rotationMatrix, rotationVector);
-			SensorManager.getOrientation(rotationMatrix, orientations);
+			android.hardware.SensorManager.getOrientation(rotationMatrix, orientations);
 			sensorValue = Double.valueOf(orientations[0]);
 			sensorValue *= radianToDegreeConst;
 			Log.e("info", "Z-Orientierung: " + sensorValue);
 
 		}
 		if (sensorName.equals(Sensors.X_ORIENTATION_.sensorName)) {
-			if (mySensorManager == null) {
+			if (sensorManager == null) {
 				return 0d;
 			}
 			float[] orientations = new float[3];
 			getRotationMatrixFromVector(rotationMatrix, rotationVector);
-			SensorManager.getOrientation(rotationMatrix, orientations);
+			android.hardware.SensorManager.getOrientation(rotationMatrix, orientations);
 			sensorValue = Double.valueOf(orientations[1]);
 			sensorValue *= radianToDegreeConst;
 			Log.e("info", "X-Orientierung: " + sensorValue);
 		}
 		if (sensorName.equals(Sensors.Y_ORIENTATION_.sensorName)) {
-			if (mySensorManager == null) {
+			if (sensorManager == null) {
 				return 0d;
 			}
 			float[] orientations = new float[3];
 			getRotationMatrixFromVector(rotationMatrix, rotationVector);
-			SensorManager.getOrientation(rotationMatrix, orientations);
+			android.hardware.SensorManager.getOrientation(rotationMatrix, orientations);
 			sensorValue = Double.valueOf(orientations[2]);
 			sensorValue *= radianToDegreeConst;
 			Log.e("info", "Y-Orientierung: " + sensorValue);
@@ -184,6 +188,9 @@ public class SensorHandler implements SensorEventListener {
 				rotationVector[0] = event.values[0];
 				rotationVector[1] = event.values[1];
 				rotationVector[2] = event.values[2];
+				Log.e("info", "rot0: " + rotationVector[0]);
+				Log.e("info", "rot1: " + rotationVector[1]);
+				Log.e("info", "rot2: " + rotationVector[2]);
 				break;
 		}
 
