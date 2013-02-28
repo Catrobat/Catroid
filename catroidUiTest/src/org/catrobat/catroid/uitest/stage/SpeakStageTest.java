@@ -82,7 +82,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		textToSpeechMock = null;
 	}
 
-	public void testNullText() {
+	public void testNullText() throws InterruptedException {
 		ProjectManager.getInstance()
 				.loadProject(UiTestUtils.PROJECTNAME2, getActivity().getApplicationContext(), false);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -100,7 +100,9 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		textToSpeechMock.setTextToSpeech(textToSpeech);
 		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(2000);
+		synchronized (textToSpeech) {
+			textToSpeech.wait();
+		}
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
@@ -125,12 +127,16 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		textToSpeechMock.setTextToSpeech(textToSpeech);
 		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(2000);
+		synchronized (textToSpeech) {
+			textToSpeech.wait();
+		}
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 		assertEquals("TextToSpeech executed with wrong text", textMessageTest, textToSpeechMock.text);
-		solo.sleep(3000);
+		synchronized (textToSpeech) {
+			textToSpeech.wait();
+		}
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "1",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
@@ -155,12 +161,14 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		textToSpeechMock.setTextToSpeech(textToSpeech);
 		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(2000);
+		solo.sleep(1000);
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 		assertEquals("TextToSpeech executed with wrong text", textMessageLong, textToSpeechMock.text);
-		solo.sleep(2000);
+		synchronized (textToSpeech) {
+			textToSpeech.wait();
+		}
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "1",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
@@ -171,13 +179,13 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		spriteNormal = new Sprite("testNormalBehaviour");
 
 		Script startScriptNormal = new StartScript(spriteNormal);
-		WaitBrick waitBrickNormal = new WaitBrick(spriteNormal, 1000);
+		//		WaitBrick waitBrickNormal = new WaitBrick(spriteNormal, 1000);
 		SpeakBrick speakBrickNormal = new SpeakBrick(spriteNormal, textMessageTest);
-		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 1000);
+		//		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 1000);
 		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageHello);
-		startScriptNormal.addBrick(waitBrickNormal);
+		//		startScriptNormal.addBrick(waitBrickNormal);
 		startScriptNormal.addBrick(speakBrickNormal);
-		startScriptNormal.addBrick(waitBrickNormal2);
+		//		startScriptNormal.addBrick(waitBrickNormal2);
 		startScriptNormal.addBrick(speakBrickNormal2);
 
 		spriteNormal.addScript(startScriptNormal);
@@ -189,9 +197,9 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 
 		spriteNull = new Sprite("testNullText");
 		Script startScriptNull = new StartScript(spriteNull);
-		WaitBrick waitBrickNull = new WaitBrick(spriteNull, 1000);
+		//		WaitBrick waitBrickNull = new WaitBrick(spriteNull, 1000);
 		SpeakBrick speakBrickNull = new SpeakBrick(spriteNull, null);
-		startScriptNull.addBrick(waitBrickNull);
+		//		startScriptNull.addBrick(waitBrickNull);
 		startScriptNull.addBrick(speakBrickNull);
 
 		spriteNull.addScript(startScriptNull);
@@ -204,7 +212,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		spriteInterrupt = new Sprite("testInterrupt");
 
 		Script startScriptInterrupt = new StartScript(spriteInterrupt);
-		WaitBrick waitBrickInterrupt = new WaitBrick(spriteNull, 1000);
+		WaitBrick waitBrickInterrupt = new WaitBrick(spriteNull, 500);
 		BroadcastBrick broadcastBrick = new BroadcastBrick(spriteInterrupt);
 		SpeakBrick speakBrickInterrupt = new SpeakBrick(spriteInterrupt, textMessageLong);
 		broadcastBrick.setSelectedMessage("double");
@@ -255,8 +263,11 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 			this.text = text;
 			this.queueMode = queueMode;
 			this.parameters = parameters;
-
-			return textToSpeech.speak(text, queueMode, parameters);
+			int returnValue = textToSpeech.speak(text, queueMode, parameters);
+			synchronized (textToSpeech) {
+				textToSpeech.notifyAll();
+			}
+			return returnValue;
 		}
 	}
 }
