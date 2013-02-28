@@ -130,7 +130,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 		assertEquals("TextToSpeech executed with wrong text", textMessageTest, textToSpeechMock.text);
-		solo.sleep(5000);
+		solo.sleep(3000);
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "1",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
@@ -173,9 +173,11 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		Script startScriptNormal = new StartScript(spriteNormal);
 		WaitBrick waitBrickNormal = new WaitBrick(spriteNormal, 1000);
 		SpeakBrick speakBrickNormal = new SpeakBrick(spriteNormal, textMessageTest);
+		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 1000);
 		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageHello);
 		startScriptNormal.addBrick(waitBrickNormal);
 		startScriptNormal.addBrick(speakBrickNormal);
+		startScriptNormal.addBrick(waitBrickNormal2);
 		startScriptNormal.addBrick(speakBrickNormal2);
 
 		spriteNormal.addScript(startScriptNormal);
