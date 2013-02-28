@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -109,46 +108,16 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 	//		assertEquals("TextToSpeech executed with wrong text", "", textToSpeechMock.text);
 	//	}
 
-	public void testNormalBehavior() throws InterruptedException {
-		ProjectManager.getInstance()
-				.loadProject(UiTestUtils.PROJECTNAME1, getActivity().getApplicationContext(), false);
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		String programString = solo.getString(R.string.main_menu_programs);
-		solo.waitForText(programString);
-		solo.clickOnButton(programString);
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForView(ListView.class);
-		UiTestUtils.clickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForView(ListView.class);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.sleep(200);
-		TextToSpeech textToSpeech = (TextToSpeech) Reflection.getPrivateField(PreStageActivity.class, "textToSpeech");
-		textToSpeechMock.setTextToSpeech(textToSpeech);
-		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
-		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(2500);
-		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
-		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
-				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
-		assertEquals("TextToSpeech executed with wrong text", textMessageTest, textToSpeechMock.text);
-		solo.sleep(10000);
-		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
-		//		assertEquals("TextToSpeech exectuted with wrong utterance id", "1",
-		//				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
-		assertEquals("TextToSpeech executed with wrong text", textMessageHello, textToSpeechMock.text);
-	}
-
-	//	public void testSimultaneousTextToSpeech() throws InterruptedException {
+	//	public void testNormalBehavior() throws InterruptedException {
 	//		ProjectManager.getInstance()
-	//				.loadProject(UiTestUtils.PROJECTNAME3, getActivity().getApplicationContext(), false);
+	//				.loadProject(UiTestUtils.PROJECTNAME1, getActivity().getApplicationContext(), false);
 	//		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 	//		String programString = solo.getString(R.string.main_menu_programs);
 	//		solo.waitForText(programString);
 	//		solo.clickOnButton(programString);
 	//		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 	//		solo.waitForView(ListView.class);
-	//		UiTestUtils.clickOnTextInList(solo, UiTestUtils.PROJECTNAME3);
+	//		UiTestUtils.clickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
 	//		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 	//		solo.waitForView(ListView.class);
 	//		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
@@ -157,23 +126,47 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 	//		textToSpeechMock.setTextToSpeech(textToSpeech);
 	//		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
 	//		solo.waitForActivity(StageActivity.class.getSimpleName());
-	//		//		solo.sleep(1000);
-	//		synchronized (textToSpeech) {
-	//			textToSpeech.wait();
-	//		}
+	//		solo.sleep(2500);
 	//		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
 	//		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
 	//				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
-	//		assertEquals("TextToSpeech executed with wrong text", textMessageLong, textToSpeechMock.text);
-	//		//		solo.sleep(2000);
-	//		synchronized (textToSpeech) {
-	//			textToSpeech.wait();
-	//		}
+	//		assertEquals("TextToSpeech executed with wrong text", textMessageTest, textToSpeechMock.text);
+	//		solo.sleep(10000);
 	//		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
-	//		assertEquals("TextToSpeech exectuted with wrong utterance id", "1",
-	//				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
-	//		assertEquals("TextToSpeech executed with wrong text", textMessageInterrupt, textToSpeechMock.text);
+	//		//		assertEquals("TextToSpeech exectuted with wrong utterance id", "1",
+	//		//				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
+	//		assertEquals("TextToSpeech executed with wrong text", textMessageHello, textToSpeechMock.text);
 	//	}
+
+	public void testSimultaneousTextToSpeech() throws InterruptedException {
+		ProjectManager.getInstance()
+				.loadProject(UiTestUtils.PROJECTNAME3, getActivity().getApplicationContext(), false);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		String programString = solo.getString(R.string.main_menu_programs);
+		solo.waitForText(programString);
+		solo.clickOnButton(programString);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForView(ListView.class);
+		UiTestUtils.clickOnTextInList(solo, UiTestUtils.PROJECTNAME3);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForView(ListView.class);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.sleep(200);
+		TextToSpeech textToSpeech = (TextToSpeech) Reflection.getPrivateField(PreStageActivity.class, "textToSpeech");
+		textToSpeechMock.setTextToSpeech(textToSpeech);
+		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(1000);
+		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
+		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
+				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
+		assertEquals("TextToSpeech executed with wrong text", textMessageLong, textToSpeechMock.text);
+		solo.sleep(2000);
+		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
+		//		assertEquals("TextToSpeech exectuted with wrong utterance id", "1",
+		//				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
+		assertEquals("TextToSpeech executed with wrong text", textMessageInterrupt, textToSpeechMock.text);
+	}
 
 	private void createProjectToInitializeTextToSpeech() {
 		spriteNormal = new Sprite("testNormalBehaviour");
