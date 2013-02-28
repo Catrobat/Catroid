@@ -53,6 +53,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 
 public class BrickAdapter extends BaseAdapter implements DragAndDropListener, OnClickListener,
@@ -862,7 +863,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private void uncheckAllItems() {
 		for (Brick brick : brickList) {
-			brick.getCheckBox().setChecked(false);
+			CheckBox checkbox = brick.getCheckBox();
+			if (checkbox != null) {
+				checkbox.setChecked(false);
+			}
 		}
 	}
 

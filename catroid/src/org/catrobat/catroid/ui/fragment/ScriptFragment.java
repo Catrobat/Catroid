@@ -469,20 +469,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	};
 
 	private void deleteBrick(Brick brick) {
-		//StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath());
-
-		//lookDataList.remove(position);
-		//ProjectManager.INSTANCE.getCurrentSprite().setLookDataList(lookDataList);
-
-		//getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
-
-		//int brickPosition = adapter.brickList.indexOf(brick);
-		//adapter.brickList.remove(brickPosition);
-
-		//adapter.brickList.remove(brick);
-		//adapter.updateProjectBrickList();
-		//ProjectManager.INSTANCE.saveProject();
-		//handleScriptDelete();
 
 		if (brick instanceof ScriptBrick) {
 			//scriptToEdit = ((ScriptBrick) adapter.getItem(listView.getTouchedListPosition()))
@@ -493,7 +479,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 		int brickId = adapter.brickList.indexOf(brick);
 		int brickPosition = listView.getPositionForView(brick.getView(getActivity(), brickId, adapter));
-		adapter.removeFromBrickListAndProject(brickPosition, true);
+		adapter.removeFromBrickListAndProject(brickId, true);
 	}
 
 	@Override
