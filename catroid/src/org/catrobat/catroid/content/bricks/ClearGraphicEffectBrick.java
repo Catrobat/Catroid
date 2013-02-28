@@ -27,11 +27,13 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 
 public class ClearGraphicEffectBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -82,6 +84,14 @@ public class ClearGraphicEffectBrick implements Brick {
 			});
 		}
 
+		return view;
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_clear_graphic_effect_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
 		return view;
 	}
 

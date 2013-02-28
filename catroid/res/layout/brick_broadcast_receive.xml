@@ -37,6 +37,7 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/brick_broadcast_receive_layout"
         style="@style/BrickContainer.Control.Medium"
         android:background="@drawable/brick_script"
         android:orientation="vertical" >

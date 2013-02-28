@@ -32,6 +32,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
@@ -40,6 +41,7 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SpeakBrick implements Brick {
@@ -136,9 +138,11 @@ public class SpeakBrick implements Brick {
 			editText.setVisibility(View.VISIBLE);
 
 			editText.setOnClickListener(new OnClickListener() {
-
 				@Override
-				public void onClick(View v) {
+				public void onClick(View view) {
+					if (checkbox.getVisibility() == View.VISIBLE) {
+						return;
+					}
 					ScriptActivity activity = (ScriptActivity) context;
 
 					BrickTextDialog editDialog = new BrickTextDialog() {
@@ -159,6 +163,14 @@ public class SpeakBrick implements Brick {
 				}
 			});
 		}
+		return view;
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_speak_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
 		return view;
 	}
 

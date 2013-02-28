@@ -30,11 +30,13 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class NextLookBrick implements Brick {
@@ -136,6 +138,14 @@ public class NextLookBrick implements Brick {
 			textView.setText(R.string.brick_next_background);
 		}
 
+		return view;
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_next_look_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
 		return view;
 	}
 

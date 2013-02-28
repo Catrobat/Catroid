@@ -38,6 +38,7 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/brick_stop_all_sounds_layout"
         style="@style/BrickContainer.Sound.Small" >
 
         <TextView

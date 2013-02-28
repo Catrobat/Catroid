@@ -20,13 +20,13 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
->
+    android:orientation="horizontal" >
 
     <CheckBox
         android:id="@+id/brick_change_volume_by_checkbox"
@@ -34,24 +34,27 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Sound.Small" >
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_change_volume_by" >
-    </TextView>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/brick_change_volume_by_layout"
+        style="@style/BrickContainer.Sound.Small" >
 
-    <TextView
-        android:id="@+id/brick_change_volume_by_prototype_text_view"
-        style="@style/BrickPrototypeTextView" >
-    </TextView>
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_change_volume_by" >
+        </TextView>
 
-    <EditText
-        android:id="@+id/brick_change_volume_by_edit_text"
-        style="@style/BrickEditText"
-        android:inputType="number|numberDecimal" >
-    </EditText>
+        <TextView
+            android:id="@+id/brick_change_volume_by_prototype_text_view"
+            style="@style/BrickPrototypeTextView" >
+        </TextView>
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/brick_change_volume_by_edit_text"
+            style="@style/BrickEditText"
+            android:inputType="number|numberDecimal" >
+        </EditText>
+    </LinearLayout>
+
 </LinearLayout>

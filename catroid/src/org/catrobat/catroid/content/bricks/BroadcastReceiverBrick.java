@@ -32,6 +32,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -39,6 +40,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 public class BroadcastReceiverBrick extends ScriptBrick {
@@ -133,7 +135,10 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		newBroadcastMessage.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(View view) {
+				if (checkbox.getVisibility() == View.VISIBLE) {
+					return;
+				}
 				ScriptActivity activity = (ScriptActivity) view.getContext();
 
 				BrickTextDialog editDialog = new BrickTextDialog() {
@@ -171,6 +176,14 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_broadcast_receive, null);
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_broadcast_receive_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		return view;
 	}
 
 	@Override

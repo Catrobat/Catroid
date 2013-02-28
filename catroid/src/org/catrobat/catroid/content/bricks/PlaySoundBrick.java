@@ -29,6 +29,7 @@ import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -36,6 +37,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 public class PlaySoundBrick implements Brick, OnItemSelectedListener {
@@ -96,7 +98,10 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 			soundbrickSpinner.setAdapter(createSoundAdapter(context));
 			soundbrickSpinner.setClickable(true);
 			soundbrickSpinner.setFocusable(true);
-			soundbrickSpinner.setOnItemSelectedListener(this);
+
+			if (checkbox.getVisibility() == View.VISIBLE) {
+				soundbrickSpinner.setOnItemSelectedListener(this);
+			}
 
 			if (sprite.getSoundList().contains(sound)) {
 				soundbrickSpinner.setSelection(sprite.getSoundList().indexOf(sound) + 1, true);
@@ -105,6 +110,14 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 			}
 		}
 
+		return view;
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_play_sound_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
 		return view;
 	}
 

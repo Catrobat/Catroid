@@ -20,14 +20,14 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
- 
- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
- >
+    android:orientation="horizontal" >
 
     <CheckBox
         android:id="@+id/brick_nxt_motor_stop_checkbox"
@@ -35,41 +35,43 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
-    
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/brick_red"
-    android:orientation="horizontal" >
 
-    <RelativeLayout
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/brick_nxt_motor_stop_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true" >
+        android:background="@drawable/brick_red"
+        android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/ValueTextView"
-            style="@style/BrickText"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:paddingRight="10dip"
-            android:text="@string/motor_stop" >
-        </TextView>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true" >
 
-            <Spinner
-                android:id="@+id/stop_motor_spinner"
+            <TextView
+                android:id="@+id/ValueTextView"
+                style="@style/BrickText"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="10dip"
+                android:text="@string/motor_stop" >
+            </TextView>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false" />
-        </LinearLayout>
-    </RelativeLayout>
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" >
 
-</LinearLayout>
+                <Spinner
+                    android:id="@+id/stop_motor_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
 </LinearLayout>

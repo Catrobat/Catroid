@@ -28,10 +28,12 @@ import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 
 public class StopAllSoundsBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -81,6 +83,14 @@ public class StopAllSoundsBrick implements Brick {
 				}
 			});
 		}
+		return view;
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_stop_all_sounds_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
 		return view;
 	}
 

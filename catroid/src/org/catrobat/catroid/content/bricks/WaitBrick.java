@@ -29,6 +29,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,7 +48,6 @@ public class WaitBrick implements Brick, OnClickListener {
 	private transient View view;
 	private transient CheckBox checkbox;
 	private transient boolean checked;
-	public transient LinearLayout layout;
 
 	public WaitBrick(Sprite sprite, int timeToWaitInMilliseconds) {
 		this.timeToWaitInMilliSeconds = timeToWaitInMilliseconds;
@@ -108,7 +108,6 @@ public class WaitBrick implements Brick, OnClickListener {
 				}
 			});
 
-			layout = (LinearLayout) view.findViewById(R.id.brick_wait_layout);
 			TextView text = (TextView) view.findViewById(R.id.brick_wait_prototype_text_view);
 			EditText edit = (EditText) view.findViewById(R.id.brick_wait_edit_text);
 			edit.setText((timeToWaitInMilliSeconds / 1000.0) + "");
@@ -131,7 +130,19 @@ public class WaitBrick implements Brick, OnClickListener {
 	}
 
 	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_wait_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		return view;
+	}
+
+	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
+
 		ScriptActivity activity = (ScriptActivity) view.getContext();
 
 		BrickTextDialog editDialog = new BrickTextDialog() {

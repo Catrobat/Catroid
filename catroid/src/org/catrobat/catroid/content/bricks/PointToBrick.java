@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +39,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 public class PointToBrick implements Brick {
@@ -179,6 +181,10 @@ public class PointToBrick implements Brick {
 
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+					if (checkbox.getVisibility() == View.VISIBLE) {
+						return;
+					}
 					String itemSelected = parent.getSelectedItem().toString();
 					String nothingSelected = context.getString(R.string.broadcast_nothing_selected);
 					final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance()
@@ -207,6 +213,14 @@ public class PointToBrick implements Brick {
 				spinner.setSelection(0);
 			}
 		}
+		return view;
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_point_to_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
 		return view;
 	}
 

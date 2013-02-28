@@ -27,8 +27,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
->
+    android:orientation="horizontal" >
 
     <CheckBox
         android:id="@+id/brick_point_to_checkbox"
@@ -39,6 +38,7 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/brick_point_to_layout"
         style="@style/BrickContainer.Motion.Medium"
         android:gravity="center_vertical"
         android:orientation="vertical" >

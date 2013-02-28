@@ -27,8 +27,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
->
+    android:orientation="horizontal" >
+
     <CheckBox
         android:id="@+id/brick_set_look_checkbox"
         android:layout_width="wrap_content"
@@ -38,6 +38,7 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/brick_set_look_layout"
         style="@style/BrickContainer.Look.Medium"
         android:gravity="center_vertical"
         android:orientation="vertical" >

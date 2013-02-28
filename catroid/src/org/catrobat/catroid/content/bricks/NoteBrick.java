@@ -29,6 +29,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -37,6 +38,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class NoteBrick implements Brick {
@@ -107,7 +109,10 @@ public class NoteBrick implements Brick {
 			editText.setOnClickListener(new OnClickListener() {
 
 				@Override
-				public void onClick(View v) {
+				public void onClick(View view) {
+					if (checkbox.getVisibility() == View.VISIBLE) {
+						return;
+					}
 					ScriptActivity activity = (ScriptActivity) view.getContext();
 
 					BrickTextDialog editDialog = new BrickTextDialog() {
@@ -151,6 +156,14 @@ public class NoteBrick implements Brick {
 			});
 		}
 
+		return view;
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_note_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
 		return view;
 	}
 

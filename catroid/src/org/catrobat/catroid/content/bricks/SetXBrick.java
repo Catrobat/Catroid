@@ -103,7 +103,7 @@ public class SetXBrick implements Brick, OnClickListener {
 		return view;
 	}
 
-	//@Override
+	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_x_layout);
 		Drawable background = layout.getBackground();

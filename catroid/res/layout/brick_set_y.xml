@@ -38,6 +38,7 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/brick_set_y_layout"
         style="@style/BrickContainer.Motion.Small" >
 
         <TextView

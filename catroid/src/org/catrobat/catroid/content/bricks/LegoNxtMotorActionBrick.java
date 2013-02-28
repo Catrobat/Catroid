@@ -30,6 +30,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,6 +41,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
@@ -295,5 +297,13 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 	@Override
 	public CheckBox getCheckBox() {
 		return checkbox;
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_nxt_motor_action_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		return view;
 	}
 }

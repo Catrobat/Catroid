@@ -39,6 +39,7 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/brick_change_brightness_layout"
         style="@style/BrickContainer.Look.Medium"
         android:gravity="center_vertical"
         android:orientation="vertical" >

@@ -60,5 +60,5 @@ public interface Brick extends Serializable {
 
 	public CheckBox getCheckBox();
 
-	//public View getViewWithAlpha(int alphaValue);
+	public View getViewWithAlpha(int alphaValue);
 }
