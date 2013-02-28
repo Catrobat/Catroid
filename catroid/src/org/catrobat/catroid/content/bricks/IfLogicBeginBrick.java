@@ -65,8 +65,8 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 
 	@Override
 	public void execute() {
-		int condition = ifCondition.interpretInteger();
-		if (condition != 0) {
+		boolean condition = ifCondition.interpretBoolean();
+		if (condition) {
 			ifElseBrick.skipToEndIfPositionOnElse(true);
 		} else {
 			Script script = getScript();

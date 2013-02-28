@@ -32,6 +32,7 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -44,6 +45,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -53,7 +55,8 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class FormulaEditorFragment extends SherlockFragment implements OnKeyListener {
+public class FormulaEditorFragment extends SherlockFragment implements OnKeyListener,
+		ViewTreeObserver.OnGlobalLayoutListener {
 
 	private static final int PARSER_OK = -1;
 	private static final int PARSER_STACK_OVERFLOW = -2;
@@ -80,6 +83,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	private int confirmSwitchEditTextCounter = 0;
 
 	public boolean restoreInstance = false;
+	private View fragmentView;
 
 	//	public FormulaEditorFragment() {
 	//
@@ -146,6 +150,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		brickView = newBrickView;
 		currentFormula = newFormula;
 		setInputFormula(newFormula, SET_FORMULA_ON_CREATE_VIEW);
+		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
 	}
 
 	private void onUserDismiss() {
@@ -167,7 +172,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		View fragmentView = inflater.inflate(R.layout.fragment_formula_editor, container, false);
+		fragmentView = inflater.inflate(R.layout.fragment_formula_editor, container, false);
 		fragmentView.setFocusableInTouchMode(true);
 		fragmentView.requestFocus();
 
@@ -188,6 +193,9 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		} else {
 			formulaEditorEditText.init(this, 0, formulaEditorKeyboard);
 		}
+
+		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
+
 		setInputFormula(currentFormula, SET_FORMULA_ON_CREATE_VIEW);
 
 		return fragmentView;
@@ -458,6 +466,20 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			fragmentManager.beginTransaction().add(R.id.script_fragment_container, fragment, tag).commit();
 		}
 		((FormulaEditorVariableListFragment) fragment).showFragment(context);
+	}
+
+	@Override
+	public void onGlobalLayout() {
+		fragmentView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+
+		Rect brickRect = new Rect();
+		Rect keyboardRec = new Rect();
+		formulaEditorBrick.getGlobalVisibleRect(brickRect);
+		formulaEditorKeyboard.getGlobalVisibleRect(keyboardRec);
+
+		Log.e("info", "heights: " + brickRect.bottom + " | " + keyboardRec.top);
+		formulaEditorEditText.setMaxHeight(keyboardRec.top - brickRect.bottom);
+
 	}
 
 }

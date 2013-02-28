@@ -77,15 +77,20 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 	}
 
 	private void showFormulaResult() {
-		float result = formulaToCompute.interpretFloat();
 		if (computeTextView == null) {
 			return;
 		}
 
-		result *= 100;
-		result = Math.round(result) / 100f;
-
-		computeTextView.setText(result + "");
+		if (formulaToCompute.isLogicalFormula()) {
+			boolean result = formulaToCompute.interpretBoolean();
+			int stringToDisplayIdentifier = result ? R.string.formula_editor_true : R.string.formula_editor_false;
+			computeTextView.setText(context.getString(stringToDisplayIdentifier));
+		} else {
+			float result = formulaToCompute.interpretFloat();
+			result *= 100;
+			result = Math.round(result) / 100f;
+			computeTextView.setText(result + "");
+		}
 
 	}
 

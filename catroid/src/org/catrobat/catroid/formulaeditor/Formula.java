@@ -91,6 +91,13 @@ public class Formula implements Serializable {
 	//		return root.interpretRecursive();
 	//	}
 
+	public boolean interpretBoolean() {
+		int result = interpretInteger();
+
+		return result != 0 ? true : false;
+
+	}
+
 	public int interpretInteger() {
 		return interpretInteger(1, 0);
 	}
@@ -254,4 +261,9 @@ public class Formula implements Serializable {
 		return false;
 
 	}
+
+	public boolean isLogicalFormula() {
+		return formulaTree.isLogicalOperator();
+	}
+
 }

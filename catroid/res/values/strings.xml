@@ -397,6 +397,8 @@
 
 
     <!-- Formula Editor Strings -->
+    <string name="formula_editor_true">True</string>
+    <string name="formula_editor_false">False</string>
     <string name="formula_editor_decimal_mark">.</string>
     <string name="formula_editor_title">Formula Editor</string>
     <string name="formula_editor_button_undo">Undo</string>

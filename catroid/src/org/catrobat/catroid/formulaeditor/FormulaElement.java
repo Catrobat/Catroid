@@ -405,6 +405,13 @@ public class FormulaElement implements Serializable {
 		return false;
 	}
 
+	public boolean isLogicalOperator() {
+		if (type == ElementType.OPERATOR) {
+			return Operators.getOperatorByValue(value).isLogicalOperator;
+		}
+		return false;
+	}
+
 	public boolean containsElement(ElementType elementType) {
 		if (type.equals(elementType)) {
 			return true;

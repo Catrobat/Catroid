@@ -25,16 +25,24 @@ package org.catrobat.catroid.formulaeditor;
 import java.util.EnumSet;
 
 public enum Operators {
-	LOGICAL_AND("&", 2), LOGICAL_OR("|", 1), EQUAL("=", 3), NOT_EQUAL("!=", 4), SMALLER_OR_EQUAL("<=", 4), GREATER_OR_EQUAL(
-			">=", 4), SMALLER_THAN("<", 4), GREATER_THAN(">", 4), PLUS("+", 5), MINUS("-", 5), MULT("×", 6), DIVIDE(
-			"÷", 6), MOD("%", 6), POW("^", 7), LOGICAL_NOT("!", 4);
+	LOGICAL_AND("&", 2, true), LOGICAL_OR("|", 1, true), EQUAL("=", 3, true), NOT_EQUAL("!=", 4, true), SMALLER_OR_EQUAL(
+			"<=", 4, true), GREATER_OR_EQUAL(">=", 4, true), SMALLER_THAN("<", 4, true), GREATER_THAN(">", 4, true), PLUS(
+			"+", 5), MINUS("-", 5), MULT("×", 6), DIVIDE("÷", 6), MOD("%", 6), POW("^", 7), LOGICAL_NOT("!", 4, true);
 
 	public final String operatorName;
 	private final Integer priority;
+	public final boolean isLogicalOperator;
 
 	Operators(String value, Integer priority) {
 		this.operatorName = value;
 		this.priority = priority;
+		isLogicalOperator = false;
+	}
+
+	Operators(String value, Integer priority, boolean isLogical) {
+		this.operatorName = value;
+		this.priority = priority;
+		isLogicalOperator = isLogical;
 	}
 
 	public int compareOperatorTo(Operators op) {
