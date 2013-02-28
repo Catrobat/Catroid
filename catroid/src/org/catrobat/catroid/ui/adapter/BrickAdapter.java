@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 
@@ -45,7 +44,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -908,27 +906,15 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	private void handleBrickEnabledState(Brick brick, boolean enableState) {
-		brick.getCheckBox().setEnabled(enableState);
-		//TODO: grey bricks
-		View view = brick.getView(context, brickList.indexOf(brick), this);
-		Drawable background = null; //view.getBackground();
-		//background.setAlpha(0);
-		//background.setLevel(1);
-		if (background != null) {
-			background.setAlpha(50);
-			background.setLevel(1);
-			//view.setBackgroundDrawable(background)
+		if (brick.getCheckBox() != null) {
+			brick.getCheckBox().setEnabled(enableState);
 		}
 
-		if (brick instanceof SetXBrick) {
-			if (enableState) {
-				view = ((SetXBrick) brick).getViewWithAlpha(255);
-			} else {
-				view = ((SetXBrick) brick).getViewWithAlpha(50);
-			}
+		if (enableState) {
+			brick.getViewWithAlpha(255);
+		} else {
+			brick.getViewWithAlpha(50);
 		}
-
-		//view.draw(canvas)
 	}
 
 	private boolean smartBrickSelection(Brick brick, boolean check) {
@@ -952,7 +938,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				} else {
 					checkedBricks.remove(currentBrick);
 				}
-				currentBrick.getCheckBox().setChecked(check);
+				if (currentBrick.getCheckBox() != null) {
+					currentBrick.getCheckBox().setChecked(check);
+				}
 				handleBrickEnabledState(currentBrick, !check);
 				notifyDataSetChanged();
 				brickPosition++;

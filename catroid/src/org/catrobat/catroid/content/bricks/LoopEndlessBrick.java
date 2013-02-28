@@ -98,7 +98,11 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	@Override
 	public CheckBox getCheckBox() {
-		super.getCheckBox();
+		CheckBox parentCheckBox = super.getCheckBox();
+		if (parentCheckBox != null) {
+			return parentCheckBox;
+		}
 		return checkbox;
+
 	}
 }
