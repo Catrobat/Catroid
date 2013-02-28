@@ -163,11 +163,6 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 		dismiss();
 	}
 
-	protected boolean handleCancelButtonClick() {
-		//dismiss();
-		return false;
-	}
-
 	protected String getTitle() {
 		return getString(R.string.new_project_dialog_title);
 	}
