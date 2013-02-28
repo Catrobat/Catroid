@@ -19,8 +19,9 @@
  *  GNU Affero General Public License for more details.
  *  
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Theme.Catroid" parent="Theme.Sherlock.ForceOverflow">
@@ -103,6 +104,12 @@
         <item name="android:shadowRadius">1.5</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">3</item>
+    </style>
+
+    <style name="MainMenuButtonTextSecondLine">
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textColor">@color/main_menu_button_text_second_line_color</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="ProgramMenuButton">

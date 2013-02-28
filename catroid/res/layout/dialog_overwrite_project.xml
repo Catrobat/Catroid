@@ -61,20 +61,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/dialog_overwrite_project_button_ok"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/ok" />
-
-        <Button
-            android:id="@+id/dialog_overwrite_project_button_cancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/cancel_button" />
     </LinearLayout>
 
 </LinearLayout>
