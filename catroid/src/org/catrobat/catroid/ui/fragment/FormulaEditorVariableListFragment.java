@@ -226,12 +226,12 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 									} else {
 										ProjectManager.getInstance().getCurrentProject().getUserVariables()
-												.addProjectUserVariable(editTextString, 5.0);
+												.addProjectUserVariable(editTextString, 0.0);
 										adapter.notifyDataSetChanged();
 									}
 								} else if (rightDialogRadioButton.isChecked()) {
 									ProjectManager.getInstance().getCurrentProject().getUserVariables()
-											.addSpriteUserVariable(editTextString, 5.0);
+											.addSpriteUserVariable(editTextString, 0.0);
 									adapter.notifyDataSetChanged();
 								}
 
@@ -338,7 +338,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 				rightDialogRadioButton.setOnClickListener(radioButtonListener);
 			}
 		});
-
+		adapter.notifyDataSetChanged();
 		super.onStart();
 	}
 

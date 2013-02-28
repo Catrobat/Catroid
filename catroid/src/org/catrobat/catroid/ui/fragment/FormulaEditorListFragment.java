@@ -122,7 +122,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		}
 
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
-				android.R.layout.simple_list_item_1, mItems);
+				R.layout.fragment_formula_editor_list_item, mItems);
 		setListAdapter(arrayAdapter);
 	}
 
