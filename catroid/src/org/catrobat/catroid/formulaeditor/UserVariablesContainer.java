@@ -23,12 +23,15 @@
 package org.catrobat.catroid.formulaeditor;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import android.content.Context;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
+
+import android.content.Context;
 
 public class UserVariablesContainer implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -48,21 +51,24 @@ public class UserVariablesContainer implements Serializable {
 	public UserVariable getUserVariable(String userVariableName, String spriteName) {
 		UserVariable var;
 		var = findUserVariable(userVariableName, getOrCreateVariableListForSprite(spriteName));
-		if(var == null)
+		if (var == null) {
 			var = findUserVariable(userVariableName, projectVariables);
+		}
 		return var;
 	}
 
 	public void addSpriteUserVariable(String userVariableName, Double userVariableValue) {
 		String spriteName = ProjectManager.getInstance().getCurrentSprite().getName();
-		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue, UserVariable.ScopeType.SPRITE);
+		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue,
+				UserVariable.ScopeType.SPRITE);
 		List<UserVariable> varList = getOrCreateVariableListForSprite(spriteName);
 		varList.add(userVariableToAdd);
 	}
 
 	public void addProjectUserVariable(String userVariableName, Double userVariableValue) {
 		String spriteName = ProjectManager.getInstance().getCurrentSprite().getName();
-		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue, UserVariable.ScopeType.PROJECT);
+		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue,
+				UserVariable.ScopeType.PROJECT);
 		projectVariables.add(userVariableToAdd);
 	}
 
@@ -71,17 +77,19 @@ public class UserVariablesContainer implements Serializable {
 		UserVariable variableToDelete;
 		List<UserVariable> spriteVariables = getOrCreateVariableListForSprite(spriteName);
 		variableToDelete = findUserVariable(userVariableName, spriteVariables);
-		if(variableToDelete != null)
+		if (variableToDelete != null) {
 			spriteVariables.remove(variableToDelete);
+		}
 
 		variableToDelete = findUserVariable(userVariableName, projectVariables);
-		if(variableToDelete != null)
+		if (variableToDelete != null) {
 			projectVariables.remove(variableToDelete);
+		}
 	}
 
 	private List<UserVariable> getOrCreateVariableListForSprite(String sprite) {
 		List vars = spriteVariables.get(sprite);
-		if(vars == null) {
+		if (vars == null) {
 			vars = new ArrayList();
 			spriteVariables.put(sprite, vars);
 		}
@@ -89,11 +97,13 @@ public class UserVariablesContainer implements Serializable {
 	}
 
 	private UserVariable findUserVariable(String name, List<UserVariable> variables) {
-		if(variables == null)
+		if (variables == null) {
 			return null;
-		for(UserVariable variable : variables) {
-			if(variable.getName().endsWith(name))
+		}
+		for (UserVariable variable : variables) {
+			if (variable.getName().equals(name)) {
 				return variable;
+			}
 		}
 		return null;
 	}

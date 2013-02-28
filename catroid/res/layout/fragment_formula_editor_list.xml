@@ -32,7 +32,7 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:divider="@color/divider"
-        android:dividerHeight="2dp"
+        android:dividerHeight="2dp"        
         android:fadingEdge="none" />
 
 </LinearLayout>

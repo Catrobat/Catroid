@@ -32,7 +32,6 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -53,7 +52,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -127,7 +125,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		if (!mInContextMode) {
-			Log.i("info", "FEVLF.onCreateContextMenu()");
+
 			super.onCreateContextMenu(menu, view, menuInfo);
 			getSherlockActivity().getMenuInflater().inflate(R.menu.menu_formulaeditor_variablelist, menu);
 		}
@@ -156,7 +154,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 	@Override
 	public void onListItemClick(int position) {
-		Log.i("info", "FEVLF.onLISTItemClick()");
+
 		if (!mInContextMode) {
 			mFormulaEditorEditText.handleKeyEvent(0, "" + adapter.getItem(position).getName());
 			KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
@@ -184,23 +182,11 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long id) {
-				Log.i("info", "onItemLongClick()");
 				if (!mInContextMode) {
 					mDeleteIndex = position;
-					//					arg0.setPressed(true);
-					//					arg0	.setBackgroundResource(R.color.backbrown);
 					getSherlockActivity().openContextMenu(getListView());
 					return true;
 				}
-				return false;
-			}
-		});
-
-		getListView().setOnLongClickListener(new OnLongClickListener() {
-
-			@Override
-			public boolean onLongClick(View v) {
-				Log.i("info", "FEVLFonLongClick");
 				return false;
 			}
 		});
@@ -240,12 +226,12 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 									} else {
 										ProjectManager.getInstance().getCurrentProject().getUserVariables()
-												.addProjectUserVariable(editTextString, 5.0);
+												.addProjectUserVariable(editTextString, 0.0);
 										adapter.notifyDataSetChanged();
 									}
 								} else if (rightDialogRadioButton.isChecked()) {
 									ProjectManager.getInstance().getCurrentProject().getUserVariables()
-											.addSpriteUserVariable(editTextString, 5.0);
+											.addSpriteUserVariable(editTextString, 0.0);
 									adapter.notifyDataSetChanged();
 								}
 
@@ -271,15 +257,12 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 							@Override
 							public void onTextChanged(CharSequence s, int start, int before, int count) {
-
 							}
 
 							@Override
 							public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
 							}
 
-							@SuppressLint("ShowToast")
 							@Override
 							public void afterTextChanged(Editable editable) {
 								EditText dialogEdittext = (EditText) dialogNewVariable
@@ -355,7 +338,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 				rightDialogRadioButton.setOnClickListener(radioButtonListener);
 			}
 		});
-
+		adapter.notifyDataSetChanged();
 		super.onStart();
 	}
 
@@ -373,7 +356,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 	@Override
 	public boolean onContextItemSelected(android.view.MenuItem item) {
-		Log.i("info", "FEVLF.onContextItemSelected");
+
 		switch (item.getItemId()) {
 			case R.id.menu_delete:
 				if (!adapter.isEmpty()) {
@@ -403,10 +386,8 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 	@Override
 	public boolean onKey(DialogInterface d, int keyCode, KeyEvent event) {
-		Log.i("info", "onKey() in FE-ListFragment! keyCode: " + keyCode);
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
-				Log.i("info", "KEYCODE_BACK pressed in FE-ListFragment!");
 				FragmentTransaction fragTransaction = getSherlockActivity().getSupportFragmentManager()
 						.beginTransaction();
 				fragTransaction.hide(this);
