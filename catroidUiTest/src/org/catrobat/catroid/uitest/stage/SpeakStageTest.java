@@ -125,7 +125,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		textToSpeechMock.setTextToSpeech(textToSpeech);
 		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(3000);
+		solo.sleep(2000);
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
@@ -155,7 +155,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		textToSpeechMock.setTextToSpeech(textToSpeech);
 		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(1500);
+		solo.sleep(2000);
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
@@ -204,18 +204,20 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		spriteInterrupt = new Sprite("testInterrupt");
 
 		Script startScriptInterrupt = new StartScript(spriteInterrupt);
+		WaitBrick waitBrickInterrupt = new WaitBrick(spriteNull, 1000);
 		BroadcastBrick broadcastBrick = new BroadcastBrick(spriteInterrupt);
-		broadcastBrick.setSelectedMessage("double");
-		startScriptInterrupt.addBrick(broadcastBrick);
 		SpeakBrick speakBrickInterrupt = new SpeakBrick(spriteInterrupt, textMessageLong);
+		broadcastBrick.setSelectedMessage("double");
+		startScriptInterrupt.addBrick(waitBrickInterrupt);
+		startScriptInterrupt.addBrick(broadcastBrick);
 		startScriptInterrupt.addBrick(speakBrickInterrupt);
 
 		spriteInterrupt.addScript(startScriptInterrupt);
 
 		BroadcastScript broadcastScriptInterrupt = new BroadcastScript(spriteInterrupt);
 		broadcastScriptInterrupt.setBroadcastMessage("double");
-		WaitBrick waitBrickInterrupt = new WaitBrick(spriteInterrupt, 2000);
-		broadcastScriptInterrupt.addBrick(waitBrickInterrupt);
+		WaitBrick waitBrickInterrupt2 = new WaitBrick(spriteInterrupt, 2000);
+		broadcastScriptInterrupt.addBrick(waitBrickInterrupt2);
 		SpeakBrick speakBrickInterrupt2 = new SpeakBrick(spriteInterrupt, textMessageInterrupt);
 		broadcastScriptInterrupt.addBrick(speakBrickInterrupt2);
 
