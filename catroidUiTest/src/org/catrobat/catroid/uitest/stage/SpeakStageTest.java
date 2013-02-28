@@ -130,10 +130,10 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 		assertEquals("TextToSpeech executed with wrong text", textMessageTest, textToSpeechMock.text);
-		solo.sleep(4000);
+		solo.sleep(3000);
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
-		//		assertEquals("TextToSpeech exectuted with wrong utterance id", "1",
-		//				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
+		assertEquals("TextToSpeech exectuted with wrong utterance id", "1",
+				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 		assertEquals("TextToSpeech executed with wrong text", textMessageHello, textToSpeechMock.text);
 	}
 
@@ -173,14 +173,22 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		Script startScriptNormal = new StartScript(spriteNormal);
 		WaitBrick waitBrickNormal = new WaitBrick(spriteNormal, 1000);
 		SpeakBrick speakBrickNormal = new SpeakBrick(spriteNormal, textMessageTest);
-		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 3000);
-		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageHello);
+		BroadcastBrick broadcastBrickNormal = new BroadcastBrick(spriteNormal);
+		broadcastBrickNormal.setSelectedMessage("normal");
 		startScriptNormal.addBrick(waitBrickNormal);
 		startScriptNormal.addBrick(speakBrickNormal);
-		startScriptNormal.addBrick(waitBrickNormal2);
-		startScriptNormal.addBrick(speakBrickNormal2);
+		startScriptNormal.addBrick(broadcastBrickNormal);
 
 		spriteNormal.addScript(startScriptNormal);
+
+		BroadcastScript broadcastScriptNormal = new BroadcastScript(spriteNormal);
+		broadcastScriptNormal.setBroadcastMessage("normal");
+		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 1000);
+		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageHello);
+		broadcastScriptNormal.addBrick(waitBrickNormal2);
+		broadcastScriptNormal.addBrick(speakBrickNormal2);
+
+		spriteNormal.addScript(broadcastScriptNormal);
 
 		ArrayList<Sprite> spriteListNormal = new ArrayList<Sprite>();
 		spriteListNormal.add(spriteNormal);
