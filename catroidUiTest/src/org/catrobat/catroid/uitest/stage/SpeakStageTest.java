@@ -130,16 +130,11 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 		assertEquals("TextToSpeech executed with wrong text", textMessageTest, textToSpeechMock.text);
-		solo.sleep(2200);
+		solo.sleep(3000);
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "1",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 		assertEquals("TextToSpeech executed with wrong text", textMessageHello, textToSpeechMock.text);
-		solo.sleep(2000);
-		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
-		assertEquals("TextToSpeech exectuted with wrong utterance id", "2",
-				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
-		assertEquals("TextToSpeech executed with wrong text", textMessageTest, textToSpeechMock.text);
 	}
 
 	public void testSimultaneousTextToSpeech() throws InterruptedException {
@@ -179,11 +174,9 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		WaitBrick waitBrickNormal = new WaitBrick(spriteNormal, 1000);
 		SpeakBrick speakBrickNormal = new SpeakBrick(spriteNormal, textMessageTest);
 		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageHello);
-		SpeakBrick speakBrickNormal3 = new SpeakBrick(spriteNormal, textMessageTest);
 		startScriptNormal.addBrick(waitBrickNormal);
 		startScriptNormal.addBrick(speakBrickNormal);
 		startScriptNormal.addBrick(speakBrickNormal2);
-		startScriptNormal.addBrick(speakBrickNormal3);
 
 		spriteNormal.addScript(startScriptNormal);
 
