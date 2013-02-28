@@ -416,7 +416,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if (position >= brickList.size()) {
 
 			//just a hack for the moment:
-			position = brickList.size() - 1;
+			//position = brickList.size() - 1;
 
 			returnValue[0] = sprite.getNumberOfScripts() - 1;
 			if (returnValue[0] < 0) {
@@ -684,13 +684,15 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		wrapper.addView(currentBrickView);
 		if (draggedBrick == null) {
-			wrapper.setOnClickListener(this);
-			if (!(item instanceof DeadEndBrick)) {
-				wrapper.setOnLongClickListener(dragAndDropListView);
+			if ((selectMode == Constants.SELECT_NONE)) {
+				wrapper.setOnClickListener(this);
+				if (!(item instanceof DeadEndBrick)) {
+					wrapper.setOnLongClickListener(dragAndDropListView);
+				}
 			}
 		}
 
-		if (position == positionOfInsertedBrick && initInsertedBrick) {
+		if (position == positionOfInsertedBrick && initInsertedBrick && (selectMode == Constants.SELECT_NONE)) {
 			initInsertedBrick = false;
 			addingNewBrick = true;
 			dragAndDropListView.setInsertedBrick(position);
@@ -753,6 +755,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	@Override
 	public void onClick(final View view) {
+		/*
+		 * if (selectMode == Constants.SELECT_NONE) {
+		 * return;
+		 * }
+		 */
 		animatedBricks.clear();
 		final int itemPosition = calculateItemPositionAndTouchPointY(view);
 
@@ -800,7 +807,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			}
 		});
 		AlertDialog alertDialog = builder.create();
-		alertDialog.show();
+
+		if ((selectMode == Constants.SELECT_NONE)) {
+			alertDialog.show();
+		}
 	}
 
 	private int calculateItemPositionAndTouchPointY(View view) {

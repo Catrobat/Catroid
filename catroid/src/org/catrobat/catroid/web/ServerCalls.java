@@ -116,6 +116,7 @@ public class ServerCalls {
 				postValues.put(USER_LANGUAGE, language);
 			}
 
+			useTestUrl = true;
 			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL : FILE_UPLOAD_URL;
 			String httpPostUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL_HTTP;
 
