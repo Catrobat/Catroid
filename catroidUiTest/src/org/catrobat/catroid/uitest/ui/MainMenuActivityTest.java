@@ -247,7 +247,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
@@ -375,5 +375,28 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(500);
 		assertEquals("Number of bricks in background sprite was wrong - standard project was overwritten", 4,
 				ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
+	}
+
+	public void testProjectNameVisible() {
+		createTestProject(testProject);
+		createTestProject(testProject2);
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.clickOnText(testProject);
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+
+		solo.goBack();
+		assertTrue("The name of the current project is not displayed on the continue button", solo.getButton(0)
+				.getText().toString().endsWith(testProject));
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.clickOnText(testProject2);
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+
+		solo.goBack();
+		assertTrue("The name of the current project is not displayed on the continue button", solo.getButton(0)
+				.getText().toString().endsWith(testProject2));
 	}
 }
