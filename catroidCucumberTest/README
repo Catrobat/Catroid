@@ -9,7 +9,6 @@ You should use RVM with the .rvmrc provided in this directory.
 Install Ruby (http://www.ruby-lang.org)
 Install RVM (https://rvm.io)
 Install Cucumber (http://rubygems.org/gems/cucumber)
-Install Python (for the run-script, http://www.python.org)
 
 You may also need to install bundler (http://rubygems.org/gems/bundler) if you
 don't have it. It is required to build the calabash-android gem.
@@ -17,8 +16,4 @@ don't have it. It is required to build the calabash-android gem.
 RUNNING TESTS:
 --------------------------------------------------------------------------------
 
-Very first test: python run.py -c -b -bc
-Makes a clean Catroid build, builds and installs calabash-android and runs it.
-
-Repeated testing: python run.py -b
-(Re)build Catroid and run calabash-android.
+Use the Rakefile to run tests. Run rake -T to list available tasks.

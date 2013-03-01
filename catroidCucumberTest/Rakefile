@@ -1,0 +1,62 @@
+################################################################################
+# Catroid Cucumber Test Rakefile
+################################################################################
+catroid_dir  = File.expand_path("../catroid")
+calabash_dir = "calabash-android/ruby-gem"
+catroid_apk  = catroid_dir + "/bin/catroid-debug.apk"
+
+desc "Uninstall the calabash-android gem."
+task :clean_calabash do
+  system "(gem uninstall -a 'calabash-android')"
+end
+
+desc "Build and install the calabash-android gem."
+task :build_calabash, [:rebuild] do |t, args|
+  args.with_defaults(:rebuild => false)
+  begin
+    gem "calabash-android"
+    is_installed = true
+  rescue Exception #GEM::LoadError
+    is_installed = false
+  end
+  if not is_installed or %w(yes true y t).include? args.rebuild
+    system "(cd '#{calabash_dir}' && rake build)"
+  else
+    puts "Nothing to do, calabash-android is already installed."
+  end
+end
+
+desc "Run 'ant clean' in the catroid directory."
+task :clean_catroid do
+  system "(cd '#{catroid_dir}' && ant clean)"
+end
+
+desc "Run 'ant debug' in the catroid directory."
+task :build_catroid, [:rebuild] do |t, args|
+  args.with_defaults(:rebuild => false)
+  if not File.exist?(catroid_apk) or %w(yes true y t).include? args.rebuild
+    system "(cd '#{catroid_dir}' && ant debug)"
+  else
+    puts "Nothing to do, catroid-debug.apk has already been built."
+  end
+end
+
+desc "Run cucumber tests on catroid using calabash-android."
+task :test => [:build_calabash, :build_catroid] do
+  system "(calabash-android run '#{catroid_apk}')"
+end
+
+desc "Rebuild and reinstall calabash-android before testing."
+task :test_clean_calabash => [:clean_calabash, :build_calabash, :build_catroid] do
+  system "(calabash-android run '#{catroid_apk}')"
+end
+
+desc "Rebuild catroid before testing."
+task :test_clean_catroid => [:build_calabash, :clean_catroid, :build_catroid] do
+  system "(calabash-android run '#{catroid_apk}')"
+end
+
+desc "Rebuild both calabash-android and catroid before testing."
+task :test_clean_all => [:clean_calabash, :build_calabash, :clean_catroid, :build_catroid] do
+  system "(calabash-android run '#{catroid_apk}')"
+end
