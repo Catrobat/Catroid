@@ -506,11 +506,11 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		setAbsoluteCursorPosition(0);
 		assertTrue("Start not visible in preview after cursor change", preview.getText().toString().contains("9"));
 
-		setAbsoluteCursorPosition(formulaEditorEditText.getText().toString().indexOf("2 + 1") + 2);
-		assertTrue("Middle not visible in preview after cursor change", preview.getText().toString().contains("2 + 1"));
+		setAbsoluteCursorPosition(formulaEditorEditText.getText().toString().indexOf("76") + 2);
+		assertTrue("Middle not visible in preview after cursor change", preview.getText().toString().contains("76"));
 
 		setAbsoluteCursorPosition(formulaEditorEditText.getText().length());
-		assertTrue("End not visible in preview after cursor change", preview.getText().toString().contains("64"));
+		assertTrue("End not visible in preview after cursor change", preview.getText().toString().contains("33"));
 
 		solo.goBack();
 		solo.goBack();
