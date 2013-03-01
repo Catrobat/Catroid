@@ -138,14 +138,12 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_loop_end_layout);
+		if (layout == null) {
+			layout = (LinearLayout) view.findViewById(R.id.brick_loop_end_no_puzzle_layout);
+		}
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 		return view;
-	}
-
-	public View getViewWithAlphaAndContext(Context context, int alphaValue) {
-		getView(context, 0, null);
-		return getViewWithAlpha(alphaValue);
 	}
 
 	@Override
