@@ -165,12 +165,12 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String GoBackValue = Integer.toString(BrickValues.GO_BACK);
 		assertEquals("Value in Brick GoBack are not correct", GoBackValue, GoBackPrototype);
 
-		solo.clickOnText(solo.getString(R.string.brick_point_in_direction));
+		solo.clickOnText(solo.getString(R.string.brick_go_back));
 		solo.clickOnScreen(200, 200);
 
-		TextView PointinDirectionSelect = (TextView) solo.getView(R.id.brick_point_in_direction_edit_text);
-		String EditText = PointinDirectionSelect.getText().toString();
-		assertEquals("Value in Selected Brick PointInDirection are not correct", PointInDirectionValue, EditText);
+		TextView GoBackSelect = (TextView) solo.getView(R.id.brick_go_back_edit_text);
+		String EditText = GoBackSelect.getText().toString();
+		assertEquals("Value in Selected Brick GoBack are not correct", GoBackValue, EditText);
 
 		solo.goBack();
 	}
