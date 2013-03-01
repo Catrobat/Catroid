@@ -844,7 +844,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	@Override
 	public int getAmountOfCheckedItems() {
-		return checkedBricks.size();
+		return getCheckedBricks().size();
 	}
 
 	@Override
@@ -853,12 +853,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	public List<Brick> getCheckedBrickList() {
-		return checkedBricks;
+		return getCheckedBricks();
 	}
 
 	@Override
 	public void clearCheckedItems() {
-		checkedBricks.clear();
+		getCheckedBricks().clear();
 		setCheckboxVisibility(View.GONE);
 		uncheckAllItems();
 		notifyDataSetChanged();
@@ -895,15 +895,16 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			if (selectMode == Constants.SINGLE_SELECT) {
 				clearCheckedItems();
 			}
-			if (brick.getCheckBox().isChecked() && smartBrickSelection(brick, isChecked)) {
+			if (brick.getCheckBox() != null && brick.getCheckBox().isChecked() && smartBrickSelection(brick, isChecked)) {
 				return;
 			}
 			addElementToCheckedBricks(brick);
 		} else {
-			if (!brick.getCheckBox().isChecked() && smartBrickSelection(brick, isChecked)) {
+			if (brick.getCheckBox() != null && !brick.getCheckBox().isChecked()
+					&& smartBrickSelection(brick, isChecked)) {
 				return;
 			}
-			checkedBricks.remove(brick);
+			getCheckedBricks().remove(brick);
 		}
 		notifyDataSetChanged();
 
@@ -931,7 +932,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				addElementToCheckedBricks(brick);
 				animatedBricks.add(brick);
 			} else {
-				checkedBricks.remove(brick);
+				getCheckedBricks().remove(brick);
 			}
 			brick.getCheckBox().setChecked(check);
 			notifyDataSetChanged();
@@ -943,7 +944,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					addElementToCheckedBricks(currentBrick);
 					animatedBricks.add(currentBrick);
 				} else {
-					checkedBricks.remove(currentBrick);
+					getCheckedBricks().remove(currentBrick);
 				}
 				if (currentBrick.getCheckBox() != null) {
 					currentBrick.getCheckBox().setChecked(check);
@@ -968,7 +969,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					animatedBricks.add(currentBrick);
 					addElementToCheckedBricks(currentBrick);
 				} else {
-					checkedBricks.remove(currentBrick);
+					getCheckedBricks().remove(currentBrick);
 				}
 				if (counter == 1) {
 					from = brickList.indexOf(currentBrick);
@@ -995,7 +996,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					animatedBricks.add(currentBrick);
 					addElementToCheckedBricks(currentBrick);
 				} else {
-					checkedBricks.remove(currentBrick);
+					getCheckedBricks().remove(currentBrick);
 				}
 				currentBrick.getCheckBox().setChecked(check);
 				handleBrickEnabledState(currentBrick, !check);
@@ -1026,8 +1027,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	private void addElementToCheckedBricks(Brick brick) {
-		if (!(checkedBricks.contains(brick))) {
-			checkedBricks.add(brick);
+		if (!(getCheckedBricks().contains(brick))) {
+			getCheckedBricks().add(brick);
 		}
 	}
 
@@ -1042,5 +1043,21 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			ProjectManager.INSTANCE.setCurrentScript(lastScript);
 			updateProjectBrickList();
 		}
+	}
+
+	public List<Brick> getCheckedBricks() {
+		return checkedBricks;
+	}
+
+	public void setCheckedBricks(List<Brick> checkedBricks) {
+		this.checkedBricks = checkedBricks;
+	}
+
+	public List<Brick> getReversedCheckedBrickList() {
+		List<Brick> reverseCheckedList = new ArrayList<Brick>();
+		for (int counter = checkedBricks.size() - 1; counter >= 0; counter--) {
+			reverseCheckedList.add(checkedBricks.get(counter));
+		}
+		return reverseCheckedList;
 	}
 }

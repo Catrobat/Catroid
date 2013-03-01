@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
@@ -452,15 +451,14 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			List<Brick> checkedBricks = adapter.getCheckedBrickList();
-			Iterator<Brick> iterator = checkedBricks.iterator();
+			//List<Brick> checkedBricks = adapter.getCheckedBrickList();
+			List<Brick> checkedBricks = adapter.getReversedCheckedBrickList();
 
-			int numberDeleted = 0;
-
-			while (iterator.hasNext()) {
-				Brick brick = iterator.next();
+			for (Brick brick : checkedBricks) {
 				deleteBrick(brick);
-				++numberDeleted;
+				//if (brick instanceof ScriptBrick) {	
+				//checkedBricks = removeCheckedBricksFromScript(brick, checkedBricks);
+				//}
 			}
 			setSelectMode(Constants.SELECT_NONE);
 			adapter.clearCheckedItems();
@@ -485,6 +483,15 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		int brickId = adapter.brickList.indexOf(brick);
 		int brickPosition = listView.getPositionForView(brick.getView(getActivity(), brickId, adapter));
 		adapter.removeFromBrickListAndProject(brickId, true);
+	}
+
+	public List<Brick> removeCheckedBricksFromScript(Brick scriptBrick, List<Brick> checkedBricks) {
+		//List<Brick> checkedBricks = adapter.getCheckedBricks();
+		int index = checkedBricks.indexOf(scriptBrick) + 1;
+		while (index < checkedBricks.size() && !(checkedBricks.get(index) instanceof ScriptBrick)) {
+			checkedBricks.remove(index);
+		}
+		return checkedBricks;
 	}
 
 	@Override
