@@ -1,9 +1,10 @@
 ################################################################################
 # Catroid Cucumber Test Rakefile
 ################################################################################
-catroid_dir  = File.expand_path("../catroid")
-calabash_dir = "calabash-android/ruby-gem"
-catroid_apk  = catroid_dir + "/bin/catroid-debug.apk"
+$root_dir      = File.expand_path("../")
+$catroid_dir   = File.expand_path("../catroid")
+$calabash_root = File.expand_path("calabash-android")
+$catroid_apk   = $catroid_dir + "/bin/catroid-debug.apk"
 
 desc "Uninstall the calabash-android gem."
 task :clean_calabash do
@@ -15,7 +16,10 @@ task :build_calabash, [:rebuild] do |t, args|
   args.with_defaults(:rebuild => false)
 
   if not gem_installed?("calabash-android") or %w(yes true y t).include? args.rebuild
-    system "(cd '#{calabash_dir}' && rake build)"
+    init_calabash_repo
+    Dir.chdir($calabash_root + "/ruby-gem") do
+      system "rake build"
+    end
   else
     puts "Nothing to do, calabash-android is already installed."
   end
@@ -23,15 +27,19 @@ end
 
 desc "Run 'ant clean' in the catroid directory."
 task :clean_catroid do
-  system "(cd '#{catroid_dir}' && ant clean)"
+  Dir.chdir($catroid_dir) do
+    system "ant clean"
+  end
 end
 
 desc "Run 'ant debug' in the catroid directory."
 task :build_catroid, [:rebuild] do |t, args|
   args.with_defaults(:rebuild => false)
 
-  if not File.exist?(catroid_apk) or %w(yes true y t).include? args.rebuild
-    system "(cd '#{catroid_dir}' && ant debug)"
+  if not File.exist?($catroid_apk) or %w(yes true y t).include? args.rebuild
+    Dir.chdir($catroid_dir) do
+      system "ant debug"
+    end
   else
     puts "Nothing to do, catroid-debug.apk has already been built."
   end
@@ -39,33 +47,29 @@ end
 
 desc "Run cucumber tests on catroid using calabash-android."
 task :test => [:build_calabash, :build_catroid] do
-  install_required_gems
-  system "(calabash-android run '#{catroid_apk}')"
+  run_tests
 end
 
 desc "Rebuild and reinstall calabash-android before testing."
 task :test_clean_calabash => [:clean_calabash, :build_calabash, :build_catroid] do
-  install_required_gems
-  system "(calabash-android run '#{catroid_apk}')"
+  run_tests
 end
 
 desc "Rebuild catroid before testing."
 task :test_clean_catroid => [:build_calabash, :clean_catroid, :build_catroid] do
-  install_required_gems
-  system "(calabash-android run '#{catroid_apk}')"
+  run_tests
 end
 
 desc "Rebuild both calabash-android and catroid before testing."
 task :test_clean_all => [:clean_calabash, :build_calabash, :clean_catroid, :build_catroid] do
-  install_required_gems
-  system "(calabash-android run '#{catroid_apk}')"
+  run_tests
 end
 
 def install_required_gems
   %w(cucumber bundler).each do |the_gem|
     if not gem_installed?(the_gem)
       puts "Install required gem '#{the_gem}'"
-      system "(gem install '#{the_gem}')"
+      system "gem install '#{the_gem}'"
     end
   end
 end
@@ -76,5 +80,21 @@ def gem_installed?(gem_name)
     return true
   rescue Exception #GEM::LoadError
     return false
+  end
+end
+
+def run_tests
+  install_required_gems
+  system "calabash-android run '#{$catroid_apk}'"
+end
+
+def init_calabash_repo
+  if Dir["#{$calabash_root}/*"].empty?
+    Dir.chdir($root_dir) do
+      system "git submodule init && git submodule update"
+    end
+    Dir.chdir($calabash_root) do
+      system "git submodule init && git submodule update"
+    end
   end
 end
