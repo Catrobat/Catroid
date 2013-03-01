@@ -103,29 +103,32 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		assertFalse("New project ok button not disabled!", okButton.isEnabled());
 	}
 
-	public void testProjectDescriptionNewProject() {
-		solo.clickOnButton(solo.getString(R.string.main_menu_new));
-		solo.sleep(2000);
-
-		EditText newProjectName = (EditText) solo.getView(R.id.project_name_edittext);
-		EditText newProjectDescription = (EditText) solo.getView(R.id.project_description_edittext);
-		int newProjectInputType = newProjectName.getInputType();
-		int newProjectDescriptionInputType = newProjectDescription.getInputType();
-		int newProjectInputTypeReference = android.text.InputType.TYPE_CLASS_TEXT
-				| android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
-		int newProjectDescriptionInputTypeReference = android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
-				| android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
-		solo.sleep(2000);
-		assertEquals("New project name field is not a text field", newProjectInputTypeReference, newProjectInputType);
-		assertEquals("Project description field is not multiline", newProjectDescriptionInputTypeReference,
-				newProjectDescriptionInputType);
-
-		int projectNameNumberOfLines = (newProjectName.getHeight() - newProjectName.getCompoundPaddingTop() - newProjectName
-				.getCompoundPaddingBottom()) / newProjectName.getLineHeight();
-		int projectDescriptionNumberOfLines = (newProjectDescription.getHeight()
-				- newProjectDescription.getCompoundPaddingTop() - newProjectDescription.getCompoundPaddingBottom())
-				/ newProjectDescription.getLineHeight();
-		assertEquals("Project name field is not a text field", 1, projectNameNumberOfLines);
-		assertEquals("Project description field is not multiline", 2, projectDescriptionNumberOfLines);
-	}
+	/*
+	 * public void testProjectDescriptionNewProject() {
+	 * solo.clickOnButton(solo.getString(R.string.main_menu_new));
+	 * solo.sleep(2000);
+	 * 
+	 * EditText newProjectName = (EditText) solo.getView(R.id.project_name_edittext);
+	 * EditText newProjectDescription = (EditText) solo.getView(R.id.project_description_edittext);
+	 * int newProjectInputType = newProjectName.getInputType();
+	 * int newProjectDescriptionInputType = newProjectDescription.getInputType();
+	 * int newProjectInputTypeReference = android.text.InputType.TYPE_CLASS_TEXT
+	 * | android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
+	 * int newProjectDescriptionInputTypeReference = android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
+	 * | android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
+	 * solo.sleep(2000);
+	 * assertEquals("New project name field is not a text field", newProjectInputTypeReference, newProjectInputType);
+	 * assertEquals("Project description field is not multiline", newProjectDescriptionInputTypeReference,
+	 * newProjectDescriptionInputType);
+	 * 
+	 * int projectNameNumberOfLines = (newProjectName.getHeight() - newProjectName.getCompoundPaddingTop() -
+	 * newProjectName
+	 * .getCompoundPaddingBottom()) / newProjectName.getLineHeight();
+	 * int projectDescriptionNumberOfLines = (newProjectDescription.getHeight()
+	 * - newProjectDescription.getCompoundPaddingTop() - newProjectDescription.getCompoundPaddingBottom())
+	 * / newProjectDescription.getLineHeight();
+	 * assertEquals("Project name field is not a text field", 1, projectNameNumberOfLines);
+	 * assertEquals("Project description field is not multiline", 2, projectDescriptionNumberOfLines);
+	 * }
+	 */
 }

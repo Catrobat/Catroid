@@ -55,7 +55,7 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_project";
 
 	private EditText newProjectEditText;
-	private EditText newProjectDescriptionEditText;
+	//private EditText newProjectDescriptionEditText;
 	private Dialog newProjectDialog;
 
 	@Override
@@ -63,10 +63,10 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_project, null);
 
 		newProjectEditText = (EditText) dialogView.findViewById(R.id.project_name_edittext);
-		newProjectDescriptionEditText = (EditText) dialogView.findViewById(R.id.project_description_edittext);
+		//newProjectDescriptionEditText = (EditText) dialogView.findViewById(R.id.project_description_edittext);
 
 		newProjectEditText.setText("");
-		newProjectDescriptionEditText.setText("");
+		//newProjectDescriptionEditText.setText("");
 
 		newProjectDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.new_project_dialog_title)
@@ -135,7 +135,7 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 
 	protected void handleOkButtonClick() {
 		String projectName = newProjectEditText.getText().toString().trim();
-		String projectDescription = newProjectDescriptionEditText.getText().toString().trim();
+		//String projectDescription = newProjectDescriptionEditText.getText().toString().trim();
 
 		if (projectName.length() == 0) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_no_name_entered));
@@ -149,7 +149,7 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 
 		try {
 			ProjectManager.INSTANCE.initializeNewProject(projectName, getActivity());
-			ProjectManager.INSTANCE.getCurrentProject().setDescription(projectDescription);
+			//ProjectManager.INSTANCE.getCurrentProject().setDescription(projectDescription);
 		} catch (IOException e) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_new_project));
 			dismiss();
