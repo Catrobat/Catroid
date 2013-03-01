@@ -1,0 +1,3 @@
+[submodule "catroidCucumberTest/calabash-android"]
+	path = catroidCucumberTest/calabash-android
+	url = git@github.com:Catrobat/calabash-android.git
