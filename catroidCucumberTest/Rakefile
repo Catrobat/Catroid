@@ -13,13 +13,8 @@ end
 desc "Build and install the calabash-android gem."
 task :build_calabash, [:rebuild] do |t, args|
   args.with_defaults(:rebuild => false)
-  begin
-    gem "calabash-android"
-    is_installed = true
-  rescue Exception #GEM::LoadError
-    is_installed = false
-  end
-  if not is_installed or %w(yes true y t).include? args.rebuild
+
+  if not gem_installed?("calabash-android") or %w(yes true y t).include? args.rebuild
     system "(cd '#{calabash_dir}' && rake build)"
   else
     puts "Nothing to do, calabash-android is already installed."
@@ -34,6 +29,7 @@ end
 desc "Run 'ant debug' in the catroid directory."
 task :build_catroid, [:rebuild] do |t, args|
   args.with_defaults(:rebuild => false)
+
   if not File.exist?(catroid_apk) or %w(yes true y t).include? args.rebuild
     system "(cd '#{catroid_dir}' && ant debug)"
   else
@@ -43,20 +39,42 @@ end
 
 desc "Run cucumber tests on catroid using calabash-android."
 task :test => [:build_calabash, :build_catroid] do
+  install_required_gems
   system "(calabash-android run '#{catroid_apk}')"
 end
 
 desc "Rebuild and reinstall calabash-android before testing."
 task :test_clean_calabash => [:clean_calabash, :build_calabash, :build_catroid] do
+  install_required_gems
   system "(calabash-android run '#{catroid_apk}')"
 end
 
 desc "Rebuild catroid before testing."
 task :test_clean_catroid => [:build_calabash, :clean_catroid, :build_catroid] do
+  install_required_gems
   system "(calabash-android run '#{catroid_apk}')"
 end
 
 desc "Rebuild both calabash-android and catroid before testing."
 task :test_clean_all => [:clean_calabash, :build_calabash, :clean_catroid, :build_catroid] do
+  install_required_gems
   system "(calabash-android run '#{catroid_apk}')"
+end
+
+def install_required_gems
+  %w(cucumber bundler).each do |the_gem|
+    if not gem_installed?(the_gem)
+      puts "Install required gem '#{the_gem}'"
+      system "(gem install '#{the_gem}')"
+    end
+  end
+end
+
+def gem_installed?(gem_name)
+  begin
+    Gem::Specification.find_by_name(gem_name)
+    return true
+  rescue Exception #GEM::LoadError
+    return false
+  end
 end

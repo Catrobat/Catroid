@@ -4,11 +4,10 @@ via calabash-android.
 SETUP:
 --------------------------------------------------------------------------------
 
-You should use RVM with the .rvmrc provided in this directory.
-
 Install Ruby (http://www.ruby-lang.org)
 Install RVM (https://rvm.io)
-Install Cucumber (http://rubygems.org/gems/cucumber)
+
+You should use RVM with the .rvmrc provided in this directory.
 
 You may also need to install bundler (http://rubygems.org/gems/bundler) if you
 don't have it. It is required to build the calabash-android gem.
