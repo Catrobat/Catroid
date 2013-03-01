@@ -482,6 +482,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 		int brickId = adapter.brickList.indexOf(brick);
 		//int brickPosition = listView.getPositionForView(brick.getView(getActivity(), brickId, adapter));
+		if (brickId == -1) {
+			return;
+		}
 		adapter.removeFromBrickListAndProject(brickId, true);
 	}
 
