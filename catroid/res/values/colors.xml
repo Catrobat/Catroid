@@ -56,7 +56,6 @@
     <color name="program_menu_button_background_gradient_start_color">#00475E</color>
     <color name="program_menu_button_background_gradient_end_color">#003F54</color>
     <color name="program_menu_button_background_top_border_color">#4D7F8F</color>
-    <color name="program_menu_button_background_bottom_border_color">#001926</color>
     <color name="program_menu_background_color">#04222C</color>
     
     <!-- Bottom Bar Colors -->
