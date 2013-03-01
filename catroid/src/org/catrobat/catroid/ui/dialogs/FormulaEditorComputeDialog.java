@@ -77,7 +77,6 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 	@Override
 	protected void onStop() {
 		SensorHandler.unregisterListener(this);
-		SensorHandler.stopSensorListeners();
 		super.onStop();
 	}
 

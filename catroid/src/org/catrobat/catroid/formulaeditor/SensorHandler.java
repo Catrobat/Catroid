@@ -87,6 +87,13 @@ public class SensorHandler implements SensorEventListener {
 		sensorManager.unregisterListener(instance);
 	}
 
+	public static void stopSensorListeners(SensorEventListener listener) {
+		if (instance == null) {
+			return;
+		}
+		sensorManager.unregisterListener(listener);
+	}
+
 	public static Double getSensorValue(String sensorName) {
 		Double sensorValue = 0.0;
 		if (sensorName.equals(Sensors.X_ACCELERATION_.sensorName)) {
@@ -188,9 +195,6 @@ public class SensorHandler implements SensorEventListener {
 				rotationVector[0] = event.values[0];
 				rotationVector[1] = event.values[1];
 				rotationVector[2] = event.values[2];
-				Log.e("info", "rot0: " + rotationVector[0]);
-				Log.e("info", "rot1: " + rotationVector[1]);
-				Log.e("info", "rot2: " + rotationVector[2]);
 				break;
 		}
 

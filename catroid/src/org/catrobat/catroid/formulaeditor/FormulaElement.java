@@ -276,7 +276,8 @@ public class FormulaElement implements Serializable {
 		} else if (type == ElementType.SENSOR) {
 			returnValue = SensorHandler.getSensorValue(value);
 		} else if (type == ElementType.USER_VARIABLE) {
-			String spriteName = ProjectManager.getInstance().getCurrentSprite().getName();
+			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+			String spriteName = currentSprite == null ? "" : currentSprite.getName();
 			String threadName = Thread.currentThread().getName();
 			if (threadName.startsWith(Sprite.SCRIPT_THREAD_NAME_PREFIX)) {
 				spriteName = Thread.currentThread().getName().substring(Sprite.SCRIPT_THREAD_NAME_PREFIX.length()); //TODO do not save in Thread
