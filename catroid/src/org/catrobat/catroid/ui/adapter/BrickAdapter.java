@@ -84,6 +84,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	private int selectMode;
 	private OnBrickEditListener onBrickEditListener;
 
+	public int listItemCount = 0;
+
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
 		this.sprite = sprite;
@@ -646,6 +648,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if (draggedBrick != null && dragTargetPosition == position) {
 			return insertionView;
 		}
+		listItemCount = position + 1;
 
 		Object item = getItem(position);
 

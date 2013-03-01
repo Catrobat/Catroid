@@ -377,6 +377,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		// TODO Auto-generated method stub
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+
+			for (int i = adapter.listItemCount; i < adapter.brickList.size(); i++) {
+				adapter.getView(i, null, getListView());
+			}
+
 			unregisterForContextMenu(listView);
 			BottomBar.disableButtons(getActivity());
 			//isRenameActionMode = false;
