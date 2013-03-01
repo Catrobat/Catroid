@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
@@ -920,9 +921,18 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 
 		if (enableState) {
-			brick.getViewWithAlpha(255);
+			//this is just a quickfix because loopendbrick may have view=null yet
+			if (brick instanceof LoopEndBrick) {
+				((LoopEndBrick) brick).getViewWithAlphaAndContext(context, 255);
+			} else {
+				brick.getViewWithAlpha(255);
+			}
 		} else {
-			brick.getViewWithAlpha(50);
+			if (brick instanceof LoopEndBrick) {
+				((LoopEndBrick) brick).getViewWithAlphaAndContext(context, 50);
+			} else {
+				brick.getViewWithAlpha(50);
+			}
 		}
 	}
 
@@ -931,7 +941,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			if (brick.getCheckBox() != null) {
 				brick.getCheckBox().setEnabled(true);
 			}
-			brick.getViewWithAlpha(255);
+			if (brick instanceof LoopEndBrick) {
+				((LoopEndBrick) brick).getViewWithAlphaAndContext(context, 255);
+			} else {
+				brick.getViewWithAlpha(255);
+			}
 		}
 	}
 

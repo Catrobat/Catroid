@@ -143,6 +143,11 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		return view;
 	}
 
+	public View getViewWithAlphaAndContext(Context context, int alphaValue) {
+		getView(context, 0, null);
+		return getViewWithAlpha(alphaValue);
+	}
+
 	@Override
 	public Brick clone() {
 		return new LoopEndBrick(getSprite(), getLoopBeginBrick());
