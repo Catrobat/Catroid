@@ -218,4 +218,9 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	public CheckBox getCheckBox() {
 		return checkbox;
 	}
+
+	@Override
+	public void setCheckedBoolean(boolean newValue) {
+		checked = newValue;
+	}
 }

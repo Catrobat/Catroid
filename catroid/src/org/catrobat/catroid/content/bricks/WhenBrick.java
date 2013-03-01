@@ -176,4 +176,9 @@ public class WhenBrick extends ScriptBrick {
 	public CheckBox getCheckBox() {
 		return checkbox;
 	}
+
+	@Override
+	public void setCheckedBoolean(boolean newValue) {
+		checked = newValue;
+	}
 }

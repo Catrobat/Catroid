@@ -136,4 +136,9 @@ public class WhenStartedBrick extends ScriptBrick {
 		background.setAlpha(alphaValue);
 		return view;
 	}
+
+	@Override
+	public void setCheckedBoolean(boolean newValue) {
+		checked = newValue;
+	}
 }

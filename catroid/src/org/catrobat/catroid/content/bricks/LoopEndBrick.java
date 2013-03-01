@@ -214,4 +214,9 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	public CheckBox getCheckBox() {
 		return checkbox;
 	}
+
+	@Override
+	public void setCheckedBoolean(boolean newValue) {
+		checked = newValue;
+	}
 }

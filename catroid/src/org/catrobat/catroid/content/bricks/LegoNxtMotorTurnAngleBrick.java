@@ -302,4 +302,9 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 		return view;
 	}
 
+	@Override
+	public void setCheckedBoolean(boolean newValue) {
+		checked = newValue;
+	}
+
 }

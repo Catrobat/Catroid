@@ -173,4 +173,9 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 		background.setAlpha(alphaValue);
 		return view;
 	}
+
+	@Override
+	public void setCheckedBoolean(boolean newValue) {
+		checked = newValue;
+	}
 }

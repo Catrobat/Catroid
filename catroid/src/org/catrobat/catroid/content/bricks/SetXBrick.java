@@ -170,4 +170,9 @@ public class SetXBrick implements Brick, OnClickListener {
 	public CheckBox getCheckBox() {
 		return checkbox;
 	}
+
+	@Override
+	public void setCheckedBoolean(boolean newValue) {
+		checked = newValue;
+	}
 }

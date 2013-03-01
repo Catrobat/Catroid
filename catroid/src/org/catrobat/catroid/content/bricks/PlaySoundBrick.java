@@ -180,4 +180,9 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	public CheckBox getCheckBox() {
 		return checkbox;
 	}
+
+	@Override
+	public void setCheckedBoolean(boolean newValue) {
+		checked = newValue;
+	}
 }

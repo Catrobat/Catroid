@@ -853,10 +853,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		return null;
 	}
 
-	public List<Brick> getCheckedBrickList() {
-		return getCheckedBricks();
-	}
-
 	@Override
 	public void clearCheckedItems() {
 		checkedBricks.clear();

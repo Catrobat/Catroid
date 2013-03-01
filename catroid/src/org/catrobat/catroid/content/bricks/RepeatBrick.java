@@ -92,6 +92,13 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 				@Override
 				public void onClick(View v) {
 					checked = !checked;
+
+					if (!checked) {
+						for (Brick currentBrick : adapter.getCheckedBricks()) {
+							currentBrick.setCheckedBoolean(false);
+						}
+					}
+
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
@@ -169,5 +176,10 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	@Override
 	public CheckBox getCheckBox() {
 		return checkbox;
+	}
+
+	@Override
+	public void setCheckedBoolean(boolean newValue) {
+		checked = newValue;
 	}
 }

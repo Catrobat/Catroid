@@ -77,6 +77,13 @@ public class ForeverBrick extends LoopBeginBrick {
 				@Override
 				public void onClick(View v) {
 					checked = !checked;
+
+					if (!checked) {
+						for (Brick currentBrick : adapter.getCheckedBricks()) {
+							currentBrick.setCheckedBoolean(false);
+						}
+					}
+
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
@@ -120,5 +127,10 @@ public class ForeverBrick extends LoopBeginBrick {
 	@Override
 	public CheckBox getCheckBox() {
 		return checkbox;
+	}
+
+	@Override
+	public void setCheckedBoolean(boolean newValue) {
+		checked = newValue;
 	}
 }

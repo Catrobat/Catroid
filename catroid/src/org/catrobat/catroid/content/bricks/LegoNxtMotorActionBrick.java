@@ -306,4 +306,9 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 		background.setAlpha(alphaValue);
 		return view;
 	}
+
+	@Override
+	public void setCheckedBoolean(boolean newValue) {
+		checked = newValue;
+	}
 }

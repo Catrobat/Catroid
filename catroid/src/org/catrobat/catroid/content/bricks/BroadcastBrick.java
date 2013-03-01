@@ -237,4 +237,9 @@ public class BroadcastBrick implements Brick {
 		background.setAlpha(alphaValue);
 		return view;
 	}
+
+	@Override
+	public void setCheckedBoolean(boolean newValue) {
+		checked = newValue;
+	}
 }

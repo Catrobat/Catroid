@@ -344,4 +344,9 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 	public CheckBox getCheckBox() {
 		return checkbox;
 	}
+
+	@Override
+	public void setCheckedBoolean(boolean newValue) {
+		checked = newValue;
+	}
 }

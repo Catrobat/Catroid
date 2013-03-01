@@ -307,4 +307,9 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 	public CheckBox getCheckBox() {
 		return checkbox;
 	}
+
+	@Override
+	public void setCheckedBoolean(boolean newValue) {
+		checked = newValue;
+	}
 }
