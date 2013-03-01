@@ -858,9 +858,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	@Override
 	public void clearCheckedItems() {
-		getCheckedBricks().clear();
+		checkedBricks.clear();
 		setCheckboxVisibility(View.GONE);
 		uncheckAllItems();
+		enableAllBricks();
 		notifyDataSetChanged();
 	}
 
@@ -922,6 +923,15 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			brick.getViewWithAlpha(255);
 		} else {
 			brick.getViewWithAlpha(50);
+		}
+	}
+
+	private void enableAllBricks() {
+		for (Brick brick : brickList) {
+			if (brick.getCheckBox() != null) {
+				brick.getCheckBox().setEnabled(true);
+			}
+			brick.getViewWithAlpha(255);
 		}
 	}
 
