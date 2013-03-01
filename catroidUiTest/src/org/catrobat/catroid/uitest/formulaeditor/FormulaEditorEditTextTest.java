@@ -147,11 +147,6 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		assertEquals("Cursor not found in text, but should be", 2, solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)
 				.getSelectionEnd());
 
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	@Smoke
@@ -211,11 +206,6 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 						solo.getString(R.string.formula_editor_sensor_y_acceleration) + " "
 								+ solo.getString(R.string.formula_editor_sensor_x_acceleration), true));
 
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	@Smoke
@@ -263,11 +253,6 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		assertEquals("Text deletion was wrong!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText()
 				.toString());
 
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	@Smoke
@@ -302,11 +287,6 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		assertEquals("Text deletion was wrong!", editTextString, solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)
 				.getText().toString());
 
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	@Smoke
@@ -347,11 +327,6 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		assertEquals("Function deletion failed!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText()
 				.toString());
 
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	@Smoke
@@ -404,11 +379,6 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		doubleClickOnFormulaEditorEditText();
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	@Smoke
@@ -428,11 +398,6 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		assertEquals("Wrong text in FormulaEditor", "0" + getActivity().getString(R.string.formula_editor_decimal_mark)
 				+ "0 ", solo.getEditText(X_POS_EDIT_TEXT_ID).getText().toString());
 
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	@Smoke
@@ -459,11 +424,6 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.sleep(50);
 		assertTrue("Toast not found", solo.searchText(solo.getString(R.string.formula_editor_parse_fail)));
 
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	@Smoke
@@ -487,11 +447,6 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		assertTrue("Wrong number of characters deleted!", solo.searchText("4 "));
 
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	@Smoke
@@ -512,11 +467,6 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		setAbsoluteCursorPosition(formulaEditorEditText.getText().length());
 		assertTrue("End not visible in preview after cursor change", preview.getText().toString().contains("33"));
 
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	@Smoke
@@ -588,11 +538,6 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		assertEquals("Text not deleted correctly", "8 + 3 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText()
 				.toString());
 
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	public void testStrings() {
@@ -701,11 +646,6 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		assertFalse("Unallowed char or string found (hyphen, costumephrase, spritephrase).",
 				hyphenOrCostumephraseOrSpritephraseFound);
 
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 	}
 
 	public void testComputeDialog() {
@@ -783,12 +723,6 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		sensorManager.stopSimulation();
 
 		assertTrue("Sensor interpretation error", maxLoops > 0);
-
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 
 	}
 
