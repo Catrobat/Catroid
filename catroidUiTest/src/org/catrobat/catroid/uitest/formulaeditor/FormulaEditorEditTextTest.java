@@ -650,9 +650,10 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 
 	public void testComputeDialog() {
 
-		//initialize singleton SensorHandler
+		//For initialization
 		SensorHandler.startSensorListener(solo.getCurrentActivity());
 		SensorHandler.stopSensorListeners();
+
 		SimulatedSensorManager sensorManager = new SimulatedSensorManager();
 		Reflection.setPrivateField(SensorHandler.class, "sensorManager", sensorManager);
 
@@ -668,6 +669,7 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		assertEquals("computeTextView did not contain the correct value", "-2.0", computeTextView.getText().toString());
 
 		solo.goBack();
+		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_6));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_decimal_mark));
@@ -686,6 +688,8 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 
 		solo.goBack();
 
+		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
+
 		View preview = UiTestUtils.getViewContainerByIds(solo, R.id.brick_change_size_by_edit_text,
 				R.id.formula_editor_brick_space);
 
@@ -693,7 +697,7 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_x_acceleration));
 
-		solo.waitForView(solo.getView(R.id.formula_editor_compute_dialog_textview));
+		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));

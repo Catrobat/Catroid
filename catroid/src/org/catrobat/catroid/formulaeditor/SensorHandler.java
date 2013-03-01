@@ -38,7 +38,7 @@ public class SensorHandler implements SensorEventListener {
 	private static Sensor rotationVectorSensor = null;
 	private static float[] rotationMatrix = new float[16];
 	private static float[] rotationVector = new float[3];
-	private static final float radianToDegreeConst = 180f / (float) Math.PI;
+	public static final float radianToDegreeConst = 180f / (float) Math.PI;
 
 	private static float linearAcceleartionX = 0f;
 	private static float linearAcceleartionY = 0f;
@@ -47,8 +47,8 @@ public class SensorHandler implements SensorEventListener {
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
 				(android.hardware.SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
-		accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-		rotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+		SensorHandler.accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+		SensorHandler.rotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
 	}
 
 	public static void startSensorListener(Context context) {

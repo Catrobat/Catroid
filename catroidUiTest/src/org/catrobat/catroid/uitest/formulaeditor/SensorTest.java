@@ -41,12 +41,15 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
+import org.catrobat.catroid.uitest.util.SimulatedSensorManager;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.badlogic.gdx.Input;
@@ -61,6 +64,7 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 	private Sprite firstSprite;
 	private Brick changeBrick;
 	Script startScript1;
+	private float delta = 0.001f;
 
 	public SensorTest() {
 		super(MainMenuActivity.class);
@@ -74,6 +78,8 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 
 	@Override
 	public void tearDown() throws Exception {
+		SensorHandler.stopSensorListeners();
+		Reflection.setPrivateField(SensorHandler.class, "sensorManager", null);
 		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
@@ -84,12 +90,6 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 	public void testSensors() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		int expectedX = 995;
-		int expectedY = 990;
-		int expectedZ = 985;
-		int expectedOrientationZ = 146;
-		int expectedOrientationX = 1;
-		int expectedOrientationY = -146;
 
 		createProject();
 
@@ -120,23 +120,77 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
-		//start and stop for initialization
-		SensorHandler.startSensorListener(getActivity());
-		assertNotNull("SensorManager not started", Reflection.getPrivateField(SensorHandler.class, "mySensorManager"));
+		//For initialization
+
+		SensorHandler.startSensorListener(solo.getCurrentActivity());
 		SensorHandler.stopSensorListeners();
 
-		Reflection.setPrivateField(SensorHandler.class, "linearAcceleartionX", expectedX);
-		Reflection.setPrivateField(SensorHandler.class, "linearAcceleartionY", expectedY);
-		Reflection.setPrivateField(SensorHandler.class, "linearAcceleartionZ", expectedZ);
-		Reflection.setPrivateField(SensorHandler.class, "rotationVector", new float[] { 1f, 1f, 1f });
+		SimulatedSensorManager sensorManager = new SimulatedSensorManager();
+		Reflection.setPrivateField(SensorHandler.class, "sensorManager", sensorManager);
+		Sensor accelerometerSensor = (Sensor) Reflection.getPrivateField(SensorHandler.class, "accelerometerSensor");
+		Sensor rotationVectorSensor = (Sensor) Reflection.getPrivateField(SensorHandler.class, "rotationVectorSensor");
+		SensorHandler.startSensorListener(getActivity());
 
-		assertEquals("Sensor value is wrong", expectedX, formula.interpretInteger());
-		assertEquals("Sensor value is wrong", expectedY, formula1.interpretInteger());
-		assertEquals("Sensor value is wrong", expectedZ, formula2.interpretInteger());
+		sensorManager.startSimulation();
 
-		assertEquals("Sensor value is wrong", expectedOrientationZ, formula3.interpretInteger());
-		assertEquals("Sensor value is wrong", expectedOrientationX, formula4.interpretInteger());
-		assertEquals("Sensor value is wrong", expectedOrientationY, formula5.interpretInteger());
+		long startTime = System.currentTimeMillis();
+
+		while (sensorManager.getLatestSensorEvent(accelerometerSensor) == null
+				|| sensorManager.getLatestSensorEvent(rotationVectorSensor) == null
+				|| checkValidRotationValues(sensorManager.getLatestSensorEvent(rotationVectorSensor)) == false) {
+			if (startTime < System.currentTimeMillis() - 1000 * 5) {
+				fail("SensorEvent generation Timeout. Check Sensor Simulation!");
+
+			}
+		}
+
+		sensorManager.stopSimulation();
+
+		float expectedX = (Float) Reflection.getPrivateField(SensorHandler.class, "linearAcceleartionX");
+		float expectedY = (Float) Reflection.getPrivateField(SensorHandler.class, "linearAcceleartionY");
+		float expectedZ = (Float) Reflection.getPrivateField(SensorHandler.class, "linearAcceleartionZ");
+
+		float[] rotationMatrix = new float[16];
+		float[] rotationVector = (float[]) Reflection.getPrivateField(SensorHandler.class, "rotationVector");
+		float[] orientations = new float[3];
+
+		SensorHandler.getRotationMatrixFromVector(rotationMatrix, rotationVector);
+		android.hardware.SensorManager.getOrientation(rotationMatrix, orientations);
+		double expectedOrientationX = Double.valueOf(orientations[1]) * SensorHandler.radianToDegreeConst;
+		double expectedOrientationZ = Double.valueOf(orientations[0]) * SensorHandler.radianToDegreeConst;
+		double expectedOrientationY = Double.valueOf(orientations[2]) * SensorHandler.radianToDegreeConst;
+
+		assertEquals("Sensor value is wrong", expectedX, formula.interpretFloat(), delta);
+		assertEquals("Sensor value is wrong", expectedY, formula1.interpretFloat(), delta);
+		assertEquals("Sensor value is wrong", expectedZ, formula2.interpretFloat(), delta);
+
+		assertEquals("Sensor value is wrong", expectedOrientationZ, formula3.interpretFloat(), delta);
+		assertEquals("Sensor value is wrong", expectedOrientationX, formula4.interpretFloat(), delta);
+		assertEquals("Sensor value is wrong", expectedOrientationY, formula5.interpretFloat(), delta);
+
+		SensorHandler.stopSensorListeners();
+
+	}
+
+	private boolean checkValidRotationValues(SensorEvent sensorEvent) {
+		float[] rotationMatrix = new float[16];
+		float[] rotationVector = (float[]) Reflection.getPrivateField(SensorHandler.class, "rotationVector");
+		float[] orientations = new float[3];
+
+		rotationVector[0] = sensorEvent.values[0];
+		rotationVector[1] = sensorEvent.values[1];
+		rotationVector[2] = sensorEvent.values[2];
+
+		SensorHandler.getRotationMatrixFromVector(rotationMatrix, rotationVector);
+		android.hardware.SensorManager.getOrientation(rotationMatrix, orientations);
+
+		for (float orientation : orientations) {
+			if (orientation == Float.NaN) {
+				return false;
+			}
+		}
+
+		return true;
 
 	}
 

@@ -59,9 +59,15 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 	float rotationAngleMinimum = 0;
 	float rotationAngleMaximum = (float) (2 * Math.PI);
 
-	public SimulatedSensorManager() {
-		listeners = new ArrayList<Pair<SensorEventListener, Sensor>>();
+	private List<SensorEvent> sentSensorEvents;
 
+	public SimulatedSensorManager() {
+		sentSensorEvents = new ArrayList<SensorEvent>();
+		listeners = new ArrayList<Pair<SensorEventListener, Sensor>>();
+		createSimulationThread();
+	}
+
+	private void createSimulationThread() {
 		simulationThread = new Thread(new Runnable() {
 			public void run() {
 				while (simulationThreadRunning) {
@@ -77,7 +83,7 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 	}
 
 	public synchronized void startSimulation() {
-		if (!simulationThread.isAlive()) {
+		if (simulationThreadRunning == false && !simulationThread.isAlive()) {
 			simulationThreadRunning = true;
 			simulationThread.start();
 		}
@@ -144,6 +150,9 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 
 					Reflection.setPrivateField(SensorEvent.class, sensorEvent, "values", sensorValues);
 
+					sentSensorEvents.add(0, sensorEvent);
+					sentSensorEvents = sentSensorEvents.subList(0,
+							sentSensorEvents.size() < 50 ? sentSensorEvents.size() : 50);
 					sensorEventListener.onSensorChanged(sensorEvent);
 					break;
 				case Sensor.TYPE_ROTATION_VECTOR:
@@ -162,6 +171,9 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 							* (rotationAngleMaximum - rotationAngleMinimum)) * 0.5f);
 
 					Reflection.setPrivateField(SensorEvent.class, sensorEvent, "values", sensorValues);
+					sentSensorEvents.add(0, sensorEvent);
+					sentSensorEvents = sentSensorEvents.subList(0,
+							sentSensorEvents.size() < 50 ? sentSensorEvents.size() : 50);
 					sensorEventListener.onSensorChanged(sensorEvent);
 					break;
 			}
@@ -170,6 +182,19 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 	}
 
 	public Sensor getDefaultSensor(int typeLinearAcceleration) {
+		return null;
+	}
+
+	public synchronized SensorEvent getLatestSensorEvent(Sensor sensor) {
+		Iterator<SensorEvent> iterator = sentSensorEvents.iterator();
+
+		while (iterator.hasNext()) {
+			SensorEvent sensorEvent = iterator.next();
+			if (sensorEvent.sensor == sensor) {
+				return sensorEvent;
+			}
+		}
+
 		return null;
 	}
 }
