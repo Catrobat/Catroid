@@ -414,7 +414,6 @@
     <string name="formula_editor_function_log">log</string>
     <string name="formula_editor_function_pi">pi</string>
     <string name="formula_editor_function_sqrt">wurzel</string>
-    <string name="formula_editor_function_e">e</string>
     <string name="formula_editor_function_rand">zufall</string>
     <string name="formula_editor_function_abs">abs</string>
     <string name="formula_editor_function_round">round</string>

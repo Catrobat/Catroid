@@ -156,8 +156,8 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 
 		SensorHandler.getRotationMatrixFromVector(rotationMatrix, rotationVector);
 		android.hardware.SensorManager.getOrientation(rotationMatrix, orientations);
-		double expectedOrientationX = Double.valueOf(orientations[1]) * SensorHandler.radianToDegreeConst;
 		double expectedOrientationZ = Double.valueOf(orientations[0]) * SensorHandler.radianToDegreeConst;
+		double expectedOrientationX = Double.valueOf(orientations[1]) * SensorHandler.radianToDegreeConst;
 		double expectedOrientationY = Double.valueOf(orientations[2]) * SensorHandler.radianToDegreeConst;
 
 		assertEquals("Sensor value is wrong", expectedX, formula.interpretFloat(), delta);

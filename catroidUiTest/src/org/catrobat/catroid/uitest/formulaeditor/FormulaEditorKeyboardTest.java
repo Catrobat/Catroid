@@ -501,15 +501,16 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 			if (iteration++ > 0) {
 				solo.goBack();
-				assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable), 0, 4000));
+				assertTrue("Variable Fragment not shown",
+						solo.waitForText(solo.getString(R.string.formula_editor_new_variable), 0, 4000));
 				solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-				assertTrue(solo.waitForText("Variable name ?"));
+				assertTrue("Add Variable Dialog not shown", solo.waitForText("Variable name ?"));
 
 				EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 				solo.enterText(editText, itemString);
 
 				if (!isGlobalVariable) {
-					assertTrue(solo.waitForText(solo
+					assertTrue("Variable Dialog not shown", solo.waitForText(solo
 							.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only)));
 					solo.clickOnText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only));
 				}
@@ -529,11 +530,12 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
-		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-		assertTrue(solo.waitForText("Variable name ?"));
+		assertTrue("Add Variable Dialog not shown", solo.waitForText("Variable name ?"));
 
-		assertTrue(solo.waitForText(solo.getString(R.string.ok)));
+		assertTrue("Variable Dialog not shown", solo.waitForText(solo.getString(R.string.ok)));
 
 		itemString = "zzz";
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
@@ -559,15 +561,17 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
-		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-		assertTrue(solo.waitForText("Variable name ?"));
+		assertTrue("Add Variable Dialog not shown", solo.waitForText("Variable name ?"));
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 
 		solo.enterText(editText, itemString);
 		clickOnDialogOk(itemString);
 
-		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		EditText text = (EditText) solo.getView(R.id.formula_editor_edit_field);
@@ -578,9 +582,10 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
 		itemString = itemString.replace(QUOTE, "");
-		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
 		solo.clickLongOnText(itemString);
-		assertTrue(solo.waitForText(solo.getString(R.string.delete)));
+		assertTrue("Delete not shown", solo.waitForText(solo.getString(R.string.delete)));
 		solo.clickOnText(solo.getString(R.string.delete));
 		assertFalse(itemString + " not found!", solo.searchText(itemString, true));
 
@@ -596,28 +601,30 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
-		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-		assertTrue(solo.waitForText("Variable name ?"));
+		assertTrue("Add Variable Dialog not shown", solo.waitForText("Variable name ?"));
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		solo.enterText(editText, itemString);
 		clickOnDialogOk(itemString);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-		assertTrue(solo.waitForText("Variable name ?"));
+		assertTrue("Add Variable Dialog not shown", solo.waitForText("Variable name ?"));
 		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		solo.enterText(editText, itemString2nd);
 		clickOnDialogOk(itemString2nd);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-		assertTrue(solo.waitForText("Variable name ?"));
+		assertTrue("Add Variable Dialog not shown", solo.waitForText("Variable name ?"));
 		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		solo.enterText(editText, itemString3rd);
 		clickOnDialogOk(itemString3rd);
 
 		solo.clickOnMenuItem(solo.getString(R.string.delete), true);
-		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
 		solo.clickOnText(itemString);
 		solo.clickOnText(itemString3rd);
 		solo.clickOnImage(ACTIONMODE_INDEX);
@@ -640,12 +647,14 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
-		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-		assertTrue(solo.waitForText("Variable name ?"));
+		assertTrue("Add Variable Dialog not shown", solo.waitForText("Variable name ?"));
 		solo.goBack();
-		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only)));
+		assertTrue("Add Variable Dialog not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only)));
 		solo.clickOnText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only));
 
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
@@ -655,8 +664,9 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		assertTrue(itemString + " not found:", solo.searchText(itemString, true));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-		assertTrue(solo.waitForText("Variable name ?"));
-		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only)));
+		assertTrue("Add Variable Dialog not shown", solo.waitForText("Variable name ?"));
+		assertTrue("Add Variable Dialog not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only)));
 		solo.goBack();
 
 		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
@@ -676,7 +686,8 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
-		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
 		assertFalse(itemString + "  should not be found:", solo.searchText(itemString, true));
 		assertTrue(itemString2nd + " not found:", solo.searchText(itemString2nd, true));
 
@@ -690,18 +701,20 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
-		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-		assertTrue(solo.waitForText("Variable name ?"));
+		assertTrue("Add Variable Dialog not shown", solo.waitForText("Variable name ?"));
 		String itemString = "var1";
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 
 		solo.enterText(editText, itemString);
 		clickOnDialogOk(itemString);
 
-		assertTrue(solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
 		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
-		assertTrue(solo.waitForText("Variable name ?"));
+		assertTrue("Add Variable Dialog not shown", solo.waitForText("Variable name ?"));
 
 		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		solo.enterText(editText, itemString);
@@ -729,7 +742,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.clearEditText(editText);
 		solo.enterText(editText, "var2");
 
-		assertTrue(solo.waitForText("var2"));
+		assertTrue("Inserted variable not shown", solo.waitForText("var2"));
 
 		userVariableNameEditText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		cd = (ColorDrawable) userVariableNameEditText.getBackground();
