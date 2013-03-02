@@ -128,7 +128,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		@SuppressWarnings("deprecation")
 		int height = display.getHeight();
 
-		solo.sleep(200);
+		solo.sleep(5000);
 		solo.drag(20, 20, 300, height - 20, 100);
 		// just to get focus and get the correct list
 		solo.clickOnText(scriptsName);

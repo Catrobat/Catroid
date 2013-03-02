@@ -93,6 +93,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		assertEquals("Current Script in List is not testScript", testScript2, ProjectManager.getInstance()
 				.getCurrentScript());
 
+		startBrick = parent.getChildAt(2);
 		String textViewText = solo.getCurrentTextViews(startBrick).get(1).getText().toString();
 		String startBrickText = solo.getString(R.string.brick_show);
 		assertEquals("Third script in listView is not startScript", startBrickText, textViewText);
