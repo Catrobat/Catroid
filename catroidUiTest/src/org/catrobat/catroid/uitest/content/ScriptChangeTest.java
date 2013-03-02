@@ -40,6 +40,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
