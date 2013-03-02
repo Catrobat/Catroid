@@ -215,14 +215,13 @@ public class UploadProjectDialog extends DialogFragment {
 		}
 
 		if (uploadName.equals(getString(R.string.default_project_name))) {
-			Utils.displayErrorMessageFragment(getFragmentManager(),
-					getString(R.string.error_upload_project_with_default_name));
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_upload_project_with_default_name));
 			return;
 		}
 
 		Context context = getActivity().getApplicationContext();
 		if (Utils.compareToStandardProject(projectManager.getCurrentProject(), context)) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_upload_default_project));
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_upload_default_project));
 			return;
 		}
 

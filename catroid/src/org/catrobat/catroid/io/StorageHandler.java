@@ -331,4 +331,8 @@ public class StorageHandler {
 		fileChecksumContainer.addChecksum(checksumSource, destinationFile.getAbsolutePath());
 	}
 
+	public String getXMLStringOfAProject(Project project) {
+		return xstream.toXML(project);
+	}
+
 }

@@ -293,6 +293,10 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		solo.clickOnButton(solo.getString(R.string.close));
 
+		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
+		solo.waitForText(uploadButtonText);
+		solo.goBack();
+
 		while (solo.scrollUp()) {
 
 		}
@@ -330,8 +334,9 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		assertTrue("Upload of the modified standard project should be possible, but did not succeed",
 				solo.searchText(solo.getString(R.string.success_project_upload)));
-		//
-		//		goToCatroidSpriteFromMainMenu();
+
+		//goToCatroidSpriteFromMainMenu();
+		//solo.sleep(5000);
 		//		solo.goBack();
 		//		solo.goBack();
 		//		solo.goBack();
