@@ -249,7 +249,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testDeleteActionModeNestedLoops() {
-		List<Brick> brickListToCheck = UiTestUtils.createTestProjectNestedLoops();
+		UiTestUtils.createTestProjectNestedLoops();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
@@ -277,7 +277,14 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		int numberOfForeverBricks = 0;
 		int numberOfEndBricks = 0;
 
-		for (Brick currentBrick : brickListToCheck) {
+		ListView dragAndDropListView = solo.getCurrentListViews().get(1);
+		List<Brick> currentBrickList = new ArrayList<Brick>();
+
+		for (int position = 0; position < dragAndDropListView.getChildCount(); position++) {
+			currentBrickList.add((Brick) dragAndDropListView.getItemAtPosition(position));
+		}
+
+		for (Brick currentBrick : currentBrickList) {
 			if (currentBrick instanceof ForeverBrick) {
 				numberOfForeverBricks++;
 			}
