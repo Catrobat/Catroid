@@ -134,17 +134,17 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
-
-			TextView setAngleTextView = (TextView) view.findViewById(R.id.brick_point_in_direction_prototype_text_view);
-			setAngleEditText = (EditText) view.findViewById(R.id.brick_point_in_direction_edit_text);
-
-			setAngleEditText.setText(String.valueOf(degrees));
-
-			setAngleTextView.setVisibility(View.GONE);
-			setAngleEditText.setVisibility(View.VISIBLE);
-
-			setAngleEditText.setOnClickListener(this);
 		}
+
+		TextView setAngleTextView = (TextView) view.findViewById(R.id.brick_point_in_direction_prototype_text_view);
+		setAngleEditText = (EditText) view.findViewById(R.id.brick_point_in_direction_edit_text);
+
+		setAngleEditText.setText(String.valueOf(degrees));
+
+		setAngleTextView.setVisibility(View.GONE);
+		setAngleEditText.setVisibility(View.VISIBLE);
+
+		setAngleEditText.setOnClickListener(this);
 		return view;
 	}
 

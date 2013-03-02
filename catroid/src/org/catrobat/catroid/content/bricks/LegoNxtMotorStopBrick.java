@@ -123,17 +123,17 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
-			ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
-					R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
-			motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-			Spinner motorSpinner = (Spinner) view.findViewById(R.id.stop_motor_spinner);
-			motorSpinner.setOnItemSelectedListener(this);
-			motorSpinner.setClickable(true);
-			motorSpinner.setEnabled(true);
-			motorSpinner.setAdapter(motorAdapter);
-			motorSpinner.setSelection(motorEnum.ordinal());
 		}
+		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
+				R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
+		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		Spinner motorSpinner = (Spinner) view.findViewById(R.id.stop_motor_spinner);
+		motorSpinner.setOnItemSelectedListener(this);
+		motorSpinner.setClickable(true);
+		motorSpinner.setEnabled(true);
+		motorSpinner.setAdapter(motorAdapter);
+		motorSpinner.setSelection(motorEnum.ordinal());
 		return view;
 	}
 

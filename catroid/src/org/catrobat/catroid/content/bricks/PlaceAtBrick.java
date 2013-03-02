@@ -93,23 +93,23 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
-
-			TextView textX = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_x);
-			EditText editX = (EditText) view.findViewById(R.id.brick_place_at_edit_text_x);
-			editX.setText(String.valueOf(xPosition));
-
-			textX.setVisibility(View.GONE);
-			editX.setVisibility(View.VISIBLE);
-			editX.setOnClickListener(this);
-
-			TextView textY = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_y);
-			EditText editY = (EditText) view.findViewById(R.id.brick_place_at_edit_text_y);
-			editY.setText(String.valueOf(yPosition));
-
-			textY.setVisibility(View.GONE);
-			editY.setVisibility(View.VISIBLE);
-			editY.setOnClickListener(this);
 		}
+
+		TextView textX = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_x);
+		EditText editX = (EditText) view.findViewById(R.id.brick_place_at_edit_text_x);
+		editX.setText(String.valueOf(xPosition));
+
+		textX.setVisibility(View.GONE);
+		editX.setVisibility(View.VISIBLE);
+		editX.setOnClickListener(this);
+
+		TextView textY = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_y);
+		EditText editY = (EditText) view.findViewById(R.id.brick_place_at_edit_text_y);
+		editY.setText(String.valueOf(yPosition));
+
+		textY.setVisibility(View.GONE);
+		editY.setVisibility(View.VISIBLE);
+		editY.setOnClickListener(this);
 		return view;
 	}
 

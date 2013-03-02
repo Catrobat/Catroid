@@ -92,15 +92,15 @@ public class SetYBrick implements Brick, OnClickListener {
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
-
-			TextView textY = (TextView) view.findViewById(R.id.brick_set_y_prototype_text_view);
-			EditText editY = (EditText) view.findViewById(R.id.brick_set_y_edit_text);
-			editY.setText(String.valueOf(yPosition));
-
-			textY.setVisibility(View.GONE);
-			editY.setVisibility(View.VISIBLE);
-			editY.setOnClickListener(this);
 		}
+
+		TextView textY = (TextView) view.findViewById(R.id.brick_set_y_prototype_text_view);
+		EditText editY = (EditText) view.findViewById(R.id.brick_set_y_edit_text);
+		editY.setText(String.valueOf(yPosition));
+
+		textY.setVisibility(View.GONE);
+		editY.setVisibility(View.VISIBLE);
+		editY.setOnClickListener(this);
 		return view;
 	}
 

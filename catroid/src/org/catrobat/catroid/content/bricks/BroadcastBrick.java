@@ -123,77 +123,77 @@ public class BroadcastBrick implements Brick {
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
-			final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);
-			broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
-			broadcastSpinner.setClickable(true);
-			broadcastSpinner.setFocusable(true);
+		}
+		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);
+		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
+		broadcastSpinner.setClickable(true);
+		broadcastSpinner.setFocusable(true);
 
-			broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-				private boolean start = true;
+		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			private boolean start = true;
 
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-					if (start) {
-						start = false;
-						return;
-					}
-					broadcastMessage = ((String) parent.getItemAtPosition(position)).trim();
-					if (broadcastMessage == context.getString(R.string.broadcast_nothing_selected)) {
-						broadcastMessage = "";
-					}
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if (start) {
+					start = false;
+					return;
 				}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0) {
+				broadcastMessage = ((String) parent.getItemAtPosition(position)).trim();
+				if (broadcastMessage == context.getString(R.string.broadcast_nothing_selected)) {
+					broadcastMessage = "";
 				}
-			});
-
-			int position = MessageContainer.getPositionOfMessageInAdapter(broadcastMessage);
-			if (position > 0) {
-				broadcastSpinner.setSelection(position);
 			}
 
-			Button newBroadcastMessage = (Button) view.findViewById(R.id.brick_broadcast_button_new_message);
-			newBroadcastMessage.setClickable(true);
-			newBroadcastMessage.setFocusable(true);
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
 
-			newBroadcastMessage.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View view) {
-					if (checkbox.getVisibility() == View.VISIBLE) {
-						return;
-					}
-					ScriptActivity activity = (ScriptActivity) context;
-
-					BrickTextDialog editDialog = new BrickTextDialog() {
-						@Override
-						protected void initialize() {
-						}
-
-						@Override
-						protected boolean handleOkButton() {
-							String newMessage = (input.getText().toString()).trim();
-							if (newMessage.length() == 0
-									|| newMessage.equals(context.getString(R.string.broadcast_nothing_selected))) {
-								dismiss();
-								return false;
-							}
-
-							broadcastMessage = newMessage;
-							MessageContainer.addMessage(broadcastMessage);
-							int position = MessageContainer.getPositionOfMessageInAdapter(broadcastMessage);
-
-							broadcastSpinner.setSelection(position);
-
-							return true;
-						}
-					};
-
-					editDialog.show(activity.getSupportFragmentManager(), "dialog_broadcast_brick");
-				}
-			});
+		int position = MessageContainer.getPositionOfMessageInAdapter(broadcastMessage);
+		if (position > 0) {
+			broadcastSpinner.setSelection(position);
 		}
+
+		Button newBroadcastMessage = (Button) view.findViewById(R.id.brick_broadcast_button_new_message);
+		newBroadcastMessage.setClickable(true);
+		newBroadcastMessage.setFocusable(true);
+
+		newBroadcastMessage.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				if (checkbox.getVisibility() == View.VISIBLE) {
+					return;
+				}
+				ScriptActivity activity = (ScriptActivity) context;
+
+				BrickTextDialog editDialog = new BrickTextDialog() {
+					@Override
+					protected void initialize() {
+					}
+
+					@Override
+					protected boolean handleOkButton() {
+						String newMessage = (input.getText().toString()).trim();
+						if (newMessage.length() == 0
+								|| newMessage.equals(context.getString(R.string.broadcast_nothing_selected))) {
+							dismiss();
+							return false;
+						}
+
+						broadcastMessage = newMessage;
+						MessageContainer.addMessage(broadcastMessage);
+						int position = MessageContainer.getPositionOfMessageInAdapter(broadcastMessage);
+
+						broadcastSpinner.setSelection(position);
+
+						return true;
+					}
+				};
+
+				editDialog.show(activity.getSupportFragmentManager(), "dialog_broadcast_brick");
+			}
+		});
 		return view;
 	}
 

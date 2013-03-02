@@ -90,14 +90,14 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
-			TextView text = (TextView) view.findViewById(R.id.brick_set_size_to_prototype_text_view);
-			EditText edit = (EditText) view.findViewById(R.id.brick_set_size_to_edit_text);
-			edit.setText(String.valueOf(size));
-
-			text.setVisibility(View.GONE);
-			edit.setVisibility(View.VISIBLE);
-			edit.setOnClickListener(this);
 		}
+		TextView text = (TextView) view.findViewById(R.id.brick_set_size_to_prototype_text_view);
+		EditText edit = (EditText) view.findViewById(R.id.brick_set_size_to_edit_text);
+		edit.setText(String.valueOf(size));
+
+		text.setVisibility(View.GONE);
+		edit.setVisibility(View.VISIBLE);
+		edit.setOnClickListener(this);
 		return view;
 	}
 

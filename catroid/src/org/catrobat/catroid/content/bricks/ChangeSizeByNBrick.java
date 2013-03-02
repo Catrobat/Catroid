@@ -94,15 +94,15 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
-			TextView text = (TextView) view.findViewById(R.id.brick_change_size_by_prototype_text_view);
-			EditText edit = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
-			edit.setText(String.valueOf(size));
-
-			text.setVisibility(View.GONE);
-			edit.setVisibility(View.VISIBLE);
-
-			edit.setOnClickListener(this);
 		}
+		TextView text = (TextView) view.findViewById(R.id.brick_change_size_by_prototype_text_view);
+		EditText edit = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
+		edit.setText(String.valueOf(size));
+
+		text.setVisibility(View.GONE);
+		edit.setVisibility(View.VISIBLE);
+
+		edit.setOnClickListener(this);
 		return view;
 	}
 

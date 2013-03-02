@@ -98,63 +98,63 @@ public class NoteBrick implements Brick {
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
-
-			TextView textHolder = (TextView) view.findViewById(R.id.brick_note_prototype_text_view);
-			EditText editText = (EditText) view.findViewById(R.id.brick_note_edit_text);
-			editText.setText(note);
-
-			textHolder.setVisibility(View.GONE);
-			editText.setVisibility(View.VISIBLE);
-
-			editText.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View view) {
-					if (checkbox.getVisibility() == View.VISIBLE) {
-						return;
-					}
-					ScriptActivity activity = (ScriptActivity) view.getContext();
-
-					BrickTextDialog editDialog = new BrickTextDialog() {
-						@Override
-						protected void initialize() {
-							input.setText(note);
-							input.setSelectAllOnFocus(true);
-						}
-
-						@Override
-						protected boolean getPositiveButtonEnabled() {
-							return true;
-						}
-
-						@Override
-						protected TextWatcher getInputTextChangedListener(Button buttonPositive) {
-							return new TextWatcher() {
-								@Override
-								public void onTextChanged(CharSequence s, int start, int before, int count) {
-								}
-
-								@Override
-								public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-								}
-
-								@Override
-								public void afterTextChanged(Editable s) {
-								}
-							};
-						}
-
-						@Override
-						protected boolean handleOkButton() {
-							note = (input.getText().toString()).trim();
-							return true;
-						}
-					};
-
-					editDialog.show(activity.getSupportFragmentManager(), "dialog_note_brick");
-				}
-			});
 		}
+
+		TextView textHolder = (TextView) view.findViewById(R.id.brick_note_prototype_text_view);
+		EditText editText = (EditText) view.findViewById(R.id.brick_note_edit_text);
+		editText.setText(note);
+
+		textHolder.setVisibility(View.GONE);
+		editText.setVisibility(View.VISIBLE);
+
+		editText.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				if (checkbox.getVisibility() == View.VISIBLE) {
+					return;
+				}
+				ScriptActivity activity = (ScriptActivity) view.getContext();
+
+				BrickTextDialog editDialog = new BrickTextDialog() {
+					@Override
+					protected void initialize() {
+						input.setText(note);
+						input.setSelectAllOnFocus(true);
+					}
+
+					@Override
+					protected boolean getPositiveButtonEnabled() {
+						return true;
+					}
+
+					@Override
+					protected TextWatcher getInputTextChangedListener(Button buttonPositive) {
+						return new TextWatcher() {
+							@Override
+							public void onTextChanged(CharSequence s, int start, int before, int count) {
+							}
+
+							@Override
+							public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+							}
+
+							@Override
+							public void afterTextChanged(Editable s) {
+							}
+						};
+					}
+
+					@Override
+					protected boolean handleOkButton() {
+						note = (input.getText().toString()).trim();
+						return true;
+					}
+				};
+
+				editDialog.show(activity.getSupportFragmentManager(), "dialog_note_brick");
+			}
+		});
 
 		return view;
 	}

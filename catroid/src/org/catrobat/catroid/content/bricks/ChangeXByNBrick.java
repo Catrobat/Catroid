@@ -94,17 +94,6 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 			checkbox = (CheckBox) view.findViewById(R.id.brick_change_x_checkbox);
 			final Brick brickInstance = this;
 
-			/*
-			 * does not work at all:
-			 * checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			 * 
-			 * @Override
-			 * public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			 * adapter.handleCheck(brickInstance, isChecked);
-			 * }
-			 * });
-			 */
-
 			checkbox.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -113,14 +102,14 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
-			TextView textX = (TextView) view.findViewById(R.id.brick_change_x_prototype_text_view);
-			EditText editX = (EditText) view.findViewById(R.id.brick_change_x_edit_text);
-			editX.setText(String.valueOf(xMovement));
-
-			textX.setVisibility(View.GONE);
-			editX.setVisibility(View.VISIBLE);
-			editX.setOnClickListener(this);
 		}
+		TextView textX = (TextView) view.findViewById(R.id.brick_change_x_prototype_text_view);
+		EditText editX = (EditText) view.findViewById(R.id.brick_change_x_edit_text);
+		editX.setText(String.valueOf(xMovement));
+
+		textX.setVisibility(View.GONE);
+		editX.setVisibility(View.VISIBLE);
+		editX.setOnClickListener(this);
 		return view;
 	}
 

@@ -100,15 +100,15 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
-
-			TextView text = (TextView) view.findViewById(R.id.brick_move_n_steps_prototype_text_view);
-			EditText edit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
-
-			edit.setText(String.valueOf(steps));
-			text.setVisibility(View.GONE);
-			edit.setVisibility(View.VISIBLE);
-			edit.setOnClickListener(this);
 		}
+
+		TextView text = (TextView) view.findViewById(R.id.brick_move_n_steps_prototype_text_view);
+		EditText edit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
+
+		edit.setText(String.valueOf(steps));
+		text.setVisibility(View.GONE);
+		edit.setVisibility(View.VISIBLE);
+		edit.setOnClickListener(this);
 		return view;
 	}
 

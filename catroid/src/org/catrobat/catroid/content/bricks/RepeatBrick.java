@@ -102,16 +102,16 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
-
-			TextView text = (TextView) view.findViewById(R.id.brick_repeat_prototype_text_view);
-			EditText edit = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
-			edit.setText(timesToRepeat + "");
-
-			text.setVisibility(View.GONE);
-			edit.setVisibility(View.VISIBLE);
-
-			edit.setOnClickListener(this);
 		}
+
+		TextView text = (TextView) view.findViewById(R.id.brick_repeat_prototype_text_view);
+		EditText edit = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
+		edit.setText(timesToRepeat + "");
+
+		text.setVisibility(View.GONE);
+		edit.setVisibility(View.VISIBLE);
+
+		edit.setOnClickListener(this);
 		return view;
 	}
 

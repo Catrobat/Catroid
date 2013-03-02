@@ -140,74 +140,74 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
-			TextView textSpeed = (TextView) view.findViewById(R.id.motor_action_speed_text_view);
-			editSpeed = (EditText) view.findViewById(R.id.motor_action_speed_edit_text);
-			editSpeed.setText(String.valueOf(speed));
-
-			textSpeed.setVisibility(View.GONE);
-			editSpeed.setVisibility(View.VISIBLE);
-
-			editSpeed.setOnClickListener(this);
-
-			ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
-					R.array.nxt_motor_chooser, android.R.layout.simple_spinner_item);
-			motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			Spinner motorSpinner = (Spinner) view.findViewById(R.id.motor_spinner);
-			motorSpinner.setClickable(true);
-			motorSpinner.setEnabled(true);
-			motorSpinner.setAdapter(motorAdapter);
-			motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-				@Override
-				public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-					motorEnum = Motor.values()[position];
-					motor = motorEnum.name();
-				}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0) {
-				}
-
-			});
-
-			motorSpinner.setSelection(motorEnum.ordinal());
-
-			speedBar = (SeekBar) view.findViewById(R.id.seekBarSpeedMotorAction);
-			speedBar.setOnSeekBarChangeListener(this);
-			speedBar.setMax(MAX_SPEED * 2);
-			speedBar.setEnabled(true);
-			speedToSeekBarVal();
-
-			Button speedDown = (Button) view.findViewById(R.id.speed_down_btn);
-			speedDown.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-
-					if (speed <= -100) {
-						return;
-					}
-
-					speed--;
-					speedToSeekBarVal();
-					editSpeed.setText(String.valueOf(speed));
-				}
-			});
-
-			Button speedUp = (Button) view.findViewById(R.id.speed_up_btn);
-			speedUp.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-
-					if (speed >= 100) {
-						return;
-					}
-
-					speed++;
-					speedToSeekBarVal();
-					editSpeed.setText(String.valueOf(speed));
-				}
-			});
 		}
+		TextView textSpeed = (TextView) view.findViewById(R.id.motor_action_speed_text_view);
+		editSpeed = (EditText) view.findViewById(R.id.motor_action_speed_edit_text);
+		editSpeed.setText(String.valueOf(speed));
+
+		textSpeed.setVisibility(View.GONE);
+		editSpeed.setVisibility(View.VISIBLE);
+
+		editSpeed.setOnClickListener(this);
+
+		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
+				android.R.layout.simple_spinner_item);
+		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		Spinner motorSpinner = (Spinner) view.findViewById(R.id.motor_spinner);
+		motorSpinner.setClickable(true);
+		motorSpinner.setEnabled(true);
+		motorSpinner.setAdapter(motorAdapter);
+		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
+				motorEnum = Motor.values()[position];
+				motor = motorEnum.name();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+
+		});
+
+		motorSpinner.setSelection(motorEnum.ordinal());
+
+		speedBar = (SeekBar) view.findViewById(R.id.seekBarSpeedMotorAction);
+		speedBar.setOnSeekBarChangeListener(this);
+		speedBar.setMax(MAX_SPEED * 2);
+		speedBar.setEnabled(true);
+		speedToSeekBarVal();
+
+		Button speedDown = (Button) view.findViewById(R.id.speed_down_btn);
+		speedDown.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				if (speed <= -100) {
+					return;
+				}
+
+				speed--;
+				speedToSeekBarVal();
+				editSpeed.setText(String.valueOf(speed));
+			}
+		});
+
+		Button speedUp = (Button) view.findViewById(R.id.speed_up_btn);
+		speedUp.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				if (speed >= 100) {
+					return;
+				}
+
+				speed++;
+				speedToSeekBarVal();
+				editSpeed.setText(String.valueOf(speed));
+			}
+		});
 		return view;
 	}
 

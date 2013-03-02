@@ -118,70 +118,70 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
-
-			TextView textDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_text_view);
-			EditText editDuration = (EditText) view.findViewById(R.id.nxt_tone_duration_edit_text);
-			editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
-			//		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, duration, MIN_DURATION,
-			//				MAX_DURATION);
-			//		dialogDuration.setOnDismissListener(this);
-			//		dialogDuration.setOnCancelListener((OnCancelListener) context);
-			//		editDuration.setOnClickListener(dialogDuration);
-
-			textDuration.setVisibility(View.GONE);
-			editDuration.setVisibility(View.VISIBLE);
-
-			editDuration.setOnClickListener(this);
-
-			TextView textFreq = (TextView) view.findViewById(R.id.nxt_tone_freq_text_view);
-			editFreq = (EditText) view.findViewById(R.id.nxt_tone_freq_edit_text);
-			editFreq.setText(String.valueOf(hertz / 100));
-			//		dialogFreq = new EditIntegerDialog(context, editFreq, frequency, true, MIN_FREQ, MAX_FREQ);
-			//		dialogFreq.setOnDismissListener(this);
-			//		dialogFreq.setOnCancelListener((OnCancelListener) context);
-			//		editFreq.setOnClickListener(dialogFreq);
-
-			textFreq.setVisibility(View.GONE);
-			editFreq.setVisibility(View.VISIBLE);
-
-			editFreq.setOnClickListener(this);
-
-			freqBar = (SeekBar) view.findViewById(R.id.seekBarNXTToneFrequency);
-			freqBar.setOnSeekBarChangeListener(this);
-			freqBar.setMax(MAX_FREQ_IN_HERTZ / 100);
-			freqBar.setEnabled(true);
-			freqToSeekBarVal();
-
-			Button freqDown = (Button) view.findViewById(R.id.freq_down_btn);
-			freqDown.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-
-					if (hertz <= 200) {
-						return;
-					}
-
-					hertz -= 100;
-					freqToSeekBarVal();
-					editFreq.setText(String.valueOf(hertz / 100));
-				}
-			});
-
-			Button freqUp = (Button) view.findViewById(R.id.freq_up_btn);
-			freqUp.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-
-					if (hertz >= 14000) {
-						return;
-					}
-
-					hertz += 100;
-					freqToSeekBarVal();
-					editFreq.setText(String.valueOf(hertz / 100));
-				}
-			});
 		}
+
+		TextView textDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_text_view);
+		EditText editDuration = (EditText) view.findViewById(R.id.nxt_tone_duration_edit_text);
+		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
+		//		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, duration, MIN_DURATION,
+		//				MAX_DURATION);
+		//		dialogDuration.setOnDismissListener(this);
+		//		dialogDuration.setOnCancelListener((OnCancelListener) context);
+		//		editDuration.setOnClickListener(dialogDuration);
+
+		textDuration.setVisibility(View.GONE);
+		editDuration.setVisibility(View.VISIBLE);
+
+		editDuration.setOnClickListener(this);
+
+		TextView textFreq = (TextView) view.findViewById(R.id.nxt_tone_freq_text_view);
+		editFreq = (EditText) view.findViewById(R.id.nxt_tone_freq_edit_text);
+		editFreq.setText(String.valueOf(hertz / 100));
+		//		dialogFreq = new EditIntegerDialog(context, editFreq, frequency, true, MIN_FREQ, MAX_FREQ);
+		//		dialogFreq.setOnDismissListener(this);
+		//		dialogFreq.setOnCancelListener((OnCancelListener) context);
+		//		editFreq.setOnClickListener(dialogFreq);
+
+		textFreq.setVisibility(View.GONE);
+		editFreq.setVisibility(View.VISIBLE);
+
+		editFreq.setOnClickListener(this);
+
+		freqBar = (SeekBar) view.findViewById(R.id.seekBarNXTToneFrequency);
+		freqBar.setOnSeekBarChangeListener(this);
+		freqBar.setMax(MAX_FREQ_IN_HERTZ / 100);
+		freqBar.setEnabled(true);
+		freqToSeekBarVal();
+
+		Button freqDown = (Button) view.findViewById(R.id.freq_down_btn);
+		freqDown.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				if (hertz <= 200) {
+					return;
+				}
+
+				hertz -= 100;
+				freqToSeekBarVal();
+				editFreq.setText(String.valueOf(hertz / 100));
+			}
+		});
+
+		Button freqUp = (Button) view.findViewById(R.id.freq_up_btn);
+		freqUp.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				if (hertz >= 14000) {
+					return;
+				}
+
+				hertz += 100;
+				freqToSeekBarVal();
+				editFreq.setText(String.valueOf(hertz / 100));
+			}
+		});
 		return view;
 	}
 

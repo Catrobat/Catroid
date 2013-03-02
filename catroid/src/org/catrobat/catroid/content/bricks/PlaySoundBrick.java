@@ -93,21 +93,21 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
+		}
 
-			Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
-			soundbrickSpinner.setAdapter(createSoundAdapter(context));
-			soundbrickSpinner.setClickable(true);
-			soundbrickSpinner.setFocusable(true);
+		Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
+		soundbrickSpinner.setAdapter(createSoundAdapter(context));
+		soundbrickSpinner.setClickable(true);
+		soundbrickSpinner.setFocusable(true);
 
-			if (checkbox.getVisibility() == View.VISIBLE) {
-				soundbrickSpinner.setOnItemSelectedListener(this);
-			}
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			soundbrickSpinner.setOnItemSelectedListener(this);
+		}
 
-			if (sprite.getSoundList().contains(sound)) {
-				soundbrickSpinner.setSelection(sprite.getSoundList().indexOf(sound) + 1, true);
-			} else {
-				soundbrickSpinner.setSelection(0);
-			}
+		if (sprite.getSoundList().contains(sound)) {
+			soundbrickSpinner.setSelection(sprite.getSoundList().indexOf(sound) + 1, true);
+		} else {
+			soundbrickSpinner.setSelection(0);
 		}
 
 		return view;

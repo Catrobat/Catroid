@@ -129,40 +129,40 @@ public class SpeakBrick implements Brick {
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
-
-			TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
-			EditText editText = (EditText) view.findViewById(R.id.brick_speak_edit_text);
-			editText.setText(text);
-
-			textHolder.setVisibility(View.GONE);
-			editText.setVisibility(View.VISIBLE);
-
-			editText.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					if (checkbox.getVisibility() == View.VISIBLE) {
-						return;
-					}
-					ScriptActivity activity = (ScriptActivity) context;
-
-					BrickTextDialog editDialog = new BrickTextDialog() {
-						@Override
-						protected void initialize() {
-							input.setText(text);
-							input.setSelectAllOnFocus(true);
-						}
-
-						@Override
-						protected boolean handleOkButton() {
-							text = (input.getText().toString()).trim();
-							return true;
-						}
-					};
-
-					editDialog.show(activity.getSupportFragmentManager(), "dialog_speak_brick");
-				}
-			});
 		}
+
+		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
+		EditText editText = (EditText) view.findViewById(R.id.brick_speak_edit_text);
+		editText.setText(text);
+
+		textHolder.setVisibility(View.GONE);
+		editText.setVisibility(View.VISIBLE);
+
+		editText.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if (checkbox.getVisibility() == View.VISIBLE) {
+					return;
+				}
+				ScriptActivity activity = (ScriptActivity) context;
+
+				BrickTextDialog editDialog = new BrickTextDialog() {
+					@Override
+					protected void initialize() {
+						input.setText(text);
+						input.setSelectAllOnFocus(true);
+					}
+
+					@Override
+					protected boolean handleOkButton() {
+						text = (input.getText().toString()).trim();
+						return true;
+					}
+				};
+
+				editDialog.show(activity.getSupportFragmentManager(), "dialog_speak_brick");
+			}
+		});
 		return view;
 	}
 

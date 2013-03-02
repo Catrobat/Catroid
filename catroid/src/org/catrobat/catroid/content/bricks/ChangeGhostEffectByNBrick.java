@@ -93,14 +93,14 @@ public class ChangeGhostEffectByNBrick implements Brick, OnClickListener {
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
-			TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
-			EditText editX = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
-			editX.setText(String.valueOf(changeGhostEffect));
-
-			textX.setVisibility(View.GONE);
-			editX.setVisibility(View.VISIBLE);
-			editX.setOnClickListener(this);
 		}
+		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
+		EditText editX = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
+		editX.setText(String.valueOf(changeGhostEffect));
+
+		textX.setVisibility(View.GONE);
+		editX.setVisibility(View.VISIBLE);
+		editX.setOnClickListener(this);
 		return view;
 	}
 

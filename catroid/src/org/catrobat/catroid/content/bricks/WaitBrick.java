@@ -107,15 +107,15 @@ public class WaitBrick implements Brick, OnClickListener {
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
-
-			TextView text = (TextView) view.findViewById(R.id.brick_wait_prototype_text_view);
-			EditText edit = (EditText) view.findViewById(R.id.brick_wait_edit_text);
-			edit.setText((timeToWaitInMilliSeconds / 1000.0) + "");
-
-			text.setVisibility(View.GONE);
-			edit.setVisibility(View.VISIBLE);
-			edit.setOnClickListener(this);
 		}
+
+		TextView text = (TextView) view.findViewById(R.id.brick_wait_prototype_text_view);
+		EditText edit = (EditText) view.findViewById(R.id.brick_wait_edit_text);
+		edit.setText((timeToWaitInMilliSeconds / 1000.0) + "");
+
+		text.setVisibility(View.GONE);
+		edit.setVisibility(View.VISIBLE);
+		edit.setOnClickListener(this);
 		return view;
 	}
 
