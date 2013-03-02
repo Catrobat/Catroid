@@ -100,7 +100,7 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 		soundbrickSpinner.setClickable(true);
 		soundbrickSpinner.setFocusable(true);
 
-		if (checkbox.getVisibility() == View.VISIBLE) {
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			soundbrickSpinner.setOnItemSelectedListener(this);
 		}
 
