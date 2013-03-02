@@ -21,63 +21,125 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:longClickable="true"
-    android:orientation="horizontal"
-    android:paddingLeft="6dp"
-    android:paddingRight="6dp" >
-
-    <CheckBox
-        android:id="@+id/look_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:visibility="gone" />
-
-    <ImageView
-        android:id="@+id/look_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:clickable="true"
-        android:scaleType="centerCrop"
-        android:padding="6dp"
-        android:src="@drawable/catroid_banzai" />
-
-     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/look_main_layout"
+	    android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
         
-	    <TextView style="@style/fragment_text"
-	        android:id="@+id/look_name"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:gravity="center_vertical"
-	        android:textColor="@color/solid_black"
-	        android:textSize="18sp" />
-	
-	    <LinearLayout
-	        android:id="@+id/look_details"
+ 	<LinearLayout android:id="@+id/look_checkbox_layout"
+	    android:layout_width="47dp"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/look_fragment_background_color"
+        android:orientation="vertical" >
+        <CheckBox
+	        android:id="@+id/look_checkbox"
 	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:orientation="horizontal" >
-
-	        <TextView style="@style/fragment_detail"
-                android:id="@+id/look_size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_weight=".5" />
-	        
-		    <TextView style="@style/fragment_detail"
-		        android:id="@+id/look_resolution"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_weight=".5"
-		        android:gravity="right" />
-	    </LinearLayout>
+	        android:layout_height="match_parent"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="center_vertical" />
 	</LinearLayout>
+ 
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:gravity="center_vertical"
+	    android:longClickable="true"
+	    android:orientation="horizontal"
+		android:paddingLeft="10dp"
+	    android:paddingRight="10dp"
+	    android:paddingTop="8dp"
+	    android:paddingBottom="8dp"
+	    android:minHeight="90dp"
+	    android:background="@color/look_fragment_button_color" >
+	    <!--style="@style/MainMenuButton" > -->
+	  
+	
+	    <ImageView
+	        android:id="@+id/look_image"
+	        android:layout_width="72dp"
+	        android:layout_height="65dp"
+	        android:clickable="true"
+	        android:scaleType="centerCrop"
+	        android:background="@drawable/image_contour"
+	     	android:layout_centerVertical="true"
+	     	android:layout_toRightOf="@+id/look_checkbox_layout"
+	        android:src="@drawable/catroid_banzai" />
+	    
+	     <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_toRightOf="@+id/look_image"
+	        android:layout_toLeftOf="@+id/look_arrow"
+	        android:paddingLeft="28dp"
+	        android:orientation="vertical" >
+	        
+		    <TextView
+		        android:id="@+id/look_name"
+		        style="@style/fragment_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="default"
+		        android:textColor="@color/look_fragment_main_text_color"
+		        android:textSize="24sp" />
+		
+		    <LinearLayout
+		        android:id="@+id/look_details"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal" >
+		        
+		        <LinearLayout 
+	        	    android:id="@+id/sound_details_left"
+	        		android:layout_width="wrap_content"
+	        		android:layout_height="wrap_content"
+	        		android:orientation="vertical">
+	        		
+		            <TextView style="@style/fragment_detail"
+		      			android:id="@+id/sound_length"
+		      		 	android:layout_width="wrap_content"
+		       		 	android:layout_height="wrap_content"
+		       		 	android:text="Measure:" />
+		            
+		            <TextView style="@style/fragment_detail"
+		      			android:id="@+id/sound_size_prefix"
+		      		 	android:layout_width="wrap_content"
+		       		 	android:layout_height="wrap_content"
+		       		 	android:text="Size:" />	
+		        </LinearLayout>
+		            
+		        <LinearLayout 
+	        	    android:id="@+id/sound_details_right"
+	        		android:layout_width="wrap_content"
+	        		android:layout_height="wrap_content"
+	        		android:paddingLeft="24dp"
+	        		android:orientation="vertical">
+		            
+		            <TextView style="@style/fragment_detail"
+				        android:id="@+id/look_resolution"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				      
+				        android:layout_weight=".5"
+				        android:textColor="@color/look_fragment_detail_text_color" />
+		            
+		             <TextView style="@style/fragment_detail"
+		                android:id="@+id/look_size"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		               
+		                android:textColor="@color/look_fragment_detail_text_color"
+		                android:layout_weight=".5" />
+	    	
+			    </LinearLayout>	
+			</LinearLayout>	
+		</LinearLayout>
+		<ImageView  android:id="@+id/look_arrow"
+		    android:layout_alignParentRight="true"
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		 	android:layout_centerVertical="true"
+		    android:src="@drawable/button_arrow" />
+	</RelativeLayout>
 </LinearLayout>

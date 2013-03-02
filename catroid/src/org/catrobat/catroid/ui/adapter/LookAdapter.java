@@ -70,10 +70,13 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 	private static class ViewHolder {
 		private ImageView lookImageView;
 		private CheckBox checkbox;
+		private LinearLayout checkboxLinearLayout;
 		private TextView lookNameTextView;
 		private LinearLayout lookDetailsLinearLayout;
 		private TextView lookFileSizeTextView;
 		private TextView lookResolutionTextView;
+		private ImageView lookArrowView;
+
 	}
 
 	@Override
@@ -87,13 +90,14 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 			holder = new ViewHolder();
 
 			holder.lookImageView = (ImageView) convertView.findViewById(R.id.look_image);
+			holder.checkboxLinearLayout = (LinearLayout) convertView.findViewById(R.id.look_checkbox_layout);
 			holder.checkbox = (CheckBox) convertView.findViewById(R.id.look_checkbox);
 			holder.lookNameTextView = (TextView) convertView.findViewById(R.id.look_name);
 			holder.lookDetailsLinearLayout = (LinearLayout) convertView.findViewById(R.id.look_details);
 			holder.lookFileSizeTextView = (TextView) holder.lookDetailsLinearLayout.findViewById(R.id.look_size);
 			holder.lookResolutionTextView = (TextView) holder.lookDetailsLinearLayout
 					.findViewById(R.id.look_resolution);
-
+			holder.lookArrowView = (ImageView) convertView.findViewById(R.id.look_arrow);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -130,11 +134,14 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 			boolean checkboxIsVisible = false;
 
 			if (selectMode != Constants.SELECT_NONE) {
-				holder.checkbox.setVisibility(View.VISIBLE);
+				holder.checkboxLinearLayout.setVisibility(View.VISIBLE);
+				holder.lookArrowView.setVisibility(View.GONE);
+
 				checkboxIsVisible = true;
 			} else {
-				holder.checkbox.setVisibility(View.GONE);
+				holder.checkboxLinearLayout.setVisibility(View.GONE);
 				holder.checkbox.setChecked(false);
+				holder.lookArrowView.setVisibility(View.VISIBLE);
 				clearCheckedItems();
 			}
 
@@ -146,15 +153,14 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 
 			if (showDetails) {
 				if (lookData.getAbsolutePath() != null) {
-					holder.lookFileSizeTextView.setText(getContext().getString(R.string.size) + " "
-							+ UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
+					holder.lookFileSizeTextView.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
 				}
 				int[] resolution = lookData.getResolution();
 				String resolutionString = resolution[0] + " x " + resolution[1];
 
 				// Shorter string on active ActionMode
 				if (!checkboxIsVisible) {
-					resolutionString = getContext().getString(R.string.look_resolution) + " " + resolutionString;
+					resolutionString = resolutionString;
 				}
 				holder.lookResolutionTextView.setText(resolutionString);
 				holder.lookDetailsLinearLayout.setVisibility(TextView.VISIBLE);
