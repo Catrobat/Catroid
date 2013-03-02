@@ -36,23 +36,22 @@ public class MessageContainerTest extends InstrumentationTestCase {
 		String testMessage1 = "test1";
 		String testMessage2 = "test2";
 
-		MessageContainer testContainer = new MessageContainer();
-		testContainer.addMessage(testMessage1);
-		Set<String> messages = testContainer.getMessages();
+		MessageContainer.addMessage(testMessage1);
+		Set<String> messages = MessageContainer.getMessages();
 		assertEquals("Wrong amount of messages", 1, messages.size());
 		assertTrue("Doesn't contain message", messages.contains(testMessage1));
 
 		BroadcastScript script = new BroadcastScript(null);
-		testContainer.addMessage(testMessage2, script);
-		testContainer.addMessage(testMessage2);
+		MessageContainer.addMessage(testMessage2, script);
+		MessageContainer.addMessage(testMessage2);
 		assertEquals("Wrong amount of messages", 2, messages.size());
 		assertTrue("Doesn't contain message", messages.contains(testMessage2));
 
-		Vector<BroadcastScript> receiverVector = testContainer.getReceiverOfMessage(testMessage2);
+		Vector<BroadcastScript> receiverVector = MessageContainer.getReceiverOfMessage(testMessage2);
 		assertTrue("Doesn't contain script", receiverVector.contains(script));
 
-		testContainer.deleteReceiverScript(testMessage2, script);
-		receiverVector = testContainer.getReceiverOfMessage(testMessage2);
+		MessageContainer.deleteReceiverScript(testMessage2, script);
+		receiverVector = MessageContainer.getReceiverOfMessage(testMessage2);
 		assertFalse("Still contains removed script", receiverVector.contains(script));
 	}
 }

@@ -23,6 +23,7 @@
 package org.catrobat.catroid.uitest.ui.dialog;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -30,7 +31,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.EditText;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -77,7 +77,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.sleep(500);
 
-		Button okButton = (Button) solo.getView(R.id.new_project_ok_button);
+		Button okButton = solo.getButton(getActivity().getString(R.string.ok));
 		assertFalse("New project ok button is enabled!", okButton.isEnabled());
 	}
 
@@ -85,7 +85,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.sleep(1000);
 
-		Button okButton = (Button) solo.getView(R.id.new_project_ok_button);
+		Button okButton = solo.getButton(getActivity().getString(R.string.ok));
 		EditText editText = (EditText) solo.getView(R.id.project_name_edittext);
 
 		assertTrue("EditText was not empty", editText.getText().length() == 0);

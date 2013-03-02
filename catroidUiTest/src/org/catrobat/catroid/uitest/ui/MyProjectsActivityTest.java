@@ -248,7 +248,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		solo.clickOnButton(0);
 		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		assertTrue("Default Project should not be overwritten", spriteList.size() == 3);
 	}
@@ -715,17 +715,33 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		createProjects();
 		solo.sleep(200);
 		String buttonMyProjectsText = solo.getString(R.string.main_menu_programs);
+		String buttonOkText = solo.getString(R.string.ok);
+		String buttonCloseText = solo.getString(R.string.close);
+
 		solo.clickOnButton(buttonMyProjectsText);
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.sleep(200);
+
 		EditText addNewProjectEditText = solo.getEditText(0);
-		String buttonOkText = solo.getString(R.string.ok);
 		assertEquals("Not the proper hint set", solo.getString(R.string.new_project_dialog_hint),
 				addNewProjectEditText.getHint());
 		assertEquals("There should no text be set", "", addNewProjectEditText.getText().toString());
 		solo.sleep(100);
+
+		solo.enterText(0, UiTestUtils.PROJECTNAME1);
+		solo.sleep(100);
+		solo.clickOnButton(buttonOkText);
+
+		solo.sleep(200);
+		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
+		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
+		solo.sleep(100);
+		solo.clickOnButton(buttonCloseText);
+		solo.sleep(100);
+
+		solo.clearEditText(0);
 		solo.enterText(0, UiTestUtils.PROJECTNAME2);
 		solo.sleep(200);
 		solo.clickOnButton(buttonOkText);
@@ -740,31 +756,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(buttonMyProjectsText);
 		assertTrue("project " + UiTestUtils.PROJECTNAME2 + " was not added",
 				solo.searchText(UiTestUtils.PROJECTNAME2, 1, true));
-	}
-
-	public void testAddNewProject2() {
-		createProjects();
-		solo.sleep(200);
-		String buttonOkText = solo.getString(R.string.ok);
-		String buttonCloseText = solo.getString(R.string.close);
-		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		solo.sleep(200);
-		solo.enterText(0, UiTestUtils.PROJECTNAME1);
-		solo.sleep(100);
-		solo.clickOnButton(buttonOkText);
-
-		solo.sleep(200);
-		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
-		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
-		solo.sleep(100);
-		solo.clickOnButton(buttonCloseText);
-		solo.sleep(100);
-		solo.clickOnButton(buttonOkText);
-		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
-		solo.clickOnButton(buttonCloseText);
 	}
 
 	public void testAddNewProjectMixedCase() {
@@ -856,7 +847,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnText(actionSetDescriptionText);
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
 		assertTrue("description is not shown in edittext", solo.searchText("Lorem ipsum"));
-		ProjectManager.INSTANCE.loadProject(UiTestUtils.PROJECTNAME1, getActivity(), getActivity(), true);
+		ProjectManager.INSTANCE.loadProject(UiTestUtils.PROJECTNAME1, getActivity(), true);
 		assertTrue("description is not set in project", ProjectManager.INSTANCE.getCurrentProject().getDescription()
 				.equalsIgnoreCase(lorem));
 	}

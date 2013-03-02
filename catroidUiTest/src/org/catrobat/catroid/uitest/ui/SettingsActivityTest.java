@@ -24,9 +24,6 @@ package org.catrobat.catroid.uitest.ui;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
-import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -59,9 +56,6 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testToggleMindstormBricks() {
-		int actionBarIconIndex = 0;
-		String currentProject = solo.getString(R.string.main_menu_continue);
-		String background = solo.getString(R.string.background);
 		String settings = solo.getString(R.string.main_menu_settings);
 		String mindstormsPreferenceString = solo.getString(R.string.pref_enable_ms_bricks);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
@@ -75,16 +69,12 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 			solo.goBack();
 		}
 
-		solo.clickOnText(currentProject);
-		solo.clickOnText(background);
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
-		solo.clickOnText(solo.getString(R.string.scripts));
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
 		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
+		// 0 is the Home Button in the ActionBar
+		solo.clickOnImage(0);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
 		solo.clickOnMenuItem(settings);
@@ -93,14 +83,9 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertTrue("Wrong title", solo.searchText(solo.getString(R.string.pref_title)));
 
 		solo.clickOnText(mindstormsPreferenceString);
-		solo.clickOnImage(actionBarIconIndex);
+		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnText(currentProject);
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.clickOnText(background);
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
-		solo.clickOnText(solo.getString(R.string.scripts));
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
 	}
