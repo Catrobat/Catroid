@@ -107,6 +107,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.sleep(1000);
 		look = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).look;
 		assertEquals("look not set", look.getImagePath(), lookDataList.get(1).getAbsolutePath());
+		assertTrue("false 1", false);
 	}
 
 	public void testSpinnerUpdatesDelete() {
@@ -130,6 +131,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		assertFalse(lookName + " is still in Spinner", solo.searchText(lookName));
 		assertTrue(lookName2 + " is not in Spinner", solo.searchText(lookName2));
+		assertTrue("false 2", false);
 	}
 
 	public void testSpinnerUpdatesRename() {
@@ -158,6 +160,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
 		assertTrue(lookName2 + " is not in Spinner", solo.searchText(lookName2));
+		assertTrue("false 2", false);
 	}
 
 	public void testAdapterUpdateInScriptActivity() {
@@ -177,6 +180,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 			selectLook(lookName2, lookName, look2ImagePath);
 			selectLook(lookName, lookName2, look1ImagePath);
 		}
+		assertTrue("false 4", false);
 	}
 
 	public void selectLook(String newLook, String oldName, String lookImagePath) {

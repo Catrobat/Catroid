@@ -915,20 +915,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if (brick.getCheckBox() != null) {
 			brick.getCheckBox().setEnabled(enableState);
 		}
-
 		if (enableState) {
-			//this is just a quickfix because loopendbrick may have view=null yet
-			if (brick instanceof LoopEndBrick) {
-				((LoopEndBrick) brick).getViewWithAlpha(255);
-			} else {
-				brick.getViewWithAlpha(255);
-			}
+			brick.getViewWithAlpha(255);
 		} else {
-			if (brick instanceof LoopEndBrick) {
-				((LoopEndBrick) brick).getViewWithAlpha(50);
-			} else {
-				brick.getViewWithAlpha(50);
-			}
+			brick.getViewWithAlpha(50);
 		}
 	}
 
