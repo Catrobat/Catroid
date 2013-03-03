@@ -1,0 +1,9 @@
+This directory contains the step-definitions for the cucumber features.
+
+Defintions that only use basic calbash-android actions (performAction) are written in Ruby.
+Defintions specific for Catroid on Android are written in Java and contained in java/.
+Defintions specific for Catty on iOS are written in Objective-C and contained in ios/.
+
+The Android and iOS step-defintions are automatically transformed into calabash Action classes
+and included in the test-server application. Additionally, the file 'created_steps.rb' is
+created to reference these new actions.

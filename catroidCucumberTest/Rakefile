@@ -11,6 +11,13 @@ task :clean_calabash do
   system "(gem uninstall -a 'calabash-android')"
 end
 
+desc("Transform the Java and iOS step-definitions into calabash-android actions.")
+task :transform_steps do
+  require "./src/helper"
+  include Catrobat::Helper
+  tranform_java_steps
+end
+
 desc "Build and install the calabash-android gem."
 task :build_calabash, [:rebuild] do |t, args|
   args.with_defaults(:rebuild => false)
