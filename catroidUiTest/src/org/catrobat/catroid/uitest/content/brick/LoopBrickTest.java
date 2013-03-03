@@ -189,8 +189,8 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		solo.sleep(500);
 
 		assertEquals("Incorrect number of bricks.", 8, projectBrickList.size());
-		assertTrue("Wrong Brick instance. expected 6, bricklist: " + projectBrickList.toString(),
-				projectBrickList.get(6) instanceof ChangeBrightnessByNBrick);
+		assertTrue("Wrong Brick instance. expected 4, bricklist: " + projectBrickList.toString(),
+				projectBrickList.get(4) instanceof ChangeBrightnessByNBrick);
 
 		solo.scrollDownList(0);
 
@@ -203,7 +203,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		solo.sleep(2000);
 
 		assertEquals("Incorrect number of bricks.", 9, projectBrickList.size());
-		assertTrue("Wrong Brick instance. expected 6, bricklist: " + projectBrickList.toString(),
+		assertTrue("Wrong Brick instance. expected 7, bricklist: " + projectBrickList.toString(),
 				projectBrickList.get(7) instanceof BroadcastBrick);
 	}
 
@@ -264,7 +264,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(4), 20, yPosition.get(yPosition.size() - 4) - 20, 20);
 
-		assertTrue("Wrong brick instance. expected 1, bricklist: " + projectBrickList.toString(),
+		assertTrue("Wrong brick instance. expected 2, bricklist: " + projectBrickList.toString(),
 				projectBrickList.get(2) instanceof ClearGraphicEffectBrick);
 
 		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(2), 20, yPosition.get(0), 20);
@@ -274,7 +274,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		assertEquals("Wrong number of bricks", 7, projectBrickList.size());
 
 		projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		assertTrue("Wrong brick instance. expected 6, bricklist: " + projectBrickList.toString(),
+		assertTrue("Wrong brick instance. expected 0, bricklist: " + projectBrickList.toString(),
 				projectBrickList.get(0) instanceof ClearGraphicEffectBrick);
 
 		checkIfForeverLoopsAreCorrectlyPlaced(1);
