@@ -124,6 +124,7 @@ public class SetLookBrick extends BrickBaseType {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_look_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
 		return view;
 	}
 

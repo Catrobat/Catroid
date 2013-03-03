@@ -74,6 +74,7 @@ public class HideBrick extends BrickBaseType {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_hide_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
 		return view;
 	}
 

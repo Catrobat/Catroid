@@ -113,6 +113,7 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_volume_by_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
 		return view;
 	}
 

@@ -103,6 +103,7 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_ghost_effect_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
 		return view;
 	}
 

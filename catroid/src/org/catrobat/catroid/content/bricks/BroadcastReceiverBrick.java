@@ -162,6 +162,7 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_broadcast_receive_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
 		return view;
 	}
 

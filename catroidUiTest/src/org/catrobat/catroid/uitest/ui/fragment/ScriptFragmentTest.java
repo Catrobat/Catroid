@@ -44,7 +44,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.view.Display;
 import android.widget.ListView;
 
@@ -238,12 +237,8 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnCheckBox(0);
 
 		for (int i = 1; i < brickList.size(); i++) {
-			try {
-				assertEquals("AlphaValue of " + brickList.get(i).toString() + " is not 55", 55, brickList.get(i)
-						.getAlphaValue());
-			} catch (NullPointerException e) {
-				Log.d("Catroid", brickList.get(i).toString());
-			}
+			assertEquals("AlphaValue of " + brickList.get(i).toString() + " is not 50", 50, brickList.get(i)
+					.getAlphaValue());
 		}
 
 		UiTestUtils.acceptAndCloseActionMode(solo);

@@ -142,6 +142,7 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_nxt_motor_stop_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
 		return view;
 	}
 }

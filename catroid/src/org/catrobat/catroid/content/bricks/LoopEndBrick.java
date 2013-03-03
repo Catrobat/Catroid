@@ -128,6 +128,7 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		}
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
 		return view;
 	}
 

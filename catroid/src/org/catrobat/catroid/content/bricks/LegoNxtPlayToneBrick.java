@@ -223,6 +223,7 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_nxt_play_tone_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
 		return view;
 	}
 

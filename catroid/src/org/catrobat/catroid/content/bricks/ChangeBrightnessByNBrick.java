@@ -104,6 +104,7 @@ public class ChangeBrightnessByNBrick extends BrickBaseType implements OnClickLi
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_brightness_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
 		return view;
 	}
 

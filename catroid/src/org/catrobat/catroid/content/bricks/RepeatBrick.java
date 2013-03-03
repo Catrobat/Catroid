@@ -119,6 +119,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_repeat_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
 		return view;
 	}
 
