@@ -375,14 +375,24 @@ public class Utils {
 		}
 	}
 
-	public static boolean compareToStandardProject(Project projectToCheck, Context context) {
+	public static boolean projectSameAsStandardProject(Project projectToCheck, Context context) {
 		try {
 			Project standardProject = StandardProjectHandler.createAndSaveStandardProject(
 					context.getString(R.string.default_project_name), context);
 			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
 			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
 
-			return standardProjectXMLString.contentEquals(projectToCheckXMLString);
+			int start = standardProjectXMLString.indexOf("<spriteList>");
+			int end = standardProjectXMLString.indexOf("</spriteList>");
+
+			String standardProjectSpriteList = standardProjectXMLString.substring(start, end);
+
+			start = projectToCheckXMLString.indexOf("<spriteList>");
+			end = projectToCheckXMLString.indexOf("</spriteList>");
+
+			String projectToCheckStringList = projectToCheckXMLString.substring(start, end);
+
+			return standardProjectSpriteList.contentEquals(projectToCheckStringList);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

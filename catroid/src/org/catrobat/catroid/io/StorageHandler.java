@@ -318,6 +318,10 @@ public class StorageHandler {
 		}
 	}
 
+	public String getXMLStringOfAProject(Project project) {
+		return xstream.toXML(project);
+	}
+
 	private File copyFileAddCheckSum(File destinationFile, File sourceFile, File directory) throws IOException {
 		File copiedFile = UtilFile.copyFile(destinationFile, sourceFile, directory);
 		addChecksum(destinationFile, sourceFile);
@@ -329,10 +333,6 @@ public class StorageHandler {
 		String checksumSource = Utils.md5Checksum(sourceFile);
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
 		fileChecksumContainer.addChecksum(checksumSource, destinationFile.getAbsolutePath());
-	}
-
-	public String getXMLStringOfAProject(Project project) {
-		return xstream.toXML(project);
 	}
 
 }
