@@ -26,7 +26,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
@@ -44,7 +43,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarChangeListener {
+public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListener, OnSeekBarChangeListener {
 	private static final long serialVersionUID = 1L;
 
 	private static final int MIN_FREQ_IN_HERTZ = 200;
@@ -56,15 +55,11 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 
 	}
 
-	private Sprite sprite;
 	private int hertz;
 	private int durationInMilliSeconds;
 
 	private transient EditText editFreq;
 	private transient SeekBar freqBar;
-	private transient CheckBox checkbox;
-	private transient View view;
-	private transient boolean checked;
 
 	public LegoNxtPlayToneBrick(Sprite sprite, int hertz, int duration) {
 		this.sprite = sprite;
@@ -81,11 +76,6 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 	public void execute() {
 		LegoNXT.sendBTCPlayToneMessage(hertz, durationInMilliSeconds);
 
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return this.sprite;
 	}
 
 	@Override
@@ -287,29 +277,5 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_nxt_play_tone_brick");
-	}
-
-	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 }

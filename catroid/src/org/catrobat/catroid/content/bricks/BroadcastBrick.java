@@ -31,7 +31,6 @@ import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
@@ -46,25 +45,20 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-public class BroadcastBrick implements Brick {
+public class BroadcastBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 	private transient ProjectManager projectManager;
-	private Sprite sprite;
-	private String broadcastMessage = "";
 
-	private transient View view;
-	private transient CheckBox checkbox;
-	private transient boolean checked;
+	private String broadcastMessage = "";
 
 	public BroadcastBrick(Sprite sprite) {
 		this.sprite = sprite;
 		this.projectManager = ProjectManager.getInstance();
 	}
 
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
+	public BroadcastBrick() {
+
 	}
 
 	@Override
@@ -87,11 +81,6 @@ public class BroadcastBrick implements Brick {
 			}
 		});
 		startThread.start();
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	public void setSelectedMessage(String message) {
@@ -207,29 +196,6 @@ public class BroadcastBrick implements Brick {
 		return new BroadcastBrick(sprite);
 	}
 
-	public BroadcastBrick() {
-
-	}
-
-	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(View.VISIBLE);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_broadcast_layout);
@@ -238,8 +204,4 @@ public class BroadcastBrick implements Brick {
 		return view;
 	}
 
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
-	}
 }

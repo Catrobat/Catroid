@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
@@ -41,14 +40,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class NoteBrick implements Brick {
+public class NoteBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
 	private String note = "";
-
-	private transient View view;
-	private transient CheckBox checkbox;
-	private transient boolean checked;
 
 	public NoteBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -58,11 +52,6 @@ public class NoteBrick implements Brick {
 
 	}
 
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
 	public NoteBrick(Sprite sprite, String note) {
 		this.sprite = sprite;
 		this.note = note;
@@ -70,11 +59,6 @@ public class NoteBrick implements Brick {
 
 	@Override
 	public void execute() {
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return this.sprite;
 	}
 
 	public String getNote() {
@@ -175,29 +159,5 @@ public class NoteBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new NoteBrick(this.sprite, this.note);
-	}
-
-	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 }

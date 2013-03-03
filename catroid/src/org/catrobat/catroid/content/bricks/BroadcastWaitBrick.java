@@ -31,7 +31,6 @@ import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
@@ -46,16 +45,11 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-public class BroadcastWaitBrick implements Brick {
+public class BroadcastWaitBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 	private transient ProjectManager projectManager;
-	private Sprite sprite;
 	private String broadcastMessage = "";
-
-	private transient View view;
-	private transient CheckBox checkbox;
-	private transient boolean checked;
 
 	public BroadcastWaitBrick() {
 
@@ -64,11 +58,6 @@ public class BroadcastWaitBrick implements Brick {
 	public BroadcastWaitBrick(Sprite sprite) {
 		this.sprite = sprite;
 		this.projectManager = ProjectManager.getInstance();
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
 	}
 
 	@Override
@@ -92,11 +81,6 @@ public class BroadcastWaitBrick implements Brick {
 			wait.await();
 		} catch (InterruptedException e) {
 		}
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	public void setSelectedMessage(String selectedMessage) {
@@ -217,29 +201,5 @@ public class BroadcastWaitBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new BroadcastWaitBrick(sprite);
-	}
-
-	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 }

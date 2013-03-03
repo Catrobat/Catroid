@@ -26,7 +26,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
@@ -48,7 +47,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, OnClickListener {
+public class LegoNxtMotorActionBrick extends BrickBaseType implements OnSeekBarChangeListener, OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	public static enum Motor {
@@ -59,7 +58,6 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 
 	}
 
-	private Sprite sprite;
 	private String motor;
 	private transient Motor motorEnum;
 	private int speed;
@@ -70,9 +68,6 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 
 	private transient EditText editSpeed;
 	private transient SeekBar speedBar;
-	private transient CheckBox checkbox;
-	private transient View view;
-	private transient boolean checked;
 
 	protected Object readResolve() {
 		if (motor != null) {
@@ -103,11 +98,6 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), speed, 0);
 		}
 		//LegoNXT.sendBTCMotorMessage((int) (duration * 1000), motor, 0, 0);
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return this.sprite;
 	}
 
 	@Override
@@ -281,25 +271,6 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 	}
 
 	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_nxt_motor_action_layout);
 		Drawable background = layout.getBackground();
@@ -307,8 +278,4 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 		return view;
 	}
 
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
-	}
 }

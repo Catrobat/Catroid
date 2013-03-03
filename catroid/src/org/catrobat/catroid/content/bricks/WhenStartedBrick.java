@@ -26,7 +26,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -40,12 +39,6 @@ public class WhenStartedBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
 	private Script script;
-	private Sprite sprite;
-
-	private transient View view;
-	private transient CheckBox checkbox;
-	private transient BrickAdapter adapter;
-	private transient boolean checked = false;
 
 	public WhenStartedBrick(Sprite sprite, Script script) {
 		this.script = script;
@@ -57,17 +50,7 @@ public class WhenStartedBrick extends ScriptBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
 	public void execute() {
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	@Override
@@ -120,16 +103,6 @@ public class WhenStartedBrick extends ScriptBrick {
 	}
 
 	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_when_started_layout);
 		Drawable background = layout.getBackground();
@@ -137,8 +110,4 @@ public class WhenStartedBrick extends ScriptBrick {
 		return view;
 	}
 
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
-	}
 }

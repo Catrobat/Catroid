@@ -26,7 +26,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
@@ -41,15 +40,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ChangeVolumeByNBrick implements Brick, OnClickListener {
+public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-
-	private Sprite sprite;
 	private double volume;
-
-	private transient View view;
-	private transient CheckBox checkbox;
-	private transient boolean checked;
 
 	public ChangeVolumeByNBrick() {
 
@@ -58,11 +51,6 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 	public ChangeVolumeByNBrick(Sprite sprite, double changeVolume) {
 		this.sprite = sprite;
 		this.volume = changeVolume;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
 	}
 
 	@Override
@@ -75,11 +63,6 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 			currentVolume = 100.0f;
 		}
 		SoundManager.getInstance().setVolume(currentVolume);
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return this.sprite;
 	}
 
 	public double getVolume() {
@@ -162,29 +145,5 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_volume_by_brick");
-	}
-
-	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 }

@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
@@ -40,13 +39,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class GoNStepsBackBrick implements Brick, OnClickListener {
+public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
 	private int steps;
-	private transient CheckBox checkbox;
-	private transient View view;
-	private transient boolean checked;
 
 	public GoNStepsBackBrick(Sprite sprite, int steps) {
 		this.sprite = sprite;
@@ -55,11 +50,6 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 
 	public GoNStepsBackBrick() {
 
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
 	}
 
 	@Override
@@ -72,11 +62,6 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		} else {
 			sprite.look.zPosition -= steps;
 		}
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return this.sprite;
 	}
 
 	@Override
@@ -152,29 +137,5 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_go_n_steps_brick");
-	}
-
-	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 }

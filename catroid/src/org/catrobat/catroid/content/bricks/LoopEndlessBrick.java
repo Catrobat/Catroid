@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -38,11 +37,6 @@ import android.widget.LinearLayout;
 public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
-
-	private transient CheckBox checkbox;
-	private transient View view;
-	private transient boolean checked;
-	private transient BrickAdapter adapter;
 
 	public LoopEndlessBrick() {
 
@@ -93,29 +87,5 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		return inflater.inflate(R.layout.brick_loop_endless_no_puzzle, null);
-	}
-
-	@Override
-	public void setCheckboxVisibility(int visibility) {
-		super.setCheckboxVisibility(visibility);
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		super.setBrickAdapter(adapter);
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		CheckBox parentCheckBox = super.getCheckBox();
-		if (parentCheckBox != null) {
-			return parentCheckBox;
-		}
-		return checkbox;
-
 	}
 }

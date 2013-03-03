@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -54,7 +53,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PointInDirectionBrick implements Brick, View.OnClickListener {
+public class PointInDirectionBrick extends BrickBaseType implements View.OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -76,14 +75,10 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 		}
 	}
 
-	private Sprite sprite;
 	private double degrees;
 
 	private transient Direction direction;
 	private transient EditText setAngleEditText;
-	private transient CheckBox checkbox;
-	private transient View view;
-	private transient boolean checked;
 
 	protected Object readResolve() {
 		for (Direction direction : Direction.values()) {
@@ -102,19 +97,9 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
 	public void execute() {
 		double degreeOffset = 90.0;
 		sprite.look.rotation = (float) (-degrees + degreeOffset);
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return this.sprite;
 	}
 
 	@Override
@@ -324,29 +309,5 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 			final Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
 			input.addTextChangedListener(getInputTextChangedListener(buttonPositive));
 		}
-	}
-
-	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 }

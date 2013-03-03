@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
@@ -40,15 +39,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class TurnLeftBrick implements Brick, OnClickListener {
+public class TurnLeftBrick extends BrickBaseType implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
 	private double degrees;
-
-	private transient View view;
-	private transient CheckBox checkbox;
-	private transient boolean checked;
 
 	public TurnLeftBrick(Sprite sprite, double degrees) {
 		this.sprite = sprite;
@@ -60,18 +54,8 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
 	public void execute() {
 		sprite.look.rotation = (sprite.look.rotation % 360) + (float) degrees;
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	@Override
@@ -147,29 +131,5 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_turn_left_brick");
-	}
-
-	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 }

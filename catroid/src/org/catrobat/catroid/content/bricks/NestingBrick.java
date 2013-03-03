@@ -24,7 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import java.util.List;
 
-public abstract class NestingBrick implements Brick {
+public abstract class NestingBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 

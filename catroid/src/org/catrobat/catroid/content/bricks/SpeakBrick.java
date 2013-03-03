@@ -28,7 +28,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
@@ -44,17 +43,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class SpeakBrick implements Brick {
+public class SpeakBrick extends BrickBaseType {
 	private static final String LOG_TAG = SpeakBrick.class.getSimpleName();
 	private static final long serialVersionUID = 1L;
 
 	private static HashMap<String, SpeakBrick> activeSpeakBricks = new HashMap<String, SpeakBrick>();
-	private Sprite sprite;
 	private String text = "";
-
-	private transient View view;
-	private transient CheckBox checkbox;
-	private transient boolean checked;
 
 	public SpeakBrick(Sprite sprite, String text) {
 		this.sprite = sprite;
@@ -101,11 +95,6 @@ public class SpeakBrick implements Brick {
 		}
 		Log.i(LOG_TAG, "speak Time: " + (System.currentTimeMillis() - time));
 		activeSpeakBricks.remove(utteranceId);
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return this.sprite;
 	}
 
 	public String getText() {
@@ -182,29 +171,5 @@ public class SpeakBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new SpeakBrick(this.sprite, this.text);
-	}
-
-	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 }

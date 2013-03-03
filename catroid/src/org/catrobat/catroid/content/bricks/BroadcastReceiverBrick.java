@@ -28,7 +28,6 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
@@ -44,14 +43,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 public class BroadcastReceiverBrick extends ScriptBrick {
-
 	private static final long serialVersionUID = 1L;
 	private BroadcastScript receiveScript;
-	private Sprite sprite;
-
-	private transient View view;
-	private transient CheckBox checkbox;
-	private transient boolean checked;
 
 	public BroadcastReceiverBrick() {
 
@@ -60,20 +53,6 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	public BroadcastReceiverBrick(Sprite sprite, BroadcastScript receiveScript) {
 		this.sprite = sprite;
 		this.receiveScript = receiveScript;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	@Override
@@ -201,26 +180,6 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	}
 
 	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
+	public void execute() {
 	}
 }

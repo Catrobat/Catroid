@@ -28,7 +28,6 @@ import java.util.List;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -46,12 +45,8 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	private static final int MILLION = 1000 * 1000;
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = LoopEndBrick.class.getSimpleName();
-	private Sprite sprite;
 	private LoopBeginBrick loopBeginBrick;
 	private transient int timesToRepeat;
-	private transient CheckBox checkbox;
-	private transient View view;
-	private transient boolean checked;
 
 	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
 		this.sprite = sprite;
@@ -61,11 +56,6 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 
 	public LoopEndBrick() {
 
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
 	}
 
 	@Override
@@ -100,11 +90,6 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 			}
 		}
 		return null;
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	public void setTimesToRepeat(int timesToRepeat) {
@@ -197,30 +182,5 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		return inflater.inflate(R.layout.brick_loop_end_no_puzzle, null);
-	}
-
-	@Override
-	public void setCheckboxVisibility(int visibility) {
-
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 }

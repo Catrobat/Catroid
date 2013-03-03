@@ -29,7 +29,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 
-public abstract class ScriptBrick implements AllowedAfterDeadEndBrick {
+public abstract class ScriptBrick extends BrickBaseType implements AllowedAfterDeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
 

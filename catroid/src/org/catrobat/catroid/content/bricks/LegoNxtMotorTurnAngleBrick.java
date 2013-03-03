@@ -26,7 +26,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -51,7 +50,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class LegoNxtMotorTurnAngleBrick implements Brick {
+public class LegoNxtMotorTurnAngleBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	public static enum Motor {
@@ -62,16 +61,12 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 
 	}
 
-	private Sprite sprite;
 	private String motor;
 	private transient Motor motorEnum;
 	private int degrees;
 	private static final int NO_DELAY = 0;
 
 	private transient EditText editX;
-	private transient CheckBox checkbox;
-	private transient View view;
-	private transient boolean checked;
 
 	protected Object readResolve() {
 		if (motor != null) {
@@ -116,11 +111,6 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 		 * }
 		 */
 
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return this.sprite;
 	}
 
 	@Override
@@ -276,35 +266,10 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 	}
 
 	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_nxt_motor_turn_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 		return view;
 	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
-	}
-
 }

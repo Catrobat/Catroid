@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
@@ -40,15 +39,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ChangeXByNBrick implements Brick, OnClickListener {
+public class ChangeXByNBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int xMovement;
-	private Sprite sprite;
-
-	private transient View view;
-	private transient CheckBox checkbox;
-	private transient BrickAdapter adapter;
-	private transient boolean checked = false;
 
 	public ChangeXByNBrick() {
 
@@ -57,11 +50,6 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 	public ChangeXByNBrick(Sprite sprite, int xMovement) {
 		this.sprite = sprite;
 		this.xMovement = xMovement;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
 	}
 
 	@Override
@@ -79,11 +67,6 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 
 		sprite.look.setXYPosition(xPosition, sprite.look.getYPosition());
 		sprite.look.releaseXYWidthHeightLock();
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return this.sprite;
 	}
 
 	@Override
@@ -159,27 +142,5 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_x_by_brick");
-	}
-
-	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 }

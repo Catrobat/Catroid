@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -39,13 +38,9 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class NextLookBrick implements Brick {
+public class NextLookBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
-	private transient View view;
-	private transient CheckBox checkbox;
-	private transient boolean checked;
 
 	public NextLookBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -88,11 +83,6 @@ public class NextLookBrick implements Brick {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.brick_next_look, null);
@@ -107,12 +97,6 @@ public class NextLookBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new NextLookBrick(sprite);
-	}
-
-	@Override
-	public int getRequiredResources() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override
@@ -147,29 +131,5 @@ public class NextLookBrick implements Brick {
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 		return view;
-	}
-
-	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 }

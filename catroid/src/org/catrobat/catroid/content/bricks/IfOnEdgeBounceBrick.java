@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -35,14 +34,9 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
-public class IfOnEdgeBounceBrick implements Brick {
+public class IfOnEdgeBounceBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
-
-	private transient View view;
-	private transient CheckBox checkbox;
-	private transient boolean checked;
 
 	public IfOnEdgeBounceBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -50,11 +44,6 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 	public IfOnEdgeBounceBrick() {
 
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
 	}
 
 	@Override
@@ -117,11 +106,6 @@ public class IfOnEdgeBounceBrick implements Brick {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
@@ -157,29 +141,5 @@ public class IfOnEdgeBounceBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new IfOnEdgeBounceBrick(sprite);
-	}
-
-	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 }

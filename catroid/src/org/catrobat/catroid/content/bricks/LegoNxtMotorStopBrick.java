@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -39,7 +38,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
+public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 
 	public static enum Motor {
@@ -50,12 +49,8 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 
 	}
 
-	private Sprite sprite;
 	private transient Motor motorEnum;
 	private String motor;
-	private transient CheckBox checkbox;
-	private transient View view;
-	private transient boolean checked;
 
 	private static final int NO_DELAY = 0;
 
@@ -90,11 +85,6 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), 0, 0);
 		}
 
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return this.sprite;
 	}
 
 	@Override
@@ -148,34 +138,10 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	}
 
 	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_nxt_motor_stop_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 		return view;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 }

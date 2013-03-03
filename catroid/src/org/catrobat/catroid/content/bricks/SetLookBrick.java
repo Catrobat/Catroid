@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -40,13 +39,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class SetLookBrick implements Brick {
+public class SetLookBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
 	private LookData look;
-	private transient View view;
-	private transient CheckBox checkbox;
-	private transient boolean checked;
 
 	public SetLookBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -54,11 +49,6 @@ public class SetLookBrick implements Brick {
 
 	public SetLookBrick() {
 
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
 	}
 
 	public void setLook(LookData lookData) {
@@ -70,11 +60,6 @@ public class SetLookBrick implements Brick {
 		if (look != null && sprite != null && sprite.getLookDataList().contains(look)) {
 			sprite.look.setLookData(look);
 		}
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	public String getImagePath() {
@@ -172,29 +157,5 @@ public class SetLookBrick implements Brick {
 		}
 
 		return clonedBrick;
-	}
-
-	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 }

@@ -26,7 +26,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -40,15 +39,10 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-public class PlaySoundBrick implements Brick, OnItemSelectedListener {
+public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 
 	private SoundInfo sound;
-	private Sprite sprite;
-
-	private transient CheckBox checkbox;
-	private transient View view;
-	private transient boolean checked;
 
 	public PlaySoundBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -59,20 +53,10 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
 	public void execute() {
 		if (sound != null && sprite.getSoundList().contains(sound) && sound.getAbsolutePath() != null) {
 			SoundManager.getInstance().playSoundFile(sound.getAbsolutePath());
 		}
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	@Override
@@ -160,29 +144,5 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
-	}
-
-	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 }

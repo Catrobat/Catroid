@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -42,14 +41,10 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-public class PointToBrick implements Brick {
+public class PointToBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
 	private Sprite pointedSprite;
-	private transient CheckBox checkbox;
-	private transient View view;
-	private transient boolean checked;
 
 	public PointToBrick(Sprite sprite, Sprite pointedSprite) {
 		this.sprite = sprite;
@@ -58,16 +53,6 @@ public class PointToBrick implements Brick {
 
 	public PointToBrick() {
 
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	@Override
@@ -233,29 +218,5 @@ public class PointToBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new PointToBrick(sprite, pointedSprite);
-	}
-
-	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-		}
-	}
-
-	private transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
-	public CheckBox getCheckBox() {
-		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 }
