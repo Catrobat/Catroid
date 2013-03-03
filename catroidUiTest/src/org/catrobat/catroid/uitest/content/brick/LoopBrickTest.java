@@ -177,7 +177,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof ForeverBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(4) instanceof LoopEndlessBrick);
 		assertEquals("Wrong LoopBegin-Brick instance", ((NestingBrick) projectBrickList.get(4))
-				.getAllNestingBrickParts().get(0), projectBrickList.get(2));
+				.getAllNestingBrickParts().get(1), projectBrickList.get(2));
 		assertEquals("Wrong LoopEnd-Brick instance", ((NestingBrick) projectBrickList.get(2)).getAllNestingBrickParts()
 				.get(1), projectBrickList.get(4));
 
@@ -187,10 +187,10 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(5) + 20, 20);
-		solo.sleep(200);
+		solo.sleep(500);
 
 		assertEquals("Incorrect number of bricks.", 8, projectBrickList.size());
-		assertTrue("Wrong Brick instance.", projectBrickList.get(4) instanceof ChangeBrightnessByNBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(6) instanceof ChangeBrightnessByNBrick);
 
 		solo.scrollDownList(0);
 
@@ -200,10 +200,10 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(6), 20);
-		solo.sleep(200);
+		solo.sleep(2000);
 
 		assertEquals("Incorrect number of bricks.", 9, projectBrickList.size());
-		assertTrue("Wrong Brick instance.", projectBrickList.get(5) instanceof BroadcastBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(7) instanceof BroadcastBrick);
 	}
 
 	public void testNestedForeverBricks() {
@@ -263,8 +263,6 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(4), 20, yPosition.get(yPosition.size() - 4) - 20, 20);
 
-		@SuppressWarnings("unused")
-		Brick sdfsdf = projectBrickList.get(2);
 		assertTrue("Wrong brick instance.", projectBrickList.get(1) instanceof ClearGraphicEffectBrick);
 
 		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(2), 20, yPosition.get(0), 20);
