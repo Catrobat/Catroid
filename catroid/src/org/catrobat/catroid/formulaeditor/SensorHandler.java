@@ -201,6 +201,7 @@ public class SensorHandler implements SensorEventListener {
 	}
 
 	//For API Level < 9
+	//Taken from: https://android.googlesource.com/platform/frameworks/base/+/fa33565714e4192dbab446ee1fbccb87dd414bed/core/java/android/hardware/SensorManager.java
 	public static void getRotationMatrixFromVector(float[] R, float[] rotationVector) {
 
 		float q0;
@@ -209,7 +210,7 @@ public class SensorHandler implements SensorEventListener {
 		float q3 = rotationVector[2];
 
 		q0 = 1 - q1 * q1 - q2 * q2 - q3 * q3;
-		q0 = (q0 > 0) ? (float) Math.sqrt(q0) : 0;
+		q0 = (q0 > 0) ? (float) android.util.FloatMath.sqrt(q0) : 0;
 
 		float sq_q1 = 2 * q1 * q1;
 		float sq_q2 = 2 * q2 * q2;
