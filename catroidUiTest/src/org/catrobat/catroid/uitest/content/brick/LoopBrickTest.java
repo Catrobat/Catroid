@@ -203,8 +203,8 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		solo.sleep(2000);
 
 		assertEquals("Incorrect number of bricks.", 9, projectBrickList.size());
-		assertTrue("Wrong Brick instance. expected 7, bricklist: " + projectBrickList.toString(),
-				projectBrickList.get(7) instanceof BroadcastBrick);
+		assertTrue("Wrong Brick instance. expected 6, bricklist: " + projectBrickList.toString(),
+				projectBrickList.get(6) instanceof BroadcastBrick);
 	}
 
 	public void testNestedForeverBricks() {
@@ -274,8 +274,8 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		assertEquals("Wrong number of bricks", 7, projectBrickList.size());
 
 		projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		assertTrue("Wrong brick instance. expected 0, bricklist: " + projectBrickList.toString(),
-				projectBrickList.get(0) instanceof ClearGraphicEffectBrick);
+		assertTrue("Wrong brick instance. expected 2, bricklist: " + projectBrickList.toString(),
+				projectBrickList.get(2) instanceof ClearGraphicEffectBrick);
 
 		checkIfForeverLoopsAreCorrectlyPlaced(1);
 		checkIfForeverLoopsAreCorrectlyPlaced(2);
