@@ -44,6 +44,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.Display;
 import android.widget.ListView;
 
@@ -224,6 +225,35 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
 
 		assertEquals("No Brick should have been deleted!", brickListToCheck.size(), numberOfBricks);
+	}
+
+	public void testDeleteActionModeAllBricks() {
+		UiTestUtils.createTestProjectWithEveryBrick();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		List<Brick> brickList = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getScript(0)
+				.getBrickList();
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		solo.clickOnCheckBox(0);
+
+		for (int i = 1; i < brickList.size(); i++) {
+			try {
+				assertEquals("AlphaValue of " + brickList.get(i).toString() + " is not 55", 55, brickList.get(i)
+						.getAlphaValue());
+			} catch (NullPointerException e) {
+				Log.d("Catroid", brickList.get(i).toString());
+			}
+		}
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		assertEquals("Not all Bricks have been deleted!", 0, numberOfBricks);
+
+		//solo.sleep(20000);
 	}
 
 	public void testDeleteActionModeTwoScripts() {

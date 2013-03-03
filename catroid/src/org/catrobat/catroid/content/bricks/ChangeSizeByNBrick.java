@@ -41,12 +41,7 @@ import android.widget.Toast;
 
 public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
 	private double size;
-
-	private transient View view;
-	private transient CheckBox checkbox;
-	private transient boolean checked;
 
 	public ChangeSizeByNBrick() {
 

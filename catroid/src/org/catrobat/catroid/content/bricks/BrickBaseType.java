@@ -37,6 +37,12 @@ public class BrickBaseType implements Brick {
 	protected transient CheckBox checkbox;
 	protected transient boolean checked = false;
 	protected transient BrickAdapter adapter;
+	protected int alphaValue = 255;
+
+	@Override
+	public int getAlphaValue() {
+		return alphaValue;
+	}
 
 	@Override
 	public Sprite getSprite() {

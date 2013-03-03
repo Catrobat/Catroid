@@ -48,14 +48,42 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BroadcastBrick;
+import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
+import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
+import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
+import org.catrobat.catroid.content.bricks.NextLookBrick;
+import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
+import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
+import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
+import org.catrobat.catroid.content.bricks.SetXBrick;
+import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.TurnLeftBrick;
+import org.catrobat.catroid.content.bricks.TurnRightBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
@@ -317,6 +345,67 @@ public class UiTestUtils {
 		brickList.add(new ComeToFrontBrick(firstSprite));
 		brickList.add(new LoopEndBrick(firstSprite, secondForeverBrick));
 		brickList.add(new LoopEndBrick(firstSprite, firstForeverBrick));
+
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(testScript);
+
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		return brickList;
+	}
+
+	public static List<Brick> createTestProjectWithEveryBrick() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+
+		Script testScript = new StartScript(firstSprite);
+
+		ArrayList<Brick> brickList = new ArrayList<Brick>();
+
+		brickList.add(new BroadcastBrick());
+		brickList.add(new BroadcastWaitBrick());
+		brickList.add(new ChangeBrightnessByNBrick());
+		brickList.add(new ChangeGhostEffectByNBrick());
+		brickList.add(new ChangeSizeByNBrick());
+		brickList.add(new ChangeVolumeByNBrick());
+		brickList.add(new ChangeXByNBrick());
+		brickList.add(new ChangeYByNBrick());
+		brickList.add(new ClearGraphicEffectBrick());
+		brickList.add(new ComeToFrontBrick());
+		brickList.add(new GlideToBrick());
+		brickList.add(new GoNStepsBackBrick());
+		brickList.add(new HideBrick());
+		brickList.add(new IfOnEdgeBounceBrick());
+		//brickList.add(new LegoNxtMotorActionBrick(firstSprite, LegoNxtMotorActionBrick.Motor.MOTOR_A, 0));
+		//brickList.add(new LegoNxtMotorTurnAngleBrick(firstSprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, 0));
+		brickList.add(new MoveNStepsBrick());
+		brickList.add(new NextLookBrick(firstSprite));
+		brickList.add(new NoteBrick());
+		brickList.add(new PlaceAtBrick());
+		brickList.add(new PlaySoundBrick(firstSprite));
+		brickList.add(new PointInDirectionBrick());
+		brickList.add(new PointToBrick(firstSprite, firstSprite));
+		brickList.add(new SetBrightnessBrick());
+		brickList.add(new SetGhostEffectBrick());
+		brickList.add(new SetLookBrick(firstSprite));
+		brickList.add(new SetSizeToBrick());
+		brickList.add(new SetVolumeToBrick());
+		brickList.add(new SetXBrick());
+		brickList.add(new SetYBrick());
+		brickList.add(new ShowBrick());
+		brickList.add(new SpeakBrick());
+		brickList.add(new StopAllSoundsBrick());
+		brickList.add(new TurnLeftBrick());
+		brickList.add(new TurnRightBrick());
+		brickList.add(new WaitBrick());
 
 		for (Brick brick : brickList) {
 			testScript.addBrick(brick);
