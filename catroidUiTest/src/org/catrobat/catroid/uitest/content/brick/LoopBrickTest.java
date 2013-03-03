@@ -189,7 +189,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		solo.sleep(500);
 
 		assertEquals("Incorrect number of bricks.", 8, projectBrickList.size());
-		assertTrue("Wrong Brick instance. expected 6, bricklist: ",
+		assertTrue("Wrong Brick instance. expected 6, bricklist: " + projectBrickList.toString(),
 				projectBrickList.get(6) instanceof ChangeBrightnessByNBrick);
 
 		solo.scrollDownList(0);
