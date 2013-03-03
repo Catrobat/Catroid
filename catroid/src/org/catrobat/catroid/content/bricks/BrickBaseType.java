@@ -30,7 +30,7 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
-public abstract class BrickBaseType implements Brick {
+public class BrickBaseType implements Brick {
 	private static final long serialVersionUID = 1L;
 	protected transient View view;
 	protected Sprite sprite;
@@ -71,17 +71,26 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public abstract View getViewWithAlpha(int alphaValue);
+	public View getViewWithAlpha(int alphaValue) {
+		return null;
+	}
 
 	@Override
-	public abstract Brick clone();
+	public Brick clone() {
+		return null;
+	}
 
 	@Override
-	public abstract void execute();
+	public void execute() {
+	}
 
 	@Override
-	public abstract View getView(Context context, int brickId, BaseAdapter adapter);
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		return null;
+	}
 
 	@Override
-	public abstract View getPrototypeView(Context context);
+	public View getPrototypeView(Context context) {
+		return null;
+	}
 }
