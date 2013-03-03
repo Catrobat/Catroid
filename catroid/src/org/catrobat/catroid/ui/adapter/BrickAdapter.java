@@ -76,10 +76,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	private boolean retryScriptDragging;
 	private boolean showDetails = false;
 
-	//public for testing:
-	public List<Brick> brickList;
+	private List<Brick> brickList;
+
 	private List<Brick> animatedBricks;
-	//private SortedSet<Integer> checkedBricks = new TreeSet<Integer>();
 	private List<Brick> checkedBricks = new ArrayList<Brick>();
 
 	private int selectMode;
@@ -116,6 +115,14 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				brick.setBrickAdapter(this);
 			}
 		}
+	}
+
+	public List<Brick> getBrickList() {
+		return brickList;
+	}
+
+	public void setBrickList(List<Brick> brickList) {
+		this.brickList = brickList;
 	}
 
 	@Override
@@ -416,9 +423,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		int[] returnValue = new int[2];
 
 		if (position >= brickList.size()) {
-
-			//just a hack for the moment:
-			//position = brickList.size() - 1;
 
 			returnValue[0] = sprite.getNumberOfScripts() - 1;
 			if (returnValue[0] < 0) {
@@ -758,11 +762,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	@Override
 	public void onClick(final View view) {
-		/*
-		 * if (selectMode == Constants.SELECT_NONE) {
-		 * return;
-		 * }
-		 */
 		animatedBricks.clear();
 		final int itemPosition = calculateItemPositionAndTouchPointY(view);
 

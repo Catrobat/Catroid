@@ -189,7 +189,8 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		solo.sleep(500);
 
 		assertEquals("Incorrect number of bricks.", 8, projectBrickList.size());
-		assertTrue("Wrong Brick instance.", projectBrickList.get(6) instanceof ChangeBrightnessByNBrick);
+		assertTrue("Wrong Brick instance. expected 6, bricklist: ",
+				projectBrickList.get(6) instanceof ChangeBrightnessByNBrick);
 
 		solo.scrollDownList(0);
 
@@ -262,7 +263,8 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(4), 20, yPosition.get(yPosition.size() - 4) - 20, 20);
 
-		assertTrue("Wrong brick instance.", projectBrickList.get(1) instanceof ClearGraphicEffectBrick);
+		assertTrue("Wrong brick instance. expected 1, bricklist: " + projectBrickList.toString(),
+				projectBrickList.get(1) instanceof ClearGraphicEffectBrick);
 
 		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(2), 20, yPosition.get(0), 20);
 		solo.scrollToBottom();

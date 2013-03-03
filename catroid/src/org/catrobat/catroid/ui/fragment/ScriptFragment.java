@@ -72,7 +72,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	private static String actionModeTitle;
 
-	//these strings are just for the title (brick vs bricks..)
 	private static String singleItemAppendixActionMode;
 	private static String multipleItemAppendixActionMode;
 
@@ -197,7 +196,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		if (view.getId() == R.id.brick_list_view) {
-			//selectedBrickData = adapter.getItem(selectedBrickPosition);
 			menu.setHeaderTitle(R.string.script_context_menu_title);
 
 			if (adapter.getItem(listView.getTouchedListPosition()) instanceof ScriptBrick) {
@@ -341,7 +339,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void startCopyActionMode() {
-		// TODO Auto-generated method stub
+		// TODO implement copy
 	}
 
 	@Override
@@ -360,37 +358,32 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public int getSelectMode() {
-		// TODO Auto-generated method stub
 		return adapter.getSelectMode();
 	}
 
 	@Override
 	public void setSelectMode(int selectMode) {
-		// TODO Auto-generated method stub
 		adapter.setSelectMode(selectMode);
 		adapter.notifyDataSetChanged();
 	}
 
 	@Override
 	public void startDeleteActionMode() {
-		// TODO Auto-generated method stub
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 
-			for (int i = adapter.listItemCount; i < adapter.brickList.size(); i++) {
+			for (int i = adapter.listItemCount; i < adapter.getBrickList().size(); i++) {
 				adapter.getView(i, null, getListView());
 			}
 
 			unregisterForContextMenu(listView);
 			BottomBar.disableButtons(getActivity());
-			//isRenameActionMode = false;
 			adapter.setCheckboxVisibility(View.VISIBLE);
 		}
 	}
 
 	@Override
 	protected void showDeleteDialog() {
-		// TODO Auto-generated method stub
 		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedBrickPosition);
 		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
 	}
@@ -451,14 +444,10 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			//List<Brick> checkedBricks = adapter.getCheckedBrickList();
 			List<Brick> checkedBricks = adapter.getReversedCheckedBrickList();
 
 			for (Brick brick : checkedBricks) {
 				deleteBrick(brick);
-				//if (brick instanceof ScriptBrick) {	
-				//checkedBricks = removeCheckedBricksFromScript(brick, checkedBricks);
-				//}
 			}
 			setSelectMode(Constants.SELECT_NONE);
 			adapter.clearCheckedItems();
@@ -474,14 +463,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	private void deleteBrick(Brick brick) {
 
 		if (brick instanceof ScriptBrick) {
-			//scriptToEdit = ((ScriptBrick) adapter.getItem(listView.getTouchedListPosition()))
-			//		.initScript(ProjectManager.INSTANCE.getCurrentSprite());
 			scriptToEdit = ((ScriptBrick) brick).initScript(ProjectManager.INSTANCE.getCurrentSprite());
 			adapter.handleScriptDelete(sprite, scriptToEdit);
 			return;
 		}
-		int brickId = adapter.brickList.indexOf(brick);
-		//int brickPosition = listView.getPositionForView(brick.getView(getActivity(), brickId, adapter));
+		int brickId = adapter.getBrickList().indexOf(brick);
 		if (brickId == -1) {
 			return;
 		}
@@ -489,7 +475,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	public List<Brick> removeCheckedBricksFromScript(Brick scriptBrick, List<Brick> checkedBricks) {
-		//List<Brick> checkedBricks = adapter.getCheckedBricks();
 		int index = checkedBricks.indexOf(scriptBrick) + 1;
 		while (index < checkedBricks.size() && !(checkedBricks.get(index) instanceof ScriptBrick)) {
 			checkedBricks.remove(index);
