@@ -23,6 +23,7 @@
 package org.catrobat.catroid.uitest.content.brick;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -262,20 +263,22 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(4), 20, yPosition.get(yPosition.size() - 4) - 20, 20);
 
-		assertTrue("Wrong brick instance.", projectBrickList.get(2) instanceof ClearGraphicEffectBrick);
+		@SuppressWarnings("unused")
+		Brick sdfsdf = projectBrickList.get(2);
+		assertTrue("Wrong brick instance.", projectBrickList.get(1) instanceof ClearGraphicEffectBrick);
 
-		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(3), 20, yPosition.get(yPosition.size() - 2), 20);
+		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(2), 20, yPosition.get(0), 20);
 		solo.scrollToBottom();
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(2), 20, yPosition.get(yPosition.size() - 1) + 50, 20);
-		assertEquals("Wrong number of bricks", 6, projectBrickList.size());
+		assertEquals("Wrong number of bricks", 7, projectBrickList.size());
 
-		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
+		projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertTrue("Wrong brick instance.", projectBrickList.get(0) instanceof ClearGraphicEffectBrick);
 
-		checkIfForeverLoopsAreCorrectlyPlaced(0);
 		checkIfForeverLoopsAreCorrectlyPlaced(1);
 		checkIfForeverLoopsAreCorrectlyPlaced(2);
+		checkIfForeverLoopsAreCorrectlyPlaced(3);
 	}
 
 	private void createProject() {
@@ -316,13 +319,19 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		int offset = 1;
 		for (int i = 0; i < position; i++) {
+			Brick b = projectBrickList.get(i);
 			if (projectBrickList.get(i) instanceof ForeverBrick) {
 				offset++;
 			}
 		}
 
+		NestingBrick i = (NestingBrick) projectBrickList.get(projectBrickList.size() - offset);
+		List<NestingBrick> s = i.getAllNestingBrickParts();
+		Brick sfsf = s.get(0);
+		Brick sdfsdf = projectBrickList.get(position);
+
 		assertEquals("Wrong LoopBegin-Brick instance", ((NestingBrick) projectBrickList.get(projectBrickList.size()
-				- offset)).getAllNestingBrickParts().get(0), projectBrickList.get(position));
+				- offset)).getAllNestingBrickParts().get(1), projectBrickList.get(position));
 		assertEquals("Wrong LoopEnd-Brick instance", ((NestingBrick) projectBrickList.get(position))
 				.getAllNestingBrickParts().get(1), projectBrickList.get(projectBrickList.size() - offset));
 	}
