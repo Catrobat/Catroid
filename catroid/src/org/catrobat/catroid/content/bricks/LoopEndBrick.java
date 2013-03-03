@@ -181,11 +181,15 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts() {
+	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
-		nestingBrickList.add(this);
-		nestingBrickList.add(loopBeginBrick);
-
+		if (sorted) {
+			nestingBrickList.add(loopBeginBrick);
+			nestingBrickList.add(this);
+		} else {
+			nestingBrickList.add(this);
+			nestingBrickList.add(loopBeginBrick);
+		}
 		return nestingBrickList;
 	}
 

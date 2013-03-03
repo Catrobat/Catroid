@@ -23,7 +23,6 @@
 package org.catrobat.catroid.uitest.content.brick;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -177,9 +176,9 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof ForeverBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(4) instanceof LoopEndlessBrick);
 		assertEquals("Wrong LoopBegin-Brick instance", ((NestingBrick) projectBrickList.get(4))
-				.getAllNestingBrickParts().get(1), projectBrickList.get(2));
-		assertEquals("Wrong LoopEnd-Brick instance", ((NestingBrick) projectBrickList.get(2)).getAllNestingBrickParts()
-				.get(1), projectBrickList.get(4));
+				.getAllNestingBrickParts(false).get(1), projectBrickList.get(2));
+		assertEquals("Wrong LoopEnd-Brick instance",
+				((NestingBrick) projectBrickList.get(2)).getAllNestingBrickParts(false).get(1), projectBrickList.get(4));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_change_brightness);
 		solo.sleep(500);
@@ -317,20 +316,14 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		int offset = 1;
 		for (int i = 0; i < position; i++) {
-			Brick b = projectBrickList.get(i);
 			if (projectBrickList.get(i) instanceof ForeverBrick) {
 				offset++;
 			}
 		}
 
-		NestingBrick i = (NestingBrick) projectBrickList.get(projectBrickList.size() - offset);
-		List<NestingBrick> s = i.getAllNestingBrickParts();
-		Brick sfsf = s.get(0);
-		Brick sdfsdf = projectBrickList.get(position);
-
 		assertEquals("Wrong LoopBegin-Brick instance", ((NestingBrick) projectBrickList.get(projectBrickList.size()
-				- offset)).getAllNestingBrickParts().get(1), projectBrickList.get(position));
+				- offset)).getAllNestingBrickParts(false).get(1), projectBrickList.get(position));
 		assertEquals("Wrong LoopEnd-Brick instance", ((NestingBrick) projectBrickList.get(position))
-				.getAllNestingBrickParts().get(1), projectBrickList.get(projectBrickList.size() - offset));
+				.getAllNestingBrickParts(false).get(1), projectBrickList.get(projectBrickList.size() - offset));
 	}
 }

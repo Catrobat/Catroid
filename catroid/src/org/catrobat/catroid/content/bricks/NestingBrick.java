@@ -29,7 +29,7 @@ public abstract class NestingBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 
 	public boolean containsDeadEnd() {
-		for (Brick brick : getAllNestingBrickParts()) {
+		for (Brick brick : getAllNestingBrickParts(false)) {
 			if (brick instanceof DeadEndBrick) {
 				return true;
 			}
@@ -51,6 +51,6 @@ public abstract class NestingBrick implements Brick {
 	 * 
 	 * @return List of NestingBricks in order of their appearance
 	 */
-	public abstract List<NestingBrick> getAllNestingBrickParts();
+	public abstract List<NestingBrick> getAllNestingBrickParts(boolean sorted);
 
 }

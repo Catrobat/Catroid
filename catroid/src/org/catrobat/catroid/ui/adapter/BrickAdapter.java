@@ -201,7 +201,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	private int getDraggedNestingBricksToPosition(NestingBrick nestingBrick, int from, int to) {
-		List<NestingBrick> nestingBrickList = nestingBrick.getAllNestingBrickParts();
+		List<NestingBrick> nestingBrickList = nestingBrick.getAllNestingBrickParts(true);
 		int restrictedTop = 0;
 		int restrictedBottom = brickList.size();
 
@@ -369,7 +369,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		if (brick instanceof NestingBrick) {
 			((NestingBrick) draggedBrick).initialize();
-			List<NestingBrick> nestingBrickList = ((NestingBrick) draggedBrick).getAllNestingBrickParts();
+			List<NestingBrick> nestingBrickList = ((NestingBrick) draggedBrick).getAllNestingBrickParts(true);
 			for (int i = 0; i < nestingBrickList.size(); i++) {
 				if (nestingBrickList.get(i) instanceof DeadEndBrick) {
 					if (i < nestingBrickList.size() - 1) {
@@ -394,7 +394,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			}
 
 			if (brickList.get(i) instanceof NestingBrick) {
-				List<NestingBrick> tempList = ((NestingBrick) brickList.get(i)).getAllNestingBrickParts();
+				List<NestingBrick> tempList = ((NestingBrick) brickList.get(i)).getAllNestingBrickParts(true);
 				int currentPosition = i;
 				i = brickList.indexOf(tempList.get(tempList.size() - 1)) + 1;
 				if (i < 0) {
@@ -543,7 +543,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		for (int i = position; i < brickList.size(); i++) {
 			if (brickList.get(i) instanceof NestingBrick) {
-				List<NestingBrick> bricks = ((NestingBrick) brickList.get(i)).getAllNestingBrickParts();
+				List<NestingBrick> bricks = ((NestingBrick) brickList.get(i)).getAllNestingBrickParts(true);
 				int beginningPosition = brickList.indexOf(bricks.get(0));
 				int endingPosition = brickList.indexOf(bricks.get(bricks.size() - 1));
 				if (position >= beginningPosition && position <= endingPosition) {
@@ -583,7 +583,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 				Brick brick = script.getBrick(temp[1]);
 				if (brick instanceof NestingBrick) {
-					for (Brick tempBrick : ((NestingBrick) brick).getAllNestingBrickParts()) {
+					for (Brick tempBrick : ((NestingBrick) brick).getAllNestingBrickParts(true)) {
 						script.removeBrick(tempBrick);
 					}
 				} else {
@@ -800,7 +800,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					int itemPosition = calculateItemPositionAndTouchPointY(view);
 					Brick brick = brickList.get(itemPosition);
 					if (brick instanceof NestingBrick) {
-						List<NestingBrick> list = ((NestingBrick) brick).getAllNestingBrickParts();
+						List<NestingBrick> list = ((NestingBrick) brick).getAllNestingBrickParts(true);
 						for (Brick tempBrick : list) {
 							animatedBricks.add(tempBrick);
 						}
@@ -974,7 +974,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			int counter = 1;
 			int from = 0;
 			int to = 0;
-			for (Brick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts()) {
+			for (Brick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts(false)) {
 				if (check) {
 					animatedBricks.add(currentBrick);
 					addElementToCheckedBricks(currentBrick);
