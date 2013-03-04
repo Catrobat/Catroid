@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -44,7 +44,7 @@ import android.widget.Spinner;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class VariableBricksTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class VariableBricksTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 	private Project project;
 	private UserVariablesContainer userVariablesContainer;
@@ -52,13 +52,14 @@ public class VariableBricksTest extends ActivityInstrumentationTestCase2<ScriptA
 	private ChangeVariableBrick changeVariableBrick;
 
 	public VariableBricksTest() {
-		super(ScriptActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -71,6 +72,7 @@ public class VariableBricksTest extends ActivityInstrumentationTestCase2<ScriptA
 		userVariablesContainer.deleteUserVariableByName("sprite_var1");
 		userVariablesContainer.deleteUserVariableByName("sprite_var2");
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke
@@ -97,6 +99,7 @@ public class VariableBricksTest extends ActivityInstrumentationTestCase2<ScriptA
 		UiTestUtils.insertDoubleIntoEditText(solo, -8.0);
 		solo.goBack();
 
+		solo.waitForView(solo.getView(R.id.button_play));
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1500);
@@ -104,8 +107,6 @@ public class VariableBricksTest extends ActivityInstrumentationTestCase2<ScriptA
 		assertEquals("Variable has the wrong value after stage", 42.0,
 				userVariablesContainer.getUserVariable("p2", "cat").getValue());
 
-		solo.goBack();
-		solo.goBack();
 	}
 
 	private void createProject() {
