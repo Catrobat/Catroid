@@ -36,9 +36,9 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 
-public class IfLogicBrickTest extends InstrumentationTestCase {
+public class IfLogicBrickTest extends AndroidTestCase {
 
 	private static final int IF_TRUE_VALUE = 42;
 	private static final int IF_FALSE_VALUE = 32;
@@ -52,10 +52,9 @@ public class IfLogicBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-
+		super.setUp();
 		testSprite = new Sprite("testSprite");
 		project = new Project(null, "testProject");
-
 	}
 
 	public void testIfBrick() throws InterruptedException {
