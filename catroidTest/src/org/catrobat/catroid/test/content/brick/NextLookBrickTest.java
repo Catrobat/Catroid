@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.content.brick;
 import java.io.File;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Project;
@@ -33,26 +32,20 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilFile;
 
 import android.test.InstrumentationTestCase;
-import org.catrobat.catroid.test.R;
 
 public class NextLookBrickTest extends InstrumentationTestCase {
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 	private File testImage;
-	private String projectName;
+	private String projectName = TestUtils.DEFAULT_TEST_PROJECT_NAME;
 
 	@Override
 	protected void setUp() throws Exception {
-
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
+		TestUtils.deleteTestProjects();
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
@@ -67,11 +60,7 @@ public class NextLookBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
+		TestUtils.deleteTestProjects();
 		if (testImage != null && testImage.exists()) {
 			testImage.delete();
 		}
