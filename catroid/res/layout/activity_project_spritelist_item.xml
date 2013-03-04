@@ -54,6 +54,7 @@
                 android:layout_height="65dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="9dp"
+                android:padding="1.5dp"
                 android:background="@drawable/spritelist_item_thumbnail_border" />
 
             <include layout="@layout/activity_project_sprite_title_details_view" />

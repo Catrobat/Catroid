@@ -21,15 +21,24 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android" >
-	<stroke 
-	    android:width="1.5dp" 
-	    android:color="@color/spritelist_item_thumbnail_border_color" 
-	    />	
-	<padding 
-	    android:left="1.5dp" 
-	    android:top="1.5dp" 
-	    android:right="1.5dp" 
-	    android:bottom="1.5dp" 
-	    />	
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item>
+        <shape android:shape="rectangle" >
+            <stroke
+                android:width="1.5dp"
+                android:color="@color/spritelist_item_thumbnail_border_color" >
+            </stroke>
+        </shape>
+    </item>
+    <item
+        android:bottom="1.5dp"
+        android:left="1.5dp"
+        android:right="1.5dp"
+        android:top="1.5dp">
+        <shape android:shape="rectangle" >
+            <solid android:color="@color/white" />
+        </shape>
+    </item>
+
+</layer-list>
