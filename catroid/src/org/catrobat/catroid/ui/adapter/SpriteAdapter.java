@@ -115,19 +115,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder.checkbox = (CheckBox) spriteView.findViewById(R.id.sprite_checkbox);
 			holder.text = (TextView) spriteView.findViewById(R.id.sprite_title);
 			holder.backgroundHeadline = (LinearLayout) spriteView.findViewById(R.id.background_headline);
-			holder.backgroundHeadline.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					//this is intended. this way a click on the headlines does not work.
-				}
-			});
 			holder.objectsHeadline = (LinearLayout) spriteView.findViewById(R.id.objects_headline);
-			holder.objectsHeadline.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					//this is intended. this way a click on the headlines does not work.
-				}
-			});
 			holder.image = (ImageView) spriteView.findViewById(R.id.sprite_img);
 			holder.scripts = (TextView) spriteView.findViewById(R.id.textView_number_of_scripts);
 			holder.bricks = (TextView) spriteView.findViewById(R.id.textView_number_of_bricks);

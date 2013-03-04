@@ -25,6 +25,7 @@
     android:id="@+id/objects_headline"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:clickable="true"
     android:orientation="vertical"
     android:visibility="gone" >
 
