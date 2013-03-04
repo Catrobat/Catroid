@@ -45,17 +45,17 @@ public class SetVariableBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 	private UserVariable userVariable;
 	private transient View view;
-	private Formula variable_formula;
+	private Formula variableFormula;
 
-	public SetVariableBrick(Sprite sprite, Formula variable_formula, UserVariable userVariable) {
+	public SetVariableBrick(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
 		this.sprite = sprite;
-		this.variable_formula = variable_formula;
+		this.variableFormula = variableFormula;
 		this.userVariable = userVariable;
 	}
 
 	public SetVariableBrick(Sprite sprite, double value) {
 		this.sprite = sprite;
-		this.variable_formula = new Formula(value);
+		this.variableFormula = new Formula(value);
 		this.userVariable = null;
 	}
 
@@ -69,7 +69,7 @@ public class SetVariableBrick implements Brick, OnClickListener {
 		if (userVariable == null) {
 			return;
 		}
-		double value = variable_formula.interpretFloat();
+		double value = variableFormula.interpretFloat();
 		userVariable.setValue(value);
 	}
 
@@ -86,8 +86,8 @@ public class SetVariableBrick implements Brick, OnClickListener {
 		TextView prototype_text = (TextView) view.findViewById(R.id.brick_set_variable_prototype_view);
 		EditText edit_text = (EditText) view.findViewById(R.id.brick_set_variable_edit_text);
 		prototype_text.setVisibility(View.GONE);
-		variable_formula.setTextFieldId(R.id.brick_set_variable_edit_text);
-		variable_formula.refreshTextField(view);
+		variableFormula.setTextFieldId(R.id.brick_set_variable_edit_text);
+		variableFormula.refreshTextField(view);
 		edit_text.setVisibility(View.VISIBLE);
 		edit_text.setOnClickListener(this);
 
@@ -126,13 +126,13 @@ public class SetVariableBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		SetVariableBrick clonedBrick = new SetVariableBrick(getSprite(), variable_formula, userVariable);
+		SetVariableBrick clonedBrick = new SetVariableBrick(getSprite(), variableFormula, userVariable);
 		return clonedBrick;
 	}
 
 	@Override
 	public void onClick(View view) {
-		FormulaEditorFragment.showFragment(view, this, variable_formula);
+		FormulaEditorFragment.showFragment(view, this, variableFormula);
 	}
 
 }

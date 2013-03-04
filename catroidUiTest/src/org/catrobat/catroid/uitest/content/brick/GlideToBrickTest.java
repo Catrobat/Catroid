@@ -25,6 +25,10 @@ package org.catrobat.catroid.uitest.content.brick;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -39,6 +43,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private Solo solo;
+	private Project project;
 
 	public GlideToBrickTest() {
 		super(MainMenuActivity.class);
@@ -47,7 +52,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.createEmptyProject();
+		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
@@ -103,5 +108,19 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		formula = (Formula) Reflection.getPrivateField(glideToBrick, "yDestination");
 		temp2 = formula.interpretInteger();
 		assertEquals("Wrong y input in Glide to brick", yPosition, temp2);
+	}
+
+	private void createProject() {
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Sprite sprite = new Sprite("cat");
+		Script script = new StartScript(sprite);
+		script.addBrick(new GlideToBrick(sprite, 0, 0, 0));
+
+		sprite.addScript(script);
+		project.addSprite(sprite);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(script);
 	}
 }

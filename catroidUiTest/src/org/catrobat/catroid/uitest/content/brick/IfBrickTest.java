@@ -32,6 +32,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -68,6 +70,7 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity
 	@Smoke
 	public void testIfBrick() {
 		ListView view = UiTestUtils.getScriptListView(solo);
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
@@ -75,11 +78,11 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, 5, "ifCondition", ifBrick);
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
-		assertEquals("Incorrect number of bricks.", 1, childrenCount);
+		assertEquals("Incorrect number of bricks.", 3 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 3, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
+		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_if_begin)));
@@ -105,7 +108,13 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		ifBrick = new IfLogicBeginBrick(sprite, 0);
+		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(sprite, ifBrick);
+		IfLogicEndBrick ifEndBrick = new IfLogicEndBrick(sprite, ifElseBrick, ifBrick);
+		ifBrick.setElseBrick(ifElseBrick);
+		ifBrick.setEndBrick(ifEndBrick);
 		script.addBrick(ifBrick);
+		script.addBrick(ifElseBrick);
+		script.addBrick(ifEndBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

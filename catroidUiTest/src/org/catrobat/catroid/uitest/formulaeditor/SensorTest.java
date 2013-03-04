@@ -44,19 +44,13 @@ import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.SimulatedSensorManager;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.badlogic.gdx.Input;
 import com.jayway.android.robotium.solo.Solo;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(Input.class)
 public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private Solo solo;
@@ -196,7 +190,7 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 
 	//	private int tryMock(String method, Formula formula, int expectedResult) {
 	//		Input mock = PowerMock.createPartialMock(Input.class, method);
-	//		//		SensorHandler.setSensorSourceForNextCall(mock); TODO
+	//		//		SensorHandler.setSensorSourceForNextCall(mock); 
 	//
 	//		try {
 	//			PowerMock.expectPrivate(mock, method).andReturn(expectedResult);
