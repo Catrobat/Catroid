@@ -654,8 +654,9 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		SensorHandler.startSensorListener(solo.getCurrentActivity());
 		SensorHandler.stopSensorListeners();
 
+		SensorHandler sensorHandler = (SensorHandler) Reflection.getPrivateField(SensorHandler.class, "instance");
 		SimulatedSensorManager sensorManager = new SimulatedSensorManager();
-		Reflection.setPrivateField(SensorHandler.class, "sensorManager", sensorManager);
+		Reflection.setPrivateField(sensorHandler, "sensorManager", sensorManager);
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 

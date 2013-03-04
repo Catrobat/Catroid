@@ -73,7 +73,7 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 	@Override
 	public void tearDown() throws Exception {
 		SensorHandler.stopSensorListeners();
-		Reflection.setPrivateField(SensorHandler.class, "sensorManager", null);
+		Reflection.setPrivateField(SensorHandler.class, "instance", null);
 		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
@@ -119,10 +119,12 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 		SensorHandler.startSensorListener(solo.getCurrentActivity());
 		SensorHandler.stopSensorListeners();
 
+		SensorHandler sensorHandler = (SensorHandler) Reflection.getPrivateField(SensorHandler.class, "instance");
 		SimulatedSensorManager sensorManager = new SimulatedSensorManager();
-		Reflection.setPrivateField(SensorHandler.class, "sensorManager", sensorManager);
-		Sensor accelerometerSensor = (Sensor) Reflection.getPrivateField(SensorHandler.class, "accelerometerSensor");
-		Sensor rotationVectorSensor = (Sensor) Reflection.getPrivateField(SensorHandler.class, "rotationVectorSensor");
+		Reflection.setPrivateField(sensorHandler, "sensorManager", sensorManager);
+
+		Sensor accelerometerSensor = (Sensor) Reflection.getPrivateField(sensorHandler, "accelerometerSensor");
+		Sensor rotationVectorSensor = (Sensor) Reflection.getPrivateField(sensorHandler, "rotationVectorSensor");
 		SensorHandler.startSensorListener(getActivity());
 
 		sensorManager.startSimulation();
@@ -131,7 +133,7 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 
 		while (sensorManager.getLatestSensorEvent(accelerometerSensor) == null
 				|| sensorManager.getLatestSensorEvent(rotationVectorSensor) == null
-				|| checkValidRotationValues(sensorManager.getLatestSensorEvent(rotationVectorSensor)) == false) {
+				|| checkValidRotationValues(sensorManager.getLatestSensorEvent(rotationVectorSensor), sensorHandler) == false) {
 			if (startTime < System.currentTimeMillis() - 1000 * 5) {
 				fail("SensorEvent generation Timeout. Check Sensor Simulation!");
 
@@ -140,12 +142,12 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 
 		sensorManager.stopSimulation();
 
-		float expectedX = (Float) Reflection.getPrivateField(SensorHandler.class, "linearAcceleartionX");
-		float expectedY = (Float) Reflection.getPrivateField(SensorHandler.class, "linearAcceleartionY");
-		float expectedZ = (Float) Reflection.getPrivateField(SensorHandler.class, "linearAcceleartionZ");
+		float expectedX = (Float) Reflection.getPrivateField(sensorHandler, "linearAcceleartionX");
+		float expectedY = (Float) Reflection.getPrivateField(sensorHandler, "linearAcceleartionY");
+		float expectedZ = (Float) Reflection.getPrivateField(sensorHandler, "linearAcceleartionZ");
 
 		float[] rotationMatrix = new float[16];
-		float[] rotationVector = (float[]) Reflection.getPrivateField(SensorHandler.class, "rotationVector");
+		float[] rotationVector = (float[]) Reflection.getPrivateField(sensorHandler, "rotationVector");
 		float[] orientations = new float[3];
 
 		SensorHandler.getRotationMatrixFromVector(rotationMatrix, rotationVector);
@@ -166,9 +168,9 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 
 	}
 
-	private boolean checkValidRotationValues(SensorEvent sensorEvent) {
+	private boolean checkValidRotationValues(SensorEvent sensorEvent, SensorHandler sensorHandler) {
 		float[] rotationMatrix = new float[16];
-		float[] rotationVector = (float[]) Reflection.getPrivateField(SensorHandler.class, "rotationVector");
+		float[] rotationVector = (float[]) Reflection.getPrivateField(sensorHandler, "rotationVector");
 		float[] orientations = new float[3];
 
 		rotationVector[0] = sensorEvent.values[0];
