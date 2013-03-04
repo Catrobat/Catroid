@@ -41,7 +41,6 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 public class SpriteAdapter extends ArrayAdapter<Sprite> {
@@ -68,12 +67,14 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 	private static class ViewHolder {
 		private CheckBox checkbox;
 		private TextView text;
+		private LinearLayout backgroundHeadline;
+		private LinearLayout objectsHeadline;
 		private ImageView image;
-		private View divider;
 		private TextView scripts;
 		private TextView bricks;
 		private TextView looks;
 		private TextView sounds;
+		private ImageView arrow;
 	}
 
 	public int getAmountOfCheckedSprites() {
@@ -113,11 +114,14 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder = new ViewHolder();
 			holder.checkbox = (CheckBox) spriteView.findViewById(R.id.sprite_checkbox);
 			holder.text = (TextView) spriteView.findViewById(R.id.sprite_title);
+			holder.backgroundHeadline = (LinearLayout) spriteView.findViewById(R.id.background_headline);
+			holder.objectsHeadline = (LinearLayout) spriteView.findViewById(R.id.objects_headline);
 			holder.image = (ImageView) spriteView.findViewById(R.id.sprite_img);
 			holder.scripts = (TextView) spriteView.findViewById(R.id.textView_number_of_scripts);
 			holder.bricks = (TextView) spriteView.findViewById(R.id.textView_number_of_bricks);
 			holder.looks = (TextView) spriteView.findViewById(R.id.textView_number_of_looks);
 			holder.sounds = (TextView) spriteView.findViewById(R.id.textView_number_of_sounds);
+			holder.arrow = (ImageView) spriteView.findViewById(R.id.arrow_right);
 			spriteView.setTag(holder);
 		} else {
 			holder = (ViewHolder) spriteView.getTag();
@@ -188,18 +192,20 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		}
 
 		if (position == 0) {
-			spriteView.findViewById(R.id.background_headline).setVisibility(View.VISIBLE);
-			spriteView.findViewById(R.id.objects_headline).setVisibility(View.VISIBLE);
+			holder.backgroundHeadline.setVisibility(View.VISIBLE);
+			holder.objectsHeadline.setVisibility(View.VISIBLE);
 		} else {
 			if (selectMode != Constants.SELECT_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
+				holder.arrow.setVisibility(View.GONE);
 			} else {
 				holder.checkbox.setVisibility(View.GONE);
+				holder.arrow.setVisibility(View.VISIBLE);
 				holder.checkbox.setChecked(false);
 				clearCheckedSprites();
 			}
-			spriteView.findViewById(R.id.background_headline).setVisibility(View.GONE);
-			spriteView.findViewById(R.id.objects_headline).setVisibility(View.GONE);
+			holder.backgroundHeadline.setVisibility(View.GONE);
+			holder.objectsHeadline.setVisibility(View.GONE);
 		}
 		return spriteView;
 	}
