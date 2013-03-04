@@ -27,7 +27,7 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 
 import android.test.AndroidTestCase;
 
-public class ZHideBrickTest extends AndroidTestCase {
+public class AHideBrickTest extends AndroidTestCase {
 
 	public void testHide() {
 		Sprite sprite = new Sprite("new sprite");
