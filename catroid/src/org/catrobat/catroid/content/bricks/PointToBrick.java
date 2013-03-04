@@ -144,8 +144,13 @@ public class PointToBrick extends BrickBaseType {
 		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
 		spinner.setFocusableInTouchMode(false);
 		spinner.setFocusable(false);
-		spinner.setClickable(true);
-		spinner.setEnabled(true);
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+			spinner.setClickable(true);
+			spinner.setEnabled(true);
+		} else {
+			spinner.setClickable(false);
+			spinner.setEnabled(false);
+		}
 
 		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -167,9 +172,6 @@ public class PointToBrick extends BrickBaseType {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-				if (checkbox.getVisibility() == View.VISIBLE) {
-					return;
-				}
 				String itemSelected = parent.getSelectedItem().toString();
 				String nothingSelected = context.getString(R.string.broadcast_nothing_selected);
 				final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance()

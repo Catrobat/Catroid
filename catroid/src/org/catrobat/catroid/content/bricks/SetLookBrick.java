@@ -86,8 +86,13 @@ public class SetLookBrick extends BrickBaseType {
 		Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			lookbrickSpinner.setAdapter(createLookAdapter(context));
-			lookbrickSpinner.setClickable(true);
-			lookbrickSpinner.setFocusable(true);
+			if (!(checkbox.getVisibility() == View.VISIBLE)) {
+				lookbrickSpinner.setClickable(true);
+				lookbrickSpinner.setEnabled(true);
+			} else {
+				lookbrickSpinner.setClickable(false);
+				lookbrickSpinner.setEnabled(false);
+			}
 
 			lookbrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 				@Override
