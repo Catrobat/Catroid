@@ -1,94 +1,99 @@
-# helper.rb
+require_relative "step_definition"
+require_relative "java_parser"
 
 module Catrobat
   module Helper
-    # Contains all information about the step-definition.
-    class StepDefinition
-      # Represents a parameter of the step-definition.
-      class MethodParameter
-        attr_accessor(:type, :name)
-
-        def initialize(type, name)
-          @type = type
-          @name = name
-        end
-      end
-
-      attr_accessor(:type, :text, :method_name, :method_params, :method_body)
-
-      def initialize(type, text)
-        @type          = type
-        @text          = text
-        @method_name   = nil
-        @method_params = []
-        @method_body   = ""
-      end
-    end
-
-    # Very basic parser to parse step-definitions written in Java.
-    # Does not work with nested blocks or fancy formatting other than in the example.
-    class JavaParser
-      STEP_REGEX       = /@\b(Given|When|Then|And)\("(.*)"\)/
-      METHOD_TOP_REGEX = /public\svoid\s(\w+)\(([^)]*)\)\s?\{\n/
-      METHOD_END_REGEX = /\s+}/
-      PARAM_REGEX      = /(\w+)\s(\w+),?/
-
-      def initialize(path)
-        raise ArgumentError unless File.exists?(path)
-        @java_file       = File.open(path)
-        @all_definitions = []
-      end
-
-      def parse!
-        @java_file.each_line do |line|
-          if (step = line.match(STEP_REGEX))
-            @step_definition = StepDefinition.new(step[1], step[2])
-            next
-          end
-          if (method = line.match(METHOD_TOP_REGEX)) and @step_definition
-            @step_definition.method_name=method[1]
-            # Find all MatchData for the method parameters.
-            if method[2] and (params = method[2].to_enum(:scan, PARAM_REGEX).map { Regexp.last_match })
-              params.each do |param|
-                @step_definition.method_params<<StepDefinition::MethodParameter.new(param[1], param[2])
-              end
-            end
-            next
-          end
-          if @step_definition and @step_definition.method_name
-            if line.match(METHOD_END_REGEX)
-              @all_definitions<<@step_definition
-              @step_definition = nil
-            else
-              @step_definition.method_body<<line
-            end
-            next
-          end
-        end
-        @all_definitions
-      end
-    end
-
     def tranform_java_steps(java_dir = "features/step_definitions/java")
-      #TODO: create corresponding Actions in calabash-android, write created_steps.rb.
-
-      #mapping = {"String" => "",
-      #           "float"  => "Float.parseFloat",
-      #           "int"    => "Integer.parseInt"}
-
+      helper = Helper.new
       Dir.glob(java_dir + "/*.java") do |java_file|
-        parser           = JavaParser.new(java_file)
+        parser           = Parser::JavaParser.new(java_file)
         step_definitions = parser.parse!
-        step_definitions.each do |definition|
-          print_def(definition)
+        step_definitions.each_with_index do |step_def, i|
+          helper.write_java_file(step_def)
+          helper.write_ruby_file(step_def, i)
         end
       end
     end
 
-    # For testing purposes only
-    def print_def(definition)
-      puts "#{definition.type.upcase} '#{definition.text}' ##{definition.method_name}(#{definition.method_params.size})"
-      puts definition.method_body
+    private
+    class Helper
+      def write_java_file(step_def, dir = "catrobat")
+        class_name = step_def.method_name.gsub("_", "").capitalize
+        action_dir = "calabash-android/ruby-gem/test-server/instrumentation-backend/"
+        action_dir<<"src/sh/calaba/instrumentationbackend/actions/"
+        action_dir<<dir
+        FileUtils.mkdir_p(action_dir)
+        File.open("#{action_dir}/#{class_name}.java", 'w') do |f|
+          write_java_text(f, class_name, step_def)
+        end
+      end
+
+      def write_ruby_file(step_def, index, file_name="created_steps")
+        steps_dir = "features/step_definitions"
+        file_path = "#{steps_dir}/#{file_name}.rb"
+        if index == 0
+          File.open(file_path, 'w') do |f|
+            f.write "# These steps were automatically created.\n\n"
+          end
+        end
+        File.open(file_path, 'a') do |f|
+          if index > 0
+            f.write "\n"
+          end
+          write_ruby_text(f, step_def)
+        end
+      end
+
+      private
+      def write_java_text(f, class_name, step_def)
+        f.write "package sh.calaba.instrumentationbackend.actions.button;\n\n"
+        f.write "import sh.calaba.instrumentationbackend.InstrumentationBackend;\n"
+        f.write "import sh.calaba.instrumentationbackend.Result;\n"
+        f.write "import sh.calaba.instrumentationbackend.actions.Action;\n"
+        f.write "import static sh.calaba.instrumentationbackend.InstrumentationBackend.solo;\n\n"
+        f.write "public class #{class_name} implements Action {\n"
+        f.write "  @Override\n"
+        f.write "  public Result execute(String... args) {\n"
+        f.write "    #{step_def.method_body}\n"
+        f.write "    return Result.successResult();\n"
+        f.write "  }\n\n"
+        f.write "  @Override\n"
+        f.write "  public String key() {\n"
+        f.write "    return \"#{step_def.method_name}\";\n"
+        f.write "  }\n"
+        f.write "}\n"
+      end
+
+      private
+      def write_ruby_text(f, step_def)
+        args = list_args(step_def)
+        f.write "#{step_def.type} /^#{step_def.text}$/ do#{block_args(args)}\n"
+        f.write "  performAction('#{step_def.method_name}'#{action_args(args)})"
+        f.write "\nend\n"
+      end
+
+      private
+      def list_args(step_def)
+        block_args = nil
+        step_def.method_params.each do |param|
+          if block_args
+            block_args<<", #{param.name.downcase}"
+          else
+            block_args = "#{param.name.downcase}"
+          end
+        end
+        block_args
+      end
+
+      private
+      def block_args(args)
+        args ? " |#{args}|" : nil
+      end
+
+      private
+      def action_args(args)
+        args ? ", #{args}" : nil
+      end
     end
   end
 end
