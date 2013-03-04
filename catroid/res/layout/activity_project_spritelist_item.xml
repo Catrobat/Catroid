@@ -23,95 +23,157 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/spritelist_item_background"
+    android:layout_height="90dip"
+    android:background="@color/project_activity_background_color"
     android:orientation="vertical" >
-
-    <LinearLayout
+    
+   	<LinearLayout 
+        android:id="@+id/background_headline"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/spritelist_item_background"
-        android:orientation="horizontal" >
-
-        <CheckBox
+	   	android:layout_height="wrap_content"
+	   	android:orientation="vertical"
+	   	android:visibility="gone">
+        <TextView 
+	        android:id="@+id/tv_spritelist_background_headline"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:paddingTop="9dip"
+	    	android:paddingLeft="16dip"
+	    	android:paddingBottom="5dip"
+	    	android:textSize="14sp"
+	        android:text="@string/spritelist_background_headline"/>
+   
+	    <View
+		    android:layout_width="fill_parent"
+		    android:layout_height="1.5dp"
+		    android:layout_marginLeft="5dp"
+		    android:layout_marginRight="50dp"
+		    android:layout_marginBottom="8dp"
+		    android:background="@color/spritelist_separation_line_color"/>
+        
+    </LinearLayout>
+    
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="90dip"
+	    android:orientation="horizontal" >
+	    
+		<CheckBox
             android:id="@+id/sprite_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:visibility="gone"/>
-
-        <ImageView
-            android:id="@+id/sprite_img"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="6dip"
-            android:scaleType="centerCrop" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="70dp" >
-
-            <TextView
-                android:id="@+id/sprite_title"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:paddingLeft="10dp"
-                android:singleLine="true"
-                android:textColor="@color/solid_black"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/sprite_title" >
-
-                <TextView
-                    android:id="@+id/textView_number_of_scripts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:textColor="@color/backbrown"
-                    android:textSize="12dip" />
-
-                <TextView
-                    android:id="@+id/textView_number_of_looks"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/textView_number_of_scripts"
-                    android:paddingLeft="10dp"
-                    android:textColor="@color/backbrown"
-                    android:textSize="12dip" />
-
-                <TextView
-                    android:id="@+id/textView_number_of_bricks"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:paddingRight="8dp"
-                    android:textColor="@color/backbrown"
-                    android:textSize="12dip" />
-
-                <TextView
-                    android:id="@+id/textView_number_of_sounds"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@id/textView_number_of_bricks"
-                    android:paddingRight="8dp"
-                    android:textColor="@color/backbrown"
-                    android:textSize="12dip" />
-            </RelativeLayout>
-        </RelativeLayout>
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone" />
+		
+	    <LinearLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:background="@drawable/spritelist_item_background"
+	        android:orientation="horizontal" >
+	
+	        <ImageView
+	            android:id="@+id/sprite_img"
+	            android:layout_width="72dp"
+	            android:layout_height="65dp"
+	            android:layout_marginLeft="9dp"
+	            android:layout_gravity="center_vertical"
+	            android:background="@drawable/spritelist_item_thumbnail_border" />
+	
+	        <RelativeLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical" >
+	
+	            <TextView
+	                android:id="@+id/sprite_title"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:ellipsize="end"
+	                android:paddingLeft="12.5dp"
+	                android:singleLine="true"
+	                android:textColor="@color/spritelist_item_text_color"
+	                android:textSize="22sp"
+	                android:textStyle="bold" 
+	                android:shadowColor="@color/spritelist_item_text_shadow_color"
+	        		android:shadowRadius="1.5"
+	        		android:shadowDx="0"
+	       			android:shadowDy="3" />
+	
+	            <RelativeLayout
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/sprite_title" >
+	
+	                <TextView
+	                    android:id="@+id/textView_number_of_scripts"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:paddingLeft="12.5dp"
+	                    android:textColor="@color/spritelist_details_text_color"
+		                android:textSize="14sp"
+		                android:textStyle="bold" />
+	
+	                <TextView
+	                    android:id="@+id/textView_number_of_looks"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_below="@id/textView_number_of_scripts"
+	                    android:paddingLeft="12.5dp"
+	                    android:textColor="@color/spritelist_details_text_color"
+		                android:textSize="14sp"
+		                android:textStyle="bold" />
+	
+	                <TextView
+	                    android:id="@+id/textView_number_of_bricks"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_toRightOf="@id/textView_number_of_scripts"
+	                    android:paddingLeft="39dp"
+	                    android:textColor="@color/spritelist_details_text_color"
+		                android:textSize="14sp"
+		                android:textStyle="bold" />
+	
+	                <TextView
+	                    android:id="@+id/textView_number_of_sounds"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_toRightOf="@id/textView_number_of_scripts"
+	                    android:layout_below="@id/textView_number_of_bricks"
+	                    android:paddingLeft="39dp"
+	                    android:textColor="@color/spritelist_details_text_color"
+		                android:textSize="14sp"
+		                android:textStyle="bold" />
+	            </RelativeLayout>
+	        </RelativeLayout>
+	    </LinearLayout>
     </LinearLayout>
 
-    <View
-        android:id="@+id/sprite_divider"
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="@color/divider"
-        android:visibility="visible" />
+    <LinearLayout 
+        android:id="@+id/objects_headline"
+        android:layout_width="fill_parent"
+	   	android:layout_height="wrap_content"
+	   	android:orientation="vertical"
+	   	android:visibility="gone">
+        
+        <TextView 
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:paddingTop="18dip"
+	    	android:paddingLeft="16dip"
+	    	android:paddingBottom="5dip"
+	    	android:textSize="14sp"
+	        android:text="@string/spritelist_objects_headline"
+	        />
+    
+	    <View
+		    android:layout_width="fill_parent"
+		    android:layout_height="1.5dp"
+		    android:layout_marginLeft="5dp"
+		    android:layout_marginRight="50dp"
+		    android:layout_marginBottom="8dp"
+		    android:background="@color/spritelist_separation_line_color"/>
+    </LinearLayout>
 
 </LinearLayout>

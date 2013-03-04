@@ -114,7 +114,6 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder.checkbox = (CheckBox) spriteView.findViewById(R.id.sprite_checkbox);
 			holder.text = (TextView) spriteView.findViewById(R.id.sprite_title);
 			holder.image = (ImageView) spriteView.findViewById(R.id.sprite_img);
-			holder.divider = spriteView.findViewById(R.id.sprite_divider);
 			holder.scripts = (TextView) spriteView.findViewById(R.id.textView_number_of_scripts);
 			holder.bricks = (TextView) spriteView.findViewById(R.id.textView_number_of_bricks);
 			holder.looks = (TextView) spriteView.findViewById(R.id.textView_number_of_looks);
@@ -189,16 +188,9 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		}
 
 		if (position == 0) {
-			holder.divider.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 4));
-			// normally a color would be enough in this case(R.color.gray)
-			// but when I tested the color value, I did not get the correct color - the gray was slightly different
-			// should be #808080 for gray - but always was #848284
-			// with a shape gradient, I get the correct color in the testcase
-			holder.divider.setBackgroundResource(R.color.divider_background);
-			holder.checkbox.setVisibility(View.GONE);
+			spriteView.findViewById(R.id.background_headline).setVisibility(View.VISIBLE);
+			spriteView.findViewById(R.id.objects_headline).setVisibility(View.VISIBLE);
 		} else {
-			holder.divider.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 2));
-			holder.divider.setBackgroundResource(R.color.divider);
 			if (selectMode != Constants.SELECT_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
 			} else {
@@ -206,6 +198,8 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 				holder.checkbox.setChecked(false);
 				clearCheckedSprites();
 			}
+			spriteView.findViewById(R.id.background_headline).setVisibility(View.GONE);
+			spriteView.findViewById(R.id.objects_headline).setVisibility(View.GONE);
 		}
 		return spriteView;
 	}
