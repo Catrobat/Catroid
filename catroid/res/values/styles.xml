@@ -241,12 +241,12 @@
     
     <style name="BrickContainer.Script.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_script</item>
+        <item name="android:background">@drawable/brick_control</item>
     </style>
     
     <style name="BrickContainer.Script.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_script</item>
+        <item name="android:background">@drawable/brick_control</item>
     </style>
 
     <style name="brick_new">
