@@ -137,15 +137,9 @@ public class Formula implements Serializable {
 	}
 
 	public float interpretFloat(float minValue, float maxValue) {
-		Object interpretedValue = formulaTree.interpretRecursive();
+		Double interpretedValue = formulaTree.interpretRecursive();
 
-		float interpretedFloatValue = 0;
-
-		if (interpretedValue.getClass().equals(Double.class)) {
-			interpretedFloatValue = ((Double) interpretedValue).floatValue();
-		} else if (interpretedValue.getClass().equals(Integer.class)) {
-			interpretedFloatValue = ((Integer) interpretedValue).floatValue();
-		}
+		float interpretedFloatValue = interpretedValue.floatValue();
 
 		if (minValue <= maxValue) {
 

@@ -24,12 +24,12 @@ package org.catrobat.catroid.formulaeditor;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Look;
+import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.util.Log;
 
 public class SensorHandler implements SensorEventListener {
 	private static SensorHandler instance = null;
@@ -99,13 +99,13 @@ public class SensorHandler implements SensorEventListener {
 
 		if (sensorName.equals(Sensors.X_ACCELERATION_.sensorName)) {
 
-			sensorValue = Double.valueOf(instance.linearAcceleartionX);
+			return Double.valueOf(instance.linearAcceleartionX);
 		}
 		if (sensorName.equals(Sensors.Y_ACCELERATION_.sensorName)) {
-			sensorValue = Double.valueOf(instance.linearAcceleartionY);
+			return Double.valueOf(instance.linearAcceleartionY);
 		}
 		if (sensorName.equals(Sensors.Z_ACCELERATION_.sensorName)) {
-			sensorValue = Double.valueOf(instance.linearAcceleartionZ);
+			return Double.valueOf(instance.linearAcceleartionZ);
 		}
 		if (sensorName.equals(Sensors.Z_ORIENTATION_.sensorName)) {
 
@@ -113,8 +113,7 @@ public class SensorHandler implements SensorEventListener {
 			getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
 			android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
 			sensorValue = Double.valueOf(orientations[0]);
-			sensorValue *= radianToDegreeConst;
-			Log.e("info", "Z-Orientierung: " + sensorValue);
+			return sensorValue * radianToDegreeConst;
 
 		}
 		if (sensorName.equals(Sensors.X_ORIENTATION_.sensorName)) {
@@ -125,8 +124,7 @@ public class SensorHandler implements SensorEventListener {
 			getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
 			android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
 			sensorValue = Double.valueOf(orientations[1]);
-			sensorValue *= radianToDegreeConst;
-			Log.e("info", "X-Orientierung: " + sensorValue);
+			return sensorValue * radianToDegreeConst;
 		}
 		if (sensorName.equals(Sensors.Y_ORIENTATION_.sensorName)) {
 			if (instance.sensorManager == null) {
@@ -136,8 +134,7 @@ public class SensorHandler implements SensorEventListener {
 			getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
 			android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
 			sensorValue = Double.valueOf(orientations[2]);
-			sensorValue *= radianToDegreeConst;
-			Log.e("info", "Y-Orientierung: " + sensorValue);
+			return sensorValue * radianToDegreeConst;
 		}
 
 		if (getCurrentObjectLook() == null) {
@@ -145,35 +142,50 @@ public class SensorHandler implements SensorEventListener {
 		}
 
 		if (sensorName.equals(Sensors.LOOK_X_.sensorName)) {
-			sensorValue = Double.valueOf(getCurrentObjectLook().getXPosition());
+			return Double.valueOf(getCurrentObjectLook().getXPosition());
 		}
 		if (sensorName.equals(Sensors.LOOK_Y_.sensorName)) {
-			sensorValue = Double.valueOf(getCurrentObjectLook().getYPosition());
+			return Double.valueOf(getCurrentObjectLook().getYPosition());
 		}
 		if (sensorName.equals(Sensors.LOOK_GHOSTEFFECT_.sensorName)) {
-			sensorValue = Double.valueOf(getCurrentObjectLook().getAlphaValue());
+			return Double.valueOf(getCurrentObjectLook().getAlphaValue());
 		}
 		if (sensorName.equals(Sensors.LOOK_BRIGHTNESS_.sensorName)) {
-			sensorValue = Double.valueOf(getCurrentObjectLook().getBrightnessValue());
+			return Double.valueOf(getCurrentObjectLook().getBrightnessValue());
 		}
 		if (sensorName.equals(Sensors.LOOK_SIZE_.sensorName)) {
-			sensorValue = Double.valueOf(getCurrentObjectLook().scaleX);
+			return Double.valueOf(getCurrentObjectLook().scaleX);
 		}
 		if (sensorName.equals(Sensors.LOOK_ROTATION_.sensorName)) {
-			sensorValue = Double.valueOf(getCurrentObjectLook().rotation);
+			return Double.valueOf(getCurrentObjectLook().rotation);
 		}
 		if (sensorName.equals(Sensors.LOOK_LAYER_.sensorName)) {
-			sensorValue = Double.valueOf(getCurrentObjectLook().zPosition);
+			return Double.valueOf(getCurrentObjectLook().zPosition);
 		}
 
-		return sensorValue;
+		return 0d;
 	}
 
 	private static Look getCurrentObjectLook() {
-		if (ProjectManager.getInstance().getCurrentSprite() == null) {
-			return null;
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		if (currentSprite != null) {
+			return currentSprite.look;
 		}
-		return ProjectManager.getInstance().getCurrentSprite().look;
+
+		String spriteName = "";
+		String threadName = Thread.currentThread().getName();
+		if (threadName.startsWith(Sprite.SCRIPT_THREAD_NAME_PREFIX)) {
+			spriteName = Thread.currentThread().getName().substring(Sprite.SCRIPT_THREAD_NAME_PREFIX.length()); //TODO do not save in Thread
+		}
+
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+			if (sprite.getName().equals(spriteName)) {
+				currentSprite = sprite;
+				break;
+			}
+		}
+
+		return currentSprite.look;
 	}
 
 	@Override
