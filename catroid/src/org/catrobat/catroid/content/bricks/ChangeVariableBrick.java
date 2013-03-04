@@ -22,11 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.*;
-import android.widget.AdapterView.OnItemSelectedListener;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -34,6 +29,16 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+
+import android.content.Context;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 public class ChangeVariableBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -49,7 +54,7 @@ public class ChangeVariableBrick implements Brick, OnClickListener {
 
 	public ChangeVariableBrick(Sprite sprite, double value) {
 		this.sprite = sprite;
-		this.variable_formula = new Formula(Double.toString(value));
+		this.variable_formula = new Formula(value);
 	}
 
 	@Override
@@ -86,14 +91,15 @@ public class ChangeVariableBrick implements Brick, OnClickListener {
 		edit_text.setOnClickListener(this);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.variable_spinner);
-		UserVariableAdapter variabeAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables().createUserVariableAdapter(context, sprite.getName());
+		UserVariableAdapter variabeAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.createUserVariableAdapter(context, sprite.getName());
 		variabeAdapter.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 		variableSpinner.setAdapter(variabeAdapter);
 
 		variableSpinner.setClickable(true);
 		variableSpinner.setFocusable(true);
 
-		if(userVariable != null) {
+		if (userVariable != null) {
 			variableSpinner.setSelection(variabeAdapter.getPositionOfItem(userVariable));
 		}
 

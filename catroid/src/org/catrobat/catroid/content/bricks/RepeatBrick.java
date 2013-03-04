@@ -41,7 +41,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	public RepeatBrick(Sprite sprite, int timesToRepeatValue) {
 		this.sprite = sprite;
-		timesToRepeat = new Formula(Integer.toString(timesToRepeatValue));
+		timesToRepeat = new Formula(timesToRepeatValue);
 	}
 
 	public RepeatBrick(Sprite sprite, Formula timesToRepeat) {

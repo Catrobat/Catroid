@@ -43,7 +43,7 @@ public class SetXBrick implements Brick, OnClickListener {
 
 	public SetXBrick(Sprite sprite, int xPositionValue) {
 		this.sprite = sprite;
-		xPosition = new Formula(Integer.toString(xPositionValue));
+		xPosition = new Formula(xPositionValue);
 	}
 
 	public SetXBrick(Sprite sprite, Formula xPosition) {

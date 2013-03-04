@@ -49,8 +49,8 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	public PlaceAtBrick(Sprite sprite, int xPositionValue, int yPositionValue) {
 		this.sprite = sprite;
 
-		xPosition = new Formula(Integer.toString(xPositionValue));
-		yPosition = new Formula(Integer.toString(yPositionValue));
+		xPosition = new Formula(xPositionValue);
+		yPosition = new Formula(yPositionValue);
 	}
 
 	public PlaceAtBrick(Sprite sprite, Formula xPosition, Formula yPosition) {

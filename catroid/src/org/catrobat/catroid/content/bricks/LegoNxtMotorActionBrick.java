@@ -70,7 +70,7 @@ public class LegoNxtMotorActionBrick implements Brick, OnClickListener {
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 
-		this.speed = new Formula(Integer.toString(speedValue));
+		this.speed = new Formula(speedValue);
 	}
 
 	public LegoNxtMotorActionBrick(Sprite sprite, Motor motor, Formula speedFormula) {

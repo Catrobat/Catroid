@@ -50,9 +50,9 @@ public class GlideToBrick implements Brick, OnClickListener {
 	public GlideToBrick(Sprite sprite, int xDestinationValue, int yDestinationValue, int durationInMilliSecondsValue) {
 		this.sprite = sprite;
 
-		xDestination = new Formula(Integer.toString(xDestinationValue));
-		yDestination = new Formula(Integer.toString(yDestinationValue));
-		durationInSeconds = new Formula(Double.toString(durationInMilliSecondsValue / 1000.0));
+		xDestination = new Formula(xDestinationValue);
+		yDestination = new Formula(yDestinationValue);
+		durationInSeconds = new Formula(durationInMilliSecondsValue / 1000.0);
 	}
 
 	public GlideToBrick(Sprite sprite, Formula xDestination, Formula yDestination, Formula durationInSeconds) {

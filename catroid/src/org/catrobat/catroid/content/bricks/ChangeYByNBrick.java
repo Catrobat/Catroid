@@ -48,7 +48,7 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 	public ChangeYByNBrick(Sprite sprite, int yMovementValue) {
 		this.sprite = sprite;
 
-		yMovement = new Formula(Integer.toString(yMovementValue));
+		yMovement = new Formula(yMovementValue);
 	}
 
 	public ChangeYByNBrick(Sprite sprite, Formula yMovement) {

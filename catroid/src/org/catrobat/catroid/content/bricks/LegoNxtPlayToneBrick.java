@@ -53,8 +53,8 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener {
 	public LegoNxtPlayToneBrick(Sprite sprite, int frequencyValue, int durationValue) {
 		this.sprite = sprite;
 
-		this.frequency = new Formula(Integer.toString(frequencyValue));
-		this.durationInSeconds = new Formula(Integer.toString(durationValue));
+		this.frequency = new Formula(frequencyValue);
+		this.durationInSeconds = new Formula(durationValue);
 	}
 
 	public LegoNxtPlayToneBrick(Sprite sprite, Formula frequencyFormula, Formula durationFormula) {

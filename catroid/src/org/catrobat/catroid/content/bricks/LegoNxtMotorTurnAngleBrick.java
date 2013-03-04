@@ -66,7 +66,7 @@ public class LegoNxtMotorTurnAngleBrick implements Brick, OnClickListener {
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 
-		this.degrees = new Formula(Integer.toString(degrees));
+		this.degrees = new Formula(degrees);
 	}
 
 	public LegoNxtMotorTurnAngleBrick(Sprite sprite, Motor motor, Formula degreesFormula) {

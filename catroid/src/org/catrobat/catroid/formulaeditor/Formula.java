@@ -67,28 +67,37 @@ public class Formula implements Serializable {
 		internFormula = new InternFormula(formulaTree.getInternTokenList());
 	}
 
-	public Formula(String value) {
+	public Formula(Integer value) {
 
-		try {
-			Double.parseDouble(value);
-			formulaTree = new FormulaElement(ElementType.NUMBER, value, null);
-		} catch (NumberFormatException nfe) {
-			formulaTree = new FormulaElement(ElementType.NUMBER, "0", null);
-		}
+		formulaTree = new FormulaElement(ElementType.NUMBER, value.toString(), null);
 		internFormula = new InternFormula(formulaTree.getInternTokenList());
 
 	}
 
-	//	public Formula(String value, int formulaTextFieldId) {
-	//		root = new FormulaElement(FormulaElement.ELEMENT_VALUE, value, null);
-	//		this.formulaTextFieldId = formulaTextFieldId;
-	//	}
+	public Formula(Double value) {
 
-	//	public Double interpret() {
+		formulaTree = new FormulaElement(ElementType.NUMBER, value.toString(), null);
+		internFormula = new InternFormula(formulaTree.getInternTokenList());
+
+	}
+
+	public Formula(Float value) {
+
+		formulaTree = new FormulaElement(ElementType.NUMBER, value.toString(), null);
+		internFormula = new InternFormula(formulaTree.getInternTokenList());
+
+	}
+
+	//	public Formula(String value) {
 	//
-	//		//Log.i("info", root.getTreeString());
+	//		try {
+	//			Double.parseDouble(value);
+	//			formulaTree = new FormulaElement(ElementType.NUMBER, value, null);
+	//		} catch (NumberFormatException nfe) {
+	//			formulaTree = new FormulaElement(ElementType.NUMBER, "0", null);
+	//		}
+	//		internFormula = new InternFormula(formulaTree.getInternTokenList());
 	//
-	//		return root.interpretRecursive();
 	//	}
 
 	public boolean interpretBoolean() {

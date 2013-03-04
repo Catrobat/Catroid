@@ -49,7 +49,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	public MoveNStepsBrick(Sprite sprite, double stepsValue) {
 		this.sprite = sprite;
-		steps = new Formula(Double.toString(stepsValue));
+		steps = new Formula(stepsValue);
 	}
 
 	public MoveNStepsBrick(Sprite sprite, Formula steps) {

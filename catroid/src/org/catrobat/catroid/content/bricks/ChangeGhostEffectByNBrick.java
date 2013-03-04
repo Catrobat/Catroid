@@ -48,7 +48,7 @@ public class ChangeGhostEffectByNBrick implements Brick, OnClickListener {
 	public ChangeGhostEffectByNBrick(Sprite sprite, double changeGhostEffectValue) {
 		this.sprite = sprite;
 
-		changeGhostEffect = new Formula(Double.toString(changeGhostEffectValue));
+		changeGhostEffect = new Formula(changeGhostEffectValue);
 	}
 
 	public ChangeGhostEffectByNBrick(Sprite sprite, Formula changeGhostEffect) {

@@ -50,7 +50,7 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 	public ChangeVolumeByNBrick(Sprite sprite, double changeVolumeValue) {
 		this.sprite = sprite;
 
-		volume = new Formula(Double.toString(changeVolumeValue));
+		volume = new Formula(changeVolumeValue);
 	}
 
 	public ChangeVolumeByNBrick(Sprite sprite, Formula volume) {

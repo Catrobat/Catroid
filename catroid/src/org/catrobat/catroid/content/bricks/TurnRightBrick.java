@@ -50,7 +50,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	public TurnRightBrick(Sprite sprite, double degreesValue) {
 		this.sprite = sprite;
-		degrees = new Formula(Double.toString(degreesValue));
+		degrees = new Formula(degreesValue);
 	}
 
 	public TurnRightBrick(Sprite sprite, Formula degreesFormula) {

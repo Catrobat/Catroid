@@ -43,7 +43,7 @@ public class WaitBrick implements Brick, OnClickListener {
 
 	public WaitBrick(Sprite sprite, int timeToWaitInMillisecondsValue) {
 		this.sprite = sprite;
-		timeToWaitInSeconds = new Formula(Double.toString(timeToWaitInMillisecondsValue / 1000.0));
+		timeToWaitInSeconds = new Formula(timeToWaitInMillisecondsValue / 1000.0);
 	}
 
 	public WaitBrick(Sprite sprite, Formula timeToWaitInSecondsFormula) {

@@ -50,7 +50,7 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 
 	public IfLogicBeginBrick(Sprite sprite, int condition) {
 		this.sprite = sprite;
-		ifCondition = new Formula(Integer.toString(condition));
+		ifCondition = new Formula(condition);
 	}
 
 	public IfLogicBeginBrick(Sprite sprite, Formula condition) {

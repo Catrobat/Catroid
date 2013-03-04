@@ -48,7 +48,7 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 	public ChangeXByNBrick(Sprite sprite, int xMovementValue) {
 		this.sprite = sprite;
 
-		xMovement = new Formula(Integer.toString(xMovementValue));
+		xMovement = new Formula(xMovementValue);
 	}
 
 	public ChangeXByNBrick(Sprite sprite, Formula xMovement) {

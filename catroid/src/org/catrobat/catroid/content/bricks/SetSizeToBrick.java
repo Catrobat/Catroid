@@ -43,7 +43,7 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 
 	public SetSizeToBrick(Sprite sprite, double sizeValue) {
 		this.sprite = sprite;
-		size = new Formula(Double.toString(sizeValue));
+		size = new Formula(sizeValue);
 	}
 
 	public SetSizeToBrick(Sprite sprite, Formula size) {

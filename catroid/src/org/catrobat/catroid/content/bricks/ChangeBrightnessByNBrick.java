@@ -47,7 +47,7 @@ public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 
 	public ChangeBrightnessByNBrick(Sprite sprite, double changeBrightnessValue) {
 		this.sprite = sprite;
-		changeBrightness = new Formula(Double.toString(changeBrightnessValue));
+		changeBrightness = new Formula(changeBrightnessValue);
 	}
 
 	public ChangeBrightnessByNBrick(Sprite sprite, Formula changeBrightness) {

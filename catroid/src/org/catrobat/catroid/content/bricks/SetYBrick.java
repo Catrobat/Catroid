@@ -43,7 +43,7 @@ public class SetYBrick implements Brick, OnClickListener {
 
 	public SetYBrick(Sprite sprite, int yPositionValue) {
 		this.sprite = sprite;
-		yPosition = new Formula(Integer.toString(yPositionValue));
+		yPosition = new Formula(yPositionValue);
 	}
 
 	public SetYBrick(Sprite sprite, Formula yPosition) {

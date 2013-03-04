@@ -44,7 +44,7 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 
 	public TurnLeftBrick(Sprite sprite, double degreesValue) {
 		this.sprite = sprite;
-		degrees = new Formula(Double.toString(degreesValue));
+		degrees = new Formula(degreesValue);
 	}
 
 	public TurnLeftBrick(Sprite sprite, Formula degrees) {
