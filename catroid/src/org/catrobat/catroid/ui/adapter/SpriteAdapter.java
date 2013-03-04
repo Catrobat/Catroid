@@ -194,6 +194,8 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		if (position == 0) {
 			holder.backgroundHeadline.setVisibility(View.VISIBLE);
 			holder.objectsHeadline.setVisibility(View.VISIBLE);
+			holder.checkbox.setVisibility(View.GONE);
+			holder.arrow.setVisibility(View.VISIBLE);
 		} else {
 			if (selectMode != Constants.SELECT_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
