@@ -39,8 +39,7 @@
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/brick_when_started_layout"
-        style="@style/BrickContainer.Control.Small"
-        android:background="@drawable/brick_script" >
+        style="@style/BrickContainer.Script.Small">
 
         <TextView
             style="@style/BrickText.SingleLine"
