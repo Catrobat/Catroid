@@ -43,9 +43,6 @@ import android.widget.Toast;
 public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int timesToRepeat;
-	private transient CheckBox checkbox;
-	private transient View view;
-	private transient boolean checked;
 
 	public RepeatBrick(Sprite sprite, int timesToRepeat) {
 		this.sprite = sprite;
