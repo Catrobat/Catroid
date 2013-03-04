@@ -84,31 +84,29 @@ public class SetLookBrick extends BrickBaseType {
 		}
 
 		Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
+		lookbrickSpinner.setAdapter(createLookAdapter(context));
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			lookbrickSpinner.setAdapter(createLookAdapter(context));
-			if (!(checkbox.getVisibility() == View.VISIBLE)) {
-				lookbrickSpinner.setClickable(true);
-				lookbrickSpinner.setEnabled(true);
-			} else {
-				lookbrickSpinner.setClickable(false);
-				lookbrickSpinner.setEnabled(false);
+			lookbrickSpinner.setClickable(true);
+			lookbrickSpinner.setEnabled(true);
+		} else {
+			lookbrickSpinner.setClickable(false);
+			lookbrickSpinner.setEnabled(false);
+		}
+
+		lookbrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if (position == 0) {
+					look = null;
+				} else {
+					look = (LookData) parent.getItemAtPosition(position);
+				}
 			}
 
-			lookbrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-					if (position == 0) {
-						look = null;
-					} else {
-						look = (LookData) parent.getItemAtPosition(position);
-					}
-				}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0) {
-				}
-			});
-		}
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
 
 		if (sprite.getLookDataList().contains(look)) {
 			lookbrickSpinner.setSelection(sprite.getLookDataList().indexOf(look) + 1, true);
