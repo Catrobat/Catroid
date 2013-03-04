@@ -39,13 +39,11 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -355,45 +353,45 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("not in NewSpriteDialog", solo.searchText(dialogRenameSpriteText));
 	}
 
-	public void testDivider() {
-		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-
-		ListView listView = solo.getCurrentListViews().get(0);
-
-		assertTrue("ListView divider should be null", listView.getDivider() == null);
-		assertTrue("Listview dividerheight should be 0", listView.getDividerHeight() == 0);
-
-		int currentViewID;
-		int pixelColor;
-		int colorDivider;
-
-		Bitmap viewBitmap;
-		boolean isBackground = true;
-
-		for (View viewToTest : solo.getCurrentViews()) {
-			currentViewID = viewToTest.getId();
-
-			if (currentViewID == R.id.sprite_divider) {
-				viewToTest.buildDrawingCache();
-				viewBitmap = viewToTest.getDrawingCache();
-
-				if (isBackground) {
-					pixelColor = viewBitmap.getPixel(1, 3);
-					viewToTest.destroyDrawingCache();
-					assertTrue("Background divider should have 4px height", viewToTest.getHeight() == 4);
-					colorDivider = solo.getCurrentActivity().getResources().getColor(R.color.gray);
-					assertEquals("Divider color for background should be gray", pixelColor, colorDivider);
-					isBackground = false;
-				} else {
-					pixelColor = viewBitmap.getPixel(1, 1);
-					viewToTest.destroyDrawingCache();
-					assertTrue("Normal Sprite divider should have 2px height", viewToTest.getHeight() == 2);
-					colorDivider = solo.getCurrentActivity().getResources().getColor(R.color.egg_yellow);
-					assertEquals("Divider color for normal sprite should be eggyellow", pixelColor, colorDivider);
-				}
-			}
-		}
-	}
+	//	public void testDivider() {
+	//		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+	//
+	//		ListView listView = solo.getCurrentListViews().get(0);
+	//
+	//		assertTrue("ListView divider should be null", listView.getDivider() == null);
+	//		assertTrue("Listview dividerheight should be 0", listView.getDividerHeight() == 0);
+	//
+	//		int currentViewID;
+	//		int pixelColor;
+	//		int colorDivider;
+	//
+	//		Bitmap viewBitmap;
+	//		boolean isBackground = true;
+	//
+	//		for (View viewToTest : solo.getCurrentViews()) {
+	//			currentViewID = viewToTest.getId();
+	//
+	//			if (currentViewID == R.id.sprite_divider) {
+	//				viewToTest.buildDrawingCache();
+	//				viewBitmap = viewToTest.getDrawingCache();
+	//
+	//				if (isBackground) {
+	//					pixelColor = viewBitmap.getPixel(1, 3);
+	//					viewToTest.destroyDrawingCache();
+	//					assertTrue("Background divider should have 4px height", viewToTest.getHeight() == 4);
+	//					colorDivider = solo.getCurrentActivity().getResources().getColor(R.color.gray);
+	//					assertEquals("Divider color for background should be gray", pixelColor, colorDivider);
+	//					isBackground = false;
+	//				} else {
+	//					pixelColor = viewBitmap.getPixel(1, 1);
+	//					viewToTest.destroyDrawingCache();
+	//					assertTrue("Normal Sprite divider should have 2px height", viewToTest.getHeight() == 2);
+	//					colorDivider = solo.getCurrentActivity().getResources().getColor(R.color.egg_yellow);
+	//					assertEquals("Divider color for normal sprite should be eggyellow", pixelColor, colorDivider);
+	//				}
+	//			}
+	//		}
+	//	}
 
 	public void testSpriteListDetails() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
