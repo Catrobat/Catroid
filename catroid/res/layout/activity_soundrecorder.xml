@@ -56,6 +56,15 @@
         android:textSize="25sp"
         android:visibility="invisible" />
 
+    <Chronometer
+        android:id="@+id/soundrecorder_chronometer_time_recorded"
+        android:textColor="#000000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:text="Chronometer" />
+
     <LinearLayout
         android:id="@+id/soundrecorder_linearlayout_record"
         android:layout_width="fill_parent"
@@ -78,6 +87,7 @@
             android:text="@string/soundrecorder_record_start"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold" />
+
     </LinearLayout>
 
 </LinearLayout>

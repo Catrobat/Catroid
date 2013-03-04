@@ -32,11 +32,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,7 +52,7 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 	private ImageView recordButton;
 	private TextView recordText;
 	private LinearLayout recordLayout;
-
+	private Chronometer timeRecorderChronometer;
 	private TextView recordingIndicationText;
 
 	@Override
@@ -63,7 +65,7 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 		recordButton = (ImageView) findViewById(R.id.soundrecorder_imageview_record);
 		recordText = (TextView) findViewById(R.id.soundrecorder_textview_record_start_stop);
 		recordingIndicationText = (TextView) findViewById(R.id.soundrecorder_textview_recording_hint);
-
+		timeRecorderChronometer = (Chronometer) findViewById(R.id.soundrecorder_chronometer_time_recorded);
 		recordLayout.setOnClickListener(this);
 		Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this);
 	}
@@ -96,9 +98,13 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 		if (v.getId() == R.id.soundrecorder_linearlayout_record) {
 			if (soundRecorder != null && soundRecorder.isRecording()) {
 				stopRecording();
+				timeRecorderChronometer.stop();
 				finish();
 			} else {
 				startRecording();
+				long currentPlayingBase = SystemClock.elapsedRealtime();
+				timeRecorderChronometer.setBase(currentPlayingBase);
+				timeRecorderChronometer.start();
 			}
 		}
 	}
