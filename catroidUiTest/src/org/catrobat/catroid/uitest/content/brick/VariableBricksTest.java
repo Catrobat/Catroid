@@ -22,12 +22,6 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
-import android.util.Log;
-import android.view.View;
-import android.widget.Spinner;
-import com.jayway.android.robotium.solo.Solo;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -35,14 +29,20 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
-import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
-import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+
+import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Smoke;
+import android.util.Log;
+import android.view.View;
+import android.widget.Spinner;
+
+import com.jayway.android.robotium.solo.Solo;
 
 public class VariableBricksTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
@@ -77,23 +77,22 @@ public class VariableBricksTest extends ActivityInstrumentationTestCase2<ScriptA
 	public void testVariableBricks() {
 		Log.d("TEST", solo.getCurrentSpinners().toString());
 
-		Spinner set_var_spinner = (Spinner) ((View)Reflection.getPrivateField(setVariableBrick, "view")).findViewById(R.id.variable_spinner);
-		Spinner change_var_spinner = (Spinner) ((View)Reflection.getPrivateField(changeVariableBrick, "view")).findViewById(R.id.variable_spinner);
+		Spinner set_var_spinner = (Spinner) ((View) Reflection.getPrivateField(setVariableBrick, "view"))
+				.findViewById(R.id.variable_spinner);
+		Spinner change_var_spinner = (Spinner) ((View) Reflection.getPrivateField(changeVariableBrick, "view"))
+				.findViewById(R.id.variable_spinner);
 
 		solo.clickOnView(set_var_spinner);
 		solo.clickOnText("p2");
 		solo.clickOnView(change_var_spinner);
 		solo.clickOnText("p2", 1);
 
-
-//		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, 50, "variable_formula", setVariableBrick);
+		//		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, 50, "variable_formula", setVariableBrick);
 		solo.clickOnText("0");
-		UiTestUtils.insertIntegerIntoEditText(solo,50);
+		UiTestUtils.insertIntegerIntoEditText(solo, 50);
 		solo.goBack();
 
-
-
-//		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, -8, "variable_formula", changeVariableBrick);
+		//		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, -8, "variable_formula", changeVariableBrick);
 		solo.clickOnText("1");
 		UiTestUtils.insertDoubleIntoEditText(solo, -8.0);
 		solo.goBack();
@@ -102,7 +101,8 @@ public class VariableBricksTest extends ActivityInstrumentationTestCase2<ScriptA
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1500);
 
-		assertEquals("Variable has the wrong value after stage", 42.0, userVariablesContainer.getUserVariable("p2", "cat").getValue());
+		assertEquals("Variable has the wrong value after stage", 42.0,
+				userVariablesContainer.getUserVariable("p2", "cat").getValue());
 
 		solo.goBack();
 		solo.goBack();
