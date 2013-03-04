@@ -132,6 +132,7 @@
         <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">50dp</item>
     </style>
 
     <style name="BrickText.SingleLine">

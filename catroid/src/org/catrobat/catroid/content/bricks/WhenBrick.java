@@ -34,7 +34,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class WhenBrick extends ScriptBrick {
 	protected WhenScript whenScript;
@@ -70,9 +69,6 @@ public class WhenBrick extends ScriptBrick {
 				}
 			});
 		}
-
-		TextView spinnerActionText = (TextView) view.findViewById(R.id.WhenBrickActionTapped);
-		spinnerActionText.setText(" " + spinnerActionText.getText());
 
 		// inactive until spinner has more than one element
 		//		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_when_spinner);

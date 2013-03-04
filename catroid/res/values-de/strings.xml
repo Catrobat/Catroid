@@ -288,8 +288,8 @@
 
 
     <!-- Control bricks -->
-    <string name="brick_when_started">Wenn Projekt gestartet</string>
-    <string name="brick_when">Wenn</string>
+    <string name="brick_when_started">Wenn Programm gestartet</string>
+    <string name="brick_when_tapped">Wenn angetippt</string>
     <string name="brick_wait">Warte</string>
     <string name="seconds">Sekunden</string>
     <string name="brick_broadcast_receive">Wenn ich empfange:</string>
@@ -301,12 +301,6 @@
     <string name="times_label">mal</string>
     <string name="brick_loop_end">Wiederholen beenden</string>
     <!--  -->
-
-
-    <!-- Actions -->
-    <string name="action_tapped">angetippt</string>
-    <!--  -->
-
 
     <!-- defaultValues -->
     <string name="default_project_name">Mein erstes Projekt</string>

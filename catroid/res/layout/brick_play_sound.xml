@@ -52,6 +52,7 @@
             android:id="@+id/playsound_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="50dp"
             android:clickable="false"
             android:focusable="false" />
     </LinearLayout>

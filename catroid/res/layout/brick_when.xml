@@ -43,13 +43,8 @@
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_when" >
+            android:text="@string/brick_when_tapped" >
         </TextView>
-
-        <TextView
-            android:id="@+id/WhenBrickActionTapped"
-            style="@style/BrickText.SingleLine"
-            android:text="@string/action_tapped" />
 
         <!--
     inactive - to be revived when there are more actions for the spinner 

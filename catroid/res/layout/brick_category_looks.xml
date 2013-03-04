@@ -25,9 +25,7 @@
     style="@style/BrickContainer.Look.Small">
 
     <TextView
-        style="@style/BrickText"
-        android:paddingBottom="15dip"
-        android:paddingTop="15dip"
+        style="@style/BrickText.SingleLine"
         android:text="@string/category_looks" >
     </TextView>
 

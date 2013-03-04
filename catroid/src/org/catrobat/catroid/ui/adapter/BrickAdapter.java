@@ -890,6 +890,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	public void handleCheck(Brick brick, boolean isChecked) {
+		if (brick == null) {
+			return;
+		}
 		if (isChecked) {
 			if (selectMode == Constants.SINGLE_SELECT) {
 				clearCheckedItems();
