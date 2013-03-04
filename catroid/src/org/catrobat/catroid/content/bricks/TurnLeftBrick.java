@@ -28,7 +28,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -64,11 +63,8 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-		Log.e("info", "before set rotation: " + sprite.look.rotation);
 		float interpretation = degrees.interpretFloat();
-		Log.e("info", "degrees.interpretFloat(): " + sprite.look.rotation);
 		sprite.look.rotation = (sprite.look.rotation % 360f) + interpretation;
-		Log.e("info", "after set rotation: " + sprite.look.rotation);
 	}
 
 	@Override
