@@ -61,6 +61,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		ScriptActivityAdapterInterface {
 
 	private static final String TAG = BrickAdapter.class.getSimpleName();
+	private static final int ALPHA_FULL = 255;
+	private static final int ALPHA_GREYED = 50;
 	private Context context;
 	private Sprite sprite;
 	private int dragTargetPosition;
@@ -915,9 +917,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			brick.getCheckBox().setEnabled(enableState);
 		}
 		if (enableState) {
-			brick.getViewWithAlpha(255);
+			brick.getViewWithAlpha(ALPHA_FULL);
 		} else {
-			brick.getViewWithAlpha(50);
+			brick.getViewWithAlpha(ALPHA_GREYED);
 		}
 	}
 
@@ -1056,10 +1058,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	public List<Brick> getCheckedBricks() {
 		return checkedBricks;
-	}
-
-	public void setCheckedBricks(List<Brick> checkedBricks) {
-		this.checkedBricks = checkedBricks;
 	}
 
 	public List<Brick> getReversedCheckedBrickList() {

@@ -236,9 +236,9 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 		solo.clickOnCheckBox(0);
 
-		for (int i = 1; i < brickList.size(); i++) {
-			assertEquals("AlphaValue of " + brickList.get(i).toString() + " is not 50", 50, brickList.get(i)
-					.getAlphaValue());
+		for (int position = 1; position < brickList.size(); position++) {
+			assertEquals("AlphaValue of " + brickList.get(position).toString() + " is not 50", 50,
+					brickList.get(position).getAlphaValue());
 		}
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -247,8 +247,6 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
 
 		assertEquals("Not all Bricks have been deleted!", 0, numberOfBricks);
-
-		//solo.sleep(20000);
 	}
 
 	public void testDeleteActionModeTwoScripts() {
