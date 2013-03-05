@@ -24,7 +24,6 @@ package org.catrobat.catroid.content;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
@@ -51,12 +50,9 @@ public class Look extends Image {
 	protected float brightnessValue;
 	public boolean show;
 	protected Pixmap pixmap;
-	private HashMap<String, ArrayList<BroadcastScript>> broadcastMap;
-	private Set<String> addedBroadcastSequences;
 	protected HashMap<String, ArrayList<SequenceAction>> broadcastSequenceList;
 	protected HashMap<String, ArrayList<SequenceAction>> broadcastWaitSequenceList;
 	protected ArrayList<SequenceAction> whenSequenceList;
-	private boolean broadcastFirst = true;
 	private boolean allActionAreFinished = false;
 
 	public Look(Sprite sprite) {
@@ -69,7 +65,6 @@ public class Look extends Image {
 		this.alphaValue = 1f;
 		this.brightnessValue = 1f;
 		this.show = true;
-		this.broadcastMap = new HashMap<String, ArrayList<BroadcastScript>>();
 		this.whenSequenceList = new ArrayList<SequenceAction>();
 		this.broadcastSequenceList = new HashMap<String, ArrayList<SequenceAction>>();
 		this.broadcastWaitSequenceList = new HashMap<String, ArrayList<SequenceAction>>();
@@ -341,22 +336,6 @@ public class Look extends Image {
 
 	public LookData getLookData() {
 		return lookData;
-	}
-
-	public void putBroadcast(String broadcastMessage, BroadcastScript script) {
-		ArrayList<BroadcastScript> broadcastList;
-		if (broadcastMap.containsKey(broadcastMessage)) {
-			broadcastList = broadcastMap.get(broadcastMessage);
-			broadcastList.add(script);
-		} else {
-			broadcastList = new ArrayList<BroadcastScript>();
-			broadcastList.add(script);
-			broadcastMap.put(broadcastMessage, broadcastList);
-		}
-	}
-
-	public void removeBroadcast(String broadcastMessage) {
-		broadcastMap.remove(broadcastMessage);
 	}
 
 	public boolean getAllActionsAreFinished() {
