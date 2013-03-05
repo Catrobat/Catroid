@@ -189,7 +189,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 
 		BroadcastScript broadcastScriptNormal = new BroadcastScript(spriteNormal);
 		broadcastScriptNormal.setBroadcastMessage("normal");
-		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 2000);
+		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 4000);
 		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageInterrupt);
 		broadcastScriptNormal.addBrick(waitBrickNormal2);
 		broadcastScriptNormal.addBrick(speakBrickNormal2);
