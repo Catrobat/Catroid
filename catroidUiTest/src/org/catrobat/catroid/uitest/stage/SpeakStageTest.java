@@ -178,8 +178,8 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		BroadcastBrick broadcastBrickNormal = new BroadcastBrick(spriteNormal);
 		broadcastBrickNormal.setSelectedMessage("normal");
 		startScriptNormal.addBrick(waitBrickNormal);
-		startScriptNormal.addBrick(broadcastBrickNormal);
 		startScriptNormal.addBrick(speakBrickNormal);
+		startScriptNormal.addBrick(broadcastBrickNormal);
 		//		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 1000);
 		//		startScriptNormal.addBrick(waitBrickNormal2);
 		//		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageHello);
@@ -189,7 +189,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 
 		BroadcastScript broadcastScriptNormal = new BroadcastScript(spriteNormal);
 		broadcastScriptNormal.setBroadcastMessage("normal");
-		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 4000);
+		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 1000);
 		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageInterrupt);
 		broadcastScriptNormal.addBrick(waitBrickNormal2);
 		broadcastScriptNormal.addBrick(speakBrickNormal2);
