@@ -145,12 +145,6 @@ public class Formula implements Serializable {
 		return interpretedFloatValue;
 	}
 
-	@Override
-	public String toString() {
-		//return root.getEditTextRepresentation();
-		return "DEPRICATED - XML UPDATE"; //TODO remove when xml update is finished
-	}
-
 	public void setRoot(FormulaElement formula) {
 		formulaTree = formula;
 		internFormula = new InternFormula(formula.getInternTokenList());

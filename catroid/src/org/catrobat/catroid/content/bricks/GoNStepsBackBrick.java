@@ -28,7 +28,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -62,7 +61,6 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	@Override
 	public void execute() {
 		int stepsValue = steps.interpretInteger();
-		Log.e("info", "stepsValue = " + stepsValue);
 
 		int zPosition = sprite.look.zPosition;
 		if (stepsValue > 0 && (zPosition - stepsValue) > zPosition) {

@@ -67,8 +67,8 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 	protected void tearDown() throws Exception {
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
 		solo = null;
+		super.tearDown();
 	}
 
 	private void createProject() {

@@ -68,7 +68,8 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 	@Override
 	public void setUp() throws Exception {
-		createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME + this.getClass());
+		super.setUp();
+		createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		this.solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
@@ -77,8 +78,8 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
 		solo = null;
+		super.tearDown();
 	}
 
 	private void createProject(String projectName) throws InterruptedException {

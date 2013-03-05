@@ -101,7 +101,7 @@ public class IfLogicBrickTest extends AndroidTestCase {
 		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		assertEquals("IfBrick not executed as expected", userVariable.getValue().intValue(), IF_TRUE_VALUE);
+		assertEquals("IfBrick not executed as expected", IF_TRUE_VALUE, userVariable.getValue().intValue());
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
 
 	}
@@ -149,7 +149,7 @@ public class IfLogicBrickTest extends AndroidTestCase {
 		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		assertEquals("IfBrick not executed as expected", userVariable.getValue().intValue(), IF_FALSE_VALUE);
+		assertEquals("IfBrick not executed as expected", IF_FALSE_VALUE, userVariable.getValue().intValue());
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
 
 	}

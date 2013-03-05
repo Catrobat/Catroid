@@ -32,15 +32,26 @@ import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.FlakyTest;
 import android.test.InstrumentationTestCase;
-import android.util.Log;
 
 public class ForeverBrickTest extends InstrumentationTestCase {
+
+	private Sprite testSprite;
+
+	@Override
+	protected void tearDown() throws Exception {
+
+		if (testSprite != null) {
+			testSprite.pause();
+			testSprite.finish();
+		}
+		super.tearDown();
+	}
 
 	@FlakyTest(tolerance = 3)
 	public void testForeverBrick() throws InterruptedException {
 		final int fiveIsAlmostForever = 5;
 
-		Sprite testSprite = new Sprite("testSprite");
+		testSprite = new Sprite("testSprite");
 
 		StartScript testScript = new StartScript(testSprite);
 
@@ -68,8 +79,6 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 
 		assertEquals("Wrong number of times to repeat", forever, timesToRepeat);
 
-		testSprite.pause();
-		testSprite.finish();
 	}
 
 	@FlakyTest(tolerance = 3)
@@ -77,7 +86,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		final int deltaY = -10;
 		final int repeatTimes = 5;
 
-		Sprite testSprite = new Sprite("testSprite");
+		testSprite = new Sprite("testSprite");
 
 		StartScript testScript = new StartScript(testSprite);
 
@@ -108,13 +117,11 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		final long delayByContract = 20;
 		assertEquals("Loop delay was not 20ms!", delayByContract * repeatTimes, endTime - startTime, 15);
 
-		testSprite.pause();
-		testSprite.finish();
 	}
 
 	@FlakyTest(tolerance = 3)
 	public void testNoDelayAtBeginOfLoop() throws InterruptedException {
-		Sprite testSprite = new Sprite("testSprite");
+		testSprite = new Sprite("testSprite");
 
 		StartScript testScript = new StartScript(testSprite);
 
@@ -137,10 +144,5 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		assertEquals("There was an unexpected delay at the begin of the loop!", deltaY,
 				(int) testSprite.look.getYPosition());
 
-		testSprite.pause();
-		testSprite.finish();
-
-		Thread.sleep(4000);
-		Log.e("info", "FINISHED");
 	}
 }

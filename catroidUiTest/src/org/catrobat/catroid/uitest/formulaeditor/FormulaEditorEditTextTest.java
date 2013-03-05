@@ -76,7 +76,7 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 
 	@Override
 	public void setUp() throws Exception {
-		createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME + this.getClass());
+		createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		this.solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
