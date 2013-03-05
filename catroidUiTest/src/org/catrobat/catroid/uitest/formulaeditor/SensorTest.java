@@ -218,7 +218,7 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 	}
 
 	private void createProject() {
-		this.project = new Project(null, "SensorTestProject");
+		this.project = new Project(null, UiTestUtils.PROJECTNAME1);
 		firstSprite = new Sprite("zwoosh");
 		startScript1 = new StartScript(firstSprite);
 		changeBrick = new ChangeSizeByNBrick(firstSprite, 10);

@@ -126,10 +126,6 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.clickOnScreen(30, globalVisibleRect.top + 10);
 	}
 
-	private void testContextMenu() {
-
-	}
-
 	public void testSingleTapOnFunctionName() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);

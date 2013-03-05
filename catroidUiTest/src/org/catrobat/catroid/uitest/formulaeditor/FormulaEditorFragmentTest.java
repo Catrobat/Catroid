@@ -72,7 +72,7 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 	}
 
 	private void createProject() {
-		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME + this.getClass());
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		placeAtBrick = new PlaceAtBrick(sprite, INITIAL_X, INITIAL_Y);
