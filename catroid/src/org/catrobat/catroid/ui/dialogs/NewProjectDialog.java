@@ -32,6 +32,8 @@ import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteLis
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.Utils;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
@@ -43,7 +45,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -55,70 +56,73 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 
 	private EditText newProjectEditText;
 	private EditText newProjectDescriptionEditText;
-	private Button okButton;
-	private Button cancelButton;
+	private Dialog newProjectDialog;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.dialog_new_project, container);
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_project, null);
 
-		newProjectEditText = (EditText) rootView.findViewById(R.id.project_name_edittext);
-		newProjectDescriptionEditText = (EditText) rootView.findViewById(R.id.project_description_edittext);
-		okButton = (Button) rootView.findViewById(R.id.new_project_ok_button);
-		cancelButton = (Button) rootView.findViewById(R.id.new_project_cancel_button);
+		newProjectEditText = (EditText) dialogView.findViewById(R.id.project_name_edittext);
+		newProjectDescriptionEditText = (EditText) dialogView.findViewById(R.id.project_description_edittext);
 
 		newProjectEditText.setText("");
 		newProjectDescriptionEditText.setText("");
 
-		okButton.setEnabled(false);
+		newProjectDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
+				.setTitle(R.string.new_project_dialog_title)
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					}
+				}).setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					}
+				}).create();
 
-		newProjectEditText.addTextChangedListener(new TextWatcher() {
+		newProjectDialog.setCanceledOnTouchOutside(true);
+		newProjectDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				if (newProjectEditText.length() == 0) {
-					okButton.setEnabled(false);
-				} else {
-					okButton.setEnabled(true);
-				}
-			}
-		});
-
-		okButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				handleOkButtonClick();
-			}
-		});
-		cancelButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				handleCancelButtonClick();
-			}
-		});
-
-		getDialog().setTitle(R.string.new_project_dialog_title);
-		getDialog().setCanceledOnTouchOutside(true);
-		getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-
-		getDialog().setOnShowListener(new OnShowListener() {
+		newProjectDialog.setOnShowListener(new OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
 				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
 						Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(newProjectEditText, InputMethodManager.SHOW_IMPLICIT);
+
+				((AlertDialog) newProjectDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
+				newProjectEditText.addTextChangedListener(new TextWatcher() {
+
+					@Override
+					public void onTextChanged(CharSequence s, int start, int before, int count) {
+					}
+
+					@Override
+					public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+					}
+
+					@Override
+					public void afterTextChanged(Editable s) {
+						if (newProjectEditText.length() == 0) {
+							((AlertDialog) newProjectDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
+						} else {
+							((AlertDialog) newProjectDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
+						}
+					}
+				});
+
+				Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+				positiveButton.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						handleOkButtonClick();
+					}
+				});
 			}
 		});
 
-		return rootView;
+		return newProjectDialog;
 	}
 
 	@Override
@@ -129,27 +133,27 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	protected boolean handleOkButtonClick() {
+	protected void handleOkButtonClick() {
 		String projectName = newProjectEditText.getText().toString().trim();
 		String projectDescription = newProjectDescriptionEditText.getText().toString().trim();
 
 		if (projectName.length() == 0) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_no_name_entered));
-			return false;
+			return;
 		}
 
 		if (StorageHandler.getInstance().projectExistsIgnoreCase(projectName)) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_project_exists));
-			return false;
+			return;
 		}
 
 		try {
 			ProjectManager.INSTANCE.initializeNewProject(projectName, getActivity());
 			ProjectManager.INSTANCE.getCurrentProject().setDescription(projectDescription);
-
 		} catch (IOException e) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_new_project));
 			dismiss();
+			return;
 		}
 
 		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
@@ -157,12 +161,6 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 		getActivity().startActivity(intent);
 
 		dismiss();
-		return true;
-	}
-
-	protected boolean handleCancelButtonClick() {
-		dismiss();
-		return false;
 	}
 
 	protected String getTitle() {

@@ -72,20 +72,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/project_description_edittext"
         android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/new_project_ok_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:text="@string/ok" />
-
-        <Button
-            android:id="@+id/new_project_cancel_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:text="@string/cancel_button" />
     </LinearLayout>
 
 </RelativeLayout>

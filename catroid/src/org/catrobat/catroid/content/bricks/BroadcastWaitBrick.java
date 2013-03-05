@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -72,7 +73,7 @@ public class BroadcastWaitBrick implements Brick {
 
 	public void setSelectedMessage(String selectedMessage) {
 		this.broadcastMessage = selectedMessage;
-		projectManager.getMessageContainer().addMessage(this.broadcastMessage);
+		MessageContainer.addMessage(this.broadcastMessage);
 	}
 
 	public String getBroadcastMessage() {
@@ -90,7 +91,7 @@ public class BroadcastWaitBrick implements Brick {
 	private Object readResolve() {
 		projectManager = ProjectManager.getInstance();
 		if (broadcastMessage != null && projectManager.getCurrentProject() != null) {
-			projectManager.getMessageContainer().addMessage(broadcastMessage);
+			MessageContainer.addMessage(broadcastMessage);
 		}
 		return this;
 	}
@@ -101,7 +102,7 @@ public class BroadcastWaitBrick implements Brick {
 		view = View.inflate(context, R.layout.brick_broadcast_wait, null);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_wait_spinner);
-		broadcastSpinner.setAdapter(projectManager.getMessageContainer().getMessageAdapter(context));
+		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
 		broadcastSpinner.setClickable(true);
 		broadcastSpinner.setFocusable(true);
 
@@ -125,7 +126,7 @@ public class BroadcastWaitBrick implements Brick {
 			}
 		});
 
-		int position = projectManager.getMessageContainer().getPositionOfMessageInAdapter(broadcastMessage);
+		int position = MessageContainer.getPositionOfMessageInAdapter(broadcastMessage);
 		if (position > 0) {
 			broadcastSpinner.setSelection(position);
 		}
@@ -153,9 +154,8 @@ public class BroadcastWaitBrick implements Brick {
 							return false;
 						}
 						broadcastMessage = newMessage;
-						projectManager.getMessageContainer().addMessage(broadcastMessage);
-						int position = projectManager.getMessageContainer().getPositionOfMessageInAdapter(
-								broadcastMessage);
+						MessageContainer.addMessage(broadcastMessage);
+						int position = MessageContainer.getPositionOfMessageInAdapter(broadcastMessage);
 
 						broadcastSpinner.setSelection(position);
 

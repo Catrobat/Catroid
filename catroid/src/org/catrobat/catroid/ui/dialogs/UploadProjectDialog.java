@@ -33,6 +33,8 @@ import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
@@ -47,12 +49,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -94,8 +93,6 @@ public class UploadProjectDialog extends DialogFragment {
 	private EditText projectDescriptionField;
 	private TextView projectRename;
 	private TextView sizeOfProject;
-	private Button uploadButton;
-	private Button cancelButton;
 
 	private String currentProjectName;
 	private String currentProjectDescription;
@@ -103,23 +100,32 @@ public class UploadProjectDialog extends DialogFragment {
 	private Activity activity;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.dialog_upload_project, container);
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_upload_project, null);
 
-		projectRename = (TextView) rootView.findViewById(R.id.tv_project_rename);
-		projectDescriptionField = (EditText) rootView.findViewById(R.id.project_description_upload);
-		projectUploadName = (EditText) rootView.findViewById(R.id.project_upload_name);
-		cancelButton = (Button) rootView.findViewById(R.id.cancel_button);
-		uploadButton = (Button) rootView.findViewById(R.id.upload_button);
-		sizeOfProject = (TextView) rootView.findViewById(R.id.dialog_upload_size_of_project);
+		projectRename = (TextView) dialogView.findViewById(R.id.tv_project_rename);
+		projectDescriptionField = (EditText) dialogView.findViewById(R.id.project_description_upload);
+		projectUploadName = (EditText) dialogView.findViewById(R.id.project_upload_name);
+		sizeOfProject = (TextView) dialogView.findViewById(R.id.dialog_upload_size_of_project);
 
-		initControls();
+		Dialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
+				.setTitle(R.string.upload_project_dialog_title)
+				.setPositiveButton(R.string.upload_button, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						handleUploadButtonClick();
+					}
+				}).setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						handleCancelButtonClick();
+					}
+				}).create();
 
-		getDialog().setTitle(R.string.upload_project_dialog_title);
-		getDialog().setCanceledOnTouchOutside(true);
-		getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-		getDialog().setOnShowListener(new OnShowListener() {
+		dialog.setOnShowListener(new OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
 				initListeners();
@@ -130,7 +136,9 @@ public class UploadProjectDialog extends DialogFragment {
 			}
 		});
 
-		return rootView;
+		initControls();
+
+		return dialog;
 	}
 
 	private void initControls() {
@@ -142,19 +150,6 @@ public class UploadProjectDialog extends DialogFragment {
 		projectDescriptionField.setText(currentProjectDescription);
 		projectUploadName.requestFocus();
 		projectUploadName.selectAll();
-
-		uploadButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				handleUploadButtonClick();
-			}
-		});
-		cancelButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				handleCancelButtonClick();
-			}
-		});
 	}
 
 	private void initListeners() {
@@ -192,9 +187,9 @@ public class UploadProjectDialog extends DialogFragment {
 				if (s.length() == 0) {
 					Toast.makeText(getActivity(), R.string.notification_invalid_text_entered, Toast.LENGTH_SHORT)
 							.show();
-					uploadButton.setEnabled(false);
+					((AlertDialog) getDialog()).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
 				} else {
-					uploadButton.setEnabled(true);
+					((AlertDialog) getDialog()).getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
 				}
 			}
 
