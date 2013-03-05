@@ -210,6 +210,8 @@ public class PreStageActivity extends Activity {
 					textToSpeech = new TextToSpeech(getApplicationContext(), new OnInitListener() {
 						@Override
 						public void onInit(int status) {
+							onUtteranceCompletedListenerContainer = new OnUtteranceCompletedListenerContainer();
+							textToSpeech.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
 							resourceInitialized();
 							if (status == TextToSpeech.ERROR) {
 								Toast.makeText(PreStageActivity.this,
@@ -219,8 +221,6 @@ public class PreStageActivity extends Activity {
 							}
 						}
 					});
-					onUtteranceCompletedListenerContainer = new OnUtteranceCompletedListenerContainer();
-					textToSpeech.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
 					if (textToSpeech.isLanguageAvailable(Locale.getDefault()) == TextToSpeech.LANG_MISSING_DATA) {
 						Intent installIntent = new Intent();
 						installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
