@@ -177,18 +177,22 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		broadcastBrickNormal.setSelectedMessage("normal");
 		startScriptNormal.addBrick(waitBrickNormal);
 		startScriptNormal.addBrick(speakBrickNormal);
-		startScriptNormal.addBrick(broadcastBrickNormal);
+		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 2000);
+		startScriptNormal.addBrick(waitBrickNormal2);
+		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageHello);
+		startScriptNormal.addBrick(speakBrickNormal2);
+		//		startScriptNormal.addBrick(broadcastBrickNormal);
 
 		spriteNormal.addScript(startScriptNormal);
 
-		BroadcastScript broadcastScriptNormal = new BroadcastScript(spriteNormal);
-		broadcastScriptNormal.setBroadcastMessage("normal");
-		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 1000);
-		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageHello);
-		broadcastScriptNormal.addBrick(waitBrickNormal2);
-		broadcastScriptNormal.addBrick(speakBrickNormal2);
-
-		spriteNormal.addScript(broadcastScriptNormal);
+		//		BroadcastScript broadcastScriptNormal = new BroadcastScript(spriteNormal);
+		//		broadcastScriptNormal.setBroadcastMessage("normal");
+		//		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 1000);
+		//		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageHello);
+		//		broadcastScriptNormal.addBrick(waitBrickNormal2);
+		//		broadcastScriptNormal.addBrick(speakBrickNormal2);
+		//
+		//		spriteNormal.addScript(broadcastScriptNormal);
 
 		ArrayList<Sprite> spriteListNormal = new ArrayList<Sprite>();
 		spriteListNormal.add(spriteNormal);
