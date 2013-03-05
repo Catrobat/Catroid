@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 
 import android.test.AndroidTestCase;
 
-public class StartThreadsTest extends AndroidTestCase {
+public class StartResumeSpriteTest extends AndroidTestCase {
 
 	public void testStartThreads() throws InterruptedException {
 		double size = 300;

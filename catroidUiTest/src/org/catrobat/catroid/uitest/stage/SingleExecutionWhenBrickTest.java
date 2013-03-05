@@ -46,7 +46,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationTestCase2<StageActivity> {
+public class SingleExecutionWhenBrickTest extends ActivityInstrumentationTestCase2<StageActivity> {
 	private static final int SCREEN_WIDTH = 480;
 	private static final int SCREEN_HEIGHT = 800;
 
@@ -58,7 +58,7 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 	BroadcastScript greenBroadcastScript;
 	String broadcastMessage = "broadcastMessage";
 
-	public SingleExecutionThreadWhenBrickTest() {
+	public SingleExecutionWhenBrickTest() {
 		super(StageActivity.class);
 	}
 
@@ -83,16 +83,13 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 		solo.sleep(500);
 		for (int i = 1; i <= 10; ++i) {
 			solo.sleep(100);
-			//			assertEquals("Wrong executionBrickIndex.", 0, yellowWhenScript.getExecutingBrickIndex());
 			assertEquals("Look has wrong AlphaValue.", (float) 1.0, yellowSprite.look.getAlphaValue());
 			solo.clickOnScreen((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2));
 		}
 		solo.sleep(100);
 		assertEquals("Look has wrong AlphaValue.", (float) 1.0, yellowSprite.look.getAlphaValue());
-		//		assertEquals("Wrong executionBrickIndex.", 0, yellowWhenScript.getExecutingBrickIndex());
 		solo.sleep(2000);
 		assertEquals("Look has wrong AlphaValue.", (float) 0.5, yellowSprite.look.getAlphaValue());
-		//		assertEquals("Wrong executionBrickIndex.", 1, yellowWhenScript.getExecutingBrickIndex());
 	}
 
 	public void testWaitBrickBroadcast() {
@@ -100,16 +97,13 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 		solo.sleep(500);
 		for (int i = 1; i <= 10; ++i) {
 			solo.sleep(1000);
-			//				assertEquals("Wrong executionBrickIndex.", 0, greenBroadcastScript.getExecutingBrickIndex());
 			assertEquals("Look has wrong AlphaValue.", (float) 1.0, greenSprite.look.getAlphaValue());
 			solo.clickOnScreen((SCREEN_WIDTH / 2) + 100, (SCREEN_HEIGHT / 2));
 		}
 		solo.sleep(1000);
 		assertEquals("Look has wrong AlphaValue.", (float) 1.0, greenSprite.look.getAlphaValue());
-		//			assertEquals("Wrong executionBrickIndex.", 0, greenBroadcastScript.getExecutingBrickIndex());
 		solo.sleep(2000);
 		assertEquals("Look has wrong AlphaValue.", (float) 0, greenSprite.look.getAlphaValue());
-		//			assertEquals("Wrong executionBrickIndex.", 1, greenBroadcastScript.getExecutingBrickIndex());
 	}
 
 	private void createProjectWhenBrick() {
