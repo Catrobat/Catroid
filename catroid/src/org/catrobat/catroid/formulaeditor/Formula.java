@@ -112,15 +112,9 @@ public class Formula implements Serializable {
 	}
 
 	public int interpretInteger(int minValue, int maxValue) {
-		Object interpretedValue = formulaTree.interpretRecursive();
+		Double interpretedValue = formulaTree.interpretRecursive();
 
-		int interpretedIntValue = 0;
-
-		if (interpretedValue.getClass().equals(Double.class)) {
-			interpretedIntValue = ((Double) interpretedValue).intValue();
-		} else if (interpretedValue.getClass().equals(Integer.class)) {
-			interpretedIntValue = ((Integer) interpretedValue).intValue();
-		}
+		int interpretedIntValue = interpretedValue.intValue();
 
 		if (minValue <= maxValue) {
 

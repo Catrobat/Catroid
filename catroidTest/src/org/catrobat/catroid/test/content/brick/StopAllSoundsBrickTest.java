@@ -34,12 +34,12 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
-import org.catrobat.catroid.test.R;
 
 public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 	private static final int SOUND_FILE_ID = R.raw.longtestsound;
@@ -48,6 +48,7 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
+		super.setUp();
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 		UtilFile.deleteDirectory(directory);
 		this.createTestProject();

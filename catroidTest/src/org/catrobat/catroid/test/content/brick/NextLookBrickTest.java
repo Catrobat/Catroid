@@ -45,6 +45,7 @@ public class NextLookBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
+		super.setUp();
 		TestUtils.deleteTestProjects();
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);

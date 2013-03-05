@@ -32,11 +32,11 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
 import android.test.InstrumentationTestCase;
-import org.catrobat.catroid.test.R;
 
 public class SetVolumeToBrickTest extends InstrumentationTestCase {
 
@@ -47,6 +47,7 @@ public class SetVolumeToBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
+		super.setUp();
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 		UtilFile.deleteDirectory(directory);
 		this.createTestProject();
