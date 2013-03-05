@@ -82,7 +82,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		textToSpeechMock = null;
 	}
 
-	public void testTNullText() throws InterruptedException {
+	public void testNullText() throws InterruptedException {
 		ProjectManager.getInstance()
 				.loadProject(UiTestUtils.PROJECTNAME2, getActivity().getApplicationContext(), false);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -129,12 +129,14 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
-		assertEquals("TextToSpeech executed with wrong text", textMessageTest, textToSpeechMock.text);
+		//		assertEquals("TextToSpeech executed with wrong text", textMessageTest, textToSpeechMock.text);
+		assertEquals("TextToSpeech executed with wrong text", textMessageLong, textToSpeechMock.text);
 		solo.sleep(7000);
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "1",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
-		assertEquals("TextToSpeech executed with wrong text", textMessageHello, textToSpeechMock.text);
+		//		assertEquals("TextToSpeech executed with wrong text", textMessageHello, textToSpeechMock.text);
+		assertEquals("TextToSpeech executed with wrong text", textMessageInterrupt, textToSpeechMock.text);
 	}
 
 	public void testSimultaneousTextToSpeech() throws InterruptedException {
@@ -170,20 +172,20 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 	private void createProjectToInitializeTextToSpeech() {
 		spriteNormal = new Sprite("testNormalBehaviour");
 
-		Script startScriptNormal = new StartScript(spriteNormal);
-		WaitBrick waitBrickNormal = new WaitBrick(spriteNormal, 1000);
-		SpeakBrick speakBrickNormal = new SpeakBrick(spriteNormal, textMessageTest);
-		BroadcastBrick broadcastBrickNormal = new BroadcastBrick(spriteNormal);
-		broadcastBrickNormal.setSelectedMessage("normal");
-		startScriptNormal.addBrick(waitBrickNormal);
-		startScriptNormal.addBrick(speakBrickNormal);
-		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 1000);
-		startScriptNormal.addBrick(waitBrickNormal2);
-		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageHello);
-		startScriptNormal.addBrick(speakBrickNormal2);
-		//		startScriptNormal.addBrick(broadcastBrickNormal);
-
-		spriteNormal.addScript(startScriptNormal);
+		//		Script startScriptNormal = new StartScript(spriteNormal);
+		//		WaitBrick waitBrickNormal = new WaitBrick(spriteNormal, 1000);
+		//		SpeakBrick speakBrickNormal = new SpeakBrick(spriteNormal, textMessageTest);
+		//		BroadcastBrick broadcastBrickNormal = new BroadcastBrick(spriteNormal);
+		//		broadcastBrickNormal.setSelectedMessage("normal");
+		//		startScriptNormal.addBrick(waitBrickNormal);
+		//		startScriptNormal.addBrick(speakBrickNormal);
+		//		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 1000);
+		//		startScriptNormal.addBrick(waitBrickNormal2);
+		//		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageHello);
+		//		startScriptNormal.addBrick(speakBrickNormal2);
+		//		//		startScriptNormal.addBrick(broadcastBrickNormal);
+		//
+		//		spriteNormal.addScript(startScriptNormal);
 
 		//		BroadcastScript broadcastScriptNormal = new BroadcastScript(spriteNormal);
 		//		broadcastScriptNormal.setBroadcastMessage("normal");
@@ -194,10 +196,10 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		//
 		//		spriteNormal.addScript(broadcastScriptNormal);
 
-		ArrayList<Sprite> spriteListNormal = new ArrayList<Sprite>();
-		spriteListNormal.add(spriteNormal);
-
-		UiTestUtils.createProject(UiTestUtils.PROJECTNAME1, spriteListNormal, getActivity().getApplicationContext());
+		//		ArrayList<Sprite> spriteListNormal = new ArrayList<Sprite>();
+		//		spriteListNormal.add(spriteNormal);
+		//
+		//		UiTestUtils.createProject(UiTestUtils.PROJECTNAME1, spriteListNormal, getActivity().getApplicationContext());
 
 		spriteNull = new Sprite("testNullText");
 		Script startScriptNull = new StartScript(spriteNull);
@@ -239,6 +241,8 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		spriteListInterrupt.add(spriteInterrupt);
 
 		UiTestUtils.createProject(UiTestUtils.PROJECTNAME3, spriteListInterrupt, getActivity().getApplicationContext());
+
+		UiTestUtils.createProject(UiTestUtils.PROJECTNAME1, spriteListInterrupt, getActivity().getApplicationContext());
 	}
 
 	private class TextToSpeechMock extends TextToSpeech {
