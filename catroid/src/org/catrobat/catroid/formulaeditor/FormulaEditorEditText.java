@@ -32,7 +32,6 @@ import android.text.Spannable;
 import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -68,11 +67,6 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		this.context = context;
 	}
 
-	public FormulaEditorEditText(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		this.context = context;
-	}
-
 	public void init(FormulaEditorFragment dialog, int brickHeight, LinearLayout ckv) {
 		this.formulaEditorDialog = dialog;
 		this.setOnTouchListener(this);
@@ -97,20 +91,6 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		} else {
 			history.init(internFormula.getInternFormulaState());
 		}
-	}
-
-	public boolean restoreFieldFromPreviousHistory() {
-		InternFormulaState currentState = history.getCurrentState();
-		if (currentState != null) {
-
-			internFormula = currentState.createInternFormulaFromState();
-			internFormula.generateExternFormulaStringAndInternExternMapping(context);
-			updateTextAndCursorFromInternFormula();
-		}
-
-		formulaEditorDialog.refreshFormulaPreviewString();
-
-		return true;
 	}
 
 	@Override
@@ -166,12 +146,6 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 			highlightSpan.setSpan(COLOR_ERROR, selectionStartIndex, selectionEndIndex,
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}
-	}
-
-	public void clearSelectionHighlighting() {
-		highlightSpan = this.getText();
-		highlightSpan.removeSpan(COLOR_HIGHLIGHT);
-		highlightSpan.removeSpan(COLOR_ERROR);
 	}
 
 	public void setParseErrorCursorAndSelection() {
@@ -257,11 +231,6 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	}
 
 	@Override
-	protected void onCreateContextMenu(ContextMenu menu) {
-		// dont want it!
-	}
-
-	@Override
 	public boolean onTouch(View v, MotionEvent motion) {
 		return gestureDetector.onTouchEvent(motion);
 	}
@@ -333,6 +302,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 				highlightSelection();
 				history.updateCurrentSelection(internFormula.getSelection());
+				history.updateCurrentCursor(absoluteCursorPosition);
 
 				formulaEditorDialog.refreshFormulaPreviewString();
 			}

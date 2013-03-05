@@ -43,14 +43,6 @@ public class Formula implements Serializable {
 	private transient Drawable originalEditTextDrawable = null;
 	private transient InternFormula internFormula = null;
 
-	//	public Formula() {
-	//		root = new FormulaElement(FormulaElement.ElementType.VALUE, "0", null);
-	//		textRepresentation = "0";
-	//	}
-	public Formula() {
-
-	}
-
 	public Object readResolve() {
 
 		if (formulaTree == null) {

@@ -242,8 +242,6 @@ public class InternFormula {
 		} else {
 			replaceInternTokens(tokenListToInsert, internTokenSelectionStart, internTokenSelectionEnd);
 
-			internFormulaTokenSelection = null;
-
 			return setCursorPositionAndSelectionAfterInput(internTokenSelectionStart);
 		}
 
@@ -754,6 +752,7 @@ public class InternFormula {
 			default:
 				cursorPositionInternTokenIndex = insertedInternTokenIndex;
 				cursorPositionInternToken = null;
+				internFormulaTokenSelection = null;
 				return CursorTokenPropertiesAfterModification.RIGHT;
 		}
 	}

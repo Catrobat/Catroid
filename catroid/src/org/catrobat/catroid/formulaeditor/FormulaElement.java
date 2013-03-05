@@ -68,20 +68,8 @@ public class FormulaElement implements Serializable {
 
 	}
 
-	public ElementType getType() {
-		return type;
-	}
-
 	public String getValue() {
 		return value;
-	}
-
-	public FormulaElement getLeftChild() {
-		return leftChild;
-	}
-
-	public FormulaElement getRightChild() {
-		return rightChild;
 	}
 
 	public List<InternToken> getInternTokenList() {
@@ -364,36 +352,6 @@ public class FormulaElement implements Serializable {
 				rightChild);
 
 		cloneThis.parent.rightChild = cloneThis;
-	}
-
-	@Override
-	public String toString() {
-		return value;
-
-	}
-
-	//TODO just for debugging -> remove
-	public String getTreeString() {
-		String text = "";
-
-		text = "(" + type + "/" + value + " ";
-
-		if (leftChild == null && rightChild == null) {
-			return text + ") ";
-		}
-
-		if (leftChild != null) {
-			text += leftChild.getTreeString() + " ";
-
-		} else {
-			text += "( )";
-		}
-		if (rightChild != null) {
-			text += rightChild.getTreeString() + " ";
-		} else {
-			text += "( )";
-		}
-		return text + ") ";
 	}
 
 	private boolean isInteger(double value) {
