@@ -47,6 +47,7 @@ import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActivityAdapterInterface {
@@ -79,12 +80,15 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 	private static class ViewHolder {
 		private ImageButton playButton;
 		private ImageButton pauseButton;
+		private LinearLayout checkBoxLinearLayout;
 		private CheckBox checkbox;
 		private TextView titleTextView;
 		private TextView timeSeperatorTextView;
 		private TextView timeDurationTextView;
+		private TextView soundFileSizePrefixTextView;
 		private TextView soundFileSizeTextView;
 		private Chronometer timePlayedChronometer;
+
 	}
 
 	@Override
@@ -96,7 +100,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 			convertView = View.inflate(context, R.layout.fragment_sound_soundlist_item, null);
 
 			holder = new ViewHolder();
-
+			LinearLayout ll = (LinearLayout) convertView.findViewById(R.id.sound_details);
 			holder.playButton = (ImageButton) convertView.findViewById(R.id.btn_sound_play);
 			holder.pauseButton = (ImageButton) convertView.findViewById(R.id.btn_sound_pause);
 
@@ -104,13 +108,14 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 			holder.pauseButton.setVisibility(Button.GONE);
 
 			holder.checkbox = (CheckBox) convertView.findViewById(R.id.sound_checkbox);
-
+			holder.checkBoxLinearLayout = (LinearLayout) convertView.findViewById(R.id.checkbox_linear_layout);
 			holder.titleTextView = (TextView) convertView.findViewById(R.id.sound_title);
 			holder.timeSeperatorTextView = (TextView) convertView.findViewById(R.id.sound_time_seperator);
 			holder.timeDurationTextView = (TextView) convertView.findViewById(R.id.sound_duration);
+			holder.soundFileSizePrefixTextView = (TextView) convertView.findViewById(R.id.sound_size_prefix);
 			holder.soundFileSizeTextView = (TextView) convertView.findViewById(R.id.sound_size);
 
-			holder.timePlayedChronometer = (Chronometer) convertView.findViewById(R.id.sound_chronometer_time_played);
+			holder.timePlayedChronometer = (Chronometer) ll.findViewById(R.id.sound_chronometer_time_played);
 
 			convertView.setTag(holder);
 		} else {
@@ -144,8 +149,10 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 			});
 
 			if (selectMode != Constants.SELECT_NONE) {
+				holder.checkBoxLinearLayout.setVisibility(View.VISIBLE);
 				holder.checkbox.setVisibility(View.VISIBLE);
 			} else {
+				holder.checkBoxLinearLayout.setVisibility(View.GONE);
 				holder.checkbox.setVisibility(View.GONE);
 				holder.checkbox.setChecked(false);
 				clearCheckedItems();
@@ -206,11 +213,13 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 				}
 
 				if (showDetails) {
-					holder.soundFileSizeTextView.setText(getContext().getString(R.string.size) + " "
-							+ UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
+					holder.soundFileSizeTextView
+							.setText(UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
 					holder.soundFileSizeTextView.setVisibility(TextView.VISIBLE);
+					holder.soundFileSizePrefixTextView.setVisibility(TextView.VISIBLE);
 				} else {
 					holder.soundFileSizeTextView.setVisibility(TextView.GONE);
+					holder.soundFileSizePrefixTextView.setVisibility(TextView.GONE);
 				}
 
 				tempPlayer.reset();
