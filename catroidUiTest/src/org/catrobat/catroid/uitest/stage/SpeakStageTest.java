@@ -172,34 +172,34 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 	private void createProjectToInitializeTextToSpeech() {
 		spriteNormal = new Sprite("testNormalBehaviour");
 
-		//		Script startScriptNormal = new StartScript(spriteNormal);
-		//		WaitBrick waitBrickNormal = new WaitBrick(spriteNormal, 1000);
-		//		SpeakBrick speakBrickNormal = new SpeakBrick(spriteNormal, textMessageTest);
-		//		BroadcastBrick broadcastBrickNormal = new BroadcastBrick(spriteNormal);
-		//		broadcastBrickNormal.setSelectedMessage("normal");
-		//		startScriptNormal.addBrick(waitBrickNormal);
-		//		startScriptNormal.addBrick(speakBrickNormal);
+		Script startScriptNormal = new StartScript(spriteNormal);
+		WaitBrick waitBrickNormal = new WaitBrick(spriteNormal, 1000);
+		SpeakBrick speakBrickNormal = new SpeakBrick(spriteNormal, textMessageLong);
+		BroadcastBrick broadcastBrickNormal = new BroadcastBrick(spriteNormal);
+		broadcastBrickNormal.setSelectedMessage("normal");
+		startScriptNormal.addBrick(waitBrickNormal);
+		startScriptNormal.addBrick(broadcastBrickNormal);
+		startScriptNormal.addBrick(speakBrickNormal);
 		//		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 1000);
 		//		startScriptNormal.addBrick(waitBrickNormal2);
 		//		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageHello);
 		//		startScriptNormal.addBrick(speakBrickNormal2);
-		//		//		startScriptNormal.addBrick(broadcastBrickNormal);
-		//
-		//		spriteNormal.addScript(startScriptNormal);
 
-		//		BroadcastScript broadcastScriptNormal = new BroadcastScript(spriteNormal);
-		//		broadcastScriptNormal.setBroadcastMessage("normal");
-		//		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 1000);
-		//		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageHello);
-		//		broadcastScriptNormal.addBrick(waitBrickNormal2);
-		//		broadcastScriptNormal.addBrick(speakBrickNormal2);
-		//
-		//		spriteNormal.addScript(broadcastScriptNormal);
+		spriteNormal.addScript(startScriptNormal);
 
-		//		ArrayList<Sprite> spriteListNormal = new ArrayList<Sprite>();
-		//		spriteListNormal.add(spriteNormal);
-		//
-		//		UiTestUtils.createProject(UiTestUtils.PROJECTNAME1, spriteListNormal, getActivity().getApplicationContext());
+		BroadcastScript broadcastScriptNormal = new BroadcastScript(spriteNormal);
+		broadcastScriptNormal.setBroadcastMessage("normal");
+		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 2000);
+		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageInterrupt);
+		broadcastScriptNormal.addBrick(waitBrickNormal2);
+		broadcastScriptNormal.addBrick(speakBrickNormal2);
+
+		spriteNormal.addScript(broadcastScriptNormal);
+
+		ArrayList<Sprite> spriteListNormal = new ArrayList<Sprite>();
+		spriteListNormal.add(spriteNormal);
+
+		UiTestUtils.createProject(UiTestUtils.PROJECTNAME1, spriteListNormal, getActivity().getApplicationContext());
 
 		spriteNull = new Sprite("testNullText");
 		Script startScriptNull = new StartScript(spriteNull);
@@ -242,7 +242,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 
 		UiTestUtils.createProject(UiTestUtils.PROJECTNAME3, spriteListInterrupt, getActivity().getApplicationContext());
 
-		UiTestUtils.createProject(UiTestUtils.PROJECTNAME1, spriteListInterrupt, getActivity().getApplicationContext());
+		//		UiTestUtils.createProject(UiTestUtils.PROJECTNAME1, spriteListInterrupt, getActivity().getApplicationContext());
 	}
 
 	private class TextToSpeechMock extends TextToSpeech {
