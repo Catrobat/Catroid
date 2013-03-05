@@ -35,22 +35,11 @@ public class ForeverActionTest extends InstrumentationTestCase {
 
 	@FlakyTest(tolerance = 3)
 	public void testForeverBrick() throws InterruptedException {
-		final int fiveIsAlmostForever = 5;
 		Sprite testSprite = new Sprite("testSprite");
 		final int deltaY = -10;
 
 		RepeatAction action = ExtendedActions.forever(ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite,
 				deltaY)));
-		//		int executedCount = 0;
-		//		while (!action.act(1.0f)) {
-		//			executedCount = (Integer) Reflection.getPrivateField(action, "executedCount");
-		//			if (executedCount == fiveIsAlmostForever) {
-		//				action.finish();
-		//			}
-		//		}
-		//
-		//		assertEquals("Executed the wrong number of times!", fiveIsAlmostForever * deltaY,
-		//				(int) testSprite.look.getYPosition());
 		int numberOfRepeats = (Integer) Reflection.getPrivateField(action, "repeatCount");
 		assertEquals("Executed the wrong number of times!", numberOfRepeats, RepeatAction.FOREVER);
 	}

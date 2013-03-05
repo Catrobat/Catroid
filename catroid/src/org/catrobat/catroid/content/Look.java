@@ -50,9 +50,9 @@ public class Look extends Image {
 	protected float brightnessValue;
 	public boolean show;
 	protected Pixmap pixmap;
-	protected HashMap<String, ArrayList<SequenceAction>> broadcastSequenceList;
-	protected HashMap<String, ArrayList<SequenceAction>> broadcastWaitSequenceList;
-	protected ArrayList<SequenceAction> whenSequenceList;
+	private HashMap<String, ArrayList<SequenceAction>> broadcastSequenceMap;
+	private HashMap<String, ArrayList<SequenceAction>> broadcastWaitSequenceMap;
+	private ArrayList<SequenceAction> whenSequenceList;
 	private boolean allActionAreFinished = false;
 
 	public Look(Sprite sprite) {
@@ -66,8 +66,8 @@ public class Look extends Image {
 		this.brightnessValue = 1f;
 		this.show = true;
 		this.whenSequenceList = new ArrayList<SequenceAction>();
-		this.broadcastSequenceList = new HashMap<String, ArrayList<SequenceAction>>();
-		this.broadcastWaitSequenceList = new HashMap<String, ArrayList<SequenceAction>>();
+		this.broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
+		this.broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
 		this.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -113,8 +113,8 @@ public class Look extends Image {
 	}
 
 	public void doHandleBroadcastEvent(String broadcastMessage) {
-		if (broadcastSequenceList.containsKey(broadcastMessage)) {
-			for (SequenceAction action : broadcastSequenceList.get(broadcastMessage)) {
+		if (broadcastSequenceMap.containsKey(broadcastMessage)) {
+			for (SequenceAction action : broadcastSequenceMap.get(broadcastMessage)) {
 				if (action.getActor() == null) {
 					addAction(action);
 				} else {
@@ -125,18 +125,18 @@ public class Look extends Image {
 	}
 
 	public void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
-		if (broadcastSequenceList.containsKey(broadcastMessage)) {
-			if (!broadcastWaitSequenceList.containsKey(broadcastMessage)) {
+		if (broadcastSequenceMap.containsKey(broadcastMessage)) {
+			if (!broadcastWaitSequenceMap.containsKey(broadcastMessage)) {
 				ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
-				for (SequenceAction broadcastAction : broadcastSequenceList.get(broadcastMessage)) {
+				for (SequenceAction broadcastAction : broadcastSequenceMap.get(broadcastMessage)) {
 					SequenceAction broadcastWaitAction = ExtendedActions.sequence(broadcastAction,
 							ExtendedActions.broadcastNotify(event));
 					actionList.add(broadcastWaitAction);
 					addAction(broadcastWaitAction);
 				}
-				broadcastWaitSequenceList.put(broadcastMessage, actionList);
+				broadcastWaitSequenceMap.put(broadcastMessage, actionList);
 			}
-			ArrayList<SequenceAction> actionList = broadcastWaitSequenceList.get(broadcastMessage);
+			ArrayList<SequenceAction> actionList = broadcastWaitSequenceMap.get(broadcastMessage);
 			for (SequenceAction action : actionList) {
 				Array<Action> actions = action.getActions();
 				BroadcastNotifyAction notifyAction = (BroadcastNotifyAction) actions.get(actions.size - 1);
@@ -340,5 +340,19 @@ public class Look extends Image {
 
 	public boolean getAllActionsAreFinished() {
 		return allActionAreFinished;
+	}
+
+	public void putBroadcastSequenceAction(String broadcastMessage, SequenceAction action) {
+		if (broadcastSequenceMap.containsKey(broadcastMessage)) {
+			broadcastSequenceMap.get(broadcastMessage).add(action);
+		} else {
+			ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
+			actionList.add(action);
+			broadcastSequenceMap.put(broadcastMessage, actionList);
+		}
+	}
+
+	public void addWhenSequenceAction(SequenceAction action) {
+		whenSequenceList.add(action);
 	}
 }

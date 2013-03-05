@@ -37,9 +37,7 @@ public abstract class Script implements Serializable {
 
 	protected transient ScriptBrick brick;
 
-	protected transient boolean isFinished;
 	private transient volatile boolean paused;
-	private transient int executingBrickIndex;
 	protected Sprite sprite;
 
 	public Script() {
@@ -103,18 +101,6 @@ public abstract class Script implements Serializable {
 
 	public boolean isPaused() {
 		return paused;
-	}
-
-	public boolean isFinished() {
-		return isFinished;
-	}
-
-	public int getExecutingBrickIndex() {
-		return executingBrickIndex;
-	}
-
-	public void setExecutingBrickIndex(int executingBrickIndex) {
-		this.executingBrickIndex = executingBrickIndex;
 	}
 
 	public int getRequiredResources() {

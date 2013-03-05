@@ -45,7 +45,6 @@ public class Sprite implements Serializable {
 	public transient Look look;
 
 	public transient boolean isPaused;
-	public transient boolean isFinished;
 
 	private Object readResolve() {
 		//filling FileChecksumContainer:
@@ -68,7 +67,6 @@ public class Sprite implements Serializable {
 	private void init() {
 		look = new Look(this);
 		isPaused = false;
-		isFinished = false;
 		if (soundList == null) {
 			soundList = new ArrayList<SoundInfo>();
 		}
@@ -92,20 +90,12 @@ public class Sprite implements Serializable {
 	public void createStartScriptActionSequence() {
 		for (Script s : scriptList) {
 			if (s instanceof StartScript) {
-				if (!s.isFinished()) {
-					look.addAction(createActionSequence(s));
-				}
+				look.addAction(createActionSequence(s));
 			}
 			if (s instanceof BroadcastScript) {
 				BroadcastScript script = (BroadcastScript) s;
 				SequenceAction action = createBroadcastScriptActionSequence(script);
-				if (look.broadcastSequenceList.containsKey(script.getBroadcastMessage())) {
-					look.broadcastSequenceList.get(script.getBroadcastMessage()).add(action);
-				} else {
-					ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
-					actionList.add(action);
-					look.broadcastSequenceList.put(script.getBroadcastMessage(), actionList);
-				}
+				look.putBroadcastSequenceAction(script.getBroadcastMessage(), action);
 			}
 		}
 	}
@@ -115,7 +105,7 @@ public class Sprite implements Serializable {
 			if (s instanceof WhenScript) {
 				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
 					SequenceAction sequence = createActionSequence(s);
-					look.whenSequenceList.add(sequence);
+					look.addWhenSequenceAction(sequence);
 					look.addAction(sequence);
 				}
 			}
@@ -150,13 +140,6 @@ public class Sprite implements Serializable {
 			s.setPaused(false);
 		}
 		this.isPaused = false;
-	}
-
-	public void finish() {
-		//		for (Script s : scriptList) {
-		//			s.setFinish(true);
-		//		}
-		this.isFinished = true;
 	}
 
 	public String getName() {

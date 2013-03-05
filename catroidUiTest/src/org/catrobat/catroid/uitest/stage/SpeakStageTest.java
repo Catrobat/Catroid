@@ -95,12 +95,12 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.sleep(200);
+		solo.sleep(1000);
 		TextToSpeech textToSpeech = (TextToSpeech) Reflection.getPrivateField(PreStageActivity.class, "textToSpeech");
 		textToSpeechMock.setTextToSpeech(textToSpeech);
 		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(2000);
+		solo.sleep(3000);
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
@@ -120,7 +120,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.sleep(200);
+		solo.sleep(1000);
 		TextToSpeech textToSpeech = (TextToSpeech) Reflection.getPrivateField(PreStageActivity.class, "textToSpeech");
 		textToSpeechMock.setTextToSpeech(textToSpeech);
 		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
@@ -150,7 +150,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.sleep(200);
+		solo.sleep(1000);
 		TextToSpeech textToSpeech = (TextToSpeech) Reflection.getPrivateField(PreStageActivity.class, "textToSpeech");
 		textToSpeechMock.setTextToSpeech(textToSpeech);
 		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
@@ -230,8 +230,6 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		spriteListInterrupt.add(spriteInterrupt);
 
 		UiTestUtils.createProject(UiTestUtils.PROJECTNAME3, spriteListInterrupt, getActivity().getApplicationContext());
-
-		//		UiTestUtils.createProject(UiTestUtils.PROJECTNAME1, spriteListInterrupt, getActivity().getApplicationContext());
 	}
 
 	private class TextToSpeechMock extends TextToSpeech {

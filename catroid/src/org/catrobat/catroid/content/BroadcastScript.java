@@ -33,7 +33,6 @@ public class BroadcastScript extends Script {
 
 	public BroadcastScript(Sprite sprite) {
 		super(sprite);
-		super.isFinished = true;
 	}
 
 	public BroadcastScript(Sprite sprite, BroadcastReceiverBrick brick) {
@@ -52,7 +51,6 @@ public class BroadcastScript extends Script {
 
 	@Override
 	protected Object readResolve() {
-		isFinished = true;
 		if (receivedMessage != null && receivedMessage.length() != 0) {
 			ProjectManager.getInstance().getMessageContainer().addMessage(receivedMessage, this);
 		}

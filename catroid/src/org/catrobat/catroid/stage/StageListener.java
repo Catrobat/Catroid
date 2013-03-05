@@ -231,11 +231,6 @@ public class StageListener implements ApplicationListener {
 	public void finish() {
 		finished = true;
 		SoundManager.getInstance().clear();
-		if (sprites != null) {
-			for (Sprite sprite : sprites) {
-				sprite.finish();
-			}
-		}
 	}
 
 	@Override
@@ -248,7 +243,6 @@ public class StageListener implements ApplicationListener {
 			for (int i = 0; i < spriteSize; i++) {
 				Sprite sprite = sprites.get(i);
 				sprite.pause();
-				sprite.finish();
 			}
 			stage.clear();
 			SoundManager.getInstance().clear();
