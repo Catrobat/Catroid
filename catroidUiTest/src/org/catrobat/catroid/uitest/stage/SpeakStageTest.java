@@ -100,14 +100,14 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		textToSpeechMock.setTextToSpeech(textToSpeech);
 		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(1000);
+		solo.sleep(2000);
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
 		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
 				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 		assertEquals("TextToSpeech executed with wrong text", "", textToSpeechMock.text);
 	}
 
-	public void testNormalBehavior() throws InterruptedException {
+	public void testSuccessiveBehaviour() throws InterruptedException {
 		ProjectManager.getInstance()
 				.loadProject(UiTestUtils.PROJECTNAME1, getActivity().getApplicationContext(), false);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
