@@ -30,21 +30,17 @@ import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormula;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
-import org.junit.After;
-import org.junit.Before;
 
 import android.test.InstrumentationTestCase;
 
 public class InternFormulaTest extends InstrumentationTestCase {
 
 	@Override
-	@Before
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	@Override
-	@After
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}

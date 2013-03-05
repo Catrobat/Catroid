@@ -32,21 +32,17 @@ import org.catrobat.catroid.formulaeditor.InternFormulaTokenSelection;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.test.utils.Reflection;
-import org.junit.After;
-import org.junit.Before;
 
 import android.test.InstrumentationTestCase;
 
 public class InternFormulaTokenSelectionTest extends InstrumentationTestCase {
 
 	@Override
-	@Before
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	@Override
-	@After
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
