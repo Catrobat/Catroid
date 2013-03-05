@@ -32,6 +32,7 @@ import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.FlakyTest;
 import android.test.InstrumentationTestCase;
+import android.util.Log;
 
 public class ForeverBrickTest extends InstrumentationTestCase {
 
@@ -66,6 +67,9 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		final int forever = (Integer) Reflection.getPrivateField(loopEndBrick, "FOREVER");
 
 		assertEquals("Wrong number of times to repeat", forever, timesToRepeat);
+
+		testSprite.pause();
+		testSprite.finish();
 	}
 
 	@FlakyTest(tolerance = 3)
@@ -103,6 +107,9 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		 */
 		final long delayByContract = 20;
 		assertEquals("Loop delay was not 20ms!", delayByContract * repeatTimes, endTime - startTime, 15);
+
+		testSprite.pause();
+		testSprite.finish();
 	}
 
 	@FlakyTest(tolerance = 3)
@@ -129,5 +136,11 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 
 		assertEquals("There was an unexpected delay at the begin of the loop!", deltaY,
 				(int) testSprite.look.getYPosition());
+
+		testSprite.pause();
+		testSprite.finish();
+
+		Thread.sleep(4000);
+		Log.e("info", "FINISHED");
 	}
 }
