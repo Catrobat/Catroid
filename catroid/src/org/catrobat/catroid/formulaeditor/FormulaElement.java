@@ -143,6 +143,8 @@ public class FormulaElement implements Serializable {
 
 	public Double interpretRecursive() {
 
+		Log.e("info", "interpretRecursive.value = " + value);
+
 		Double returnValue = 0d;
 
 		if (type == ElementType.BRACKET) {
