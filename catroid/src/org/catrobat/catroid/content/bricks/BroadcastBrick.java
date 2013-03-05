@@ -22,14 +22,11 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.Vector;
-import java.util.concurrent.CountDownLatch;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
-import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -45,6 +42,8 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class BroadcastBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
@@ -57,30 +56,9 @@ public class BroadcastBrick extends BrickBaseType {
 		this.projectManager = ProjectManager.getInstance();
 	}
 
-	public BroadcastBrick() {
-
-	}
-
 	@Override
-	public void execute() {
-		final Vector<BroadcastScript> receiver = MessageContainer.getReceiverOfMessage(broadcastMessage);
-		if (receiver == null) {
-			return;
-		}
-		if (receiver.size() == 0) {
-			return;
-		}
-		Thread startThread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				CountDownLatch simultaneousStart = new CountDownLatch(1);
-				for (BroadcastScript receiverScript : receiver) {
-					receiverScript.executeBroadcast(simultaneousStart);
-				}
-				simultaneousStart.countDown();
-			}
-		});
-		startThread.start();
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	public void setSelectedMessage(String message) {
@@ -210,4 +188,9 @@ public class BroadcastBrick extends BrickBaseType {
 		return view;
 	}
 
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.broadcast(sprite, broadcastMessage));
+		return null;
+	}
 }

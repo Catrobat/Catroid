@@ -34,9 +34,6 @@ public abstract class LoopBeginBrick extends NestingBrick {
 	protected LoopBeginBrick() {
 	}
 
-	@Override
-	public abstract void execute();
-
 	protected void setFirstStartTime() {
 		beginLoopTime = System.nanoTime();
 	}

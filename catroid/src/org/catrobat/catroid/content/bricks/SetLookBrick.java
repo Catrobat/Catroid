@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -38,6 +39,8 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class SetLookBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
@@ -53,13 +56,6 @@ public class SetLookBrick extends BrickBaseType {
 
 	public void setLook(LookData lookData) {
 		this.look = lookData;
-	}
-
-	@Override
-	public void execute() {
-		if (look != null && sprite != null && sprite.getLookDataList().contains(look)) {
-			sprite.look.setLookData(look);
-		}
 	}
 
 	public String getImagePath() {
@@ -161,5 +157,11 @@ public class SetLookBrick extends BrickBaseType {
 		}
 
 		return clonedBrick;
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setLook(sprite, look));
+		return null;
 	}
 }

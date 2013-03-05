@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -39,6 +40,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int steps;
@@ -53,15 +56,8 @@ public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener 
 	}
 
 	@Override
-	public void execute() {
-		int zPosition = sprite.look.zPosition;
-		if (steps > 0 && (zPosition - steps) > zPosition) {
-			sprite.look.zPosition = Integer.MIN_VALUE;
-		} else if (steps < 0 && (zPosition - steps) < zPosition) {
-			sprite.look.zPosition = Integer.MAX_VALUE;
-		} else {
-			sprite.look.zPosition -= steps;
-		}
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	@Override
@@ -138,5 +134,11 @@ public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener 
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_go_n_steps_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.goNStepsBack(sprite, steps));
+		return null;
 	}
 }

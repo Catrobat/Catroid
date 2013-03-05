@@ -25,7 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -38,6 +38,8 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
@@ -53,10 +55,8 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 	}
 
 	@Override
-	public void execute() {
-		if (sound != null && sprite.getSoundList().contains(sound) && sound.getAbsolutePath() != null) {
-			SoundManager.getInstance().playSoundFile(sound.getAbsolutePath());
-		}
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	@Override
@@ -150,5 +150,11 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.playSound(sprite, sound));
+		return null;
 	}
 }

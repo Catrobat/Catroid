@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -39,6 +40,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class ChangeXByNBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int xMovement;
@@ -53,20 +56,8 @@ public class ChangeXByNBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public void execute() {
-		sprite.look.aquireXYWidthHeightLock();
-		int xPosition = (int) sprite.look.getXPosition();
-
-		if (xPosition > 0 && xMovement > 0 && xPosition + xMovement < 0) {
-			xPosition = Integer.MAX_VALUE;
-		} else if (xPosition < 0 && xMovement < 0 && xPosition + xMovement > 0) {
-			xPosition = Integer.MIN_VALUE;
-		} else {
-			xPosition += xMovement;
-		}
-
-		sprite.look.setXYPosition(xPosition, sprite.look.getYPosition());
-		sprite.look.releaseXYWidthHeightLock();
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	@Override
@@ -143,5 +134,11 @@ public class ChangeXByNBrick extends BrickBaseType implements OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_x_by_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.changeXByN(sprite, xMovement));
+		return null;
 	}
 }

@@ -42,6 +42,8 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class BroadcastReceiverBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 	private BroadcastScript receiveScript;
@@ -53,6 +55,11 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	public BroadcastReceiverBrick(Sprite sprite, BroadcastScript receiveScript) {
 		this.sprite = sprite;
 		this.receiveScript = receiveScript;
+	}
+
+	@Override
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	@Override
@@ -181,6 +188,7 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	}
 
 	@Override
-	public void execute() {
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		return null;
 	}
 }

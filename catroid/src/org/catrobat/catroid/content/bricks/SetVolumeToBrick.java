@@ -24,7 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -40,6 +40,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class SetVolumeToBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private float volume;
@@ -54,13 +56,8 @@ public class SetVolumeToBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public void execute() {
-		if (volume < 0.0f) {
-			volume = 0.0f;
-		} else if (volume > 100.0f) {
-			volume = 100.0f;
-		}
-		SoundManager.getInstance().setVolume(volume);
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	@Override
@@ -140,5 +137,11 @@ public class SetVolumeToBrick extends BrickBaseType implements OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_set_volume_to_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setVolumeTo(volume));
+		return null;
 	}
 }

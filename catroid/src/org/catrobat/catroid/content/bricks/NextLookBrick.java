@@ -22,11 +22,9 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.ArrayList;
-
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -38,6 +36,8 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class NextLookBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
@@ -48,38 +48,6 @@ public class NextLookBrick extends BrickBaseType {
 
 	public NextLookBrick() {
 
-	}
-
-	@Override
-	public void execute() {
-
-		final ArrayList<LookData> lookDataList = sprite.getLookDataList();
-		int lookDataListSize = lookDataList.size();
-
-		if (lookDataListSize > 0 && sprite.look.getLookData() != null) {
-			LookData currentLookData = sprite.look.getLookData();
-			LookData finalLookData = lookDataList.get(lookDataListSize - 1);
-			boolean executeOnce = true;
-
-			for (LookData lookData : lookDataList) {
-				int currentIndex = lookDataList.indexOf(lookData);
-				int newIndex = currentIndex + 1;
-
-				if (currentLookData.equals(finalLookData) && executeOnce) {
-					executeOnce = false;
-					currentLookData = lookDataList.get(0);
-				}
-
-				else if (currentLookData.equals(lookData) && executeOnce) {
-					executeOnce = false;
-					currentLookData = lookDataList.get(newIndex);
-				}
-
-				sprite.look.setLookData(currentLookData);
-			}
-		} else {
-			// If there are no looks do nothing
-		}
 	}
 
 	@Override
@@ -132,5 +100,11 @@ public class NextLookBrick extends BrickBaseType {
 		background.setAlpha(alphaValue);
 		this.alphaValue = (alphaValue);
 		return view;
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.nextLook(sprite));
+		return null;
 	}
 }

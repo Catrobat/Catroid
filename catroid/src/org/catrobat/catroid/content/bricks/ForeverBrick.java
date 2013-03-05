@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -32,6 +33,9 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ForeverBrick extends LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
@@ -44,9 +48,8 @@ public class ForeverBrick extends LoopBeginBrick {
 	}
 
 	@Override
-	public void execute() {
-		loopEndBrick.setTimesToRepeat(LoopEndBrick.FOREVER);
-		super.setFirstStartTime();
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	@Override
@@ -98,5 +101,13 @@ public class ForeverBrick extends LoopBeginBrick {
 	@Override
 	public void initialize() {
 		loopEndBrick = new LoopEndlessBrick(sprite, this);
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		SequenceAction foreverSequence = ExtendedActions.sequence();
+		Action action = ExtendedActions.forever(foreverSequence);
+		sequence.addAction(action);
+		return foreverSequence;
 	}
 }

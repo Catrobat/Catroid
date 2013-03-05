@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -39,6 +40,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class SetGhostEffectBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private double transparency;
@@ -53,8 +56,13 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 	}
 
 	@Override
-	public void execute() {
-		sprite.look.setAlphaValue((100f - (float) transparency) / 100);
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
+	@Override
+	public Sprite getSprite() {
+		return this.sprite;
 	}
 
 	public double getGhostEffectValue() {
@@ -139,5 +147,11 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_set_ghost_effect_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setGhostEffect(sprite, (float) transparency));
+		return null;
 	}
 }

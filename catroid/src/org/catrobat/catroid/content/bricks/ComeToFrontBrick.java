@@ -22,11 +22,9 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
-
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -35,6 +33,8 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ComeToFrontBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
@@ -48,22 +48,8 @@ public class ComeToFrontBrick extends BrickBaseType {
 	}
 
 	@Override
-	public void execute() {
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		int highestPosition = 0;
-		for (Sprite sprite : spriteList) {
-			if (highestPosition < sprite.look.zPosition) {
-				highestPosition = sprite.look.zPosition;
-				if (sprite == this.sprite) {
-					highestPosition--;
-				}
-			}
-		}
-		if (highestPosition > highestPosition + 1) {
-			sprite.look.zPosition = Integer.MAX_VALUE;
-		} else {
-			sprite.look.zPosition = highestPosition + 1;
-		}
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	@Override
@@ -104,5 +90,11 @@ public class ComeToFrontBrick extends BrickBaseType {
 	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_go_to_front, null);
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.comeToFront(sprite));
+		return null;
 	}
 }

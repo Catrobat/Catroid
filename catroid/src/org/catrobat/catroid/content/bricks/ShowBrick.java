@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -32,6 +33,8 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ShowBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
@@ -45,8 +48,8 @@ public class ShowBrick extends BrickBaseType {
 	}
 
 	@Override
-	public void execute() {
-		sprite.look.show = true;
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	@Override
@@ -86,5 +89,11 @@ public class ShowBrick extends BrickBaseType {
 	@Override
 	public Brick clone() {
 		return new ShowBrick(getSprite());
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.show(sprite));
+		return null;
 	}
 }

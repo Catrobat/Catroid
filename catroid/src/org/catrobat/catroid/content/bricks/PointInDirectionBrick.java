@@ -24,8 +24,10 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -52,6 +54,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class PointInDirectionBrick extends BrickBaseType implements View.OnClickListener {
 
@@ -97,16 +101,14 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 	}
 
 	@Override
-	public void execute() {
-		double degreeOffset = 90.0;
-		sprite.look.rotation = (float) (-degrees + degreeOffset);
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_point_in_direction, null);
-
 			checkbox = (CheckBox) view.findViewById(R.id.brick_point_in_direction_checkbox);
 
 			final Brick brickInstance = this;
@@ -162,6 +164,7 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_point_in_direction_brick");
 	}
 
+	@SuppressLint("ValidFragment")
 	private class EditPointInDirectionBrickDialog extends DialogFragment {
 
 		private EditText input;
@@ -310,5 +313,11 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 			final Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
 			input.addTextChangedListener(getInputTextChangedListener(buttonPositive));
 		}
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.pointInDirection(sprite, (float) degrees));
+		return null;
 	}
 }

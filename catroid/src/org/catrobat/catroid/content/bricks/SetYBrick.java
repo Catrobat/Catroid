@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -39,6 +40,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class SetYBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int yPosition;
@@ -53,10 +56,8 @@ public class SetYBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public void execute() {
-		sprite.look.aquireXYWidthHeightLock();
-		sprite.look.setYPosition(yPosition);
-		sprite.look.releaseXYWidthHeightLock();
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	@Override
@@ -136,5 +137,11 @@ public class SetYBrick extends BrickBaseType implements OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_set_y_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setY(sprite, yPosition));
+		return null;
 	}
 }

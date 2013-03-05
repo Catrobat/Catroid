@@ -35,6 +35,8 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class WhenStartedBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
@@ -50,7 +52,8 @@ public class WhenStartedBrick extends ScriptBrick {
 	}
 
 	@Override
-	public void execute() {
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	@Override
@@ -101,4 +104,8 @@ public class WhenStartedBrick extends ScriptBrick {
 		return view;
 	}
 
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		return null;
+	}
 }

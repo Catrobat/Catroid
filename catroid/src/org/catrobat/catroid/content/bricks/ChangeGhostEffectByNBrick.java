@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -39,6 +40,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private double changeGhostEffect;
@@ -53,8 +56,8 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 	}
 
 	@Override
-	public void execute() {
-		sprite.look.changeAlphaValueBy((float) this.changeGhostEffect / -100);
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	public double getChangeGhostEffect() {
@@ -136,5 +139,11 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_ghost_effect_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.changeGhostEffectByN(sprite, (float) changeGhostEffect));
+		return null;
 	}
 }

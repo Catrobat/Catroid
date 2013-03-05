@@ -23,8 +23,8 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -43,6 +43,8 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListener, OnSeekBarChangeListener {
 	private static final long serialVersionUID = 1L;
 
@@ -57,7 +59,6 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 
 	private int hertz;
 	private int durationInMilliSeconds;
-
 	private transient EditText editFreq;
 	private transient SeekBar freqBar;
 
@@ -70,12 +71,6 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 	@Override
 	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
-	}
-
-	@Override
-	public void execute() {
-		LegoNXT.sendBTCPlayToneMessage(hertz, durationInMilliSeconds);
-
 	}
 
 	@Override
@@ -278,5 +273,11 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_nxt_play_tone_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.legoNxtPlayTone(hertz, durationInMilliSeconds));
+		return null;
 	}
 }

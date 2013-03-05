@@ -40,6 +40,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class NoteBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 	private String note = "";
@@ -55,10 +57,6 @@ public class NoteBrick extends BrickBaseType {
 	public NoteBrick(Sprite sprite, String note) {
 		this.sprite = sprite;
 		this.note = note;
-	}
-
-	@Override
-	public void execute() {
 	}
 
 	public String getNote() {
@@ -160,5 +158,10 @@ public class NoteBrick extends BrickBaseType {
 	@Override
 	public Brick clone() {
 		return new NoteBrick(this.sprite, this.note);
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		return null;
 	}
 }
