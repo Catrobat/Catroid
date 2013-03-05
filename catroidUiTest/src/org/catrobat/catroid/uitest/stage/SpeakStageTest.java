@@ -82,7 +82,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		textToSpeechMock = null;
 	}
 
-	public void testNullText() throws InterruptedException {
+	public void testTNullText() throws InterruptedException {
 		ProjectManager.getInstance()
 				.loadProject(UiTestUtils.PROJECTNAME2, getActivity().getApplicationContext(), false);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -177,8 +177,8 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		broadcastBrickNormal.setSelectedMessage("normal");
 		startScriptNormal.addBrick(waitBrickNormal);
 		startScriptNormal.addBrick(speakBrickNormal);
-		//		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 2000);
-		//		startScriptNormal.addBrick(waitBrickNormal2);
+		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 1000);
+		startScriptNormal.addBrick(waitBrickNormal2);
 		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageHello);
 		startScriptNormal.addBrick(speakBrickNormal2);
 		//		startScriptNormal.addBrick(broadcastBrickNormal);
