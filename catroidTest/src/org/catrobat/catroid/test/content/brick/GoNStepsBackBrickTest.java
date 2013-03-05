@@ -26,6 +26,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 public class GoNStepsBackBrickTest extends AndroidTestCase {
 
@@ -36,6 +37,8 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 		assertEquals("Unexpected initial sprite Z position", 0, sprite.look.zPosition);
 
 		int oldPosition = sprite.look.zPosition;
+
+		Log.e("info", "testSteps: steps= " + steps);
 
 		GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(sprite, steps);
 		goNStepsBackBrick.execute();
