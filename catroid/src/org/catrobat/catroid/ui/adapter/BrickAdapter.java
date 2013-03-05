@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
-import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
@@ -931,11 +930,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			if (brick.getCheckBox() != null) {
 				brick.getCheckBox().setEnabled(true);
 			}
-			if (brick instanceof LoopEndBrick) {
-				((LoopEndBrick) brick).getViewWithAlpha(255);
-			} else {
-				brick.getViewWithAlpha(255);
-			}
+			brick.getViewWithAlpha(ALPHA_FULL);
 		}
 	}
 
@@ -978,12 +973,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			int counter = 1;
 			int from = 0;
 			int to = 0;
-			for (Brick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts(false)) {
+			for (Brick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts(true)) {
 				if (check) {
 					animatedBricks.add(currentBrick);
 					addElementToCheckedBricks(currentBrick);
 				} else {
-					getCheckedBricks().remove(currentBrick);
+					checkedBricks.remove(currentBrick);
 				}
 				if (counter == 1) {
 					from = brickList.indexOf(currentBrick);
@@ -1010,7 +1005,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					animatedBricks.add(currentBrick);
 					addElementToCheckedBricks(currentBrick);
 				} else {
-					getCheckedBricks().remove(currentBrick);
+					checkedBricks.remove(currentBrick);
 				}
 				currentBrick.getCheckBox().setChecked(check);
 				handleBrickEnabledState(currentBrick, !check);
@@ -1041,8 +1036,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	private void addElementToCheckedBricks(Brick brick) {
-		if (!(getCheckedBricks().contains(brick))) {
-			getCheckedBricks().add(brick);
+		if (!(checkedBricks.contains(brick))) {
+			checkedBricks.add(brick);
 		}
 	}
 

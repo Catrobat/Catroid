@@ -48,14 +48,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content" 
+            android:paddingLeft="50dp">
 
             <Spinner
                 android:id="@+id/brick_broadcast_receive_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="50dp"
-                android:layout_weight="5"
                 android:clickable="false"
                 android:focusable="false" />
 

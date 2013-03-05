@@ -93,7 +93,6 @@ public class SetXBrick extends BrickBaseType implements OnClickListener {
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 		this.alphaValue = (alphaValue);
-		//background.setLevel(1);
 		return view;
 	}
 

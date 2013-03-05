@@ -55,6 +55,8 @@
         <EditText
             android:id="@+id/brick_note_edit_text"
             style="@style/BrickEditText"
+            android:paddingLeft = "50dp"
+            android:layout_gravity = "center_vertical"
             android:layout_width="match_parent"
             android:gravity="left"
             android:inputType="textMultiLine"
