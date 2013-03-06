@@ -37,7 +37,7 @@ import android.widget.LinearLayout;
 public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
-	private transient boolean isPuzzleView = false;
+	private transient boolean isPuzzleView = true;
 
 	public LoopEndlessBrick() {
 
@@ -50,6 +50,7 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null || !isPuzzleView) {
+			isPuzzleView = true;
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.brick_loop_endless, null);
 			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_checkbox);
@@ -70,9 +71,11 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_loop_endless_layout);
-		if (layout == null) {
-			layout = (LinearLayout) view.findViewById(R.id.brick_loop_endless_checkbox);
+		LinearLayout layout = null;
+		if (isPuzzleView) {
+			layout = (LinearLayout) view.findViewById(R.id.brick_loop_endless_layout);
+		} else {
+			layout = (LinearLayout) view.findViewById(R.id.brick_loop_endless_layout);
 		}
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
@@ -87,7 +90,8 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	@Override
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (view == null || !isPuzzleView) {
+		if (view == null || isPuzzleView) {
+			isPuzzleView = false;
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.brick_loop_endless_no_puzzle, null);
 			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_no_puzzle_checkbox);
