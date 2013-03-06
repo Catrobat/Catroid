@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.brick;
+package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -38,7 +38,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import android.test.AndroidTestCase;
 
-public class IfLogicBrickTest extends AndroidTestCase {
+public class IfLogicActionTest extends AndroidTestCase {
 
 	private static final int IF_TRUE_VALUE = 42;
 	private static final int IF_FALSE_VALUE = 32;
@@ -94,7 +94,7 @@ public class IfLogicBrickTest extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 
-		testSprite.startStartScripts();
+		testSprite.createStartScriptActionSequence();
 
 		Thread.sleep(1000);
 
@@ -142,7 +142,7 @@ public class IfLogicBrickTest extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 
-		testSprite.startStartScripts();
+		testSprite.createStartScriptActionSequence();
 
 		Thread.sleep(1000);
 
