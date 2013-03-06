@@ -76,6 +76,9 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		EditText edit = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
 		edit.setText(timesToRepeat + "");
 
+		TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.time_plural, timesToRepeat));
+
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 
@@ -85,7 +88,10 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_repeat, null);
+		View view = View.inflate(context, R.layout.brick_repeat, null);
+		TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.time_plural, timesToRepeat));
+		return view;
 	}
 
 	@Override

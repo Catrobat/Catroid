@@ -71,6 +71,10 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		EditText edit = (EditText) view.findViewById(R.id.brick_go_back_edit_text);
 
 		edit.setText(String.valueOf(steps));
+
+		TextView times = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural, steps));
+
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
@@ -80,7 +84,10 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_go_back, null);
+		View view = View.inflate(context, R.layout.brick_go_back, null);
+		TextView times = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural, steps));
+		return view;
 	}
 
 	@Override
