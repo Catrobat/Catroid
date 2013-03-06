@@ -94,28 +94,11 @@ public class Sprite implements Serializable {
 			if (s instanceof StartScript) {
 				look.addAction(createActionSequence(s));
 			}
-<<<<<<< HEAD
-		}, SCRIPT_THREAD_NAME_PREFIX + name);
-		if (script instanceof WhenScript) {
-			if (!activeScripts.containsKey(script)) {
-				activeScripts.put(script, new LinkedList<Thread>());
-				activeScripts.get(script).add(t);
-				activeThreads.put(t, true);
-			} else {
-				ListIterator<Thread> currentScriptThreads = activeScripts.get(script).listIterator();
-				while (currentScriptThreads.hasNext()) {
-					Thread currentThread = currentScriptThreads.next();
-					activeThreads.put(currentThread, false);
-				}
-				activeScripts.get(script).clear();
-				activeScripts.get(script).add(t);
-				activeThreads.put(t, true);
-=======
 			if (s instanceof BroadcastScript) {
 				BroadcastScript script = (BroadcastScript) s;
 				SequenceAction action = createBroadcastScriptActionSequence(script);
 				look.putBroadcastSequenceAction(script.getBroadcastMessage(), action);
->>>>>>> refs/remotes/origin/master
+
 			}
 		}
 	}
