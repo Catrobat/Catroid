@@ -31,8 +31,10 @@ import android.test.AndroidTestCase;
 
 public class PlaceAtBrickTest extends AndroidTestCase {
 
-	private Formula xPosition = new Formula(100);
-	private Formula yPosition = new Formula(200);
+	private static final int Y_POSITON_VALUE = 200;
+	private static final int X_POSITION_VALUE = 100;
+	private Formula xPosition = new Formula(X_POSITION_VALUE);
+	private Formula yPosition = new Formula(Y_POSITON_VALUE);
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
@@ -43,9 +45,9 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
-		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", xPosition,
+		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", X_POSITION_VALUE,
 				(int) sprite.look.getXPosition());
-		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", yPosition,
+		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", Y_POSITON_VALUE,
 				(int) sprite.look.getYPosition());
 	}
 
