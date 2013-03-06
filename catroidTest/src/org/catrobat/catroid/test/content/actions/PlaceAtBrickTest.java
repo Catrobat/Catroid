@@ -25,20 +25,21 @@ package org.catrobat.catroid.test.content.actions;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.GlideToAction;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import android.test.AndroidTestCase;
 
 public class PlaceAtBrickTest extends AndroidTestCase {
 
-	private int xPosition = 100;
-	private int yPosition = 200;
+	private Formula xPosition = new Formula(100);
+	private Formula yPosition = new Formula(200);
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXPosition());
 		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYPosition());
 
-		GlideToAction action = ExtendedActions.placeAt(xPosition, yPosition);
+		GlideToAction action = ExtendedActions.placeAt(sprite, xPosition, yPosition);
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
@@ -49,7 +50,7 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 	}
 
 	public void testNullSprite() {
-		GlideToAction action = ExtendedActions.placeAt(xPosition, yPosition);
+		GlideToAction action = ExtendedActions.placeAt(null, xPosition, yPosition);
 		try {
 			action.act(1.0f);
 			fail("Execution of PlaceAtBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
@@ -61,7 +62,8 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 	public void testBoundaryPositions() {
 		Sprite sprite = new Sprite("testSprite");
 
-		GlideToAction action = ExtendedActions.placeAt(Integer.MAX_VALUE, Integer.MAX_VALUE);
+		GlideToAction action = ExtendedActions.placeAt(sprite, new Formula(Integer.MAX_VALUE), new Formula(
+				Integer.MAX_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
@@ -70,7 +72,7 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
 				(int) sprite.look.getYPosition());
 
-		action = ExtendedActions.placeAt(Integer.MIN_VALUE, Integer.MIN_VALUE);
+		action = ExtendedActions.placeAt(sprite, new Formula(Integer.MIN_VALUE), new Formula(Integer.MIN_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 

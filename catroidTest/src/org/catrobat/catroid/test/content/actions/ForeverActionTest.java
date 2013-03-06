@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.FlakyTest;
@@ -36,7 +37,7 @@ public class ForeverActionTest extends InstrumentationTestCase {
 	@FlakyTest(tolerance = 3)
 	public void testForeverBrick() throws InterruptedException {
 		Sprite testSprite = new Sprite("testSprite");
-		final int deltaY = -10;
+		final Formula deltaY = new Formula(-10);
 
 		RepeatAction action = ExtendedActions.forever(ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite,
 				deltaY)));
