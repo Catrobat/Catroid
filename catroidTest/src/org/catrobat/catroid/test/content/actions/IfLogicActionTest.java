@@ -95,8 +95,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentScript(testScript);
 
 		testSprite.createStartScriptActionSequence();
-
-		Thread.sleep(1000);
+		testSprite.look.act(100f);
 
 		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
@@ -144,7 +143,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 
 		testSprite.createStartScriptActionSequence();
 
-		Thread.sleep(1000);
+		testSprite.look.act(100f);
 
 		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
