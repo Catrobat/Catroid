@@ -24,14 +24,9 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-<<<<<<< HEAD
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-=======
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
->>>>>>> refs/remotes/origin/master
 
 import android.content.Context;
 import android.view.View;
@@ -39,12 +34,8 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-<<<<<<< HEAD
-=======
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
->>>>>>> refs/remotes/origin/master
 
 public class GlideToBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -78,81 +69,6 @@ public class GlideToBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-<<<<<<< HEAD
-	}
-
-	@Override
-	public void execute() {
-
-		/* That's the way how an action is made */
-		//		Action action = MoveBy.$(xDestination, yDestination, this.durationInMilliSeconds / 1000);
-		//		final CountDownLatch latch = new CountDownLatch(1);
-		//		action = action.setCompletionListener(new OnActionCompleted() {
-		//			public void completed(Action action) {
-		//				latch.countDown();
-		//			}
-		//		});
-		//		sprite.costume.action(action);
-		//		try {
-		//			latch.await();
-		//		} catch (InterruptedException e) {
-		//		}
-		int durationInMilliSeconds = (int) (durationInSeconds.interpretFloat(sprite) * 1000f);
-		float xDestinationValue = xDestination.interpretFloat(sprite);
-		float yDestinationValue = yDestination.interpretFloat(sprite);
-
-		long startTime = System.currentTimeMillis();
-		while (durationInMilliSeconds > 0) {
-			if (!sprite.isAlive(Thread.currentThread())) {
-				break;
-			}
-			long timeBeforeSleep = System.currentTimeMillis();
-			int sleep = 33;
-			while (System.currentTimeMillis() <= (timeBeforeSleep + sleep)) {
-
-				if (sprite.isPaused) {
-					sleep = (int) ((timeBeforeSleep + sleep) - System.currentTimeMillis());
-					long milliSecondsBeforePause = System.currentTimeMillis();
-					while (sprite.isPaused) {
-						if (sprite.isFinished) {
-							return;
-						}
-						Thread.yield();
-					}
-					timeBeforeSleep = System.currentTimeMillis();
-					startTime += System.currentTimeMillis() - milliSecondsBeforePause;
-				}
-
-				Thread.yield();
-			}
-			long currentTime = System.currentTimeMillis();
-			durationInMilliSeconds -= (int) (currentTime - startTime);
-			updatePositions((int) (currentTime - startTime), durationInMilliSeconds, xDestinationValue,
-					yDestinationValue);
-			startTime = currentTime;
-		}
-
-		if (!sprite.isAlive(Thread.currentThread())) {
-			// -stay at last position
-		} else {
-			sprite.look.aquireXYWidthHeightLock();
-			sprite.look.setXYPosition(xDestinationValue, yDestinationValue);
-			sprite.look.releaseXYWidthHeightLock();
-		}
-	}
-
-	private void updatePositions(int timePassed, int duration, float xDestinationValue, float yDestinationValue) {
-		sprite.look.aquireXYWidthHeightLock();
-		float xPosition = sprite.look.getXPosition();
-		float yPosition = sprite.look.getYPosition();
-
-		xPosition += ((float) timePassed / duration) * (xDestinationValue - xPosition);
-		yPosition += ((float) timePassed / duration) * (yDestinationValue - yPosition);
-
-		sprite.look.setXYPosition(xPosition, yPosition);
-		sprite.look.releaseXYWidthHeightLock();
-=======
->>>>>>> refs/remotes/origin/master
 	}
 
 	@Override
@@ -228,9 +144,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		float durationInSeconds = durationInMilliSeconds / 1000f;
-		sequence.addAction(ExtendedActions.glideTo(Float.valueOf(xDestination), Float.valueOf(yDestination),
-				durationInSeconds));
+		sequence.addAction(ExtendedActions.glideTo(sprite, xDestination, yDestination, durationInSeconds));
 		return null;
 	}
 }

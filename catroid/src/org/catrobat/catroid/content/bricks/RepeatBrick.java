@@ -54,11 +54,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	public RepeatBrick(Sprite sprite, Formula timesToRepeat) {
 		this.sprite = sprite;
-		if (timesToRepeat >= 0) {
-			this.timesToRepeat = timesToRepeat;
-		} else {
-			this.timesToRepeat = 0;
-		}
+		this.timesToRepeat = timesToRepeat;
 	}
 
 	@Override
@@ -68,22 +64,6 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	public RepeatBrick() {
 
-<<<<<<< HEAD
-	}
-
-	@Override
-	public void execute() {
-		int timesToRepeatValue = timesToRepeat.interpretInteger(sprite);
-
-		if (timesToRepeatValue <= 0) {
-			Script script = loopEndBrick.getScript();
-			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopEndBrick));
-			return;
-		}
-		loopEndBrick.setTimesToRepeat(timesToRepeatValue);
-		super.setFirstStartTime();
-=======
->>>>>>> refs/remotes/origin/master
 	}
 
 	@Override
@@ -114,45 +94,13 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	@Override
 	public void onClick(View view) {
-<<<<<<< HEAD
 		FormulaEditorFragment.showFragment(view, this, timesToRepeat);
-=======
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(timesToRepeat));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-						| InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					int repeat = Integer.parseInt(input.getText().toString());
-					if (repeat >= 0) {
-						timesToRepeat = repeat;
-					} else {
-						timesToRepeat = 0;
-					}
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_repeat_brick");
->>>>>>> refs/remotes/origin/master
 	}
 
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		SequenceAction repeatSequence = ExtendedActions.sequence();
-		Action action = ExtendedActions.repeat(timesToRepeat, repeatSequence);
+		Action action = ExtendedActions.repeat(sprite,timesToRepeat, repeatSequence);
 		sequence.addAction(action);
 		return repeatSequence;
 	}

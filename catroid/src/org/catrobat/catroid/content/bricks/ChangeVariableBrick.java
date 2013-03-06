@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
@@ -40,36 +41,28 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class ChangeVariableBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private UserVariable userVariable;
 	private transient View view;
-	private Formula variable_formula;
+	private Formula variableFormula;
 
-	public ChangeVariableBrick(Sprite sprite, Formula variable_formula) {
+	public ChangeVariableBrick(Sprite sprite, Formula variableFormula) {
 		this.sprite = sprite;
-		this.variable_formula = variable_formula;
+		this.variableFormula = variableFormula;
 	}
 
 	public ChangeVariableBrick(Sprite sprite, double value) {
 		this.sprite = sprite;
-		this.variable_formula = new Formula(value);
+		this.variableFormula = new Formula(value);
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		if (userVariable == null) {
-			return;
-		}
-		double original_value = userVariable.getValue();
-		double value = variable_formula.interpretFloat(sprite);
-		userVariable.setValue(original_value + value);
 	}
 
 	@Override
@@ -86,8 +79,8 @@ public class ChangeVariableBrick implements Brick, OnClickListener {
 		TextView prototype_text = (TextView) view.findViewById(R.id.brick_change_variable_prototype_view);
 		EditText edit_text = (EditText) view.findViewById(R.id.brick_change_variable_edit_text);
 		prototype_text.setVisibility(View.GONE);
-		variable_formula.setTextFieldId(R.id.brick_change_variable_edit_text);
-		variable_formula.refreshTextField(view);
+		variableFormula.setTextFieldId(R.id.brick_change_variable_edit_text);
+		variableFormula.refreshTextField(view);
 		edit_text.setVisibility(View.VISIBLE);
 		edit_text.setOnClickListener(this);
 
@@ -126,13 +119,19 @@ public class ChangeVariableBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(getSprite(), variable_formula);
+		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(getSprite(), variableFormula);
 		return clonedBrick;
 	}
 
 	@Override
 	public void onClick(View view) {
-		FormulaEditorFragment.showFragment(view, this, variable_formula);
+		FormulaEditorFragment.showFragment(view, this, variableFormula);
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.changeVariable(sprite, variableFormula, userVariable));
+		return null;
 	}
 
 }

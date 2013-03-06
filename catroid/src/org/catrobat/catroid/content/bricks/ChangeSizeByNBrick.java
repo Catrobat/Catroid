@@ -24,14 +24,9 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-<<<<<<< HEAD
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-=======
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
->>>>>>> refs/remotes/origin/master
 
 import android.content.Context;
 import android.view.View;
@@ -39,12 +34,8 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-<<<<<<< HEAD
-=======
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
->>>>>>> refs/remotes/origin/master
 
 public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -72,18 +63,6 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-<<<<<<< HEAD
-	}
-
-	@Override
-	public void execute() {
-		float newSize = sprite.look.getSize() + size.interpretFloat(sprite) / 100f;
-		if (newSize < 0f) {
-			newSize = 0f;
-		}
-		sprite.look.setSize(newSize);
-=======
->>>>>>> refs/remotes/origin/master
 	}
 
 	@Override
@@ -126,7 +105,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.changeSizeByN(sprite, (float) size));
+		sequence.addAction(ExtendedActions.changeSizeByN(sprite, size));
 		return null;
 	}
 }

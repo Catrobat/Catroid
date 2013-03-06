@@ -29,8 +29,10 @@ import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class ExtendedActions extends Actions {
@@ -307,6 +309,40 @@ public class ExtendedActions extends Actions {
 		TurnRightAction action = action(TurnRightAction.class);
 		action.setSprite(sprite);
 		action.setDegrees(degrees);
+		return action;
+	}
+
+	public static Action changeVariable(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
+
+		ChangeVariableAction action = action(ChangeVariableAction.class);
+		action.setSprite(sprite);
+		action.setChangeVariable(variableFormula);
+		action.setUserVariable(userVariable);
+		return action;
+	}
+
+	public static Action setVariable(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
+
+		SetVariableAction action = action(SetVariableAction.class);
+		action.setSprite(sprite);
+		action.setChangeVariable(variableFormula);
+		action.setUserVariable(userVariable);
+		return action;
+	}
+
+	static public RepeatAction ifLogc(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
+		RepeatAction action = action(RepeatAction.class);
+		action.setIfAction(ifAction);
+		action.setElseAction(elseAction);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	static public RepeatAction repeat(Sprite sprite, Formula count, Action repeatedAction) {
+		RepeatAction action = action(RepeatAction.class);
+		action.setRepeatCount(count);
+		action.setAction(repeatedAction);
+		action.setSprite(sprite);
 		return action;
 	}
 

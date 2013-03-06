@@ -24,14 +24,9 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-<<<<<<< HEAD
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-=======
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
->>>>>>> refs/remotes/origin/master
 
 import android.content.Context;
 import android.view.View;
@@ -39,12 +34,8 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-<<<<<<< HEAD
-=======
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
->>>>>>> refs/remotes/origin/master
 
 public class ChangeYByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -71,29 +62,6 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
-<<<<<<< HEAD
-	}
-
-	@Override
-	public void execute() {
-		int yMovementValue = yMovement.interpretInteger(sprite);
-
-		sprite.look.aquireXYWidthHeightLock();
-		int yPosition = (int) sprite.look.getYPosition();
-
-		if (yPosition > 0 && yMovementValue > 0 && yPosition + yMovementValue < 0) {
-			yPosition = Integer.MAX_VALUE;
-		} else if (yPosition < 0 && yMovementValue < 0 && yPosition + yMovementValue > 0) {
-			yPosition = Integer.MIN_VALUE;
-		} else {
-			yPosition += yMovementValue;
-		}
-
-		sprite.look.setXYPosition(sprite.look.getXPosition(), yPosition);
-		sprite.look.releaseXYWidthHeightLock();
-=======
->>>>>>> refs/remotes/origin/master
 	}
 
 	@Override
