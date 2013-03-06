@@ -156,13 +156,13 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 		double expectedOrientationX = Double.valueOf(orientations[1]) * SensorHandler.radianToDegreeConst;
 		double expectedOrientationY = Double.valueOf(orientations[2]) * SensorHandler.radianToDegreeConst;
 
-		assertEquals("Sensor value is wrong", expectedX, formula.interpretFloat(), delta);
-		assertEquals("Sensor value is wrong", expectedY, formula1.interpretFloat(), delta);
-		assertEquals("Sensor value is wrong", expectedZ, formula2.interpretFloat(), delta);
+		assertEquals("Sensor value is wrong", expectedX, formula.interpretFloat(firstSprite), delta);
+		assertEquals("Sensor value is wrong", expectedY, formula1.interpretFloat(firstSprite), delta);
+		assertEquals("Sensor value is wrong", expectedZ, formula2.interpretFloat(firstSprite), delta);
 
-		assertEquals("Sensor value is wrong", expectedOrientationZ, formula3.interpretFloat(), delta);
-		assertEquals("Sensor value is wrong", expectedOrientationX, formula4.interpretFloat(), delta);
-		assertEquals("Sensor value is wrong", expectedOrientationY, formula5.interpretFloat(), delta);
+		assertEquals("Sensor value is wrong", expectedOrientationZ, formula3.interpretFloat(firstSprite), delta);
+		assertEquals("Sensor value is wrong", expectedOrientationX, formula4.interpretFloat(firstSprite), delta);
+		assertEquals("Sensor value is wrong", expectedOrientationY, formula5.interpretFloat(firstSprite), delta);
 
 		SensorHandler.stopSensorListeners();
 

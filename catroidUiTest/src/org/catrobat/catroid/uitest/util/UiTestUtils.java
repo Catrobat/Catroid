@@ -207,7 +207,7 @@ public class UiTestUtils {
 	 * ensures its set correctly to the brick´s edit text field
 	 */
 	public static void testBrickWithFormulaEditor(Solo solo, int editTextNumber, int numberOfEditTextsInBrick,
-			double newValue, String fieldName, Object theBrick) {
+			double newValue, String fieldName, Brick theBrick) {
 
 		solo.clickOnEditText(editTextNumber);
 		insertDoubleIntoEditText(solo, newValue);
@@ -219,7 +219,7 @@ public class UiTestUtils {
 
 		Formula formula = (Formula) Reflection.getPrivateField(theBrick, fieldName);
 
-		assertEquals("Wrong text in field", newValue, formula.interpretFloat(), 0.01f);
+		assertEquals("Wrong text in field", newValue, formula.interpretFloat(theBrick.getSprite()), 0.01f);
 		assertEquals("Text not updated in the brick list", newValue,
 				Double.parseDouble(solo.getEditText(editTextNumber).getText().toString()), 0.01f);
 

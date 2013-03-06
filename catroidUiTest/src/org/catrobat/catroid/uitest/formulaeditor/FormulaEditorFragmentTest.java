@@ -50,6 +50,7 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 	private static final int X_POS_EDIT_TEXT_ID = 0;
 	private static final int Y_POS_EDIT_TEXT_ID = 1;
 	private static final int FORMULA_EDITOR_EDIT_TEXT_ID = 2;
+	private Sprite sprite;
 
 	public FormulaEditorFragmentTest() {
 		super(MainMenuActivity.class);
@@ -73,7 +74,7 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite sprite = new Sprite("cat");
+		sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		placeAtBrick = new PlaceAtBrick(sprite, INITIAL_X, INITIAL_Y);
 		script.addBrick(placeAtBrick);
@@ -351,11 +352,11 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 
 		//Interpretation test
 		Formula formula = (Formula) Reflection.getPrivateField(placeAtBrick, "xPosition");
-		assertEquals("Wrong text in field", newXValue, formula.interpretInteger());
+		assertEquals("Wrong text in field", newXValue, formula.interpretInteger(sprite));
 
 		formula = (Formula) Reflection.getPrivateField(placeAtBrick, "yPosition");
 
-		float newYValue = formula.interpretFloat();
+		float newYValue = formula.interpretFloat(sprite);
 		assertTrue("Wrong text in field", newYValue >= -0.5f && newYValue <= 1f);
 
 	}
@@ -375,7 +376,7 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		solo.sleep(300);
 
 		Formula formula = (Formula) Reflection.getPrivateField(placeAtBrick, "xPosition");
-		float value = formula.interpretFloat();
+		float value = formula.interpretFloat(sprite);
 
 		Log.i("info", "value: " + value);
 
@@ -395,7 +396,7 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		solo.sleep(300);
 
 		Formula anotherFormula = (Formula) Reflection.getPrivateField(placeAtBrick, "yPosition");
-		float anotherValue = anotherFormula.interpretFloat();
+		float anotherValue = anotherFormula.interpretFloat(sprite);
 
 		Log.i("info", "value: " + value);
 
@@ -420,7 +421,7 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		solo.sleep(300);
 
 		Formula formula = (Formula) Reflection.getPrivateField(placeAtBrick, "xPosition");
-		float value = formula.interpretFloat();
+		float value = formula.interpretFloat(sprite);
 
 		Log.i("info", "value: " + value);
 
@@ -440,7 +441,7 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		solo.sleep(300);
 
 		Formula anotherFormula = (Formula) Reflection.getPrivateField(placeAtBrick, "yPosition");
-		float anotherValue = anotherFormula.interpretFloat();
+		float anotherValue = anotherFormula.interpretFloat(sprite);
 
 		Log.i("info", "anotherValue: " + anotherValue);
 

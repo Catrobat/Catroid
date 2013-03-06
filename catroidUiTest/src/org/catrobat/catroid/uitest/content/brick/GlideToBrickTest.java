@@ -44,6 +44,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	private Solo solo;
 	private Project project;
+	private Sprite sprite;
 
 	public GlideToBrickTest() {
 		super(MainMenuActivity.class);
@@ -98,21 +99,21 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(0);
 
 		Formula formula = (Formula) Reflection.getPrivateField(glideToBrick, "durationInSeconds");
-		float temp = formula.interpretFloat();
+		float temp = formula.interpretFloat(sprite);
 
 		assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000), Math.round(temp * 1000));
 		formula = (Formula) Reflection.getPrivateField(glideToBrick, "xDestination");
-		int temp2 = formula.interpretInteger();
+		int temp2 = formula.interpretInteger(sprite);
 		assertEquals("Wrong x input in Glide to brick", xPosition, temp2);
 
 		formula = (Formula) Reflection.getPrivateField(glideToBrick, "yDestination");
-		temp2 = formula.interpretInteger();
+		temp2 = formula.interpretInteger(sprite);
 		assertEquals("Wrong y input in Glide to brick", yPosition, temp2);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite sprite = new Sprite("cat");
+		sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		script.addBrick(new GlideToBrick(sprite, 0, 0, 0));
 
