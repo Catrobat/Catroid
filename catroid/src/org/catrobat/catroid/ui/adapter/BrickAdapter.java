@@ -61,7 +61,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private static final String TAG = BrickAdapter.class.getSimpleName();
 	private static final int ALPHA_FULL = 255;
-	private static final int ALPHA_GREYED = 185;
+	private static final int ALPHA_GREYED = 255;
 	private Context context;
 	private Sprite sprite;
 	private int dragTargetPosition;

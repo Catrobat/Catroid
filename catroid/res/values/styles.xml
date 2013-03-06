@@ -162,11 +162,11 @@
     </style>
 	
     <style name="BrickContainer.Motion">
-        <item name="android:minHeight">@dimen/brick_height_small</item>
     </style>
     
     <style name="BrickContainer.Motion.Small">
-        <item name="android:background">@drawable/brick_blue_1h</item>
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_blue_1h</item>        
     </style>
 
     <style name="BrickContainer.Motion.Medium">
