@@ -30,6 +30,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.actions.ChangeVolumeByNAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
@@ -43,8 +44,8 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 	private static final int SOUND_FILE_ID = R.raw.testsound;
 	private File soundFile;
 	private String projectName = "projectiName";
-	private float louder = 10.6f;
-	private float softer = -20.3f;
+	private Formula louder = new Formula(10.6f);
+	private Formula softer = new Formula(-20.3f);
 
 	@Override
 	protected void setUp() throws Exception {

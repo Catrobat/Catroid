@@ -30,6 +30,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.SetVolumeToAction;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
@@ -43,7 +44,7 @@ public class SetVolumeToActionTest extends InstrumentationTestCase {
 	private static final int SOUND_FILE_ID = R.raw.testsound;
 	private File soundFile;
 	private String projectName = "projectiName";
-	private float volume = 50.6f;
+	private Formula volume = new Formula(50.6f);
 
 	@Override
 	protected void setUp() throws Exception {
@@ -63,7 +64,7 @@ public class SetVolumeToActionTest extends InstrumentationTestCase {
 	}
 
 	public void testVolume() {
-		SetVolumeToAction action = ExtendedActions.setVolumeTo(volume);
+		SetVolumeToAction action = ExtendedActions.setVolumeTo(sprite, volume);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", volume, SoundManager
 				.getInstance().getVolume());

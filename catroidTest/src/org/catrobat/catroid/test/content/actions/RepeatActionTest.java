@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.content.actions;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.InstrumentationTestCase;
@@ -46,7 +47,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		final int deltaY = -10;
 
 		RepeatAction action = ExtendedActions.repeat(REPEAT_TIMES,
-				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, deltaY)));
+				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, new Formula(deltaY))));
 		while (!action.act(1.0f)) {
 		}
 		int executedCount = (Integer) Reflection.getPrivateField(action, "executedCount");
@@ -73,9 +74,9 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		final int expectedDeltaY = 150;
 
 		RepeatAction repeatAction = ExtendedActions.repeat(0,
-				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, decoyDeltaY)));
+				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, new Formula(decoyDeltaY))));
 		SequenceAction action = ExtendedActions.sequence(repeatAction,
-				ExtendedActions.changeYByN(testSprite, expectedDeltaY));
+				ExtendedActions.changeYByN(testSprite, new Formula(expectedDeltaY)));
 		while (!action.act(1.0f)) {
 		}
 		int executedCount = (Integer) Reflection.getPrivateField(repeatAction, "executedCount");
