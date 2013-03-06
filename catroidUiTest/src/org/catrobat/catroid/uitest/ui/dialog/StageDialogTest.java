@@ -170,10 +170,10 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	}
 
 	public void testRestartButtonScriptPosition() {
-		ArrayList<Integer> scriptPositionsStart = new ArrayList<Integer>();
-		ArrayList<Integer> scriptPositionsRestart = new ArrayList<Integer>();
-		scriptPositionsStart.clear();
-		scriptPositionsRestart.clear();
+		ArrayList<Script> scriptStart = new ArrayList<Script>();
+		ArrayList<Script> scriptRestart = new ArrayList<Script>();
+		scriptStart.clear();
+		scriptRestart.clear();
 
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -192,7 +192,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 			Sprite sprite = spriteList.get(i);
 			int size = sprite.getNumberOfScripts();
 			for (int j = 0; j < size; j++) {
-				scriptPositionsRestart.add(sprite.getScript(j).getExecutingBrickIndex());
+				scriptRestart.add(sprite.getScript(j));
 			}
 		}
 		spriteList.clear();
@@ -215,13 +215,13 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 			Sprite sprite = spriteList.get(i);
 			int size = sprite.getNumberOfScripts();
 			for (int j = 0; j < size; j++) {
-				scriptPositionsRestart.add(sprite.getScript(j).getExecutingBrickIndex());
+				scriptStart.add(sprite.getScript(j));
 			}
 		}
 
-		for (int i = 0; i < scriptPositionsStart.size(); i++) {
-			assertEquals("Script is not at starting position!", scriptPositionsStart.get(i).intValue(),
-					scriptPositionsRestart.get(i).intValue());
+		for (int i = 0; i < scriptStart.size(); i++) {
+			assertEquals("Script is not at starting position!", scriptRestart.get(i).getClass(), scriptStart.get(i)
+					.getClass());
 		}
 	}
 

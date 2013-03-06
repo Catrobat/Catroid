@@ -39,6 +39,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class BroadcastReceiverBrick extends ScriptBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -59,10 +61,6 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
 	}
 
 	@Override
@@ -168,5 +166,11 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		}
 
 		return receiveScript;
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

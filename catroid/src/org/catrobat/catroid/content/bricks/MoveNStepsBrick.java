@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -36,6 +37,8 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class MoveNStepsBrick implements Brick, OnClickListener {
 
@@ -57,20 +60,6 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		sprite.look.aquireXYWidthHeightLock();
-
-		double radians = Math.toRadians(sprite.look.rotation);
-
-		int newXPosition = (int) Math.round(sprite.look.getXPosition() + steps * Math.cos(radians));
-		int newYPosition = (int) Math.round(sprite.look.getYPosition() + steps * Math.sin(radians));
-
-		sprite.look.setXYPosition(newXPosition, newYPosition);
-		sprite.look.releaseXYWidthHeightLock();
-
 	}
 
 	@Override
@@ -132,5 +121,11 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_move_n_steps_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.moveNSteps(sprite, (float) steps));
+		return null;
 	}
 }

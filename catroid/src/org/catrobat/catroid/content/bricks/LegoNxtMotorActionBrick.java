@@ -22,8 +22,9 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.LegoNXT.LegoNXT;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -42,7 +43,8 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -60,7 +62,6 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 	private transient Motor motorEnum;
 	private int speed;
 
-	private static final int NO_DELAY = 0;
 	private static final int MIN_SPEED = -100;
 	private static final int MAX_SPEED = 100;
 
@@ -84,18 +85,6 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 	@Override
 	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
-	}
-
-	@Override
-	public void execute() {
-
-		if (motorEnum.equals(Motor.MOTOR_A_C)) {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), speed, 0);
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), speed, 0);
-		} else {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), speed, 0);
-		}
-		//LegoNXT.sendBTCMotorMessage((int) (duration * 1000), motor, 0, 0);
 	}
 
 	@Override
@@ -259,5 +248,11 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_nxt_moto_action_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.legoNxtMotorAction(motor, motorEnum, speed));
+		return null;
 	}
 }

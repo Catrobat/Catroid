@@ -25,7 +25,6 @@ package org.catrobat.catroid.stage;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Comparator;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
@@ -53,7 +52,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -63,6 +62,7 @@ public class StageListener implements ApplicationListener {
 	private FPSLogger fpsLogger;
 
 	private Stage stage;
+	private Group parentGroup;
 	private boolean paused = false;
 	private boolean finished = false;
 	private boolean firstStart = true;
@@ -84,7 +84,6 @@ public class StageListener implements ApplicationListener {
 	private BitmapFont font;
 
 	private List<Sprite> sprites;
-	private Comparator<Actor> lookComparator;
 
 	private float virtualWidthHalf;
 	private float virtualHeightHalf;
@@ -129,8 +128,6 @@ public class StageListener implements ApplicationListener {
 		font.setScale(1.2f);
 
 		pathForScreenshot = Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()) + "/";
-
-		lookComparator = new LookComparator();
 
 		project = ProjectManager.getInstance().getCurrentProject();
 
@@ -234,11 +231,6 @@ public class StageListener implements ApplicationListener {
 	public void finish() {
 		finished = true;
 		SoundManager.getInstance().clear();
-		if (sprites != null) {
-			for (Sprite sprite : sprites) {
-				sprite.finish();
-			}
-		}
 	}
 
 	@Override
@@ -251,15 +243,16 @@ public class StageListener implements ApplicationListener {
 			for (int i = 0; i < spriteSize; i++) {
 				Sprite sprite = sprites.get(i);
 				sprite.pause();
-				sprite.finish();
 			}
 			stage.clear();
 			SoundManager.getInstance().clear();
 
+			parentGroup = new Group();
 			project = ProjectManager.getInstance().getCurrentProject();
 			sprites = project.getSpriteList();
 			for (int i = 0; i < spriteSize; i++) {
 				Sprite sprite = sprites.get(i);
+				parentGroup.addActor(sprite.look);
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}
@@ -276,8 +269,6 @@ public class StageListener implements ApplicationListener {
 			renderTextures();
 			texturesRendered = true;
 		}
-
-		stage.getRoot().sortChildren(lookComparator);
 
 		switch (screenMode) {
 			case MAXIMIZE:
@@ -302,7 +293,7 @@ public class StageListener implements ApplicationListener {
 		if (firstStart) {
 			int spriteSize = sprites.size();
 			for (int i = 0; i < spriteSize; i++) {
-				sprites.get(i).startStartScripts();
+				sprites.get(i).createStartScriptActionSequence();
 			}
 			firstStart = false;
 		}

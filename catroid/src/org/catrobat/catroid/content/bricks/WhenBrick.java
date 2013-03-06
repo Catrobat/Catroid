@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
@@ -30,7 +31,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class WhenBrick extends ScriptBrick {
 	protected WhenScript whenScript;
@@ -51,10 +53,6 @@ public class WhenBrick extends ScriptBrick {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
 	}
 
 	@Override
@@ -127,6 +125,11 @@ public class WhenBrick extends ScriptBrick {
 		}
 
 		return whenScript;
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		return null;
 	}
 
 }
