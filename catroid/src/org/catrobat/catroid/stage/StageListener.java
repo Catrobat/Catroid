@@ -96,7 +96,6 @@ public class StageListener implements ApplicationListener {
 
 	private ScreenModes screenMode;
 
-	private Texture background;
 	private Texture axes;
 
 	private boolean makeTestPixels = false;
@@ -160,7 +159,6 @@ public class StageListener implements ApplicationListener {
 			Gdx.input.setInputProcessor(stage);
 		}
 
-		background = new Texture(Gdx.files.internal("stage/white_pixel.bmp"));
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 	}
 
@@ -288,7 +286,7 @@ public class StageListener implements ApplicationListener {
 				break;
 		}
 
-		this.drawRectangle();
+		batch.setProjectionMatrix(camera.combined);
 
 		if (firstStart) {
 			int spriteSize = sprites.size();
@@ -347,13 +345,6 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	private void drawRectangle() {
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-		batch.draw(background, -virtualWidthHalf, -virtualHeightHalf, virtualWidth, virtualHeight);
-		batch.end();
-	}
-
 	private void drawAxes() {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
@@ -381,7 +372,6 @@ public class StageListener implements ApplicationListener {
 		}
 		stage.dispose();
 		font.dispose();
-		background.dispose();
 		axes.dispose();
 		disposeTextures();
 	}
