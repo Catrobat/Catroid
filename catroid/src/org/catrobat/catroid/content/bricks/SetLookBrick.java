@@ -142,13 +142,8 @@ public class SetLookBrick implements Brick {
 	}
 
 	@Override
-<<<<<<< HEAD
-	public void onClick(View view) {
-
-=======
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.setLook(sprite, look));
 		return null;
->>>>>>> refs/remotes/origin/master
 	}
 }

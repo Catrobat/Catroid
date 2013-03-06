@@ -24,14 +24,9 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-<<<<<<< HEAD
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-=======
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
->>>>>>> refs/remotes/origin/master
 
 import android.content.Context;
 import android.view.View;
@@ -100,7 +95,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		SequenceAction repeatSequence = ExtendedActions.sequence();
-		Action action = ExtendedActions.repeat(sprite,timesToRepeat, repeatSequence);
+		Action action = ExtendedActions.repeat(sprite, timesToRepeat, repeatSequence);
 		sequence.addAction(action);
 		return repeatSequence;
 	}

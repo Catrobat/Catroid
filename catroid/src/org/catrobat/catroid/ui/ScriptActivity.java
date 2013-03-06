@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
@@ -269,10 +270,12 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
+			SensorHandler.startSensorListener(this);
 			Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
 			startActivityForResult(intent, StageActivity.STAGE_ACTIVITY_FINISH);
 		}
 		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
+			SensorHandler.stopSensorListeners();
 			ProjectManager projectManager = ProjectManager.getInstance();
 			int currentSpritePosition = projectManager.getCurrentSpritePosition();
 			int currentScriptPosition = projectManager.getCurrentScriptPosition();

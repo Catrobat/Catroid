@@ -71,6 +71,9 @@ public class ChangeVariableBrick implements Brick, OnClickListener {
 
 	}
 
+	public ChangeVariableBrick() {
+	}
+
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 

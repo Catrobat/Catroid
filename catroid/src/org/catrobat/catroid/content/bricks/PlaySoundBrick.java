@@ -122,13 +122,8 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	}
 
 	@Override
-<<<<<<< HEAD
-	public void onClick(View view) {
-
-=======
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.playSound(sprite, sound));
 		return null;
->>>>>>> refs/remotes/origin/master
 	}
 }
