@@ -34,6 +34,8 @@ public class GlideToAction extends TemporalAction {
 	private Formula endX, endY;
 	private Sprite sprite;
 	private Formula duration;
+	private float endXValue;
+	private float endYValue;
 
 	@Override
 	protected void begin() {
@@ -43,6 +45,8 @@ public class GlideToAction extends TemporalAction {
 
 		startX = actor.getX() + actor.getWidth() / 2f;
 		startY = actor.getY() + actor.getHeight() / 2f;
+		endXValue = endX.interpretFloat(sprite);
+		endYValue = endY.interpretFloat(sprite);
 		currentX = startX;
 		currentY = startY;
 		if (Float.compare(startX, endX.interpretFloat(sprite)) == 0
@@ -53,8 +57,6 @@ public class GlideToAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		float endXValue = endX.interpretFloat(sprite);
-		float endYValue = endY.interpretFloat(sprite);
 
 		float deltaX = actor.getX() + actor.getWidth() / 2f - currentX;
 		float deltaY = actor.getY() + actor.getHeight() / 2f - currentY;
