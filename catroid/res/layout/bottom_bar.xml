@@ -26,8 +26,8 @@
     android:id="@+id/bottom_bar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/actionbar_height"
-    android:background="@drawable/bottombar_background"
     android:layout_alignParentBottom="true"
+    android:background="@drawable/bottombar_background"
     android:orientation="horizontal" >
 
     <LinearLayout
