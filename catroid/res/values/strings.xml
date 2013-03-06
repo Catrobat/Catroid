@@ -241,15 +241,27 @@
     <string name="brick_change_x_by">Change X by:</string>
     <string name="brick_change_y_by">Change Y by:</string>
     <string name="brick_go_back">Go back</string>
-    <string name="brick_go_back_layers">layers</string>
+    <plurals name="brick_go_back_layer_plural">
+        <item quantity="one">layer</item>
+        <item quantity="other">layers</item>
+    </plurals>
     <string name="brick_come_to_front">Go to front</string>
     <string name="brick_if_on_edge_bounce">If on edge, bounce</string>
     <string name="brick_move">Move</string>
-    <string name="brick_move_n_steps">steps</string>
+    <plurals name="brick_move_n_step_plural">
+        <item quantity="one">step</item>
+        <item quantity="other">steps</item>
+    </plurals>
     <string name="brick_turn_left">Turn left</string>
-    <string name="brick_turn_left_degrees">degrees</string>
+    <plurals name="brick_turn_left_degree_plural">
+        <item quantity="one">degree</item>
+        <item quantity="other">degrees</item>
+    </plurals>
     <string name="brick_turn_right">Turn right</string>
-    <string name="brick_turn_right_degrees">degrees</string>
+    <plurals name="brick_turn_right_degree_plural">
+        <item quantity="one">degree</item>
+        <item quantity="other">degrees</item>
+    </plurals>
     <string name="brick_point_in_direction">Point in direction</string>
     <string name="brick_point_in_direction_choose_direction">Choose direction</string>
     <string name="brick_point_to">Point towards</string>
@@ -290,14 +302,20 @@
     <string name="brick_when_started">When project starts</string>
     <string name="brick_when">When</string>
     <string name="brick_wait">Wait</string>
-    <string name="seconds">seconds</string>
+    <plurals name="second_plural">
+        <item quantity="one">second</item>
+        <item quantity="other">seconds</item>
+    </plurals>
     <string name="brick_broadcast_receive">When I receive</string>
     <string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
     <string name="brick_note">Note</string>
     <string name="brick_forever">Forever</string>
     <string name="brick_repeat">Repeat</string>
-    <string name="times_label">times</string>
+    <plurals name="time_plural">
+        <item quantity="one">time</item>
+        <item quantity="other">times</item>
+    </plurals>
     <string name="brick_loop_end">End of loop</string>
     <!--  -->
 

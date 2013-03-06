@@ -27,6 +27,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
 import android.text.InputType;
@@ -92,6 +93,10 @@ public class GlideToBrick implements Brick, OnClickListener {
 		EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_duration);
 		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
 
+		TextView times = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(durationInMilliSeconds / 1000.0)));
+
 		textDuration.setVisibility(View.GONE);
 		editDuration.setVisibility(View.VISIBLE);
 		textX.setVisibility(View.GONE);
@@ -106,7 +111,11 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_glide_to, null);
+		View view = View.inflate(context, R.layout.brick_glide_to, null);
+		TextView times = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(durationInMilliSeconds / 1000.0)));
+		return view;
 	}
 
 	@Override
