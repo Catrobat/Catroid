@@ -53,6 +53,12 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 		return false;
 	}
 
+	@Override
+	public void restart() {
+		executedCount = 0;
+		super.restart();
+	}
+
 	public void setRepeatCount(Formula repeatCount) {
 		this.repeatCount = repeatCount;
 	}

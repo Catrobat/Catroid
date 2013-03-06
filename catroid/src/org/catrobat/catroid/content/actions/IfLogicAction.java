@@ -34,21 +34,33 @@ public class IfLogicAction extends Action {
 	private Action elseAction;
 	private Formula ifCondition;
 	private boolean ifConditionValue;
+	private boolean isInitialized = false;
 
 	protected void begin() {
 		ifConditionValue = ifCondition.interpretBoolean(sprite);
 	}
 
-	protected void update(float percent) {
-		if (ifConditionValue) {
-			if (ifAction.act(percent)) {
-				finish();
-			}
-		} else {
-			if (elseAction.act(percent)) {
-				finish();
-			}
+	@Override
+	public boolean act(float delta) {
+		if (!isInitialized) {
+			begin();
+			isInitialized = true;
 		}
+
+		if (ifConditionValue) {
+			return ifAction.act(delta);
+		} else {
+			return elseAction.act(delta);
+		}
+
+	}
+
+	@Override
+	public void restart() {
+		ifAction.restart();
+		elseAction.restart();
+		isInitialized = false;
+		super.restart();
 	}
 
 	public Sprite getSprite() {
@@ -71,9 +83,4 @@ public class IfLogicAction extends Action {
 		this.ifCondition = ifCondition;
 	}
 
-	@Override
-	public boolean act(float delta) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }
