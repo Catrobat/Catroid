@@ -79,6 +79,13 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 				@Override
 				public void onClick(View v) {
 					checked = !checked;
+
+					if (!checked) {
+						for (Brick currentBrick : adapter.getCheckedBricks()) {
+							currentBrick.setCheckedBoolean(false);
+						}
+					}
+
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
