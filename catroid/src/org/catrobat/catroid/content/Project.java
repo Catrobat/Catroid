@@ -104,7 +104,7 @@ public class Project implements Serializable {
 
 		applicationName = context.getString(R.string.app_name);
 		Sprite background = new Sprite(context.getString(R.string.background));
-		background.look.zPosition = Integer.MIN_VALUE;
+		background.look.setZIndex(0);
 		addSprite(background);
 	}
 

@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -33,6 +34,8 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ChangeGhostEffectByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -60,12 +63,6 @@ public class ChangeGhostEffectByNBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		float changeGhostEffectValue = changeGhostEffect.interpretFloat(sprite) / -100.0F;
-		sprite.look.changeAlphaValueBy(changeGhostEffectValue);
 	}
 
 	@Override
@@ -103,5 +100,12 @@ public class ChangeGhostEffectByNBrick implements Brick, OnClickListener {
 	@Override
 	public void onClick(View view) {
 		FormulaEditorFragment.showFragment(view, this, changeGhostEffect);
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+
+		sequence.addAction(ExtendedActions.changeGhostEffectByN(sprite, changeGhostEffect));
+		return null;
 	}
 }

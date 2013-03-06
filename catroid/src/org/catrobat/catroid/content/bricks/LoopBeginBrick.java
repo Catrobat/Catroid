@@ -27,7 +27,6 @@ import java.util.List;
 
 import org.catrobat.catroid.content.Sprite;
 
-
 public abstract class LoopBeginBrick extends NestingBrick {
 	private static final long serialVersionUID = 1L;
 	protected Sprite sprite;
@@ -36,8 +35,6 @@ public abstract class LoopBeginBrick extends NestingBrick {
 
 	protected LoopBeginBrick() {
 	}
-
-	public abstract void execute();
 
 	protected void setFirstStartTime() {
 		beginLoopTime = System.nanoTime();
@@ -51,6 +48,7 @@ public abstract class LoopBeginBrick extends NestingBrick {
 		this.beginLoopTime = beginLoopTime;
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}

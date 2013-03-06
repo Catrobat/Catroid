@@ -31,6 +31,11 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+<<<<<<< HEAD
+=======
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+>>>>>>> refs/remotes/origin/master
 
 public class WhenBrick extends ScriptBrick {
 	protected WhenScript whenScript;
@@ -51,10 +56,6 @@ public class WhenBrick extends ScriptBrick {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
 	}
 
 	@Override
@@ -130,8 +131,13 @@ public class WhenBrick extends ScriptBrick {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void onClick(View view) {
 
+=======
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		return null;
+>>>>>>> refs/remotes/origin/master
 	}
 
 }

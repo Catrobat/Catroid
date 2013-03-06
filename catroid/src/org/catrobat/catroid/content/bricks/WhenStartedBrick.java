@@ -31,6 +31,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class WhenStartedBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
@@ -51,10 +53,6 @@ public class WhenStartedBrick extends ScriptBrick {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
 	}
 
 	@Override
@@ -91,7 +89,12 @@ public class WhenStartedBrick extends ScriptBrick {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void onClick(View view) {
 
+=======
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		return null;
+>>>>>>> refs/remotes/origin/master
 	}
 }

@@ -31,33 +31,39 @@ import org.catrobat.catroid.content.Sprite;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+
 public class LookTest extends InstrumentationTestCase {
 	private Look look;
 	private Sprite sprite;
+	private Group parentGroup;
 	private Project project;
 
 	@Override
 	protected void setUp() {
+		parentGroup = new Group();
 		sprite = new Sprite("test");
+		parentGroup.addActor(sprite.look);
 		look = sprite.look;
 	}
 
 	public void testConstructor() {
-		assertEquals("Wrong initialization!", 0f, look.x);
-		assertEquals("Wrong initialization!", 0f, look.y);
-		assertEquals("Wrong initialization!", 0f, look.height);
-		assertEquals("Wrong initialization!", 0f, look.width);
-		assertEquals("Wrong initialization!", 0f, look.originX);
-		assertEquals("Wrong initialization!", 0f, look.originY);
-		assertEquals("Wrong initialization!", 0f, look.rotation);
-		assertEquals("Wrong initialization!", 1f, look.scaleX);
-		assertEquals("Wrong initialization!", 1f, look.scaleY);
+		assertEquals("Wrong initialization!", 0f, look.getX());
+		assertEquals("Wrong initialization!", 0f, look.getY());
+		assertEquals("Wrong initialization!", 0f, look.getHeight());
+		assertEquals("Wrong initialization!", 0f, look.getWidth());
+		assertEquals("Wrong initialization!", 0f, look.getOriginX());
+		assertEquals("Wrong initialization!", 0f, look.getOriginY());
+		assertEquals("Wrong initialization!", 0f, look.getRotation());
+		assertEquals("Wrong initialization!", 1f, look.getScaleX());
+		assertEquals("Wrong initialization!", 1f, look.getScaleY());
 		assertEquals("Wrong initialization!", 1f, look.getAlphaValue());
 		assertEquals("Wrong initialization!", 1f, look.getBrightnessValue());
 		assertEquals("Wrong initialization!", 1f, look.getSize());
-		assertEquals("Wrong initialization!", 0, look.zPosition);
+		assertEquals("Wrong initialization!", 0, look.getZIndex());
 		assertEquals("Wrong initialization!", true, look.show);
-		assertEquals("Wrong initialization!", true, look.touchable);
+		assertEquals("Wrong initialization!", Touchable.enabled, look.getTouchable());
 		assertEquals("Wrong initialization!", "", look.getImagePath());
 
 	}
@@ -67,8 +73,8 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals("Wrong x position!", 50f, look.getXPosition());
 		look.setYPosition(120f);
 		assertEquals("Wrong y position!", 120f, look.getYPosition());
-		look.width = 120f;
-		look.height = 200f;
+		look.setWidth(120f);
+		look.setHeight(200f);
 		look.setXPosition(66f);
 		assertEquals("Wrong x position!", 66f, look.getXPosition());
 		look.setYPosition(42f);
@@ -87,8 +93,8 @@ public class LookTest extends InstrumentationTestCase {
 		LookData lookData = new LookData();
 		lookData.setLookFilename(fileName);
 		look.setLookData(lookData);
-		assertEquals("Wrong image path!", Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.IMAGE_DIRECTORY + "/"
-				+ fileName, look.getImagePath());
+		assertEquals("Wrong image path!", Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.IMAGE_DIRECTORY
+				+ "/" + fileName, look.getImagePath());
 	}
 
 	public void testSize() {

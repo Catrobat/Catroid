@@ -23,11 +23,25 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
+<<<<<<< HEAD
 import org.catrobat.catroid.LegoNXT.LegoNXT;
+=======
+>>>>>>> refs/remotes/origin/master
 import org.catrobat.catroid.content.Sprite;
+<<<<<<< HEAD
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+=======
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.ui.ScriptActivity;
+>>>>>>> refs/remotes/origin/master
 
+<<<<<<< HEAD
+=======
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+>>>>>>> refs/remotes/origin/master
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +52,11 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+<<<<<<< HEAD
+=======
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+>>>>>>> refs/remotes/origin/master
 
 public class LegoNxtMotorTurnAngleBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -49,8 +68,12 @@ public class LegoNxtMotorTurnAngleBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 	private String motor;
 	private transient Motor motorEnum;
+<<<<<<< HEAD
 	private Formula degrees;
 	private static final int NO_DELAY = 0;
+=======
+	private int degrees;
+>>>>>>> refs/remotes/origin/master
 
 	private transient EditText editSpeed;
 
@@ -80,6 +103,7 @@ public class LegoNxtMotorTurnAngleBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
+<<<<<<< HEAD
 	}
 
 	@Override
@@ -98,6 +122,8 @@ public class LegoNxtMotorTurnAngleBrick implements Brick, OnClickListener {
 			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), direction * 30, temp_angle);
 		}
 
+=======
+>>>>>>> refs/remotes/origin/master
 	}
 
 	@Override
@@ -156,8 +182,96 @@ public class LegoNxtMotorTurnAngleBrick implements Brick, OnClickListener {
 		return brickView;
 	}
 
+<<<<<<< HEAD
 	@Override
 	public void onClick(View view) {
 		FormulaEditorFragment.showFragment(view, this, degrees);
+=======
+	@SuppressLint("ValidFragment")
+	private class EditNxtMotorTurnAngleBrickDialog extends DialogFragment {
+
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			setRetainInstance(true);
+		}
+
+		@Override
+		public void onDestroyView() {
+			if (getDialog() != null && getRetainInstance()) {
+				getDialog().setOnDismissListener(null);
+			}
+			super.onDestroyView();
+		}
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			final EditText input = new EditText(getActivity());
+			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+			//final EditIntegerDialog test = new EditIntegerDialog(context, input, angle, false);
+			input.setText(degrees + "");
+
+			Dialog dialog = new AlertDialog.Builder(getActivity()).setView(input).setTitle("Choose and edit direction")
+					.setSingleChoiceItems(R.array.fancy_directions_chooser, -1, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int item) {
+
+							switch (item) {
+								case 0:
+									input.setText("45");
+									break;
+								case 1:
+									input.setText("90");
+									break;
+								case 2:
+									input.setText("-45");
+									break;
+								case 3:
+									input.setText("-90");
+									break;
+								case 4:
+									input.setText("180");
+									break;
+								case 5:
+									input.setText("360");
+									break;
+							}
+
+							//Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+						}
+					}).setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							if (input.getText().toString().equals("")) {
+								input.setText("0");
+							}
+							editX.setText(input.getText().toString());
+							degrees = Integer.parseInt(input.getText().toString());
+						}
+					}).setNegativeButton(getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.cancel();
+						}
+					}).create();
+
+			dialog.setOnShowListener(new OnShowListener() {
+				@Override
+				public void onShow(DialogInterface dialog) {
+					InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
+							Context.INPUT_METHOD_SERVICE);
+					inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+				}
+			});
+
+			return dialog;
+		}
+>>>>>>> refs/remotes/origin/master
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.legoNxtMotorTurnAngle(motorEnum, degrees));
+		return null;
 	}
 }

@@ -22,29 +22,23 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.HashMap;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.stage.PreStageActivity;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class SpeakBrick implements Brick {
-	private static final String LOG_TAG = SpeakBrick.class.getSimpleName();
-	private static final long serialVersionUID = 1L;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-	private static HashMap<String, SpeakBrick> activeSpeakBricks = new HashMap<String, SpeakBrick>();
+public class SpeakBrick implements Brick {
+	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private String text = "";
 
@@ -56,45 +50,11 @@ public class SpeakBrick implements Brick {
 	}
 
 	public SpeakBrick() {
-
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return TEXT_TO_SPEECH;
-	}
-
-	@Override
-	public synchronized void execute() {
-
-		OnUtteranceCompletedListener listener = new OnUtteranceCompletedListener() {
-			@Override
-			public void onUtteranceCompleted(String utteranceId) {
-				SpeakBrick speakBrick = activeSpeakBricks.get(utteranceId);
-				if (speakBrick == null) {
-					return;
-				}
-				synchronized (speakBrick) {
-					speakBrick.notifyAll();
-				}
-			}
-		};
-
-		String utteranceId = this.hashCode() + "";
-		activeSpeakBricks.put(utteranceId, this);
-
-		HashMap<String, String> speakParameter = new HashMap<String, String>();
-		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceId);
-
-		long time = System.currentTimeMillis();
-		PreStageActivity.textToSpeech(getText(), listener, speakParameter);
-		try {
-			this.wait();
-		} catch (InterruptedException e) {
-			// nothing to do
-		}
-		Log.i(LOG_TAG, "speak Time: " + (System.currentTimeMillis() - time));
-		activeSpeakBricks.remove(utteranceId);
 	}
 
 	@Override
@@ -154,7 +114,13 @@ public class SpeakBrick implements Brick {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void onClick(View view) {
 
+=======
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.speak(text, this));
+		return null;
+>>>>>>> refs/remotes/origin/master
 	}
 }

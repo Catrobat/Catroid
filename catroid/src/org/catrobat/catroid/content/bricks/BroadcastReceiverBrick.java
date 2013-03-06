@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
@@ -29,7 +30,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
-import org.catrobat.catroid.R;
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +38,8 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class BroadcastReceiverBrick extends ScriptBrick {
 
@@ -59,10 +61,6 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
 	}
 
 	@Override
@@ -171,7 +169,8 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	}
 
 	@Override
-	public void onClick(View view) {
-
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
