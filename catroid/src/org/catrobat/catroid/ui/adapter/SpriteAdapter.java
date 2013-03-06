@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -49,7 +49,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 	private Context context;
 	private int selectMode;
 	private boolean showDetails;
-	private Set<Integer> checkedSprites = new HashSet<Integer>();
+	private Set<Integer> checkedSprites = new TreeSet<Integer>();
 	private OnSpriteCheckedListener onSpriteCheckedListener;
 
 	public SpriteAdapter(Context context, int resource, int textViewResourceId, List<Sprite> objects) {

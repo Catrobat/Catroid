@@ -27,6 +27,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
 import android.text.InputType;
@@ -73,6 +74,10 @@ public class WaitBrick implements Brick, OnClickListener {
 		EditText edit = (EditText) view.findViewById(R.id.brick_wait_edit_text);
 		edit.setText((timeToWaitInMilliSeconds / 1000.0) + "");
 
+		TextView times = (TextView) view.findViewById(R.id.brick_wait_second_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(timeToWaitInMilliSeconds / 1000.0)));
+
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
@@ -82,7 +87,11 @@ public class WaitBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_wait, null);
+		View view = View.inflate(context, R.layout.brick_wait, null);
+		TextView times = (TextView) view.findViewById(R.id.brick_wait_second_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(timeToWaitInMilliSeconds / 1000.0)));
+		return view;
 	}
 
 	@Override

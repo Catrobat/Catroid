@@ -50,8 +50,10 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private static final String TEST_SPRITE_NAME = "cat";
-	private static final String FIRST_TEST_SPRITE_NAME = "testSprite1";
-	private static final String SECOND_TEST_SPRITE_NAME = "testSprite2";
+	private static final String FIRST_TEST_SPRITE_NAME = "test1";
+	private static final String SECOND_TEST_SPRITE_NAME = "test2";
+	private static final String THIRD_TEST_SPRITE_NAME = "test3";
+	private static final String FOURTH_TEST_SPRITE_NAME = "test4";
 
 	private Solo solo;
 
@@ -81,6 +83,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		spriteList.add(new Sprite(FIRST_TEST_SPRITE_NAME));
 		spriteList.add(new Sprite(SECOND_TEST_SPRITE_NAME));
+		spriteList.add(new Sprite(THIRD_TEST_SPRITE_NAME));
+		spriteList.add(new Sprite(FOURTH_TEST_SPRITE_NAME));
 
 		solo = new Solo(getInstrumentation(), getActivity());
 
@@ -129,7 +133,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		spriteList = projectManager.getCurrentProject().getSpriteList();
 
-		spriteToCheckIndex = 3;
+		spriteToCheckIndex = 5;
 
 		Sprite spriteToCheck = spriteList.get(spriteToCheckIndex);
 		spriteToCheckName = spriteToCheck.getName();
@@ -645,6 +649,25 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		assertFalse("Sprite '" + deletedSpriteName + "' has been deleted but is still showing!",
 				solo.waitForText(deletedSpriteName, 0, 200, false, false));
+	}
+
+	public void testDeleteMultipleSprites() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+
+		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(2);
+		solo.clickOnCheckBox(3);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, 300));
+
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+
+		assertEquals("First sprite should be " + TEST_SPRITE_NAME, spriteList.get(0).getName(), TEST_SPRITE_NAME);
+		assertEquals("Second sprite should be " + FIRST_TEST_SPRITE_NAME, spriteList.get(1).getName(),
+				FIRST_TEST_SPRITE_NAME);
+
 	}
 
 	public void testRenameActionModeChecking() {
