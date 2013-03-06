@@ -973,7 +973,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			int counter = 1;
 			int from = 0;
 			int to = 0;
-			for (Brick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts(true)) {
+			for (Brick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts(false)) {
 				if (check) {
 					animatedBricks.add(currentBrick);
 					addElementToCheckedBricks(currentBrick);
