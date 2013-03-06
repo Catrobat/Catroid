@@ -23,19 +23,10 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-<<<<<<< HEAD
-import org.catrobat.catroid.LegoNXT.LegoNXT;
-=======
->>>>>>> refs/remotes/origin/master
 import org.catrobat.catroid.content.Sprite;
-<<<<<<< HEAD
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-=======
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
->>>>>>> refs/remotes/origin/master
 
 import android.content.Context;
 import android.view.View;
@@ -43,16 +34,11 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-<<<<<<< HEAD
-=======
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
->>>>>>> refs/remotes/origin/master
 
 public class LegoNxtPlayToneBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-
 
 	private Sprite sprite;
 
@@ -78,18 +64,6 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
-<<<<<<< HEAD
-	}
-
-	@Override
-	public void execute() {
-		int frequencyValue = frequency.interpretInteger(MIN_FREQ_IN_HERTZ, MAX_FREQ_IN_HERTZ, sprite);
-		int durationInMillisecondsValue = (int) durationInSeconds.interpretFloat(MIN_DURATION, MAX_DURATION, sprite) * 1000;
-
-		LegoNXT.sendBTCPlayToneMessage(frequencyValue, durationInMillisecondsValue);
-
-=======
->>>>>>> refs/remotes/origin/master
 	}
 
 	@Override
@@ -156,93 +130,9 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener {
 
 	}
 
-<<<<<<< HEAD
-=======
-	@Override
-	public void onStartTrackingTouch(SeekBar freqBar) {
-
-	}
-
-	@Override
-	public void onStopTrackingTouch(SeekBar freqBar) {
-
-	}
-
-	private void seekbarValToFreq() {
-		hertz = freqBar.getProgress() * 100;
-
-		if (hertz < 200) {
-			hertz = 200;
-			freqBar.setProgress(2);
-		}
-
-		editFreq.setText(String.valueOf(hertz / 100));
-	}
-
-	private void freqToSeekBarVal() {
-		if (hertz < 200) {
-			hertz = 200;
-			freqBar.setProgress(2);
-		}
-		freqBar.setProgress(hertz / 100);
-	}
-
-	@Override
-	public void onClick(final View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				if (view.getId() == R.id.nxt_tone_duration_edit_text) {
-					input.setText(String.valueOf(durationInMilliSeconds / 1000.0));
-					input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-				} else if (view.getId() == R.id.nxt_tone_freq_edit_text) {
-					input.setText(String.valueOf(hertz / 100));
-					input.setInputType(InputType.TYPE_CLASS_NUMBER);
-				}
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					if (view.getId() == R.id.nxt_tone_duration_edit_text) {
-
-						int newDuration = (int) (Double.parseDouble(input.getText().toString()) * 1000);
-						if (newDuration > MAX_DURATION) {
-							newDuration = MAX_DURATION;
-							Toast.makeText(getActivity(), R.string.number_to_big, Toast.LENGTH_SHORT).show();
-						} else if (newDuration < MIN_DURATION) {
-							newDuration = MIN_DURATION;
-							Toast.makeText(getActivity(), R.string.number_to_small, Toast.LENGTH_SHORT).show();
-						}
-						durationInMilliSeconds = newDuration;
-					} else if (view.getId() == R.id.nxt_tone_freq_edit_text) {
-						int newFrequency = Integer.parseInt(input.getText().toString()) * 100;
-						if (newFrequency > MAX_FREQ_IN_HERTZ) {
-							newFrequency = MAX_FREQ_IN_HERTZ;
-							Toast.makeText(getActivity(), R.string.number_to_big, Toast.LENGTH_SHORT).show();
-						} else if (newFrequency < MIN_FREQ_IN_HERTZ) {
-							newFrequency = MIN_FREQ_IN_HERTZ;
-							Toast.makeText(getActivity(), R.string.number_to_small, Toast.LENGTH_SHORT).show();
-						}
-						hertz = newFrequency;
-					}
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_nxt_play_tone_brick");
-	}
-
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.legoNxtPlayTone(sprite,frequency, durationInSeconds));
+		sequence.addAction(ExtendedActions.legoNxtPlayTone(sprite, frequency, durationInSeconds));
 		return null;
 	}
 }

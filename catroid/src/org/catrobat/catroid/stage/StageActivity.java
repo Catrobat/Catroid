@@ -52,7 +52,6 @@ public class StageActivity extends AndroidApplication {
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 		initialize(stageListener, true);
-		SensorHandler.startSensorListener(this);
 	}
 
 	@Override
@@ -62,7 +61,6 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	public void manageLoadAndFinish() {
-		SensorHandler.stopSensorListeners();
 		finish();
 		stageListener.pause();
 		stageListener.finish();

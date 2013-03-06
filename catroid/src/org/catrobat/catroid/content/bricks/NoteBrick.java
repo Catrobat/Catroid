@@ -145,12 +145,7 @@ public class NoteBrick implements Brick {
 	}
 
 	@Override
-<<<<<<< HEAD
-	public void onClick(View view) {
-
-=======
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		return null;
->>>>>>> refs/remotes/origin/master
 	}
 }

@@ -231,6 +231,7 @@ public class StageListener implements ApplicationListener {
 	public void finish() {
 		finished = true;
 		SoundManager.getInstance().clear();
+
 	}
 
 	@Override
