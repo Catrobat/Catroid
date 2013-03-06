@@ -70,4 +70,8 @@ public class IfLogicAction extends TemporalAction {
 	public void setElseAction(Action elseAction) {
 		this.elseAction = elseAction;
 	}
+
+	public void setIfCondition(Formula ifCondition) {
+		this.ifCondition = ifCondition;
+	}
 }

@@ -32,7 +32,7 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
 
 public class NextLookBrick implements Brick {
 
@@ -90,7 +90,7 @@ public class NextLookBrick implements Brick {
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.nextLook(sprite));
 		return null;
 	}

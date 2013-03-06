@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
@@ -40,7 +42,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
 
 public class BroadcastWaitBrick implements Brick {
 
@@ -180,7 +182,7 @@ public class BroadcastWaitBrick implements Brick {
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.broadcastFromWaiter(sprite, broadcastMessage));
 		return null;
 	}

@@ -333,6 +333,7 @@ public class ExtendedActions extends Actions {
 	static public IfLogicAction ifLogc(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
 		IfLogicAction action = action(IfLogicAction.class);
 		action.setIfAction(ifAction);
+		action.setIfCondition(condition);
 		action.setElseAction(elseAction);
 		action.setSprite(sprite);
 		return action;

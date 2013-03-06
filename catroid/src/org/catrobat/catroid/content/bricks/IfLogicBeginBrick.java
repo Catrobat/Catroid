@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
@@ -177,12 +178,17 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		SequenceAction ifAction = ExtendedActions.sequence();
 		SequenceAction elseAction = ExtendedActions.sequence();
 		Action action = ExtendedActions.ifLogc(sprite, ifCondition, ifAction, elseAction); //TODO finish!!!
 		sequence.addAction(action);
-		return ifAction;//TODO finish!!!
+
+		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
+		returnActionList.add(elseAction);
+		returnActionList.add(ifAction);
+
+		return returnActionList;
 	}
 
 }

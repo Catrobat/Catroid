@@ -35,7 +35,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
 
 public class TurnRightBrick implements Brick, OnClickListener {
 
@@ -103,7 +103,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.turnRight(sprite, degrees));
 		return null;
 	}

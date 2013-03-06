@@ -32,7 +32,7 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
 
 public class WhenBrick extends ScriptBrick {
 	protected WhenScript whenScript;
@@ -128,7 +128,7 @@ public class WhenBrick extends ScriptBrick {
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		return null;
 
 	}

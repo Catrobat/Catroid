@@ -51,7 +51,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
 
 public class PointInDirectionBrick implements Brick, View.OnClickListener {
 
@@ -293,7 +293,7 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.pointInDirection(sprite, (float) degrees));
 		return null;
 	}

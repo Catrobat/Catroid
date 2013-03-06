@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
@@ -133,8 +134,10 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		return sequence;
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
+		returnActionList.add(sequence);
+		return returnActionList;
 	}
 
 }
