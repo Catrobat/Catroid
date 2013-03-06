@@ -292,11 +292,11 @@ public class FormulaElement implements Serializable {
 			case LOOK_GHOSTEFFECT_:
 				return (double) sprite.look.getAlphaValue();
 			case LOOK_LAYER_:
-				return (double) sprite.look.zPosition;
+				return (double) sprite.look.getZIndex();
 			case LOOK_ROTATION_:
-				return (double) sprite.look.rotation;
+				return (double) sprite.look.getRotation();
 			case LOOK_SIZE_:
-				return (double) sprite.look.scaleX;
+				return (double) sprite.look.getScaleX();
 			case LOOK_X_:
 				return (double) sprite.look.getXPosition();
 			case LOOK_Y_:
