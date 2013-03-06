@@ -22,21 +22,26 @@
  */
 package org.catrobat.catroid.content;
 
-import java.util.concurrent.Semaphore;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 
 public class Look extends Image {
-	protected Semaphore xYWidthHeightLock = new Semaphore(1);
-	protected Semaphore imageLock = new Semaphore(1);
-	protected Semaphore scaleLock = new Semaphore(1);
-	protected Semaphore alphaValueLock = new Semaphore(1);
-	protected Semaphore brightnessLock = new Semaphore(1);
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
@@ -44,113 +49,157 @@ public class Look extends Image {
 	protected float alphaValue;
 	protected float brightnessValue;
 	public boolean show;
-	public int zPosition;
 	protected Pixmap pixmap;
+	private HashMap<String, ArrayList<SequenceAction>> broadcastSequenceMap;
+	private HashMap<String, ArrayList<SequenceAction>> broadcastWaitSequenceMap;
+	private ArrayList<SequenceAction> whenSequenceList;
+	private boolean allActionAreFinished = false;
 
 	public Look(Sprite sprite) {
 		this.sprite = sprite;
-		this.x = 0f;
-		this.y = 0f;
-		this.originX = 0f;
-		this.originY = 0f;
+		setBounds(0f, 0f, 0f, 0f);
+		setOrigin(0f, 0f);
+		setScale(1f, 1f);
+		setRotation(0f);
+		setTouchable(Touchable.enabled);
 		this.alphaValue = 1f;
 		this.brightnessValue = 1f;
-		this.scaleX = 1f;
-		this.scaleY = 1f;
-		this.rotation = 0f;
-		this.width = 0f;
-		this.height = 0f;
-		this.touchable = true;
 		this.show = true;
-		this.zPosition = 0;
+		this.whenSequenceList = new ArrayList<SequenceAction>();
+		this.broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
+		this.broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
+		this.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				return doTouchDown(x, y, pointer);
+			}
+		});
+		this.addListener(new BroadcastListener() {
+			@Override
+			public void handleBroadcastEvent(BroadcastEvent event, String broadcastMessage) {
+				doHandleBroadcastEvent(broadcastMessage);
+			}
+
+			@Override
+			public void handleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
+				doHandleBroadcastFromWaiterEvent(event, broadcastMessage);
+			}
+		});
 	}
 
-	@Override
-	public boolean touchDown(float x, float y, int pointer) {
+	public boolean doTouchDown(float x, float y, int pointer) {
 		if (sprite.isPaused) {
 			return true;
 		}
 		if (!show) {
 			return false;
 		}
-		xYWidthHeightLock.acquireUninterruptibly();
-		float width = this.width;
-		float height = this.height;
-		xYWidthHeightLock.release();
 
 		// We use Y-down, libgdx Y-up. This is the fix for accurate y-axis detection
-		y = height - y;
+		y = getHeight() - y;
 
-		if (x >= 0 && x <= width && y >= 0 && y <= height) {
+		if (x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight()) {
 			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
-				sprite.startWhenScripts("Tapped");
+				if (whenSequenceList.isEmpty()) {
+					sprite.createWhenScriptActionSequence("Tapped");
+				}
+				for (SequenceAction action : whenSequenceList) {
+					action.restart();
+				}
 				return true;
 			}
 		}
 		return false;
 	}
 
-	@Override
-	public void touchUp(float x, float y, int pointer) {
-
+	public void doHandleBroadcastEvent(String broadcastMessage) {
+		if (broadcastSequenceMap.containsKey(broadcastMessage)) {
+			for (SequenceAction action : broadcastSequenceMap.get(broadcastMessage)) {
+				if (action.getActor() == null) {
+					addAction(action);
+				} else {
+					action.restart();
+				}
+			}
+		}
 	}
 
-	@Override
-	public void touchDragged(float x, float y, int pointer) {
-
+	public void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
+		if (broadcastSequenceMap.containsKey(broadcastMessage)) {
+			if (!broadcastWaitSequenceMap.containsKey(broadcastMessage)) {
+				ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
+				for (SequenceAction broadcastAction : broadcastSequenceMap.get(broadcastMessage)) {
+					SequenceAction broadcastWaitAction = ExtendedActions.sequence(broadcastAction,
+							ExtendedActions.broadcastNotify(event));
+					actionList.add(broadcastWaitAction);
+					addAction(broadcastWaitAction);
+				}
+				broadcastWaitSequenceMap.put(broadcastMessage, actionList);
+			}
+			ArrayList<SequenceAction> actionList = broadcastWaitSequenceMap.get(broadcastMessage);
+			for (SequenceAction action : actionList) {
+				Array<Action> actions = action.getActions();
+				BroadcastNotifyAction notifyAction = (BroadcastNotifyAction) actions.get(actions.size - 1);
+				notifyAction.setEvent(event);
+				action.restart();
+			}
+		}
 	}
 
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		checkImageChanged();
-		if (this.show && this.getRegion() != null) {
+		if (this.show && this.getDrawable() != null) {
 			super.draw(batch, this.alphaValue);
 		}
 	}
 
+	@Override
+	public void act(float delta) {
+		Array<Action> actions = getActions();
+		allActionAreFinished = false;
+		int finishedCount = 0;
+		for (int i = 0, n = actions.size; i < n; i++) {
+			Action action = actions.get(i);
+			if (action.act(delta)) {
+				finishedCount++;
+			}
+		}
+		if (finishedCount == actions.size) {
+			allActionAreFinished = true;
+		}
+	}
+
 	protected void checkImageChanged() {
-		imageLock.acquireUninterruptibly();
 		if (imageChanged) {
 			if (lookData == null) {
-				xYWidthHeightLock.acquireUninterruptibly();
-				this.x += this.width / 2f;
-				this.y += this.height / 2f;
-				this.width = 0f;
-				this.height = 0f;
-				xYWidthHeightLock.release();
-				this.setRegion(null);
+				setBounds(getX() + getWidth() / 2f, getY() + getHeight() / 2f, 0f, 0f);
+				setDrawable(null);
 				imageChanged = false;
-				imageLock.release();
 				return;
 			}
 
 			pixmap = lookData.getPixmap();
+			setX(getX() + getWidth() / 2f);
+			setY(getY() + getHeight() / 2f);
+			setWidth(pixmap.getWidth());
+			setHeight(pixmap.getHeight());
+			setX(getX() - getWidth() / 2f);
+			setY(getY() - getHeight() / 2f);
+			setOrigin(getWidth() / 2f, getHeight() / 2f);
 
-			xYWidthHeightLock.acquireUninterruptibly();
-			this.x += this.width / 2f;
-			this.y += this.height / 2f;
-			this.width = pixmap.getWidth();
-			this.height = pixmap.getHeight();
-			this.x -= this.width / 2f;
-			this.y -= this.height / 2f;
-			this.originX = this.width / 2f;
-			this.originY = this.height / 2f;
-			xYWidthHeightLock.release();
-
-			brightnessLock.acquireUninterruptibly();
 			if (brightnessChanged) {
 				lookData.setPixmap(adjustBrightness(lookData.getOriginalPixmap()));
 				lookData.setTextureRegion();
 				brightnessChanged = false;
 			}
-			brightnessLock.release();
 
 			TextureRegion region = lookData.getTextureRegion();
-			setRegion(region);
+			TextureRegionDrawable drawable = new TextureRegionDrawable(region);
+			setDrawable(drawable);
 
 			imageChanged = false;
 		}
-		imageLock.release();
 	}
 
 	protected Pixmap adjustBrightness(Pixmap currentPixmap) {
@@ -187,83 +236,55 @@ public class Look extends Image {
 	}
 
 	public void refreshTextures() {
-		imageLock.acquireUninterruptibly();
 		this.imageChanged = true;
-		imageLock.release();
-	}
-
-	// Always use this method for the following methods
-	public void aquireXYWidthHeightLock() {
-		xYWidthHeightLock.acquireUninterruptibly();
 	}
 
 	public void setXPosition(float x) {
-		this.x = x - (this.width / 2f);
+		setX(x - getWidth() / 2f);
 	}
 
 	public void setYPosition(float y) {
-		this.y = y - (this.height / 2f);
+		setY(y - getHeight() / 2f);
 	}
 
 	public void setXYPosition(float x, float y) {
-		this.x = x - (this.width / 2f);
-		this.y = y - (this.height / 2f);
+		setX(x - getWidth() / 2f);
+		setY(y - getHeight() / 2f);
 	}
 
 	public float getXPosition() {
-		float xPosition = this.x;
-		xPosition += this.width / 2f;
+		float xPosition = getX();
+		xPosition += getWidth() / 2f;
 		return xPosition;
 	}
 
 	public float getYPosition() {
-		float yPosition = this.y;
-		yPosition += this.height / 2f;
+		float yPosition = getY();
+		yPosition += getHeight() / 2f;
 		return yPosition;
 	}
 
-	public float getWidth() {
-		return this.width;
-	}
-
-	public float getHeight() {
-		return this.height;
-	}
-
-	public void releaseXYWidthHeightLock() {
-		xYWidthHeightLock.release();
-	}
-
 	public void setLookData(LookData lookData) {
-		imageLock.acquireUninterruptibly();
 		this.lookData = lookData;
 		imageChanged = true;
-		imageLock.release();
 	}
 
 	public String getImagePath() {
-		imageLock.acquireUninterruptibly();
 		String path;
 		if (this.lookData == null) {
 			path = "";
 		} else {
 			path = this.lookData.getAbsolutePath();
 		}
-		imageLock.release();
 		return path;
 	}
 
 	public void setSize(float size) {
-		scaleLock.acquireUninterruptibly();
-		this.scaleX = size;
-		this.scaleY = size;
-		scaleLock.release();
+		setScale(size, size);
 	}
 
 	public float getSize() {
-		scaleLock.acquireUninterruptibly();
-		float size = (this.scaleX + this.scaleY) / 2f;
-		scaleLock.release();
+		float size = (getScaleX() + getScaleY()) / 2f;
 		return size;
 	}
 
@@ -273,13 +294,10 @@ public class Look extends Image {
 		} else if (alphaValue > 1f) {
 			alphaValue = 1f;
 		}
-		alphaValueLock.acquireUninterruptibly();
 		this.alphaValue = alphaValue;
-		alphaValueLock.release();
 	}
 
 	public void changeAlphaValueBy(float value) {
-		alphaValueLock.acquireUninterruptibly();
 		float newAlphaValue = this.alphaValue + value;
 		if (newAlphaValue < 0f) {
 			this.alphaValue = 0f;
@@ -288,13 +306,9 @@ public class Look extends Image {
 		} else {
 			this.alphaValue = newAlphaValue;
 		}
-		alphaValueLock.release();
 	}
 
 	public float getAlphaValue() {
-		alphaValueLock.acquireUninterruptibly();
-		float alphaValue = this.alphaValue;
-		alphaValueLock.release();
 		return alphaValue;
 	}
 
@@ -302,37 +316,43 @@ public class Look extends Image {
 		if (percent < 0f) {
 			percent = 0f;
 		}
-		brightnessLock.acquireUninterruptibly();
 		brightnessValue = percent;
-		brightnessLock.release();
-		imageLock.acquireUninterruptibly();
 		brightnessChanged = true;
 		imageChanged = true;
-		imageLock.release();
 	}
 
 	public void changeBrightnessValueBy(float percent) {
-		brightnessLock.acquireUninterruptibly();
 		brightnessValue += percent;
 		if (brightnessValue < 0f) {
 			brightnessValue = 0f;
 		}
-		brightnessLock.release();
-		imageLock.acquireUninterruptibly();
 		brightnessChanged = true;
 		imageChanged = true;
-		imageLock.release();
 	}
 
 	public float getBrightnessValue() {
-		brightnessLock.acquireUninterruptibly();
-		float brightness = brightnessValue;
-		brightnessLock.release();
-		return brightness;
+		return brightnessValue;
 	}
 
 	public LookData getLookData() {
 		return lookData;
 	}
 
+	public boolean getAllActionsAreFinished() {
+		return allActionAreFinished;
+	}
+
+	public void putBroadcastSequenceAction(String broadcastMessage, SequenceAction action) {
+		if (broadcastSequenceMap.containsKey(broadcastMessage)) {
+			broadcastSequenceMap.get(broadcastMessage).add(action);
+		} else {
+			ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
+			actionList.add(action);
+			broadcastSequenceMap.put(broadcastMessage, actionList);
+		}
+	}
+
+	public void addWhenSequenceAction(SequenceAction action) {
+		whenSequenceList.add(action);
+	}
 }
