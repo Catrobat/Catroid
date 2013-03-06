@@ -30,10 +30,16 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 	private int executedCount;
 	private Formula repeatCount;
 	private Sprite sprite;
+	private boolean isCurrentLoopInitialized = false;
+	private int repeatCountValue;
 
 	@Override
 	public boolean act(float delta) {
-		int repeatCountValue = repeatCount.interpretInteger(sprite);
+		if (!isCurrentLoopInitialized) {
+			isCurrentLoopInitialized = true;
+			repeatCountValue = repeatCount.interpretInteger(sprite);
+		}
+
 		if (repeatCountValue < 0) {
 			repeatCountValue = 0;
 		}
@@ -45,6 +51,7 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 			if (executedCount >= repeatCountValue) {
 				return true;
 			}
+			isCurrentLoopInitialized = false;
 			if (action != null) {
 				action.restart();
 
@@ -55,6 +62,7 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 
 	@Override
 	public void restart() {
+		isCurrentLoopInitialized = false;
 		executedCount = 0;
 		super.restart();
 	}
