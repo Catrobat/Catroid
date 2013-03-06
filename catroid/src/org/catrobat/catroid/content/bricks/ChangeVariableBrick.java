@@ -75,6 +75,7 @@ public class ChangeVariableBrick implements Brick, OnClickListener {
 	@Override
 	public Sprite getSprite() {
 		return sprite;
+
 	}
 
 	@Override
