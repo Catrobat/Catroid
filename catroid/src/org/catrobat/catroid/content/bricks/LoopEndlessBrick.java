@@ -37,6 +37,7 @@ import android.widget.LinearLayout;
 public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
+	private transient boolean isPuzzleView = false;
 
 	public LoopEndlessBrick() {
 
@@ -48,7 +49,7 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (view == null) {
+		if (view == null || !isPuzzleView) {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.brick_loop_endless, null);
 			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_checkbox);
@@ -71,7 +72,7 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 	public View getViewWithAlpha(int alphaValue) {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_loop_endless_layout);
 		if (layout == null) {
-			layout = (LinearLayout) view.findViewById(R.id.brick_loop_endless_no_puzzle_checkbox);
+			layout = (LinearLayout) view.findViewById(R.id.brick_loop_endless_checkbox);
 		}
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
@@ -85,8 +86,23 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 	}
 
 	@Override
-	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_loop_endless_no_puzzle, null);
+	public View getNoPuzzleView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (view == null || !isPuzzleView) {
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			view = inflater.inflate(R.layout.brick_loop_endless_no_puzzle, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_no_puzzle_checkbox);
+
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
+		}
+		return view;
 	}
 }
