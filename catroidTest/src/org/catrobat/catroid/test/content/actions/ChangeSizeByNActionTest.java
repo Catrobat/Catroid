@@ -40,7 +40,9 @@ import android.test.InstrumentationTestCase;
 
 public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 
-	private Formula positiveSize = new Formula(20);
+	private static final int POSITIVE_SIZE = 20;
+
+	private Formula positiveSize = new Formula(POSITIVE_SIZE);
 	//	private float negativeSize = -30;
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
@@ -87,8 +89,8 @@ public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 		ChangeSizeByNAction action = ExtendedActions.changeSizeByN(sprite, positiveSize);
 		sprite.look.addAction(action);
 		action.act(1.0f);
-		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed",
-				initialSize + (positiveSize.interpretInteger(sprite) / 100), sprite.look.getSize());
+		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize + POSITIVE_SIZE
+				/ 100f, sprite.look.getSize());
 
 	}
 
