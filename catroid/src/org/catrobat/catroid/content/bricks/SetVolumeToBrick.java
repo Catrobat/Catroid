@@ -62,7 +62,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-		SoundManager.getInstance().setVolume(volume.interpretFloat(0.0f, 100.0f));
+		SoundManager.getInstance().setVolume(volume.interpretFloat(0.0f, 100.0f, sprite));
 	}
 
 	@Override

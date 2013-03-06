@@ -25,6 +25,7 @@ package org.catrobat.catroid.formulaeditor;
 import java.io.Serializable;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 
 import android.content.res.Configuration;
@@ -81,33 +82,21 @@ public class Formula implements Serializable {
 
 	}
 
-	//	public Formula(String value) {
-	//
-	//		try {
-	//			Double.parseDouble(value);
-	//			formulaTree = new FormulaElement(ElementType.NUMBER, value, null);
-	//		} catch (NumberFormatException nfe) {
-	//			formulaTree = new FormulaElement(ElementType.NUMBER, "0", null);
-	//		}
-	//		internFormula = new InternFormula(formulaTree.getInternTokenList());
-	//
-	//	}
-
-	public boolean interpretBoolean() {
-		int result = interpretInteger();
+	public boolean interpretBoolean(Sprite sprite) {
+		int result = interpretInteger(sprite);
 
 		return result != 0 ? true : false;
 
 	}
 
-	public int interpretInteger() {
-		return interpretInteger(1, 0);
+	public int interpretInteger(Sprite sprite) {
+		Double interpretedValue = formulaTree.interpretRecursive(sprite);
+		return interpretedValue.intValue();
 	}
 
-	public int interpretInteger(int minValue, int maxValue) {
-		Double interpretedValue = formulaTree.interpretRecursive();
+	public int interpretInteger(int minValue, int maxValue, Sprite sprite) {
 
-		int interpretedIntValue = interpretedValue.intValue();
+		int interpretedIntValue = interpretInteger(sprite);
 
 		if (minValue <= maxValue) {
 
@@ -119,14 +108,14 @@ public class Formula implements Serializable {
 
 	}
 
-	public float interpretFloat() {
-		return interpretFloat(1f, 0f);
+	public float interpretFloat(Sprite sprite) {
+		Double interpretedValue = formulaTree.interpretRecursive(sprite);
+		return interpretedValue.floatValue();
 	}
 
-	public float interpretFloat(float minValue, float maxValue) {
-		Double interpretedValue = formulaTree.interpretRecursive();
+	public float interpretFloat(float minValue, float maxValue, Sprite sprite) {
 
-		float interpretedFloatValue = interpretedValue.floatValue();
+		float interpretedFloatValue = interpretFloat(sprite);
 
 		if (minValue <= maxValue) {
 

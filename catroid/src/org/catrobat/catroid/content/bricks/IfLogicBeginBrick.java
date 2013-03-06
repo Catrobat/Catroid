@@ -65,7 +65,7 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 
 	@Override
 	public void execute() {
-		boolean condition = ifCondition.interpretBoolean();
+		boolean condition = ifCondition.interpretBoolean(sprite);
 		if (condition) {
 			ifElseBrick.skipToEndIfPositionOnElse(true);
 		} else {
@@ -107,7 +107,7 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	}
 
 	public boolean checkCondition() {
-		double evaluated = ifCondition.interpretInteger();
+		double evaluated = ifCondition.interpretInteger(sprite);
 		if (evaluated == 0) {
 			return false;
 		} else {

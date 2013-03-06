@@ -64,7 +64,7 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-		int yMovementValue = yMovement.interpretInteger();
+		int yMovementValue = yMovement.interpretInteger(sprite);
 
 		sprite.look.aquireXYWidthHeightLock();
 		int yPosition = (int) sprite.look.getYPosition();

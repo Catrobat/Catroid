@@ -84,9 +84,9 @@ public class GlideToBrick implements Brick, OnClickListener {
 		//			latch.await();
 		//		} catch (InterruptedException e) {
 		//		}
-		int durationInMilliSeconds = (int) (durationInSeconds.interpretFloat() * 1000f);
-		float xDestinationValue = xDestination.interpretFloat();
-		float yDestinationValue = yDestination.interpretFloat();
+		int durationInMilliSeconds = (int) (durationInSeconds.interpretFloat(sprite) * 1000f);
+		float xDestinationValue = xDestination.interpretFloat(sprite);
+		float yDestinationValue = yDestination.interpretFloat(sprite);
 
 		long startTime = System.currentTimeMillis();
 		while (durationInMilliSeconds > 0) {
@@ -146,7 +146,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 	}
 
 	public int getDurationInMilliSeconds() {
-		return durationInSeconds.interpretInteger();
+		return durationInSeconds.interpretInteger(sprite);
 	}
 
 	@Override

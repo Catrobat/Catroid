@@ -84,7 +84,7 @@ public class LegoNxtMotorTurnAngleBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-		int temp_angle = degrees.interpretInteger();
+		int temp_angle = degrees.interpretInteger(sprite);
 		int direction = 1;
 		if (temp_angle < 0) {
 			direction = -1;

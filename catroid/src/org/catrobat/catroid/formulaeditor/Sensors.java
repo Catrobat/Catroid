@@ -26,13 +26,21 @@ import java.util.EnumSet;
 
 public enum Sensors {
 	X_ACCELERATION_("X_ACCELERATION_"), Y_ACCELERATION_("Y_ACCELERATION_"), Z_ACCELERATION_("Z_ACCELERATION_"), Z_ORIENTATION_(
-			"Z_ORIENTATION_"), X_ORIENTATION_("X_ORIENTATION_"), Y_ORIENTATION_("Y_ORIENTATION_"), LOOK_X_("LOOK_X_"), LOOK_Y_(
-			"LOOK_Y_"), LOOK_GHOSTEFFECT_("LOOK_GHOSTEFFECT_"), LOOK_BRIGHTNESS_("LOOK_BRIGHTNESS_"), LOOK_SIZE_(
-			"LOOK_SIZE_"), LOOK_ROTATION_("LOOK_ROTATION_"), LOOK_LAYER_("LOOK_LAYER_");
+			"Z_ORIENTATION_"), X_ORIENTATION_("X_ORIENTATION_"), Y_ORIENTATION_("Y_ORIENTATION_"), LOOK_X_("LOOK_X_",
+			true), LOOK_Y_("LOOK_Y_", true), LOOK_GHOSTEFFECT_("LOOK_GHOSTEFFECT_", true), LOOK_BRIGHTNESS_(
+			"LOOK_BRIGHTNESS_", true), LOOK_SIZE_("LOOK_SIZE_", true), LOOK_ROTATION_("LOOK_ROTATION_", true), LOOK_LAYER_(
+			"LOOK_LAYER_", true);
 	public final String sensorName;
+	public final boolean isLookSensor;
+
+	Sensors(String value, boolean isLookSensor) {
+		this.sensorName = value;
+		this.isLookSensor = true;
+	}
 
 	Sensors(String value) {
 		this.sensorName = value;
+		this.isLookSensor = false;
 	}
 
 	public static boolean isSensor(String value) {
@@ -42,6 +50,15 @@ public enum Sensors {
 			}
 		}
 		return false;
+	}
+
+	public static Sensors getSensorByValue(String value) {
+		for (Sensors sensor : EnumSet.allOf(Sensors.class)) {
+			if (sensor.sensorName.equals(value)) {
+				return sensor;
+			}
+		}
+		return null;
 	}
 
 }

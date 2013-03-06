@@ -129,100 +129,74 @@ public class FormulaElement implements Serializable {
 		return root;
 	}
 
-	public Double interpretRecursive() {
+	public Double interpretRecursive(Sprite sprite) throws IllegalArgumentException {
 
 		Double returnValue = 0d;
 
-		if (type == ElementType.BRACKET) {
-			returnValue = rightChild.interpretRecursive();
+		switch (type) {
+			case BRACKET:
+				returnValue = rightChild.interpretRecursive(sprite);
+				break;
+			case NUMBER:
+				returnValue = Double.parseDouble(value);
+				break;
+			case OPERATOR:
+				Operators operator = Operators.getOperatorByValue(value);
+				returnValue = interpretOperator(operator, sprite);
+				break;
+			case FUNCTION:
+				Functions function = Functions.getFunctionByValue(value);
+				returnValue = interpretFunction(function, sprite);
+				break;
+			case SENSOR:
+				Sensors sensor = Sensors.getSensorByValue(value);
+				if (sensor.isLookSensor) {
+					returnValue = interpretLookSensor(sensor, sprite);
+				} else {
+					returnValue = SensorHandler.getSensorValue(value);
+				}
+				break;
+			case USER_VARIABLE:
+				UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject()
+						.getUserVariables();
+				UserVariable userVariable = userVariables.getUserVariable(value, sprite.getName());
+				if (userVariable == null) {
+					returnValue = 0d; //TODO handle case, when user-variable does not exist
+					break;
+				}
+				returnValue = userVariable.getValue();
+				break;
+
 		}
-		if (type == ElementType.NUMBER) {
-			returnValue = Double.parseDouble(value);
-		} else if (type == ElementType.OPERATOR) {
-			if (leftChild != null) {// binär operator
-				Double left = leftChild.interpretRecursive();
-				Double right = rightChild.interpretRecursive();
 
-				if (value.equals(Operators.PLUS.operatorName)) {
-					returnValue = left + right;
-				}
-				if (value.equals(Operators.MINUS.operatorName)) {
-					returnValue = left - right;
-				}
-				if (value.equals(Operators.MULT.operatorName)) {
-					returnValue = left * right;
-				}
-				if (value.equals(Operators.DIVIDE.operatorName)) {
+		returnValue = checkDegeneratedDoubleValues(returnValue);
 
-					returnValue = left / right;
-				}
-				if (value.equals(Operators.POW.operatorName)) {
-					returnValue = java.lang.Math.pow(left, right);
-				}
-				if (value.equals(Operators.EQUAL.operatorName)) {
-					returnValue = left.equals(right) ? 1d : 0d; //TODO Double equality, may round first?
-				}
-				if (value.equals(Operators.NOT_EQUAL.operatorName)) {
-					returnValue = left.equals(right) ? 0d : 1d;//TODO Double equality, may round first?
-				}
-				if (value.equals(Operators.GREATER_THAN.operatorName)) {
-					returnValue = left.compareTo(right) > 0 ? 1d : 0d;
-				}
-				if (value.equals(Operators.GREATER_OR_EQUAL.operatorName)) {
-					returnValue = left.compareTo(right) >= 0 ? 1d : 0d;
-				}
-				if (value.equals(Operators.SMALLER_THAN.operatorName)) {
-					returnValue = left.compareTo(right) < 0 ? 1d : 0d;
-				}
-				if (value.equals(Operators.SMALLER_OR_EQUAL.operatorName)) {
-					returnValue = left.compareTo(right) <= 0 ? 1d : 0d;
-				}
-				if (value.equals(Operators.LOGICAL_AND.operatorName)) {
-					returnValue = (left * right) != 0d ? 1d : 0d;
-				}
-				if (value.equals(Operators.LOGICAL_OR.operatorName)) {
-					returnValue = left != 0d || right != 0d ? 1d : 0d;
-				}
-			} else {//unary operators
-				Double right = rightChild.interpretRecursive();
-				//				if (value.equals("+")) {
-				//					return right;
-				//				}
-				if (value.equals(Operators.MINUS.operatorName)) {
-					returnValue = -right;
-				}
-				if (value.equals(Operators.LOGICAL_NOT.operatorName)) {
-					returnValue = right == 0d ? 1d : 0d;
-				}
+		return returnValue;
 
-			}
-		} else if (type == ElementType.FUNCTION) {
-			Double left = 0.0d;
-			if (leftChild != null) {
-				left = leftChild.interpretRecursive();
-			}
+	}
 
-			if (value.equals(Functions.SIN.functionName)) {
-				returnValue = java.lang.Math.sin(Math.toRadians(left));
-			}
-			if (value.equals(Functions.COS.functionName)) {
-				returnValue = java.lang.Math.cos(Math.toRadians(left));
-			}
-			if (value.equals(Functions.TAN.functionName)) {
-				returnValue = java.lang.Math.tan(Math.toRadians(left));
-			}
-			if (value.equals(Functions.LN.functionName)) {
-				returnValue = java.lang.Math.log(left);
-			}
-			if (value.equals(Functions.LOG.functionName)) {
-				returnValue = java.lang.Math.log10(left);
-			}
-			if (value.equals(Functions.SQRT.functionName)) {
-				returnValue = java.lang.Math.sqrt(left);
-			}
-			if (value.equals(Functions.RAND.functionName)) {
+	private Double interpretFunction(Functions function, Sprite sprite) {
+		Double left = null;
 
-				Double right = rightChild.interpretRecursive();
+		if (leftChild != null) {
+			left = leftChild.interpretRecursive(sprite);
+		}
+
+		switch (function) {
+			case SIN:
+				return java.lang.Math.sin(Math.toRadians(left));
+			case COS:
+				return java.lang.Math.cos(Math.toRadians(left));
+			case TAN:
+				return java.lang.Math.tan(Math.toRadians(left));
+			case LN:
+				return java.lang.Math.log(left);
+			case LOG:
+				return java.lang.Math.log10(left);
+			case SQRT:
+				return java.lang.Math.sqrt(left);
+			case RAND:
+				Double right = rightChild.interpretRecursive(sprite);
 				Double minimum;
 				Double maximum;
 
@@ -242,47 +216,93 @@ public class FormulaElement implements Serializable {
 					Log.i("info", "randomDouble: " + randomDouble);
 
 					if ((Math.abs(randomDouble) - (int) Math.abs(randomDouble)) >= 0.5) {
-						returnValue = Double.valueOf(randomDouble.intValue()) + 1;
+						return Double.valueOf(randomDouble.intValue()) + 1;
 					} else {
-						returnValue = Double.valueOf(randomDouble.intValue());
+						return Double.valueOf(randomDouble.intValue());
 					}
 
 				} else {
-					returnValue = randomDouble;
+					return randomDouble;
 				}
-
-			}
-			if (value.equals(Functions.ABS.functionName)) {
-				returnValue = java.lang.Math.abs(left);
-			}
-			if (value.equals(Functions.ROUND.functionName)) {
-				returnValue = (double) java.lang.Math.round(left);
-			}
-			if (value.equals(Functions.PI.functionName)) {
-				returnValue = java.lang.Math.PI;
-			}
-		} else if (type == ElementType.SENSOR) {
-			returnValue = SensorHandler.getSensorValue(value);
-		} else if (type == ElementType.USER_VARIABLE) {
-			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-			String spriteName = currentSprite == null ? "" : currentSprite.getName();
-			String threadName = Thread.currentThread().getName();
-			if (threadName.startsWith(Sprite.SCRIPT_THREAD_NAME_PREFIX)) {
-				spriteName = Thread.currentThread().getName().substring(Sprite.SCRIPT_THREAD_NAME_PREFIX.length()); //TODO do not save in Thread
-			}
-			UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject().getUserVariables();
-			UserVariable userVariable = userVariables.getUserVariable(value, spriteName);
-			if (userVariable == null) {
-				return 0d; //TODO handle case, when user-variable does not exist
-			}
-
-			return userVariable.getValue();
+			case ABS:
+				return java.lang.Math.abs(left);
+			case ROUND:
+				return (double) java.lang.Math.round(left);
+			case PI:
+				return java.lang.Math.PI;
 		}
 
-		returnValue = checkDegeneratedDoubleValues(returnValue);
+		return 0d;
+	}
 
-		return returnValue;
+	private Double interpretOperator(Operators operator, Sprite sprite) {
 
+		if (leftChild != null) {// binär operator
+			Double left = leftChild.interpretRecursive(sprite);
+			Double right = rightChild.interpretRecursive(sprite);
+
+			switch (operator) {
+				case PLUS:
+					return left + right;
+				case MINUS:
+					return left - right;
+				case MULT:
+					return left * right;
+				case DIVIDE:
+					return left / right;
+				case POW:
+					return java.lang.Math.pow(left, right);
+				case EQUAL:
+					return left.equals(right) ? 1d : 0d; //TODO Double equality, may round first?
+				case NOT_EQUAL:
+					return left.equals(right) ? 0d : 1d;//TODO Double equality, may round first?
+				case GREATER_THAN:
+					return left.compareTo(right) > 0 ? 1d : 0d;
+				case GREATER_OR_EQUAL:
+					return left.compareTo(right) >= 0 ? 1d : 0d;
+				case SMALLER_THAN:
+					return left.compareTo(right) < 0 ? 1d : 0d;
+				case SMALLER_OR_EQUAL:
+					return left.compareTo(right) <= 0 ? 1d : 0d;
+				case LOGICAL_AND:
+					return (left * right) != 0d ? 1d : 0d;
+				case LOGICAL_OR:
+					return left != 0d || right != 0d ? 1d : 0d;
+			}
+
+		} else {//unary operators
+			Double right = rightChild.interpretRecursive(sprite);
+
+			switch (operator) {
+				case MINUS:
+					return -right;
+				case LOGICAL_NOT:
+					return right == 0d ? 1d : 0d;
+			}
+
+		}
+
+		return 0d;
+	}
+
+	private Double interpretLookSensor(Sensors sensor, Sprite sprite) {
+		switch (sensor) {
+			case LOOK_BRIGHTNESS_:
+				return (double) sprite.look.getBrightnessValue();
+			case LOOK_GHOSTEFFECT_:
+				return (double) sprite.look.getAlphaValue();
+			case LOOK_LAYER_:
+				return (double) sprite.look.zPosition;
+			case LOOK_ROTATION_:
+				return (double) sprite.look.rotation;
+			case LOOK_SIZE_:
+				return (double) sprite.look.scaleX;
+			case LOOK_X_:
+				return (double) sprite.look.getXPosition();
+			case LOOK_Y_:
+				return (double) sprite.look.getYPosition();
+		}
+		return 0d;
 	}
 
 	private Double checkDegeneratedDoubleValues(Double valueToCheck) {

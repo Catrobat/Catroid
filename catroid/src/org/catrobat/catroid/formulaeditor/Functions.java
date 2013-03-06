@@ -43,4 +43,13 @@ public enum Functions {
 
 	}
 
+	public static Functions getFunctionByValue(String value) {
+		for (Functions function : EnumSet.allOf(Functions.class)) {
+			if (function.functionName.equals(value)) {
+				return function;
+			}
+		}
+		return null;
+	}
+
 }

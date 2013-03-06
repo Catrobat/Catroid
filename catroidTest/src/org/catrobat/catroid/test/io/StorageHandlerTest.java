@@ -140,9 +140,12 @@ public class StorageHandlerTest extends AndroidTestCase {
 		Formula actualSize = (Formula) Reflection.getPrivateField(
 				(postSpriteList.get(1).getScript(0).getBrickList().get(2)), "size");
 
-		assertEquals("Size was not deserialized right", size, actualSize.interpretFloat());
-		assertEquals("XPosition was not deserialized right", xPosition, actualXPosition.interpretInteger());
-		assertEquals("YPosition was not deserialized right", yPosition, actualYPosition.interpretInteger());
+		assertEquals("Size was not deserialized right", size,
+				actualSize.interpretFloat(postSpriteList.get(1).getScript(0).getBrickList().get(2).getSprite()));
+		assertEquals("XPosition was not deserialized right", xPosition,
+				actualXPosition.interpretInteger(postSpriteList.get(2).getScript(0).getBrickList().get(0).getSprite()));
+		assertEquals("YPosition was not deserialized right", yPosition,
+				actualYPosition.interpretInteger(postSpriteList.get(2).getScript(0).getBrickList().get(0).getSprite()));
 
 		assertFalse("paused should not be set in script", preSpriteList.get(1).getScript(0).isPaused());
 

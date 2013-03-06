@@ -64,7 +64,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-		float newSize = sprite.look.getSize() + size.interpretFloat() / 100f;
+		float newSize = sprite.look.getSize() + size.interpretFloat(sprite) / 100f;
 		if (newSize < 0f) {
 			newSize = 0f;
 		}

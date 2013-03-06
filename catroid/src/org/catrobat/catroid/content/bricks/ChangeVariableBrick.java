@@ -68,7 +68,7 @@ public class ChangeVariableBrick implements Brick, OnClickListener {
 			return;
 		}
 		double original_value = userVariable.getValue();
-		double value = variable_formula.interpretFloat();
+		double value = variable_formula.interpretFloat(sprite);
 		userVariable.setValue(original_value + value);
 	}
 

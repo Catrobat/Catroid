@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Look;
-import org.catrobat.catroid.content.Sprite;
-
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -137,55 +133,7 @@ public class SensorHandler implements SensorEventListener {
 			return sensorValue * radianToDegreeConst;
 		}
 
-		if (getCurrentObjectLook() == null) {
-			return 0d;
-		}
-
-		if (sensorName.equals(Sensors.LOOK_X_.sensorName)) {
-			return Double.valueOf(getCurrentObjectLook().getXPosition());
-		}
-		if (sensorName.equals(Sensors.LOOK_Y_.sensorName)) {
-			return Double.valueOf(getCurrentObjectLook().getYPosition());
-		}
-		if (sensorName.equals(Sensors.LOOK_GHOSTEFFECT_.sensorName)) {
-			return Double.valueOf(getCurrentObjectLook().getAlphaValue());
-		}
-		if (sensorName.equals(Sensors.LOOK_BRIGHTNESS_.sensorName)) {
-			return Double.valueOf(getCurrentObjectLook().getBrightnessValue());
-		}
-		if (sensorName.equals(Sensors.LOOK_SIZE_.sensorName)) {
-			return Double.valueOf(getCurrentObjectLook().scaleX);
-		}
-		if (sensorName.equals(Sensors.LOOK_ROTATION_.sensorName)) {
-			return Double.valueOf(getCurrentObjectLook().rotation);
-		}
-		if (sensorName.equals(Sensors.LOOK_LAYER_.sensorName)) {
-			return Double.valueOf(getCurrentObjectLook().zPosition);
-		}
-
 		return 0d;
-	}
-
-	private static Look getCurrentObjectLook() {
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		if (currentSprite != null) {
-			return currentSprite.look;
-		}
-
-		String spriteName = "";
-		String threadName = Thread.currentThread().getName();
-		if (threadName.startsWith(Sprite.SCRIPT_THREAD_NAME_PREFIX)) {
-			spriteName = Thread.currentThread().getName().substring(Sprite.SCRIPT_THREAD_NAME_PREFIX.length()); //TODO do not save in Thread
-		}
-
-		for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
-			if (sprite.getName().equals(spriteName)) {
-				currentSprite = sprite;
-				break;
-			}
-		}
-
-		return currentSprite.look;
 	}
 
 	@Override

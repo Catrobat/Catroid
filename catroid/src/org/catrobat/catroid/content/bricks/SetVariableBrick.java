@@ -69,7 +69,7 @@ public class SetVariableBrick implements Brick, OnClickListener {
 		if (userVariable == null) {
 			return;
 		}
-		double value = variableFormula.interpretFloat();
+		double value = variableFormula.interpretFloat(sprite);
 		userVariable.setValue(value);
 	}
 
