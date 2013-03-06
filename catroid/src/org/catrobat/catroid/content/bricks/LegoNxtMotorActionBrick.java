@@ -23,19 +23,10 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-<<<<<<< HEAD
-import org.catrobat.catroid.LegoNXT.LegoNXT;
-=======
->>>>>>> refs/remotes/origin/master
 import org.catrobat.catroid.content.Sprite;
-<<<<<<< HEAD
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-=======
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
->>>>>>> refs/remotes/origin/master
 
 import android.content.Context;
 import android.view.View;
@@ -47,12 +38,8 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-<<<<<<< HEAD
-=======
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
->>>>>>> refs/remotes/origin/master
 
 public class LegoNxtMotorActionBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -98,23 +85,6 @@ public class LegoNxtMotorActionBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
-<<<<<<< HEAD
-	}
-
-	@Override
-	public void execute() {
-		int speedValue = speed.interpretInteger(MIN_SPEED, MAX_SPEED, sprite);
-
-		if (motorEnum.equals(Motor.MOTOR_A_C)) {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), speedValue, 0);
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), speedValue, 0);
-		} else {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), speedValue, 0);
-		}
-		//LegoNXT.sendBTCMotorMessage((int) (duration * 1000), motor, 0, 0);
-
-=======
->>>>>>> refs/remotes/origin/master
 	}
 
 	@Override
@@ -181,12 +151,9 @@ public class LegoNxtMotorActionBrick implements Brick, OnClickListener {
 		FormulaEditorFragment.showFragment(view, this, speed);
 	}
 
-<<<<<<< HEAD
-=======
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.legoNxtMotorAction(motor, motorEnum, speed));
+		sequence.addAction(ExtendedActions.legoNxtMotorAction(sprite, motor, motorEnum, speed));
 		return null;
 	}
->>>>>>> refs/remotes/origin/master
 }

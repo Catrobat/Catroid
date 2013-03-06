@@ -53,10 +53,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 public class LegoNxtPlayToneBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 
-	private static final int MIN_FREQ_IN_HERTZ = 200;
-	private static final int MAX_FREQ_IN_HERTZ = 14000;
-	private static final int MIN_DURATION = 0;
-	private static final int MAX_DURATION = Integer.MAX_VALUE;
 
 	private Sprite sprite;
 
@@ -246,8 +242,7 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener {
 
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.legoNxtPlayTone(hertz, durationInMilliSeconds));
+		sequence.addAction(ExtendedActions.legoNxtPlayTone(sprite,frequency, durationInSeconds));
 		return null;
 	}
->>>>>>> refs/remotes/origin/master
 }

@@ -35,6 +35,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEndBrick {
 	static final int FOREVER = -1;
 	private static final long serialVersionUID = 1L;
@@ -53,11 +55,6 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-
 	}
 
 	protected Script getScript() {
@@ -136,8 +133,8 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 	}
 
 	@Override
-	public void onClick(View view) {
-
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		return sequence;
 	}
 
 }

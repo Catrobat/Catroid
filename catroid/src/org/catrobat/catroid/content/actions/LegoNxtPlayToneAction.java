@@ -51,7 +51,7 @@ public class LegoNxtPlayToneAction extends TemporalAction {
 		return durationInSeconds;
 	}
 
-	public void setDurationInMilliSeconds(Formula durationInSeconds) {
+	public void setDurationInSeconds(Formula durationInSeconds) {
 		this.durationInSeconds = durationInSeconds;
 	}
 

@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-<<<<<<< HEAD
-import org.catrobat.catroid.ProjectManager;
-=======
->>>>>>> refs/remotes/origin/master
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -33,11 +29,8 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-<<<<<<< HEAD
-=======
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
->>>>>>> refs/remotes/origin/master
 
 public class IfOnEdgeBounceBrick implements Brick {
 
@@ -84,14 +77,9 @@ public class IfOnEdgeBounceBrick implements Brick {
 	}
 
 	@Override
-<<<<<<< HEAD
-	public void onClick(View view) {
-
-=======
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.ifOnEdgeBounce(sprite));
 		return null;
->>>>>>> refs/remotes/origin/master
 	}
 
 }

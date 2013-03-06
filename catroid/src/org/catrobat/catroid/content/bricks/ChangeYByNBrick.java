@@ -62,6 +62,7 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	@Override
