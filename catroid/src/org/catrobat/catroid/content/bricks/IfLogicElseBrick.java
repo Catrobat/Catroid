@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
@@ -34,6 +33,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEndBrick {
 	/**
@@ -55,14 +56,6 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		if (skipToEndBrickPosition) {
-			Script script = ifBeginBrick.getScript();
-			script.setExecutingBrickIndex(script.getBrickList().indexOf(ifEndBrick));
-		}
 	}
 
 	@Override
@@ -140,8 +133,8 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 	}
 
 	@Override
-	public void onClick(View view) {
-
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		return sequence;
 	}
 
 }

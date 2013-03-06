@@ -194,7 +194,7 @@ public class ExtendedActions extends Actions {
 		LegoNxtPlayToneAction action = action(LegoNxtPlayToneAction.class);
 		action.setHertz(hertz);
 		action.setSprite(sprite);
-		action.setDurationInMilliSeconds(durationInSeconds);
+		action.setDurationInSeconds(durationInSeconds);
 		return action;
 	}
 
@@ -330,8 +330,8 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	static public RepeatAction ifLogc(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
-		RepeatAction action = action(RepeatAction.class);
+	static public IfLogicAction ifLogc(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
+		IfLogicAction action = action(IfLogicAction.class);
 		action.setIfAction(ifAction);
 		action.setElseAction(elseAction);
 		action.setSprite(sprite);

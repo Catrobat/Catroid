@@ -23,10 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-<<<<<<< HEAD
 import org.catrobat.catroid.LegoNXT.LegoNXT;
-=======
->>>>>>> refs/remotes/origin/master
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
@@ -37,11 +34,8 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
-<<<<<<< HEAD
-=======
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
->>>>>>> refs/remotes/origin/master
 
 public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
@@ -115,16 +109,10 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	public void onNothingSelected(AdapterView<?> arg0) {
 	}
 
-	@Override
-<<<<<<< HEAD
-	public void onClick(View view) {
-
-	}
-
 =======
+	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.legoNxtMotorStop(motorEnum));
 		return null;
 	}
->>>>>>> refs/remotes/origin/master
 }

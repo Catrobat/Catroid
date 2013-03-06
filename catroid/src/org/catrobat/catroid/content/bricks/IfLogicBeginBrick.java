@@ -28,6 +28,7 @@ import java.util.List;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -38,6 +39,9 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -61,18 +65,6 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		boolean condition = ifCondition.interpretBoolean(sprite);
-		if (condition) {
-			ifElseBrick.skipToEndIfPositionOnElse(true);
-		} else {
-			Script script = getScript();
-			ifElseBrick.skipToEndIfPositionOnElse(false);
-			script.setExecutingBrickIndex(script.getBrickList().indexOf(ifElseBrick));
-		}
 	}
 
 	public Script getScript() {
@@ -184,10 +176,13 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 		}
 	}
 
-	//	@Override
-	//	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
-	//		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	//		return inflater.inflate(R.layout.brick_if_else, null);
-	//	}
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		SequenceAction ifAction = ExtendedActions.sequence();
+		SequenceAction elseAction = ExtendedActions.sequence();
+		Action action = ExtendedActions.ifLogc(sprite, ifCondition, ifAction, elseAction); //TODO finish!!!
+		sequence.addAction(action);
+		return ifAction;//TODO finish!!!
+	}
 
 }
