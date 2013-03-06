@@ -29,11 +29,8 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-<<<<<<< HEAD
-=======
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
->>>>>>> refs/remotes/origin/master
 
 public class ShowBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -78,13 +75,8 @@ public class ShowBrick implements Brick {
 	}
 
 	@Override
-<<<<<<< HEAD
-	public void onClick(View view) {
-
-=======
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.show(sprite));
 		return null;
->>>>>>> refs/remotes/origin/master
 	}
 }

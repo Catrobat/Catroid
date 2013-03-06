@@ -114,13 +114,8 @@ public class SpeakBrick implements Brick {
 	}
 
 	@Override
-<<<<<<< HEAD
-	public void onClick(View view) {
-
-=======
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.speak(text, this));
 		return null;
->>>>>>> refs/remotes/origin/master
 	}
 }

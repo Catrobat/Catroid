@@ -346,4 +346,10 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	static public WaitAction delay(Sprite sprite, Formula delay) {
+		WaitAction action = action(WaitAction.class);
+		action.setSprite(sprite);
+		action.setDelay(delay);
+		return action;
+	}
 }
