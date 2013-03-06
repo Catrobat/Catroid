@@ -370,7 +370,7 @@ public class UiTestUtils {
 
 		ArrayList<Brick> brickList = new ArrayList<Brick>();
 
-		brickList.add(new BroadcastBrick());
+		brickList.add(new BroadcastBrick(firstSprite));
 		brickList.add(new BroadcastWaitBrick());
 		brickList.add(new ChangeBrightnessByNBrick());
 		brickList.add(new ChangeGhostEffectByNBrick());
