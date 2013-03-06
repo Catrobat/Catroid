@@ -25,32 +25,20 @@ package org.catrobat.catroid.content.actions;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-public class WaitAction extends Action {
+public class WaitAction extends TemporalAction {
 
 	private Sprite sprite;
-	private Formula delay;
-	private float time;
+	private Formula duration;
 
 	@Override
-	public boolean act(float delta) {
-
-		if (time < delay.interpretFloat(sprite)) {
-			time += delta;
-
-		}
-
-		if (time < delay.interpretFloat(sprite)) {
-			return false;
-		}
-
-		return true;
-
+	protected void begin() {
+		super.setDuration(duration.interpretFloat(sprite));
 	}
 
 	public void setDelay(Formula delay) {
-		this.delay = delay;
+		this.duration = delay;
 	}
 
 	public void setSprite(Sprite sprite) {
@@ -62,7 +50,11 @@ public class WaitAction extends Action {
 	}
 
 	public Formula getDelay() {
-		return delay;
+		return duration;
 	}
 
+	@Override
+	protected void update(float percent) {
+
+	}
 }

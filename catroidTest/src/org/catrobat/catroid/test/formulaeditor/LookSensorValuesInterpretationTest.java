@@ -38,7 +38,6 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 	private static final float LOOK_BRIGHTNESS = 0.7f;
 	private static final float LOOK_SCALE = 90.3f;
 	private static final float LOOK_ROTATION = 30.7f;
-	private static final int LOOK_ZPOSITION = 3;
 	private static final float DELTA = 0.01f;
 	private Sprite testSprite;
 
@@ -52,7 +51,6 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 		testSprite.look.setScaleX(LOOK_SCALE);
 		testSprite.look.setScaleY(LOOK_SCALE);
 		testSprite.look.setRotation(LOOK_ROTATION);
-		testSprite.look.setZIndex(LOOK_ZPOSITION);
 	}
 
 	public void testLookSensorValues() {
@@ -89,7 +87,7 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 
 		Formula lookZPositionFormula = new Formula(new FormulaElement(ElementType.SENSOR,
 				Sensors.LOOK_LAYER_.sensorName, null));
-		assertEquals("Formula interpretation is not as expected", LOOK_ZPOSITION,
+		assertEquals("Formula interpretation is not as expected", testSprite.look.getZIndex(),
 				lookZPositionFormula.interpretInteger(testSprite));
 
 	}

@@ -26,9 +26,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-public class IfLogicAction extends TemporalAction {
+public class IfLogicAction extends Action {
 
 	private Sprite sprite;
 	private Action ifAction;
@@ -36,13 +35,10 @@ public class IfLogicAction extends TemporalAction {
 	private Formula ifCondition;
 	private boolean ifConditionValue;
 
-	@Override
 	protected void begin() {
-		super.begin();
 		ifConditionValue = ifCondition.interpretBoolean(sprite);
 	}
 
-	@Override
 	protected void update(float percent) {
 		if (ifConditionValue) {
 			if (ifAction.act(percent)) {
@@ -73,5 +69,11 @@ public class IfLogicAction extends TemporalAction {
 
 	public void setIfCondition(Formula ifCondition) {
 		this.ifCondition = ifCondition;
+	}
+
+	@Override
+	public boolean act(float delta) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
