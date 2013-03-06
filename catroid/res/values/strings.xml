@@ -167,6 +167,7 @@
     <!-- New project dialog -->
     <string name="new_project_dialog_title">New project</string>
     <string name="new_project_dialog_hint">My Project</string>
+    <string name="new_project_description_dialog_hint">My Description</string>
     <string name="new_project_name">Project name:</string>
     <!--  -->
 
