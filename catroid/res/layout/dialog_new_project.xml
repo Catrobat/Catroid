@@ -45,33 +45,4 @@
         android:maxLines="1"
         android:selectAllOnFocus="true" />
 
-    <TextView
-        android:id="@+id/project_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/project_name_edittext"
-        android:layout_marginLeft="10dp"
-        android:text="@string/new_project_description" >
-    </TextView>
-
-    <EditText
-        android:id="@+id/project_description_edittext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/project_description"
-        android:gravity="top"
-        android:hint="@string/new_project_description_dialog_hint"
-        android:inputType="textMultiLine"
-        android:lines="2"
-        android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:scrollbars="vertical" >
-    </EditText>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/project_description_edittext"
-        android:orientation="horizontal" >
-    </LinearLayout>
-
 </RelativeLayout>

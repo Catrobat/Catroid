@@ -171,10 +171,9 @@
     <string name="new_project_dialog_hint">Mein Projekt</string>
     <string name="new_project_description_dialog_hint">Meine Beschreibung</string>
     <string name="new_project_name">Projektname:</string>
-    <string name="new_project_description">Projektbeschreibung:</string>
     <!--  -->
-
-
+    
+ 
     <!-- Rename Dialog -->
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">Mein Objekt</string>
