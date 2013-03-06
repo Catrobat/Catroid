@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -35,6 +36,8 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class TurnRightBrick implements Brick, OnClickListener {
 
@@ -58,11 +61,6 @@ public class TurnRightBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		sprite.look.rotation = (sprite.look.rotation % 360) - (float) degrees;
 	}
 
 	@Override
@@ -121,6 +119,12 @@ public class TurnRightBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_turn_right_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.turnRight(sprite, (float) degrees));
+		return null;
 	}
 
 }
