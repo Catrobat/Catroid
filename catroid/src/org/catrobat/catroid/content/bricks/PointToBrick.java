@@ -207,6 +207,9 @@ public class PointToBrick implements Brick {
 	public View setDefaultValues(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		prototype = inflater.inflate(R.layout.brick_point_to, null);
+		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerAdapter.add(context.getString(R.string.broadcast_nothing_selected));
 		return prototype;
 		//TODO set the Value in the list 
 	}
