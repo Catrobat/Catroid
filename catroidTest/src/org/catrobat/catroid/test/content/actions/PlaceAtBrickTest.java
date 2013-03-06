@@ -50,7 +50,7 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 	}
 
 	public void testNullSprite() {
-		GlideToAction action = ExtendedActions.placeAt(sprite, xPosition, yPosition);
+		GlideToAction action = ExtendedActions.placeAt(null, xPosition, yPosition);
 		try {
 			action.act(1.0f);
 			fail("Execution of PlaceAtBrick with null Sprite did not cause a " + "NullPointerException to be thrown");

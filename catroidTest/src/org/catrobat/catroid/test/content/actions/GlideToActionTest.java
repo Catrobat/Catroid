@@ -56,7 +56,7 @@ public class GlideToActionTest extends AndroidTestCase {
 	}
 
 	public void testNullActor() {
-		GlideToAction action = ExtendedActions.glideTo(sprite, xPosition, yPosition, duration);
+		GlideToAction action = ExtendedActions.glideTo(null, xPosition, yPosition, duration);
 		try {
 			action.act(1.0f);
 			fail("Execution of GlideToBrick with null Sprite did not cause a " + "NullPointerException to be thrown");

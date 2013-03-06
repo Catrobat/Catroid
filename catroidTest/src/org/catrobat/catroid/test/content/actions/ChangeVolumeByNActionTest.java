@@ -68,17 +68,17 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 		assertEquals("Unexpected initial volume value", 70.0f, SoundManager.getInstance().getVolume());
 
 		float volume = SoundManager.getInstance().getVolume();
-		volume += louder;
+		volume += louder.interpretFloat(null);
 
-		ChangeVolumeByNAction action1 = ExtendedActions.changeVolumeByN(louder);
+		ChangeVolumeByNAction action1 = ExtendedActions.changeVolumeByN(null, louder);
 		action1.act(1.0f);
 		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", volume, SoundManager.getInstance()
 				.getVolume());
 
 		volume = SoundManager.getInstance().getVolume();
-		volume += softer;
+		volume += softer.interpretFloat(null);
 
-		ChangeVolumeByNAction action2 = ExtendedActions.changeVolumeByN(softer);
+		ChangeVolumeByNAction action2 = ExtendedActions.changeVolumeByN(null, softer);
 		action2.act(1.0f);
 		assertEquals("Incorrect sprite size value after ChangeVolumeByNBrick executed", volume, SoundManager
 				.getInstance().getVolume());
