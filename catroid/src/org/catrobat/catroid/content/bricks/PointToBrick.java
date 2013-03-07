@@ -45,14 +45,12 @@ public class PointToBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private Sprite pointedSprite;
-	private String pointTowards;
 
 	private transient View prototype;
 
-	public PointToBrick(Sprite sprite, Sprite pointedSprite, String pointTowards) {
+	public PointToBrick(Sprite sprite, Sprite pointedSprite) {
 		this.sprite = sprite;
 		this.pointedSprite = pointedSprite;
-		this.pointTowards = pointTowards;
 	}
 
 	public PointToBrick() {
@@ -138,7 +136,7 @@ public class PointToBrick implements Brick {
 
 	@Override
 	public Brick clone() {
-		return new PointToBrick(sprite, pointedSprite, pointTowards);
+		return new PointToBrick(sprite, pointedSprite);
 	}
 
 	@Override

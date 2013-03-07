@@ -29,11 +29,10 @@ public class BrickValues {
 	public static final int CHANGE_X_BY = 10;
 	public static final int CHANGE_Y_BY = 10;
 	public static final Float Move_Steps_Value = 10f;
-	public static final Float TURN_REIGTH = 15f;
+	public static final Float TURN_RIGHT = 15f;
 	public static final Float POINT_IN_DIRECTION = 90f;
 	public static final int GLIDE_SECONDS = 1000;
 	public static final int GO_BACK = 1;
-	public static final String POINT_TOWARDS = "Nothing...";
 
 	//constants Looks
 	public static final Float SET_SIZE_TO = 60f;
@@ -46,7 +45,6 @@ public class BrickValues {
 	//constants Sounds
 	public static final Float SET_VOLUMEN_TO = 60f;
 	public static final Float CHANGE_VOLUMEN_BY = -10f;
-	public static final String SPEAK = "Hello!";
 
 	//Constants Control
 	public static final int WAIT = 1000;

@@ -52,13 +52,6 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 	}
 
 	public SetVolumeToBrick() {
-		//edit.setTextColor(color.transparent);
-
-	}
-
-	public void getView() {
-		//edit.setTextColor(color.transparent);
-
 	}
 
 	@Override

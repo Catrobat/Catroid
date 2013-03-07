@@ -52,22 +52,27 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 
 	@Override
 	public void setUp() throws Exception {
+		UiTestUtils.clearAllUtilTestProjects();
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		// disable mindstorm bricks, if enabled at start
-		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
-			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
+		if (!sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
+			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
 		}
 
 		super.setUp();
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
-		getIntoActivity();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
 		UiTestUtils.goBackToHome(getInstrumentation());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
+			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
+		}
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -123,13 +128,13 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		solo.searchText(solo.getString(R.string.brick_turn_left));
 		TextView TurnLeft = (TextView) solo.getView(R.id.brick_turn_left_prototype_text_view);
 		String TurnLeftPrototype = TurnLeft.getText().toString();
-		String TurnLeftDegreesValue = Float.toString(BrickValues.TURN_REIGTH);
+		String TurnLeftDegreesValue = Float.toString(BrickValues.TURN_RIGHT);
 		assertEquals("Value in Brick TurnLeft are not correct", TurnLeftDegreesValue, TurnLeftPrototype);
 
 		solo.searchText(solo.getString(R.string.brick_turn_right));
 		TextView TurnRight = (TextView) solo.getView(R.id.brick_turn_right_prototype_text_view);
 		String TurnRightPrototype = TurnRight.getText().toString();
-		String TurnRightDegreesValue = Float.toString(BrickValues.TURN_REIGTH);
+		String TurnRightDegreesValue = Float.toString(BrickValues.TURN_RIGHT);
 		assertEquals("Value in Brick TurnRight are not correct", TurnRightDegreesValue, TurnRightPrototype);
 
 		solo.searchText(solo.getString(R.string.brick_point_in_direction));
@@ -169,7 +174,6 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String EditText = GoBackSelect.getText().toString();
 		assertEquals("Value in Selected Brick GoBack are not correct", GoBackValue, EditText);
 
-		solo.goBack();
 	}
 
 	@Smoke
@@ -222,8 +226,6 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String EditText = ChangeBrightnessSelect.getText().toString();
 		assertEquals("Value in Selected Brick ChangeBrightness are not correct", ChangeBrightnessValue, EditText);
 
-		solo.goBack();
-
 	}
 
 	@Smoke
@@ -247,7 +249,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		solo.searchText(solo.getString(R.string.brick_speak));
 		TextView Speak = (TextView) solo.getView(R.id.brick_speak_prototype_text_view);
 		String SpeakPrototype = Speak.getText().toString();
-		String SpeakValue = BrickValues.SPEAK;
+		String SpeakValue = solo.getString(R.string.brick_speak_default_value);
 		assertEquals("Value in Brick Speak are not correct", SpeakValue, SpeakPrototype);
 
 		solo.clickOnText(solo.getString(R.string.brick_speak));
@@ -256,8 +258,6 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		TextView SpeakSelect = (TextView) solo.getView(R.id.brick_speak_edit_text);
 		String EditText = SpeakSelect.getText().toString();
 		assertEquals("Value in Selected Brick Speak are not correct", SpeakValue, EditText);
-
-		solo.goBack();
 
 	}
 
@@ -277,7 +277,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		solo.searchText(solo.getString(R.string.brick_note));
 		TextView Note = (TextView) solo.getView(R.id.brick_note_prototype_text_view);
 		String NotePrototype = Note.getText().toString();
-		String NoteValue = solo.getString(R.string.brick_note_prototype);
+		String NoteValue = solo.getString(R.string.brick_note_default_value);
 		assertEquals("Value in Note Speak are not correct", NoteValue, NotePrototype);
 
 		solo.searchText(solo.getString(R.string.brick_repeat));
@@ -292,8 +292,6 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		TextView RepeateSelect = (TextView) solo.getView(R.id.brick_repeat_edit_text);
 		String EditText = RepeateSelect.getText().toString();
 		assertEquals("Value in Selected Brick Repeate are not correct", RepeateValue, EditText);
-
-		solo.goBack();
 
 	}
 
@@ -335,18 +333,6 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String EditText = NXTPlayToneSelect.getText().toString();
 		assertEquals("Value in Selected Brick Repeate are not correct", NXTPlayToneFreqValue, EditText);
 
-	}
-
-	private void getIntoActivity() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-		UiTestUtils.clearAllUtilTestProjects();
-
-		if (!sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
-			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
-		}
-
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
 	}
 
 	private void createProject() {

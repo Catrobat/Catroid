@@ -103,7 +103,7 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		Script startScript1 = new StartScript(sprite1);
 		PlaceAtBrick placeAt1 = new PlaceAtBrick(sprite1, 300, 400);
 		startScript1.addBrick(placeAt1);
-		PointToBrick pointToBrick = new PointToBrick(sprite1, sprite2, null);
+		PointToBrick pointToBrick = new PointToBrick(sprite1, sprite2);
 		startScript1.addBrick(pointToBrick);
 		sprite1.addScript(startScript1);
 		project.addSprite(sprite1);

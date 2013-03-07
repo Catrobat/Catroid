@@ -109,8 +109,6 @@ public class AddBrickDialog extends DialogFragment {
 	private String selectedCategory;
 	private ScriptFragment scriptFragment;
 
-	//constants Motion
-
 	public static AddBrickDialog newInstance(String selectedCategory, ScriptFragment scriptFragment) {
 		AddBrickDialog dialog = new AddBrickDialog();
 
@@ -248,11 +246,11 @@ public class AddBrickDialog extends DialogFragment {
 		moveNStepsBrick.setDefaultValues(context);
 		motionBrickList.add(moveNStepsBrick);
 
-		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, BrickValues.TURN_REIGTH);
+		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, BrickValues.TURN_RIGHT);
 		turnLeftBrick.setDefaultValues(context);
 		motionBrickList.add(turnLeftBrick);
 
-		TurnRightBrick turnRightBrick = new TurnRightBrick(sprite, BrickValues.TURN_REIGTH);
+		TurnRightBrick turnRightBrick = new TurnRightBrick(sprite, BrickValues.TURN_RIGHT);
 		turnRightBrick.setDefaultValues(context);
 		motionBrickList.add(turnRightBrick);
 
@@ -260,7 +258,7 @@ public class AddBrickDialog extends DialogFragment {
 		pointInDirectionBrick.setDefaultValues(context);
 		motionBrickList.add(pointInDirectionBrick);
 
-		PointToBrick pointToBrick = new PointToBrick(sprite, null, context.getString(R.string.brick_point_to_prototype));
+		PointToBrick pointToBrick = new PointToBrick(sprite, null);
 		pointToBrick.setDefaultValues(context);
 		motionBrickList.add(pointToBrick);
 
@@ -327,7 +325,7 @@ public class AddBrickDialog extends DialogFragment {
 		changeVolumeByNBrick.setDefaultValues(context);
 		soundBrickList.add(changeVolumeByNBrick);
 
-		SpeakBrick speakBrick = new SpeakBrick(sprite, context.getString(R.string.brick_speak_prototype));
+		SpeakBrick speakBrick = new SpeakBrick(sprite, context.getString(R.string.brick_speak_default_value));
 		speakBrick.setDefaultValues(context);
 		soundBrickList.add(speakBrick);
 
@@ -351,7 +349,7 @@ public class AddBrickDialog extends DialogFragment {
 		controlBrickList.add(new BroadcastBrick(sprite));
 		controlBrickList.add(new BroadcastWaitBrick(sprite));
 
-		NoteBrick noteBrick = new NoteBrick(sprite, context.getString(R.string.brick_note_prototype));
+		NoteBrick noteBrick = new NoteBrick(sprite, context.getString(R.string.brick_note_default_value));
 		noteBrick.setDefaultValues(context);
 		controlBrickList.add(noteBrick);
 
