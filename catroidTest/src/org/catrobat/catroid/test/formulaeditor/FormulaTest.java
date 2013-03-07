@@ -23,26 +23,88 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.Functions;
+import org.catrobat.catroid.formulaeditor.InternFormulaParser;
+import org.catrobat.catroid.formulaeditor.InternToken;
+import org.catrobat.catroid.formulaeditor.InternTokenType;
+import org.catrobat.catroid.formulaeditor.Operators;
 
 import android.test.InstrumentationTestCase;
 
 public class FormulaTest extends InstrumentationTestCase {
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-
 	public void testIsSingleNumberFormula() {
 
 		Formula formula = new Formula(1);
 		assertTrue("Formula should be single number formula", formula.isSingleNumberFormula());
-	}
 
+		formula = new Formula(1.0d);
+		assertTrue("Formula should be single number formula", formula.isSingleNumberFormula());
+
+		formula = new Formula(1.0f);
+		assertTrue("Formula should be single number formula", formula.isSingleNumberFormula());
+
+		List<InternToken> internTokenList = new LinkedList<InternToken>();
+
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
+
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
+
+		assertNotNull("Formula is not parsed correctly: - 1", parseTree);
+		assertEquals("Formula interpretation is not as expected", -1d, parseTree.interpretRecursive(null));
+		internTokenList.clear();
+
+		formula = new Formula(parseTree);
+		assertTrue("Formula should be single number formula", formula.isSingleNumberFormula());
+
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.0"));
+
+		internParser = new InternFormulaParser(internTokenList);
+		parseTree = internParser.parseFormula();
+
+		assertNotNull("Formula is not parsed correctly: - 1", parseTree);
+		assertEquals("Formula interpretation is not as expected", -1d, parseTree.interpretRecursive(null));
+		internTokenList.clear();
+
+		formula = new Formula(parseTree);
+		assertTrue("Formula should be single number formula", formula.isSingleNumberFormula());
+
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.0"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.0"));
+
+		internParser = new InternFormulaParser(internTokenList);
+		parseTree = internParser.parseFormula();
+
+		assertNotNull("Formula is not parsed correctly: - 1 - 1", parseTree);
+		assertEquals("Formula interpretation is not as expected", -2d, parseTree.interpretRecursive(null));
+		internTokenList.clear();
+
+		formula = new Formula(parseTree);
+		assertFalse("Should NOT be a single number formula", formula.isSingleNumberFormula());
+
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ROUND.name()));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.1111"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
+
+		internParser = new InternFormulaParser(internTokenList);
+		parseTree = internParser.parseFormula();
+
+		assertNotNull("Formula is not parsed correctly: round(1.1111)", parseTree);
+		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(null));
+		internTokenList.clear();
+
+		formula = new Formula(parseTree);
+		assertFalse("Should NOT be a single number formula", formula.isSingleNumberFormula());
+	}
 }

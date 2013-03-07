@@ -418,7 +418,7 @@ public class FormulaElement implements Serializable {
 	public boolean isSingleNumberFormula() {
 		if (type == ElementType.OPERATOR) {
 			Operators operator = Operators.getOperatorByValue(value);
-			if (operator == Operators.MINUS) {
+			if (operator == Operators.MINUS && leftChild == null) {
 				return rightChild.isSingleNumberFormula();
 			}
 			return false;
