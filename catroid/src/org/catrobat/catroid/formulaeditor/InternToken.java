@@ -114,13 +114,6 @@ public class InternToken {
 		return false;
 	}
 
-	public boolean isLook() {
-		if (internTokenType == InternTokenType.LOOK) {
-			return true;
-		}
-		return false;
-	}
-
 	public boolean isEndOfFileToken() {
 		if (internTokenType == InternTokenType.PARSER_END_OF_FILE) {
 			return true;

@@ -22,10 +22,15 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
+import org.catrobat.catroid.formulaeditor.InternFormulaParser;
+import org.catrobat.catroid.formulaeditor.InternToken;
+import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Sensors;
 
 import android.test.AndroidTestCase;
@@ -53,39 +58,58 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 		testSprite.look.setRotation(LOOK_ROTATION);
 	}
 
+	public Formula getFormulaBySensor(Sensors sensor) {
+		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
+
+		return new Formula(parseTree);
+
+	}
+
 	public void testLookSensorValues() {
 
-		Formula lookXPositionFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.LOOK_X.name(), null));
+		Formula lookXPositionFormula = getFormulaBySensor(Sensors.LOOK_X);
 		assertEquals("Formula interpretation is not as expected", LOOK_X_POSITION,
 				lookXPositionFormula.interpretFloat(testSprite), DELTA);
 
-		Formula lookYPositionFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.LOOK_Y.name(), null));
+		Formula lookYPositionFormula = getFormulaBySensor(Sensors.LOOK_Y);
 		assertEquals("Formula interpretation is not as expected", LOOK_Y_POSITION,
 				lookYPositionFormula.interpretFloat(testSprite), DELTA);
 
-		Formula lookAlphaValueFormula = new Formula(new FormulaElement(ElementType.SENSOR,
-				Sensors.LOOK_GHOSTEFFECT.name(), null));
+		Formula lookAlphaValueFormula = getFormulaBySensor(Sensors.LOOK_GHOSTEFFECT);
 		assertEquals("Formula interpretation is not as expected", LOOK_ALPHA,
 				lookAlphaValueFormula.interpretFloat(testSprite), DELTA);
 
-		Formula lookBrightnessFormula = new Formula(new FormulaElement(ElementType.SENSOR,
-				Sensors.LOOK_BRIGHTNESS.name(), null));
+		Formula lookBrightnessFormula = getFormulaBySensor(Sensors.LOOK_BRIGHTNESS);
 		assertEquals("Formula interpretation is not as expected", LOOK_BRIGHTNESS,
 				lookBrightnessFormula.interpretFloat(testSprite), DELTA);
 
-		Formula lookScaleFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.LOOK_SIZE.name(), null));
+		Formula lookScaleFormula = getFormulaBySensor(Sensors.LOOK_SIZE);
 		assertEquals("Formula interpretation is not as expected", LOOK_SCALE,
 				lookScaleFormula.interpretFloat(testSprite), DELTA);
 
-		Formula lookRotateFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.LOOK_ROTATION.name(),
-				null));
+		Formula lookRotateFormula = getFormulaBySensor(Sensors.LOOK_ROTATION);
 		assertEquals("Formula interpretation is not as expected", LOOK_ROTATION,
 				lookRotateFormula.interpretFloat(testSprite), DELTA);
 
-		Formula lookZPositionFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.LOOK_LAYER.name(),
-				null));
+		Formula lookZPositionFormula = getFormulaBySensor(Sensors.LOOK_LAYER);
 		assertEquals("Formula interpretation is not as expected", testSprite.look.getZIndex(),
 				lookZPositionFormula.interpretInteger(testSprite));
+
+	}
+
+	public void testNotExistingLookSensorValues() {
+
+		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		internTokenList.add(new InternToken(InternTokenType.SENSOR, ""));
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
+
+		assertNull("Invalid sensor parsed:   NOT_EXISTING_SENSOR)", parseTree);
+		int errorTokenIndex = internParser.getErrorTokenIndex();
+		assertEquals("Error Token Index is not as expected", 0, errorTokenIndex);
 
 	}
 }

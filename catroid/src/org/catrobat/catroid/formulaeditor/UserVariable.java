@@ -33,17 +33,10 @@ public class UserVariable implements Serializable {
 
 	private String name;
 	private Double value;
-	private ScopeType scope;
 
-	public UserVariable(String name, Double value, ScopeType scope) {
+	public UserVariable(String name, Double value) {
 		this.name = name;
 		this.value = value;
-		this.scope = scope;
-	}
-
-	@Override
-	public String toString() {
-		return name;
 	}
 
 	public Double getValue() {

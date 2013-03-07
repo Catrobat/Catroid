@@ -31,6 +31,7 @@ import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
+import org.catrobat.catroid.formulaeditor.Operators;
 
 import android.test.AndroidTestCase;
 
@@ -184,9 +185,9 @@ public class ParserTestFunctions extends AndroidTestCase {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ROUND.name()));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.33333"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
@@ -199,10 +200,10 @@ public class ParserTestFunctions extends AndroidTestCase {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ABS.name()));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "-"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();

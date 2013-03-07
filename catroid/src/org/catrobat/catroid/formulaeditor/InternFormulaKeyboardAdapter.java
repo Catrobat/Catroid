@@ -197,7 +197,7 @@ public class InternFormulaKeyboardAdapter {
 
 	private List<InternToken> buildLook(Sensors sensors) {
 		List<InternToken> returnList = new LinkedList<InternToken>();
-		returnList.add(new InternToken(InternTokenType.LOOK, sensors.name()));
+		returnList.add(new InternToken(InternTokenType.SENSOR, sensors.name()));
 		return returnList;
 	}
 

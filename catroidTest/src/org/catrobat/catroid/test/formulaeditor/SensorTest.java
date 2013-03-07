@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uitest.formulaeditor;
+package org.catrobat.catroid.test.formulaeditor;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -39,51 +39,35 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.Sensors;
-import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uitest.util.Reflection;
-import org.catrobat.catroid.uitest.util.SimulatedSensorManager;
-import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.junit.Test;
+import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.test.utils.SimulatedSensorManager;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.test.ActivityInstrumentationTestCase2;
+import android.test.InstrumentationTestCase;
 
-import com.jayway.android.robotium.solo.Solo;
+public class SensorTest extends InstrumentationTestCase {
 
-public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-
-	private Solo solo;
 	private Project project;
 	private Sprite firstSprite;
 	private Brick changeBrick;
 	Script startScript1;
 	private float delta = 0.001f;
 
-	public SensorTest() {
-		super(MainMenuActivity.class);
-	}
-
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
 		SensorHandler.stopSensorListeners();
 		Reflection.setPrivateField(SensorHandler.class, "instance", null);
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
-	@Test
 	public void testSensors() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
 		createProject();
 
@@ -116,7 +100,8 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 
 		//For initialization
 
-		SensorHandler.startSensorListener(solo.getCurrentActivity());
+		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
+
 		SensorHandler.stopSensorListeners();
 
 		SensorHandler sensorHandler = (SensorHandler) Reflection.getPrivateField(SensorHandler.class, "instance");
@@ -125,13 +110,13 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 
 		Sensor accelerometerSensor = (Sensor) Reflection.getPrivateField(sensorHandler, "accelerometerSensor");
 		Sensor rotationVectorSensor = (Sensor) Reflection.getPrivateField(sensorHandler, "rotationVectorSensor");
-		SensorHandler.startSensorListener(getActivity());
+		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
 
 		long startTime = System.currentTimeMillis();
 
 		while (sensorManager.getLatestSensorEvent(accelerometerSensor) == null
 				|| sensorManager.getLatestSensorEvent(rotationVectorSensor) == null
-				|| checkValidRotationValues(sensorManager.getLatestSensorEvent(rotationVectorSensor), sensorHandler) == false) {
+				|| checkValidRotationValues(sensorManager.getLatestSensorEvent(rotationVectorSensor)) == false) {
 
 			sensorManager.sendGeneratedSensorValues();
 
@@ -150,6 +135,7 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 
 		SensorHandler.getRotationMatrixFromVector(rotationMatrix, rotationVector);
 		android.hardware.SensorManager.getOrientation(rotationMatrix, orientations);
+
 		double expectedOrientationZ = Double.valueOf(orientations[0]) * SensorHandler.radianToDegreeConst;
 		double expectedOrientationX = Double.valueOf(orientations[1]) * SensorHandler.radianToDegreeConst;
 		double expectedOrientationY = Double.valueOf(orientations[2]) * SensorHandler.radianToDegreeConst;
@@ -166,9 +152,9 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 
 	}
 
-	private boolean checkValidRotationValues(SensorEvent sensorEvent, SensorHandler sensorHandler) {
+	private boolean checkValidRotationValues(SensorEvent sensorEvent) {
 		float[] rotationMatrix = new float[16];
-		float[] rotationVector = (float[]) Reflection.getPrivateField(sensorHandler, "rotationVector");
+		float[] rotationVector = new float[3];
 		float[] orientations = new float[3];
 
 		rotationVector[0] = sensorEvent.values[0];
@@ -179,9 +165,10 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 		android.hardware.SensorManager.getOrientation(rotationMatrix, orientations);
 
 		for (float orientation : orientations) {
-			if (orientation == Float.NaN) {
+			if (Float.compare(orientation, Float.NaN) == 0) {
 				return false;
 			}
+
 		}
 
 		return true;
@@ -216,7 +203,7 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 	}
 
 	private void createProject() {
-		this.project = new Project(null, UiTestUtils.PROJECTNAME1);
+		this.project = new Project(null, "testProject");
 		firstSprite = new Sprite("zwoosh");
 		startScript1 = new StartScript(firstSprite);
 		changeBrick = new ChangeSizeByNBrick(firstSprite, 10);

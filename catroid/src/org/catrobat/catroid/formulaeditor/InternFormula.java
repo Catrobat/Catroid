@@ -90,8 +90,8 @@ public class InternFormula {
 
 			if (externInternRepresentationMapping.getInternTokenByExternIndex(externCursorPosition) != null
 					&& getFirstLeftInternToken(externCursorPosition - 1) == cursorPositionInternToken
-					&& ((cursorPositionInternToken.isFunctionName()) || (cursorPositionInternToken.isSensor())
-							|| (cursorPositionInternToken.isUserVariable()) || (cursorPositionInternToken.isLook()))) {
+					&& ((cursorPositionInternToken.isFunctionName()) || (cursorPositionInternToken.isSensor()) || (cursorPositionInternToken
+							.isUserVariable()))) {
 				selectCursorPositionInternToken(TokenSelectionType.USER_SELECTION);
 			} else {
 				internFormulaTokenSelection = null;

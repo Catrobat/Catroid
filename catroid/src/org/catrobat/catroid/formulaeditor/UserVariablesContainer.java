@@ -59,15 +59,13 @@ public class UserVariablesContainer implements Serializable {
 
 	public void addSpriteUserVariable(String userVariableName, Double userVariableValue) {
 		String spriteName = ProjectManager.getInstance().getCurrentSprite().getName();
-		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue,
-				UserVariable.ScopeType.SPRITE);
+		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue);
 		List<UserVariable> varList = getOrCreateVariableListForSprite(spriteName);
 		varList.add(userVariableToAdd);
 	}
 
 	public void addProjectUserVariable(String userVariableName, Double userVariableValue) {
-		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue,
-				UserVariable.ScopeType.PROJECT);
+		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue);
 		projectVariables.add(userVariableToAdd);
 	}
 

@@ -24,8 +24,7 @@ package org.catrobat.catroid.formulaeditor;
 
 public enum Sensors {
 	X_ACCELERATION, Y_ACCELERATION, Z_ACCELERATION, Z_ORIENTATION, X_ORIENTATION, Y_ORIENTATION, LOOK_X(true), LOOK_Y(
-			true), LOOK_GHOSTEFFECT(true), LOOK_BRIGHTNESS(true), LOOK_SIZE(true), LOOK_ROTATION(true), LOOK_LAYER(
-			true);
+			true), LOOK_GHOSTEFFECT(true), LOOK_BRIGHTNESS(true), LOOK_SIZE(true), LOOK_ROTATION(true), LOOK_LAYER(true);
 	public final boolean isLookSensor;
 
 	Sensors(boolean isLookSensor) {
@@ -38,9 +37,9 @@ public enum Sensors {
 
 	public static boolean isSensor(String value) {
 		if (getSensorByValue(value) == null) {
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public static Sensors getSensorByValue(String value) {

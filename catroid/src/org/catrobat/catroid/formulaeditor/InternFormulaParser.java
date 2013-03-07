@@ -60,10 +60,6 @@ public class InternFormulaParser {
 
 	private void getNextToken() throws InternFormulaParserException {
 		currentTokenParseIndex++;
-		if (currentTokenParseIndex >= internTokensToParse.size()) {
-			currentToken = null;
-			throw new InternFormulaParserException("Parse Error");
-		}
 		currentToken = internTokensToParse.get(currentTokenParseIndex);
 
 	}
@@ -73,7 +69,7 @@ public class InternFormulaParser {
 
 	}
 
-	private FormulaElement findLowerPriorityOperatorElement(Operators currentOp, FormulaElement curElem) {
+	private FormulaElement findLowerOrEqualPriorityOperatorElement(Operators currentOp, FormulaElement curElem) {
 		FormulaElement returnElem = curElem.getParent();
 		FormulaElement notNullElem = curElem;
 		boolean goon = true;
@@ -110,7 +106,7 @@ public class InternFormulaParser {
 		int compareOp = parentOp.compareOperatorTo(currentOp);
 
 		if (compareOp >= 0) {
-			FormulaElement newLeftChild = findLowerPriorityOperatorElement(currentOp, curElem);
+			FormulaElement newLeftChild = findLowerOrEqualPriorityOperatorElement(currentOp, curElem);
 			FormulaElement newParent = newLeftChild.getParent();
 
 			if (newParent != null) {
@@ -126,10 +122,6 @@ public class InternFormulaParser {
 
 	private void addEndOfFileToken() {
 		int lastIndex = internTokensToParse.size() - 1;
-
-		if (internTokensToParse.get(lastIndex).isEndOfFileToken()) {
-			return;
-		}
 
 		InternToken endOfFileParserToken = new InternToken(InternTokenType.PARSER_END_OF_FILE);
 		internTokensToParse.add(endOfFileParserToken);
@@ -157,6 +149,7 @@ public class InternFormulaParser {
 		try {
 			formulaParseTree = formula();
 		} catch (InternFormulaParserException parseExeption) {
+
 			errorTokenIndex = currentTokenParseIndex;
 		}
 
@@ -231,9 +224,6 @@ public class InternFormulaParser {
 
 		} else if (currentToken.isSensor()) {
 			curElem.replaceElement(sensor());
-
-		} else if (currentToken.isLook()) {
-			curElem.replaceElement(look());
 
 		} else if (currentToken.isUserVariable()) {
 
