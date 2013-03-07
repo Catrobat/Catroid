@@ -81,7 +81,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 	}
 
 	@Smoke
-	public void testifEditMotionEqualBrickValue() {
+	public void testMotionBricksDefaultValues() {
 		String categoryMotionText = solo.getString(R.string.category_motion);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
@@ -164,7 +164,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 	}
 
 	@Smoke
-	public void testifEditTextLooksEqualBrickValue() {
+	public void testLookBricksDefaultValues() {
 		String categoryLooksText = solo.getString(R.string.category_looks);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
@@ -215,7 +215,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 	}
 
 	@Smoke
-	public void testifEditTextSoundEqualBrickValue() {
+	public void testSoundBricksDefaultValues() {
 		String categorySoundText = solo.getString(R.string.category_sound);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
@@ -246,7 +246,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 	}
 
 	@Smoke
-	public void testifEditTextControlEqualBrickValue() {
+	public void testControlBricksDefaultValues() {
 		String categoryControlText = solo.getString(R.string.category_control);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
@@ -276,7 +276,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 	}
 
 	@Smoke
-	public void testifEditTextLegoNXTEqualBrickValue() {
+	public void testLegoBricksDefaultValues() {
 		String categoryLegoNXTText = solo.getString(R.string.category_lego_nxt);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
