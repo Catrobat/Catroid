@@ -39,6 +39,10 @@ public class InternToExternGenerator {
 
 	private static final HashMap<String, Integer> internExternLanguageConverterMap = new HashMap<String, Integer>();
 	static {
+		internExternLanguageConverterMap.put(Operators.DIVIDE.name(), R.string.formula_editor_operator_divide);
+		internExternLanguageConverterMap.put(Operators.MULT.name(), R.string.formula_editor_operator_mult);
+		internExternLanguageConverterMap.put(Operators.MINUS.name(), R.string.formula_editor_operator_minus);
+		internExternLanguageConverterMap.put(Operators.PLUS.name(), R.string.formula_editor_operator_plus);
 
 		internExternLanguageConverterMap.put(".", R.string.formula_editor_decimal_mark);
 		internExternLanguageConverterMap.put(Functions.SIN.name(), R.string.formula_editor_function_sin);
