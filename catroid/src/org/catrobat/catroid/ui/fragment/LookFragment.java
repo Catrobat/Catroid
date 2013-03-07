@@ -253,6 +253,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		menu.setHeaderTitle(selectedLookData.getLookName());
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
+		menu.findItem(R.id.context_edit_in_paintroid).setVisible(true);
 	}
 
 	@Override
@@ -277,6 +278,9 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 			case R.id.context_menu_delete:
 				showDeleteDialog();
+				break;
+			case R.id.context_edit_in_paintroid:
+				sendPaintroidIntent(selectedLookPosition);
 				break;
 		}
 		return super.onContextItemSelected(item);
@@ -607,6 +611,11 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	private void handleEditLook(View view) {
+		int position = (Integer) view.getTag();
+		sendPaintroidIntent(position);
+	}
+
+	private void sendPaintroidIntent(int selected_position) {
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName("org.catrobat.paintroid", "org.catrobat.paintroid.MainActivity"));
 
@@ -635,7 +644,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			return;
 		}
 		//-------------------------------------------------------------------------------
-		int position = (Integer) view.getTag();
+		int position = selected_position;
 		selectedLookData = lookDataList.get(position);
 
 		Bundle bundleForPaintroid = new Bundle();

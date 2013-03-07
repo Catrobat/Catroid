@@ -155,6 +155,10 @@
     <!-- Script context menu -->
     <string name="script_context_menu_title">Script Menu</string>
     <!--  -->
+    
+    <!-- Look context menu -->
+    <string name="look_context_menu_edit_in_paintroid">Edit In Paintroid</string>
+    <!--  -->
 
 
     <!-- Brick context dialog -->

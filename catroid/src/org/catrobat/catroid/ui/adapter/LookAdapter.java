@@ -162,10 +162,6 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 				int[] resolution = lookData.getResolution();
 				String resolutionString = resolution[0] + " x " + resolution[1];
 
-				// Shorter string on active ActionMode
-				if (!checkboxIsVisible) {
-					resolutionString = resolutionString;
-				}
 				holder.lookResolutionTextView.setText(resolutionString);
 				holder.lookDetailsLinearLayout.setVisibility(TextView.VISIBLE);
 			} else {
