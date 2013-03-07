@@ -114,7 +114,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String XPositionValueChangeYBy = Integer.toString(BrickValues.CHANGE_Y_BY);
 		assertEquals("Value in Brick ChangeYBy are not correct", XPositionValueChangeYBy, ChangeYByPrototype);
 
-		solo.searchText(solo.getString(R.string.brick_move_n_steps));
+		solo.searchText(solo.getString(R.string.brick_move));
 		TextView MoveNSteps = (TextView) solo.getView(R.id.brick_move_n_steps_prototype_text_view);
 		String MoveNStepsPrototype = MoveNSteps.getText().toString();
 		String StepsValue = Float.toString(BrickValues.Move_Steps_Value);
