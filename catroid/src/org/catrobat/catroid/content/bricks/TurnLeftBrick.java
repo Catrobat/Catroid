@@ -25,8 +25,14 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+<<<<<<< HEAD
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+=======
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.utils.Utils;
+>>>>>>> origin/master
 
 import android.content.Context;
 import android.view.View;
@@ -76,8 +82,17 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 
 		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_left_prototype_text_view);
 		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_left_edit_text);
+<<<<<<< HEAD
 		degrees.setTextFieldId(R.id.brick_turn_left_edit_text);
 		degrees.refreshTextField(view);
+=======
+		editDegrees.setText(String.valueOf(degrees));
+
+		TextView times = (TextView) view.findViewById(R.id.brick_turn_left_degree_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.brick_turn_left_degree_plural,
+				Utils.convertDoubleToPluralInteger(degrees)));
+
+>>>>>>> origin/master
 		textDegrees.setVisibility(View.GONE);
 		editDegrees.setVisibility(View.VISIBLE);
 		editDegrees.setOnClickListener(this);
@@ -87,7 +102,11 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_turn_left, null);
+		View view = View.inflate(context, R.layout.brick_turn_left, null);
+		TextView times = (TextView) view.findViewById(R.id.brick_turn_left_degree_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.brick_turn_left_degree_plural,
+				Utils.convertDoubleToPluralInteger(degrees)));
+		return view;
 	}
 
 	@Override
