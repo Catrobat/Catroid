@@ -129,6 +129,9 @@ public class GlideToBrick implements Brick, OnClickListener {
 		textY.setText(yDestination + "");
 		TextView textDuration = (TextView) prototype.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
 		textDuration.setText((durationInMilliSeconds / 1000) + "");
+		TextView times = (TextView) prototype.findViewById(R.id.brick_glide_to_seconds_text_view);
+		times.setText(prototype.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(durationInMilliSeconds / 1000.0)));
 		return prototype;
 	}
 
