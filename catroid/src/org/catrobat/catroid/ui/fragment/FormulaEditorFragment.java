@@ -165,6 +165,9 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		fragTransaction.commit();
 		activity.getSupportActionBar().setTitle(ProjectManager.getInstance().getCurrentSprite().getName());
 
+		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(false);
+		getSherlockActivity().getSupportActionBar().setNavigationMode(
+				com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_LIST);
 		getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
 
 	}
