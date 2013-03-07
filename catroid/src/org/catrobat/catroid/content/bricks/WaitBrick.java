@@ -22,17 +22,14 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-<<<<<<< HEAD
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-=======
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 import org.catrobat.catroid.utils.Utils;
->>>>>>> origin/master
 
 import android.content.Context;
 import android.view.View;
@@ -41,7 +38,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class WaitBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -80,17 +77,22 @@ public class WaitBrick implements Brick, OnClickListener {
 
 		TextView text = (TextView) view.findViewById(R.id.brick_wait_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_wait_edit_text);
-<<<<<<< HEAD
 		timeToWaitInSeconds.setTextFieldId(R.id.brick_wait_edit_text);
 		timeToWaitInSeconds.refreshTextField(view);
-=======
-		edit.setText((timeToWaitInMilliSeconds / 1000.0) + "");
 
 		TextView times = (TextView) view.findViewById(R.id.brick_wait_second_text_view);
-		times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(timeToWaitInMilliSeconds / 1000.0)));
 
->>>>>>> origin/master
+		if (timeToWaitInSeconds.isSingleNumberFormula()) {
+			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+					Utils.convertDoubleToPluralInteger(timeToWaitInSeconds.interpretFloat(sprite))));
+		} else {
+
+			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
+			// in hopefully all possible languages
+			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
+		}
+
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
@@ -102,8 +104,16 @@ public class WaitBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		View view = View.inflate(context, R.layout.brick_wait, null);
 		TextView times = (TextView) view.findViewById(R.id.brick_wait_second_text_view);
-		times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(timeToWaitInMilliSeconds / 1000.0)));
+		if (timeToWaitInSeconds.isSingleNumberFormula()) {
+			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+					Utils.convertDoubleToPluralInteger(timeToWaitInSeconds.interpretFloat(sprite))));
+		} else {
+
+			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
+			// in hopefully all possible languages
+			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
+		}
 		return view;
 	}
 

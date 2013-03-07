@@ -227,11 +227,14 @@ public class Formula implements Serializable {
 		}
 
 		return false;
-
 	}
 
 	public boolean isLogicalFormula() {
 		return formulaTree.isLogicalOperator();
+	}
+
+	public boolean isSingleNumberFormula() {
+		return formulaTree.isSingleNumberFormula();
 	}
 
 }

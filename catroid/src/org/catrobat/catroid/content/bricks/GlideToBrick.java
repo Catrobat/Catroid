@@ -106,8 +106,16 @@ public class GlideToBrick implements Brick, OnClickListener {
 		durationInSeconds.refreshTextField(view);
 
 		TextView times = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
-		times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(durationInMilliSeconds / 1000.0)));
+		if (durationInSeconds.isSingleNumberFormula()) {
+			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+					Utils.convertDoubleToPluralInteger(durationInSeconds.interpretFloat(sprite))));
+		} else {
+
+			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
+			// in hopefully all possible languages
+			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
+		}
 
 		textDuration.setVisibility(View.GONE);
 		editDuration.setVisibility(View.VISIBLE);
@@ -125,8 +133,18 @@ public class GlideToBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		View view = View.inflate(context, R.layout.brick_glide_to, null);
 		TextView times = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
-		times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(durationInMilliSeconds / 1000.0)));
+
+		if (durationInSeconds.isSingleNumberFormula()) {
+			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+					Utils.convertDoubleToPluralInteger(durationInSeconds.interpretFloat(sprite))));
+		} else {
+
+			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
+			// in hopefully all possible languages
+			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
+		}
+
 		return view;
 	}
 

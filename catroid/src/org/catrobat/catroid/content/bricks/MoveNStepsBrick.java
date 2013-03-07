@@ -22,17 +22,14 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-<<<<<<< HEAD
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-=======
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 import org.catrobat.catroid.utils.Utils;
->>>>>>> origin/master
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -42,7 +39,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class MoveNStepsBrick implements Brick, OnClickListener {
 
@@ -85,15 +82,21 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		TextView text = (TextView) view.findViewById(R.id.brick_move_n_steps_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
-<<<<<<< HEAD
 		steps.setTextFieldId(R.id.brick_move_n_steps_edit_text);
 		steps.refreshTextField(view);
-=======
-		edit.setText(String.valueOf(steps));
+
 		TextView times = (TextView) view.findViewById(R.id.brick_move_n_steps_step_text_view);
-		times.setText(view.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
-				Utils.convertDoubleToPluralInteger(steps)));
->>>>>>> origin/master
+
+		if (steps.isSingleNumberFormula()) {
+			times.setText(view.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
+					Utils.convertDoubleToPluralInteger(steps.interpretFloat(sprite))));
+		} else {
+
+			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
+			// in hopefully all possible languages
+			times.setText(view.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
+					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
+		}
 
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
@@ -107,8 +110,18 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.brick_move_n_steps, null);
 		TextView times = (TextView) view.findViewById(R.id.brick_move_n_steps_step_text_view);
-		times.setText(view.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
-				Utils.convertDoubleToPluralInteger(steps)));
+
+		if (steps.isSingleNumberFormula()) {
+			times.setText(view.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
+					Utils.convertDoubleToPluralInteger(steps.interpretFloat(sprite))));
+		} else {
+
+			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
+			// in hopefully all possible languages
+			times.setText(view.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
+					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
+		}
+
 		return view;
 	}
 
