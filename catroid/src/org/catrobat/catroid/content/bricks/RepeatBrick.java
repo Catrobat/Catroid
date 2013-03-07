@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
 import android.view.View;
@@ -76,16 +77,22 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 		TextView text = (TextView) view.findViewById(R.id.brick_repeat_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
-<<<<<<< HEAD
 		timesToRepeat.setTextFieldId(R.id.brick_repeat_edit_text);
 		timesToRepeat.refreshTextField(view);
-=======
-		edit.setText(timesToRepeat + "");
 
 		TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
-		times.setText(view.getResources().getQuantityString(R.plurals.time_plural, timesToRepeat));
 
->>>>>>> origin/master
+		if (timesToRepeat.isSingleNumberFormula()) {
+			times.setText(view.getResources().getQuantityString(R.plurals.time_plural,
+					Utils.convertDoubleToPluralInteger(timesToRepeat.interpretFloat(sprite))));
+		} else {
+
+			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
+			// in hopefully all possible languages
+			times.setText(view.getResources().getQuantityString(R.plurals.time_plural,
+					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
+		}
+
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 
@@ -97,7 +104,16 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		View view = View.inflate(context, R.layout.brick_repeat, null);
 		TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
-		times.setText(view.getResources().getQuantityString(R.plurals.time_plural, timesToRepeat));
+		if (timesToRepeat.isSingleNumberFormula()) {
+			times.setText(view.getResources().getQuantityString(R.plurals.time_plural,
+					Utils.convertDoubleToPluralInteger(timesToRepeat.interpretFloat(sprite))));
+		} else {
+
+			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
+			// in hopefully all possible languages
+			times.setText(view.getResources().getQuantityString(R.plurals.time_plural,
+					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
+		}
 		return view;
 	}
 

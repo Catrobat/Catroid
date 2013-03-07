@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
 import android.view.View;
@@ -75,15 +76,21 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		TextView text = (TextView) view.findViewById(R.id.brick_go_back_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_go_back_edit_text);
 
-<<<<<<< HEAD
 		steps.setTextFieldId(R.id.brick_go_back_edit_text);
 		steps.refreshTextField(view);
-=======
-		edit.setText(String.valueOf(steps));
 
 		TextView times = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
-		times.setText(view.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural, steps));
->>>>>>> origin/master
+
+		if (steps.isSingleNumberFormula()) {
+			times.setText(view.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
+					Utils.convertDoubleToPluralInteger(steps.interpretFloat(sprite))));
+		} else {
+
+			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
+			// in hopefully all possible languages
+			times.setText(view.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
+					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
+		}
 
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
@@ -96,7 +103,17 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		View view = View.inflate(context, R.layout.brick_go_back, null);
 		TextView times = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
-		times.setText(view.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural, steps));
+
+		if (steps.isSingleNumberFormula()) {
+			times.setText(view.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
+					Utils.convertDoubleToPluralInteger(steps.interpretFloat(sprite))));
+		} else {
+
+			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
+			// in hopefully all possible languages
+			times.setText(view.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
+					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
+		}
 		return view;
 	}
 
