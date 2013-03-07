@@ -277,7 +277,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		solo.searchText(solo.getString(R.string.brick_note));
 		TextView Note = (TextView) solo.getView(R.id.brick_note_prototype_text_view);
 		String NotePrototype = Note.getText().toString();
-		String NoteValue = BrickValues.NOTE;
+		String NoteValue = solo.getString(R.string.brick_note_prototype);
 		assertEquals("Value in Note Speak are not correct", NoteValue, NotePrototype);
 
 		solo.searchText(solo.getString(R.string.brick_repeat));

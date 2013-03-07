@@ -50,8 +50,6 @@ public class BrickValues {
 
 	//Constants Control
 	public static final int WAIT = 1000;
-	public static final String MESSAGE = "message 1";
-	public static final String NOTE = "add comment here...";
 	public static final int REPEAT = 10;
 
 	//Constants Lego
