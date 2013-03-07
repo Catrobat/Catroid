@@ -75,18 +75,16 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		int xPosition = 123;
 		int yPosition = 567;
 
-		solo.clickOnEditText(0);
-		UiTestUtils.insertDoubleIntoEditText(solo, duration);
+		// This is a hack. On my device and on Jenkins, the click on the first EditText could not be completed.
+		// Doing it manually here
+		// #2 Improved hack to have it working on newer devices too, still no solution or anything
+		if (Build.VERSION.SDK_INT < 15) {
+			solo.clickOnView(solo.getView(R.id.brick_glide_to_edit_text_duration));
+		}
 
-		solo.goBack();
-
-		solo.clickOnEditText(1);
-		UiTestUtils.insertDoubleIntoEditText(solo, xPosition);
-		solo.goBack();
-
-		solo.clickOnEditText(2);
-		UiTestUtils.insertDoubleIntoEditText(solo, yPosition);
-		solo.goBack();
+		UiTestUtils.insertValueViaFormulaEditor(solo, 0, duration);
+		UiTestUtils.insertValueViaFormulaEditor(solo, 1, xPosition);
+		UiTestUtils.insertValueViaFormulaEditor(solo, 2, yPosition);
 
 		assertEquals("Text not updated within FormulaEditor", duration,
 				Double.parseDouble(solo.getEditText(0).getText().toString()));
@@ -94,15 +92,6 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 				Integer.parseInt(solo.getEditText(1).getText().toString().substring(0, 3)));
 		assertEquals("Text not updated within FormulaEditor", yPosition,
 				Integer.parseInt(solo.getEditText(2).getText().toString().substring(0, 3)));
-
-		solo.goBack();
-
-		// This is a hack. On my device and on Jenkins, the click on the first EditText could not be completed.
-		// Doing it manually here
-		// #2 Improved hack to have it working on newer devices too, still no solution or anything
-		if (Build.VERSION.SDK_INT < 15) {
-			solo.clickOnView(solo.getView(R.id.brick_glide_to_edit_text_duration));
-		}
 
 		ProjectManager manager = ProjectManager.getInstance();
 		List<Brick> brickList = manager.getCurrentSprite().getScript(0).getBrickList();
@@ -119,13 +108,6 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		formula = (Formula) Reflection.getPrivateField(glideToBrick, "yDestination");
 		temp2 = formula.interpretInteger(sprite);
 		assertEquals("Wrong y input in Glide to brick", yPosition, temp2);
-
-		assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000),
-				glideToBrick.getDurationInMilliSeconds());
-		assertEquals("Wrong x input in Glide to brick", xPosition,
-				Reflection.getPrivateField(glideToBrick, "xDestination"));
-		assertEquals("Wrong y input in Glide to brick", yPosition,
-				Reflection.getPrivateField(glideToBrick, "yDestination"));
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
 		TextView secondsTextView = (TextView) solo.getView(R.id.brick_glide_to_seconds_text_view);

@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.Reflection;
@@ -93,8 +94,10 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, 0, STEPS_TO_GO_BACK);
 
-		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK, Reflection.getPrivateField(goNStepsBackBrick, "steps"));
-		assertEquals("Value in Brick is not updated.", STEPS_TO_GO_BACK + "", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK,
+				(int) ((Formula) Reflection.getPrivateField(goNStepsBackBrick, "steps")).interpretFloat(null));
+		assertEquals("Value in Brick is not updated.", (double) STEPS_TO_GO_BACK,
+				Double.valueOf(solo.getEditText(0).getText().toString()));
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
 		TextView secondsTextView = (TextView) solo.getView(R.id.brick_go_back_layers_text_view);

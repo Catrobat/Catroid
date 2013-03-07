@@ -227,7 +227,7 @@ public class UiTestUtils {
 
 	public static void insertValueViaFormulaEditor(Solo solo, int editTextNumber, double value) {
 
-		solo.clickOnEditText(0);
+		solo.clickOnEditText(editTextNumber);
 		UiTestUtils.insertDoubleIntoEditText(solo, value);
 
 		assertEquals("Text not updated within FormulaEditor", value,

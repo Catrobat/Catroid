@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -108,8 +109,10 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, 0, STEPS_TO_MOVE);
 
-		assertEquals("Wrong text in field.", STEPS_TO_MOVE, Reflection.getPrivateField(moveNStepsBrick, "steps"));
-		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE + "", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong text in field.", STEPS_TO_MOVE,
+				(double) ((Formula) Reflection.getPrivateField(moveNStepsBrick, "steps")).interpretFloat(null));
+		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE,
+				Double.valueOf(solo.getEditText(0).getText().toString()));
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
 		TextView stepTextView = (TextView) solo.getView(R.id.brick_move_n_steps_step_text_view);

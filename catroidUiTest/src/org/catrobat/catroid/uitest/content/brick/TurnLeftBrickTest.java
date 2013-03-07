@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.Reflection;
@@ -90,8 +91,8 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, 0, turnDegrees);
 
-		double actualDegrees = (Double) Reflection.getPrivateField(turnLeftBrick, "degrees");
-		assertEquals("Wrong text in field", turnDegrees, actualDegrees);
+		Formula actualDegrees = (Formula) Reflection.getPrivateField(turnLeftBrick, "degrees");
+		assertEquals("Wrong text in field", turnDegrees, (double) actualDegrees.interpretFloat(null));
 		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);

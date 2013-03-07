@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.Reflection;
@@ -85,12 +86,11 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_wait)));
 
 		double waitTime = 2.25;
-		String fieldName = "timeToWaitInSeconds";
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, 0, waitTime);
 
-		int actualWaitTime = (Integer) Reflection.getPrivateField(waitBrick, "timeToWaitInMilliSeconds");
-		assertEquals("Wrong text in field", (long) (waitTime * 1000), actualWaitTime);
+		Formula actualWaitTime = (Formula) Reflection.getPrivateField(waitBrick, "timeToWaitInSeconds");
+		assertEquals("Wrong text in field", waitTime, (double) actualWaitTime.interpretFloat(null));
 		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
