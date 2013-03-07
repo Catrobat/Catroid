@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
@@ -87,29 +88,27 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 
 		double turnDegrees = 25;
 
-<<<<<<< HEAD
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, turnDegrees, "degrees", turnLeftBrick);
-=======
-		UiTestUtils.clickEnterClose(solo, 0, turnDegrees + "");
+		UiTestUtils.insertValueViaFormulaEditor(solo, 0, turnDegrees);
 
 		double actualDegrees = (Double) Reflection.getPrivateField(turnLeftBrick, "degrees");
 		assertEquals("Wrong text in field", turnDegrees, actualDegrees);
 		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
 
-		UiTestUtils.clickEnterClose(solo, 0, "1");
+		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
 		TextView secondsTextView = (TextView) solo.getView(R.id.brick_turn_left_degree_text_view);
 		assertTrue(
 				"Specifier hasn't changed from plural to singular",
 				secondsTextView.getText().equals(
 						secondsTextView.getResources().getQuantityString(R.plurals.brick_turn_left_degree_plural, 1)));
-		UiTestUtils.clickEnterClose(solo, 0, "1.4");
+
+		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1.4);
 		secondsTextView = (TextView) solo.getView(R.id.brick_turn_left_degree_text_view);
 		assertTrue(
 				"Specifier hasn't changed from singular to plural",
 				secondsTextView.getText().equals(
 						secondsTextView.getResources().getQuantityString(R.plurals.brick_turn_left_degree_plural,
 								Utils.convertDoubleToPluralInteger(1.4))));
->>>>>>> origin/master
+
 	}
 
 	private void createProject() {

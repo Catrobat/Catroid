@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
@@ -86,30 +87,28 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_turn_right)));
 
-<<<<<<< HEAD
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, TURN_DEGREES, "degrees", turnRightBrick);
-=======
-		UiTestUtils.clickEnterClose(solo, 0, TURN_DEGREES + "");
+		UiTestUtils.insertValueViaFormulaEditor(solo, 0, TURN_DEGREES);
 
 		double actualDegrees = (Double) Reflection.getPrivateField(turnRightBrick, "degrees");
 
 		assertEquals("Wrong text in field", TURN_DEGREES, actualDegrees);
 		assertEquals("Text not updated", TURN_DEGREES, Double.parseDouble(solo.getEditText(0).getText().toString()));
 
-		UiTestUtils.clickEnterClose(solo, 0, "1");
+		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
 		TextView secondsTextView = (TextView) solo.getView(R.id.brick_turn_right_degree_text_view);
 		assertTrue(
 				"Specifier hasn't changed from plural to singular",
 				secondsTextView.getText().equals(
 						secondsTextView.getResources().getQuantityString(R.plurals.brick_turn_right_degree_plural, 1)));
-		UiTestUtils.clickEnterClose(solo, 0, "1.4");
+
+		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1.4);
 		secondsTextView = (TextView) solo.getView(R.id.brick_turn_right_degree_text_view);
 		assertTrue(
 				"Specifier hasn't changed from singular to plural",
 				secondsTextView.getText().equals(
 						secondsTextView.getResources().getQuantityString(R.plurals.brick_turn_right_degree_plural,
 								Utils.convertDoubleToPluralInteger(1.4))));
->>>>>>> origin/master
+
 	}
 
 	private void createProject() {

@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.content.brick;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -74,7 +75,6 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		int xPosition = 123;
 		int yPosition = 567;
 
-<<<<<<< HEAD
 		solo.clickOnEditText(0);
 		UiTestUtils.insertDoubleIntoEditText(solo, duration);
 
@@ -96,7 +96,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 				Integer.parseInt(solo.getEditText(2).getText().toString().substring(0, 3)));
 
 		solo.goBack();
-=======
+
 		// This is a hack. On my device and on Jenkins, the click on the first EditText could not be completed.
 		// Doing it manually here
 		// #2 Improved hack to have it working on newer devices too, still no solution or anything
@@ -104,16 +104,10 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 			solo.clickOnView(solo.getView(R.id.brick_glide_to_edit_text_duration));
 		}
 
-		UiTestUtils.clickEnterClose(solo, 0, String.valueOf(duration));
-		UiTestUtils.clickEnterClose(solo, 1, String.valueOf(xPosition));
-		UiTestUtils.clickEnterClose(solo, 2, String.valueOf(yPosition));
->>>>>>> origin/master
-
 		ProjectManager manager = ProjectManager.getInstance();
 		List<Brick> brickList = manager.getCurrentSprite().getScript(0).getBrickList();
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(0);
 
-<<<<<<< HEAD
 		Formula formula = (Formula) Reflection.getPrivateField(glideToBrick, "durationInSeconds");
 		float temp = formula.interpretFloat(sprite);
 
@@ -125,6 +119,27 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		formula = (Formula) Reflection.getPrivateField(glideToBrick, "yDestination");
 		temp2 = formula.interpretInteger(sprite);
 		assertEquals("Wrong y input in Glide to brick", yPosition, temp2);
+
+		assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000),
+				glideToBrick.getDurationInMilliSeconds());
+		assertEquals("Wrong x input in Glide to brick", xPosition,
+				Reflection.getPrivateField(glideToBrick, "xDestination"));
+		assertEquals("Wrong y input in Glide to brick", yPosition,
+				Reflection.getPrivateField(glideToBrick, "yDestination"));
+
+		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
+		TextView secondsTextView = (TextView) solo.getView(R.id.brick_glide_to_seconds_text_view);
+		assertTrue(
+				"Specifier hasn't changed from plural to singular",
+				secondsTextView.getText().equals(
+						secondsTextView.getResources().getQuantityString(R.plurals.second_plural, 1)));
+
+		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 5);
+		secondsTextView = (TextView) solo.getView(R.id.brick_glide_to_seconds_text_view);
+		assertTrue(
+				"Specifier hasn't changed from singular to plural",
+				secondsTextView.getText().equals(
+						secondsTextView.getResources().getQuantityString(R.plurals.second_plural, 5)));
 	}
 
 	private void createProject() {
@@ -139,26 +154,6 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
-=======
-		assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000),
-				glideToBrick.getDurationInMilliSeconds());
-		assertEquals("Wrong x input in Glide to brick", xPosition,
-				Reflection.getPrivateField(glideToBrick, "xDestination"));
-		assertEquals("Wrong y input in Glide to brick", yPosition,
-				Reflection.getPrivateField(glideToBrick, "yDestination"));
 
-		UiTestUtils.clickEnterClose(solo, 0, "1");
-		TextView secondsTextView = (TextView) solo.getView(R.id.brick_glide_to_seconds_text_view);
-		assertTrue(
-				"Specifier hasn't changed from plural to singular",
-				secondsTextView.getText().equals(
-						secondsTextView.getResources().getQuantityString(R.plurals.second_plural, 1)));
-		UiTestUtils.clickEnterClose(solo, 0, "5.0");
-		secondsTextView = (TextView) solo.getView(R.id.brick_glide_to_seconds_text_view);
-		assertTrue(
-				"Specifier hasn't changed from singular to plural",
-				secondsTextView.getText().equals(
-						secondsTextView.getResources().getQuantityString(R.plurals.second_plural, 5)));
->>>>>>> origin/master
 	}
 }

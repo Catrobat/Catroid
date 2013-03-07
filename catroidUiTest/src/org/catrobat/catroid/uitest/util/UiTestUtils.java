@@ -225,6 +225,17 @@ public class UiTestUtils {
 
 	}
 
+	public static void insertValueViaFormulaEditor(Solo solo, int editTextNumber, double value) {
+
+		solo.clickOnEditText(0);
+		UiTestUtils.insertDoubleIntoEditText(solo, value);
+
+		assertEquals("Text not updated within FormulaEditor", value,
+				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()));
+		solo.goBack();
+		solo.sleep(200);
+	}
+
 	public static void clickEnterClose(Solo solo, int editTextIndex, String value) {
 		solo.clickOnEditText(editTextIndex);
 		solo.clearEditText(0);
