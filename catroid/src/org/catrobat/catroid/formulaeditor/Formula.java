@@ -142,14 +142,9 @@ public class Formula implements Serializable {
 			if (formulaTextField == null) {
 				return;
 			}
-			internFormula.generateExternFormulaStringAndInternExternMapping(view.getContext());//TODO refactor - currently too slow
+			internFormula.generateExternFormulaStringAndInternExternMapping(view.getContext());
 
 			formulaTextField.setText(internFormula.getExternFormulaString());
-			//			if (textRepresentation.length() > 5) {
-			//				formulaTextField.setText(textRepresentation.substring(0, 5) + "...");
-			//			} else {
-			//				formulaTextField.setText(textRepresentation);
-			//			}
 		}
 
 	}

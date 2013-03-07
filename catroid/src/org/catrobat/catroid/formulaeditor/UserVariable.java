@@ -23,8 +23,6 @@
 package org.catrobat.catroid.formulaeditor;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 
 public class UserVariable implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -41,14 +39,6 @@ public class UserVariable implements Serializable {
 		this.name = name;
 		this.value = value;
 		this.scope = scope;
-	}
-
-	public String getXMLDecodedName() {
-		return name; //TODO decode Name
-	}
-
-	public void setNameAndEncode(String name) {
-		this.name = name; //TODO encode Name
 	}
 
 	@Override
