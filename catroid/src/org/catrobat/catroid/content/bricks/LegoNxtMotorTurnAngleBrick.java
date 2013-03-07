@@ -53,7 +53,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 public class LegoNxtMotorTurnAngleBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototype;
+	private transient View prototypeView;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
@@ -96,23 +96,16 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
+		TextView textX = (TextView) prototypeView.findViewById(R.id.motor_turn_angle_text_view);
+		textX.setText(String.valueOf(degrees));
+		//TODO set the motorname
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
 		return new LegoNxtMotorTurnAngleBrick(getSprite(), motorEnum, degrees);
-	}
-
-	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
-		TextView textX = (TextView) prototype.findViewById(R.id.motor_turn_angle_text_view);
-		textX.setText(degrees + "");
-		Spinner motorSpinner = (Spinner) prototype.findViewById(R.id.motor_spinner);
-		return prototype;
-
-		//TODO set the motorname
 	}
 
 	@Override

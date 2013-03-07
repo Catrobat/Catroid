@@ -40,7 +40,6 @@ public class WhenStartedBrick extends ScriptBrick {
 	private Sprite sprite;
 
 	private transient View view;
-	private transient View dummy;
 
 	public WhenStartedBrick(Sprite sprite, Script script) {
 		this.script = script;
@@ -78,12 +77,6 @@ public class WhenStartedBrick extends ScriptBrick {
 	@Override
 	public Brick clone() {
 		return new WhenStartedBrick(getSprite(), null);
-	}
-
-	@Override
-	public View setDefaultValues(Context context) {
-		return dummy;
-
 	}
 
 	@Override

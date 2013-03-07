@@ -46,8 +46,6 @@ public class PointToBrick implements Brick {
 	private Sprite sprite;
 	private Sprite pointedSprite;
 
-	private transient View prototype;
-
 	public PointToBrick(Sprite sprite, Sprite pointedSprite) {
 		this.sprite = sprite;
 		this.pointedSprite = pointedSprite;
@@ -131,23 +129,14 @@ public class PointToBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.brick_point_to, null);
+		return view;
 	}
 
 	@Override
 	public Brick clone() {
 		return new PointToBrick(sprite, pointedSprite);
-	}
-
-	@Override
-	public View setDefaultValues(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		prototype = inflater.inflate(R.layout.brick_point_to, null);
-		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
-		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinnerAdapter.add(context.getString(R.string.broadcast_nothing_selected));
-		return prototype;
-		//TODO set the Value in the list 
 	}
 
 	@Override

@@ -37,7 +37,6 @@ public class ComeToFrontBrick implements Brick {
 	private Sprite sprite;
 
 	private transient View view;
-	private transient View prototype;
 
 	public ComeToFrontBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -73,14 +72,8 @@ public class ComeToFrontBrick implements Brick {
 	}
 
 	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_go_to_front, null);
-		return prototype;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		return View.inflate(context, R.layout.brick_go_to_front, null);
 	}
 
 	@Override

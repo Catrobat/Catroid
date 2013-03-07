@@ -23,13 +23,13 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class IfOnEdgeBounceBrick implements Brick {
@@ -38,7 +38,6 @@ public class IfOnEdgeBounceBrick implements Brick {
 	private Sprite sprite;
 
 	private transient View view;
-	private transient View prototype;
 
 	public IfOnEdgeBounceBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -73,16 +72,10 @@ public class IfOnEdgeBounceBrick implements Brick {
 	}
 
 	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
-		return prototype;
+	public View getPrototypeView(Context context) {
+		return View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
-	}
-	
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.ifOnEdgeBounce(sprite));

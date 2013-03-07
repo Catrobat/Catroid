@@ -43,7 +43,7 @@ public class SpeakBrick implements Brick {
 	private String text = "";
 
 	private transient View view;
-	private transient View prototype;
+	private transient View prototypeView;
 
 	public SpeakBrick(Sprite sprite, String text) {
 		this.sprite = sprite;
@@ -106,7 +106,10 @@ public class SpeakBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		prototypeView = View.inflate(context, R.layout.brick_speak, null);
+		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_speak_prototype_text_view);
+		textSpeak.setText(text);
+		return prototypeView;
 	}
 
 	@Override
@@ -118,14 +121,6 @@ public class SpeakBrick implements Brick {
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.speak(text, this));
 		return null;
-	}
-
-	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_speak, null);
-		TextView textSpeak = (TextView) prototype.findViewById(R.id.brick_speak_prototype_text_view);
-		textSpeak.setText(text + "");
-		return prototype;
 	}
 
 }

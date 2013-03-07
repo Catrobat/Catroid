@@ -44,7 +44,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 	private int steps;
 
-	private transient View prototype;
+	private transient View prototypeView;
 
 	public GoNStepsBackBrick(Sprite sprite, int steps) {
 		this.sprite = sprite;
@@ -86,20 +86,17 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		prototypeView = View.inflate(context, R.layout.brick_go_back, null);
+		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_prototype_text_view);
+		textSteps.setText(String.valueOf(steps));
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural, steps));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
 		return new GoNStepsBackBrick(getSprite(), steps);
-	}
-
-	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_go_back, null);
-		TextView textSteps = (TextView) prototype.findViewById(R.id.brick_go_back_prototype_text_view);
-		textSteps.setText(steps + "");
-		return prototype;
 	}
 
 	@Override

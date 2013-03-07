@@ -45,7 +45,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarChangeListener {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototype;
+	private transient View prototypeView;
 
 	private static final int MIN_FREQ_IN_HERTZ = 200;
 	private static final int MAX_FREQ_IN_HERTZ = 14000;
@@ -81,24 +81,19 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);//view;
+		prototypeView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
+		TextView textDuration = (TextView) prototypeView.findViewById(R.id.nxt_tone_duration_text_view);
+		textDuration.setText(String.valueOf((durationInMilliSeconds / 1000.0)));
+		TextView textFreq = (TextView) prototypeView.findViewById(R.id.nxt_tone_freq_text_view);
+		textFreq.setText(String.valueOf((hertz / 100)));
+		SeekBar noClick = (SeekBar) prototypeView.findViewById(R.id.seekBarNXTToneFrequency);
+		noClick.setEnabled(false);
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
 		return new LegoNxtPlayToneBrick(getSprite(), hertz, durationInMilliSeconds);
-	}
-
-	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_nxt_play_tone, null);
-		TextView textDuration = (TextView) prototype.findViewById(R.id.nxt_tone_duration_text_view);
-		textDuration.setText(String.valueOf((durationInMilliSeconds / 1000.0) + ""));
-		TextView textFreq = (TextView) prototype.findViewById(R.id.nxt_tone_freq_text_view);
-		textFreq.setText(String.valueOf((hertz / 100)) + "");
-		SeekBar noClick = (SeekBar) prototype.findViewById(R.id.seekBarNXTToneFrequency);
-		noClick.setEnabled(false);
-		return prototype;
 	}
 
 	@Override

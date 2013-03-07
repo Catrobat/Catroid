@@ -43,7 +43,7 @@ public class SetLookBrick implements Brick {
 	private Sprite sprite;
 	private LookData look;
 	private transient View view;
-	private transient View prototype;
+	private transient View prototypeView;
 
 	public SetLookBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -124,7 +124,12 @@ public class SetLookBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		prototypeView = View.inflate(context, R.layout.brick_set_look, null);
+		if (sprite.getName().equals(context.getString(R.string.background))) {
+			TextView textView = (TextView) prototypeView.findViewById(R.id.brick_set_look_prototype_text_view);
+			textView.setText(R.string.brick_set_background);
+		}
+		return prototypeView;
 	}
 
 	@Override
@@ -136,16 +141,6 @@ public class SetLookBrick implements Brick {
 
 		return clonedBrick;
 		//test
-	}
-
-	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_set_look, null);
-		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) prototype.findViewById(R.id.brick_set_look_prototype_text_view);
-			textView.setText(R.string.brick_set_background);
-		}
-		return prototype;
 	}
 
 	@Override

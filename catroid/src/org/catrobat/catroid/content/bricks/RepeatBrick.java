@@ -44,7 +44,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int timesToRepeat;
 
-	private transient View prototype;
+	private transient View prototypeView;
 
 	public RepeatBrick(Sprite sprite, int timesToRepeat) {
 		this.sprite = sprite;
@@ -70,14 +70,6 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	}
 
 	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_repeat, null);
-		TextView textRepeat = (TextView) prototype.findViewById(R.id.brick_repeat_prototype_text_view);
-		textRepeat.setText(timesToRepeat + "");
-		return prototype;
-	}
-
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		View view = View.inflate(context, R.layout.brick_repeat, null);
@@ -98,7 +90,12 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		prototypeView = View.inflate(context, R.layout.brick_repeat, null);
+		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_prototype_text_view);
+		textRepeat.setText(timesToRepeat + "");
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.time_plural, timesToRepeat));
+		return prototypeView;
 	}
 
 	@Override

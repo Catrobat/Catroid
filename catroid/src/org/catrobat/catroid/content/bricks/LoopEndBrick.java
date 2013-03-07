@@ -34,6 +34,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBrick {
@@ -42,8 +43,6 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	private static final String TAG = LoopEndBrick.class.getSimpleName();
 	private Sprite sprite;
 	private LoopBeginBrick loopBeginBrick;
-
-	private transient View prototype;
 
 	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
 		this.sprite = sprite;
@@ -91,14 +90,8 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	}
 
 	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_loop_end, null);
-		return prototype;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		return View.inflate(context, R.layout.brick_loop_end, null);
 	}
 
 	@Override

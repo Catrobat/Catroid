@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -36,7 +37,6 @@ public class ForeverBrick extends LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View view;
-	private transient View prototype;
 
 	public ForeverBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -56,12 +56,6 @@ public class ForeverBrick extends LoopBeginBrick {
 	}
 
 	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_forever, null);
-		return prototype;
-	}
-
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_forever, null);
@@ -72,7 +66,7 @@ public class ForeverBrick extends LoopBeginBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		return View.inflate(context, R.layout.brick_forever, null);
 	}
 
 	@Override

@@ -54,6 +54,4 @@ public interface Brick extends Serializable {
 
 	public int getRequiredResources();
 
-	public View setDefaultValues(Context context);
-
 }

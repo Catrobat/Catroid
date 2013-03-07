@@ -39,7 +39,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -52,7 +51,6 @@ public class BroadcastWaitBrick implements Brick {
 	private BroadcastScript waitScript;
 
 	private transient View view;
-	private transient View prototype;
 
 	public BroadcastWaitBrick() {
 
@@ -182,18 +180,9 @@ public class BroadcastWaitBrick implements Brick {
 	}
 
 	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_broadcast_wait, null);
-		TextView textXMovement = (TextView) prototype.findViewById(R.id.brick_broadcast_wait_spinner);
-		textXMovement.setText(broadcastMessage + "");
-		return prototype;
-
-	}
-	
-	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.broadcastFromWaiter(sprite, broadcastMessage));
 		return null;
-		}
+	}
 
 }

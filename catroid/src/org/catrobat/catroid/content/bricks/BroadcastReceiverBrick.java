@@ -48,7 +48,6 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	private Sprite sprite;
 
 	private transient View view;
-	private transient View prototype;
 
 	public BroadcastReceiverBrick() {
 
@@ -152,7 +151,7 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		return View.inflate(context, R.layout.brick_broadcast_receive, null);
 	}
 
 	@Override
@@ -173,12 +172,6 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_broadcast_receive, null);
-		return prototype;
 	}
 
 }

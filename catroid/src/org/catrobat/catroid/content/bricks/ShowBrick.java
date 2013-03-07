@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ShowBrick implements Brick {
@@ -36,7 +37,6 @@ public class ShowBrick implements Brick {
 	private Sprite sprite;
 
 	private transient View view;
-	private transient View prototype;
 
 	public ShowBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -66,7 +66,7 @@ public class ShowBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		return View.inflate(context, R.layout.brick_show, null);
 	}
 
 	@Override
@@ -78,12 +78,6 @@ public class ShowBrick implements Brick {
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.show(sprite));
 		return null;
-	}
-
-	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_show, null);
-		return prototype;
 	}
 
 }

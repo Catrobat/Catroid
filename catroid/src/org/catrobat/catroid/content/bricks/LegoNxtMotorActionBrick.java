@@ -43,12 +43,13 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, OnClickListener {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototype;
+	private transient View prototypeView;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
@@ -95,27 +96,18 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 
 	@Override
 	public View getPrototypeView(Context context) {
-		//View view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
-		//SeekBar noClick = (SeekBar) view.findViewById(R.id.seekBarSpeedMotorAction);
-		//noClick.setEnabled(false);
-		return setDefaultValues(context);//view;
+		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
+		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.motor_action_speed_text_view);
+		textSpeed.setText(String.valueOf(speed));
+		SeekBar noClick = (SeekBar) prototypeView.findViewById(R.id.seekBarSpeedMotorAction);
+		noClick.setEnabled(false);
+		//TODO set the spinner Value to A
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
 		return new LegoNxtMotorActionBrick(getSprite(), motorEnum, speed);
-	}
-
-	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_nxt_motor_action, null);
-		TextView textSpeed = (TextView) prototype.findViewById(R.id.motor_action_speed_text_view);
-		textSpeed.setText(speed + "");
-		//speedBar = (SeekBar) prototype.findViewById(R.id.seekBarSpeedMotorAction);
-		SeekBar noClick = (SeekBar) prototype.findViewById(R.id.seekBarSpeedMotorAction);
-		noClick.setEnabled(false);
-		return prototype;
-		//TODO set the spinner Value to A
 	}
 
 	@Override

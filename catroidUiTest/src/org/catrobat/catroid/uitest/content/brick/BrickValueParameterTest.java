@@ -36,6 +36,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -52,15 +53,14 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		UiTestUtils.clearAllUtilTestProjects();
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		// disable mindstorm bricks, if enabled at start
+		// enable mindstorm bricks, if disabled at start
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (!sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
 			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
 		}
-
-		super.setUp();
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
@@ -69,6 +69,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 	@Override
 	public void tearDown() throws Exception {
 		UiTestUtils.goBackToHome(getInstrumentation());
+		// disable mindstorm bricks, if enabled
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
 			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
@@ -86,254 +87,227 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryMotionText);
 
-		TextView placeAtX = (TextView) solo.getView(R.id.brick_place_at_prototype_text_view_x);
-		String xPositionPrototype = placeAtX.getText().toString();
-		String xPositionValue = Integer.toString(BrickValues.X_POSITION);
-		assertEquals("Value in Brick PlaceAtX are not correct", xPositionValue, xPositionPrototype);
+		TextView placeAtXTextView = (TextView) solo.getView(R.id.brick_place_at_prototype_text_view_x);
+		int xPositionPrototypeValue = Integer.parseInt(placeAtXTextView.getText().toString());
+		assertEquals("Value in Brick PlaceAtX is not correct", BrickValues.X_POSITION, xPositionPrototypeValue);
 
-		TextView placeAtY = (TextView) solo.getView(R.id.brick_place_at_prototype_text_view_y);
-		String yPositionPrototype = placeAtY.getText().toString();
-		String yPositionValue = Integer.toString(BrickValues.Y_POSITION);
-		assertEquals("Value in Brick PlaceAtY are not correct", yPositionValue, yPositionPrototype);
+		TextView placeAtYTextView = (TextView) solo.getView(R.id.brick_place_at_prototype_text_view_y);
+		int yPositionPrototypeValue = Integer.parseInt(placeAtYTextView.getText().toString());
+		assertEquals("Value in Brick PlaceAtY is not correct", BrickValues.Y_POSITION, yPositionPrototypeValue);
 
-		TextView setXTo = (TextView) solo.getView(R.id.brick_set_x_prototype_text_view);
-		String setXtoPrototype = setXTo.getText().toString();
-		String xPositionValueSetX = Integer.toString(BrickValues.X_POSITION);
-		assertEquals("Value in Brick SetXTo are not correct", xPositionValueSetX, setXtoPrototype);
+		TextView setXToTextView = (TextView) solo.getView(R.id.brick_set_x_prototype_text_view);
+		int setXtoPrototypeValue = Integer.parseInt(setXToTextView.getText().toString());
+		assertEquals("Value in Brick SetXTo is not correct", BrickValues.X_POSITION, setXtoPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_set_y));
-		TextView setYTo = (TextView) solo.getView(R.id.brick_set_y_prototype_text_view);
-		String setYtoPrototype = setYTo.getText().toString();
-		String yPositionValueSetY = Integer.toString(BrickValues.Y_POSITION);
-		assertEquals("Value in Brick SetYTo are not correct", yPositionValueSetY, setYtoPrototype);
+		TextView setYToTextView = (TextView) solo.getView(R.id.brick_set_y_prototype_text_view);
+		int setYtoPrototypeValue = Integer.parseInt(setYToTextView.getText().toString());
+		assertEquals("Value in Brick SetYTo is not correct", BrickValues.Y_POSITION, setYtoPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_change_x_by));
-		TextView changeXBy = (TextView) solo.getView(R.id.brick_change_x_prototype_text_view);
-		String changeXByPrototype = changeXBy.getText().toString();
-		String rPositionValueChangeXBy = Integer.toString(BrickValues.CHANGE_X_BY);
-		assertEquals("Value in Brick ChangeXBy are not correct", rPositionValueChangeXBy, changeXByPrototype);
+		TextView changeXByTextView = (TextView) solo.getView(R.id.brick_change_x_prototype_text_view);
+		int changeXByPrototypeValue = Integer.parseInt(changeXByTextView.getText().toString());
+		assertEquals("Value in Brick ChangeXBy is not correct", BrickValues.CHANGE_X_BY, changeXByPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_change_y_by));
-		TextView changeYBy = (TextView) solo.getView(R.id.brick_change_y_prototype_text_view);
-		String changeYByPrototype = changeYBy.getText().toString();
-		String xPositionValueChangeYBy = Integer.toString(BrickValues.CHANGE_Y_BY);
-		assertEquals("Value in Brick ChangeYBy are not correct", xPositionValueChangeYBy, changeYByPrototype);
+		TextView changeYByTextView = (TextView) solo.getView(R.id.brick_change_y_prototype_text_view);
+		int changeYByPrototypeValue = Integer.parseInt(changeYByTextView.getText().toString());
+		assertEquals("Value in Brick ChangeYBy is not correct", BrickValues.CHANGE_Y_BY, changeYByPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_move));
-		TextView moveNSteps = (TextView) solo.getView(R.id.brick_move_n_steps_prototype_text_view);
-		String moveNStepsPrototype = moveNSteps.getText().toString();
-		String stepsValue = Float.toString(BrickValues.Move_Steps_Value);
-		assertEquals("Value in Brick MoveNSteps are not correct", stepsValue, moveNStepsPrototype);
+		TextView moveNStepsTextView = (TextView) solo.getView(R.id.brick_move_n_steps_prototype_text_view);
+		float moveNStepsPrototypeValue = Float.parseFloat(moveNStepsTextView.getText().toString());
+		assertEquals("Value in Brick MoveNSteps is not correct", BrickValues.MOVE_STEPS, moveNStepsPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_turn_left));
-		TextView turnLeft = (TextView) solo.getView(R.id.brick_turn_left_prototype_text_view);
-		String turnLeftPrototype = turnLeft.getText().toString();
-		String turnLeftDegreesValue = Float.toString(BrickValues.TURN_RIGHT);
-		assertEquals("Value in Brick TurnLeft are not correct", turnLeftDegreesValue, turnLeftPrototype);
+		TextView turnLeftTextView = (TextView) solo.getView(R.id.brick_turn_left_prototype_text_view);
+		float turnLeftPrototypeValue = Float.parseFloat(turnLeftTextView.getText().toString());
+		assertEquals("Value in Brick TurnLeft is not correct", (float) BrickValues.TURN_DEGREES, turnLeftPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_turn_right));
-		TextView turnRight = (TextView) solo.getView(R.id.brick_turn_right_prototype_text_view);
-		String turnRightPrototype = turnRight.getText().toString();
-		String turnRightDegreesValue = Float.toString(BrickValues.TURN_RIGHT);
-		assertEquals("Value in Brick TurnRight are not correct", turnRightDegreesValue, turnRightPrototype);
+		TextView turnRightTextView = (TextView) solo.getView(R.id.brick_turn_right_prototype_text_view);
+		float turnRightPrototypeValue = Float.parseFloat(turnRightTextView.getText().toString());
+		assertEquals("Value in Brick TurnRight is not correct", (float) BrickValues.TURN_DEGREES,
+				turnRightPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_point_in_direction));
-		TextView pointInDirection = (TextView) solo.getView(R.id.brick_point_in_direction_prototype_text_view);
-		String pointInDirectionPrototype = pointInDirection.getText().toString();
-		String pointInDirectionValue = Float.toString(BrickValues.POINT_IN_DIRECTION);
-		assertEquals("Value in Brick PointInDirection are not correct", pointInDirectionValue,
-				pointInDirectionPrototype);
+		TextView pointInDirectionTextView = (TextView) solo.getView(R.id.brick_point_in_direction_prototype_text_view);
+		float pointInDirectionPrototypeValue = Float.parseFloat(pointInDirectionTextView.getText().toString());
+		assertEquals("Value in Brick PointInDirection is not correct", (float) BrickValues.POINT_IN_DIRECTION,
+				pointInDirectionPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_glide));
-		TextView glideSeconds = (TextView) solo.getView(R.id.brick_glide_to_prototype_text_view_duration);
-		String glideSecondsPrototype = glideSeconds.getText().toString();
-		int seconds = BrickValues.GLIDE_SECONDS / 1000;
-		String glideSecondsValue = Integer.toString(seconds);
-		assertEquals("Value in Brick GlideSeconds are not correct", glideSecondsValue, glideSecondsPrototype);
+		TextView glideSecondsTextView = (TextView) solo.getView(R.id.brick_glide_to_prototype_text_view_duration);
+		float glideSecondsPrototypeValue = Float.parseFloat(glideSecondsTextView.getText().toString());
+		assertEquals("Value in Brick GlideSeconds is not correct", (float) BrickValues.GLIDE_SECONDS / 1000,
+				glideSecondsPrototypeValue);
 
-		TextView glideX = (TextView) solo.getView(R.id.brick_glide_to_prototype_text_view_x);
-		String glideXPrototype = glideX.getText().toString();
-		String glideXValue = Integer.toString(BrickValues.X_POSITION);
-		assertEquals("Value in Brick GlideX are not correct", glideXValue, glideXPrototype);
+		TextView glideXTextView = (TextView) solo.getView(R.id.brick_glide_to_prototype_text_view_x);
+		int glideXPrototypeValue = Integer.parseInt(glideXTextView.getText().toString());
+		assertEquals("Value in Brick GlideX is not correct", BrickValues.X_POSITION, glideXPrototypeValue);
 
-		TextView glideY = (TextView) solo.getView(R.id.brick_glide_to_prototype_text_view_y);
-		String glideYPrototype = glideY.getText().toString();
-		String glideYValue = Integer.toString(BrickValues.Y_POSITION);
-		assertEquals("Value in Brick GlideY are not correct", glideYValue, glideYPrototype);
+		TextView glideYTextView = (TextView) solo.getView(R.id.brick_glide_to_prototype_text_view_y);
+		int glideYPrototypeValue = Integer.parseInt(glideYTextView.getText().toString());
+		assertEquals("Value in Brick GlideY is not correct", BrickValues.Y_POSITION, glideYPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_go_back));
-		TextView goBack = (TextView) solo.getView(R.id.brick_go_back_prototype_text_view);
-		String goBackPrototype = goBack.getText().toString();
-		String goBackValue = Integer.toString(BrickValues.GO_BACK);
-		assertEquals("Value in Brick GoBack are not correct", goBackValue, goBackPrototype);
+		TextView goBackTextView = (TextView) solo.getView(R.id.brick_go_back_prototype_text_view);
+		int goBackPrototypeValue = Integer.parseInt(goBackTextView.getText().toString());
+		assertEquals("Value in Brick GoBack is not correct", BrickValues.GO_BACK, goBackPrototypeValue);
 
 		solo.clickOnText(solo.getString(R.string.brick_go_back));
 		solo.clickOnScreen(200, 200);
 
-		TextView goBackSelect = (TextView) solo.getView(R.id.brick_go_back_edit_text);
-		String editText = goBackSelect.getText().toString();
-		assertEquals("Value in Selected Brick GoBack are not correct", goBackValue, editText);
-
+		EditText goBackEditText = (EditText) solo.getView(R.id.brick_go_back_edit_text);
+		int goBackEditTextValue = Integer.parseInt(goBackEditText.getText().toString());
+		assertEquals("Value in Selected Brick GoBack is not correct", BrickValues.GO_BACK, goBackEditTextValue);
 	}
 
 	@Smoke
 	public void testifEditTextLooksEqualBrickValue() {
-
 		String categoryLooksText = solo.getString(R.string.category_looks);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryLooksText);
 
-		TextView setSizeTo = (TextView) solo.getView(R.id.brick_set_size_to_prototype_text_view);
-		String setSizeToPrototype = setSizeTo.getText().toString();
-		String setSizeToValue = Float.toString(BrickValues.SET_SIZE_TO);
-		assertEquals("Value in Brick SetSizeTo are not correct", setSizeToValue, setSizeToPrototype);
+		TextView setSizeToTextView = (TextView) solo.getView(R.id.brick_set_size_to_prototype_text_view);
+		float setSizeToPrototypeValue = Float.parseFloat(setSizeToTextView.getText().toString());
+		assertEquals("Value in Brick SetSizeTo is not correct", (float) BrickValues.SET_SIZE_TO,
+				setSizeToPrototypeValue);
 
-		TextView changeSizeBy = (TextView) solo.getView(R.id.brick_change_size_by_prototype_text_view);
-		String changeSizeByPrototype = changeSizeBy.getText().toString();
-		String changeSizeByValue = Float.toString(BrickValues.CHANGE_SIZE_BY);
-		assertEquals("Value in Brick ChangeSizeBy are not correct", changeSizeByValue, changeSizeByPrototype);
+		TextView changeSizeByTextView = (TextView) solo.getView(R.id.brick_change_size_by_prototype_text_view);
+		float changeSizeByPrototypeValue = Float.parseFloat(changeSizeByTextView.getText().toString());
+		assertEquals("Value in Brick ChangeSizeBy is not correct", (float) BrickValues.CHANGE_SIZE_BY,
+				changeSizeByPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_set_ghost_effect));
-		TextView setGhostEffect = (TextView) solo.getView(R.id.brick_set_ghost_effect_to_prototype_text_view);
-		String setGhostEffectPrototype = setGhostEffect.getText().toString();
-		String setGhostEffectValue = Float.toString(BrickValues.SET_GHOST_EFFECT);
-		assertEquals("Value in Brick SetGhostEffect are not correct", setGhostEffectValue, setGhostEffectPrototype);
+		TextView setGhostEffectTextView = (TextView) solo.getView(R.id.brick_set_ghost_effect_to_prototype_text_view);
+		float setGhostEffectPrototypeValue = Float.parseFloat(setGhostEffectTextView.getText().toString());
+		assertEquals("Value in Brick SetGhostEffect is not correct", (float) BrickValues.SET_GHOST_EFFECT,
+				setGhostEffectPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_change_ghost_effect));
-		TextView changeGhostEffect = (TextView) solo.getView(R.id.brick_set_ghost_effect_to_prototype_text_view);
-		String changeGhostEffectPrototype = changeGhostEffect.getText().toString();
-		String changeGhostEffectValue = Float.toString(BrickValues.SET_GHOST_EFFECT);
-		assertEquals("Value in Brick SetGhostEffect are not correct", changeGhostEffectValue,
-				changeGhostEffectPrototype);
+		TextView changeGhostEffectTextView = (TextView) solo
+				.getView(R.id.brick_set_ghost_effect_to_prototype_text_view);
+		float changeGhostEffectPrototypeValue = Float.parseFloat(changeGhostEffectTextView.getText().toString());
+		assertEquals("Value in Brick SetGhostEffect is not correct", (float) BrickValues.SET_GHOST_EFFECT,
+				changeGhostEffectPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_set_brightness));
-		TextView setBrightness = (TextView) solo.getView(R.id.brick_set_brightness_prototype_text_view);
-		String setBrightnessPrototype = setBrightness.getText().toString();
-		String setBrightnessValue = Float.toString(BrickValues.SET_BRIGHTNESS_TO);
-		assertEquals("Value in Brick SetBrightness are not correct", setBrightnessValue, setBrightnessPrototype);
+		TextView setBrightnessTextView = (TextView) solo.getView(R.id.brick_set_brightness_prototype_text_view);
+		float setBrightnessPrototypeValue = Float.parseFloat(setBrightnessTextView.getText().toString());
+		assertEquals("Value in Brick SetBrightness is not correct", (float) BrickValues.SET_BRIGHTNESS_TO,
+				setBrightnessPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_change_brightness));
-		TextView changeBrightness = (TextView) solo.getView(R.id.brick_change_brightness_prototype_text_view);
-		String changeBrightnessPrototype = changeBrightness.getText().toString();
-		String changeBrightnessValue = Float.toString(BrickValues.CHANGE_BRITHNESS_BY);
-		assertEquals("Value in Brick ChangeBrightness are not correct", changeBrightnessValue,
-				changeBrightnessPrototype);
+		TextView changeBrightnessTextView = (TextView) solo.getView(R.id.brick_change_brightness_prototype_text_view);
+		float changeBrightnessPrototypeValue = Float.parseFloat(changeBrightnessTextView.getText().toString());
+		assertEquals("Value in Brick ChangeBrightness is not correct", (float) BrickValues.CHANGE_BRITHNESS_BY,
+				changeBrightnessPrototypeValue);
 
 		solo.clickOnText(solo.getString(R.string.brick_change_brightness));
 		solo.clickOnScreen(200, 200);
 
-		TextView changeBrightnessSelect = (TextView) solo.getView(R.id.brick_change_brightness_edit_text);
-		String editText = changeBrightnessSelect.getText().toString();
-		assertEquals("Value in Selected Brick ChangeBrightness are not correct", changeBrightnessValue, editText);
-
+		EditText changeBrightnessEditText = (EditText) solo.getView(R.id.brick_change_brightness_edit_text);
+		float changeBrightnessEditTextValue = Float.parseFloat(changeBrightnessEditText.getText().toString());
+		assertEquals("Value in Selected Brick ChangeBrightness is not correct",
+				(float) BrickValues.CHANGE_BRITHNESS_BY, changeBrightnessEditTextValue);
 	}
 
 	@Smoke
 	public void testifEditTextSoundEqualBrickValue() {
-
 		String categorySoundText = solo.getString(R.string.category_sound);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categorySoundText);
 
-		TextView setVolumenTo = (TextView) solo.getView(R.id.brick_set_volume_to_prototype_text_view);
-		String setVolumenToPrototype = setVolumenTo.getText().toString();
-		String setVolumenToValue = Float.toString(BrickValues.SET_VOLUMEN_TO);
-		assertEquals("Value in Brick SetVolumenTo are not correct", setVolumenToValue, setVolumenToPrototype);
+		TextView setVolumeToTextView = (TextView) solo.getView(R.id.brick_set_volume_to_prototype_text_view);
+		float setVolumeToPrototypeValue = Float.parseFloat(setVolumeToTextView.getText().toString());
+		assertEquals("Value in Brick SetVolumenTo is not correct", (float) BrickValues.SET_VOLUME_TO,
+				setVolumeToPrototypeValue);
 
-		TextView changeVolumenTo = (TextView) solo.getView(R.id.brick_change_volume_by_prototype_text_view);
-		String changeVolumenToPrototype = changeVolumenTo.getText().toString();
-		String changeVolumenToValue = Float.toString(BrickValues.CHANGE_VOLUMEN_BY);
-		assertEquals("Value in Brick SetVolumenTo are not correct", changeVolumenToValue, changeVolumenToPrototype);
+		TextView changeVolumeToTextView = (TextView) solo.getView(R.id.brick_change_volume_by_prototype_text_view);
+		float changeVolumenToPrototypeValue = Float.parseFloat(changeVolumeToTextView.getText().toString());
+		assertEquals("Value in Brick SetVolumenTo is not correct", (float) BrickValues.CHANGE_VOLUME_BY,
+				changeVolumenToPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_speak));
-		TextView speak = (TextView) solo.getView(R.id.brick_speak_prototype_text_view);
-		String speakPrototype = speak.getText().toString();
-		String speakValue = solo.getString(R.string.brick_speak_default_value);
-		assertEquals("Value in Brick Speak are not correct", speakValue, speakPrototype);
+		TextView speakTextView = (TextView) solo.getView(R.id.brick_speak_prototype_text_view);
+		String speakPrototypeValue = speakTextView.getText().toString();
+		String defaultSpeakValue = solo.getString(R.string.brick_speak_default_value);
+		assertEquals("Value in Brick Speak is not correct", defaultSpeakValue, speakPrototypeValue);
 
 		solo.clickOnText(solo.getString(R.string.brick_speak));
 		solo.clickOnScreen(200, 200);
 
-		TextView speakSelect = (TextView) solo.getView(R.id.brick_speak_edit_text);
-		String editText = speakSelect.getText().toString();
-		assertEquals("Value in Selected Brick Speak are not correct", speakValue, editText);
-
+		EditText speakEditText = (EditText) solo.getView(R.id.brick_speak_edit_text);
+		String speakEditTextValue = speakEditText.getText().toString();
+		assertEquals("Value in Selected Brick Speak is not correct", defaultSpeakValue, speakEditTextValue);
 	}
 
 	@Smoke
 	public void testifEditTextControlEqualBrickValue() {
-
 		String categoryControlText = solo.getString(R.string.category_control);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryControlText);
 
-		TextView waitSeconds = (TextView) solo.getView(R.id.brick_wait_prototype_text_view);
-		String waitPrototype = waitSeconds.getText().toString();
-		String waitValue = Float.toString(BrickValues.WAIT / 1000);
-		assertEquals("Value in Brick Wait are not correct", waitValue, waitPrototype);
+		TextView waitSecondsTextView = (TextView) solo.getView(R.id.brick_wait_prototype_text_view);
+		float waitPrototypeValue = Float.parseFloat(waitSecondsTextView.getText().toString());
+		assertEquals("Value in Brick Wait is not correct", (float) BrickValues.WAIT / 1000, waitPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_note));
-		TextView note = (TextView) solo.getView(R.id.brick_note_prototype_text_view);
-		String notePrototype = note.getText().toString();
-		String noteValue = solo.getString(R.string.brick_note_default_value);
-		assertEquals("Value in Note Speak are not correct", noteValue, notePrototype);
+		TextView noteTextView = (TextView) solo.getView(R.id.brick_note_prototype_text_view);
+		String notePrototypeValue = noteTextView.getText().toString();
+		String defaultNoteValue = solo.getString(R.string.brick_note_default_value);
+		assertEquals("Value in Note Speak is not correct", defaultNoteValue, notePrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_repeat));
-		TextView repeate = (TextView) solo.getView(R.id.brick_repeat_prototype_text_view);
-		String repeatePrototype = repeate.getText().toString();
-		String repeateValue = Integer.toString(BrickValues.REPEAT);
-		assertEquals("Value in Repeate Wait are not correct", repeateValue, repeatePrototype);
+		TextView repeatTextView = (TextView) solo.getView(R.id.brick_repeat_prototype_text_view);
+		int repeatePrototypeValue = Integer.parseInt(repeatTextView.getText().toString());
+		assertEquals("Value in Repeate Wait is not correct", BrickValues.REPEAT, repeatePrototypeValue);
 
 		solo.clickOnText(solo.getString(R.string.brick_repeat));
 		solo.clickOnScreen(200, 200);
 
-		TextView repeateSelect = (TextView) solo.getView(R.id.brick_repeat_edit_text);
-		String editText = repeateSelect.getText().toString();
-		assertEquals("Value in Selected Brick Repeate are not correct", repeateValue, editText);
-
+		EditText repeatEditText = (EditText) solo.getView(R.id.brick_repeat_edit_text);
+		int repeatEditTextValue = Integer.parseInt(repeatEditText.getText().toString());
+		assertEquals("Value in Selected Brick Repeat is not correct", BrickValues.REPEAT, repeatEditTextValue);
 	}
 
 	@Smoke
 	public void testifEditTextLegoNXTEqualBrickValue() {
-
 		String categoryLegoNXTText = solo.getString(R.string.category_lego_nxt);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryLegoNXTText);
 
-		TextView nXTturnMotor = (TextView) solo.getView(R.id.motor_turn_angle_text_view);
-		String nXTturnMotorPrototype = nXTturnMotor.getText().toString();
-		String nXTturnMotorValue = Integer.toString(BrickValues.ANGLE);
-		assertEquals("Value in Brick NXTturnMotor are not correct", nXTturnMotorValue, nXTturnMotorPrototype);
+		TextView nxtTurnMotorTextView = (TextView) solo.getView(R.id.motor_turn_angle_text_view);
+		int nXTturnMotorPrototypeValue = Integer.parseInt(nxtTurnMotorTextView.getText().toString());
+		assertEquals("Value in Brick NXTTurnMotor is not correct", BrickValues.LEGO_ANGLE, nXTturnMotorPrototypeValue);
 
-		TextView nXTMoveMotor = (TextView) solo.getView(R.id.motor_action_speed_text_view);
-		String nXTMoveMotorPrototype = nXTMoveMotor.getText().toString();
-		String nXTMoveMotorValue = Integer.toString(BrickValues.SPEED);
-		assertEquals("Value in Brick NXTMoveMotor are not correct", nXTMoveMotorValue, nXTMoveMotorPrototype);
+		TextView nxtMoveMotorTextView = (TextView) solo.getView(R.id.motor_action_speed_text_view);
+		int nXTMoveMotorPrototypeValue = Integer.parseInt(nxtMoveMotorTextView.getText().toString());
+		assertEquals("Value in Brick NXTMoveMotor is not correct", BrickValues.LEGO_SPEED, nXTMoveMotorPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.nxt_play_tone));
-		TextView nXTPlayToneSeconds = (TextView) solo.getView(R.id.nxt_tone_duration_text_view);
-		String nXTPlayTonePrototype = nXTPlayToneSeconds.getText().toString();
-		int seconds = BrickValues.SECONDS / 1000;
-		String nXTPlayToneValue = Float.toString(seconds);
-		assertEquals("Value in Brick NXTPlayTone are not correct", nXTPlayToneValue, nXTPlayTonePrototype);
+		TextView nxtPlayToneSecondsTextView = (TextView) solo.getView(R.id.nxt_tone_duration_text_view);
+		float nXTPlayTonePrototypeValue = Float.parseFloat(nxtPlayToneSecondsTextView.getText().toString());
+		assertEquals("Value in Brick NXTPlayTone is not correct", (float) BrickValues.LEGO_DURATION / 1000,
+				nXTPlayTonePrototypeValue);
 
-		TextView nXTPlayToneFreq = (TextView) solo.getView(R.id.nxt_tone_freq_text_view);
-		String nXTPlayToneFreqPrototype = nXTPlayToneFreq.getText().toString();
-		int frequenz = BrickValues.FREQUENCY / 100;
-		String nXTPlayToneFreqValue = Integer.toString(frequenz);
-		assertEquals("Value in Brick NXTPlayTone are not correct", nXTPlayToneFreqValue, nXTPlayToneFreqPrototype);
+		TextView nxtPlayToneFreqTextView = (TextView) solo.getView(R.id.nxt_tone_freq_text_view);
+		int nXTPlayToneFreqPrototypeValue = Integer.parseInt(nxtPlayToneFreqTextView.getText().toString());
+		assertEquals("Value in Brick NXTPlayTone is not correct", BrickValues.LEGO_FREQUENCY / 100,
+				nXTPlayToneFreqPrototypeValue);
 
 		solo.clickOnText(solo.getString(R.string.nxt_play_tone));
 		solo.clickOnScreen(200, 200);
 
-		TextView nXTPlayToneSelect = (TextView) solo.getView(R.id.nxt_tone_freq_edit_text);
-		String editText = nXTPlayToneSelect.getText().toString();
-		assertEquals("Value in Selected Brick Repeate are not correct", nXTPlayToneFreqValue, editText);
-
+		EditText nxtPlayToneEditText = (EditText) solo.getView(R.id.nxt_tone_freq_edit_text);
+		int nxtPlayToneEditTextValue = Integer.parseInt(nxtPlayToneEditText.getText().toString());
+		assertEquals("Value in Selected Brick Repeate is not correct", BrickValues.LEGO_FREQUENCY / 100,
+				nxtPlayToneEditTextValue);
 	}
 
 	private void createProject() {

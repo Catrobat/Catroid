@@ -39,7 +39,6 @@ public class NextLookBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private transient View view;
-	private transient View prototype;
 
 	public NextLookBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -56,23 +55,18 @@ public class NextLookBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.brick_next_look, null);
+		if (sprite.getName().equals(context.getString(R.string.background))) {
+			TextView textView = (TextView) view.findViewById(R.id.brick_next_look_text_view);
+			textView.setText(R.string.brick_next_background);
+		}
+		return view;
 	}
 
 	@Override
 	public Brick clone() {
 		return new NextLookBrick(sprite);
-	}
-
-	@Override
-	public View setDefaultValues(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		prototype = inflater.inflate(R.layout.brick_next_look, null);
-		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) prototype.findViewById(R.id.brick_next_look_text_view);
-			textView.setText(R.string.brick_next_background);
-		}
-		return prototype;
 	}
 
 	@Override

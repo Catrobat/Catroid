@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class StopAllSoundsBrick implements Brick {
@@ -37,7 +38,6 @@ public class StopAllSoundsBrick implements Brick {
 	private Sprite sprite;
 
 	private transient View view;
-	private transient View prototype;
 
 	public StopAllSoundsBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -71,17 +71,10 @@ public class StopAllSoundsBrick implements Brick {
 	}
 
 	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_stop_all_sounds, null);
-		return prototype;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
-
-		return setDefaultValues(context);
+		return View.inflate(context, R.layout.brick_stop_all_sounds, null);
 	}
-	
+
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.stopAllSounds());

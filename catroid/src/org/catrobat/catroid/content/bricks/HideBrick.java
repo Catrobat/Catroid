@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class HideBrick implements Brick {
@@ -36,7 +37,6 @@ public class HideBrick implements Brick {
 	private Sprite sprite;
 
 	private transient View view;
-	private transient View prototype;
 
 	public HideBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -71,14 +71,8 @@ public class HideBrick implements Brick {
 	}
 
 	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_hide, null);
-		return prototype;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		return View.inflate(context, R.layout.brick_hide, null);
 	}
 
 	@Override

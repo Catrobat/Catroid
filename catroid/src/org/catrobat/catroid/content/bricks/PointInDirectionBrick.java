@@ -45,7 +45,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,7 +56,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 public class PointInDirectionBrick implements Brick, View.OnClickListener {
 
 	private static final long serialVersionUID = 1L;
-	private transient View prototype;
 
 	public PointInDirectionBrick() {
 
@@ -82,6 +80,7 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 
 	private transient Direction direction;
 	private transient EditText setAngleEditText;
+	private transient View prototypeView;
 
 	protected Object readResolve() {
 		for (Direction direction : Direction.values()) {
@@ -128,27 +127,16 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		prototypeView = View.inflate(context, R.layout.brick_point_in_direction, null);
+		TextView setAngleTextView = (TextView) prototypeView
+				.findViewById(R.id.brick_point_in_direction_prototype_text_view);
+		setAngleTextView.setText(String.valueOf(degrees));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
 		return new PointInDirectionBrick(getSprite(), direction);
-	}
-
-	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_point_in_direction, null);
-		TextView setAngleTextView = (TextView) prototype
-				.findViewById(R.id.brick_point_in_direction_prototype_text_view);
-		setAngleTextView.setText(degrees + "");
-		return prototype;
-	}
-
-	//@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		direction = Direction.values()[position];
-		degrees = direction.getDegrees();
 	}
 
 	@Override

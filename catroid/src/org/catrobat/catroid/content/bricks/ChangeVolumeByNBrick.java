@@ -46,7 +46,7 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 	private double volume;
 
 	private transient View view;
-	private transient View prototype;
+	private transient View prototypeView;
 
 	public ChangeVolumeByNBrick() {
 
@@ -89,20 +89,16 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		prototypeView = View.inflate(context, R.layout.brick_change_volume_by, null);
+		TextView textSetVolumenTo = (TextView) prototypeView
+				.findViewById(R.id.brick_change_volume_by_prototype_text_view);
+		textSetVolumenTo.setText(String.valueOf(volume));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
 		return new ChangeVolumeByNBrick(getSprite(), getVolume());
-	}
-
-	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_change_volume_by, null);
-		TextView textSetVolumenTo = (TextView) prototype.findViewById(R.id.brick_change_volume_by_prototype_text_view);
-		textSetVolumenTo.setText(volume + "");
-		return prototype;
 	}
 
 	@Override

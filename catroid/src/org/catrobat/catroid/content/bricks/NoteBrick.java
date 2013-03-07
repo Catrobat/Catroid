@@ -45,7 +45,7 @@ public class NoteBrick implements Brick {
 	private String note;
 
 	private transient View view;
-	private transient View prototype;
+	private transient View prototypeView;
 
 	public NoteBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -137,7 +137,10 @@ public class NoteBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		prototypeView = View.inflate(context, R.layout.brick_note, null);
+		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_note_prototype_text_view);
+		textSpeak.setText(note);
+		return prototypeView;
 	}
 
 	@Override
@@ -146,15 +149,7 @@ public class NoteBrick implements Brick {
 	}
 
 	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_note, null);
-		TextView textSpeak = (TextView) prototype.findViewById(R.id.brick_note_prototype_text_view);
-		textSpeak.setText(note + "");
-		return prototype;
-	}
-	
-	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		return null;
-}
+	}
 }

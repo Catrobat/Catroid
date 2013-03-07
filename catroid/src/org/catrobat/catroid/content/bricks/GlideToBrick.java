@@ -48,7 +48,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
-	private transient View prototype;
+	private transient View prototypeView;
 
 	public GlideToBrick() {
 
@@ -112,27 +112,22 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		prototypeView = View.inflate(context, R.layout.brick_glide_to, null);
+		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_x);
+		textX.setText(String.valueOf(xDestination));
+		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_y);
+		textY.setText(String.valueOf(yDestination));
+		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
+		textDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_glide_to_seconds_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(durationInMilliSeconds / 1000.0)));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
 		return new GlideToBrick(getSprite(), xDestination, yDestination, getDurationInMilliSeconds());
-	}
-
-	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_glide_to, null);
-		TextView textX = (TextView) prototype.findViewById(R.id.brick_glide_to_prototype_text_view_x);
-		textX.setText(xDestination + "");
-		TextView textY = (TextView) prototype.findViewById(R.id.brick_glide_to_prototype_text_view_y);
-		textY.setText(yDestination + "");
-		TextView textDuration = (TextView) prototype.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
-		textDuration.setText((durationInMilliSeconds / 1000) + "");
-		TextView times = (TextView) prototype.findViewById(R.id.brick_glide_to_seconds_text_view);
-		times.setText(prototype.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(durationInMilliSeconds / 1000.0)));
-		return prototype;
 	}
 
 	@Override

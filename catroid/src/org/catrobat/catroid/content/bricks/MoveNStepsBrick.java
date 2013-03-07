@@ -48,7 +48,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	private double steps;
 
 	private transient View view;
-	private transient View prototype;
+	private transient View prototypeView;
 
 	public MoveNStepsBrick() {
 
@@ -91,22 +91,19 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
-
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		prototypeView = inflater.inflate(R.layout.brick_move_n_steps, null);
+		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_prototype_text_view);
+		textSteps.setText(String.valueOf(steps));
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_step_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
+				Utils.convertDoubleToPluralInteger(steps)));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
 		return new MoveNStepsBrick(getSprite(), steps);
-	}
-
-	@Override
-	public View setDefaultValues(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		prototype = inflater.inflate(R.layout.brick_move_n_steps, null);
-		TextView textSteps = (TextView) prototype.findViewById(R.id.brick_move_n_steps_prototype_text_view);
-		textSteps.setText(steps + "");
-		return prototype;
 	}
 
 	@Override

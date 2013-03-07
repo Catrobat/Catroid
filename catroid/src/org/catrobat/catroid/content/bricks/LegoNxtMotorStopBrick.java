@@ -51,8 +51,6 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	private transient Motor motorEnum;
 	private String motor;
 
-	private transient View prototype;
-
 	protected Object readResolve() {
 		if (motor != null) {
 			motorEnum = Motor.valueOf(motor);
@@ -78,18 +76,12 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		return View.inflate(context, R.layout.brick_nxt_motor_stop, null);
 	}
 
 	@Override
 	public Brick clone() {
 		return new LegoNxtMotorStopBrick(getSprite(), motorEnum);
-	}
-
-	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
-		return prototype;
 	}
 
 	@Override

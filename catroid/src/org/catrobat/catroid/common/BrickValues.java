@@ -28,8 +28,8 @@ public class BrickValues {
 	public static final int Y_POSITION = 200;
 	public static final int CHANGE_X_BY = 10;
 	public static final int CHANGE_Y_BY = 10;
-	public static final Float Move_Steps_Value = 10f;
-	public static final Float TURN_RIGHT = 15f;
+	public static final Float MOVE_STEPS = 10f;
+	public static final Float TURN_DEGREES = 15f;
 	public static final Float POINT_IN_DIRECTION = 90f;
 	public static final int GLIDE_SECONDS = 1000;
 	public static final int GO_BACK = 1;
@@ -43,17 +43,17 @@ public class BrickValues {
 	public static final Float CHANGE_BRITHNESS_BY = 25f;
 
 	//constants Sounds
-	public static final Float SET_VOLUMEN_TO = 60f;
-	public static final Float CHANGE_VOLUMEN_BY = -10f;
+	public static final Float SET_VOLUME_TO = 60f;
+	public static final Float CHANGE_VOLUME_BY = -10f;
 
 	//Constants Control
 	public static final int WAIT = 1000;
 	public static final int REPEAT = 10;
 
 	//Constants Lego
-	public static final String MOTOR = "A";
-	public static final int ANGLE = 180;
-	public static final int SPEED = 100;
-	public static final int SECONDS = 1000;
-	public static final int FREQUENCY = 200;
+	public static final String LEGO_MOTOR = "A";
+	public static final int LEGO_ANGLE = 180;
+	public static final int LEGO_SPEED = 100;
+	public static final int LEGO_DURATION = 1000;
+	public static final int LEGO_FREQUENCY = 200;
 }

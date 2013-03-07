@@ -49,7 +49,6 @@ public class BroadcastBrick implements Brick {
 	private String broadcastMessage = "";
 
 	private transient View view;
-	private transient View prototype;
 
 	public BroadcastBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -156,7 +155,7 @@ public class BroadcastBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		return View.inflate(context, R.layout.brick_broadcast, null);
 	}
 
 	@Override
@@ -169,16 +168,9 @@ public class BroadcastBrick implements Brick {
 	}
 
 	@Override
-	public View setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_broadcast, null);
-		return prototype;
-	}
-	
-	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.broadcast(sprite, broadcastMessage));
 		return null;
 	}
 
-	
 }

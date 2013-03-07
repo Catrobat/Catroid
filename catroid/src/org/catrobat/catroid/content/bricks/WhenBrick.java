@@ -31,6 +31,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class WhenBrick extends ScriptBrick {
@@ -39,7 +40,6 @@ public class WhenBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View view;
-	private transient View prototype;
 
 	public WhenBrick(Sprite sprite, WhenScript whenScript) {
 		this.whenScript = whenScript;
@@ -110,18 +110,12 @@ public class WhenBrick extends ScriptBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return setDefaultValues(context);
+		return getView(context, 0, null);
 	}
 
 	@Override
 	public Brick clone() {
 		return new WhenBrick(getSprite(), null);
-	}
-
-	@Override
-	public View setDefaultValues(Context context) {
-		prototype = getView(context, 0, null);
-		return prototype;
 	}
 
 	@Override
