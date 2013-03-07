@@ -127,20 +127,18 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 		Sensor rotationVectorSensor = (Sensor) Reflection.getPrivateField(sensorHandler, "rotationVectorSensor");
 		SensorHandler.startSensorListener(getActivity());
 
-		sensorManager.startSimulation();
-
 		long startTime = System.currentTimeMillis();
 
 		while (sensorManager.getLatestSensorEvent(accelerometerSensor) == null
 				|| sensorManager.getLatestSensorEvent(rotationVectorSensor) == null
 				|| checkValidRotationValues(sensorManager.getLatestSensorEvent(rotationVectorSensor), sensorHandler) == false) {
-			if (startTime < System.currentTimeMillis() - 1000 * 5) {
-				fail("SensorEvent generation Timeout. Check Sensor Simulation!");
 
+			sensorManager.sendGeneratedSensorValues();
+
+			if (startTime < System.currentTimeMillis() - 10000) {
+				fail("SensorEvent generation Timeout. Check Sensor Simulation!");
 			}
 		}
-
-		sensorManager.stopSimulation();
 
 		float expectedX = (Float) Reflection.getPrivateField(sensorHandler, "linearAcceleartionX");
 		float expectedY = (Float) Reflection.getPrivateField(sensorHandler, "linearAcceleartionY");

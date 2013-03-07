@@ -100,6 +100,7 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 					while (System.currentTimeMillis() < lastExecution + timeOutInMilliSeconds) {
 						Thread.yield();
 					}
+
 					sendGeneratedSensorValues();
 				}
 			}

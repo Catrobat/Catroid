@@ -49,6 +49,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.graphics.Rect;
 import android.test.suitebuilder.annotation.Smoke;
 import android.text.style.BackgroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -711,21 +712,23 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
 
-		sensorManager.startSimulation();
-
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
 		solo.waitForView(solo.getView(R.id.formula_editor_compute_dialog_textview));
 		computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
-		int maxLoops = 10;
+		int maxLoops = 100;
 		String lastComputeString = computeTextView.getText().toString();
 		while (maxLoops-- > 0) {
-			solo.sleep(1000);
+			Log.e("info", "loopCount " + maxLoops);
+			sensorManager.sendGeneratedSensorValues();
+
+			//Wait for runnable in FormulaEditorComputeDialog to
+			//update the textView
+			solo.sleep(50);
+
 			if (!computeTextView.getText().toString().equals(lastComputeString)) {
 				break;
 			}
 		}
-
-		sensorManager.stopSimulation();
 
 		assertTrue("Sensor interpretation error", maxLoops > 0);
 
