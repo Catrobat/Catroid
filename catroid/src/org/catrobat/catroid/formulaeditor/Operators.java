@@ -22,25 +22,20 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import java.util.EnumSet;
-
 public enum Operators {
-	LOGICAL_AND("&", 2, true), LOGICAL_OR("|", 1, true), EQUAL("=", 3, true), NOT_EQUAL("!=", 4, true), SMALLER_OR_EQUAL(
-			"<=", 4, true), GREATER_OR_EQUAL(">=", 4, true), SMALLER_THAN("<", 4, true), GREATER_THAN(">", 4, true), PLUS(
-			"+", 5), MINUS("-", 5), MULT("×", 6), DIVIDE("÷", 6), MOD("%", 6), POW("^", 7), LOGICAL_NOT("!", 4, true);
+	LOGICAL_AND(2, true), LOGICAL_OR(1, true), EQUAL(3, true), NOT_EQUAL(4, true), SMALLER_OR_EQUAL(4, true), GREATER_OR_EQUAL(
+			4, true), SMALLER_THAN(4, true), GREATER_THAN(4, true), PLUS(5), MINUS(5), MULT(6), DIVIDE(6), MOD(6), POW(
+			7), LOGICAL_NOT(4, true);
 
-	public final String operatorName;
 	private final Integer priority;
 	public final boolean isLogicalOperator;
 
-	Operators(String value, Integer priority) {
-		this.operatorName = value;
+	Operators(Integer priority) {
 		this.priority = priority;
 		isLogicalOperator = false;
 	}
 
-	Operators(String value, Integer priority, boolean isLogical) {
-		this.operatorName = value;
+	Operators(Integer priority, boolean isLogical) {
 		this.priority = priority;
 		isLogicalOperator = isLogical;
 	}
@@ -59,21 +54,20 @@ public enum Operators {
 	}
 
 	public static Operators getOperatorByValue(String value) {
-		for (Operators op : EnumSet.allOf(Operators.class)) {
-			if (op.operatorName.equals(value)) {
-				return op;
-			}
+		try {
+			return valueOf(value);
+		} catch (IllegalArgumentException exception) {
+
 		}
 		return null;
 	}
 
 	public static boolean isOperator(String value) {
-		for (Operators op : EnumSet.allOf(Operators.class)) {
-			if (op.operatorName.equals(value)) {
-				return true;
-			}
+		if (getOperatorByValue(value) == null) {
+			return false;
 		}
-		return false;
+
+		return true;
 	}
 
 }

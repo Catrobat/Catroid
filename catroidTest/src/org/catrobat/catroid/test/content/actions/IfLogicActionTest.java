@@ -74,7 +74,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		SetVariableBrick setVariableBrick = new SetVariableBrick(testSprite, new Formula(IF_TRUE_VALUE), userVariable);
 
 		Formula validFormula = new Formula(1);
-		validFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.operatorName, null,
+		validFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
 				new FormulaElement(ElementType.NUMBER, "1", null), new FormulaElement(ElementType.NUMBER, "2", null)));
 
 		testScript = new StartScript(testSprite);
@@ -121,7 +121,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		SetVariableBrick setVariableBrick = new SetVariableBrick(testSprite, new Formula(IF_FALSE_VALUE), userVariable);
 
 		Formula invalidFormula = new Formula(1);
-		invalidFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.operatorName, null,
+		invalidFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
 				new FormulaElement(ElementType.NUMBER, "2", null), new FormulaElement(ElementType.NUMBER, "1", null)));
 
 		testScript = new StartScript(testSprite);

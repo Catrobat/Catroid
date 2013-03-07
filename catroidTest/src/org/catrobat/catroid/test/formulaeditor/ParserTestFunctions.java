@@ -62,7 +62,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 	public void testSin() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.functionName));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "90"));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
@@ -77,7 +77,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 	public void testCos() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.COS.functionName));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.COS.name()));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "180"));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
@@ -92,7 +92,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 	public void testTan() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.TAN.functionName));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.TAN.name()));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "180"));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
@@ -107,7 +107,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 	public void testLn() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.LN.functionName));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.LN.name()));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2.7182818"));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
@@ -122,7 +122,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 	public void testLog() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.LOG.functionName));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.LOG.name()));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "10"));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
@@ -137,7 +137,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 	public void testPi() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.PI.functionName));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.PI.name()));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
@@ -150,7 +150,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 	public void testSqrt() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SQRT.functionName));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SQRT.name()));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "100"));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
@@ -165,7 +165,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 	public void testRandomNaturalNumbers() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.RAND.functionName));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.RAND.name()));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "0"));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER, ","));
@@ -183,7 +183,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 	public void testRound() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ROUND.functionName));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ROUND.name()));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.33333"));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
@@ -198,7 +198,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 	public void testAbs() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ABS.functionName));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ABS.name()));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "-"));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));

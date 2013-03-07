@@ -287,19 +287,19 @@ public class FormulaElement implements Serializable {
 
 	private Double interpretLookSensor(Sensors sensor, Sprite sprite) {
 		switch (sensor) {
-			case LOOK_BRIGHTNESS_:
+			case LOOK_BRIGHTNESS:
 				return (double) sprite.look.getBrightnessValue();
-			case LOOK_GHOSTEFFECT_:
+			case LOOK_GHOSTEFFECT:
 				return (double) sprite.look.getAlphaValue();
-			case LOOK_LAYER_:
+			case LOOK_LAYER:
 				return (double) sprite.look.getZIndex();
-			case LOOK_ROTATION_:
+			case LOOK_ROTATION:
 				return (double) sprite.look.getRotation();
-			case LOOK_SIZE_:
+			case LOOK_SIZE:
 				return (double) sprite.look.getScaleX();
-			case LOOK_X_:
+			case LOOK_X:
 				return (double) sprite.look.getXPosition();
-			case LOOK_Y_:
+			case LOOK_Y:
 				return (double) sprite.look.getYPosition();
 		}
 		return 0d;

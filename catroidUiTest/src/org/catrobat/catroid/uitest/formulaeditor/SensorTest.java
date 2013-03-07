@@ -87,27 +87,27 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 
 		createProject();
 
-		Formula formula = createFormulaWithSensor(Sensors.X_ACCELERATION_);
+		Formula formula = createFormulaWithSensor(Sensors.X_ACCELERATION);
 		ChangeSizeByNBrick xBrick = new ChangeSizeByNBrick(firstSprite, formula);
 		startScript1.addBrick(xBrick);
 
-		Formula formula1 = createFormulaWithSensor(Sensors.Y_ACCELERATION_);
+		Formula formula1 = createFormulaWithSensor(Sensors.Y_ACCELERATION);
 		ChangeSizeByNBrick yBrick = new ChangeSizeByNBrick(firstSprite, formula1);
 		startScript1.addBrick(yBrick);
 
-		Formula formula2 = createFormulaWithSensor(Sensors.Z_ACCELERATION_);
+		Formula formula2 = createFormulaWithSensor(Sensors.Z_ACCELERATION);
 		ChangeSizeByNBrick zBrick = new ChangeSizeByNBrick(firstSprite, formula2);
 		startScript1.addBrick(zBrick);
 
-		Formula formula3 = createFormulaWithSensor(Sensors.Z_ORIENTATION_);
+		Formula formula3 = createFormulaWithSensor(Sensors.Z_ORIENTATION);
 		ChangeSizeByNBrick azimuthBrick = new ChangeSizeByNBrick(firstSprite, formula3);
 		startScript1.addBrick(azimuthBrick);
 
-		Formula formula4 = createFormulaWithSensor(Sensors.X_ORIENTATION_);
+		Formula formula4 = createFormulaWithSensor(Sensors.X_ORIENTATION);
 		ChangeSizeByNBrick pitchBrick = new ChangeSizeByNBrick(firstSprite, formula4);
 		startScript1.addBrick(pitchBrick);
 
-		Formula formula5 = createFormulaWithSensor(Sensors.Y_ORIENTATION_);
+		Formula formula5 = createFormulaWithSensor(Sensors.Y_ORIENTATION);
 		ChangeSizeByNBrick rollBrick = new ChangeSizeByNBrick(firstSprite, formula5);
 		startScript1.addBrick(rollBrick);
 

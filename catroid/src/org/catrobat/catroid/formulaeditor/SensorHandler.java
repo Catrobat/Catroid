@@ -93,17 +93,17 @@ public class SensorHandler implements SensorEventListener {
 	public static Double getSensorValue(String sensorName) {
 		Double sensorValue = 0.0;
 
-		if (sensorName.equals(Sensors.X_ACCELERATION_.sensorName)) {
+		if (sensorName.equals(Sensors.X_ACCELERATION.name())) {
 
 			return Double.valueOf(instance.linearAcceleartionX);
 		}
-		if (sensorName.equals(Sensors.Y_ACCELERATION_.sensorName)) {
+		if (sensorName.equals(Sensors.Y_ACCELERATION.name())) {
 			return Double.valueOf(instance.linearAcceleartionY);
 		}
-		if (sensorName.equals(Sensors.Z_ACCELERATION_.sensorName)) {
+		if (sensorName.equals(Sensors.Z_ACCELERATION.name())) {
 			return Double.valueOf(instance.linearAcceleartionZ);
 		}
-		if (sensorName.equals(Sensors.Z_ORIENTATION_.sensorName)) {
+		if (sensorName.equals(Sensors.Z_ORIENTATION.name())) {
 
 			float[] orientations = new float[3];
 			getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
@@ -112,7 +112,7 @@ public class SensorHandler implements SensorEventListener {
 			return sensorValue * radianToDegreeConst;
 
 		}
-		if (sensorName.equals(Sensors.X_ORIENTATION_.sensorName)) {
+		if (sensorName.equals(Sensors.X_ORIENTATION.name())) {
 			if (instance.sensorManager == null) {
 				return 0d;
 			}
@@ -122,7 +122,7 @@ public class SensorHandler implements SensorEventListener {
 			sensorValue = Double.valueOf(orientations[1]);
 			return sensorValue * radianToDegreeConst;
 		}
-		if (sensorName.equals(Sensors.Y_ORIENTATION_.sensorName)) {
+		if (sensorName.equals(Sensors.Y_ORIENTATION.name())) {
 			if (instance.sensorManager == null) {
 				return 0d;
 			}

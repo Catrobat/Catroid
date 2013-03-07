@@ -63,7 +63,7 @@ public class ParserTest extends AndroidTestCase {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, ">"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.GREATER_THAN.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
@@ -74,7 +74,7 @@ public class ParserTest extends AndroidTestCase {
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, ">"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.GREATER_THAN.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 
 		internParser = new InternFormulaParser(internTokenList);
@@ -85,7 +85,7 @@ public class ParserTest extends AndroidTestCase {
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.GREATER_OR_EQUAL.operatorName));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.GREATER_OR_EQUAL.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 
 		internParser = new InternFormulaParser(internTokenList);
@@ -96,7 +96,7 @@ public class ParserTest extends AndroidTestCase {
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.GREATER_OR_EQUAL.operatorName));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.GREATER_OR_EQUAL.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
 
 		internParser = new InternFormulaParser(internTokenList);
@@ -107,7 +107,7 @@ public class ParserTest extends AndroidTestCase {
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "<"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.SMALLER_THAN.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
 
 		internParser = new InternFormulaParser(internTokenList);
@@ -118,7 +118,7 @@ public class ParserTest extends AndroidTestCase {
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "<"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.SMALLER_THAN.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 
 		internParser = new InternFormulaParser(internTokenList);
@@ -129,7 +129,7 @@ public class ParserTest extends AndroidTestCase {
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "<="));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.SMALLER_OR_EQUAL.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 
 		internParser = new InternFormulaParser(internTokenList);
@@ -140,7 +140,7 @@ public class ParserTest extends AndroidTestCase {
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "<="));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.SMALLER_OR_EQUAL.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 
 		internParser = new InternFormulaParser(internTokenList);
@@ -151,7 +151,7 @@ public class ParserTest extends AndroidTestCase {
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "="));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.EQUAL.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 
 		internParser = new InternFormulaParser(internTokenList);
@@ -162,7 +162,7 @@ public class ParserTest extends AndroidTestCase {
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "="));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.EQUAL.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 
 		internParser = new InternFormulaParser(internTokenList);
@@ -173,7 +173,7 @@ public class ParserTest extends AndroidTestCase {
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "!="));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.NOT_EQUAL.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 
 		internParser = new InternFormulaParser(internTokenList);
@@ -184,7 +184,7 @@ public class ParserTest extends AndroidTestCase {
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "!="));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.NOT_EQUAL.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 
 		internParser = new InternFormulaParser(internTokenList);
@@ -194,9 +194,9 @@ public class ParserTest extends AndroidTestCase {
 		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_NOT.operatorName));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_NOT.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "0"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_AND.operatorName));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_AND.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 
 		internParser = new InternFormulaParser(internTokenList);
@@ -206,9 +206,9 @@ public class ParserTest extends AndroidTestCase {
 		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_NOT.operatorName));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_NOT.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_OR.operatorName));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_OR.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "0"));
 
 		internParser = new InternFormulaParser(internTokenList);
@@ -218,9 +218,9 @@ public class ParserTest extends AndroidTestCase {
 		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_NOT.operatorName));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_NOT.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "0"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_OR.operatorName));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_OR.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "0"));
 
 		internParser = new InternFormulaParser(internTokenList);
@@ -230,9 +230,9 @@ public class ParserTest extends AndroidTestCase {
 		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_NOT.operatorName));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_NOT.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "0"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_AND.operatorName));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_AND.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "0"));
 
 		internParser = new InternFormulaParser(internTokenList);
@@ -246,7 +246,7 @@ public class ParserTest extends AndroidTestCase {
 	public void testUnaryMinus() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "-"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
@@ -260,9 +260,9 @@ public class ParserTest extends AndroidTestCase {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "-"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "×"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MULT.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
@@ -277,9 +277,9 @@ public class ParserTest extends AndroidTestCase {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "5"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "-"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "4"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "-"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
@@ -291,9 +291,9 @@ public class ParserTest extends AndroidTestCase {
 		internTokenList = new LinkedList<InternToken>();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "100"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "÷"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.DIVIDE.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "10"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "÷"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.DIVIDE.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "10"));
 
 		internParser = new InternFormulaParser(internTokenList);
@@ -308,13 +308,13 @@ public class ParserTest extends AndroidTestCase {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "×"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MULT.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "3"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "^"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.POW.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
@@ -329,17 +329,17 @@ public class ParserTest extends AndroidTestCase {
 
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
-		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN, "("));
+		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
-		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE, ")"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "×"));
-		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN, "("));
+		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MULT.name()));
+		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "+"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
-		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE, ")"));
+		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
@@ -349,21 +349,21 @@ public class ParserTest extends AndroidTestCase {
 
 		internTokenList = new LinkedList<InternToken>();
 
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "-"));
-		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN, "("));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "^"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.POW.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
-		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE, ")"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "-"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "-"));
-		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN, "("));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "-"));
+		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "-"));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, "-"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
-		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE, ")"));
+		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
 
 		internParser = new InternFormulaParser(internTokenList);
 		parseTree = internParser.parseFormula();

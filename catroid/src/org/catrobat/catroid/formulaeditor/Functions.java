@@ -22,32 +22,25 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import java.util.EnumSet;
-
 public enum Functions {
-	SIN("sin"), COS("cos"), TAN("tan"), LN("ln"), LOG("log"), SQRT("sqrt"), RAND("random"), ROUND("round"), ABS("abs"), PI(
-			"pi");
-	public final String functionName;
+	SIN, COS, TAN, LN, LOG, SQRT, RAND, ROUND, ABS, PI;
 
-	Functions(String value) {
-		this.functionName = value;
+	Functions() {
 	}
 
 	public static boolean isFunction(String value) {
-		for (Functions fct : EnumSet.allOf(Functions.class)) {
-			if (value.startsWith(fct.functionName)) {
-				return true;
-			}
+		if (getFunctionByValue(value) == null) {
+			return false;
 		}
-		return false;
+		return true;
 
 	}
 
 	public static Functions getFunctionByValue(String value) {
-		for (Functions function : EnumSet.allOf(Functions.class)) {
-			if (function.functionName.equals(value)) {
-				return function;
-			}
+		try {
+			return valueOf(value);
+		} catch (IllegalArgumentException exception) {
+
 		}
 		return null;
 	}

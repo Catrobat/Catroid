@@ -48,11 +48,11 @@ public class InternFormulaTest extends InstrumentationTestCase {
 	public void testReplaceFunctionByToken() {
 
 		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.COS.functionName));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.COS.name()));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ROUND.functionName));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ROUND.name()));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.functionName));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
@@ -86,11 +86,11 @@ public class InternFormulaTest extends InstrumentationTestCase {
 
 	public void testReplaceFunctionButKeepParameters() {
 		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.COS.functionName));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.COS.name()));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ROUND.functionName));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ROUND.name()));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.functionName));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
@@ -139,7 +139,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 	public void testSelectBrackets() {
 		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
 		internTokens.add(new InternToken(InternTokenType.BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.COS.functionName));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.COS.name()));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
@@ -179,7 +179,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 
 	public void testSelectFunctionAndSingleTab() {
 		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.RAND.functionName));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.RAND.name()));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));

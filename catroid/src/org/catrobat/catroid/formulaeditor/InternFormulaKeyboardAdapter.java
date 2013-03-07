@@ -86,17 +86,17 @@ public class InternFormulaKeyboardAdapter {
 				//SENSOR
 
 			case R.string.formula_editor_sensor_x_acceleration:
-				return buildSensor(Sensors.X_ACCELERATION_);
+				return buildSensor(Sensors.X_ACCELERATION);
 			case R.string.formula_editor_sensor_y_acceleration:
-				return buildSensor(Sensors.Y_ACCELERATION_);
+				return buildSensor(Sensors.Y_ACCELERATION);
 			case R.string.formula_editor_sensor_z_acceleration:
-				return buildSensor(Sensors.Z_ACCELERATION_);
+				return buildSensor(Sensors.Z_ACCELERATION);
 			case R.string.formula_editor_sensor_z_orientation:
-				return buildSensor(Sensors.Z_ORIENTATION_);
+				return buildSensor(Sensors.Z_ORIENTATION);
 			case R.string.formula_editor_sensor_x_orientation:
-				return buildSensor(Sensors.X_ORIENTATION_);
+				return buildSensor(Sensors.X_ORIENTATION);
 			case R.string.formula_editor_sensor_y_orientation:
-				return buildSensor(Sensors.Y_ORIENTATION_);
+				return buildSensor(Sensors.Y_ORIENTATION);
 
 				//PERIOD
 			case R.id.formula_editor_keyboard_decimal_mark:
@@ -145,19 +145,19 @@ public class InternFormulaKeyboardAdapter {
 				//COSTUME
 
 			case R.string.formula_editor_look_x:
-				return buildLook(Sensors.LOOK_X_);
+				return buildLook(Sensors.LOOK_X);
 			case R.string.formula_editor_look_y:
-				return buildLook(Sensors.LOOK_Y_);
+				return buildLook(Sensors.LOOK_Y);
 			case R.string.formula_editor_look_ghosteffect:
-				return buildLook(Sensors.LOOK_GHOSTEFFECT_);
+				return buildLook(Sensors.LOOK_GHOSTEFFECT);
 			case R.string.formula_editor_look_brightness:
-				return buildLook(Sensors.LOOK_BRIGHTNESS_);
+				return buildLook(Sensors.LOOK_BRIGHTNESS);
 			case R.string.formula_editor_look_size:
-				return buildLook(Sensors.LOOK_SIZE_);
+				return buildLook(Sensors.LOOK_SIZE);
 			case R.string.formula_editor_look_rotation:
-				return buildLook(Sensors.LOOK_ROTATION_);
+				return buildLook(Sensors.LOOK_ROTATION);
 			case R.string.formula_editor_look_layer:
-				return buildLook(Sensors.LOOK_LAYER_);
+				return buildLook(Sensors.LOOK_LAYER);
 
 		}
 
@@ -197,19 +197,19 @@ public class InternFormulaKeyboardAdapter {
 
 	private List<InternToken> buildLook(Sensors sensors) {
 		List<InternToken> returnList = new LinkedList<InternToken>();
-		returnList.add(new InternToken(InternTokenType.LOOK, sensors.sensorName));
+		returnList.add(new InternToken(InternTokenType.LOOK, sensors.name()));
 		return returnList;
 	}
 
 	private List<InternToken> buildOperator(Operators operator) {
 		List<InternToken> returnList = new LinkedList<InternToken>();
-		returnList.add(new InternToken(InternTokenType.OPERATOR, operator.operatorName));
+		returnList.add(new InternToken(InternTokenType.OPERATOR, operator.name()));
 		return returnList;
 	}
 
 	private List<InternToken> buildSensor(Sensors sensor) {
 		List<InternToken> returnList = new LinkedList<InternToken>();
-		returnList.add(new InternToken(InternTokenType.SENSOR, sensor.sensorName));
+		returnList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		return returnList;
 	}
 
@@ -217,7 +217,7 @@ public class InternFormulaKeyboardAdapter {
 			String secondParameterNumberValue) {
 
 		List<InternToken> returnList = new LinkedList<InternToken>();
-		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.functionName));
+		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 
@@ -236,7 +236,7 @@ public class InternFormulaKeyboardAdapter {
 	private List<InternToken> buildSingleParameterFunction(Functions function, String parameterNumberValue) {
 
 		List<InternToken> returnList = new LinkedList<InternToken>();
-		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.functionName));
+		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		returnList.add(new InternToken(InternTokenType.NUMBER, parameterNumberValue));
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
@@ -246,7 +246,7 @@ public class InternFormulaKeyboardAdapter {
 	private List<InternToken> buildFunctionWithoutParametersAndBrackets(Functions function) {
 
 		List<InternToken> returnList = new LinkedList<InternToken>();
-		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.functionName));
+		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		return returnList;
 	}
 

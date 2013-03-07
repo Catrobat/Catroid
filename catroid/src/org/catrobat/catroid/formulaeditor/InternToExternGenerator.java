@@ -41,51 +41,47 @@ public class InternToExternGenerator {
 	static {
 
 		internExternLanguageConverterMap.put(".", R.string.formula_editor_decimal_mark);
-		internExternLanguageConverterMap.put(Functions.SIN.functionName, R.string.formula_editor_function_sin);
-		internExternLanguageConverterMap.put(Functions.COS.functionName, R.string.formula_editor_function_cos);
-		internExternLanguageConverterMap.put(Functions.TAN.functionName, R.string.formula_editor_function_tan);
-		internExternLanguageConverterMap.put(Functions.LN.functionName, R.string.formula_editor_function_ln);
-		internExternLanguageConverterMap.put(Functions.LOG.functionName, R.string.formula_editor_function_log);
-		internExternLanguageConverterMap.put(Functions.PI.functionName, R.string.formula_editor_function_pi);
-		internExternLanguageConverterMap.put(Functions.SQRT.functionName, R.string.formula_editor_function_sqrt);
-		internExternLanguageConverterMap.put(Functions.RAND.functionName, R.string.formula_editor_function_rand);
-		internExternLanguageConverterMap.put(Functions.ABS.functionName, R.string.formula_editor_function_abs);
-		internExternLanguageConverterMap.put(Functions.ROUND.functionName, R.string.formula_editor_function_round);
-		internExternLanguageConverterMap.put(Sensors.X_ACCELERATION_.sensorName,
+		internExternLanguageConverterMap.put(Functions.SIN.name(), R.string.formula_editor_function_sin);
+		internExternLanguageConverterMap.put(Functions.COS.name(), R.string.formula_editor_function_cos);
+		internExternLanguageConverterMap.put(Functions.TAN.name(), R.string.formula_editor_function_tan);
+		internExternLanguageConverterMap.put(Functions.LN.name(), R.string.formula_editor_function_ln);
+		internExternLanguageConverterMap.put(Functions.LOG.name(), R.string.formula_editor_function_log);
+		internExternLanguageConverterMap.put(Functions.PI.name(), R.string.formula_editor_function_pi);
+		internExternLanguageConverterMap.put(Functions.SQRT.name(), R.string.formula_editor_function_sqrt);
+		internExternLanguageConverterMap.put(Functions.RAND.name(), R.string.formula_editor_function_rand);
+		internExternLanguageConverterMap.put(Functions.ABS.name(), R.string.formula_editor_function_abs);
+		internExternLanguageConverterMap.put(Functions.ROUND.name(), R.string.formula_editor_function_round);
+		internExternLanguageConverterMap.put(Sensors.X_ACCELERATION.name(),
 				R.string.formula_editor_sensor_x_acceleration);
-		internExternLanguageConverterMap.put(Sensors.Y_ACCELERATION_.sensorName,
+		internExternLanguageConverterMap.put(Sensors.Y_ACCELERATION.name(),
 				R.string.formula_editor_sensor_y_acceleration);
-		internExternLanguageConverterMap.put(Sensors.Z_ACCELERATION_.sensorName,
+		internExternLanguageConverterMap.put(Sensors.Z_ACCELERATION.name(),
 				R.string.formula_editor_sensor_z_acceleration);
-		internExternLanguageConverterMap.put(Sensors.Z_ORIENTATION_.sensorName,
-				R.string.formula_editor_sensor_z_orientation);
-		internExternLanguageConverterMap.put(Sensors.X_ORIENTATION_.sensorName,
-				R.string.formula_editor_sensor_x_orientation);
-		internExternLanguageConverterMap.put(Sensors.Y_ORIENTATION_.sensorName,
-				R.string.formula_editor_sensor_y_orientation);
-		internExternLanguageConverterMap.put(Sensors.LOOK_X_.sensorName, R.string.formula_editor_look_x);
-		internExternLanguageConverterMap.put(Sensors.LOOK_Y_.sensorName, R.string.formula_editor_look_y);
-		internExternLanguageConverterMap.put(Sensors.LOOK_GHOSTEFFECT_.sensorName,
-				R.string.formula_editor_look_ghosteffect);
-		internExternLanguageConverterMap.put(Sensors.LOOK_BRIGHTNESS_.sensorName,
-				R.string.formula_editor_look_brightness);
-		internExternLanguageConverterMap.put(Sensors.LOOK_SIZE_.sensorName, R.string.formula_editor_look_size);
-		internExternLanguageConverterMap.put(Sensors.LOOK_ROTATION_.sensorName, R.string.formula_editor_look_rotation);
-		internExternLanguageConverterMap.put(Sensors.LOOK_LAYER_.sensorName, R.string.formula_editor_look_layer);
+		internExternLanguageConverterMap
+				.put(Sensors.Z_ORIENTATION.name(), R.string.formula_editor_sensor_z_orientation);
+		internExternLanguageConverterMap
+				.put(Sensors.X_ORIENTATION.name(), R.string.formula_editor_sensor_x_orientation);
+		internExternLanguageConverterMap
+				.put(Sensors.Y_ORIENTATION.name(), R.string.formula_editor_sensor_y_orientation);
+		internExternLanguageConverterMap.put(Sensors.LOOK_X.name(), R.string.formula_editor_look_x);
+		internExternLanguageConverterMap.put(Sensors.LOOK_Y.name(), R.string.formula_editor_look_y);
+		internExternLanguageConverterMap.put(Sensors.LOOK_GHOSTEFFECT.name(), R.string.formula_editor_look_ghosteffect);
+		internExternLanguageConverterMap.put(Sensors.LOOK_BRIGHTNESS.name(), R.string.formula_editor_look_brightness);
+		internExternLanguageConverterMap.put(Sensors.LOOK_SIZE.name(), R.string.formula_editor_look_size);
+		internExternLanguageConverterMap.put(Sensors.LOOK_ROTATION.name(), R.string.formula_editor_look_rotation);
+		internExternLanguageConverterMap.put(Sensors.LOOK_LAYER.name(), R.string.formula_editor_look_layer);
 
-		internExternLanguageConverterMap.put(Operators.LOGICAL_NOT.operatorName, R.string.formula_editor_logic_not);
-		internExternLanguageConverterMap.put(Operators.NOT_EQUAL.operatorName, R.string.formula_editor_logic_notequal);
-		internExternLanguageConverterMap.put(Operators.EQUAL.operatorName, R.string.formula_editor_logic_equal);
-		internExternLanguageConverterMap.put(Operators.GREATER_OR_EQUAL.operatorName,
+		internExternLanguageConverterMap.put(Operators.LOGICAL_NOT.name(), R.string.formula_editor_logic_not);
+		internExternLanguageConverterMap.put(Operators.NOT_EQUAL.name(), R.string.formula_editor_logic_notequal);
+		internExternLanguageConverterMap.put(Operators.EQUAL.name(), R.string.formula_editor_logic_equal);
+		internExternLanguageConverterMap.put(Operators.GREATER_OR_EQUAL.name(),
 				R.string.formula_editor_logic_greaterequal);
-		internExternLanguageConverterMap.put(Operators.GREATER_THAN.operatorName,
-				R.string.formula_editor_logic_greaterthan);
-		internExternLanguageConverterMap.put(Operators.LOGICAL_AND.operatorName, R.string.formula_editor_logic_and);
-		internExternLanguageConverterMap.put(Operators.LOGICAL_OR.operatorName, R.string.formula_editor_logic_or);
-		internExternLanguageConverterMap.put(Operators.SMALLER_OR_EQUAL.operatorName,
+		internExternLanguageConverterMap.put(Operators.GREATER_THAN.name(), R.string.formula_editor_logic_greaterthan);
+		internExternLanguageConverterMap.put(Operators.LOGICAL_AND.name(), R.string.formula_editor_logic_and);
+		internExternLanguageConverterMap.put(Operators.LOGICAL_OR.name(), R.string.formula_editor_logic_or);
+		internExternLanguageConverterMap.put(Operators.SMALLER_OR_EQUAL.name(),
 				R.string.formula_editor_logic_leserequal);
-		internExternLanguageConverterMap.put(Operators.SMALLER_THAN.operatorName,
-				R.string.formula_editor_logic_lesserthan);
+		internExternLanguageConverterMap.put(Operators.SMALLER_THAN.name(), R.string.formula_editor_logic_lesserthan);
 
 	}
 

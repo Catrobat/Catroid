@@ -50,7 +50,7 @@ public class InternFormulaTokenSelectionTest extends InstrumentationTestCase {
 	public void testReplaceFunctionByToken() {
 
 		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.functionName));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
