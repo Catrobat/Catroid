@@ -110,8 +110,8 @@ public class InternToExternGenerator {
 		InternToken currentToken = null;
 		InternToken nextToken = null;
 		String externTokenString;
-		int externStartIndex;
-		int externEndIndex;
+		int externStringStartIndex;
+		int externStringEndIndex;
 
 		int internTokenListIndex = 0;
 
@@ -119,27 +119,21 @@ public class InternToExternGenerator {
 			if (appendWhiteSpace(currentToken, nextToken)) {
 				generatedExternFormulaString += " ";
 			}
-			externStartIndex = generatedExternFormulaString.length();
+			externStringStartIndex = generatedExternFormulaString.length();
 			currentToken = internTokenList.get(0);
+
 			if (internTokenList.size() < 2) {
 				nextToken = null;
 			} else {
 				nextToken = internTokenList.get(1);
 			}
+
 			externTokenString = generateExternStringFromToken(currentToken);
 			generatedExternFormulaString += externTokenString;
-			externEndIndex = generatedExternFormulaString.length();
+			externStringEndIndex = generatedExternFormulaString.length();
 
-			externEndIndex--;
-
-			if (externEndIndex < externStartIndex) {
-				return;
-			}
-
-			generatedExternInternRepresentationMapping.putExternInternMapping(externStartIndex, externEndIndex,
+			generatedExternInternRepresentationMapping.putMapping(externStringStartIndex, externStringEndIndex,
 					internTokenListIndex);
-			generatedExternInternRepresentationMapping.putInternExternMapping(internTokenListIndex, externStartIndex,
-					externEndIndex + 1);
 
 			internTokenList.remove(0);
 			internTokenListIndex++;
@@ -147,7 +141,6 @@ public class InternToExternGenerator {
 		}
 
 		generatedExternFormulaString += " ";
-		Log.i("info", "generateExternStringAndMapping: generatedExternFormulaString = " + generatedExternFormulaString);
 
 	}
 
