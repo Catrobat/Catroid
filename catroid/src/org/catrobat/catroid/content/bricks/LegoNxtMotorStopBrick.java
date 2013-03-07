@@ -23,8 +23,8 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.view.View;
@@ -33,6 +33,8 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
@@ -51,8 +53,6 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 
 	private transient View prototype;
 
-	private static final int NO_DELAY = 0;
-
 	protected Object readResolve() {
 		if (motor != null) {
 			motorEnum = Motor.valueOf(motor);
@@ -69,21 +69,6 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	@Override
 	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
-	}
-
-	@Override
-	public void execute() {
-		if (motorEnum.equals(Motor.ALL_MOTORS)) {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), 0, 0);
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_B.ordinal(), 0, 0);
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), 0, 0);
-		} else if (motorEnum.equals(Motor.MOTOR_A_C)) {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), 0, 0);
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), 0, 0);
-		} else {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), 0, 0);
-		}
-
 	}
 
 	@Override
@@ -133,5 +118,11 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.legoNxtMotorStop(motorEnum));
+		return null;
 	}
 }

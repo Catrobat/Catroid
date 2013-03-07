@@ -320,6 +320,7 @@ public class AddBrickDialog extends DialogFragment {
 		soundBrickList.add(new StopAllSoundsBrick(sprite));
 
 		SetVolumeToBrick setVolumeToBrick = new SetVolumeToBrick(sprite, BrickValues.SET_VOLUMEN_TO);
+		soundBrickList.add(new SpeakBrick(sprite, ""));
 		setVolumeToBrick.setDefaultValues(context);
 		soundBrickList.add(setVolumeToBrick);
 

@@ -64,8 +64,8 @@ import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -279,11 +279,8 @@ public class AddBrickDialog extends DialogFragment {
 		brickMap.put(context.getString(R.string.category_motion), motionBrickList);
 
 		List<Brick> looksBrickList = new ArrayList<Brick>();
-<<<<<<< HEAD
-
-		looksBrickList.add(new SetCostumeBrick(sprite));
-
-		looksBrickList.add(new NextCostumeBrick(sprite));
+		looksBrickList.add(new SetLookBrick(sprite));
+		looksBrickList.add(new NextLookBrick(sprite));
 
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, BrickValues.SET_SIZE_TO);
 		setSizeToBrick.setDefaultValues(context);
@@ -293,12 +290,6 @@ public class AddBrickDialog extends DialogFragment {
 		changeSizeByNBrick.setDefaultValues(context);
 		looksBrickList.add(changeSizeByNBrick);
 
-=======
-		looksBrickList.add(new SetLookBrick(sprite));
-		looksBrickList.add(new NextLookBrick(sprite));
-		looksBrickList.add(new SetSizeToBrick(sprite, 100));
-		looksBrickList.add(new ChangeSizeByNBrick(sprite, 20));
->>>>>>> master
 		looksBrickList.add(new HideBrick(sprite));
 		looksBrickList.add(new ShowBrick(sprite));
 
@@ -327,6 +318,7 @@ public class AddBrickDialog extends DialogFragment {
 		List<Brick> soundBrickList = new ArrayList<Brick>();
 		soundBrickList.add(new PlaySoundBrick(sprite));
 		soundBrickList.add(new StopAllSoundsBrick(sprite));
+<<<<<<< HEAD
 
 		SetVolumeToBrick setVolumeToBrick = new SetVolumeToBrick(sprite, BrickValues.SET_VOLUMEN_TO);
 		setVolumeToBrick.setDefaultValues(context);
@@ -340,6 +332,11 @@ public class AddBrickDialog extends DialogFragment {
 		speakBrick.setDefaultValues(context);
 		soundBrickList.add(speakBrick);
 
+=======
+		soundBrickList.add(new SetVolumeToBrick(sprite, 100));
+		soundBrickList.add(new ChangeVolumeByNBrick(sprite, 25));
+		soundBrickList.add(new SpeakBrick(sprite, ""));
+>>>>>>> master
 		brickMap.put(context.getString(R.string.category_sound), soundBrickList);
 
 		List<Brick> controlBrickList = new ArrayList<Brick>();
@@ -355,9 +352,7 @@ public class AddBrickDialog extends DialogFragment {
 		waitBrick.setDefaultValues(context);
 		controlBrickList.add(waitBrick);
 
-		BroadcastReceiverBrick broadcastReceiverBrick = new BroadcastReceiverBrick(sprite, new BroadcastScript(sprite));
-		broadcastReceiverBrick.setDefaultValues(context);
-		controlBrickList.add(broadcastReceiverBrick);
+		controlBrickList.add(new BroadcastReceiverBrick(sprite, new BroadcastScript(sprite)));
 
 		controlBrickList.add(new BroadcastBrick(sprite));
 		controlBrickList.add(new BroadcastWaitBrick(sprite));

@@ -34,16 +34,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBrick {
 	static final int FOREVER = -1;
-	private static final int LOOP_DELAY = 20;
-	private static final int MILLION = 1000 * 1000;
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = LoopEndBrick.class.getSimpleName();
 	private Sprite sprite;
 	private LoopBeginBrick loopBeginBrick;
-	private transient int timesToRepeat;
 
 	private transient View prototype;
 
@@ -62,30 +60,6 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		return NO_RESOURCES;
 	}
 
-	@Override
-	public void execute() {
-		loopBeginBrick.setBeginLoopTime(System.nanoTime());
-
-		if (timesToRepeat == FOREVER) {
-			Script script = getScript();
-			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopBeginBrick));
-		} else if (--timesToRepeat > 0) {
-			Script script = getScript();
-			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopBeginBrick));
-		}
-
-		long loopBeginTime = loopBeginBrick.getBeginLoopTime() / MILLION;
-		long loopEndTime = System.nanoTime() / MILLION;
-		long waitForNextLoop = (LOOP_DELAY - (loopEndTime - loopBeginTime));
-		if (waitForNextLoop > 0) {
-			try {
-				Thread.sleep(waitForNextLoop);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 	protected Script getScript() {
 		for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
 			Script script = sprite.getScript(i);
@@ -99,10 +73,6 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	@Override
 	public Sprite getSprite() {
 		return sprite;
-	}
-
-	public void setTimesToRepeat(int timesToRepeat) {
-		this.timesToRepeat = timesToRepeat;
 	}
 
 	public LoopBeginBrick getLoopBeginBrick() {
@@ -168,6 +138,11 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		return inflater.inflate(R.layout.brick_loop_end_no_puzzle, null);
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		return sequence;
 	}
 
 }

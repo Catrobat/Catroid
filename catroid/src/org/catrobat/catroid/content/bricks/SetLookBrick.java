@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.view.View;
@@ -34,6 +35,8 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class SetLookBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -57,13 +60,6 @@ public class SetLookBrick implements Brick {
 
 	public void setLook(LookData lookData) {
 		this.look = lookData;
-	}
-
-	@Override
-	public void execute() {
-		if (look != null && sprite != null && sprite.getLookDataList().contains(look)) {
-			sprite.look.setLookData(look);
-		}
 	}
 
 	@Override
@@ -150,5 +146,11 @@ public class SetLookBrick implements Brick {
 			textView.setText(R.string.brick_set_background);
 		}
 		return prototype;
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setLook(sprite, look));
+		return null;
 	}
 }
