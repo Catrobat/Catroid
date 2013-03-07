@@ -42,6 +42,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivityAdapterInterface {
@@ -76,6 +77,7 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 		private TextView lookFileSizeTextView;
 		private TextView lookResolutionTextView;
 		private ImageView lookArrowView;
+		private RelativeLayout lookElement;
 
 	}
 
@@ -98,6 +100,7 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 			holder.lookResolutionTextView = (TextView) holder.lookDetailsLinearLayout
 					.findViewById(R.id.look_resolution);
 			holder.lookArrowView = (ImageView) convertView.findViewById(R.id.look_arrow);
+			holder.lookElement = (RelativeLayout) convertView.findViewById(R.id.look_fragment_element);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -107,7 +110,7 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 
 		if (lookData != null) {
 			holder.lookNameTextView.setTag(position);
-			holder.lookImageView.setTag(position);
+			holder.lookElement.setTag(position);
 
 			holder.lookImageView.setImageBitmap(lookData.getThumbnailBitmap());
 			holder.lookNameTextView.setText(lookData.getLookName());
@@ -136,12 +139,13 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 			if (selectMode != Constants.SELECT_NONE) {
 				holder.checkboxLinearLayout.setVisibility(View.VISIBLE);
 				holder.lookArrowView.setVisibility(View.GONE);
-
+				holder.lookElement.setClickable(false);
 				checkboxIsVisible = true;
 			} else {
 				holder.checkboxLinearLayout.setVisibility(View.GONE);
 				holder.checkbox.setChecked(false);
 				holder.lookArrowView.setVisibility(View.VISIBLE);
+				holder.lookElement.setClickable(true);
 				clearCheckedItems();
 			}
 
@@ -174,15 +178,18 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 			} else {
 				holder.lookImageView.setEnabled(true);
 			}
-
-			holder.lookImageView.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (onLookEditListener != null) {
-						onLookEditListener.onLookEdit(v);
+			if (holder.lookElement.isClickable()) {
+				holder.lookElement.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if (onLookEditListener != null) {
+							onLookEditListener.onLookEdit(v);
+						}
 					}
-				}
-			});
+				});
+			} else {
+				holder.lookElement.setOnClickListener(null);
+			}
 		}
 		return convertView;
 	}
