@@ -595,8 +595,8 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 
 	public void testDeleteUserVariableWithMultipleChoice() {
 
-		String itemString = "del";
-		String itemString2nd = "var";
+		String itemString = "1stdel";
+		String itemString2nd = "myvar";
 		String itemString3rd = "2ndDel";
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -621,18 +621,20 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		assertTrue("Add Variable Dialog not shown", solo.waitForText("Variable name ?"));
 		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		solo.enterText(editText, itemString3rd);
+		solo.clickOnView(solo.getView(R.id.dialog_formula_editor_variable_name_radio_button_right));
 		clickOnDialogOk(itemString3rd);
 
 		solo.clickOnMenuItem(solo.getString(R.string.delete), true);
 		assertTrue("Variable Fragment not shown",
 				solo.waitForText(solo.getString(R.string.formula_editor_new_variable)));
-		solo.clickOnText(itemString);
-		solo.clickOnText(itemString3rd);
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
 		solo.clickOnImage(ACTIONMODE_INDEX);
+		solo.sleep(250);
 
-		assertFalse(itemString + " should not be found!", solo.searchButton(itemString, true));
-		assertTrue(itemString2nd + " not found!", solo.searchButton(itemString2nd, true));
-		assertFalse(itemString3rd + " should not be found!", solo.searchButton(itemString3rd, true));
+		assertFalse(itemString + " should not be found!", solo.searchText(itemString, true));
+		assertTrue(itemString2nd + " not found!", solo.searchText(itemString2nd, true));
+		assertFalse(itemString3rd + " should not be found!", solo.searchText(itemString3rd, true));
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString);
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString2nd);

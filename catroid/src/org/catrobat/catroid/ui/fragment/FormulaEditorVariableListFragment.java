@@ -45,7 +45,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
@@ -145,8 +144,6 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.settings).setVisible(false);
 
-		getSherlockActivity().getSupportActionBar().setNavigationMode(
-				com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_STANDARD);
 		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
 		getSherlockActivity().getSupportActionBar().setTitle(mActionBarTitle);
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -421,17 +418,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			switch (item.getItemId()) {
-			//				case R.id.menu_delete:
-			//					Log.i("info", "mContextModeCallback.nActionItemClicked()");
-			//					// TODO
-			//					mode.finish();
-			//					return true;
-
-				default:
-					Log.i("info", (String) item.getTitle());
-					return false;
-			}
+			return false;
 		}
 
 		@Override
@@ -447,7 +434,5 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 			mInContextMode = false;
 
 		}
-
 	};
-
 }

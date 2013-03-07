@@ -139,8 +139,6 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.settings).setVisible(false);
 
-		getSherlockActivity().getSupportActionBar().setNavigationMode(
-				com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_STANDARD);
 		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
 		getSherlockActivity().getSupportActionBar().setTitle(mActionBarTitle);
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
