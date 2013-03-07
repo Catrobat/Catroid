@@ -24,8 +24,10 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
 import android.text.InputType;
@@ -35,6 +37,8 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class TurnRightBrick implements Brick, OnClickListener {
 
@@ -61,11 +65,6 @@ public class TurnRightBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void execute() {
-		sprite.look.rotation = (sprite.look.rotation % 360) - (float) degrees;
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -79,6 +78,10 @@ public class TurnRightBrick implements Brick, OnClickListener {
 		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_right_edit_text);
 		editDegrees.setText(String.valueOf(degrees));
 
+		TextView times = (TextView) view.findViewById(R.id.brick_turn_right_degree_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.brick_turn_right_degree_plural,
+				Utils.convertDoubleToPluralInteger(degrees)));
+
 		textDegrees.setVisibility(View.GONE);
 		editDegrees.setVisibility(View.VISIBLE);
 		editDegrees.setOnClickListener(this);
@@ -88,7 +91,11 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_turn_right, null);
+		View view = View.inflate(context, R.layout.brick_turn_right, null);
+		TextView times = (TextView) view.findViewById(R.id.brick_turn_right_degree_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.brick_turn_right_degree_plural,
+				Utils.convertDoubleToPluralInteger(degrees)));
+		return view;
 	}
 
 	@Override
@@ -121,6 +128,12 @@ public class TurnRightBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_turn_right_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.turnRight(sprite, (float) degrees));
+		return null;
 	}
 
 }

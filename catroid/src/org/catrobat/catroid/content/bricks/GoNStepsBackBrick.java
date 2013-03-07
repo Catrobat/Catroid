@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -35,6 +36,8 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class GoNStepsBackBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -56,18 +59,6 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void execute() {
-		int zPosition = sprite.look.zPosition;
-		if (steps > 0 && (zPosition - steps) > zPosition) {
-			sprite.look.zPosition = Integer.MIN_VALUE;
-		} else if (steps < 0 && (zPosition - steps) < zPosition) {
-			sprite.look.zPosition = Integer.MAX_VALUE;
-		} else {
-			sprite.look.zPosition -= steps;
-		}
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -80,6 +71,10 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		EditText edit = (EditText) view.findViewById(R.id.brick_go_back_edit_text);
 
 		edit.setText(String.valueOf(steps));
+
+		TextView times = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural, steps));
+
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
@@ -89,7 +84,10 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_go_back, null);
+		View view = View.inflate(context, R.layout.brick_go_back, null);
+		TextView times = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural, steps));
+		return view;
 	}
 
 	@Override
@@ -122,5 +120,11 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_go_n_steps_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.goNStepsBack(sprite, steps));
+		return null;
 	}
 }
