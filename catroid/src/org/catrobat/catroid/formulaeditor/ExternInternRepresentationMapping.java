@@ -36,18 +36,19 @@ public class ExternInternRepresentationMapping {
 		internExternMapping = new SparseArray<ExternToken>();
 	}
 
-	public void putExternInternMapping(int externStartIndex, int externEndIndex, int internIndex) {
-		externInternMapping.put(externStartIndex, internIndex);
-		externInternMapping.put(externEndIndex, internIndex);
+	public void putMapping(int externStringStartIndex, int externStringEndIndex, int internListIndex) {
+		externInternMapping.put(externStringStartIndex, internListIndex);
 
-		if (externEndIndex >= externStringLength) {
-			externStringLength = externEndIndex + 1;
+		// Set externStringEndIndex -1 because of token seperation.
+		// Otherwise, tokens would overlap and mapping would fail.
+		externInternMapping.put(externStringEndIndex - 1, internListIndex);
+
+		ExternToken externToken = new ExternToken(externStringStartIndex, externStringEndIndex);
+		internExternMapping.put(internListIndex, externToken);
+
+		if (externStringEndIndex >= externStringLength) {
+			externStringLength = externStringEndIndex;
 		}
-	}
-
-	public void putInternExternMapping(int internStartIndex, int externStartIndex, int externEndIndex) {
-		ExternToken externToken = new ExternToken(externStartIndex, externEndIndex);
-		internExternMapping.put(internStartIndex, externToken);
 
 	}
 
@@ -79,7 +80,7 @@ public class ExternInternRepresentationMapping {
 
 		Integer searchDownInternToken = searchDown(externInternMapping, externIndex - 1);
 		Integer currentInternToken = externInternMapping.get(externIndex);
-		Integer searchUpInternToken = searchUp(externInternMapping, externIndex + 1, externStringLength);
+		Integer searchUpInternToken = searchUp(externInternMapping, externIndex + 1);
 
 		if (currentInternToken != null) {
 			return currentInternToken;
@@ -118,8 +119,8 @@ public class ExternInternRepresentationMapping {
 		return null;
 	}
 
-	private Integer searchUp(SparseArray<Integer> mapping, int index, int maximalIndex) {
-		for (int searchIndex = index; searchIndex < maximalIndex; searchIndex++) {
+	private Integer searchUp(SparseArray<Integer> mapping, int index) {
+		for (int searchIndex = index; searchIndex < externStringLength; searchIndex++) {
 			if (mapping.get(searchIndex) != null) {
 				return mapping.get(searchIndex);
 			}
