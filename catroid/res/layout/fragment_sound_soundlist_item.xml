@@ -24,7 +24,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
     android:longClickable="true"
     android:orientation="horizontal"
     android:background="#00475E"
@@ -33,18 +32,19 @@
     <LinearLayout
         android:id="@+id/checkbox_linear_layout"
         android:layout_width="47dp"
-        android:layout_height="90dp"
+        android:layout_height="match_parent"
         
         android:background="#04222C"
-        android:layout_gravity="center_vertical"
+
         android:visibility="gone" >
         <CheckBox
         android:id="@+id/sound_checkbox"
-        android:layout_width="49dp"
-        android:layout_height="46dp"
-   
-        android:paddingLeft="15dp"
-        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+   		android:gravity="right"
+   		android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+
         android:visibility="gone" />
     </LinearLayout>
     
