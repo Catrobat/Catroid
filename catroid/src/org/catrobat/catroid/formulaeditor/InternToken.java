@@ -56,7 +56,7 @@ public class InternToken {
 
 	public boolean isOperator() {
 
-		if (internTokenType == InternTokenType.OPERATOR) {
+		if (internTokenType == InternTokenType.OPERATOR && Operators.isOperator(tokenStringValue)) {
 			return true;
 		}
 

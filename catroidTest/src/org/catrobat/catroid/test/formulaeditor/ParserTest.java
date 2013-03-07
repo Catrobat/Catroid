@@ -59,6 +59,55 @@ public class ParserTest extends AndroidTestCase {
 		testSprite.look.setZIndex(LOOK_ZPOSITION);
 	}
 
+	public void testNumbers() {
+		List<InternToken> internTokenList = new LinkedList<InternToken>();
+
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.0"));
+
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
+
+		assertNotNull("Formula is not parsed correctly: 1.0", parseTree);
+		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
+		internTokenList.clear();
+
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
+
+		internParser = new InternFormulaParser(internTokenList);
+		parseTree = internParser.parseFormula();
+
+		assertNotNull("Formula is not parsed correctly: 1", parseTree);
+		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
+		internTokenList.clear();
+
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, ""));
+
+		internParser = new InternFormulaParser(internTokenList);
+		parseTree = internParser.parseFormula();
+
+		assertNull("Formula is not parsed correctly: <empty number> {}", parseTree);
+		assertEquals("Parser error value not as expected", 0, internParser.getErrorTokenIndex());
+		internTokenList.clear();
+
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "."));
+
+		internParser = new InternFormulaParser(internTokenList);
+		parseTree = internParser.parseFormula();
+
+		assertNull("Formula is not parsed correctly: .", parseTree);
+		assertEquals("Parser error value not as expected", 0, internParser.getErrorTokenIndex());
+		internTokenList.clear();
+
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, ".1"));
+
+		internParser = new InternFormulaParser(internTokenList);
+		parseTree = internParser.parseFormula();
+
+		assertNull("Formula is not parsed correctly: .1", parseTree);
+		assertEquals("Parser error value not as expected", 0, internParser.getErrorTokenIndex());
+		internTokenList.clear();
+	}
+
 	public void testLogicalOperators() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 

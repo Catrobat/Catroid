@@ -27,10 +27,6 @@ import java.io.Serializable;
 public class UserVariable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public static enum ScopeType {
-		SPRITE, PROJECT
-	}
-
 	private String name;
 	private Double value;
 

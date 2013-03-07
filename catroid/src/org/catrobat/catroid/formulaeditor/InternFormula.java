@@ -81,12 +81,12 @@ public class InternFormula {
 
 	}
 
-	public void setCursorAndSelection(int externCursorPosition, boolean isSingleTab) {
+	public void setCursorAndSelection(int externCursorPosition, boolean selectInternToken) {
 		this.externCursorPosition = externCursorPosition;
 
 		updateInternCursorPosition();
 
-		if (isSingleTab) {
+		if (selectInternToken) {
 
 			if (externInternRepresentationMapping.getInternTokenByExternIndex(externCursorPosition) != null
 					&& getFirstLeftInternToken(externCursorPosition - 1) == cursorPositionInternToken
