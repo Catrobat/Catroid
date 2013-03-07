@@ -118,6 +118,7 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 			}
 
 			case R.id.copy: {
+				spritesListFragment.startCopyActionMode();
 				break;
 			}
 
