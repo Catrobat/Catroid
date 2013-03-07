@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.Reflection;
@@ -86,8 +87,8 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, 0, SIZE_TO_CHANGE);
 
-		double currentSize = (Double) Reflection.getPrivateField(changeSizeByNBrick, "size");
-		assertEquals("Wrong text in field", SIZE_TO_CHANGE, currentSize);
+		Formula currentSize = (Formula) Reflection.getPrivateField(changeSizeByNBrick, "size");
+		assertEquals("Wrong text in field", SIZE_TO_CHANGE, (double) currentSize.interpretFloat(null));
 		assertEquals("Text not updated", SIZE_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
 
 	}
