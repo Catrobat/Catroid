@@ -218,15 +218,10 @@ public class InternFormulaKeyboardAdapter {
 
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
-
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-
 		returnList.add(new InternToken(InternTokenType.NUMBER, firstParameterNumberValue));
-
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
-
 		returnList.add(new InternToken(InternTokenType.NUMBER, secondParameterNumberValue));
-
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 
 		return returnList;

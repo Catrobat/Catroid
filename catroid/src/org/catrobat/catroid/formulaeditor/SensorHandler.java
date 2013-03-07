@@ -90,47 +90,45 @@ public class SensorHandler implements SensorEventListener {
 		instance.sensorManager.unregisterListener(listener);
 	}
 
-	public static Double getSensorValue(String sensorName) {
+	public static Double getSensorValue(Sensors sensor) {
 		Double sensorValue = 0.0;
+		switch (sensor) {
 
-		if (sensorName.equals(Sensors.X_ACCELERATION.name())) {
+			case X_ACCELERATION:
+				return Double.valueOf(instance.linearAcceleartionX);
 
-			return Double.valueOf(instance.linearAcceleartionX);
-		}
-		if (sensorName.equals(Sensors.Y_ACCELERATION.name())) {
-			return Double.valueOf(instance.linearAcceleartionY);
-		}
-		if (sensorName.equals(Sensors.Z_ACCELERATION.name())) {
-			return Double.valueOf(instance.linearAcceleartionZ);
-		}
-		if (sensorName.equals(Sensors.Z_ORIENTATION.name())) {
+			case Y_ACCELERATION:
+				return Double.valueOf(instance.linearAcceleartionY);
 
-			float[] orientations = new float[3];
-			getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
-			android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
-			sensorValue = Double.valueOf(orientations[0]);
-			return sensorValue * radianToDegreeConst;
+			case Z_ACCELERATION:
+				return Double.valueOf(instance.linearAcceleartionZ);
 
-		}
-		if (sensorName.equals(Sensors.X_ORIENTATION.name())) {
-			if (instance.sensorManager == null) {
-				return 0d;
-			}
-			float[] orientations = new float[3];
-			getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
-			android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
-			sensorValue = Double.valueOf(orientations[1]);
-			return sensorValue * radianToDegreeConst;
-		}
-		if (sensorName.equals(Sensors.Y_ORIENTATION.name())) {
-			if (instance.sensorManager == null) {
-				return 0d;
-			}
-			float[] orientations = new float[3];
-			getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
-			android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
-			sensorValue = Double.valueOf(orientations[2]);
-			return sensorValue * radianToDegreeConst;
+			case Z_ORIENTATION:
+				float[] orientations = new float[3];
+				getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
+				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
+				sensorValue = Double.valueOf(orientations[0]);
+				return sensorValue * radianToDegreeConst;
+
+			case X_ORIENTATION:
+				if (instance.sensorManager == null) {
+					return 0d;
+				}
+				orientations = new float[3];
+				getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
+				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
+				sensorValue = Double.valueOf(orientations[1]);
+				return sensorValue * radianToDegreeConst;
+
+			case Y_ORIENTATION:
+				if (instance.sensorManager == null) {
+					return 0d;
+				}
+				orientations = new float[3];
+				getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
+				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
+				sensorValue = Double.valueOf(orientations[2]);
+				return sensorValue * radianToDegreeConst;
 		}
 
 		return 0d;

@@ -129,7 +129,7 @@ public class FormulaElement implements Serializable {
 		return root;
 	}
 
-	public Double interpretRecursive(Sprite sprite) throws IllegalArgumentException {
+	public Double interpretRecursive(Sprite sprite) {
 
 		Double returnValue = 0d;
 
@@ -153,7 +153,7 @@ public class FormulaElement implements Serializable {
 				if (sensor.isLookSensor) {
 					returnValue = interpretLookSensor(sensor, sprite);
 				} else {
-					returnValue = SensorHandler.getSensorValue(value);
+					returnValue = SensorHandler.getSensorValue(sensor);
 				}
 				break;
 			case USER_VARIABLE:
@@ -185,16 +185,22 @@ public class FormulaElement implements Serializable {
 		switch (function) {
 			case SIN:
 				return java.lang.Math.sin(Math.toRadians(left));
+
 			case COS:
 				return java.lang.Math.cos(Math.toRadians(left));
+
 			case TAN:
 				return java.lang.Math.tan(Math.toRadians(left));
+
 			case LN:
 				return java.lang.Math.log(left);
+
 			case LOG:
 				return java.lang.Math.log10(left);
+
 			case SQRT:
 				return java.lang.Math.sqrt(left);
+
 			case RAND:
 				Double right = rightChild.interpretRecursive(sprite);
 				Double minimum;
@@ -224,10 +230,13 @@ public class FormulaElement implements Serializable {
 				} else {
 					return randomDouble;
 				}
+
 			case ABS:
 				return java.lang.Math.abs(left);
+
 			case ROUND:
 				return (double) java.lang.Math.round(left);
+
 			case PI:
 				return java.lang.Math.PI;
 		}
