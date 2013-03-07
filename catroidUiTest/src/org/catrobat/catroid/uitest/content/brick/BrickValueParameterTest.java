@@ -271,7 +271,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 
 		TextView WaitSeconds = (TextView) solo.getView(R.id.brick_wait_prototype_text_view);
 		String WaitPrototype = WaitSeconds.getText().toString();
-		String WaitValue = Integer.toString(BrickValues.WAIT / 1000);
+		String WaitValue = Float.toString(BrickValues.WAIT / 1000);
 		assertEquals("Value in Brick Wait are not correct", WaitValue, WaitPrototype);
 
 		solo.searchText(solo.getString(R.string.brick_note));
