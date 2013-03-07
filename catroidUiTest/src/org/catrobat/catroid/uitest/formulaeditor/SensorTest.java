@@ -207,7 +207,7 @@ public class SensorTest extends ActivityInstrumentationTestCase2<MainMenuActivit
 	private Formula createFormulaWithSensor(Sensors sensor) {
 
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
-		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.sensorName));
+		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		InternFormulaParser internFormulaParser = new InternFormulaParser(internTokenList);
 		FormulaElement root = internFormulaParser.parseFormula();
 		Formula formula = new Formula(root);
