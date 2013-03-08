@@ -44,6 +44,8 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int timesToRepeat;
 
+	private transient View prototypeView;
+
 	public RepeatBrick(Sprite sprite, int timesToRepeat) {
 		this.sprite = sprite;
 		if (timesToRepeat >= 0) {
@@ -88,10 +90,12 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_repeat, null);
-		TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
-		times.setText(view.getResources().getQuantityString(R.plurals.time_plural, timesToRepeat));
-		return view;
+		prototypeView = View.inflate(context, R.layout.brick_repeat, null);
+		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_prototype_text_view);
+		textRepeat.setText(timesToRepeat + "");
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.time_plural, timesToRepeat));
+		return prototypeView;
 	}
 
 	@Override

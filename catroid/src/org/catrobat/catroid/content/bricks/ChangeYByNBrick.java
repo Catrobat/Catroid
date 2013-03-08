@@ -45,6 +45,7 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public ChangeYByNBrick() {
 
@@ -83,7 +84,10 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_y, null);
+		prototypeView = View.inflate(context, R.layout.brick_change_y, null);
+		TextView textYMovement = (TextView) prototypeView.findViewById(R.id.brick_change_y_prototype_text_view);
+		textYMovement.setText(String.valueOf(yMovement));
+		return prototypeView;
 	}
 
 	@Override

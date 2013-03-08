@@ -67,13 +67,13 @@ public class IfOnEdgeBounceBrick implements Brick {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
+	public Brick clone() {
+		return new IfOnEdgeBounceBrick(sprite);
 	}
 
 	@Override
-	public Brick clone() {
-		return new IfOnEdgeBounceBrick(sprite);
+	public View getPrototypeView(Context context) {
+		return View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
 	}
 
 	@Override
