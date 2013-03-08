@@ -896,13 +896,16 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			if (selectMode == Constants.SINGLE_SELECT) {
 				clearCheckedItems();
 			}
-			if (brick.getCheckBox() != null && brick.getCheckBox().isChecked() && smartBrickSelection(brick, isChecked)) {
+			if (brick.getCheckBox() != null
+					&& /* brick.getCheckBox().isChecked() && */smartBrickSelection(brick, isChecked)) {
 				return;
 			}
 			addElementToCheckedBricks(brick);
 		} else {
-			if (brick.getCheckBox() != null && !brick.getCheckBox().isChecked()
-					&& smartBrickSelection(brick, isChecked)) {
+			if (brick.getCheckBox() != null && /*
+												 * !brick.getCheckBox().isChecked()
+												 * &&
+												 */smartBrickSelection(brick, isChecked)) {
 				return;
 			}
 			getCheckedBricks().remove(brick);
@@ -941,9 +944,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				addElementToCheckedBricks(brick);
 				animatedBricks.add(brick);
 			} else {
-				getCheckedBricks().remove(brick);
+				checkedBricks.remove(brick);
 			}
 			brick.getCheckBox().setChecked(check);
+			//brick.setCheckedBoolean(check);
 			notifyDataSetChanged();
 
 			int brickPosition = brickList.indexOf(brick) + 1;
@@ -953,7 +957,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					addElementToCheckedBricks(currentBrick);
 					animatedBricks.add(currentBrick);
 				} else {
-					getCheckedBricks().remove(currentBrick);
+					checkedBricks.remove(currentBrick);
 				}
 				if (currentBrick.getCheckBox() != null) {
 					currentBrick.getCheckBox().setChecked(check);
