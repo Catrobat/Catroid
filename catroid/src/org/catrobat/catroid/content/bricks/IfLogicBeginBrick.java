@@ -88,15 +88,6 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 		this.ifEndBrick = ifEndBrick;
 	}
 
-	public boolean checkCondition() {
-		double evaluated = ifCondition.interpretInteger(sprite);
-		if (evaluated == 0) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
 	@Override
 	public Brick clone() {
 		return new IfLogicBeginBrick(getSprite(), ifCondition);
