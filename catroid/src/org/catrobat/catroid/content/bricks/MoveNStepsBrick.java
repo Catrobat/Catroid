@@ -127,7 +127,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new MoveNStepsBrick(getSprite(), steps);
+		return new MoveNStepsBrick(getSprite(), steps.clone());
 	}
 
 	@Override

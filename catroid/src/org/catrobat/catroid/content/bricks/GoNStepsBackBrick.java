@@ -119,7 +119,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new GoNStepsBackBrick(getSprite(), steps);
+		return new GoNStepsBackBrick(getSprite(), steps.clone());
 	}
 
 	@Override

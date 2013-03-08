@@ -27,7 +27,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
@@ -58,16 +57,6 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	protected Script getScript() {
-		for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
-			Script script = sprite.getScript(i);
-			if (script.getBrickList().contains(this)) {
-				return script;
-			}
-		}
-		return null;
 	}
 
 	@Override

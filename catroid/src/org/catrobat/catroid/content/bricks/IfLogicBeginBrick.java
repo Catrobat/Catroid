@@ -72,16 +72,8 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 		return this.sprite;
 	}
 
-	public IfLogicElseBrick getElseBrick() {
-		return this.ifElseBrick;
-	}
-
 	public void setElseBrick(IfLogicElseBrick elseBrick) {
 		this.ifElseBrick = elseBrick;
-	}
-
-	public IfLogicEndBrick getEndBrick() {
-		return this.ifEndBrick;
 	}
 
 	public void setEndBrick(IfLogicEndBrick ifEndBrick) {
@@ -90,7 +82,7 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new IfLogicBeginBrick(getSprite(), ifCondition);
+		return new IfLogicBeginBrick(getSprite(), ifCondition.clone());
 	}
 
 	@Override

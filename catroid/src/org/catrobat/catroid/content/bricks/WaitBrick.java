@@ -119,7 +119,7 @@ public class WaitBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new WaitBrick(getSprite(), timeToWaitInSeconds);
+		return new WaitBrick(getSprite(), timeToWaitInSeconds.clone());
 	}
 
 	@Override

@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -41,7 +43,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class SetVariableBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -126,7 +128,7 @@ public class SetVariableBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		SetVariableBrick clonedBrick = new SetVariableBrick(getSprite(), variableFormula, userVariable);
+		SetVariableBrick clonedBrick = new SetVariableBrick(getSprite(), variableFormula.clone(), userVariable);
 		return clonedBrick;
 	}
 

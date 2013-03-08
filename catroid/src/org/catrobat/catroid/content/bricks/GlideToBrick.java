@@ -150,7 +150,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new GlideToBrick(getSprite(), xDestination, yDestination, durationInSeconds);
+		return new GlideToBrick(getSprite(), xDestination.clone(), yDestination.clone(), durationInSeconds.clone());
 	}
 
 	@Override

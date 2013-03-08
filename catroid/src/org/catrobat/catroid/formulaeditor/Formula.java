@@ -237,4 +237,13 @@ public class Formula implements Serializable {
 		return formulaTree.isSingleNumberFormula();
 	}
 
+	@Override
+	public Formula clone() {
+		if (formulaTree != null) {
+			return new Formula(formulaTree.clone());
+		}
+
+		return new Formula(0);
+	}
+
 }

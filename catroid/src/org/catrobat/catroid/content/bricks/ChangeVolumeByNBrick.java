@@ -37,7 +37,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -98,7 +98,7 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new ChangeVolumeByNBrick(getSprite(), volume);
+		return new ChangeVolumeByNBrick(getSprite(), volume.clone());
 	}
 
 	@Override

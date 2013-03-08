@@ -123,7 +123,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new TurnRightBrick(getSprite(), degrees);
+		return new TurnRightBrick(getSprite(), degrees.clone());
 	}
 
 	@Override
