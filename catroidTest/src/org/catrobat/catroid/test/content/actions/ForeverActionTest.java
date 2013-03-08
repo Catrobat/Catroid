@@ -53,6 +53,7 @@ public class ForeverActionTest extends InstrumentationTestCase {
 		testScript.addBrick(foreverBrick);
 		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
 		testScript.addBrick(loopEndBrick);
+		testScript.addBrick(new ChangeYByNBrick(testSprite, REPEAT_TIMES * -deltaY));
 
 		testSprite.addScript(testScript);
 		testSprite.createStartScriptActionSequence();
