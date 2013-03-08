@@ -309,9 +309,11 @@ public class AddBrickDialog extends DialogFragment {
 		SetVolumeToBrick setVolumeToBrick = new SetVolumeToBrick(sprite, BrickValues.SET_VOLUME_TO);
 		soundBrickList.add(setVolumeToBrick);
 
-		float positiveValue = Math.abs(BrickValues.CHANGE_VOLUME_BY);
+		// workaround to set a negative default value for a Brick
+		float positiveDefaultValueChangeVolumeBy = Math.abs(BrickValues.CHANGE_VOLUME_BY);
 		FormulaElement defaultValueChangeVolumeBy = new FormulaElement(ElementType.OPERATOR, Operators.MINUS.name(),
-				null, null, new FormulaElement(ElementType.NUMBER, String.valueOf(positiveValue), null));
+				null, null, new FormulaElement(ElementType.NUMBER, String.valueOf(positiveDefaultValueChangeVolumeBy),
+						null));
 		ChangeVolumeByNBrick changeVolumeByNBrick = new ChangeVolumeByNBrick(sprite, new Formula(
 				defaultValueChangeVolumeBy));
 		soundBrickList.add(changeVolumeByNBrick);
