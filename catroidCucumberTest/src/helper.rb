@@ -17,23 +17,25 @@ module Catrobat
 
     private
     class Helper
-      def write_java_file(step_def, dir = "catrobat")
+      def write_java_file(step_def)
+        package    = "catrobat"
         class_name = step_def.method_name.gsub("_", "").capitalize
         action_dir = "calabash-android/ruby-gem/test-server/instrumentation-backend/"
         action_dir<<"src/sh/calaba/instrumentationbackend/actions/"
-        action_dir<<dir
+        action_dir<<package
         FileUtils.mkdir_p(action_dir)
         File.open("#{action_dir}/#{class_name}.java", 'w') do |f|
-          write_java_text(f, class_name, step_def)
+          write_java_text(f, package, class_name, step_def)
         end
       end
 
-      def write_ruby_file(step_def, index, file_name="created_steps")
+      def write_ruby_file(step_def, index)
+        file_name ="generated_steps"
         steps_dir = "features/step_definitions"
         file_path = "#{steps_dir}/#{file_name}.rb"
         if index == 0
           File.open(file_path, 'w') do |f|
-            f.write "# These steps were automatically created.\n\n"
+            f.write "# These steps were automatically generated.\n\n"
           end
         end
         File.open(file_path, 'a') do |f|
@@ -45,8 +47,8 @@ module Catrobat
       end
 
       private
-      def write_java_text(f, class_name, step_def)
-        f.write "package sh.calaba.instrumentationbackend.actions.button;\n\n"
+      def write_java_text(f, package, class_name, step_def)
+        f.write "package sh.calaba.instrumentationbackend.actions.#{package};\n\n"
         f.write "import sh.calaba.instrumentationbackend.InstrumentationBackend;\n"
         f.write "import sh.calaba.instrumentationbackend.Result;\n"
         f.write "import sh.calaba.instrumentationbackend.actions.Action;\n"
