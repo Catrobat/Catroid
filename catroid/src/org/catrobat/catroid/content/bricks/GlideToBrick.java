@@ -24,8 +24,10 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
 import android.text.InputType;
@@ -35,6 +37,8 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class GlideToBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -59,73 +63,6 @@ public class GlideToBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		/* That's the way how an action is made */
-		//		Action action = MoveBy.$(xDestination, yDestination, this.durationInMilliSeconds / 1000);
-		//		final CountDownLatch latch = new CountDownLatch(1);
-		//		action = action.setCompletionListener(new OnActionCompleted() {
-		//			public void completed(Action action) {
-		//				latch.countDown();
-		//			}
-		//		});
-		//		sprite.look.action(action);
-		//		try {
-		//			latch.await();
-		//		} catch (InterruptedException e) {
-		//		}
-		long startTime = System.currentTimeMillis();
-		int duration = durationInMilliSeconds;
-		while (duration > 0) {
-			if (!sprite.isAlive(Thread.currentThread())) {
-				break;
-			}
-			long timeBeforeSleep = System.currentTimeMillis();
-			int sleep = 33;
-			while (System.currentTimeMillis() <= (timeBeforeSleep + sleep)) {
-
-				if (sprite.isPaused) {
-					sleep = (int) ((timeBeforeSleep + sleep) - System.currentTimeMillis());
-					long milliSecondsBeforePause = System.currentTimeMillis();
-					while (sprite.isPaused) {
-						if (sprite.isFinished) {
-							return;
-						}
-						Thread.yield();
-					}
-					timeBeforeSleep = System.currentTimeMillis();
-					startTime += System.currentTimeMillis() - milliSecondsBeforePause;
-				}
-
-				Thread.yield();
-			}
-			long currentTime = System.currentTimeMillis();
-			duration -= (int) (currentTime - startTime);
-			updatePositions((int) (currentTime - startTime), duration);
-			startTime = currentTime;
-		}
-
-		if (!sprite.isAlive(Thread.currentThread())) {
-			// -stay at last position
-		} else {
-			sprite.look.aquireXYWidthHeightLock();
-			sprite.look.setXYPosition(xDestination, yDestination);
-			sprite.look.releaseXYWidthHeightLock();
-		}
-	}
-
-	private void updatePositions(int timePassed, int duration) {
-		sprite.look.aquireXYWidthHeightLock();
-		float xPosition = sprite.look.getXPosition();
-		float yPosition = sprite.look.getYPosition();
-
-		xPosition += ((float) timePassed / duration) * (xDestination - xPosition);
-		yPosition += ((float) timePassed / duration) * (yDestination - yPosition);
-
-		sprite.look.setXYPosition(xPosition, yPosition);
-		sprite.look.releaseXYWidthHeightLock();
 	}
 
 	@Override
@@ -156,6 +93,10 @@ public class GlideToBrick implements Brick, OnClickListener {
 		EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_duration);
 		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
 
+		TextView times = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(durationInMilliSeconds / 1000.0)));
+
 		textDuration.setVisibility(View.GONE);
 		editDuration.setVisibility(View.VISIBLE);
 		textX.setVisibility(View.GONE);
@@ -170,7 +111,11 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_glide_to, null);
+		View view = View.inflate(context, R.layout.brick_glide_to, null);
+		TextView times = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(durationInMilliSeconds / 1000.0)));
+		return view;
 	}
 
 	@Override
@@ -220,5 +165,13 @@ public class GlideToBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_glide_to_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		float durationInSeconds = durationInMilliSeconds / 1000f;
+		sequence.addAction(ExtendedActions.glideTo(Float.valueOf(xDestination), Float.valueOf(yDestination),
+				durationInSeconds));
+		return null;
 	}
 }
