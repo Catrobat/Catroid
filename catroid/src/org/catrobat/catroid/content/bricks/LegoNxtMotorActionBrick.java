@@ -46,6 +46,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 public class LegoNxtMotorActionBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 
+	private transient View prototypeView;
+
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
 	}
@@ -53,9 +55,6 @@ public class LegoNxtMotorActionBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 	private String motor;
 	private transient Motor motorEnum;
-
-	private static final int MIN_SPEED = -100;
-	private static final int MAX_SPEED = 100;
 
 	private transient EditText editSpeed;
 
@@ -96,8 +95,11 @@ public class LegoNxtMotorActionBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
-		return view;
+		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
+		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.motor_action_speed_text_view);
+		textSpeed.setText(String.valueOf(speed));
+		//TODO set the spinner Value to A
+		return prototypeView;
 	}
 
 	@Override

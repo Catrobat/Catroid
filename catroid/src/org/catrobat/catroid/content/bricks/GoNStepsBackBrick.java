@@ -45,6 +45,8 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 	private Formula steps;
 
+	private transient View prototypeView;
+
 	public GoNStepsBackBrick(Sprite sprite, int stepsValue) {
 		this.sprite = sprite;
 		steps = new Formula(stepsValue);
@@ -101,20 +103,14 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_go_back, null);
-		TextView times = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
+		prototypeView = View.inflate(context, R.layout.brick_go_back, null);
+		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_prototype_text_view);
+		textSteps.setText(String.valueOf(steps));
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
+				Utils.convertDoubleToPluralInteger(steps.interpretFloat(sprite))));
+		return prototypeView;
 
-		if (steps.isSingleNumberFormula()) {
-			times.setText(view.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
-					Utils.convertDoubleToPluralInteger(steps.interpretFloat(sprite))));
-		} else {
-
-			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
-			// in hopefully all possible languages
-			times.setText(view.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
-					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
-		}
-		return view;
 	}
 
 	@Override

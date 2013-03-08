@@ -175,4 +175,5 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

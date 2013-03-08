@@ -46,6 +46,7 @@ public class WaitBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public WaitBrick(Sprite sprite, int timeToWaitInMillisecondsValue) {
 		this.sprite = sprite;
@@ -102,19 +103,13 @@ public class WaitBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_wait, null);
-		TextView times = (TextView) view.findViewById(R.id.brick_wait_second_text_view);
-		if (timeToWaitInSeconds.isSingleNumberFormula()) {
-			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-					Utils.convertDoubleToPluralInteger(timeToWaitInSeconds.interpretFloat(sprite))));
-		} else {
-
-			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
-			// in hopefully all possible languages
-			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
-		}
-		return view;
+		prototypeView = View.inflate(context, R.layout.brick_wait, null);
+		TextView textWait = (TextView) prototypeView.findViewById(R.id.brick_wait_prototype_text_view);
+		textWait.setText((timeToWaitInSeconds) + "");
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_wait_second_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(timeToWaitInSeconds.interpretFloat(sprite))));
+		return prototypeView;
 	}
 
 	@Override

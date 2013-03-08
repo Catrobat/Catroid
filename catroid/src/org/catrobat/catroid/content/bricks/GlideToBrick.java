@@ -48,6 +48,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public GlideToBrick() {
 
@@ -131,21 +132,17 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_glide_to, null);
-		TextView times = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
-
-		if (durationInSeconds.isSingleNumberFormula()) {
-			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-					Utils.convertDoubleToPluralInteger(durationInSeconds.interpretFloat(sprite))));
-		} else {
-
-			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
-			// in hopefully all possible languages
-			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
-		}
-
-		return view;
+		prototypeView = View.inflate(context, R.layout.brick_glide_to, null);
+		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_x);
+		textX.setText(String.valueOf(xDestination));
+		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_y);
+		textY.setText(String.valueOf(yDestination));
+		durationInSeconds.setTextFieldId(R.id.brick_glide_to_prototype_text_view_duration);
+		durationInSeconds.refreshTextField(view);
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_glide_to_seconds_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(durationInSeconds.interpretFloat(sprite))));
+		return prototypeView;
 	}
 
 	@Override

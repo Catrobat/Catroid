@@ -48,6 +48,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	private Formula steps;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public MoveNStepsBrick() {
 
@@ -108,21 +109,13 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	@Override
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.brick_move_n_steps, null);
-		TextView times = (TextView) view.findViewById(R.id.brick_move_n_steps_step_text_view);
-
-		if (steps.isSingleNumberFormula()) {
-			times.setText(view.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
-					Utils.convertDoubleToPluralInteger(steps.interpretFloat(sprite))));
-		} else {
-
-			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
-			// in hopefully all possible languages
-			times.setText(view.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
-					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
-		}
-
-		return view;
+		prototypeView = inflater.inflate(R.layout.brick_move_n_steps, null);
+		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_prototype_text_view);
+		textSteps.setText(String.valueOf(steps));
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_step_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
+				Utils.convertDoubleToPluralInteger(steps.interpretFloat(sprite))));
+		return prototypeView;
 	}
 
 	@Override

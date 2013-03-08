@@ -42,9 +42,10 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.L
 public class NoteBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private String note = "";
+	private String note;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public NoteBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -136,7 +137,10 @@ public class NoteBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_note, null);
+		prototypeView = View.inflate(context, R.layout.brick_note, null);
+		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_note_prototype_text_view);
+		textSpeak.setText(note);
+		return prototypeView;
 	}
 
 	@Override

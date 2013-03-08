@@ -84,4 +84,5 @@ public class ClearGraphicEffectBrick implements Brick {
 		sequence.addAction(ExtendedActions.clearGraphicEffect(sprite));
 		return null;
 	}
+
 }

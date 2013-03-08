@@ -46,6 +46,8 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Formula timesToRepeat;
 
+	private transient View prototypeView;
+
 	public RepeatBrick(Sprite sprite, int timesToRepeatValue) {
 		this.sprite = sprite;
 		timesToRepeat = new Formula(timesToRepeatValue);
@@ -102,19 +104,13 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_repeat, null);
-		TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
-		if (timesToRepeat.isSingleNumberFormula()) {
-			times.setText(view.getResources().getQuantityString(R.plurals.time_plural,
-					Utils.convertDoubleToPluralInteger(timesToRepeat.interpretFloat(sprite))));
-		} else {
-
-			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
-			// in hopefully all possible languages
-			times.setText(view.getResources().getQuantityString(R.plurals.time_plural,
-					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
-		}
-		return view;
+		prototypeView = View.inflate(context, R.layout.brick_repeat, null);
+		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_prototype_text_view);
+		textRepeat.setText(timesToRepeat + "");
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.time_plural,
+				Utils.convertDoubleToPluralInteger(timesToRepeat.interpretFloat(sprite))));
+		return prototypeView;
 	}
 
 	@Override

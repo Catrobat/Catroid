@@ -45,6 +45,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public SetGhostEffectBrick(Sprite sprite, double ghostEffectValue) {
 		this.sprite = sprite;
@@ -89,7 +90,11 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_set_ghost_effect, null);
+		prototypeView = View.inflate(context, R.layout.brick_set_ghost_effect, null);
+		TextView textSetGhostEffect = (TextView) prototypeView
+				.findViewById(R.id.brick_set_ghost_effect_to_prototype_text_view);
+		textSetGhostEffect.setText(String.valueOf(transparency));
+		return prototypeView;
 	}
 
 	@Override

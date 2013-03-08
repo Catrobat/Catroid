@@ -46,6 +46,7 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public PlaceAtBrick() {
 
@@ -101,7 +102,12 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_place_at, null);
+		prototypeView = View.inflate(context, R.layout.brick_place_at, null);
+		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_x);
+		textX.setText(String.valueOf(xPosition));
+		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_y);
+		textY.setText(String.valueOf(yPosition));
+		return prototypeView;
 	}
 
 	@Override

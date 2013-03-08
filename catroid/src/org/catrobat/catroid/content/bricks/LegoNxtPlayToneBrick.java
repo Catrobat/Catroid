@@ -43,6 +43,7 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private Sprite sprite;
+	private transient View prototypeView;
 
 	private transient EditText editFreq;
 
@@ -75,8 +76,12 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
-		return view;
+		prototypeView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
+		TextView textDuration = (TextView) prototypeView.findViewById(R.id.nxt_tone_duration_text_view);
+		textDuration.setText(String.valueOf(durationInSeconds));
+		TextView textFreq = (TextView) prototypeView.findViewById(R.id.nxt_tone_freq_text_view);
+		textFreq.setText(String.valueOf(frequency));
+		return prototypeView;
 	}
 
 	@Override

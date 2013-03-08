@@ -45,6 +45,7 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public ChangeXByNBrick() {
 
@@ -91,7 +92,10 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_x, null);
+		prototypeView = View.inflate(context, R.layout.brick_change_x, null);
+		TextView textXMovement = (TextView) prototypeView.findViewById(R.id.brick_change_x_prototype_text_view);
+		textXMovement.setText(String.valueOf(xMovement));
+		return prototypeView;
 	}
 
 	@Override

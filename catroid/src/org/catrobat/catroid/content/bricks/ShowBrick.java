@@ -79,4 +79,5 @@ public class ShowBrick implements Brick {
 		sequence.addAction(ExtendedActions.show(sprite));
 		return null;
 	}
+
 }

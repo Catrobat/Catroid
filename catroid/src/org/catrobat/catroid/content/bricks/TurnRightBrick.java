@@ -49,6 +49,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 	private Formula degrees;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public TurnRightBrick() {
 
@@ -106,19 +107,13 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_turn_right, null);
-		TextView times = (TextView) view.findViewById(R.id.brick_turn_right_degree_text_view);
-		if (degrees.isSingleNumberFormula()) {
-			times.setText(view.getResources().getQuantityString(R.plurals.brick_turn_right_degree_plural,
-					Utils.convertDoubleToPluralInteger(degrees.interpretFloat(sprite))));
-		} else {
-
-			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
-			// in hopefully all possible languages
-			times.setText(view.getResources().getQuantityString(R.plurals.brick_turn_right_degree_plural,
-					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
-		}
-		return view;
+		prototypeView = View.inflate(context, R.layout.brick_turn_right, null);
+		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_right_prototype_text_view);
+		textDegrees.setText(String.valueOf(degrees));
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_turn_right_degree_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.brick_turn_right_degree_plural,
+				Utils.convertDoubleToPluralInteger(degrees.interpretFloat(sprite))));
+		return prototypeView;
 	}
 
 	@Override

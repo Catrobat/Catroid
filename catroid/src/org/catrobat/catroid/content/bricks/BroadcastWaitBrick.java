@@ -186,4 +186,5 @@ public class BroadcastWaitBrick implements Brick {
 		sequence.addAction(ExtendedActions.broadcastFromWaiter(sprite, broadcastMessage));
 		return null;
 	}
+
 }
