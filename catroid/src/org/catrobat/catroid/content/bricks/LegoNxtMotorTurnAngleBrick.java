@@ -54,8 +54,6 @@ public class LegoNxtMotorTurnAngleBrick implements Brick, OnClickListener {
 	private String motor;
 	private transient Motor motorEnum;
 	private Formula degrees;
-	private static final int NO_DELAY = 0;
-
 	private transient EditText editSpeed;
 
 	protected Object readResolve() {

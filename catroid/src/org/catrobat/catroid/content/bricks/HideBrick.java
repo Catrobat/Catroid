@@ -32,7 +32,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class HideBrick implements Brick {
 	private static final long serialVersionUID = 1L;

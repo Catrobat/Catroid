@@ -53,10 +53,6 @@ public class LegoNxtMotorActionBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 	private String motor;
 	private transient Motor motorEnum;
-
-	private static final int MIN_SPEED = -100;
-	private static final int MAX_SPEED = 100;
-
 	private transient EditText editSpeed;
 
 	private Formula speed;
