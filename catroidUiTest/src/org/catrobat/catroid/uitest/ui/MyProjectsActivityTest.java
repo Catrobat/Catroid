@@ -226,7 +226,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			fail("Standard Project not created");
 		}
 
-		Sprite sprite = new Sprite(solo.getString(R.string.default_project_sprites_catroid_name) + " "
+		Sprite sprite = new Sprite(solo.getString(R.string.default_project_sprites_catroid_name)
 				+ solo.getString(R.string.copy_sprite_name_suffix));
 
 		ProjectManager.getInstance().getCurrentProject().addSprite(sprite);
@@ -241,8 +241,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnText(solo.getString(R.string.copy));
 		solo.sleep(1000);
 
-		assertTrue("Two sprites witht the same name are not allowed!",
-				solo.searchText(solo.getString(R.string.spritename_already_exists), true));
+		assertTrue(
+				"Copied Sprite name should habe 1 as suffix!",
+				solo.searchText((solo.getString(R.string.default_project_sprites_catroid_name)
+						+ solo.getString(R.string.copy_sprite_name_suffix) + "1")));
 	}
 
 	public void testCopySprite() {
@@ -274,7 +276,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(500);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(500);
-		solo.clickOnText(solo.getString(R.string.default_project_sprites_catroid_name) + " "
+		solo.clickOnText(solo.getString(R.string.default_project_sprites_catroid_name)
 				+ solo.getString(R.string.copy_sprite_name_suffix));
 		solo.sleep(500);
 
@@ -1131,7 +1133,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertEquals(
 				"The first sprite is NOT copied!",
 				copiedSprite.getName(),
-				solo.getString(R.string.default_project_sprites_catroid_name) + " "
+				solo.getString(R.string.default_project_sprites_catroid_name)
 						+ solo.getString(R.string.copy_sprite_name_suffix));
 		assertEquals("The first sprite has a new name!", firstSprite.getName(),
 				solo.getString(R.string.default_project_sprites_catroid_name));
@@ -1196,7 +1198,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			loopCounter++;
 		}
 
-		solo.clickOnText(solo.getString(R.string.default_project_sprites_catroid_name) + " "
+		solo.clickOnText(solo.getString(R.string.default_project_sprites_catroid_name)
 				+ solo.getString(R.string.copy_sprite_name_suffix));
 		solo.sleep(1000);
 

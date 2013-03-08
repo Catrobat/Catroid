@@ -34,12 +34,12 @@ import android.widget.BaseAdapter;
 public class WhenStartedBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
-	private StartScript script;
+	private Script script;
 	private Sprite sprite;
 
 	private transient View view;
 
-	public WhenStartedBrick(Sprite sprite, StartScript script) {
+	public WhenStartedBrick(Sprite sprite, Script script) {
 		this.script = script;
 		this.sprite = sprite;
 	}
@@ -66,7 +66,7 @@ public class WhenStartedBrick extends ScriptBrick {
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		WhenStartedBrick copyBrick = (WhenStartedBrick) clone();
 		copyBrick.sprite = sprite;
-		copyBrick.script = (StartScript) script;
+		copyBrick.script = script;
 		return copyBrick;
 	}
 
