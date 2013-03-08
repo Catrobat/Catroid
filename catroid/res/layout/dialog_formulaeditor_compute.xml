@@ -34,6 +34,6 @@
         android:layout_height="100dp"
         android:background="@color/white"
         android:gravity="center"
-        android:textSize="40dp" />
+        android:textSize="40sp" />
 
 </RelativeLayout>
