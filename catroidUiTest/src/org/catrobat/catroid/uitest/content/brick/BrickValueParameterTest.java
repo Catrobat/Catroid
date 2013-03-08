@@ -264,8 +264,8 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 
 		solo.searchText(solo.getString(R.string.brick_repeat));
 		TextView repeatTextView = (TextView) solo.getView(R.id.brick_repeat_prototype_text_view);
-		int repeatePrototypeValue = Integer.parseInt(repeatTextView.getText().toString());
-		assertEquals("Value in Repeate Wait is not correct", BrickValues.REPEAT, repeatePrototypeValue);
+		int repeatPrototypeValue = Integer.parseInt(repeatTextView.getText().toString());
+		assertEquals("Value in Repeat Wait is not correct", BrickValues.REPEAT, repeatPrototypeValue);
 
 		solo.clickOnText(solo.getString(R.string.brick_repeat));
 		solo.clickOnScreen(200, 200);
@@ -306,7 +306,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 
 		EditText nxtPlayToneEditText = (EditText) solo.getView(R.id.nxt_tone_freq_edit_text);
 		int nxtPlayToneEditTextValue = Integer.parseInt(nxtPlayToneEditText.getText().toString());
-		assertEquals("Value in Selected Brick Repeate is not correct", BrickValues.LEGO_FREQUENCY / 100,
+		assertEquals("Value in Selected Brick Repeat is not correct", BrickValues.LEGO_FREQUENCY / 100,
 				nxtPlayToneEditTextValue);
 	}
 
