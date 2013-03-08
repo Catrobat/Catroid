@@ -49,6 +49,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 	private double degrees;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public TurnRightBrick() {
 
@@ -91,11 +92,13 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_turn_right, null);
-		TextView times = (TextView) view.findViewById(R.id.brick_turn_right_degree_text_view);
-		times.setText(view.getResources().getQuantityString(R.plurals.brick_turn_right_degree_plural,
+		prototypeView = View.inflate(context, R.layout.brick_turn_right, null);
+		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_right_prototype_text_view);
+		textDegrees.setText(String.valueOf(degrees));
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_turn_right_degree_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.brick_turn_right_degree_plural,
 				Utils.convertDoubleToPluralInteger(degrees)));
-		return view;
+		return prototypeView;
 	}
 
 	@Override

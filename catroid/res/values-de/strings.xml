@@ -291,6 +291,7 @@
     <string name="brick_set_volume_to">Setze Lautstärke auf</string>
     <string name="brick_change_volume_by">Ändere Lautstärke um</string>
     <string name="brick_speak">Sprich</string>
+    <string name="brick_speak_default_value">"Hallo!"</string>
     <!--  -->
 
 
@@ -313,6 +314,7 @@
         <item quantity="other">mal</item>
     </plurals>
     <string name="brick_loop_end">Wiederholen beenden</string>
+    <string name="brick_note_default_value">"Anmerkung hier hinzufügen..." </string>
     <!--  -->
 
 
