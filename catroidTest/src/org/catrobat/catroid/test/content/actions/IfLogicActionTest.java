@@ -29,6 +29,8 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -49,12 +51,73 @@ public class IfLogicActionTest extends AndroidTestCase {
 	private IfLogicElseBrick ifLogicElseBrick;
 	private IfLogicEndBrick ifLogicEndBrick;
 	private Project project;
+	private IfLogicBeginBrick ifLogicBeginBrick2;
+	private IfLogicElseBrick ifLogicElseBrick2;
+	private IfLogicEndBrick ifLogicEndBrick2;
+	private RepeatBrick repeatBrick;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		testSprite = new Sprite("testSprite");
 		project = new Project(null, "testProject");
+	}
+
+	public void testNestedIfBrick() throws InterruptedException {
+		testSprite.removeAllScripts();
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
+
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
+
+		ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.addProjectUserVariable(TEST_USERVARIABLE, 0d);
+
+		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable(TEST_USERVARIABLE, null);
+
+		SetVariableBrick setVariableBrick = new SetVariableBrick(testSprite, new Formula(IF_TRUE_VALUE), userVariable);
+
+		Formula validFormula = new Formula(1);
+		validFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
+				new FormulaElement(ElementType.NUMBER, "1", null), new FormulaElement(ElementType.NUMBER, "2", null)));
+
+		testScript = new StartScript(testSprite);
+
+		repeatBrick = new RepeatBrick(testSprite, new Formula(2));
+		ifLogicBeginBrick = new IfLogicBeginBrick(testSprite, validFormula);
+		ifLogicElseBrick = new IfLogicElseBrick(testSprite, ifLogicBeginBrick);
+		ifLogicEndBrick = new IfLogicEndBrick(testSprite, ifLogicElseBrick, ifLogicBeginBrick);
+		repeatBrick.setLoopEndBrick(new LoopEndBrick(testSprite, repeatBrick));
+
+		ifLogicBeginBrick2 = new IfLogicBeginBrick(testSprite, validFormula);
+		ifLogicElseBrick2 = new IfLogicElseBrick(testSprite, ifLogicBeginBrick2);
+		ifLogicEndBrick2 = new IfLogicEndBrick(testSprite, ifLogicElseBrick2, ifLogicBeginBrick2);
+
+		testScript.addBrick(ifLogicBeginBrick);
+		testScript.addBrick(ifLogicBeginBrick2);
+		testScript.addBrick(setVariableBrick);
+		testScript.addBrick(ifLogicElseBrick2);
+		testScript.addBrick(ifLogicEndBrick2);
+		testScript.addBrick(ifLogicElseBrick);
+		testScript.addBrick(ifLogicEndBrick);
+
+		testSprite.addScript(testScript);
+		project.addSprite(testSprite);
+
+		ProjectManager.getInstance().setCurrentSprite(testSprite);
+		ProjectManager.getInstance().setCurrentScript(testScript);
+
+		testSprite.createStartScriptActionSequence();
+		testSprite.look.act(100f);
+
+		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable(TEST_USERVARIABLE, null);
+
+		assertEquals("IfBrick not executed as expected", IF_TRUE_VALUE, userVariable.getValue().intValue());
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
+
 	}
 
 	public void testIfBrick() throws InterruptedException {

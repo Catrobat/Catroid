@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ChangeYByNAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -46,7 +47,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	public void testRepeatBrick() throws InterruptedException {
 		final int deltaY = -10;
 
-		RepeatAction action = ExtendedActions.repeat(REPEAT_TIMES,
+		RepeatAction action = ExtendedActions.repeat(testSprite, new Formula(REPEAT_TIMES),
 				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, new Formula(deltaY))));
 		while (!action.act(1.0f)) {
 		}
@@ -54,6 +55,22 @@ public class RepeatActionTest extends InstrumentationTestCase {
 
 		assertEquals("Executed the wrong number of times!", REPEAT_TIMES, executedCount);
 		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY, (int) testSprite.look.getYPosition());
+	}
+
+	public void testNestedRepeatBrick() throws InterruptedException {
+		final int deltaY = -10;
+
+		ChangeYByNAction nestedRepeatChangeYByNAction = ExtendedActions.changeYByN(testSprite, new Formula(deltaY));
+		RepeatAction nestedRepeatAction = ExtendedActions.repeat(testSprite, new Formula(REPEAT_TIMES),
+				nestedRepeatChangeYByNAction);
+		RepeatAction action = ExtendedActions.repeat(testSprite, new Formula(REPEAT_TIMES), nestedRepeatAction);
+		while (!action.act(1.0f)) {
+		}
+		int executedCount = (Integer) Reflection.getPrivateField(action, "executedCount");
+
+		assertEquals("Executed the wrong number of times!", REPEAT_TIMES, executedCount);
+		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * REPEAT_TIMES * deltaY,
+				(int) testSprite.look.getYPosition());
 	}
 
 	public void testNegativeRepeats() throws InterruptedException {
@@ -73,7 +90,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		final int decoyDeltaY = -150;
 		final int expectedDeltaY = 150;
 
-		RepeatAction repeatAction = ExtendedActions.repeat(0,
+		RepeatAction repeatAction = ExtendedActions.repeat(testSprite, new Formula(0),
 				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, new Formula(decoyDeltaY))));
 		SequenceAction action = ExtendedActions.sequence(repeatAction,
 				ExtendedActions.changeYByN(testSprite, new Formula(expectedDeltaY)));
