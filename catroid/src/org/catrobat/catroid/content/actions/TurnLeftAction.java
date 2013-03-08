@@ -38,16 +38,8 @@ public class TurnLeftAction extends TemporalAction {
 
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	public Formula getDegrees() {
-		return degrees;
 	}
 
 	public void setDegrees(Formula degrees) {

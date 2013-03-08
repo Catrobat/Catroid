@@ -27,7 +27,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -66,16 +65,6 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	public Script getScript() {
-		for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
-			Script script = sprite.getScript(i);
-			if (script.getBrickList().contains(this)) {
-				return script;
-			}
-		}
-		return null;
 	}
 
 	@Override

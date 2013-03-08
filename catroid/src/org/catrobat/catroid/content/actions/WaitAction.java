@@ -45,14 +45,6 @@ public class WaitAction extends TemporalAction {
 		this.sprite = sprite;
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	public Formula getDelay() {
-		return duration;
-	}
-
 	@Override
 	protected void update(float percent) {
 

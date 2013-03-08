@@ -37,16 +37,8 @@ public class TurnRightAction extends TemporalAction {
 		sprite.look.setRotation((sprite.look.getRotation() % 360) - degrees.interpretFloat(sprite));
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	public Formula getDegrees() {
-		return degrees;
 	}
 
 	public void setDegrees(Formula degrees) {

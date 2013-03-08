@@ -64,16 +64,8 @@ public class LegoNxtMotorTurnAngleAction extends TemporalAction {
 		 */
 	}
 
-	public Motor getMotorEnum() {
-		return motorEnum;
-	}
-
 	public void setMotorEnum(Motor motorEnum) {
 		this.motorEnum = motorEnum;
-	}
-
-	public Formula getDegrees() {
-		return degrees;
 	}
 
 	public void setDegrees(Formula degrees) {

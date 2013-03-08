@@ -48,16 +48,8 @@ public class ChangeYByNAction extends TemporalAction {
 		sprite.look.setXYPosition(sprite.look.getXPosition(), yPosition);
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	public Formula getyMovement() {
-		return yMovement;
 	}
 
 	public void setyMovement(Formula yMovement) {

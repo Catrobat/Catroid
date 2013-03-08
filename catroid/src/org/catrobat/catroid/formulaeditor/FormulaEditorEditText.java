@@ -37,7 +37,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
@@ -50,7 +49,6 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	private Spannable highlightSpan = null;
 	private float lineHeight = 0;
 
-	public LinearLayout catKeyboardView;
 	private static FormulaEditorHistory history = null;
 	private Context context;
 
@@ -67,12 +65,11 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		this.context = context;
 	}
 
-	public void init(FormulaEditorFragment dialog, int brickHeight, LinearLayout ckv) {
-		this.formulaEditorDialog = dialog;
+	public void init(FormulaEditorFragment formulaEditorFragment) {
+		this.formulaEditorDialog = formulaEditorFragment;
 		this.setOnTouchListener(this);
 		this.setLongClickable(false);
 		this.setSelectAllOnFocus(false);
-		this.catKeyboardView = ckv;
 		this.setCursorVisible(false);
 	}
 

@@ -38,16 +38,8 @@ public class SetBrightnessAction extends TemporalAction {
 
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	public Formula getBrightness() {
-		return brightness;
 	}
 
 	public void setBrightness(Formula brightness) {

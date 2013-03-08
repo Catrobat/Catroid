@@ -43,16 +43,8 @@ public class MoveNStepsAction extends TemporalAction {
 		sprite.look.setXYPosition(newXPosition, newYPosition);
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	public Formula getSteps() {
-		return steps;
 	}
 
 	public void setSteps(Formula steps) {

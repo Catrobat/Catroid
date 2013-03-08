@@ -39,16 +39,8 @@ public class SetVolumeToAction extends TemporalAction {
 		SoundManager.getInstance().setVolume(volumeValue);
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	public Formula getVolume() {
-		return volume;
 	}
 
 	public void setVolume(Formula volume) {

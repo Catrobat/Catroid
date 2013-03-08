@@ -37,16 +37,8 @@ public class SetGhostEffectAction extends TemporalAction {
 		sprite.look.setAlphaValue((100f - transparency.interpretFloat(sprite)) / 100f);
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	public Formula getTransparency() {
-		return transparency;
 	}
 
 	public void setTransparency(Formula transparency) {

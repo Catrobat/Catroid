@@ -39,10 +39,6 @@ public class ChangeGhostEffectByNAction extends TemporalAction {
 
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}

@@ -37,16 +37,8 @@ public class SetSizeToAction extends TemporalAction {
 		sprite.look.setSize(size.interpretFloat(sprite) / 100f);
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	public Formula getSize() {
-		return size;
 	}
 
 	public void setSize(Formula size) {

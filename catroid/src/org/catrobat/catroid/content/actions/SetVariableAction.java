@@ -39,7 +39,6 @@ public class SetVariableAction extends TemporalAction {
 		if (userVariable == null) {
 			return;
 		}
-		double originalValue = userVariable.getValue();
 		double value = changeVariable.interpretFloat(sprite);
 		userVariable.setValue(value);
 
@@ -51,10 +50,6 @@ public class SetVariableAction extends TemporalAction {
 
 	public void setChangeVariable(Formula changeVariable) {
 		this.changeVariable = changeVariable;
-	}
-
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	public void setSprite(Sprite sprite) {

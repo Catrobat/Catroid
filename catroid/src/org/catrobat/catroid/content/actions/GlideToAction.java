@@ -80,16 +80,8 @@ public class GlideToAction extends TemporalAction {
 		endY = y;
 	}
 
-	public Formula getX() {
-		return endX;
-	}
-
 	public void setX(Formula x) {
 		endX = x;
-	}
-
-	public Formula getY() {
-		return endY;
 	}
 
 	public void setY(Formula y) {

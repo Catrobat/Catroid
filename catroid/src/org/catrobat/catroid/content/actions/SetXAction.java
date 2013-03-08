@@ -37,16 +37,8 @@ public class SetXAction extends TemporalAction {
 		sprite.look.setXPosition(x.interpretFloat(sprite));
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	public Formula getX() {
-		return x;
 	}
 
 	public void setX(Formula x) {

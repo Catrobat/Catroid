@@ -63,10 +63,6 @@ public class IfLogicAction extends Action {
 		super.restart();
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}

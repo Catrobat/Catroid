@@ -41,16 +41,8 @@ public class ChangeSizeByNAction extends TemporalAction {
 		sprite.look.setSize(newSize);
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	public Formula getSize() {
-		return size;
 	}
 
 	public void setSize(Formula size) {

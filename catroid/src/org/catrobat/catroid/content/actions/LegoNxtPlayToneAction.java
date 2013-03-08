@@ -39,16 +39,8 @@ public class LegoNxtPlayToneAction extends TemporalAction {
 		LegoNXT.sendBTCPlayToneMessage(hertz.interpretInteger(sprite), durationInSeconds.interpretInteger(sprite));
 	}
 
-	public Formula getHertz() {
-		return hertz;
-	}
-
 	public void setHertz(Formula hertz) {
 		this.hertz = hertz;
-	}
-
-	public Formula getDurationInSeconds() {
-		return durationInSeconds;
 	}
 
 	public void setDurationInSeconds(Formula durationInSeconds) {

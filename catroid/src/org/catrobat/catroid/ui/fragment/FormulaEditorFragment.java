@@ -192,9 +192,9 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		formulaEditorKeyboard = (LinearLayout) fragmentView.findViewById(R.id.formula_editor_keyboardview);
 
 		if (formulaEditorBrick != null) {
-			formulaEditorEditText.init(this, formulaEditorBrick.getMeasuredHeight(), formulaEditorKeyboard);
+			formulaEditorEditText.init(this);
 		} else {
-			formulaEditorEditText.init(this, 0, formulaEditorKeyboard);
+			formulaEditorEditText.init(this);
 		}
 
 		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);

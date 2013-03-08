@@ -45,10 +45,6 @@ public class ChangeVolumeByNAction extends TemporalAction {
 		SoundManager.getInstance().setVolume(currentVolume);
 	}
 
-	public Formula getVolume() {
-		return volume;
-	}
-
 	public void setVolume(Formula volume) {
 		this.volume = volume;
 	}

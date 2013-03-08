@@ -37,16 +37,8 @@ public class SetYAction extends TemporalAction {
 		sprite.look.setYPosition(y.interpretFloat(sprite));
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	public Formula getY() {
-		return y;
 	}
 
 	public void setY(Formula y) {

@@ -48,16 +48,8 @@ public class ChangeXByNAction extends TemporalAction {
 		sprite.look.setXYPosition(xPosition, sprite.look.getYPosition());
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	public Formula getxMovement() {
-		return xMovement;
 	}
 
 	public void setxMovement(Formula xMovement) {

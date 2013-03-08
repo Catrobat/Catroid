@@ -52,24 +52,12 @@ public class LegoNxtMotorActionAction extends TemporalAction {
 
 	}
 
-	public String getMotor() {
-		return motor;
-	}
-
 	public void setMotor(String motor) {
 		this.motor = motor;
 	}
 
-	public Motor getMotorEnum() {
-		return motorEnum;
-	}
-
 	public void setMotorEnum(Motor motorEnum) {
 		this.motorEnum = motorEnum;
-	}
-
-	public Formula getSpeed() {
-		return speed;
 	}
 
 	public void setSpeed(Formula speed) {
