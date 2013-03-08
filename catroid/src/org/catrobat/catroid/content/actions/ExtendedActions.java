@@ -34,6 +34,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ExtendedActions extends Actions {
 
@@ -351,6 +352,14 @@ public class ExtendedActions extends Actions {
 		WaitAction action = action(WaitAction.class);
 		action.setSprite(sprite);
 		action.setDelay(delay);
+		return action;
+	}
+
+	public static Action forever(Sprite sprite, SequenceAction foreverSequence) {
+		RepeatAction action = action(RepeatAction.class);
+		action.setIsForeverRepeat(true);
+		action.setAction(foreverSequence);
+		action.setSprite(sprite);
 		return action;
 	}
 }

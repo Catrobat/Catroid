@@ -23,25 +23,56 @@
 package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.actions.RepeatAction;
+import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
+import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.LoopBeginBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.test.utils.Reflection;
 
-import android.test.FlakyTest;
 import android.test.InstrumentationTestCase;
-
-import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 
 public class ForeverActionTest extends InstrumentationTestCase {
 
-	@FlakyTest(tolerance = 3)
-	public void testForeverBrick() throws InterruptedException {
-		Sprite testSprite = new Sprite("testSprite");
-		final Formula deltaY = new Formula(-10);
+	private static final int REPEAT_TIMES = 100;
 
-		RepeatAction action = ExtendedActions.forever(ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite,
-				deltaY)));
-		int numberOfRepeats = (Integer) Reflection.getPrivateField(action, "repeatCount");
-		assertEquals("Executed the wrong number of times!", numberOfRepeats, RepeatAction.FOREVER);
+	public void testLoopDelay() throws InterruptedException {
+		final int deltaY = -10;
+
+		Sprite testSprite = new Sprite("testSprite");
+
+		StartScript testScript = new StartScript(testSprite);
+
+		LoopBeginBrick foreverBrick = new ForeverBrick(testSprite);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
+		foreverBrick.setLoopEndBrick(loopEndBrick);
+
+		final float expectedDelay = (Float) Reflection.getPrivateField(RepeatAction.class, "LOOP_DELAY");
+
+		testScript.addBrick(foreverBrick);
+		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(loopEndBrick);
+
+		testSprite.addScript(testScript);
+		testSprite.createStartScriptActionSequence();
+
+		/*
+		 * This is only to document that a delay of 20ms is by contract. See Issue 28 in Google Code
+		 * http://code.google.com/p/catroid/issues/detail?id=28
+		 */
+
+		for (int index = 0; index < REPEAT_TIMES; index++) {
+
+			/*
+			 * Run two times with "expectedDelay * 0.5" because of SequenceAction-Bug in
+			 * com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+			 */
+			testSprite.look.act(expectedDelay * 0.5f);
+			testSprite.look.act(expectedDelay * 0.5f);
+		}
+
+		assertEquals("Loop delay did not work!", deltaY * REPEAT_TIMES, (int) testSprite.look.getYPosition());
 	}
+
 }

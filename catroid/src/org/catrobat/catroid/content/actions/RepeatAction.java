@@ -34,6 +34,7 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 	private int repeatCountValue;
 	private static final float LOOP_DELAY = 0.02f;
 	private float currentTime = 0f;
+	private boolean isForeverRepeat = false;
 
 	@Override
 	public boolean act(float delta) {
@@ -41,7 +42,7 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 		if (!isCurrentLoopInitialized) {
 			currentTime = 0f;
 			isCurrentLoopInitialized = true;
-			repeatCountValue = repeatCount.interpretInteger(sprite);
+			repeatCountValue = repeatCount == null ? 0 : repeatCount.interpretInteger(sprite);
 		}
 
 		currentTime += delta;
@@ -49,13 +50,13 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 		if (repeatCountValue < 0) {
 			repeatCountValue = 0;
 		}
-		if (executedCount >= repeatCountValue) {
+		if (executedCount >= repeatCountValue && !isForeverRepeat) {
 			return true;
 		}
 		if (action.act(delta) && currentTime >= LOOP_DELAY) {
 
 			executedCount++;
-			if (executedCount >= repeatCountValue) {
+			if (executedCount >= repeatCountValue && !isForeverRepeat) {
 				return true;
 			}
 			isCurrentLoopInitialized = false;
@@ -80,6 +81,10 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
+	}
+
+	public void setIsForeverRepeat(boolean isForeverRepeat) {
+		this.isForeverRepeat = isForeverRepeat;
 	}
 
 }
