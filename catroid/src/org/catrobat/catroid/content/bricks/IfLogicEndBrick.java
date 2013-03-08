@@ -62,10 +62,6 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 		return sprite;
 	}
 
-	public IfLogicElseBrick getIfLogicElseBrick() {
-		return elseBrick;
-	}
-
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

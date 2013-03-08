@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -35,7 +37,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class SetYBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -91,7 +93,7 @@ public class SetYBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new SetYBrick(getSprite(), yPosition);
+		return new SetYBrick(getSprite(), yPosition.clone());
 	}
 
 	@Override

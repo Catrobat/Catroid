@@ -79,10 +79,6 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 		return View.inflate(context, R.layout.brick_if_else, null);
 	}
 
-	public IfLogicEndBrick getIfEndBrick() {
-		return this.ifEndBrick;
-	}
-
 	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
 		this.ifEndBrick = ifEndBrick;
 	}

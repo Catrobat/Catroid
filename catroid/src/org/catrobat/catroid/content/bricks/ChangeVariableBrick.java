@@ -130,7 +130,7 @@ public class ChangeVariableBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(getSprite(), variableFormula);
+		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(getSprite(), variableFormula.clone());
 		return clonedBrick;
 	}
 

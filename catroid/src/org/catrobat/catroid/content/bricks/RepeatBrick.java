@@ -67,7 +67,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new RepeatBrick(getSprite(), timesToRepeat);
+		return new RepeatBrick(getSprite(), timesToRepeat.clone());
 	}
 
 	@Override

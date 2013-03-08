@@ -428,4 +428,11 @@ public class FormulaElement implements Serializable {
 		return false;
 	}
 
+	@Override
+	public FormulaElement clone() {
+		FormulaElement leftChildClone = leftChild == null ? null : leftChild.clone();
+		FormulaElement rightChildClone = leftChild == null ? null : rightChild.clone();
+		return new FormulaElement(type, new String(value), null, leftChildClone, rightChildClone);
+	}
+
 }
