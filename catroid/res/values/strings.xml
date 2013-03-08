@@ -418,8 +418,8 @@
     <string name="formula_editor_false">False</string>
     <string name="formula_editor_decimal_mark">.</string>
     <string name="formula_editor_title">Formula Editor</string>
-    <string name="formula_editor_button_undo">Undo</string>
-    <string name="formula_editor_button_redo">Redo</string>
+    <string name="formula_editor_button_undo">&lt;&lt;</string>
+    <string name="formula_editor_button_redo">&gt;&gt;</string>
     <string name="formula_editor_changes_saved">Changes saved!</string>
     <string name="formula_editor_changes_discarded">Changes discarded!</string>
     <string name="formula_editor_parse_fail">Error: Fix or press again now to discard all changes</string>
