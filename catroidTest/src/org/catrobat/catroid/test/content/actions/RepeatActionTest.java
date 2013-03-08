@@ -22,16 +22,20 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.ChangeYByNAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.content.actions.RepeatAction;
+import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.InstrumentationTestCase;
 
-import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class RepeatActionTest extends InstrumentationTestCase {
@@ -101,5 +105,35 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		assertEquals("Executed the wrong number of times!", 0, executedCount);
 		assertEquals("Loop was executed although repeats were set to zero!", expectedDeltaY,
 				(int) testSprite.look.getYPosition());
+	}
+
+	public void testLoopDelay() throws InterruptedException {
+		testSprite.removeAllScripts();
+		Script testScript = new StartScript(testSprite);
+
+		RepeatBrick repeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		final int deltaY = -10;
+		final float expectedDelay = (Float) Reflection.getPrivateField(RepeatAction.class, "LOOP_DELAY");
+
+		testScript.addBrick(repeatBrick);
+		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(loopEndBrick);
+		testScript.addBrick(new ChangeYByNBrick(testSprite, 150));
+
+		testSprite.addScript(testScript);
+		testSprite.createStartScriptActionSequence();
+
+		/*
+		 * This is only to document that a delay of 20ms is by contract. See Issue 28 in Google Code
+		 * http://code.google.com/p/catroid/issues/detail?id=28
+		 */
+
+		testSprite.look.act(expectedDelay * REPEAT_TIMES);
+
+		assertEquals("Loop delay did not work!", deltaY * REPEAT_TIMES, (int) testSprite.look.getYPosition());
+
 	}
 }
