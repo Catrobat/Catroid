@@ -104,9 +104,9 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_place_at, null);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_x);
-		textX.setText(String.valueOf(xPosition));
+		textX.setText(String.valueOf(xPosition.interpretInteger(sprite)));
 		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_y);
-		textY.setText(String.valueOf(yPosition));
+		textY.setText(String.valueOf(yPosition.interpretInteger(sprite)));
 		return prototypeView;
 	}
 

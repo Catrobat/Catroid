@@ -106,7 +106,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_repeat, null);
 		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_prototype_text_view);
-		textRepeat.setText(timesToRepeat + "");
+		textRepeat.setText(String.valueOf(timesToRepeat.interpretInteger(sprite)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.time_plural,
 				Utils.convertDoubleToPluralInteger(timesToRepeat.interpretFloat(sprite))));

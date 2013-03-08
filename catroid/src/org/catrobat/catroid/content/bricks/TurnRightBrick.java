@@ -109,7 +109,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_turn_right, null);
 		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_right_prototype_text_view);
-		textDegrees.setText(String.valueOf(degrees));
+		textDegrees.setText(String.valueOf(degrees.interpretFloat(sprite)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_turn_right_degree_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.brick_turn_right_degree_plural,
 				Utils.convertDoubleToPluralInteger(degrees.interpretFloat(sprite))));

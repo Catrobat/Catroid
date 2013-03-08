@@ -97,7 +97,7 @@ public class LegoNxtMotorActionBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.motor_action_speed_text_view);
-		textSpeed.setText(String.valueOf(speed));
+		textSpeed.setText(String.valueOf(speed.interpretInteger(sprite)));
 		//TODO set the spinner Value to A
 		return prototypeView;
 	}

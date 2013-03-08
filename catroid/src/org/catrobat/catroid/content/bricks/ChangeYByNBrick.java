@@ -94,7 +94,7 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_change_y, null);
 		TextView textYMovement = (TextView) prototypeView.findViewById(R.id.brick_change_y_prototype_text_view);
-		textYMovement.setText(String.valueOf(yMovement));
+		textYMovement.setText(String.valueOf(yMovement.interpretInteger(sprite)));
 		return prototypeView;
 	}
 

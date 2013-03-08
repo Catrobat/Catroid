@@ -78,9 +78,9 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.nxt_tone_duration_text_view);
-		textDuration.setText(String.valueOf(durationInSeconds));
+		textDuration.setText(String.valueOf(durationInSeconds.interpretInteger(sprite)));
 		TextView textFreq = (TextView) prototypeView.findViewById(R.id.nxt_tone_freq_text_view);
-		textFreq.setText(String.valueOf(frequency));
+		textFreq.setText(String.valueOf(frequency.interpretInteger(sprite)));
 		return prototypeView;
 	}
 

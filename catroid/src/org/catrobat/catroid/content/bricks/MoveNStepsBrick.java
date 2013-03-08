@@ -111,7 +111,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		prototypeView = inflater.inflate(R.layout.brick_move_n_steps, null);
 		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_prototype_text_view);
-		textSteps.setText(String.valueOf(steps));
+		textSteps.setText(String.valueOf(steps.interpretFloat(sprite)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_step_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
 				Utils.convertDoubleToPluralInteger(steps.interpretFloat(sprite))));

@@ -105,7 +105,7 @@ public class WaitBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_wait, null);
 		TextView textWait = (TextView) prototypeView.findViewById(R.id.brick_wait_prototype_text_view);
-		textWait.setText((timeToWaitInSeconds) + "");
+		textWait.setText(String.valueOf(timeToWaitInSeconds.interpretInteger(sprite)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_wait_second_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(timeToWaitInSeconds.interpretFloat(sprite))));

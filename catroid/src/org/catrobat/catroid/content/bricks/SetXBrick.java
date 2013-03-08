@@ -93,7 +93,7 @@ public class SetXBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_x, null);
 		TextView textXPosition = (TextView) prototypeView.findViewById(R.id.brick_set_x_prototype_text_view);
-		textXPosition.setText(String.valueOf(xPosition));
+		textXPosition.setText(String.valueOf(xPosition.interpretInteger(sprite)));
 		return prototypeView;
 	}
 

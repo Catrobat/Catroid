@@ -94,7 +94,7 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_change_x, null);
 		TextView textXMovement = (TextView) prototypeView.findViewById(R.id.brick_change_x_prototype_text_view);
-		textXMovement.setText(String.valueOf(xMovement));
+		textXMovement.setText(String.valueOf(xMovement.interpretInteger(sprite)));
 		return prototypeView;
 	}
 

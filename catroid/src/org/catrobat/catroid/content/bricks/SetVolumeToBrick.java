@@ -89,7 +89,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_volume_to, null);
 		TextView textSetVolumeTo = (TextView) prototypeView.findViewById(R.id.brick_set_volume_to_prototype_text_view);
-		textSetVolumeTo.setText(String.valueOf(volume));
+		textSetVolumeTo.setText(String.valueOf(volume.interpretFloat(sprite)));
 		return prototypeView;
 	}
 

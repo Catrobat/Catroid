@@ -105,7 +105,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_go_back, null);
 		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_prototype_text_view);
-		textSteps.setText(String.valueOf(steps));
+		textSteps.setText(String.valueOf(steps.interpretInteger(sprite)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
 				Utils.convertDoubleToPluralInteger(steps.interpretFloat(sprite))));

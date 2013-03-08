@@ -91,7 +91,7 @@ public class SetYBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_y, null);
 		TextView textYPosition = (TextView) prototypeView.findViewById(R.id.brick_set_y_prototype_text_view);
-		textYPosition.setText(String.valueOf(yPosition));
+		textYPosition.setText(String.valueOf(yPosition.interpretInteger(sprite)));
 		return prototypeView;
 	}
 

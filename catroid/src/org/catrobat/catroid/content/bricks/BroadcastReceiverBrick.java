@@ -41,7 +41,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class BroadcastReceiverBrick extends ScriptBrick {
 

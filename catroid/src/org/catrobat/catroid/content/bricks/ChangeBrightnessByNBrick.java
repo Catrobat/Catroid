@@ -94,7 +94,7 @@ public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 		prototypeView = View.inflate(context, R.layout.brick_change_brightness, null);
 		TextView textChangeBrightness = (TextView) prototypeView
 				.findViewById(R.id.brick_change_brightness_prototype_text_view);
-		textChangeBrightness.setText(String.valueOf(changeBrightness));
+		textChangeBrightness.setText(String.valueOf(changeBrightness.interpretFloat(sprite)));
 		return prototypeView;
 	}
 
