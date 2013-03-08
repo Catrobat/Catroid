@@ -227,12 +227,12 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 
 		TextView setVolumeToTextView = (TextView) solo.getView(R.id.brick_set_volume_to_prototype_text_view);
 		float setVolumeToPrototypeValue = Float.parseFloat(setVolumeToTextView.getText().toString());
-		assertEquals("Value in Brick SetVolumenTo is not correct", (float) BrickValues.SET_VOLUME_TO,
+		assertEquals("Value in Brick SetVolumeTo is not correct", (float) BrickValues.SET_VOLUME_TO,
 				setVolumeToPrototypeValue);
 
-		TextView changeVolumeToTextView = (TextView) solo.getView(R.id.brick_change_volume_by_prototype_text_view);
-		float changeVolumenToPrototypeValue = Float.parseFloat(changeVolumeToTextView.getText().toString());
-		assertEquals("Value in Brick SetVolumenTo is not correct", (float) BrickValues.CHANGE_VOLUME_BY,
+		TextView changeVolumeByTextView = (TextView) solo.getView(R.id.brick_change_volume_by_prototype_text_view);
+		float changeVolumenToPrototypeValue = Float.parseFloat(changeVolumeByTextView.getText().toString());
+		assertEquals("Value in Brick ChangeVolumeBy is not correct", (float) BrickValues.CHANGE_VOLUME_BY,
 				changeVolumenToPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_speak));
@@ -247,6 +247,21 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		EditText speakEditText = (EditText) solo.getView(R.id.brick_speak_edit_text);
 		String speakEditTextValue = speakEditText.getText().toString();
 		assertEquals("Value in Selected Brick Speak is not correct", defaultSpeakValue, speakEditTextValue);
+
+		solo.sleep(500);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.clickOnText(categorySoundText);
+		solo.clickOnText(solo.getString(R.string.brick_change_volume_by));
+		solo.clickOnScreen(200, 200);
+
+		EditText changeVolumeByEditText = (EditText) solo.getView(R.id.brick_change_volume_by_edit_text);
+		// Formula appends a blank after the value, so last character has to be deleted
+		// before parsing an int from the string
+		// in this case, between the minus operator and the value there is a blank also
+		String changeVolumeByEditTextString = changeVolumeByEditText.getText().toString();
+		float changeVolumeByEditTextValue = Float.parseFloat(changeVolumeByEditTextString.replaceAll(" ", ""));
+		assertEquals("Value in Selected Brick ChangeVolumeBy is not correct", BrickValues.CHANGE_VOLUME_BY,
+				changeVolumeByEditTextValue);
 	}
 
 	@Smoke
