@@ -468,7 +468,7 @@
     <string name="formula_editor_operator_minus">-</string>
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
-    <string name="formula_editor_new_variable">make a new variable</string>
+    <string name="formula_editor_make_new_variable">make a new variable</string>
     <string name="formula_editor_variable_dialog_for_all_sprites">For all sprites</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">For this sprite only</string>
     <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
