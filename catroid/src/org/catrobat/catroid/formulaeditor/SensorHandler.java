@@ -166,7 +166,7 @@ public class SensorHandler implements SensorEventListener {
 		float q3 = rotationVector[2];
 
 		q0 = 1 - q1 * q1 - q2 * q2 - q3 * q3;
-		q0 = (q0 > 0) ? (float) android.util.FloatMath.sqrt(q0) : 0;
+		q0 = (q0 > 0) ? (float) java.lang.Math.sqrt(q0) : 0;
 
 		float sq_q1 = 2 * q1 * q1;
 		float sq_q2 = 2 * q2 * q2;

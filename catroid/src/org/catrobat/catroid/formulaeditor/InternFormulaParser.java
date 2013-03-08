@@ -121,8 +121,6 @@ public class InternFormulaParser {
 	}
 
 	private void addEndOfFileToken() {
-		int lastIndex = internTokensToParse.size() - 1;
-
 		InternToken endOfFileParserToken = new InternToken(InternTokenType.PARSER_END_OF_FILE);
 		internTokensToParse.add(endOfFileParserToken);
 	}
@@ -250,20 +248,6 @@ public class InternFormulaParser {
 				currentToken.getTokenSringValue(), null);
 
 		getNextToken();
-		return lookTree;
-	}
-
-	private FormulaElement look() throws InternFormulaParserException {
-
-		if (!Sensors.isSensor(currentToken.getTokenSringValue())) {
-			throw new InternFormulaParserException("Parse Error");
-		}
-
-		FormulaElement lookTree = new FormulaElement(FormulaElement.ElementType.SENSOR,
-				currentToken.getTokenSringValue(), null);
-
-		getNextToken();
-
 		return lookTree;
 	}
 

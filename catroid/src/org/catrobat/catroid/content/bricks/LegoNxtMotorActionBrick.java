@@ -55,7 +55,6 @@ public class LegoNxtMotorActionBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 	private String motor;
 	private transient Motor motorEnum;
-
 	private transient EditText editSpeed;
 
 	private Formula speed;

@@ -124,11 +124,9 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		if (!mInContextMode) {
-
 			super.onCreateContextMenu(menu, view, menuInfo);
 			getSherlockActivity().getMenuInflater().inflate(R.menu.menu_formulaeditor_variablelist, menu);
 		}
-
 	}
 
 	@Override
@@ -346,6 +344,10 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 				mInContextMode = true;
 				mContextActionMode = getSherlockActivity().startActionMode(mContextModeCallback);
 				return true;
+			case R.id.delete:
+				mInContextMode = true;
+				mContextActionMode = getSherlockActivity().startActionMode(mContextModeCallback);
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
@@ -404,10 +406,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			adapter.setSelectMode(Constants.MULTI_SELECT);
 			adapter.notifyDataSetChanged();
-
 			mode.setTitle("0 " + getString(R.string.formula_editor_variable_context_action_item_selected));
-			menu.removeItem(R.id.menu_delete);
-
 			return true;
 		}
 
@@ -425,14 +424,16 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		public void onDestroyActionMode(ActionMode mode) {
 			UserVariablesContainer userVariablesContainer = ProjectManager.getInstance().getCurrentProject()
 					.getUserVariables();
-			for (UserVariable var : adapter.getCheckedUserVariables()) {
-				userVariablesContainer.deleteUserVariableByName(var.getName());
+			if (!adapter.isEmpty()) {
+				for (UserVariable var : adapter.getCheckedUserVariables()) {
+					userVariablesContainer.deleteUserVariableByName(var.getName());
+				}
 			}
+
 			adapter.setSelectMode(Constants.SELECT_NONE);
 			adapter.notifyDataSetChanged();
 			mContextActionMode = null;
 			mInContextMode = false;
-
 		}
 	};
 }
