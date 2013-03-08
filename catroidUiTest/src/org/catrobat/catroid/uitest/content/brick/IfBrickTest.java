@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
-import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -128,18 +127,23 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.clickOnText(spinnerScripts);
 		solo.clickOnText(spinnerScripts);
 
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(3), 10, yPosition.get(0), 20);
+
+		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
+		assertTrue("Wrong Brick instance - expected IfElseBrick but was "
+				+ projectBrickList.get(1).getClass().getSimpleName(),
+				projectBrickList.get(1) instanceof IfLogicElseBrick);
+
+		assertTrue("Wrong Brick instance - expected ChangeYByNBrick but was "
+				+ projectBrickList.get(2).getClass().getSimpleName(),
+				projectBrickList.get(2) instanceof ChangeYByNBrick);
+
 		//HERE GOON
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, yPosition.get(0), 20);
-
-		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
-		assertTrue("Wrong Brick instance - expected LoopBeginBrick but was "
-				+ projectBrickList.get(0).getClass().getSimpleName(), projectBrickList.get(0) instanceof LoopBeginBrick);
-
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(3), 10, yPosition.get(4) + 20, 20);
-		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
-		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof LoopEndBrick);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, yPosition.get(0) + 20, 20);
+		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
+		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof IfLogicEndBrick);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
@@ -178,8 +182,8 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, yPosition.get(5) + 20, 20);
 		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
 
-		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof SetLookBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof LoopEndBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof SetLookBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(4) instanceof LoopEndBrick);
 	}
 
 	private void createProject() {
