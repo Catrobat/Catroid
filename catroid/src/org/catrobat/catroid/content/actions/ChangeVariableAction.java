@@ -26,24 +26,13 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.Action;
 
-public class ChangeVariableAction extends TemporalAction {
+public class ChangeVariableAction extends Action {
 
 	private Sprite sprite;
 	private Formula changeVariable;
 	private UserVariable userVariable;
-
-	@Override
-	protected void update(float percent) {
-		if (userVariable == null) {
-			return;
-		}
-		double originalValue = userVariable.getValue();
-		double value = changeVariable.interpretFloat(sprite);
-		userVariable.setValue(originalValue + value);
-
-	}
 
 	public void setUserVariable(UserVariable userVariable) {
 		this.userVariable = userVariable;
@@ -55,6 +44,17 @@ public class ChangeVariableAction extends TemporalAction {
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
+	}
+
+	@Override
+	public boolean act(float delta) {
+		if (userVariable == null) {
+			return true;
+		}
+		double originalValue = userVariable.getValue();
+		double value = changeVariable.interpretFloat(sprite);
+		userVariable.setValue(originalValue + value);
+		return true;
 	}
 
 }

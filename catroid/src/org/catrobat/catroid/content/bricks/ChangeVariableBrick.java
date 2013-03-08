@@ -43,7 +43,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ChangeVariableBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -55,6 +55,12 @@ public class ChangeVariableBrick implements Brick, OnClickListener {
 	public ChangeVariableBrick(Sprite sprite, Formula variableFormula) {
 		this.sprite = sprite;
 		this.variableFormula = variableFormula;
+	}
+
+	public ChangeVariableBrick(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
+		this.sprite = sprite;
+		this.variableFormula = variableFormula;
+		this.userVariable = userVariable;
 	}
 
 	public ChangeVariableBrick(Sprite sprite, double value) {
