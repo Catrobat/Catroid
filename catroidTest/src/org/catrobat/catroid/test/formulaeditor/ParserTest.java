@@ -43,7 +43,6 @@ public class ParserTest extends AndroidTestCase {
 	private static final float LOOK_SCALE = 90.3f;
 	private static final float LOOK_ROTATION = 30.7f;
 	private static final int LOOK_ZPOSITION = 3;
-	private static final float DELTA = 0.01f;
 	private Sprite testSprite;
 
 	@Override

@@ -49,16 +49,14 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 	private OnCheckedChangeListener onCheckedChangeListener = null;
 	private OnListItemClickListener onListItemClickListener = null;
 	private int itemLayout;
-	int textViewId;
-	int textViewId2;
+	private int checkboxId;
+	private int textViewId;
+	private int textViewId2;
 
 	private static class ViewHolder {
 		private CheckBox checkbox;
 		private TextView text1;
 		private TextView text2;
-	}
-
-	private UserVariableAdapter() {
 	}
 
 	public UserVariableAdapter(Context context, List<UserVariable> spriteVariables, List<UserVariable> projectVariables) {
@@ -67,8 +65,9 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		this.context = context;
 		this.selectMode = Constants.SELECT_NONE;
 		this.itemLayout = R.layout.fragment_formula_editor_variablelist_item;
-		this.textViewId = R.id.text1;
-		textViewId2 = R.id.text2;
+		this.checkboxId = R.id.fragment_formula_editor_variablelist_item_checkbox;
+		this.textViewId = R.id.fragment_formula_editor_variablelist_item_textview1;
+		this.textViewId2 = R.id.fragment_formula_editor_variablelist_item_textview2;
 	}
 
 	public void setItemLayout(int itemLayout, int textViewId) {
@@ -120,7 +119,7 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		if (view == null) {
 			view = View.inflate(context, itemLayout, null);
 			holder = new ViewHolder();
-			holder.checkbox = (CheckBox) view.findViewById(R.id.checkbox);
+			holder.checkbox = (CheckBox) view.findViewById(checkboxId);
 			holder.text1 = (TextView) view.findViewById(textViewId);
 			holder.text2 = (TextView) view.findViewById(textViewId2);
 			view.setTag(holder);
