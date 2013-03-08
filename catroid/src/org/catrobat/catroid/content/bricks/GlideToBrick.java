@@ -48,6 +48,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public GlideToBrick() {
 
@@ -111,11 +112,17 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_glide_to, null);
-		TextView times = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
-		times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+		prototypeView = View.inflate(context, R.layout.brick_glide_to, null);
+		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_x);
+		textX.setText(String.valueOf(xDestination));
+		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_y);
+		textY.setText(String.valueOf(yDestination));
+		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
+		textDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_glide_to_seconds_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(durationInMilliSeconds / 1000.0)));
-		return view;
+		return prototypeView;
 	}
 
 	@Override
