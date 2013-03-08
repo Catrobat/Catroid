@@ -24,12 +24,10 @@ package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
-import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.InstrumentationTestCase;
 
@@ -48,8 +46,6 @@ public class ForeverActionTest extends InstrumentationTestCase {
 		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
 		foreverBrick.setLoopEndBrick(loopEndBrick);
 
-		final float expectedDelay = (Float) Reflection.getPrivateField(RepeatAction.class, "LOOP_DELAY");
-
 		testScript.addBrick(foreverBrick);
 		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
 		testScript.addBrick(loopEndBrick);
@@ -62,6 +58,7 @@ public class ForeverActionTest extends InstrumentationTestCase {
 		 * This is only to document that a delay of 20ms is by contract. See Issue 28 in Google Code
 		 * http://code.google.com/p/catroid/issues/detail?id=28
 		 */
+		final float expectedDelay = 0.20f;
 
 		for (int index = 0; index < REPEAT_TIMES; index++) {
 

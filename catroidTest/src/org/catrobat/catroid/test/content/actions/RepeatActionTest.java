@@ -57,7 +57,6 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		repeatBrick.setLoopEndBrick(loopEndBrick);
 
 		final int deltaY = -10;
-		final float expectedDelay = (Float) Reflection.getPrivateField(RepeatAction.class, "LOOP_DELAY");
 
 		testScript.addBrick(repeatBrick);
 		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
@@ -71,6 +70,8 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		 * This is only to document that a delay of 20ms is by contract. See Issue 28 in Google Code
 		 * http://code.google.com/p/catroid/issues/detail?id=28
 		 */
+
+		final float expectedDelay = 0.20f;
 
 		for (int index = 0; index < REPEAT_TIMES; index++) {
 
