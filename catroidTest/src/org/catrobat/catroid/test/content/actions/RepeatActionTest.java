@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -47,6 +48,9 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
+
+		//Expected Jenkins fix
+		testSprite.look = new Look(testSprite);
 	}
 
 	public void testLoopDelay() throws InterruptedException {
