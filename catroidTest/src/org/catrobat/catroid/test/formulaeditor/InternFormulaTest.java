@@ -63,8 +63,61 @@ public class InternFormulaTest extends InstrumentationTestCase {
 				getInstrumentation().getTargetContext(), null);
 
 		assertTrue("Number changed!",
-				0 == externFormulaStringBeforeInput.compareTo(internFormula.getExternFormulaString()));
+				externFormulaStringBeforeInput.compareTo(internFormula.getExternFormulaString()) == 0);
 
+		internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+		internTokens.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
+		internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(6, false);
+		externFormulaStringBeforeInput = internFormula.getExternFormulaString();
+		internFormula.handleKeyInput(R.id.formula_editor_keyboard_0, getInstrumentation().getTargetContext(), null);
+		assertTrue("Append number error", internTokens.get(0).getTokenSringValue().compareTo("42.420") == 0);
+
+		internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+		internTokens.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
+		internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(6, false);
+		externFormulaStringBeforeInput = internFormula.getExternFormulaString();
+		internFormula.handleKeyInput(R.id.formula_editor_keyboard_decimal_mark,
+				getInstrumentation().getTargetContext(), null);
+		assertTrue("Append number error", internTokens.get(0).getTokenSringValue().compareTo("42.42") == 0);
+
+		internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "4242"));
+		internTokens.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
+		internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(5, false);
+		externFormulaStringBeforeInput = internFormula.getExternFormulaString();
+		internFormula.handleKeyInput(R.id.formula_editor_keyboard_decimal_mark,
+				getInstrumentation().getTargetContext(), null);
+		assertTrue("Append decimal mark error", internTokens.get(0).getTokenSringValue().compareTo("4242.") == 0);
+
+		internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42"));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
+		internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(
+				getInstrumentation().getTargetContext().getResources().getText(R.string.formula_editor_function_sin)
+						.length(), false);
+		internFormula.handleKeyInput(R.string.formula_editor_function_log, getInstrumentation().getTargetContext(),
+				null);
+		String externFormulaStringExpected = getInstrumentation().getTargetContext().getResources()
+				.getText(R.string.formula_editor_function_log).toString()
+				+ getInstrumentation().getTargetContext().getResources().getText(R.string.formula_editor_bracket_open)
+						.toString()
+				+ " 42 "
+				+ getInstrumentation().getTargetContext().getResources().getText(R.string.formula_editor_bracket_close)
+						.toString() + " ";
+		assertTrue("Replace function error",
+				internFormula.getExternFormulaString().compareTo(externFormulaStringExpected) == 0);
 	}
 
 	public void testReplaceFunctionByToken() {
@@ -531,6 +584,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		assertNull("Selection changed!", Reflection.getPrivateField(internFormula, "internFormulaTokenSelection"));
 
 	}
+
 	//	public void testSetCursorPositionAndSelectionAfterInput() {
 	//		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
 	//		internTokens.add(new InternToken(InternTokenType.NUMBER, "1"));

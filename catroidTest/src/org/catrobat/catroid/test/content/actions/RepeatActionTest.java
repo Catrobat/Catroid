@@ -71,16 +71,14 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		 * http://code.google.com/p/catroid/issues/detail?id=28
 		 */
 
-		final float delayByContract = 0.20f;
+		final float delayByContract = 0.020f;
+		final float delta = 0.001f;
 
 		for (int index = 0; index < REPEAT_TIMES; index++) {
 
-			/*
-			 * Run two times with "delayByContract * 0.5" because of SequenceAction-Bug in
-			 * com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-			 */
-			testSprite.look.act(delayByContract * 0.5f);
-			testSprite.look.act(delayByContract * 0.5f);
+			for (float time = 0.001f; time <= delayByContract; time += 0.001f) {
+				testSprite.look.act(delta);
+			}
 		}
 
 		assertEquals("Loop delay did was not 20ms!", deltaY * REPEAT_TIMES, (int) testSprite.look.getYPosition());

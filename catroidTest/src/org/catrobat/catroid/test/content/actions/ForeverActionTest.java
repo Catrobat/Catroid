@@ -33,7 +33,7 @@ import android.test.InstrumentationTestCase;
 
 public class ForeverActionTest extends InstrumentationTestCase {
 
-	private static final int REPEAT_TIMES = 100;
+	private static final int REPEAT_TIMES = 10;
 
 	public void testLoopDelay() throws InterruptedException {
 		final int deltaY = -10;
@@ -49,7 +49,6 @@ public class ForeverActionTest extends InstrumentationTestCase {
 		testScript.addBrick(foreverBrick);
 		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
 		testScript.addBrick(loopEndBrick);
-		testScript.addBrick(new ChangeYByNBrick(testSprite, REPEAT_TIMES * -deltaY));
 
 		testSprite.addScript(testScript);
 		testSprite.createStartScriptActionSequence();
@@ -58,16 +57,14 @@ public class ForeverActionTest extends InstrumentationTestCase {
 		 * This is only to document that a delay of 20ms is by contract. See Issue 28 in Google Code
 		 * http://code.google.com/p/catroid/issues/detail?id=28
 		 */
-		final float expectedDelay = 0.20f;
+		final float delayByContract = 0.020f;
+		final float delta = 0.001f;
 
 		for (int index = 0; index < REPEAT_TIMES; index++) {
 
-			/*
-			 * Run two times with "expectedDelay * 0.5" because of SequenceAction-Bug in
-			 * com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-			 */
-			testSprite.look.act(expectedDelay * 0.5f);
-			testSprite.look.act(expectedDelay * 0.5f);
+			for (float time = 0.001f; time <= delayByContract; time += 0.001f) {
+				testSprite.look.act(delta);
+			}
 		}
 
 		assertEquals("Loop delay did was not 20ms!", deltaY * REPEAT_TIMES, (int) testSprite.look.getYPosition());
