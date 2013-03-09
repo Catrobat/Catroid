@@ -110,11 +110,16 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	public void testIfBrickParts() {
 		ArrayList<Integer> yPosition;
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		Log.e("info", "Befor drag item 1 to item 4 + 20");
+		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(4) + 20, 20);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(1) instanceof IfLogicBeginBrick));
+
+		Log.e("info", "Befor drag item 2 to item 0");
+		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, yPosition.get(0), 20);
@@ -126,6 +131,9 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		String spinnerScripts = solo.getString(R.string.scripts);
 		solo.clickOnText(spinnerScripts);
 		solo.clickOnText(spinnerScripts);
+
+		Log.e("info", "Befor drag item 3 to item 0");
+		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(3), 10, yPosition.get(0), 20);
@@ -139,10 +147,14 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 				+ projectBrickList.get(2).getClass().getSimpleName(),
 				projectBrickList.get(2) instanceof ChangeYByNBrick);
 
+		Log.e("info", "Befor drag item 4 to item 0");
+		logBrickListForJenkins(projectBrickList);
+
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, yPosition.get(0), 20);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 
+		Log.e("info", "After drag item 4 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
 		assertTrue("Wrong Brick instance, expected IfLogicEndBrick but was "
