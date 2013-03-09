@@ -46,6 +46,7 @@ public class WaitBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public WaitBrick(Sprite sprite, int timeToWaitInMilliseconds) {
 		this.timeToWaitInMilliSeconds = timeToWaitInMilliseconds;
@@ -87,11 +88,13 @@ public class WaitBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_wait, null);
-		TextView times = (TextView) view.findViewById(R.id.brick_wait_second_text_view);
-		times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+		prototypeView = View.inflate(context, R.layout.brick_wait, null);
+		TextView textWait = (TextView) prototypeView.findViewById(R.id.brick_wait_prototype_text_view);
+		textWait.setText((timeToWaitInMilliSeconds / 1000.0) + "");
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_wait_second_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(timeToWaitInMilliSeconds / 1000.0)));
-		return view;
+		return prototypeView;
 	}
 
 	@Override

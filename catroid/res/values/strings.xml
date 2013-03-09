@@ -295,6 +295,7 @@
     <string name="brick_set_volume_to">Set volume to</string>
     <string name="brick_change_volume_by">Change volume by</string>
     <string name="brick_speak">Speak</string>
+    <string name="brick_speak_default_value">"Hello!"</string>
     <!--  -->
 
 
@@ -317,6 +318,8 @@
         <item quantity="other">times</item>
     </plurals>
     <string name="brick_loop_end">End of loop</string>
+    <string name="brick_note_default_value">"add comment here..."</string>
+    
     <!--  -->
 
 
