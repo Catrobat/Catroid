@@ -139,7 +139,7 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 				projectBrickList.get(2) instanceof ChangeYByNBrick);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, yPosition.get(0) + 20, 20);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, yPosition.get(0), 20);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof IfLogicEndBrick);
 
