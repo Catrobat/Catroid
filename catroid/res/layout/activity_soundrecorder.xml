@@ -21,58 +21,49 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/soundrecorder"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     android:background="@color/actionbar_background"
     android:orientation="vertical" >
 
-    <RelativeLayout
+    <Chronometer
+        android:id="@+id/soundrecorder_chronometer_time_recorded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp" >
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="13dp"
+        android:layout_marginTop="80dp"
+        android:gravity="center"
+        android:textColor="@color/main_menu_button_background_top_border_color"
+        android:textSize="36sp" />
 
-        <Chronometer
-            android:id="@+id/soundrecorder_chronometer_time_recorded"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="80dp"
-            android:layout_marginBottom="13dp"
-            android:gravity="center"
-            android:text="Chronometer"
-            android:textColor="@color/main_menu_button_background_top_border_color"
-            android:textSize="36sp" />
+    <View
+        android:layout_width="225dp"
+        android:layout_height="13dp"
+        android:layout_below="@+id/soundrecorder_chronometer_time_recorded"
+        android:layout_centerHorizontal="true"
+        android:background="@color/main_menu_button_background_top_border_color" />
 
-        <View
-            android:layout_width="225dp"
-            android:layout_height="13dp"
-            android:layout_below="@+id/soundrecorder_chronometer_time_recorded"
-            android:layout_centerHorizontal="true"
-            android:background="@color/main_menu_button_background_top_border_color" />
-        
-        <FrameLayout
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="63dp" >
+
+        <ImageButton
+            android:id="@+id/soundrecorder_record_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="false"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentTop="false"
-            android:layout_centerHorizontal="true" >
+            android:background="@color/actionbar_background"
+            android:scaleType="center"
+            android:src="@drawable/microphone_icon" />
+    </FrameLayout>
 
-            <ImageButton
-                android:id="@+id/imageButton1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/actionbar_background"
-                android:scaleType="center"
-                android:src="@drawable/microphone_icon" />
-
-        </FrameLayout>
-
-
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

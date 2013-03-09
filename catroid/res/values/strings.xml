@@ -144,6 +144,7 @@
     <string name="soundrecorder_recording">recording in progress…</string>
     <string name="soundrecorder_error">Sound recording failed</string>
     <string name="soundrecorder_recorded_filename">record</string>
+    <string name="soundrecorder_button_description">start/stop recording</string>
     <!--  -->
 
 
