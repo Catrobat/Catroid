@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -36,12 +37,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class ChangeGhostEffectByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private double changeGhostEffect;
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public ChangeGhostEffectByNBrick() {
 
@@ -55,11 +59,6 @@ public class ChangeGhostEffectByNBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		sprite.look.changeAlphaValueBy((float) this.changeGhostEffect / -100);
 	}
 
 	@Override
@@ -89,7 +88,11 @@ public class ChangeGhostEffectByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_ghost_effect, null);
+		prototypeView = View.inflate(context, R.layout.brick_change_ghost_effect, null);
+		TextView textChangeGhostEffect = (TextView) prototypeView
+				.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
+		textChangeGhostEffect.setText(String.valueOf(changeGhostEffect));
+		return prototypeView;
 	}
 
 	@Override
@@ -123,5 +126,11 @@ public class ChangeGhostEffectByNBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_ghost_effect_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.changeGhostEffectByN(sprite, (float) changeGhostEffect));
+		return null;
 	}
 }

@@ -22,14 +22,12 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.Vector;
-import java.util.concurrent.CountDownLatch;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -42,12 +40,15 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class BroadcastWaitBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
 	private transient ProjectManager projectManager;
 	private Sprite sprite;
 	private String broadcastMessage = "";
+	private BroadcastScript waitScript;
 
 	private transient View view;
 
@@ -66,29 +67,6 @@ public class BroadcastWaitBrick implements Brick {
 	}
 
 	@Override
-	public void execute() {
-		Vector<BroadcastScript> receiver = MessageContainer.getReceiverOfMessage(broadcastMessage);
-		if (receiver == null) {
-			return;
-		}
-		if (receiver.size() == 0) {
-			return;
-		}
-		CountDownLatch simultaneousStart = new CountDownLatch(1);
-		CountDownLatch wait = new CountDownLatch(receiver.size());
-
-		for (BroadcastScript receiverScript : receiver) {
-			receiverScript.executeBroadcastWait(simultaneousStart, wait);
-		}
-		simultaneousStart.countDown();
-
-		try {
-			wait.await();
-		} catch (InterruptedException e) {
-		}
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -96,6 +74,18 @@ public class BroadcastWaitBrick implements Brick {
 	public void setSelectedMessage(String selectedMessage) {
 		this.broadcastMessage = selectedMessage;
 		MessageContainer.addMessage(this.broadcastMessage);
+	}
+
+	public String getBroadcastMessage() {
+		return broadcastMessage;
+	}
+
+	public BroadcastScript getWaitScript() {
+		return waitScript;
+	}
+
+	public void setWaitScript(BroadcastScript waitScript) {
+		this.waitScript = waitScript;
 	}
 
 	private Object readResolve() {
@@ -188,4 +178,11 @@ public class BroadcastWaitBrick implements Brick {
 	public Brick clone() {
 		return new BroadcastWaitBrick(sprite);
 	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.broadcastFromWaiter(sprite, broadcastMessage));
+		return null;
+	}
+
 }

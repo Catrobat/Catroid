@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.view.View;
@@ -35,11 +36,14 @@ import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class SetLookBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private LookData look;
 	private transient View view;
+	private transient View prototypeView;
 
 	public SetLookBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -60,13 +64,6 @@ public class SetLookBrick implements Brick {
 
 	public LookData getLook() {
 		return this.look;
-	}
-
-	@Override
-	public void execute() {
-		if (look != null && sprite != null && sprite.getLookDataList().contains(look)) {
-			sprite.look.setLookData(look);
-		}
 	}
 
 	@Override
@@ -131,7 +128,7 @@ public class SetLookBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_set_look, null);
+		prototypeView = View.inflate(context, R.layout.brick_set_look, null);
 		if (sprite.getName().equals(context.getString(R.string.background))) {
 			TextView textView = (TextView) prototypeView.findViewById(R.id.brick_set_look_prototype_text_view);
 			textView.setText(R.string.brick_set_background);
@@ -147,5 +144,12 @@ public class SetLookBrick implements Brick {
 		}
 
 		return clonedBrick;
+		//test
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setLook(sprite, look));
+		return null;
 	}
 }

@@ -22,12 +22,15 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ShowBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -46,11 +49,6 @@ public class ShowBrick implements Brick {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		sprite.look.show = true;
 	}
 
 	@Override
@@ -75,4 +73,11 @@ public class ShowBrick implements Brick {
 	public Brick clone() {
 		return new ShowBrick(getSprite());
 	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.show(sprite));
+		return null;
+	}
+
 }

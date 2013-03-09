@@ -81,6 +81,7 @@ public class Utils {
 	private static Semaphore uniqueNameLock = new Semaphore(1);
 	public static final int PICTURE_INTENT = 1;
 	public static final int FILE_INTENT = 2;
+	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
 	private static boolean isUnderTest;
 
 	public static boolean externalStorageAvailable() {
@@ -400,5 +401,20 @@ public class Utils {
 		}
 		return true;
 
+	}
+
+	public static int convertDoubleToPluralInteger(double value) {
+		double abs_value = Math.abs(value);
+		if (abs_value > 2.5) {
+			return (int) Math.round(abs_value);
+		} else {
+			if (abs_value == 0.0 || abs_value == 1.0 || abs_value == 2.0) {
+				return (int) abs_value;
+			} else {
+				// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
+				// in hopefully all possible languages
+				return TRANSLATION_PLURAL_OTHER_INTEGER;
+			}
+		}
 	}
 }
