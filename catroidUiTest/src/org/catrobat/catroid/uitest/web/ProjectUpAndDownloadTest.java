@@ -376,6 +376,10 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(2000);
 
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.enterText(0, "new sprite");
+		solo.clickOnButton(solo.getString(R.string.ok));
+
 		File file = new File(Constants.DEFAULT_ROOT + "/" + projectToCreate + "/" + Constants.PROJECTCODE_NAME);
 		assertTrue(projectToCreate + " was not created!", file.exists());
 	}
