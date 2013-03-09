@@ -236,7 +236,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		@Override
 		public boolean onDoubleTap(MotionEvent e) {
 
-			internFormula.setCursorAndSelection(absoluteCursorPosition, false);
+			internFormula.setCursorAndSelection(absoluteCursorPosition, true);
 			history.updateCurrentSelection(internFormula.getSelection());
 			highlightSelection();
 
@@ -251,7 +251,13 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 				lineHeight = getTextSize() + 5;
 				int yCoordinate = (int) motion.getY();
 				int cursorY = 0;
-				int cursorXOffset = (int) motion.getX();
+
+				/*
+				 * Quick Fix
+				 * Use motion.getX() - 5 because of padding
+				 */
+				int cursorXOffset = (int) motion.getX() - 5;
+
 				int initialScrollY = getScrollY();
 				int firstLineSize = (int) (initialScrollY % lineHeight);
 				int numberOfVisbleLines = (int) (getHeight() / lineHeight);
@@ -295,7 +301,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 				setSelection(absoluteCursorPosition);
 				postInvalidate();
 
-				internFormula.setCursorAndSelection(absoluteCursorPosition, true);
+				internFormula.setCursorAndSelection(absoluteCursorPosition, false);
 
 				highlightSelection();
 				history.updateCurrentSelection(internFormula.getSelection());

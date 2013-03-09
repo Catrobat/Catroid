@@ -83,7 +83,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 			testSprite.look.act(delayByContract * 0.5f);
 		}
 
-		assertEquals("Loop delay did not work!", deltaY * REPEAT_TIMES, (int) testSprite.look.getYPosition());
+		assertEquals("Loop delay did was not 20ms!", deltaY * REPEAT_TIMES, (int) testSprite.look.getYPosition());
 
 	}
 

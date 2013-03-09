@@ -81,13 +81,13 @@ public class InternFormula {
 
 	}
 
-	public void setCursorAndSelection(int externCursorPosition, boolean selectInternToken) {
+	public void setCursorAndSelection(int externCursorPosition, boolean isSelected) {
 		this.externCursorPosition = externCursorPosition;
 
 		updateInternCursorPosition();
 		internFormulaTokenSelection = null;
 
-		if (selectInternToken
+		if (isSelected
 				|| externInternRepresentationMapping.getInternTokenByExternIndex(externCursorPosition) != null
 				&& getFirstLeftInternToken(externCursorPosition - 1) == cursorPositionInternToken
 				&& ((cursorPositionInternToken.isFunctionName()) || (cursorPositionInternToken.isSensor()) || (cursorPositionInternToken
