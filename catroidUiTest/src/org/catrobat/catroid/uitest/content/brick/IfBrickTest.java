@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
-import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
@@ -82,13 +81,13 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, 5, "ifCondition", ifBrick);
 
-		assertEquals("Incorrect number of bricks.", 3 + 1, dragDropListView.getChildCount()); // don't forget the footer
-		assertEquals("Incorrect number of bricks.", 3, childrenCount);
+		assertEquals("Incorrect number of bricks.", 6, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 0, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
+		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
+		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof IfLogicBeginBrick);
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_if_begin)));
 	}
 
@@ -139,7 +138,6 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 				+ projectBrickList.get(2).getClass().getSimpleName(),
 				projectBrickList.get(2) instanceof ChangeYByNBrick);
 
-		//HERE GOON
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, yPosition.get(0) + 20, 20);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
@@ -168,7 +166,7 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
 
-		UiTestUtils.addNewBrick(solo, R.string.brick_repeat);
+		UiTestUtils.addNewBrick(solo, R.string.brick_if_begin);
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 		solo.drag(20, 20, addedYPosition, yPosition.get(3) + 20, 20);
@@ -182,8 +180,11 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, yPosition.get(5) + 20, 20);
 		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
 
-		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof SetLookBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(4) instanceof LoopEndBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof IfLogicBeginBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof SetLookBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof IfLogicElseBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(4) instanceof IfLogicEndBrick);
 	}
 
 	private void createProject() {

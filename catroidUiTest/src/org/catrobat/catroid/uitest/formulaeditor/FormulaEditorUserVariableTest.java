@@ -106,8 +106,6 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 							.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only)));
 					solo.clickOnText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only));
 				}
-			} else {
-				fail("UserVariable not created! (" + itemString + ")");
 			}
 			Log.i("info", "(" + iteration + ")OkButton-found: " + solo.searchButton(solo.getString(R.string.ok)));
 
@@ -186,6 +184,8 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 		solo.clickLongOnText(itemString);
 		assertTrue("Delete not shown", solo.waitForText(solo.getString(R.string.delete)));
 		solo.clickOnText(solo.getString(R.string.delete));
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable)));
 
 		ListView userVariableListView = getVariableListView();
 
