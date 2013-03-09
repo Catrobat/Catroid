@@ -22,38 +22,24 @@
  */
 package org.catrobat.catroid.soundrecorder;
 
-import java.io.IOException;
-
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.utils.Utils;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Chronometer;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class SoundRecorderActivity extends SherlockFragmentActivity implements OnClickListener {
 
-	private SoundRecorder soundRecorder;
-	private ImageView recordButton;
-	private TextView recordText;
-	private LinearLayout recordLayout;
-	private Chronometer timeRecorderChronometer;
-	private TextView recordingIndicationText;
+	//	private SoundRecorder soundRecorder;
+	//	private ImageView recordButton;
+	//	private TextView recordText;
+	//	private LinearLayout recordLayout;
+	//	private Chronometer timeRecorderChronometer;
+	//	private TextView recordingIndicationText;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,13 +47,13 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 
 		setContentView(R.layout.activity_soundrecorder);
 
-		recordLayout = (LinearLayout) findViewById(R.id.soundrecorder_linearlayout_record);
-		recordButton = (ImageView) findViewById(R.id.soundrecorder_imageview_record);
-		recordText = (TextView) findViewById(R.id.soundrecorder_textview_record_start_stop);
-		recordingIndicationText = (TextView) findViewById(R.id.soundrecorder_textview_recording_hint);
-		timeRecorderChronometer = (Chronometer) findViewById(R.id.soundrecorder_chronometer_time_recorded);
-		recordLayout.setOnClickListener(this);
-		Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this);
+		//		recordLayout = (LinearLayout) findViewById(R.id.soundrecorder_linearlayout_record);
+		//		recordButton = (ImageView) findViewById(R.id.soundrecorder_imageview_record);
+		//		recordText = (TextView) findViewById(R.id.soundrecorder_textview_record_start_stop);
+		//		recordingIndicationText = (TextView) findViewById(R.id.soundrecorder_textview_recording_hint);
+		//		timeRecorderChronometer = (Chronometer) findViewById(R.id.soundrecorder_chronometer_time_recorded);
+		//		recordLayout.setOnClickListener(this);
+		//		Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this);
 	}
 
 	// Code from Stackoverflow to reduce memory problems
@@ -95,68 +81,68 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.soundrecorder_linearlayout_record) {
-			if (soundRecorder != null && soundRecorder.isRecording()) {
-				stopRecording();
-				timeRecorderChronometer.stop();
-				finish();
-			} else {
-				startRecording();
-				long currentPlayingBase = SystemClock.elapsedRealtime();
-				timeRecorderChronometer.setBase(currentPlayingBase);
-				timeRecorderChronometer.start();
-			}
-		}
+		//		if (v.getId() == R.id.soundrecorder_linearlayout_record) {
+		//			if (soundRecorder != null && soundRecorder.isRecording()) {
+		//				stopRecording();
+		//				timeRecorderChronometer.stop();
+		//				finish();
+		//			} else {
+		//				startRecording();
+		//				long currentPlayingBase = SystemClock.elapsedRealtime();
+		//				timeRecorderChronometer.setBase(currentPlayingBase);
+		//				timeRecorderChronometer.start();
+		//			}
+		//		}
 	}
 
 	@Override
 	public void onBackPressed() {
-		stopRecording();
+		//		stopRecording();
 		super.onBackPressed();
 	}
 
-	private synchronized void startRecording() {
-		if (soundRecorder != null && soundRecorder.isRecording()) {
-			return;
-		}
-		try {
-			String recordPath = Utils.buildPath(Constants.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
-					+ Constants.RECORDING_EXTENTION);
-			soundRecorder = new SoundRecorder(recordPath);
-			soundRecorder.start();
-			setViewsToRecordingState();
-		} catch (IOException e) {
-			Log.e("CATROID", "Error recording sound.", e);
-			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
-		}
-	}
-
-	private void setViewsToRecordingState() {
-		recordButton.setImageResource(R.drawable.ic_record);
-		recordText.setText(R.string.soundrecorder_record_stop);
-		recordingIndicationText.setVisibility(View.VISIBLE);
-	}
-
-	private synchronized void stopRecording() {
-		if (soundRecorder == null || !soundRecorder.isRecording()) {
-			return;
-		}
-		setViewsToNotRecordingState();
-		try {
-			soundRecorder.stop();
-			Uri uri = soundRecorder.getPath();
-			setResult(Activity.RESULT_OK, new Intent(Intent.ACTION_PICK, uri));
-		} catch (IOException e) {
-			Log.e("CATROID", "Error recording sound.", e);
-			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
-			setResult(Activity.RESULT_CANCELED);
-		}
-	}
-
-	private void setViewsToNotRecordingState() {
-		recordButton.setImageResource(R.drawable.ic_record_inactive);
-		recordText.setText(R.string.soundrecorder_record_start);
-		recordingIndicationText.setVisibility(View.INVISIBLE);
-	}
+	//	private synchronized void startRecording() {
+	//		if (soundRecorder != null && soundRecorder.isRecording()) {
+	//			return;
+	//		}
+	//		try {
+	//			String recordPath = Utils.buildPath(Constants.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
+	//					+ Constants.RECORDING_EXTENTION);
+	//			soundRecorder = new SoundRecorder(recordPath);
+	//			soundRecorder.start();
+	//			setViewsToRecordingState();
+	//		} catch (IOException e) {
+	//			Log.e("CATROID", "Error recording sound.", e);
+	//			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
+	//		}
+	//	}
+	//
+	//	private void setViewsToRecordingState() {
+	//		recordButton.setImageResource(R.drawable.ic_record);
+	//		recordText.setText(R.string.soundrecorder_record_stop);
+	//		recordingIndicationText.setVisibility(View.VISIBLE);
+	//	}
+	//
+	//	private synchronized void stopRecording() {
+	//		if (soundRecorder == null || !soundRecorder.isRecording()) {
+	//			return;
+	//		}
+	//		setViewsToNotRecordingState();
+	//		try {
+	//			soundRecorder.stop();
+	//			Uri uri = soundRecorder.getPath();
+	//			setResult(Activity.RESULT_OK, new Intent(Intent.ACTION_PICK, uri));
+	//		} catch (IOException e) {
+	//			Log.e("CATROID", "Error recording sound.", e);
+	//			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
+	//			setResult(Activity.RESULT_CANCELED);
+	//		}
+	//	}
+	//
+	//	private void setViewsToNotRecordingState() {
+	//		recordButton.setImageResource(R.drawable.ic_record_inactive);
+	//		recordText.setText(R.string.soundrecorder_record_start);
+	//		recordingIndicationText.setVisibility(View.INVISIBLE);
+	//	}
 
 }
