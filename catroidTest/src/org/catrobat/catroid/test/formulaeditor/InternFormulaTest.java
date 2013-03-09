@@ -28,8 +28,10 @@ import java.util.ArrayList;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormula;
+import org.catrobat.catroid.formulaeditor.InternFormulaTokenSelection;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
+import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.InstrumentationTestCase;
 
@@ -248,5 +250,45 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		assertEquals("Selection start index not as expected", 4, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 4, internFormula.getSelection().getEndIndex());
 
+	}
+
+	public void testReplaceSelection() {
+		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+
+		InternFormula internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+
+		internFormula.setCursorAndSelection(1, true);
+		String externFormulaString = internFormula.getExternFormulaString();
+
+		int tokenSelectionStartIndex = -1;
+		int tokenSelectionEndIndex = 3;
+
+		InternFormulaTokenSelection internFormulaTokenSelection = new InternFormulaTokenSelection(
+				InternFormula.TokenSelectionType.USER_SELECTION, tokenSelectionStartIndex, tokenSelectionEndIndex);
+		Reflection.setPrivateField(internFormula, "internFormulaTokenSelection", internFormulaTokenSelection);
+
+		internFormula.handleKeyInput(R.id.formula_editor_keyboard_0, getInstrumentation().getTargetContext(), null);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		assertTrue("ExternFormulaString changed on buggy input!",
+				internFormula.getExternFormulaString().compareTo(externFormulaString) == 0);
+	}
+
+	public void testHandleDeletion() {
+		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+
+		InternFormula internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+
+		internFormula.setCursorAndSelection(0, false);
+		String externFormulaString = internFormula.getExternFormulaString();
+
+		internFormula
+				.handleKeyInput(R.id.formula_editor_keyboard_delete, getInstrumentation().getTargetContext(), null);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		assertTrue("ExternFormulaString changed on buggy input!",
+				internFormula.getExternFormulaString().compareTo(externFormulaString) == 0);
 	}
 }
