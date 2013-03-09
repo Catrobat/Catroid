@@ -151,7 +151,7 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, yPosition.get(0), 20);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4) - 10, 10, yPosition.get(0), 20);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 
 		Log.e("info", "After drag item 4 to item 0");
