@@ -23,14 +23,18 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.formulaeditor.ExternInternRepresentationMapping;
 import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormula;
 import org.catrobat.catroid.formulaeditor.InternFormulaTokenSelection;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
+import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.InstrumentationTestCase;
@@ -291,4 +295,194 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		assertTrue("ExternFormulaString changed on buggy input!",
 				internFormula.getExternFormulaString().compareTo(externFormulaString) == 0);
 	}
+
+	public void testDeleteInternTokenByIndex() {
+		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+		internTokens.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+		InternFormula internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(1, false);
+		String externFormulaString = internFormula.getExternFormulaString();
+		Reflection.setPrivateField(internFormula, "externCursorPosition", -1);
+		internFormula
+				.handleKeyInput(R.id.formula_editor_keyboard_delete, getInstrumentation().getTargetContext(), null);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		assertTrue("ExternFormulaString changed on buggy input!",
+				internFormula.getExternFormulaString().compareTo(externFormulaString) == 0);
+		internTokens.clear();
+
+		internFormula = new InternFormula(internTokens);
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, Operators.PLUS.name()));
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+		internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(1, false);
+		externFormulaString = internFormula.getExternFormulaString();
+		internFormula
+				.handleKeyInput(R.id.formula_editor_keyboard_delete, getInstrumentation().getTargetContext(), null);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		assertTrue("ExternFormulaString changed on buggy input!",
+				internFormula.getExternFormulaString().compareTo(externFormulaString) == 0);
+		internTokens.clear();
+
+		internFormula = new InternFormula(internTokens);
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+		internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(
+				getInstrumentation().getTargetContext().getResources().getString(R.string.formula_editor_function_sin)
+						.length() + 1, false);
+		externFormulaString = internFormula.getExternFormulaString();
+		internFormula
+				.handleKeyInput(R.id.formula_editor_keyboard_delete, getInstrumentation().getTargetContext(), null);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		assertTrue("ExternFormulaString changed on buggy input!",
+				internFormula.getExternFormulaString().compareTo(externFormulaString) == 0);
+		internTokens.clear();
+
+		internFormula = new InternFormula(internTokens);
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+		internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(
+				getInstrumentation().getTargetContext().getResources().getString(R.string.formula_editor_function_sin)
+						.length() + 2, false);
+		externFormulaString = internFormula.getExternFormulaString();
+		internFormula
+				.handleKeyInput(R.id.formula_editor_keyboard_delete, getInstrumentation().getTargetContext(), null);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		assertTrue("ExternFormulaString changed on buggy input!",
+				internFormula.getExternFormulaString().compareTo(externFormulaString) == 0);
+		internTokens.clear();
+
+		internFormula = new InternFormula(internTokens);
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+		internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(
+				getInstrumentation().getTargetContext().getResources().getString(R.string.formula_editor_function_sin)
+						.length() + 2, false);
+		externFormulaString = internFormula.getExternFormulaString();
+		internFormula
+				.handleKeyInput(R.id.formula_editor_keyboard_delete, getInstrumentation().getTargetContext(), null);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		assertTrue("ExternFormulaString changed on buggy input!",
+				internFormula.getExternFormulaString().compareTo(externFormulaString) == 0);
+		internTokens.clear();
+	}
+
+	public void testSetExternCursorPositionLeftTo() throws NoSuchMethodException, IllegalArgumentException,
+			IllegalAccessException, InvocationTargetException {
+
+		Method setExternCursorPositionLeftTo = InternFormula.class.getDeclaredMethod("setExternCursorPositionLeftTo",
+				int.class);
+		setExternCursorPositionLeftTo.setAccessible(true);
+
+		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+		internTokens.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+		InternFormula internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(1, false);
+
+		ExternInternRepresentationMapping externInternRepresentationMapping = new ExternInternRepresentationMapping();
+
+		Reflection.setPrivateField(internFormula, "externInternRepresentationMapping",
+				externInternRepresentationMapping);
+
+		int externCursorPositionBeforeMethodCall = internFormula.getExternCursorPosition();
+		setExternCursorPositionLeftTo.invoke(internFormula, 1);
+
+		assertEquals("Extern cursor position changed!", externCursorPositionBeforeMethodCall,
+				internFormula.getExternCursorPosition());
+	}
+
+	public void testSetExternCursorPositionRightTo() throws NoSuchMethodException, IllegalArgumentException,
+			IllegalAccessException, InvocationTargetException {
+
+		Method setExternCursorPositionRightTo = InternFormula.class.getDeclaredMethod("setExternCursorPositionRightTo",
+				int.class);
+		setExternCursorPositionRightTo.setAccessible(true);
+
+		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		InternFormula internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(1, false);
+
+		int externCursorPositionBeforeMethodCall = internFormula.getExternCursorPosition();
+		setExternCursorPositionRightTo.invoke(internFormula, 1);
+
+		assertEquals("Extern cursor position changed!", externCursorPositionBeforeMethodCall,
+				internFormula.getExternCursorPosition());
+
+		internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+		internTokens.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+		internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(1, false);
+
+		externCursorPositionBeforeMethodCall = internFormula.getExternCursorPosition();
+		setExternCursorPositionRightTo.invoke(internFormula, 3);
+
+		assertEquals("Extern cursor position changed!", 13, internFormula.getExternCursorPosition());
+
+		ExternInternRepresentationMapping externInternRepresentationMapping = new ExternInternRepresentationMapping();
+
+		Reflection.setPrivateField(internFormula, "externInternRepresentationMapping",
+				externInternRepresentationMapping);
+
+		externCursorPositionBeforeMethodCall = internFormula.getExternCursorPosition();
+		setExternCursorPositionRightTo.invoke(internFormula, 1);
+
+		assertEquals("Extern cursor position changed!", externCursorPositionBeforeMethodCall,
+				internFormula.getExternCursorPosition());
+	}
+
+	//	public void testSelectCursorPositionInternToken() {
+	//		Method setExternCursorPositionRightTo = InternFormula.class.getDeclaredMethod("setExternCursorPositionRightTo",
+	//				int.class);
+	//		setExternCursorPositionRightTo.setAccessible(true);
+	//
+	//		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+	//		InternFormula internFormula = new InternFormula(internTokens);
+	//		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+	//		internFormula.setCursorAndSelection(1, false);
+	//
+	//		int externCursorPositionBeforeMethodCall = internFormula.getExternCursorPosition();
+	//		setExternCursorPositionRightTo.invoke(internFormula, 1);
+	//
+	//		assertEquals("Extern cursor position changed!", externCursorPositionBeforeMethodCall,
+	//				internFormula.getExternCursorPosition());
+	//
+	//	}
+	//	public void testSetCursorPositionAndSelectionAfterInput() {
+	//		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+	//		internTokens.add(new InternToken(InternTokenType.NUMBER, "1"));
+	//
+	//		InternFormula internFormula = new InternFormula(internTokens);
+	//		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+	//
+	//		internFormula.setCursorAndSelection(1, false);
+	//		String externFormulaString = internFormula.getExternFormulaString();
+	//
+	//		internFormula
+	//				.handleKeyInput(R.id.formula_editor_keyboard_delete, getInstrumentation().getTargetContext(), null);
+	//
+	//		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+	//		assertTrue("ExternFormulaString changed on buggy input!",
+	//				internFormula.getExternFormulaString().compareTo(externFormulaString) == 0);
+	//
+	//	}
 }

@@ -265,14 +265,6 @@ public class InternFormula {
 
 			cursorTokenPropertiesAfterModification = CursorTokenPropertiesAfterModification.LEFT;
 
-		} else if (cursorTokenPosition == null) {
-
-			InternToken firstLeftInternToken = getFirstLeftInternToken(externCursorPosition);
-
-			if (firstLeftInternToken == null) {
-				cursorTokenPropertiesAfterModification = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
-			}
-
 		} else if (cursorTokenPosition == CursorTokenPosition.LEFT) {
 
 			InternToken firstLeftInternToken = getFirstLeftInternToken(externCursorPosition - 1);
@@ -330,7 +322,7 @@ public class InternFormula {
 				List<InternToken> functionInternTokens = InternFormulaUtils.getFunctionByName(internTokenFormulaList,
 						internTokenIndex);
 
-				if (functionInternTokens.size() == 0) {
+				if (functionInternTokens == null || functionInternTokens.size() == 0) {
 					return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 				}
 
@@ -475,7 +467,7 @@ public class InternFormula {
 				List<InternToken> functionInternTokens = InternFormulaUtils.getFunctionByName(internTokenFormulaList,
 						cursorPositionInternTokenIndex);
 
-				if (functionInternTokens.size() == 0) {
+				if (functionInternTokens == null || functionInternTokens.size() == 0) {
 					return;
 				}
 
@@ -592,7 +584,6 @@ public class InternFormula {
 	}
 
 	private CursorTokenPropertiesAfterModification insertLeftToCurrentToken(List<InternToken> internTokensToInsert) {
-		Log.i("info", "insertLeftToCurrentToken:enter");
 
 		InternToken firstLeftInternToken = null;
 		if (cursorPositionInternTokenIndex > 0) {
