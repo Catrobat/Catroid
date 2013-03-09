@@ -9,6 +9,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -18,6 +19,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -79,11 +81,13 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 
 	private void finishUserVariableCreationSafeButSlow(String itemString, boolean forAllSprites) {
 		int iteration = 0;
+
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable), 0, 1000);
+
 		while (!solo.searchText(solo.getString(R.string.formula_editor_make_new_variable), true)) {
 
-			//				fail("ROBOTIUM Error!");
-
-			if (iteration++ < MAX_ITERATIONS) {
+			if (iteration++ < MAX_ITERATIONS && iteration > 1) {
 				solo.goBack();
 				assertTrue("Variable Fragment not shown",
 						solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable), 0, 4000));
@@ -102,11 +106,13 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 							.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only)));
 					solo.clickOnText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only));
 				}
+			} else {
+				fail("UserVariable not created! (" + itemString + ")");
 			}
 			Log.i("info", "(" + iteration + ")OkButton-found: " + solo.searchButton(solo.getString(R.string.ok)));
 
 			solo.clickOnButton(solo.getString(R.string.ok));
-			solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable), 0, 4000);
+			solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable), 0, 1000);
 
 		}
 	}
@@ -180,7 +186,10 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 		solo.clickLongOnText(itemString);
 		assertTrue("Delete not shown", solo.waitForText(solo.getString(R.string.delete)));
 		solo.clickOnText(solo.getString(R.string.delete));
-		assertFalse(itemString + " not found!", solo.searchText(itemString, true));
+
+		ListView userVariableListView = getVariableListView();
+
+		assertEquals("Wrong number of UserVariables deleted", 0, userVariableListView.getAdapter().getCount());
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("del");
 	}
@@ -224,9 +233,12 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 		solo.clickOnImage(ACTIONMODE_INDEX);
 		solo.sleep(250);
 
-		assertFalse(itemString + " should not be found!", solo.searchText(itemString, true));
-		assertTrue(itemString2nd + " not found!", solo.searchText(itemString2nd, true));
-		assertFalse(itemString3rd + " should not be found!", solo.searchText(itemString3rd, true));
+		ListView userVariableListView = getVariableListView();
+
+		assertEquals("Wrong number of UserVariables deleted", 1, userVariableListView.getAdapter().getCount());
+
+		UserVariable myVar = (UserVariable) userVariableListView.getAdapter().getItem(0);
+		assertEquals(itemString2nd + " deleted, but should not!", myVar.getName(), itemString2nd);
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString);
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString2nd);
@@ -349,6 +361,10 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var1");
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var2");
 
+	}
+
+	private ListView getVariableListView() {
+		return solo.getCurrentListViews().get(2);
 	}
 
 }
