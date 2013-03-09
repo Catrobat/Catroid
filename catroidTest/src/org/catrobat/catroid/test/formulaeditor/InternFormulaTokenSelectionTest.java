@@ -60,7 +60,7 @@ public class InternFormulaTokenSelectionTest extends InstrumentationTestCase {
 		String externFormulaString = internFormula.getExternFormulaString();
 		int doubleClickIndex = externFormulaString.length();
 
-		internFormula.setCursorAndSelection(doubleClickIndex, false);
+		internFormula.setCursorAndSelection(doubleClickIndex, true);
 
 		assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 3, internFormula.getSelection().getEndIndex());

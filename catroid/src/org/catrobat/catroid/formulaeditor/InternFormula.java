@@ -631,8 +631,6 @@ public class InternFormula {
 
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
-		} else if (cursorPositionInternToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN) {
-			return replaceCursorPositionInternTokenByTokenList(internTokensToInsert);
 		} else if (InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
 			internTokenFormulaList.add(cursorPositionInternTokenIndex, new InternToken(InternTokenType.NUMBER, "0."));
 
@@ -691,9 +689,6 @@ public class InternFormula {
 
 	private CursorTokenPropertiesAfterModification setCursorPositionAndSelectionAfterInput(int insertedInternTokenIndex) {
 		InternToken insertedInternToken = internTokenFormulaList.get(insertedInternTokenIndex);
-		if (insertedInternToken == null) {
-			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
-		}
 
 		switch (insertedInternToken.getInternTokenType()) {
 			case FUNCTION_NAME:
@@ -709,17 +704,7 @@ public class InternFormula {
 				List<List<InternToken>> functionParameters = InternFormulaUtils
 						.getFunctionParameterInternTokensAsLists(functionInternTokenList);
 
-				if (functionParameters.size() < 1) {
-					return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
-				}
-
 				List<InternToken> functionFirstParameter = functionParameters.get(0);
-
-				if (functionFirstParameter.size() == 0) {
-					cursorPositionInternTokenIndex = insertedInternTokenIndex + 1;
-					cursorPositionInternToken = null;
-					return CursorTokenPropertiesAfterModification.RIGHT;
-				}
 
 				internFormulaTokenSelection = new InternFormulaTokenSelection(TokenSelectionType.USER_SELECTION,
 						insertedInternTokenIndex + 2, insertedInternTokenIndex + functionFirstParameter.size() + 1);

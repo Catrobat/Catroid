@@ -51,6 +51,29 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		super.tearDown();
 	}
 
+	public void testInsertRightToCurrentToken() {
+
+		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
+		InternFormula internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(0, false);
+		internFormula.handleKeyInput(R.id.formula_editor_keyboard_decimal_mark,
+				getInstrumentation().getTargetContext(), null);
+
+		assertTrue("Enter decimal mark error", internTokens.get(0).getTokenSringValue().compareTo("0.") == 0);
+
+		internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
+		internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(1, false);
+		internFormula.handleKeyInput(R.id.formula_editor_keyboard_decimal_mark,
+				getInstrumentation().getTargetContext(), null);
+
+		assertTrue("Enter decimal mark error", internTokens.get(1).getTokenSringValue().compareTo("0.") == 0);
+	}
+
 	public void testInsertLeftToCurrentToken() {
 
 		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
@@ -98,26 +121,14 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		assertTrue("Append decimal mark error", internTokens.get(0).getTokenSringValue().compareTo("4242.") == 0);
 
 		internTokens = new ArrayList<InternToken>();
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.NUMBER, "42"));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
+		internTokens.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
 		internFormula = new InternFormula(internTokens);
 		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
-		internFormula.setCursorAndSelection(
-				getInstrumentation().getTargetContext().getResources().getText(R.string.formula_editor_function_sin)
-						.length(), false);
-		internFormula.handleKeyInput(R.string.formula_editor_function_log, getInstrumentation().getTargetContext(),
-				null);
-		String externFormulaStringExpected = getInstrumentation().getTargetContext().getResources()
-				.getText(R.string.formula_editor_function_log).toString()
-				+ getInstrumentation().getTargetContext().getResources().getText(R.string.formula_editor_bracket_open)
-						.toString()
-				+ " 42 "
-				+ getInstrumentation().getTargetContext().getResources().getText(R.string.formula_editor_bracket_close)
-						.toString() + " ";
-		assertTrue("Replace function error",
-				internFormula.getExternFormulaString().compareTo(externFormulaStringExpected) == 0);
+		internFormula.setCursorAndSelection(0, false);
+		externFormulaStringBeforeInput = internFormula.getExternFormulaString();
+		internFormula.handleKeyInput(R.id.formula_editor_keyboard_decimal_mark,
+				getInstrumentation().getTargetContext(), null);
+		assertTrue("Prepend decimal mark error", internTokens.get(0).getTokenSringValue().compareTo("0.") == 0);
 	}
 
 	public void testReplaceFunctionByToken() {
@@ -139,7 +150,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		String externFormulaString = internFormula.getExternFormulaString();
 		int doubleClickIndex = externFormulaString.length();
 
-		internFormula.setCursorAndSelection(doubleClickIndex, false);
+		internFormula.setCursorAndSelection(doubleClickIndex, true);
 
 		assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 9, internFormula.getSelection().getEndIndex());
@@ -152,7 +163,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		externFormulaString = internFormula.getExternFormulaString();
 		doubleClickIndex = externFormulaString.length();
 
-		internFormula.setCursorAndSelection(doubleClickIndex, false);
+		internFormula.setCursorAndSelection(doubleClickIndex, true);
 
 		assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 0, internFormula.getSelection().getEndIndex());
@@ -177,7 +188,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		String externFormulaString = internFormula.getExternFormulaString();
 		int doubleClickIndex = externFormulaString.length();
 
-		internFormula.setCursorAndSelection(doubleClickIndex, false);
+		internFormula.setCursorAndSelection(doubleClickIndex, true);
 
 		assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 9, internFormula.getSelection().getEndIndex());
@@ -191,7 +202,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		externFormulaString = internFormula.getExternFormulaString();
 		doubleClickIndex = externFormulaString.length();
 
-		internFormula.setCursorAndSelection(doubleClickIndex, false);
+		internFormula.setCursorAndSelection(doubleClickIndex, true);
 
 		assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 11, internFormula.getSelection().getEndIndex());
@@ -205,7 +216,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		assertEquals("Selection start index not as expected", 2, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 8, internFormula.getSelection().getEndIndex());
 
-		internFormula.setCursorAndSelection(doubleClickIndex, false);
+		internFormula.setCursorAndSelection(doubleClickIndex, true);
 
 		assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 9, internFormula.getSelection().getEndIndex());
@@ -227,13 +238,13 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		int doubleClickIndex = externFormulaString.length();
 		int offsetRight = 0;
 		while (offsetRight < 3) {
-			internFormula.setCursorAndSelection(doubleClickIndex - offsetRight, false);
+			internFormula.setCursorAndSelection(doubleClickIndex - offsetRight, true);
 
 			assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
 			assertEquals("Selection end index not as expected", 5, internFormula.getSelection().getEndIndex());
 			offsetRight++;
 		}
-		internFormula.setCursorAndSelection(doubleClickIndex - offsetRight, false);
+		internFormula.setCursorAndSelection(doubleClickIndex - offsetRight, true);
 		assertEquals("Selection start index not as expected", 1, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 4, internFormula.getSelection().getEndIndex());
 
@@ -241,13 +252,13 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		int offsetLeft = 0;
 
 		while (offsetLeft < 2) {
-			internFormula.setCursorAndSelection(doubleClickIndex + offsetLeft, false);
+			internFormula.setCursorAndSelection(doubleClickIndex + offsetLeft, true);
 
 			assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
 			assertEquals("Selection end index not as expected", 5, internFormula.getSelection().getEndIndex());
 			offsetLeft++;
 		}
-		internFormula.setCursorAndSelection(doubleClickIndex + offsetLeft, false);
+		internFormula.setCursorAndSelection(doubleClickIndex + offsetLeft, true);
 		assertEquals("Selection start index not as expected", 1, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 4, internFormula.getSelection().getEndIndex());
 	}
@@ -265,25 +276,25 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
 		String externFormulaString = internFormula.getExternFormulaString();
 
-		internFormula.setCursorAndSelection(0, true);
+		internFormula.setCursorAndSelection(0, false);
 		assertNull("Single Tab before Funtion fail", internFormula.getSelection());
 
 		int doubleClickIndex = externFormulaString.length();
 		int offsetRight = 0;
 		while (offsetRight < 3) {
-			internFormula.setCursorAndSelection(doubleClickIndex - offsetRight, false);
+			internFormula.setCursorAndSelection(doubleClickIndex - offsetRight, true);
 
 			assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
 			assertEquals("Selection end index not as expected", 5, internFormula.getSelection().getEndIndex());
 			offsetRight++;
 		}
-		internFormula.setCursorAndSelection(doubleClickIndex - offsetRight, false);
+		internFormula.setCursorAndSelection(doubleClickIndex - offsetRight, true);
 		assertEquals("Selection start index not as expected", 4, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 4, internFormula.getSelection().getEndIndex());
 
 		doubleClickIndex = 0;
 
-		internFormula.setCursorAndSelection(doubleClickIndex, false);
+		internFormula.setCursorAndSelection(doubleClickIndex, true);
 		assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 5, internFormula.getSelection().getEndIndex());
 
@@ -292,34 +303,35 @@ public class InternFormulaTest extends InstrumentationTestCase {
 
 		int singleClickIndex = doubleClickIndex;
 
-		internFormula.setCursorAndSelection(singleClickIndex, true);
-		assertNull("Single Tab between Function Name and Brackets fail", internFormula.getSelection());
+		internFormula.setCursorAndSelection(singleClickIndex, false);
+		assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
+		assertEquals("Selection end index not as expected", 5, internFormula.getSelection().getEndIndex());
 
-		internFormula.setCursorAndSelection(doubleClickIndex, false);
+		internFormula.setCursorAndSelection(doubleClickIndex, true);
 		assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 5, internFormula.getSelection().getEndIndex());
 
 		doubleClickIndex++;
 
-		internFormula.setCursorAndSelection(doubleClickIndex, false);
+		internFormula.setCursorAndSelection(doubleClickIndex, true);
 		assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 5, internFormula.getSelection().getEndIndex());
 
 		doubleClickIndex += " 42.42 ".length();
 
-		internFormula.setCursorAndSelection(doubleClickIndex, false);
+		internFormula.setCursorAndSelection(doubleClickIndex, true);
 		assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 5, internFormula.getSelection().getEndIndex());
 
 		doubleClickIndex++;
 
-		internFormula.setCursorAndSelection(doubleClickIndex, false);
+		internFormula.setCursorAndSelection(doubleClickIndex, true);
 		assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 5, internFormula.getSelection().getEndIndex());
 
 		doubleClickIndex++;
 
-		internFormula.setCursorAndSelection(doubleClickIndex, false);
+		internFormula.setCursorAndSelection(doubleClickIndex, true);
 		assertEquals("Selection start index not as expected", 4, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 4, internFormula.getSelection().getEndIndex());
 
