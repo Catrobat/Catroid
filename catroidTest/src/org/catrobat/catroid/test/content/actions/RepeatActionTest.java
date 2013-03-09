@@ -42,7 +42,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 
 	private Sprite testSprite;
 	private static final int REPEAT_TIMES = 4;
-	final float delta = 0.001f;
+	final float delta = 0.005f;
 
 	@Override
 	protected void setUp() throws Exception {
