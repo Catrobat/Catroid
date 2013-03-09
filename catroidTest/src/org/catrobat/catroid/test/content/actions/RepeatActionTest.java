@@ -42,6 +42,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 
 	private Sprite testSprite;
 	private static final int REPEAT_TIMES = 4;
+	final float delta = 0.001f;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -72,11 +73,10 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		 */
 
 		final float delayByContract = 0.020f;
-		final float delta = 0.001f;
 
 		for (int index = 0; index < REPEAT_TIMES; index++) {
 
-			for (float time = 0.001f; time <= delayByContract; time += 0.001f) {
+			for (float time = 0f; time < delayByContract; time += delta) {
 				testSprite.look.act(delta);
 			}
 		}

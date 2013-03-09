@@ -33,7 +33,8 @@ import android.test.InstrumentationTestCase;
 
 public class ForeverActionTest extends InstrumentationTestCase {
 
-	private static final int REPEAT_TIMES = 10;
+	private static final int REPEAT_TIMES = 100;
+	private final float delta = 0.001f;;
 
 	public void testLoopDelay() throws InterruptedException {
 		final int deltaY = -10;
@@ -58,11 +59,10 @@ public class ForeverActionTest extends InstrumentationTestCase {
 		 * http://code.google.com/p/catroid/issues/detail?id=28
 		 */
 		final float delayByContract = 0.020f;
-		final float delta = 0.001f;
 
 		for (int index = 0; index < REPEAT_TIMES; index++) {
 
-			for (float time = 0.001f; time <= delayByContract; time += 0.001f) {
+			for (float time = 0f; time < delayByContract; time += delta) {
 				testSprite.look.act(delta);
 			}
 		}
