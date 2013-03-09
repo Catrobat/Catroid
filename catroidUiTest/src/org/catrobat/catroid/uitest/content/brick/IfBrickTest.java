@@ -42,6 +42,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.util.Log;
 import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -141,7 +142,12 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, yPosition.get(0), 20);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
-		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof IfLogicEndBrick);
+
+		logBrickListForJenkins(projectBrickList);
+
+		assertTrue("Wrong Brick instance, expected IfLogicEndBrick but was "
+				+ projectBrickList.get(2).getClass().getSimpleName(),
+				projectBrickList.get(2) instanceof IfLogicEndBrick);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
@@ -185,6 +191,13 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof SetLookBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof IfLogicElseBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(4) instanceof IfLogicEndBrick);
+	}
+
+	private void logBrickListForJenkins(ArrayList<Brick> projectBrickList) {
+		for (Brick brick : projectBrickList) {
+			Log.e("info", "Brick at Positon " + projectBrickList.indexOf(brick) + ": "
+					+ brick.getClass().getSimpleName());
+		}
 	}
 
 	private void createProject() {
