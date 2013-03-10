@@ -73,11 +73,11 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 	String mTag;
 	public static final String VARIABLE_TAG = "variableFragment";
-	private FormulaEditorEditText mFormulaEditorEditText;
-	private String mActionBarTitle;
-	private com.actionbarsherlock.view.ActionMode mContextActionMode;
-	private boolean mInContextMode;
-	private int mDeleteIndex;
+	private FormulaEditorEditText formulaEditorEditText;
+	private String actionBarTitle;
+	private com.actionbarsherlock.view.ActionMode contextActionMode;
+	private boolean inContextMode;
+	private int deleteIndex;
 	private RadioButton leftDialogRadioButton;
 	private RadioButton rightDialogRadioButton;
 	private Dialog dialogNewVariable;
@@ -86,12 +86,12 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 	public FormulaEditorVariableListFragment(FormulaEditorEditText formulaEditorEditText, String actionBarTitle,
 			String fragmentTag) {
-		mFormulaEditorEditText = formulaEditorEditText;
-		mActionBarTitle = actionBarTitle;
+		this.formulaEditorEditText = formulaEditorEditText;
+		this.actionBarTitle = actionBarTitle;
 		mTag = fragmentTag;
-		mContextActionMode = null;
-		mDeleteIndex = -1;
-		mInContextMode = false;
+		contextActionMode = null;
+		deleteIndex = -1;
+		inContextMode = false;
 	}
 
 	@Override
@@ -123,7 +123,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-		if (!mInContextMode) {
+		if (!inContextMode) {
 			super.onCreateContextMenu(menu, view, menuInfo);
 			getSherlockActivity().getMenuInflater().inflate(R.menu.menu_formulaeditor_variablelist, menu);
 		}
@@ -143,15 +143,15 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		menu.findItem(R.id.settings).setVisible(false);
 
 		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
-		getSherlockActivity().getSupportActionBar().setTitle(mActionBarTitle);
+		getSherlockActivity().getSupportActionBar().setTitle(actionBarTitle);
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 	}
 
 	@Override
 	public void onListItemClick(int position) {
 
-		if (!mInContextMode) {
-			mFormulaEditorEditText.handleKeyEvent(0, "" + adapter.getItem(position).getName());
+		if (!inContextMode) {
+			formulaEditorEditText.handleKeyEvent(0, "" + adapter.getItem(position).getName());
 			KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
 			onKey(null, keyEvent.getKeyCode(), keyEvent);
 		}
@@ -160,10 +160,10 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 	@Override
 	public void onCheckedChange() {
-		if (mInContextMode) {
+		if (inContextMode) {
 			String title = adapter.getAmountOfCheckedItems() + " "
 					+ getString(R.string.formula_editor_variable_context_action_item_selected);
-			mContextActionMode.setTitle(title);
+			contextActionMode.setTitle(title);
 		}
 	}
 
@@ -177,8 +177,8 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long id) {
-				if (!mInContextMode) {
-					mDeleteIndex = position;
+				if (!inContextMode) {
+					deleteIndex = position;
 					getSherlockActivity().openContextMenu(getListView());
 					return true;
 				}
@@ -341,12 +341,12 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_delete:
-				mInContextMode = true;
-				mContextActionMode = getSherlockActivity().startActionMode(mContextModeCallback);
+				inContextMode = true;
+				contextActionMode = getSherlockActivity().startActionMode(mContextModeCallback);
 				return true;
 			case R.id.delete:
-				mInContextMode = true;
-				mContextActionMode = getSherlockActivity().startActionMode(mContextModeCallback);
+				inContextMode = true;
+				contextActionMode = getSherlockActivity().startActionMode(mContextModeCallback);
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -360,7 +360,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 			case R.id.menu_delete:
 				if (!adapter.isEmpty()) {
 					ProjectManager.getInstance().getCurrentProject().getUserVariables()
-							.deleteUserVariableByName(adapter.getItem(mDeleteIndex).getName());
+							.deleteUserVariableByName(adapter.getItem(deleteIndex).getName());
 					adapter.notifyDataSetChanged();
 				}
 				return true;
@@ -432,8 +432,8 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 			adapter.setSelectMode(Constants.SELECT_NONE);
 			adapter.notifyDataSetChanged();
-			mContextActionMode = null;
-			mInContextMode = false;
+			contextActionMode = null;
+			inContextMode = false;
 		}
 	};
 }

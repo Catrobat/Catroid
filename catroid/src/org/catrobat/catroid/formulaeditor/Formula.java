@@ -28,7 +28,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Layout;
@@ -178,10 +177,6 @@ public class Formula implements Serializable {
 	}
 
 	public void removeTextFieldHighlighting(View brickView, int orientation) {
-		if (orientation == Configuration.ORIENTATION_LANDSCAPE || originalEditTextDrawable == null) {
-			return;
-		}
-
 		EditText formulaTextField = (EditText) brickView.findViewById(formulaTextFieldId);
 
 		int width = formulaTextField.getWidth();
@@ -191,9 +186,6 @@ public class Formula implements Serializable {
 	}
 
 	public void highlightTextField(View brickView, int orientation) {
-		if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			return;
-		}
 		Drawable highlightBackground = null;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			highlightBackground = brickView.getResources().getDrawable(R.drawable.textfield_pressed_android4);
