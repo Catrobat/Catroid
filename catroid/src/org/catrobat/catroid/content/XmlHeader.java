@@ -64,83 +64,83 @@ public class XmlHeader implements Serializable {
 	public XmlHeader() {
 	}
 
-	public String getProgramName() {
+	String getProgramName() {
 		return programName;
 	}
 
-	public void setProgramName(String programName) {
+	void setProgramName(String programName) {
 		this.programName = programName;
 	}
 
-	public String getDescription() {
+	String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	void setDescription(String description) {
 		this.description = description;
 	}
 
-	public float getCatrobatLanguageVersion() {
+	float getCatrobatLanguageVersion() {
 		return catrobatLanguageVersion;
 	}
 
-	public void setCatrobatLanguageVersion(float catrobatLanguageVersion) {
+	void setCatrobatLanguageVersion(float catrobatLanguageVersion) {
 		this.catrobatLanguageVersion = catrobatLanguageVersion;
 	}
 
-	public String getPlatform() {
+	String getPlatform() {
 		return platform;
 	}
 
-	public void setPlatform(String platform) {
+	void setPlatform(String platform) {
 		this.platform = platform;
 	}
 
-	public String getApplicationBuildName() {
+	String getApplicationBuildName() {
 		return applicationBuildName;
 	}
 
-	public void setApplicationBuildName(String applicationBuildName) {
+	void setApplicationBuildName(String applicationBuildName) {
 		this.applicationBuildName = applicationBuildName;
 	}
 
-	public int getApplicationBuildNumber() {
+	int getApplicationBuildNumber() {
 		return applicationBuildNumber;
 	}
 
-	public void setApplicationBuildNumber(int applicationBuildNumber) {
+	void setApplicationBuildNumber(int applicationBuildNumber) {
 		this.applicationBuildNumber = applicationBuildNumber;
 	}
 
-	public String getApplicationName() {
+	String getApplicationName() {
 		return applicationName;
 	}
 
-	public void setApplicationName(String applicationName) {
+	void setApplicationName(String applicationName) {
 		this.applicationName = applicationName;
 	}
 
-	public String getApplicationVersion() {
+	String getApplicationVersion() {
 		return applicationVersion;
 	}
 
-	public void setApplicationVersion(String applicationVersion) {
+	void setApplicationVersion(String applicationVersion) {
 		this.applicationVersion = applicationVersion;
 	}
 
-	public String getDeviceName() {
+	String getDeviceName() {
 		return deviceName;
 	}
 
-	public void setDeviceName(String deviceName) {
+	void setDeviceName(String deviceName) {
 		this.deviceName = deviceName;
 	}
 
-	public int getPlatformVersion() {
+	int getPlatformVersion() {
 		return platformVersion;
 	}
 
-	public void setPlatformVersion(int platformVersion) {
+	void setPlatformVersion(int platformVersion) {
 		this.platformVersion = platformVersion;
 	}
 
