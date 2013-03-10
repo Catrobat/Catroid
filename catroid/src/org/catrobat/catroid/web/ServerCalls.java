@@ -78,6 +78,7 @@ public class ServerCalls {
 	private String resultString;
 	private ConnectionWrapper connection;
 	private String emailForUiTests;
+	private int uploadStatusCode;
 
 	protected ServerCalls() {
 		connection = new ConnectionWrapper();
@@ -120,8 +121,22 @@ public class ServerCalls {
 			String httpPostUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL_HTTP;
 
 			Log.v(TAG, "url to upload: " + serverUrl);
-			connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString, receiver,
-					httpPostUrl, notificationId);
+			String answer = connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString,
+					receiver, httpPostUrl, notificationId);
+
+			// check statusCode from Webserver
+			JSONObject jsonObject = null;
+			Log.v(TAG, "result string: " + answer);
+			jsonObject = new JSONObject(answer);
+			uploadStatusCode = jsonObject.getInt("statusCode");
+			String serverAnswer = jsonObject.optString("answer");
+
+			if (uploadStatusCode != 200) {
+				throw new WebconnectionException(uploadStatusCode, serverAnswer);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);

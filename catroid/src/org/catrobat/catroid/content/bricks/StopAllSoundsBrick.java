@@ -80,4 +80,5 @@ public class StopAllSoundsBrick implements Brick {
 		sequence.addAction(ExtendedActions.stopAllSounds());
 		return null;
 	}
+
 }

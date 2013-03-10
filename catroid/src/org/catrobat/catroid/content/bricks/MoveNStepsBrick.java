@@ -27,6 +27,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
 import android.text.InputType;
@@ -47,6 +48,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	private double steps;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public MoveNStepsBrick() {
 
@@ -76,6 +78,10 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		EditText edit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
 		edit.setText(String.valueOf(steps));
+		TextView times = (TextView) view.findViewById(R.id.brick_move_n_steps_step_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
+				Utils.convertDoubleToPluralInteger(steps)));
+
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
@@ -86,8 +92,13 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	@Override
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.brick_move_n_steps, null);
-		return view;
+		prototypeView = inflater.inflate(R.layout.brick_move_n_steps, null);
+		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_prototype_text_view);
+		textSteps.setText(String.valueOf(steps));
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_step_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
+				Utils.convertDoubleToPluralInteger(steps)));
+		return prototypeView;
 	}
 
 	@Override
