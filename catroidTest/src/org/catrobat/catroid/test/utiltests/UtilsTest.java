@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -301,11 +302,12 @@ public class UtilsTest extends AndroidTestCase {
 
 	private void removeScriptAndCompareToStandardProject() {
 		Script catroidScript = standardProject.getSpriteList().get(1).getScript(1);
-		standardProject.getSpriteList().get(1).removeScript(catroidScript);
+		Sprite sprite = standardProject.getSpriteList().get(1);
+		sprite.removeScript(catroidScript);
 		assertFalse("Failed to recognize that the project is not standard after removing a script",
 				Utils.projectSameAsStandardProject(standardProject, getContext()));
 
-		standardProject.getSpriteList().get(1).addScript(catroidScript);
+		sprite.addScript(catroidScript);
 		assertTrue("Failed to recognize the standard project",
 				Utils.projectSameAsStandardProject(standardProject, getContext()));
 
@@ -314,11 +316,12 @@ public class UtilsTest extends AndroidTestCase {
 	private void removeSpriteAndCompareToStandardProject() {
 		Sprite catroidSprite = standardProject.getSpriteList().get(1);
 		int lastIndex = standardProject.getSpriteList().size() - 1;
-		standardProject.getSpriteList().remove(lastIndex);
+		List<Sprite> spriteList = standardProject.getSpriteList();
+		spriteList.remove(lastIndex);
 		assertFalse("Failed to recognize that the project is not standard after removing a sprite",
 				Utils.projectSameAsStandardProject(standardProject, getContext()));
 
-		standardProject.getSpriteList().add(catroidSprite);
+		spriteList.add(catroidSprite);
 		assertTrue("Failed to recognize the standard project",
 				Utils.projectSameAsStandardProject(standardProject, getContext()));
 
