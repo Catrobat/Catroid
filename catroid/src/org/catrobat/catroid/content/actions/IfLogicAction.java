@@ -26,6 +26,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class IfLogicAction extends Action {
 
@@ -77,6 +78,13 @@ public class IfLogicAction extends Action {
 
 	public void setIfCondition(Formula ifCondition) {
 		this.ifCondition = ifCondition;
+	}
+
+	@Override
+	public void setActor(Actor actor) {
+		super.setActor(actor);
+		ifAction.setActor(actor);
+		elseAction.setActor(actor);
 	}
 
 }
