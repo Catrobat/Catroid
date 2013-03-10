@@ -47,7 +47,6 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	private InternFormula internFormula;
 
 	private Spannable highlightSpan = null;
-	private float lineHeight = 0;
 
 	private static FormulaEditorHistory history = null;
 	private Context context;
@@ -71,6 +70,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		this.setLongClickable(false);
 		this.setSelectAllOnFocus(false);
 		this.setCursorVisible(false);
+
 	}
 
 	public void enterNewFormula(InternFormulaState internFormulaState) {
@@ -99,22 +99,22 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 		Layout layout = getLayout();
 		if (layout != null) {
-			lineHeight = getTextSize() + 5;
+			float lineHeight = getTextSize();
 
 			int line = layout.getLineForOffset(absoluteCursorPosition);
 			int paddingYOffset = line == 0 ? 10 : 5;
 
 			// Quick fix for 2.3 EditText (caused by padding)
 			if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
-				paddingYOffset = layout.getLineCount() == 1 ? 31 : paddingYOffset;
+				paddingYOffset = layout.getLineCount() == 1 ? 33 : paddingYOffset;
 			}
 
 			int baseline = layout.getLineBaseline(line);
 			int ascent = layout.getLineAscent(line) + paddingYOffset;
 
-			float xCoordinate = layout.getPrimaryHorizontal(absoluteCursorPosition) + 5;
+			float xCoordinate = layout.getPrimaryHorizontal(absoluteCursorPosition) + getPaddingLeft();
 			float startYCoordinate = baseline + ascent;
-			float endYCoordinate = baseline + ascent + lineHeight;
+			float endYCoordinate = baseline + ascent + lineHeight + 5;
 
 			canvas.drawLine(xCoordinate, startYCoordinate, xCoordinate, endYCoordinate, getPaint());
 		}
@@ -248,15 +248,13 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 			Layout layout = getLayout();
 			if (layout != null) {
 
-				lineHeight = getTextSize() + 5;
+				float lineHeight = getLineHeight();
 				int yCoordinate = (int) motion.getY();
 				int cursorY = 0;
 
-				/*
-				 * Quick Fix
-				 * Use motion.getX() - 5 because of padding
-				 */
-				int cursorXOffset = (int) motion.getX() - 5;
+				int paddingLeft = getPaddingLeft();
+
+				int cursorXOffset = (int) motion.getX() - paddingLeft;
 
 				int initialScrollY = getScrollY();
 				int firstLineSize = (int) (initialScrollY % lineHeight);
@@ -268,13 +266,13 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 							* firstLineSize));
 					cursorY = 0;
 				} else if (yCoordinate >= numberOfVisbleLines * lineHeight - lineHeight / 2) {
-					if (!(yCoordinate > layout.getLineCount() * lineHeight - getScrollY())) {
+					if (!(yCoordinate > layout.getLineCount() * lineHeight - getScrollY() - getPaddingTop())) {
 						scrollBy(0, (int) (lineHeight - firstLineSize + lineHeight / 2));
-						cursorY = numberOfVisbleLines;
 					}
+					cursorY = numberOfVisbleLines;
 				} else {
 					for (int i = 1; i <= numberOfVisbleLines; i++) {
-						if (yCoordinate <= ((lineHeight - firstLineSize) + i * lineHeight)) {
+						if (yCoordinate <= ((lineHeight - firstLineSize) + getPaddingTop() + i * lineHeight)) {
 							cursorY = i;
 							break;
 						}

@@ -432,6 +432,12 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 
 		solo.clickOnEditText(1);
 
+		FormulaEditorEditText editField = (FormulaEditorEditText) solo.getView(R.id.formula_editor_edit_field);
+		Rect editfieldRect = new Rect();
+		editField.getGlobalVisibleRect(editfieldRect);
+
+		solo.clickOnScreen(100f, editfieldRect.bottom - 3);
+
 		assertTrue("Text could not be found!", solo.searchText("9999999999999999999")); //note always ALL the text can be found by solo, not just the part currently visible due to scroll position 
 		setAbsoluteCursorPosition("9999999999999999999".length());
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));

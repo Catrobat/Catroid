@@ -39,6 +39,8 @@ public class FormulaElement implements Serializable {
 		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, BRACKET
 	}
 
+	public static final Double NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE = 0d;
+
 	private ElementType type;
 	private String value;
 	private FormulaElement leftChild = null;
@@ -159,9 +161,10 @@ public class FormulaElement implements Serializable {
 			case USER_VARIABLE:
 				UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject()
 						.getUserVariables();
-				UserVariable userVariable = userVariables.getUserVariable(value, sprite.getName());
+				String spriteName = sprite == null ? null : sprite.getName();
+				UserVariable userVariable = userVariables.getUserVariable(value, spriteName);
 				if (userVariable == null) {
-					returnValue = 0d; //TODO handle case, when user-variable does not exist
+					returnValue = NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
 					break;
 				}
 				returnValue = userVariable.getValue();
@@ -295,23 +298,31 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Double interpretLookSensor(Sensors sensor, Sprite sprite) {
+		Double returnValue = 0d;
 		switch (sensor) {
 			case LOOK_BRIGHTNESS:
-				return (double) sprite.look.getBrightnessValue();
+				returnValue = (double) sprite.look.getBrightnessValue();
+				break;
 			case LOOK_GHOSTEFFECT:
-				return (double) sprite.look.getAlphaValue();
+				returnValue = (double) sprite.look.getAlphaValue();
+				break;
 			case LOOK_LAYER:
-				return (double) sprite.look.getZIndex();
+				returnValue = (double) sprite.look.getZIndex();
+				break;
 			case LOOK_ROTATION:
-				return (double) sprite.look.getRotation();
+				returnValue = (double) sprite.look.getRotation();
+				break;
 			case LOOK_SIZE:
-				return (double) sprite.look.getScaleX();
+				returnValue = (double) sprite.look.getScaleX();
+				break;
 			case LOOK_X:
-				return (double) sprite.look.getXPosition();
+				returnValue = (double) sprite.look.getXPosition();
+				break;
 			case LOOK_Y:
-				return (double) sprite.look.getYPosition();
+				returnValue = (double) sprite.look.getYPosition();
+				break;
 		}
-		return 0d;
+		return returnValue;
 	}
 
 	private Double checkDegeneratedDoubleValues(Double valueToCheck) {
@@ -362,19 +373,6 @@ public class FormulaElement implements Serializable {
 		this.type = type;
 	}
 
-	public void replaceElement(ElementType type, String value, FormulaElement leftChild, FormulaElement rightChild) {
-		this.value = value;
-		this.type = type;
-		this.leftChild = leftChild;
-		if (this.leftChild != null) {
-			this.leftChild.parent = this;
-		}
-		this.rightChild = rightChild;
-		if (rightChild != null) {
-			this.rightChild.parent = this;
-		}
-	}
-
 	public void replaceWithSubElement(String operator, FormulaElement rightChild) {
 
 		FormulaElement cloneThis = new FormulaElement(ElementType.OPERATOR, operator, this.getParent(), this,
@@ -384,7 +382,6 @@ public class FormulaElement implements Serializable {
 	}
 
 	private boolean isInteger(double value) {
-		//		Log.i("info", "isInteger().value=" + value + "(int) value= " + (int) value);
 
 		if ((Math.abs(value) - (int) Math.abs(value) < Double.MIN_VALUE)) {
 			return true;

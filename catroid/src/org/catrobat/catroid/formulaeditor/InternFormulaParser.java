@@ -42,6 +42,7 @@ public class InternFormulaParser {
 	public static final int PARSER_STACK_OVERFLOW = -2;
 	public static final int PARSER_INPUT_SYNTAX_ERROR = -3;
 	public static final int PARSER_NO_INPUT = -4;
+	private static final int MAXIMUM_TOKENS_TO_PARSE = 1000;
 
 	private List<InternToken> internTokensToParse;
 	private int currentTokenParseIndex;
@@ -137,6 +138,11 @@ public class InternFormulaParser {
 			errorTokenIndex = PARSER_NO_INPUT;
 			return null;
 		}
+		if (internTokensToParse.size() > MAXIMUM_TOKENS_TO_PARSE) {
+			errorTokenIndex = PARSER_STACK_OVERFLOW;
+			errorTokenIndex = 0;
+			return null;
+		}
 
 		addEndOfFileToken();
 
@@ -192,12 +198,14 @@ public class InternFormulaParser {
 		if (currentToken.isOperator() && currentToken.getTokenSringValue().equals(Operators.MINUS.name())) {
 
 			curElem = new FormulaElement(FormulaElement.ElementType.NUMBER, null, termTree, null, null);
-			termTree.replaceElement(FormulaElement.ElementType.OPERATOR, Operators.MINUS.name(), null, curElem);
+			termTree.replaceElement(new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.MINUS.name(),
+					null, null, curElem));
 
 			getNextToken();
 		} else if (currentToken.isOperator() && currentToken.getTokenSringValue().equals(Operators.LOGICAL_NOT.name())) {
 			curElem = new FormulaElement(FormulaElement.ElementType.NUMBER, null, termTree, null, null);
-			termTree.replaceElement(FormulaElement.ElementType.OPERATOR, Operators.LOGICAL_NOT.name(), null, curElem);
+			termTree.replaceElement(new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.LOGICAL_NOT
+					.name(), null, null, curElem));
 
 			getNextToken();
 		}
@@ -210,7 +218,7 @@ public class InternFormulaParser {
 
 			getNextToken();
 
-			curElem.replaceElement(FormulaElement.ElementType.BRACKET, null, null, termList());
+			curElem.replaceElement(new FormulaElement(FormulaElement.ElementType.BRACKET, null, null, null, termList()));
 
 			if (!currentToken.isBracketClose()) {
 				throw new InternFormulaParserException("Parse Error");
