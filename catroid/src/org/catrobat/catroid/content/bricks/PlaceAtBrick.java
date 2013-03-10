@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -37,6 +38,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class PlaceAtBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int xPosition;
@@ -44,6 +47,7 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public PlaceAtBrick() {
 
@@ -58,13 +62,6 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		sprite.costume.aquireXYWidthHeightLock();
-		sprite.costume.setXYPosition(xPosition, yPosition);
-		sprite.costume.releaseXYWidthHeightLock();
 	}
 
 	@Override
@@ -104,7 +101,12 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_place_at, null);
+		prototypeView = View.inflate(context, R.layout.brick_place_at, null);
+		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_x);
+		textX.setText(String.valueOf(xPosition));
+		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_y);
+		textY.setText(String.valueOf(yPosition));
+		return prototypeView;
 	}
 
 	@Override
@@ -145,5 +147,11 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_place_at_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.placeAt(Float.valueOf(xPosition), Float.valueOf(yPosition)));
+		return null;
 	}
 }

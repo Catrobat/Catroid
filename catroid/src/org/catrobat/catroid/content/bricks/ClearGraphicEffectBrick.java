@@ -25,11 +25,14 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ClearGraphicEffectBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -48,12 +51,6 @@ public class ClearGraphicEffectBrick implements Brick {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		sprite.costume.setBrightnessValue(1f);
-		sprite.costume.setAlphaValue(1f);
 	}
 
 	@Override
@@ -87,4 +84,11 @@ public class ClearGraphicEffectBrick implements Brick {
 	public Brick clone() {
 		return new ClearGraphicEffectBrick(getSprite());
 	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.clearGraphicEffect(sprite));
+		return null;
+	}
+
 }

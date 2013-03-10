@@ -90,9 +90,14 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.sleep(200);
 		UiTestUtils.createValidUser(getActivity());
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
-		solo.waitForDialogToClose(5000);
+		solo.sleep(5000);
 
-		View renameView = solo.getText(solo.getString(R.string.project_rename));
+		// robotium updated getText with RegularExpressions
+		// need to escape brackets for test to work
+		String projectRenameString = solo.getString(R.string.project_rename);
+		projectRenameString.replaceAll("\\(", "");
+		projectRenameString.replaceAll("\\)", "");
+		View renameView = solo.getText("\\(" + projectRenameString + "\\)");
 		assertNotNull("View for rename project could not be found", renameView);
 		assertEquals("rename View is visible.", renameView.getVisibility(), View.GONE);
 

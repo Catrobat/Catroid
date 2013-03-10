@@ -32,7 +32,6 @@ public class StartScript extends Script {
 
 	public StartScript(Sprite sprite) {
 		super(sprite);
-		super.isFinished = false;
 	}
 
 	public StartScript(Sprite sprite, WhenStartedBrick brick) {
@@ -42,7 +41,6 @@ public class StartScript extends Script {
 
 	@Override
 	protected Object readResolve() {
-		isFinished = false;
 		super.readResolve();
 		return this;
 	}

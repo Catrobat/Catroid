@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public abstract class Script implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -35,14 +37,10 @@ public abstract class Script implements Serializable {
 
 	protected transient ScriptBrick brick;
 
-	protected transient boolean isFinished;
 	private transient volatile boolean paused;
-	private transient volatile boolean finish;
-	private transient int executingBrickIndex;
 	protected Sprite sprite;
 
 	public Script() {
-
 	}
 
 	public abstract Script copyScriptForSprite(Sprite copySprite);
@@ -62,27 +60,21 @@ public abstract class Script implements Serializable {
 
 	private void init() {
 		paused = false;
-		finish = false;
 	}
 
-	public void run() {
-		isFinished = false;
+	public void run(SequenceAction sequence) {
+		ArrayList<SequenceAction> sequenceList = new ArrayList<SequenceAction>();
+		sequenceList.add(sequence);
 		for (int i = 0; i < brickList.size(); i++) {
-			if (!sprite.isAlive(Thread.currentThread())) {
-				break;
-			}
-			while (paused) {
-				if (finish) {
-					isFinished = true;
-					return;
+			SequenceAction action = brickList.get(i).addActionToSequence(sequenceList.get(sequenceList.size() - 1));
+			if (action != null) {
+				if (sequenceList.contains(action)) {
+					sequenceList.remove(action);
+				} else {
+					sequenceList.add(action);
 				}
-				Thread.yield();
 			}
-			executingBrickIndex = i;
-			brickList.get(i).execute();
-			i = executingBrickIndex;
 		}
-		isFinished = true;
 	}
 
 	public void addBrick(Brick brick) {
@@ -105,28 +97,12 @@ public abstract class Script implements Serializable {
 		return brickList;
 	}
 
-	public synchronized void setPaused(boolean paused) {
+	public void setPaused(boolean paused) {
 		this.paused = paused;
-	}
-
-	public synchronized void setFinish(boolean finish) {
-		this.finish = finish;
 	}
 
 	public boolean isPaused() {
 		return paused;
-	}
-
-	public boolean isFinished() {
-		return isFinished;
-	}
-
-	public int getExecutingBrickIndex() {
-		return executingBrickIndex;
-	}
-
-	public void setExecutingBrickIndex(int executingBrickIndex) {
-		this.executingBrickIndex = executingBrickIndex;
 	}
 
 	public int getRequiredResources() {

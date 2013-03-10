@@ -64,15 +64,15 @@ import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
-import org.catrobat.catroid.content.bricks.NextCostumeBrick;
+import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -225,7 +225,7 @@ public class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_point_to, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_glide, R.string.category_motion);
 
-		brickCategoryMap.put(R.string.brick_set_costume, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_set_look, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_set_size_to, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_change_size_by, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_hide, R.string.category_looks);
@@ -461,7 +461,7 @@ public class UiTestUtils {
 		brickList.add(new GoNStepsBackBrick(firstSprite, 24));
 		brickList.add(new ComeToFrontBrick(firstSprite));
 
-		brickList.add(new SetCostumeBrick(firstSprite));
+		brickList.add(new SetLookBrick(firstSprite));
 		brickList.add(new SetSizeToBrick(firstSprite, 11));
 		brickList.add(new ChangeSizeByNBrick(firstSprite, 12));
 		brickList.add(new HideBrick(firstSprite));
@@ -471,7 +471,7 @@ public class UiTestUtils {
 		brickList.add(new SetBrightnessBrick(firstSprite, 15));
 		brickList.add(new ChangeGhostEffectByNBrick(firstSprite, 16));
 		brickList.add(new ClearGraphicEffectBrick(firstSprite));
-		brickList.add(new NextCostumeBrick(firstSprite));
+		brickList.add(new NextLookBrick(firstSprite));
 
 		brickList.add(new PlaySoundBrick(firstSprite));
 		brickList.add(new StopAllSoundsBrick(firstSprite));
@@ -574,7 +574,7 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnActionBar(Solo solo, int imageButtonId) {
-		if (Build.VERSION.SDK_INT < 15) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			solo.waitForView(LinearLayout.class);
 			LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
 			solo.clickOnView(linearLayout);
@@ -586,7 +586,7 @@ public class UiTestUtils {
 	/**
 	 * This method can be used in 2 ways. Either to click on an action item
 	 * (icon), or to click on an item in the overflow menu. So either pass a
-	 * String (and any ID) OR null and a valid ID.
+	 * String + ID --OR-- a String + 0.
 	 * 
 	 * @param solo
 	 *            Use Robotium functionality
@@ -595,9 +595,14 @@ public class UiTestUtils {
 	 * @param overflowMenuItemId
 	 *            ID of an action item (icon)
 	 */
-	public static void openActionMode(Solo solo, String overflowMenuItemName, int overflowMenuItemId) {
-		if (overflowMenuItemName == null) { // Action item
-			UiTestUtils.clickOnActionBar(solo, overflowMenuItemId);
+	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId) {
+		if (overflowMenuItemName != null && menuItemId != 0) {
+
+			if (solo.getView(menuItemId) == null) {
+				solo.clickOnMenuItem(overflowMenuItemName, true);
+			} else {
+				UiTestUtils.clickOnActionBar(solo, menuItemId);
+			}
 		} else { // From overflow menu
 			solo.clickOnMenuItem(overflowMenuItemName, true);
 		}
@@ -790,7 +795,7 @@ public class UiTestUtils {
 
 		@SuppressWarnings("unused")
 		public ProjectWithCatrobatLanguageVersion() {
-			catrobatLanguageVersion = 0.3f;
+			catrobatLanguageVersion = 0.4f;
 		}
 
 		public ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {
@@ -826,7 +831,7 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnHomeActionBarButton(Solo solo) {
-		if (Build.VERSION.SDK_INT < 15) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			Activity activity = solo.getCurrentActivity();
 
 			ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
@@ -845,7 +850,7 @@ public class UiTestUtils {
 		String continueString = solo.getString(R.string.main_menu_continue);
 		solo.waitForText(continueString);
 
-		solo.clickOnButton(continueString);
+		solo.clickOnText(continueString);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
 	}
@@ -871,15 +876,15 @@ public class UiTestUtils {
 		solo.sleep(200);
 	}
 
-	public static void getIntoCostumesFromMainMenu(Solo solo) {
-		getIntoCostumesFromMainMenu(solo, 0, false);
+	public static void getIntoLooksFromMainMenu(Solo solo) {
+		getIntoLooksFromMainMenu(solo, 0, false);
 	}
 
-	public static void getIntoCostumesFromMainMenu(Solo solo, boolean isBackground) {
-		getIntoCostumesFromMainMenu(solo, 0, isBackground);
+	public static void getIntoLooksFromMainMenu(Solo solo, boolean isBackground) {
+		getIntoLooksFromMainMenu(solo, 0, isBackground);
 	}
 
-	public static void getIntoCostumesFromMainMenu(Solo solo, int spriteIndex, boolean isBackground) {
+	public static void getIntoLooksFromMainMenu(Solo solo, int spriteIndex, boolean isBackground) {
 		getIntoProgramMenuFromMainMenu(solo, spriteIndex);
 
 		String textToClickOn = "";
@@ -887,7 +892,7 @@ public class UiTestUtils {
 		if (isBackground) {
 			textToClickOn = solo.getString(R.string.backgrounds);
 		} else {
-			textToClickOn = solo.getString(R.string.costumes);
+			textToClickOn = solo.getString(R.string.looks);
 		}
 		solo.clickOnText(textToClickOn);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -998,7 +1003,7 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnActionBarSpinnerItem(Solo solo, int itemIndex) {
-		if (Build.VERSION.SDK_INT < 15) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			IcsSpinner spinner = UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo);
 			int activeSpinnerItemIndex = spinner.getSelectedItemPosition();
 			String itemToClickOnText = spinner.getAdapter().getItem(activeSpinnerItemIndex + itemIndex).toString();
@@ -1010,7 +1015,7 @@ public class UiTestUtils {
 	}
 
 	public static int getActionBarSpinnerItemCount(Solo solo) {
-		if (Build.VERSION.SDK_INT < 15) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			return UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo).getAdapter().getCount();
 		} else {
 			return solo.getCurrentSpinners().get(ACTION_BAR_SPINNER_INDEX).getAdapter().getCount();

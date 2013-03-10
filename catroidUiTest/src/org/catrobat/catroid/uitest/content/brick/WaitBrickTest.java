@@ -36,10 +36,12 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Utils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -74,7 +76,7 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		int childrenCount = ProjectManager.getInstance().getCurrentSprite().getScript(adapter.getScriptCount() - 1)
 				.getBrickList().size();
-		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -89,6 +91,20 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		int actualWaitTime = (Integer) Reflection.getPrivateField(waitBrick, "timeToWaitInMilliSeconds");
 		assertEquals("Wrong text in field", (long) (waitTime * 1000), actualWaitTime);
 		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
+
+		UiTestUtils.clickEnterClose(solo, 0, "1");
+		TextView secondsTextView = (TextView) solo.getView(R.id.brick_wait_second_text_view);
+		assertTrue(
+				"Specifier hasn't changed from plural to singular",
+				secondsTextView.getText().equals(
+						secondsTextView.getResources().getQuantityString(R.plurals.second_plural, 1)));
+		UiTestUtils.clickEnterClose(solo, 0, "1.4");
+		secondsTextView = (TextView) solo.getView(R.id.brick_wait_second_text_view);
+		assertTrue(
+				"Specifier hasn't changed from singular to plural",
+				secondsTextView.getText().equals(
+						secondsTextView.getResources().getQuantityString(R.plurals.second_plural,
+								Utils.convertDoubleToPluralInteger(1.4))));
 	}
 
 	private void createProject() {

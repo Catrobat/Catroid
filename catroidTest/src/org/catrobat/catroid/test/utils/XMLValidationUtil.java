@@ -39,6 +39,7 @@ import org.json.JSONObject;
 import android.util.Log;
 
 public class XMLValidationUtil {
+	// TODO: change to new XML schema
 	private static final String XML_VALIDATING_URL = "http://catroid.org/CatrobatLanguage/xmlSchema/version-0.3/validateXmlVersion3.php";
 	private static final String LOG_TAG = XMLValidationUtil.class.getSimpleName();
 

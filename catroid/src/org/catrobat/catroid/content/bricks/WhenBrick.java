@@ -32,6 +32,8 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class WhenBrick extends ScriptBrick {
 	protected WhenScript whenScript;
 	private Sprite sprite;
@@ -51,10 +53,6 @@ public class WhenBrick extends ScriptBrick {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
 	}
 
 	@Override
@@ -135,6 +133,11 @@ public class WhenBrick extends ScriptBrick {
 		}
 
 		return whenScript;
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		return null;
 	}
 
 }

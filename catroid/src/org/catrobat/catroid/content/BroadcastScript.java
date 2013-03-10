@@ -22,9 +22,7 @@
  */
 package org.catrobat.catroid.content;
 
-import java.util.concurrent.CountDownLatch;
-
-import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
@@ -36,7 +34,6 @@ public class BroadcastScript extends Script {
 
 	public BroadcastScript(Sprite sprite) {
 		super(sprite);
-		super.isFinished = true;
 	}
 
 	public BroadcastScript(Sprite sprite, BroadcastReceiverBrick brick) {
@@ -55,30 +52,21 @@ public class BroadcastScript extends Script {
 
 	@Override
 	protected Object readResolve() {
-		isFinished = true;
 		if (receivedMessage != null && receivedMessage.length() != 0) {
-			ProjectManager.getInstance().getMessageContainer().addMessage(receivedMessage, this);
+			MessageContainer.addMessage(receivedMessage, this);
 		}
 		super.readResolve();
 		return this;
 	}
 
 	public void setBroadcastMessage(String selectedMessage) {
-		ProjectManager.getInstance().getMessageContainer().deleteReceiverScript(this.receivedMessage, this);
+		MessageContainer.deleteReceiverScript(this.receivedMessage, this);
 		this.receivedMessage = selectedMessage;
-		ProjectManager.getInstance().getMessageContainer().addMessage(this.receivedMessage, this);
+		MessageContainer.addMessage(this.receivedMessage, this);
 	}
 
 	public String getBroadcastMessage() {
 		return this.receivedMessage;
-	}
-
-	public void executeBroadcast(CountDownLatch simultaneousStart) {
-		sprite.startScriptBroadcast(this, simultaneousStart);
-	}
-
-	public void executeBroadcastWait(CountDownLatch simultaneousStart, CountDownLatch wait) {
-		sprite.startScriptBroadcastWait(this, simultaneousStart, wait);
 	}
 
 	@Override
@@ -91,6 +79,5 @@ public class BroadcastScript extends Script {
 		}
 
 		return cloneScript;
-
 	}
 }

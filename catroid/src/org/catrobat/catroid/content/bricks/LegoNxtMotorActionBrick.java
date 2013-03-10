@@ -23,9 +23,9 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -45,8 +45,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, OnClickListener {
 	private static final long serialVersionUID = 1L;
+
+	private transient View prototypeView;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
@@ -61,7 +65,6 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 	private transient Motor motorEnum;
 	private int speed;
 
-	private static final int NO_DELAY = 0;
 	private static final int MIN_SPEED = -100;
 	private static final int MAX_SPEED = 100;
 
@@ -88,18 +91,6 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 	}
 
 	@Override
-	public void execute() {
-
-		if (motorEnum.equals(Motor.MOTOR_A_C)) {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), speed, 0);
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), speed, 0);
-		} else {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), speed, 0);
-		}
-		//LegoNXT.sendBTCMotorMessage((int) (duration * 1000), motor, 0, 0);
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -113,10 +104,13 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
-		SeekBar noClick = (SeekBar) view.findViewById(R.id.seekBarSpeedMotorAction);
+		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
+		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.motor_action_speed_text_view);
+		textSpeed.setText(String.valueOf(speed));
+		SeekBar noClick = (SeekBar) prototypeView.findViewById(R.id.seekBarSpeedMotorAction);
 		noClick.setEnabled(false);
-		return view;
+		//TODO set the spinner Value to A
+		return prototypeView;
 	}
 
 	@Override
@@ -267,5 +261,11 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_nxt_moto_action_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.legoNxtMotorAction(motor, motorEnum, speed));
+		return null;
 	}
 }

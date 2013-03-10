@@ -28,7 +28,6 @@
     <string name="cancel_button">Abbrechen</string>
     <string name="rename">Umbenennen</string>
     <string name="delete">Löschen</string>
-    <string name="delete_lowercase">löschen</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="copy">Kopieren</string>
@@ -45,7 +44,7 @@
     <string name="loading">Laden…</string>
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="add">Neu</string>
     <!--  -->
 
@@ -83,7 +82,7 @@
     <string name="project_name">Projekt:</string>
     <string name="number_of_scripts">Skripte:</string>
     <string name="number_of_bricks">Bausteine:</string>
-    <string name="number_of_costumes">Kostüme:</string>
+    <string name="number_of_looks">Aussehen:</string>
     <string name="number_of_sounds">Klänge:</string>
     <string name="show_details">Details anzeigen</string>
     <string name="hide_details">Details verbergen</string>
@@ -92,43 +91,44 @@
     <string name="sprites">Objekte</string>
     <!--  -->
 
-
     <!-- Sprite activity -->
     <string name="copy_sprite_finished"> kopiert.</string>
     <string name="copy_sprite_name_suffix">_Kopie</string>
-    <!-- ScriptTab activity -->
+    <!--  -->
+
+    <!-- Script activity -->
     <string name="scripts">Skripte</string>
-    <string name="costumes">Kostüme</string>
+    <string name="look">Aussehen</string>
+    <string name="looks">Aussehen</string>
     <string name="sounds">Klänge</string>
     <string name="backgrounds">Hintergründe</string>
+    <string name="size">Größe:</string>
     <!--  -->
 
 
-    <!-- Costume activity -->
-    <string name="rename_costume_dialog">Kostüm umbenennen</string>
-    <string name="edit_costume_paintroid">Paintroid</string>
-    <string name="copy_costume">kopieren</string>
-    <string name="costumename_invalid">Dieser Name ist nicht zulässig</string>
-    <string name="copy_costume_addition">Kopie</string>
+    <!-- Look fragment -->
+    <string name="rename_look_dialog">Aussehen umbenennen</string>
+    <string name="lookname_invalid">Dieser Name ist nicht zulässig</string>
+    <string name="copy_look_addition">Kopie</string>
     <string name="paintroid_not_installed">Paintroid ist nicht installiert!\nJetzt herunterladen?</string>
-    <string name="default_costume_name">Kostüm</string>
-    <string name="delete_costume_dialog">Kostüm löschen?</string>
-    <string name="new_costume_dialog_title">Kostüm hinzufügen</string>
-    <string name="add_costume_from_gallery">Von Galerie</string>
-    <string name="add_costume_from_camera">Von Kamera</string>
-    <string name="select_costume_from_gallery">Bild auswählen</string>
-    <string name="select_costume_from_camera">Photo auswählen</string>
+    <string name="default_look_name">Aussehen</string>
+    <string name="delete_look_dialog">Aussehen löschen?</string>
+    <string name="new_look_dialog_title">Aussehen hinzufügen</string>
+    <string name="add_look_from_gallery">Von Galerie</string>
+    <string name="add_look_from_camera">Von Kamera</string>
+    <string name="select_look_from_gallery">Bild auswählen</string>
+    <string name="select_look_from_camera">Photo auswählen</string>
+    <string name="look_resolution">Auflösung:</string>
     <!--  -->
 
 
-    <!-- Sound activity -->
+    <!-- Sound fragment -->
     <string name="rename_sound_dialog">Klang umbenennen</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="sound_play">abspielen</string>
     <string name="sound_pause">pausieren</string>
     <string name="sound_select_source">Klang auswählen</string>
     <string name="sound_time_seperator">/</string>
-    <string name="sound_size">Größe:</string>
     <string name="delete_sound_dialog">Klang löschen?</string>
     <!--  -->
 
@@ -175,10 +175,9 @@
     <string name="new_project_dialog_hint">Mein Projekt</string>
     <string name="new_project_description_dialog_hint">Meine Beschreibung</string>
     <string name="new_project_name">Projektname:</string>
-    <string name="new_project_description">Projektbeschreibung:</string>
     <!--  -->
-
-
+    
+ 
     <!-- Rename Dialog -->
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">Mein Objekt</string>
@@ -242,15 +241,27 @@
     <string name="brick_change_x_by">Ändere X um:</string>
     <string name="brick_change_y_by">Ändere Y um:</string>
     <string name="brick_go_back">Gehe</string>
-    <string name="brick_go_back_layers">Ebenen nach hinten</string>
+    <plurals name="brick_go_back_layer_plural">
+        <item quantity="one">Ebene nach hinten</item>
+        <item quantity="other">Ebenen nach hinte</item>
+    </plurals>
     <string name="brick_come_to_front">Komme nach vorn</string>
     <string name="brick_if_on_edge_bounce">Pralle vom Rand ab</string>
     <string name="brick_move">Gehe</string>
-    <string name="brick_move_n_steps">Schritte</string>
+    <plurals name="brick_move_n_step_plural">
+        <item quantity="one">Schritt</item>
+        <item quantity="other">Schritte</item>
+    </plurals>
     <string name="brick_turn_left">Drehe links</string>
-    <string name="brick_turn_left_degrees">Grad</string>
+    <plurals name="brick_turn_left_degree_plural">
+        <item quantity="one">Grad</item>
+        <item quantity="other">Grad</item>
+    </plurals>
     <string name="brick_turn_right">Drehe rechts</string>
-    <string name="brick_turn_right_degrees">Grad</string>
+    <plurals name="brick_turn_right_degree_plural">
+        <item quantity="one">Grad</item>
+        <item quantity="other">Grad</item>
+    </plurals>
     <string name="brick_point_in_direction">Zeige in Richtung</string>
     <string name="brick_point_in_direction_choose_direction">Wähle Richtung</string>
     <string name="brick_point_to">Zeige auf</string>
@@ -260,7 +271,7 @@
 
 
     <!-- Looks bricks -->
-    <string name="brick_set_costume">Setze Kostüm</string>
+    <string name="brick_set_look">Setze Aussehen</string>
     <string name="brick_set_background">Setze Hintergrund</string>
     <string name="brick_set_size_to">Setze Größe auf</string>
     <string name="brick_change_size_by">Ändere Größe um</string>
@@ -273,7 +284,7 @@
     <string name="by_label">um</string>
     <string name="to_label">auf</string>
     <string name="brick_clear_graphic_effect">Schalte Grafikeffekte aus</string>
-    <string name="brick_next_costume">Nächstes Kostüm</string>
+    <string name="brick_next_look">Nächstes Aussehen</string>
     <string name="brick_next_background">Nächster Hintergrund</string>
     <!--  -->
 
@@ -284,6 +295,7 @@
     <string name="brick_set_volume_to">Setze Lautstärke auf</string>
     <string name="brick_change_volume_by">Ändere Lautstärke um</string>
     <string name="brick_speak">Sprich</string>
+    <string name="brick_speak_default_value">"Hallo!"</string>
     <!--  -->
 
 
@@ -291,15 +303,22 @@
     <string name="brick_when_started">Wenn Projekt gestartet</string>
     <string name="brick_when">Wenn</string>
     <string name="brick_wait">Warte</string>
-    <string name="seconds">Sekunden</string>
+    <plurals name="second_plural">
+        <item quantity="one">Sekunde</item>
+        <item quantity="other">Sekunden</item>
+    </plurals>
     <string name="brick_broadcast_receive">Wenn ich empfange:</string>
     <string name="brick_broadcast">Verschicke an alle:</string>
     <string name="brick_broadcast_wait">Verschicke und warte:</string>
     <string name="brick_note">Notiz</string>
     <string name="brick_forever">Wiederhole fortlaufend</string>
     <string name="brick_repeat">Wiederhole</string>
-    <string name="times_label">mal</string>
+    <plurals name="time_plural">
+        <item quantity="one">mal</item>
+        <item quantity="other">mal</item>
+    </plurals>
     <string name="brick_loop_end">Wiederholen beenden</string>
+    <string name="brick_note_default_value">"Anmerkung hier hinzufügen..." </string>
     <!--  -->
 
 

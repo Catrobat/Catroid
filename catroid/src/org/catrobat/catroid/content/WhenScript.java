@@ -47,7 +47,6 @@ public class WhenScript extends Script {
 
 	public WhenScript(Sprite sprite) {
 		super(sprite);
-		super.isFinished = true;
 		this.position = 0;
 		this.action = TAPPED;
 	}
@@ -59,7 +58,6 @@ public class WhenScript extends Script {
 
 	@Override
 	protected Object readResolve() {
-		isFinished = true;
 		super.readResolve();
 		return this;
 	}

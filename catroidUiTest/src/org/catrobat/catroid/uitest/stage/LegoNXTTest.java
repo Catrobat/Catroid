@@ -31,7 +31,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXTBtCommunicator;
 import org.catrobat.catroid.LegoNXT.LegoNXTCommunicator;
 import org.catrobat.catroid.bluetooth.DeviceListActivity;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -42,7 +42,7 @@ import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
@@ -120,7 +120,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		DeviceListActivity deviceListActivity = new DeviceListActivity();
 		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.sleep(2000);
@@ -241,7 +241,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		autoConnectIDs.add(PAIRED_UNAVAILABLE_DEVICE_MAC);
 		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.sleep(10000); //yes, has to be that long! waiting for auto connection timeout!
@@ -269,7 +269,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 			solo.sleep(5000);
 		}
 
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.sleep(1000);
@@ -286,7 +286,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		Sprite firstSprite = new Sprite(spriteName);
 		Script startScript = new StartScript(firstSprite);
 		Script whenScript = new WhenScript(firstSprite);
-		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
+		SetLookBrick setLookBrick = new SetLookBrick(firstSprite);
 
 		LegoNxtMotorActionBrick legoMotorActionBrick = new LegoNxtMotorActionBrick(firstSprite,
 				LegoNxtMotorActionBrick.Motor.MOTOR_A_C, 100);
@@ -316,7 +316,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		whenScript.addBrick(thirdWaitBrick);
 		whenScript.addBrick(legoPlayToneBrick);
 
-		startScript.addBrick(setCostumeBrick);
+		startScript.addBrick(setLookBrick);
 		firstSprite.addScript(startScript);
 		firstSprite.addScript(whenScript);
 
@@ -328,11 +328,11 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		File image = UiTestUtils.saveFileToProject(projectName, imageName, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.IMAGE);
 
-		CostumeData costumeData = new CostumeData();
-		costumeData.setCostumeFilename(image.getName());
-		costumeData.setCostumeName(imageName);
-		setCostumeBrick.setCostume(costumeData);
-		firstSprite.getCostumeDataList().add(costumeData);
+		LookData lookData = new LookData();
+		lookData.setLookFilename(image.getName());
+		lookData.setLookName(imageName);
+		setLookBrick.setLook(lookData);
+		firstSprite.getLookDataList().add(lookData);
 
 		StorageHandler.getInstance().saveProject(project);
 	}

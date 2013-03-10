@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -81,7 +81,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 
 	public void testOrientation() throws NameNotFoundException {
 		/// Method 1: Assert it is currently in portrait mode.
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.clickOnText("Background");
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		assertEquals("ProgramMenuActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, solo
@@ -104,7 +104,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 	}
 
 	public void testTitle() {
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
@@ -132,17 +132,17 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 		assertTrue("Title doesn't match " + spriteName, solo.waitForText(currentSpriteName, 0, 200, false, true));
 	}
 
-	public void testCostumeButtonTextChange() {
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+	public void testLookButtonTextChange() {
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite("sprite1");
 		solo.clickOnText("sprite1");
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
-		assertTrue("Text on costume button is not 'Costumes'", solo.searchText(solo.getString(R.string.costumes)));
+		assertTrue("Text on look button is not 'Looks'", solo.searchText(solo.getString(R.string.looks)));
 		UiTestUtils.clickOnHomeActionBarButton(solo);
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.clickOnText("Background");
-		assertTrue("Text on costume button is not 'Backgrounds'", solo.searchText(solo.getString(R.string.backgrounds)));
+		assertTrue("Text on look button is not 'Backgrounds'", solo.searchText(solo.getString(R.string.backgrounds)));
 	}
 
 	public void testPlayButton() {
@@ -154,7 +154,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 	}
 
 	public void testMenuItemSettings() {
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText("Background");
 		solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings));
@@ -162,7 +162,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 	}
 
 	public void testMainMenuButton() {
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText("Background");
 		UiTestUtils.clickOnHomeActionBarButton(solo);
@@ -197,12 +197,12 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 				org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses, getActivity(), UiTestUtils.FileTypes.IMAGE);
 
 		ProjectManager projectManager = ProjectManager.getInstance();
-		ArrayList<CostumeData> costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
-		CostumeData costumeData = new CostumeData();
-		costumeData.setCostumeFilename(imageFile.getName());
-		costumeData.setCostumeName("Catroid sun");
-		costumeDataList.add(costumeData);
-		projectManager.getFileChecksumContainer().addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		LookData lookData = new LookData();
+		lookData.setLookFilename(imageFile.getName());
+		lookData.setLookName("Catroid sun");
+		lookDataList.add(lookData);
+		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 
 		File soundFile = UiTestUtils.saveFileToProject(project.getName(), "longsound.mp3",
 				org.catrobat.catroid.uitest.R.raw.longsound, getInstrumentation().getContext(),

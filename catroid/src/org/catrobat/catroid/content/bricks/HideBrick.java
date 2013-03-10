@@ -25,10 +25,13 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class HideBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -47,11 +50,6 @@ public class HideBrick implements Brick {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		sprite.costume.show = false;
 	}
 
 	@Override
@@ -83,5 +81,11 @@ public class HideBrick implements Brick {
 	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_hide, null);
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.hide(sprite));
+		return null;
 	}
 }

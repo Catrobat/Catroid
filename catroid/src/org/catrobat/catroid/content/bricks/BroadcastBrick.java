@@ -22,14 +22,12 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.Vector;
-import java.util.concurrent.CountDownLatch;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -41,6 +39,8 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class BroadcastBrick implements Brick {
 
@@ -62,29 +62,6 @@ public class BroadcastBrick implements Brick {
 	}
 
 	@Override
-	public void execute() {
-		final Vector<BroadcastScript> receiver = projectManager.getMessageContainer().getReceiverOfMessage(
-				broadcastMessage);
-		if (receiver == null) {
-			return;
-		}
-		if (receiver.size() == 0) {
-			return;
-		}
-		Thread startThread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				CountDownLatch simultaneousStart = new CountDownLatch(1);
-				for (BroadcastScript receiverScript : receiver) {
-					receiverScript.executeBroadcast(simultaneousStart);
-				}
-				simultaneousStart.countDown();
-			}
-		});
-		startThread.start();
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -98,13 +75,13 @@ public class BroadcastBrick implements Brick {
 
 	public void setSelectedMessage(String message) {
 		broadcastMessage = message;
-		projectManager.getMessageContainer().addMessage(broadcastMessage);
+		MessageContainer.addMessage(broadcastMessage);
 	}
 
 	private Object readResolve() {
 		projectManager = ProjectManager.getInstance();
 		if (broadcastMessage != null && projectManager.getCurrentProject() != null) {
-			projectManager.getMessageContainer().addMessage(broadcastMessage);
+			MessageContainer.addMessage(broadcastMessage);
 		}
 		return this;
 	}
@@ -115,7 +92,7 @@ public class BroadcastBrick implements Brick {
 		view = View.inflate(context, R.layout.brick_broadcast, null);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);
-		broadcastSpinner.setAdapter(projectManager.getMessageContainer().getMessageAdapter(context));
+		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
 		broadcastSpinner.setClickable(true);
 		broadcastSpinner.setFocusable(true);
 
@@ -139,7 +116,7 @@ public class BroadcastBrick implements Brick {
 			}
 		});
 
-		int position = projectManager.getMessageContainer().getPositionOfMessageInAdapter(broadcastMessage);
+		int position = MessageContainer.getPositionOfMessageInAdapter(broadcastMessage);
 		if (position > 0) {
 			broadcastSpinner.setSelection(position);
 		}
@@ -169,9 +146,8 @@ public class BroadcastBrick implements Brick {
 						}
 
 						broadcastMessage = newMessage;
-						projectManager.getMessageContainer().addMessage(broadcastMessage);
-						int position = projectManager.getMessageContainer().getPositionOfMessageInAdapter(
-								broadcastMessage);
+						MessageContainer.addMessage(broadcastMessage);
+						int position = MessageContainer.getPositionOfMessageInAdapter(broadcastMessage);
 
 						broadcastSpinner.setSelection(position);
 
@@ -200,4 +176,11 @@ public class BroadcastBrick implements Brick {
 	public BroadcastBrick() {
 
 	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.broadcast(sprite, broadcastMessage));
+		return null;
+	}
+
 }
