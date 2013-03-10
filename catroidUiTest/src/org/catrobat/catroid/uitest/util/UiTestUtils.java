@@ -212,8 +212,11 @@ public class UiTestUtils {
 		solo.clickOnEditText(editTextNumber);
 		insertDoubleIntoEditText(solo, newValue);
 
-		assertEquals("Text not updated within FormulaEditor", newValue,
-				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()));
+		assertEquals(
+				"Text not updated within FormulaEditor",
+				newValue,
+				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
+						.replace(',', '.')));
 		solo.goBack();
 		solo.sleep(200);
 
