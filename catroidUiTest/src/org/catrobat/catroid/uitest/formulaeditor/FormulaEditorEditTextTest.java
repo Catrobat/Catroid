@@ -431,15 +431,23 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 	public void testTextCursorAndScrolling() {
 
 		solo.clickOnEditText(1);
+		solo.sleep(3000);
+		solo.waitForText(solo.getCurrentActivity().getString(R.string.formula_editor_title));
 
 		FormulaEditorEditText editField = (FormulaEditorEditText) solo.getView(R.id.formula_editor_edit_field);
+
 		Rect editfieldRect = new Rect();
 		editField.getGlobalVisibleRect(editfieldRect);
 
-		solo.clickOnScreen(100f, editfieldRect.bottom - 3);
+		for (int index = 1; index < 20; index++) {
+			solo.clickOnScreen(100f, editfieldRect.bottom - index);
 
-		assertTrue("Text could not be found!", solo.searchText("9999999999999999999")); //note always ALL the text can be found by solo, not just the part currently visible due to scroll position 
+		}
+
+		assertTrue("Scroll did not work!", editField.getScrollY() > 0);
+
 		setAbsoluteCursorPosition("9999999999999999999".length());
+		assertTrue("Text could not be found!", solo.searchText("9999999999999999999")); //note always ALL the text can be found by solo, not just the part currently visible due to scroll position 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
