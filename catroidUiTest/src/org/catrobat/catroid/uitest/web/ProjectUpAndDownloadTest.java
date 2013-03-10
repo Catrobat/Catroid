@@ -149,19 +149,12 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.sleep(500);
 
 		boolean uploadErrorOccurred = solo.waitForText(solo.getString(R.string.error_project_upload));
-		JSONObject jsonObject;
+
 		int statusCode = 0;
 		int statusCodeWrongLanguageVersion = 518;
-		try {
-			String resultString = (String) Reflection.getPrivateField(ServerCalls.getInstance(), "resultString");
-			jsonObject = new JSONObject(resultString);
-			serverProjectId = jsonObject.optInt("projectId");
-			Log.v("serverID=", "" + serverProjectId);
-			statusCode = jsonObject.getInt("statusCode");
-			Log.v("statusCode=", "" + statusCode);
-		} catch (JSONException e) {
-			fail("JSON exception orrured");
-		}
+		statusCode = (Integer) Reflection.getPrivateField(ServerCalls.getInstance(), "uploadStatusCode");
+		Log.v("statusCode=", "" + statusCode);
+
 		assertTrue("Upload did work, but error toastmessage should have been displayed", uploadErrorOccurred);
 		assertEquals("Wrong status code from Web", statusCodeWrongLanguageVersion, statusCode);
 		UiTestUtils.clearAllUtilTestProjects();
