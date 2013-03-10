@@ -76,24 +76,24 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_sensor_z_orientation, R.string.formula_editor_sensor_x_orientation,
 			R.string.formula_editor_sensor_y_orientation };
 
-	private final String mTag;
-	private String[] mItems;
-	private FormulaEditorEditText mFormulaEditorEditText;
-	private String mActionBarTitle;
+	private final String tag;
+	private String[] items;
+	private FormulaEditorEditText formulaEditorEditText;
+	private String actionBarTitle;
 	private int[] itemsIds;
 
 	@Override
 	public void onListItemClick(ListView listView, View view, int position, long id) {
-		mFormulaEditorEditText.handleKeyEvent(itemsIds[position], "");
+		formulaEditorEditText.handleKeyEvent(itemsIds[position], "");
 		KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
 		onKey(null, keyEvent.getKeyCode(), keyEvent);
 	}
 
 	public FormulaEditorListFragment(FormulaEditorEditText formulaEditorEditText, String actionBarTitle,
 			String fragmentTag) {
-		mFormulaEditorEditText = formulaEditorEditText;
-		mActionBarTitle = actionBarTitle;
-		mTag = fragmentTag;
+		this.formulaEditorEditText = formulaEditorEditText;
+		this.actionBarTitle = actionBarTitle;
+		tag = fragmentTag;
 
 	}
 
@@ -104,25 +104,25 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 
 		itemsIds = new int[] {};
 
-		if (mTag == OBJECT_TAG) {
+		if (tag == OBJECT_TAG) {
 			itemsIds = OBJECT_ITEMS;
-		} else if (mTag == MATH_TAG) {
+		} else if (tag == MATH_TAG) {
 			itemsIds = MATH_ITEMS;
-		} else if (mTag == LOGIC_TAG) {
+		} else if (tag == LOGIC_TAG) {
 			itemsIds = LOGIC_ITEMS;
-		} else if (mTag == SENSOR_TAG) {
+		} else if (tag == SENSOR_TAG) {
 			itemsIds = SENSOR_ITEMS;
 		}
 
-		mItems = new String[itemsIds.length];
+		items = new String[itemsIds.length];
 		int index = 0;
 		for (Integer item : itemsIds) {
-			mItems[index] = getString(item);
+			items[index] = getString(item);
 			index++;
 		}
 
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
-				R.layout.fragment_formula_editor_list_item, mItems);
+				R.layout.fragment_formula_editor_list_item, items);
 		setListAdapter(arrayAdapter);
 	}
 
@@ -140,7 +140,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		menu.findItem(R.id.settings).setVisible(false);
 
 		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
-		getSherlockActivity().getSupportActionBar().setTitle(mActionBarTitle);
+		getSherlockActivity().getSupportActionBar().setTitle(actionBarTitle);
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 	}
 
