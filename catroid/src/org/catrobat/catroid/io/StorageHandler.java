@@ -38,7 +38,6 @@ import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
-import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -129,7 +128,6 @@ public class StorageHandler {
 		xstream.alias("sound", SoundInfo.class);
 
 		xstream.alias("broadcastScript", BroadcastScript.class);
-		xstream.alias("look", Look.class);
 		xstream.alias("script", Script.class);
 		xstream.alias("sprite", Sprite.class);
 		xstream.alias("startScript", StartScript.class);
