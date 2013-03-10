@@ -38,6 +38,7 @@ import android.os.Build;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+@XStreamAlias("program")
 public class Project implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -75,7 +76,7 @@ public class Project implements Serializable {
 	@SuppressWarnings("unused")
 	private String remixOf = "";
 	@SuppressWarnings("unused")
-	private String uRL = "";
+	private String url = "";
 	@SuppressWarnings("unused")
 	private String userHandle = "";
 
