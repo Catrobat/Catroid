@@ -33,7 +33,7 @@ public class LegoNxtMotorActionAction extends TemporalAction {
 	private static final int MIN_SPEED = -100;
 	private static final int MAX_SPEED = 100;
 	private static final int NO_DELAY = 0;
-	private String motor;
+
 	private Motor motorEnum;
 	private Formula speed;
 	private Sprite sprite;
@@ -50,10 +50,6 @@ public class LegoNxtMotorActionAction extends TemporalAction {
 		}
 		//LegoNXT.sendBTCMotorMessage((int) (duration * 1000), motor, 0, 0);
 
-	}
-
-	public void setMotor(String motor) {
-		this.motor = motor;
 	}
 
 	public void setMotorEnum(Motor motorEnum) {

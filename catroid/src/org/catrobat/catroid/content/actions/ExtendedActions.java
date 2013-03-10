@@ -168,7 +168,6 @@ public class ExtendedActions extends Actions {
 	public static LegoNxtMotorActionAction legoNxtMotorAction(Sprite sprite, String motor,
 			org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick.Motor motorEnum, Formula speed) {
 		LegoNxtMotorActionAction action = action(LegoNxtMotorActionAction.class);
-		action.setMotor(motor);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
 		action.setSpeed(speed);
