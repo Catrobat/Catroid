@@ -115,6 +115,58 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		//downloadProject();
 	}
 
+	public void testUploadProjectOldCatrobatLanguageVersion() throws Throwable {
+		setServerURLToTestUrl();
+
+		createTestProject(testProject);
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.sleep(1000);
+		UiTestUtils.clickOnHomeActionBarButton(solo);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+
+		UiTestUtils.createValidUser(getActivity());
+
+		// change catrobatLanguage to a version that is not supported by web
+		// should lead to an errormessage after upload
+		Project testProject = ProjectManager.INSTANCE.getCurrentProject();
+		testProject.setCatrobatLanguageVersion(0.3f);
+		StorageHandler.getInstance().saveProject(testProject);
+
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+		solo.sleep(500);
+
+		// enter a new title
+		solo.clearEditText(0);
+		solo.clickOnEditText(0);
+		solo.enterText(0, newTestProject);
+
+		// enter a description
+		solo.clearEditText(1);
+		solo.clickOnEditText(1);
+		solo.enterText(1, newTestDescription);
+
+		solo.clickOnButton(solo.getString(R.string.upload_button));
+		solo.sleep(500);
+
+		boolean uploadErrorOccurred = solo.waitForText(solo.getString(R.string.error_project_upload));
+		JSONObject jsonObject;
+		int statusCode = 0;
+		int statusCodeWrongLanguageVersion = 518;
+		try {
+			String resultString = (String) Reflection.getPrivateField(ServerCalls.getInstance(), "resultString");
+			jsonObject = new JSONObject(resultString);
+			serverProjectId = jsonObject.optInt("projectId");
+			Log.v("serverID=", "" + serverProjectId);
+			statusCode = jsonObject.getInt("statusCode");
+			Log.v("statusCode=", "" + statusCode);
+		} catch (JSONException e) {
+			fail("JSON exception orrured");
+		}
+		assertTrue("Upload did work, but error toastmessage should have been displayed", uploadErrorOccurred);
+		assertEquals("Wrong status code from Web", statusCodeWrongLanguageVersion, statusCode);
+		UiTestUtils.clearAllUtilTestProjects();
+	}
+
 	public void testRenameProjectNameAndDescriptionWhenUploading() throws Throwable {
 		setServerURLToTestUrl();
 
