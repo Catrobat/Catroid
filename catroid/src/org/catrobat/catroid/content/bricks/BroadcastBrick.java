@@ -172,4 +172,5 @@ public class BroadcastBrick implements Brick {
 		sequence.addAction(ExtendedActions.broadcast(sprite, broadcastMessage));
 		return null;
 	}
+
 }

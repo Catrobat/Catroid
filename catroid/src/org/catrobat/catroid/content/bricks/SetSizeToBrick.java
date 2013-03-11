@@ -45,6 +45,7 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 	private double size;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public SetSizeToBrick(Sprite sprite, double size) {
 		this.sprite = sprite;
@@ -83,7 +84,10 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_set_size_to, null);
+		prototypeView = View.inflate(context, R.layout.brick_set_size_to, null);
+		TextView textSetSizeTo = (TextView) prototypeView.findViewById(R.id.brick_set_size_to_prototype_text_view);
+		textSetSizeTo.setText(String.valueOf(size));
+		return prototypeView;
 	}
 
 	@Override
