@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -48,8 +47,6 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	protected void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
 
-		//Expected Jenkins fix
-		testSprite.look = new Look(testSprite);
 	}
 
 	public void testLoopDelay() throws InterruptedException {
@@ -124,12 +121,13 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		testSprite.addScript(testScript);
 		testSprite.createStartScriptActionSequence();
 
-		for (int index = 0; index < REPEAT_TIMES * REPEAT_TIMES; index++) {
+		float timePerActCycle = 0.5f;
 
-			for (float time = 0f; time < delta * 10; time += delta) {
-				testSprite.look.act(delta);
-			}
+		while (!testSprite.look.getAllActionsAreFinished()) {
+			testSprite.look.act(timePerActCycle);
 		}
+
+		testSprite.look.act(delta);
 		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * REPEAT_TIMES * deltaY,
 				(int) testSprite.look.getYPosition());
 	}
