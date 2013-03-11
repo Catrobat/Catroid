@@ -1170,8 +1170,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
 
 		// "new" .getSize requires API 13, so supress for current build configuration	
-		projectManager.getCurrentProject().virtualScreenHeight = display.getHeight();
-		projectManager.getCurrentProject().virtualScreenWidth = display.getWidth();
+
 	}
 
 	private void corruptProjectXML(String projectName) {
