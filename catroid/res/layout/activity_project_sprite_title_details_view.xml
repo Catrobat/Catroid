@@ -41,8 +41,7 @@
         android:shadowRadius="1.5"
         android:singleLine="true"
         android:textColor="@color/spritelist_item_text_color"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textSize="22sp" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -55,8 +54,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="12.5dp"
             android:textColor="@color/spritelist_details_text_color"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textView_number_of_looks"
@@ -65,8 +63,7 @@
             android:layout_below="@id/textView_number_of_scripts"
             android:paddingLeft="12.5dp"
             android:textColor="@color/spritelist_details_text_color"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textView_number_of_bricks"
@@ -75,8 +72,7 @@
             android:layout_toRightOf="@id/textView_number_of_scripts"
             android:paddingLeft="39dp"
             android:textColor="@color/spritelist_details_text_color"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textView_number_of_sounds"
@@ -86,8 +82,7 @@
             android:layout_toRightOf="@id/textView_number_of_scripts"
             android:paddingLeft="39dp"
             android:textColor="@color/spritelist_details_text_color"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
     </RelativeLayout>
 
 </RelativeLayout>
