@@ -34,7 +34,6 @@ import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -142,7 +141,6 @@ public class Project implements Serializable {
 	}
 
 	public void setName(String name) {
-		Log.d("org.catrobat.catroid", "Project: setName():" + name);
 		this.programName = name;
 	}
 

@@ -25,7 +25,6 @@ package org.catrobat.catroid.stage;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
@@ -41,18 +40,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Color;
-import android.util.Log;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.FPSLogger;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
@@ -429,16 +424,6 @@ public class StageListener implements ApplicationListener {
 		Bitmap bitmap = Bitmap.createBitmap(colors, 0, screenshotWidth, screenshotWidth, screenshotHeight,
 				Config.ARGB_8888);
 
-		final Pixmap tmpPixmap = new Pixmap(screenshotWidth, screenshotHeight, Format.RGBA8888);
-		ByteBuffer tmpPixels = tmpPixmap.getPixels();
-		Gdx.gl.glReadPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight, GL10.GL_RGBA,
-				GL10.GL_UNSIGNED_BYTE, tmpPixels);
-
-		Log.d("org.catrobat.catroid", "screenshot got pixel val [10]   :" + Integer.toHexString(colors[10]));
-		Log.d("org.catrobat.catroid", "screenshot got pixel val [10000]:" + Integer.toHexString(colors[10000]));
-
-		Log.d("org.catrobat.catroid", "secondary val   :" + Integer.toHexString(tmpPixmap.getPixel(10, 10)));
-		Log.d("org.catrobat.catroid", "secondary val   :" + Integer.toHexString(tmpPixmap.getPixel(100, 100)));
 		FileHandle image = Gdx.files.absolute(pathForScreenshot + SCREENSHOT_FILE_NAME);
 		OutputStream stream = image.write(false);
 		try {

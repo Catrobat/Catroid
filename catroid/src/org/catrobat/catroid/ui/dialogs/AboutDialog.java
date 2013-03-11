@@ -45,7 +45,6 @@ public class AboutDialog extends Dialog {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		//something
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dialog_about);
 
