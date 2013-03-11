@@ -26,7 +26,6 @@ import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.actions.ChangeYByNAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
@@ -105,15 +104,32 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	public void testNestedRepeatBrick() throws InterruptedException {
 		final int deltaY = -10;
 
-		ChangeYByNAction nestedRepeatChangeYByNAction = ExtendedActions.changeYByN(testSprite, new Formula(deltaY));
-		RepeatAction nestedRepeatAction = ExtendedActions.repeat(testSprite, new Formula(REPEAT_TIMES),
-				nestedRepeatChangeYByNAction);
-		RepeatAction action = ExtendedActions.repeat(testSprite, new Formula(REPEAT_TIMES), nestedRepeatAction);
-		while (!action.act(1.0f)) {
-		}
-		int executedCount = (Integer) Reflection.getPrivateField(action, "executedCount");
+		testSprite.removeAllScripts();
+		Script testScript = new StartScript(testSprite);
 
-		assertEquals("Executed the wrong number of times!", REPEAT_TIMES, executedCount);
+		RepeatBrick repeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		RepeatBrick nestedRepeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
+		LoopEndBrick nestedLoopEndBrick = new LoopEndBrick(testSprite, nestedRepeatBrick);
+		nestedRepeatBrick.setLoopEndBrick(nestedLoopEndBrick);
+
+		testScript.addBrick(repeatBrick);
+		testScript.addBrick(nestedRepeatBrick);
+		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(nestedLoopEndBrick);
+		testScript.addBrick(loopEndBrick);
+
+		testSprite.addScript(testScript);
+		testSprite.createStartScriptActionSequence();
+
+		for (int index = 0; index < REPEAT_TIMES * REPEAT_TIMES; index++) {
+
+			for (float time = 0f; time < delta * 10; time += delta) {
+				testSprite.look.act(delta);
+			}
+		}
 		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * REPEAT_TIMES * deltaY,
 				(int) testSprite.look.getYPosition());
 	}
