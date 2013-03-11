@@ -61,6 +61,9 @@ public class InternFormulaUtils {
 		} while (tempSearchToken.getInternTokenType() != InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN
 				|| nestedFunctionsCounter != 0);
 
+		if (functionIndex < 0) {
+			return null;
+		}
 		tempSearchToken = internTokenList.get(functionIndex);
 
 		if (tempSearchToken.getInternTokenType() != InternTokenType.FUNCTION_NAME) {
@@ -108,6 +111,9 @@ public class InternFormulaUtils {
 		} while (tempSearchToken.getInternTokenType() != InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN
 				|| nestedFunctionsCounter != 0);
 
+		if (functionIndex < 0) {
+			return null;
+		}
 		tempSearchToken = internTokenList.get(functionIndex);
 
 		if (tempSearchToken.getInternTokenType() != InternTokenType.FUNCTION_NAME) {
@@ -433,13 +439,13 @@ public class InternFormulaUtils {
 
 	public static List<InternToken> replaceFunctionByTokens(List<InternToken> functionToReplace,
 			List<InternToken> internTokensToReplaceWith) {
-	
+
 		if (isFunctionToken(internTokensToReplaceWith)) {
-	
+
 			return replaceFunctionButKeepParameters(functionToReplace, internTokensToReplaceWith);
-	
+
 		} else {
-	
+
 			return internTokensToReplaceWith;
 		}
 	}
@@ -449,130 +455,130 @@ public class InternFormulaUtils {
 		String numberString = numberTokenToBeModified.getTokenSringValue();
 		String leftPart = numberString.substring(0, externNumberOffset);
 		String rightPart = numberString.substring(externNumberOffset);
-	
+
 		numberTokenToBeModified.setTokenStringValue(leftPart + numberToInsert + rightPart);
-	
+
 		return numberTokenToBeModified;
-	
+
 	}
 
 	static List<InternToken> replaceFunctionButKeepParameters(List<InternToken> functionToReplace,
 			List<InternToken> functionToReplaceWith) {
-	
+
 		List<List<InternToken>> keepParameterInternTokenList = getFunctionParameterInternTokensAsLists(functionToReplace);
 		List<InternToken> replacedParametersFunction = new LinkedList<InternToken>();
 		List<List<InternToken>> originalParameterInternTokenList = getFunctionParameterInternTokensAsLists(functionToReplaceWith);
-	
+
 		if (functionToReplace == null || keepParameterInternTokenList == null
 				|| originalParameterInternTokenList == null) {
 			return functionToReplaceWith;
 		}
-	
+
 		if (functionToReplace.size() < 4 || functionToReplaceWith.size() < 4) {
 			return functionToReplaceWith;
 		}
-	
+
 		if (functionToReplace.get(0).getInternTokenType() != InternTokenType.FUNCTION_NAME) {
 			return null;
 		}
-	
+
 		if (functionToReplace.get(1).getInternTokenType() != InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN) {
 			return null;
 		}
-	
+
 		replacedParametersFunction.add(functionToReplaceWith.get(0));
 		replacedParametersFunction.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-	
+
 		int functionParameterCount = getFunctionParameterCount(functionToReplaceWith);
-	
+
 		for (int index = 0; index < functionParameterCount; index++) {
 			if (index < keepParameterInternTokenList.size() && keepParameterInternTokenList.get(index).size() > 0) {
 				replacedParametersFunction.addAll(keepParameterInternTokenList.get(index));
 			} else {
 				replacedParametersFunction.addAll(originalParameterInternTokenList.get(index));
 			}
-	
+
 			if (index < functionParameterCount - 1) {
 				replacedParametersFunction.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
 			}
-	
+
 		}
-	
+
 		replacedParametersFunction.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-	
+
 		return replacedParametersFunction;
-	
+
 	}
 
 	static int getFunctionParameterCount(List<InternToken> functionInternTokenList) {
-	
+
 		if (functionInternTokenList == null) {
 			return 0;
 		}
-	
+
 		if (functionInternTokenList.size() < 4) {
 			return 0;
 		}
-	
+
 		if (functionInternTokenList.get(0).getInternTokenType() != InternTokenType.FUNCTION_NAME) {
 			return 0;
 		}
-	
+
 		if (functionInternTokenList.get(1).getInternTokenType() != InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN) {
 			return 0;
 		}
-	
+
 		int searchIndex = 2;
-	
+
 		InternToken tempSearchToken;
 		int nestedFunctionsCounter = 1;
-	
+
 		int functionParameterCount = 1;
 		do {
 			if (searchIndex >= functionInternTokenList.size()) {
 				return 0;
 			}
-	
+
 			tempSearchToken = functionInternTokenList.get(searchIndex);
-	
+
 			if (tempSearchToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN) {
 				nestedFunctionsCounter++;
 			} else if (tempSearchToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE) {
 				nestedFunctionsCounter--;
 			} else if (nestedFunctionsCounter == 1
 					&& tempSearchToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETER_DELIMITER) {
-	
+
 				functionParameterCount++;
-	
+
 			}
 			searchIndex++;
-	
+
 		} while (tempSearchToken.getInternTokenType() != InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE
 				|| nestedFunctionsCounter != 0);
 		return functionParameterCount;
 	}
 
 	public static InternToken deleteNumberByOffset(InternToken cursorPositionInternToken, int externNumberOffset) {
-	
+
 		String numberString = cursorPositionInternToken.getTokenSringValue();
-	
+
 		if (externNumberOffset < 1) {
 			return cursorPositionInternToken;
 		}
-	
+
 		if (externNumberOffset > numberString.length()) {
 			externNumberOffset = numberString.length();
 		}
-	
+
 		String leftPart = numberString.substring(0, externNumberOffset - 1);
 		String rightPart = numberString.substring(externNumberOffset);
-	
+
 		cursorPositionInternToken.setTokenStringValue(leftPart + rightPart);
-	
+
 		if (cursorPositionInternToken.getTokenSringValue().length() == 0) {
 			return null;
 		}
-	
+
 		return cursorPositionInternToken;
 	}
 

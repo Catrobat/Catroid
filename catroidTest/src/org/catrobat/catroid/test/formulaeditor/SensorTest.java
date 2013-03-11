@@ -66,6 +66,21 @@ public class SensorTest extends InstrumentationTestCase {
 		super.tearDown();
 	}
 
+	public void testSensorManagerNotInitialized() {
+		SensorHandler.registerListener(null);
+		SensorHandler.unregisterListener(null);
+		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
+		assertEquals("SensorHandler not initialized value error", 0d,
+				SensorHandler.getSensorValue(Sensors.X_ACCELERATION));
+	}
+
+	public void testSensorHandlerWithLookSensorValue() {
+		SensorHandler.startSensorListener(getInstrumentation().getContext());
+		assertEquals("SensorHandler returned wrong value when Sensor is not found in List", 0d,
+				SensorHandler.getSensorValue(Sensors.LOOK_BRIGHTNESS));
+		SensorHandler.stopSensorListeners();
+	}
+
 	public void testSensors() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 

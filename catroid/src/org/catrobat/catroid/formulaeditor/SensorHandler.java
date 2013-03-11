@@ -83,14 +83,10 @@ public class SensorHandler implements SensorEventListener {
 		instance.sensorManager.unregisterListener(instance);
 	}
 
-	public static void stopSensorListeners(SensorEventListener listener) {
-		if (instance == null) {
-			return;
-		}
-		instance.sensorManager.unregisterListener(listener);
-	}
-
 	public static Double getSensorValue(Sensors sensor) {
+		if (instance.sensorManager == null) {
+			return 0d;
+		}
 		Double sensorValue = 0.0;
 		switch (sensor) {
 
@@ -111,9 +107,7 @@ public class SensorHandler implements SensorEventListener {
 				return sensorValue * radianToDegreeConst;
 
 			case X_ORIENTATION:
-				if (instance.sensorManager == null) {
-					return 0d;
-				}
+
 				orientations = new float[3];
 				getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
@@ -121,9 +115,6 @@ public class SensorHandler implements SensorEventListener {
 				return sensorValue * radianToDegreeConst;
 
 			case Y_ORIENTATION:
-				if (instance.sensorManager == null) {
-					return 0d;
-				}
 				orientations = new float[3];
 				getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
