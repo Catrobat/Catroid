@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -218,6 +220,159 @@ public class InternFormulaUtilsTest extends InstrumentationTestCase {
 									.compareTo(internTokens.get(index).getTokenSringValue()) == 0);
 
 		}
+	}
 
+	public void testgetFunctionParameterInternTokensAsListsOnErrorInput() {
+
+		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+
+		assertNull("InternToken list is null", InternFormulaUtils.getFunctionParameterInternTokensAsLists(null));
+		assertNull("InternToken list is too small",
+				InternFormulaUtils.getFunctionParameterInternTokensAsLists(internTokens));
+
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+
+		assertNull("First token is not a FunctionName Token",
+				InternFormulaUtils.getFunctionParameterInternTokensAsLists(internTokens));
+
+		internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+
+		assertNull("Second token is not a Bracket Token",
+				InternFormulaUtils.getFunctionParameterInternTokensAsLists(internTokens));
+
+		internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+
+		assertNull("Function has no close bracket in list",
+				InternFormulaUtils.getFunctionParameterInternTokensAsLists(internTokens));
+	}
+
+	public void testIsFunction() {
+
+		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+
+		assertFalse("List contains more elements than just ONE function", InternFormulaUtils.isFunction(internTokens));
+
+	}
+
+	public void testgetFirstInternTokenTypeOnErrorInput() throws NoSuchMethodException, IllegalArgumentException,
+			IllegalAccessException, InvocationTargetException {
+
+		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+
+		Method method = InternFormulaUtils.class.getDeclaredMethod("getFirstInternTokenType", List.class);
+		method.setAccessible(true);
+
+		Object[] arguments = new Object[1];
+		arguments[0] = null;
+		assertNull("Token list is null", method.invoke(null, arguments));
+		arguments[0] = internTokens;
+		assertNull("Token list is null", method.invoke(null, arguments));
+
+	}
+
+	public void testisPeriodTokenOnError() {
+
+		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+
+		assertFalse("Shoult return false, when parameter is null", InternFormulaUtils.isPeriodToken(null));
+		assertFalse("List size not equal to 1", InternFormulaUtils.isPeriodToken(internTokens));
+
+	}
+
+	public void testisFunctionTokenOnError() {
+
+		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+
+		assertFalse("Should return false on null", InternFormulaUtils.isFunctionToken(null));
+		assertFalse("Should return false when List size < 1", InternFormulaUtils.isFunctionToken(internTokens));
+
+	}
+
+	public void testIsNumberOnError() {
+
+		assertFalse("Should return false if parameter is null", InternFormulaUtils.isNumberToken(null));
+
+	}
+
+	public void testreplaceFunctionButKeepParametersOnError() {
+
+		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME));
+
+		assertNull("Should return null if functionToReplace is null",
+				InternFormulaUtils.replaceFunctionButKeepParameters(null, null));
+
+		assertEquals("Function without params whould return null", internTokens,
+				InternFormulaUtils.replaceFunctionButKeepParameters(internTokens, internTokens));
+
+	}
+
+	public void testgetFunctionParameterCountOnError() throws NoSuchMethodException, IllegalArgumentException,
+			IllegalAccessException, InvocationTargetException {
+
+		Method method = InternFormulaUtils.class.getDeclaredMethod("getFunctionParameterCount", List.class);
+		method.setAccessible(true);
+
+		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+
+		Object[] params = new Object[1];
+		params[0] = null;
+		assertEquals("Should return 0 if List is null", 0, method.invoke(null, params));
+		params[0] = internTokens;
+		assertEquals("Should return 0 if List size < 4", 0, method.invoke(null, params));
+		internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+		params[0] = internTokens;
+		assertEquals("Should return 0 if first Token is not a function name token", 0, method.invoke(null, params));
+		internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+		params[0] = internTokens;
+		assertEquals("Should return 0 if second Token is not a function bracket open token", 0,
+				method.invoke(null, params));
+		internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+		internTokens.add(new InternToken(InternTokenType.NUMBER));
+		params[0] = internTokens;
+		assertEquals("Should return 0 if function list does not contain a bracket close token", 0,
+				method.invoke(null, params));
+
+	}
+
+	public void testDeleteNumberByOffset() {
+		InternToken numberToken = new InternToken(InternTokenType.NUMBER, "1.1");
+
+		assertTrue("Wrong charakter deletd", InternFormulaUtils.deleteNumberByOffset(numberToken, 0) == numberToken);
 	}
 }

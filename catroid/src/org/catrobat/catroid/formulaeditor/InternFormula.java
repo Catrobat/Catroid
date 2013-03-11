@@ -767,7 +767,7 @@ public class InternFormula {
 			List<InternToken> functionInternTokens = InternFormulaUtils.getFunctionByName(internTokenFormulaList,
 					cursorPositionInternTokenIndex);
 
-			if (functionInternTokens.size() == 0) {
+			if (functionInternTokens == null) {
 				return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 			}
 

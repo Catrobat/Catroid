@@ -375,6 +375,10 @@ public class InternFormulaUtils {
 	}
 
 	private static InternTokenType getFirstInternTokenType(List<InternToken> internTokens) {
+		if (internTokens == null) {
+			return null;
+		}
+
 		if (internTokens.size() == 0) {
 			return null;
 		}
@@ -385,15 +389,15 @@ public class InternFormulaUtils {
 
 	public static boolean isPeriodToken(List<InternToken> internTokens) {
 
-		if (internTokens.size() > 1) {
+		if (internTokens == null) {
 			return false;
 		}
 
-		InternTokenType firstInternTokenType = getFirstInternTokenType(internTokens);
-
-		if (firstInternTokenType == null) {
+		if (internTokens.size() != 1) {
 			return false;
 		}
+
+		InternTokenType firstInternTokenType = internTokens.get(0).getInternTokenType();
 
 		if (firstInternTokenType == InternTokenType.PERIOD) {
 			return true;
@@ -420,16 +424,15 @@ public class InternFormulaUtils {
 
 	public static boolean isNumberToken(List<InternToken> internTokens) {
 
-		if (internTokens.size() > 1) {
-			return false;
-		}
-
 		InternTokenType firstInternTokenType = getFirstInternTokenType(internTokens);
 
 		if (firstInternTokenType == null) {
 			return false;
 		}
 
+		if (internTokens.size() > 1) {
+			return false;
+		}
 		if (firstInternTokenType == InternTokenType.NUMBER) {
 			return true;
 		}
@@ -462,7 +465,7 @@ public class InternFormulaUtils {
 
 	}
 
-	static List<InternToken> replaceFunctionButKeepParameters(List<InternToken> functionToReplace,
+	public static List<InternToken> replaceFunctionButKeepParameters(List<InternToken> functionToReplace,
 			List<InternToken> functionToReplaceWith) {
 
 		List<List<InternToken>> keepParameterInternTokenList = getFunctionParameterInternTokensAsLists(functionToReplace);
@@ -472,18 +475,6 @@ public class InternFormulaUtils {
 		if (functionToReplace == null || keepParameterInternTokenList == null
 				|| originalParameterInternTokenList == null) {
 			return functionToReplaceWith;
-		}
-
-		if (functionToReplace.size() < 4 || functionToReplaceWith.size() < 4) {
-			return functionToReplaceWith;
-		}
-
-		if (functionToReplace.get(0).getInternTokenType() != InternTokenType.FUNCTION_NAME) {
-			return null;
-		}
-
-		if (functionToReplace.get(1).getInternTokenType() != InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN) {
-			return null;
 		}
 
 		replacedParametersFunction.add(functionToReplaceWith.get(0));

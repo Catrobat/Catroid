@@ -26,15 +26,19 @@ package org.catrobat.catroid.test.formulaeditor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.ExternInternRepresentationMapping;
 import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormula;
+import org.catrobat.catroid.formulaeditor.InternFormula.CursorTokenPropertiesAfterModification;
+import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
 import org.catrobat.catroid.formulaeditor.InternFormulaTokenSelection;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
+import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.InstrumentationTestCase;
@@ -72,6 +76,15 @@ public class InternFormulaTest extends InstrumentationTestCase {
 				getInstrumentation().getTargetContext(), null);
 
 		assertTrue("Enter decimal mark error", internTokens.get(1).getTokenSringValue().compareTo("0.") == 0);
+
+		internTokens = new ArrayList<InternToken>();
+		internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(0, false);
+		internFormula.handleKeyInput(R.id.formula_editor_keyboard_decimal_mark,
+				getInstrumentation().getTargetContext(), null);
+
+		assertTrue("Enter decimal mark error", internTokens.get(0).getTokenSringValue().compareTo("0.") == 0);
 	}
 
 	public void testInsertLeftToCurrentToken() {
@@ -531,6 +544,27 @@ public class InternFormulaTest extends InstrumentationTestCase {
 				internFormula.getExternCursorPosition());
 	}
 
+	public void testSelectCursorPositionInternTokenOnError() throws IllegalArgumentException, IllegalAccessException,
+			InvocationTargetException, NoSuchMethodException {
+
+		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.BRACKET_OPEN));
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+		InternFormula internFormula = new InternFormula(internTokens);
+
+		Method method = InternFormula.class.getDeclaredMethod("selectCursorPositionInternToken",
+				TokenSelectionType.class);
+		method.setAccessible(true);
+
+		Object[] arguments = new Object[1];
+		arguments[0] = InternFormula.TokenSelectionType.USER_SELECTION;
+
+		Reflection.setPrivateField(internFormula, "cursorPositionInternToken", null);
+		method.invoke(internFormula, arguments);
+
+		assertNull("Selection changed!", Reflection.getPrivateField(internFormula, "internFormulaTokenSelection"));
+	}
+
 	public void testSelectCursorPositionInternToken() throws IllegalArgumentException, IllegalAccessException,
 			InvocationTargetException, NoSuchMethodException {
 
@@ -597,22 +631,80 @@ public class InternFormulaTest extends InstrumentationTestCase {
 
 	}
 
-	//	public void testSetCursorPositionAndSelectionAfterInput() {
-	//		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
-	//		internTokens.add(new InternToken(InternTokenType.NUMBER, "1"));
-	//
-	//		InternFormula internFormula = new InternFormula(internTokens);
-	//		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
-	//
-	//		internFormula.setCursorAndSelection(1, false);
-	//		String externFormulaString = internFormula.getExternFormulaString();
-	//
-	//		internFormula
-	//				.handleKeyInput(R.id.formula_editor_keyboard_delete, getInstrumentation().getTargetContext(), null);
-	//
-	//		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
-	//		assertTrue("ExternFormulaString changed on buggy input!",
-	//				internFormula.getExternFormulaString().compareTo(externFormulaString) == 0);
-	//
-	//	}
+	public void testreplaceCursorPositionInternTokenByTokenList() throws NoSuchMethodException,
+			IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+
+		Method method = InternFormula.class
+				.getDeclaredMethod("replaceCursorPositionInternTokenByTokenList", List.class);
+		method.setAccessible(true);
+
+		List<InternToken> tokensToReplaceWith = new ArrayList<InternToken>();
+		tokensToReplaceWith.add(new InternToken(InternTokenType.NUMBER, "1"));
+
+		Object[] arguments = new Object[1];
+		arguments[0] = tokensToReplaceWith;
+
+		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+		InternFormula internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(1, true);
+
+		Reflection.setPrivateField(internFormula, "cursorPositionInternTokenIndex", -1);
+
+		assertEquals("Do not modify on error", CursorTokenPropertiesAfterModification.DO_NOT_MODIFY,
+				method.invoke(internFormula, arguments));
+
+		tokensToReplaceWith = new ArrayList<InternToken>();
+		tokensToReplaceWith.add(new InternToken(InternTokenType.PERIOD));
+		arguments = new Object[1];
+		arguments[0] = tokensToReplaceWith;
+
+		assertEquals("Do not modify on when second period token is inserted",
+				CursorTokenPropertiesAfterModification.DO_NOT_MODIFY, method.invoke(internFormula, arguments));
+
+		internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "4242"));
+		internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(1, false);
+		Reflection.setPrivateField(internFormula, "cursorPositionInternTokenIndex", -1);
+
+		assertEquals("Do not modify on error", CursorTokenPropertiesAfterModification.DO_NOT_MODIFY,
+				method.invoke(internFormula, arguments));
+
+		internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+		internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(1, false);
+
+		assertEquals("Do not modify on error", CursorTokenPropertiesAfterModification.DO_NOT_MODIFY,
+				method.invoke(internFormula, arguments));
+
+		internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.SENSOR, Sensors.LOOK_BRIGHTNESS.name()));
+		internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(1, false);
+
+		assertEquals("Do not modify on error", CursorTokenPropertiesAfterModification.RIGHT,
+				method.invoke(internFormula, arguments));
+
+		internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.SENSOR, Sensors.LOOK_BRIGHTNESS.name()));
+		internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(1, false);
+
+		tokensToReplaceWith = new ArrayList<InternToken>();
+		tokensToReplaceWith.add(new InternToken(InternTokenType.FUNCTION_NAME));
+		arguments = new Object[1];
+		arguments[0] = tokensToReplaceWith;
+
+		assertEquals("Do not modify on error", CursorTokenPropertiesAfterModification.RIGHT,
+				method.invoke(internFormula, arguments));
+
+	}
 }
