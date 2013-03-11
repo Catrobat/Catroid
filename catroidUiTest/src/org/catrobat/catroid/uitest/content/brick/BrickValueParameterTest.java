@@ -159,7 +159,11 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		solo.clickOnScreen(200, 200);
 
 		EditText goBackEditText = (EditText) solo.getView(R.id.brick_go_back_edit_text);
-		int goBackEditTextValue = Integer.parseInt(goBackEditText.getText().toString());
+		// Formula appends a blank after the value, so last character has to be deleted
+		// before parsing an int from the string
+		String goBackEditTextString = goBackEditText.getText().toString();
+		int goBackEditTextValue = Integer
+				.parseInt(goBackEditTextString.substring(0, goBackEditTextString.length() - 1));
 		assertEquals("Value in Selected Brick GoBack is not correct", BrickValues.GO_BACK, goBackEditTextValue);
 	}
 
@@ -223,12 +227,12 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 
 		TextView setVolumeToTextView = (TextView) solo.getView(R.id.brick_set_volume_to_prototype_text_view);
 		float setVolumeToPrototypeValue = Float.parseFloat(setVolumeToTextView.getText().toString());
-		assertEquals("Value in Brick SetVolumenTo is not correct", (float) BrickValues.SET_VOLUME_TO,
+		assertEquals("Value in Brick SetVolumeTo is not correct", (float) BrickValues.SET_VOLUME_TO,
 				setVolumeToPrototypeValue);
 
-		TextView changeVolumeToTextView = (TextView) solo.getView(R.id.brick_change_volume_by_prototype_text_view);
-		float changeVolumenToPrototypeValue = Float.parseFloat(changeVolumeToTextView.getText().toString());
-		assertEquals("Value in Brick SetVolumenTo is not correct", (float) BrickValues.CHANGE_VOLUME_BY,
+		TextView changeVolumeByTextView = (TextView) solo.getView(R.id.brick_change_volume_by_prototype_text_view);
+		float changeVolumenToPrototypeValue = Float.parseFloat(changeVolumeByTextView.getText().toString());
+		assertEquals("Value in Brick ChangeVolumeBy is not correct", (float) BrickValues.CHANGE_VOLUME_BY,
 				changeVolumenToPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_speak));
@@ -243,6 +247,21 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		EditText speakEditText = (EditText) solo.getView(R.id.brick_speak_edit_text);
 		String speakEditTextValue = speakEditText.getText().toString();
 		assertEquals("Value in Selected Brick Speak is not correct", defaultSpeakValue, speakEditTextValue);
+
+		solo.sleep(500);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.clickOnText(categorySoundText);
+		solo.clickOnText(solo.getString(R.string.brick_change_volume_by));
+		solo.clickOnScreen(200, 200);
+
+		EditText changeVolumeByEditText = (EditText) solo.getView(R.id.brick_change_volume_by_edit_text);
+		// Formula appends a blank after the value, so last character has to be deleted
+		// before parsing an int from the string
+		// in this case, between the minus operator and the value there is a blank also
+		String changeVolumeByEditTextString = changeVolumeByEditText.getText().toString();
+		float changeVolumeByEditTextValue = Float.parseFloat(changeVolumeByEditTextString.replaceAll(" ", ""));
+		assertEquals("Value in Selected Brick ChangeVolumeBy is not correct", BrickValues.CHANGE_VOLUME_BY,
+				changeVolumeByEditTextValue);
 	}
 
 	@Smoke
@@ -271,7 +290,11 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		solo.clickOnScreen(200, 200);
 
 		EditText repeatEditText = (EditText) solo.getView(R.id.brick_repeat_edit_text);
-		int repeatEditTextValue = Integer.parseInt(repeatEditText.getText().toString());
+		// Formula appends a blank after the value, so last character has to be deleted
+		// before parsing an int from the string
+		String repeatEditTextString = repeatEditText.getText().toString();
+		int repeatEditTextValue = Integer
+				.parseInt(repeatEditTextString.substring(0, repeatEditTextString.length() - 1));
 		assertEquals("Value in Selected Brick Repeat is not correct", BrickValues.REPEAT, repeatEditTextValue);
 	}
 
@@ -292,21 +315,24 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 
 		solo.searchText(solo.getString(R.string.nxt_play_tone));
 		TextView nxtPlayToneSecondsTextView = (TextView) solo.getView(R.id.nxt_tone_duration_text_view);
-		float nXTPlayTonePrototypeValue = Float.parseFloat(nxtPlayToneSecondsTextView.getText().toString());
-		assertEquals("Value in Brick NXTPlayTone is not correct", (float) BrickValues.LEGO_DURATION / 1000,
-				nXTPlayTonePrototypeValue);
+		int nXTPlayTonePrototypeValue = Integer.parseInt(nxtPlayToneSecondsTextView.getText().toString());
+		assertEquals("Value in Brick NXTPlayTone is not correct", BrickValues.LEGO_DURATION, nXTPlayTonePrototypeValue);
 
 		TextView nxtPlayToneFreqTextView = (TextView) solo.getView(R.id.nxt_tone_freq_text_view);
 		int nXTPlayToneFreqPrototypeValue = Integer.parseInt(nxtPlayToneFreqTextView.getText().toString());
-		assertEquals("Value in Brick NXTPlayTone is not correct", BrickValues.LEGO_FREQUENCY / 100,
+		assertEquals("Value in Brick NXTPlayTone is not correct", BrickValues.LEGO_FREQUENCY,
 				nXTPlayToneFreqPrototypeValue);
 
 		solo.clickOnText(solo.getString(R.string.nxt_play_tone));
 		solo.clickOnScreen(200, 200);
 
 		EditText nxtPlayToneEditText = (EditText) solo.getView(R.id.nxt_tone_freq_edit_text);
-		int nxtPlayToneEditTextValue = Integer.parseInt(nxtPlayToneEditText.getText().toString());
-		assertEquals("Value in Selected Brick Repeat is not correct", BrickValues.LEGO_FREQUENCY / 100,
+		// Formula appends a blank after the value, so last character has to be deleted
+		// before parsing an int from the string
+		String nxtPlayToneEditTextString = nxtPlayToneEditText.getText().toString();
+		int nxtPlayToneEditTextValue = Integer.parseInt(nxtPlayToneEditTextString.substring(0,
+				nxtPlayToneEditTextString.length() - 1));
+		assertEquals("Value in Selected Brick Repeat is not correct", BrickValues.LEGO_FREQUENCY,
 				nxtPlayToneEditTextValue);
 	}
 

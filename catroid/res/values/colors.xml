@@ -33,6 +33,8 @@
     <color name="gray">#808080</color>
     <color name="actionbar_background">#002534</color>
     <color name="actionbar_title_color">#6F8E9B</color>
+    <color name="transparent">#00000000 </color>
+    <color name="formula_editor_background">#FFFFFF</color>
 
     <!-- Main Menu Colors -->
     <color name="main_menu_button_text_color">#A8DFF4</color>

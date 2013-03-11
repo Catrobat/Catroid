@@ -25,20 +25,21 @@ package org.catrobat.catroid.test.content.actions;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import android.test.AndroidTestCase;
 
 public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 
-	private final float brighter = 50.5f;
-	private final float dimmer = -20.8f;
+	private final Formula brighter = new Formula(50.5f);
+	private final Formula dimmer = new Formula(-20.8f);
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite brightness value", 1f, sprite.look.getBrightnessValue());
 
 		float brightness = sprite.look.getBrightnessValue();
-		brightness += brighter / 100f;
+		brightness += brighter.interpretFloat(sprite) / 100f;
 
 		ChangeBrightnessByNAction action1 = ExtendedActions.changeBrightnessByN(sprite, brighter);
 		sprite.look.addAction(action1);
@@ -47,7 +48,7 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 				sprite.look.getBrightnessValue());
 
 		brightness = sprite.look.getBrightnessValue();
-		brightness += dimmer / 100f;
+		brightness += dimmer.interpretFloat(sprite) / 100f;
 
 		ChangeBrightnessByNAction action2 = ExtendedActions.changeBrightnessByN(sprite, dimmer);
 		sprite.look.addAction(action2);

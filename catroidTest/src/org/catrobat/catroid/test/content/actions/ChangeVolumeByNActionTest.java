@@ -30,6 +30,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.actions.ChangeVolumeByNAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
@@ -43,8 +44,8 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 	private static final int SOUND_FILE_ID = R.raw.testsound;
 	private File soundFile;
 	private String projectName = "projectiName";
-	private float louder = 10.6f;
-	private float softer = -20.3f;
+	private Formula louder = new Formula(10.6f);
+	private Formula softer = new Formula(-20.3f);
 
 	@Override
 	protected void setUp() throws Exception {
@@ -67,17 +68,17 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 		assertEquals("Unexpected initial volume value", 70.0f, SoundManager.getInstance().getVolume());
 
 		float volume = SoundManager.getInstance().getVolume();
-		volume += louder;
+		volume += louder.interpretFloat(null);
 
-		ChangeVolumeByNAction action1 = ExtendedActions.changeVolumeByN(louder);
+		ChangeVolumeByNAction action1 = ExtendedActions.changeVolumeByN(null, louder);
 		action1.act(1.0f);
 		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", volume, SoundManager.getInstance()
 				.getVolume());
 
 		volume = SoundManager.getInstance().getVolume();
-		volume += softer;
+		volume += softer.interpretFloat(null);
 
-		ChangeVolumeByNAction action2 = ExtendedActions.changeVolumeByN(softer);
+		ChangeVolumeByNAction action2 = ExtendedActions.changeVolumeByN(null, softer);
 		action2.act(1.0f);
 		assertEquals("Incorrect sprite size value after ChangeVolumeByNBrick executed", volume, SoundManager
 				.getInstance().getVolume());

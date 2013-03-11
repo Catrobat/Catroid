@@ -35,7 +35,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
 
 public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
@@ -122,7 +122,7 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.playSound(sprite, sound));
 		return null;
 	}
