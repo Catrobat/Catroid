@@ -26,45 +26,36 @@
     android:layout_height="match_parent"
     android:longClickable="true"
     android:orientation="horizontal"
-    android:background="#00475E"
+    android:background="@color/sound_fragment_button_color"
     android:minHeight="90dp" >
 	
     <LinearLayout
         android:id="@+id/checkbox_linear_layout"
         android:layout_width="47dp"
         android:layout_height="match_parent"
-        
-        android:background="#04222C"
-
+        android:background="@color/sound_fragment_background_color"
         android:visibility="gone" >
         <CheckBox
-        android:id="@+id/sound_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-   		android:gravity="right"
-   		android:layout_gravity="center_vertical"
-        android:layout_marginLeft="15dp"
-
-        android:visibility="gone" />
+	        android:id="@+id/sound_checkbox"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	   		android:gravity="right"
+	   		android:layout_gravity="center_vertical"
+	        android:layout_marginLeft="15dp" />
     </LinearLayout>
     
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:paddingTop="2dp"
         android:paddingLeft="21dp"
-        android:paddingRight="28dp"
-        android:paddingBottom="2dp" >
+        android:paddingRight="28dp" >
         
-
         <ImageButton
             android:id="@+id/btn_sound_play"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            
             android:contentDescription="@string/sound_play"
             android:background="@drawable/sound_fragment_icon_border_inactive"
             android:src="@drawable/ic_media_play" />
@@ -73,7 +64,6 @@
             android:id="@+id/btn_sound_pause"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            
             android:contentDescription="@string/sound_pause"
             android:background="@drawable/sound_fragment_icon_border_active"
             android:src="@drawable/ic_media_pause" />
@@ -85,16 +75,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_weight="1"
-        android:paddingLeft="10dp"
         android:gravity="center_vertical" >
 
-        <TextView 
+        <TextView style="@style/sound_fragment_main"
             android:id="@+id/sound_title"
-            android:textColor="#A8DFF4"
-            android:singleLine="true"
-        	android:textSize="22sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        
         <LinearLayout
             android:id="@+id/sound_details_field"
         	android:layout_width="wrap_content"
@@ -106,22 +93,20 @@
         		android:layout_height="wrap_content"
         		android:orientation="vertical">
         	            	
-	            <TextView style="@style/fragment_detail"
+	            <TextView style="@style/sound_fragment_detail"
 	      			android:id="@+id/sound_length"
 	      		 	android:layout_width="wrap_content"
 	       		 	android:layout_height="wrap_content"
-	       		 	android:text="Length:" />
+	       		 	android:text="@string/length" />
 	            
-	            <TextView style="@style/fragment_detail"
+	            <TextView style="@style/sound_fragment_detail"
 	      			android:id="@+id/sound_size_prefix"
 	      		 	android:layout_width="wrap_content"
 	       		 	android:layout_height="wrap_content"
-	       		 	android:text="Size:"
-	       		 	android:visibility="gone" />	      
-		  		      
+	       		 	android:text="@string/size"
+	       		 	android:visibility="gone" />	        		      
         	</LinearLayout>
 			
-        	
         	<LinearLayout 
         	    android:id="@+id/sound_details_right"
         		android:layout_width="wrap_content"
@@ -134,14 +119,14 @@
         			android:layout_height="wrap_content"
         			android:orientation="horizontal">
         			
-	                <Chronometer style="@style/fragment_detail"
+	                <Chronometer style="@style/sound_fragment_detail"
 		        		android:id="@+id/sound_chronometer_time_played"
 		        		android:layout_width="wrap_content"
 		        		android:layout_height="wrap_content"
 		        		android:layout_gravity="right|center_vertical"
 		        		android:visibility="gone" />
         				     
-		  		   	<TextView style="@style/fragment_detail"
+		  		   	<TextView style="@style/sound_fragment_detail"
 		        		android:id="@+id/sound_time_seperator"
 		        		android:layout_width="wrap_content"
 		        		android:layout_height="wrap_content"
@@ -151,30 +136,19 @@
 		        		android:text="@string/sound_time_seperator"
 		        		android:visibility="gone" />
 		  		   	
-		  		   	<TextView style="@style/fragment_detail"
+		  		   	<TextView style="@style/sound_fragment_detail"
 		      			android:id="@+id/sound_duration"
 		      		 	android:layout_width="wrap_content"
-		       		 	android:layout_height="wrap_content"
-		       		 	android:layout_marginRight="6dp" />
-		  		   	
+		       		 	android:layout_height="wrap_content" />
 	            </LinearLayout>
 	            
-	             <TextView
+	             <TextView style="@style/sound_fragment_detail"
 		            android:id="@+id/sound_size"
-		            android:textColor="#BFD0D6"
-		        	android:textSize="14sp"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            android:visibility="gone" />
-        	    
-        	</LinearLayout>
-        	
-	        	
-  		
+		            android:visibility="gone" />     	    
+        	</LinearLayout>	
         </LinearLayout>
-
-
     </LinearLayout>
-
-
 </LinearLayout>
+

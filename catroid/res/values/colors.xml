@@ -40,9 +40,6 @@
     <color name="tab_text_unselected_light_gray">#999999</color>
     <color name="actionbar_background">#002534</color>
     <color name="actionbar_title_color">#FCBB20</color>
-    <color name="fragment_text_main_color">#A8DFF4</color>
-    <color name="fragment_text_detail_color">#BFD0D6</color>
-    <color name="fragment_background_color">#04222C</color>
 
     <!-- Main Menu Colors -->
     <color name="main_menu_button_text_color">#A8DFF4</color>
@@ -52,4 +49,9 @@
     <color name="main_menu_button_background_gradient_end_color">#003F54</color>
     <color name="main_menu_button_background_top_border_color">#4D7F8F</color>
 
+    <!-- Sound Fragment Colors -->
+    <color name="sound_fragment_text_main_color">#A8DFF4</color>
+    <color name="sound_fragment_text_detail_color">#BFD0D6</color>
+    <color name="sound_fragment_background_color">#04222C</color>
+    <color name="sound_fragment_button_color">#00475E</color>
 </resources>

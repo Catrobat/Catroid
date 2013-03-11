@@ -25,7 +25,7 @@
     android:id="@+id/fragment_sound_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fragment_background_color" >
+    android:background="@color/sound_fragment_background_color" >
 
     <!-- Sound list -->
     <ListView
@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:cacheColorHint="#00000000"
-        android:divider="@color/fragment_background_color"
+        android:divider="@color/sound_fragment_background_color"
         android:layout_marginTop="3.5dp"
         android:dividerHeight="3dp" />
 
