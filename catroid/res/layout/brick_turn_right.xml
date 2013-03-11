@@ -41,8 +41,8 @@
     </EditText>
 
     <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_turn_right_degrees" >
+        android:id="@+id/brick_turn_right_degree_text_view"
+        style="@style/BrickText.SingleLine" >
     </TextView>
 
 </LinearLayout>
