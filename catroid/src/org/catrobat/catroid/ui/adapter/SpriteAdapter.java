@@ -41,6 +41,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class SpriteAdapter extends ArrayAdapter<Sprite> {
@@ -65,6 +66,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 	}
 
 	private static class ViewHolder {
+		private RelativeLayout background;
 		private CheckBox checkbox;
 		private TextView text;
 		private LinearLayout backgroundHeadline;
@@ -112,6 +114,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		if (convertView == null) {
 			spriteView = inflater.inflate(R.layout.activity_project_spritelist_item, null);
 			holder = new ViewHolder();
+			holder.background = (RelativeLayout) spriteView.findViewById(R.id.spritelist_item_background);
 			holder.checkbox = (CheckBox) spriteView.findViewById(R.id.sprite_checkbox);
 			holder.text = (TextView) spriteView.findViewById(R.id.sprite_title);
 			holder.backgroundHeadline = (LinearLayout) spriteView.findViewById(R.id.background_headline);
@@ -196,11 +199,14 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder.objectsHeadline.setVisibility(View.VISIBLE);
 			holder.checkbox.setVisibility(View.GONE);
 			holder.arrow.setVisibility(View.VISIBLE);
+			holder.background.setBackgroundResource(R.drawable.spritelist_item_background);
 		} else {
 			if (selectMode != Constants.SELECT_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
 				holder.arrow.setVisibility(View.GONE);
+				holder.background.setBackgroundResource(R.drawable.spritelist_item_background_shadowed);
 			} else {
+				holder.background.setBackgroundResource(R.drawable.spritelist_item_background);
 				holder.checkbox.setVisibility(View.GONE);
 				holder.arrow.setVisibility(View.VISIBLE);
 				holder.checkbox.setChecked(false);

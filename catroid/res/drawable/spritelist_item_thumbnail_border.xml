@@ -37,7 +37,7 @@
         android:right="1.5dp"
         android:top="1.5dp">
         <shape android:shape="rectangle" >
-            <solid android:color="@color/white" />
+            <solid android:color="@android:color/transparent" />
         </shape>
     </item>
 

@@ -44,6 +44,7 @@
             android:visibility="gone" />
 
         <RelativeLayout
+            android:id="@+id/spritelist_item_background"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@drawable/spritelist_item_background" >
