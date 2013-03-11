@@ -54,6 +54,6 @@ public class BrickValues {
 	public static final String LEGO_MOTOR = "A";
 	public static final int LEGO_ANGLE = 180;
 	public static final int LEGO_SPEED = 100;
-	public static final int LEGO_DURATION = 1000;
-	public static final int LEGO_FREQUENCY = 200;
+	public static final int LEGO_DURATION = 1;
+	public static final int LEGO_FREQUENCY = 2;
 }

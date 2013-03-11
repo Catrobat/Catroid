@@ -131,8 +131,8 @@ public class StageListener implements ApplicationListener {
 
 		project = ProjectManager.getInstance().getCurrentProject();
 
-		virtualWidth = project.virtualScreenWidth;
-		virtualHeight = project.virtualScreenHeight;
+		virtualWidth = project.getXmlHeader().virtualScreenWidth;
+		virtualHeight = project.getXmlHeader().virtualScreenHeight;
 
 		virtualWidthHalf = virtualWidth / 2;
 		virtualHeightHalf = virtualHeight / 2;
@@ -232,6 +232,7 @@ public class StageListener implements ApplicationListener {
 	public void finish() {
 		finished = true;
 		SoundManager.getInstance().clear();
+
 	}
 
 	@Override
