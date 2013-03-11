@@ -23,10 +23,12 @@
 -->
 <resources>
 
+    <color name="solid_red">#f00</color>
     <color name="solid_black">#000</color>
     <color name="solid_white">#FFFFFF</color>
     <color name="backbrown">#59361b</color>
     <color name="white">#FFFFFF</color>
+    <color name="darkblue">#011526</color>
     <color name="egg_yellow">#FA0</color>
     <color name="silver">#CDCDCD</color>
     <color name="dark_gray">#5a5858</color>
