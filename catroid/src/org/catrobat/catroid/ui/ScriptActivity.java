@@ -351,10 +351,20 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-		//Dismiss ActionMode without effecting sounds
+		//Dismiss ActionMode without effecting checked items
 		if (currentFragment != null && currentFragment.getActionModeActive()) {
 			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
 				ListAdapter adapter = currentFragment.getListAdapter();
+				((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
+			}
+		}
+
+		FormulaEditorVariableListFragment formulaEditorVariableListFragment = (FormulaEditorVariableListFragment) getSupportFragmentManager()
+				.findFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
+
+		if (formulaEditorVariableListFragment != null) {
+			if (formulaEditorVariableListFragment.isVisible()) {
+				ListAdapter adapter = formulaEditorVariableListFragment.getListAdapter();
 				((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
 			}
 		}
