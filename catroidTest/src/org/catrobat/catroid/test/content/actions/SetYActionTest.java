@@ -25,12 +25,13 @@ package org.catrobat.catroid.test.content.actions;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.SetYAction;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import android.test.AndroidTestCase;
 
 public class SetYActionTest extends AndroidTestCase {
 
-	private int yPosition = 100;
+	private Formula yPosition = new Formula(100);
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
@@ -40,7 +41,7 @@ public class SetYActionTest extends AndroidTestCase {
 		SetYAction action = ExtendedActions.setY(sprite, yPosition);
 		action.act(1.0f);
 
-		assertEquals("Incorrect sprite y position after SetYBrick executed", (float) yPosition,
+		assertEquals("Incorrect sprite y position after SetYBrick executed", yPosition.interpretFloat(sprite),
 				sprite.look.getYPosition());
 	}
 
@@ -57,13 +58,13 @@ public class SetYActionTest extends AndroidTestCase {
 	public void testBoundaryPositions() {
 		Sprite sprite = new Sprite("testSprite");
 
-		SetYAction action = ExtendedActions.setY(sprite, Integer.MAX_VALUE);
+		SetYAction action = ExtendedActions.setY(sprite, new Formula(Integer.MAX_VALUE));
 		action.act(1.0f);
 
 		assertEquals("SetYBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
 				(int) sprite.look.getYPosition());
 
-		action = ExtendedActions.setY(sprite, Integer.MIN_VALUE);
+		action = ExtendedActions.setY(sprite, new Formula(Integer.MIN_VALUE));
 		action.act(1.0f);
 
 		assertEquals("SetYBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,

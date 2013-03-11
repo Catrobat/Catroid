@@ -30,6 +30,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
@@ -79,6 +80,8 @@ public class Project implements Serializable {
 	@SuppressWarnings("unused")
 	private String userHandle = "";
 
+	private UserVariablesContainer userVariables = null;
+
 	public Project(Context context, String name) {
 		programName = name;
 		description = "";
@@ -93,6 +96,8 @@ public class Project implements Serializable {
 		setDeviceData(context);
 
 		MessageContainer.clear();
+
+		userVariables = new UserVariablesContainer();
 
 		if (context == null) {
 			return;
@@ -173,6 +178,10 @@ public class Project implements Serializable {
 	// default constructor for XMLParser
 	public Project() {
 
+	}
+
+	public UserVariablesContainer getUserVariables() {
+		return userVariables;
 	}
 
 }
