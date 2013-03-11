@@ -33,7 +33,7 @@ import android.test.InstrumentationTestCase;
 
 public class ForeverActionTest extends InstrumentationTestCase {
 
-	private static final int REPEAT_TIMES = 10;
+	private static final int REPEAT_TIMES = 4;
 	private final float delta = 0.005f;
 
 	public void testLoopDelay() throws InterruptedException {

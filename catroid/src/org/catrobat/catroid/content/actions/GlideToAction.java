@@ -80,14 +80,6 @@ public class GlideToAction extends TemporalAction {
 		endY = y;
 	}
 
-	public void setX(Formula x) {
-		endX = x;
-	}
-
-	public void setY(Formula y) {
-		endY = y;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}

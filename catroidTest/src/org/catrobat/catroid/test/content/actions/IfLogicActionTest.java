@@ -85,7 +85,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 
 		testScript = new StartScript(testSprite);
 
-		repeatBrick = new RepeatBrick(testSprite, new Formula(2));
+		repeatBrick = new RepeatBrick(testSprite, 2);
 		ifLogicBeginBrick = new IfLogicBeginBrick(testSprite, validFormula);
 		ifLogicElseBrick = new IfLogicElseBrick(testSprite, ifLogicBeginBrick);
 		ifLogicEndBrick = new IfLogicEndBrick(testSprite, ifLogicElseBrick, ifLogicBeginBrick);
@@ -110,7 +110,9 @@ public class IfLogicActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentScript(testScript);
 
 		testSprite.createStartScriptActionSequence();
-		testSprite.look.act(100f);
+		while (!testSprite.look.getAllActionsAreFinished()) {
+			testSprite.look.act(1f);
+		}
 
 		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);

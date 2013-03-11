@@ -165,6 +165,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 	@Override
 	public boolean onKey(DialogInterface d, int keyCode, KeyEvent event) {
 		Log.i("info", "onKey() in FE-ListFragment! keyCode: " + keyCode);
+		boolean returnValue = false;
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
 				Log.i("info", "KEYCODE_BACK pressed in FE-ListFragment!");
@@ -174,11 +175,10 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 				fragTransaction.show(getSherlockActivity().getSupportFragmentManager().findFragmentByTag(
 						FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
 				fragTransaction.commit();
-				return true;
-			default:
+				returnValue = true;
 				break;
 		}
-		return false;
+		return returnValue;
 	}
 
 }

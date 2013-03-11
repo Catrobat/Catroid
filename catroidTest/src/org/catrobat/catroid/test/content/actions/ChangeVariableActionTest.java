@@ -95,7 +95,7 @@ public class ChangeVariableActionTest extends AndroidTestCase {
 
 		testSprite.createStartScriptActionSequence();
 
-		testSprite.look.act(100f);
+		testSprite.look.act(1f);
 
 		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);

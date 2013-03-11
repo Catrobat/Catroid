@@ -86,15 +86,26 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testRepeatBrick() throws InterruptedException {
+		testSprite.removeAllScripts();
+		Script testScript = new StartScript(testSprite);
+
+		RepeatBrick repeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
 		final int deltaY = -10;
 
-		RepeatAction action = ExtendedActions.repeat(testSprite, new Formula(REPEAT_TIMES),
-				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, new Formula(deltaY))));
-		while (!action.act(1.0f)) {
-		}
-		int executedCount = (Integer) Reflection.getPrivateField(action, "executedCount");
+		testScript.addBrick(repeatBrick);
+		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(loopEndBrick);
 
-		assertEquals("Executed the wrong number of times!", REPEAT_TIMES, executedCount);
+		testSprite.addScript(testScript);
+		testSprite.createStartScriptActionSequence();
+
+		while (!testSprite.look.getAllActionsAreFinished()) {
+			testSprite.look.act(1.0f);
+		}
+
 		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY, (int) testSprite.look.getYPosition());
 	}
 
