@@ -49,6 +49,7 @@ import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
@@ -58,6 +59,9 @@ import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
@@ -78,6 +82,7 @@ import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
@@ -89,6 +94,7 @@ import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
@@ -126,6 +132,7 @@ public class StorageHandler {
 	private void setXstreamAliases() {
 		xstream.alias("look", LookData.class);
 		xstream.alias("sound", SoundInfo.class);
+		xstream.alias("userVariable", UserVariable.class);
 
 		xstream.alias("broadcastScript", BroadcastScript.class);
 		xstream.alias("script", Script.class);
@@ -139,6 +146,7 @@ public class StorageHandler {
 		xstream.alias("changeBrightnessByNBrick", ChangeBrightnessByNBrick.class);
 		xstream.alias("changeGhostEffectByNBrick", ChangeGhostEffectByNBrick.class);
 		xstream.alias("changeSizeByNBrick", ChangeSizeByNBrick.class);
+		xstream.alias("changeVariableBrick", ChangeVariableBrick.class);
 		xstream.alias("changeVolumeByNBrick", ChangeVolumeByNBrick.class);
 		xstream.alias("changeXByNBrick", ChangeXByNBrick.class);
 		xstream.alias("changeYByNBrick", ChangeYByNBrick.class);
@@ -148,6 +156,9 @@ public class StorageHandler {
 		xstream.alias("glideToBrick", GlideToBrick.class);
 		xstream.alias("goNStepsBackBrick", GoNStepsBackBrick.class);
 		xstream.alias("hideBrick", HideBrick.class);
+		xstream.alias("ifLogicBeginBrick", IfLogicBeginBrick.class);
+		xstream.alias("ifLogicElseBrick", IfLogicElseBrick.class);
+		xstream.alias("ifLogicEndBrick", IfLogicEndBrick.class);
 		xstream.alias("ifOnEdgeBounceBrick", IfOnEdgeBounceBrick.class);
 		xstream.alias("legoNxtMotorActionBrick", LegoNxtMotorActionBrick.class);
 		xstream.alias("legoNxtMotorStopBrick", LegoNxtMotorStopBrick.class);
@@ -168,6 +179,7 @@ public class StorageHandler {
 		xstream.alias("setGhostEffectBrick", SetGhostEffectBrick.class);
 		xstream.alias("setLookBrick", SetLookBrick.class);
 		xstream.alias("setSizeToBrick", SetSizeToBrick.class);
+		xstream.alias("setVariableBrick", SetVariableBrick.class);
 		xstream.alias("setVolumeToBrick", SetVolumeToBrick.class);
 		xstream.alias("setXBrick", SetXBrick.class);
 		xstream.alias("setYBrick", SetYBrick.class);

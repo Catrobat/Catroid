@@ -25,12 +25,13 @@ package org.catrobat.catroid.test.content.actions;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ChangeXByNAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import android.test.AndroidTestCase;
 
 public class ChangeXByNActionTest extends AndroidTestCase {
 
-	private int xMovement = 100;
+	private Formula xMovement = new Formula(100);
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
@@ -43,7 +44,7 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
-		xPosition += xMovement;
+		xPosition += xMovement.interpretInteger(sprite);
 		assertEquals("Incorrect sprite x position after ChangeXByNBrick executed", (float) xPosition,
 				sprite.look.getXPosition());
 	}
@@ -64,7 +65,7 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 		int xPosition = 10;
 		sprite.look.setXYPosition(xPosition, sprite.look.getYPosition());
 
-		ChangeXByNAction action = ExtendedActions.changeXByN(sprite, Integer.MAX_VALUE);
+		ChangeXByNAction action = ExtendedActions.changeXByN(sprite, new Formula(Integer.MAX_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
@@ -74,7 +75,7 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 		xPosition = -10;
 		sprite.look.setXYPosition(xPosition, sprite.look.getYPosition());
 
-		action = ExtendedActions.changeXByN(sprite, Integer.MIN_VALUE);
+		action = ExtendedActions.changeXByN(sprite, new Formula(Integer.MIN_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 

@@ -35,10 +35,6 @@ public class ShowAction extends TemporalAction {
 		sprite.look.show = true;
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}

@@ -30,7 +30,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
 
 public class ShowBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -75,7 +75,7 @@ public class ShowBrick implements Brick {
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.show(sprite));
 		return null;
 	}

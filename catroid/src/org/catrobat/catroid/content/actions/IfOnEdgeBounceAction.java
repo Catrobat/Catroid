@@ -85,10 +85,6 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 		sprite.look.setXYPosition(xPosition, yPosition);
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}

@@ -23,42 +23,36 @@
 package org.catrobat.catroid.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class ChangeXByNAction extends TemporalAction {
 
 	private Sprite sprite;
-	private int xMovement;
+	private Formula xMovement;
 
 	@Override
 	protected void update(float percent) {
 		int xPosition = (int) sprite.look.getXPosition();
+		int xMovementValue = xMovement.interpretInteger(sprite);
 
-		if (xPosition > 0 && xMovement > 0 && xPosition + xMovement < 0) {
+		if (xPosition > 0 && xMovementValue > 0 && xPosition + xMovementValue < 0) {
 			xPosition = Integer.MAX_VALUE;
-		} else if (xPosition < 0 && xMovement < 0 && xPosition + xMovement > 0) {
+		} else if (xPosition < 0 && xMovementValue < 0 && xPosition + xMovementValue > 0) {
 			xPosition = Integer.MIN_VALUE;
 		} else {
-			xPosition += xMovement;
+			xPosition += xMovementValue;
 		}
 
 		sprite.look.setXYPosition(xPosition, sprite.look.getYPosition());
-	}
-
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public int getxMovement() {
-		return xMovement;
-	}
-
-	public void setxMovement(int xMovement) {
+	public void setxMovement(Formula xMovement) {
 		this.xMovement = xMovement;
 	}
 

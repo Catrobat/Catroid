@@ -24,6 +24,7 @@ package org.catrobat.catroid.content;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
@@ -64,12 +65,15 @@ public abstract class Script implements Serializable {
 		ArrayList<SequenceAction> sequenceList = new ArrayList<SequenceAction>();
 		sequenceList.add(sequence);
 		for (int i = 0; i < brickList.size(); i++) {
-			SequenceAction action = brickList.get(i).addActionToSequence(sequenceList.get(sequenceList.size() - 1));
-			if (action != null) {
-				if (sequenceList.contains(action)) {
-					sequenceList.remove(action);
-				} else {
-					sequenceList.add(action);
+			List<SequenceAction> actions = brickList.get(i).addActionToSequence(
+					sequenceList.get(sequenceList.size() - 1));
+			if (actions != null) {
+				for (SequenceAction action : actions) {
+					if (sequenceList.contains(action)) {
+						sequenceList.remove(action);
+					} else {
+						sequenceList.add(action);
+					}
 				}
 			}
 		}

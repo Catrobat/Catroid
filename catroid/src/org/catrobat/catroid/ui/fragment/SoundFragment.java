@@ -80,6 +80,7 @@ import com.actionbarsherlock.view.Menu;
 public class SoundFragment extends ScriptActivityFragment implements OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor> {
 
+	public static final String TAG = SoundFragment.class.getSimpleName();
 	public static final int REQUEST_SELECT_MUSIC = 0;
 
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
