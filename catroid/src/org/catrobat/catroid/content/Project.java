@@ -28,14 +28,17 @@ import java.util.List;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.xml.parser.XMLAlias;
 
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias("program")
 public class Project implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -43,9 +46,9 @@ public class Project implements Serializable {
 
 	private String programName;
 	private String description;
-	@XMLAlias("screenWidth")
+	@XStreamAlias("screenWidth")
 	public int virtualScreenWidth = 0;
-	@XMLAlias("screenHeight")
+	@XStreamAlias("screenHeight")
 	public int virtualScreenHeight = 0;
 	private float catrobatLanguageVersion;
 
@@ -73,7 +76,7 @@ public class Project implements Serializable {
 	@SuppressWarnings("unused")
 	private String remixOf = "";
 	@SuppressWarnings("unused")
-	private String uRL = "";
+	private String url = "";
 	@SuppressWarnings("unused")
 	private String userHandle = "";
 
@@ -99,10 +102,8 @@ public class Project implements Serializable {
 		virtualScreenWidth = Values.SCREEN_WIDTH;
 		virtualScreenHeight = Values.SCREEN_HEIGHT;
 		setDeviceData(context);
-		ifLandscapeSwitchWidthAndHeight();
-		virtualScreenWidth = Values.SCREEN_WIDTH;
-		virtualScreenHeight = Values.SCREEN_HEIGHT;
-		setDeviceData(context);
+
+		MessageContainer.clear();
 
 		if (context == null) {
 			return;
@@ -110,7 +111,7 @@ public class Project implements Serializable {
 
 		applicationName = context.getString(R.string.app_name);
 		Sprite background = new Sprite(context.getString(R.string.background));
-		background.look.zPosition = Integer.MIN_VALUE;
+		background.look.setZIndex(0);
 		addSprite(background);
 	}
 

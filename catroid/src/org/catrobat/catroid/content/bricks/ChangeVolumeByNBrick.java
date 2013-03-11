@@ -24,7 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -37,6 +37,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 
@@ -44,6 +46,7 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 	private double volume;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public ChangeVolumeByNBrick() {
 
@@ -57,18 +60,6 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		float currentVolume = SoundManager.getInstance().getVolume();
-		currentVolume += volume;
-		if (currentVolume < 0.0f) {
-			currentVolume = 0.0f;
-		} else if (currentVolume > 100.0f) {
-			currentVolume = 100.0f;
-		}
-		SoundManager.getInstance().setVolume(currentVolume);
 	}
 
 	@Override
@@ -98,8 +89,11 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_change_volume_by, null);
-		return view;
+		prototypeView = View.inflate(context, R.layout.brick_change_volume_by, null);
+		TextView textSetVolumenTo = (TextView) prototypeView
+				.findViewById(R.id.brick_change_volume_by_prototype_text_view);
+		textSetVolumenTo.setText(String.valueOf(volume));
+		return prototypeView;
 	}
 
 	@Override
@@ -133,5 +127,11 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_volume_by_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.changeVolumeByN((float) volume));
+		return null;
 	}
 }

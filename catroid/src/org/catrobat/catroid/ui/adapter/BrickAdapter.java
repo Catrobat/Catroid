@@ -27,7 +27,6 @@ import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -36,38 +35,26 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
-import org.catrobat.catroid.utils.Utils;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Rect;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 public class BrickAdapter extends BaseAdapter implements DragAndDropListener, OnClickListener {
 
-	private static final int FOOTER_ADD_BRICK_ALPHA_VALUE = 35;
 	private static final String TAG = BrickAdapter.class.getSimpleName();
 	private Context context;
 	private Sprite sprite;
@@ -159,10 +146,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				dragTargetPosition = 1;
 				to = 1;
 			}
-		}
-
-		if (dragTargetPosition >= brickList.size()) {
-			dragTargetPosition = brickList.size() - 1;
 		}
 
 		brickList.remove(draggedBrick);
@@ -333,10 +316,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	private void moveExistingProjectBrick(int from, int to) {
-		if (to >= brickList.size()) {
-			to = brickList.size() - 1;
-		}
-
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		int[] tempFrom = getScriptAndBrickIndexFromProject(from);
@@ -623,7 +602,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	@Override
 	public int getCount() {
-		return brickList.size() + 1;
+		return brickList.size();
 	}
 
 	@Override
@@ -639,79 +618,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		return index;
 	}
 
-	private int getMeasuredFooterHeight() {
-		int footerHeight;
-		int height = 0;
-		for (int i = 0; i < brickList.size(); i++) {
-			ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.brick_wrapper, null);
-			View tempView = brickList.get(i).getPrototypeView(context);
-
-			if (wrapper != null) {
-				wrapper.addView(tempView);
-				wrapper.measure(MeasureSpec.makeMeasureSpec(Values.SCREEN_WIDTH, MeasureSpec.EXACTLY),
-						MeasureSpec.makeMeasureSpec(Values.SCREEN_HEIGHT, MeasureSpec.AT_MOST));
-
-				height += wrapper.getMeasuredHeight();
-			}
-		}
-
-		Rect rectangle = new Rect();
-		Window window = ((Activity) context).getWindow();
-		window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
-		int statusBarHeight = rectangle.top;
-
-		footerHeight = Values.SCREEN_HEIGHT - height - statusBarHeight
-				- (int) context.getResources().getDimension(R.dimen.actionbar_height)
-				- (int) context.getResources().getDimension(R.dimen.tab_widget_height);
-		if (footerHeight < Utils.getPhysicalPixels(70, context)) {
-			footerHeight = Utils.getPhysicalPixels(70, context);
-		}
-
-		return footerHeight;
-	}
-
-	private FrameLayout getFooterView() {
-		FrameLayout frameLayout = new FrameLayout(context);
-
-		ImageView imageView = new ImageView(context);
-		imageView.setImageResource(android.R.drawable.ic_menu_add);
-		imageView.setAlpha(FOOTER_ADD_BRICK_ALPHA_VALUE);
-
-		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-				FrameLayout.LayoutParams.MATCH_PARENT);
-
-		BitmapFactory.Options o = new BitmapFactory.Options();
-		o.inTargetDensity = DisplayMetrics.DENSITY_DEFAULT;
-		Bitmap bmp = BitmapFactory.decodeResource(((Activity) context).getResources(), android.R.drawable.ic_menu_add,
-				o);
-
-		int topMargin = Utils.getPhysicalPixels(70, context) / 2 - bmp.getHeight() / 2;
-
-		params.topMargin = topMargin;
-		params.gravity = Gravity.CENTER_HORIZONTAL;
-		frameLayout.addView(imageView, params);
-
-		return frameLayout;
-	}
-
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (position >= brickList.size()) {
-			FrameLayout frameLayout = getFooterView();
-
-			if (dragAndDropListView.getFirstVisiblePosition() == 0) {
-				frameLayout.setMinimumHeight(getMeasuredFooterHeight());
-			} else {
-				frameLayout.setMinimumHeight(Utils.getPhysicalPixels(70, context));
-			}
-
-			if (draggedBrick == null) {
-				frameLayout.setOnClickListener(this);
-			}
-
-			return frameLayout;
-		}
-
 		if (draggedBrick != null && dragTargetPosition == position) {
 			return insertionView;
 		}
@@ -723,10 +631,21 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 
 		View currentBrickView;
-		if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position - 1) instanceof DeadEndBrick) {
-			currentBrickView = ((AllowedAfterDeadEndBrick) item).getNoPuzzleView(context, position, this);
+		// dirty HACK
+		// without the footer, position can be 0, and list.get(-1) caused an Indexoutofboundsexception
+		// no clean solution was found
+		if (position == 0) {
+			if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position) instanceof DeadEndBrick) {
+				currentBrickView = ((AllowedAfterDeadEndBrick) item).getNoPuzzleView(context, position, this);
+			} else {
+				currentBrickView = ((Brick) item).getView(context, position, this);
+			}
 		} else {
-			currentBrickView = ((Brick) item).getView(context, position, this);
+			if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position - 1) instanceof DeadEndBrick) {
+				currentBrickView = ((AllowedAfterDeadEndBrick) item).getNoPuzzleView(context, position, this);
+			} else {
+				currentBrickView = ((Brick) item).getView(context, position, this);
+			}
 		}
 
 		// this one is working but causes null pointer exceptions on movement and control bricks?!
@@ -810,15 +729,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	@Override
 	public void onClick(final View view) {
-		if (view instanceof FrameLayout) {
-			ScriptActivity activity = (ScriptActivity) context;
-			ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
-			if (fragment != null) {
-				fragment.handleAddButton();
-			}
-			return;
-		}
-
 		animatedBricks.clear();
 		final int itemPosition = calculateItemPositionAndTouchPointY(view);
 

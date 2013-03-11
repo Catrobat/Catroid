@@ -44,7 +44,7 @@
     <string name="loading">Laden…</string>
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="add">Neu</string>
     <!--  -->
 
@@ -171,10 +171,9 @@
     <string name="new_project_dialog_hint">Mein Projekt</string>
     <string name="new_project_description_dialog_hint">Meine Beschreibung</string>
     <string name="new_project_name">Projektname:</string>
-    <string name="new_project_description">Projektbeschreibung:</string>
     <!--  -->
-
-
+    
+ 
     <!-- Rename Dialog -->
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">Mein Objekt</string>
@@ -238,15 +237,27 @@
     <string name="brick_change_x_by">Ändere X um:</string>
     <string name="brick_change_y_by">Ändere Y um:</string>
     <string name="brick_go_back">Gehe</string>
-    <string name="brick_go_back_layers">Ebenen nach hinten</string>
+    <plurals name="brick_go_back_layer_plural">
+        <item quantity="one">Ebene nach hinten</item>
+        <item quantity="other">Ebenen nach hinte</item>
+    </plurals>
     <string name="brick_come_to_front">Komme nach vorn</string>
     <string name="brick_if_on_edge_bounce">Pralle vom Rand ab</string>
     <string name="brick_move">Gehe</string>
-    <string name="brick_move_n_steps">Schritte</string>
+    <plurals name="brick_move_n_step_plural">
+        <item quantity="one">Schritt</item>
+        <item quantity="other">Schritte</item>
+    </plurals>
     <string name="brick_turn_left">Drehe links</string>
-    <string name="brick_turn_left_degrees">Grad</string>
+    <plurals name="brick_turn_left_degree_plural">
+        <item quantity="one">Grad</item>
+        <item quantity="other">Grad</item>
+    </plurals>
     <string name="brick_turn_right">Drehe rechts</string>
-    <string name="brick_turn_right_degrees">Grad</string>
+    <plurals name="brick_turn_right_degree_plural">
+        <item quantity="one">Grad</item>
+        <item quantity="other">Grad</item>
+    </plurals>
     <string name="brick_point_in_direction">Zeige in Richtung</string>
     <string name="brick_point_in_direction_choose_direction">Wähle Richtung</string>
     <string name="brick_point_to">Zeige auf</string>
@@ -280,6 +291,7 @@
     <string name="brick_set_volume_to">Setze Lautstärke auf</string>
     <string name="brick_change_volume_by">Ändere Lautstärke um</string>
     <string name="brick_speak">Sprich</string>
+    <string name="brick_speak_default_value">"Hallo!"</string>
     <!--  -->
 
 
@@ -287,15 +299,22 @@
     <string name="brick_when_started">Wenn Projekt gestartet</string>
     <string name="brick_when">Wenn</string>
     <string name="brick_wait">Warte</string>
-    <string name="seconds">Sekunden</string>
+    <plurals name="second_plural">
+        <item quantity="one">Sekunde</item>
+        <item quantity="other">Sekunden</item>
+    </plurals>
     <string name="brick_broadcast_receive">Wenn ich empfange:</string>
     <string name="brick_broadcast">Verschicke an alle:</string>
     <string name="brick_broadcast_wait">Verschicke und warte:</string>
     <string name="brick_note">Notiz</string>
     <string name="brick_forever">Wiederhole fortlaufend</string>
     <string name="brick_repeat">Wiederhole</string>
-    <string name="times_label">mal</string>
+    <plurals name="time_plural">
+        <item quantity="one">mal</item>
+        <item quantity="other">mal</item>
+    </plurals>
     <string name="brick_loop_end">Wiederholen beenden</string>
+    <string name="brick_note_default_value">"Anmerkung hier hinzufügen..." </string>
     <!--  -->
 
 

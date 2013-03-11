@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -36,12 +37,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class SetBrightnessBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private double brightness;
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public SetBrightnessBrick() {
 
@@ -55,11 +59,6 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		sprite.look.setBrightnessValue((float) this.brightness / 100);
 	}
 
 	@Override
@@ -90,7 +89,11 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_set_brightness, null);
+		prototypeView = View.inflate(context, R.layout.brick_set_brightness, null);
+		TextView textSetBrightness = (TextView) prototypeView
+				.findViewById(R.id.brick_set_brightness_prototype_text_view);
+		textSetBrightness.setText(String.valueOf(brightness));
+		return prototypeView;
 	}
 
 	@Override
@@ -123,5 +126,11 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_set_brightness_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setBrightness(sprite, (float) brightness));
+		return null;
 	}
 }

@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -36,12 +37,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class ChangeYByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int yMovement;
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public ChangeYByNBrick() {
 
@@ -55,23 +59,6 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		sprite.look.aquireXYWidthHeightLock();
-		int yPosition = (int) sprite.look.getYPosition();
-
-		if (yPosition > 0 && yMovement > 0 && yPosition + yMovement < 0) {
-			yPosition = Integer.MAX_VALUE;
-		} else if (yPosition < 0 && yMovement < 0 && yPosition + yMovement > 0) {
-			yPosition = Integer.MIN_VALUE;
-		} else {
-			yPosition += yMovement;
-		}
-
-		sprite.look.setXYPosition(sprite.look.getXPosition(), yPosition);
-		sprite.look.releaseXYWidthHeightLock();
 	}
 
 	@Override
@@ -97,7 +84,10 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_y, null);
+		prototypeView = View.inflate(context, R.layout.brick_change_y, null);
+		TextView textYMovement = (TextView) prototypeView.findViewById(R.id.brick_change_y_prototype_text_view);
+		textYMovement.setText(String.valueOf(yMovement));
+		return prototypeView;
 	}
 
 	@Override
@@ -130,5 +120,11 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_y_by_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.changeYByN(sprite, yMovement));
+		return null;
 	}
 }

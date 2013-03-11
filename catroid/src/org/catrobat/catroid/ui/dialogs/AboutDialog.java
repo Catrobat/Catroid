@@ -30,7 +30,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.view.Window;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class AboutDialog extends Dialog {
@@ -46,9 +47,7 @@ public class AboutDialog extends Dialog {
 	protected void onCreate(Bundle savedInstanceState) {
 		//something
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_LEFT_ICON);
 		setContentView(R.layout.dialog_about);
-		setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_info);
 
 		setTitle(R.string.dialog_about_title);
 		setCanceledOnTouchOutside(true);
@@ -65,5 +64,14 @@ public class AboutDialog extends Dialog {
 		TextView aboutVersionNameTextView = (TextView) findViewById(R.id.dialog_about_text_view_version_name);
 		String versionName = Utils.getVersionName(context);
 		aboutVersionNameTextView.setText(versionName);
+
+		Button okButton = (Button) findViewById(R.id.dialog_about_ok_button);
+		okButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				dismiss();
+			}
+		});
 	}
 }

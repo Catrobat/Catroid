@@ -35,7 +35,6 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 
 public class StageActivity extends AndroidApplication {
 
-	private boolean stagePlaying = true;
 	public static StageListener stageListener;
 	private boolean resizePossible;
 	private StageDialog stageDialog;
@@ -50,7 +49,7 @@ public class StageActivity extends AndroidApplication {
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		stageListener = new StageListener();
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
-		this.calculateScreenSizes();
+		calculateScreenSizes();
 		initialize(stageListener, true);
 		if (ProjectManager.getInstance().getCurrentProject().isManualScreenshot()) {
 			stageListener.setMakeAutomaticScreenshot(false);
@@ -59,16 +58,8 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onBackPressed() {
-		pauseOrContinue();
+		pause();
 		stageDialog.show();
-	}
-
-	@Override
-	protected void onDestroy() {
-		if (stagePlaying) {
-			this.manageLoadAndFinish();
-		}
-		super.onDestroy();
 	}
 
 	public void manageLoadAndFinish() {
@@ -77,26 +68,18 @@ public class StageActivity extends AndroidApplication {
 		stageListener.finish();
 
 		PreStageActivity.shutdownResources();
-		stagePlaying = false;
-
 	}
 
-	public void toggleAxes() {
-		if (stageListener.axesOn) {
-			stageListener.axesOn = false;
-		} else {
-			stageListener.axesOn = true;
-		}
+	public void pause() {
+		stageListener.menuPause();
 	}
 
-	public void pauseOrContinue() {
-		if (stagePlaying) {
-			stageListener.menuPause();
-			stagePlaying = false;
-		} else {
-			stageListener.menuResume();
-			stagePlaying = true;
-		}
+	public void resume() {
+		stageListener.menuResume();
+	}
+
+	public boolean getResizePossible() {
+		return resizePossible;
 	}
 
 	private void calculateScreenSizes() {
@@ -124,10 +107,6 @@ public class StageActivity extends AndroidApplication {
 			Values.SCREEN_HEIGHT = Values.SCREEN_WIDTH;
 			Values.SCREEN_WIDTH = tmp;
 		}
-	}
-
-	public boolean getResizePossible() {
-		return resizePossible;
 	}
 
 }

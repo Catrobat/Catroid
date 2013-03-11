@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -36,12 +37,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class SetGhostEffectBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private double transparency;
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public SetGhostEffectBrick(Sprite sprite, double ghostEffectValue) {
 		this.sprite = sprite;
@@ -55,11 +59,6 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		sprite.look.setAlphaValue((100f - (float) transparency) / 100);
 	}
 
 	@Override
@@ -90,7 +89,11 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_set_ghost_effect, null);
+		prototypeView = View.inflate(context, R.layout.brick_set_ghost_effect, null);
+		TextView textSetGhostEffect = (TextView) prototypeView
+				.findViewById(R.id.brick_set_ghost_effect_to_prototype_text_view);
+		textSetGhostEffect.setText(String.valueOf(transparency));
+		return prototypeView;
 	}
 
 	@Override
@@ -124,5 +127,11 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_set_ghost_effect_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setGhostEffect(sprite, (float) transparency));
+		return null;
 	}
 }

@@ -36,10 +36,12 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Utils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -75,7 +77,7 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -91,6 +93,20 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 		double actualDegrees = (Double) Reflection.getPrivateField(turnLeftBrick, "degrees");
 		assertEquals("Wrong text in field", turnDegrees, actualDegrees);
 		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
+
+		UiTestUtils.clickEnterClose(solo, 0, "1");
+		TextView secondsTextView = (TextView) solo.getView(R.id.brick_turn_left_degree_text_view);
+		assertTrue(
+				"Specifier hasn't changed from plural to singular",
+				secondsTextView.getText().equals(
+						secondsTextView.getResources().getQuantityString(R.plurals.brick_turn_left_degree_plural, 1)));
+		UiTestUtils.clickEnterClose(solo, 0, "1.4");
+		secondsTextView = (TextView) solo.getView(R.id.brick_turn_left_degree_text_view);
+		assertTrue(
+				"Specifier hasn't changed from singular to plural",
+				secondsTextView.getText().equals(
+						secondsTextView.getResources().getQuantityString(R.plurals.brick_turn_left_degree_plural,
+								Utils.convertDoubleToPluralInteger(1.4))));
 	}
 
 	private void createProject() {

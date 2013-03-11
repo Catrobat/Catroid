@@ -22,13 +22,15 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class IfOnEdgeBounceBrick implements Brick {
 
@@ -51,65 +53,6 @@ public class IfOnEdgeBounceBrick implements Brick {
 	}
 
 	@Override
-	public void execute() {
-		float size = sprite.look.getSize();
-
-		sprite.look.aquireXYWidthHeightLock();
-		float width = sprite.look.getWidth() * size;
-		float height = sprite.look.getHeight() * size;
-		int xPosition = (int) sprite.look.getXPosition();
-		int yPosition = (int) sprite.look.getYPosition();
-		sprite.look.releaseXYWidthHeightLock();
-
-		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().virtualScreenWidth / 2;
-		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().virtualScreenHeight / 2;
-		float rotationResult = -sprite.look.rotation + 90f;
-
-		if (xPosition < -virtualScreenWidth + width / 2) {
-
-			rotationResult = Math.abs(rotationResult);
-			xPosition = -virtualScreenWidth + (int) (width / 2);
-
-		} else if (xPosition > virtualScreenWidth - width / 2) {
-
-			rotationResult = -Math.abs(rotationResult);
-
-			xPosition = virtualScreenWidth - (int) (width / 2);
-		}
-
-		if (yPosition > virtualScreenHeight - height / 2) {
-
-			if (Math.abs(rotationResult) < 90f) {
-				if (rotationResult < 0f) {
-					rotationResult = -180f - rotationResult;
-				} else {
-					rotationResult = 180f - rotationResult;
-				}
-			}
-
-			yPosition = virtualScreenHeight - (int) (height / 2);
-
-		} else if (yPosition < -virtualScreenHeight + height / 2) {
-
-			if (Math.abs(rotationResult) > 90f) {
-				if (rotationResult < 0f) {
-					rotationResult = -180f - rotationResult;
-				} else {
-					rotationResult = 180f - rotationResult;
-				}
-			}
-
-			yPosition = -virtualScreenHeight + (int) (height / 2);
-		}
-
-		sprite.look.rotation = -rotationResult + 90f;
-
-		sprite.look.aquireXYWidthHeightLock();
-		sprite.look.setXYPosition(xPosition, yPosition);
-		sprite.look.releaseXYWidthHeightLock();
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -124,13 +67,19 @@ public class IfOnEdgeBounceBrick implements Brick {
 	}
 
 	@Override
+	public Brick clone() {
+		return new IfOnEdgeBounceBrick(sprite);
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
 	}
 
 	@Override
-	public Brick clone() {
-		return new IfOnEdgeBounceBrick(sprite);
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.ifOnEdgeBounce(sprite));
+		return null;
 	}
 
 }

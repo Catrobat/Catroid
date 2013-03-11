@@ -34,12 +34,12 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter.OnSpriteCheckedListener;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
-import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.BroadcastReceiver;
@@ -114,7 +114,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		}
 
 		try {
-			Utils.loadProjectIfNeeded(getActivity(), (ErrorListenerInterface) getActivity());
+			Utils.loadProjectIfNeeded(getActivity());
 		} catch (ClassCastException exception) {
 			Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
 		}
@@ -281,7 +281,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	public void startRenameActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
-			setBottomBarActivated(false);
+			BottomBar.disableButtons(getActivity());
 			isRenameActionMode = true;
 		}
 	}
@@ -289,7 +289,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
-			setBottomBarActivated(false);
+			BottomBar.disableButtons(getActivity());
 			isRenameActionMode = false;
 		}
 	}
@@ -417,7 +417,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			actionMode = null;
 			actionModeActive = false;
 
-			setBottomBarActivated(true);
+			BottomBar.enableButtons(getActivity());
 		}
 	};
 
@@ -458,7 +458,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			actionMode = null;
 			actionModeActive = false;
 
-			setBottomBarActivated(true);
+			BottomBar.enableButtons(getActivity());
 		}
 	};
 
@@ -508,9 +508,5 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		for (SoundInfo currentSoundInfo : soundInfoList) {
 			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath());
 		}
-	}
-
-	private void setBottomBarActivated(boolean isActive) {
-		Utils.setBottomBarActivated(getActivity(), isActive);
 	}
 }

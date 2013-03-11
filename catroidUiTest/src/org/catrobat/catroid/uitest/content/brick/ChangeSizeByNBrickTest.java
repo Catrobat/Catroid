@@ -75,7 +75,7 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
-		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -89,6 +89,7 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 		double currentSize = (Double) Reflection.getPrivateField(changeSizeByNBrick, "size");
 		assertEquals("Wrong text in field", SIZE_TO_CHANGE, currentSize);
 		assertEquals("Text not updated", SIZE_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
+
 	}
 
 	private void createProject() {

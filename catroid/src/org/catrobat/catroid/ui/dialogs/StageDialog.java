@@ -70,12 +70,11 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.stage_dialog_button_back:
-				dismiss();
-				new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
+				onBackPressed();
 				break;
 			case R.id.stage_dialog_button_resume:
 				dismiss();
-				stageActivity.pauseOrContinue();
+				stageActivity.resume();
 				break;
 			case R.id.stage_dialog_button_restart:
 				dismiss();
@@ -112,6 +111,14 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
 	}
 
+	private void makeScreenshot() {
+		if (stageListener.makeScreenshot()) {
+			Toast.makeText(stageActivity, R.string.notification_screenshot_ok, Toast.LENGTH_SHORT).show();
+		} else {
+			Toast.makeText(stageActivity, R.string.error_screenshot_failed, Toast.LENGTH_SHORT).show();
+		}
+	}
+
 	private void restartProject() {
 		stageListener.reloadProject(stageActivity, this);
 		synchronized (this) {
@@ -121,7 +128,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				Log.e("CATROID", "Thread activated too early!", e);
 			}
 		}
-		stageActivity.pauseOrContinue();
+		stageActivity.resume();
 	}
 
 	private void toggleAxes() {

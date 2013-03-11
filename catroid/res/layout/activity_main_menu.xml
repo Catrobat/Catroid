@@ -34,7 +34,7 @@
         android:layout_height="0dp"
         android:layout_weight="1.5"
         android:drawableLeft="@drawable/main_menu_continue"
-        android:drawablePadding="15dp"
+        android:drawablePadding="25dp"
         android:onClick="handleContinueButton"
         android:text="@string/main_menu_continue" />
 

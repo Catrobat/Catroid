@@ -30,6 +30,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public interface Brick extends Serializable {
 
 	//use bitwise | for using multiple ressources in a brick
@@ -40,7 +42,7 @@ public interface Brick extends Serializable {
 
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
 
-	public void execute();
+	public SequenceAction addActionToSequence(SequenceAction sequence);
 
 	public Sprite getSprite();
 

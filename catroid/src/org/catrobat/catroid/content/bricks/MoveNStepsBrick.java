@@ -24,8 +24,10 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
 import android.text.InputType;
@@ -37,6 +39,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	private static final long serialVersionUID = 1L;
@@ -44,6 +48,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	private double steps;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public MoveNStepsBrick() {
 
@@ -60,20 +65,6 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void execute() {
-		sprite.look.aquireXYWidthHeightLock();
-
-		double radians = Math.toRadians(sprite.look.rotation);
-
-		int newXPosition = (int) Math.round(sprite.look.getXPosition() + steps * Math.cos(radians));
-		int newYPosition = (int) Math.round(sprite.look.getYPosition() + steps * Math.sin(radians));
-
-		sprite.look.setXYPosition(newXPosition, newYPosition);
-		sprite.look.releaseXYWidthHeightLock();
-
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -87,6 +78,10 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		EditText edit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
 		edit.setText(String.valueOf(steps));
+		TextView times = (TextView) view.findViewById(R.id.brick_move_n_steps_step_text_view);
+		times.setText(view.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
+				Utils.convertDoubleToPluralInteger(steps)));
+
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
@@ -97,8 +92,13 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	@Override
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.brick_move_n_steps, null);
-		return view;
+		prototypeView = inflater.inflate(R.layout.brick_move_n_steps, null);
+		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_prototype_text_view);
+		textSteps.setText(String.valueOf(steps));
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_step_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
+				Utils.convertDoubleToPluralInteger(steps)));
+		return prototypeView;
 	}
 
 	@Override
@@ -132,5 +132,11 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_move_n_steps_brick");
+	}
+
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.moveNSteps(sprite, (float) steps));
+		return null;
 	}
 }
