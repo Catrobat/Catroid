@@ -40,8 +40,8 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 		int xPosition = (int) sprite.look.getXPosition();
 		int yPosition = (int) sprite.look.getYPosition();
 
-		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().virtualScreenWidth / 2;
-		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().virtualScreenHeight / 2;
+		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2;
+		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight / 2;
 		float rotationResult = -sprite.look.getRotation() + 90f;
 
 		if (xPosition < -virtualScreenWidth + width / 2) {
