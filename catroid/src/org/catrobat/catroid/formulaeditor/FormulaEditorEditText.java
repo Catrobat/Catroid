@@ -258,21 +258,21 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 				int initialScrollY = getScrollY();
 				int firstLineSize = (int) (initialScrollY % lineHeight);
-				int numberOfVisbleLines = (int) (getHeight() / lineHeight);
+				int numberOfVisibleLines = (int) (getHeight() / lineHeight);
 
 				if (yCoordinate <= lineHeight - firstLineSize) {
 
 					scrollBy(0, (int) (initialScrollY > lineHeight ? -1 * (firstLineSize + lineHeight / 2) : -1
 							* firstLineSize));
 					cursorY = 0;
-				} else if (yCoordinate >= numberOfVisbleLines * lineHeight - lineHeight / 2) {
+				} else if (yCoordinate >= numberOfVisibleLines * lineHeight - lineHeight / 2) {
 					if (!(yCoordinate > layout.getLineCount() * lineHeight - getScrollY() - getPaddingTop())) {
 						Log.e("info", "Scroll down activated");
 						scrollBy(0, (int) (lineHeight - firstLineSize + lineHeight / 2));
 					}
-					cursorY = numberOfVisbleLines;
+					cursorY = numberOfVisibleLines;
 				} else {
-					for (int i = 1; i <= numberOfVisbleLines; i++) {
+					for (int i = 1; i <= numberOfVisibleLines; i++) {
 						if (yCoordinate <= ((lineHeight - firstLineSize) + getPaddingTop() + i * lineHeight)) {
 							cursorY = i;
 							break;

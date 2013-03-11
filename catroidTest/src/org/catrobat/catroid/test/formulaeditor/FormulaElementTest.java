@@ -62,8 +62,8 @@ public class FormulaElementTest extends InstrumentationTestCase {
 					"Generate InternTokenList from Tree error",
 					internTokenListAfterConversion.get(index).getInternTokenType() == internTokenList.get(index)
 							.getInternTokenType()
-							&& internTokenListAfterConversion.get(index).getTokenSringValue()
-									.compareTo(internTokenList.get(index).getTokenSringValue()) == 0);
+							&& internTokenListAfterConversion.get(index).getTokenStringValue()
+									.compareTo(internTokenList.get(index).getTokenStringValue()) == 0);
 
 		}
 
@@ -138,8 +138,8 @@ public class FormulaElementTest extends InstrumentationTestCase {
 					"Clone error",
 					internTokenListAfterClone.get(index).getInternTokenType() == internTokenList.get(index)
 							.getInternTokenType()
-							&& internTokenListAfterClone.get(index).getTokenSringValue()
-									.compareTo(internTokenList.get(index).getTokenSringValue()) == 0);
+							&& internTokenListAfterClone.get(index).getTokenStringValue()
+									.compareTo(internTokenList.get(index).getTokenStringValue()) == 0);
 
 		}
 
@@ -156,8 +156,8 @@ public class FormulaElementTest extends InstrumentationTestCase {
 					"Clone error",
 					internTokenListAfterClone.get(index).getInternTokenType() == internTokenList.get(index)
 							.getInternTokenType()
-							&& internTokenListAfterClone.get(index).getTokenSringValue()
-									.compareTo(internTokenList.get(index).getTokenSringValue()) == 0);
+							&& internTokenListAfterClone.get(index).getTokenStringValue()
+									.compareTo(internTokenList.get(index).getTokenStringValue()) == 0);
 
 		}
 

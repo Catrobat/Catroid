@@ -42,7 +42,7 @@ public class InternToken {
 		this.tokenStringValue = tokenString;
 	}
 
-	public String getTokenSringValue() {
+	public String getTokenStringValue() {
 		return this.tokenStringValue;
 	}
 

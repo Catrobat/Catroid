@@ -175,17 +175,17 @@ public class InternFormula {
 			case LEFT:
 				this.cursorPositionInternToken = internTokenFormulaList.get(cursorPositionTokenIndex);
 				this.cursorPositionInternTokenIndex = cursorPositionTokenIndex;
-				Log.i("info", "LEFT of " + cursorPositionInternToken.getTokenSringValue());
+				Log.i("info", "LEFT of " + cursorPositionInternToken.getTokenStringValue());
 				break;
 			case MIDDLE:
 				this.cursorPositionInternToken = internTokenFormulaList.get(cursorPositionTokenIndex);
 				this.cursorPositionInternTokenIndex = cursorPositionTokenIndex;
-				Log.i("info", "SELECTED " + cursorPositionInternToken.getTokenSringValue());
+				Log.i("info", "SELECTED " + cursorPositionInternToken.getTokenStringValue());
 				break;
 			case RIGHT:
 				this.cursorPositionInternToken = internTokenFormulaList.get(leftCursorPositionTokenIndex);
 				this.cursorPositionInternTokenIndex = leftCursorPositionTokenIndex;
-				Log.i("info", "RIGHT of " + cursorPositionInternToken.getTokenSringValue());
+				Log.i("info", "RIGHT of " + cursorPositionInternToken.getTokenStringValue());
 				break;
 
 		}
@@ -594,7 +594,7 @@ public class InternFormula {
 
 		if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isNumberToken(internTokensToInsert)) {
 
-			String numberToInsert = internTokensToInsert.get(0).getTokenSringValue();
+			String numberToInsert = internTokensToInsert.get(0).getTokenStringValue();
 
 			InternFormulaUtils.insertIntoNumberToken(cursorPositionInternToken, 0, numberToInsert);
 			externCursorPosition++;
@@ -602,7 +602,7 @@ public class InternFormula {
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
 		} else if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
-			String numberString = cursorPositionInternToken.getTokenSringValue();
+			String numberString = cursorPositionInternToken.getTokenStringValue();
 			if (numberString.contains(".")) {
 				return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 			}
@@ -622,7 +622,7 @@ public class InternFormula {
 		} else if (firstLeftInternToken != null && firstLeftInternToken.isNumber()
 				&& InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
 
-			String numberString = firstLeftInternToken.getTokenSringValue();
+			String numberString = firstLeftInternToken.getTokenStringValue();
 			if (numberString.contains(".")) {
 				return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 			}
@@ -663,7 +663,7 @@ public class InternFormula {
 			return CursorTokenPropertiesAfterModification.RIGHT;
 
 		} else if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
-			String numberString = cursorPositionInternToken.getTokenSringValue();
+			String numberString = cursorPositionInternToken.getTokenStringValue();
 			if (numberString.contains(".")) {
 				return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 			}
@@ -738,14 +738,14 @@ public class InternFormula {
 			}
 
 			InternFormulaUtils.insertIntoNumberToken(cursorPositionInternToken, externNumberOffset,
-					numberTokenToInsert.getTokenSringValue());
+					numberTokenToInsert.getTokenStringValue());
 
 			externCursorPosition++;
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
 		} else if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isPeriodToken(internTokensToReplaceWith)) {
 
-			String numberString = cursorPositionInternToken.getTokenSringValue();
+			String numberString = cursorPositionInternToken.getTokenStringValue();
 			if (numberString.contains(".")) {
 				return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 			}

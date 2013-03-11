@@ -147,7 +147,7 @@ public class InternToExternGenerator {
 	private String generateExternStringFromToken(InternToken internToken) {
 		switch (internToken.getInternTokenType()) {
 			case NUMBER:
-				String number = internToken.getTokenSringValue();
+				String number = internToken.getTokenStringValue();
 
 				if (!number.contains(".")) {
 					return number;
@@ -160,8 +160,8 @@ public class InternToExternGenerator {
 
 			case OPERATOR:
 
-				String returnvalue = internToken.getTokenSringValue();
-				String mappingValue = getExternStringForInternTokenValue(internToken.getTokenSringValue(), context);
+				String returnvalue = internToken.getTokenStringValue();
+				String mappingValue = getExternStringForInternTokenValue(internToken.getTokenStringValue(), context);
 
 				return mappingValue == null ? returnvalue : mappingValue;
 
@@ -174,10 +174,10 @@ public class InternToExternGenerator {
 			case FUNCTION_PARAMETER_DELIMITER:
 				return ",";
 			case USER_VARIABLE:
-				return "\"" + internToken.getTokenSringValue() + "\"";
+				return "\"" + internToken.getTokenStringValue() + "\"";
 
 			default:
-				return getExternStringForInternTokenValue(internToken.getTokenSringValue(), context);
+				return getExternStringForInternTokenValue(internToken.getTokenStringValue(), context);
 
 		}
 	}

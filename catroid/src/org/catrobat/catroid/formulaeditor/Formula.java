@@ -56,7 +56,6 @@ public class Formula implements Serializable {
 
 	public Formula(FormulaElement formEle) {
 		formulaTree = formEle;
-
 		internFormula = new InternFormula(formulaTree.getInternTokenList());
 	}
 
@@ -68,17 +67,13 @@ public class Formula implements Serializable {
 	}
 
 	public Formula(Double value) {
-
 		formulaTree = new FormulaElement(ElementType.NUMBER, value.toString(), null);
 		internFormula = new InternFormula(formulaTree.getInternTokenList());
-
 	}
 
 	public Formula(Float value) {
-
 		formulaTree = new FormulaElement(ElementType.NUMBER, value.toString(), null);
 		internFormula = new InternFormula(formulaTree.getInternTokenList());
-
 	}
 
 	public boolean interpretBoolean(Sprite sprite) {

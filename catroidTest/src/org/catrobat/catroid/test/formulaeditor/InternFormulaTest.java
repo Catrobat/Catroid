@@ -65,7 +65,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		internFormula.handleKeyInput(R.id.formula_editor_keyboard_decimal_mark,
 				getInstrumentation().getTargetContext(), null);
 
-		assertTrue("Enter decimal mark error", internTokens.get(0).getTokenSringValue().compareTo("0.") == 0);
+		assertTrue("Enter decimal mark error", internTokens.get(0).getTokenStringValue().compareTo("0.") == 0);
 
 		internTokens = new ArrayList<InternToken>();
 		internTokens.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
@@ -75,7 +75,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		internFormula.handleKeyInput(R.id.formula_editor_keyboard_decimal_mark,
 				getInstrumentation().getTargetContext(), null);
 
-		assertTrue("Enter decimal mark error", internTokens.get(1).getTokenSringValue().compareTo("0.") == 0);
+		assertTrue("Enter decimal mark error", internTokens.get(1).getTokenStringValue().compareTo("0.") == 0);
 
 		internTokens = new ArrayList<InternToken>();
 		internFormula = new InternFormula(internTokens);
@@ -84,7 +84,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		internFormula.handleKeyInput(R.id.formula_editor_keyboard_decimal_mark,
 				getInstrumentation().getTargetContext(), null);
 
-		assertTrue("Enter decimal mark error", internTokens.get(0).getTokenSringValue().compareTo("0.") == 0);
+		assertTrue("Enter decimal mark error", internTokens.get(0).getTokenStringValue().compareTo("0.") == 0);
 	}
 
 	public void testInsertLeftToCurrentToken() {
@@ -109,7 +109,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		internFormula.setCursorAndSelection(6, false);
 		externFormulaStringBeforeInput = internFormula.getExternFormulaString();
 		internFormula.handleKeyInput(R.id.formula_editor_keyboard_0, getInstrumentation().getTargetContext(), null);
-		assertTrue("Append number error", internTokens.get(0).getTokenSringValue().compareTo("42.420") == 0);
+		assertTrue("Append number error", internTokens.get(0).getTokenStringValue().compareTo("42.420") == 0);
 
 		internTokens = new ArrayList<InternToken>();
 		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
@@ -120,7 +120,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		externFormulaStringBeforeInput = internFormula.getExternFormulaString();
 		internFormula.handleKeyInput(R.id.formula_editor_keyboard_decimal_mark,
 				getInstrumentation().getTargetContext(), null);
-		assertTrue("Append number error", internTokens.get(0).getTokenSringValue().compareTo("42.42") == 0);
+		assertTrue("Append number error", internTokens.get(0).getTokenStringValue().compareTo("42.42") == 0);
 
 		internTokens = new ArrayList<InternToken>();
 		internTokens.add(new InternToken(InternTokenType.NUMBER, "4242"));
@@ -131,7 +131,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		externFormulaStringBeforeInput = internFormula.getExternFormulaString();
 		internFormula.handleKeyInput(R.id.formula_editor_keyboard_decimal_mark,
 				getInstrumentation().getTargetContext(), null);
-		assertTrue("Append decimal mark error", internTokens.get(0).getTokenSringValue().compareTo("4242.") == 0);
+		assertTrue("Append decimal mark error", internTokens.get(0).getTokenStringValue().compareTo("4242.") == 0);
 
 		internTokens = new ArrayList<InternToken>();
 		internTokens.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
@@ -141,7 +141,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		externFormulaStringBeforeInput = internFormula.getExternFormulaString();
 		internFormula.handleKeyInput(R.id.formula_editor_keyboard_decimal_mark,
 				getInstrumentation().getTargetContext(), null);
-		assertTrue("Prepend decimal mark error", internTokens.get(0).getTokenSringValue().compareTo("0.") == 0);
+		assertTrue("Prepend decimal mark error", internTokens.get(0).getTokenStringValue().compareTo("0.") == 0);
 	}
 
 	public void testReplaceFunctionByToken() {

@@ -96,8 +96,8 @@ public class InternFormulaUtilsTest extends InstrumentationTestCase {
 			assertTrue(
 					"GetFunctionByParameter wrong function returned",
 					functionTokens.get(index).getInternTokenType() == internTokens.get(index).getInternTokenType()
-							&& functionTokens.get(index).getTokenSringValue()
-									.compareTo(internTokens.get(index).getTokenSringValue()) == 0);
+							&& functionTokens.get(index).getTokenStringValue()
+									.compareTo(internTokens.get(index).getTokenStringValue()) == 0);
 
 		}
 
@@ -176,8 +176,8 @@ public class InternFormulaUtilsTest extends InstrumentationTestCase {
 			assertTrue(
 					"GetFunctionByParameter wrong function returned",
 					functionTokens.get(index).getInternTokenType() == internTokens.get(index).getInternTokenType()
-							&& functionTokens.get(index).getTokenSringValue()
-									.compareTo(internTokens.get(index).getTokenSringValue()) == 0);
+							&& functionTokens.get(index).getTokenStringValue()
+									.compareTo(internTokens.get(index).getTokenStringValue()) == 0);
 
 		}
 
@@ -216,8 +216,8 @@ public class InternFormulaUtilsTest extends InstrumentationTestCase {
 			assertTrue(
 					"GetFunctionByParameter wrong function returned",
 					functionTokens.get(index).getInternTokenType() == internTokens.get(index).getInternTokenType()
-							&& functionTokens.get(index).getTokenSringValue()
-									.compareTo(internTokens.get(index).getTokenSringValue()) == 0);
+							&& functionTokens.get(index).getTokenStringValue()
+									.compareTo(internTokens.get(index).getTokenStringValue()) == 0);
 
 		}
 	}

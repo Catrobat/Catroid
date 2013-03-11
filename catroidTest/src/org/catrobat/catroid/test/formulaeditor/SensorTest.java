@@ -190,22 +190,6 @@ public class SensorTest extends InstrumentationTestCase {
 
 	}
 
-	//	private int tryMock(String method, Formula formula, int expectedResult) {
-	//		Input mock = PowerMock.createPartialMock(Input.class, method);
-	//		//		SensorHandler.setSensorSourceForNextCall(mock); 
-	//
-	//		try {
-	//			PowerMock.expectPrivate(mock, method).andReturn(expectedResult);
-	//			PowerMock.replayAll();
-	//			return formula.interpretInteger();
-	//
-	//		} catch (Exception e) {
-	//			e.printStackTrace();
-	//		}
-	//		return -1;
-	//
-	//	}
-
 	private Formula createFormulaWithSensor(Sensors sensor) {
 
 		List<InternToken> internTokenList = new LinkedList<InternToken>();

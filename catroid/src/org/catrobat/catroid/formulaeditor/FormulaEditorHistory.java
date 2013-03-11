@@ -43,14 +43,12 @@ public class FormulaEditorHistory {
 		if (current != null && current.equals(internFormulaState)) {
 			return;
 		}
-
 		if (current != null) {
 			undoStack.push(current);
 		}
 		current = internFormulaState;
 		redoStack.clear();
 		hasUnsavedChanges = true;
-		//Log.i("info", "history size: " + undoStack.size());
 		if (undoStack.size() > MAXIMUM_HISTORY_LENGTH) {
 			undoStack.removeElementAt(0);
 		}

@@ -66,7 +66,7 @@ public class InternFormulaState {
 				if (original.getInternTokenType() != internTokenToCompare.getInternTokenType()) {
 					return false;
 				}
-				if (!original.getTokenSringValue().equals(internTokenToCompare.getTokenSringValue())) {
+				if (!original.getTokenStringValue().equals(internTokenToCompare.getTokenStringValue())) {
 					return false;
 				}
 
