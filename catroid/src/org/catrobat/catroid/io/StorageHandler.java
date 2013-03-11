@@ -43,6 +43,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
@@ -121,6 +122,7 @@ public class StorageHandler {
 
 		xstream = new XStream(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
+		xstream.processAnnotations(XmlHeader.class);
 		setXstreamAliases();
 
 		if (!Utils.externalStorageAvailable()) {
@@ -344,7 +346,8 @@ public class StorageHandler {
 		FileChecksumContainer checksumCont = ProjectManager.getInstance().getFileChecksumContainer();
 
 		Project project = ProjectManager.getInstance().getCurrentProject();
-		if ((imageDimensions[0] <= project.virtualScreenWidth) && (imageDimensions[1] <= project.virtualScreenHeight)) {
+		if ((imageDimensions[0] <= project.getXmlHeader().virtualScreenWidth)
+				&& (imageDimensions[1] <= project.getXmlHeader().virtualScreenHeight)) {
 			String checksumSource = Utils.md5Checksum(inputFile);
 
 			if (newName != null) {
@@ -367,8 +370,8 @@ public class StorageHandler {
 
 	private File copyAndResizeImage(File outputFile, File inputFile, File imageDirectory) throws IOException {
 		Project project = ProjectManager.getInstance().getCurrentProject();
-		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(inputFile.getAbsolutePath(), project.virtualScreenWidth,
-				project.virtualScreenHeight, true);
+		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(inputFile.getAbsolutePath(),
+				project.getXmlHeader().virtualScreenWidth, project.getXmlHeader().virtualScreenHeight, true);
 
 		saveBitmapToImageFile(outputFile, bitmap);
 
