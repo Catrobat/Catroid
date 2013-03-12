@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:top="1.3dp">
+        <shape android:shape="rectangle" >
+            <gradient
+                android:angle="270.0"
+                android:centerColor="@color/sound_fragment_button_gradient_start_color"
+                android:centerY="0.67"
+                android:endColor="@color/sound_fragment_button_gradient_end_color"
+                android:startColor="@color/sound_fragment_button_gradient_start_color"
+                android:type="linear" />
+        </shape>
+    </item>
+</selector>

@@ -53,5 +53,6 @@
     <color name="sound_fragment_text_main_color">#A8DFF4</color>
     <color name="sound_fragment_text_detail_color">#BFD0D6</color>
     <color name="sound_fragment_background_color">#04222C</color>
-    <color name="sound_fragment_button_color">#00475E</color>
+    <color name="sound_fragment_button_gradient_start_color">#00475E</color>
+    <color name="sound_fragment_button_gradient_end_color">#003F54</color>
 </resources>
