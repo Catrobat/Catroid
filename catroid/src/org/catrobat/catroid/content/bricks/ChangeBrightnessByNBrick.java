@@ -22,35 +22,41 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private double changeBrightness;
+	private Formula changeBrightness;
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public ChangeBrightnessByNBrick() {
 
 	}
 
-	public ChangeBrightnessByNBrick(Sprite sprite, double changeBrightness) {
+	public ChangeBrightnessByNBrick(Sprite sprite, double changeBrightnessValue) {
+		this.sprite = sprite;
+		changeBrightness = new Formula(changeBrightnessValue);
+	}
+
+	public ChangeBrightnessByNBrick(Sprite sprite, Formula changeBrightness) {
 		this.sprite = sprite;
 		this.changeBrightness = changeBrightness;
 	}
@@ -65,10 +71,6 @@ public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 		return this.sprite;
 	}
 
-	public double getChangeBrightness() {
-		return changeBrightness;
-	}
-
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
@@ -76,7 +78,8 @@ public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_brightness_prototype_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_change_brightness_edit_text);
-		editX.setText(String.valueOf(changeBrightness));
+		changeBrightness.setTextFieldId(R.id.brick_change_brightness_edit_text);
+		changeBrightness.refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -88,45 +91,27 @@ public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_brightness, null);
+		prototypeView = View.inflate(context, R.layout.brick_change_brightness, null);
+		TextView textChangeBrightness = (TextView) prototypeView
+				.findViewById(R.id.brick_change_brightness_prototype_text_view);
+		textChangeBrightness.setText(String.valueOf(changeBrightness.interpretFloat(sprite)));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeBrightnessByNBrick(getSprite(), getChangeBrightness());
+		return new ChangeBrightnessByNBrick(getSprite(), changeBrightness.clone());
 	}
 
 	@Override
 	public void onClick(View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(changeBrightness));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-						| InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					changeBrightness = Double.parseDouble(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_brightness_brick");
+		FormulaEditorFragment.showFragment(view, this, changeBrightness);
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.changeBrightnessByN(sprite, (float) changeBrightness));
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+
+		sequence.addAction(ExtendedActions.changeBrightnessByN(sprite, changeBrightness));
 		return null;
 	}
 }

@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -85,11 +84,7 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_set_x)));
 
-		UiTestUtils.clickEnterClose(solo, 0, SET_X + "");
-
-		int xPosition = (Integer) Reflection.getPrivateField(setXBrick, "xPosition");
-		assertEquals("Wrong text in field.", SET_X, xPosition);
-		assertEquals("Value in Brick is not updated.", SET_X + "", solo.getEditText(0).getText().toString());
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, SET_X, "xPosition", setXBrick);
 	}
 
 	private void createProject() {

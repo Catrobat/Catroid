@@ -22,36 +22,44 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private double size;
+	private Formula size;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public ChangeSizeByNBrick() {
 
 	}
 
-	public ChangeSizeByNBrick(Sprite sprite, double size) {
+	public ChangeSizeByNBrick(Sprite sprite, double sizeValue) {
 		this.sprite = sprite;
+
+		size = new Formula(sizeValue);
+	}
+
+	public ChangeSizeByNBrick(Sprite sprite, Formula size) {
+		this.sprite = sprite;
+
 		this.size = size;
 	}
 
@@ -72,7 +80,8 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 		TextView text = (TextView) view.findViewById(R.id.brick_change_size_by_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
-		edit.setText(String.valueOf(size));
+		size.setTextFieldId(R.id.brick_change_size_by_edit_text);
+		size.refreshTextField(view);
 
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
@@ -84,45 +93,26 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_size_by_n, null);
+		prototypeView = View.inflate(context, R.layout.brick_change_size_by_n, null);
+		TextView textChangeSizeBy = (TextView) prototypeView
+				.findViewById(R.id.brick_change_size_by_prototype_text_view);
+		textChangeSizeBy.setText(String.valueOf(size.interpretFloat(sprite)));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeSizeByNBrick(getSprite(), size);
+		return new ChangeSizeByNBrick(getSprite(), size.clone());
 	}
 
 	@Override
 	public void onClick(View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(size));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-						| InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					size = Double.parseDouble(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_size_by_n_brick");
+		FormulaEditorFragment.showFragment(view, this, size);
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.changeSizeByN(sprite, (float) size));
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.changeSizeByN(sprite, size));
 		return null;
 	}
 }

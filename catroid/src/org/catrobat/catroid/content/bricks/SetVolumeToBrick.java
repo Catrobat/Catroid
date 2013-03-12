@@ -22,20 +22,20 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -43,15 +43,20 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private Sprite sprite;
-	private float volume;
+	private Formula volume;
+	private transient View prototypeView;
 
-	public SetVolumeToBrick(Sprite sprite, float volume) {
+	public SetVolumeToBrick(Sprite sprite, float volumeValue) {
+		this.sprite = sprite;
+		volume = new Formula(volumeValue);
+	}
+
+	public SetVolumeToBrick(Sprite sprite, Formula volume) {
 		this.sprite = sprite;
 		this.volume = volume;
 	}
 
 	public SetVolumeToBrick() {
-
 	}
 
 	@Override
@@ -70,8 +75,8 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 
 		TextView text = (TextView) view.findViewById(R.id.brick_set_volume_to_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_set_volume_to_edit_text);
-		edit.setText(String.valueOf(volume));
-
+		volume.setTextFieldId(R.id.brick_set_volume_to_edit_text);
+		volume.refreshTextField(view);
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 
@@ -82,44 +87,25 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_set_volume_to, null);
+		prototypeView = View.inflate(context, R.layout.brick_set_volume_to, null);
+		TextView textSetVolumeTo = (TextView) prototypeView.findViewById(R.id.brick_set_volume_to_prototype_text_view);
+		textSetVolumeTo.setText(String.valueOf(volume.interpretFloat(sprite)));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new SetVolumeToBrick(getSprite(), volume);
+		return new SetVolumeToBrick(getSprite(), volume.clone());
 	}
 
 	@Override
 	public void onClick(View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(volume));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					volume = Float.parseFloat(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_set_volume_to_brick");
+		FormulaEditorFragment.showFragment(view, this, volume);
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setVolumeTo(volume));
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setVolumeTo(sprite, volume));
 		return null;
 	}
 }

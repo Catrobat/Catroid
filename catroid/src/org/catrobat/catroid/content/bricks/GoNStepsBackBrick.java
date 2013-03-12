@@ -22,29 +22,37 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
-import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class GoNStepsBackBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private int steps;
+	private Formula steps;
 
-	public GoNStepsBackBrick(Sprite sprite, int steps) {
+	private transient View prototypeView;
+
+	public GoNStepsBackBrick(Sprite sprite, int stepsValue) {
+		this.sprite = sprite;
+		steps = new Formula(stepsValue);
+	}
+
+	public GoNStepsBackBrick(Sprite sprite, Formula steps) {
 		this.sprite = sprite;
 		this.steps = steps;
 	}
@@ -70,7 +78,22 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		TextView text = (TextView) view.findViewById(R.id.brick_go_back_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_go_back_edit_text);
 
-		edit.setText(String.valueOf(steps));
+		steps.setTextFieldId(R.id.brick_go_back_edit_text);
+		steps.refreshTextField(view);
+
+		TextView times = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
+
+		if (steps.isSingleNumberFormula()) {
+			times.setText(view.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
+					Utils.convertDoubleToPluralInteger(steps.interpretFloat(sprite))));
+		} else {
+
+			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
+			// in hopefully all possible languages
+			times.setText(view.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
+					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
+		}
+
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
@@ -80,43 +103,28 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_go_back, null);
+		prototypeView = View.inflate(context, R.layout.brick_go_back, null);
+		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_prototype_text_view);
+		textSteps.setText(String.valueOf(steps.interpretInteger(sprite)));
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
+				Utils.convertDoubleToPluralInteger(steps.interpretFloat(sprite))));
+		return prototypeView;
+
 	}
 
 	@Override
 	public Brick clone() {
-		return new GoNStepsBackBrick(getSprite(), steps);
+		return new GoNStepsBackBrick(getSprite(), steps.clone());
 	}
 
 	@Override
 	public void onClick(View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(steps));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					steps = Integer.parseInt(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_go_n_steps_brick");
+		FormulaEditorFragment.showFragment(view, this, steps);
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.goNStepsBack(sprite, steps));
 		return null;
 	}

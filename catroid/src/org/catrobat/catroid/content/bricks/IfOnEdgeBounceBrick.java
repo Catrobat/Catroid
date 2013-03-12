@@ -30,7 +30,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
 
 public class IfOnEdgeBounceBrick implements Brick {
 
@@ -67,17 +67,17 @@ public class IfOnEdgeBounceBrick implements Brick {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
-	}
-
-	@Override
 	public Brick clone() {
 		return new IfOnEdgeBounceBrick(sprite);
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public View getPrototypeView(Context context) {
+		return View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
+	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.ifOnEdgeBounce(sprite));
 		return null;
 	}

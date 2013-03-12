@@ -40,6 +40,8 @@
     <color name="tab_text_unselected_light_gray">#999999</color>
     <color name="actionbar_background">#002534</color>
     <color name="actionbar_title_color">#FCBB20</color>
+    <color name="transparent">#00000000 </color>
+    <color name="formula_editor_background">#FFFFFF</color>
 
     <!-- Main Menu Colors -->
     <color name="main_menu_button_text_color">#A8DFF4</color>
@@ -55,4 +57,7 @@
     <color name="sound_fragment_background_color">#04222C</color>
     <color name="sound_fragment_button_gradient_start_color">#00475E</color>
     <color name="sound_fragment_button_gradient_end_color">#003F54</color>
+    <color name="sound_fragment_button_top_border_color">#4D7F8F</color>
 </resources>
+
+
