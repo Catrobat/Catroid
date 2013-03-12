@@ -32,12 +32,13 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -73,12 +74,12 @@ public class SetLookBrick extends BrickBaseType {
 			view = View.inflate(context, R.layout.brick_set_look, null);
 
 			checkbox = (CheckBox) view.findViewById(R.id.brick_set_look_checkbox);
-			checkbox.setOnClickListener(new OnClickListener() {
+			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 				@Override
-				public void onClick(View v) {
-					checked = !checked;
-					adapter.handleCheck(brickInstance, checked);
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					checked = isChecked;
+					adapter.handleCheck(brickInstance, isChecked);
 				}
 			});
 		}

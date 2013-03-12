@@ -36,6 +36,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -91,18 +93,16 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 
-			View brickView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
-
 			checkbox = (CheckBox) view.findViewById(R.id.brick_nxt_play_tone_checkbox);
 
 			final Brick brickInstance = this;
 
-			checkbox.setOnClickListener(new OnClickListener() {
+			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 				@Override
-				public void onClick(View v) {
-					checked = !checked;
-					adapter.handleCheck(brickInstance, checked);
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					checked = isChecked;
+					adapter.handleCheck(brickInstance, isChecked);
 				}
 			});
 		}

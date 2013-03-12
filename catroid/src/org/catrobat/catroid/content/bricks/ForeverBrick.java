@@ -68,17 +68,14 @@ public class ForeverBrick extends LoopBeginBrick {
 			final Brick brickInstance = this;
 
 			checkbox.setOnClickListener(new OnClickListener() {
-
 				@Override
 				public void onClick(View v) {
 					checked = !checked;
-
 					if (!checked) {
 						for (Brick currentBrick : adapter.getCheckedBricks()) {
 							currentBrick.setCheckedBoolean(false);
 						}
 					}
-
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});

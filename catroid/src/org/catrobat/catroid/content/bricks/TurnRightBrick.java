@@ -37,6 +37,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,7 +48,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 public class TurnRightBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
-	private Sprite sprite;
 	private Formula degrees;
 
 	private transient View view;
@@ -79,12 +80,12 @@ public class TurnRightBrick extends BrickBaseType implements OnClickListener {
 			checkbox = (CheckBox) view.findViewById(R.id.brick_turn_right_checkbox);
 			final Brick brickInstance = this;
 
-			checkbox.setOnClickListener(new OnClickListener() {
+			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 				@Override
-				public void onClick(View v) {
-					checked = !checked;
-					adapter.handleCheck(brickInstance, checked);
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					checked = isChecked;
+					adapter.handleCheck(brickInstance, isChecked);
 				}
 			});
 		}

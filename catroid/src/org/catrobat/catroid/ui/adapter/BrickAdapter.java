@@ -889,6 +889,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	public void handleCheck(Brick brick, boolean isChecked) {
+		notifyDataSetChanged();
 		if (brick == null) {
 			return;
 		}

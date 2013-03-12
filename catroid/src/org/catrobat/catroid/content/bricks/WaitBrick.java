@@ -48,7 +48,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 public class WaitBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Formula timeToWaitInSeconds;
-	private Sprite sprite;
 
 	private transient View view;
 	private transient View prototypeView;
@@ -81,16 +80,6 @@ public class WaitBrick extends BrickBaseType implements OnClickListener {
 
 			final Brick brickInstance = this;
 
-			/*
-			 * checkbox.setOnClickListener(new OnClickListener() {
-			 * 
-			 * @Override
-			 * public void onClick(View v) {
-			 * checked = !checked;
-			 * adapter.handleCheck(brickInstance, checked);
-			 * }
-			 * });
-			 */
 			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 				@Override

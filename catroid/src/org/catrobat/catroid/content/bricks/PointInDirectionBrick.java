@@ -46,12 +46,13 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -116,12 +117,12 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 
 			final Brick brickInstance = this;
 
-			checkbox.setOnClickListener(new OnClickListener() {
+			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 				@Override
-				public void onClick(View v) {
-					checked = !checked;
-					adapter.handleCheck(brickInstance, checked);
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					checked = isChecked;
+					adapter.handleCheck(brickInstance, isChecked);
 				}
 			});
 		}

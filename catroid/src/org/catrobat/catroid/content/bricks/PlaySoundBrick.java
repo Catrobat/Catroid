@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
@@ -30,16 +32,17 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
@@ -69,12 +72,12 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 
 			final Brick brickInstance = this;
 
-			checkbox.setOnClickListener(new OnClickListener() {
+			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 				@Override
-				public void onClick(View v) {
-					checked = !checked;
-					adapter.handleCheck(brickInstance, checked);
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					checked = isChecked;
+					adapter.handleCheck(brickInstance, isChecked);
 				}
 			});
 		}
