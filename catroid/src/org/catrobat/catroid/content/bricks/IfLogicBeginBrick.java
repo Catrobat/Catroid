@@ -33,11 +33,14 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -48,7 +51,6 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	private static final String TAG = IfLogicBeginBrick.class.getSimpleName();
 	public static final int EXECUTE_ELSE_PART = -1;
 	private Formula ifCondition;
-	protected Sprite sprite;
 	protected IfLogicElseBrick ifElseBrick;
 	protected IfLogicEndBrick ifEndBrick;
 
@@ -86,21 +88,51 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 
-		View view = View.inflate(context, R.layout.brick_if_begin_if, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_if_begin_if, null);
 
-		TextView text1 = (TextView) view.findViewById(R.id.brick_if_text_view1);
-		EditText edit1 = (EditText) view.findViewById(R.id.brick_if_edit_text1);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_if_begin_checkbox);
+			final Brick brickInstance = this;
 
-		ifCondition.setTextFieldId(R.id.brick_if_edit_text1);
-		ifCondition.refreshTextField(view);
+			checkbox.setOnClickListener(new OnClickListener() {
 
-		text1.setVisibility(View.GONE);
-		edit1.setVisibility(View.VISIBLE);
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
 
-		edit1.setOnClickListener(this);
+					if (!checked) {
+						for (Brick currentBrick : adapter.getCheckedBricks()) {
+							currentBrick.setCheckedBoolean(false);
+						}
+					}
 
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
+
+			TextView text1 = (TextView) view.findViewById(R.id.brick_if_text_view1);
+			EditText edit1 = (EditText) view.findViewById(R.id.brick_if_edit_text1);
+
+			ifCondition.setTextFieldId(R.id.brick_if_edit_text1);
+			ifCondition.refreshTextField(view);
+
+			text1.setVisibility(View.GONE);
+			edit1.setVisibility(View.VISIBLE);
+
+			edit1.setOnClickListener(this);
+		}
+
+		return view;
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.brick_if_begin_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
 		return view;
 	}
 
@@ -111,6 +143,9 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 
 	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
 		FormulaEditorFragment.showFragment(view, this, ifCondition);
 	}
 
@@ -135,7 +170,7 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 		//TODO: handle sorting
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
 		nestingBrickList.add(this);
-		nestingBrickList.add(ifElseBrick);
+		//nestingBrickList.add(ifElseBrick);
 		nestingBrickList.add(ifEndBrick);
 
 		return nestingBrickList;

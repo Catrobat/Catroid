@@ -61,7 +61,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private static final String TAG = BrickAdapter.class.getSimpleName();
 	private static final int ALPHA_FULL = 255;
-	private static final int ALPHA_GREYED = 255;
+	private static final int ALPHA_GREYED = 100;
 	private Context context;
 	private Sprite sprite;
 	private int dragTargetPosition;
@@ -947,7 +947,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				checkedBricks.remove(brick);
 			}
 			brick.getCheckBox().setChecked(check);
-			//brick.setCheckedBoolean(check);
+			brick.setCheckedBoolean(check);
 			notifyDataSetChanged();
 
 			int brickPosition = brickList.indexOf(brick) + 1;

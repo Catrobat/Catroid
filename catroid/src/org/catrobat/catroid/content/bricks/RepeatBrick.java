@@ -34,7 +34,6 @@ import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
