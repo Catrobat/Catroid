@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:drawable="@drawable/my_projects_list_item_background" />
+    
+    <item>
+	    <shape android:shape="rectangle">
+		    <gradient
+		        android:angle="180"
+		        android:endColor="#00000000"
+		        android:centerColor="#00000000"
+		        android:startColor="#77000000"
+		        android:type="linear" />
+	    </shape>  
+    </item>  
+
+</layer-list>

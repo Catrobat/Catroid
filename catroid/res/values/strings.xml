@@ -128,7 +128,7 @@
 
 
     <!-- My Projects activity -->
-    <string name="last_used">Last used:</string>
+    <string name="last_used">Last access:</string>
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
     <string name="rename_project">Rename Project</string>
@@ -377,7 +377,7 @@
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="upload_description">Description:</string>
     <string name="project_rename">(Your project will be renamed.)</string>
-    <string name="size_of_project">Size of project:</string>
+    <string name="size_of_project">Size:</string>
     <string name="notification_percent_completed">completed</string>
     <string name="notification_upload_title">Uploading project</string>
     <string name="notification_download_title">Downloading project</string>

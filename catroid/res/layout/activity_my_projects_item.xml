@@ -21,86 +21,52 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="133dp"
-    android:background="@color/spritelist_item_background" >
+    android:layout_height="90dip"
+    android:background="@color/my_projects_activity_background_color"
+    android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/my_projects_activity_project_image"
-        android:layout_width="@dimen/project_thumbnail_width"
-        android:layout_height="@dimen/project_thumbnail_height"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="6dp" />
-
-    <TextView
-        android:id="@+id/my_projects_activity_project_title"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="6dp"
-        android:layout_toRightOf="@+id/my_projects_activity_project_image"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="2"
-        android:textColor="@color/solid_black"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_height="90dip"
+        android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/my_projects_activity_project_changed_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_below="@+id/my_projects_activity_project_title"
-        android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@+id/my_projects_activity_project_image"
-        android:gravity="center_vertical"
-        android:text="@string/last_used"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+        <CheckBox
+            android:id="@+id/project_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/my_projects_activity_size_of_project_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_below="@+id/my_projects_activity_project_changed_1"
-        android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@+id/my_projects_activity_project_image"
-        android:gravity="center_vertical"
-        android:text="@string/size_of_project"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+        <RelativeLayout
+            android:id="@+id/my_projects_item_background"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/my_projects_list_item_background" >
 
-    <TextView
-        android:id="@+id/my_projects_activity_project_changed_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/my_projects_activity_project_changed_1"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_below="@+id/my_projects_activity_project_title"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="6dp"
-        android:gravity="center_vertical"
-        android:textSize="14sp" />
+            <ImageView
+                android:id="@+id/my_projects_activity_project_image"
+                android:layout_width="72dp"
+                android:layout_height="65dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="9dp"
+                android:padding="1.5dp"
+                android:background="@drawable/my_projects_list_item_thumbnail_border" />
 
-    <TextView
-        android:id="@+id/my_projects_activity_size_of_project_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/my_projects_activity_size_of_project_1"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_below="@+id/my_projects_activity_project_changed_2"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="6dp"
-        android:gravity="center_vertical"
-        android:textSize="14sp" />
+            <include layout="@layout/activity_my_projects_title_details_view" />
+            
+            <ImageView
+                android:id="@+id/arrow_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="14dp"
+                android:src="@drawable/ic_arrow_right_dark" />
+        </RelativeLayout>
+    </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

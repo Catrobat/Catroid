@@ -145,7 +145,7 @@
 
 
     <!-- My Projects activity -->
-    <string name="last_used">Zuletzt benutzt:</string>
+    <string name="last_used">Letzter Zugriff:</string>
     <string name="description">Beschreibung:</string>
     <string name="set_description">Beschreibung</string>
     <string name="rename_project">Projekt umbenennen</string>
@@ -373,7 +373,7 @@
     <string name="upload_project_dialog_title">Projekt hochladen</string>
     <string name="upload_description">Beschreibung:</string>
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
-    <string name="size_of_project">Größe des Projekts:</string>
+    <string name="size_of_project">Größe:</string>
     <string name="notification_percent_completed">abgeschlossen</string>
     <string name="notification_upload_title">Projekt raufladen</string>
     <string name="notification_download_title">Projekt runterladen</string>
