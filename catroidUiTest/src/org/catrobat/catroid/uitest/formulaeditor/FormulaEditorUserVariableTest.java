@@ -37,6 +37,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
+import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
@@ -243,6 +244,66 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 		ListView listView = getVariableListView();
 
 		UserVariable userVariable = (UserVariable) listView.getItemAtPosition(0);
+
+		assertTrue("Value of UserVariable not saved after stage!",
+				userVariable.getValue().compareTo(SET_USERVARIABLE_TO_BRICK_VALUE) == 0);
+
+		solo.goBack();
+		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+		solo.goBack();
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.goBack();
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.clickOnView(solo.getView(R.id.button_play));
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(250);
+		solo.goBack();
+		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
+		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.clickOnView(solo.getView(R.id.program_menu_button_scripts));
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.clickOnEditText(0);
+		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
+		solo.waitForFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
+
+		listView = getVariableListView();
+
+		userVariable = (UserVariable) listView.getItemAtPosition(0);
+
+		assertTrue("Value of UserVariable not saved after stage!",
+				userVariable.getValue().compareTo(SET_USERVARIABLE_TO_BRICK_VALUE) == 0);
+
+		solo.goBack();
+		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+		solo.goBack();
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.goBack();
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.goBack();
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+
+		solo.clickOnView(solo.getView(R.id.button_play));
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(250);
+		solo.goBack();
+		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
+		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.goBack();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		solo.clickOnEditText(0);
+		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
+		solo.waitForFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
+
+		listView = getVariableListView();
+
+		userVariable = (UserVariable) listView.getItemAtPosition(0);
 
 		assertTrue("Value of UserVariable not saved after stage!",
 				userVariable.getValue().compareTo(SET_USERVARIABLE_TO_BRICK_VALUE) == 0);
