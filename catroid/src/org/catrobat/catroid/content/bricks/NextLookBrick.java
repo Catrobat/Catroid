@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -74,7 +76,7 @@ public class NextLookBrick implements Brick {
 
 	@Override
 	public Brick clone() {
-		return new NextLookBrick(sprite);
+		return new NextLookBrick(getSprite());
 	}
 
 	@Override
@@ -98,7 +100,7 @@ public class NextLookBrick implements Brick {
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.nextLook(sprite));
 		return null;
 	}

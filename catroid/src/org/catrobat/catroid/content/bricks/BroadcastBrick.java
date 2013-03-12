@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
@@ -178,7 +180,7 @@ public class BroadcastBrick implements Brick {
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.broadcast(sprite, broadcastMessage));
 		return null;
 	}

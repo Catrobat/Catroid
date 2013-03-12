@@ -23,33 +23,26 @@
 package org.catrobat.catroid.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class TurnLeftAction extends TemporalAction {
 
 	private Sprite sprite;
-	private float degrees;
+	private Formula degrees;
 
 	@Override
 	protected void update(float percent) {
-		sprite.look.setRotation((sprite.look.getRotation() % 360) + degrees);
+		sprite.look.setRotation((sprite.look.getRotation() % 360) + degrees.interpretFloat(sprite));
 
-	}
-
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public float getDegrees() {
-		return degrees;
-	}
-
-	public void setDegrees(float degrees) {
+	public void setDegrees(Formula degrees) {
 		this.degrees = degrees;
 	}
 

@@ -25,31 +25,34 @@ package org.catrobat.catroid.test.content.actions;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ChangeGhostEffectByNAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import android.test.AndroidTestCase;
 
 public class ChangeGhostEffectByNActionTest extends AndroidTestCase {
 
-	private final float increaseGhostEffect = 1f;
-	private final float decreaseGhostEffect = -0.1f;
+	private final Formula increaseGhostEffect = new Formula(1f);
+	private final Formula decreaseGhostEffect = new Formula(-0.1f);
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite ghost effect value", 1f, sprite.look.getAlphaValue());
 
 		float ghostEffect = sprite.look.getAlphaValue();
-		ghostEffect -= increaseGhostEffect;
+		ghostEffect -= increaseGhostEffect.interpretFloat(sprite);
 
-		ChangeGhostEffectByNAction action1 = ExtendedActions.changeGhostEffectByN(sprite, increaseGhostEffect * 100.0f);
+		ChangeGhostEffectByNAction action1 = ExtendedActions.changeGhostEffectByN(sprite, new Formula(
+				increaseGhostEffect.interpretFloat(sprite) * 100.0f));
 		sprite.look.addAction(action1);
 		action1.act(1.0f);
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", ghostEffect,
 				sprite.look.getAlphaValue());
 
 		ghostEffect = sprite.look.getAlphaValue();
-		ghostEffect -= decreaseGhostEffect;
+		ghostEffect -= decreaseGhostEffect.interpretFloat(sprite);
 
-		ChangeGhostEffectByNAction action2 = ExtendedActions.changeGhostEffectByN(sprite, decreaseGhostEffect * 100.0f);
+		ChangeGhostEffectByNAction action2 = ExtendedActions.changeGhostEffectByN(sprite, new Formula(
+				decreaseGhostEffect.interpretFloat(sprite) * 100.0f));
 		sprite.look.addAction(action2);
 		action2.act(1.0f);
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", ghostEffect,

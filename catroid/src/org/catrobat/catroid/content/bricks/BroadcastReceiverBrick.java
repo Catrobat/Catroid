@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastScript;
@@ -177,7 +179,7 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -45,6 +45,8 @@ public class Sprite implements Serializable, Cloneable {
 
 	public transient boolean isPaused;
 
+	public static transient String SCRIPT_THREAD_NAME_PREFIX = "sprite_name_";
+
 	private Object readResolve() {
 		//filling FileChecksumContainer:
 		if (soundList != null && lookList != null && ProjectManager.getInstance().getCurrentProject() != null) {
@@ -95,6 +97,7 @@ public class Sprite implements Serializable, Cloneable {
 				BroadcastScript script = (BroadcastScript) s;
 				SequenceAction action = createBroadcastScriptActionSequence(script);
 				look.putBroadcastSequenceAction(script.getBroadcastMessage(), action);
+
 			}
 		}
 	}

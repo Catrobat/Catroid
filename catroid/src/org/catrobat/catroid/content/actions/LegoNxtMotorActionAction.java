@@ -23,51 +23,45 @@
 package org.catrobat.catroid.content.actions;
 
 import org.catrobat.catroid.LegoNXT.LegoNXT;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick.Motor;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class LegoNxtMotorActionAction extends TemporalAction {
-
+	private static final int MIN_SPEED = -100;
+	private static final int MAX_SPEED = 100;
 	private static final int NO_DELAY = 0;
-	private String motor;
+
 	private Motor motorEnum;
-	private int speed;
+	private Formula speed;
+	private Sprite sprite;
 
 	@Override
 	protected void update(float percent) {
+		int speedValue = speed.interpretInteger(MIN_SPEED, MAX_SPEED, sprite);
+
 		if (motorEnum.equals(Motor.MOTOR_A_C)) {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), speed, 0);
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), speed, 0);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), speedValue, 0);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), speedValue, 0);
 		} else {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), speed, 0);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), speedValue, 0);
 		}
 		//LegoNXT.sendBTCMotorMessage((int) (duration * 1000), motor, 0, 0);
 
-	}
-
-	public String getMotor() {
-		return motor;
-	}
-
-	public void setMotor(String motor) {
-		this.motor = motor;
-	}
-
-	public Motor getMotorEnum() {
-		return motorEnum;
 	}
 
 	public void setMotorEnum(Motor motorEnum) {
 		this.motorEnum = motorEnum;
 	}
 
-	public int getSpeed() {
-		return speed;
+	public void setSpeed(Formula speed) {
+		this.speed = speed;
 	}
 
-	public void setSpeed(int speed) {
-		this.speed = speed;
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 
 }

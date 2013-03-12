@@ -35,17 +35,13 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
 
 public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C, ALL_MOTORS
-	}
-
-	public LegoNxtMotorStopBrick() {
-
 	}
 
 	private Sprite sprite;
@@ -121,7 +117,7 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.legoNxtMotorStop(motorEnum));
 		return null;
 	}

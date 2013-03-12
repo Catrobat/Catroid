@@ -22,27 +22,27 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ChangeYByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int yMovement;
+	private Formula yMovement;
 	private Sprite sprite;
 
 	private transient View view;
@@ -52,8 +52,15 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 
 	}
 
-	public ChangeYByNBrick(Sprite sprite, int yMovement) {
+	public ChangeYByNBrick(Sprite sprite, int yMovementValue) {
 		this.sprite = sprite;
+
+		yMovement = new Formula(yMovementValue);
+	}
+
+	public ChangeYByNBrick(Sprite sprite, Formula yMovement) {
+		this.sprite = sprite;
+
 		this.yMovement = yMovement;
 	}
 
@@ -81,7 +88,8 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_change_y_prototype_text_view);
 		EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
-		editY.setText(String.valueOf(yMovement));
+		yMovement.setTextFieldId(R.id.brick_change_y_edit_text);
+		yMovement.refreshTextField(view);
 
 		textY.setVisibility(View.GONE);
 		editY.setVisibility(View.VISIBLE);
@@ -94,44 +102,22 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_change_y, null);
 		TextView textYMovement = (TextView) prototypeView.findViewById(R.id.brick_change_y_prototype_text_view);
-		textYMovement.setText(String.valueOf(yMovement));
+		textYMovement.setText(String.valueOf(yMovement.interpretInteger(sprite)));
 		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeYByNBrick(getSprite(), yMovement);
+		return new ChangeYByNBrick(getSprite(), yMovement.clone());
 	}
 
 	@Override
 	public void onClick(View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(yMovement));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					yMovement = Integer.parseInt(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_y_by_brick");
+		FormulaEditorFragment.showFragment(view, this, yMovement);
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.changeYByN(sprite, yMovement));
 		return null;
 	}
