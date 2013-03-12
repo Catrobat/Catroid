@@ -55,7 +55,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class FormulaEditorUserVariableTest extends android.test.ActivityInstrumentationTestCase2<MainMenuActivity> {
 
-	private static final Double SET_USERVARIABLE_TO_BRICK_VALUE = 10d;
+	private static final double SET_USERVARIABLE_TO_BRICK_VALUE = 10d;
 	private static final String USER_VARIABLE_NAME_UNDERLINE_PREFIX = "_userVar1";
 	private Project project;
 	private Solo solo;
@@ -127,9 +127,11 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 		ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.addProjectUserVariable(USER_VARIABLE_NAME_UNDERLINE_PREFIX, 0d);
 
-		SetVariableBrick setVariableBrick = new SetVariableBrick(firstSprite, new Formula(
-				SET_USERVARIABLE_TO_BRICK_VALUE), ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.getUserVariable(USER_VARIABLE_NAME_UNDERLINE_PREFIX, firstSprite.getName()));
+		Double setVariableToValue = Double.valueOf(SET_USERVARIABLE_TO_BRICK_VALUE);
+
+		SetVariableBrick setVariableBrick = new SetVariableBrick(firstSprite, new Formula(setVariableToValue),
+				ProjectManager.getInstance().getCurrentProject().getUserVariables()
+						.getUserVariable(USER_VARIABLE_NAME_UNDERLINE_PREFIX, firstSprite.getName()));
 
 		Script startScript1 = new StartScript(firstSprite);
 		firstSprite.addScript(startScript1);
@@ -245,8 +247,10 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 
 		UserVariable userVariable = (UserVariable) listView.getItemAtPosition(0);
 
-		assertTrue("Value of UserVariable not saved after stage!",
-				userVariable.getValue().compareTo(SET_USERVARIABLE_TO_BRICK_VALUE) == 0);
+		Double setVariableToValue = Double.valueOf(SET_USERVARIABLE_TO_BRICK_VALUE);
+
+		assertTrue("Value of UserVariable not saved after stage!", userVariable.getValue()
+				.compareTo(setVariableToValue) == 0);
 
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
