@@ -100,13 +100,14 @@
             android:theme="@style/Theme.Catroid" />
         <activity
             android:name=".ui.ScriptActivity"
-            android:theme="@style/Theme.Catroid"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Catroid" />
         <activity
             android:name=".ui.MyProjectsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Catroid" />
+            android:theme="@style/Theme.Catroid"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.SettingsActivity"
             android:theme="@style/settings_activity" />
@@ -116,8 +117,8 @@
         <activity
             android:name=".soundrecorder.SoundRecorderActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
             android:label="@string/soundrecorder_name"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Catroid" >
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
