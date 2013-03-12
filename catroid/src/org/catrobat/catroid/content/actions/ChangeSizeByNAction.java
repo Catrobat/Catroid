@@ -23,36 +23,29 @@
 package org.catrobat.catroid.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class ChangeSizeByNAction extends TemporalAction {
 
 	private Sprite sprite;
-	private float size;
+	private Formula size;
 
 	@Override
 	protected void update(float percent) {
-		float newSize = sprite.look.getSize() + (size / 100f);
+		float newSize = sprite.look.getSize() + (size.interpretFloat(sprite) / 100f);
 		if (newSize < 0f) {
 			newSize = 0f;
 		}
 		sprite.look.setSize(newSize);
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public float getSize() {
-		return size;
-	}
-
-	public void setSize(float size) {
+	public void setSize(Formula size) {
 		this.size = size;
 	}
 

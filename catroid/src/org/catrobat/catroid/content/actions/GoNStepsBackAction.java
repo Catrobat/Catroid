@@ -23,39 +23,33 @@
 package org.catrobat.catroid.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class GoNStepsBackAction extends TemporalAction {
 
 	private Sprite sprite;
-	private int steps;
+	private Formula steps;
 
 	@Override
 	protected void update(float delta) {
+		int stepsValue = steps.interpretInteger(sprite);
 		int zPosition = sprite.look.getZIndex();
-		if (steps > 0 && (zPosition - steps) < 1) {
+		if (stepsValue > 0 && (zPosition - stepsValue) < 1) {
 			sprite.look.setZIndex(1);
-		} else if (steps < 0 && (zPosition - steps) < zPosition) {
+		} else if (stepsValue < 0 && (zPosition - stepsValue) < zPosition) {
 			sprite.look.toFront();
 		} else {
-			sprite.look.setZIndex(zPosition - steps);
+			sprite.look.setZIndex(zPosition - stepsValue);
 		}
-	}
-
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public int getSteps() {
-		return steps;
-	}
-
-	public void setSteps(int steps) {
+	public void setSteps(Formula steps) {
 		this.steps = steps;
 	}
 

@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.content.actions;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import android.test.AndroidTestCase;
 
@@ -32,7 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 
 public class GoNStepsBackActionTest extends AndroidTestCase {
 
-	private final int steps = 17;
+	private final Formula steps = new Formula(17);
 
 	public void testSteps() {
 		Group parentGroup = new Group();
@@ -49,16 +50,16 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		GoNStepsBackAction action = ExtendedActions.goNStepsBack(sprite, steps);
 		sprite.look.addAction(action);
 		action.act(1.0f);
-		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed", (oldPosition - steps),
-				sprite.look.getZIndex());
+		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed",
+				(oldPosition - steps.interpretInteger(sprite)), sprite.look.getZIndex());
 
 		oldPosition = sprite.look.getZIndex();
 
-		action = ExtendedActions.goNStepsBack(sprite, -steps);
+		action = ExtendedActions.goNStepsBack(sprite, new Formula(-steps.interpretInteger(sprite)));
 		sprite.look.addAction(action);
 		action.act(1.0f);
-		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed", (oldPosition + steps),
-				sprite.look.getZIndex());
+		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed",
+				(oldPosition + steps.interpretInteger(sprite)), sprite.look.getZIndex());
 	}
 
 	public void testNullSprite() {
@@ -86,13 +87,13 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		parentGroup.addActor(sprite2.look);
 		assertEquals("Unexpected initial sprite Z position", 2, sprite2.look.getZIndex());
 
-		GoNStepsBackAction action = ExtendedActions.goNStepsBack(sprite, Integer.MAX_VALUE);
+		GoNStepsBackAction action = ExtendedActions.goNStepsBack(sprite, new Formula(Integer.MAX_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("GoNStepsBackBrick execution failed. Z position should be zero.", 1, sprite.look.getZIndex());
 		assertEquals("Unexpected sprite Z position", 2, sprite2.look.getZIndex());
 
-		action = ExtendedActions.goNStepsBack(sprite, Integer.MIN_VALUE);
+		action = ExtendedActions.goNStepsBack(sprite, new Formula(Integer.MIN_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("An unwanted Integer overflow occured during GoNStepsBackBrick execution.", 2,

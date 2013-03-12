@@ -25,20 +25,21 @@ package org.catrobat.catroid.test.content.actions;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import android.test.InstrumentationTestCase;
 
 public class SetBrightnessActionTest extends InstrumentationTestCase {
 
-	private float brightnessValue = 50.1f;
+	private Formula brightnessValue = new Formula(50.1f);
 
 	public void testBrightnessEffect() {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial brightness value", 1f, sprite.look.getBrightnessValue());
 		SetBrightnessAction action = ExtendedActions.setBrightness(sprite, brightnessValue);
 		action.act(1.0f);
-		assertEquals("Incorrect brightness value after SetBrightnessBrick executed", brightnessValue / 100f,
-				sprite.look.getBrightnessValue());
+		assertEquals("Incorrect brightness value after SetBrightnessBrick executed",
+				brightnessValue.interpretFloat(sprite) / 100f, sprite.look.getBrightnessValue());
 	}
 
 	public void testNullSprite() {
@@ -53,7 +54,8 @@ public class SetBrightnessActionTest extends InstrumentationTestCase {
 
 	public void testNegativeBrightnessValue() {
 		Sprite sprite = new Sprite("testSprite");
-		SetBrightnessAction action = ExtendedActions.setBrightness(sprite, -brightnessValue);
+		SetBrightnessAction action = ExtendedActions.setBrightness(sprite,
+				new Formula(-brightnessValue.interpretFloat(sprite)));
 		action.act(1.0f);
 		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", 0f,
 				sprite.look.getBrightnessValue());

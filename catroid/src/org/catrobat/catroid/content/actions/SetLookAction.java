@@ -46,16 +46,8 @@ public class SetLookAction extends TemporalAction {
 		look = null;
 	}
 
-	public LookData getlookData() {
-		return look;
-	}
-
 	public void setLookData(LookData look) {
 		this.look = look;
-	}
-
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	public void setSprite(Sprite sprite) {

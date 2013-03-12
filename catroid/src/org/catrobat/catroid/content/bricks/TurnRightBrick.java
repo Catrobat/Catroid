@@ -22,21 +22,21 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
-import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -46,7 +46,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	private Sprite sprite;
 
-	private double degrees;
+	private Formula degrees;
 
 	private transient View view;
 	private transient View prototypeView;
@@ -55,9 +55,14 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	}
 
-	public TurnRightBrick(Sprite sprite, double degrees) {
+	public TurnRightBrick(Sprite sprite, double degreesValue) {
 		this.sprite = sprite;
-		this.degrees = degrees;
+		degrees = new Formula(degreesValue);
+	}
+
+	public TurnRightBrick(Sprite sprite, Formula degreesFormula) {
+		this.sprite = sprite;
+		this.degrees = degreesFormula;
 	}
 
 	@Override
@@ -77,11 +82,21 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
 		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_right_edit_text);
-		editDegrees.setText(String.valueOf(degrees));
+		degrees.setTextFieldId(R.id.brick_turn_right_edit_text);
+		degrees.refreshTextField(view);
 
 		TextView times = (TextView) view.findViewById(R.id.brick_turn_right_degree_text_view);
-		times.setText(view.getResources().getQuantityString(R.plurals.brick_turn_right_degree_plural,
-				Utils.convertDoubleToPluralInteger(degrees)));
+
+		if (degrees.isSingleNumberFormula()) {
+			times.setText(view.getResources().getQuantityString(R.plurals.brick_turn_right_degree_plural,
+					Utils.convertDoubleToPluralInteger(degrees.interpretFloat(sprite))));
+		} else {
+
+			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
+			// in hopefully all possible languages
+			times.setText(view.getResources().getQuantityString(R.plurals.brick_turn_right_degree_plural,
+					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
+		}
 
 		textDegrees.setVisibility(View.GONE);
 		editDegrees.setVisibility(View.VISIBLE);
@@ -94,48 +109,26 @@ public class TurnRightBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_turn_right, null);
 		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_right_prototype_text_view);
-		textDegrees.setText(String.valueOf(degrees));
+		textDegrees.setText(String.valueOf(degrees.interpretFloat(sprite)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_turn_right_degree_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.brick_turn_right_degree_plural,
-				Utils.convertDoubleToPluralInteger(degrees)));
+				Utils.convertDoubleToPluralInteger(degrees.interpretFloat(sprite))));
 		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new TurnRightBrick(getSprite(), degrees);
+		return new TurnRightBrick(getSprite(), degrees.clone());
 	}
 
 	@Override
 	public void onClick(View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(degrees));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					degrees = Double.parseDouble(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_turn_right_brick");
+		FormulaEditorFragment.showFragment(view, this, degrees);
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.turnRight(sprite, (float) degrees));
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.turnRight(sprite, degrees));
 		return null;
 	}
 
