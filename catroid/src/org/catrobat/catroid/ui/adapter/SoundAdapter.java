@@ -228,23 +228,28 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 				Log.e("CATROID", "Cannot get view.", e);
 			}
 
-			holder.playButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					if (onSoundEditListener != null) {
-						onSoundEditListener.onSoundPlay(view);
+			if (selectMode != Constants.SELECT_NONE) {
+				holder.playButton.setOnClickListener(null);
+				holder.pauseButton.setOnClickListener(null);
+			} else {
+				holder.playButton.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						if (onSoundEditListener != null) {
+							onSoundEditListener.onSoundPlay(view);
+						}
 					}
-				}
-			});
+				});
 
-			holder.pauseButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					if (onSoundEditListener != null) {
-						onSoundEditListener.onSoundPause(view);
+				holder.pauseButton.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						if (onSoundEditListener != null) {
+							onSoundEditListener.onSoundPause(view);
+						}
 					}
-				}
-			});
+				});
+			}
 		}
 		return convertView;
 	}

@@ -249,8 +249,8 @@
     </style>
 
     <style name="fragment_detail" parent="fragment_basic_style">
-        <item name="android:textColor">@color/solid_black</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/backbrown</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
     </style>
     
     <style name="sound_fragment_main" parent ="fragment_basic_style">
