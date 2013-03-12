@@ -34,12 +34,15 @@ import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -48,7 +51,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 public class SetVariableBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
-	private transient View view;
 	private Formula variableFormula;
 
 	public SetVariableBrick(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
@@ -80,9 +82,29 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter adapter) {
+	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 
-		view = View.inflate(context, R.layout.brick_set_variable, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.brick_set_variable, null);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_set_variable_checkbox);
+			final Brick brickInstance = this;
+
+			checkbox.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					checked = !checked;
+
+					if (!checked) {
+						for (Brick currentBrick : adapter.getCheckedBricks()) {
+							currentBrick.setCheckedBoolean(false);
+						}
+					}
+
+					adapter.handleCheck(brickInstance, checked);
+				}
+			});
+		}
 
 		TextView prototype_text = (TextView) view.findViewById(R.id.brick_set_variable_prototype_view);
 		EditText edit_text = (EditText) view.findViewById(R.id.brick_set_variable_edit_text);
@@ -98,8 +120,13 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener {
 		variabeAdapter.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 		variableSpinner.setAdapter(variabeAdapter);
 
-		variableSpinner.setClickable(true);
-		variableSpinner.setFocusable(true);
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+			variableSpinner.setClickable(true);
+			variableSpinner.setEnabled(true);
+		} else {
+			variableSpinner.setClickable(false);
+			variableSpinner.setFocusable(false);
+		}
 
 		if (userVariable != null) {
 			variableSpinner.setSelection(variabeAdapter.getPositionOfItem(userVariable));
@@ -123,6 +150,15 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener {
 	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_set_variable, null);
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_variable_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
 	}
 
 	@Override
