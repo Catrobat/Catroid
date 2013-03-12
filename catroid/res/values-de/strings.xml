@@ -93,6 +93,7 @@
 
     <!-- Sprite activity -->
     <string name="copy_sprite_finished"> kopiert.</string>
+    <string name="copy_sprite_prefix">Objekt:</string>
     <string name="copy_sprite_name_suffix">_Kopie</string>
     <!--  -->
 
