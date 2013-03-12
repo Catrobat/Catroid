@@ -42,10 +42,6 @@
         <item name="android:textColor">@color/actionbar_title_color</item>
     </style>
 
-    <style name="TabText">
-        <item name="android:textSize">@dimen/text_size_small</item>
-    </style>
-
     <style name="stage_dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@null</item>
         <item name="android:windowNoTitle">true</item>
@@ -90,14 +86,13 @@
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:background">@drawable/main_menu_button_background</item>
-        <item name="android:drawablePadding">25dp</item>
+        <item name="android:drawablePadding">28dp</item>
         <item name="android:drawableRight">@drawable/ic_main_menu_button_arrow</item>
         <item name="android:gravity">left|center_vertical</item>
-        <item name="android:paddingLeft">25dp</item>
-        <item name="android:paddingRight">15dp</item>
-        <item name="android:textSize">@dimen/text_size_xxlarge</item>
+        <item name="android:paddingLeft">21dp</item>
+        <item name="android:paddingRight">14dp</item>
+        <item name="android:textSize">@dimen/text_size_main_menu_buttons</item>
         <item name="android:textColor">@color/main_menu_button_text_color</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:shadowColor">@color/main_menu_button_text_shadow_color</item>
         <item name="android:shadowRadius">1.5</item>
         <item name="android:shadowDx">0</item>
@@ -105,9 +100,8 @@
     </style>
 
     <style name="MainMenuButtonTextSecondLine">
-        <item name="android:textSize">@dimen/text_size_large</item>
-        <item name="android:textColor">@color/main_menu_button_text_second_line_color</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_main_menu_button_continue_program_name</item>
+        <item name="android:textColor">@color/main_menu_button_text_continue_program_name_color</item>
     </style>
 
     <style name="ProgramMenuButton">
