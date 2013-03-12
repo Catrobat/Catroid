@@ -908,7 +908,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 												 */smartBrickSelection(brick, isChecked)) {
 				return;
 			}
-			getCheckedBricks().remove(brick);
+			checkedBricks.remove(brick);
 		}
 		notifyDataSetChanged();
 
@@ -961,6 +961,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				}
 				if (currentBrick.getCheckBox() != null) {
 					currentBrick.getCheckBox().setChecked(check);
+					brick.setCheckedBoolean(check);
 				}
 				handleBrickEnabledState(currentBrick, !check);
 				notifyDataSetChanged();
@@ -972,6 +973,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			if (onBrickEditListener != null) {
 				onBrickEditListener.onBrickChecked();
 			}
+			notifyDataSetChanged();
 			return true;
 		} else if (brick instanceof NestingBrick) {
 			int counter = 1;

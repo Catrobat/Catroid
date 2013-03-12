@@ -41,6 +41,8 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
@@ -76,18 +78,15 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 			checkbox = (CheckBox) view.findViewById(R.id.brick_broadcast_receive_checkbox);
 			final Brick brickInstance = this;
 
-			checkbox.setOnClickListener(new OnClickListener() {
-
+			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				@Override
-				public void onClick(View v) {
-					checked = !checked;
-
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					checked = isChecked;
 					if (!checked) {
 						for (Brick currentBrick : adapter.getCheckedBricks()) {
 							currentBrick.setCheckedBoolean(false);
 						}
 					}
-
 					adapter.handleCheck(brickInstance, checked);
 				}
 			});
