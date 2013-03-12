@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.SetSizeToAction;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -39,7 +40,7 @@ import android.test.InstrumentationTestCase;
 
 public class SetSizeToActionTest extends InstrumentationTestCase {
 
-	private float size = 70.0f;
+	private Formula size = new Formula(70.0f);
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 
 	private File testImage;
@@ -81,8 +82,10 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 
 		SetSizeToAction action = ExtendedActions.setSizeTo(sprite, size);
 		action.act(1.0f);
-		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", size / 100, sprite.look.getScaleX());
-		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", size / 100, sprite.look.getScaleY());
+		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", size.interpretFloat(sprite) / 100,
+				sprite.look.getScaleX());
+		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", size.interpretFloat(sprite) / 100,
+				sprite.look.getScaleY());
 	}
 
 	public void testNullSprite() {

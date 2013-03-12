@@ -30,6 +30,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
@@ -37,67 +38,39 @@ import android.os.Build;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+@XStreamAlias("program")
 public class Project implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	@XStreamAlias("header")
+	private XmlHeader xmlHeader = new XmlHeader();
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
 
-	private String programName;
-	private String description;
-	@XStreamAlias("screenWidth")
-	public int virtualScreenWidth = 0;
-	@XStreamAlias("screenHeight")
-	public int virtualScreenHeight = 0;
-	private float catrobatLanguageVersion;
-
-	// fields only used on the catrobat.org website so far
-	@SuppressWarnings("unused")
-	private String applicationBuildName = "";
-	@SuppressWarnings("unused")
-	private int applicationBuildNumber = 0;
-	@SuppressWarnings("unused")
-	private String applicationName = "";
-	@SuppressWarnings("unused")
-	private String applicationVersion = "";
-	@SuppressWarnings("unused")
-	private String dateTimeUpload = "";
-	@SuppressWarnings("unused")
-	private String deviceName = "";
-	@SuppressWarnings("unused")
-	private String mediaLicense = "";
-	@SuppressWarnings("unused")
-	private String platform = "";
-	@SuppressWarnings("unused")
-	private int platformVersion = 0;
-	@SuppressWarnings("unused")
-	private String programLicense = "";
-	@SuppressWarnings("unused")
-	private String remixOf = "";
-	@SuppressWarnings("unused")
-	private String uRL = "";
-	@SuppressWarnings("unused")
-	private String userHandle = "";
+	private UserVariablesContainer userVariables = null;
 
 	public Project(Context context, String name) {
-		programName = name;
-		description = "";
-		catrobatLanguageVersion = Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION;
-		platform = Constants.PLATFORM_NAME;
-		applicationBuildName = Constants.APPLICATION_BUILD_NAME;
-		applicationBuildNumber = Constants.APPLICATION_BUILD_NUMBER;
+		xmlHeader.setProgramName(name);
+		xmlHeader.setDescription("");
+		xmlHeader.setCatrobatLanguageVersion(Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION);
+		xmlHeader.setPlatform(Constants.PLATFORM_NAME);
+		xmlHeader.setApplicationBuildName(Constants.APPLICATION_BUILD_NAME);
+		xmlHeader.setApplicationBuildNumber(Constants.APPLICATION_BUILD_NUMBER);
 
 		ifLandscapeSwitchWidthAndHeight();
-		virtualScreenWidth = Values.SCREEN_WIDTH;
-		virtualScreenHeight = Values.SCREEN_HEIGHT;
+		xmlHeader.virtualScreenWidth = Values.SCREEN_WIDTH;
+		xmlHeader.virtualScreenHeight = Values.SCREEN_HEIGHT;
 		setDeviceData(context);
 
 		MessageContainer.clear();
+
+		userVariables = new UserVariablesContainer();
 
 		if (context == null) {
 			return;
 		}
 
-		applicationName = context.getString(R.string.app_name);
+		xmlHeader.setApplicationName(context.getString(R.string.app_name));
 		Sprite background = new Sprite(context.getString(R.string.background));
 		background.look.setZIndex(0);
 		addSprite(background);
@@ -130,41 +103,45 @@ public class Project implements Serializable {
 	}
 
 	public void setName(String name) {
-		this.programName = name;
+		xmlHeader.setProgramName(name);
 	}
 
 	public String getName() {
-		return programName;
+		return xmlHeader.getProgramName();
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		xmlHeader.setDescription(description);
 	}
 
 	public String getDescription() {
-		return description;
+		return xmlHeader.getDescription();
 	}
 
 	public float getCatrobatLanguageVersion() {
-		return this.catrobatLanguageVersion;
+		return xmlHeader.getCatrobatLanguageVersion();
+	}
+
+	public XmlHeader getXmlHeader() {
+		return this.xmlHeader;
 	}
 
 	// this method should be removed by the nex refactoring
 	// (used only in tests)
 	public void setCatrobatLanguageVersion(float catrobatLanguageVersion) {
-		this.catrobatLanguageVersion = catrobatLanguageVersion;
+		xmlHeader.setCatrobatLanguageVersion(catrobatLanguageVersion);
 	}
 
 	public void setDeviceData(Context context) {
 		// TODO add other header values
-		deviceName = Build.MODEL;
-		platformVersion = Build.VERSION.SDK_INT;
+		xmlHeader.setDeviceName(Build.MODEL);
+		xmlHeader.setPlatformVersion(Build.VERSION.SDK_INT);
 
 		if (context == null) {
-			applicationVersion = "unknown";
+			xmlHeader.setApplicationVersion("unknown");
 
 		} else {
-			applicationVersion = Utils.getVersionName(context);
+			xmlHeader.setApplicationVersion(Utils.getVersionName(context));
 
 		}
 	}
@@ -172,6 +149,10 @@ public class Project implements Serializable {
 	// default constructor for XMLParser
 	public Project() {
 
+	}
+
+	public UserVariablesContainer getUserVariables() {
+		return userVariables;
 	}
 
 }

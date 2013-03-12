@@ -59,10 +59,6 @@ public class BroadcastAction extends Action {
 		}
 	}
 
-	public BroadcastEvent getBroadcastEvent() {
-		return event;
-	}
-
 	public void setBroadcastEvent(BroadcastEvent event) {
 		this.event = event;
 	}

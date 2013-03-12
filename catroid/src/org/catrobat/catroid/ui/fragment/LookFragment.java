@@ -89,6 +89,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	public static final int REQUEST_SELECT_IMAGE = 0;
 	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
 	public static final int REQUEST_TAKE_PICTURE = 2;
+	public static final String TAG = LookFragment.class.getSimpleName();
 
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 

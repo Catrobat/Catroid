@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 
@@ -69,10 +70,12 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
+			SensorHandler.startSensorListener(this);
 			Intent intent = new Intent(ProgramMenuActivity.this, StageActivity.class);
 			startActivityForResult(intent, StageActivity.STAGE_ACTIVITY_FINISH);
 		}
 		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
+			SensorHandler.stopSensorListeners();
 			ProjectManager projectManager = ProjectManager.getInstance();
 			int currentSpritePos = projectManager.getCurrentSpritePosition();
 			int currentScriptPos = projectManager.getCurrentScriptPosition();

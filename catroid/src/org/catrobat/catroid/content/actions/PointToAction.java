@@ -95,16 +95,8 @@ public class PointToAction extends TemporalAction {
 		sprite.look.setRotation((-(float) rotationDegrees) + 90f);
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	public Sprite getPointedSprite() {
-		return pointedSprite;
 	}
 
 	public void setPointedSprite(Sprite pointedSprite) {

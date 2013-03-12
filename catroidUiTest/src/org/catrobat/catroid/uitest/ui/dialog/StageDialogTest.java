@@ -320,8 +320,8 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	public void testMaximizeStretch() {
 		Project project = createTestProject(testProject);
-		project.virtualScreenWidth = 480;
-		project.virtualScreenHeight = 700;
+		project.getXmlHeader().virtualScreenWidth = 480;
+		project.getXmlHeader().virtualScreenHeight = 700;
 		project.setDeviceData(getActivity());
 		storageHandler.saveProject(project);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));

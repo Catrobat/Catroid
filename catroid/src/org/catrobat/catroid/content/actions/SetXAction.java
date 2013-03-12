@@ -23,32 +23,25 @@
 package org.catrobat.catroid.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class SetXAction extends TemporalAction {
 
 	private Sprite sprite;
-	private int x;
+	private Formula x;
 
 	@Override
 	protected void update(float delta) {
-		sprite.look.setXPosition(x);
-	}
-
-	public Sprite getSprite() {
-		return sprite;
+		sprite.look.setXPosition(x.interpretFloat(sprite));
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
+	public void setX(Formula x) {
 		this.x = x;
 	}
 

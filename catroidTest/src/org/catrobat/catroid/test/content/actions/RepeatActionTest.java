@@ -22,37 +22,125 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.content.actions.RepeatAction;
+import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.InstrumentationTestCase;
 
-import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class RepeatActionTest extends InstrumentationTestCase {
 
 	private Sprite testSprite;
 	private static final int REPEAT_TIMES = 4;
+	final float delta = 0.005f;
 
 	@Override
 	protected void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
+
+	}
+
+	public void testLoopDelay() throws InterruptedException {
+		testSprite.removeAllScripts();
+		Script testScript = new StartScript(testSprite);
+
+		RepeatBrick repeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		final int deltaY = -10;
+
+		testScript.addBrick(repeatBrick);
+		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(loopEndBrick);
+		testScript.addBrick(new ChangeYByNBrick(testSprite, 150));
+
+		testSprite.addScript(testScript);
+		testSprite.createStartScriptActionSequence();
+
+		/*
+		 * This is only to document that a delay of 20ms is by contract. See Issue 28 in Google Code
+		 * http://code.google.com/p/catroid/issues/detail?id=28
+		 */
+
+		final float delayByContract = 0.020f;
+
+		for (int index = 0; index < REPEAT_TIMES; index++) {
+
+			for (float time = 0f; time < delayByContract; time += delta) {
+				testSprite.look.act(delta);
+			}
+		}
+
+		assertEquals("Loop delay did was not 20ms!", deltaY * REPEAT_TIMES, (int) testSprite.look.getYPosition());
+
 	}
 
 	public void testRepeatBrick() throws InterruptedException {
+		testSprite.removeAllScripts();
+		Script testScript = new StartScript(testSprite);
+
+		RepeatBrick repeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
 		final int deltaY = -10;
 
-		RepeatAction action = ExtendedActions.repeat(REPEAT_TIMES,
-				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, deltaY)));
-		while (!action.act(1.0f)) {
-		}
-		int executedCount = (Integer) Reflection.getPrivateField(action, "executedCount");
+		testScript.addBrick(repeatBrick);
+		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(loopEndBrick);
 
-		assertEquals("Executed the wrong number of times!", REPEAT_TIMES, executedCount);
+		testSprite.addScript(testScript);
+		testSprite.createStartScriptActionSequence();
+
+		while (!testSprite.look.getAllActionsAreFinished()) {
+			testSprite.look.act(1.0f);
+		}
+
 		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY, (int) testSprite.look.getYPosition());
+	}
+
+	public void testNestedRepeatBrick() throws InterruptedException {
+		final int deltaY = -10;
+
+		testSprite.removeAllScripts();
+		Script testScript = new StartScript(testSprite);
+
+		RepeatBrick repeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		RepeatBrick nestedRepeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
+		LoopEndBrick nestedLoopEndBrick = new LoopEndBrick(testSprite, nestedRepeatBrick);
+		nestedRepeatBrick.setLoopEndBrick(nestedLoopEndBrick);
+
+		testScript.addBrick(repeatBrick);
+		testScript.addBrick(nestedRepeatBrick);
+		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(nestedLoopEndBrick);
+		testScript.addBrick(loopEndBrick);
+
+		testSprite.addScript(testScript);
+		testSprite.createStartScriptActionSequence();
+
+		float timePerActCycle = 0.5f;
+
+		while (!testSprite.look.getAllActionsAreFinished()) {
+			testSprite.look.act(timePerActCycle);
+		}
+
+		testSprite.look.act(delta);
+		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * REPEAT_TIMES * deltaY,
+				(int) testSprite.look.getYPosition());
 	}
 
 	public void testNegativeRepeats() throws InterruptedException {
@@ -72,10 +160,10 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		final int decoyDeltaY = -150;
 		final int expectedDeltaY = 150;
 
-		RepeatAction repeatAction = ExtendedActions.repeat(0,
-				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, decoyDeltaY)));
+		RepeatAction repeatAction = ExtendedActions.repeat(testSprite, new Formula(0),
+				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, new Formula(decoyDeltaY))));
 		SequenceAction action = ExtendedActions.sequence(repeatAction,
-				ExtendedActions.changeYByN(testSprite, expectedDeltaY));
+				ExtendedActions.changeYByN(testSprite, new Formula(expectedDeltaY)));
 		while (!action.act(1.0f)) {
 		}
 		int executedCount = (Integer) Reflection.getPrivateField(repeatAction, "executedCount");
@@ -84,4 +172,5 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		assertEquals("Loop was executed although repeats were set to zero!", expectedDeltaY,
 				(int) testSprite.look.getYPosition());
 	}
+
 }
