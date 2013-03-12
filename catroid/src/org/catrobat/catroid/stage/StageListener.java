@@ -311,24 +311,7 @@ public class StageListener implements ApplicationListener {
 			if (skipFirstFrame) {
 				skipFirstFrame = false;
 			} else {
-				File file = new File(pathForScreenshot + SCREENSHOT_FILE_NAME);
-				if (file.exists()) {
-					file.delete();
-					file = new File(pathForScreenshot + SCREENSHOT_FILE_NAME);
-					try {
-						file.createNewFile();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				} else {
-					File noMediaFile = new File(pathForScreenshot + ".nomedia");
-					try {
-						file.createNewFile();
-						noMediaFile.createNewFile();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
+				prepareScreenshotFiles();
 				this.makeThumbnail();
 				makeAutomaticScreenshot = false;
 			}
@@ -494,4 +477,21 @@ public class StageListener implements ApplicationListener {
 		return this.makeAutomaticScreenshot;
 	}
 
+	private void prepareScreenshotFiles() {
+		File noMediaFile = new File(pathForScreenshot + ".nomedia");
+		File screenshotFile = new File(pathForScreenshot + SCREENSHOT_FILE_NAME);
+		try {
+			if (screenshotFile.exists()) {
+				screenshotFile.delete();
+				screenshotFile = new File(pathForScreenshot + SCREENSHOT_FILE_NAME);
+			}
+			screenshotFile.createNewFile();
+
+			if (!noMediaFile.exists()) {
+				noMediaFile.createNewFile();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
