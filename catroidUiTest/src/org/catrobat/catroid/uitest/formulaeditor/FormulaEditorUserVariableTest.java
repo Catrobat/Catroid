@@ -252,6 +252,16 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 				solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable)));
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
+		solo.goBack();
+		assertTrue("KeyCode Back deleted checked item: " + itemString, solo.searchText(itemString, true));
+		assertTrue("KeyCode Back deleted checked item: " + itemString2nd, solo.searchText(itemString2nd, true));
+		assertTrue("KeyCode Back deleted checked item: " + itemString3rd, solo.searchText(itemString3rd, true));
+
+		solo.clickOnMenuItem(solo.getString(R.string.delete), true);
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable)));
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
 		solo.clickOnImage(ACTIONMODE_INDEX);
 		solo.sleep(250);
 
@@ -261,6 +271,8 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 
 		UserVariable myVar = (UserVariable) userVariableListView.getAdapter().getItem(0);
 		assertEquals(itemString2nd + " deleted, but should not!", myVar.getName(), itemString2nd);
+		assertFalse(itemString + "not deleted", solo.searchText(itemString, true));
+		assertFalse(itemString3rd + "not deleted", solo.searchText(itemString3rd, true));
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString);
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString2nd);
