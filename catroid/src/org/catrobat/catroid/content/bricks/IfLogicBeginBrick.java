@@ -169,9 +169,15 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
 		//TODO: handle sorting
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
-		nestingBrickList.add(this);
-		//nestingBrickList.add(ifElseBrick);
-		nestingBrickList.add(ifEndBrick);
+		if (sorted) {
+			nestingBrickList.add(this);
+			nestingBrickList.add(ifElseBrick);
+			nestingBrickList.add(ifEndBrick);
+		} else {
+			nestingBrickList.add(this);
+			//nestingBrickList.add(ifElseBrick);
+			nestingBrickList.add(ifEndBrick);
+		}
 
 		return nestingBrickList;
 	}
