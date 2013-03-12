@@ -34,7 +34,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
 
 public class StopAllSoundsBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
@@ -91,8 +91,9 @@ public class StopAllSoundsBrick extends BrickBaseType {
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.stopAllSounds());
 		return null;
 	}
+
 }

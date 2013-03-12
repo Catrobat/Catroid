@@ -23,33 +23,26 @@
 package org.catrobat.catroid.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class SetBrightnessAction extends TemporalAction {
 
 	private Sprite sprite;
-	private float brightness;
+	private Formula brightness;
 
 	@Override
 	protected void update(float percent) {
-		sprite.look.setBrightnessValue(this.brightness / 100f);
+		sprite.look.setBrightnessValue(this.brightness.interpretFloat(sprite) / 100f);
 
-	}
-
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public float getBrightness() {
-		return brightness;
-	}
-
-	public void setBrightness(float brightness) {
+	public void setBrightness(Formula brightness) {
 		this.brightness = brightness;
 	}
 

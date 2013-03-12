@@ -22,15 +22,16 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -38,21 +39,32 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int xPosition;
-	private int yPosition;
+	private Formula xPosition;
+	private Formula yPosition;
+	private Sprite sprite;
+
+	private transient View view;
+	private transient View prototypeView;
 
 	public PlaceAtBrick() {
 
 	}
 
-	public PlaceAtBrick(Sprite sprite, int xPosition, int yPosition) {
+	public PlaceAtBrick(Sprite sprite, int xPositionValue, int yPositionValue) {
 		this.sprite = sprite;
+
+		xPosition = new Formula(xPositionValue);
+		yPosition = new Formula(yPositionValue);
+	}
+
+	public PlaceAtBrick(Sprite sprite, Formula xPosition, Formula yPosition) {
+		this.sprite = sprite;
+
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
 	}
@@ -82,7 +94,8 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_x);
 		EditText editX = (EditText) view.findViewById(R.id.brick_place_at_edit_text_x);
-		editX.setText(String.valueOf(xPosition));
+		xPosition.setTextFieldId(R.id.brick_place_at_edit_text_x);
+		xPosition.refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -90,8 +103,8 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_y);
 		EditText editY = (EditText) view.findViewById(R.id.brick_place_at_edit_text_y);
-		editY.setText(String.valueOf(yPosition));
-
+		yPosition.setTextFieldId(R.id.brick_place_at_edit_text_y);
+		yPosition.refreshTextField(view);
 		textY.setVisibility(View.GONE);
 		editY.setVisibility(View.VISIBLE);
 		editY.setOnClickListener(this);
@@ -100,12 +113,17 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_place_at, null);
+		prototypeView = View.inflate(context, R.layout.brick_place_at, null);
+		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_x);
+		textX.setText(String.valueOf(xPosition.interpretInteger(sprite)));
+		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_y);
+		textY.setText(String.valueOf(yPosition.interpretInteger(sprite)));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new PlaceAtBrick(getSprite(), xPosition, yPosition);
+		return new PlaceAtBrick(getSprite(), xPosition.clone(), yPosition.clone());
 	}
 
 	@Override
@@ -118,46 +136,24 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public void onClick(final View view) {
+	public void onClick(View view) {
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		ScriptActivity activity = (ScriptActivity) view.getContext();
+		switch (view.getId()) {
+			case R.id.brick_place_at_edit_text_x:
+				FormulaEditorFragment.showFragment(view, this, xPosition);
+				break;
 
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				if (view.getId() == R.id.brick_place_at_edit_text_x) {
-					input.setText(String.valueOf(xPosition));
-				} else if (view.getId() == R.id.brick_place_at_edit_text_y) {
-					input.setText(String.valueOf(yPosition));
-				}
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					if (view.getId() == R.id.brick_place_at_edit_text_x) {
-						xPosition = Integer.parseInt(input.getText().toString());
-					} else if (view.getId() == R.id.brick_place_at_edit_text_y) {
-						yPosition = Integer.parseInt(input.getText().toString());
-					}
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_place_at_brick");
+			case R.id.brick_place_at_edit_text_y:
+				FormulaEditorFragment.showFragment(view, this, yPosition);
+				break;
+		}
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.placeAt(Float.valueOf(xPosition), Float.valueOf(yPosition)));
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.placeAt(sprite, xPosition, yPosition));
 		return null;
 	}
 }

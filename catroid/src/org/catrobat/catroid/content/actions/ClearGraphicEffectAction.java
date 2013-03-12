@@ -36,10 +36,6 @@ public class ClearGraphicEffectAction extends TemporalAction {
 		sprite.look.setAlphaValue(1f);
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}

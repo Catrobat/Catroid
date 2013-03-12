@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ChangeSizeByNAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -39,7 +40,9 @@ import android.test.InstrumentationTestCase;
 
 public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 
-	private float positiveSize = 20;
+	private static final int POSITIVE_SIZE = 20;
+
+	private Formula positiveSize = new Formula(POSITIVE_SIZE);
 	//	private float negativeSize = -30;
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
@@ -86,8 +89,8 @@ public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 		ChangeSizeByNAction action = ExtendedActions.changeSizeByN(sprite, positiveSize);
 		sprite.look.addAction(action);
 		action.act(1.0f);
-		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize
-				+ (positiveSize / 100), sprite.look.getSize());
+		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize + POSITIVE_SIZE
+				/ 100f, sprite.look.getSize());
 
 	}
 

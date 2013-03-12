@@ -22,15 +22,16 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -38,30 +39,35 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private double changeGhostEffect;
+	private Formula changeGhostEffect;
+
+	private transient View view;
+	private transient View prototypeView;
 
 	public ChangeGhostEffectByNBrick() {
 
 	}
 
-	public ChangeGhostEffectByNBrick(Sprite sprite, double changeGhostEffect) {
+	public ChangeGhostEffectByNBrick(Sprite sprite, double changeGhostEffectValue) {
 		this.sprite = sprite;
+
+		changeGhostEffect = new Formula(changeGhostEffectValue);
+	}
+
+	public ChangeGhostEffectByNBrick(Sprite sprite, Formula changeGhostEffect) {
+		this.sprite = sprite;
+
 		this.changeGhostEffect = changeGhostEffect;
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	public double getChangeGhostEffect() {
-		return changeGhostEffect;
 	}
 
 	@Override
@@ -83,7 +89,8 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 		}
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
-		editX.setText(String.valueOf(changeGhostEffect));
+		changeGhostEffect.setTextFieldId(R.id.brick_change_ghost_effect_edit_text);
+		changeGhostEffect.refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -93,12 +100,16 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_ghost_effect, null);
+		prototypeView = View.inflate(context, R.layout.brick_change_ghost_effect, null);
+		TextView textChangeGhostEffect = (TextView) prototypeView
+				.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
+		textChangeGhostEffect.setText(String.valueOf(changeGhostEffect.interpretFloat(sprite)));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeGhostEffectByNBrick(getSprite(), getChangeGhostEffect());
+		return new ChangeGhostEffectByNBrick(getSprite(), changeGhostEffect.clone());
 	}
 
 	@Override
@@ -115,35 +126,13 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(changeGhostEffect));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-						| InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					changeGhostEffect = Double.parseDouble(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_ghost_effect_brick");
+		FormulaEditorFragment.showFragment(view, this, changeGhostEffect);
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.changeGhostEffectByN(sprite, (float) changeGhostEffect));
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+
+		sequence.addAction(ExtendedActions.changeGhostEffectByN(sprite, changeGhostEffect));
 		return null;
 	}
 }

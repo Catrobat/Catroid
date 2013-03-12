@@ -26,8 +26,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
-     >
+    android:orientation="horizontal" >
 
     <CheckBox
         android:id="@+id/brick_turn_left_checkbox"
@@ -37,7 +36,6 @@
         android:visibility="gone" />
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/brick_turn_left_layout"
         style="@style/BrickContainer.Motion.Small" >
 
@@ -58,9 +56,8 @@
         </EditText>
 
         <TextView
-            style="@style/BrickText.SingleLine"
-            android:text="@string/brick_turn_left_degrees" >
+            android:id="@+id/brick_turn_left_degree_text_view"
+            style="@style/BrickText.SingleLine" >
         </TextView>
     </LinearLayout>
-
 </LinearLayout>

@@ -37,7 +37,6 @@
         android:visibility="gone" />
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/brick_wait_layout"
         style="@style/BrickContainer.Control.Small" >
 
@@ -62,5 +61,8 @@
             android:text="@string/seconds" >
         </TextView>
     </LinearLayout>
-
+    <TextView
+        android:id="@+id/brick_wait_second_text_view"
+        style="@style/BrickText.SingleLine" >
+    </TextView>
 </LinearLayout>

@@ -169,7 +169,6 @@
     <string name="new_project_dialog_hint">My Project</string>
     <string name="new_project_description_dialog_hint">My Description</string>
     <string name="new_project_name">Project name:</string>
-    <string name="new_project_description">Project description:</string>
     <!--  -->
 
 
@@ -246,15 +245,27 @@
     <string name="brick_change_x_by">Change X by:</string>
     <string name="brick_change_y_by">Change Y by:</string>
     <string name="brick_go_back">Go back</string>
-    <string name="brick_go_back_layers">layers</string>
+    <plurals name="brick_go_back_layer_plural">
+        <item quantity="one">layer</item>
+        <item quantity="other">layers</item>
+    </plurals>
     <string name="brick_come_to_front">Go to front</string>
     <string name="brick_if_on_edge_bounce">If on edge, bounce</string>
     <string name="brick_move">Move</string>
-    <string name="brick_move_n_steps">steps</string>
+    <plurals name="brick_move_n_step_plural">
+        <item quantity="one">step</item>
+        <item quantity="other">steps</item>
+    </plurals>
     <string name="brick_turn_left">Turn left</string>
-    <string name="brick_turn_left_degrees">degrees</string>
+    <plurals name="brick_turn_left_degree_plural">
+        <item quantity="one">degree</item>
+        <item quantity="other">degrees</item>
+    </plurals>
     <string name="brick_turn_right">Turn right</string>
-    <string name="brick_turn_right_degrees">degrees</string>
+    <plurals name="brick_turn_right_degree_plural">
+        <item quantity="one">degree</item>
+        <item quantity="other">degrees</item>
+    </plurals>
     <string name="brick_point_in_direction">Point in direction</string>
     <string name="brick_point_in_direction_choose_direction">Choose direction</string>
     <string name="brick_point_to">Point towards</string>
@@ -288,21 +299,35 @@
     <string name="brick_set_volume_to">Set volume to</string>
     <string name="brick_change_volume_by">Change volume by</string>
     <string name="brick_speak">Speak</string>
+    <string name="brick_speak_default_value">"Hello!"</string>
     <!--  -->
 
     <!-- Control bricks -->
     <string name="brick_when_started">When program started</string>
     <string name="brick_when_tapped">When tapped</string>
     <string name="brick_wait">Wait</string>
-    <string name="seconds">seconds</string>
+    <plurals name="second_plural">
+        <item quantity="one">second</item>
+        <item quantity="other">seconds</item>
+    </plurals>
     <string name="brick_broadcast_receive">When I receive</string>
     <string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
     <string name="brick_note">Note</string>
     <string name="brick_forever">Forever</string>
     <string name="brick_repeat">Repeat</string>
-    <string name="times_label">times</string>
+    <plurals name="time_plural">
+        <item quantity="one">time</item>
+        <item quantity="other">times</item>
+    </plurals>
     <string name="brick_loop_end">End of loop</string>
+    <string name="brick_if_begin">If</string>
+    <string name="brick_if_begin_second_part">is true then</string>
+    <string name="brick_if_else">Else</string>
+    <string name="brick_if_end">End If</string>
+    <string name="brick_set_variable">Set variable</string>
+    <string name="brick_change_variable">Change variable</string>
+    <string name="brick_note_default_value">"add comment here..."</string>
     <!--  -->
 
     <!-- defaultValues -->
@@ -384,8 +409,74 @@
     <string name="tone_duration">Duration</string>
     <string name="nxt_tone_frequency">Frequency</string>
     <string name="nxt_tone_hundred_hz">x100Hz</string>
-    <string name="number_to_small">Value is too small!</string>
-    <string name="number_to_big">Value is too big!</string>
+    <!--  -->
+
+
+    <!-- Formula Editor Strings -->
+    <string name="formula_editor_true">True</string>
+    <string name="formula_editor_false">False</string>
+    <string name="formula_editor_decimal_mark">.</string>
+    <string name="formula_editor_title">Formula Editor</string>
+    <string name="formula_editor_button_undo">&lt;&lt;</string>
+    <string name="formula_editor_button_redo">&gt;&gt;</string>
+    <string name="formula_editor_changes_saved">Changes saved!</string>
+    <string name="formula_editor_changes_discarded">Changes discarded!</string>
+    <string name="formula_editor_parse_fail">Error: Fix or press again now to discard all changes</string>
+    <string name="formula_nothing_selected">Define the brick´s input value</string>
+    <string name="formula_editor_parse_fail_formula_too_long">Formula too long! Fix or press again to discard.</string>
+    <string name="formula_editor_choose_look_variable">Choose your Look Variable:</string>
+    <string name="formula_editor_existing_user_variable">Name already in use!</string>
+    <string name="formula_editor_bracket_open">(</string>
+    <string name="formula_editor_bracket_close">)</string>
+    <string name="formula_editor_function_sin">sin</string>
+    <string name="formula_editor_function_cos">cos</string>
+    <string name="formula_editor_function_tan">tan</string>
+    <string name="formula_editor_function_ln">ln</string>
+    <string name="formula_editor_function_log">log</string>
+    <string name="formula_editor_function_pi">pi</string>
+    <string name="formula_editor_function_sqrt">sqrt</string>
+    <string name="formula_editor_function_rand">random</string>
+    <string name="formula_editor_function_abs">abs</string>
+    <string name="formula_editor_function_round">round</string>
+    <string name="formula_editor_sensor_x_acceleration">x_acceleration</string>
+    <string name="formula_editor_sensor_y_acceleration">y_acceleration</string>
+    <string name="formula_editor_sensor_z_acceleration">z_acceleration</string>
+    <string name="formula_editor_sensor_z_orientation">z_orientation</string>
+    <string name="formula_editor_sensor_x_orientation">x_orientation</string>
+    <string name="formula_editor_sensor_y_orientation">y_orientation</string>
+    <string name="formula_editor_look_x">look_x</string>
+    <string name="formula_editor_look_y">look_y</string>
+    <string name="formula_editor_look_ghosteffect">look_ghosteffect</string>
+    <string name="formula_editor_look_brightness">look_brightness</string>
+    <string name="formula_editor_look_size">look_size</string>
+    <string name="formula_editor_look_rotation">look_rotation</string>
+    <string name="formula_editor_look_layer">look_layer</string>
+    <string name="formula_editor_compute">Compute</string>
+    <string name="formula_editor_delete">Delete</string>
+    <string name="formula_editor_object">Object</string>
+    <string name="formula_editor_math">Math</string>
+    <string name="formula_editor_logic">Logic</string>
+    <string name="formula_editor_sensors">Sensors</string>
+    <string name="formula_editor_variables">Variables</string>
+    <string name="formula_editor_logic_notequal">&#x2260;</string>
+    <string name="formula_editor_logic_lesserthan">&lt;</string>
+    <string name="formula_editor_logic_greaterthan">&gt;</string>
+    <string name="formula_editor_logic_and">AND</string>
+    <string name="formula_editor_logic_or">OR</string>
+    <string name="formula_editor_logic_not">NOT</string>
+    <string name="formula_editor_logic_greaterequal">&#x2265;</string>
+    <string name="formula_editor_logic_leserequal">&#x2264;</string>
+    <string name="formula_editor_logic_equal">=</string>
+    <string name="formula_editor_operator_mult">×</string>
+    <string name="formula_editor_operator_plus">+</string>
+    <string name="formula_editor_operator_minus">-</string>
+    <string name="formula_editor_operator_divide">÷</string>
+    <string name="formula_editor_operator_power">^</string>
+    <string name="formula_editor_make_new_variable">make a new variable</string>
+    <string name="formula_editor_variable_dialog_for_all_sprites">For all objects</string>
+    <string name="formula_editor_variable_dialog_for_this_sprite_only">For this object only</string>
+    <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
+    <string name="formula_editor_variable_context_action_item_selected">items selected!</string>
     <!--  -->
 
 </resources>

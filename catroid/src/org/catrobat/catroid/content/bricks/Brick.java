@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
@@ -44,7 +45,7 @@ public interface Brick extends Serializable {
 
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
 
-	public SequenceAction addActionToSequence(SequenceAction sequence);
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence);
 
 	public Sprite getSprite();
 

@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -83,6 +85,7 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 
 	private transient Direction direction;
 	private transient EditText setAngleEditText;
+	private transient View prototypeView;
 
 	protected Object readResolve() {
 		for (Direction direction : Direction.values()) {
@@ -137,7 +140,11 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_point_in_direction, null);
+		prototypeView = View.inflate(context, R.layout.brick_point_in_direction, null);
+		TextView setAngleTextView = (TextView) prototypeView
+				.findViewById(R.id.brick_point_in_direction_prototype_text_view);
+		setAngleTextView.setText(String.valueOf(degrees));
+		return prototypeView;
 	}
 
 	@Override
@@ -316,7 +323,7 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.pointInDirection(sprite, (float) degrees));
 		return null;
 	}

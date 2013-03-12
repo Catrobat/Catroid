@@ -68,7 +68,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		OnBrickCategoryDialogDismissCancelListener, OnBrickEditListener {
 
 	private static final String ARGUMENTS_SELECTED_CATEGORY = "selected_category";
-	private static final String TAG = ScriptFragment.class.getSimpleName();
+	public static final String TAG = ScriptFragment.class.getSimpleName();
 
 	private static String actionModeTitle;
 

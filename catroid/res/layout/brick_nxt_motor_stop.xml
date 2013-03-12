@@ -20,7 +20,6 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -37,7 +36,6 @@
         android:visibility="gone" />
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/brick_nxt_motor_stop_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,8 +64,8 @@
 
                 <Spinner
                     android:id="@+id/stop_motor_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="76dp"
+                    android:layout_height="35dp"
                     android:clickable="false"
                     android:focusable="false" />
             </LinearLayout>

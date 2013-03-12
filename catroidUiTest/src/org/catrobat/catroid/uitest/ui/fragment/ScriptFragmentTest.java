@@ -380,7 +380,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		String setBackground = solo.getString(R.string.brick_set_background);
 		String nextBackground = solo.getString(R.string.brick_next_background);
 		String comeToFront = solo.getString(R.string.brick_come_to_front);
-		String goNStepsBack = solo.getString(R.string.brick_go_back_layers);
+		String goNStepsBack = solo.getString(R.string.brick_go_back);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryLooks);

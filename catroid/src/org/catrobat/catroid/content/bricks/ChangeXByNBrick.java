@@ -22,15 +22,16 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -38,20 +39,30 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ChangeXByNBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int xMovement;
+	private Formula xMovement;
+	private Sprite sprite;
+
+	private transient View view;
+	private transient View prototypeView;
 
 	public ChangeXByNBrick() {
 
 	}
 
-	public ChangeXByNBrick(Sprite sprite, int xMovement) {
+	public ChangeXByNBrick(Sprite sprite, int xMovementValue) {
 		this.sprite = sprite;
+
+		xMovement = new Formula(xMovementValue);
+	}
+
+	public ChangeXByNBrick(Sprite sprite, Formula xMovement) {
+		this.sprite = sprite;
+
 		this.xMovement = xMovement;
 	}
 
@@ -79,7 +90,8 @@ public class ChangeXByNBrick extends BrickBaseType implements OnClickListener {
 		}
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_x_prototype_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_change_x_edit_text);
-		editX.setText(String.valueOf(xMovement));
+		xMovement.setTextFieldId(R.id.brick_change_x_edit_text);
+		xMovement.refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -89,12 +101,15 @@ public class ChangeXByNBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_x, null);
+		prototypeView = View.inflate(context, R.layout.brick_change_x, null);
+		TextView textXMovement = (TextView) prototypeView.findViewById(R.id.brick_change_x_prototype_text_view);
+		textXMovement.setText(String.valueOf(xMovement.interpretInteger(sprite)));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeXByNBrick(getSprite(), xMovement);
+		return new ChangeXByNBrick(getSprite(), xMovement.clone());
 	}
 
 	@Override
@@ -111,33 +126,11 @@ public class ChangeXByNBrick extends BrickBaseType implements OnClickListener {
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(xMovement));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					xMovement = Integer.parseInt(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_x_by_brick");
+		FormulaEditorFragment.showFragment(view, this, xMovement);
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.changeXByN(sprite, xMovement));
 		return null;
 	}

@@ -27,8 +27,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
-    >
+    android:orientation="horizontal" >
 
     <CheckBox
         android:id="@+id/brick_glide_to_checkbox"
@@ -38,7 +37,6 @@
         android:visibility="gone" />
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/brick_glide_to_layout"
         style="@style/BrickContainer.Motion.Big"
         android:gravity="center_vertical"
@@ -65,8 +63,8 @@
             </EditText>
 
             <TextView
-                style="@style/BrickText.SingleLine"
-                android:text="@string/seconds" >
+                android:id="@+id/brick_glide_to_seconds_text_view"
+                style="@style/BrickText.SingleLine" >
             </TextView>
         </LinearLayout>
 
