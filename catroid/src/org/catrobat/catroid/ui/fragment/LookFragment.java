@@ -116,6 +116,9 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	private ActionMode actionMode;
 
+	private String paintroidIntentApplicationName = "org.catrobat.paintroid";
+	private String paintroidIntentActivityName = "org.catrobat.paintroid.MainActivity";
+
 	private boolean isRenameActionMode;
 
 	@Override
@@ -627,7 +630,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	private void sendPaintroidIntent(int selected_position) {
 		Intent intent = new Intent("android.intent.action.MAIN");
-		intent.setComponent(new ComponentName("org.catrobat.paintroid", "org.catrobat.paintroid.MainActivity"));
+		intent.setComponent(new ComponentName(paintroidIntentApplicationName, paintroidIntentActivityName));
 
 		// Confirm if paintroid is installed else start dialog --------------------------
 		List<ResolveInfo> packageList = getActivity().getPackageManager().queryIntentActivities(intent,

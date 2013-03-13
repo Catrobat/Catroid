@@ -55,7 +55,6 @@
 	        android:background="@drawable/image_contour"
 	     	android:layout_centerVertical="true"
 	     	android:layout_marginLeft="9dp"
-	     	android:layout_toRightOf="@+id/look_checkbox_layout"
 	     	android:contentDescription="@string/look"
 	        android:src="@drawable/catroid_banzai" />
 	    
@@ -123,6 +122,7 @@
 		    android:layout_alignParentRight="true"
 		    android:layout_width="wrap_content"
 		    android:layout_height="match_parent"
+		    android:paddingRight="14dp"
 		 	android:layout_centerVertical="true"
 		 	android:contentDescription="@string/look"
 		    android:src="@drawable/button_arrow" />

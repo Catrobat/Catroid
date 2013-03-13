@@ -38,6 +38,7 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
@@ -351,6 +352,19 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		assertEquals("Wrong size of lookDataList", 2, lookDataList.size());
 		assertEquals("Picture changed", md5ChecksumImageFileBeforeIntent, md5ChecksumImageFileAfterIntent);
+	}
+
+	public void testEditImageWays() {
+
+		solo.clickOnView(solo.getView(R.id.look_main_layout));
+		//Reflection.setPrivateField(Utils.class, "isUnderTest", false);
+		Reflection.setPrivateField(LookFragment.class, "paintroidIntentApplicationName", "test");
+		//Reflection.setPrivateField(LookFragment.class, "paintroidIntentActivityName", value);
+		Log.d("org.catrobat.catroid", solo.getCurrentActivity().getPackageName());
+
+		solo.goBack();
+		solo.goBack();
+		solo.sleep(4000);
 	}
 
 	public void testEditImageWithPaintroid() {
@@ -1099,7 +1113,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				.getVisibility() == lookNameVisibility);
 		assertTrue("Look details " + getAssertMessageAffix(lookDetailsVisibility), solo.getView(R.id.look_details)
 				.getVisibility() == lookDetailsVisibility);
-		assertTrue("Checkboxes " + getAssertMessageAffix(checkBoxVisibility), solo.getView(R.id.look_checkbox_layout)
+		assertTrue("Checkboxes " + getAssertMessageAffix(checkBoxVisibility), solo.getView(R.id.look_checkbox)
 				.getVisibility() == checkBoxVisibility);
 	}
 
