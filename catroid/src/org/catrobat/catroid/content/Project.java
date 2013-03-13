@@ -49,16 +49,6 @@ public class Project implements Serializable {
 
 	private UserVariablesContainer userVariables = null;
 
-	private boolean manualScreenshot = false;
-
-	public boolean isManualScreenshot() {
-		return manualScreenshot;
-	}
-
-	public void setManualScreenshot(boolean manualScreenshot) {
-		this.manualScreenshot = manualScreenshot;
-	}
-
 	public Project(Context context, String name) {
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
@@ -140,6 +130,14 @@ public class Project implements Serializable {
 	// (used only in tests)
 	public void setCatrobatLanguageVersion(float catrobatLanguageVersion) {
 		xmlHeader.setCatrobatLanguageVersion(catrobatLanguageVersion);
+	}
+
+	public boolean isManualScreenshot() {
+		return xmlHeader.isProgramScreenshotManuallyTaken();
+	}
+
+	public void setManualScreenshot(boolean manualScreenshot) {
+		xmlHeader.setProgramScreenshotManuallyTaken(manualScreenshot);
 	}
 
 	public void setDeviceData(Context context) {
