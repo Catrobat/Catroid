@@ -27,46 +27,57 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import junit.framework.TestCase;
 
 public class ReflectionTest extends TestCase {
-	private static final int CLASS_DECLARATION_LINE = 28;
+
+	private class SmartFileContent {
+		private String context;
+
+		public SmartFileContent(String fileString) throws IOException {
+			BufferedReader reader = null;
+			File file = new File(fileString);
+
+			reader = new BufferedReader(new FileReader(file));
+			while (!reader.readLine().contains("class Reflection")) {
+			}
+
+			StringBuilder builder = new StringBuilder();
+			String line;
+			while ((line = reader.readLine()) != null) {
+				builder.append(line);
+			}
+			context = builder.toString();
+			reader.close();
+		}
+
+		@Override
+		public boolean equals(Object object) {
+			if (object.getClass() != this.getClass()) {
+				return false;
+			}
+
+			SmartFileContent smartFileContent = (SmartFileContent) object;
+			return context.compareTo(smartFileContent.context) == 0;
+		}
+	}
 
 	public void testIdenticalReflectionClassInTestProjects() throws IOException {
 		final String[] FILES = { "../catroidTest/src/org/catrobat/catroid/test/utils/Reflection.java",
 				"../catroidUiTest/src/org/catrobat/catroid/uitest/util/Reflection.java" };
 
-		Map<File, List<String>> fileContent = new HashMap<File, List<String>>();
+		List<SmartFileContent> fileContentList = new ArrayList<SmartFileContent>();
 		for (String file : FILES) {
-			File currentFile = new File(file);
-			BufferedReader reader = new BufferedReader(new FileReader(currentFile));
-
-			List<String> lines = new ArrayList<String>();
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				lines.add(line);
-			}
-			fileContent.put(currentFile, lines);
-
-			reader.close();
+			fileContentList.add(new SmartFileContent(file));
 		}
 
-		Entry<File, List<String>> previousEntry = null;
-		for (Entry<File, List<String>> currentEntry : fileContent.entrySet()) {
-			if (previousEntry != null) {
-				for (int currentLine = CLASS_DECLARATION_LINE; currentLine < previousEntry.getValue().size(); currentLine++) {
-					assertEquals(previousEntry.getKey() + " differse from " + currentEntry.getKey() + " at line "
-							+ (currentLine + 1), previousEntry.getValue().get(currentLine), currentEntry.getValue()
-							.get(currentLine));
-				}
+		if (fileContentList.size() > 1) {
+			SmartFileContent expectedFileContent = fileContentList.get(0);
+			for (int index = 1; index < fileContentList.size(); index++) {
+				assertEquals("Reflection files differ", expectedFileContent, fileContentList.get(index));
 			}
-
-			previousEntry = currentEntry;
 		}
 	}
 }

@@ -43,7 +43,7 @@ public class ReflectionTest extends AndroidTestCase {
 		private String SECRET_STRING = "This is a secret string!";
 	}
 
-	public void testPrivateFieldUtils() {
+	public void testPrivateFieldGettersAndSetters() {
 		char secretChar = (Character) Reflection.getPrivateField(SubClass.class, "SECRET_STATIC_CHAR");
 		assertEquals("Getting private static field failed!", SubClass.SECRET_STATIC_CHAR, secretChar);
 
@@ -81,7 +81,7 @@ public class ReflectionTest extends AndroidTestCase {
 		assertEquals("Setting private Float from super class failed!", newSecretFloat, secretFloat);
 	}
 
-	public void testPrivateFieldUtilsWithNullObject() {
+	public void testPrivateFieldWithNullObject() {
 		Object nullObject = null;
 		try {
 			Reflection.getPrivateField(nullObject, "nullObjectsDontHaveFields");
@@ -110,7 +110,7 @@ public class ReflectionTest extends AndroidTestCase {
 		}
 	}
 
-	public void testPrivateFieldUtilsWithWrongParameters() {
+	public void testPrivateFieldWithWrongParameters() {
 		try {
 			Reflection.getPrivateField(SuperClass.class, new SubClass(), "SECRET_STRING");
 			fail("Secret string is only located in SubClass but also found in SuperClass");
@@ -121,7 +121,7 @@ public class ReflectionTest extends AndroidTestCase {
 
 		try {
 			Reflection.getPrivateField(SubClass.class, new SuperClass(), "SECRET_STRING");
-			fail("SuperClass object is a sub class of SubClass but shouldn't");
+			fail("SuperClass object isn't a sub class of SubClass");
 		} catch (RuntimeException runtimeException) {
 			assertEquals("Wrong exception has been thrown", runtimeException.getCause().getClass(),
 					IllegalArgumentException.class);
@@ -216,17 +216,18 @@ public class ReflectionTest extends AndroidTestCase {
 				parameter1, parameter2));
 		assertEquals("Wrong return value", parameter1 + parameter2, returnValue);
 
-		parameter1 = null;
 		returnValue = (String) Reflection.invokeMethod(invokeMethodObject, "methodWithParameters", new ParameterList(
-				new Parameter(String.class, parameter1), parameter2));
-		assertEquals("Wrong return value", parameter1 + parameter2, returnValue);
+				new Parameter(String.class, null), parameter2));
+		assertEquals("Wrong return value", null + parameter2, returnValue);
 
 		InvokeMethodClass.calledVoidMethod = false;
 		Object voidReturnValue = Reflection.invokeMethod(invokeMethodObject, "voidMethod");
 		assertTrue("Void method hasn't been called", InvokeMethodClass.calledVoidMethod);
 		assertNull("Void method returned a non-null value", voidReturnValue);
 
-		Reflection.invokeMethod(Object.class, invokeMethodObject, "toString");
+		String superClassMethodReturnValue = (String) Reflection.invokeMethod(Object.class, invokeMethodObject,
+				"toString");
+		assertNotNull("toString method returned null", superClassMethodReturnValue);
 	}
 
 	public void testInvokeMethodForClasses() {
@@ -250,12 +251,17 @@ public class ReflectionTest extends AndroidTestCase {
 		assertNull("Void method returned a non-null value", voidReturnValue);
 	}
 
-	public void testInvokeMethodWithParameterAutoBoxing() {
+	public void testInvokeMethodWithAutoBoxingParameter() {
 		InvokeMethodClass invokeMethodObject = new InvokeMethodClass();
 
 		float returnValue = (Float) Reflection.invokeMethod(invokeMethodObject, "methodWithPrimitiveParameter",
 				new ParameterList(3.14f));
 		assertEquals("Method with primitive float parameter hasn't been called", returnValue, 1.0f);
+
+		Float floatObject = Float.valueOf(1.234f);
+		returnValue = (Float) Reflection.invokeMethod(invokeMethodObject, "methodWithPrimitiveParameter",
+				new ParameterList(floatObject));
+		assertEquals("Method with float object parameter hasn't been converted into primitive", returnValue, 1.0f);
 
 		returnValue = (Float) Reflection.invokeMethod(invokeMethodObject, "methodWithWrappedPrimitiveParameter",
 				new ParameterList(new Parameter(Float.class, Float.valueOf(3.14f))));
@@ -308,18 +314,13 @@ public class ReflectionTest extends AndroidTestCase {
 					IllegalArgumentException.class);
 		}
 
-		String parameter1;
-		String parameter2;
+		String parameter1 = "String";
+		String parameter2 = null;
+		try {
+			Reflection.invokeMethod(invokeMethodObject, "methodWithParameters", new ParameterList(parameter1,
+					parameter2));
+			fail("Found not existing method signature");
+		} catch (RuntimeException runtimeException) {
+		}
 	}
-
-	//	public void testInvokeMethodWithWrongParameters() {
-	//		try {
-	//			Reflection.invokeMethod(String.class, Integer(1), "toString");
-	//			fail("Integer is a sub class of String");
-	//		} catch (RuntimeException runtimeException) {
-	//			assertEquals("Wrong exception has been thrown", runtimeException.getCause().getClass(),
-	//					IllegalArgumentException.class);
-	//		}
-	//		/* TODO: Test if one parameter is null. */
-	//	}
 }
