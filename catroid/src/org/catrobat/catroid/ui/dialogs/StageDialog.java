@@ -87,17 +87,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				stageListener.changeScreenSize();
 				break;
 			case R.id.stage_dialog_button_screenshot:
-				if (stageListener.makeScreenshot()) {
-					Toast.makeText(stageActivity, stageActivity.getString(R.string.notification_screenshot_ok),
-							Toast.LENGTH_SHORT).show();
-					if (!ProjectManager.getInstance().getCurrentProject().isManualScreenshot()) {
-						ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
-						ProjectManager.getInstance().saveProject();
-					}
-				} else {
-					Toast.makeText(stageActivity, stageActivity.getString(R.string.error_screenshot_failed),
-							Toast.LENGTH_SHORT).show();
-				}
+				makeScreenshot();
 				break;
 			default:
 				Log.w("CATROID", "Unimplemented button clicked! This shouldn't happen!");
@@ -113,9 +103,15 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 	private void makeScreenshot() {
 		if (stageListener.makeScreenshot()) {
-			Toast.makeText(stageActivity, R.string.notification_screenshot_ok, Toast.LENGTH_SHORT).show();
+			Toast.makeText(stageActivity, stageActivity.getString(R.string.notification_screenshot_ok),
+					Toast.LENGTH_SHORT).show();
+			if (!ProjectManager.getInstance().getCurrentProject().isManualScreenshot()) {
+				ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
+				ProjectManager.getInstance().saveProject();
+			}
 		} else {
-			Toast.makeText(stageActivity, R.string.error_screenshot_failed, Toast.LENGTH_SHORT).show();
+			Toast.makeText(stageActivity, stageActivity.getString(R.string.error_screenshot_failed), Toast.LENGTH_SHORT)
+					.show();
 		}
 	}
 

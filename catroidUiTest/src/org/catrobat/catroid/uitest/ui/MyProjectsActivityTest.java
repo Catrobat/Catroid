@@ -55,7 +55,6 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -1030,10 +1029,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 	}
 
-	public void playTheProject(boolean switchGreenToRed, boolean switchRedToGreen, boolean makeScreenshot) {
+	private void playTheProject(boolean switchGreenToRed, boolean switchRedToGreen, boolean makeScreenshot) {
 
-		solo.clickOnText(getActivity().getString(R.string.background));
-		solo.clickOnText(getActivity().getString(R.string.scripts));
+		solo.clickOnText(solo.getString(R.string.background));
+		solo.clickOnText(solo.getString(R.string.scripts));
 		if (switchGreenToRed) {
 			solo.clickOnText("backgroundGreen");
 			solo.clickOnText("backgroundRed");
@@ -1050,22 +1049,20 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		if (makeScreenshot) {
 			solo.goBack();
-			solo.clickOnText("Screenshot");
+			solo.clickOnText(solo.getString(R.string.stage_dialog_screenshot));
 			solo.goBack();
 		} else {
 			solo.goBack();
 			solo.goBack();
 		}
 
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
+		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.sleep(500);
 	}
 
-	public int createScreenshotBitmap() {
+	private int createScreenshotBitmap() {
 
 		Bitmap viewBitmap;
 		int currentViewID;
@@ -1130,7 +1127,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("The screenshot has not been changed", greenPixel2 == greenPixel3);
 	}
 
-	@SuppressWarnings("deprecation")
 	private void createProjectWithBackgrounds() {
 
 		LookData backgroundGreen;
@@ -1166,11 +1162,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		SetLookBrick setBackgroundBrick = new SetLookBrick(projectManager.getCurrentSprite());
 		projectManager.getCurrentScript().addBrick(setBackgroundBrick);
 		setBackgroundBrick.setLook(backgroundGreen);
-
-		Display display = getActivity().getWindowManager().getDefaultDisplay();
-
-		// "new" .getSize requires API 13, so supress for current build configuration	
-
 	}
 
 	private void corruptProjectXML(String projectName) {

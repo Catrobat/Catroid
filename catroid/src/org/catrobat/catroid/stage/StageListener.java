@@ -76,7 +76,9 @@ public class StageListener implements ApplicationListener {
 	private int screenshotX;
 	private int screenshotY;
 	private byte[] screenshot;
-	private boolean skipFirstFrame;
+	// in first frame, framebuffer could be empty and screenshot
+	// would be white
+	private boolean skipFirstFrameForAutomaticScreenshot;
 
 	private Project project;
 
@@ -162,7 +164,7 @@ public class StageListener implements ApplicationListener {
 
 		background = new Texture(Gdx.files.internal("stage/white_pixel.bmp"));
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
-		skipFirstFrame = true;
+		skipFirstFrameForAutomaticScreenshot = true;
 	}
 
 	void menuResume() {
@@ -308,8 +310,8 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (makeAutomaticScreenshot) {
-			if (skipFirstFrame) {
-				skipFirstFrame = false;
+			if (skipFirstFrameForAutomaticScreenshot) {
+				skipFirstFrameForAutomaticScreenshot = false;
 			} else {
 				prepareScreenshotFiles();
 				this.makeThumbnail();
