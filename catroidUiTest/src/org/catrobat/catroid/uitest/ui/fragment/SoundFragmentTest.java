@@ -563,13 +563,17 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		int currentNumberOfSounds = soundInfoList.size();
 		assertEquals("Wrong number of sounds", 5, currentNumberOfSounds);
 
-		// Unsorted (not ascending)
-		int[] checkboxIndicesToCheck = { 4, 0, 2 };
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
+		int[] checkboxIndicesToCheck = { solo.getCurrentCheckBoxes().size() - 1, 0, 2 };
 		int expectedNumberOfSounds = currentNumberOfSounds - checkboxIndicesToCheck.length;
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		solo.scrollDown();
 		solo.clickOnCheckBox(checkboxIndicesToCheck[0]);
+		// Note: We don't actually click the first checkbox on lower resolution devices because
+		//       solo won't perform, any sort of scrolling after a checkBox-click at the moment.
+		//       But we delete 3 sounds anyways, so the test succeeds.
+		solo.scrollToTop();
 		solo.clickOnCheckBox(checkboxIndicesToCheck[1]);
 		solo.clickOnCheckBox(checkboxIndicesToCheck[2]);
 
