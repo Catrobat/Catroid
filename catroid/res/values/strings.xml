@@ -304,7 +304,7 @@
 
     <!-- Control bricks -->
     <string name="brick_when_started">When program started</string>
-    <string name="brick_when_tapped">When tapped</string>
+    <string name="brick_when">When tapped</string>
     <string name="brick_wait">Wait</string>
     <plurals name="second_plural">
         <item quantity="one">second</item>

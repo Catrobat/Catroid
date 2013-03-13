@@ -43,7 +43,7 @@
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_when_tapped" >
+            android:text="@string/brick_when" >
         </TextView>
 
         <!--
