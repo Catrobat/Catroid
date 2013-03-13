@@ -47,7 +47,6 @@ public class SetSizeToBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Formula size;
 
-	private transient View view;
 	private transient View prototypeView;
 
 	public SetSizeToBrick(Sprite sprite, double sizeValue) {

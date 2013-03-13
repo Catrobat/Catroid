@@ -47,7 +47,6 @@ public class SpeakBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 	private String text = "";
 
-	private transient View view;
 	private transient View prototypeView;
 
 	public SpeakBrick(Sprite sprite, String text) {
