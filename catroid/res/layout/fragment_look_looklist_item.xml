@@ -24,35 +24,30 @@
         android:id="@+id/look_main_layout"
 	    android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/look_fragment_button_gradient"
+        android:background="@color/look_fragment_background_color"
         android:minHeight="90dp"
         android:orientation="horizontal" >
         
- 	<LinearLayout 
- 	    android:id="@+id/look_checkbox_layout"
-	    android:layout_width="47dp"
-        android:layout_height="match_parent"
-        android:background="@color/look_fragment_background_color"
-        android:visibility="gone" >
-        
-        <CheckBox
-	        android:id="@+id/look_checkbox"
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-   			android:layout_gravity="center_vertical"
-        	android:layout_marginLeft="15dp"
-        	android:gravity="right"/>
-	</LinearLayout>
- 
+    <CheckBox
+        android:id="@+id/look_checkbox"
+       	android:layout_width="wrap_content"
+       	android:layout_height="wrap_content"
+		android:layout_gravity="center_vertical"
+       	android:layout_marginLeft="15dp"
+       	android:layout_marginRight="13dp"
+       	android:visibility="gone"
+       	android:gravity="right"/>
+	
 	<RelativeLayout 
 	    android:id="@+id/look_fragment_element"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
 	    android:gravity="center_vertical"
 	    android:longClickable="true"
+	    android:background="@drawable/look_fragment_button_gradient"
 	    android:orientation="horizontal" >
 	
-	    <ImageView
+	    <ImageView 
 	        android:id="@+id/look_image"
 	        android:layout_width="72dp"
 	        android:layout_height="65dp"

@@ -71,7 +71,6 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 	private static class ViewHolder {
 		private ImageView lookImageView;
 		private CheckBox checkbox;
-		private LinearLayout checkboxLinearLayout;
 		private TextView lookNameTextView;
 		private LinearLayout lookDetailsLinearLayout;
 		private TextView lookFileSizeTextView;
@@ -92,7 +91,6 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 			holder = new ViewHolder();
 
 			holder.lookImageView = (ImageView) convertView.findViewById(R.id.look_image);
-			holder.checkboxLinearLayout = (LinearLayout) convertView.findViewById(R.id.look_checkbox_layout);
 			holder.checkbox = (CheckBox) convertView.findViewById(R.id.look_checkbox);
 			holder.lookNameTextView = (TextView) convertView.findViewById(R.id.look_name);
 			holder.lookDetailsLinearLayout = (LinearLayout) convertView.findViewById(R.id.look_details);
@@ -136,12 +134,12 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 			boolean checkboxIsVisible = false;
 
 			if (selectMode != Constants.SELECT_NONE) {
-				holder.checkboxLinearLayout.setVisibility(View.VISIBLE);
+				holder.checkbox.setVisibility(View.VISIBLE);
 				holder.lookArrowView.setVisibility(View.GONE);
 				holder.lookElement.setClickable(false);
 				checkboxIsVisible = true;
 			} else {
-				holder.checkboxLinearLayout.setVisibility(View.GONE);
+				holder.checkbox.setVisibility(View.GONE);
 				holder.checkbox.setChecked(false);
 				holder.lookArrowView.setVisibility(View.VISIBLE);
 				holder.lookElement.setClickable(true);
