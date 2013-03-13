@@ -80,7 +80,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 	private static class ViewHolder {
 		private ImageButton playButton;
 		private ImageButton pauseButton;
-		private LinearLayout checkBoxLinearLayout;
+		private LinearLayout soundFragmentButtonLayout;
 		private CheckBox checkbox;
 		private TextView titleTextView;
 		private TextView timeSeperatorTextView;
@@ -107,8 +107,9 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 			holder.playButton.setVisibility(Button.VISIBLE);
 			holder.pauseButton.setVisibility(Button.GONE);
 
+			holder.soundFragmentButtonLayout = (LinearLayout) convertView
+					.findViewById(R.id.sound_fragment_button_layout);
 			holder.checkbox = (CheckBox) convertView.findViewById(R.id.sound_checkbox);
-			holder.checkBoxLinearLayout = (LinearLayout) convertView.findViewById(R.id.checkbox_linear_layout);
 			holder.titleTextView = (TextView) convertView.findViewById(R.id.sound_title);
 			holder.timeSeperatorTextView = (TextView) convertView.findViewById(R.id.sound_time_seperator);
 			holder.timeDurationTextView = (TextView) convertView.findViewById(R.id.sound_duration);
@@ -149,11 +150,14 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 			});
 
 			if (selectMode != Constants.SELECT_NONE) {
-				holder.checkBoxLinearLayout.setVisibility(View.VISIBLE);
 				holder.checkbox.setVisibility(View.VISIBLE);
+				holder.checkbox.setVisibility(View.VISIBLE);
+				holder.soundFragmentButtonLayout
+						.setBackgroundResource(R.drawable.sound_fragment_button_background_shadowed);
 			} else {
-				holder.checkBoxLinearLayout.setVisibility(View.GONE);
 				holder.checkbox.setVisibility(View.GONE);
+				holder.checkbox.setVisibility(View.GONE);
+				holder.soundFragmentButtonLayout.setBackgroundResource(R.drawable.sound_fragment_button_gradient);
 				holder.checkbox.setChecked(false);
 				clearCheckedItems();
 			}
