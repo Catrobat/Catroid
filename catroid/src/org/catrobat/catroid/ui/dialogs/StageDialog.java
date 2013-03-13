@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
@@ -102,9 +103,15 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 	private void makeScreenshot() {
 		if (stageListener.makeScreenshot()) {
-			Toast.makeText(stageActivity, R.string.notification_screenshot_ok, Toast.LENGTH_SHORT).show();
+			Toast.makeText(stageActivity, stageActivity.getString(R.string.notification_screenshot_ok),
+					Toast.LENGTH_SHORT).show();
+			if (!ProjectManager.getInstance().getCurrentProject().isManualScreenshot()) {
+				ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
+				ProjectManager.getInstance().saveProject();
+			}
 		} else {
-			Toast.makeText(stageActivity, R.string.error_screenshot_failed, Toast.LENGTH_SHORT).show();
+			Toast.makeText(stageActivity, stageActivity.getString(R.string.error_screenshot_failed), Toast.LENGTH_SHORT)
+					.show();
 		}
 	}
 
