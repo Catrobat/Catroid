@@ -81,12 +81,17 @@ public class BrickBaseType implements Brick {
 	@Override
 	public void setCheckboxView(int id) {
 		int checkboxVisibility = View.GONE;
+		boolean enabled = true;
+		boolean isChecked = false;
 		if (checkbox != null) {
 			checkboxVisibility = checkbox.getVisibility();
+			enabled = checkbox.isEnabled();
+			isChecked = checkbox.isChecked();
 		}
 		checkbox = (CheckBox) view.findViewById(id);
-		checkbox.setChecked(checked);
+		checkbox.setChecked(isChecked);
 		checkbox.setVisibility(checkboxVisibility);
+		checkbox.setEnabled(enabled);
 	}
 
 	@Override
