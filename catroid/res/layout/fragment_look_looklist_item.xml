@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
@@ -25,6 +24,8 @@
         android:id="@+id/look_main_layout"
 	    android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/look_fragment_button_gradient"
+        android:minHeight="90dp"
         android:orientation="horizontal" >
         
  	<LinearLayout 
@@ -33,13 +34,14 @@
         android:layout_height="match_parent"
         android:background="@color/look_fragment_background_color"
         android:visibility="gone" >
+        
         <CheckBox
 	        android:id="@+id/look_checkbox"
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
-   			android:gravity="right"
    			android:layout_gravity="center_vertical"
-        	android:layout_marginLeft="15dp"/>
+        	android:layout_marginLeft="15dp"
+        	android:gravity="right"/>
 	</LinearLayout>
  
 	<RelativeLayout 
@@ -48,15 +50,7 @@
 	    android:layout_height="match_parent"
 	    android:gravity="center_vertical"
 	    android:longClickable="true"
-	    android:orientation="horizontal"
-		android:paddingLeft="10dp"
-	    android:paddingRight="10dp"
-	    android:paddingTop="8dp"
-	    android:paddingBottom="8dp"
-	    android:minHeight="90dp"
-	    android:background="@color/look_fragment_button_color" >
-	    <!--style="@style/MainMenuButton" > -->
-	  
+	    android:orientation="horizontal" >
 	
 	    <ImageView
 	        android:id="@+id/look_image"
@@ -65,7 +59,9 @@
 	        android:scaleType="fitCenter"
 	        android:background="@drawable/image_contour"
 	     	android:layout_centerVertical="true"
+	     	android:layout_marginLeft="9dp"
 	     	android:layout_toRightOf="@+id/look_checkbox_layout"
+	     	android:contentDescription="@string/look"
 	        android:src="@drawable/catroid_banzai" />
 	    
 	     <LinearLayout
@@ -73,18 +69,14 @@
 	        android:layout_height="match_parent"
 	        android:layout_toRightOf="@+id/look_image"
 	        android:layout_toLeftOf="@+id/look_arrow"
-	        android:paddingLeft="28dp"
+	        android:paddingLeft="12.5dp"
 	        android:gravity="center_vertical"
 	        android:orientation="vertical" >
 	        
-		    <TextView
+		    <TextView style="@style/look_fragment_main"
 		        android:id="@+id/look_name"
-		        style="@style/fragment_text"
 		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:text="default"
-		        android:textColor="@color/look_fragment_main_text_color"
-		        android:textSize="24sp" />
+		        android:layout_height="wrap_content" />
 		
 		    <LinearLayout
 		        android:id="@+id/look_details"
@@ -98,50 +90,46 @@
 	        		android:layout_height="wrap_content"
 	        		android:orientation="vertical">
 	        		
-		            <TextView style="@style/fragment_detail"
+		            <TextView style="@style/look_fragment_detail"
 		      			android:id="@+id/sound_length"
 		      		 	android:layout_width="wrap_content"
 		       		 	android:layout_height="wrap_content"
-		       		 	android:text="Measure:" />
+		       		 	android:text="@string/size" />
 		            
-		            <TextView style="@style/fragment_detail"
+		            <TextView style="@style/look_fragment_detail"
 		      			android:id="@+id/sound_size_prefix"
 		      		 	android:layout_width="wrap_content"
 		       		 	android:layout_height="wrap_content"
-		       		 	android:text="Size:" />	
+		       		 	android:text="@string/look_measure" />	
 		        </LinearLayout>
 		            
 		        <LinearLayout 
 	        	    android:id="@+id/sound_details_right"
 	        		android:layout_width="wrap_content"
 	        		android:layout_height="wrap_content"
-	        		android:paddingLeft="24dp"
+	        		android:paddingLeft="39dp"
 	        		android:orientation="vertical">
 		            
-		            <TextView style="@style/fragment_detail"
+		            <TextView style="@style/look_fragment_detail"
 				        android:id="@+id/look_resolution"
 				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"
-				      
-				        android:layout_weight=".5"
-				        android:textColor="@color/look_fragment_detail_text_color" />
+				        android:layout_height="wrap_content" />
 		            
-		             <TextView style="@style/fragment_detail"
+		             <TextView style="@style/look_fragment_detail"
 		                android:id="@+id/look_size"
 		                android:layout_width="wrap_content"
-		                android:layout_height="wrap_content"
-		               
-		                android:textColor="@color/look_fragment_detail_text_color"
-		                android:layout_weight=".5" />
-	    	
+		                android:layout_height="wrap_content" />
 			    </LinearLayout>	
 			</LinearLayout>	
 		</LinearLayout>
-		<ImageView  android:id="@+id/look_arrow"
+		
+		<ImageView  
+		    android:id="@+id/look_arrow"
 		    android:layout_alignParentRight="true"
 		    android:layout_width="wrap_content"
 		    android:layout_height="match_parent"
 		 	android:layout_centerVertical="true"
+		 	android:contentDescription="@string/look"
 		    android:src="@drawable/button_arrow" />
 	</RelativeLayout>
 </LinearLayout>

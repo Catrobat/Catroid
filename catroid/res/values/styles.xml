@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
@@ -248,7 +247,17 @@
     </style>
 
     <style name="fragment_detail" parent="fragment_basic_style">
-        <item name="android:textColor">@color/look_fragment_detail_text_color</item>
+        <item name="android:textColor">@color/look_fragment_text_detail_color</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    
+    <style name="look_fragment_main" parent ="fragment_basic_style">
+        <item name="android:textColor">@color/look_fragment_text_main_color</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    
+    <style name="look_fragment_detail" parent="fragment_basic_style">
+        <item name="android:textColor">@color/look_fragment_text_detail_color</item>
         <item name="android:textSize">14sp</item>
     </style>
         

@@ -48,12 +48,14 @@
     <color name="main_menu_button_background_gradient_start_color">#00475E</color>
     <color name="main_menu_button_background_gradient_end_color">#003F54</color>
     <color name="main_menu_button_background_top_border_color">#4D7F8F</color>
-    
+
     <!-- Look Fragment Colors -->
+    <color name="look_fragment_text_main_color">#A8DFF4</color>
+    <color name="look_fragment_text_detail_color">#BFD0D6</color>
     <color name="look_fragment_background_color">#04222C</color>
-    <color name="look_fragment_button_color">#00475E</color>
-    <color name="look_fragment_main_text_color">#A8DFF4</color>
-    <color name="look_fragment_detail_text_color">#BFD0D6</color>
+    <color name="look_fragment_button_gradient_start_color">#00475E</color>
+    <color name="look_fragment_button_gradient_end_color">#003F54</color>
+    <color name="look_fragment_button_top_border_color">#4D7F8F</color>
     
     
 
