@@ -40,6 +40,8 @@ public class XmlHeader implements Serializable {
 
 	private float catrobatLanguageVersion;
 
+	private boolean programScreenshotManuallyTaken = false;
+
 	// fields only used on the catrobat.org website so far
 	private String applicationBuildName = "";
 	private int applicationBuildNumber = 0;
@@ -142,6 +144,14 @@ public class XmlHeader implements Serializable {
 
 	void setPlatformVersion(int platformVersion) {
 		this.platformVersion = platformVersion;
+	}
+
+	public boolean isProgramScreenshotManuallyTaken() {
+		return programScreenshotManuallyTaken;
+	}
+
+	public void setProgramScreenshotManuallyTaken(boolean programScreenshotManuallyTaken) {
+		this.programScreenshotManuallyTaken = programScreenshotManuallyTaken;
 	}
 
 }
