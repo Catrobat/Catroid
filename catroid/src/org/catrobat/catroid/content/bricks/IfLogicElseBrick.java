@@ -78,6 +78,7 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 			@Override
 			public void onClick(View v) {
 				checked = !checked;
+				ifBeginBrick.setCheckedBoolean(checked);
 				if (!checked) {
 					for (Brick currentBrick : adapter.getCheckedBricks()) {
 						currentBrick.setCheckedBoolean(false);
