@@ -30,15 +30,16 @@
     android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/sound_checkbox"
+        android:id="@+id/fragment_sound_item_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="13dp"
         android:visibility="gone" />
+    
 	<LinearLayout 
-	    android:id="@+id/sound_fragment_button_layout"
+	    android:id="@+id/fragment_sound_item_main_linear_layout"
 	    android:layout_width="match_parent"
     	android:layout_height="match_parent"
 	    android:background="@drawable/sound_fragment_button_gradient"
@@ -56,7 +57,7 @@
 	        android:paddingRight="28dp" >
 	
 	        <ImageButton
-	            android:id="@+id/btn_sound_play"
+	            android:id="@+id/fragment_sound_item_play_image_button"
 	            android:layout_width="50dp"
 	            android:layout_height="50dp"
 	            android:background="@drawable/sound_fragment_icon_border_inactive"
@@ -64,7 +65,7 @@
 	            android:src="@drawable/ic_media_play" />
 	
 	        <ImageButton
-	            android:id="@+id/btn_sound_pause"
+	            android:id="@+id/fragment_sound_item_pause_image_button"
 	            android:layout_width="50dp"
 	            android:layout_height="50dp"
 	            android:background="@drawable/sound_fragment_icon_border_active"
@@ -73,7 +74,6 @@
 	    </LinearLayout>
 	
 	    <LinearLayout
-	        android:id="@+id/sound_details"
 	        android:layout_width="0dip"
 	        android:layout_height="match_parent"
 	        android:layout_weight="1"
@@ -81,30 +81,28 @@
 	        android:orientation="vertical" >
 	
 	        <TextView style="@style/sound_fragment_main"
-	            android:id="@+id/sound_title"
+	            android:id="@+id/fragment_sound_item_title_text_view"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content" />
 	
 	        <LinearLayout
-	            android:id="@+id/sound_details_field"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:orientation="horizontal" >
 	
 	            <LinearLayout
-	                android:id="@+id/sound_details_left"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:orientation="vertical" >
 	
 	                <TextView style="@style/sound_fragment_detail"
-	                    android:id="@+id/sound_length"
+	                    android:id="@+id/fragment_sound_item_length_prefix_text_view"
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:text="@string/length" />
 	
 	                <TextView style="@style/sound_fragment_detail"
-	                    android:id="@+id/sound_size_prefix"
+	                    android:id="@+id/fragment_sound_item_size_prefix_text_view"
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:text="@string/size"
@@ -112,27 +110,25 @@
 	            </LinearLayout>
 	
 	            <LinearLayout
-	                android:id="@+id/sound_details_right"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:orientation="vertical"
 	                android:paddingLeft="24dp" >
 	
 	                <LinearLayout
-	                    android:id="@+id/sound_details_playing"
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:orientation="horizontal" >
 	
 	                    <Chronometer style="@style/sound_fragment_detail"
-	                        android:id="@+id/sound_chronometer_time_played"
+	                        android:id="@+id/fragment_sound_item_time_played_chronometer"
 	                        android:layout_width="wrap_content"
 	                        android:layout_height="wrap_content"
 	                        android:layout_gravity="right|center_vertical"
 	                        android:visibility="gone" />
 	
 	                    <TextView style="@style/sound_fragment_detail"
-	                        android:id="@+id/sound_time_seperator"
+	                        android:id="@+id/fragment_sound_item_time_seperator_text_view"
 	                        android:layout_width="wrap_content"
 	                        android:layout_height="wrap_content"
 	                        android:gravity="center"
@@ -142,13 +138,13 @@
 	                        android:visibility="gone" />
 	
 	                    <TextView style="@style/sound_fragment_detail"
-	                        android:id="@+id/sound_duration"
+	                        android:id="@+id/fragment_sound_item_duration_text_view"
 	                        android:layout_width="wrap_content"
 	                        android:layout_height="wrap_content" />
 	                </LinearLayout>
 	
 	                <TextView style="@style/sound_fragment_detail"
-	                    android:id="@+id/sound_size"
+	                    android:id="@+id/fragment_sound_item_size_text_view"
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:visibility="gone" />

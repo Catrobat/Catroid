@@ -100,23 +100,26 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 			convertView = View.inflate(context, R.layout.fragment_sound_soundlist_item, null);
 
 			holder = new ViewHolder();
-			LinearLayout ll = (LinearLayout) convertView.findViewById(R.id.sound_details);
-			holder.playButton = (ImageButton) convertView.findViewById(R.id.btn_sound_play);
-			holder.pauseButton = (ImageButton) convertView.findViewById(R.id.btn_sound_pause);
+			holder.playButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_play_image_button);
+			holder.pauseButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_pause_image_button);
 
 			holder.playButton.setVisibility(Button.VISIBLE);
 			holder.pauseButton.setVisibility(Button.GONE);
 
 			holder.soundFragmentButtonLayout = (LinearLayout) convertView
-					.findViewById(R.id.sound_fragment_button_layout);
-			holder.checkbox = (CheckBox) convertView.findViewById(R.id.sound_checkbox);
-			holder.titleTextView = (TextView) convertView.findViewById(R.id.sound_title);
-			holder.timeSeperatorTextView = (TextView) convertView.findViewById(R.id.sound_time_seperator);
-			holder.timeDurationTextView = (TextView) convertView.findViewById(R.id.sound_duration);
-			holder.soundFileSizePrefixTextView = (TextView) convertView.findViewById(R.id.sound_size_prefix);
-			holder.soundFileSizeTextView = (TextView) convertView.findViewById(R.id.sound_size);
+					.findViewById(R.id.fragment_sound_item_main_linear_layout);
+			holder.checkbox = (CheckBox) convertView.findViewById(R.id.fragment_sound_item_checkbox);
+			holder.titleTextView = (TextView) convertView.findViewById(R.id.fragment_sound_item_title_text_view);
+			holder.timeSeperatorTextView = (TextView) convertView
+					.findViewById(R.id.fragment_sound_item_time_seperator_text_view);
+			holder.timeDurationTextView = (TextView) convertView
+					.findViewById(R.id.fragment_sound_item_duration_text_view);
+			holder.soundFileSizePrefixTextView = (TextView) convertView
+					.findViewById(R.id.fragment_sound_item_size_prefix_text_view);
+			holder.soundFileSizeTextView = (TextView) convertView.findViewById(R.id.fragment_sound_item_size_text_view);
 
-			holder.timePlayedChronometer = (Chronometer) ll.findViewById(R.id.sound_chronometer_time_played);
+			holder.timePlayedChronometer = (Chronometer) convertView
+					.findViewById(R.id.fragment_sound_item_time_played_chronometer);
 
 			convertView.setTag(holder);
 		} else {
@@ -153,7 +156,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 				holder.checkbox.setVisibility(View.VISIBLE);
 				holder.checkbox.setVisibility(View.VISIBLE);
 				holder.soundFragmentButtonLayout
-						.setBackgroundResource(R.drawable.sound_fragment_button_background_shadowed);
+						.setBackgroundResource(R.drawable.sound_fragment_button_gradient_shadowed);
 			} else {
 				holder.checkbox.setVisibility(View.GONE);
 				holder.checkbox.setVisibility(View.GONE);
