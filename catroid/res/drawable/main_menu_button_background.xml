@@ -42,11 +42,5 @@
                 android:type="linear" />
         </shape>
     </item>
-    <item android:top="1.3dp">
-        <bitmap
-            android:antialias="true"
-            android:src="@drawable/main_menu_button_background_pattern"
-            android:tileMode="repeat" />
-    </item>
 
 </layer-list>
