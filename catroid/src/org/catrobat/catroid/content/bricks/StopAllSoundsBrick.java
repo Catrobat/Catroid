@@ -22,13 +22,15 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
 
 public class StopAllSoundsBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -48,11 +50,6 @@ public class StopAllSoundsBrick implements Brick {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		SoundManager.getInstance().stopAllSounds();
 	}
 
 	@Override
@@ -77,4 +74,11 @@ public class StopAllSoundsBrick implements Brick {
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_stop_all_sounds, null);
 	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.stopAllSounds());
+		return null;
+	}
+
 }

@@ -37,7 +37,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.ImageEditing;
@@ -81,54 +81,54 @@ public class StandardProjectHandler {
 		File cheshireCat = copyAndScaleImageToProject(projectName, context, cheshireCatName,
 				R.drawable.catroid_cheshire);
 
-		CostumeData normalCatCostumeData = new CostumeData();
-		normalCatCostumeData.setCostumeName(normalCatName);
-		normalCatCostumeData.setCostumeFilename(normalCat.getName());
+		LookData normalCatLookData = new LookData();
+		normalCatLookData.setLookName(normalCatName);
+		normalCatLookData.setLookFilename(normalCat.getName());
 
-		CostumeData banzaiCatCostumeData = new CostumeData();
-		banzaiCatCostumeData.setCostumeName(banzaiCatName);
-		banzaiCatCostumeData.setCostumeFilename(banzaiCat.getName());
+		LookData banzaiCatLookData = new LookData();
+		banzaiCatLookData.setLookName(banzaiCatName);
+		banzaiCatLookData.setLookFilename(banzaiCat.getName());
 
-		CostumeData cheshireCatCostumeData = new CostumeData();
-		cheshireCatCostumeData.setCostumeName(cheshireCatName);
-		cheshireCatCostumeData.setCostumeFilename(cheshireCat.getName());
+		LookData cheshireCatLookData = new LookData();
+		cheshireCatLookData.setLookName(cheshireCatName);
+		cheshireCatLookData.setLookFilename(cheshireCat.getName());
 
-		CostumeData backgroundCostumeData = new CostumeData();
-		backgroundCostumeData.setCostumeName(backgroundName);
-		backgroundCostumeData.setCostumeFilename(backgroundFile.getName());
+		LookData backgroundLookData = new LookData();
+		backgroundLookData.setLookName(backgroundName);
+		backgroundLookData.setLookFilename(backgroundFile.getName());
 
-		ArrayList<CostumeData> costumeDataList = sprite.getCostumeDataList();
-		costumeDataList.add(normalCatCostumeData);
-		costumeDataList.add(banzaiCatCostumeData);
-		costumeDataList.add(cheshireCatCostumeData);
-		ArrayList<CostumeData> costumeDataList2 = backgroundSprite.getCostumeDataList();
-		costumeDataList2.add(backgroundCostumeData);
+		ArrayList<LookData> lookDataList = sprite.getLookDataList();
+		lookDataList.add(normalCatLookData);
+		lookDataList.add(banzaiCatLookData);
+		lookDataList.add(cheshireCatLookData);
+		ArrayList<LookData> lookDataList2 = backgroundSprite.getLookDataList();
+		lookDataList2.add(backgroundLookData);
 
-		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
-		setCostumeBrick.setCostume(normalCatCostumeData);
+		SetLookBrick setLookBrick = new SetLookBrick(sprite);
+		setLookBrick.setLook(normalCatLookData);
 
-		SetCostumeBrick setCostumeBrick1 = new SetCostumeBrick(sprite);
-		setCostumeBrick1.setCostume(normalCatCostumeData);
+		SetLookBrick setLookBrick1 = new SetLookBrick(sprite);
+		setLookBrick1.setLook(normalCatLookData);
 
-		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(sprite);
-		setCostumeBrick2.setCostume(banzaiCatCostumeData);
+		SetLookBrick setLookBrick2 = new SetLookBrick(sprite);
+		setLookBrick2.setLook(banzaiCatLookData);
 
-		SetCostumeBrick setCostumeBrick3 = new SetCostumeBrick(sprite);
-		setCostumeBrick3.setCostume(cheshireCatCostumeData);
+		SetLookBrick setLookBrick3 = new SetLookBrick(sprite);
+		setLookBrick3.setLook(cheshireCatLookData);
 
-		SetCostumeBrick backgroundBrick = new SetCostumeBrick(backgroundSprite);
-		backgroundBrick.setCostume(backgroundCostumeData);
+		SetLookBrick backgroundBrick = new SetLookBrick(backgroundSprite);
+		backgroundBrick.setLook(backgroundLookData);
 
 		WaitBrick waitBrick1 = new WaitBrick(sprite, 500);
 		WaitBrick waitBrick2 = new WaitBrick(sprite, 500);
 
-		startScript.addBrick(setCostumeBrick);
+		startScript.addBrick(setLookBrick);
 
-		whenScript.addBrick(setCostumeBrick2);
+		whenScript.addBrick(setLookBrick2);
 		whenScript.addBrick(waitBrick1);
-		whenScript.addBrick(setCostumeBrick3);
+		whenScript.addBrick(setLookBrick3);
 		whenScript.addBrick(waitBrick2);
-		whenScript.addBrick(setCostumeBrick1);
+		whenScript.addBrick(setLookBrick1);
 		backgroundStartScript.addBrick(backgroundBrick);
 
 		defaultProject.addSprite(sprite);

@@ -22,10 +22,14 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -48,6 +52,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class PointInDirectionBrick implements Brick, View.OnClickListener {
 
@@ -76,6 +82,7 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 
 	private transient Direction direction;
 	private transient EditText setAngleEditText;
+	private transient View prototypeView;
 
 	protected Object readResolve() {
 		for (Direction direction : Direction.values()) {
@@ -96,12 +103,6 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		double degreeOffset = 90.0;
-		sprite.costume.rotation = (float) (-degrees + degreeOffset);
 	}
 
 	@Override
@@ -128,7 +129,11 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_point_in_direction, null);
+		prototypeView = View.inflate(context, R.layout.brick_point_in_direction, null);
+		TextView setAngleTextView = (TextView) prototypeView
+				.findViewById(R.id.brick_point_in_direction_prototype_text_view);
+		setAngleTextView.setText(String.valueOf(degrees));
+		return prototypeView;
 	}
 
 	@Override
@@ -143,6 +148,7 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_point_in_direction_brick");
 	}
 
+	@SuppressLint("ValidFragment")
 	private class EditPointInDirectionBrickDialog extends DialogFragment {
 
 		private EditText input;
@@ -291,5 +297,11 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 			final Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
 			input.addTextChangedListener(getInputTextChangedListener(buttonPositive));
 		}
+	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.pointInDirection(sprite, (float) degrees));
+		return null;
 	}
 }

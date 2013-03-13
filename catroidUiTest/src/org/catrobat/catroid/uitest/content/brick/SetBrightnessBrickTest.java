@@ -46,7 +46,7 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 	private Solo solo;
 	private Project project;
-	private SetBrightnessBrick SetBrightnessBrick;
+	private SetBrightnessBrick setBrightnessBrick;
 
 	public SetBrightnessBrickTest() {
 		super(ScriptActivity.class);
@@ -74,7 +74,7 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -85,18 +85,15 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 		double newBrightness = 65.5;
 
-		UiTestUtils.clickEnterClose(solo, 0, newBrightness + "");
-
-		assertEquals("Wrong text in field", newBrightness, SetBrightnessBrick.getBrightnessValue());
-		assertEquals("Text not updated", newBrightness, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, newBrightness, "brightness", setBrightnessBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		SetBrightnessBrick = new SetBrightnessBrick(sprite, 30.5);
-		script.addBrick(SetBrightnessBrick);
+		setBrightnessBrick = new SetBrightnessBrick(sprite, 30.5);
+		script.addBrick(setBrightnessBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

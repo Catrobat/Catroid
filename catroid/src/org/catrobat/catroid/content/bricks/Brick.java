@@ -23,12 +23,15 @@
 package org.catrobat.catroid.content.bricks;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public interface Brick extends Serializable {
 
@@ -40,7 +43,7 @@ public interface Brick extends Serializable {
 
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
 
-	public void execute();
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence);
 
 	public Sprite getSprite();
 

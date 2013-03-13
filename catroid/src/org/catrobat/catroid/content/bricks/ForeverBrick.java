@@ -22,12 +22,19 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
+
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ForeverBrick extends LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
@@ -44,12 +51,6 @@ public class ForeverBrick extends LoopBeginBrick {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		loopEndBrick.setTimesToRepeat(LoopEndBrick.FOREVER);
-		super.setFirstStartTime();
 	}
 
 	@Override
@@ -74,5 +75,15 @@ public class ForeverBrick extends LoopBeginBrick {
 	@Override
 	public void initialize() {
 		loopEndBrick = new LoopEndlessBrick(sprite, this);
+	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		SequenceAction foreverSequence = ExtendedActions.sequence();
+		Action action = ExtendedActions.forever(sprite, foreverSequence);
+		sequence.addAction(action);
+		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
+		returnActionList.add(foreverSequence);
+		return returnActionList;
 	}
 }

@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.LegoNXT.LegoNXTBtCommunicator;
 import org.catrobat.catroid.bluetooth.BluetoothManager;
@@ -47,20 +48,19 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class PreStageActivity extends Activity {
 
-	private static final int REQUEST_ENABLE_BT = 2000;
+	private static final int REQUEST_ENABLE_BLUETOOTH = 2000;
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	public static final int REQUEST_RESOURCES_INIT = 0101;
-	public static final int MY_DATA_CHECK_CODE = 0;
+	public static final int REQUEST_TEXT_TO_SPEECH = 0;
 
-	public static StageListener stageListener;
+	private int requiredResourceCounter;
 	private static LegoNXT legoNXT;
 	private ProgressDialog connectingProgressDialog;
 	private static TextToSpeech textToSpeech;
-	private int requiredResourceCounter;
+	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
 
 	private boolean autoConnect = false;
 
@@ -69,22 +69,12 @@ public class PreStageActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		int required_resources = getRequiredRessources();
-		int mask = 0x1;
-		int value = required_resources;
-		boolean noResources = true;
+		requiredResourceCounter = Integer.bitCount(required_resources);
 
-		while (value > 0) {
-			if ((mask & required_resources) > 0) {
-				requiredResourceCounter++;
-				noResources = false;
-			}
-			value = value >> 1;
-			mask = mask << 1;
-		}
 		if ((required_resources & Brick.TEXT_TO_SPEECH) > 0) {
 			Intent checkIntent = new Intent();
 			checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-			startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
+			startActivityForResult(checkIntent, REQUEST_TEXT_TO_SPEECH);
 		}
 		if ((required_resources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			BluetoothManager bluetoothManager = new BluetoothManager(this);
@@ -96,14 +86,14 @@ public class PreStageActivity extends Activity {
 				resourceFailed();
 			} else if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
 				if (legoNXT == null) {
-					startBTComm(true);
+					startBluetoothCommunication(true);
 				} else {
 					resourceInitialized();
 				}
 
 			}
 		}
-		if (noResources == true) {
+		if (requiredResourceCounter == Brick.NO_RESOURCES) {
 			startStage();
 		}
 	}
@@ -135,7 +125,6 @@ public class PreStageActivity extends Activity {
 
 	//all resources that should not have to be reinitialized every stage start
 	public static void shutdownPersistentResources() {
-
 		if (legoNXT != null) {
 			legoNXT.destroyCommunicator();
 			legoNXT = null;
@@ -143,8 +132,7 @@ public class PreStageActivity extends Activity {
 	}
 
 	private void resourceFailed() {
-		Intent intent = this.getIntent();
-		this.setResult(RESULT_CANCELED, intent);
+		setResult(RESULT_CANCELED, getIntent());
 		finish();
 	}
 
@@ -152,19 +140,17 @@ public class PreStageActivity extends Activity {
 		//Log.i("res", "Resource initialized: " + requiredResourceCounter);
 
 		requiredResourceCounter--;
-		if (requiredResourceCounter <= 0) {
+		if (requiredResourceCounter == 0) {
 			startStage();
-
 		}
 	}
 
 	public void startStage() {
-		Intent intent = this.getIntent();
-		this.setResult(RESULT_OK, intent);
+		setResult(RESULT_OK, getIntent());
 		finish();
 	}
 
-	private void startBTComm(boolean autoConnect) {
+	private void startBluetoothCommunication(boolean autoConnect) {
 		connectingProgressDialog = ProgressDialog.show(this, "",
 				getResources().getString(R.string.connecting_please_wait), true);
 		Intent serverIntent = new Intent(this, DeviceListActivity.class);
@@ -173,32 +159,30 @@ public class PreStageActivity extends Activity {
 	}
 
 	private int getRequiredRessources() {
-
 		ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
 				.getSpriteList();
-		int ressources = Brick.NO_RESOURCES;
 
+		int ressources = Brick.NO_RESOURCES;
 		for (Sprite sprite : spriteList) {
 			ressources |= sprite.getRequiredResources();
 		}
 		return ressources;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
-		switch (requestCode) {
 
-			case REQUEST_ENABLE_BT:
+		switch (requestCode) {
+			case REQUEST_ENABLE_BLUETOOTH:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
-						startBTComm(true);
+						startBluetoothCommunication(true);
 						break;
-
 					case Activity.RESULT_CANCELED:
 						Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG)
 								.show();
-						//finish();
 						resourceFailed();
 						break;
 				}
@@ -216,18 +200,18 @@ public class PreStageActivity extends Activity {
 					case Activity.RESULT_CANCELED:
 						connectingProgressDialog.dismiss();
 						Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_LONG).show();
-						//finish();
 						resourceFailed();
 						break;
 				}
 				break;
 
-			case MY_DATA_CHECK_CODE:
+			case REQUEST_TEXT_TO_SPEECH:
 				if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-					// success, create the TTS instance
 					textToSpeech = new TextToSpeech(getApplicationContext(), new OnInitListener() {
 						@Override
 						public void onInit(int status) {
+							onUtteranceCompletedListenerContainer = new OnUtteranceCompletedListenerContainer();
+							textToSpeech.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
 							resourceInitialized();
 							if (status == TextToSpeech.ERROR) {
 								Toast.makeText(PreStageActivity.this,
@@ -243,9 +227,7 @@ public class PreStageActivity extends Activity {
 						startActivity(installIntent);
 						resourceFailed();
 					}
-					;
 				} else {
-					// missing data, install it
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);
 					builder.setMessage(getString(R.string.text_to_speech_engine_not_installed)).setCancelable(false)
 							.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
@@ -265,7 +247,6 @@ public class PreStageActivity extends Activity {
 							});
 					AlertDialog alert = builder.create();
 					alert.show();
-
 				}
 				break;
 			default:
@@ -274,10 +255,14 @@ public class PreStageActivity extends Activity {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	public static void textToSpeech(String text, OnUtteranceCompletedListener listener,
 			HashMap<String, String> speakParameter) {
-		textToSpeech.setOnUtteranceCompletedListener(listener);
+		if (text == null) {
+			text = "";
+		}
+
+		onUtteranceCompletedListenerContainer.addOnUtteranceCompletedListener(listener,
+				speakParameter.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 		textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, speakParameter);
 	}
 
@@ -299,7 +284,7 @@ public class PreStageActivity extends Activity {
 					legoNXT.destroyCommunicator();
 					legoNXT = null;
 					if (autoConnect) {
-						startBTComm(false);
+						startBluetoothCommunication(false);
 					} else {
 						resourceFailed();
 					}

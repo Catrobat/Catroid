@@ -32,7 +32,7 @@ import java.util.List;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -191,7 +191,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		}
 
 		Project activeProject = ProjectManager.INSTANCE.getCurrentProject();
-		ArrayList<CostumeData> catroidCostumeList = activeProject.getSpriteList().get(1).getCostumeDataList();
+		ArrayList<LookData> catroidLookList = activeProject.getSpriteList().get(1).getLookDataList();
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -205,8 +205,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		File imageFile;
 
-		for (CostumeData currentCostumeData : catroidCostumeList) {
-			imageFile = new File(currentCostumeData.getAbsolutePath());
+		for (LookData currentLookData : catroidLookList) {
+			imageFile = new File(currentLookData.getAbsolutePath());
 			assertFalse("Imagefile should be deleted", imageFile.exists());
 		}
 	}
@@ -248,7 +248,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		solo.clickOnButton(0);
 		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		assertTrue("Default Project should not be overwritten", spriteList.size() == 3);
 	}
@@ -715,17 +715,33 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		createProjects();
 		solo.sleep(200);
 		String buttonMyProjectsText = solo.getString(R.string.main_menu_programs);
+		String buttonOkText = solo.getString(R.string.ok);
+		String buttonCloseText = solo.getString(R.string.close);
+
 		solo.clickOnButton(buttonMyProjectsText);
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.sleep(200);
+
 		EditText addNewProjectEditText = solo.getEditText(0);
-		String buttonOkText = solo.getString(R.string.ok);
 		assertEquals("Not the proper hint set", solo.getString(R.string.new_project_dialog_hint),
 				addNewProjectEditText.getHint());
 		assertEquals("There should no text be set", "", addNewProjectEditText.getText().toString());
 		solo.sleep(100);
+
+		solo.enterText(0, UiTestUtils.PROJECTNAME1);
+		solo.sleep(100);
+		solo.clickOnButton(buttonOkText);
+
+		solo.sleep(200);
+		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
+		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
+		solo.sleep(100);
+		solo.clickOnButton(buttonCloseText);
+		solo.sleep(100);
+
+		solo.clearEditText(0);
 		solo.enterText(0, UiTestUtils.PROJECTNAME2);
 		solo.sleep(200);
 		solo.clickOnButton(buttonOkText);
@@ -740,31 +756,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(buttonMyProjectsText);
 		assertTrue("project " + UiTestUtils.PROJECTNAME2 + " was not added",
 				solo.searchText(UiTestUtils.PROJECTNAME2, 1, true));
-	}
-
-	public void testAddNewProject2() {
-		createProjects();
-		solo.sleep(200);
-		String buttonOkText = solo.getString(R.string.ok);
-		String buttonCloseText = solo.getString(R.string.close);
-		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		solo.sleep(200);
-		solo.enterText(0, UiTestUtils.PROJECTNAME1);
-		solo.sleep(100);
-		solo.clickOnButton(buttonOkText);
-
-		solo.sleep(200);
-		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
-		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
-		solo.sleep(100);
-		solo.clickOnButton(buttonCloseText);
-		solo.sleep(100);
-		solo.clickOnButton(buttonOkText);
-		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
-		solo.clickOnButton(buttonCloseText);
 	}
 
 	public void testAddNewProjectMixedCase() {
@@ -856,7 +847,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnText(actionSetDescriptionText);
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
 		assertTrue("description is not shown in edittext", solo.searchText("Lorem ipsum"));
-		ProjectManager.INSTANCE.loadProject(UiTestUtils.PROJECTNAME1, getActivity(), getActivity(), true);
+		ProjectManager.INSTANCE.loadProject(UiTestUtils.PROJECTNAME1, getActivity(), true);
 		assertTrue("description is not set in project", ProjectManager.INSTANCE.getCurrentProject().getDescription()
 				.equalsIgnoreCase(lorem));
 	}
@@ -897,9 +888,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 
 		Project oldProject = ProjectManager.getInstance().getCurrentProject();
-		ArrayList<CostumeData> costumeDataListOldProject = oldProject.getSpriteList().get(1).getCostumeDataList();
-		CostumeData costumeDataOldProject = costumeDataListOldProject.get(0);
-		String oldChecksum = costumeDataOldProject.getChecksum();
+		ArrayList<LookData> lookDataListOldProject = oldProject.getSpriteList().get(1).getLookDataList();
+		LookData lookDataOldProject = lookDataListOldProject.get(0);
+		String oldChecksum = lookDataOldProject.getChecksum();
 
 		solo.sleep(200);
 		assertTrue("click on project '" + UiTestUtils.COPIED_PROJECT_NAME + "' in list not successful",
@@ -914,11 +905,11 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("The sprite name should be: 'testSprite'", solo.searchText("testSprite", 1, false));
 
 		Project copiedProject = ProjectManager.getInstance().getCurrentProject();
-		ArrayList<CostumeData> costumeDataListCopiedProject = copiedProject.getSpriteList().get(1).getCostumeDataList();
-		CostumeData costumeDataCopiedProject = costumeDataListCopiedProject.get(0);
-		String copiedCostumeChecksum = costumeDataCopiedProject.getChecksum();
+		ArrayList<LookData> lookDataListCopiedProject = copiedProject.getSpriteList().get(1).getLookDataList();
+		LookData lookDataCopiedProject = lookDataListCopiedProject.get(0);
+		String copiedLookChecksum = lookDataCopiedProject.getChecksum();
 
-		assertTrue("Checksum should be the same", oldChecksum.equals(copiedCostumeChecksum));
+		assertTrue("Checksum should be the same", oldChecksum.equals(copiedLookChecksum));
 	}
 
 	public void testCopyProject() {
@@ -1012,12 +1003,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
 				IMAGE_RESOURCE_1, getActivity(), UiTestUtils.FileTypes.IMAGE);
 
-		ArrayList<CostumeData> costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
-		CostumeData costumeData = new CostumeData();
-		costumeData.setCostumeFilename(imageFile.getName());
-		costumeData.setCostumeName("testname");
-		costumeDataList.add(costumeData);
-		projectManager.getFileChecksumContainer().addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		LookData lookData = new LookData();
+		lookData.setLookFilename(imageFile.getName());
+		lookData.setLookName("testname");
+		lookDataList.add(lookData);
+		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 
 		StorageHandler.getInstance().saveProject(project1);
 

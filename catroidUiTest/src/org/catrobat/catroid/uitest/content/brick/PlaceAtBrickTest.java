@@ -38,7 +38,6 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -84,7 +83,7 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 5 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 5, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 4, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -102,17 +101,10 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		int xPosition = 987;
 		int yPosition = 654;
 
-		UiTestUtils.clickEnterClose(solo, 0, xPosition + "");
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 2, xPosition, "xPosition", placeAtBrick);
+		solo.sleep(200);
 
-		int currentXPosition = (Integer) Reflection.getPrivateField(placeAtBrick, "xPosition");
-		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
-		assertEquals("Value in Brick is not updated", xPosition, currentXPosition);
-
-		UiTestUtils.clickEnterClose(solo, 1, yPosition + "");
-
-		int currentYPosition = (Integer) Reflection.getPrivateField(placeAtBrick, "yPosition");
-		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
-		assertEquals("Value in Brick is not updated", yPosition, currentYPosition);
+		UiTestUtils.testBrickWithFormulaEditor(solo, 1, 2, yPosition, "yPosition", placeAtBrick);
 	}
 
 	private void createProject() {

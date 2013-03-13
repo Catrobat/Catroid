@@ -37,12 +37,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
+
 public class NoteBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private String note = "";
+	private String note;
 
 	private transient View view;
+	private transient View prototypeView;
 
 	public NoteBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -60,10 +63,6 @@ public class NoteBrick implements Brick {
 	public NoteBrick(Sprite sprite, String note) {
 		this.sprite = sprite;
 		this.note = note;
-	}
-
-	@Override
-	public void execute() {
 	}
 
 	@Override
@@ -138,11 +137,19 @@ public class NoteBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_note, null);
+		prototypeView = View.inflate(context, R.layout.brick_note, null);
+		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_note_prototype_text_view);
+		textSpeak.setText(note);
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
 		return new NoteBrick(this.sprite, this.note);
+	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		return null;
 	}
 }

@@ -53,6 +53,7 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
@@ -77,6 +78,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -140,27 +142,101 @@ public class UiTestUtils {
 	 * @param value
 	 *            The value you want to put into the EditText
 	 */
-	public static void insertIntegerIntoEditText(Solo solo, int editTextId, int value) {
-		insertValue(solo, editTextId, value + "");
+	public static void insertIntegerIntoEditText(Solo solo, int value) {
+		insertValue(solo, value + "");
 	}
 
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the double value and closes the Dialog
 	 * 
-	 * @param editTextIndex
+	 * @param editTextId
 	 *            The ID of the EditText to click on
 	 * @param value
 	 *            The value you want to put into the EditText
 	 */
-	public static void insertDoubleIntoEditText(Solo solo, int editTextIndex, double value) {
-		insertValue(solo, editTextIndex, value + "");
+	public static void insertDoubleIntoEditText(Solo solo, double value) {
+		insertValue(solo, value + "");
 	}
 
-	private static void insertValue(Solo solo, int editTextIndex, String value) {
-		solo.clickOnEditText(editTextIndex);
-		solo.sleep(50);
-		solo.clearEditText(editTextIndex);
-		solo.enterText(editTextIndex, value);
+	private static void insertValue(Solo solo, String value) {
+
+		for (char item : (value.toCharArray())) {
+			switch (item) {
+				case '-':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
+					break;
+				case '0':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+					break;
+				case '1':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
+					break;
+				case '2':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_2));
+					break;
+				case '3':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_3));
+					break;
+				case '4':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_4));
+					break;
+				case '5':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_5));
+					break;
+				case '6':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_6));
+					break;
+				case '7':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_7));
+					break;
+				case '8':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_8));
+					break;
+				case '9':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
+					break;
+				case '.':
+				case ',':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_decimal_mark));
+			}
+		}
+	}
+
+	/**
+	 * For bricks using the FormulaEditor. Tests starting the FE, entering a new number/formula and
+	 * ensures its set correctly to the brick´s edit text field
+	 */
+	public static void testBrickWithFormulaEditor(Solo solo, int editTextNumber, int numberOfEditTextsInBrick,
+			double newValue, String fieldName, Brick theBrick) {
+
+		solo.clickOnEditText(editTextNumber);
+		insertDoubleIntoEditText(solo, newValue);
+
+		assertEquals(
+				"Text not updated within FormulaEditor",
+				newValue,
+				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
+						.replace(',', '.')));
+		solo.goBack();
+		solo.sleep(200);
+
+		Formula formula = (Formula) Reflection.getPrivateField(theBrick, fieldName);
+
+		assertEquals("Wrong text in field", newValue, formula.interpretFloat(theBrick.getSprite()), 0.01f);
+		assertEquals("Text not updated in the brick list", newValue,
+				Double.parseDouble(solo.getEditText(editTextNumber).getText().toString()), 0.01f);
+
+	}
+
+	public static void insertValueViaFormulaEditor(Solo solo, int editTextNumber, double value) {
+
+		solo.clickOnEditText(editTextNumber);
+		UiTestUtils.insertDoubleIntoEditText(solo, value);
+
+		assertEquals("Text not updated within FormulaEditor", value,
+				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()));
+		solo.goBack();
+		solo.sleep(200);
 	}
 
 	public static void clickEnterClose(Solo solo, int editTextIndex, String value) {
@@ -175,6 +251,13 @@ public class UiTestUtils {
 			solo.sendKey(Solo.ENTER);
 		}
 		solo.sleep(50);
+	}
+
+	public static void clickEnterClose(Solo solo, EditText editText, String value, int buttonIndex) {
+		Log.v("debug", "Solo.Enter clickEnterClose");
+		solo.enterText(editText, value);
+		solo.waitForText(solo.getString(R.string.ok));
+		solo.clickOnButton(buttonIndex);
 	}
 
 	private static void initBrickCategoryMap() {
@@ -195,7 +278,7 @@ public class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_point_to, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_glide, R.string.category_motion);
 
-		brickCategoryMap.put(R.string.brick_set_costume, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_set_look, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_set_size_to, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_change_size_by, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_hide, R.string.category_looks);
@@ -222,6 +305,9 @@ public class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_note, R.string.category_control);
 		brickCategoryMap.put(R.string.brick_forever, R.string.category_control);
 		brickCategoryMap.put(R.string.brick_repeat, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_if_begin, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_change_variable, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_set_variable, R.string.category_control);
 
 		brickCategoryMap.put(R.string.brick_motor_action, R.string.category_lego_nxt);
 	}
@@ -466,7 +552,7 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnActionBar(Solo solo, int imageButtonId) {
-		if (Build.VERSION.SDK_INT < 15) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			solo.waitForView(LinearLayout.class);
 			LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
 			solo.clickOnView(linearLayout);
@@ -478,7 +564,7 @@ public class UiTestUtils {
 	/**
 	 * This method can be used in 2 ways. Either to click on an action item
 	 * (icon), or to click on an item in the overflow menu. So either pass a
-	 * String (and any ID) OR null and a valid ID.
+	 * String + ID --OR-- a String + 0.
 	 * 
 	 * @param solo
 	 *            Use Robotium functionality
@@ -487,9 +573,14 @@ public class UiTestUtils {
 	 * @param overflowMenuItemId
 	 *            ID of an action item (icon)
 	 */
-	public static void openActionMode(Solo solo, String overflowMenuItemName, int overflowMenuItemId) {
-		if (overflowMenuItemName == null) { // Action item
-			UiTestUtils.clickOnActionBar(solo, overflowMenuItemId);
+	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId) {
+		if (overflowMenuItemName != null && menuItemId != 0) {
+
+			if (solo.getView(menuItemId) == null) {
+				solo.clickOnMenuItem(overflowMenuItemName, true);
+			} else {
+				UiTestUtils.clickOnActionBar(solo, menuItemId);
+			}
 		} else { // From overflow menu
 			solo.clickOnMenuItem(overflowMenuItemName, true);
 		}
@@ -682,7 +773,7 @@ public class UiTestUtils {
 
 		@SuppressWarnings("unused")
 		public ProjectWithCatrobatLanguageVersion() {
-			catrobatLanguageVersion = 0.3f;
+			catrobatLanguageVersion = 0.5f;
 		}
 
 		public ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {
@@ -718,7 +809,7 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnHomeActionBarButton(Solo solo) {
-		if (Build.VERSION.SDK_INT < 15) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			Activity activity = solo.getCurrentActivity();
 
 			ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
@@ -737,7 +828,7 @@ public class UiTestUtils {
 		String continueString = solo.getString(R.string.main_menu_continue);
 		solo.waitForText(continueString);
 
-		solo.clickOnButton(continueString);
+		solo.clickOnText(continueString);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
 	}
@@ -763,15 +854,15 @@ public class UiTestUtils {
 		solo.sleep(200);
 	}
 
-	public static void getIntoCostumesFromMainMenu(Solo solo) {
-		getIntoCostumesFromMainMenu(solo, 0, false);
+	public static void getIntoLooksFromMainMenu(Solo solo) {
+		getIntoLooksFromMainMenu(solo, 0, false);
 	}
 
-	public static void getIntoCostumesFromMainMenu(Solo solo, boolean isBackground) {
-		getIntoCostumesFromMainMenu(solo, 0, isBackground);
+	public static void getIntoLooksFromMainMenu(Solo solo, boolean isBackground) {
+		getIntoLooksFromMainMenu(solo, 0, isBackground);
 	}
 
-	public static void getIntoCostumesFromMainMenu(Solo solo, int spriteIndex, boolean isBackground) {
+	public static void getIntoLooksFromMainMenu(Solo solo, int spriteIndex, boolean isBackground) {
 		getIntoProgramMenuFromMainMenu(solo, spriteIndex);
 
 		String textToClickOn = "";
@@ -779,7 +870,7 @@ public class UiTestUtils {
 		if (isBackground) {
 			textToClickOn = solo.getString(R.string.backgrounds);
 		} else {
-			textToClickOn = solo.getString(R.string.costumes);
+			textToClickOn = solo.getString(R.string.looks);
 		}
 		solo.clickOnText(textToClickOn);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -890,7 +981,7 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnActionBarSpinnerItem(Solo solo, int itemIndex) {
-		if (Build.VERSION.SDK_INT < 15) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			IcsSpinner spinner = UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo);
 			int activeSpinnerItemIndex = spinner.getSelectedItemPosition();
 			String itemToClickOnText = spinner.getAdapter().getItem(activeSpinnerItemIndex + itemIndex).toString();
@@ -902,10 +993,48 @@ public class UiTestUtils {
 	}
 
 	public static int getActionBarSpinnerItemCount(Solo solo) {
-		if (Build.VERSION.SDK_INT < 15) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			return UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo).getAdapter().getCount();
 		} else {
 			return solo.getCurrentSpinners().get(ACTION_BAR_SPINNER_INDEX).getAdapter().getCount();
 		}
+	}
+
+	public static View getViewContainerByIds(Solo solo, int id, int container_id) {
+		View parent = solo.getView(container_id);
+		List<View> views = solo.getViews(parent);
+		for (View view : views) {
+			if (view.getId() == id) {
+				return view;
+			}
+		}
+		return null;
+	}
+
+	public static View getViewContainerByString(Solo solo, String text, int containerId) {
+		View parent = solo.getView(containerId);
+		List<TextView> views = solo.getCurrentTextViews(parent);
+		for (TextView view : views) {
+
+			if (view.getText().equals(text)) {
+				return view;
+			}
+
+		}
+		return null;
+	}
+
+	public static View getViewContainerByString(String text, List<TextView> views) {
+		for (TextView view : views) {
+			if (view.getText().equals(text)) {
+				return view;
+			}
+		}
+		return null;
+	}
+
+	public static List<TextView> getViewsByParentId(Solo solo, int parentId) {
+		View parent = solo.getView(parentId);
+		return solo.getCurrentTextViews(parent);
 	}
 }

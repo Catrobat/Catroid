@@ -75,7 +75,7 @@ public class ChangeBrightnessByNBrickTest extends ActivityInstrumentationTestCas
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -84,17 +84,8 @@ public class ChangeBrightnessByNBrickTest extends ActivityInstrumentationTestCas
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_change_brightness)));
 
-		solo.clickOnEditText(0);
-		solo.sleep(100);
-		assertTrue("Dialog is not visible", solo.searchText(solo.getString(R.string.ok)));
-		solo.clearEditText(0);
-		solo.enterText(0, BRIGHTNESS_TO_CHANGE + "");
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(300);
-
-		assertEquals("Wrong text in field", BRIGHTNESS_TO_CHANGE, changeBrightnessByNBrick.getChangeBrightness());
-		assertEquals("Text not updated", BRIGHTNESS_TO_CHANGE,
-				Double.parseDouble(solo.getEditText(0).getText().toString()));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, BRIGHTNESS_TO_CHANGE, "changeBrightness",
+				changeBrightnessByNBrick);
 	}
 
 	private void createProject() {

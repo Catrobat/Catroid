@@ -58,14 +58,14 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		OnBrickCategoryDialogDismissCancelListener {
 
 	private static final String ARGUMENTS_SELECTED_CATEGORY = "selected_category";
-	private static final String TAG = ScriptFragment.class.getSimpleName();
+	public static final String TAG = ScriptFragment.class.getSimpleName();
 
 	private BrickAdapter adapter;
 	private DragAndDropListView listView;
 
 	private Sprite sprite;
 	private Script scriptToEdit;
-	public String selectedCategory;
+	private String selectedCategory;
 
 	private boolean addNewScript;
 	private boolean createNewBrick;
@@ -341,20 +341,14 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
-	public void startRenameActionMode() {
+	public void startCopyActionMode() {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void startDeleteActionMode() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void handleAddButton() {
-		if (listView.setHoveringBrick()) {
+		if (listView.isCurrentlyDragging()) {
+			listView.animateHoveringBrick();
 			return;
 		}
 		showCategoryDialog();
@@ -366,47 +360,35 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#setSelectMode(int)
-	 */
 	@Override
 	public void setSelectMode(int selectMode) {
 		// TODO Auto-generated method stub
-
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#getSelectMode()
-	 */
 	@Override
 	public int getSelectMode() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#showRenameDialog()
-	 */
+	@Override
+	public void startRenameActionMode() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void startDeleteActionMode() {
+		// TODO Auto-generated method stub
+	}
+
 	@Override
 	protected void showRenameDialog() {
 		// TODO Auto-generated method stub
-
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#showDeleteDialog()
-	 */
 	@Override
 	protected void showDeleteDialog() {
 		// TODO Auto-generated method stub
-
 	}
+
 }

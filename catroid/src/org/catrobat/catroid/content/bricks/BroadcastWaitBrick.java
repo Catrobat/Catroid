@@ -22,13 +22,14 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.Vector;
-import java.util.concurrent.CountDownLatch;
+import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -41,12 +42,15 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class BroadcastWaitBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
 	private transient ProjectManager projectManager;
 	private Sprite sprite;
 	private String broadcastMessage = "";
+	private BroadcastScript waitScript;
 
 	private transient View view;
 
@@ -65,42 +69,31 @@ public class BroadcastWaitBrick implements Brick {
 	}
 
 	@Override
-	public void execute() {
-		Vector<BroadcastScript> receiver = projectManager.getMessageContainer().getReceiverOfMessage(broadcastMessage);
-		if (receiver == null) {
-			return;
-		}
-		if (receiver.size() == 0) {
-			return;
-		}
-		CountDownLatch simultaneousStart = new CountDownLatch(1);
-		CountDownLatch wait = new CountDownLatch(receiver.size());
-
-		for (BroadcastScript receiverScript : receiver) {
-			receiverScript.executeBroadcastWait(simultaneousStart, wait);
-		}
-		simultaneousStart.countDown();
-
-		try {
-			wait.await();
-		} catch (InterruptedException e) {
-		}
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
 
 	public void setSelectedMessage(String selectedMessage) {
 		this.broadcastMessage = selectedMessage;
-		projectManager.getMessageContainer().addMessage(this.broadcastMessage);
+		MessageContainer.addMessage(this.broadcastMessage);
+	}
+
+	public String getBroadcastMessage() {
+		return broadcastMessage;
+	}
+
+	public BroadcastScript getWaitScript() {
+		return waitScript;
+	}
+
+	public void setWaitScript(BroadcastScript waitScript) {
+		this.waitScript = waitScript;
 	}
 
 	private Object readResolve() {
 		projectManager = ProjectManager.getInstance();
 		if (broadcastMessage != null && projectManager.getCurrentProject() != null) {
-			projectManager.getMessageContainer().addMessage(broadcastMessage);
+			MessageContainer.addMessage(broadcastMessage);
 		}
 		return this;
 	}
@@ -111,7 +104,7 @@ public class BroadcastWaitBrick implements Brick {
 		view = View.inflate(context, R.layout.brick_broadcast_wait, null);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_wait_spinner);
-		broadcastSpinner.setAdapter(projectManager.getMessageContainer().getMessageAdapter(context));
+		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
 		broadcastSpinner.setClickable(true);
 		broadcastSpinner.setFocusable(true);
 
@@ -135,7 +128,7 @@ public class BroadcastWaitBrick implements Brick {
 			}
 		});
 
-		int position = projectManager.getMessageContainer().getPositionOfMessageInAdapter(broadcastMessage);
+		int position = MessageContainer.getPositionOfMessageInAdapter(broadcastMessage);
 		if (position > 0) {
 			broadcastSpinner.setSelection(position);
 		}
@@ -163,9 +156,8 @@ public class BroadcastWaitBrick implements Brick {
 							return false;
 						}
 						broadcastMessage = newMessage;
-						projectManager.getMessageContainer().addMessage(broadcastMessage);
-						int position = projectManager.getMessageContainer().getPositionOfMessageInAdapter(
-								broadcastMessage);
+						MessageContainer.addMessage(broadcastMessage);
+						int position = MessageContainer.getPositionOfMessageInAdapter(broadcastMessage);
 
 						broadcastSpinner.setSelection(position);
 
@@ -188,4 +180,11 @@ public class BroadcastWaitBrick implements Brick {
 	public Brick clone() {
 		return new BroadcastWaitBrick(sprite);
 	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.broadcastFromWaiter(sprite, broadcastMessage));
+		return null;
+	}
+
 }

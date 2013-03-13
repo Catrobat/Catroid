@@ -25,6 +25,7 @@ package org.catrobat.catroid.stage;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 
 import android.content.pm.ActivityInfo;
@@ -35,7 +36,6 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 
 public class StageActivity extends AndroidApplication {
 
-	private boolean stagePlaying = true;
 	public static StageListener stageListener;
 	private boolean resizePossible;
 	private StageDialog stageDialog;
@@ -50,22 +50,14 @@ public class StageActivity extends AndroidApplication {
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		stageListener = new StageListener();
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
-		this.calculateScreenSizes();
+		calculateScreenSizes();
 		initialize(stageListener, true);
 	}
 
 	@Override
 	public void onBackPressed() {
-		pauseOrContinue();
+		pause();
 		stageDialog.show();
-	}
-
-	@Override
-	protected void onDestroy() {
-		if (stagePlaying) {
-			this.manageLoadAndFinish();
-		}
-		super.onDestroy();
 	}
 
 	public void manageLoadAndFinish() {
@@ -74,32 +66,25 @@ public class StageActivity extends AndroidApplication {
 		stageListener.finish();
 
 		PreStageActivity.shutdownResources();
-		stagePlaying = false;
-
 	}
 
-	public void toggleAxes() {
-		if (stageListener.axesOn) {
-			stageListener.axesOn = false;
-		} else {
-			stageListener.axesOn = true;
-		}
+	public void pause() {
+		stageListener.menuPause();
 	}
 
-	public void pauseOrContinue() {
-		if (stagePlaying) {
-			stageListener.menuPause();
-			stagePlaying = false;
-		} else {
-			stageListener.menuResume();
-			stagePlaying = true;
-		}
+	public void resume() {
+		stageListener.menuResume();
+		SensorHandler.startSensorListener(this);
+	}
+
+	public boolean getResizePossible() {
+		return resizePossible;
 	}
 
 	private void calculateScreenSizes() {
 		ifLandscapeSwitchWidthAndHeight();
-		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().virtualScreenWidth;
-		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().virtualScreenHeight;
+		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
+		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 		if (virtualScreenWidth == Values.SCREEN_WIDTH && virtualScreenHeight == Values.SCREEN_HEIGHT) {
 			resizePossible = false;
 			return;
@@ -121,10 +106,6 @@ public class StageActivity extends AndroidApplication {
 			Values.SCREEN_HEIGHT = Values.SCREEN_WIDTH;
 			Values.SCREEN_WIDTH = tmp;
 		}
-	}
-
-	public boolean getResizePossible() {
-		return resizePossible;
 	}
 
 }

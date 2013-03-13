@@ -24,37 +24,33 @@ package org.catrobat.catroid.content;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class Sprite implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private List<Script> scriptList;
-	private ArrayList<CostumeData> costumeList;
+	private ArrayList<LookData> lookList;
 	private ArrayList<SoundInfo> soundList;
-	public transient Costume costume;
+	public transient Look look;
 
 	public transient boolean isPaused;
-	public transient boolean isFinished;
 
-	private transient Map<Thread, Boolean> activeThreads;
-	private transient Map<Script, List<Thread>> activeScripts;
+	public static transient String SCRIPT_THREAD_NAME_PREFIX = "sprite_name_";
 
 	private Object readResolve() {
 		//filling FileChecksumContainer:
-		if (soundList != null && costumeList != null && ProjectManager.getInstance().getCurrentProject() != null) {
+		if (soundList != null && lookList != null && ProjectManager.getInstance().getCurrentProject() != null) {
 			FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 			if (container == null) {
 				ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
@@ -62,8 +58,8 @@ public class Sprite implements Serializable {
 			for (SoundInfo soundInfo : soundList) {
 				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 			}
-			for (CostumeData costumeData : costumeList) {
-				container.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+			for (LookData lookData : lookList) {
+				container.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 			}
 		}
 		init();
@@ -71,141 +67,68 @@ public class Sprite implements Serializable {
 	}
 
 	private void init() {
-		costume = new Costume(this);
+		look = new Look(this);
 		isPaused = false;
-		isFinished = false;
 		if (soundList == null) {
 			soundList = new ArrayList<SoundInfo>();
 		}
-		if (costumeList == null) {
-			costumeList = new ArrayList<CostumeData>();
+		if (lookList == null) {
+			lookList = new ArrayList<LookData>();
 		}
-		activeThreads = new HashMap<Thread, Boolean>();
-		activeScripts = new HashMap<Script, List<Thread>>();
 	}
 
 	public Sprite(String name) {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
-		costumeList = new ArrayList<CostumeData>();
+		lookList = new ArrayList<LookData>();
 		soundList = new ArrayList<SoundInfo>();
 		init();
-	}
-
-	public void startWhenScripts(String action) {
-		for (Script s : scriptList) {
-			if (s instanceof WhenScript) {
-				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
-					startScript(s);
-				}
-			}
-		}
-	}
-
-	public void startStartScripts() {
-		for (Script s : scriptList) {
-			if (s instanceof StartScript) {
-				if (!s.isFinished()) {
-					startScript(s);
-				}
-			}
-		}
 	}
 
 	public Sprite() {
 
 	}
 
-	private synchronized void startScript(Script s) {
-		final Script script = s;
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				script.run();
+	public void createStartScriptActionSequence() {
+		for (Script s : scriptList) {
+			if (s instanceof StartScript) {
+				look.addAction(createActionSequence(s));
 			}
-		});
-		if (script instanceof WhenScript) {
-			if (!activeScripts.containsKey(script)) {
-				activeScripts.put(script, new LinkedList<Thread>());
-				activeScripts.get(script).add(t);
-				activeThreads.put(t, true);
-			} else {
-				ListIterator<Thread> currentScriptThreads = activeScripts.get(script).listIterator();
-				while (currentScriptThreads.hasNext()) {
-					Thread currentThread = currentScriptThreads.next();
-					activeThreads.put(currentThread, false);
-				}
-				activeScripts.get(script).clear();
-				activeScripts.get(script).add(t);
-				activeThreads.put(t, true);
+			if (s instanceof BroadcastScript) {
+				BroadcastScript script = (BroadcastScript) s;
+				SequenceAction action = createBroadcastScriptActionSequence(script);
+				look.putBroadcastSequenceAction(script.getBroadcastMessage(), action);
+
 			}
 		}
-		t.start();
 	}
 
-	public synchronized void startScriptBroadcast(Script s, final CountDownLatch simultaneousStart) {
-		final Script script = s;
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					simultaneousStart.await();
-				} catch (InterruptedException e) {
+	public void createWhenScriptActionSequence(String action) {
+		for (Script s : scriptList) {
+			if (s instanceof WhenScript) {
+				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
+					SequenceAction sequence = createActionSequence(s);
+					look.addWhenSequenceAction(sequence);
+					look.addAction(sequence);
 				}
-				script.run();
-			}
-		});
-		if (script instanceof BroadcastScript) {
-			if (!activeScripts.containsKey(script)) {
-				activeScripts.put(script, new LinkedList<Thread>());
-				activeScripts.get(script).add(t);
-				activeThreads.put(t, true);
-			} else {
-				ListIterator<Thread> currentScriptThreads = activeScripts.get(script).listIterator();
-				while (currentScriptThreads.hasNext()) {
-					Thread currentThread = currentScriptThreads.next();
-					activeThreads.put(currentThread, false);
-				}
-				activeScripts.get(script).clear();
-				activeScripts.get(script).add(t);
-				activeThreads.put(t, true);
 			}
 		}
-		t.start();
 	}
 
-	public synchronized void startScriptBroadcastWait(Script s, final CountDownLatch simultaneousStart,
-			final CountDownLatch wait) {
-		final Script script = s;
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					simultaneousStart.await();
-				} catch (InterruptedException e) {
-				}
-				script.run();
-				wait.countDown();
-			}
-		});
-		if (script instanceof BroadcastScript) {
+	public SequenceAction createBroadcastScriptActionSequence(BroadcastScript script) {
+		return createActionSequence(script);
+	}
 
-			if (!activeScripts.containsKey(script)) {
-				activeScripts.put(script, new LinkedList<Thread>());
-				activeScripts.get(script).add(t);
-				activeThreads.put(t, true);
-			} else {
-				ListIterator<Thread> currentScriptThreads = activeScripts.get(script).listIterator();
-				while (currentScriptThreads.hasNext()) {
-					Thread currentThread = currentScriptThreads.next();
-					activeThreads.put(currentThread, false);
-				}
-				activeScripts.get(script).clear();
-				activeScripts.get(script).add(t);
-				activeThreads.put(t, true);
-			}
-		}
-		t.start();
+	private SequenceAction createActionSequence(Script s) {
+		SequenceAction sequence = ExtendedActions.sequence();
+		s.run(sequence);
+		return sequence;
+	}
+
+	public void startScriptBroadcast(Script s, boolean overload) {
+		SequenceAction sequence = ExtendedActions.sequence();
+		s.run(sequence);
+		look.addAction(sequence);
 	}
 
 	public void pause() {
@@ -220,13 +143,6 @@ public class Sprite implements Serializable {
 			s.setPaused(false);
 		}
 		this.isPaused = false;
-	}
-
-	public void finish() {
-		for (Script s : scriptList) {
-			s.setFinish(true);
-		}
-		this.isFinished = true;
 	}
 
 	public String getName() {
@@ -281,8 +197,12 @@ public class Sprite implements Serializable {
 		return scriptList.remove(script);
 	}
 
-	public ArrayList<CostumeData> getCostumeDataList() {
-		return costumeList;
+	public ArrayList<LookData> getLookDataList() {
+		return lookList;
+	}
+
+	public void setLookDataList(ArrayList<LookData> list) {
+		lookList = list;
 	}
 
 	public ArrayList<SoundInfo> getSoundList() {
@@ -305,20 +225,5 @@ public class Sprite implements Serializable {
 	@Override
 	public String toString() {
 		return name;
-	}
-
-	public synchronized boolean isAlive(Thread thread) {
-		if (activeThreads.containsKey(thread)) {
-			return activeThreads.get(thread);
-		} else {
-			return true;
-		}
-
-	}
-
-	public synchronized void setInactive(Thread thread) {
-		if (activeThreads.containsKey(thread)) {
-			activeThreads.remove(thread);
-		}
 	}
 }
