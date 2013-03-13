@@ -91,16 +91,16 @@
 	        		android:orientation="vertical">
 	        		
 		            <TextView style="@style/look_fragment_detail"
-		      			android:id="@+id/sound_length"
+		      			android:id="@+id/look_measure_prefix"
 		      		 	android:layout_width="wrap_content"
 		       		 	android:layout_height="wrap_content"
-		       		 	android:text="@string/size" />
+		       		 	android:text="@string/look_measure" />
 		            
 		            <TextView style="@style/look_fragment_detail"
-		      			android:id="@+id/sound_size_prefix"
+		      			android:id="@+id/look_size_prefix"
 		      		 	android:layout_width="wrap_content"
 		       		 	android:layout_height="wrap_content"
-		       		 	android:text="@string/look_measure" />	
+		       		 	android:text="@string/size" />	
 		        </LinearLayout>
 		            
 		        <LinearLayout 
@@ -111,7 +111,7 @@
 	        		android:orientation="vertical">
 		            
 		            <TextView style="@style/look_fragment_detail"
-				        android:id="@+id/look_resolution"
+				        android:id="@+id/look_measure"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content" />
 		            

@@ -75,7 +75,7 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 		private TextView lookNameTextView;
 		private LinearLayout lookDetailsLinearLayout;
 		private TextView lookFileSizeTextView;
-		private TextView lookResolutionTextView;
+		private TextView lookMeasureTextView;
 		private ImageView lookArrowView;
 		private RelativeLayout lookElement;
 
@@ -97,8 +97,7 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 			holder.lookNameTextView = (TextView) convertView.findViewById(R.id.look_name);
 			holder.lookDetailsLinearLayout = (LinearLayout) convertView.findViewById(R.id.look_details);
 			holder.lookFileSizeTextView = (TextView) holder.lookDetailsLinearLayout.findViewById(R.id.look_size);
-			holder.lookResolutionTextView = (TextView) holder.lookDetailsLinearLayout
-					.findViewById(R.id.look_resolution);
+			holder.lookMeasureTextView = (TextView) holder.lookDetailsLinearLayout.findViewById(R.id.look_measure);
 			holder.lookArrowView = (ImageView) convertView.findViewById(R.id.look_arrow);
 			holder.lookElement = (RelativeLayout) convertView.findViewById(R.id.look_fragment_element);
 			convertView.setTag(holder);
@@ -159,10 +158,10 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 				if (lookData.getAbsolutePath() != null) {
 					holder.lookFileSizeTextView.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
 				}
-				int[] resolution = lookData.getResolution();
-				String resolutionString = resolution[0] + " x " + resolution[1];
+				int[] measure = lookData.getMeasure();
+				String measureString = measure[0] + " x " + measure[1];
 
-				holder.lookResolutionTextView.setText(resolutionString);
+				holder.lookMeasureTextView.setText(measureString);
 				holder.lookDetailsLinearLayout.setVisibility(TextView.VISIBLE);
 			} else {
 				holder.lookDetailsLinearLayout.setVisibility(TextView.GONE);
