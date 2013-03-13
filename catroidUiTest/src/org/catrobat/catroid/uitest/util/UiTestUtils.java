@@ -62,6 +62,9 @@ import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
@@ -70,6 +73,7 @@ import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
+import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
@@ -448,6 +452,40 @@ public class UiTestUtils {
 		return brickList;
 	}
 
+	public static List<Brick> createTestProjectIfBricks() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+
+		Script testScript = new StartScript(firstSprite);
+
+		ArrayList<Brick> brickList = new ArrayList<Brick>();
+
+		IfLogicBeginBrick IfBeginBrick = new IfLogicBeginBrick(firstSprite, 0);
+		IfLogicElseBrick IfElseBrick = new IfLogicElseBrick(firstSprite, IfBeginBrick);
+		IfLogicEndBrick IfEndBrick = new IfLogicEndBrick(firstSprite, IfElseBrick, IfBeginBrick);
+
+		brickList.add(IfBeginBrick);
+		brickList.add(new ShowBrick(firstSprite));
+		brickList.add(IfElseBrick);
+		brickList.add(new ComeToFrontBrick(firstSprite));
+		brickList.add(IfEndBrick);
+
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(testScript);
+
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		return brickList;
+	}
+
 	public static List<Brick> createTestProjectWithEveryBrick() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
@@ -457,41 +495,41 @@ public class UiTestUtils {
 		ArrayList<Brick> brickList = new ArrayList<Brick>();
 
 		brickList.add(new BroadcastBrick(firstSprite));
-		brickList.add(new BroadcastWaitBrick());
-		brickList.add(new ChangeBrightnessByNBrick());
-		brickList.add(new ChangeGhostEffectByNBrick());
-		brickList.add(new ChangeSizeByNBrick());
-		brickList.add(new ChangeVolumeByNBrick());
-		brickList.add(new ChangeXByNBrick());
-		brickList.add(new ChangeYByNBrick());
-		brickList.add(new ClearGraphicEffectBrick());
-		brickList.add(new ComeToFrontBrick());
-		brickList.add(new GlideToBrick());
-		brickList.add(new GoNStepsBackBrick());
-		brickList.add(new HideBrick());
-		brickList.add(new IfOnEdgeBounceBrick());
+		brickList.add(new BroadcastWaitBrick(firstSprite));
+		brickList.add(new ChangeBrightnessByNBrick(firstSprite, 0));
+		brickList.add(new ChangeGhostEffectByNBrick(firstSprite, 0));
+		brickList.add(new ChangeSizeByNBrick(firstSprite, 0));
+		brickList.add(new ChangeVolumeByNBrick(firstSprite, 0));
+		brickList.add(new ChangeXByNBrick(firstSprite, 0));
+		brickList.add(new ChangeYByNBrick(firstSprite, 0));
+		brickList.add(new ClearGraphicEffectBrick(firstSprite));
+		brickList.add(new ComeToFrontBrick(firstSprite));
+		brickList.add(new GlideToBrick(firstSprite, 0, 0, 0));
+		brickList.add(new GoNStepsBackBrick(firstSprite, 0));
+		brickList.add(new HideBrick(firstSprite));
+		brickList.add(new IfOnEdgeBounceBrick(firstSprite));
 		//brickList.add(new LegoNxtMotorActionBrick(firstSprite, LegoNxtMotorActionBrick.Motor.MOTOR_A, 0));
 		//brickList.add(new LegoNxtMotorTurnAngleBrick(firstSprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, 0));
-		brickList.add(new MoveNStepsBrick());
+		brickList.add(new MoveNStepsBrick(firstSprite, 0));
 		brickList.add(new NextLookBrick(firstSprite));
-		brickList.add(new NoteBrick());
-		brickList.add(new PlaceAtBrick());
+		brickList.add(new NoteBrick(firstSprite));
+		brickList.add(new PlaceAtBrick(firstSprite, 0, 0));
 		brickList.add(new PlaySoundBrick(firstSprite));
-		brickList.add(new PointInDirectionBrick());
+		brickList.add(new PointInDirectionBrick(firstSprite, Direction.DIRECTION_DOWN));
 		brickList.add(new PointToBrick(firstSprite, firstSprite));
-		brickList.add(new SetBrightnessBrick());
-		brickList.add(new SetGhostEffectBrick());
+		brickList.add(new SetBrightnessBrick(firstSprite, 0));
+		brickList.add(new SetGhostEffectBrick(firstSprite, 0));
 		brickList.add(new SetLookBrick(firstSprite));
-		brickList.add(new SetSizeToBrick());
-		brickList.add(new SetVolumeToBrick());
-		brickList.add(new SetXBrick());
-		brickList.add(new SetYBrick());
-		brickList.add(new ShowBrick());
-		brickList.add(new SpeakBrick());
-		brickList.add(new StopAllSoundsBrick());
-		brickList.add(new TurnLeftBrick());
-		brickList.add(new TurnRightBrick());
-		brickList.add(new WaitBrick());
+		brickList.add(new SetSizeToBrick(firstSprite, 0));
+		brickList.add(new SetVolumeToBrick(firstSprite, 0));
+		brickList.add(new SetXBrick(firstSprite, 0));
+		brickList.add(new SetYBrick(firstSprite, 0));
+		brickList.add(new ShowBrick(firstSprite));
+		brickList.add(new SpeakBrick(firstSprite, "Hello"));
+		brickList.add(new StopAllSoundsBrick(firstSprite));
+		brickList.add(new TurnLeftBrick(firstSprite, 0));
+		brickList.add(new TurnRightBrick(firstSprite, 0));
+		brickList.add(new WaitBrick(firstSprite, 0));
 
 		for (Brick brick : brickList) {
 			testScript.addBrick(brick);

@@ -200,7 +200,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnCheckBox(0);
 
 		String expectedTitle = solo.getString(R.string.delete) + " " + Integer.toString(brickListToCheck.size() + 1)
-				+ " Bricks";
+				+ " " + solo.getString(R.string.brick_multiple);
 
 		int timeToWaitForTitle = 300;
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
@@ -237,7 +237,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnCheckBox(0);
 
 		for (int position = 1; position < brickList.size(); position++) {
-			assertEquals("AlphaValue of " + brickList.get(position).toString() + " is not 50", 50,
+			assertEquals("AlphaValue of " + brickList.get(position).toString() + " is not 100", 100,
 					brickList.get(position).getAlphaValue());
 		}
 
@@ -278,7 +278,8 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 
 		solo.clickOnCheckBox(3);
-		String expectedTitle = solo.getString(R.string.delete) + " " + 3 + " Bricks";
+		String expectedTitle = solo.getString(R.string.delete) + " " + 3 + " "
+				+ solo.getString(R.string.brick_multiple);
 		int timeToWaitForTitle = 300;
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
@@ -287,7 +288,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 		solo.sleep(500);
 		solo.clickOnCheckBox(1);
-		expectedTitle = solo.getString(R.string.delete) + " " + 6 + " Bricks";
+		expectedTitle = solo.getString(R.string.delete) + " " + 6 + " " + solo.getString(R.string.brick_multiple);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
 		solo.clickOnCheckBox(1);
@@ -320,6 +321,44 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		assertEquals("There should be only 1 ForeverBrick", 1, numberOfForeverBricks);
 		assertEquals("There should be only 1 LoopEndBrick", 1, numberOfEndBricks);
 		assertEquals("Wrong number of bricks left", 3, numberOfBricks);
+	}
+
+	public void testDeleteActionModeIfBricks() {
+		UiTestUtils.createTestProjectIfBricks();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+
+		solo.clickOnCheckBox(2);
+		solo.clickOnCheckBox(5);
+		String expectedTitle = solo.getString(R.string.delete) + " " + 5 + " "
+				+ solo.getString(R.string.brick_multiple);
+		int timeToWaitForTitle = 300;
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		solo.sleep(500);
+		solo.clickOnCheckBox(5);
+		expectedTitle = solo.getString(R.string.delete);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		solo.sleep(300);
+		solo.clickOnCheckBox(3);
+		expectedTitle = solo.getString(R.string.delete) + " " + 5 + " " + solo.getString(R.string.brick_multiple);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		ListView dragAndDropListView = solo.getCurrentListViews().get(1);
+		List<Brick> currentBrickList = new ArrayList<Brick>();
+
+		for (int position = 0; position < dragAndDropListView.getChildCount(); position++) {
+			currentBrickList.add((Brick) dragAndDropListView.getItemAtPosition(position));
+		}
+
+		assertEquals("Wrong number of bricks left", 0, numberOfBricks);
 	}
 
 	public void testDeleteItem() {

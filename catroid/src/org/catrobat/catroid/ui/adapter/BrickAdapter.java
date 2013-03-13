@@ -927,6 +927,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		} else {
 			brick.getViewWithAlpha(ALPHA_GREYED);
 		}
+		notifyDataSetChanged();
 	}
 
 	private void enableAllBricks() {
@@ -936,6 +937,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			}
 			brick.getViewWithAlpha(ALPHA_FULL);
 		}
+		notifyDataSetChanged();
 	}
 
 	private boolean smartBrickSelection(Brick brick, boolean check) {
@@ -1040,6 +1042,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			}
 		}
 		animatedBricks.clear();
+		notifyDataSetChanged();
 	}
 
 	private void addElementToCheckedBricks(Brick brick) {
