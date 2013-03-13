@@ -36,7 +36,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
@@ -48,7 +47,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 public class SetLookBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 	private LookData look;
-	private transient View view;
 	private transient View prototypeView;
 
 	public SetLookBrick(Sprite sprite) {
@@ -70,19 +68,17 @@ public class SetLookBrick extends BrickBaseType {
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 		final Brick brickInstance = this;
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_set_look, null);
+		view = View.inflate(context, R.layout.brick_set_look, null);
 
-			checkbox = (CheckBox) view.findViewById(R.id.brick_set_look_checkbox);
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		setCheckboxView(R.id.brick_set_look_checkbox);
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
-		}
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 
 		Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
 		lookbrickSpinner.setAdapter(createLookAdapter(context));

@@ -38,7 +38,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -90,36 +89,33 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_if_begin_if, null);
+		view = View.inflate(context, R.layout.brick_if_begin_if, null);
 
-			checkbox = (CheckBox) view.findViewById(R.id.brick_if_begin_checkbox);
-			final Brick brickInstance = this;
-
-			checkbox.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					checked = !checked;
-					if (!checked) {
-						for (Brick currentBrick : adapter.getCheckedBricks()) {
-							currentBrick.setCheckedBoolean(false);
-						}
+		setCheckboxView(R.id.brick_if_begin_checkbox);
+		final Brick brickInstance = this;
+		checkbox.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				checked = !checked;
+				if (!checked) {
+					for (Brick currentBrick : adapter.getCheckedBricks()) {
+						currentBrick.setCheckedBoolean(false);
 					}
-					adapter.handleCheck(brickInstance, checked);
 				}
-			});
+				adapter.handleCheck(brickInstance, checked);
+			}
+		});
 
-			TextView text1 = (TextView) view.findViewById(R.id.brick_if_text_view1);
-			EditText edit1 = (EditText) view.findViewById(R.id.brick_if_edit_text1);
+		TextView text1 = (TextView) view.findViewById(R.id.brick_if_text_view1);
+		EditText edit1 = (EditText) view.findViewById(R.id.brick_if_edit_text1);
 
-			ifCondition.setTextFieldId(R.id.brick_if_edit_text1);
-			ifCondition.refreshTextField(view);
+		ifCondition.setTextFieldId(R.id.brick_if_edit_text1);
+		ifCondition.refreshTextField(view);
 
-			text1.setVisibility(View.GONE);
-			edit1.setVisibility(View.VISIBLE);
+		text1.setVisibility(View.GONE);
+		edit1.setVisibility(View.VISIBLE);
 
-			edit1.setOnClickListener(this);
-		}
+		edit1.setOnClickListener(this);
 
 		return view;
 	}

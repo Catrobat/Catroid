@@ -36,7 +36,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
@@ -50,7 +49,6 @@ public class TurnRightBrick extends BrickBaseType implements OnClickListener {
 
 	private Formula degrees;
 
-	private transient View view;
 	private transient View prototypeView;
 
 	public TurnRightBrick() {
@@ -74,21 +72,18 @@ public class TurnRightBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_turn_right, null);
+		view = View.inflate(context, R.layout.brick_turn_right, null);
 
-			checkbox = (CheckBox) view.findViewById(R.id.brick_turn_right_checkbox);
-			final Brick brickInstance = this;
+		setCheckboxView(R.id.brick_turn_right_checkbox);
 
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
-		}
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
 		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_right_edit_text);
 		degrees.setTextFieldId(R.id.brick_turn_right_edit_text);

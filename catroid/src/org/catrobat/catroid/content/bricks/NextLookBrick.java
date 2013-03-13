@@ -33,7 +33,6 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
@@ -72,21 +71,18 @@ public class NextLookBrick extends BrickBaseType {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_next_look, null);
+		view = View.inflate(context, R.layout.brick_next_look, null);
 
-			checkbox = (CheckBox) view.findViewById(R.id.brick_next_look_checkbox);
-			final Brick brickInstance = this;
+		setCheckboxView(R.id.brick_next_look_checkbox);
 
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
-		}
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 
 		if (sprite.getName().equals(context.getString(R.string.background))) {
 			TextView textView = (TextView) view.findViewById(R.id.brick_next_look_text_view);

@@ -35,7 +35,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
@@ -70,22 +69,18 @@ public class SpeakBrick extends BrickBaseType {
 
 	@Override
 	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_speak, null);
+		view = View.inflate(context, R.layout.brick_speak, null);
 
-			checkbox = (CheckBox) view.findViewById(R.id.brick_speak_checkbox);
+		setCheckboxView(R.id.brick_speak_checkbox);
 
-			final Brick brickInstance = this;
-
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
-		}
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 
 		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
 		EditText editText = (EditText) view.findViewById(R.id.brick_speak_edit_text);

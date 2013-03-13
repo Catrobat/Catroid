@@ -50,7 +50,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
@@ -64,9 +63,11 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 
 	private static final long serialVersionUID = 1L;
 
-	public PointInDirectionBrick() {
+	private double degrees;
 
-	}
+	private transient Direction direction;
+	private transient EditText setAngleEditText;
+	private transient View prototypeView;
 
 	public static enum Direction {
 		DIRECTION_RIGHT(90), DIRECTION_LEFT(-90), DIRECTION_UP(0), DIRECTION_DOWN(180);
@@ -82,12 +83,6 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 		}
 	}
 
-	private double degrees;
-
-	private transient Direction direction;
-	private transient EditText setAngleEditText;
-	private transient View prototypeView;
-
 	protected Object readResolve() {
 		for (Direction direction : Direction.values()) {
 			if (Math.abs(direction.getDegrees() - degrees) < 0.1) {
@@ -96,6 +91,10 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 			}
 		}
 		return this;
+	}
+
+	public PointInDirectionBrick() {
+
 	}
 
 	public PointInDirectionBrick(Sprite sprite, Direction direction) {
@@ -111,21 +110,17 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_point_in_direction, null);
-			checkbox = (CheckBox) view.findViewById(R.id.brick_point_in_direction_checkbox);
+		view = View.inflate(context, R.layout.brick_point_in_direction, null);
+		setCheckboxView(R.id.brick_point_in_direction_checkbox);
 
-			final Brick brickInstance = this;
-
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
-		}
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 
 		TextView setAngleTextView = (TextView) view.findViewById(R.id.brick_point_in_direction_prototype_text_view);
 		setAngleEditText = (EditText) view.findViewById(R.id.brick_point_in_direction_edit_text);

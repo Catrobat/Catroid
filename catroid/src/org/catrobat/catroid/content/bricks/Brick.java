@@ -67,5 +67,7 @@ public interface Brick extends Serializable {
 
 	public void setCheckedBoolean(boolean newValue);
 
+	public void setCheckboxView(int id);
+
 	public View getViewWithAlpha(int alphaValue);
 }

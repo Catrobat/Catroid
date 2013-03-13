@@ -35,7 +35,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
@@ -74,20 +73,18 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_change_volume_by, null);
+		view = View.inflate(context, R.layout.brick_change_volume_by, null);
 
-			checkbox = (CheckBox) view.findViewById(R.id.brick_change_volume_by_checkbox);
-			final Brick brickInstance = this;
+		setCheckboxView(R.id.brick_change_volume_by_checkbox);
+		final Brick brickInstance = this;
 
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
-		}
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
 		volume.setTextFieldId(R.id.brick_change_volume_by_edit_text);

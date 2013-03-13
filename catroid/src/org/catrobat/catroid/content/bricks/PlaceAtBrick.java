@@ -35,7 +35,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
@@ -77,25 +76,18 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 
-		//if (view == null) {
 		view = View.inflate(context, R.layout.brick_place_at, null);
-		int checkboxVisibility = View.GONE;
-		if (checkbox != null) {
-			checkboxVisibility = checkbox.getVisibility();
-		}
-		checkbox = (CheckBox) view.findViewById(R.id.brick_place_at_checkbox);
+
+		setCheckboxView(R.id.brick_place_at_checkbox);
+
 		final Brick brickInstance = this;
-
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				checked = isChecked;
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-		checkbox.setChecked(checked);
-		checkbox.setVisibility(checkboxVisibility);
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_x);
 		EditText editX = (EditText) view.findViewById(R.id.brick_place_at_edit_text_x);
@@ -113,7 +105,6 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
 		textY.setVisibility(View.GONE);
 		editY.setVisibility(View.VISIBLE);
 		editY.setOnClickListener(this);
-		//}
 		return view;
 	}
 

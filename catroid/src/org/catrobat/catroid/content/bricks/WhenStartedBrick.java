@@ -33,7 +33,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
@@ -61,25 +60,22 @@ public class WhenStartedBrick extends ScriptBrick {
 
 	@Override
 	public View getView(Context context, int brickId, final BaseAdapter baseAdapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_when_started, null);
-			checkbox = (CheckBox) view.findViewById(R.id.brick_when_started_checkbox);
-			final Brick brickInstance = this;
+		view = View.inflate(context, R.layout.brick_when_started, null);
 
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					if (!checked) {
-						for (Brick currentBrick : adapter.getCheckedBricks()) {
-							currentBrick.setCheckedBoolean(false);
-						}
+		setCheckboxView(R.id.brick_when_started_checkbox);
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				if (!checked) {
+					for (Brick currentBrick : adapter.getCheckedBricks()) {
+						currentBrick.setCheckedBoolean(false);
 					}
-					adapter.handleCheck(brickInstance, checked);
 				}
-			});
-		}
+				adapter.handleCheck(brickInstance, checked);
+			}
+		});
 
 		return view;
 	}

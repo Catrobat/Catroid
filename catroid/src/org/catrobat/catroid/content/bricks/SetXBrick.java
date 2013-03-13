@@ -35,7 +35,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
@@ -48,7 +47,6 @@ public class SetXBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Formula xPosition;
 
-	private transient View view;
 	private transient View prototypeView;
 
 	public SetXBrick(Sprite sprite, int xPositionValue) {
@@ -72,22 +70,18 @@ public class SetXBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_set_x, null);
+		view = View.inflate(context, R.layout.brick_set_x, null);
 
-			checkbox = (CheckBox) view.findViewById(R.id.brick_set_x_checkbox);
+		setCheckboxView(R.id.brick_set_x_checkbox);
 
-			final Brick brickInstance = this;
-
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
-		}
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 		TextView textX = (TextView) view.findViewById(R.id.brick_set_x_prototype_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_set_x_edit_text);
 

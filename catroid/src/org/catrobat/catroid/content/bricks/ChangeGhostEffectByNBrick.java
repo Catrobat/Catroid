@@ -35,7 +35,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
@@ -73,20 +72,18 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_change_ghost_effect, null);
+		view = View.inflate(context, R.layout.brick_change_ghost_effect, null);
 
-			checkbox = (CheckBox) view.findViewById(R.id.brick_change_ghost_effect_checkbox);
-			final Brick brickInstance = this;
+		setCheckboxView(R.id.brick_change_ghost_effect_checkbox);
+		final Brick brickInstance = this;
 
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
-		}
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
 		changeGhostEffect.setTextFieldId(R.id.brick_change_ghost_effect_edit_text);

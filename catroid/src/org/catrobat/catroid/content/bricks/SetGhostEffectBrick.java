@@ -35,7 +35,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
@@ -48,7 +47,6 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 	private static final long serialVersionUID = 1L;
 	private Formula transparency;
 
-	private transient View view;
 	private transient View prototypeView;
 
 	public SetGhostEffectBrick(Sprite sprite, double ghostEffectValue) {
@@ -77,22 +75,18 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_set_ghost_effect, null);
+		view = View.inflate(context, R.layout.brick_set_ghost_effect, null);
 
-			checkbox = (CheckBox) view.findViewById(R.id.brick_set_ghost_effect_checkbox);
+		setCheckboxView(R.id.brick_set_ghost_effect_checkbox);
 
-			final Brick brickInstance = this;
-
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
-		}
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to_prototype_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);

@@ -40,7 +40,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
@@ -72,25 +71,22 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 			receiveScript = new BroadcastScript(sprite);
 		}
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_broadcast_receive, null);
+		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
 
-			checkbox = (CheckBox) view.findViewById(R.id.brick_broadcast_receive_checkbox);
-			final Brick brickInstance = this;
-
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					if (!checked) {
-						for (Brick currentBrick : adapter.getCheckedBricks()) {
-							currentBrick.setCheckedBoolean(false);
-						}
+		setCheckboxView(R.id.brick_broadcast_receive_checkbox);
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				if (!checked) {
+					for (Brick currentBrick : adapter.getCheckedBricks()) {
+						currentBrick.setCheckedBoolean(false);
 					}
-					adapter.handleCheck(brickInstance, checked);
 				}
-			});
-		}
+				adapter.handleCheck(brickInstance, checked);
+			}
+		});
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_receive_spinner);
 		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
 		broadcastSpinner.setClickable(true);

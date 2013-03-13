@@ -36,7 +36,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -67,13 +66,10 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		if (view == null) {
-			view = inflater.inflate(R.layout.brick_if_else, null);
-		}
+		view = inflater.inflate(R.layout.brick_if_else, null);
 
-		checkbox = (CheckBox) view.findViewById(R.id.brick_if_else_checkbox);
+		setCheckboxView(R.id.brick_if_else_checkbox);
 		final Brick brickInstance = this;
-
 		checkbox.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

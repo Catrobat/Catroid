@@ -36,7 +36,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -69,24 +68,22 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		if (view == null) {
-			view = inflater.inflate(R.layout.brick_if_end_if, null);
-			checkbox = (CheckBox) view.findViewById(R.id.brick_if_end_if_checkbox);
-			final Brick brickInstance = this;
+		view = inflater.inflate(R.layout.brick_if_end_if, null);
 
-			checkbox.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					checked = !checked;
-					if (!checked) {
-						for (Brick currentBrick : adapter.getCheckedBricks()) {
-							currentBrick.setCheckedBoolean(false);
-						}
+		setCheckboxView(R.id.brick_if_end_if_checkbox);
+		final Brick brickInstance = this;
+		checkbox.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				checked = !checked;
+				if (!checked) {
+					for (Brick currentBrick : adapter.getCheckedBricks()) {
+						currentBrick.setCheckedBoolean(false);
 					}
-					adapter.handleCheck(brickInstance, checked);
 				}
-			});
-		}
+				adapter.handleCheck(brickInstance, checked);
+			}
+		});
 		return view;
 	}
 

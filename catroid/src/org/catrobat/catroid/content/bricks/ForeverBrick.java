@@ -34,7 +34,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -62,24 +61,23 @@ public class ForeverBrick extends LoopBeginBrick {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_forever, null);
-			checkbox = (CheckBox) view.findViewById(R.id.brick_forever_checkbox);
-			final Brick brickInstance = this;
+		view = View.inflate(context, R.layout.brick_forever, null);
 
-			checkbox.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					checked = !checked;
-					if (!checked) {
-						for (Brick currentBrick : adapter.getCheckedBricks()) {
-							currentBrick.setCheckedBoolean(false);
-						}
+		setCheckboxView(R.id.brick_forever_checkbox);
+		final Brick brickInstance = this;
+
+		checkbox.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				checked = !checked;
+				if (!checked) {
+					for (Brick currentBrick : adapter.getCheckedBricks()) {
+						currentBrick.setCheckedBoolean(false);
 					}
-					adapter.handleCheck(brickInstance, checked);
 				}
-			});
-		}
+				adapter.handleCheck(brickInstance, checked);
+			}
+		});
 
 		return view;
 	}

@@ -41,7 +41,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
@@ -89,20 +88,18 @@ public class BroadcastWaitBrick extends BrickBaseType {
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_broadcast_wait, null);
+		view = View.inflate(context, R.layout.brick_broadcast_wait, null);
 
-			checkbox = (CheckBox) view.findViewById(R.id.brick_broadcast_wait_checkbox);
-			final Brick brickInstance = this;
+		setCheckboxView(R.id.brick_broadcast_wait_checkbox);
+		final Brick brickInstance = this;
 
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
-		}
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_wait_spinner);
 		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {

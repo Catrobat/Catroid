@@ -35,7 +35,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
@@ -90,22 +89,18 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
+		view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 
-			checkbox = (CheckBox) view.findViewById(R.id.brick_nxt_play_tone_checkbox);
+		setCheckboxView(R.id.brick_nxt_play_tone_checkbox);
 
-			final Brick brickInstance = this;
-
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
-		}
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 
 		TextView textDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_text_view);
 		EditText editDuration = (EditText) view.findViewById(R.id.nxt_tone_duration_edit_text);
