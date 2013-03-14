@@ -79,7 +79,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 	private static class ViewHolder {
 		private ImageButton playButton;
 		private ImageButton pauseButton;
-		private transient CheckBox checkbox;
+		private CheckBox checkbox;
 		private TextView titleTextView;
 		private TextView timeSeperatorTextView;
 		private TextView timeDurationTextView;

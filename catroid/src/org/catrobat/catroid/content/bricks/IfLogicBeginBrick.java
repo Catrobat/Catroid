@@ -168,7 +168,6 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 			nestingBrickList.add(ifEndBrick);
 		} else {
 			nestingBrickList.add(this);
-			//nestingBrickList.add(ifElseBrick);
 			nestingBrickList.add(ifEndBrick);
 		}
 

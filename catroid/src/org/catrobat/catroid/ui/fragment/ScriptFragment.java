@@ -474,14 +474,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		adapter.removeFromBrickListAndProject(brickId, true);
 	}
 
-	public List<Brick> removeCheckedBricksFromScript(Brick scriptBrick, List<Brick> checkedBricks) {
-		int index = checkedBricks.indexOf(scriptBrick) + 1;
-		while (index < checkedBricks.size() && !(checkedBricks.get(index) instanceof ScriptBrick)) {
-			checkedBricks.remove(index);
-		}
-		return checkedBricks;
-	}
-
 	@Override
 	public void onBrickEdit(View view) {
 
