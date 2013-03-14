@@ -44,6 +44,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
+import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -379,8 +380,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testFastDoubleClick() {
-		//		UiTestUtils.checkFastDoubleClickOnButtonOpensViewOnlyOnce(solo, R.id.main_menu_button_new,
-		//				NewProjectDialog.DIALOG_FRAGMENT_TAG);
+		UiTestUtils.checkFastDoubleClickOnButtonOpensViewOnlyOnce(solo, R.id.main_menu_button_new,
+				NewProjectDialog.DIALOG_FRAGMENT_TAG);
 
 		UiTestUtils.checkFastDoubleClickOnButtonOpensViewOnlyOnce(solo, R.id.main_menu_button_upload,
 				LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
