@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,14 +19,36 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval" >
+ */
+package org.catrobat.catroid.formulaeditor;
 
-    <size
-        android:height="50dp"
-        android:width="50dp" />
+public enum Sensors {
+	X_ACCELERATION, Y_ACCELERATION, Z_ACCELERATION, Z_ORIENTATION, X_ORIENTATION, Y_ORIENTATION, LOOK_X(true), LOOK_Y(
+			true), LOOK_GHOSTEFFECT(true), LOOK_BRIGHTNESS(true), LOOK_SIZE(true), LOOK_ROTATION(true), LOOK_LAYER(true);
+	public final boolean isLookSensor;
 
-    <solid android:color="@color/main_menu_button_text_color" />
+	Sensors(boolean isLookSensor) {
+		this.isLookSensor = true;
+	}
 
-</shape>
+	Sensors() {
+		this.isLookSensor = false;
+	}
+
+	public static boolean isSensor(String value) {
+		if (getSensorByValue(value) == null) {
+			return false;
+		}
+		return true;
+	}
+
+	public static Sensors getSensorByValue(String value) {
+		try {
+			return valueOf(value);
+		} catch (IllegalArgumentException exception) {
+
+		}
+		return null;
+	}
+
+}

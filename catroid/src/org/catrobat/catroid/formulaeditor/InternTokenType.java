@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,14 +19,10 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval" >
+ */
+package org.catrobat.catroid.formulaeditor;
 
-    <size
-        android:height="50dp"
-        android:width="50dp" />
+public enum InternTokenType {
+	NUMBER, OPERATOR, FUNCTION_NAME, BRACKET_OPEN, BRACKET_CLOSE, SENSOR, FUNCTION_PARAMETERS_BRACKET_OPEN, FUNCTION_PARAMETERS_BRACKET_CLOSE, FUNCTION_PARAMETER_DELIMITER, PERIOD, USER_VARIABLE, PARSER_END_OF_FILE;
 
-    <solid android:color="@color/main_menu_button_text_color" />
-
-</shape>
+}

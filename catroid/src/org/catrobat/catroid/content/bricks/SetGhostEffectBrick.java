@@ -22,26 +22,26 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class SetGhostEffectBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private double transparency;
+	private Formula transparency;
 	private Sprite sprite;
 
 	private transient View view;
@@ -49,7 +49,12 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 
 	public SetGhostEffectBrick(Sprite sprite, double ghostEffectValue) {
 		this.sprite = sprite;
-		this.transparency = ghostEffectValue;
+		transparency = new Formula(ghostEffectValue);
+	}
+
+	public SetGhostEffectBrick(Sprite sprite, Formula transparency) {
+		this.sprite = sprite;
+		this.transparency = transparency;
 	}
 
 	public SetGhostEffectBrick() {
@@ -66,10 +71,6 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 		return this.sprite;
 	}
 
-	public double getGhostEffectValue() {
-		return transparency;
-	}
-
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
@@ -77,8 +78,8 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to_prototype_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
-		editX.setText(String.valueOf(transparency));
-
+		transparency.setTextFieldId(R.id.brick_set_ghost_effect_to_edit_text);
+		transparency.refreshTextField(view);
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
 
@@ -92,46 +93,23 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 		prototypeView = View.inflate(context, R.layout.brick_set_ghost_effect, null);
 		TextView textSetGhostEffect = (TextView) prototypeView
 				.findViewById(R.id.brick_set_ghost_effect_to_prototype_text_view);
-		textSetGhostEffect.setText(String.valueOf(transparency));
+		textSetGhostEffect.setText(String.valueOf(transparency.interpretFloat(sprite)));
 		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new SetGhostEffectBrick(getSprite(), getGhostEffectValue());
+		return new SetGhostEffectBrick(getSprite(), transparency.clone());
 	}
 
 	@Override
 	public void onClick(View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(transparency));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-						| InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					transparency = Double.parseDouble(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_set_ghost_effect_brick");
+		FormulaEditorFragment.showFragment(view, this, transparency);
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setGhostEffect(sprite, (float) transparency));
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setGhostEffect(sprite, transparency));
 		return null;
 	}
 }

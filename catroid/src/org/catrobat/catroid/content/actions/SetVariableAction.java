@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,14 +19,41 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval" >
+ */
+package org.catrobat.catroid.content.actions;
 
-    <size
-        android:height="50dp"
-        android:width="50dp" />
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
-    <solid android:color="@color/main_menu_button_text_color" />
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-</shape>
+public class SetVariableAction extends TemporalAction {
+
+	private Sprite sprite;
+	private Formula changeVariable;
+	private UserVariable userVariable;
+
+	@Override
+	protected void update(float percent) {
+		if (userVariable == null) {
+			return;
+		}
+		double value = changeVariable.interpretFloat(sprite);
+		userVariable.setValue(value);
+
+	}
+
+	public void setUserVariable(UserVariable userVariable) {
+		this.userVariable = userVariable;
+	}
+
+	public void setChangeVariable(Formula changeVariable) {
+		this.changeVariable = changeVariable;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
+
+}

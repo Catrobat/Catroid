@@ -23,32 +23,25 @@
 package org.catrobat.catroid.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class SetGhostEffectAction extends TemporalAction {
 
 	private Sprite sprite;
-	private float transparency;
+	private Formula transparency;
 
 	@Override
 	protected void update(float percent) {
-		sprite.look.setAlphaValue((100f - transparency) / 100f);
-	}
-
-	public Sprite getSprite() {
-		return sprite;
+		sprite.look.setAlphaValue((100f - transparency.interpretFloat(sprite)) / 100f);
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public float getTransparency() {
-		return transparency;
-	}
-
-	public void setTransparency(float transparency) {
+	public void setTransparency(Formula transparency) {
 		this.transparency = transparency;
 	}
 

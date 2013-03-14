@@ -35,10 +35,6 @@ public class HideAction extends TemporalAction {
 		sprite.look.show = false;
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}

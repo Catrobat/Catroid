@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.SetSizeToAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
 import org.catrobat.catroid.content.actions.TurnRightAction;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -90,7 +91,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
-		TurnLeftAction action = ExtendedActions.turnLeft(sprite, 10.0f);
+		TurnLeftAction action = ExtendedActions.turnLeft(sprite, new Formula(10.0f));
 		action.act(1.0f);
 
 		assertEquals("Wrong direction!", 10f, sprite.look.getRotation(), 1e-3);
@@ -109,8 +110,8 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
-		TurnLeftAction action = ExtendedActions.turnLeft(sprite, 10.0f);
-		SetSizeToAction scaleAction = ExtendedActions.setSizeTo(sprite, 50.0f);
+		TurnLeftAction action = ExtendedActions.turnLeft(sprite, new Formula(10.0f));
+		SetSizeToAction scaleAction = ExtendedActions.setSizeTo(sprite, new Formula(50.0f));
 		action.act(1.0f);
 		scaleAction.act(1.0f);
 
@@ -123,8 +124,8 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
-		TurnLeftAction action = ExtendedActions.turnLeft(sprite, 10.0f);
-		SetSizeToAction scaleAction = ExtendedActions.setSizeTo(sprite, 50.0f);
+		TurnLeftAction action = ExtendedActions.turnLeft(sprite, new Formula(10.0f));
+		SetSizeToAction scaleAction = ExtendedActions.setSizeTo(sprite, new Formula(50.0f));
 		scaleAction.act(1.0f);
 		action.act(1.0f);
 
@@ -138,7 +139,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
-		TurnLeftAction action = ExtendedActions.turnLeft(sprite, -10.0f);
+		TurnLeftAction action = ExtendedActions.turnLeft(sprite, new Formula(-10.0f));
 		action.act(1.0f);
 
 		assertEquals("Wrong direction!", -10f, sprite.look.getRotation(), 1e-3);
@@ -150,7 +151,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
-		TurnLeftAction action = ExtendedActions.turnLeft(sprite, 370.0f);
+		TurnLeftAction action = ExtendedActions.turnLeft(sprite, new Formula(370.0f));
 		action.act(1.0f);
 
 		assertEquals("Wrong direction!", 370f, sprite.look.getRotation(), 1e-3);
@@ -162,8 +163,8 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
-		TurnLeftAction turnLeftAction = ExtendedActions.turnLeft(sprite, 50.0f);
-		TurnRightAction turnRightAction = ExtendedActions.turnRight(sprite, 30.0f);
+		TurnLeftAction turnLeftAction = ExtendedActions.turnLeft(sprite, new Formula(50.0f));
+		TurnRightAction turnRightAction = ExtendedActions.turnRight(sprite, new Formula(30.0f));
 		turnLeftAction.act(1.0f);
 		turnRightAction.act(1.0f);
 

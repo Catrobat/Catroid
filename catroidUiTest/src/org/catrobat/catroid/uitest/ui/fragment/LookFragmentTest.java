@@ -127,8 +127,8 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
-		projectManager.getCurrentProject().virtualScreenWidth = display.getWidth();
-		projectManager.getCurrentProject().virtualScreenHeight = display.getHeight();
+		projectManager.getCurrentProject().getXmlHeader().virtualScreenWidth = display.getWidth();
+		projectManager.getCurrentProject().getXmlHeader().virtualScreenHeight = display.getHeight();
 
 		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoLooksFromMainMenu(solo, true);
