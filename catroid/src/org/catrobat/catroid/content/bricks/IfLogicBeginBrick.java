@@ -33,11 +33,13 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -48,7 +50,6 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	private static final String TAG = IfLogicBeginBrick.class.getSimpleName();
 	public static final int EXECUTE_ELSE_PART = -1;
 	private Formula ifCondition;
-	protected Sprite sprite;
 	protected IfLogicElseBrick ifElseBrick;
 	protected IfLogicEndBrick ifEndBrick;
 
@@ -86,9 +87,24 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 
-		View view = View.inflate(context, R.layout.brick_if_begin_if, null);
+		view = View.inflate(context, R.layout.brick_if_begin_if, null);
+
+		setCheckboxView(R.id.brick_if_begin_checkbox);
+		final Brick brickInstance = this;
+		checkbox.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				checked = !checked;
+				if (!checked) {
+					for (Brick currentBrick : adapter.getCheckedBricks()) {
+						currentBrick.setCheckedBoolean(false);
+					}
+				}
+				adapter.handleCheck(brickInstance, checked);
+			}
+		});
 
 		TextView text1 = (TextView) view.findViewById(R.id.brick_if_text_view1);
 		EditText edit1 = (EditText) view.findViewById(R.id.brick_if_edit_text1);
@@ -105,12 +121,24 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	}
 
 	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.brick_if_begin_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_if_begin_if, null);
 	}
 
 	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
 		FormulaEditorFragment.showFragment(view, this, ifCondition);
 	}
 
@@ -131,11 +159,17 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts() {
+	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
+		//TODO: handle sorting
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
-		nestingBrickList.add(this);
-		nestingBrickList.add(ifElseBrick);
-		nestingBrickList.add(ifEndBrick);
+		if (sorted) {
+			nestingBrickList.add(this);
+			nestingBrickList.add(ifElseBrick);
+			nestingBrickList.add(ifEndBrick);
+		} else {
+			nestingBrickList.add(this);
+			nestingBrickList.add(ifEndBrick);
+		}
 
 		return nestingBrickList;
 	}

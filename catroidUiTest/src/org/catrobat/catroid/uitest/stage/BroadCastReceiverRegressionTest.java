@@ -69,7 +69,7 @@ public class BroadCastReceiverRegressionTest extends ActivityInstrumentationTest
 		Script script = sprite.getScript(0);
 
 		final String testMessage = "RegressionTest#105";
-		BroadcastBrick broadcastBrick = new BroadcastBrick();
+		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);
 		broadcastBrick.setSelectedMessage(testMessage);
 		script.addBrick(broadcastBrick);
 

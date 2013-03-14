@@ -33,24 +33,26 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class BroadcastBrick implements Brick {
+public class BroadcastBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 	private transient ProjectManager projectManager;
-	private Sprite sprite;
-	private String broadcastMessage = "";
 
-	private transient View view;
+	private String broadcastMessage = "";
 
 	public BroadcastBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -60,11 +62,6 @@ public class BroadcastBrick implements Brick {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	public void setSelectedMessage(String message) {
@@ -81,14 +78,28 @@ public class BroadcastBrick implements Brick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter adapter) {
-
+	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_broadcast, null);
+		setCheckboxView(R.id.brick_broadcast_checkbox);
+
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);
 		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
-		broadcastSpinner.setClickable(true);
-		broadcastSpinner.setFocusable(true);
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+			broadcastSpinner.setClickable(true);
+			broadcastSpinner.setEnabled(true);
+		} else {
+			broadcastSpinner.setClickable(false);
+			broadcastSpinner.setEnabled(false);
+		}
 
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			private boolean start = true;
@@ -122,7 +133,10 @@ public class BroadcastBrick implements Brick {
 		newBroadcastMessage.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(View view) {
+				if (checkbox.getVisibility() == View.VISIBLE) {
+					return;
+				}
 				ScriptActivity activity = (ScriptActivity) context;
 
 				BrickTextDialog editDialog = new BrickTextDialog() {
@@ -165,8 +179,13 @@ public class BroadcastBrick implements Brick {
 		return new BroadcastBrick(sprite);
 	}
 
-	public BroadcastBrick() {
-
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_broadcast_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
 	}
 
 	@Override

@@ -22,28 +22,33 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
+public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C, ALL_MOTORS
 	}
 
-	private Sprite sprite;
 	private transient Motor motorEnum;
 	private String motor;
 
@@ -66,11 +71,6 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_nxt_motor_stop, null);
 	}
@@ -81,21 +81,30 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		View brickView = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		view = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
+
+		setCheckboxView(R.id.brick_nxt_motor_stop_checkbox);
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.stop_motor_spinner);
+		Spinner motorSpinner = (Spinner) view.findViewById(R.id.stop_motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);
 		motorSpinner.setClickable(true);
 		motorSpinner.setEnabled(true);
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setSelection(motorEnum.ordinal());
-
-		return brickView;
+		return view;
 	}
 
 	@Override
@@ -106,6 +115,15 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_nxt_motor_stop_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
 	}
 
 	@Override

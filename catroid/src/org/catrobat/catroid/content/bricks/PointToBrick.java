@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -30,20 +31,23 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class PointToBrick implements Brick {
+public class PointToBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
 	private Sprite pointedSprite;
 
 	public PointToBrick(Sprite sprite, Sprite pointedSprite) {
@@ -61,21 +65,32 @@ public class PointToBrick implements Brick {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	@Override
-	public View getView(final Context context, int brickId, BaseAdapter adapter) {
+	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.brick_point_to, null);
+		view = inflater.inflate(R.layout.brick_point_to, null);
 
-		final Spinner spinner = (Spinner) brickView.findViewById(R.id.brick_point_to_spinner);
+		setCheckboxView(R.id.brick_point_to_checkbox);
+
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
+
+		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
 		spinner.setFocusableInTouchMode(false);
 		spinner.setFocusable(false);
-		spinner.setClickable(true);
-		spinner.setEnabled(true);
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+			spinner.setClickable(true);
+			spinner.setEnabled(true);
+		} else {
+			spinner.setClickable(false);
+			spinner.setEnabled(false);
+		}
 
 		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -96,6 +111,7 @@ public class PointToBrick implements Brick {
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
 				String itemSelected = parent.getSelectedItem().toString();
 				String nothingSelected = context.getString(R.string.broadcast_nothing_selected);
 				final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance()
@@ -123,8 +139,16 @@ public class PointToBrick implements Brick {
 		} else {
 			spinner.setSelection(0);
 		}
+		return view;
+	}
 
-		return brickView;
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_point_to_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
 	}
 
 	@Override
