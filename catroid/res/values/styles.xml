@@ -108,10 +108,10 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/program_menu_button_height</item>
         <item name="android:background">@drawable/program_menu_button_background</item>
-        <item name="android:drawablePadding">25dp</item>
+        <item name="android:drawablePadding">28dp</item>
         <item name="android:drawableRight">@drawable/ic_arrow_right_dark</item>
         <item name="android:gravity">left|center_vertical</item>
-        <item name="android:paddingLeft">25dp</item>
+        <item name="android:paddingLeft">21dp</item>
         <item name="android:paddingRight">15dp</item>
         <item name="android:textSize">@dimen/text_size_program_menu_buttons</item>
         <item name="android:textColor">@color/program_menu_button_text_color</item>
