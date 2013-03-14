@@ -48,8 +48,10 @@ import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -66,6 +68,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		OnUpdateProjectDescriptionListener, OnCopyProjectListener {
 
 	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
+	private static final String SHARED_PREFERENCE_NAME = "showDetailsMyProjects";
 
 	private List<ProjectData> projectList;
 	private ProjectData projectToEdit;
@@ -81,6 +84,26 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	public void onCreate(Bundle savedInstanceState) {
 		setRetainInstance(true);
 		super.onCreate(savedInstanceState);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
+				.getApplicationContext());
+		SharedPreferences.Editor editor = settings.edit();
+
+		editor.putBoolean(SHARED_PREFERENCE_NAME, getShowDetails());
+		editor.commit();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
+				.getApplicationContext());
+
+		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
 	}
 
 	@Override
@@ -123,6 +146,15 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	@Override
 	public void onUpdateProjectDescription() {
 		initAdapter();
+	}
+
+	public void setShowDetails(boolean showDetails) {
+		adapter.setShowDetails(showDetails);
+		adapter.notifyDataSetChanged();
+	}
+
+	public boolean getShowDetails() {
+		return adapter.getShowDetails();
 	}
 
 	private void initAdapter() {

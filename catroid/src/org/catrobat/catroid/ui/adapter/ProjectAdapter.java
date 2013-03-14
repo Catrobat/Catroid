@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.io.ProjectScreenshotLoader;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
 import org.catrobat.catroid.utils.UtilFile;
@@ -39,15 +40,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 public class ProjectAdapter extends ArrayAdapter<ProjectData> {
+	private boolean showDetails;
 
 	private static class ViewHolder {
 		private TextView projectName;
 		private ImageView image;
 		private TextView size;
 		private TextView dateChanged;
+		private View projectDetails;
 		// temporarily removed - because of upcoming release, and bad performance of projectdescription
 		//		public TextView description;
 	}
@@ -59,6 +61,15 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		super(context, resource, textViewResourceId, objects);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		screenshotLoader = new ProjectScreenshotLoader(context);
+		showDetails = false;
+	}
+
+	public void setShowDetails(boolean showDetails) {
+		this.showDetails = showDetails;
+	}
+
+	public boolean getShowDetails() {
+		return showDetails;
 	}
 
 	@Override
@@ -72,6 +83,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 			holder.image = (ImageView) convertView.findViewById(R.id.my_projects_activity_project_image);
 			holder.size = (TextView) convertView.findViewById(R.id.my_projects_activity_size_of_project_2);
 			holder.dateChanged = (TextView) convertView.findViewById(R.id.my_projects_activity_project_changed_2);
+			holder.projectDetails = convertView.findViewById(R.id.my_projects_list_item_details);
 			// temporarily removed - because of upcoming release, and bad performance of projectdescription
 			//			holder.description = (TextView) convertView.findViewById(R.id.my_projects_activity_description);
 			convertView.setTag(holder);
@@ -96,6 +108,12 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 
 		//set project image (threaded):
 		screenshotLoader.loadAndShowScreenshot(projectName, holder.image);
+
+		if (!showDetails) {
+			holder.projectDetails.setVisibility(View.GONE);
+		} else {
+			holder.projectDetails.setVisibility(View.VISIBLE);
+		}
 
 		//set project description:
 

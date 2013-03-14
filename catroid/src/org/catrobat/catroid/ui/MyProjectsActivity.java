@@ -26,6 +26,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
+import org.catrobat.catroid.ui.fragment.ProjectsListFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import com.actionbarsherlock.view.MenuItem;
 public class MyProjectsActivity extends SherlockFragmentActivity {
 
 	private ActionBar actionBar;
+	private ProjectsListFragment projectsListFragment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,9 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 
 		findViewById(R.id.bottom_bar_separator).setVisibility(View.GONE);
 		findViewById(R.id.button_play).setVisibility(View.GONE);
+
+		projectsListFragment = (ProjectsListFragment) getSupportFragmentManager().findFragmentById(
+				R.id.fragment_projects_list);
 	}
 
 	// Code from Stackoverflow to reduce memory problems
@@ -82,6 +87,12 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		handleShowDetails(projectsListFragment.getShowDetails(), menu.findItem(R.id.show_details));
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home: {
@@ -89,6 +100,10 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				return true;
+			}
+			case R.id.show_details: {
+				handleShowDetails(!projectsListFragment.getShowDetails(), item);
+				break;
 			}
 		}
 		return super.onOptionsItemSelected(item);
@@ -112,5 +127,17 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 	public void handleAddButton(View view) {
 		NewProjectDialog dialog = new NewProjectDialog();
 		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void handleShowDetails(boolean showDetails, MenuItem item) {
+		projectsListFragment.setShowDetails(showDetails);
+
+		String menuItemText = "";
+		if (showDetails) {
+			menuItemText = getString(R.string.hide_details);
+		} else {
+			menuItemText = getString(R.string.show_details);
+		}
+		item.setTitle(menuItemText);
 	}
 }
