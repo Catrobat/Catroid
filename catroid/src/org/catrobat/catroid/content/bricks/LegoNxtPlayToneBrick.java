@@ -31,18 +31,21 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class LegoNxtPlayToneBrick implements Brick, OnClickListener {
+public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
-	private Sprite sprite;
 	private transient View prototypeView;
 
 	private transient EditText editFreq;
@@ -70,11 +73,6 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.nxt_tone_duration_text_view);
@@ -90,15 +88,25 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 
-		View brickView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
+		setCheckboxView(R.id.brick_nxt_play_tone_checkbox);
 
-		TextView textDuration = (TextView) brickView.findViewById(R.id.nxt_tone_duration_text_view);
-		EditText editDuration = (EditText) brickView.findViewById(R.id.nxt_tone_duration_edit_text);
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
+
+		TextView textDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_text_view);
+		EditText editDuration = (EditText) view.findViewById(R.id.nxt_tone_duration_edit_text);
 		//		editDuration.setText(String.valueOf(durationInMs / 1000.0));
 		durationInSeconds.setTextFieldId(R.id.nxt_tone_duration_edit_text);
-		durationInSeconds.refreshTextField(brickView);
+		durationInSeconds.refreshTextField(view);
 		//		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, duration, MIN_DURATION,
 		//				MAX_DURATION);
 		//		dialogDuration.setOnDismissListener(this);
@@ -110,18 +118,18 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener {
 
 		editDuration.setOnClickListener(this);
 
-		TextView textFreq = (TextView) brickView.findViewById(R.id.nxt_tone_freq_text_view);
-		editFreq = (EditText) brickView.findViewById(R.id.nxt_tone_freq_edit_text);
+		TextView textFreq = (TextView) view.findViewById(R.id.nxt_tone_freq_text_view);
+		editFreq = (EditText) view.findViewById(R.id.nxt_tone_freq_edit_text);
 		//		editFreq.setText(String.valueOf(hertz / 100));
 		frequency.setTextFieldId(R.id.nxt_tone_freq_edit_text);
-		frequency.refreshTextField(brickView);
+		frequency.refreshTextField(view);
 
 		textFreq.setVisibility(View.GONE);
 		editFreq.setVisibility(View.VISIBLE);
 
 		editFreq.setOnClickListener(this);
 
-		return brickView;
+		return view;
 	}
 
 	@Override
@@ -135,6 +143,15 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener {
 				break;
 		}
 
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_nxt_play_tone_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
 	}
 
 	@Override

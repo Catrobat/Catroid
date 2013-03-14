@@ -35,6 +35,8 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -188,6 +190,175 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(1), brickList.get(2));
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(2), brickList.get(3));
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(4), brickList.get(4));
+	}
+
+	public void testDeleteActionMode() {
+		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		solo.clickOnCheckBox(0);
+
+		String expectedTitle = solo.getString(R.string.delete) + " " + Integer.toString(brickListToCheck.size() + 1)
+				+ " " + solo.getString(R.string.brick_multiple);
+
+		int timeToWaitForTitle = 300;
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		assertEquals("Not all Bricks have been deleted!", 0, numberOfBricks);
+	}
+
+	public void testDeleteActionModeBack() {
+		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		solo.clickOnCheckBox(0);
+
+		solo.goBack();
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		assertEquals("No Brick should have been deleted!", brickListToCheck.size(), numberOfBricks);
+	}
+
+	public void testDeleteActionModeAllBricks() {
+		UiTestUtils.createTestProjectWithEveryBrick();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		List<Brick> brickList = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getScript(0)
+				.getBrickList();
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		solo.clickOnCheckBox(0);
+
+		for (int position = 1; position < brickList.size(); position++) {
+			assertEquals("AlphaValue of " + brickList.get(position).toString() + " is not 100", 100,
+					brickList.get(position).getAlphaValue());
+		}
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		assertEquals("Not all Bricks have been deleted!", 0, numberOfBricks);
+	}
+
+	public void testDeleteActionModeTwoScripts() {
+		UiTestUtils.createTestProjectForActionModeDelete();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+
+		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(2);
+
+		solo.clickOnCheckBox(4);
+		solo.clickOnCheckBox(5);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+		int numberOfScripts = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfScripts();
+
+		assertEquals("There should be no bricks", 0, numberOfBricks);
+		assertEquals("Expected two ScriptBricks", 2, numberOfScripts);
+	}
+
+	public void testDeleteActionModeNestedLoops() {
+		UiTestUtils.createTestProjectNestedLoops();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+
+		solo.clickOnCheckBox(3);
+		String expectedTitle = solo.getString(R.string.delete) + " " + 3 + " "
+				+ solo.getString(R.string.brick_multiple);
+		int timeToWaitForTitle = 300;
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		solo.clickOnCheckBox(4);
+		assertEquals("Fourth checkbox should be checked", true, solo.getCurrentCheckBoxes().get(4).isChecked());
+
+		solo.sleep(500);
+		solo.clickOnCheckBox(1);
+		expectedTitle = solo.getString(R.string.delete) + " " + 6 + " " + solo.getString(R.string.brick_multiple);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(3);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+		int numberOfForeverBricks = 0;
+		int numberOfEndBricks = 0;
+
+		ListView dragAndDropListView = solo.getCurrentListViews().get(1);
+		List<Brick> currentBrickList = new ArrayList<Brick>();
+
+		for (int position = 0; position < dragAndDropListView.getChildCount(); position++) {
+			currentBrickList.add((Brick) dragAndDropListView.getItemAtPosition(position));
+		}
+
+		for (Brick currentBrick : currentBrickList) {
+			if (currentBrick instanceof ForeverBrick) {
+				numberOfForeverBricks++;
+			}
+
+			if (currentBrick instanceof LoopEndBrick) {
+				numberOfEndBricks++;
+			}
+		}
+
+		assertEquals("There should be only 1 ForeverBrick", 1, numberOfForeverBricks);
+		assertEquals("There should be only 1 LoopEndBrick", 1, numberOfEndBricks);
+		assertEquals("Wrong number of bricks left", 3, numberOfBricks);
+	}
+
+	public void testDeleteActionModeIfBricks() {
+		UiTestUtils.createTestProjectIfBricks();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+
+		solo.clickOnCheckBox(2);
+		solo.clickOnCheckBox(5);
+		String expectedTitle = solo.getString(R.string.delete) + " " + 5 + " "
+				+ solo.getString(R.string.brick_multiple);
+		int timeToWaitForTitle = 300;
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		solo.sleep(500);
+		solo.clickOnCheckBox(5);
+		expectedTitle = solo.getString(R.string.delete);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		solo.sleep(300);
+		solo.clickOnCheckBox(3);
+		expectedTitle = solo.getString(R.string.delete) + " " + 5 + " " + solo.getString(R.string.brick_multiple);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		ListView dragAndDropListView = solo.getCurrentListViews().get(1);
+		List<Brick> currentBrickList = new ArrayList<Brick>();
+
+		for (int position = 0; position < dragAndDropListView.getChildCount(); position++) {
+			currentBrickList.add((Brick) dragAndDropListView.getItemAtPosition(position));
+		}
+
+		assertEquals("Wrong number of bricks left", 0, numberOfBricks);
 	}
 
 	public void testDeleteItem() {

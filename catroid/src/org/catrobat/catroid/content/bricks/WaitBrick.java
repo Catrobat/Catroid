@@ -32,20 +32,22 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class WaitBrick implements Brick, OnClickListener {
+public class WaitBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Formula timeToWaitInSeconds;
-	private Sprite sprite;
 
-	private transient View view;
 	private transient View prototypeView;
 
 	public WaitBrick(Sprite sprite, int timeToWaitInMillisecondsValue) {
@@ -68,13 +70,19 @@ public class WaitBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_wait, null);
+
+		setCheckboxView(R.id.brick_wait_checkbox);
+
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 
 		TextView text = (TextView) view.findViewById(R.id.brick_wait_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_wait_edit_text);
@@ -97,7 +105,6 @@ public class WaitBrick implements Brick, OnClickListener {
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
-
 		return view;
 	}
 
@@ -118,7 +125,19 @@ public class WaitBrick implements Brick, OnClickListener {
 	}
 
 	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_wait_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
+	}
+
+	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
 		FormulaEditorFragment.showFragment(view, this, timeToWaitInSeconds);
 	}
 
