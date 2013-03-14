@@ -80,7 +80,8 @@
 
 
     <!-- Project activity view -->
-    <string name="project_name">Project:</string>
+    <string name="project_name">Program:</string>
+    <string name="my_projects_activity_title">Programs</string>
     <string name="number_of_scripts">Scripts:</string>
     <string name="number_of_bricks">Bricks:</string>
     <string name="number_of_looks">Looks:</string>

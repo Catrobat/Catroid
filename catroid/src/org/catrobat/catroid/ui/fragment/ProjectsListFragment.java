@@ -35,11 +35,9 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.adapter.IconMenuAdapter;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog.OnCopyProjectListener;
-import org.catrobat.catroid.ui.dialogs.CustomIconContextMenu;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
@@ -49,17 +47,18 @@ import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -115,7 +114,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		registerForContextMenu(getListView());
 		if (savedInstanceState != null) {
 			projectToEdit = (ProjectData) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_PROJECT_DATA);
 		}
@@ -132,9 +131,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 	@Override
 	public void onProjectRename(boolean isCurrentProject) {
-		if (isCurrentProject) {
-			updateProjectTitle();
-		}
 		initAdapter();
 	}
 
@@ -196,77 +192,136 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 				getActivity().startActivity(intent);
 			}
 		});
-		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				projectToEdit = projectList.get(position);
-
-				if (projectToEdit != null) {
-					showEditProjectContextDialog();
-				}
-
-				return true;
-			}
-		});
+		//		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+		//			@Override
+		//			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+		//				projectToEdit = projectList.get(position);
+		//
+		//				if (projectToEdit != null) {
+		//					showEditProjectContextDialog();
+		//				}
+		//
+		//				return true;
+		//			}
+		//		});
 	}
 
-	private void showEditProjectContextDialog() {
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		Fragment prev = getFragmentManager().findFragmentByTag(CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
-		if (prev != null) {
-			ft.remove(prev);
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+		Adapter adapter = getListAdapter();
+
+		projectToEdit = (ProjectData) adapter.getItem(info.position);
+
+		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(projectToEdit) == 0) {
+			return;
 		}
-		ft.addToBackStack(null);
 
-		CustomIconContextMenu dialog = CustomIconContextMenu.newInstance(projectToEdit.projectName);
-		initCustomContextMenu(dialog);
-		dialog.show(getFragmentManager(), CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
+		menu.setHeaderTitle(projectToEdit.projectName);
+
+		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_my_projects, menu);
 	}
 
-	private void initCustomContextMenu(CustomIconContextMenu iconContextMenu) {
-		Resources resources = getResources();
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.context_menu_copy:
+				showCopyProjectDialog();
+				break;
 
-		IconMenuAdapter adapter = new IconMenuAdapter(getActivity());
-		adapter.addItem(resources, this.getString(R.string.rename), R.drawable.ic_context_rename,
-				CONTEXT_MENU_ITEM_RENAME);
-		adapter.addItem(resources, this.getString(R.string.set_description), R.drawable.ic_menu_description,
-				CONTEXT_MENU_ITEM_DESCRIPTION);
-		adapter.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
-				CONTEXT_MENU_ITEM_DELETE);
-		adapter.addItem(resources, this.getString(R.string.copy), R.drawable.ic_context_copy, CONTEXT_MENU_ITEM_COPY);
-		iconContextMenu.setAdapter(adapter);
+			case R.id.context_menu_rename:
+				showRenameDialog();
+				break;
 
-		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
-			@Override
-			public void onClick(int menuId) {
-				switch (menuId) {
-					case CONTEXT_MENU_ITEM_RENAME:
-						RenameProjectDialog dialogRenameProject = RenameProjectDialog
-								.newInstance(projectToEdit.projectName);
-						dialogRenameProject.setOnProjectRenameListener(ProjectsListFragment.this);
-						dialogRenameProject.show(getActivity().getSupportFragmentManager(),
-								RenameProjectDialog.DIALOG_FRAGMENT_TAG);
-						break;
-					case CONTEXT_MENU_ITEM_DESCRIPTION:
-						SetDescriptionDialog dialogSetDescription = SetDescriptionDialog
-								.newInstance(projectToEdit.projectName);
-						dialogSetDescription.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
-						dialogSetDescription.show(getActivity().getSupportFragmentManager(),
-								SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
-						break;
-					case CONTEXT_MENU_ITEM_DELETE:
-						deleteProject();
-						break;
-					case CONTEXT_MENU_ITEM_COPY:
-						CopyProjectDialog dialogCopyProject = CopyProjectDialog.newInstance(projectToEdit.projectName);
-						dialogCopyProject.setParentFragment(parentFragment);
-						dialogCopyProject.show(getActivity().getSupportFragmentManager(),
-								CopyProjectDialog.DIALOG_FRAGMENT_TAG);
-						break;
-				}
-			}
-		});
+			case R.id.context_menu_delete:
+				deleteProject();
+				break;
+
+			case R.id.context_menu_set_description:
+				showSetDescriptionDialog();
+				break;
+
+		}
+		return super.onContextItemSelected(item);
 	}
+
+	//	private void showEditProjectContextDialog() {
+	//		FragmentTransaction ft = getFragmentManager().beginTransaction();
+	//		Fragment prev = getFragmentManager().findFragmentByTag(CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
+	//		if (prev != null) {
+	//			ft.remove(prev);
+	//		}
+	//		ft.addToBackStack(null);
+	//
+	//		CustomIconContextMenu dialog = CustomIconContextMenu.newInstance(projectToEdit.projectName);
+	//		initCustomContextMenu(dialog);
+	//		dialog.show(getFragmentManager(), CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
+	//	}
+
+	private void showRenameDialog() {
+		RenameProjectDialog dialogRenameProject = RenameProjectDialog.newInstance(projectToEdit.projectName);
+		dialogRenameProject.setOnProjectRenameListener(ProjectsListFragment.this);
+		dialogRenameProject.show(getActivity().getSupportFragmentManager(), RenameProjectDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void showSetDescriptionDialog() {
+		SetDescriptionDialog dialogSetDescription = SetDescriptionDialog.newInstance(projectToEdit.projectName);
+		dialogSetDescription.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
+		dialogSetDescription.show(getActivity().getSupportFragmentManager(), SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void showCopyProjectDialog() {
+		CopyProjectDialog dialogCopyProject = CopyProjectDialog.newInstance(projectToEdit.projectName);
+		dialogCopyProject.setParentFragment(parentFragment);
+		dialogCopyProject.show(getActivity().getSupportFragmentManager(), CopyProjectDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	//	private void initCustomContextMenu(CustomIconContextMenu iconContextMenu) {
+	//		Resources resources = getResources();
+	//
+	//		IconMenuAdapter adapter = new IconMenuAdapter(getActivity());
+	//		adapter.addItem(resources, this.getString(R.string.rename), R.drawable.ic_context_rename,
+	//				CONTEXT_MENU_ITEM_RENAME);
+	//		adapter.addItem(resources, this.getString(R.string.set_description), R.drawable.ic_menu_description,
+	//				CONTEXT_MENU_ITEM_DESCRIPTION);
+	//		adapter.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
+	//				CONTEXT_MENU_ITEM_DELETE);
+	//		adapter.addItem(resources, this.getString(R.string.copy), R.drawable.ic_context_copy, CONTEXT_MENU_ITEM_COPY);
+	//		iconContextMenu.setAdapter(adapter);
+	//
+	//		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
+	//			@Override
+	//			public void onClick(int menuId) {
+	//				switch (menuId) {
+	//					case CONTEXT_MENU_ITEM_RENAME:
+	//						RenameProjectDialog dialogRenameProject = RenameProjectDialog
+	//								.newInstance(projectToEdit.projectName);
+	//						dialogRenameProject.setOnProjectRenameListener(ProjectsListFragment.this);
+	//						dialogRenameProject.show(getActivity().getSupportFragmentManager(),
+	//								RenameProjectDialog.DIALOG_FRAGMENT_TAG);
+	//						break;
+	//					case CONTEXT_MENU_ITEM_DESCRIPTION:
+	//						SetDescriptionDialog dialogSetDescription = SetDescriptionDialog
+	//								.newInstance(projectToEdit.projectName);
+	//						dialogSetDescription.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
+	//						dialogSetDescription.show(getActivity().getSupportFragmentManager(),
+	//								SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
+	//						break;
+	//					case CONTEXT_MENU_ITEM_DELETE:
+	//						deleteProject();
+	//						break;
+	//					case CONTEXT_MENU_ITEM_COPY:
+	//						CopyProjectDialog dialogCopyProject = CopyProjectDialog.newInstance(projectToEdit.projectName);
+	//						dialogCopyProject.setParentFragment(parentFragment);
+	//						dialogCopyProject.show(getActivity().getSupportFragmentManager(),
+	//								CopyProjectDialog.DIALOG_FRAGMENT_TAG);
+	//						break;
+	//				}
+	//			}
+	//		});
+	//	}
 
 	private void deleteProject() {
 		ProjectManager projectManager = ProjectManager.getInstance();
@@ -290,14 +345,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
 		}
 
-		updateProjectTitle();
 		initAdapter();
-	}
-
-	private void updateProjectTitle() {
-		String title = getString(R.string.project_name) + " "
-				+ ProjectManager.getInstance().getCurrentProject().getName();
-		getSherlockActivity().getSupportActionBar().setTitle(title);
 	}
 
 	public static class ProjectData implements Serializable {

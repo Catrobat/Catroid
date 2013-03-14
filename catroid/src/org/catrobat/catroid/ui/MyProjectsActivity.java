@@ -22,9 +22,7 @@
  */
 package org.catrobat.catroid.ui;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment;
 
@@ -110,14 +108,7 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 	}
 
 	private void setUpActionBar() {
-		String title;
-		Project currentProject = ProjectManager.INSTANCE.getCurrentProject();
-
-		if (currentProject != null) {
-			title = getResources().getString(R.string.project_name) + " " + currentProject.getName();
-		} else {
-			title = getResources().getString(android.R.string.unknownName);
-		}
+		String title = getResources().getString(R.string.my_projects_activity_title);
 
 		actionBar = getSupportActionBar();
 		actionBar.setTitle(title);
