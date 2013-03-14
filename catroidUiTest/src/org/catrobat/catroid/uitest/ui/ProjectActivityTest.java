@@ -364,24 +364,24 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		View listItemView = listView.getAdapter().getView(0, null, null);
 
-		View backgroundHeadline = listItemView.findViewById(R.id.background_headline);
+		View backgroundHeadline = listItemView.findViewById(R.id.spritelist_background_headline);
 
 		assertEquals("Background headline should be visible above background sprite!",
 				backgroundHeadline.getVisibility(), View.VISIBLE);
 
-		View objectsHeadline = listItemView.findViewById(R.id.objects_headline);
+		View objectsHeadline = listItemView.findViewById(R.id.spritelist_objects_headline);
 
 		assertEquals("Objects headline should be visible under background sprite!", objectsHeadline.getVisibility(),
 				View.VISIBLE);
 
 		listItemView = listView.getAdapter().getView(1, null, null);
 
-		backgroundHeadline = listItemView.findViewById(R.id.background_headline);
+		backgroundHeadline = listItemView.findViewById(R.id.spritelist_background_headline);
 
 		assertEquals("Background headline should not be visible for sprite " + FIRST_TEST_SPRITE_NAME + "!",
 				backgroundHeadline.getVisibility(), View.GONE);
 
-		objectsHeadline = listItemView.findViewById(R.id.objects_headline);
+		objectsHeadline = listItemView.findViewById(R.id.spritelist_objects_headline);
 
 		assertEquals("Objects headline should not be visible for sprite " + FIRST_TEST_SPRITE_NAME + "!",
 				objectsHeadline.getVisibility(), View.GONE);
