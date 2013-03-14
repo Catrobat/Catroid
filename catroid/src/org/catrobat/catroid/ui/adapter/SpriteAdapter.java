@@ -117,8 +117,8 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder.background = (RelativeLayout) spriteView.findViewById(R.id.spritelist_item_background);
 			holder.checkbox = (CheckBox) spriteView.findViewById(R.id.sprite_checkbox);
 			holder.text = (TextView) spriteView.findViewById(R.id.sprite_title);
-			holder.backgroundHeadline = (LinearLayout) spriteView.findViewById(R.id.background_headline);
-			holder.objectsHeadline = (LinearLayout) spriteView.findViewById(R.id.objects_headline);
+			holder.backgroundHeadline = (LinearLayout) spriteView.findViewById(R.id.spritelist_background_headline);
+			holder.objectsHeadline = (LinearLayout) spriteView.findViewById(R.id.spritelist_objects_headline);
 			holder.image = (ImageView) spriteView.findViewById(R.id.sprite_img);
 			holder.scripts = (TextView) spriteView.findViewById(R.id.textView_number_of_scripts);
 			holder.bricks = (TextView) spriteView.findViewById(R.id.textView_number_of_bricks);
