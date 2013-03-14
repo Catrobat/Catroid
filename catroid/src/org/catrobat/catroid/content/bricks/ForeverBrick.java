@@ -22,17 +22,25 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
+import android.widget.LinearLayout;
+
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ForeverBrick extends LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
-
-	private transient View view;
 
 	public ForeverBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -47,22 +55,39 @@ public class ForeverBrick extends LoopBeginBrick {
 	}
 
 	@Override
-	public void execute() {
-		loopEndBrick.setTimesToRepeat(LoopEndBrick.FOREVER);
-		super.setFirstStartTime();
-	}
-
-	@Override
 	public Brick clone() {
 		return new ForeverBrick(getSprite());
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_forever, null);
-		}
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		view = View.inflate(context, R.layout.brick_forever, null);
 
+		setCheckboxView(R.id.brick_forever_checkbox);
+		final Brick brickInstance = this;
+
+		checkbox.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				checked = !checked;
+				if (!checked) {
+					for (Brick currentBrick : adapter.getCheckedBricks()) {
+						currentBrick.setCheckedBoolean(false);
+					}
+				}
+				adapter.handleCheck(brickInstance, checked);
+			}
+		});
+
+		return view;
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_forever_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
 		return view;
 	}
 
@@ -74,5 +99,15 @@ public class ForeverBrick extends LoopBeginBrick {
 	@Override
 	public void initialize() {
 		loopEndBrick = new LoopEndlessBrick(sprite, this);
+	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		SequenceAction foreverSequence = ExtendedActions.sequence();
+		Action action = ExtendedActions.forever(sprite, foreverSequence);
+		sequence.addAction(action);
+		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
+		returnActionList.add(foreverSequence);
+		return returnActionList;
 	}
 }

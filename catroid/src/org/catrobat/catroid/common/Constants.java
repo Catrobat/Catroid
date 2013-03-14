@@ -26,7 +26,7 @@ import android.os.Environment;
 
 public final class Constants {
 
-	public static final float SUPPORTED_CATROBAT_LANGUAGE_VERSION = 0.3f;
+	public static final float SUPPORTED_CATROBAT_LANGUAGE_VERSION = 0.5f;
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
 	public static final String APPLICATION_BUILD_NAME = ""; // updated from jenkins nightly/release build
@@ -40,8 +40,6 @@ public final class Constants {
 	public static final String SOUND_DIRECTORY = "sounds";
 
 	public static final String NO_MEDIA_FILE = ".nomedia";
-
-	public static final int FOOTER_ADD_ALPHA_VALUE = 35;
 
 	public static final int SELECT_NONE = 0;
 	public static final int SINGLE_SELECT = 1;

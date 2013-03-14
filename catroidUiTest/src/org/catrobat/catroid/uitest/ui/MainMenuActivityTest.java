@@ -44,7 +44,6 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
-import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -128,17 +127,18 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.clearEditText(0);
 		solo.enterText(0, "");
-		Button okButton = (Button) solo.getView(R.id.new_project_ok_button);
+
+		Button okButton = solo.getButton(getActivity().getString(R.string.ok));
 
 		assertFalse("New project ok button is enabled!", okButton.isEnabled());
-		solo.clickOnButton(0);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject);
 		directory.mkdirs();
 		solo.sleep(50);
 		solo.clearEditText(0);
 		solo.enterText(0, testProject);
-		solo.clickOnButton(0);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.clickOnButton(0);
@@ -149,7 +149,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(50);
 		solo.clearEditText(0);
 		solo.enterText(0, name);
-		solo.clickOnButton(0);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.clickOnButton(solo.getString(R.string.close));
@@ -248,7 +248,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
@@ -378,11 +378,34 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 				ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
 	}
 
-	public void testFastDoubleClickOnContinue() {
-		UiTestUtils.checkFastDoubleClickOnButtonOpensViewOnlyOnce(solo, R.id.main_menu_button_new,
-				NewProjectDialog.DIALOG_FRAGMENT_TAG);
+	public void testFastDoubleClick() {
+		//		UiTestUtils.checkFastDoubleClickOnButtonOpensViewOnlyOnce(solo, R.id.main_menu_button_new,
+		//				NewProjectDialog.DIALOG_FRAGMENT_TAG);
 
 		UiTestUtils.checkFastDoubleClickOnButtonOpensViewOnlyOnce(solo, R.id.main_menu_button_upload,
 				LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	public void testProjectNameVisible() {
+		createTestProject(testProject);
+		createTestProject(testProject2);
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.clickOnText(testProject);
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+
+		solo.goBack();
+		assertTrue("The name of the current project is not displayed on the continue button", solo.getButton(0)
+				.getText().toString().endsWith(testProject));
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.clickOnText(testProject2);
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+
+		solo.goBack();
+		assertTrue("The name of the current project is not displayed on the continue button", solo.getButton(0)
+				.getText().toString().endsWith(testProject2));
 	}
 }

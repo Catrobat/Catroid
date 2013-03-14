@@ -176,9 +176,9 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof ForeverBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(4) instanceof LoopEndlessBrick);
 		assertEquals("Wrong LoopBegin-Brick instance", ((NestingBrick) projectBrickList.get(4))
-				.getAllNestingBrickParts().get(0), projectBrickList.get(2));
-		assertEquals("Wrong LoopEnd-Brick instance", ((NestingBrick) projectBrickList.get(2)).getAllNestingBrickParts()
-				.get(1), projectBrickList.get(4));
+				.getAllNestingBrickParts(false).get(1), projectBrickList.get(2));
+		assertEquals("Wrong LoopEnd-Brick instance",
+				((NestingBrick) projectBrickList.get(2)).getAllNestingBrickParts(false).get(1), projectBrickList.get(4));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_change_brightness);
 		solo.sleep(500);
@@ -186,10 +186,11 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(5) + 20, 20);
-		solo.sleep(200);
+		solo.sleep(500);
 
 		assertEquals("Incorrect number of bricks.", 8, projectBrickList.size());
-		assertTrue("Wrong Brick instance.", projectBrickList.get(4) instanceof ChangeBrightnessByNBrick);
+		assertTrue("Wrong Brick instance. expected 4, bricklist: " + projectBrickList.toString(),
+				projectBrickList.get(4) instanceof ChangeBrightnessByNBrick);
 
 		solo.scrollDownList(0);
 
@@ -199,10 +200,11 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(6), 20);
-		solo.sleep(200);
+		solo.sleep(500);
 
 		assertEquals("Incorrect number of bricks.", 9, projectBrickList.size());
-		assertTrue("Wrong Brick instance.", projectBrickList.get(5) instanceof BroadcastBrick);
+		assertTrue("Wrong Brick instance. expected 5, bricklist: " + projectBrickList.toString(),
+				projectBrickList.get(5) instanceof BroadcastBrick);
 	}
 
 	public void testNestedForeverBricks() {
@@ -262,20 +264,22 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(4), 20, yPosition.get(yPosition.size() - 4) - 20, 20);
 
-		assertTrue("Wrong brick instance.", projectBrickList.get(2) instanceof ClearGraphicEffectBrick);
+		assertTrue("Wrong brick instance. expected 2, bricklist: " + projectBrickList.toString(),
+				projectBrickList.get(2) instanceof ClearGraphicEffectBrick);
 
-		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(3), 20, yPosition.get(yPosition.size() - 2), 20);
+		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(2), 20, yPosition.get(0), 20);
 		solo.scrollToBottom();
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
-		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(1), 20, yPosition.get(yPosition.size() - 1), 20);
-		assertEquals("Wrong number of bricks", 6, projectBrickList.size());
+		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(2), 20, yPosition.get(yPosition.size() - 1) + 50, 20);
+		assertEquals("Wrong number of bricks", 7, projectBrickList.size());
 
-		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
-		assertTrue("Wrong brick instance.", projectBrickList.get(0) instanceof ClearGraphicEffectBrick);
+		projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		assertTrue("Wrong brick instance. expected 2, bricklist: " + projectBrickList.toString(),
+				projectBrickList.get(2) instanceof ClearGraphicEffectBrick);
 
 		checkIfForeverLoopsAreCorrectlyPlaced(0);
 		checkIfForeverLoopsAreCorrectlyPlaced(1);
-		checkIfForeverLoopsAreCorrectlyPlaced(2);
+		checkIfForeverLoopsAreCorrectlyPlaced(3);
 	}
 
 	private void createProject() {
@@ -322,8 +326,8 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		}
 
 		assertEquals("Wrong LoopBegin-Brick instance", ((NestingBrick) projectBrickList.get(projectBrickList.size()
-				- offset)).getAllNestingBrickParts().get(0), projectBrickList.get(position));
+				- offset)).getAllNestingBrickParts(false).get(1), projectBrickList.get(position));
 		assertEquals("Wrong LoopEnd-Brick instance", ((NestingBrick) projectBrickList.get(position))
-				.getAllNestingBrickParts().get(1), projectBrickList.get(projectBrickList.size() - offset));
+				.getAllNestingBrickParts(false).get(1), projectBrickList.get(projectBrickList.size() - offset));
 	}
 }

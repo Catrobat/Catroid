@@ -22,19 +22,23 @@
  */
 package org.catrobat.catroid.uitest.ui.fragment;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.SharedPreferences;
@@ -48,7 +52,6 @@ import com.jayway.android.robotium.solo.Solo;
 public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private Solo solo;
-	private List<Brick> brickListToCheck;
 	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
 
 	public ScriptFragmentTest() {
@@ -58,38 +61,26 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.setActivityOrientation(Solo.PORTRAIT);
 		// disable mindstorm bricks, if enabled in test
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
 			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
 		}
 
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 		solo = null;
 	}
 
-	private void initTestProject() {
-		brickListToCheck = UiTestUtils.createTestProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-	}
-
-	private void initEmptyProject() {
-		UiTestUtils.createEmptyProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-	}
-
 	public void testCreateNewBrickButton() {
-		initTestProject();
+		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		int brickCountInView = UiTestUtils.getScriptListView(solo).getCount();
 		int brickCountInList = brickListToCheck.size();
 
@@ -106,7 +97,8 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testBrickCategoryDialog() {
-		initTestProject();
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		// enable mindstorm bricks, if disabled
@@ -142,8 +134,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.goBack();
 
 		solo.clickOnText(categoryLooksLabel);
-		assertTrue("AddBrickDialog was not opened after selecting a category",
-				solo.waitForText(brickSetLook, 0, 2000));
+		assertTrue("AddBrickDialog was not opened after selecting a category", solo.waitForText(brickSetLook, 0, 2000));
 		solo.goBack();
 
 		solo.clickOnText(categorySoundLabel);
@@ -162,11 +153,11 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	/**
-	 * 
 	 * Tests issue#54. https://github.com/Catrobat/Catroid/issues/54
 	 */
 	public void testOnlyAddControlBricks() {
-		initEmptyProject();
+		UiTestUtils.createEmptyProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		assertEquals("Project should contain only one script.", 1, sprite.getNumberOfScripts());
 
@@ -175,7 +166,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 		List<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
-		solo.clickOnScreen(20, yPositionList.get(1));
+		solo.clickOnScreen(20, yPositionList.get(0) + 20);
 		solo.sleep(200);
 
 		assertEquals("Two control bricks should be added.", 2, sprite.getNumberOfScripts());
@@ -184,7 +175,8 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testSimpleDragNDrop() {
-		initTestProject();
+		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
@@ -200,8 +192,178 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(4), brickList.get(4));
 	}
 
+	public void testDeleteActionMode() {
+		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		solo.clickOnCheckBox(0);
+
+		String expectedTitle = solo.getString(R.string.delete) + " " + Integer.toString(brickListToCheck.size() + 1)
+				+ " " + solo.getString(R.string.brick_multiple);
+
+		int timeToWaitForTitle = 300;
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		assertEquals("Not all Bricks have been deleted!", 0, numberOfBricks);
+	}
+
+	public void testDeleteActionModeBack() {
+		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		solo.clickOnCheckBox(0);
+
+		solo.goBack();
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		assertEquals("No Brick should have been deleted!", brickListToCheck.size(), numberOfBricks);
+	}
+
+	public void testDeleteActionModeAllBricks() {
+		UiTestUtils.createTestProjectWithEveryBrick();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		List<Brick> brickList = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getScript(0)
+				.getBrickList();
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		solo.clickOnCheckBox(0);
+
+		for (int position = 1; position < brickList.size(); position++) {
+			assertEquals("AlphaValue of " + brickList.get(position).toString() + " is not 100", 100,
+					brickList.get(position).getAlphaValue());
+		}
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		assertEquals("Not all Bricks have been deleted!", 0, numberOfBricks);
+	}
+
+	public void testDeleteActionModeTwoScripts() {
+		UiTestUtils.createTestProjectForActionModeDelete();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+
+		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(2);
+
+		solo.clickOnCheckBox(4);
+		solo.clickOnCheckBox(5);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+		int numberOfScripts = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfScripts();
+
+		assertEquals("There should be no bricks", 0, numberOfBricks);
+		assertEquals("Expected two ScriptBricks", 2, numberOfScripts);
+	}
+
+	public void testDeleteActionModeNestedLoops() {
+		UiTestUtils.createTestProjectNestedLoops();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+
+		solo.clickOnCheckBox(3);
+		String expectedTitle = solo.getString(R.string.delete) + " " + 3 + " "
+				+ solo.getString(R.string.brick_multiple);
+		int timeToWaitForTitle = 300;
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		solo.clickOnCheckBox(4);
+		assertEquals("Fourth checkbox should be checked", true, solo.getCurrentCheckBoxes().get(4).isChecked());
+
+		solo.sleep(500);
+		solo.clickOnCheckBox(1);
+		expectedTitle = solo.getString(R.string.delete) + " " + 6 + " " + solo.getString(R.string.brick_multiple);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(3);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+		int numberOfForeverBricks = 0;
+		int numberOfEndBricks = 0;
+
+		ListView dragAndDropListView = solo.getCurrentListViews().get(1);
+		List<Brick> currentBrickList = new ArrayList<Brick>();
+
+		for (int position = 0; position < dragAndDropListView.getChildCount(); position++) {
+			currentBrickList.add((Brick) dragAndDropListView.getItemAtPosition(position));
+		}
+
+		for (Brick currentBrick : currentBrickList) {
+			if (currentBrick instanceof ForeverBrick) {
+				numberOfForeverBricks++;
+			}
+
+			if (currentBrick instanceof LoopEndBrick) {
+				numberOfEndBricks++;
+			}
+		}
+
+		assertEquals("There should be only 1 ForeverBrick", 1, numberOfForeverBricks);
+		assertEquals("There should be only 1 LoopEndBrick", 1, numberOfEndBricks);
+		assertEquals("Wrong number of bricks left", 3, numberOfBricks);
+	}
+
+	public void testDeleteActionModeIfBricks() {
+		UiTestUtils.createTestProjectIfBricks();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+
+		solo.clickOnCheckBox(2);
+		solo.clickOnCheckBox(5);
+		String expectedTitle = solo.getString(R.string.delete) + " " + 5 + " "
+				+ solo.getString(R.string.brick_multiple);
+		int timeToWaitForTitle = 300;
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		solo.sleep(500);
+		solo.clickOnCheckBox(5);
+		expectedTitle = solo.getString(R.string.delete);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		solo.sleep(300);
+		solo.clickOnCheckBox(3);
+		expectedTitle = solo.getString(R.string.delete) + " " + 5 + " " + solo.getString(R.string.brick_multiple);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		ListView dragAndDropListView = solo.getCurrentListViews().get(1);
+		List<Brick> currentBrickList = new ArrayList<Brick>();
+
+		for (int position = 0; position < dragAndDropListView.getChildCount(); position++) {
+			currentBrickList.add((Brick) dragAndDropListView.getItemAtPosition(position));
+		}
+
+		assertEquals("Wrong number of bricks left", 0, numberOfBricks);
+	}
+
 	public void testDeleteItem() {
-		initTestProject();
+		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
@@ -236,23 +398,29 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testBackgroundBricks() {
-		initTestProject();
-		String currentProject = solo.getString(R.string.main_menu_continue);
-		String background = solo.getString(R.string.background);
+		Project standardProject = null;
+		try {
+			standardProject = StandardProjectHandler.createAndSaveStandardProject(
+					UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
+		} catch (IOException e) {
+			fail("Could not create standard project");
+			e.printStackTrace();
+		}
+
+		if (standardProject == null) {
+			fail("Could not create standard project");
+		}
+		ProjectManager.INSTANCE.setProject(standardProject);
+		StorageHandler.getInstance().saveProject(standardProject);
+
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		String categoryLooks = solo.getString(R.string.category_looks);
 		String categoryMotion = solo.getString(R.string.category_motion);
 		String setBackground = solo.getString(R.string.brick_set_background);
 		String nextBackground = solo.getString(R.string.brick_next_background);
 		String comeToFront = solo.getString(R.string.brick_come_to_front);
-		String goNStepsBack = solo.getString(R.string.brick_go_back_layers);
+		String goNStepsBack = solo.getString(R.string.brick_go_back);
 
-		UiTestUtils.goToHomeActivity(solo.getCurrentActivity());
-
-		solo.clickOnText(currentProject);
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.clickOnText(background);
-		solo.clickOnText(solo.getString(R.string.scripts));
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryLooks);
 		assertTrue("SetLookBrick was not renamed for background sprite", solo.searchText(setBackground));
@@ -273,7 +441,8 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testOptionsMenuItems() {
-		initTestProject();
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		int timeToWait = 200;
 

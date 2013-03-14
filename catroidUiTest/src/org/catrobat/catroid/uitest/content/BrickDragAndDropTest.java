@@ -29,9 +29,9 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -59,7 +59,6 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 
 	@Override
 	protected void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -67,9 +66,9 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testClickOnEmptySpace() {
-		solo.clickOnScreen(20, Values.SCREEN_HEIGHT - 50);
+		solo.clickOnScreen(20, Values.SCREEN_HEIGHT - 150);
 		solo.sleep(200);
-		assertTrue("Brickcategories did not show up", solo.searchText(solo.getString(R.string.categories)));
+		assertFalse("Brickcategories should not be shown", solo.searchText(solo.getString(R.string.categories)));
 	}
 
 	public void testPutHoveringBrickDown() {
@@ -80,7 +79,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_x);
-		assertEquals("Wrong number of Bricks", 3, adapter.getCount());
+		assertEquals("Wrong number of Bricks", 2, adapter.getCount());
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.sleep(200);
@@ -95,7 +94,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		List<Brick> brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		assertEquals("One Brick should be in bricklist, one hovering and therefore not in project yet", 1,
 				brickListToCheck.size());
-		assertEquals("Both bricks (plus ScriptBrick) should be present in the adapter", 3 + 1, adapter.getCount()); // don't forget the footer
+		assertEquals("Both bricks (plus ScriptBrick) should be present in the adapter", 3, adapter.getCount());
 		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(0) instanceof SetXBrick);
 		assertTrue("Set brick should be instance of SetXBrick", adapter.getItem(2) instanceof SetXBrick);
 		assertTrue("Hovering brick should be instance of StopAllSoundsBrick",
@@ -109,7 +108,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		assertTrue("Second brick should be instance of StopAllSoundsBrick",
 				brickListToCheck.get(1) instanceof StopAllSoundsBrick);
 
-		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
+		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
 		solo.clickOnScreen(200, 200);
 
 		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
@@ -121,7 +120,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 
 		solo.clickOnScreen(20, yPositionList.get(0));
-		solo.clickOnScreen(20, yPositionList.get(2));
+		solo.clickOnScreen(20, yPositionList.get(1));
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_move_brick));
 
 		Display display = solo.getCurrentActivity().getWindowManager().getDefaultDisplay();
@@ -136,7 +135,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnText(scriptsName);
 		solo.sleep(400);
 
-		assertTrue("Last Brick should now be BroadcastBrick", adapter.getItem(3) instanceof BroadcastBrick);
+		assertTrue("Last Brick should now be WaitBrick", adapter.getItem(3) instanceof WaitBrick);
 	}
 
 	public void testAddNewBrickFromAnotherCategory() {
@@ -152,6 +151,6 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(200);
 
 		BrickAdapter adapter = (BrickAdapter) UiTestUtils.getScriptListView(solo).getAdapter();
-		assertEquals("Brick was not added.", 2 + 1, adapter.getCount()); // don't forget the footer
+		assertEquals("Brick was not added.", 2, adapter.getCount());
 	}
 }

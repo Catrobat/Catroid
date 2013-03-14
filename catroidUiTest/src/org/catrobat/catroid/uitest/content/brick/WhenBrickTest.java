@@ -78,7 +78,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ArrayList<Integer> yPosition;
 		int addedYPosition;
 
-		assertEquals("Incorrect number of bricks.", 4 + 1, dragDropListView.getCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 4, dragDropListView.getCount());
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
@@ -93,7 +93,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		solo.sleep(100);
 
-		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 2);
+		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 1);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
@@ -107,7 +107,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		solo.sleep(200);
 
-		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 2);
+		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 1);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
@@ -131,7 +131,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		solo.sleep(200);
 
-		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 2);
+		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 1);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);

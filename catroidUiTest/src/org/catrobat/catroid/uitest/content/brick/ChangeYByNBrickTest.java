@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -76,7 +75,7 @@ public class ChangeYByNBrickTest extends ActivityInstrumentationTestCase2<Script
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -85,11 +84,7 @@ public class ChangeYByNBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_change_y_by)));
 
-		UiTestUtils.clickEnterClose(solo, 0, Y_TO_CHANGE + "");
-
-		int yMovementValue = (Integer) Reflection.getPrivateField(changeYByNBrick, "yMovement");
-		assertEquals("Wrong text in field.", Y_TO_CHANGE, yMovementValue);
-		assertEquals("Value in Brick is not updated.", Y_TO_CHANGE + "", solo.getEditText(0).getText().toString());
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, Y_TO_CHANGE, "yMovement", changeYByNBrick);
 	}
 
 	private void createProject() {

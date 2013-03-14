@@ -25,7 +25,6 @@ package org.catrobat.catroid.stage;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Comparator;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
@@ -53,7 +52,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -63,19 +62,23 @@ public class StageListener implements ApplicationListener {
 	private FPSLogger fpsLogger;
 
 	private Stage stage;
+	private Group parentGroup;
 	private boolean paused = false;
 	private boolean finished = false;
 	private boolean firstStart = true;
 	private boolean reloadProject = false;
 
-	private boolean makeFirstScreenshot = true;
+	private boolean makeAutomaticScreenshot = true;
+	private boolean makeScreenshot = false;
 	private String pathForScreenshot;
 	private int screenshotWidth;
 	private int screenshotHeight;
 	private int screenshotX;
 	private int screenshotY;
 	private byte[] screenshot;
-	private boolean makeScreenshot = false;
+	// in first frame, framebuffer could be empty and screenshot
+	// would be white
+	private boolean skipFirstFrameForAutomaticScreenshot;
 
 	private Project project;
 
@@ -84,7 +87,6 @@ public class StageListener implements ApplicationListener {
 	private BitmapFont font;
 
 	private List<Sprite> sprites;
-	private Comparator<Actor> lookComparator;
 
 	private float virtualWidthHalf;
 	private float virtualHeightHalf;
@@ -123,19 +125,16 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void create() {
-
 		font = new BitmapFont();
 		font.setColor(1f, 0f, 0.05f, 1f);
 		font.setScale(1.2f);
 
 		pathForScreenshot = Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()) + "/";
 
-		lookComparator = new LookComparator();
-
 		project = ProjectManager.getInstance().getCurrentProject();
 
-		virtualWidth = project.virtualScreenWidth;
-		virtualHeight = project.virtualScreenHeight;
+		virtualWidth = project.getXmlHeader().virtualScreenWidth;
+		virtualHeight = project.getXmlHeader().virtualScreenHeight;
 
 		virtualWidthHalf = virtualWidth / 2;
 		virtualHeightHalf = virtualHeight / 2;
@@ -165,6 +164,7 @@ public class StageListener implements ApplicationListener {
 
 		background = new Texture(Gdx.files.internal("stage/white_pixel.bmp"));
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
+		skipFirstFrameForAutomaticScreenshot = true;
 	}
 
 	void menuResume() {
@@ -234,11 +234,7 @@ public class StageListener implements ApplicationListener {
 	public void finish() {
 		finished = true;
 		SoundManager.getInstance().clear();
-		if (sprites != null) {
-			for (Sprite sprite : sprites) {
-				sprite.finish();
-			}
-		}
+
 	}
 
 	@Override
@@ -251,15 +247,16 @@ public class StageListener implements ApplicationListener {
 			for (int i = 0; i < spriteSize; i++) {
 				Sprite sprite = sprites.get(i);
 				sprite.pause();
-				sprite.finish();
 			}
 			stage.clear();
 			SoundManager.getInstance().clear();
 
+			parentGroup = new Group();
 			project = ProjectManager.getInstance().getCurrentProject();
 			sprites = project.getSpriteList();
 			for (int i = 0; i < spriteSize; i++) {
 				Sprite sprite = sprites.get(i);
+				parentGroup.addActor(sprite.look);
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}
@@ -276,8 +273,6 @@ public class StageListener implements ApplicationListener {
 			renderTextures();
 			texturesRendered = true;
 		}
-
-		stage.getRoot().sortChildren(lookComparator);
 
 		switch (screenMode) {
 			case MAXIMIZE:
@@ -302,7 +297,7 @@ public class StageListener implements ApplicationListener {
 		if (firstStart) {
 			int spriteSize = sprites.size();
 			for (int i = 0; i < spriteSize; i++) {
-				sprites.get(i).startStartScripts();
+				sprites.get(i).createStartScriptActionSequence();
 			}
 			firstStart = false;
 		}
@@ -314,19 +309,14 @@ public class StageListener implements ApplicationListener {
 			stage.draw();
 		}
 
-		if (makeFirstScreenshot) {
-			File file = new File(pathForScreenshot + SCREENSHOT_FILE_NAME);
-			if (!file.exists()) {
-				File noMediaFile = new File(pathForScreenshot + ".nomedia");
-				try {
-					file.createNewFile();
-					noMediaFile.createNewFile();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+		if (makeAutomaticScreenshot) {
+			if (skipFirstFrameForAutomaticScreenshot) {
+				skipFirstFrameForAutomaticScreenshot = false;
+			} else {
+				prepareScreenshotFiles();
 				this.makeThumbnail();
+				makeAutomaticScreenshot = false;
 			}
-			makeFirstScreenshot = false;
 		}
 
 		if (makeScreenshot) {
@@ -417,7 +407,6 @@ public class StageListener implements ApplicationListener {
 			colors[i / 4] = Color.argb(255, screenshot[i + 0] & 0xFF, screenshot[i + 1] & 0xFF,
 					screenshot[i + 2] & 0xFF);
 		}
-
 		Bitmap bitmap = Bitmap.createBitmap(colors, 0, screenshotWidth, screenshotWidth, screenshotHeight,
 				Config.ARGB_8888);
 
@@ -482,4 +471,29 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
+	public void setMakeAutomaticScreenshot(boolean makeAutomaticScreenshot) {
+		this.makeAutomaticScreenshot = makeAutomaticScreenshot;
+	}
+
+	public boolean isMakeAutomaticScreenshot() {
+		return this.makeAutomaticScreenshot;
+	}
+
+	private void prepareScreenshotFiles() {
+		File noMediaFile = new File(pathForScreenshot + ".nomedia");
+		File screenshotFile = new File(pathForScreenshot + SCREENSHOT_FILE_NAME);
+		try {
+			if (screenshotFile.exists()) {
+				screenshotFile.delete();
+				screenshotFile = new File(pathForScreenshot + SCREENSHOT_FILE_NAME);
+			}
+			screenshotFile.createNewFile();
+
+			if (!noMediaFile.exists()) {
+				noMediaFile.createNewFile();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

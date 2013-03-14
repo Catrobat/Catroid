@@ -27,6 +27,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/actionbar_height"
     android:layout_alignParentBottom="true"
+    android:background="@drawable/bottombar_background"
     android:orientation="horizontal" >
 
     <LinearLayout
@@ -34,7 +35,7 @@
         android:layout_width="0dip"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="#B3B3B3"
+        android:background="@drawable/bottombar_background"
         android:clickable="true"
         android:onClick="handleAddButton"
         android:orientation="horizontal" >
@@ -46,7 +47,7 @@
             android:layout_weight="2"
             android:background="@null"
             android:clickable="false"
-            android:src="@drawable/ic_plus_black" />
+            android:src="@drawable/ic_plus" />
 
         <TextView
             android:id="@+id/add_label"
@@ -64,6 +65,8 @@
         android:id="@+id/bottom_bar_separator"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
         android:background="@drawable/bottombar_separator" />
 
     <LinearLayout
@@ -71,7 +74,7 @@
         android:layout_width="0dip"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="#B3B3B3"
+        android:background="@drawable/bottombar_background"
         android:clickable="true"
         android:onClick="handlePlayButton"
         android:orientation="horizontal" >
@@ -84,7 +87,7 @@
             android:background="@null"
             android:clickable="false"
             android:focusable="false"
-            android:src="@drawable/ic_play_black" />
+            android:src="@drawable/ic_media_play" />
 
         <TextView
             android:id="@+id/play_label"

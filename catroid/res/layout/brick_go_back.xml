@@ -22,27 +22,42 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Motion.Small" >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_go_back" >
-    </TextView>
+    <CheckBox
+        android:id="@+id/brick_go_back_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/brick_go_back_prototype_text_view"
-        style="@style/BrickPrototypeTextView" >
-    </TextView>
+    <LinearLayout
+        android:id="@+id/brick_go_back_layout"
+        style="@style/BrickContainer.Motion.Small" >
 
-    <EditText
-        android:id="@+id/brick_go_back_edit_text"
-        style="@style/BrickEditText"
-        android:inputType="number" >
-    </EditText>
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_go_back" >
+        </TextView>
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_go_back_layers" >
-    </TextView>
+        <TextView
+            android:id="@+id/brick_go_back_prototype_text_view"
+            style="@style/BrickPrototypeTextView" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/brick_go_back_edit_text"
+            style="@style/BrickEditText"
+            android:inputType="number" >
+        </EditText>
+
+        <TextView
+            android:id="@+id/brick_go_back_layers_text_view"
+            style="@style/BrickText.SingleLine" >
+        </TextView>
+    </LinearLayout>
 
 </LinearLayout>

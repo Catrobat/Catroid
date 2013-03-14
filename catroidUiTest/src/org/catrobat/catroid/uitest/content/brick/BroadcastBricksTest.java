@@ -77,7 +77,7 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 
 		int childrenCount = ProjectManager.getInstance().getCurrentSprite().getScript(adapter.getScriptCount() - 1)
 				.getBrickList().size();
-		assertEquals("Incorrect number of bricks.", 3 + 1, UiTestUtils.getScriptListView(solo).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 3, UiTestUtils.getScriptListView(solo).getChildCount());
 		assertEquals("Incorrect number of bricks.", 2, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
