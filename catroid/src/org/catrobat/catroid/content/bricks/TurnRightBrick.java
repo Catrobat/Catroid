@@ -32,23 +32,23 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class TurnRightBrick implements Brick, OnClickListener {
-
+public class TurnRightBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-
-	private Sprite sprite;
 
 	private Formula degrees;
 
-	private transient View view;
 	private transient View prototypeView;
 
 	public TurnRightBrick() {
@@ -71,15 +71,19 @@ public class TurnRightBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_turn_right, null);
 
+		setCheckboxView(R.id.brick_turn_right_checkbox);
+
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
 		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_right_edit_text);
 		degrees.setTextFieldId(R.id.brick_turn_right_edit_text);
@@ -101,7 +105,6 @@ public class TurnRightBrick implements Brick, OnClickListener {
 		textDegrees.setVisibility(View.GONE);
 		editDegrees.setVisibility(View.VISIBLE);
 		editDegrees.setOnClickListener(this);
-
 		return view;
 	}
 
@@ -122,7 +125,19 @@ public class TurnRightBrick implements Brick, OnClickListener {
 	}
 
 	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_turn_right_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
+	}
+
+	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
 		FormulaEditorFragment.showFragment(view, this, degrees);
 	}
 
@@ -131,5 +146,4 @@ public class TurnRightBrick implements Brick, OnClickListener {
 		sequence.addAction(ExtendedActions.turnRight(sprite, degrees));
 		return null;
 	}
-
 }

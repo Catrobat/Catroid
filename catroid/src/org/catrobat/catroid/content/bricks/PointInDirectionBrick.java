@@ -37,6 +37,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.DialogInterface.OnShowListener;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
@@ -49,19 +50,24 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class PointInDirectionBrick implements Brick, View.OnClickListener {
+public class PointInDirectionBrick extends BrickBaseType implements View.OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 
-	public PointInDirectionBrick() {
+	private double degrees;
 
-	}
+	private transient Direction direction;
+	private transient EditText setAngleEditText;
+	private transient View prototypeView;
 
 	public static enum Direction {
 		DIRECTION_RIGHT(90), DIRECTION_LEFT(-90), DIRECTION_UP(0), DIRECTION_DOWN(180);
@@ -77,13 +83,6 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 		}
 	}
 
-	private Sprite sprite;
-	private double degrees;
-
-	private transient Direction direction;
-	private transient EditText setAngleEditText;
-	private transient View prototypeView;
-
 	protected Object readResolve() {
 		for (Direction direction : Direction.values()) {
 			if (Math.abs(direction.getDegrees() - degrees) < 0.1) {
@@ -92,6 +91,10 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 			}
 		}
 		return this;
+	}
+
+	public PointInDirectionBrick() {
+
 	}
 
 	public PointInDirectionBrick(Sprite sprite, Direction direction) {
@@ -106,13 +109,18 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
+	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+		view = View.inflate(context, R.layout.brick_point_in_direction, null);
+		setCheckboxView(R.id.brick_point_in_direction_checkbox);
 
-	@Override
-	public View getView(final Context context, int brickId, BaseAdapter adapter) {
-		View view = View.inflate(context, R.layout.brick_point_in_direction, null);
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 
 		TextView setAngleTextView = (TextView) view.findViewById(R.id.brick_point_in_direction_prototype_text_view);
 		setAngleEditText = (EditText) view.findViewById(R.id.brick_point_in_direction_edit_text);
@@ -123,7 +131,6 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 		setAngleEditText.setVisibility(View.VISIBLE);
 
 		setAngleEditText.setOnClickListener(this);
-
 		return view;
 	}
 
@@ -142,7 +149,19 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 	}
 
 	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_point_in_direction_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
+	}
+
+	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
 		ScriptActivity activity = (ScriptActivity) view.getContext();
 		EditPointInDirectionBrickDialog editDialog = new EditPointInDirectionBrickDialog();
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_point_in_direction_brick");
