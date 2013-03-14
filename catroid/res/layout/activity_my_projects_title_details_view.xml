@@ -22,7 +22,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/sprite_description"
+    android:id="@+id/my_projects_list_item_description"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
@@ -37,7 +37,7 @@
         android:maxLines="2" />
 
     <RelativeLayout
-        android:id="@+id/project_details"
+        android:id="@+id/my_projects_list_item_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"

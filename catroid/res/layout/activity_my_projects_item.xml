@@ -23,13 +23,13 @@
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="90dip"
+    android:layout_height="@dimen/my_projects_list_item_height"
     android:background="@color/my_projects_activity_background_color"
     android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="90dip"
+        android:layout_height="@dimen/my_projects_list_item_height"
         android:orientation="horizontal" >
 
         <CheckBox
@@ -53,6 +53,8 @@
                 android:layout_height="65dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="9dp"
+                android:scaleType="centerCrop"
+                android:cropToPadding="true"
                 android:padding="1.5dp"
                 android:background="@drawable/my_projects_list_item_thumbnail_border" />
 
