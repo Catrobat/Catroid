@@ -25,7 +25,7 @@
     android:id="@+id/fragment_script_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/fragment_background_color"
     android:orientation="vertical" >
 
     <!-- Sprite list -->
@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:cacheColorHint="#00000000" />
-
+   
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
