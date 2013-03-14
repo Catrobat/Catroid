@@ -1053,7 +1053,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			}
 		}
 		animatedBricks.clear();
-		//notifyDataSetChanged();
 	}
 
 	private void addElementToCheckedBricks(Brick brick) {
