@@ -73,6 +73,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	private String renameDialogTitle;
 	private String delete;
 	private String deleteDialogTitle;
+	private String editInPaintroid;
 
 	private LookData lookData;
 	private LookData lookData2;
@@ -139,6 +140,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		renameDialogTitle = solo.getString(R.string.rename_look_dialog);
 		delete = solo.getString(R.string.delete);
 		deleteDialogTitle = solo.getString(R.string.delete_look_dialog);
+		editInPaintroid = solo.getString(R.string.edit_in_paintroid);
 
 		if (getLookAdapter().getShowDetails()) {
 			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
@@ -354,17 +356,69 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertEquals("Picture changed", md5ChecksumImageFileBeforeIntent, md5ChecksumImageFileAfterIntent);
 	}
 
-	public void testEditImageWays() {
+	public void testEditImageInPaintroidThreeWorkflows() {
+
+		Reflection.setPrivateField(getLookFragment(), "paintroidIntentApplicationName", "destroy.intent");
+		Reflection.setPrivateField(getLookFragment(), "paintroidIntentActivityName", "for.science");
 
 		solo.clickOnView(solo.getView(R.id.look_main_layout));
-		//Reflection.setPrivateField(Utils.class, "isUnderTest", false);
-		Reflection.setPrivateField(LookFragment.class, "paintroidIntentApplicationName", "test");
-		//Reflection.setPrivateField(LookFragment.class, "paintroidIntentActivityName", value);
-		Log.d("org.catrobat.catroid", solo.getCurrentActivity().getPackageName());
+		assertTrue("Paintroid not installed dialog missing after click on look",
+				solo.searchText(solo.getString(R.string.paintroid_not_installed)));
+		solo.clickOnText(solo.getString(R.string.no));
 
+		solo.clickLongOnView(solo.getView(R.id.look_main_layout));
+		solo.clickOnText(solo.getString(R.string.edit_in_paintroid));
+		assertTrue("Paintroid not installed dialog missing after longclick on look and context menu selection",
+				solo.searchText(solo.getString(R.string.paintroid_not_installed)));
+		solo.clickOnText(solo.getString(R.string.no));
+
+		solo.clickOnActionBarItem(R.id.edit_in_paintroid);
+		solo.clickOnCheckBox(0);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertTrue("Paintroid not installed dialog missing after action mode selection",
+				solo.searchText(solo.getString(R.string.paintroid_not_installed)));
+		solo.clickOnText(solo.getString(R.string.no));
+	}
+
+	public void tesEditInPaintroidActionModeChecking() {
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
+		UiTestUtils.openActionMode(solo, editInPaintroid, 0);
+
+		// Check if checkboxes are visible
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, VISIBLE);
+
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(true, false);
+
+		// Check if only single-selection is possible
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+	}
+
+	public void testEditInPaintroidActionModeIfNothingSelected() {
+		UiTestUtils.openActionMode(solo, editInPaintroid, 0);
+
+		// Check if rename ActionMode disappears if nothing was selected
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("Paintroid dialog showed up", solo.waitForText(renameDialogTitle, 0, TIME_TO_WAIT));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, TIME_TO_WAIT));
+	}
+
+	public void testEditInPaintroidActionModeIfSomethingSelectedAndPressingBack() {
+		UiTestUtils.openActionMode(solo, editInPaintroid, 0);
+
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
 		solo.goBack();
-		solo.goBack();
-		solo.sleep(4000);
+
+		// Check if rename ActionMode disappears if back was pressed
+		assertFalse("Paintroid dialog showed up", solo.waitForText(renameDialogTitle, 0, TIME_TO_WAIT));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, TIME_TO_WAIT));
 	}
 
 	public void testEditImageWithPaintroid() {
@@ -651,9 +705,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		UiTestUtils.openActionMode(solo, rename, 0);
 		solo.waitForText(rename, 1, timeToWait, false, true);
 
-		// TODO: ask
-		//assertFalse("Resolution prefix not gone on active ActionMode", solo.searchText(lookResoltionPrefixText, true));
-
 		checkIfContextMenuAppears(false, ACTION_MODE_RENAME);
 
 		assertFalse("Add button clickable", addButton.isClickable());
@@ -678,9 +729,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		// Test on delete ActionMode
 		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.waitForText(delete, 1, timeToWait, false, true);
-
-		// TODO: ask
-		//assertFalse("Resolution prefix not gone on active ActionMode", solo.searchText(lookResoltionPrefixText, true));
 
 		checkIfContextMenuAppears(false, ACTION_MODE_DELETE);
 
@@ -707,9 +755,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		solo.waitForText(copy, 1, timeToWait, false, true);
-
-		// TODO: ask
-		//assertFalse("Resolution prefix not gone on active ActionMode", solo.searchText(lookResoltionPrefixText, true));
 
 		checkIfContextMenuAppears(false, ACTION_MODE_COPY);
 
