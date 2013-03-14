@@ -75,6 +75,9 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 		view = View.inflate(context, R.layout.brick_set_ghost_effect, null);
 
 		setCheckboxView(R.id.brick_set_ghost_effect_checkbox);

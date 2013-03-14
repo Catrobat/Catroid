@@ -69,6 +69,9 @@ public class SetVolumeToBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 		view = View.inflate(context, R.layout.brick_set_volume_to, null);
 
 		setCheckboxView(R.id.brick_set_volume_to_checkbox);
