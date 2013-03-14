@@ -82,6 +82,9 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 		view = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
 
 		setCheckboxView(R.id.brick_nxt_motor_stop_checkbox);

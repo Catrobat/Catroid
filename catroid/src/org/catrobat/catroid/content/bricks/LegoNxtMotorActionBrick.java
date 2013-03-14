@@ -105,6 +105,9 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 
 		view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 		setCheckboxView(R.id.brick_nxt_motor_action_checkbox);

@@ -49,6 +49,9 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 		if (view == null || !isPuzzleView) {
 			isPuzzleView = true;
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

@@ -84,6 +84,9 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 
 		view = View.inflate(context, R.layout.brick_set_variable, null);
 		setCheckboxView(R.id.brick_set_variable_checkbox);

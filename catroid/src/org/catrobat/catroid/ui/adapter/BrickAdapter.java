@@ -50,6 +50,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -1023,15 +1024,36 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private void animateSelectedBricks() {
 		if (!animatedBricks.isEmpty()) {
-			Animation animation = AnimationUtils.loadAnimation(context, R.anim.blink);
-			for (Brick animationBrick : animatedBricks) {
+
+			for (final Brick animationBrick : animatedBricks) {
+				Animation animation = AnimationUtils.loadAnimation(context, R.anim.blink);
+				animation.setAnimationListener(new AnimationListener() {
+
+					@Override
+					public void onAnimationStart(Animation animation) {
+						animationBrick.setAnimationState(true);
+					}
+
+					@Override
+					public void onAnimationRepeat(Animation animation) {
+
+					}
+
+					@Override
+					public void onAnimationEnd(Animation animation) {
+						animationBrick.setAnimationState(false);
+					}
+				});
+
 				int position = animatedBricks.indexOf(animationBrick);
+				animationBrick.setAnimationState(true);
 				View view = animationBrick.getView(context, position, this);
 				view.startAnimation(animation);
+
 			}
 		}
 		animatedBricks.clear();
-		notifyDataSetChanged();
+		//notifyDataSetChanged();
 	}
 
 	private void addElementToCheckedBricks(Brick brick) {

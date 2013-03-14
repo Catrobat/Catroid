@@ -71,6 +71,9 @@ public class WaitBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 		view = View.inflate(context, R.layout.brick_wait, null);
 
 		setCheckboxView(R.id.brick_wait_checkbox);
