@@ -74,10 +74,10 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	private ProjectAdapter adapter;
 	private ProjectsListFragment parentFragment = this;
 
-	private static final int CONTEXT_MENU_ITEM_RENAME = 0;
-	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 1;
-	private static final int CONTEXT_MENU_ITEM_DELETE = 2;
-	private static final int CONTEXT_MENU_ITEM_COPY = 3;
+	//	private static final int CONTEXT_MENU_ITEM_RENAME = 0;
+	//	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 1;
+	//	private static final int CONTEXT_MENU_ITEM_DELETE = 2;
+	//	private static final int CONTEXT_MENU_ITEM_COPY = 3;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
