@@ -71,6 +71,9 @@ public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener 
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 		view = View.inflate(context, R.layout.brick_go_back, null);
 
 		setCheckboxView(R.id.brick_go_back_checkbox);

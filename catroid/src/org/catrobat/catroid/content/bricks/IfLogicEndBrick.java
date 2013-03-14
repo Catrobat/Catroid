@@ -67,6 +67,9 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view = inflater.inflate(R.layout.brick_if_end_if, null);
 

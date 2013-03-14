@@ -76,6 +76,9 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 
 		view = View.inflate(context, R.layout.brick_repeat, null);
 

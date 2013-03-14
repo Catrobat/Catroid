@@ -67,6 +67,9 @@ public class SetLookBrick extends BrickBaseType {
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 		final Brick brickInstance = this;
 		view = View.inflate(context, R.layout.brick_set_look, null);
 
