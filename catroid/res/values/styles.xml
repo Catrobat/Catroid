@@ -280,11 +280,19 @@
         <item name="android:textColor">@color/look_fragment_text_detail_color</item>
         <item name="android:textSize">14sp</item>
     </style>
-        
- 
+    
+    <style name="sound_fragment_main" parent ="fragment_basic_style">
+        <item name="android:textColor">@color/sound_fragment_text_main_color</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    
+    <style name="sound_fragment_detail" parent="fragment_basic_style">
+        <item name="android:textColor">@color/sound_fragment_text_detail_color</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 
 	<style name="FormulaEditorButton">
         <item name="android:layout_width">0dp</item>
         <item name="android:background">@drawable/formula_editor_keyboard_button</item>
-        </style>
+    </style>
 </resources>

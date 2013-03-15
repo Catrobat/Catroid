@@ -21,23 +21,31 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ProjectActivityRoot"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/project_activity_background_color" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/spritelist_objects_headline"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:visibility="gone" >
 
-    <include
-        android:id="@+id/bottom_bar"
-        layout="@layout/bottom_bar" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dip"
+        android:paddingLeft="16dip"
+        android:paddingTop="18dip"
+        android:text="@string/spritelist_objects_headline"
+        android:textColor="@color/spritelist_details_text_color"
+        android:textColorHighlight="@color/spritelist_details_text_color"
+        android:textSize="14sp" />
 
-    <fragment
-        android:id="@+id/fragment_sprites_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom_bar"
-        class="org.catrobat.catroid.ui.fragment.SpritesListFragment"
-        tools:layout="@layout/fragment_sprites_list" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1.5dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="50dp"
+        android:background="@color/spritelist_separation_line_color" />
 
-</RelativeLayout>
+</LinearLayout>

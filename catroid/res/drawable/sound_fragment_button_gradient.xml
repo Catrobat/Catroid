@@ -21,23 +21,25 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ProjectActivityRoot"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/project_activity_background_color" >
 
-    <include
-        android:id="@+id/bottom_bar"
-        layout="@layout/bottom_bar" />
-
-    <fragment
-        android:id="@+id/fragment_sprites_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom_bar"
-        class="org.catrobat.catroid.ui.fragment.SpritesListFragment"
-        tools:layout="@layout/fragment_sprites_list" />
-
-</RelativeLayout>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item>
+        <shape android:shape="rectangle" >
+            <stroke
+                android:width="1.3dp"
+                android:color="@color/sound_fragment_button_top_border_color" >
+            </stroke>
+        </shape>
+    </item>
+    <item android:top="1.3dp">
+        <shape android:shape="rectangle" >
+            <gradient
+                android:angle="270.0"
+                android:centerColor="@color/sound_fragment_button_gradient_start_color"
+                android:centerY="0.67"
+                android:endColor="@color/sound_fragment_button_gradient_end_color"
+                android:startColor="@color/sound_fragment_button_gradient_start_color"
+                android:type="linear" />
+        </shape>
+    </item>
+</layer-list>
