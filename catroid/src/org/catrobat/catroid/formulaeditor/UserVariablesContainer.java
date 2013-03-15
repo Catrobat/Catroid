@@ -34,10 +34,14 @@ import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
 
 import android.content.Context;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 public class UserVariablesContainer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@XStreamAlias("programVariableList")
 	private List<UserVariable> projectVariables;
+	@XStreamAlias("objectVariableList")
 	private Map<Sprite, List<UserVariable>> spriteVariables;
 
 	public UserVariablesContainer() {
