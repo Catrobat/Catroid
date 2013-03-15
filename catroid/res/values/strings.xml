@@ -90,6 +90,8 @@
     <string name="insert_below">Insert Below</string>
     <string name="sprite">Sprite</string>
     <string name="sprites">Sprites</string>
+    <string name="spritelist_background_headline">BACKGROUND</string>
+    <string name="spritelist_objects_headline">OBJECTS</string>
     <!--  -->
 
 
