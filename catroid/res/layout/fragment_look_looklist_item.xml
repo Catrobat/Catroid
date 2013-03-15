@@ -29,7 +29,7 @@
     android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/look_checkbox"
+        android:id="@+id/fragment_look_item_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -39,7 +39,7 @@
         android:visibility="gone" />
 
     <RelativeLayout
-        android:id="@+id/look_fragment_element"
+        android:id="@+id/fragment_look_item_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/look_fragment_button_gradient"
@@ -48,7 +48,7 @@
         android:orientation="horizontal" >
 
         <ImageView
-            android:id="@+id/look_image"
+            android:id="@+id/fragment_look_item_image_view"
             android:layout_width="72dp"
             android:layout_height="65dp"
             android:layout_centerVertical="true"
@@ -61,57 +61,55 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/look_arrow"
-            android:layout_toRightOf="@+id/look_image"
+            android:layout_toLeftOf="@+id/fragment_look_item_arrow_image_view"
+            android:layout_toRightOf="@+id/fragment_look_item_image_view"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:paddingLeft="12.5dp" >
 
             <TextView style="@style/look_fragment_main"
-                android:id="@+id/look_name"
+                android:id="@+id/fragment_look_item_name_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingRight="8dp" />
 
             <LinearLayout
-                android:id="@+id/look_details"
+                android:id="@+id/fragment_look_item_detail_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
                 <LinearLayout
-                    android:id="@+id/sound_details_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
 
                     <TextView style="@style/look_fragment_detail"
-                        android:id="@+id/look_measure_prefix"
+                        android:id="@+id/fragment_look_item_measure_prefix_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/look_measure" />
 
                     <TextView style="@style/look_fragment_detail"
-                        android:id="@+id/look_size_prefix"
+                        android:id="@+id/fragment_look_item_size_prefix_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/size" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/sound_details_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingLeft="39dp" >
 
                     <TextView style="@style/look_fragment_detail"
-                        android:id="@+id/look_measure"
+                        android:id="@+id/fragment_look_item_measure_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <TextView style="@style/look_fragment_detail"
-                        android:id="@+id/look_size"
+                        android:id="@+id/fragment_look_item_size_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -119,7 +117,7 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/look_arrow"
+            android:id="@+id/fragment_look_item_arrow_image_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"

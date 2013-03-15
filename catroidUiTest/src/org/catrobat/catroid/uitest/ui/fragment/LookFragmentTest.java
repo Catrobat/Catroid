@@ -1116,7 +1116,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	private int[] getDisplayedMeasure(LookData look) {
-		TextView measureTextView = (TextView) solo.getView(R.id.look_measure);
+		TextView measureTextView = (TextView) solo.getView(R.id.fragment_look_item_measure_text_view);
 		String measureString = measureTextView.getText().toString();
 
 		// Resolution string has form "Resolution: width x height"
@@ -1155,14 +1155,14 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	private void checkVisibilityOfViews(int imageVisibility, int lookNameVisibility, int lookDetailsVisibility,
 			int checkBoxVisibility) {
-		assertTrue("Look image " + getAssertMessageAffix(imageVisibility), solo.getView(R.id.look_image)
-				.getVisibility() == imageVisibility);
-		assertTrue("Look name " + getAssertMessageAffix(lookNameVisibility), solo.getView(R.id.look_name)
-				.getVisibility() == lookNameVisibility);
-		assertTrue("Look details " + getAssertMessageAffix(lookDetailsVisibility), solo.getView(R.id.look_details)
-				.getVisibility() == lookDetailsVisibility);
-		assertTrue("Checkboxes " + getAssertMessageAffix(checkBoxVisibility), solo.getView(R.id.look_checkbox)
-				.getVisibility() == checkBoxVisibility);
+		assertTrue("Look image " + getAssertMessageAffix(imageVisibility),
+				solo.getView(R.id.fragment_look_item_image_view).getVisibility() == imageVisibility);
+		assertTrue("Look name " + getAssertMessageAffix(lookNameVisibility),
+				solo.getView(R.id.fragment_look_item_name_text_view).getVisibility() == lookNameVisibility);
+		assertTrue("Look details " + getAssertMessageAffix(lookDetailsVisibility),
+				solo.getView(R.id.fragment_look_item_detail_linear_layout).getVisibility() == lookDetailsVisibility);
+		assertTrue("Checkboxes " + getAssertMessageAffix(checkBoxVisibility),
+				solo.getView(R.id.fragment_look_item_checkbox).getVisibility() == checkBoxVisibility);
 	}
 
 	private String getAssertMessageAffix(int visibility) {

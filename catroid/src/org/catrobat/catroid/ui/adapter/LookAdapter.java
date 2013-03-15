@@ -90,14 +90,17 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 
 			holder = new ViewHolder();
 
-			holder.lookImageView = (ImageView) convertView.findViewById(R.id.look_image);
-			holder.checkbox = (CheckBox) convertView.findViewById(R.id.look_checkbox);
-			holder.lookNameTextView = (TextView) convertView.findViewById(R.id.look_name);
-			holder.lookDetailsLinearLayout = (LinearLayout) convertView.findViewById(R.id.look_details);
-			holder.lookFileSizeTextView = (TextView) holder.lookDetailsLinearLayout.findViewById(R.id.look_size);
-			holder.lookMeasureTextView = (TextView) holder.lookDetailsLinearLayout.findViewById(R.id.look_measure);
-			holder.lookArrowView = (ImageView) convertView.findViewById(R.id.look_arrow);
-			holder.lookElement = (RelativeLayout) convertView.findViewById(R.id.look_fragment_element);
+			holder.lookImageView = (ImageView) convertView.findViewById(R.id.fragment_look_item_image_view);
+			holder.checkbox = (CheckBox) convertView.findViewById(R.id.fragment_look_item_checkbox);
+			holder.lookNameTextView = (TextView) convertView.findViewById(R.id.fragment_look_item_name_text_view);
+			holder.lookDetailsLinearLayout = (LinearLayout) convertView
+					.findViewById(R.id.fragment_look_item_detail_linear_layout);
+			holder.lookFileSizeTextView = (TextView) holder.lookDetailsLinearLayout
+					.findViewById(R.id.fragment_look_item_size_text_view);
+			holder.lookMeasureTextView = (TextView) holder.lookDetailsLinearLayout
+					.findViewById(R.id.fragment_look_item_measure_text_view);
+			holder.lookArrowView = (ImageView) convertView.findViewById(R.id.fragment_look_item_arrow_image_view);
+			holder.lookElement = (RelativeLayout) convertView.findViewById(R.id.fragment_look_item_relative_layout);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
