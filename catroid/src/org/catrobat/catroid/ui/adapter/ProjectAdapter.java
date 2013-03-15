@@ -54,6 +54,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 	private OnProjectCheckedListener onProjectCheckedListener;
 
 	private static class ViewHolder {
+		private View background;
 		private CheckBox checkbox;
 		private TextView projectName;
 		private ImageView image;
@@ -115,6 +116,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.activity_my_projects_item, null);
 			holder = new ViewHolder();
+			holder.background = convertView.findViewById(R.id.my_projects_item_background);
 			holder.checkbox = (CheckBox) convertView.findViewById(R.id.project_checkbox);
 			holder.projectName = (TextView) convertView.findViewById(R.id.my_projects_activity_project_title);
 			holder.image = (ImageView) convertView.findViewById(R.id.my_projects_activity_project_image);
@@ -181,13 +183,13 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		if (selectMode != Constants.SELECT_NONE) {
 			holder.checkbox.setVisibility(View.VISIBLE);
 			holder.arrow.setVisibility(View.GONE);
-			//			holder.background.setBackgroundResource(R.drawable.spritelist_item_background_shadowed);
+			holder.background.setBackgroundResource(R.drawable.my_projects_list_item_background_shadowed);
 		} else {
 			holder.checkbox.setVisibility(View.GONE);
 			holder.checkbox.setChecked(false);
 			holder.arrow.setVisibility(View.VISIBLE);
-			//			holder.background.setBackgroundResource(R.drawable.spritelist_item_background);
-			//			clearCheckedProjects();
+			holder.background.setBackgroundResource(R.drawable.my_projects_list_item_background);
+			clearCheckedProjects();
 		}
 
 		//set project description:
