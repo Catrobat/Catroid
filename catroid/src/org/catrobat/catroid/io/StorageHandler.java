@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.XmlHeader;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
@@ -140,9 +141,11 @@ public class StorageHandler {
 
 		xstream.alias("broadcastScript", BroadcastScript.class);
 		xstream.alias("script", Script.class);
-		xstream.alias("sprite", Sprite.class);
+		xstream.alias("object", Sprite.class);
 		xstream.alias("startScript", StartScript.class);
 		xstream.alias("whenScript", WhenScript.class);
+
+		xstream.aliasField("object", BrickBaseType.class, "sprite");
 
 		xstream.alias("broadcastBrick", BroadcastBrick.class);
 		xstream.alias("broadcastReceiverBrick", BroadcastReceiverBrick.class);
