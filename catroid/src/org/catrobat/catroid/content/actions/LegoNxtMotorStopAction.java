@@ -46,10 +46,6 @@ public class LegoNxtMotorStopAction extends TemporalAction {
 		}
 	}
 
-	public Motor getMotorEnum() {
-		return motorEnum;
-	}
-
 	public void setMotorEnum(Motor motorEnum) {
 		this.motorEnum = motorEnum;
 	}

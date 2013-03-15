@@ -40,16 +40,8 @@ public class PlaySoundAction extends TemporalAction {
 		}
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	public SoundInfo getSound() {
-		return sound;
 	}
 
 	public void setSound(SoundInfo sound) {

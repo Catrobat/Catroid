@@ -25,6 +25,7 @@ package org.catrobat.catroid.stage;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 
 import android.content.pm.ActivityInfo;
@@ -51,6 +52,9 @@ public class StageActivity extends AndroidApplication {
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 		initialize(stageListener, true);
+		if (ProjectManager.getInstance().getCurrentProject().isManualScreenshot()) {
+			stageListener.setMakeAutomaticScreenshot(false);
+		}
 	}
 
 	@Override
@@ -73,6 +77,7 @@ public class StageActivity extends AndroidApplication {
 
 	public void resume() {
 		stageListener.menuResume();
+		SensorHandler.startSensorListener(this);
 	}
 
 	public boolean getResizePossible() {
@@ -81,8 +86,8 @@ public class StageActivity extends AndroidApplication {
 
 	private void calculateScreenSizes() {
 		ifLandscapeSwitchWidthAndHeight();
-		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().virtualScreenWidth;
-		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().virtualScreenHeight;
+		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
+		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 		if (virtualScreenWidth == Values.SCREEN_WIDTH && virtualScreenHeight == Values.SCREEN_HEIGHT) {
 			resizePossible = false;
 			return;

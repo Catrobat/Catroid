@@ -23,24 +23,51 @@
 package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
+import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.LoopBeginBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
 
-import android.test.FlakyTest;
 import android.test.InstrumentationTestCase;
-
-import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 
 public class ForeverActionTest extends InstrumentationTestCase {
 
-	@FlakyTest(tolerance = 3)
-	public void testForeverBrick() throws InterruptedException {
-		Sprite testSprite = new Sprite("testSprite");
+	private static final int REPEAT_TIMES = 4;
+	private final float delta = 0.005f;
+
+	public void testLoopDelay() throws InterruptedException {
 		final int deltaY = -10;
 
-		RepeatAction action = ExtendedActions.forever(ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite,
-				deltaY)));
-		int numberOfRepeats = (Integer) Reflection.getPrivateField(action, "repeatCount");
-		assertEquals("Executed the wrong number of times!", numberOfRepeats, RepeatAction.FOREVER);
+		Sprite testSprite = new Sprite("testSprite");
+
+		StartScript testScript = new StartScript(testSprite);
+
+		LoopBeginBrick foreverBrick = new ForeverBrick(testSprite);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
+		foreverBrick.setLoopEndBrick(loopEndBrick);
+
+		testScript.addBrick(foreverBrick);
+		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(loopEndBrick);
+
+		testSprite.addScript(testScript);
+		testSprite.createStartScriptActionSequence();
+
+		/*
+		 * This is only to document that a delay of 20ms is by contract. See Issue 28 in Google Code
+		 * http://code.google.com/p/catroid/issues/detail?id=28
+		 */
+		final float delayByContract = 0.020f;
+
+		for (int index = 0; index < REPEAT_TIMES; index++) {
+
+			for (float time = 0f; time < delayByContract; time += delta) {
+				testSprite.look.act(delta);
+			}
+		}
+
+		assertEquals("Loop delay did was not 20ms!", deltaY * REPEAT_TIMES, (int) testSprite.look.getYPosition());
 	}
+
 }

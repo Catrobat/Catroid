@@ -22,43 +22,55 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
-import android.text.InputType;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class GlideToBrick implements Brick, OnClickListener {
+public class GlideToBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int xDestination;
-	private int yDestination;
-	private int durationInMilliSeconds;
-	private Sprite sprite;
 
-	private transient View view;
+	private Formula xDestination;
+	private Formula yDestination;
+	private Formula durationInSeconds;
+
 	private transient View prototypeView;
 
 	public GlideToBrick() {
 
 	}
 
-	public GlideToBrick(Sprite sprite, int xDestination, int yDestination, int durationInMilliSeconds) {
+	public GlideToBrick(Sprite sprite, int xDestinationValue, int yDestinationValue, int durationInMilliSecondsValue) {
 		this.sprite = sprite;
+
+		xDestination = new Formula(xDestinationValue);
+		yDestination = new Formula(yDestinationValue);
+		durationInSeconds = new Formula(durationInMilliSecondsValue / 1000.0);
+	}
+
+	public GlideToBrick(Sprite sprite, Formula xDestination, Formula yDestination, Formula durationInSeconds) {
+		this.sprite = sprite;
+
 		this.xDestination = xDestination;
 		this.yDestination = yDestination;
-		this.durationInMilliSeconds = durationInMilliSeconds;
+		this.durationInSeconds = durationInSeconds;
 	}
 
 	@Override
@@ -66,37 +78,55 @@ public class GlideToBrick implements Brick, OnClickListener {
 		return NO_RESOURCES;
 	}
 
-	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
 	public int getDurationInMilliSeconds() {
-		return durationInMilliSeconds;
+		return durationInSeconds.interpretInteger(sprite);
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 		view = View.inflate(context, R.layout.brick_glide_to, null);
 
+		setCheckboxView(R.id.brick_glide_to_checkbox);
+		final Brick brickInstance = this;
+
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 		TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_x);
 		EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_x);
-		editX.setText(String.valueOf(xDestination));
+		xDestination.setTextFieldId(R.id.brick_glide_to_edit_text_x);
+		xDestination.refreshTextField(view);
 		editX.setOnClickListener(this);
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_y);
 		EditText editY = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_y);
-		editY.setText(String.valueOf(yDestination));
+		yDestination.setTextFieldId(R.id.brick_glide_to_edit_text_y);
+		yDestination.refreshTextField(view);
 		editY.setOnClickListener(this);
 
 		TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
 		EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_duration);
-		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
+		durationInSeconds.setTextFieldId(R.id.brick_glide_to_edit_text_duration);
+		durationInSeconds.refreshTextField(view);
 
 		TextView times = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
-		times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(durationInMilliSeconds / 1000.0)));
+		if (durationInSeconds.isSingleNumberFormula()) {
+			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+					Utils.convertDoubleToPluralInteger(durationInSeconds.interpretFloat(sprite))));
+		} else {
+
+			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
+			// in hopefully all possible languages
+			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
+		}
 
 		textDuration.setVisibility(View.GONE);
 		editDuration.setVisibility(View.VISIBLE);
@@ -106,7 +136,6 @@ public class GlideToBrick implements Brick, OnClickListener {
 		editY.setVisibility(View.VISIBLE);
 
 		editDuration.setOnClickListener(this);
-
 		return view;
 	}
 
@@ -114,71 +143,55 @@ public class GlideToBrick implements Brick, OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_glide_to, null);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_x);
-		textX.setText(String.valueOf(xDestination));
+		textX.setText(String.valueOf(xDestination.interpretInteger(sprite)));
 		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_y);
-		textY.setText(String.valueOf(yDestination));
+		textY.setText(String.valueOf(yDestination.interpretInteger(sprite)));
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
-		textDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
+		textDuration.setText(String.valueOf(durationInSeconds.interpretFloat(sprite)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_glide_to_seconds_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(durationInMilliSeconds / 1000.0)));
+				Utils.convertDoubleToPluralInteger(durationInSeconds.interpretFloat(sprite))));
 		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new GlideToBrick(getSprite(), xDestination, yDestination, getDurationInMilliSeconds());
+		return new GlideToBrick(getSprite(), xDestination.clone(), yDestination.clone(), durationInSeconds.clone());
 	}
 
 	@Override
-	public void onClick(final View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				if (view.getId() == R.id.brick_glide_to_edit_text_x) {
-					input.setText(String.valueOf(xDestination));
-					input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-				} else if (view.getId() == R.id.brick_glide_to_edit_text_y) {
-					input.setText(String.valueOf(yDestination));
-					input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-				} else if (view.getId() == R.id.brick_glide_to_edit_text_duration) {
-					input.setText(String.valueOf(durationInMilliSeconds / 1000.0));
-					input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-							| InputType.TYPE_NUMBER_FLAG_SIGNED);
-				}
-
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					if (view.getId() == R.id.brick_glide_to_edit_text_x) {
-						xDestination = Integer.parseInt(input.getText().toString());
-					} else if (view.getId() == R.id.brick_glide_to_edit_text_y) {
-						yDestination = Integer.parseInt(input.getText().toString());
-					} else if (view.getId() == R.id.brick_glide_to_edit_text_duration) {
-						durationInMilliSeconds = (int) Math
-								.round(Double.parseDouble(input.getText().toString()) * 1000);
-					}
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_glide_to_brick");
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_glide_to_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		float durationInSeconds = durationInMilliSeconds / 1000f;
-		sequence.addAction(ExtendedActions.glideTo(Float.valueOf(xDestination), Float.valueOf(yDestination),
-				durationInSeconds));
+	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
+		switch (view.getId()) {
+			case R.id.brick_glide_to_edit_text_x:
+				FormulaEditorFragment.showFragment(view, this, xDestination);
+				break;
+
+			case R.id.brick_glide_to_edit_text_y:
+				FormulaEditorFragment.showFragment(view, this, yDestination);
+				break;
+
+			case R.id.brick_glide_to_edit_text_duration:
+				FormulaEditorFragment.showFragment(view, this, durationInSeconds);
+				break;
+		}
+
+	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.glideTo(sprite, xDestination, yDestination, durationInSeconds));
 		return null;
 	}
 }

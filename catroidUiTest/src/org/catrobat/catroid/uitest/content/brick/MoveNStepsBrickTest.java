@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -104,18 +105,23 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_move)));
 
-		UiTestUtils.clickEnterClose(solo, 0, STEPS_TO_MOVE + "");
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, STEPS_TO_MOVE, "steps", moveNStepsBrick);
 
-		assertEquals("Wrong text in field.", STEPS_TO_MOVE, Reflection.getPrivateField(moveNStepsBrick, "steps"));
-		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE + "", solo.getEditText(0).getText().toString());
+		UiTestUtils.insertValueViaFormulaEditor(solo, 0, STEPS_TO_MOVE);
 
-		UiTestUtils.clickEnterClose(solo, 0, "1.0");
+		assertEquals("Wrong text in field.", STEPS_TO_MOVE,
+				(double) ((Formula) Reflection.getPrivateField(moveNStepsBrick, "steps")).interpretFloat(null));
+		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE,
+				Double.valueOf(solo.getEditText(0).getText().toString()));
+
+		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
 		TextView stepTextView = (TextView) solo.getView(R.id.brick_move_n_steps_step_text_view);
 		assertTrue(
 				"Specifier hasn't changed from plural to singular",
 				stepTextView.getText().equals(
 						stepTextView.getResources().getQuantityString(R.plurals.brick_move_n_step_plural, 1)));
-		UiTestUtils.clickEnterClose(solo, 0, "1.4");
+
+		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1.4);
 		stepTextView = (TextView) solo.getView(R.id.brick_move_n_steps_step_text_view);
 		assertTrue(
 				"Specifier hasn't changed from singular to plural",
@@ -123,5 +129,4 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 						stepTextView.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
 								Utils.convertDoubleToPluralInteger(1.4))));
 	}
-
 }

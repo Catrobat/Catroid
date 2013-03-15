@@ -22,18 +22,21 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class ChangeVolumeByNAction extends TemporalAction {
 
-	private float volume;
+	private Formula volume;
+	private Sprite sprite;
 
 	@Override
 	protected void update(float percent) {
 		float currentVolume = SoundManager.getInstance().getVolume();
-		currentVolume += volume;
+		currentVolume += volume.interpretFloat(sprite);
 		if (currentVolume < 0.0f) {
 			currentVolume = 0.0f;
 		} else if (currentVolume > 100.0f) {
@@ -42,12 +45,12 @@ public class ChangeVolumeByNAction extends TemporalAction {
 		SoundManager.getInstance().setVolume(currentVolume);
 	}
 
-	public float getVolume() {
-		return volume;
+	public void setVolume(Formula volume) {
+		this.volume = volume;
 	}
 
-	public void setVolume(float volume) {
-		this.volume = volume;
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 
 }

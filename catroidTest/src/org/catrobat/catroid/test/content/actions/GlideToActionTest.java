@@ -25,14 +25,15 @@ package org.catrobat.catroid.test.content.actions;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.GlideToAction;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import android.test.AndroidTestCase;
 
 public class GlideToActionTest extends AndroidTestCase {
 
-	int xPosition = 100;
-	int yPosition = 100;
-	int duration = 1000;
+	Formula xPosition = new Formula(100);
+	Formula yPosition = new Formula(100);
+	Formula duration = new Formula(1000);
 
 	public void testNormalBehavior() throws InterruptedException {
 		Sprite sprite = new Sprite("testSprite");
@@ -41,21 +42,21 @@ public class GlideToActionTest extends AndroidTestCase {
 		sprite.look.setWidth(100.0f);
 		sprite.look.setHeight(50.0f);
 
-		GlideToAction action = ExtendedActions.glideTo(xPosition, yPosition, duration);
+		GlideToAction action = ExtendedActions.glideTo(sprite, xPosition, yPosition, duration);
 		sprite.look.addAction(action);
 		long currentTimeDelta = System.currentTimeMillis();
 		do {
 			currentTimeDelta = System.currentTimeMillis() - currentTimeDelta;
 		} while (!action.act(currentTimeDelta));
 
-		assertEquals("Incorrect sprite x position after GlideToBrick executed", (float) xPosition,
+		assertEquals("Incorrect sprite x position after GlideToBrick executed", xPosition.interpretFloat(sprite),
 				sprite.look.getXPosition());
-		assertEquals("Incorrect sprite y position after GlideToBrick executed", (float) yPosition,
+		assertEquals("Incorrect sprite y position after GlideToBrick executed", yPosition.interpretFloat(sprite),
 				sprite.look.getYPosition());
 	}
 
 	public void testNullActor() {
-		GlideToAction action = ExtendedActions.glideTo(xPosition, yPosition, duration);
+		GlideToAction action = ExtendedActions.glideTo(null, xPosition, yPosition, duration);
 		try {
 			action.act(1.0f);
 			fail("Execution of GlideToBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
@@ -67,7 +68,8 @@ public class GlideToActionTest extends AndroidTestCase {
 	public void testBoundaryPositions() {
 		Sprite sprite = new Sprite("testSprite");
 
-		GlideToAction action = ExtendedActions.placeAt(Integer.MAX_VALUE, Integer.MAX_VALUE);
+		GlideToAction action = ExtendedActions.placeAt(sprite, new Formula(Integer.MAX_VALUE), new Formula(
+				Integer.MAX_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
@@ -76,7 +78,7 @@ public class GlideToActionTest extends AndroidTestCase {
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum y float value", (float) Integer.MAX_VALUE,
 				sprite.look.getYPosition());
 
-		action = ExtendedActions.placeAt(Integer.MIN_VALUE, Integer.MIN_VALUE);
+		action = ExtendedActions.placeAt(sprite, new Formula(Integer.MIN_VALUE), new Formula(Integer.MIN_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
@@ -93,7 +95,7 @@ public class GlideToActionTest extends AndroidTestCase {
 		sprite.look.setWidth(100.0f);
 		sprite.look.setHeight(50.0f);
 
-		GlideToAction action = ExtendedActions.glideTo(xPosition, yPosition, duration);
+		GlideToAction action = ExtendedActions.glideTo(sprite, xPosition, yPosition, duration);
 		sprite.look.addAction(action);
 		long currentTimeDelta = System.currentTimeMillis();
 		do {
@@ -105,9 +107,9 @@ public class GlideToActionTest extends AndroidTestCase {
 			}
 		} while (!action.act(currentTimeDelta));
 
-		assertEquals("Incorrect sprite x position after GlideToBrick executed", (float) xPosition,
+		assertEquals("Incorrect sprite x position after GlideToBrick executed", xPosition.interpretFloat(sprite),
 				sprite.look.getXPosition());
-		assertEquals("Incorrect sprite y position after GlideToBrick executed", (float) yPosition,
+		assertEquals("Incorrect sprite y position after GlideToBrick executed", yPosition.interpretFloat(sprite),
 				sprite.look.getYPosition());
 	}
 }

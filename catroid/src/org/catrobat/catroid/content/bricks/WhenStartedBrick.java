@@ -22,14 +22,20 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -37,9 +43,6 @@ public class WhenStartedBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
 	private Script script;
-	private Sprite sprite;
-
-	private transient View view;
 
 	public WhenStartedBrick(Sprite sprite, Script script) {
 		this.script = script;
@@ -56,15 +59,26 @@ public class WhenStartedBrick extends ScriptBrick {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	@Override
-	public View getView(Context context, int brickId, final BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_when_started, null);
+	public View getView(Context context, int brickId, final BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
 		}
+		view = View.inflate(context, R.layout.brick_when_started, null);
+
+		setCheckboxView(R.id.brick_when_started_checkbox);
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				if (!checked) {
+					for (Brick currentBrick : adapter.getCheckedBricks()) {
+						currentBrick.setCheckedBoolean(false);
+					}
+				}
+				adapter.handleCheck(brickInstance, checked);
+			}
+		});
 
 		return view;
 	}
@@ -89,7 +103,17 @@ public class WhenStartedBrick extends ScriptBrick {
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_when_started_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
+	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		return null;
+
 	}
 }

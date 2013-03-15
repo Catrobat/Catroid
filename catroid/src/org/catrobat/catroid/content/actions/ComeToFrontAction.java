@@ -35,10 +35,6 @@ public class ComeToFrontAction extends TemporalAction {
 		sprite.look.toFront();
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
