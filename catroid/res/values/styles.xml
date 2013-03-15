@@ -106,16 +106,19 @@
 
     <style name="ProgramMenuButton">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0dip</item>
-        <item name="android:layout_weight">0.3</item>
-        <item name="android:paddingLeft">20dp</item>
-        <item name="android:paddingRight">20dip</item>
+        <item name="android:layout_height">@dimen/program_menu_button_height</item>
+        <item name="android:background">@drawable/program_menu_button_background</item>
+        <item name="android:drawablePadding">28dp</item>
+        <item name="android:drawableRight">@drawable/ic_arrow_right_dark</item>
         <item name="android:gravity">left|center_vertical</item>
-        <item name="android:drawablePadding">10dip</item>
-        <item name="android:textSize">@dimen/text_size_xlarge</item>
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:background">@null</item>
-        <item name="android:singleLine">true</item>
+        <item name="android:paddingLeft">21dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:textSize">@dimen/text_size_program_menu_buttons</item>
+        <item name="android:textColor">@color/program_menu_button_text_color</item>
+        <item name="android:shadowColor">@color/program_menu_button_text_shadow_color</item>
+        <item name="android:shadowRadius">1.5</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">3</item>
     </style>
 
     <style name="BrickText">
@@ -153,7 +156,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
-	
+
     <style name="BrickContainer.Motion">
     </style>
     
@@ -280,9 +283,8 @@
         
  
 
-    <style name="FormulaEditorButton">
+	<style name="FormulaEditorButton">
         <item name="android:layout_width">0dp</item>
         <item name="android:background">@drawable/formula_editor_keyboard_button</item>
         </style>
-
 </resources>
