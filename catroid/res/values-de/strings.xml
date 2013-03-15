@@ -217,7 +217,11 @@
     <string name="new_broadcast_message">Neu…</string>
     <string name="broadcast_nothing_selected">Nichts…</string>
     <!--  -->
-
+	
+	<!-- Brick general -->
+    <string name="brick_single">Baustein</string>
+    <string name="brick_multiple">Bausteine</string>
+    <!--  -->
 
     <!-- Brick categories -->
     <string name="categories">Kategorien</string>
@@ -296,8 +300,8 @@
 
 
     <!-- Control bricks -->
-    <string name="brick_when_started">Wenn Projekt gestartet</string>
-    <string name="brick_when">Wenn</string>
+    <string name="brick_when_started">Wenn Programm gestartet</string>
+    <string name="brick_when">Wenn angetippt</string>
     <string name="brick_wait">Warte</string>
     <plurals name="second_plural">
         <item quantity="one">Sekunde</item>
@@ -322,12 +326,6 @@
     <string name="brick_change_variable">Ändere Variable</string>
     <string name="brick_note_default_value">"Anmerkung hier hinzufügen..." </string>
     <!--  -->
-
-
-    <!-- Actions -->
-    <string name="action_tapped">angetippt</string>
-    <!--  -->
-
 
     <!-- defaultValues -->
     <string name="default_project_name">Mein erstes Projekt</string>
@@ -407,6 +405,7 @@
     <string name="nxt_tone_frequency">Frequenz</string>
     <string name="tone_duration">Dauer</string>
     <string name="nxt_tone_hundred_hz">x100Hz</string>
+    <string name="seconds">Sekunden</string>
     <!--  -->
 
 
