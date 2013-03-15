@@ -152,6 +152,8 @@
     <string name="rename_project">Projekt umbenennen</string>
     <string name="notification_title_copy_project">Kopiere Projekt</string>
     <string name="copy_project_finished"> kopiert.</string>
+    <string name="program">Programm</string>
+    <string name="programs">Programme</string>
     <!--  -->
 
 

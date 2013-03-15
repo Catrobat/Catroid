@@ -27,15 +27,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter;
+import org.catrobat.catroid.ui.adapter.ProjectAdapter.OnProjectCheckedListener;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog.OnCopyProjectListener;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog;
@@ -49,6 +53,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -62,17 +69,27 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.Menu;
 
 public class ProjectsListFragment extends SherlockListFragment implements OnProjectRenameListener,
-		OnUpdateProjectDescriptionListener, OnCopyProjectListener {
+		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnProjectCheckedListener {
 
 	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsMyProjects";
+
+	private static String deleteActionModeTitle;
+	private static String singleItemAppendixDeleteActionMode;
+	private static String multipleItemAppendixDeleteActionMode;
 
 	private List<ProjectData> projectList;
 	private ProjectData projectToEdit;
 	private ProjectAdapter adapter;
 	private ProjectsListFragment parentFragment = this;
+
+	private ActionMode actionMode;
+
+	private boolean actionModeActive = false;
 
 	//	private static final int CONTEXT_MENU_ITEM_RENAME = 0;
 	//	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 1;
@@ -99,6 +116,11 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		if (actionMode != null) {
+			actionMode.finish();
+			actionMode = null;
+		}
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
 
@@ -153,6 +175,19 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		return adapter.getShowDetails();
 	}
 
+	public void setSelectMode(int selectMode) {
+		adapter.setSelectMode(selectMode);
+		adapter.notifyDataSetChanged();
+	}
+
+	public int getSelectMode() {
+		return adapter.getSelectMode();
+	}
+
+	public boolean getActionModeActive() {
+		return actionModeActive;
+	}
+
 	private void initAdapter() {
 		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		File projectCodeFile;
@@ -174,6 +209,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	}
 
 	private void initClickListener() {
+		adapter.setOnProjectCheckedListener(this);
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -259,6 +295,60 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	//		initCustomContextMenu(dialog);
 	//		dialog.show(getFragmentManager(), CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
 	//	}
+
+	@Override
+	public void onProjectChecked() {
+		boolean isSingleSelectMode = adapter.getSelectMode() == Constants.SINGLE_SELECT ? true : false;
+
+		if (isSingleSelectMode || actionMode == null) {
+			return;
+		}
+
+		int numberOfSelectedItems = adapter.getAmountOfCheckedProjects();
+
+		if (numberOfSelectedItems == 0) {
+			actionMode.setTitle(deleteActionModeTitle);
+		} else {
+			String appendix = multipleItemAppendixDeleteActionMode;
+
+			if (numberOfSelectedItems == 1) {
+				appendix = singleItemAppendixDeleteActionMode;
+			}
+
+			String numberOfItems = Integer.toString(numberOfSelectedItems);
+			String completeTitle = deleteActionModeTitle + " " + numberOfItems + " " + appendix;
+
+			int titleLength = deleteActionModeTitle.length();
+
+			Spannable completeSpannedTitle = new SpannableString(completeTitle);
+			completeSpannedTitle.setSpan(
+					new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)), titleLength + 1,
+					titleLength + (1 + numberOfItems.length()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+			actionMode.setTitle(completeSpannedTitle);
+		}
+	}
+
+	public void startRenameActionMode() {
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
+			BottomBar.disableButtons(getActivity());
+		}
+	}
+
+	public void startDeleteActionMode() {
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+			BottomBar.disableButtons(getActivity());
+		}
+	}
+
+	public void startCopyActionMode() {
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
+			BottomBar.disableButtons(getActivity());
+		}
+	}
 
 	private void showRenameDialog() {
 		RenameProjectDialog dialogRenameProject = RenameProjectDialog.newInstance(projectToEdit.projectName);
@@ -360,4 +450,134 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			this.lastUsed = lastUsed;
 		}
 	}
+
+	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(Constants.MULTI_SELECT);
+
+			actionModeActive = true;
+
+			deleteActionModeTitle = getString(R.string.delete);
+			singleItemAppendixDeleteActionMode = getString(R.string.program);
+			multipleItemAppendixDeleteActionMode = getString(R.string.programs);
+
+			mode.setTitle(deleteActionModeTitle);
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			Set<Integer> checkedSprites = adapter.getCheckedProjects();
+			Iterator<Integer> iterator = checkedSprites.iterator();
+			int numDeleted = 0;
+			while (iterator.hasNext()) {
+				int position = iterator.next();
+				projectToEdit = (ProjectData) getListView().getItemAtPosition(position - numDeleted);
+				deleteProject();
+				numDeleted++;
+			}
+			setSelectMode(Constants.SELECT_NONE);
+			adapter.clearCheckedProjects();
+
+			actionMode = null;
+			actionModeActive = false;
+
+			BottomBar.enableButtons(getActivity());
+		}
+	};
+
+	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(Constants.SINGLE_SELECT);
+			mode.setTitle(getString(R.string.rename));
+
+			actionModeActive = true;
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			Set<Integer> checkedSprites = adapter.getCheckedProjects();
+			Iterator<Integer> iterator = checkedSprites.iterator();
+			if (iterator.hasNext()) {
+				int position = iterator.next();
+				projectToEdit = (ProjectData) getListView().getItemAtPosition(position);
+				showRenameDialog();
+			}
+			setSelectMode(Constants.SELECT_NONE);
+			adapter.clearCheckedProjects();
+
+			actionMode = null;
+			actionModeActive = false;
+
+			BottomBar.enableButtons(getActivity());
+		}
+	};
+
+	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(Constants.SINGLE_SELECT);
+			mode.setTitle(getString(R.string.copy));
+
+			actionModeActive = true;
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			Set<Integer> checkedSprites = adapter.getCheckedProjects();
+			Iterator<Integer> iterator = checkedSprites.iterator();
+			if (iterator.hasNext()) {
+				int position = iterator.next();
+				projectToEdit = (ProjectData) getListView().getItemAtPosition(position);
+				showCopyProjectDialog();
+			}
+			setSelectMode(Constants.SELECT_NONE);
+			adapter.clearCheckedProjects();
+
+			actionMode = null;
+			actionModeActive = false;
+
+			BottomBar.enableButtons(getActivity());
+		}
+	};
+
 }

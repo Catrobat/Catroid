@@ -23,11 +23,13 @@
 package org.catrobat.catroid.ui;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -99,6 +101,18 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 				startActivity(intent);
 				return true;
 			}
+			case R.id.copy: {
+				projectsListFragment.startCopyActionMode();
+				break;
+			}
+			case R.id.delete: {
+				projectsListFragment.startDeleteActionMode();
+				break;
+			}
+			case R.id.rename: {
+				projectsListFragment.startRenameActionMode();
+				break;
+			}
 			case R.id.show_details: {
 				handleShowDetails(!projectsListFragment.getShowDetails(), item);
 				break;
@@ -113,6 +127,17 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 		actionBar = getSupportActionBar();
 		actionBar.setTitle(title);
 		actionBar.setHomeButtonEnabled(true);
+	}
+
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (projectsListFragment.getActionModeActive()) {
+			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+				ProjectAdapter adapter = (ProjectAdapter) projectsListFragment.getListAdapter();
+				adapter.clearCheckedProjects();
+			}
+		}
+		return super.dispatchKeyEvent(event);
 	}
 
 	public void handleAddButton(View view) {

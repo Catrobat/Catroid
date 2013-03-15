@@ -135,6 +135,8 @@
     <string name="rename_project">Rename Project</string>
     <string name="notification_title_copy_project">Copy project</string>
     <string name="copy_project_finished"> copied.</string>
+    <string name="program">Program</string>
+    <string name="programs">Programs</string>
     <!--  -->
 
 
