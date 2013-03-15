@@ -89,6 +89,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	public static final int REQUEST_SELECT_IMAGE = 0;
 	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
 	public static final int REQUEST_TAKE_PICTURE = 2;
+	public static final String TAG = LookFragment.class.getSimpleName();
 
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 
@@ -143,7 +144,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				lookFromCameraUri = UtilCamera.getDefaultLookFromCameraUri(defLookName);
 			}
 		}
-		lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
+		lookDataList = ProjectManager.INSTANCE.getCurrentSprite().getLookDataList();
 
 		adapter = new LookAdapter(getActivity(), R.layout.fragment_look_looklist_item, lookDataList, false);
 		adapter.setOnLookEditListener(this);
@@ -262,9 +263,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.context_menu_copy:
+			case R.id.context_menu_copy: {
 				copyLook(selectedLookPosition);
 				break;
+			}
 
 			case R.id.context_menu_cut:
 				break;
@@ -275,16 +277,19 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			case R.id.context_menu_move:
 				break;
 
-			case R.id.context_menu_rename:
+			case R.id.context_menu_rename: {
 				showRenameDialog();
 				break;
+			}
 
-			case R.id.context_menu_delete:
+			case R.id.context_menu_delete: {
 				showDeleteDialog();
 				break;
-			case R.id.context_edit_in_paintroid:
+			}
+			case R.id.context_edit_in_paintroid: {
 				sendPaintroidIntent(selectedLookPosition);
 				break;
+			}
 		}
 		return super.onContextItemSelected(item);
 	}

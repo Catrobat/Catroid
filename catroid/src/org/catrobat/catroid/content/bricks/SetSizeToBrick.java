@@ -22,31 +22,39 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class SetSizeToBrick implements Brick, OnClickListener {
+public class SetSizeToBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
-	private double size;
+	private Formula size;
 
-	private transient View view;
+	private transient View prototypeView;
 
-	public SetSizeToBrick(Sprite sprite, double size) {
+	public SetSizeToBrick(Sprite sprite, double sizeValue) {
+		this.sprite = sprite;
+		size = new Formula(sizeValue);
+	}
+
+	public SetSizeToBrick(Sprite sprite, Formula size) {
 		this.sprite = sprite;
 		this.size = size;
 	}
@@ -61,66 +69,65 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 		view = View.inflate(context, R.layout.brick_set_size_to, null);
 
+		setCheckboxView(R.id.brick_set_size_to_checkbox);
+
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 		TextView text = (TextView) view.findViewById(R.id.brick_set_size_to_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_set_size_to_edit_text);
-		edit.setText(String.valueOf(size));
-
+		size.setTextFieldId(R.id.brick_set_size_to_edit_text);
+		size.refreshTextField(view);
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
-
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_set_size_to, null);
+		prototypeView = View.inflate(context, R.layout.brick_set_size_to, null);
+		TextView textSetSizeTo = (TextView) prototypeView.findViewById(R.id.brick_set_size_to_prototype_text_view);
+		textSetSizeTo.setText(String.valueOf(size.interpretFloat(sprite)));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new SetSizeToBrick(getSprite(), size);
+		return new SetSizeToBrick(getSprite(), size.clone());
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_size_to_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
 	}
 
 	@Override
 	public void onClick(View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(size));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					size = Double.parseDouble(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_set_size_to_brick");
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
+		FormulaEditorFragment.showFragment(view, this, size);
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setSizeTo(sprite, (float) size));
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setSizeTo(sprite, size));
 		return null;
 	}
 }

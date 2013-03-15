@@ -22,21 +22,24 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class ShowBrick implements Brick {
+public class ShowBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
-
-	private transient View view;
 
 	public ShowBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -52,15 +55,30 @@ public class ShowBrick implements Brick {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
+		view = View.inflate(context, R.layout.brick_show, null);
+		setCheckboxView(R.id.brick_show_checkbox);
+
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
+		return view;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_show, null);
-		}
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_show_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
 		return view;
 	}
 
@@ -75,8 +93,9 @@ public class ShowBrick implements Brick {
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.show(sprite));
 		return null;
 	}
+
 }

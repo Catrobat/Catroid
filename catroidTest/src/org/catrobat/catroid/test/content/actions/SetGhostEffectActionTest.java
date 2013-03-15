@@ -25,20 +25,21 @@ package org.catrobat.catroid.test.content.actions;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.SetGhostEffectAction;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import android.test.InstrumentationTestCase;
 
 public class SetGhostEffectActionTest extends InstrumentationTestCase {
 
-	private float effectValue = 50.5f;
+	private Formula effectValue = new Formula(50.5f);
 
 	public void testGhostEffect() {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite scale value", 1f, sprite.look.getAlphaValue());
 		SetGhostEffectAction action = ExtendedActions.setGhostEffect(sprite, effectValue);
 		action.act(1.0f);
-		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", (100 - effectValue) / 100,
-				sprite.look.getAlphaValue());
+		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed",
+				(100 - effectValue.interpretFloat(sprite)) / 100, sprite.look.getAlphaValue());
 	}
 
 	public void testNullSprite() {

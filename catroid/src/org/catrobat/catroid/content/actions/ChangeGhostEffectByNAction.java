@@ -23,33 +23,27 @@
 package org.catrobat.catroid.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class ChangeGhostEffectByNAction extends TemporalAction {
 
 	private Sprite sprite;
-	private float changeGhostEffect;
+	private Formula changeGhostEffect;
 
 	@Override
 	protected void update(float delta) {
-		sprite.look.changeAlphaValueBy(this.changeGhostEffect / -100);
+		float changeGhostEffectValue = changeGhostEffect.interpretFloat(sprite) / -100.0F;
+		sprite.look.changeAlphaValueBy(changeGhostEffectValue);
 
-	}
-
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public float getGhostEffectValue() {
-		return changeGhostEffect;
-	}
-
-	public void setGhostEffectValue(float value) {
+	public void setGhostEffect(Formula value) {
 		this.changeGhostEffect = value;
 	}
 

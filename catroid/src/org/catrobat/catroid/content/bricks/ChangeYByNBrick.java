@@ -22,36 +22,46 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class ChangeYByNBrick implements Brick, OnClickListener {
+public class ChangeYByNBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int yMovement;
-	private Sprite sprite;
+	private Formula yMovement;
 
-	private transient View view;
+	private transient View prototypeView;
 
 	public ChangeYByNBrick() {
 
 	}
 
-	public ChangeYByNBrick(Sprite sprite, int yMovement) {
+	public ChangeYByNBrick(Sprite sprite, int yMovementValue) {
 		this.sprite = sprite;
+
+		yMovement = new Formula(yMovementValue);
+	}
+
+	public ChangeYByNBrick(Sprite sprite, Formula yMovement) {
+		this.sprite = sprite;
+
 		this.yMovement = yMovement;
 	}
 
@@ -61,65 +71,66 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 		view = View.inflate(context, R.layout.brick_change_y, null);
+
+		setCheckboxView(R.id.brick_change_y_checkbox);
+		final Brick brickInstance = this;
+
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_change_y_prototype_text_view);
 		EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
-		editY.setText(String.valueOf(yMovement));
+		yMovement.setTextFieldId(R.id.brick_change_y_edit_text);
+		yMovement.refreshTextField(view);
 
 		textY.setVisibility(View.GONE);
 		editY.setVisibility(View.VISIBLE);
 		editY.setOnClickListener(this);
-
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_y, null);
+		prototypeView = View.inflate(context, R.layout.brick_change_y, null);
+		TextView textYMovement = (TextView) prototypeView.findViewById(R.id.brick_change_y_prototype_text_view);
+		textYMovement.setText(String.valueOf(yMovement.interpretInteger(sprite)));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeYByNBrick(getSprite(), yMovement);
+		return new ChangeYByNBrick(getSprite(), yMovement.clone());
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_y_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
 	}
 
 	@Override
 	public void onClick(View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(yMovement));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					yMovement = Integer.parseInt(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_y_by_brick");
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
+		FormulaEditorFragment.showFragment(view, this, yMovement);
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.changeYByN(sprite, yMovement));
 		return null;
 	}

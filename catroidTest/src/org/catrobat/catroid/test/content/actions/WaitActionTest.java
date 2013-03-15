@@ -24,6 +24,8 @@ package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.content.actions.WaitAction;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import android.test.AndroidTestCase;
 
@@ -33,7 +35,7 @@ public class WaitActionTest extends AndroidTestCase {
 
 	public void testWait() throws InterruptedException {
 		float waitOneSecond = 1.0f;
-		DelayAction action = ExtendedActions.delay(waitOneSecond);
+		WaitAction action = ExtendedActions.delay(null, new Formula(waitOneSecond));
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;

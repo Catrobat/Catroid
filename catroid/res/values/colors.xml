@@ -24,8 +24,6 @@
 <resources>
 
     <color name="solid_red">#f00</color>
-    <color name="solid_blue">#0000ff</color>
-    <color name="solid_green">#f0f0</color>
     <color name="solid_black">#000</color>
     <color name="solid_white">#FFFFFF</color>
     <color name="backbrown">#59361b</color>
@@ -33,18 +31,19 @@
     <color name="darkblue">#011526</color>
     <color name="egg_yellow">#FA0</color>
     <color name="silver">#CDCDCD</color>
-    <color name="light_black">#A000</color>
     <color name="dark_gray">#5a5858</color>
     <color name="gray">#808080</color>
-    <color name="tab_backgound_gray">#3a3a3a</color>
-    <color name="tab_text_unselected_light_gray">#999999</color>
     <color name="actionbar_background">#002534</color>
     <color name="actionbar_title_color">#FCBB20</color>
+    <color name="fragment_background_color">#03222C</color>
+    <color name="actionbar_title_color">#6F8E9B</color>
+    <color name="transparent">#00000000 </color>
+    <color name="formula_editor_background">#FFFFFF</color>
 
     <!-- Main Menu Colors -->
     <color name="main_menu_button_text_color">#A8DFF4</color>
     <color name="main_menu_button_text_shadow_color">#7F000000</color>
-    <color name="main_menu_button_text_second_line_color">@color/silver</color>
+    <color name="main_menu_button_text_continue_program_name_color">#BFD1D7</color>
     <color name="main_menu_button_background_gradient_start_color">#00475E</color>
     <color name="main_menu_button_background_gradient_end_color">#003F54</color>
     <color name="main_menu_button_background_top_border_color">#4D7F8F</color>
@@ -60,3 +59,4 @@
     
 
 </resources>
+

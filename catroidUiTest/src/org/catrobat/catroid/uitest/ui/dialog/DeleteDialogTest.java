@@ -174,8 +174,8 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(lookData.getChecksum(),
 				lookData.getAbsolutePath());
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
-		ProjectManager.INSTANCE.getCurrentProject().virtualScreenWidth = display.getWidth();
-		ProjectManager.INSTANCE.getCurrentProject().virtualScreenHeight = display.getHeight();
+		ProjectManager.INSTANCE.getCurrentProject().getXmlHeader().virtualScreenWidth = display.getWidth();
+		ProjectManager.INSTANCE.getCurrentProject().getXmlHeader().virtualScreenHeight = display.getHeight();
 	}
 
 	private void addSoundsToProject() throws Exception {

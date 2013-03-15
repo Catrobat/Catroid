@@ -27,6 +27,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.AndroidTestCase;
 
@@ -38,12 +39,16 @@ public class SpeakActionTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		SpeakBrick speakBrick = new SpeakBrick(sprite, text);
 		SpeakAction action = ExtendedActions.speak(text, speakBrick);
+		String textAfterExecution = (String) Reflection.getPrivateField(action, "text");
+
 		assertEquals("Text is not updated after SpeakBrick executed", text, speakBrick.getText());
-		assertEquals("Text is not updated after SpeakBrick executed", text, action.getText());
+		assertEquals("Text is not updated after SpeakBrick executed", text, textAfterExecution);
 		speakBrick = new SpeakBrick(sprite, text2);
 		action = ExtendedActions.speak(text, speakBrick);
+		textAfterExecution = (String) Reflection.getPrivateField(action, "text");
+
 		assertEquals("Text is not updated after SpeakBrick executed", text2, speakBrick.getText());
-		assertEquals("Text is not updated after SpeakBrick executed", text, action.getText());
+		assertEquals("Text is not updated after SpeakBrick executed", text, textAfterExecution);
 	}
 
 	public void testNullSprite() {

@@ -20,30 +20,47 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Control.Medium"
-    android:orientation="vertical" >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_note" >
-    </TextView>
+    <CheckBox
+        android:id="@+id/brick_note_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/brick_note_prototype_text_view"
-        style="@style/BrickPrototypeTextView"
-        android:layout_width="match_parent" >
-    </TextView>
+    <LinearLayout
+        android:id="@+id/brick_note_layout"
+        style="@style/BrickContainer.Control.Medium" >
 
-    <EditText
-        android:id="@+id/brick_note_edit_text"
-        style="@style/BrickEditText"
-        android:layout_width="match_parent"
-        android:gravity="left"
-        android:inputType="textMultiLine"
-        android:maxLines="3"
-        android:minLines="1" >
-    </EditText>
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_note" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/brick_note_prototype_text_view"
+            style="@style/BrickPrototypeTextView"
+            android:layout_width="match_parent" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/brick_note_edit_text"
+            style="@style/BrickEditText"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="left"
+            android:inputType="textMultiLine"
+            android:maxLines="3"
+            android:minLines="1"
+            android:paddingLeft="50dp" >
+        </EditText>
+    </LinearLayout>
 
 </LinearLayout>

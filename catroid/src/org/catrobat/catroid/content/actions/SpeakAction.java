@@ -69,16 +69,8 @@ public class SpeakAction extends Action {
 		speakFinished = false;
 	}
 
-	public String getText() {
-		return text;
-	}
-
 	public void setText(String text) {
 		this.text = text;
-	}
-
-	public SpeakBrick getSpeakBrick() {
-		return speakBrick;
 	}
 
 	public void setSpeakBrick(SpeakBrick speakBrick) {

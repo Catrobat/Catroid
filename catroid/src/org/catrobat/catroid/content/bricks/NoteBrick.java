@@ -22,29 +22,35 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class NoteBrick implements Brick {
+public class NoteBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
+
 	private String note = "";
 
-	private transient View view;
+	private transient View prototypeView;
 
 	public NoteBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -54,19 +60,9 @@ public class NoteBrick implements Brick {
 
 	}
 
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
 	public NoteBrick(Sprite sprite, String note) {
 		this.sprite = sprite;
 		this.note = note;
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return this.sprite;
 	}
 
 	public String getNote() {
@@ -74,9 +70,23 @@ public class NoteBrick implements Brick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter adapter) {
+	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 
 		view = View.inflate(context, R.layout.brick_note, null);
+
+		setCheckboxView(R.id.brick_note_checkbox);
+
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 
 		TextView textHolder = (TextView) view.findViewById(R.id.brick_note_prototype_text_view);
 		EditText editText = (EditText) view.findViewById(R.id.brick_note_edit_text);
@@ -88,7 +98,10 @@ public class NoteBrick implements Brick {
 		editText.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(View view) {
+				if (checkbox.getVisibility() == View.VISIBLE) {
+					return;
+				}
 				ScriptActivity activity = (ScriptActivity) view.getContext();
 
 				BrickTextDialog editDialog = new BrickTextDialog() {
@@ -135,8 +148,20 @@ public class NoteBrick implements Brick {
 	}
 
 	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_note_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_note, null);
+		prototypeView = View.inflate(context, R.layout.brick_note, null);
+		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_note_prototype_text_view);
+		textSpeak.setText(note);
+		return prototypeView;
 	}
 
 	@Override
@@ -145,7 +170,7 @@ public class NoteBrick implements Brick {
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		return null;
 	}
 }
