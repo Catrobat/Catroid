@@ -32,6 +32,8 @@
     <dimen name="text_size_xlarge">20sp</dimen>
     <dimen name="text_size_main_menu_buttons">22sp</dimen>
     <dimen name="text_size_main_menu_button_continue_program_name">14sp</dimen>
+    <dimen name="text_size_program_menu_buttons">22sp</dimen>
+    <dimen name="program_menu_button_height">90dp</dimen>
     <dimen name="brick_edit_text_and_prototype_text_view_minimum_width">48dp</dimen>
     <dimen name="brick_height_small">72dp</dimen>
     <dimen name="brick_height_medium">96dp</dimen>

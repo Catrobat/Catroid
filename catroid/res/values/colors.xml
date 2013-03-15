@@ -47,5 +47,19 @@
     <color name="main_menu_button_background_gradient_start_color">#00475E</color>
     <color name="main_menu_button_background_gradient_end_color">#003F54</color>
     <color name="main_menu_button_background_top_border_color">#4D7F8F</color>
+    
+    <!-- Program Menu Colors -->
+    <color name="program_menu_button_text_color">#A8DFF4</color>
+    <color name="program_menu_button_text_shadow_color">#7F000000</color>
+    <color name="program_menu_button_text_second_line_color">@color/silver</color>
+    <color name="program_menu_button_background_gradient_start_color">#00475E</color>
+    <color name="program_menu_button_background_gradient_end_color">#003F54</color>
+    <color name="program_menu_button_background_top_border_color">#4D7F8F</color>
+    <color name="program_menu_background_color">#04222C</color>
+    
+    <!-- Bottom Bar Colors -->
+    <color name="bottom_bar_button_background_gradient_start_color">#00475E</color>
+    <color name="bottom_bar_button_background_gradient_end_color">#003F54</color>
+    <color name="bottom_bar_button_background_top_border_color">#4D7F8F</color>
 
 </resources>
