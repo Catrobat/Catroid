@@ -70,7 +70,8 @@
 		    <TextView style="@style/look_fragment_main"
 		        android:id="@+id/look_name"
 		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content" />
+		        android:layout_height="wrap_content"
+		        android:paddingRight="8dp" />
 		
 		    <LinearLayout
 		        android:id="@+id/look_details"

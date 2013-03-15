@@ -364,20 +364,19 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.clickOnView(solo.getView(R.id.look_main_layout));
 		assertTrue("Paintroid not installed dialog missing after click on look",
 				solo.searchText(solo.getString(R.string.paintroid_not_installed)));
-		solo.clickOnText(solo.getString(R.string.no));
+		solo.clickOnButton(solo.getString(R.string.no));
 
-		solo.clickLongOnView(solo.getView(R.id.look_main_layout));
-		solo.clickOnText(solo.getString(R.string.edit_in_paintroid));
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, solo.getString(R.string.edit_in_paintroid));
 		assertTrue("Paintroid not installed dialog missing after longclick on look and context menu selection",
 				solo.searchText(solo.getString(R.string.paintroid_not_installed)));
-		solo.clickOnText(solo.getString(R.string.no));
+		solo.clickOnButton(solo.getString(R.string.no));
 
-		solo.clickOnActionBarItem(R.id.edit_in_paintroid);
-		solo.clickOnCheckBox(0);
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.edit_in_paintroid), 0);
+		solo.clickOnCheckBox(1);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		assertTrue("Paintroid not installed dialog missing after action mode selection",
 				solo.searchText(solo.getString(R.string.paintroid_not_installed)));
-		solo.clickOnText(solo.getString(R.string.no));
+		solo.clickOnButton(solo.getString(R.string.no));
 	}
 
 	public void tesEditInPaintroidActionModeChecking() {
@@ -960,13 +959,17 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		int currentNumberOfLooks = lookDataList.size();
 		assertEquals("Wrong number of looks", 5, currentNumberOfLooks);
 
-		// Unsorted (not ascending)
-		int[] checkboxIndicesToCheck = { 4, 0, 2 };
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
+		int[] checkboxIndicesToCheck = { solo.getCurrentCheckBoxes().size() - 1, 0, 2 };
 		int expectedNumberOfLooks = currentNumberOfLooks - checkboxIndicesToCheck.length;
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		solo.scrollDown();
 		solo.clickOnCheckBox(checkboxIndicesToCheck[0]);
+		// Note: We don't actually click the first checkbox on lower resolution devices because
+		//       solo won't perform, any sort of scrolling after a checkBox-click at the moment.
+		//       But we delete 3 sounds anyways, so the test succeeds.
+		solo.scrollToTop();
 		solo.clickOnCheckBox(checkboxIndicesToCheck[1]);
 		solo.clickOnCheckBox(checkboxIndicesToCheck[2]);
 
