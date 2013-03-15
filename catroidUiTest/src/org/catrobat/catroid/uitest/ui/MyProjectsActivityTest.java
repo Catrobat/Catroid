@@ -416,19 +416,21 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				counter++;
 				viewToTest.buildDrawingCache();
 				viewBitmap = viewToTest.getDrawingCache();
+				int testPixelX = viewBitmap.getWidth() / 2;
+				int testPixelY = viewBitmap.getHeight() / 2;
 				switch (counter) {
 					case 1:
-						pixelColor = viewBitmap.getPixel(1, 1);
+						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
 						assertEquals("Image color should be white",
 								solo.getCurrentActivity().getResources().getColor(R.color.white), pixelColor);
 						break;
 					case 2:
-						pixelColor = viewBitmap.getPixel(1, 1);
+						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
 						assertEquals("Image color should be black",
 								solo.getCurrentActivity().getResources().getColor(R.color.solid_black), pixelColor);
 						break;
 					case 3:
-						pixelColor = viewBitmap.getPixel(1, 1);
+						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
 						assertEquals("Image color should be white",
 								solo.getCurrentActivity().getResources().getColor(R.color.white), pixelColor);
 						break;
