@@ -90,6 +90,8 @@
     <string name="insert_below">Insert Below</string>
     <string name="sprite">Sprite</string>
     <string name="sprites">Sprites</string>
+    <string name="spritelist_background_headline">BACKGROUND</string>
+    <string name="spritelist_objects_headline">OBJECTS</string>
     <!--  -->
 
 
@@ -124,6 +126,7 @@
     <string name="sound_select_source">Select a sound</string>
     <string name="sound_time_seperator">/</string>
     <string name="delete_sound_dialog">Delete sound?</string>
+    <string name="length">Length:</string>
     <!--  -->
 
 
@@ -222,7 +225,11 @@
     <string name="broadcast_nothing_selected">Nothing…</string>
     <!--  -->
 
-
+	<!-- Brick general -->
+    <string name="brick_single">Brick</string>
+    <string name="brick_multiple">Bricks</string>
+    <!--  -->
+	
     <!-- Brick categories -->
     <string name="categories">Categories</string>
     <string name="category_motion">Motion</string>
@@ -298,10 +305,9 @@
     <string name="brick_speak_default_value">"Hello!"</string>
     <!--  -->
 
-
     <!-- Control bricks -->
-    <string name="brick_when_started">When project starts</string>
-    <string name="brick_when">When</string>
+    <string name="brick_when_started">When program started</string>
+    <string name="brick_when">When tapped</string>
     <string name="brick_wait">Wait</string>
     <plurals name="second_plural">
         <item quantity="one">second</item>
@@ -326,12 +332,6 @@
     <string name="brick_change_variable">Change variable</string>
     <string name="brick_note_default_value">"add comment here..."</string>
     <!--  -->
-
-
-    <!-- Actions -->
-    <string name="action_tapped">tapped</string>
-    <!--  -->
-
 
     <!-- defaultValues -->
     <string name="default_project_name">My first project</string>
@@ -412,6 +412,7 @@
     <string name="tone_duration">Duration</string>
     <string name="nxt_tone_frequency">Frequency</string>
     <string name="nxt_tone_hundred_hz">x100Hz</string>
+    <string name="seconds">seconds</string>
     <!--  -->
 
 
