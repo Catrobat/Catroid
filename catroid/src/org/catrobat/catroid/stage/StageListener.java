@@ -40,6 +40,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Color;
+import android.util.Log;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -57,6 +58,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class StageListener implements ApplicationListener {
+
+	private static final float DELTA_ACTIONS_DIVIDER_MAXIMUM = 50f;
+	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
+	private float deltaActDivisor = 10f;
+
 	private static final boolean DEBUG = false;
 	public static final String SCREENSHOT_FILE_NAME = "screenshot.png";
 	private FPSLogger fpsLogger;
@@ -302,7 +308,22 @@ public class StageListener implements ApplicationListener {
 			firstStart = false;
 		}
 		if (!paused) {
-			stage.act(Gdx.graphics.getDeltaTime());
+			float delta = Gdx.graphics.getDeltaTime();
+			float deltaDelta = delta / deltaActDivisor;
+			long timeBEfore = System.currentTimeMillis();
+			while (delta > 0f) {
+				stage.act(deltaDelta);
+				delta -= deltaDelta;
+			}
+			long executionTime = System.currentTimeMillis() - timeBEfore;
+			if (executionTime <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
+				deltaActDivisor = deltaActDivisor > DELTA_ACTIONS_DIVIDER_MAXIMUM ? deltaActDivisor
+						: deltaActDivisor + 1;
+			} else {
+				deltaActDivisor -= 1f;
+			}
+			Log.e("info", "deltaActDivisor(" + deltaActDivisor + ") executionTime(" + executionTime + ") delta("
+					+ delta + ")");
 		}
 
 		if (!finished) {
