@@ -82,7 +82,7 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 		if (isPuzzleView) {
 			layout = (LinearLayout) view.findViewById(R.id.brick_loop_endless_layout);
 		} else {
-			layout = (LinearLayout) view.findViewById(R.id.brick_loop_endless_layout);
+			layout = (LinearLayout) view.findViewById(R.id.brick_loop_endless_nopuzzle_layout);
 		}
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
