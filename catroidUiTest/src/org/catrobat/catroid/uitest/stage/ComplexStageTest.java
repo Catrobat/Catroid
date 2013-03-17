@@ -90,7 +90,6 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		byte[] blackPixel = { (byte) 0, (byte) 0, (byte) 0, (byte) 255 };
 		byte[] blackBrightnessPixel = { (byte) 127, (byte) 127, (byte) 127, (byte) 255 };
 
-		solo.sleep(100000);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1400);
 		byte[] screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
