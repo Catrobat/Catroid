@@ -59,13 +59,14 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class StageListener implements ApplicationListener {
 
+	private static final boolean SEGFAULT_TERMINATOR_VARIABLE = false;
+
 	private static final float DELTA_ACTIONS_DIVIDER_MAXIMUM = 50f;
 	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
 	private float deltaActDivisor = 10f;
 
 	private static final boolean DEBUG = false;
 	public static final String SCREENSHOT_FILE_NAME = "screenshot.png";
-	private static final boolean SEGFAULT_TERMINATOR_VARIABLE = true;
 	private FPSLogger fpsLogger;
 
 	private Stage stage;
@@ -321,10 +322,11 @@ public class StageListener implements ApplicationListener {
 				}
 				long executionTime = System.currentTimeMillis() - timeBEfore;
 				if (executionTime <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
-					deltaActDivisor = deltaActDivisor > DELTA_ACTIONS_DIVIDER_MAXIMUM ? deltaActDivisor
-							: deltaActDivisor + 1;
+					deltaActDivisor += 1f;
+					deltaActDivisor = Math.min(DELTA_ACTIONS_DIVIDER_MAXIMUM, deltaActDivisor);
 				} else {
 					deltaActDivisor -= 1f;
+					deltaActDivisor = Math.max(1f, deltaActDivisor);
 				}
 				Log.e("info", "deltaActDivisor(" + deltaActDivisor + ") executionTime(" + executionTime + ") delta("
 						+ delta + ")");
