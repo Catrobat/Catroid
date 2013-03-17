@@ -36,11 +36,10 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickAdapter.OnBrickEditListener;
 import org.catrobat.catroid.ui.dialogs.AddBrickDialog;
-import org.catrobat.catroid.ui.dialogs.BrickCategoryDialog;
 import org.catrobat.catroid.ui.dialogs.BrickCategoryDialog.OnBrickCategoryDialogDismissCancelListener;
-import org.catrobat.catroid.ui.dialogs.BrickCategoryDialog.OnCategorySelectedListener;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.BroadcastReceiver;
@@ -49,6 +48,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -309,11 +309,17 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		addNewScript = false;
 	}
 
-	private void showCategoryDialog() {
-		BrickCategoryDialog brickCategoryDialog = new BrickCategoryDialog();
-		brickCategoryDialog.setOnCategorySelectedListener(ScriptFragment.this);
-		brickCategoryDialog.setOnBrickCategoryDialogDismissCancelListener(ScriptFragment.this);
-		brickCategoryDialog.show(getFragmentManager(), BrickCategoryDialog.DIALOG_FRAGMENT_TAG);
+	private void showCategoryFragment() {
+		BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
+		brickCategoryFragment.setOnCategorySelectedListener(ScriptFragment.this);
+		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+		fragmentTransaction.add(R.id.script_fragment_container, brickCategoryFragment,
+				BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
 
 		adapter.notifyDataSetChanged();
 	}
@@ -350,7 +356,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			listView.animateHoveringBrick();
 			return;
 		}
-		showCategoryDialog();
+		showCategoryFragment();
 	}
 
 	@Override

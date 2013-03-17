@@ -415,4 +415,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		return fragment;
 	}
 
+	public static int getCurrentFragmentPosition() {
+		return currentFragmentPosition;
+	}
 }
