@@ -90,6 +90,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.goBackToHome(getInstrumentation());
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
@@ -97,12 +98,6 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 	@Override
 	public void tearDown() throws Exception {
-		if (solo.waitForActivity(StageActivity.class.getSimpleName(), 500)) {
-			solo.goBack();
-			solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
-			solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
-		}
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
