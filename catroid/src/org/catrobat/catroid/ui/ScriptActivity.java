@@ -261,6 +261,10 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				Intent settingsIntent = new Intent(ScriptActivity.this, SettingsActivity.class);
 				startActivity(settingsIntent);
 				break;
+
+			case R.id.edit_in_paintroid:
+				currentFragment.startEditInPaintroidActionMode();
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
