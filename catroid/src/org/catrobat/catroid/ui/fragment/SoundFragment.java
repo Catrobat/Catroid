@@ -250,7 +250,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	}
 
 	@Override
-	public void startEditInPaintroiidActionMode() {
+	public void startEditInPaintroidActionMode() {
 
 	}
 

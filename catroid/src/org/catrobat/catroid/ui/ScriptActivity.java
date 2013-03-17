@@ -263,7 +263,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				break;
 
 			case R.id.edit_in_paintroid:
-				currentFragment.startEditInPaintroiidActionMode();
+				currentFragment.startEditInPaintroidActionMode();
 				break;
 		}
 		return super.onOptionsItemSelected(item);

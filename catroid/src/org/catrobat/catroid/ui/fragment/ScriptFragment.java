@@ -385,7 +385,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
-	public void startEditInPaintroiidActionMode() {
+	public void startEditInPaintroidActionMode() {
 
 	}
 

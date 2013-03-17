@@ -88,7 +88,7 @@
     <string name="show_details">Show Details</string>
     <string name="hide_details">Hide Details</string>
     <string name="insert_below">Insert Below</string>
-    <string name="edit_in_paintroid">Edit In Paintroid</string>
+    <string name="edit_in_paintroid">Edit in Paintroid</string>
     <string name="sprite">Sprite</string>
     <string name="sprites">Sprites</string>
     <string name="spritelist_background_headline">BACKGROUND</string>
@@ -160,7 +160,7 @@
     <!--  -->
     
     <!-- Look context menu -->
-    <string name="look_context_menu_edit_in_paintroid">Edit In Paintroid</string>
+    <string name="look_context_menu_edit_in_paintroid">Edit in Paintroid</string>
     <!--  -->
 
 

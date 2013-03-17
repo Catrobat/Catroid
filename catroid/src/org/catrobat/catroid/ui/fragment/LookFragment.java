@@ -400,7 +400,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	@Override
-	public void startEditInPaintroiidActionMode() {
+	public void startEditInPaintroidActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(editInPaintroidCallBack);
 			unregisterForContextMenu(listView);

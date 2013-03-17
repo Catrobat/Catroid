@@ -54,7 +54,7 @@ public abstract class ScriptActivityFragment extends SherlockListFragment {
 
 	public abstract void startDeleteActionMode();
 
-	public abstract void startEditInPaintroiidActionMode();
+	public abstract void startEditInPaintroidActionMode();
 
 	public abstract void handleAddButton();
 
