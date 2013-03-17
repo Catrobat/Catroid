@@ -65,6 +65,7 @@ public class StageListener implements ApplicationListener {
 
 	private static final boolean DEBUG = false;
 	public static final String SCREENSHOT_FILE_NAME = "screenshot.png";
+	private static final boolean SEGFAULT_TERMINATOR_VARIABLE = true;
 	private FPSLogger fpsLogger;
 
 	private Stage stage;
@@ -309,21 +310,25 @@ public class StageListener implements ApplicationListener {
 		}
 		if (!paused) {
 			float delta = Gdx.graphics.getDeltaTime();
-			float deltaDelta = delta / deltaActDivisor;
-			long timeBEfore = System.currentTimeMillis();
-			while (delta > 0f) {
-				stage.act(deltaDelta);
-				delta -= deltaDelta;
-			}
-			long executionTime = System.currentTimeMillis() - timeBEfore;
-			if (executionTime <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
-				deltaActDivisor = deltaActDivisor > DELTA_ACTIONS_DIVIDER_MAXIMUM ? deltaActDivisor
-						: deltaActDivisor + 1;
+			if (SEGFAULT_TERMINATOR_VARIABLE) {
+				stage.act(delta);
 			} else {
-				deltaActDivisor -= 1f;
+				float deltaDelta = delta / deltaActDivisor;
+				long timeBEfore = System.currentTimeMillis();
+				while (delta > 0f) {
+					stage.act(deltaDelta);
+					delta -= deltaDelta;
+				}
+				long executionTime = System.currentTimeMillis() - timeBEfore;
+				if (executionTime <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
+					deltaActDivisor = deltaActDivisor > DELTA_ACTIONS_DIVIDER_MAXIMUM ? deltaActDivisor
+							: deltaActDivisor + 1;
+				} else {
+					deltaActDivisor -= 1f;
+				}
+				Log.e("info", "deltaActDivisor(" + deltaActDivisor + ") executionTime(" + executionTime + ") delta("
+						+ delta + ")");
 			}
-			Log.e("info", "deltaActDivisor(" + deltaActDivisor + ") executionTime(" + executionTime + ") delta("
-					+ delta + ")");
 		}
 
 		if (!finished) {

@@ -41,6 +41,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.media.MediaPlayer;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -70,6 +71,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 
 	@Override
 	public void tearDown() throws Exception {
+		Log.e("info", "tearDown enter");
 		if (solo.waitForActivity(StageActivity.class.getSimpleName(), 500)) {
 			solo.goBack();
 			solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
@@ -103,7 +105,8 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		assertTrue("mediaPlayer is not playing", mediaPlayer.isPlaying());
 		assertEquals("wrong file playing", 7592, mediaPlayer.getDuration());
 		solo.goBack();
-		solo.goBack();
+		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
+		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.clickOnText(soundName);
