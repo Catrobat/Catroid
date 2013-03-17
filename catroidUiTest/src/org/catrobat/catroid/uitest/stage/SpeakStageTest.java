@@ -76,12 +76,6 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 
 	@Override
 	public void tearDown() throws Exception {
-		if (solo.waitForActivity(StageActivity.class.getSimpleName(), 500)) {
-			solo.goBack();
-			solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
-			solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
-		}
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();

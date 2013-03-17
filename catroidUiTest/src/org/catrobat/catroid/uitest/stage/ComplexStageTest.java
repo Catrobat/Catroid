@@ -25,7 +25,6 @@ package org.catrobat.catroid.uitest.stage;
 import java.io.File;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Project;
@@ -68,12 +67,6 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 	@Override
 	public void tearDown() throws Exception {
-		if (solo.waitForActivity(StageActivity.class.getSimpleName(), 500)) {
-			solo.goBack();
-			solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
-			solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
-		}
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
