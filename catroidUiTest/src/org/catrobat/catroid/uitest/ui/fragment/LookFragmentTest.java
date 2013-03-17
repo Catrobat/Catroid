@@ -97,6 +97,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.prepareStageForTest();
 
 		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();

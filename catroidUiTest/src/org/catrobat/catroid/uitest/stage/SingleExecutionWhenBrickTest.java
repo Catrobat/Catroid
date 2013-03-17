@@ -64,9 +64,10 @@ public class SingleExecutionWhenBrickTest extends ActivityInstrumentationTestCas
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
+		UiTestUtils.prepareStageForTest();
 		createProjectWhenBrick();
 		solo = new Solo(getInstrumentation(), getActivity());
-		super.setUp();
 	}
 
 	@Override

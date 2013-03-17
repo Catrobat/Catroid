@@ -56,6 +56,7 @@ public class VariableBricksTest extends ActivityInstrumentationTestCase2<MainMen
 	public void setUp() throws Exception {
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 

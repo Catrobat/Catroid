@@ -67,6 +67,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		UiTestUtils.prepareStageForTest();
 	}
 
 	@Override

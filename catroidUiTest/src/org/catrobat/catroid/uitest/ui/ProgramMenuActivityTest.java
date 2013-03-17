@@ -65,6 +65,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.prepareStageForTest();
 		solo = new Solo(getInstrumentation(), getActivity());
 		createProject();
 	}

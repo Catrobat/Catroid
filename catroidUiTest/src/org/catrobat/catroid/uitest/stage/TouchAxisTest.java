@@ -53,6 +53,7 @@ public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivit
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.prepareStageForTest();
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}

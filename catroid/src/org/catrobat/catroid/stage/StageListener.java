@@ -59,11 +59,10 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class StageListener implements ApplicationListener {
 
-	private boolean dynamicActionsSamplingRate = false;
-
 	private static final float DELTA_ACTIONS_DIVIDER_MAXIMUM = 50f;
 	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
 	private float deltaActDivisor = 10f;
+	private static boolean DYNAMIC_SAMPLING_RATE_FOR_ACTIONS = true;
 
 	private static final boolean DEBUG = false;
 	public static final String SCREENSHOT_FILE_NAME = "screenshot.png";
@@ -129,10 +128,6 @@ public class StageListener implements ApplicationListener {
 	public boolean axesOn = false;
 
 	StageListener() {
-	}
-
-	StageListener(boolean isDebuggable) {
-		dynamicActionsSamplingRate = isDebuggable;
 	}
 
 	@Override
@@ -316,7 +311,7 @@ public class StageListener implements ApplicationListener {
 		if (!paused) {
 			float delta = Gdx.graphics.getDeltaTime();
 
-			if (!dynamicActionsSamplingRate) {
+			if (DYNAMIC_SAMPLING_RATE_FOR_ACTIONS == false) {
 				stage.act(delta);
 			} else {
 				float deltaDelta = delta / deltaActDivisor;

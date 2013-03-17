@@ -30,8 +30,8 @@ import java.io.InputStream;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -61,6 +61,7 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.prepareStageForTest();
 		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}

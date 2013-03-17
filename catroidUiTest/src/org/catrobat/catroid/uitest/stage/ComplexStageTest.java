@@ -59,9 +59,10 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
+		UiTestUtils.prepareStageForTest();
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
-		super.setUp();
 	}
 
 	@Override

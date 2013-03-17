@@ -29,7 +29,6 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 
 import android.content.pm.ActivityInfo;
-import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 import android.view.WindowManager;
 
@@ -49,8 +48,7 @@ public class StageActivity extends AndroidApplication {
 
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		boolean isDebuggable = 0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE);
-		stageListener = new StageListener(isDebuggable);
+		stageListener = new StageListener();
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 		initialize(stageListener, true);
