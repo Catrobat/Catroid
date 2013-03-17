@@ -60,7 +60,6 @@ public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivit
 
 	@Override
 	protected void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();

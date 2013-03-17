@@ -91,13 +91,13 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	public void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
-		UiTestUtils.goBackToHome(getInstrumentation());
 		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();

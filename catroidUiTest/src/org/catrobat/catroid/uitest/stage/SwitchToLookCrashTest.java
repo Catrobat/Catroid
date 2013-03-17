@@ -68,6 +68,7 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 
 	@Override
 	protected void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();

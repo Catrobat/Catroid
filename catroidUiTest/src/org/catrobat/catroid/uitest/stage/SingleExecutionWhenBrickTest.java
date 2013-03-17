@@ -72,7 +72,6 @@ public class SingleExecutionWhenBrickTest extends ActivityInstrumentationTestCas
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
