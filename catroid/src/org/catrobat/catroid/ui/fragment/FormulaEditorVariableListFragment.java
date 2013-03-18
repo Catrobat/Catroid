@@ -82,7 +82,6 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	private RadioButton rightDialogRadioButton;
 	private Dialog dialogNewVariable;
 	private UserVariableAdapter adapter;
-	private Context context;
 
 	public FormulaEditorVariableListFragment(FormulaEditorEditText formulaEditorEditText, String actionBarTitle,
 			String fragmentTag) {
@@ -98,14 +97,8 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		UserVariablesContainer userVariableContainer = currentProject.getUserVariables();
-		context = getActivity();
-		adapter = userVariableContainer.createUserVariableAdapter(context, currentSprite);
-		setListAdapter(adapter);
-		adapter.setOnCheckedChangeListener(this);
-		adapter.setOnListItemClickListener(this);
+		initializeUserVariableAdapter();
+
 	}
 
 	@Override
@@ -379,7 +372,20 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		fragTransaction.hide(formulaEditorFragment);
 		fragTransaction.show(this);
 		fragTransaction.commit();
+		if (adapter != null) {
+			initializeUserVariableAdapter();
+		}
 
+	}
+
+	private void initializeUserVariableAdapter() {
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		UserVariablesContainer userVariableContainer = currentProject.getUserVariables();
+		adapter = userVariableContainer.createUserVariableAdapter(getSherlockActivity(), currentSprite);
+		setListAdapter(adapter);
+		adapter.setOnCheckedChangeListener(this);
+		adapter.setOnListItemClickListener(this);
 	}
 
 	@Override
