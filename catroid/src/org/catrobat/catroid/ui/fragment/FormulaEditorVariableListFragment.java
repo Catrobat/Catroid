@@ -99,11 +99,10 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		String currentSpriteName = currentSprite.getName();
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		UserVariablesContainer userVariableContainer = currentProject.getUserVariables();
 		context = getActivity();
-		adapter = userVariableContainer.createUserVariableAdapter(context, currentSpriteName);
+		adapter = userVariableContainer.createUserVariableAdapter(context, currentSprite);
 		setListAdapter(adapter);
 		adapter.setOnCheckedChangeListener(this);
 		adapter.setOnListItemClickListener(this);
@@ -214,7 +213,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 											.getCurrentProject()
 											.getUserVariables()
 											.getUserVariable(editTextString,
-													ProjectManager.getInstance().getCurrentSprite().getName()) != null) {
+													ProjectManager.getInstance().getCurrentSprite()) != null) {
 
 										Toast.makeText(getActivity(), R.string.formula_editor_existing_user_variable,
 												Toast.LENGTH_LONG).show();
@@ -275,7 +274,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 										.getCurrentProject()
 										.getUserVariables()
 										.getUserVariable(editTextString,
-												ProjectManager.getInstance().getCurrentSprite().getName()) != null) {
+												ProjectManager.getInstance().getCurrentSprite()) != null) {
 
 									Toast toast = Toast.makeText(getActivity(),
 											R.string.formula_editor_existing_user_variable, Toast.LENGTH_LONG);
