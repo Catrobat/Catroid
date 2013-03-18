@@ -49,6 +49,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	private Spannable highlightSpan = null;
 
 	private static FormulaEditorHistory history = null;
+
 	private Context context;
 
 	FormulaEditorFragment formulaEditorDialog = null;
@@ -333,5 +334,9 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	public void setDoNotMoveCursorOnTab(boolean doNotMoveCursorOnTab) {
 		this.doNotMoveCursorOnTab = doNotMoveCursorOnTab;
+	}
+
+	public FormulaEditorHistory getHistory() {
+		return history;
 	}
 }

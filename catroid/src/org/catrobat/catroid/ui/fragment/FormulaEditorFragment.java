@@ -116,6 +116,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			activity.findViewById(R.id.bottom_bar).setVisibility(View.GONE);
 		} else if (formulaEditorFragment.isHidden()) {
 			formulaEditorFragment.updateBrickViewAndFormula(brick, formula);
+
 			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
 			fragTransaction.show(formulaEditorFragment);
 			activity.findViewById(R.id.bottom_bar).setVisibility(View.GONE);
@@ -134,6 +135,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		currentFormula = newFormula;
 		setInputFormula(newFormula, SET_FORMULA_ON_CREATE_VIEW);
 		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
+		updateRedoAndUndoView();
 	}
 
 	private void onUserDismiss() {
@@ -186,11 +188,13 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	public void onStart() {
 		formulaEditorKeyboard.setClickable(true);
 		getView().requestFocus();
+		updateRedoAndUndoView();
 		View.OnTouchListener touchListener = new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
 				Log.i("info", "viewId: " + view.getId());
 				if (event.getAction() == MotionEvent.ACTION_UP) {
+					updateRedoAndUndoView();
 					view.setPressed(false);
 					return true;
 				}
@@ -443,6 +447,23 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		Log.e("info", "heights: " + brickRect.bottom + " | " + keyboardRec.top);
 		formulaEditorEditText.setMaxHeight(keyboardRec.top - brickRect.bottom);
 
+	}
+
+	private void updateRedoAndUndoView() {
+
+		Button undo = (Button) getActivity().findViewById(R.id.formula_editor_keyboard_undo);
+		if (!formulaEditorEditText.getHistory().undoIsPossible()) {
+			undo.setAlpha(0.7f);
+		} else {
+			undo.setAlpha(1f);
+		}
+
+		Button redo = (Button) getActivity().findViewById(R.id.formula_editor_keyboard_redo);
+		if (!formulaEditorEditText.getHistory().redoIsPossible()) {
+			redo.setAlpha(0.7f);
+		} else {
+			redo.setAlpha(1f);
+		}
 	}
 
 }
