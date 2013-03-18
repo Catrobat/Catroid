@@ -147,6 +147,7 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenu
 			recordTitle += (recordNumber - 1);
 		}
 
+		solo.sleep(500);
 		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		assertEquals("wrong number of items in the list ", recordNumber, soundInfoList.size());
 		SoundInfo lastAddedSoundInfo = soundInfoList.get(soundInfoList.size() - 1);

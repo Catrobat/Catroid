@@ -87,8 +87,11 @@
     <string name="show_details">Details anzeigen</string>
     <string name="hide_details">Details verbergen</string>
     <string name="insert_below">Darunter einfügen</string>
+    <string name="edit_in_paintroid">Bearbeite In Paintroid</string>
     <string name="sprite">Objekt</string>
     <string name="sprites">Objekte</string>
+    <string name="spritelist_background_headline">HINTERGRUND</string>
+    <string name="spritelist_objects_headline">OBJEKTE</string>
     <!--  -->
 
 
@@ -114,7 +117,7 @@
     <string name="add_look_from_camera">Von Kamera</string>
     <string name="select_look_from_gallery">Bild auswählen</string>
     <string name="select_look_from_camera">Photo auswählen</string>
-    <string name="look_resolution">Auflösung:</string>
+    <string name="look_measure">Abmessung:</string>
     <!--  -->
 
 
@@ -126,6 +129,7 @@
     <string name="sound_select_source">Klang auswählen</string>
     <string name="sound_time_seperator">/</string>
     <string name="delete_sound_dialog">Klang löschen?</string>
+    <string name="length">Länge:</string>
     <!--  -->
 
 
@@ -153,6 +157,11 @@
 
     <!-- Script context menu -->
     <string name="script_context_menu_title">Skript Menü</string>
+    <!--  -->
+    
+    
+    <!-- Look context menu -->
+    <string name="look_context_menu_edit_in_paintroid">Bearbeite In Paintroid</string>
     <!--  -->
 
 
@@ -214,7 +223,11 @@
     <string name="new_broadcast_message">Neu…</string>
     <string name="broadcast_nothing_selected">Nichts…</string>
     <!--  -->
-
+	
+	<!-- Brick general -->
+    <string name="brick_single">Baustein</string>
+    <string name="brick_multiple">Bausteine</string>
+    <!--  -->
 
     <!-- Brick categories -->
     <string name="categories">Kategorien</string>
@@ -293,8 +306,8 @@
 
 
     <!-- Control bricks -->
-    <string name="brick_when_started">Wenn Projekt gestartet</string>
-    <string name="brick_when">Wenn</string>
+    <string name="brick_when_started">Wenn Programm gestartet</string>
+    <string name="brick_when">Wenn angetippt</string>
     <string name="brick_wait">Warte</string>
     <plurals name="second_plural">
         <item quantity="one">Sekunde</item>
@@ -319,12 +332,6 @@
     <string name="brick_change_variable">Ändere Variable</string>
     <string name="brick_note_default_value">"Anmerkung hier hinzufügen..." </string>
     <!--  -->
-
-
-    <!-- Actions -->
-    <string name="action_tapped">angetippt</string>
-    <!--  -->
-
 
     <!-- defaultValues -->
     <string name="default_project_name">Mein erstes Projekt</string>
@@ -404,6 +411,7 @@
     <string name="nxt_tone_frequency">Frequenz</string>
     <string name="tone_duration">Dauer</string>
     <string name="nxt_tone_hundred_hz">x100Hz</string>
+    <string name="seconds">Sekunden</string>
     <!--  -->
 
 
