@@ -63,8 +63,6 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 	private Sprite secondSprite;
 	private Brick changeBrick;
 	private Brick glideToBrick;
-	private Sprite thirdSprite;
-	private SetVariableBrick setVariableBrick;
 
 	private static final int X_POS_EDIT_TEXT_ID = 0;
 	private static final int ACTIONMODE_INDEX = 0;
