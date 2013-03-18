@@ -43,7 +43,7 @@ public class BroadcastScript extends Script {
 	@Override
 	public ScriptBrick getScriptBrick() {
 		if (brick == null) {
-			brick = new BroadcastReceiverBrick(sprite, this);
+			brick = new BroadcastReceiverBrick(object, this);
 		}
 
 		return brick;

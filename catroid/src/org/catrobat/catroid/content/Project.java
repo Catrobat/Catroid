@@ -45,8 +45,9 @@ public class Project implements Serializable {
 
 	@XStreamAlias("header")
 	private XmlHeader xmlHeader = new XmlHeader();
+	@XStreamAlias("objectList")
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
-
+	@XStreamAlias("variables")
 	private UserVariablesContainer userVariables = null;
 
 	public Project(Context context, String name) {
