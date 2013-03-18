@@ -40,7 +40,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Color;
-import android.util.Log;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -328,8 +327,6 @@ public class StageListener implements ApplicationListener {
 					deltaActDivisor -= 1f;
 					deltaActDivisor = Math.max(1f, deltaActDivisor);
 				}
-				Log.e("info", "deltaActDivisor(" + deltaActDivisor + ") executionTime(" + executionTime + ") delta("
-						+ delta + ")");
 			}
 		}
 
