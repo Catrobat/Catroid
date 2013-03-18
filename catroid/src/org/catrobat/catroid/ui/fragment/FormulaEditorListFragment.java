@@ -128,20 +128,15 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-		menu.findItem(R.id.delete).setVisible(false);
-		menu.findItem(R.id.copy).setVisible(false);
-		menu.findItem(R.id.cut).setVisible(false);
-		menu.findItem(R.id.show_details).setVisible(false);
-		menu.findItem(R.id.insert_below).setVisible(false);
-		menu.findItem(R.id.move).setVisible(false);
-		menu.findItem(R.id.rename).setVisible(false);
-		menu.findItem(R.id.show_details).setVisible(false);
-		menu.findItem(R.id.settings).setVisible(false);
+		for (int index = 0; index < menu.size(); index++) {
+			menu.getItem(index).setVisible(false);
+		}
 
 		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
 		getSherlockActivity().getSupportActionBar().setTitle(actionBarTitle);
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override

@@ -123,28 +123,26 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+		menu.clear();
 		if (!inContextMode) {
-			super.onCreateContextMenu(menu, view, menuInfo);
 			getSherlockActivity().getMenuInflater().inflate(R.menu.menu_formulaeditor_variablelist, menu);
+			super.onCreateContextMenu(menu, view, menuInfo);
 		}
 	}
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
+		for (int index = 0; index < menu.size(); index++) {
+			menu.getItem(index).setVisible(false);
+		}
 		menu.findItem(R.id.delete).setVisible(true);
-		menu.findItem(R.id.copy).setVisible(false);
-		menu.findItem(R.id.cut).setVisible(false);
-		menu.findItem(R.id.show_details).setVisible(false);
-		menu.findItem(R.id.insert_below).setVisible(false);
-		menu.findItem(R.id.move).setVisible(false);
-		menu.findItem(R.id.rename).setVisible(false);
-		menu.findItem(R.id.show_details).setVisible(false);
-		menu.findItem(R.id.settings).setVisible(false);
+		menu.findItem(R.id.menu_delete).setVisible(true);
 
 		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
 		getSherlockActivity().getSupportActionBar().setTitle(actionBarTitle);
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
