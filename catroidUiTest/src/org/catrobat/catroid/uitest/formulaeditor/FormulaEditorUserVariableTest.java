@@ -129,7 +129,7 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 
 		SetVariableBrick setVariableBrick = new SetVariableBrick(firstSprite, new Formula(setVariableToValue),
 				ProjectManager.getInstance().getCurrentProject().getUserVariables()
-						.getUserVariable(USER_VARIABLE_NAME_UNDERLINE_PREFIX, firstSprite.getName()));
+						.getUserVariable(USER_VARIABLE_NAME_UNDERLINE_PREFIX, firstSprite));
 
 		Script startScript1 = new StartScript(firstSprite);
 		firstSprite.addScript(startScript1);
