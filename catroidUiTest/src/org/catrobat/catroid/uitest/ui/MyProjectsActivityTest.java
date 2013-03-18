@@ -534,6 +534,55 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				.getCurrentProject().getName());
 	}
 
+	public void testDeleteProjectsViaActionBar() {
+		String deleteActionModeTitle = solo.getString(R.string.delete);
+		String singleItemAppendixDeleteActionMode = solo.getString(R.string.program);
+		String multipleItemAppendixDeleteActionMode = solo.getString(R.string.programs);
+		String delete = solo.getString(R.string.delete);
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+
+		solo.clickOnCheckBox(0);
+		assertTrue("Actionbar title is not displayed correctly!",
+				solo.searchText(deleteActionModeTitle + " 1 " + singleItemAppendixDeleteActionMode));
+		solo.clickOnCheckBox(1);
+		assertTrue("Actionbar title is not displayed correctly!",
+				solo.searchText(deleteActionModeTitle + " 2 " + multipleItemAppendixDeleteActionMode));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.sleep(300);
+		ProjectManager projectManager = ProjectManager.INSTANCE;
+		String defaultProjectName = solo.getString(R.string.default_project_name);
+		String currentProjectName = projectManager.getCurrentProject().getName();
+
+		assertEquals("Current project is not the default project!", defaultProjectName, currentProjectName);
+	}
+
+	public void testCancelDeleteActionMode() {
+		String delete = solo.getString(R.string.delete);
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+
+		solo.goBack();
+		solo.sleep(300);
+
+		assertTrue("First project has been deleted!", solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
+		assertTrue("Second project has been deleted!", solo.searchText(UiTestUtils.PROJECTNAME1));
+	}
+
 	public void testRenameProject() {
 		createProjects();
 		solo.sleep(200);
@@ -587,6 +636,52 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.goBack();
 		assertEquals("current project not updated", UiTestUtils.PROJECTNAME3, ProjectManager.getInstance()
 				.getCurrentProject().getName());
+	}
+
+	public void testRenameCurrentProjectViaActionBar() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		UiTestUtils.clickOnActionBar(solo, R.id.rename);
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+		solo.sleep(100);
+		boolean checked = solo.getCurrentCheckBoxes().get(0).isChecked();
+
+		assertFalse("First project is still checked!", checked);
+		solo.clickOnCheckBox(0);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		solo.clearEditText(0);
+		solo.enterText(0, UiTestUtils.PROJECTNAME3);
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.sleep(300);
+		assertTrue("Rename was not successfull!", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
+		solo.goBack();
+		assertEquals("Current project not updated!", UiTestUtils.PROJECTNAME3, ProjectManager.getInstance()
+				.getCurrentProject().getName());
+	}
+
+	public void testCancelRenameActionMode() {
+		String cancel = solo.getString(R.string.cancel_button);
+		String ok = solo.getString(R.string.ok);
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		UiTestUtils.clickOnActionBar(solo, R.id.rename);
+
+		solo.clickOnCheckBox(0);
+
+		solo.goBack();
+		solo.sleep(300);
+
+		assertFalse("Rename dialog is showing!", (solo.searchText(cancel) && solo.searchText(ok)));
 	}
 
 	public void testRenameCurrentProjectMixedCase() {
@@ -718,6 +813,46 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
 		solo.goBack();
+	}
+
+	public void testProjectDetails() {
+		String showDetailsText = solo.getString(R.string.show_details);
+		String hideDetailsText = solo.getString(R.string.hide_details);
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		View projectDetails = solo.getView(R.id.my_projects_list_item_details);
+		UiTestUtils.clickOnActionBar(solo, R.id.show_details);
+		solo.sleep(200);
+		assertEquals("Project details are not showing!", View.VISIBLE, projectDetails.getVisibility());
+
+		UiTestUtils.openOptionsMenu(solo);
+		assertTrue("Menu item still says \"Show Details\"!", solo.searchText(hideDetailsText));
+
+		solo.goBack();
+		solo.goBack();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		assertEquals("Project details are not showing!", View.VISIBLE, projectDetails.getVisibility());
+
+		UiTestUtils.openOptionsMenu(solo);
+		assertTrue("Menu item still says \"Show Details\"!", solo.searchText(hideDetailsText));
+
+		solo.clickOnText(hideDetailsText);
+		solo.sleep(200);
+
+		//get details view again, otherwise assert will fail
+		projectDetails = solo.getView(R.id.my_projects_list_item_details);
+		assertEquals("Project details are still showing!", View.GONE, projectDetails.getVisibility());
+
+		UiTestUtils.openOptionsMenu(solo);
+		assertTrue("Menu item still says \"Hide Details\"!", solo.searchText(showDetailsText));
 	}
 
 	public void testAddNewProject() {
