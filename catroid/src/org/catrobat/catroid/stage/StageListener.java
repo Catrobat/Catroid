@@ -60,7 +60,7 @@ public class StageListener implements ApplicationListener {
 
 	private static final float DELTA_ACTIONS_DIVIDER_MAXIMUM = 50f;
 	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
-	private float deltaActDivisor = 10f;
+	private float deltaActionTimeDivisor = 10f;
 	private static boolean DYNAMIC_SAMPLING_RATE_FOR_ACTIONS = true;
 
 	private static final boolean DEBUG = false;
@@ -310,22 +310,31 @@ public class StageListener implements ApplicationListener {
 		if (!paused) {
 			float delta = Gdx.graphics.getDeltaTime();
 
+			/*
+			 * Necessary for UiTests, when EMMA - code coverage is enabled.
+			 * 
+			 * Without setting DYNAMIC_SAMPLING_RATE_FOR_ACTIONS to false(via reflection), before
+			 * the UiTest enters the stage, random segmentation faults(triggered by EMMA) will occur.
+			 * 
+			 * Can be removed, when EMMA is replaced by an other code coverage tool, or when a
+			 * future EMMA - update will fix the bugs.
+			 */
 			if (DYNAMIC_SAMPLING_RATE_FOR_ACTIONS == false) {
 				stage.act(delta);
 			} else {
-				float deltaDelta = delta / deltaActDivisor;
-				long timeBEfore = System.currentTimeMillis();
+				float deltaOfDelta = delta / deltaActionTimeDivisor;
+				long timeBeforeActionsUpdate = System.currentTimeMillis();
 				while (delta > 0f) {
-					stage.act(deltaDelta);
-					delta -= deltaDelta;
+					stage.act(deltaOfDelta);
+					delta -= deltaOfDelta;
 				}
-				long executionTime = System.currentTimeMillis() - timeBEfore;
-				if (executionTime <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
-					deltaActDivisor += 1f;
-					deltaActDivisor = Math.min(DELTA_ACTIONS_DIVIDER_MAXIMUM, deltaActDivisor);
+				long executionTimeOfActionsUpdate = System.currentTimeMillis() - timeBeforeActionsUpdate;
+				if (executionTimeOfActionsUpdate <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
+					deltaActionTimeDivisor += 1f;
+					deltaActionTimeDivisor = Math.min(DELTA_ACTIONS_DIVIDER_MAXIMUM, deltaActionTimeDivisor);
 				} else {
-					deltaActDivisor -= 1f;
-					deltaActDivisor = Math.max(1f, deltaActDivisor);
+					deltaActionTimeDivisor -= 1f;
+					deltaActionTimeDivisor = Math.max(1f, deltaActionTimeDivisor);
 				}
 			}
 		}
