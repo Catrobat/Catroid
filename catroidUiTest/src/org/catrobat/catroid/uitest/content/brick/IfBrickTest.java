@@ -77,7 +77,6 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
-		int groupCount = adapter.getScriptCount();
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, 5, "ifCondition", ifBrick);
 
@@ -241,13 +240,13 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
 
-	private void clickOnDeleteInDialog() {
-		if (!solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick), 0, 5000)) {
-			fail("Text not shown in 5 secs!");
-		}
-		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
-		if (!solo.waitForView(ListView.class, 0, 5000)) {
-			fail("Dialog does not close in 5 sec!");
-		}
-	}
+	//	private void clickOnDeleteInDialog() {
+	//		if (!solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick), 0, 5000)) {
+	//			fail("Text not shown in 5 secs!");
+	//		}
+	//		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+	//		if (!solo.waitForView(ListView.class, 0, 5000)) {
+	//			fail("Dialog does not close in 5 sec!");
+	//		}
+	//	}
 }

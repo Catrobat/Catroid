@@ -436,11 +436,54 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 
 		UserVariable myVar = (UserVariable) userVariableListView.getAdapter().getItem(0);
 		assertEquals(itemString2nd + " deleted, but should not!", myVar.getName(), itemString2nd);
+		assertFalse(itemString + "not deleted", solo.searchText(itemString, true));
+		assertFalse(itemString3rd + "not deleted", solo.searchText(itemString3rd, true));
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString);
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString2nd);
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString3rd);
 
+	}
+
+	public void testKeyCodeBackOnContextMode() {
+		String itemString = "myvar1";
+		String itemString2nd = "myvar2";
+		String itemString3rd = "myvar3";
+
+		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable)));
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
+		assertTrue("Add Variable Dialog not shown", solo.waitForText("Variable name ?"));
+		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
+		solo.enterText(editText, itemString);
+		finishUserVariableCreationSafeButSlow(itemString, true);
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
+		assertTrue("Add Variable Dialog not shown", solo.waitForText("Variable name ?"));
+		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
+		solo.enterText(editText, itemString2nd);
+		finishUserVariableCreationSafeButSlow(itemString2nd, true);
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
+		assertTrue("Add Variable Dialog not shown", solo.waitForText("Variable name ?"));
+		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
+		solo.enterText(editText, itemString3rd);
+		solo.clickOnView(solo.getView(R.id.dialog_formula_editor_variable_name_radio_button_right));
+		finishUserVariableCreationSafeButSlow(itemString3rd, true);
+
+		solo.clickOnMenuItem(solo.getString(R.string.delete), true);
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable)));
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+		solo.goBack();
+		assertTrue("KeyCode Back deleted checked item: " + itemString, solo.searchText(itemString, true));
+		assertTrue("KeyCode Back deleted checked item: " + itemString2nd, solo.searchText(itemString2nd, true));
+		assertTrue("KeyCode Back deleted checked item: " + itemString3rd, solo.searchText(itemString3rd, true));
 	}
 
 	public void testScopeOfUserVariable() {

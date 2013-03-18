@@ -39,7 +39,7 @@ public abstract class Script implements Serializable {
 	protected transient ScriptBrick brick;
 
 	private transient volatile boolean paused;
-	protected Sprite sprite;
+	protected Sprite object;
 
 	public Script() {
 	}
@@ -53,7 +53,7 @@ public abstract class Script implements Serializable {
 
 	public Script(Sprite sprite) {
 		brickList = new ArrayList<Brick>();
-		this.sprite = sprite;
+		this.object = sprite;
 		init();
 	}
 
