@@ -1,4 +1,5 @@
-/**
+<?xml version="1.0" encoding="utf-8"?>
+<!--
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -19,46 +20,26 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package org.catrobat.catroid.ui.fragment;
+-->
 
-import com.actionbarsherlock.app.SherlockListFragment;
-
-/**
- * @author Daniel
- * 
- */
-public abstract class ScriptActivityFragment extends SherlockListFragment {
-
-	protected boolean actionModeActive = false;
-
-	public boolean getActionModeActive() {
-		return actionModeActive;
-	}
-
-	public void setActionModeActive(boolean actionModeActive) {
-		this.actionModeActive = actionModeActive;
-	}
-
-	public abstract boolean getShowDetails();
-
-	public abstract void setShowDetails(boolean showDetails);
-
-	public abstract void setSelectMode(int selectMode);
-
-	public abstract int getSelectMode();
-
-	public abstract void startCopyActionMode();
-
-	public abstract void startRenameActionMode();
-
-	public abstract void startDeleteActionMode();
-
-	public abstract void startEditInPaintroidActionMode();
-
-	public abstract void handleAddButton();
-
-	protected abstract void showRenameDialog();
-
-	protected abstract void showDeleteDialog();
-}
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item>
+        <shape android:shape="rectangle" >
+            <stroke
+                android:width="1.3dp"
+                android:color="@color/sound_fragment_button_top_border_color" >
+            </stroke>
+        </shape>
+    </item>
+    <item android:top="1.3dp">
+        <shape android:shape="rectangle" >
+            <gradient
+                android:angle="270.0"
+                android:centerColor="@color/sound_fragment_button_gradient_start_color"
+                android:centerY="0.67"
+                android:endColor="@color/sound_fragment_button_gradient_end_color"
+                android:startColor="@color/sound_fragment_button_gradient_start_color"
+                android:type="linear" />
+        </shape>
+    </item>
+</layer-list>

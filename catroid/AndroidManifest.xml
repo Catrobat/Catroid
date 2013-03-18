@@ -100,8 +100,9 @@
             android:theme="@style/Theme.Catroid" />
         <activity
             android:name=".ui.ScriptActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Catroid" />
+            android:theme="@style/Theme.Catroid"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.MyProjectsActivity"
             android:noHistory="true"

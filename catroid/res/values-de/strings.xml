@@ -88,8 +88,11 @@
     <string name="show_details">Details anzeigen</string>
     <string name="hide_details">Details verbergen</string>
     <string name="insert_below">Darunter einfügen</string>
+    <string name="edit_in_paintroid">Bearbeite In Paintroid</string>
     <string name="sprite">Objekt</string>
     <string name="sprites">Objekte</string>
+    <string name="spritelist_background_headline">HINTERGRUND</string>
+    <string name="spritelist_objects_headline">OBJEKTE</string>
     <!--  -->
 
 
@@ -115,7 +118,7 @@
     <string name="add_look_from_camera">Von Kamera</string>
     <string name="select_look_from_gallery">Bild auswählen</string>
     <string name="select_look_from_camera">Photo auswählen</string>
-    <string name="look_resolution">Auflösung:</string>
+    <string name="look_measure">Abmessung:</string>
     <!--  -->
 
 
@@ -127,6 +130,7 @@
     <string name="sound_select_source">Klang auswählen</string>
     <string name="sound_time_seperator">/</string>
     <string name="delete_sound_dialog">Klang löschen?</string>
+    <string name="length">Länge:</string>
     <!--  -->
 
 
@@ -159,6 +163,11 @@
 
     <!-- Script context menu -->
     <string name="script_context_menu_title">Skript Menü</string>
+    <!--  -->
+    
+    
+    <!-- Look context menu -->
+    <string name="look_context_menu_edit_in_paintroid">Bearbeite In Paintroid</string>
     <!--  -->
 
 
