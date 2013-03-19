@@ -117,6 +117,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		if (!inContextMode) {
+			super.onCreateContextMenu(menu, view, menuInfo);
 			getSherlockActivity().getMenuInflater().inflate(R.menu.menu_formulaeditor_variablelist, menu);
 		}
 	}
