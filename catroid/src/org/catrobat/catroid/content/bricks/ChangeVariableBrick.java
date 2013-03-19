@@ -112,7 +112,7 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.variable_spinner);
 		UserVariableAdapter variabeAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.createUserVariableAdapter(context, sprite.getName());
+				.createUserVariableAdapter(context, sprite);
 		variabeAdapter.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 		variableSpinner.setAdapter(variabeAdapter);
 

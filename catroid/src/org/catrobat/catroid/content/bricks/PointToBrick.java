@@ -48,11 +48,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 public class PointToBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
-	private Sprite pointedSprite;
+	private Sprite pointedObject;
 
 	public PointToBrick(Sprite sprite, Sprite pointedSprite) {
 		this.sprite = sprite;
-		this.pointedSprite = pointedSprite;
+		this.pointedObject = pointedSprite;
 	}
 
 	public PointToBrick() {
@@ -121,12 +121,12 @@ public class PointToBrick extends BrickBaseType {
 						.getCurrentProject().getSpriteList();
 
 				if (itemSelected.equals(nothingSelected)) {
-					pointedSprite = null;
+					pointedObject = null;
 				}
 				for (Sprite sprite : spriteList) {
 					String spriteName = sprite.getName();
 					if (spriteName.equals(itemSelected)) {
-						pointedSprite = sprite;
+						pointedObject = sprite;
 					}
 				}
 			}
@@ -136,8 +136,8 @@ public class PointToBrick extends BrickBaseType {
 			}
 		});
 
-		if (spriteList.contains(pointedSprite)) {
-			int pointedSpriteIndex = spinnerAdapter.getPosition(pointedSprite.getName());
+		if (spriteList.contains(pointedObject)) {
+			int pointedSpriteIndex = spinnerAdapter.getPosition(pointedObject.getName());
 			spinner.setSelection(pointedSpriteIndex);
 		} else {
 			spinner.setSelection(0);
@@ -163,12 +163,12 @@ public class PointToBrick extends BrickBaseType {
 
 	@Override
 	public Brick clone() {
-		return new PointToBrick(sprite, pointedSprite);
+		return new PointToBrick(sprite, pointedObject);
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.pointTo(sprite, pointedSprite));
+		sequence.addAction(ExtendedActions.pointTo(sprite, pointedObject));
 		return null;
 	}
 }
