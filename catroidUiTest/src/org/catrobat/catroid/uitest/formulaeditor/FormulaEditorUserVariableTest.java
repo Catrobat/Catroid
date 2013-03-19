@@ -247,7 +247,7 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 		solo.clickOnView(solo.getView(R.id.dialog_formula_editor_variable_name_radio_button_right));
 		finishUserVariableCreationSafeButSlow(itemString3rd, true);
 
-		solo.clickOnMenuItem(solo.getString(R.string.delete), true);
+		solo.clickOnView(solo.getView(R.id.delete));
 		assertTrue("Variable Fragment not shown",
 				solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable)));
 		solo.clickOnCheckBox(0);
@@ -300,7 +300,7 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 		solo.clickOnView(solo.getView(R.id.dialog_formula_editor_variable_name_radio_button_right));
 		finishUserVariableCreationSafeButSlow(itemString3rd, true);
 
-		solo.clickOnMenuItem(solo.getString(R.string.delete), true);
+		solo.clickOnView(solo.getView(R.id.delete));
 		assertTrue("Variable Fragment not shown",
 				solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable)));
 		solo.clickOnCheckBox(0);

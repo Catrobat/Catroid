@@ -65,7 +65,6 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public class FormulaEditorVariableListFragment extends SherlockListFragment implements Dialog.OnKeyListener,
@@ -116,17 +115,9 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.menu_formulaeditor_variablelist, menu);
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-
-	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-		menu.clear();
 		if (!inContextMode) {
 			getSherlockActivity().getMenuInflater().inflate(R.menu.menu_formulaeditor_variablelist, menu);
-			super.onCreateContextMenu(menu, view, menuInfo);
 		}
 	}
 
@@ -136,7 +127,6 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 			menu.getItem(index).setVisible(false);
 		}
 		menu.findItem(R.id.delete).setVisible(true);
-		menu.findItem(R.id.menu_delete).setVisible(true);
 
 		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
 		getSherlockActivity().getSupportActionBar().setTitle(actionBarTitle);
@@ -338,10 +328,6 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_delete:
-				inContextMode = true;
-				contextActionMode = getSherlockActivity().startActionMode(mContextModeCallback);
-				return true;
 			case R.id.delete:
 				inContextMode = true;
 				contextActionMode = getSherlockActivity().startActionMode(mContextModeCallback);
