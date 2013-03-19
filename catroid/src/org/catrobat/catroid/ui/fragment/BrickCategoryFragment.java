@@ -108,7 +108,6 @@ public class BrickCategoryFragment extends SherlockListFragment {
 
 	private void setUpActionBar() {
 		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
-		actionBar.setHomeButtonEnabled(false);
 		actionBar.setDisplayShowTitleEnabled(true);
 
 		this.previousActionBarTitle = actionBar.getTitle();
