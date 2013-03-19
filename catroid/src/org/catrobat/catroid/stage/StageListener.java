@@ -68,14 +68,17 @@ public class StageListener implements ApplicationListener {
 	private boolean firstStart = true;
 	private boolean reloadProject = false;
 
-	private boolean makeFirstScreenshot = true;
+	private boolean makeAutomaticScreenshot = true;
+	private boolean makeScreenshot = false;
 	private String pathForScreenshot;
 	private int screenshotWidth;
 	private int screenshotHeight;
 	private int screenshotX;
 	private int screenshotY;
 	private byte[] screenshot;
-	private boolean makeScreenshot = false;
+	// in first frame, framebuffer could be empty and screenshot
+	// would be white
+	private boolean skipFirstFrameForAutomaticScreenshot;
 
 	private Project project;
 
@@ -122,7 +125,6 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void create() {
-
 		font = new BitmapFont();
 		font.setColor(1f, 0f, 0.05f, 1f);
 		font.setScale(1.2f);
@@ -162,6 +164,7 @@ public class StageListener implements ApplicationListener {
 
 		background = new Texture(Gdx.files.internal("stage/white_pixel.bmp"));
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
+		skipFirstFrameForAutomaticScreenshot = true;
 	}
 
 	void menuResume() {
@@ -306,19 +309,14 @@ public class StageListener implements ApplicationListener {
 			stage.draw();
 		}
 
-		if (makeFirstScreenshot) {
-			File file = new File(pathForScreenshot + SCREENSHOT_FILE_NAME);
-			if (!file.exists()) {
-				File noMediaFile = new File(pathForScreenshot + ".nomedia");
-				try {
-					file.createNewFile();
-					noMediaFile.createNewFile();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+		if (makeAutomaticScreenshot) {
+			if (skipFirstFrameForAutomaticScreenshot) {
+				skipFirstFrameForAutomaticScreenshot = false;
+			} else {
+				prepareScreenshotFiles();
 				this.makeThumbnail();
+				makeAutomaticScreenshot = false;
 			}
-			makeFirstScreenshot = false;
 		}
 
 		if (makeScreenshot) {
@@ -409,7 +407,6 @@ public class StageListener implements ApplicationListener {
 			colors[i / 4] = Color.argb(255, screenshot[i + 0] & 0xFF, screenshot[i + 1] & 0xFF,
 					screenshot[i + 2] & 0xFF);
 		}
-
 		Bitmap bitmap = Bitmap.createBitmap(colors, 0, screenshotWidth, screenshotWidth, screenshotHeight,
 				Config.ARGB_8888);
 
@@ -474,4 +471,29 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
+	public void setMakeAutomaticScreenshot(boolean makeAutomaticScreenshot) {
+		this.makeAutomaticScreenshot = makeAutomaticScreenshot;
+	}
+
+	public boolean isMakeAutomaticScreenshot() {
+		return this.makeAutomaticScreenshot;
+	}
+
+	private void prepareScreenshotFiles() {
+		File noMediaFile = new File(pathForScreenshot + ".nomedia");
+		File screenshotFile = new File(pathForScreenshot + SCREENSHOT_FILE_NAME);
+		try {
+			if (screenshotFile.exists()) {
+				screenshotFile.delete();
+				screenshotFile = new File(pathForScreenshot + SCREENSHOT_FILE_NAME);
+			}
+			screenshotFile.createNewFile();
+
+			if (!noMediaFile.exists()) {
+				noMediaFile.createNewFile();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

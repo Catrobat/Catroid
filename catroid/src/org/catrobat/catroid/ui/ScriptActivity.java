@@ -261,6 +261,10 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				Intent settingsIntent = new Intent(ScriptActivity.this, SettingsActivity.class);
 				startActivity(settingsIntent);
 				break;
+
+			case R.id.edit_in_paintroid:
+				currentFragment.startEditInPaintroidActionMode();
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -279,6 +283,10 @@ public class ScriptActivity extends SherlockFragmentActivity {
 			ProjectManager projectManager = ProjectManager.getInstance();
 			int currentSpritePosition = projectManager.getCurrentSpritePosition();
 			int currentScriptPosition = projectManager.getCurrentScriptPosition();
+			/*
+			 * Save project after stage in order to keep the values of user variables
+			 */
+			projectManager.saveProject();
 			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 			projectManager.setCurrentSpriteWithPosition(currentSpritePosition);
 			projectManager.setCurrentScriptWithPosition(currentScriptPosition);
@@ -328,7 +336,6 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 					BrickAdapter adapter = scriptFragment.getAdapter();
 					adapter.removeDraggedBrick();
-
 					return true;
 				}
 			}
@@ -351,10 +358,25 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-		//Dismiss ActionMode without effecting sounds
+		//Dismiss ActionMode without effecting checked items
 		if (currentFragment != null && currentFragment.getActionModeActive()) {
 			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-				ListAdapter adapter = currentFragment.getListAdapter();
+				ListAdapter adapter = null;
+				if (currentFragment instanceof ScriptFragment) {
+					adapter = ((ScriptFragment) currentFragment).getAdapter();
+				} else {
+					adapter = currentFragment.getListAdapter();
+				}
+				((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
+			}
+		}
+
+		FormulaEditorVariableListFragment formulaEditorVariableListFragment = (FormulaEditorVariableListFragment) getSupportFragmentManager()
+				.findFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
+
+		if (formulaEditorVariableListFragment != null) {
+			if (formulaEditorVariableListFragment.isVisible()) {
+				ListAdapter adapter = formulaEditorVariableListFragment.getListAdapter();
 				((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
 			}
 		}
@@ -396,4 +418,5 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		}
 		return fragment;
 	}
+
 }

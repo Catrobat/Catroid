@@ -290,7 +290,6 @@ public class ExtendedActions extends Actions {
 	public static SpeakAction speak(String text, SpeakBrick speakBrick) {
 		SpeakAction action = action(SpeakAction.class);
 		action.setText(text);
-		action.setSpeakBrick(speakBrick);
 		return action;
 	}
 

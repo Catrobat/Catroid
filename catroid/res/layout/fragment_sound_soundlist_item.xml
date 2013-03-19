@@ -20,86 +20,138 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
+    android:layout_height="match_parent"
+    android:background="@color/sound_fragment_background_color"
     android:longClickable="true"
-    android:orientation="horizontal"
-    android:paddingLeft="6dp"
-    android:paddingRight="6dp" >
+    android:minHeight="90dp"
+    android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/sound_checkbox"
+        android:id="@+id/fragment_sound_item_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="13dp"
         android:visibility="gone" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp" >
-
-        <ImageButton
-            android:id="@+id/btn_sound_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/sound_play"
-            android:src="@drawable/ic_media_play" />
-
-        <ImageButton
-            android:id="@+id/btn_sound_pause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/sound_pause"
-            android:src="@drawable/ic_media_pause" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dip"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        android:gravity="center_vertical" >
-
-        <TextView style="@style/fragment_text"
-            android:id="@+id/sound_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView style="@style/fragment_detail"
-            android:id="@+id/sound_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:visibility="gone" />
-    </LinearLayout>
-
-    <Chronometer style="@style/fragment_detail"
-        android:id="@+id/sound_chronometer_time_played"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|center_vertical"
-        android:visibility="gone" />
-
-    <TextView style="@style/fragment_detail"
-        android:id="@+id/sound_time_seperator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/sound_time_seperator"
-        android:visibility="gone" />
-
-    <TextView style="@style/fragment_detail"
-        android:id="@+id/sound_duration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="6dp"
-        android:gravity="right|center_vertical"
-        android:textColor="@color/solid_black" />
-
+    
+	<LinearLayout 
+	    android:id="@+id/fragment_sound_item_main_linear_layout"
+	    android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+	    android:background="@drawable/sound_fragment_button_gradient"
+    	android:longClickable="true"
+    	android:baselineAligned="false"
+    	android:minHeight="90dp"
+    	android:orientation="horizontal" >
+    	
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:gravity="center"
+	        android:orientation="vertical"
+	        android:paddingLeft="21dp"
+	        android:paddingRight="28dp" >
+	
+	        <ImageButton
+	            android:id="@+id/fragment_sound_item_play_image_button"
+	            android:layout_width="50dp"
+	            android:layout_height="50dp"
+	            android:background="@drawable/sound_fragment_icon_border_inactive"
+	            android:contentDescription="@string/sound_play"
+	            android:src="@drawable/ic_media_play" />
+	
+	        <ImageButton
+	            android:id="@+id/fragment_sound_item_pause_image_button"
+	            android:layout_width="50dp"
+	            android:layout_height="50dp"
+	            android:background="@drawable/sound_fragment_icon_border_active"
+	            android:contentDescription="@string/sound_pause"
+	            android:src="@drawable/ic_media_pause" />
+	    </LinearLayout>
+	
+	    <LinearLayout
+	        android:layout_width="0dip"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:gravity="center_vertical"
+	        android:orientation="vertical" >
+	
+	        <TextView style="@style/sound_fragment_main"
+	            android:id="@+id/fragment_sound_item_title_text_view"
+	            android:layout_width="wrap_content"
+	            android:paddingRight="8dp"
+	            android:layout_height="wrap_content" />
+	
+	        <LinearLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:orientation="horizontal" >
+	
+	            <LinearLayout
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:orientation="vertical" >
+	
+	                <TextView style="@style/sound_fragment_detail"
+	                    android:id="@+id/fragment_sound_item_length_prefix_text_view"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:text="@string/length" />
+	
+	                <TextView style="@style/sound_fragment_detail"
+	                    android:id="@+id/fragment_sound_item_size_prefix_text_view"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:text="@string/size"
+	                    android:visibility="gone" />
+	            </LinearLayout>
+	
+	            <LinearLayout
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:orientation="vertical"
+	                android:paddingLeft="24dp" >
+	
+	                <LinearLayout
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:orientation="horizontal" >
+	
+	                    <Chronometer style="@style/sound_fragment_detail"
+	                        android:id="@+id/fragment_sound_item_time_played_chronometer"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="right|center_vertical"
+	                        android:visibility="gone" />
+	
+	                    <TextView style="@style/sound_fragment_detail"
+	                        android:id="@+id/fragment_sound_item_time_seperator_text_view"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:gravity="center"
+	                        android:paddingLeft="5dp"
+	                        android:paddingRight="5dp"
+	                        android:text="@string/sound_time_seperator"
+	                        android:visibility="gone" />
+	
+	                    <TextView style="@style/sound_fragment_detail"
+	                        android:id="@+id/fragment_sound_item_duration_text_view"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content" />
+	                </LinearLayout>
+	
+	                <TextView style="@style/sound_fragment_detail"
+	                    android:id="@+id/fragment_sound_item_size_text_view"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:visibility="gone" />
+	            </LinearLayout>
+	        </LinearLayout>
+	    </LinearLayout>
+	</LinearLayout>
 </LinearLayout>
