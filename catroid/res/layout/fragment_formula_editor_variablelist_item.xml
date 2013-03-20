@@ -23,6 +23,56 @@
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sound_fragment_background_color"
+    android:longClickable="true"
+    android:minHeight="60dp"
+    android:orientation="horizontal" >
+    
+    <CheckBox
+        android:id="@+id/fragment_formula_editor_variablelist_item_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="13dp"
+        android:visibility="gone" />
+        
+    <RelativeLayout 
+	    android:id="@+id/fragment_formulaeditor_item_main_linear_layout"
+	    android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+	    android:background="@drawable/sound_fragment_button_gradient"
+    	android:longClickable="true"
+    	android:baselineAligned="false"
+    	android:orientation="horizontal"
+    	android:gravity="center_vertical">
+    
+	    <TextView style="@style/formulaeditor_variblelist_fragment_main"
+	        android:id="@+id/fragment_formula_editor_variablelist_item_name_text_view"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingLeft="10dp"
+	        android:gravity="center_vertical"
+	        android:layout_alignParentLeft="true"
+	        android:layout_toLeftOf="@+id/fragment_formula_editor_variablelist_item_value_text_view" />
+	   
+	    <TextView style="@style/formulaeditor_variblelist_fragment_main"
+	        android:id="@+id/fragment_formula_editor_variablelist_item_value_text_view"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingLeft="10dp"
+	        android:paddingRight="10dp"
+	        android:gravity="center_vertical"
+	        android:textColor="@color/solid_white" 
+	        android:layout_alignParentRight="true" />
+	 
+    </RelativeLayout>
+</LinearLayout>
+
+<!--
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:longClickable="true"
@@ -52,9 +102,11 @@
         android:id="@+id/fragment_formula_editor_variablelist_item_textview2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:minHeight="?android:attr/listPreferredItemHeight"
         android:gravity="center_vertical"
         android:textColor="@color/solid_white" />
 
 </LinearLayout>
+ -->

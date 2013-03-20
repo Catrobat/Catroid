@@ -153,8 +153,12 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	@Override
 	public void onCheckedChange() {
 		if (inContextMode) {
-			String title = adapter.getAmountOfCheckedItems() + " "
-					+ getString(R.string.formula_editor_variable_context_action_item_selected);
+			String title = adapter.getAmountOfCheckedItems()
+					+ " "
+					+ getActivity().getResources().getQuantityString(
+							R.plurals.formula_editor_variable_context_action_item_selected,
+							adapter.getAmountOfCheckedItems());
+
 			contextActionMode.setTitle(title);
 		}
 	}
@@ -411,7 +415,9 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			adapter.setSelectMode(Constants.MULTI_SELECT);
 			adapter.notifyDataSetChanged();
-			mode.setTitle("0 " + getString(R.string.formula_editor_variable_context_action_item_selected));
+			mode.setTitle("0 "
+					+ getActivity().getResources().getQuantityString(
+							R.plurals.formula_editor_variable_context_action_item_selected, 0));
 			return true;
 		}
 
