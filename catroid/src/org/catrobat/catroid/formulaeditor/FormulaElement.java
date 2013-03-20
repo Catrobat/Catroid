@@ -161,8 +161,7 @@ public class FormulaElement implements Serializable {
 			case USER_VARIABLE:
 				UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject()
 						.getUserVariables();
-				String spriteName = sprite == null ? null : sprite.getName();
-				UserVariable userVariable = userVariables.getUserVariable(value, spriteName);
+				UserVariable userVariable = userVariables.getUserVariable(value, sprite);
 				if (userVariable == null) {
 					returnValue = NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
 					break;
