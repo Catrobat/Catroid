@@ -85,7 +85,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
-import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -210,11 +209,6 @@ public class AddBrickDialog extends DialogFragment {
 
 	public Brick getBrickClone(Brick brick) {
 		return brick.clone();
-	}
-
-	private ScriptFragment getScriptFragment() {
-		ScriptActivity scriptActivity = ((ScriptActivity) getActivity());
-		return (ScriptFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 	}
 
 	private static boolean isBackground(Sprite sprite) {
