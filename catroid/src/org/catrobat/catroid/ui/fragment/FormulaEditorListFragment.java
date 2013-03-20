@@ -30,7 +30,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -41,6 +40,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 
@@ -128,20 +128,15 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-		menu.findItem(R.id.delete).setVisible(false);
-		menu.findItem(R.id.copy).setVisible(false);
-		menu.findItem(R.id.cut).setVisible(false);
-		menu.findItem(R.id.show_details).setVisible(false);
-		menu.findItem(R.id.insert_below).setVisible(false);
-		menu.findItem(R.id.move).setVisible(false);
-		menu.findItem(R.id.rename).setVisible(false);
-		menu.findItem(R.id.show_details).setVisible(false);
-		menu.findItem(R.id.settings).setVisible(false);
+		for (int index = 0; index < menu.size(); index++) {
+			menu.getItem(index).setVisible(false);
+		}
 
 		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
 		getSherlockActivity().getSupportActionBar().setTitle(actionBarTitle);
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
@@ -151,7 +146,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 	}
 
 	public void showFragment(Context context) {
-		FragmentActivity activity = (FragmentActivity) context;
+		SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
 

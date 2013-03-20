@@ -87,11 +87,14 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
+import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -133,7 +136,6 @@ public class AddBrickDialog extends DialogFragment {
 		setRetainInstance(true);
 
 		selectedCategory = getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY);
-		getScriptFragment().setCreateNewBrick(true);
 	}
 
 	@Override
@@ -147,7 +149,6 @@ public class AddBrickDialog extends DialogFragment {
 		closeButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				abort();
 				dismiss();
 			}
 		});
@@ -175,7 +176,6 @@ public class AddBrickDialog extends DialogFragment {
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				scriptFragment.setCreateNewBrick(true);
 				Brick brickToBeAdded = getBrickClone(adapter.getItem(position));
 				scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
 
@@ -187,9 +187,14 @@ public class AddBrickDialog extends DialogFragment {
 
 				dismiss();
 
-				BrickCategoryDialog brickCategoryDialog = (BrickCategoryDialog) getFragmentManager().findFragmentByTag(
-						BrickCategoryDialog.DIALOG_FRAGMENT_TAG);
-				brickCategoryDialog.dismiss();
+				FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+				Fragment previousFragment = getFragmentManager().findFragmentByTag(
+						BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+				if (previousFragment != null) {
+					fragmentTransaction.remove(previousFragment);
+					getFragmentManager().popBackStack();
+				}
+				fragmentTransaction.commit();
 			}
 
 		});
@@ -205,11 +210,6 @@ public class AddBrickDialog extends DialogFragment {
 
 	public Brick getBrickClone(Brick brick) {
 		return brick.clone();
-	}
-
-	private void abort() {
-		getScriptFragment().setCreateNewBrick(false);
-
 	}
 
 	private ScriptFragment getScriptFragment() {
