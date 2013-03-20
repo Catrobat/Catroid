@@ -40,7 +40,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
@@ -62,6 +61,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -348,7 +348,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	}
 
 	public void showFragment(Context context) {
-		FragmentActivity activity = (FragmentActivity) context;
+		SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
 
@@ -357,6 +357,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		fragTransaction.hide(formulaEditorFragment);
 		fragTransaction.show(this);
 		fragTransaction.commit();
+
 		if (adapter != null) {
 			initializeUserVariableAdapter();
 		}
