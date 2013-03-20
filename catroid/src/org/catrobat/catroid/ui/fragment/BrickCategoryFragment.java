@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
 
 import android.content.SharedPreferences;
@@ -122,7 +121,7 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setTitle(this.previousActionBarTitle);
 		actionBar.setNavigationMode(this.previousActionBarNavigationMode);
-		actionBar.setSelectedNavigationItem(ScriptActivity.getCurrentFragmentPosition());
+		actionBar.setSelectedNavigationItem(0);
 	}
 
 	private void setupBrickCategories() {

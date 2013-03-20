@@ -475,6 +475,14 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
 
+		solo.sleep(300);
+		solo.goBack();
+		assertEquals("Action bar navigation spinner doesn't show \'" + solo.getString(R.string.scripts) + "\'",
+				solo.getString(R.string.scripts), UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo).getSelectedItem()
+						.toString());
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+
 		UiTestUtils.openOptionsMenu(solo);
 
 		solo.clickOnText(settings);
