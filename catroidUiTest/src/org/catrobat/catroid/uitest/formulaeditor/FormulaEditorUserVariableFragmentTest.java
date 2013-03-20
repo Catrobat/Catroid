@@ -53,7 +53,7 @@ import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class FormulaEditorUserVariableTest extends android.test.ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class FormulaEditorUserVariableFragmentTest extends android.test.ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private static final double SET_USERVARIABLE_TO_BRICK_VALUE = 10d;
 	private static final String USER_VARIABLE_NAME_UNDERLINE_PREFIX = "_userVar1";
@@ -69,7 +69,7 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 	private static final String QUOTE = "\"";
 	private static final int MAX_ITERATIONS = 10;
 
-	public FormulaEditorUserVariableTest() {
+	public FormulaEditorUserVariableFragmentTest() {
 		super(MainMenuActivity.class);
 	}
 
@@ -422,7 +422,7 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 		solo.clickOnView(solo.getView(R.id.dialog_formula_editor_variable_name_radio_button_right));
 		finishUserVariableCreationSafeButSlow(itemString3rd, true);
 
-		solo.clickOnMenuItem(solo.getString(R.string.delete), true);
+		solo.clickOnView(solo.getView(R.id.delete));
 		assertTrue("Variable Fragment not shown",
 				solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable)));
 		solo.clickOnCheckBox(0);
@@ -475,7 +475,7 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 		solo.clickOnView(solo.getView(R.id.dialog_formula_editor_variable_name_radio_button_right));
 		finishUserVariableCreationSafeButSlow(itemString3rd, true);
 
-		solo.clickOnMenuItem(solo.getString(R.string.delete), true);
+		solo.clickOnView(solo.getView(R.id.delete));
 		assertTrue("Variable Fragment not shown",
 				solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable)));
 		solo.clickOnCheckBox(0);
@@ -600,6 +600,26 @@ public class FormulaEditorUserVariableTest extends android.test.ActivityInstrume
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var1");
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var2");
+
+	}
+
+	public void testVisibilityOfMenuItems() {
+
+		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable)));
+
+		assertTrue("MenuItem should have been found!", solo.getView(R.id.delete) != null);
+		assertTrue("MenuItem should not be found!", solo.getView(R.id.copy) == null);
+		assertTrue("MenuItem should not be found!", solo.getView(R.id.cut) == null);
+		assertTrue("MenuItem should not be found!", solo.getView(R.id.insert_below) == null);
+		assertTrue("MenuItem should not be found!", solo.getView(R.id.move) == null);
+		assertTrue("MenuItem should not be found!", solo.getView(R.id.rename) == null);
+		assertTrue("MenuItem should not be found!", solo.getView(R.id.edit_in_paintroid) == null);
+		assertTrue("MenuItem should not be found!", solo.getView(R.id.show_details) == null);
+		assertTrue("MenuItem should not be found!", solo.getView(R.id.settings) == null);
 
 	}
 
