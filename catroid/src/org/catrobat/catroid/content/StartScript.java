@@ -47,7 +47,7 @@ public class StartScript extends Script {
 	@Override
 	public ScriptBrick getScriptBrick() {
 		if (brick == null) {
-			brick = new WhenStartedBrick(sprite, this);
+			brick = new WhenStartedBrick(object, this);
 		}
 
 		return brick;

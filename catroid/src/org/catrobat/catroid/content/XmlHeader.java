@@ -59,6 +59,8 @@ public class XmlHeader implements Serializable {
 	@SuppressWarnings("unused")
 	private String remixOf = "";
 	@SuppressWarnings("unused")
+	private String tags = "";
+	@SuppressWarnings("unused")
 	private String url = "";
 	@SuppressWarnings("unused")
 	private String userHandle = "";

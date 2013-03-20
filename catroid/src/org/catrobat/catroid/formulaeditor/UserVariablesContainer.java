@@ -29,28 +29,33 @@ import java.util.List;
 import java.util.Map;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
 
 import android.content.Context;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 public class UserVariablesContainer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@XStreamAlias("programVariableList")
 	private List<UserVariable> projectVariables;
-	private Map<String, List<UserVariable>> spriteVariables;
+	@XStreamAlias("objectVariableList")
+	private Map<Sprite, List<UserVariable>> spriteVariables;
 
 	public UserVariablesContainer() {
 		projectVariables = new ArrayList<UserVariable>();
-		spriteVariables = new HashMap<String, List<UserVariable>>();
+		spriteVariables = new HashMap<Sprite, List<UserVariable>>();
 	}
 
-	public UserVariableAdapter createUserVariableAdapter(Context context, String spriteName) {
-		return new UserVariableAdapter(context, getOrCreateVariableListForSprite(spriteName), projectVariables);
+	public UserVariableAdapter createUserVariableAdapter(Context context, Sprite sprite) {
+		return new UserVariableAdapter(context, getOrCreateVariableListForSprite(sprite), projectVariables);
 	}
 
-	public UserVariable getUserVariable(String userVariableName, String spriteName) {
+	public UserVariable getUserVariable(String userVariableName, Sprite sprite) {
 		UserVariable var;
-		var = findUserVariable(userVariableName, getOrCreateVariableListForSprite(spriteName));
+		var = findUserVariable(userVariableName, getOrCreateVariableListForSprite(sprite));
 		if (var == null) {
 			var = findUserVariable(userVariableName, projectVariables);
 		}
@@ -58,9 +63,9 @@ public class UserVariablesContainer implements Serializable {
 	}
 
 	public void addSpriteUserVariable(String userVariableName, Double userVariableValue) {
-		String spriteName = ProjectManager.getInstance().getCurrentSprite().getName();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue);
-		List<UserVariable> varList = getOrCreateVariableListForSprite(spriteName);
+		List<UserVariable> varList = getOrCreateVariableListForSprite(currentSprite);
 		varList.add(userVariableToAdd);
 	}
 
@@ -70,9 +75,9 @@ public class UserVariablesContainer implements Serializable {
 	}
 
 	public void deleteUserVariableByName(String userVariableName) {
-		String spriteName = ProjectManager.getInstance().getCurrentSprite().getName();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		UserVariable variableToDelete;
-		List<UserVariable> spriteVariables = getOrCreateVariableListForSprite(spriteName);
+		List<UserVariable> spriteVariables = getOrCreateVariableListForSprite(currentSprite);
 		variableToDelete = findUserVariable(userVariableName, spriteVariables);
 		if (variableToDelete != null) {
 			spriteVariables.remove(variableToDelete);
@@ -84,7 +89,7 @@ public class UserVariablesContainer implements Serializable {
 		}
 	}
 
-	private List<UserVariable> getOrCreateVariableListForSprite(String sprite) {
+	private List<UserVariable> getOrCreateVariableListForSprite(Sprite sprite) {
 		List<UserVariable> vars = spriteVariables.get(sprite);
 		if (vars == null) {
 			vars = new ArrayList<UserVariable>();
