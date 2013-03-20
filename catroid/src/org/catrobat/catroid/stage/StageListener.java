@@ -308,7 +308,7 @@ public class StageListener implements ApplicationListener {
 			firstStart = false;
 		}
 		if (!paused) {
-			float delta = Gdx.graphics.getDeltaTime();
+			float deltaTime = Gdx.graphics.getDeltaTime();
 
 			/*
 			 * Necessary for UiTests, when EMMA - code coverage is enabled.
@@ -320,13 +320,13 @@ public class StageListener implements ApplicationListener {
 			 * future EMMA - update will fix the bugs.
 			 */
 			if (DYNAMIC_SAMPLING_RATE_FOR_ACTIONS == false) {
-				stage.act(delta);
+				stage.act(deltaTime);
 			} else {
-				float deltaOfDelta = delta / deltaActionTimeDivisor;
+				float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
 				long timeBeforeActionsUpdate = System.currentTimeMillis();
-				while (delta > 0f) {
-					stage.act(deltaOfDelta);
-					delta -= deltaOfDelta;
+				while (deltaTime > 0f) {
+					stage.act(optimizedDeltaTime);
+					deltaTime -= optimizedDeltaTime;
 				}
 				long executionTimeOfActionsUpdate = System.currentTimeMillis() - timeBeforeActionsUpdate;
 				if (executionTimeOfActionsUpdate <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
