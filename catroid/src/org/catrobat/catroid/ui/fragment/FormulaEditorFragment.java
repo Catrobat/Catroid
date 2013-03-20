@@ -33,6 +33,7 @@ import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -116,7 +117,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			activity.findViewById(R.id.bottom_bar).setVisibility(View.GONE);
 		} else if (formulaEditorFragment.isHidden()) {
 			formulaEditorFragment.updateBrickViewAndFormula(brick, formula);
-
 			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
 			fragTransaction.show(formulaEditorFragment);
 			activity.findViewById(R.id.bottom_bar).setVisibility(View.GONE);
@@ -188,7 +188,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	public void onStart() {
 		formulaEditorKeyboard.setClickable(true);
 		getView().requestFocus();
-		updateRedoAndUndoView();
 		View.OnTouchListener touchListener = new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
@@ -263,6 +262,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 				key.setEllipsize(TruncateAt.END);
 			}
 		}
+		updateRedoAndUndoView();
 		super.onStart();
 	}
 
@@ -451,19 +451,22 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 	private void updateRedoAndUndoView() {
 
-		Button undo = (Button) getActivity().findViewById(R.id.formula_editor_keyboard_undo);
+		Drawable active = getActivity().getResources().getDrawable(R.drawable.formula_editor_button);
+		Drawable inactive = getActivity().getResources().getDrawable(R.drawable.formula_editor_button);
+		inactive.setAlpha(175);
+
+		Button undo = (Button) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_undo);
 		if (!formulaEditorEditText.getHistory().undoIsPossible()) {
-			undo.setAlpha(0.7f);
+			undo.setBackgroundDrawable(inactive);
 		} else {
-			undo.setAlpha(1f);
+			undo.setBackgroundDrawable(active);
 		}
 
-		Button redo = (Button) getActivity().findViewById(R.id.formula_editor_keyboard_redo);
+		Button redo = (Button) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_redo);
 		if (!formulaEditorEditText.getHistory().redoIsPossible()) {
-			redo.setAlpha(0.7f);
+			redo.setBackgroundDrawable(inactive);
 		} else {
-			redo.setAlpha(1f);
+			redo.setBackgroundDrawable(active);
 		}
 	}
-
 }
