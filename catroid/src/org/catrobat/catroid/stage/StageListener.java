@@ -40,6 +40,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Color;
+import android.os.SystemClock;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -323,12 +324,12 @@ public class StageListener implements ApplicationListener {
 				stage.act(deltaTime);
 			} else {
 				float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
-				long timeBeforeActionsUpdate = System.currentTimeMillis();
+				long timeBeforeActionsUpdate = SystemClock.uptimeMillis();
 				while (deltaTime > 0f) {
 					stage.act(optimizedDeltaTime);
 					deltaTime -= optimizedDeltaTime;
 				}
-				long executionTimeOfActionsUpdate = System.currentTimeMillis() - timeBeforeActionsUpdate;
+				long executionTimeOfActionsUpdate = SystemClock.uptimeMillis() - timeBeforeActionsUpdate;
 				if (executionTimeOfActionsUpdate <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
 					deltaActionTimeDivisor += 1f;
 					deltaActionTimeDivisor = Math.min(DELTA_ACTIONS_DIVIDER_MAXIMUM, deltaActionTimeDivisor);
