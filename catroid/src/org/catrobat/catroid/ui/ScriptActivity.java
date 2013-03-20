@@ -223,6 +223,15 @@ public class ScriptActivity extends SherlockFragmentActivity {
 			return super.onOptionsItemSelected(item);
 		}
 
+		FormulaEditorVariableListFragment formulaEditorVariableListFragment = (FormulaEditorVariableListFragment) getSupportFragmentManager()
+				.findFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
+
+		if (formulaEditorVariableListFragment != null) {
+			if (formulaEditorVariableListFragment.isVisible()) {
+				return super.onOptionsItemSelected(item);
+			}
+		}
+
 		switch (item.getItemId()) {
 			case android.R.id.home:
 				Intent mainMenuIntent = new Intent(this, MainMenuActivity.class);
@@ -359,6 +368,18 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		//Dismiss ActionMode without effecting checked items
+
+		FormulaEditorVariableListFragment formulaEditorVariableListFragment = (FormulaEditorVariableListFragment) getSupportFragmentManager()
+				.findFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
+
+		if (formulaEditorVariableListFragment != null) {
+			if (formulaEditorVariableListFragment.isVisible()) {
+				ListAdapter adapter = formulaEditorVariableListFragment.getListAdapter();
+				((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
+				return super.dispatchKeyEvent(event);
+			}
+		}
+
 		if (currentFragment != null && currentFragment.getActionModeActive()) {
 			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
 				ListAdapter adapter = null;
@@ -371,15 +392,6 @@ public class ScriptActivity extends SherlockFragmentActivity {
 			}
 		}
 
-		FormulaEditorVariableListFragment formulaEditorVariableListFragment = (FormulaEditorVariableListFragment) getSupportFragmentManager()
-				.findFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
-
-		if (formulaEditorVariableListFragment != null) {
-			if (formulaEditorVariableListFragment.isVisible()) {
-				ListAdapter adapter = formulaEditorVariableListFragment.getListAdapter();
-				((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
-			}
-		}
 		return super.dispatchKeyEvent(event);
 	}
 
