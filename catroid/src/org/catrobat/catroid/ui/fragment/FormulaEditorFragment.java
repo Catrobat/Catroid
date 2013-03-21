@@ -69,6 +69,8 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	public static final String FORMULA_EDITOR_FRAGMENT_TAG = "formula_editor_fragment";
 	private static final int MAX_BUTTON_LINES = 1;
 
+	private static final int BUTTON_ALPHA = 175;
+
 	private Context context;
 
 	private Brick currentBrick;
@@ -84,6 +86,8 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 	public boolean restoreInstance = false;
 	private View fragmentView;
+	private Drawable activeButton;
+	private Drawable inactiveButton;
 
 	public FormulaEditorFragment(Brick brick, Formula formula) {
 		currentBrick = brick;
@@ -135,7 +139,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		currentFormula = newFormula;
 		setInputFormula(newFormula, SET_FORMULA_ON_CREATE_VIEW);
 		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
-		updateRedoAndUndoView();
+		updateActiveAndInactiveButtons();
 	}
 
 	private void onUserDismiss() {
@@ -193,7 +197,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			public boolean onTouch(View view, MotionEvent event) {
 				Log.i("info", "viewId: " + view.getId());
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					updateRedoAndUndoView();
+					updateActiveAndInactiveButtons();
 					view.setPressed(false);
 					return true;
 				}
@@ -262,7 +266,12 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 				key.setEllipsize(TruncateAt.END);
 			}
 		}
-		updateRedoAndUndoView();
+
+		activeButton = getActivity().getResources().getDrawable(R.drawable.formula_editor_button);
+		inactiveButton = getActivity().getResources().getDrawable(R.drawable.formula_editor_button);
+		inactiveButton.setAlpha(BUTTON_ALPHA);
+		updateActiveAndInactiveButtons();
+
 		super.onStart();
 	}
 
@@ -444,24 +453,20 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 	}
 
-	private void updateRedoAndUndoView() {
-
-		Drawable active = getActivity().getResources().getDrawable(R.drawable.formula_editor_button);
-		Drawable inactive = getActivity().getResources().getDrawable(R.drawable.formula_editor_button);
-		inactive.setAlpha(175);
+	private void updateActiveAndInactiveButtons() {
 
 		Button undo = (Button) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_undo);
 		if (!formulaEditorEditText.getHistory().undoIsPossible()) {
-			undo.setBackgroundDrawable(inactive);
+			undo.setBackgroundDrawable(inactiveButton);
 		} else {
-			undo.setBackgroundDrawable(active);
+			undo.setBackgroundDrawable(activeButton);
 		}
 
 		Button redo = (Button) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_redo);
 		if (!formulaEditorEditText.getHistory().redoIsPossible()) {
-			redo.setBackgroundDrawable(inactive);
+			redo.setBackgroundDrawable(inactiveButton);
 		} else {
-			redo.setBackgroundDrawable(active);
+			redo.setBackgroundDrawable(activeButton);
 		}
 	}
 }
