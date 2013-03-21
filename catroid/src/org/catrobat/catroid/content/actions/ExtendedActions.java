@@ -28,9 +28,13 @@ import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ExtendedActions extends Actions {
 
@@ -61,41 +65,42 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static ChangeBrightnessByNAction changeBrightnessByN(Sprite sprite, float brightnessValue) {
+	public static ChangeBrightnessByNAction changeBrightnessByN(Sprite sprite, Formula changeBrightness) {
 		ChangeBrightnessByNAction action = action(ChangeBrightnessByNAction.class);
 		action.setSprite(sprite);
-		action.setBrightnessValue(brightnessValue);
+		action.setBrightness(changeBrightness);
 		return action;
 	}
 
-	public static ChangeGhostEffectByNAction changeGhostEffectByN(Sprite sprite, float ghostEffectValue) {
+	public static ChangeGhostEffectByNAction changeGhostEffectByN(Sprite sprite, Formula ghostEffect) {
 		ChangeGhostEffectByNAction action = action(ChangeGhostEffectByNAction.class);
 		action.setSprite(sprite);
-		action.setGhostEffectValue(ghostEffectValue);
+		action.setGhostEffect(ghostEffect);
 		return action;
 	}
 
-	public static ChangeSizeByNAction changeSizeByN(Sprite sprite, float size) {
+	public static ChangeSizeByNAction changeSizeByN(Sprite sprite, Formula size) {
 		ChangeSizeByNAction action = action(ChangeSizeByNAction.class);
 		action.setSprite(sprite);
 		action.setSize(size);
 		return action;
 	}
 
-	public static ChangeVolumeByNAction changeVolumeByN(float volume) {
+	public static ChangeVolumeByNAction changeVolumeByN(Sprite sprite, Formula volume) {
 		ChangeVolumeByNAction action = action(ChangeVolumeByNAction.class);
 		action.setVolume(volume);
+		action.setSprite(sprite);
 		return action;
 	}
 
-	public static ChangeXByNAction changeXByN(Sprite sprite, int xMovement) {
+	public static ChangeXByNAction changeXByN(Sprite sprite, Formula xMovement) {
 		ChangeXByNAction action = action(ChangeXByNAction.class);
 		action.setSprite(sprite);
 		action.setxMovement(xMovement);
 		return action;
 	}
 
-	public static ChangeYByNAction changeYByN(Sprite sprite, int yMovement) {
+	public static ChangeYByNAction changeYByN(Sprite sprite, Formula yMovement) {
 		ChangeYByNAction action = action(ChangeYByNAction.class);
 		action.setSprite(sprite);
 		action.setyMovement(yMovement);
@@ -114,30 +119,34 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static GlideToAction glideTo(float x, float y, float duration) {
+	public static GlideToAction glideTo(Sprite sprite, Formula x, Formula y, Formula duration) {
 		GlideToAction action = action(GlideToAction.class);
 		action.setPosition(x, y);
 		action.setDuration(duration);
+		action.setSprite(sprite);
 		return action;
 	}
 
-	public static GlideToAction glideTo(float x, float y, float duration, Interpolation interpolation) {
+	public static GlideToAction glideTo(Sprite sprite, Formula x, Formula y, Formula duration,
+			Interpolation interpolation) {
 		GlideToAction action = action(GlideToAction.class);
 		action.setPosition(x, y);
 		action.setDuration(duration);
 		action.setInterpolation(interpolation);
+		action.setSprite(sprite);
 		return action;
 	}
 
-	public static GlideToAction placeAt(float x, float y) {
+	public static GlideToAction placeAt(Sprite sprite, Formula x, Formula y) {
 		GlideToAction action = action(GlideToAction.class);
 		action.setPosition(x, y);
 		action.setDuration(0);
 		action.setInterpolation(null);
+		action.setSprite(sprite);
 		return action;
 	}
 
-	public static GoNStepsBackAction goNStepsBack(Sprite sprite, int steps) {
+	public static GoNStepsBackAction goNStepsBack(Sprite sprite, Formula steps) {
 		GoNStepsBackAction action = action(GoNStepsBackAction.class);
 		action.setSprite(sprite);
 		action.setSteps(steps);
@@ -156,11 +165,11 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static LegoNxtMotorActionAction legoNxtMotorAction(String motor,
-			org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick.Motor motorEnum, int speed) {
+	public static LegoNxtMotorActionAction legoNxtMotorAction(Sprite sprite, String motor,
+			org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick.Motor motorEnum, Formula speed) {
 		LegoNxtMotorActionAction action = action(LegoNxtMotorActionAction.class);
-		action.setMotor(motor);
 		action.setMotorEnum(motorEnum);
+		action.setSprite(sprite);
 		action.setSpeed(speed);
 		return action;
 	}
@@ -172,22 +181,24 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static LegoNxtMotorTurnAngleAction legoNxtMotorTurnAngle(
-			org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick.Motor motorEnum, int degrees) {
+	public static LegoNxtMotorTurnAngleAction legoNxtMotorTurnAngle(Sprite sprite,
+			org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
 		LegoNxtMotorTurnAngleAction action = action(LegoNxtMotorTurnAngleAction.class);
 		action.setMotorEnum(motorEnum);
+		action.setSprite(sprite);
 		action.setDegrees(degrees);
 		return action;
 	}
 
-	public static LegoNxtPlayToneAction legoNxtPlayTone(int hertz, int durationInMilliSeconds) {
+	public static LegoNxtPlayToneAction legoNxtPlayTone(Sprite sprite, Formula hertz, Formula durationInSeconds) {
 		LegoNxtPlayToneAction action = action(LegoNxtPlayToneAction.class);
 		action.setHertz(hertz);
-		action.setDurationInMilliSeconds(durationInMilliSeconds);
+		action.setSprite(sprite);
+		action.setDurationInSeconds(durationInSeconds);
 		return action;
 	}
 
-	public static MoveNStepsAction moveNSteps(Sprite sprite, float steps) {
+	public static MoveNStepsAction moveNSteps(Sprite sprite, Formula steps) {
 		MoveNStepsAction action = action(MoveNStepsAction.class);
 		action.setSprite(sprite);
 		action.setSteps(steps);
@@ -221,14 +232,14 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static SetBrightnessAction setBrightness(Sprite sprite, float brightness) {
+	public static SetBrightnessAction setBrightness(Sprite sprite, Formula brightness) {
 		SetBrightnessAction action = action(SetBrightnessAction.class);
 		action.setSprite(sprite);
 		action.setBrightness(brightness);
 		return action;
 	}
 
-	public static SetGhostEffectAction setGhostEffect(Sprite sprite, float transparency) {
+	public static SetGhostEffectAction setGhostEffect(Sprite sprite, Formula transparency) {
 		SetGhostEffectAction action = action(SetGhostEffectAction.class);
 		action.setSprite(sprite);
 		action.setTransparency(transparency);
@@ -242,27 +253,28 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static SetSizeToAction setSizeTo(Sprite sprite, float size) {
+	public static SetSizeToAction setSizeTo(Sprite sprite, Formula size) {
 		SetSizeToAction action = action(SetSizeToAction.class);
 		action.setSprite(sprite);
 		action.setSize(size);
 		return action;
 	}
 
-	public static SetVolumeToAction setVolumeTo(float volume) {
+	public static SetVolumeToAction setVolumeTo(Sprite sprite, Formula volume) {
 		SetVolumeToAction action = action(SetVolumeToAction.class);
 		action.setVolume(volume);
+		action.setSprite(sprite);
 		return action;
 	}
 
-	public static SetXAction setX(Sprite sprite, int x) {
+	public static SetXAction setX(Sprite sprite, Formula x) {
 		SetXAction action = action(SetXAction.class);
 		action.setSprite(sprite);
 		action.setX(x);
 		return action;
 	}
 
-	public static SetYAction setY(Sprite sprite, int y) {
+	public static SetYAction setY(Sprite sprite, Formula y) {
 		SetYAction action = action(SetYAction.class);
 		action.setSprite(sprite);
 		action.setY(y);
@@ -278,7 +290,6 @@ public class ExtendedActions extends Actions {
 	public static SpeakAction speak(String text, SpeakBrick speakBrick) {
 		SpeakAction action = action(SpeakAction.class);
 		action.setText(text);
-		action.setSpeakBrick(speakBrick);
 		return action;
 	}
 
@@ -286,18 +297,67 @@ public class ExtendedActions extends Actions {
 		return action(StopAllSoundsAction.class);
 	}
 
-	public static TurnLeftAction turnLeft(Sprite sprite, float degrees) {
+	public static TurnLeftAction turnLeft(Sprite sprite, Formula degrees) {
 		TurnLeftAction action = action(TurnLeftAction.class);
 		action.setSprite(sprite);
 		action.setDegrees(degrees);
 		return action;
 	}
 
-	public static TurnRightAction turnRight(Sprite sprite, float degrees) {
+	public static TurnRightAction turnRight(Sprite sprite, Formula degrees) {
 		TurnRightAction action = action(TurnRightAction.class);
 		action.setSprite(sprite);
 		action.setDegrees(degrees);
 		return action;
 	}
 
+	public static Action changeVariable(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
+
+		ChangeVariableAction action = action(ChangeVariableAction.class);
+		action.setSprite(sprite);
+		action.setChangeVariable(variableFormula);
+		action.setUserVariable(userVariable);
+		return action;
+	}
+
+	public static Action setVariable(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
+
+		SetVariableAction action = action(SetVariableAction.class);
+		action.setSprite(sprite);
+		action.setChangeVariable(variableFormula);
+		action.setUserVariable(userVariable);
+		return action;
+	}
+
+	static public IfLogicAction ifLogc(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
+		IfLogicAction action = action(IfLogicAction.class);
+		action.setIfAction(ifAction);
+		action.setIfCondition(condition);
+		action.setElseAction(elseAction);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	static public RepeatAction repeat(Sprite sprite, Formula count, Action repeatedAction) {
+		RepeatAction action = action(RepeatAction.class);
+		action.setRepeatCount(count);
+		action.setAction(repeatedAction);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	static public WaitAction delay(Sprite sprite, Formula delay) {
+		WaitAction action = action(WaitAction.class);
+		action.setSprite(sprite);
+		action.setDelay(delay);
+		return action;
+	}
+
+	public static Action forever(Sprite sprite, SequenceAction foreverSequence) {
+		RepeatAction action = action(RepeatAction.class);
+		action.setIsForeverRepeat(true);
+		action.setAction(foreverSequence);
+		action.setSprite(sprite);
+		return action;
+	}
 }

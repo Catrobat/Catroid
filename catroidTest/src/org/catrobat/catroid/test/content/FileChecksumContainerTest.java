@@ -34,11 +34,11 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import android.test.InstrumentationTestCase;
-import org.catrobat.catroid.test.R;
 
 public class FileChecksumContainerTest extends InstrumentationTestCase {
 
@@ -58,8 +58,8 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		TestUtils.clearProject(currentProjectName);
 		storageHandler = StorageHandler.getInstance();
 		Project testCopyFile = new Project(null, currentProjectName);
-		testCopyFile.virtualScreenHeight = 1000;
-		testCopyFile.virtualScreenWidth = 1000;
+		testCopyFile.getXmlHeader().virtualScreenHeight = 1000;
+		testCopyFile.getXmlHeader().virtualScreenWidth = 1000;
 		projectManager = ProjectManager.getInstance();
 		storageHandler.saveProject(testCopyFile);
 		projectManager.setProject(testCopyFile);

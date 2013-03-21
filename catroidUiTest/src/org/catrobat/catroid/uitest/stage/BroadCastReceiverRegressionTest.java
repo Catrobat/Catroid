@@ -48,6 +48,7 @@ public class BroadCastReceiverRegressionTest extends ActivityInstrumentationTest
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.prepareStageForTest();
 		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -69,7 +70,7 @@ public class BroadCastReceiverRegressionTest extends ActivityInstrumentationTest
 		Script script = sprite.getScript(0);
 
 		final String testMessage = "RegressionTest#105";
-		BroadcastBrick broadcastBrick = new BroadcastBrick();
+		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);
 		broadcastBrick.setSelectedMessage(testMessage);
 		script.addBrick(broadcastBrick);
 

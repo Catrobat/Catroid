@@ -20,11 +20,27 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Motion.Small" >
 
-    <TextView
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <CheckBox
+        android:id="@+id/brick_place_at_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/brick_place_at_layout"
+        style="@style/BrickContainer.Motion.Small" >
+
+        <TextView
         style="@style/BrickText.SingleLine"
         android:text="@string/brick_place_at_x" >
     </TextView>
@@ -53,5 +69,6 @@
         style="@style/BrickEditText"
         android:inputType="number|numberDecimal|numberSigned" >
     </EditText>
+    </LinearLayout>
 
 </LinearLayout>

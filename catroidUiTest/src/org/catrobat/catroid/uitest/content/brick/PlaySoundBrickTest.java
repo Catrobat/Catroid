@@ -66,6 +66,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		UiTestUtils.prepareStageForTest();
 	}
 
 	@Override
@@ -97,7 +98,8 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		assertTrue("mediaPlayer is not playing", mediaPlayer.isPlaying());
 		assertEquals("wrong file playing", 7592, mediaPlayer.getDuration());
 		solo.goBack();
-		solo.goBack();
+		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
+		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.clickOnText(soundName);

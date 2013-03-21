@@ -22,51 +22,44 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, OnClickListener {
+public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
+
+	private transient View prototypeView;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
 	}
 
-	public LegoNxtMotorActionBrick() {
-
-	}
-
-	private Sprite sprite;
 	private String motor;
 	private transient Motor motorEnum;
-	private int speed;
-
-	private static final int MIN_SPEED = -100;
-	private static final int MAX_SPEED = 100;
-
 	private transient EditText editSpeed;
-	private transient SeekBar speedBar;
+	private Formula speed;
 
 	protected Object readResolve() {
 		if (motor != null) {
@@ -75,11 +68,20 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 		return this;
 	}
 
-	public LegoNxtMotorActionBrick(Sprite sprite, Motor motor, int speed) {
+	public LegoNxtMotorActionBrick(Sprite sprite, Motor motor, int speedValue) {
 		this.sprite = sprite;
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
-		this.speed = speed;
+
+		this.speed = new Formula(speedValue);
+	}
+
+	public LegoNxtMotorActionBrick(Sprite sprite, Motor motor, Formula speedFormula) {
+		this.sprite = sprite;
+		this.motorEnum = motor;
+		this.motor = motorEnum.name();
+
+		this.speed = speedFormula;
 	}
 
 	@Override
@@ -88,31 +90,41 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
-		SeekBar noClick = (SeekBar) view.findViewById(R.id.seekBarSpeedMotorAction);
-		noClick.setEnabled(false);
-		return view;
+		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
+		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.motor_action_speed_text_view);
+		textSpeed.setText(String.valueOf(speed.interpretInteger(sprite)));
+		//TODO set the spinner Value to A
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new LegoNxtMotorActionBrick(getSprite(), motorEnum, speed);
+		return new LegoNxtMotorActionBrick(getSprite(), motorEnum, speed.clone());
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 
-		View brickView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
+		view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
+		setCheckboxView(R.id.brick_nxt_motor_action_checkbox);
 
-		TextView textSpeed = (TextView) brickView.findViewById(R.id.motor_action_speed_text_view);
-		editSpeed = (EditText) brickView.findViewById(R.id.motor_action_speed_edit_text);
-		editSpeed.setText(String.valueOf(speed));
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
+
+		TextView textSpeed = (TextView) view.findViewById(R.id.motor_action_speed_text_view);
+		editSpeed = (EditText) view.findViewById(R.id.motor_action_speed_edit_text);
+		speed.setTextFieldId(R.id.motor_action_speed_edit_text);
+		speed.refreshTextField(view);
 
 		textSpeed.setVisibility(View.GONE);
 		editSpeed.setVisibility(View.VISIBLE);
@@ -122,7 +134,7 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
 				android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.motor_spinner);
+		Spinner motorSpinner = (Spinner) view.findViewById(R.id.motor_spinner);
 		motorSpinner.setClickable(true);
 		motorSpinner.setEnabled(true);
 		motorSpinner.setAdapter(motorAdapter);
@@ -136,123 +148,34 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+
 			}
 
 		});
 
 		motorSpinner.setSelection(motorEnum.ordinal());
 
-		speedBar = (SeekBar) brickView.findViewById(R.id.seekBarSpeedMotorAction);
-		speedBar.setOnSeekBarChangeListener(this);
-		speedBar.setMax(MAX_SPEED * 2);
-		speedBar.setEnabled(true);
-		speedToSeekBarVal();
-
-		Button speedDown = (Button) brickView.findViewById(R.id.speed_down_btn);
-		speedDown.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-
-				if (speed <= -100) {
-					return;
-				}
-
-				speed--;
-				speedToSeekBarVal();
-				editSpeed.setText(String.valueOf(speed));
-			}
-		});
-
-		Button speedUp = (Button) brickView.findViewById(R.id.speed_up_btn);
-		speedUp.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-
-				if (speed >= 100) {
-					return;
-				}
-
-				speed++;
-				speedToSeekBarVal();
-				editSpeed.setText(String.valueOf(speed));
-			}
-		});
-
-		return brickView;
-	}
-
-	@Override
-	public void onProgressChanged(SeekBar speedBar, int progress, boolean fromUser) {
-		if (!fromUser) {
-			if (progress == 0) {//Robotium fromUser=false
-				return;
-			}
-		}
-
-		if (progress != (speed + 100)) {
-			seekbarValToSpeed();
-		}
-	}
-
-	@Override
-	public void onStartTrackingTouch(SeekBar speedBar) {
-	}
-
-	@Override
-	public void onStopTrackingTouch(SeekBar speedBar) {
-	}
-
-	private void seekbarValToSpeed() {
-		speed = speedBar.getProgress() - 100;
-		editSpeed.setText(String.valueOf(speed));
-	}
-
-	private void speedToSeekBarVal() {
-		speedBar.setProgress(speed + 100);
-	}
-
-	public void onNothingSelected(AdapterView<?> arg0) {
+		return view;
 	}
 
 	@Override
 	public void onClick(View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
-
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(speed));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					int newSpeed = Integer.parseInt(input.getText().toString());
-					if (newSpeed > MAX_SPEED) {
-						newSpeed = MAX_SPEED;
-						Toast.makeText(getActivity(), R.string.number_to_big, Toast.LENGTH_SHORT).show();
-					} else if (newSpeed < MIN_SPEED) {
-						newSpeed = MIN_SPEED;
-						Toast.makeText(getActivity(), R.string.number_to_small, Toast.LENGTH_SHORT).show();
-					}
-					speed = newSpeed;
-					speedToSeekBarVal();
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_nxt_moto_action_brick");
+		FormulaEditorFragment.showFragment(view, this, speed);
 	}
 
 	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.legoNxtMotorAction(motor, motorEnum, speed));
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_nxt_motor_action_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
+	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.legoNxtMotorAction(sprite, motor, motorEnum, speed));
 		return null;
 	}
 }

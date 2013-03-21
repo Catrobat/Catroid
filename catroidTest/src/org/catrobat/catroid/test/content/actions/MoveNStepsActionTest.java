@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.content.actions;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.MoveNStepsAction;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import android.test.AndroidTestCase;
 
@@ -32,7 +33,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 
 	public void testMoveHorizontalForward() {
 		Sprite sprite = new Sprite("test");
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, 10);
+		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
 
 		action.act(1.0f);
 		assertEquals("Wrong x-position", 10f, sprite.look.getXPosition());
@@ -46,7 +47,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 
 	public void testMoveHorizontalBackward() {
 		Sprite sprite = new Sprite("test");
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, -10);
+		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(-10));
 
 		action.act(1.0f);
 		assertEquals("Wrong x-position", -10f, sprite.look.getXPosition());
@@ -60,7 +61,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 
 	public void testMoveVerticalUp() {
 		Sprite sprite = new Sprite("test");
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, 10);
+		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
 
 		sprite.look.setRotation(90);
 
@@ -76,7 +77,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 
 	public void testMoveVerticalDown() {
 		Sprite sprite = new Sprite("test");
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, 10);
+		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
 
 		sprite.look.setRotation(-90);
 
@@ -92,7 +93,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 
 	public void testMoveDiagonalRightUp() {
 		Sprite sprite = new Sprite("test");
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, 10);
+		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
 
 		sprite.look.setRotation(45);
 
@@ -108,7 +109,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 
 	public void testMoveDiagonalLeftUp() {
 		Sprite sprite = new Sprite("test");
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, 10);
+		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
 
 		sprite.look.setRotation(135);
 
@@ -124,7 +125,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 
 	public void testMoveDiagonalRightDown() {
 		Sprite sprite = new Sprite("test");
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, 10);
+		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
 
 		sprite.look.setRotation(-45);
 
@@ -140,7 +141,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 
 	public void testMoveDiagonalLeftDown() {
 		Sprite sprite = new Sprite("test");
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, 10);
+		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
 
 		sprite.look.setRotation(-135);
 
@@ -156,7 +157,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 
 	public void testMoveOther() {
 		Sprite sprite = new Sprite("test");
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, 10);
+		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
 
 		sprite.look.setRotation(10);
 

@@ -25,12 +25,13 @@ package org.catrobat.catroid.test.content.actions;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.SetXAction;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import android.test.AndroidTestCase;
 
 public class SetXActionTest extends AndroidTestCase {
 
-	private int xPosition = 100;
+	private Formula xPosition = new Formula(100);
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
@@ -40,7 +41,7 @@ public class SetXActionTest extends AndroidTestCase {
 		SetXAction action = ExtendedActions.setX(sprite, xPosition);
 		action.act(1.0f);
 
-		assertEquals("Incorrect sprite x position after SetXBrick executed", (float) xPosition,
+		assertEquals("Incorrect sprite x position after SetXBrick executed", xPosition.interpretFloat(sprite),
 				sprite.look.getXPosition());
 	}
 
@@ -57,13 +58,13 @@ public class SetXActionTest extends AndroidTestCase {
 	public void testBoundaryPositions() {
 		Sprite sprite = new Sprite("testSprite");
 
-		SetXAction action = ExtendedActions.setX(sprite, Integer.MAX_VALUE);
+		SetXAction action = ExtendedActions.setX(sprite, new Formula(Integer.MAX_VALUE));
 		action.act(1.0f);
 
 		assertEquals("SetXBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
 				(int) sprite.look.getXPosition());
 
-		action = ExtendedActions.setX(sprite, Integer.MIN_VALUE);
+		action = ExtendedActions.setX(sprite, new Formula(Integer.MIN_VALUE));
 		action.act(1.0f);
 
 		assertEquals("SetXBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
