@@ -53,7 +53,8 @@ import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class FormulaEditorUserVariableFragmentTest extends android.test.ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class FormulaEditorUserVariableFragmentTest extends
+		android.test.ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private static final double SET_USERVARIABLE_TO_BRICK_VALUE = 10d;
 	private static final String USER_VARIABLE_NAME_UNDERLINE_PREFIX = "_userVar1";
@@ -620,6 +621,32 @@ public class FormulaEditorUserVariableFragmentTest extends android.test.Activity
 		assertTrue("MenuItem should not be found!", solo.getView(R.id.edit_in_paintroid) == null);
 		assertTrue("MenuItem should not be found!", solo.getView(R.id.show_details) == null);
 		assertTrue("MenuItem should not be found!", solo.getView(R.id.settings) == null);
+
+	}
+
+	public void testEmptyUserVariableCreation() {
+
+		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable)));
+		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
+		assertTrue("Add Variable Dialog not shown", solo.waitForText("Variable name ?"));
+
+		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
+
+		solo.enterText(editText, "");
+		Button ok = solo.getButton(solo.getString(R.string.ok));
+		assertFalse("Ok-Button should not be clickable!", ok.isClickable());
+
+		solo.enterText(editText, "easy");
+		ok = solo.getButton(solo.getString(R.string.ok));
+		assertTrue("Ok-Button should be clickable!", ok.isClickable());
+
+		solo.enterText(editText, "");
+		ok = solo.getButton(solo.getString(R.string.ok));
+		assertFalse("Ok-Button should not be clickable!", ok.isClickable());
 
 	}
 
