@@ -48,6 +48,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.prepareStageForTest();
 		UiTestUtils.createTestProject();
 
 		solo = new Solo(getInstrumentation(), getActivity());

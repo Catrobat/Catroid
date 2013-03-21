@@ -64,6 +64,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		UiTestUtils.clearAllUtilTestProjects();
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
