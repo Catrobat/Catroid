@@ -139,7 +139,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		currentFormula = newFormula;
 		setInputFormula(newFormula, SET_FORMULA_ON_CREATE_VIEW);
 		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
-		updateActiveAndInactiveButtons();
+		updateButtonViewOnKeyboard();
 	}
 
 	private void onUserDismiss() {
@@ -197,7 +197,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			public boolean onTouch(View view, MotionEvent event) {
 				Log.i("info", "viewId: " + view.getId());
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					updateActiveAndInactiveButtons();
+					updateButtonViewOnKeyboard();
 					view.setPressed(false);
 					return true;
 				}
@@ -270,7 +270,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		activeButton = getActivity().getResources().getDrawable(R.drawable.formula_editor_button);
 		inactiveButton = getActivity().getResources().getDrawable(R.drawable.formula_editor_button);
 		inactiveButton.setAlpha(BUTTON_ALPHA);
-		updateActiveAndInactiveButtons();
+		updateButtonViewOnKeyboard();
 
 		super.onStart();
 	}
@@ -453,20 +453,24 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 	}
 
-	private void updateActiveAndInactiveButtons() {
+	private void updateButtonViewOnKeyboard() {
 
 		Button undo = (Button) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_undo);
 		if (!formulaEditorEditText.getHistory().undoIsPossible()) {
 			undo.setBackgroundDrawable(inactiveButton);
+			undo.setClickable(false);
 		} else {
 			undo.setBackgroundDrawable(activeButton);
+			undo.setClickable(true);
 		}
 
 		Button redo = (Button) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_redo);
 		if (!formulaEditorEditText.getHistory().redoIsPossible()) {
 			redo.setBackgroundDrawable(inactiveButton);
+			redo.setClickable(false);
 		} else {
 			redo.setBackgroundDrawable(activeButton);
+			redo.setClickable(true);
 		}
 	}
 }

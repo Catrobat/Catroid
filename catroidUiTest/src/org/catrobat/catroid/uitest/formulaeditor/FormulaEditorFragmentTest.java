@@ -37,6 +37,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
+import android.widget.Button;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -493,6 +494,36 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
 		isFound = solo.searchText("5") && solo.searchText("-") && solo.searchText("4");
 		assertTrue("5 - 4 not found!", isFound);
+
+	}
+
+	public void testRedoAndUndoButtonViewOfKeyboard() {
+
+		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		assertTrue("Formula Editor Fragment not shown!",
+				solo.waitForText(solo.getString(R.string.formula_editor_title)));
+
+		Button undo = (Button) solo.getView(R.id.formula_editor_keyboard_undo);
+		Button redo = (Button) solo.getView(R.id.formula_editor_keyboard_redo);
+
+		assertTrue("Undo Button not inactive!", !undo.isClickable());
+		assertTrue("Redo Button not inactive!", !redo.isClickable());
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_6));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_6));
+
+		assertTrue("Undo Button not active!", undo.isClickable());
+		assertTrue("Redo Button not inactive!", !redo.isClickable());
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_undo));
+
+		assertTrue("Undo Button not active!", undo.isClickable());
+		assertTrue("Redo Button not active!", redo.isClickable());
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_undo));
+
+		assertTrue("Undo Button not inactive!", !undo.isClickable());
+		assertTrue("Redo Button not active!", redo.isClickable());
 
 	}
 }
