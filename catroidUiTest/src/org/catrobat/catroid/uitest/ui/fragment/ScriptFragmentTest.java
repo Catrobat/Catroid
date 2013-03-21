@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.SharedPreferences;
@@ -455,5 +456,48 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		assertFalse("Found menu item '" + rename + "'", solo.waitForText(rename, 1, timeToWait, false, true));
 		assertFalse("Found menu item '" + delete + "'", solo.waitForText(delete, 1, timeToWait, false, true));
 		assertFalse("Found menu item '" + showDetails + "'", solo.waitForText(showDetails, 1, timeToWait, false, true));
+	}
+
+	public void testOptionsEnableLegoMindstormBricks() {
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		String settings = solo.getString(R.string.pref_title);
+		String mindstormsPreferenceString = solo.getString(R.string.pref_enable_ms_bricks);
+		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
+			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
+		}
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+
+		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
+
+		solo.sleep(300);
+		solo.goBack();
+		assertEquals("Action bar navigation spinner doesn't show \'" + solo.getString(R.string.scripts) + "\'",
+				solo.getString(R.string.scripts), UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo).getSelectedItem()
+						.toString());
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+
+		UiTestUtils.openOptionsMenu(solo);
+
+		solo.clickOnText(settings);
+		solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
+		solo.clickOnText(mindstormsPreferenceString);
+		solo.goBack();
+
+		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
+
+		UiTestUtils.openOptionsMenu(solo);
+		solo.clickOnText(settings);
+		solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
+		solo.clickOnText(mindstormsPreferenceString);
+		solo.goBack();
+
+		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
 	}
 }

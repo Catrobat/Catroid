@@ -90,6 +90,7 @@ import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -259,7 +260,7 @@ public class UiTestUtils {
 
 		assertEquals("Wrong text in field", newValue, formula.interpretFloat(theBrick.getSprite()), 0.01f);
 		assertEquals("Text not updated in the brick list", newValue,
-				Double.parseDouble(solo.getEditText(editTextNumber).getText().toString()), 0.01f);
+				Double.parseDouble(solo.getEditText(editTextNumber).getText().toString().replace(',', '.')), 0.01f);
 
 	}
 
@@ -972,7 +973,7 @@ public class UiTestUtils {
 
 		@SuppressWarnings("unused")
 		public ProjectWithCatrobatLanguageVersion() {
-			catrobatLanguageVersion = 0.5f;
+			catrobatLanguageVersion = 0.6f;
 		}
 
 		public ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {
@@ -1013,7 +1014,7 @@ public class UiTestUtils {
 
 			ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
 			ActionBarSherlockCompat actionBarSherlockCompat = (ActionBarSherlockCompat) Reflection.invokeMethod(
-					SherlockFragmentActivity.class, activity, "getSherlock", null, null);
+					SherlockFragmentActivity.class, activity, "getSherlock");
 			actionBarSherlockCompat.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
 		} else {
 			solo.clickOnActionBarHomeButton();
@@ -1235,5 +1236,9 @@ public class UiTestUtils {
 	public static List<TextView> getViewsByParentId(Solo solo, int parentId) {
 		View parent = solo.getView(parentId);
 		return solo.getCurrentTextViews(parent);
+	}
+
+	public static void prepareStageForTest() {
+		Reflection.setPrivateField(StageListener.class, "DYNAMIC_SAMPLING_RATE_FOR_ACTIONS", false);
 	}
 }
