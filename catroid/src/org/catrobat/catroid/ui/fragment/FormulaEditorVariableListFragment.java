@@ -263,17 +263,19 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 									toast.setGravity(Gravity.CENTER, 0, 0);
 									toast.show();
 
-									positiveButton.setClickable(false);
-
-									positiveButton.setTextColor(getResources().getColorStateList(R.color.gray));
-
 									dialogEdittext.setBackgroundColor(getResources().getColor(R.color.solid_red));
-
+									positiveButton.setClickable(false);
+									positiveButton.setTextColor(getResources().getColorStateList(R.color.gray));
 								} else {
 
 									dialogEdittext.setBackgroundColor(getResources().getColor(R.color.transparent));
 									positiveButton.setClickable(true);
 									positiveButton.setTextColor(negativeButton.getTextColors());
+								}
+
+								if (editable.toString().isEmpty()) {
+									positiveButton.setClickable(false);
+									positiveButton.setTextColor(getResources().getColorStateList(R.color.gray));
 								}
 							}
 						});
