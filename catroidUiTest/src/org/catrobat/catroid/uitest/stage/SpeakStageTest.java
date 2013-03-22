@@ -66,11 +66,12 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
+		UiTestUtils.prepareStageForTest();
 		createProjectToInitializeTextToSpeech();
 		solo = new Solo(getInstrumentation(), getActivity());
 		textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext());
 		Reflection.setPrivateField(SpeakAction.class, "utteranceIdPool", new AtomicInteger());
-
 	}
 
 	@Override
