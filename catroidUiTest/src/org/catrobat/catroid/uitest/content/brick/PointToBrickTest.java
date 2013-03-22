@@ -103,9 +103,8 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.brick_point_to_spinner));
 		solo.waitForText(spinnerNewText);
 		solo.clickInList(0);
-		solo.sleep(300);
-		solo.clickOnButton(solo.getString(R.string.cancel_button));
-		solo.sleep(300);
+		solo.goBack();
+		solo.goBack();
 
 		assertEquals("Wrong selection", newSpriteName, ((Spinner) solo.getView(R.id.brick_point_to_spinner))
 				.getSelectedItem().toString());
