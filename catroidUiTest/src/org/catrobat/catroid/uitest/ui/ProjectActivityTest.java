@@ -39,7 +39,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.CheckBox;
@@ -76,6 +75,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.prepareStageForTest();
 
 		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
@@ -359,44 +359,45 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("not in NewSpriteDialog", solo.searchText(dialogRenameSpriteText));
 	}
 
-	public void testDivider() {
+	public void testHeadlinesInList() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-
 		ListView listView = solo.getCurrentListViews().get(0);
 
-		assertTrue("ListView divider should be null", listView.getDivider() == null);
-		assertTrue("Listview dividerheight should be 0", listView.getDividerHeight() == 0);
+		View listItemView = listView.getAdapter().getView(0, null, null);
 
-		int currentViewID;
-		int pixelColor;
-		int colorDivider;
+		View backgroundHeadline = listItemView.findViewById(R.id.spritelist_background_headline);
 
-		Bitmap viewBitmap;
-		boolean isBackground = true;
+		assertEquals("Background headline should be visible above background sprite!",
+				backgroundHeadline.getVisibility(), View.VISIBLE);
 
-		for (View viewToTest : solo.getCurrentViews()) {
-			currentViewID = viewToTest.getId();
+		View objectsHeadline = listItemView.findViewById(R.id.spritelist_objects_headline);
 
-			if (currentViewID == R.id.sprite_divider) {
-				viewToTest.buildDrawingCache();
-				viewBitmap = viewToTest.getDrawingCache();
+		assertEquals("Objects headline should be visible under background sprite!", objectsHeadline.getVisibility(),
+				View.VISIBLE);
 
-				if (isBackground) {
-					pixelColor = viewBitmap.getPixel(1, 3);
-					viewToTest.destroyDrawingCache();
-					assertTrue("Background divider should have 4px height", viewToTest.getHeight() == 4);
-					colorDivider = solo.getCurrentActivity().getResources().getColor(R.color.gray);
-					assertEquals("Divider color for background should be gray", pixelColor, colorDivider);
-					isBackground = false;
-				} else {
-					pixelColor = viewBitmap.getPixel(1, 1);
-					viewToTest.destroyDrawingCache();
-					assertTrue("Normal Sprite divider should have 2px height", viewToTest.getHeight() == 2);
-					colorDivider = solo.getCurrentActivity().getResources().getColor(R.color.egg_yellow);
-					assertEquals("Divider color for normal sprite should be eggyellow", pixelColor, colorDivider);
-				}
-			}
-		}
+		listItemView = listView.getAdapter().getView(1, null, null);
+
+		backgroundHeadline = listItemView.findViewById(R.id.spritelist_background_headline);
+
+		assertEquals("Background headline should not be visible for sprite " + FIRST_TEST_SPRITE_NAME + "!",
+				backgroundHeadline.getVisibility(), View.GONE);
+
+		objectsHeadline = listItemView.findViewById(R.id.spritelist_objects_headline);
+
+		assertEquals("Objects headline should not be visible for sprite " + FIRST_TEST_SPRITE_NAME + "!",
+				objectsHeadline.getVisibility(), View.GONE);
+	}
+
+	public void testClickOnHeadlines() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		String backgroundHeadline = solo.getString(R.string.spritelist_background_headline);
+		solo.clickOnText(backgroundHeadline);
+		solo.assertCurrentActivity("Click on background headline switched activity!", ProjectActivity.class);
+
+		String objectsHeadline = solo.getString(R.string.spritelist_objects_headline);
+		solo.clickOnText(objectsHeadline);
+		solo.assertCurrentActivity("Click on objects headline switched activity!", ProjectActivity.class);
 	}
 
 	public void testSpriteListDetails() {
@@ -655,6 +656,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testDeleteMultipleSprites() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		solo.scrollListToBottom(0);
+
 		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		solo.clickOnCheckBox(1);

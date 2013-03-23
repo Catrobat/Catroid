@@ -46,14 +46,51 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BroadcastBrick;
+import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
+import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
+import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
+import org.catrobat.catroid.content.bricks.NextLookBrick;
+import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
+import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
+import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
+import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
+import org.catrobat.catroid.content.bricks.SetXBrick;
+import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.TurnLeftBrick;
+import org.catrobat.catroid.content.bricks.TurnRightBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -77,6 +114,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -140,27 +178,101 @@ public class UiTestUtils {
 	 * @param value
 	 *            The value you want to put into the EditText
 	 */
-	public static void insertIntegerIntoEditText(Solo solo, int editTextId, int value) {
-		insertValue(solo, editTextId, value + "");
+	public static void insertIntegerIntoEditText(Solo solo, int value) {
+		insertValue(solo, value + "");
 	}
 
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the double value and closes the Dialog
 	 * 
-	 * @param editTextIndex
+	 * @param editTextId
 	 *            The ID of the EditText to click on
 	 * @param value
 	 *            The value you want to put into the EditText
 	 */
-	public static void insertDoubleIntoEditText(Solo solo, int editTextIndex, double value) {
-		insertValue(solo, editTextIndex, value + "");
+	public static void insertDoubleIntoEditText(Solo solo, double value) {
+		insertValue(solo, value + "");
 	}
 
-	private static void insertValue(Solo solo, int editTextIndex, String value) {
-		solo.clickOnEditText(editTextIndex);
-		solo.sleep(50);
-		solo.clearEditText(editTextIndex);
-		solo.enterText(editTextIndex, value);
+	private static void insertValue(Solo solo, String value) {
+
+		for (char item : (value.toCharArray())) {
+			switch (item) {
+				case '-':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
+					break;
+				case '0':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+					break;
+				case '1':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
+					break;
+				case '2':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_2));
+					break;
+				case '3':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_3));
+					break;
+				case '4':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_4));
+					break;
+				case '5':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_5));
+					break;
+				case '6':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_6));
+					break;
+				case '7':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_7));
+					break;
+				case '8':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_8));
+					break;
+				case '9':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
+					break;
+				case '.':
+				case ',':
+					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_decimal_mark));
+			}
+		}
+	}
+
+	/**
+	 * For bricks using the FormulaEditor. Tests starting the FE, entering a new number/formula and
+	 * ensures its set correctly to the brick´s edit text field
+	 */
+	public static void testBrickWithFormulaEditor(Solo solo, int editTextNumber, int numberOfEditTextsInBrick,
+			double newValue, String fieldName, Brick theBrick) {
+
+		solo.clickOnEditText(editTextNumber);
+		insertDoubleIntoEditText(solo, newValue);
+
+		assertEquals(
+				"Text not updated within FormulaEditor",
+				newValue,
+				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
+						.replace(',', '.')));
+		solo.goBack();
+		solo.sleep(200);
+
+		Formula formula = (Formula) Reflection.getPrivateField(theBrick, fieldName);
+
+		assertEquals("Wrong text in field", newValue, formula.interpretFloat(theBrick.getSprite()), 0.01f);
+		assertEquals("Text not updated in the brick list", newValue,
+				Double.parseDouble(solo.getEditText(editTextNumber).getText().toString().replace(',', '.')), 0.01f);
+
+	}
+
+	public static void insertValueViaFormulaEditor(Solo solo, int editTextNumber, double value) {
+
+		solo.clickOnEditText(editTextNumber);
+		UiTestUtils.insertDoubleIntoEditText(solo, value);
+
+		assertEquals("Text not updated within FormulaEditor", value,
+				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()));
+		solo.goBack();
+		solo.sleep(200);
 	}
 
 	public static void clickEnterClose(Solo solo, int editTextIndex, String value) {
@@ -175,6 +287,13 @@ public class UiTestUtils {
 			solo.sendKey(Solo.ENTER);
 		}
 		solo.sleep(50);
+	}
+
+	public static void clickEnterClose(Solo solo, EditText editText, String value, int buttonIndex) {
+		Log.v("debug", "Solo.Enter clickEnterClose");
+		solo.enterText(editText, value);
+		solo.waitForText(solo.getString(R.string.ok));
+		solo.clickOnButton(buttonIndex);
 	}
 
 	private static void initBrickCategoryMap() {
@@ -222,6 +341,9 @@ public class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_note, R.string.category_control);
 		brickCategoryMap.put(R.string.brick_forever, R.string.category_control);
 		brickCategoryMap.put(R.string.brick_repeat, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_if_begin, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_change_variable, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_set_variable, R.string.category_control);
 
 		brickCategoryMap.put(R.string.brick_motor_action, R.string.category_lego_nxt);
 	}
@@ -252,7 +374,7 @@ public class UiTestUtils {
 
 	public static void addNewBrick(Solo solo, int categoryStringId, int brickStringId, int nThElement) {
 		clickOnBottomBar(solo, R.id.button_add);
-		if (!solo.waitForText(solo.getCurrentActivity().getString(categoryStringId), 0, 5000)) {
+		if (!solo.waitForText(solo.getCurrentActivity().getString(categoryStringId), nThElement, 5000)) {
 			fail("Text not shown in 5 secs!");
 		}
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
@@ -295,6 +417,170 @@ public class UiTestUtils {
 		projectManager.setCurrentScript(testScript);
 
 		return brickList;
+	}
+
+	public static List<Brick> createTestProjectNestedLoops() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+
+		Script testScript = new StartScript(firstSprite);
+
+		ArrayList<Brick> brickList = new ArrayList<Brick>();
+
+		ForeverBrick firstForeverBrick = new ForeverBrick(firstSprite);
+		ForeverBrick secondForeverBrick = new ForeverBrick(firstSprite);
+
+		brickList.add(firstForeverBrick);
+		brickList.add(new ShowBrick(firstSprite));
+		brickList.add(secondForeverBrick);
+		brickList.add(new ComeToFrontBrick(firstSprite));
+		brickList.add(new LoopEndBrick(firstSprite, secondForeverBrick));
+		brickList.add(new LoopEndBrick(firstSprite, firstForeverBrick));
+
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(testScript);
+
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		return brickList;
+	}
+
+	public static List<Brick> createTestProjectIfBricks() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+
+		Script testScript = new StartScript(firstSprite);
+
+		ArrayList<Brick> brickList = new ArrayList<Brick>();
+
+		IfLogicBeginBrick IfBeginBrick = new IfLogicBeginBrick(firstSprite, 0);
+		IfLogicElseBrick IfElseBrick = new IfLogicElseBrick(firstSprite, IfBeginBrick);
+		IfLogicEndBrick IfEndBrick = new IfLogicEndBrick(firstSprite, IfElseBrick, IfBeginBrick);
+
+		brickList.add(IfBeginBrick);
+		brickList.add(new ShowBrick(firstSprite));
+		brickList.add(IfElseBrick);
+		brickList.add(new ComeToFrontBrick(firstSprite));
+		brickList.add(IfEndBrick);
+
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(testScript);
+
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		return brickList;
+	}
+
+	public static List<Brick> createTestProjectWithEveryBrick() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+
+		Script testScript = new StartScript(firstSprite);
+
+		ArrayList<Brick> brickList = new ArrayList<Brick>();
+
+		brickList.add(new BroadcastBrick(firstSprite));
+		brickList.add(new BroadcastWaitBrick(firstSprite));
+		brickList.add(new ChangeBrightnessByNBrick(firstSprite, 0));
+		brickList.add(new ChangeGhostEffectByNBrick(firstSprite, 0));
+		brickList.add(new ChangeSizeByNBrick(firstSprite, 0));
+		brickList.add(new ChangeVolumeByNBrick(firstSprite, 0));
+		brickList.add(new ChangeXByNBrick(firstSprite, 0));
+		brickList.add(new ChangeYByNBrick(firstSprite, 0));
+		brickList.add(new ClearGraphicEffectBrick(firstSprite));
+		brickList.add(new ComeToFrontBrick(firstSprite));
+		brickList.add(new GlideToBrick(firstSprite, 0, 0, 0));
+		brickList.add(new GoNStepsBackBrick(firstSprite, 0));
+		brickList.add(new HideBrick(firstSprite));
+		brickList.add(new IfOnEdgeBounceBrick(firstSprite));
+		//brickList.add(new LegoNxtMotorActionBrick(firstSprite, LegoNxtMotorActionBrick.Motor.MOTOR_A, 0));
+		//brickList.add(new LegoNxtMotorTurnAngleBrick(firstSprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, 0));
+		brickList.add(new MoveNStepsBrick(firstSprite, 0));
+		brickList.add(new NextLookBrick(firstSprite));
+		brickList.add(new NoteBrick(firstSprite));
+		brickList.add(new PlaceAtBrick(firstSprite, 0, 0));
+		brickList.add(new PlaySoundBrick(firstSprite));
+		brickList.add(new PointInDirectionBrick(firstSprite, Direction.DIRECTION_DOWN));
+		brickList.add(new PointToBrick(firstSprite, firstSprite));
+		brickList.add(new SetBrightnessBrick(firstSprite, 0));
+		brickList.add(new SetGhostEffectBrick(firstSprite, 0));
+		brickList.add(new SetLookBrick(firstSprite));
+		brickList.add(new SetSizeToBrick(firstSprite, 0));
+		brickList.add(new SetVolumeToBrick(firstSprite, 0));
+		brickList.add(new SetXBrick(firstSprite, 0));
+		brickList.add(new SetYBrick(firstSprite, 0));
+		brickList.add(new ShowBrick(firstSprite));
+		brickList.add(new SpeakBrick(firstSprite, "Hello"));
+		brickList.add(new StopAllSoundsBrick(firstSprite));
+		brickList.add(new TurnLeftBrick(firstSprite, 0));
+		brickList.add(new TurnRightBrick(firstSprite, 0));
+		brickList.add(new WaitBrick(firstSprite, 0));
+
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(testScript);
+
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		return brickList;
+	}
+
+	public static void createTestProjectForActionModeDelete() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+
+		Script firstScript = new StartScript(firstSprite);
+
+		ArrayList<Brick> firstBrickList = new ArrayList<Brick>();
+		firstBrickList.add(new HideBrick(firstSprite));
+		firstBrickList.add(new ShowBrick(firstSprite));
+
+		for (Brick brick : firstBrickList) {
+			firstScript.addBrick(brick);
+		}
+
+		Script secondScript = new WhenScript(firstSprite);
+		ArrayList<Brick> secondBrickList = new ArrayList<Brick>();
+		secondBrickList.add(new HideBrick(firstSprite));
+		secondBrickList.add(new ShowBrick(firstSprite));
+
+		for (Brick brick : secondBrickList) {
+			secondScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(firstScript);
+		firstSprite.addScript(secondScript);
+
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(firstScript);
+
 	}
 
 	public static void createEmptyProject() {
@@ -687,7 +973,7 @@ public class UiTestUtils {
 
 		@SuppressWarnings("unused")
 		public ProjectWithCatrobatLanguageVersion() {
-			catrobatLanguageVersion = 0.4f;
+			catrobatLanguageVersion = 0.6f;
 		}
 
 		public ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {
@@ -728,7 +1014,7 @@ public class UiTestUtils {
 
 			ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
 			ActionBarSherlockCompat actionBarSherlockCompat = (ActionBarSherlockCompat) Reflection.invokeMethod(
-					SherlockFragmentActivity.class, activity, "getSherlock", null, null);
+					SherlockFragmentActivity.class, activity, "getSherlock");
 			actionBarSherlockCompat.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
 		} else {
 			solo.clickOnActionBarHomeButton();
@@ -912,5 +1198,47 @@ public class UiTestUtils {
 		} else {
 			return solo.getCurrentSpinners().get(ACTION_BAR_SPINNER_INDEX).getAdapter().getCount();
 		}
+	}
+
+	public static View getViewContainerByIds(Solo solo, int id, int container_id) {
+		View parent = solo.getView(container_id);
+		List<View> views = solo.getViews(parent);
+		for (View view : views) {
+			if (view.getId() == id) {
+				return view;
+			}
+		}
+		return null;
+	}
+
+	public static View getViewContainerByString(Solo solo, String text, int containerId) {
+		View parent = solo.getView(containerId);
+		List<TextView> views = solo.getCurrentTextViews(parent);
+		for (TextView view : views) {
+
+			if (view.getText().equals(text)) {
+				return view;
+			}
+
+		}
+		return null;
+	}
+
+	public static View getViewContainerByString(String text, List<TextView> views) {
+		for (TextView view : views) {
+			if (view.getText().equals(text)) {
+				return view;
+			}
+		}
+		return null;
+	}
+
+	public static List<TextView> getViewsByParentId(Solo solo, int parentId) {
+		View parent = solo.getView(parentId);
+		return solo.getCurrentTextViews(parent);
+	}
+
+	public static void prepareStageForTest() {
+		Reflection.setPrivateField(StageListener.class, "DYNAMIC_SAMPLING_RATE_FOR_ACTIONS", false);
 	}
 }

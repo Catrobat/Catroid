@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.actions;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.stage.PreStageActivity;
 
 import android.speech.tts.TextToSpeech;
@@ -36,7 +35,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 public class SpeakAction extends Action {
 
 	private String text;
-	private SpeakBrick speakBrick;
 	private static AtomicInteger utteranceIdPool = new AtomicInteger();
 	private boolean executeOnce = true;
 	private boolean speakFinished = false;
@@ -69,20 +67,8 @@ public class SpeakAction extends Action {
 		speakFinished = false;
 	}
 
-	public String getText() {
-		return text;
-	}
-
 	public void setText(String text) {
 		this.text = text;
-	}
-
-	public SpeakBrick getSpeakBrick() {
-		return speakBrick;
-	}
-
-	public void setSpeakBrick(SpeakBrick speakBrick) {
-		this.speakBrick = speakBrick;
 	}
 
 }

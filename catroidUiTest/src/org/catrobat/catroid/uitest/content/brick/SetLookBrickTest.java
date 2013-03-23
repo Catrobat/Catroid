@@ -64,6 +64,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		UiTestUtils.clearAllUtilTestProjects();
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
@@ -130,6 +131,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		assertFalse(lookName + " is still in Spinner", solo.searchText(lookName));
 		assertTrue(lookName2 + " is not in Spinner", solo.searchText(lookName2));
+
 	}
 
 	public void testSpinnerUpdatesRename() {
@@ -158,6 +160,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
 		assertTrue(lookName2 + " is not in Spinner", solo.searchText(lookName2));
+
 	}
 
 	public void testAdapterUpdateInScriptActivity() {

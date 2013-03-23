@@ -25,12 +25,13 @@ package org.catrobat.catroid.test.content.actions;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ChangeYByNAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import android.test.AndroidTestCase;
 
 public class ChangeYByNActionTest extends AndroidTestCase {
 
-	private int yMovement = 100;
+	private Formula yMovement = new Formula(100);
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
@@ -43,7 +44,7 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
-		yPosition += yMovement;
+		yPosition += yMovement.interpretInteger(sprite);
 		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", (float) yPosition,
 				sprite.look.getYPosition());
 	}
@@ -65,7 +66,7 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 		int yPosition = 10;
 		sprite.look.setXYPosition(sprite.look.getXPosition(), yPosition);
 
-		ChangeYByNAction action = ExtendedActions.changeYByN(sprite, Integer.MAX_VALUE);
+		ChangeYByNAction action = ExtendedActions.changeYByN(sprite, new Formula(Integer.MAX_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
@@ -75,7 +76,7 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 		yPosition = -10;
 		sprite.look.setXYPosition(sprite.look.getXPosition(), yPosition);
 
-		action = ExtendedActions.changeYByN(sprite, Integer.MIN_VALUE);
+		action = ExtendedActions.changeYByN(sprite, new Formula(Integer.MIN_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 

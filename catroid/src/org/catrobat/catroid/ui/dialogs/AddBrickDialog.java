@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
@@ -48,6 +49,7 @@ import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
@@ -67,6 +69,7 @@ import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
@@ -78,13 +81,19 @@ import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
+import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
+import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -126,7 +135,6 @@ public class AddBrickDialog extends DialogFragment {
 		setRetainInstance(true);
 
 		selectedCategory = getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY);
-		getScriptFragment().setCreateNewBrick(true);
 	}
 
 	@Override
@@ -140,7 +148,6 @@ public class AddBrickDialog extends DialogFragment {
 		closeButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				abort();
 				dismiss();
 			}
 		});
@@ -168,7 +175,6 @@ public class AddBrickDialog extends DialogFragment {
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				scriptFragment.setCreateNewBrick(true);
 				Brick brickToBeAdded = getBrickClone(adapter.getItem(position));
 				scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
 
@@ -180,9 +186,14 @@ public class AddBrickDialog extends DialogFragment {
 
 				dismiss();
 
-				BrickCategoryDialog brickCategoryDialog = (BrickCategoryDialog) getFragmentManager().findFragmentByTag(
-						BrickCategoryDialog.DIALOG_FRAGMENT_TAG);
-				brickCategoryDialog.dismiss();
+				FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+				Fragment previousFragment = getFragmentManager().findFragmentByTag(
+						BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+				if (previousFragment != null) {
+					fragmentTransaction.remove(previousFragment);
+					getFragmentManager().popBackStack();
+				}
+				fragmentTransaction.commit();
 			}
 
 		});
@@ -198,16 +209,6 @@ public class AddBrickDialog extends DialogFragment {
 
 	public Brick getBrickClone(Brick brick) {
 		return brick.clone();
-	}
-
-	private void abort() {
-		getScriptFragment().setCreateNewBrick(false);
-
-	}
-
-	private ScriptFragment getScriptFragment() {
-		ScriptActivity scriptActivity = ((ScriptActivity) getActivity());
-		return (ScriptFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 	}
 
 	private static boolean isBackground(Sprite sprite) {
@@ -302,7 +303,13 @@ public class AddBrickDialog extends DialogFragment {
 		SetVolumeToBrick setVolumeToBrick = new SetVolumeToBrick(sprite, BrickValues.SET_VOLUME_TO);
 		soundBrickList.add(setVolumeToBrick);
 
-		ChangeVolumeByNBrick changeVolumeByNBrick = new ChangeVolumeByNBrick(sprite, BrickValues.CHANGE_VOLUME_BY);
+		// workaround to set a negative default value for a Brick
+		float positiveDefaultValueChangeVolumeBy = Math.abs(BrickValues.CHANGE_VOLUME_BY);
+		FormulaElement defaultValueChangeVolumeBy = new FormulaElement(ElementType.OPERATOR, Operators.MINUS.name(),
+				null, null, new FormulaElement(ElementType.NUMBER, String.valueOf(positiveDefaultValueChangeVolumeBy),
+						null));
+		ChangeVolumeByNBrick changeVolumeByNBrick = new ChangeVolumeByNBrick(sprite, new Formula(
+				defaultValueChangeVolumeBy));
 		soundBrickList.add(changeVolumeByNBrick);
 
 		SpeakBrick speakBrick = new SpeakBrick(sprite, context.getString(R.string.brick_speak_default_value));
@@ -329,6 +336,9 @@ public class AddBrickDialog extends DialogFragment {
 		controlBrickList.add(noteBrick);
 
 		controlBrickList.add(new ForeverBrick(sprite));
+		controlBrickList.add(new IfLogicBeginBrick(sprite, 0));
+		controlBrickList.add(new SetVariableBrick(sprite, 0));
+		controlBrickList.add(new ChangeVariableBrick(sprite, 0));
 
 		RepeatBrick repeatBrick = new RepeatBrick(sprite, BrickValues.REPEAT);
 		controlBrickList.add(repeatBrick);

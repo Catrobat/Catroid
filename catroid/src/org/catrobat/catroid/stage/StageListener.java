@@ -40,6 +40,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Color;
+import android.os.SystemClock;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -57,6 +58,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class StageListener implements ApplicationListener {
+
+	private static final float DELTA_ACTIONS_DIVIDER_MAXIMUM = 50f;
+	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
+	private float deltaActionTimeDivisor = 10f;
+	private static boolean DYNAMIC_SAMPLING_RATE_FOR_ACTIONS = true;
+
 	private static final boolean DEBUG = false;
 	public static final String SCREENSHOT_FILE_NAME = "screenshot.png";
 	private FPSLogger fpsLogger;
@@ -68,14 +75,17 @@ public class StageListener implements ApplicationListener {
 	private boolean firstStart = true;
 	private boolean reloadProject = false;
 
-	private boolean makeFirstScreenshot = true;
+	private boolean makeAutomaticScreenshot = true;
+	private boolean makeScreenshot = false;
 	private String pathForScreenshot;
 	private int screenshotWidth;
 	private int screenshotHeight;
 	private int screenshotX;
 	private int screenshotY;
 	private byte[] screenshot;
-	private boolean makeScreenshot = false;
+	// in first frame, framebuffer could be empty and screenshot
+	// would be white
+	private boolean skipFirstFrameForAutomaticScreenshot;
 
 	private Project project;
 
@@ -122,7 +132,6 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void create() {
-
 		font = new BitmapFont();
 		font.setColor(1f, 0f, 0.05f, 1f);
 		font.setScale(1.2f);
@@ -131,8 +140,8 @@ public class StageListener implements ApplicationListener {
 
 		project = ProjectManager.getInstance().getCurrentProject();
 
-		virtualWidth = project.virtualScreenWidth;
-		virtualHeight = project.virtualScreenHeight;
+		virtualWidth = project.getXmlHeader().virtualScreenWidth;
+		virtualHeight = project.getXmlHeader().virtualScreenHeight;
 
 		virtualWidthHalf = virtualWidth / 2;
 		virtualHeightHalf = virtualHeight / 2;
@@ -162,6 +171,7 @@ public class StageListener implements ApplicationListener {
 
 		background = new Texture(Gdx.files.internal("stage/white_pixel.bmp"));
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
+		skipFirstFrameForAutomaticScreenshot = true;
 	}
 
 	void menuResume() {
@@ -231,6 +241,7 @@ public class StageListener implements ApplicationListener {
 	public void finish() {
 		finished = true;
 		SoundManager.getInstance().clear();
+
 	}
 
 	@Override
@@ -298,26 +309,49 @@ public class StageListener implements ApplicationListener {
 			firstStart = false;
 		}
 		if (!paused) {
-			stage.act(Gdx.graphics.getDeltaTime());
+			float deltaTime = Gdx.graphics.getDeltaTime();
+
+			/*
+			 * Necessary for UiTests, when EMMA - code coverage is enabled.
+			 * 
+			 * Without setting DYNAMIC_SAMPLING_RATE_FOR_ACTIONS to false(via reflection), before
+			 * the UiTest enters the stage, random segmentation faults(triggered by EMMA) will occur.
+			 * 
+			 * Can be removed, when EMMA is replaced by an other code coverage tool, or when a
+			 * future EMMA - update will fix the bugs.
+			 */
+			if (DYNAMIC_SAMPLING_RATE_FOR_ACTIONS == false) {
+				stage.act(deltaTime);
+			} else {
+				float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
+				long timeBeforeActionsUpdate = SystemClock.uptimeMillis();
+				while (deltaTime > 0f) {
+					stage.act(optimizedDeltaTime);
+					deltaTime -= optimizedDeltaTime;
+				}
+				long executionTimeOfActionsUpdate = SystemClock.uptimeMillis() - timeBeforeActionsUpdate;
+				if (executionTimeOfActionsUpdate <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
+					deltaActionTimeDivisor += 1f;
+					deltaActionTimeDivisor = Math.min(DELTA_ACTIONS_DIVIDER_MAXIMUM, deltaActionTimeDivisor);
+				} else {
+					deltaActionTimeDivisor -= 1f;
+					deltaActionTimeDivisor = Math.max(1f, deltaActionTimeDivisor);
+				}
+			}
 		}
 
 		if (!finished) {
 			stage.draw();
 		}
 
-		if (makeFirstScreenshot) {
-			File file = new File(pathForScreenshot + SCREENSHOT_FILE_NAME);
-			if (!file.exists()) {
-				File noMediaFile = new File(pathForScreenshot + ".nomedia");
-				try {
-					file.createNewFile();
-					noMediaFile.createNewFile();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+		if (makeAutomaticScreenshot) {
+			if (skipFirstFrameForAutomaticScreenshot) {
+				skipFirstFrameForAutomaticScreenshot = false;
+			} else {
+				prepareScreenshotFiles();
 				this.makeThumbnail();
+				makeAutomaticScreenshot = false;
 			}
-			makeFirstScreenshot = false;
 		}
 
 		if (makeScreenshot) {
@@ -408,7 +442,6 @@ public class StageListener implements ApplicationListener {
 			colors[i / 4] = Color.argb(255, screenshot[i + 0] & 0xFF, screenshot[i + 1] & 0xFF,
 					screenshot[i + 2] & 0xFF);
 		}
-
 		Bitmap bitmap = Bitmap.createBitmap(colors, 0, screenshotWidth, screenshotWidth, screenshotHeight,
 				Config.ARGB_8888);
 
@@ -473,4 +506,29 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
+	public void setMakeAutomaticScreenshot(boolean makeAutomaticScreenshot) {
+		this.makeAutomaticScreenshot = makeAutomaticScreenshot;
+	}
+
+	public boolean isMakeAutomaticScreenshot() {
+		return this.makeAutomaticScreenshot;
+	}
+
+	private void prepareScreenshotFiles() {
+		File noMediaFile = new File(pathForScreenshot + ".nomedia");
+		File screenshotFile = new File(pathForScreenshot + SCREENSHOT_FILE_NAME);
+		try {
+			if (screenshotFile.exists()) {
+				screenshotFile.delete();
+				screenshotFile = new File(pathForScreenshot + SCREENSHOT_FILE_NAME);
+			}
+			screenshotFile.createNewFile();
+
+			if (!noMediaFile.exists()) {
+				noMediaFile.createNewFile();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -20,13 +20,24 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+
+-->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:orientation="horizontal" >
 
+    <CheckBox
+        android:id="@+id/brick_nxt_play_tone_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
+
     <LinearLayout
+        android:id="@+id/brick_nxt_play_tone_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/brick_red"
@@ -153,43 +164,5 @@
                 </TextView>
             </LinearLayout>
         </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" >
-
-                <Button
-                    android:id="@+id/freq_down_btn"
-                    android:layout_width="30dip"
-                    android:layout_height="35dip"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:text="@string/minus_symbol" />
-
-                <SeekBar
-                    android:id="@+id/seekBarNXTToneFrequency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:clickable="false"
-                    android:focusable="false" >
-                </SeekBar>
-
-                <Button
-                    android:id="@+id/freq_up_btn"
-                    android:layout_width="30dip"
-                    android:layout_height="35dip"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:text="@string/plus_symbol" />
-            </LinearLayout>
-        </RelativeLayout>
     </LinearLayout>
-
 </LinearLayout>

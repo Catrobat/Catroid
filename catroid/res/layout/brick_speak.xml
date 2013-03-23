@@ -20,30 +20,47 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Sound.Medium"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_speak" >
-    </TextView>
+    <CheckBox
+        android:id="@+id/brick_speak_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/brick_speak_prototype_text_view"
-        style="@style/BrickPrototypeTextView"
-        android:layout_width="match_parent"
-        android:gravity="left">
-    </TextView>
+    <LinearLayout
+        android:id="@+id/brick_speak_layout"
+        style="@style/BrickContainer.Sound.Medium"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/brick_speak_edit_text"
-        style="@style/BrickEditText"
-        android:layout_width="match_parent"
-        android:gravity="left"
-        android:inputType="text" >
-    </EditText>
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_speak" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/brick_speak_prototype_text_view"
+            style="@style/BrickPrototypeTextView"
+            android:layout_width="match_parent" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/brick_speak_edit_text"
+            style="@style/BrickEditText"
+            android:paddingLeft="50dp"
+            android:layout_width="match_parent"
+            android:gravity="left"
+            android:inputType="text" >
+        </EditText>
+    </LinearLayout>
 
 </LinearLayout>

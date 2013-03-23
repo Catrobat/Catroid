@@ -87,8 +87,11 @@
     <string name="show_details">Details anzeigen</string>
     <string name="hide_details">Details verbergen</string>
     <string name="insert_below">Darunter einfügen</string>
+    <string name="edit_in_paintroid">Bearbeite In Paintroid</string>
     <string name="sprite">Objekt</string>
     <string name="sprites">Objekte</string>
+    <string name="spritelist_background_headline">HINTERGRUND</string>
+    <string name="spritelist_objects_headline">OBJEKTE</string>
     <!--  -->
 
 
@@ -114,7 +117,7 @@
     <string name="add_look_from_camera">Von Kamera</string>
     <string name="select_look_from_gallery">Bild auswählen</string>
     <string name="select_look_from_camera">Photo auswählen</string>
-    <string name="look_resolution">Auflösung:</string>
+    <string name="look_measure">Abmessung:</string>
     <!--  -->
 
 
@@ -126,6 +129,7 @@
     <string name="sound_select_source">Klang auswählen</string>
     <string name="sound_time_seperator">/</string>
     <string name="delete_sound_dialog">Klang löschen?</string>
+    <string name="length">Länge:</string>
     <!--  -->
 
 
@@ -156,6 +160,11 @@
 
     <!-- Script context menu -->
     <string name="script_context_menu_title">Skript Menü</string>
+    <!--  -->
+    
+    
+    <!-- Look context menu -->
+    <string name="look_context_menu_edit_in_paintroid">Bearbeite In Paintroid</string>
     <!--  -->
 
 
@@ -217,7 +226,11 @@
     <string name="new_broadcast_message">Neu…</string>
     <string name="broadcast_nothing_selected">Nichts…</string>
     <!--  -->
-
+	
+	<!-- Brick general -->
+    <string name="brick_single">Baustein</string>
+    <string name="brick_multiple">Bausteine</string>
+    <!--  -->
 
     <!-- Brick categories -->
     <string name="categories">Kategorien</string>
@@ -296,8 +309,8 @@
 
 
     <!-- Control bricks -->
-    <string name="brick_when_started">Wenn Projekt gestartet</string>
-    <string name="brick_when">Wenn</string>
+    <string name="brick_when_started">Wenn Programm gestartet</string>
+    <string name="brick_when">Wenn angetippt</string>
     <string name="brick_wait">Warte</string>
     <plurals name="second_plural">
         <item quantity="one">Sekunde</item>
@@ -314,14 +327,14 @@
         <item quantity="other">mal</item>
     </plurals>
     <string name="brick_loop_end">Wiederholen beenden</string>
+    <string name="brick_if_begin">Falls</string>
+    <string name="brick_if_begin_second_part">wahr ist, dann</string>
+    <string name="brick_if_else">sonst</string>
+    <string name="brick_if_end">sonst Ende</string>
+    <string name="brick_set_variable">Setze Variable</string>
+    <string name="brick_change_variable">Ändere Variable</string>
     <string name="brick_note_default_value">"Anmerkung hier hinzufügen..." </string>
     <!--  -->
-
-
-    <!-- Actions -->
-    <string name="action_tapped">angetippt</string>
-    <!--  -->
-
 
     <!-- defaultValues -->
     <string name="default_project_name">Mein erstes Projekt</string>
@@ -403,8 +416,75 @@
     <string name="nxt_tone_frequency">Frequenz</string>
     <string name="tone_duration">Dauer</string>
     <string name="nxt_tone_hundred_hz">x100Hz</string>
-    <string name="number_to_small">Wert ist zu klein!</string>
-    <string name="number_to_big">Wert ist zu groß!</string>
+    <string name="seconds">Sekunden</string>
+    <!--  -->
+
+
+    <!-- Formula Editor Strings -->
+    <string name="formula_editor_true">Wahr</string>
+    <string name="formula_editor_false">Falsch</string>
+    <string name="formula_editor_decimal_mark">,</string>
+    <string name="formula_editor_title">Formel Editor</string>
+    <string name="formula_editor_button_undo">&lt;&lt;</string>
+    <string name="formula_editor_button_redo">&gt;&gt;</string>
+    <string name="formula_editor_changes_saved">Änderungen gespeichert!</string>
+    <string name="formula_editor_changes_discarded">Änderungen verworfen!</string>
+    <string name="formula_editor_parse_fail">Fehler in der Eingabe! Zum Verwerfen erneut klicken.</string>
+    <string name="formula_nothing_selected">Bitte Wert eingeben!</string>
+    <string name="formula_editor_parse_fail_formula_too_long">Formel zu lang! Zum Verwerfen erneut klicken.</string>
+    <string name="formula_editor_choose_look_variable">Aussehen Variable auswählen:</string>
+    <string name="formula_editor_existing_user_variable">Name wird bereits verwendet!</string>
+    <string name="formula_editor_bracket_open">(</string>
+    <string name="formula_editor_bracket_close">)</string>
+    <string name="formula_editor_function_sin">sin</string>
+    <string name="formula_editor_function_cos">cos</string>
+    <string name="formula_editor_function_tan">tan</string>
+    <string name="formula_editor_function_ln">ln</string>
+    <string name="formula_editor_function_log">log</string>
+    <string name="formula_editor_function_pi">pi</string>
+    <string name="formula_editor_function_sqrt">wurzel</string>
+    <string name="formula_editor_function_rand">zufall</string>
+    <string name="formula_editor_function_abs">abs</string>
+    <string name="formula_editor_function_round">round</string>
+    <string name="formula_editor_sensor_x_acceleration">x_beschleunigung</string>
+    <string name="formula_editor_sensor_y_acceleration">y_beschleunigung</string>
+    <string name="formula_editor_sensor_z_acceleration">z_beschleunigung</string>
+    <string name="formula_editor_sensor_z_orientation">z_orientierung</string>
+    <string name="formula_editor_sensor_x_orientation">x_orientierung</string>
+    <string name="formula_editor_sensor_y_orientation">y_orientierung</string>
+    <string name="formula_editor_look_x">aussehen_x</string>
+    <string name="formula_editor_look_y">aussehen_y</string>
+    <string name="formula_editor_look_ghosteffect">aussehen_durchsichtigkeits_effekt</string>
+    <string name="formula_editor_look_brightness">aussehen_helligkeit</string>
+    <string name="formula_editor_look_size">aussehen_größe</string>
+    <string name="formula_editor_look_rotation">aussehen_rotation</string>
+    <string name="formula_editor_look_layer">aussehen_ebene</string>
+    <string name="formula_editor_compute">Berechnen</string>
+    <string name="formula_editor_delete">Löschen</string>
+    <string name="formula_editor_object">Objekt</string>
+    <string name="formula_editor_math">Funktionen</string>
+    <string name="formula_editor_logic">Logik</string>
+    <string name="formula_editor_sensors">Sensoren</string>
+    <string name="formula_editor_variables">Variablen</string>
+    <string name="formula_editor_logic_notequal">&#x2260;</string>
+    <string name="formula_editor_logic_lesserthan">&lt;</string>
+    <string name="formula_editor_logic_greaterthan">&gt;</string>
+    <string name="formula_editor_logic_and">UND</string>
+    <string name="formula_editor_logic_or">ODER</string>
+    <string name="formula_editor_logic_not">NICHT</string>
+    <string name="formula_editor_logic_greaterequal">&#x2265;</string>
+    <string name="formula_editor_logic_leserequal">&#x2264;</string>
+    <string name="formula_editor_logic_equal">=</string>
+    <string name="formula_editor_operator_mult">×</string>
+    <string name="formula_editor_operator_plus">+</string>
+    <string name="formula_editor_operator_minus">-</string>
+    <string name="formula_editor_operator_divide">÷</string>
+    <string name="formula_editor_operator_power">^</string>
+    <string name="formula_editor_make_new_variable">Erstelle neue Variable</string>
+    <string name="formula_editor_variable_dialog_for_all_sprites">Für alle Objekte</string>
+    <string name="formula_editor_variable_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
+    <string name="formula_editor_variable_dialog_hint">Namen eingeben</string>
+    <string name="formula_editor_variable_context_action_item_selected">Variablen ausgewählt!</string>
     <!--  -->
 
 </resources>
