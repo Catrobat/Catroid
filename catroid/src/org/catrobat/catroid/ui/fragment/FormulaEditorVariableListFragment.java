@@ -40,7 +40,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
@@ -62,10 +61,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public class FormulaEditorVariableListFragment extends SherlockListFragment implements Dialog.OnKeyListener,
@@ -108,12 +107,6 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.menu_formulaeditor_variablelist, menu);
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-
-	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		if (!inContextMode) {
 			super.onCreateContextMenu(menu, view, menuInfo);
@@ -123,20 +116,16 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
+		for (int index = 0; index < menu.size(); index++) {
+			menu.getItem(index).setVisible(false);
+		}
 		menu.findItem(R.id.delete).setVisible(true);
-		menu.findItem(R.id.copy).setVisible(false);
-		menu.findItem(R.id.cut).setVisible(false);
-		menu.findItem(R.id.show_details).setVisible(false);
-		menu.findItem(R.id.insert_below).setVisible(false);
-		menu.findItem(R.id.move).setVisible(false);
-		menu.findItem(R.id.rename).setVisible(false);
-		menu.findItem(R.id.show_details).setVisible(false);
-		menu.findItem(R.id.settings).setVisible(false);
 
 		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
 		getSherlockActivity().getSupportActionBar().setTitle(actionBarTitle);
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
@@ -274,17 +263,19 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 									toast.setGravity(Gravity.CENTER, 0, 0);
 									toast.show();
 
-									positiveButton.setClickable(false);
-
-									positiveButton.setTextColor(getResources().getColorStateList(R.color.gray));
-
 									dialogEdittext.setBackgroundColor(getResources().getColor(R.color.solid_red));
-
+									positiveButton.setClickable(false);
+									positiveButton.setTextColor(getResources().getColorStateList(R.color.gray));
 								} else {
 
 									dialogEdittext.setBackgroundColor(getResources().getColor(R.color.transparent));
 									positiveButton.setClickable(true);
 									positiveButton.setTextColor(negativeButton.getTextColors());
+								}
+
+								if (editable.toString().isEmpty()) {
+									positiveButton.setClickable(false);
+									positiveButton.setTextColor(getResources().getColorStateList(R.color.gray));
 								}
 							}
 						});
@@ -332,10 +323,6 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_delete:
-				inContextMode = true;
-				contextActionMode = getSherlockActivity().startActionMode(mContextModeCallback);
-				return true;
 			case R.id.delete:
 				inContextMode = true;
 				contextActionMode = getSherlockActivity().startActionMode(mContextModeCallback);
@@ -363,7 +350,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	}
 
 	public void showFragment(Context context) {
-		FragmentActivity activity = (FragmentActivity) context;
+		SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
 
@@ -372,6 +359,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		fragTransaction.hide(formulaEditorFragment);
 		fragTransaction.show(this);
 		fragTransaction.commit();
+
 		if (adapter != null) {
 			initializeUserVariableAdapter();
 		}

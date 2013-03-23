@@ -48,6 +48,7 @@ public class BroadCastReceiverRegressionTest extends ActivityInstrumentationTest
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.prepareStageForTest();
 		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}

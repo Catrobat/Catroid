@@ -90,6 +90,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.prepareStageForTest();
 		unzip = false;
 		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
