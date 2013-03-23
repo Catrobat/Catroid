@@ -51,7 +51,7 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 	private Solo solo;
 	private final static String TEST_PROJECT_NAME = UiTestUtils.PROJECTNAME1;
 	private final static String LOOK_DATA_NAME = "lookData";
-	private final static String POINT_TO_PRITE_NAME = "pointSprite";
+	private final static String POINT_TO_SPRITE_NAME = "pointSprite";
 	private final static String TEST_SOUND_TITLE = "soundTitle";
 	private final static String TEST_BROADCAST_MESSAGE = "broadcastMessage";
 	private final static String TEST_BROADCAST_WAIT_MESSAGE = "broadcastWaitMessage";
@@ -85,9 +85,9 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 
 		solo.clickOnText(spinnerNothingSelectedText);
 
-		//		assertTrue(POINT_TO_PRITE_NAME + " Sprite is not selected", solo.searchText(POINT_TO_PRITE_NAME));
-		//		solo.clickOnText(POINT_TO_PRITE_NAME);
-		//		solo.clickOnText(spinnerNothingSelectedText);
+		assertTrue(POINT_TO_SPRITE_NAME + " Sprite is not selected", solo.searchText(POINT_TO_SPRITE_NAME));
+		solo.clickOnText(POINT_TO_SPRITE_NAME);
+		solo.goBack();
 
 		assertTrue(TEST_SOUND_TITLE + " Sound is not selected", solo.searchText(TEST_SOUND_TITLE));
 		solo.clickOnText(TEST_SOUND_TITLE);
@@ -114,7 +114,7 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 	private void createSpinnerProject() {
 		Project project = new Project(null, TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("testSprite");
-		Sprite pointToSprite = new Sprite(POINT_TO_PRITE_NAME);
+		Sprite pointToSprite = new Sprite(POINT_TO_SPRITE_NAME);
 		project.addSprite(pointToSprite);
 		project.addSprite(sprite);
 
