@@ -230,21 +230,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onCategorySelected(String category) {
-		/*
-		 * selectedCategory = category;
-		 * 
-		 * FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-		 * Fragment previousFragment = getFragmentManager().findFragmentByTag(AddBrickDialog.DIALOG_FRAGMENT_TAG);
-		 * if (previousFragment != null) {
-		 * fragmentTransaction.remove(previousFragment);
-		 * }
-		 * fragmentTransaction.addToBackStack(null);
-		 * 
-		 * AddBrickDialog addBrickDialog = AddBrickDialog.newInstance(selectedCategory, this);
-		 * addBrickDialog.show(fragmentTransaction, AddBrickDialog.DIALOG_FRAGMENT_TAG);
-		 */
 		selectedCategory = category;
-		//AddBrickFragment addBrickFragment = new AddBrickFragment();
 		AddBrickFragment addBrickFragment = AddBrickFragment.newInstance(selectedCategory, this);
 		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

@@ -106,13 +106,11 @@ public class AddBrickFragment extends SherlockListFragment {
 
 	private static final String BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category";
 	public static final String ADD_BRICK_FRAGMENT_TAG = "add_brick_fragment";
-	//	private String category;
 	private ScriptFragment scriptFragment;
 	private CharSequence previousActionBarTitle;
 	private int previousActionBarNavigationMode;
 	private HashMap<String, List<Brick>> brickMap;
 	private PrototypeBrickAdapter adapter;
-	private ListView listView;
 
 	public static AddBrickFragment newInstance(String selectedCategory, ScriptFragment scriptFragment) {
 		AddBrickFragment fragment = new AddBrickFragment();
@@ -212,10 +210,16 @@ public class AddBrickFragment extends SherlockListFragment {
 				}
 
 				FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-				Fragment previousFragment = getFragmentManager().findFragmentByTag(
+				Fragment categoryFragment = getFragmentManager().findFragmentByTag(
 						BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
-				if (previousFragment != null) {
-					fragmentTransaction.remove(previousFragment);
+				if (categoryFragment != null) {
+					fragmentTransaction.remove(categoryFragment);
+					getFragmentManager().popBackStack();
+				}
+				Fragment addBrickFragment = getFragmentManager().findFragmentByTag(
+						AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
+				if (addBrickFragment != null) {
+					fragmentTransaction.remove(addBrickFragment);
 					getFragmentManager().popBackStack();
 				}
 				fragmentTransaction.commit();
