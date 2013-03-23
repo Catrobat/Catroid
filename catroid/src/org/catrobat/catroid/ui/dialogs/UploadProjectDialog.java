@@ -220,7 +220,7 @@ public class UploadProjectDialog extends DialogFragment {
 		}
 
 		Context context = getActivity().getApplicationContext();
-		if (Utils.projectSameAsStandardProject(projectManager.getCurrentProject(), context)) {
+		if (Utils.isStandardProject(projectManager.getCurrentProject(), context)) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_upload_default_project));
 			return;
 		}

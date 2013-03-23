@@ -376,20 +376,20 @@ public class Utils {
 		}
 	}
 
-	public static boolean projectSameAsStandardProject(Project projectToCheck, Context context) {
+	public static boolean isStandardProject(Project projectToCheck, Context context) {
 		try {
 			Project standardProject = StandardProjectHandler.createAndSaveStandardProject(
 					context.getString(R.string.default_project_name), context);
 			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
 			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
 
-			int start = standardProjectXMLString.indexOf("<spriteList>");
-			int end = standardProjectXMLString.indexOf("</spriteList>");
+			int start = standardProjectXMLString.indexOf("<objectList>");
+			int end = standardProjectXMLString.indexOf("</objectList>");
 
 			String standardProjectSpriteList = standardProjectXMLString.substring(start, end);
 
-			start = projectToCheckXMLString.indexOf("<spriteList>");
-			end = projectToCheckXMLString.indexOf("</spriteList>");
+			start = projectToCheckXMLString.indexOf("<objectList>");
+			end = projectToCheckXMLString.indexOf("</objectList>");
 
 			String projectToCheckStringList = projectToCheckXMLString.substring(start, end);
 
