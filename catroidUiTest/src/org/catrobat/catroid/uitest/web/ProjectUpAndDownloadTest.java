@@ -83,7 +83,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	public void tearDown() throws Exception {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
-		//UiTestUtils.goBackToHome(getInstrumentation());
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -204,7 +204,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		String serverProjectDescription = downloadedProject.getDescription();
 		assertTrue("Project name on server was not correctly renamed",
 				serverProjectName.equalsIgnoreCase(projectNameSetWhenUploading));
-		assertTrue("Project name on server was not correctly renamed",
+		assertTrue("Project description on server was not correctly renamed",
 				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
 	}
 
@@ -399,7 +399,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private boolean createAndSaveStandardProject() {
 		try {
 			standardProject = StandardProjectHandler.createAndSaveStandardProject(
-					solo.getString(R.string.default_project_name), getInstrumentation().getTargetContext());
+					solo.getString(R.string.default_project_name), getInstrumentation().getTargetContext(), true);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
@@ -476,7 +476,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		intent.setAction(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse(downloadUrl));
 		launchActivityWithIntent("org.catrobat.catroid", MainMenuActivity.class, intent);
-		solo.sleep(500);
+		solo.sleep(1500);
 		assertTrue("OverwriteRenameDialog not shown.", solo.searchText(solo.getString(R.string.overwrite_text)));
 		solo.clickOnText(solo.getString(R.string.overwrite_replace));
 		solo.clickOnButton(solo.getString(R.string.ok));

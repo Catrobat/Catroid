@@ -402,7 +402,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		Project standardProject = null;
 		try {
 			standardProject = StandardProjectHandler.createAndSaveStandardProject(
-					UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
+					UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext(), true);
 		} catch (IOException e) {
 			fail("Could not create standard project");
 			e.printStackTrace();

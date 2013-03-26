@@ -26,6 +26,7 @@
  * 	manningr@users.sourceforge.net
  * Source: http://www.java2s.com/Code/Java/File-Input-Output/Autilityclassformanipulatingpaths.htm
  */
+
 package org.catrobat.catroid.utils;
 
 import java.io.File;
@@ -43,7 +44,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
@@ -76,6 +76,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class Utils {
 
+	private static String standardProjectString = "<program>\n  <header>\n    <applicationBuildName></applicationBuildName>\n    <applicationBuildNumber>0</applicationBuildNumber>\n    <applicationName>Catroid</applicationName>\n    <applicationVersion>0.7.0beta</applicationVersion>\n    <catrobatLanguageVersion>0.6</catrobatLanguageVersion>\n    <dateTimeUpload></dateTimeUpload>\n    <description></description>\n    <deviceName>Galaxy Nexus</deviceName>\n    <mediaLicense></mediaLicense>\n    <platform>Android</platform>\n    <platformVersion>17</platformVersion>\n    <programLicense></programLicense>\n    <programName>Mein erstes Projekt</programName>\n    <programScreenshotManuallyTaken>false</programScreenshotManuallyTaken>\n    <remixOf></remixOf>\n    <screenHeight>1184</screenHeight>\n    <screenWidth>720</screenWidth>\n    <tags></tags>\n    <url></url>\n    <userHandle></userHandle>\n  </header>\n  <objectList>\n    <object>\n      <lookList>\n        <look>\n          <fileName>C7781E3CB311DE7578C6EE03E88929A6_Hintergrund</fileName>\n          <name>Hintergrund</name>\n        </look>\n      </lookList>\n      <name>Hintergrund</name>\n      <scriptList>\n        <startScript>\n          <brickList>\n            <setLookBrick>\n              <object reference=\"../../../../..\"/>\n              <look reference=\"../../../../../lookList/look\"/>\n            </setLookBrick>\n          </brickList>\n          <object reference=\"../../..\"/>\n        </startScript>\n      </scriptList>\n      <soundList/>\n    </object>\n    <object>\n      <lookList>\n        <look>\n          <fileName>CFD7234CABB050900E7098F070077A1A_Katze normal</fileName>\n          <name>Katze normal</name>\n        </look>\n        <look>\n          <fileName>8380419464693D8BF38323918FD9AE23_Banzai-Katze</fileName>\n          <name>Banzai-Katze</name>\n        </look>\n        <look>\n          <fileName>A680E9D62D48B0EC6A092D7A1E35769E_Grinsekatze</fileName>\n          <name>Grinsekatze</name>\n        </look>\n      </lookList>\n      <name>Catroid</name>\n      <scriptList>\n        <startScript>\n          <brickList>\n            <setLookBrick>\n              <object reference=\"../../../../..\"/>\n              <look reference=\"../../../../../lookList/look\"/>\n            </setLookBrick>\n          </brickList>\n          <object reference=\"../../..\"/>\n        </startScript>\n        <whenScript>\n          <brickList>\n            <setLookBrick>\n              <object reference=\"../../../../..\"/>\n              <look reference=\"../../../../../lookList/look[2]\"/>\n            </setLookBrick>\n            <waitBrick>\n              <object reference=\"../../../../..\"/>\n              <timeToWaitInSeconds>\n                <formulaTree>\n                  <type>NUMBER</type>\n                  <value>0.5</value>\n                </formulaTree>\n              </timeToWaitInSeconds>\n            </waitBrick>\n            <setLookBrick>\n              <object reference=\"../../../../..\"/>\n              <look reference=\"../../../../../lookList/look[3]\"/>\n            </setLookBrick>\n            <waitBrick>\n              <object reference=\"../../../../..\"/>\n              <timeToWaitInSeconds>\n                <formulaTree>\n                  <type>NUMBER</type>\n                  <value>0.5</value>\n                </formulaTree>\n              </timeToWaitInSeconds>\n            </waitBrick>\n            <setLookBrick>\n              <object reference=\"../../../../..\"/>\n              <look reference=\"../../../../../lookList/look\"/>\n            </setLookBrick>\n          </brickList>\n          <object reference=\"../../..\"/>\n          <action>Tapped</action>\n        </whenScript>\n      </scriptList>\n      <soundList/>\n    </object>\n  </objectList>\n  <variables>\n    <objectVariableList/>\n    <programVariableList/>\n  </variables>\n</program>";
 	private static final String TAG = Utils.class.getSimpleName();
 	private static long uniqueLong = 0;
 	private static Semaphore uniqueNameLock = new Semaphore(1);
@@ -377,30 +378,25 @@ public class Utils {
 	}
 
 	public static boolean isStandardProject(Project projectToCheck, Context context) {
-		try {
-			Project standardProject = StandardProjectHandler.createAndSaveStandardProject(
-					context.getString(R.string.default_project_name), context);
-			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
-			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
 
-			int start = standardProjectXMLString.indexOf("<objectList>");
-			int end = standardProjectXMLString.indexOf("</objectList>");
+		//Project standardProject = StandardProjectHandler.createAndSaveStandardProject(
+		//	context.getString(R.string.default_project_name), context, false);
+		String standardProjectXMLString = standardProjectString;
+		//StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
+		System.out.print(standardProjectXMLString);
+		String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
 
-			String standardProjectSpriteList = standardProjectXMLString.substring(start, end);
+		int start = standardProjectXMLString.indexOf("<objectList>");
+		int end = standardProjectXMLString.indexOf("</objectList>");
 
-			start = projectToCheckXMLString.indexOf("<objectList>");
-			end = projectToCheckXMLString.indexOf("</objectList>");
+		String standardProjectSpriteList = standardProjectXMLString.substring(start, end);
 
-			String projectToCheckStringList = projectToCheckXMLString.substring(start, end);
+		start = projectToCheckXMLString.indexOf("<objectList>");
+		end = projectToCheckXMLString.indexOf("</objectList>");
 
-			return standardProjectSpriteList.contentEquals(projectToCheckStringList);
+		String projectToCheckStringList = projectToCheckXMLString.substring(start, end);
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return true;
-
+		return standardProjectSpriteList.contentEquals(projectToCheckStringList);
 	}
 
 	public static int convertDoubleToPluralInteger(double value) {

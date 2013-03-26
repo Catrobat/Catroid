@@ -65,11 +65,6 @@ public class SetLookBrick extends BrickBaseType {
 		return this.look;
 	}
 
-	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public String getImagePath() {
 		return look.getAbsolutePath();
 	}

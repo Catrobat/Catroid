@@ -328,7 +328,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		try {
 			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
-					getInstrumentation().getTargetContext());
+					getInstrumentation().getTargetContext(), true);
 		} catch (IOException e) {
 			fail("Could not create standard project");
 			e.printStackTrace();

@@ -54,18 +54,22 @@ public class StandardProjectHandler {
 
 	public static Project createAndSaveStandardProject(Context context) throws IOException {
 		String projectName = context.getString(R.string.default_project_name);
-		return createAndSaveStandardProject(projectName, context);
+		return createAndSaveStandardProject(projectName, context, true);
 	}
 
-	public static Project createAndSaveStandardProject(String projectName, Context context) throws IOException {
+	public static Project createAndSaveStandardProject(String projectName, Context context, boolean saveProject)
+			throws IOException {
+		saveProject = true;
 		String normalCatName = context.getString(R.string.default_project_sprites_catroid_normalcat);
 		String banzaiCatName = context.getString(R.string.default_project_sprites_catroid_banzaicat);
 		String cheshireCatName = context.getString(R.string.default_project_sprites_catroid_cheshirecat);
 		String backgroundName = context.getString(R.string.default_project_backgroundname);
 
 		Project defaultProject = new Project(context, projectName);
-		StorageHandler.getInstance().saveProject(defaultProject);
-		ProjectManager.getInstance().setProject(defaultProject);
+		if (saveProject) {
+			StorageHandler.getInstance().saveProject(defaultProject);
+			ProjectManager.getInstance().setProject(defaultProject);
+		}
 		Sprite sprite = new Sprite(context.getString(R.string.default_project_sprites_catroid_name));
 		Sprite backgroundSprite = defaultProject.getSpriteList().get(0);
 
@@ -136,7 +140,9 @@ public class StandardProjectHandler {
 		sprite.addScript(whenScript);
 		backgroundSprite.addScript(backgroundStartScript);
 
-		StorageHandler.getInstance().saveProject(defaultProject);
+		if (saveProject) {
+			StorageHandler.getInstance().saveProject(defaultProject);
+		}
 
 		return defaultProject;
 	}

@@ -141,7 +141,7 @@ public class ProjectManager {
 
 	public void initializeNewProject(String projectName, Context context) throws IOException {
 		fileChecksumContainer = new FileChecksumContainer();
-		project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
+		project = StandardProjectHandler.createAndSaveStandardProject(projectName, context, true);
 
 		currentSprite = null;
 		currentScript = null;
