@@ -53,7 +53,6 @@ public class Look extends Image {
 	protected Pixmap pixmap;
 	private HashMap<String, ArrayList<SequenceAction>> broadcastSequenceMap;
 	private HashMap<String, ArrayList<SequenceAction>> broadcastWaitSequenceMap;
-	private ArrayList<SequenceAction> whenSequenceList;
 	private ParallelAction whenParallelAction;
 	private boolean allActionAreFinished = false;
 
@@ -67,7 +66,6 @@ public class Look extends Image {
 		this.alphaValue = 1f;
 		this.brightnessValue = 1f;
 		this.show = true;
-		this.whenSequenceList = new ArrayList<SequenceAction>();
 		this.whenParallelAction = null;
 		this.broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
 		this.broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
@@ -103,12 +101,6 @@ public class Look extends Image {
 
 		if (x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight()) {
 			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
-				//				if (whenSequenceList.isEmpty()) {
-				//					sprite.createWhenScriptActionSequence("Tapped");
-				//				}
-				//				for (SequenceAction action : whenSequenceList) {
-				//					action.restart();
-				//				}
 				if (whenParallelAction == null) {
 					whenParallelAction = ExtendedActions.parallel();
 					sprite.createWhenScriptActionSequence("Tapped");
@@ -360,10 +352,6 @@ public class Look extends Image {
 			actionList.add(action);
 			broadcastSequenceMap.put(broadcastMessage, actionList);
 		}
-	}
-
-	public void addWhenSequenceAction(SequenceAction action) {
-		whenSequenceList.add(action);
 	}
 
 	public void addWhenSequenceToParallelAction(SequenceAction action) {

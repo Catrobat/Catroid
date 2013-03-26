@@ -55,7 +55,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -71,7 +70,6 @@ public class StageListener implements ApplicationListener {
 	private FPSLogger fpsLogger;
 
 	private Stage stage;
-	private Group parentGroup;
 	private boolean paused = false;
 	private boolean finished = false;
 	private boolean firstStart = true;
@@ -155,13 +153,11 @@ public class StageListener implements ApplicationListener {
 		camera = (OrthographicCamera) stage.getCamera();
 		camera.position.set(0, 0, 0);
 
-		parentGroup = new Group();
-
 		sprites = project.getSpriteList();
 		sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
-		for (Sprite sprite : sprites) {
-			parentGroup.addActor(sprite.look);
-			stage.addActor(sprite.look);
+		stage.addActor(sprites.get(0).look);
+		for (int i = sprites.size() - 1; i > 0; i--) {
+			stage.addActor(sprites.get(i).look);
 		}
 		if (DEBUG) {
 			OrthoCamController camController = new OrthoCamController(camera);
@@ -262,13 +258,13 @@ public class StageListener implements ApplicationListener {
 			stage.clear();
 			SoundManager.getInstance().clear();
 
-			parentGroup = new Group();
 			project = ProjectManager.getInstance().getCurrentProject();
 			sprites = project.getSpriteList();
 			sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
-			for (int i = 0; i < spriteSize; i++) {
+			stage.addActor(sprites.get(0).look);
+			sprites.get(0).pause();
+			for (int i = spriteSize - 1; i > 0; i--) {
 				Sprite sprite = sprites.get(i);
-				parentGroup.addActor(sprite.look);
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}

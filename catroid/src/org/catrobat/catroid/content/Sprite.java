@@ -109,8 +109,6 @@ public class Sprite implements Serializable {
 				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
 					SequenceAction sequence = createActionSequence(s);
 					look.addWhenSequenceToParallelAction(sequence);
-					//					look.addWhenSequenceAction(sequence);
-					//					look.addAction(sequence);
 				}
 			}
 		}
