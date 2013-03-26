@@ -84,6 +84,9 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 		view = View.inflate(context, R.layout.brick_glide_to, null);
 
 		setCheckboxView(R.id.brick_glide_to_checkbox);

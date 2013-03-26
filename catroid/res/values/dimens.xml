@@ -26,12 +26,15 @@
     <dimen name="actionbar_height">48dip</dimen>
     <dimen name="project_thumbnail_height">133dip</dimen>
     <dimen name="project_thumbnail_width">80dip</dimen>
+    <dimen name="spritelist_item_height">90dip</dimen>
     <dimen name="text_size_small">13sp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
     <dimen name="text_size_large">18sp</dimen>
     <dimen name="text_size_xlarge">20sp</dimen>
     <dimen name="text_size_main_menu_buttons">22sp</dimen>
     <dimen name="text_size_main_menu_button_continue_program_name">14sp</dimen>
+    <dimen name="text_size_program_menu_buttons">22sp</dimen>
+    <dimen name="program_menu_button_height">90dp</dimen>
     <dimen name="brick_edit_text_and_prototype_text_view_minimum_width">48dp</dimen>
     <dimen name="brick_height_small">72dp</dimen>
     <dimen name="brick_height_medium">96dp</dimen>
@@ -40,5 +43,7 @@
     <dimen name="key_margin">1dip</dimen>
     <dimen name="text_size_xxsmall">10sp</dimen>
     <dimen name="text_size_xxlarge">24sp</dimen>
+    <dimen name="brick_category_height">90dp</dimen>
+    <dimen name="text_size_brick_category">22sp</dimen>
 
 </resources>

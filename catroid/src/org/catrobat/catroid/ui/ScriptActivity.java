@@ -223,6 +223,15 @@ public class ScriptActivity extends SherlockFragmentActivity {
 			return super.onOptionsItemSelected(item);
 		}
 
+		FormulaEditorVariableListFragment formulaEditorVariableListFragment = (FormulaEditorVariableListFragment) getSupportFragmentManager()
+				.findFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
+
+		if (formulaEditorVariableListFragment != null) {
+			if (formulaEditorVariableListFragment.isVisible()) {
+				return super.onOptionsItemSelected(item);
+			}
+		}
+
 		switch (item.getItemId()) {
 			case android.R.id.home:
 				Intent mainMenuIntent = new Intent(this, MainMenuActivity.class);
@@ -261,6 +270,10 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				Intent settingsIntent = new Intent(ScriptActivity.this, SettingsActivity.class);
 				startActivity(settingsIntent);
 				break;
+
+			case R.id.edit_in_paintroid:
+				currentFragment.startEditInPaintroidActionMode();
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -279,6 +292,10 @@ public class ScriptActivity extends SherlockFragmentActivity {
 			ProjectManager projectManager = ProjectManager.getInstance();
 			int currentSpritePosition = projectManager.getCurrentSpritePosition();
 			int currentScriptPosition = projectManager.getCurrentScriptPosition();
+			/*
+			 * Save project after stage in order to keep the values of user variables
+			 */
+			projectManager.saveProject();
 			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 			projectManager.setCurrentSpriteWithPosition(currentSpritePosition);
 			projectManager.setCurrentScriptWithPosition(currentScriptPosition);
@@ -350,7 +367,19 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-		//Dismiss ActionMode without effecting sounds
+		//Dismiss ActionMode without effecting checked items
+
+		FormulaEditorVariableListFragment formulaEditorVariableListFragment = (FormulaEditorVariableListFragment) getSupportFragmentManager()
+				.findFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
+
+		if (formulaEditorVariableListFragment != null) {
+			if (formulaEditorVariableListFragment.isVisible()) {
+				ListAdapter adapter = formulaEditorVariableListFragment.getListAdapter();
+				((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
+				return super.dispatchKeyEvent(event);
+			}
+		}
+
 		if (currentFragment != null && currentFragment.getActionModeActive()) {
 			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
 				ListAdapter adapter = null;
@@ -362,6 +391,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
 			}
 		}
+
 		return super.dispatchKeyEvent(event);
 	}
 

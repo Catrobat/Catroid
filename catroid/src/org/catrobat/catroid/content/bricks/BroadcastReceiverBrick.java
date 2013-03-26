@@ -67,6 +67,9 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 		if (receiveScript == null) {
 			receiveScript = new BroadcastScript(sprite);
 		}

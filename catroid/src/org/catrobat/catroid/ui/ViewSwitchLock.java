@@ -22,9 +22,14 @@
  */
 package org.catrobat.catroid.ui;
 
-public class ViewSwitchLock {
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+
+public class ViewSwitchLock implements Lock {
 	private boolean locked = false;
 
+	@Override
 	public synchronized boolean tryLock() {
 		if (locked) {
 			return false;
@@ -34,7 +39,28 @@ public class ViewSwitchLock {
 		return true;
 	}
 
+	@Override
 	public synchronized void unlock() {
 		locked = false;
+	}
+
+	@Override
+	public void lock() {
+		throw new UnsupportedOperationException("Unsupported Method");
+	}
+
+	@Override
+	public void lockInterruptibly() throws InterruptedException {
+		throw new UnsupportedOperationException("Unsupported Method");
+	}
+
+	@Override
+	public Condition newCondition() {
+		throw new UnsupportedOperationException("Unsupported Method");
+	}
+
+	@Override
+	public boolean tryLock(long arg0, TimeUnit arg1) throws InterruptedException {
+		throw new UnsupportedOperationException("Unsupported Method");
 	}
 }

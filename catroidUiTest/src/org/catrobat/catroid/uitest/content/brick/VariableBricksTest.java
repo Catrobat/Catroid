@@ -47,6 +47,7 @@ public class VariableBricksTest extends ActivityInstrumentationTestCase2<MainMen
 	private UserVariablesContainer userVariablesContainer;
 	private SetVariableBrick setVariableBrick;
 	private ChangeVariableBrick changeVariableBrick;
+	private Sprite sprite;
 
 	public VariableBricksTest() {
 		super(MainMenuActivity.class);
@@ -56,6 +57,7 @@ public class VariableBricksTest extends ActivityInstrumentationTestCase2<MainMen
 	public void setUp() throws Exception {
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
@@ -98,13 +100,13 @@ public class VariableBricksTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.sleep(1500);
 
 		assertEquals("Variable has the wrong value after stage", 42.0,
-				userVariablesContainer.getUserVariable("p2", "cat").getValue());
+				userVariablesContainer.getUserVariable("p2", sprite).getValue());
 
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite sprite = new Sprite("cat");
+		sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

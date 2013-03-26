@@ -232,8 +232,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		SoundInfo soundInfo = soundInfoList.get(0);
 		assertFalse("Mediaplayer is playing although no play button was touched", soundInfo.isPlaying);
 
-		ImageButton playImageButton = (ImageButton) solo.getView(R.id.btn_sound_play);
-		ImageButton pauseImageButton = (ImageButton) solo.getView(R.id.btn_sound_pause);
+		ImageButton playImageButton = (ImageButton) solo.getView(R.id.fragment_sound_item_play_image_button);
+		ImageButton pauseImageButton = (ImageButton) solo.getView(R.id.fragment_sound_item_pause_image_button);
 
 		solo.clickOnView(playImageButton);
 		solo.sleep(timeToWait);
@@ -262,7 +262,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		SoundInfo soundInfo = soundInfoList.get(0);
 		assertFalse("Mediaplayer is playing although no play button was touched", soundInfo.isPlaying);
 
-		ImageButton playImageButton = (ImageButton) solo.getView(R.id.btn_sound_play);
+		ImageButton playImageButton = (ImageButton) solo.getView(R.id.fragment_sound_item_play_image_button);
 
 		solo.clickOnView(playImageButton);
 		solo.sleep(timeToWait);
@@ -563,13 +563,17 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		int currentNumberOfSounds = soundInfoList.size();
 		assertEquals("Wrong number of sounds", 5, currentNumberOfSounds);
 
-		// Unsorted (not ascending)
-		int[] checkboxIndicesToCheck = { 4, 0, 2 };
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
+		int[] checkboxIndicesToCheck = { solo.getCurrentCheckBoxes().size() - 1, 0, 2 };
 		int expectedNumberOfSounds = currentNumberOfSounds - checkboxIndicesToCheck.length;
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		solo.scrollDown();
 		solo.clickOnCheckBox(checkboxIndicesToCheck[0]);
+		// Note: We don't actually click the first checkbox on lower resolution devices because
+		//       solo won't perform, any sort of scrolling after a checkBox-click at the moment.
+		//       But we delete 3 sounds anyways, so the test succeeds.
+		solo.scrollToTop();
 		solo.clickOnCheckBox(checkboxIndicesToCheck[1]);
 		solo.clickOnCheckBox(checkboxIndicesToCheck[2]);
 
@@ -587,7 +591,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 		SoundInfo soundInfo = soundInfoList.get(0);
-		ImageButton playImageButton = (ImageButton) solo.getView(R.id.btn_sound_play);
+		ImageButton playImageButton = (ImageButton) solo.getView(R.id.fragment_sound_item_play_image_button);
 
 		solo.clickOnView(playImageButton);
 		solo.sleep(timeToWait);
@@ -658,20 +662,20 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	private void checkVisibilityOfViews(int playButtonVisibility, int pauseButtonVisibility, int soundNameVisibility,
 			int timePlayedVisibility, int soundDurationVisibility, int soundSizeVisibility, int checkBoxVisibility) {
-		assertTrue("Play button " + getAssertMessageAffix(playButtonVisibility), solo.getView(R.id.btn_sound_play)
-				.getVisibility() == playButtonVisibility);
-		assertTrue("Pause button " + getAssertMessageAffix(pauseButtonVisibility), solo.getView(R.id.btn_sound_pause)
-				.getVisibility() == pauseButtonVisibility);
-		assertTrue("Sound name " + getAssertMessageAffix(soundNameVisibility), solo.getView(R.id.sound_title)
-				.getVisibility() == soundNameVisibility);
+		assertTrue("Play button " + getAssertMessageAffix(playButtonVisibility),
+				solo.getView(R.id.fragment_sound_item_play_image_button).getVisibility() == playButtonVisibility);
+		assertTrue("Pause button " + getAssertMessageAffix(pauseButtonVisibility),
+				solo.getView(R.id.fragment_sound_item_pause_image_button).getVisibility() == pauseButtonVisibility);
+		assertTrue("Sound name " + getAssertMessageAffix(soundNameVisibility),
+				solo.getView(R.id.fragment_sound_item_title_text_view).getVisibility() == soundNameVisibility);
 		assertTrue("Chronometer " + getAssertMessageAffix(timePlayedVisibility),
-				solo.getView(R.id.sound_chronometer_time_played).getVisibility() == timePlayedVisibility);
-		assertTrue("Sound duration " + getAssertMessageAffix(soundDurationVisibility), solo
-				.getView(R.id.sound_duration).getVisibility() == soundDurationVisibility);
-		assertTrue("Sound size " + getAssertMessageAffix(soundSizeVisibility), solo.getView(R.id.sound_size)
-				.getVisibility() == soundSizeVisibility);
-		assertTrue("Checkboxes " + getAssertMessageAffix(checkBoxVisibility), solo.getView(R.id.sound_checkbox)
-				.getVisibility() == checkBoxVisibility);
+				solo.getView(R.id.fragment_sound_item_time_played_chronometer).getVisibility() == timePlayedVisibility);
+		assertTrue("Sound duration " + getAssertMessageAffix(soundDurationVisibility),
+				solo.getView(R.id.fragment_sound_item_duration_text_view).getVisibility() == soundDurationVisibility);
+		assertTrue("Sound size " + getAssertMessageAffix(soundSizeVisibility),
+				solo.getView(R.id.fragment_sound_item_size_text_view).getVisibility() == soundSizeVisibility);
+		assertTrue("Checkboxes " + getAssertMessageAffix(checkBoxVisibility),
+				solo.getView(R.id.fragment_sound_item_checkbox).getVisibility() == checkBoxVisibility);
 	}
 
 	private String getAssertMessageAffix(int visibility) {

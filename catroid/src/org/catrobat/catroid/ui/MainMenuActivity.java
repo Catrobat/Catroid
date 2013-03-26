@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.concurrent.locks.Lock;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -93,7 +94,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	private static final String PROJECTNAME_TAG = "fname=";
 
 	private ActionBar actionBar;
-	private ViewSwitchLock viewSwitchLock = new ViewSwitchLock();
+	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -226,8 +227,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		Intent browerIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catrobat_forum).toString()));
-		startActivity(browerIntent);
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catrobat_forum).toString()));
+		startActivity(browserIntent);
 	}
 
 	public void handleWebButton(View v) {

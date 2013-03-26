@@ -117,6 +117,9 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	private ActionMode actionMode;
 
+	private String paintroidIntentApplicationName = "org.catrobat.paintroid";
+	private String paintroidIntentActivityName = "org.catrobat.paintroid.MainActivity";
+
 	private boolean isRenameActionMode;
 
 	@Override
@@ -254,6 +257,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		menu.setHeaderTitle(selectedLookData.getLookName());
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
+		menu.findItem(R.id.context_edit_in_paintroid).setVisible(true);
 	}
 
 	@Override
@@ -280,6 +284,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 			case R.id.context_menu_delete: {
 				showDeleteDialog();
+				break;
+			}
+			case R.id.context_edit_in_paintroid: {
+				sendPaintroidIntent(selectedLookPosition);
 				break;
 			}
 		}
@@ -385,6 +393,16 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	public void startRenameActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
+			unregisterForContextMenu(listView);
+			BottomBar.disableButtons(getActivity());
+			isRenameActionMode = true;
+		}
+	}
+
+	@Override
+	public void startEditInPaintroidActionMode() {
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(editInPaintroidCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.disableButtons(getActivity());
 			isRenameActionMode = true;
@@ -611,8 +629,13 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	private void handleEditLook(View view) {
+		int position = (Integer) view.getTag();
+		sendPaintroidIntent(position);
+	}
+
+	private void sendPaintroidIntent(int selected_position) {
 		Intent intent = new Intent("android.intent.action.MAIN");
-		intent.setComponent(new ComponentName("org.catrobat.paintroid", "org.catrobat.paintroid.MainActivity"));
+		intent.setComponent(new ComponentName(paintroidIntentApplicationName, paintroidIntentActivityName));
 
 		// Confirm if paintroid is installed else start dialog --------------------------
 		List<ResolveInfo> packageList = getActivity().getPackageManager().queryIntentActivities(intent,
@@ -639,7 +662,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			return;
 		}
 		//-------------------------------------------------------------------------------
-		int position = (Integer) view.getTag();
+		int position = selected_position;
 		selectedLookData = lookDataList.get(position);
 
 		Bundle bundleForPaintroid = new Bundle();
@@ -803,6 +826,48 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				int position = iterator.next();
 				deleteLook(position - numberDeleted);
 				++numberDeleted;
+			}
+			setSelectMode(Constants.SELECT_NONE);
+			adapter.clearCheckedItems();
+
+			actionMode = null;
+			setActionModeActive(false);
+
+			registerForContextMenu(listView);
+			BottomBar.enableButtons(getActivity());
+		}
+	};
+
+	private ActionMode.Callback editInPaintroidCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(Constants.SINGLE_SELECT);
+			mode.setTitle(getString(R.string.edit_in_paintroid));
+
+			setActionModeActive(true);
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			Set<Integer> checkedLooks = adapter.getCheckedItems();
+			Iterator<Integer> iterator = checkedLooks.iterator();
+
+			while (iterator.hasNext()) {
+				int position = iterator.next();
+				sendPaintroidIntent(position);
 			}
 			setSelectMode(Constants.SELECT_NONE);
 			adapter.clearCheckedItems();
