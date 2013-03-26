@@ -110,7 +110,7 @@
             android:theme="@style/Theme.Catroid" />
         <activity
             android:name=".ui.SettingsActivity"
-            android:theme="@style/settings_activity" />
+            android:theme="@style/Theme.Catroid" />
         <activity
             android:name=".bluetooth.DeviceListActivity"
             android:theme="@android:style/Theme.Dialog" />
