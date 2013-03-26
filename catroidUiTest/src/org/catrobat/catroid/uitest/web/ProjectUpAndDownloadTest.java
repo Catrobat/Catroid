@@ -399,7 +399,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private boolean createAndSaveStandardProject() {
 		try {
 			standardProject = StandardProjectHandler.createAndSaveStandardProject(
-					solo.getString(R.string.default_project_name), getInstrumentation().getTargetContext(), true);
+					solo.getString(R.string.default_project_name), getInstrumentation().getTargetContext());
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
