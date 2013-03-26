@@ -49,6 +49,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
@@ -153,8 +155,12 @@ public class StageListener implements ApplicationListener {
 		camera = (OrthographicCamera) stage.getCamera();
 		camera.position.set(0, 0, 0);
 
+		parentGroup = new Group();
+
 		sprites = project.getSpriteList();
+		sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
 		for (Sprite sprite : sprites) {
+			parentGroup.addActor(sprite.look);
 			stage.addActor(sprite.look);
 		}
 		if (DEBUG) {
@@ -259,6 +265,7 @@ public class StageListener implements ApplicationListener {
 			parentGroup = new Group();
 			project = ProjectManager.getInstance().getCurrentProject();
 			sprites = project.getSpriteList();
+			sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
 			for (int i = 0; i < spriteSize; i++) {
 				Sprite sprite = sprites.get(i);
 				parentGroup.addActor(sprite.look);
@@ -300,6 +307,7 @@ public class StageListener implements ApplicationListener {
 		batch.setProjectionMatrix(camera.combined);
 
 		if (firstStart) {
+			sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
 			int spriteSize = sprites.size();
 			for (int i = 0; i < spriteSize; i++) {
 				sprites.get(i).createStartScriptActionSequence();
@@ -467,6 +475,16 @@ public class StageListener implements ApplicationListener {
 				screenMode = ScreenModes.MAXIMIZE;
 				break;
 		}
+	}
+
+	private LookData createWhiteBackgroundLookData() {
+		LookData whiteBackground = new LookData();
+		Pixmap whiteBackgroundPixmap = new Pixmap((int) virtualWidth, (int) virtualHeight, Format.RGBA8888);
+		whiteBackgroundPixmap.setColor(Color.WHITE);
+		whiteBackgroundPixmap.fill();
+		whiteBackground.setPixmap(whiteBackgroundPixmap);
+		whiteBackground.setTextureRegion();
+		return whiteBackground;
 	}
 
 	private void renderTextures() {
