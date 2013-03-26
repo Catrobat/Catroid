@@ -57,7 +57,7 @@ public class PointToBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 	private Sprite pointedObject;
-	private String oldSelectedObject;
+	private transient String oldSelectedObject;
 
 	public PointToBrick(Sprite sprite, Sprite pointedSprite) {
 		this.sprite = sprite;
