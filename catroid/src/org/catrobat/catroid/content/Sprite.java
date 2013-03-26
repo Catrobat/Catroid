@@ -108,8 +108,9 @@ public class Sprite implements Serializable {
 			if (s instanceof WhenScript) {
 				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
 					SequenceAction sequence = createActionSequence(s);
-					look.addWhenSequenceAction(sequence);
-					look.addAction(sequence);
+					look.addWhenSequenceToParallelAction(sequence);
+					//					look.addWhenSequenceAction(sequence);
+					//					look.addAction(sequence);
 				}
 			}
 		}
