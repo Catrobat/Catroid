@@ -127,8 +127,7 @@
         <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:layout_alignParentRight="true"></item>
-        <item name="android:layout_centerVertical="true"></item>
+        <item name="android:layout_gravity">center_vertical</item>
     </style>
 
     <style name="BrickText.SingleLine">

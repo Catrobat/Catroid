@@ -37,10 +37,9 @@
         android:visibility="gone" />
 
     <LinearLayout
-        android:id="@+id/brick_set_x_layout"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        style="@style/BrickContainer.Motion.Small" 
-        >
+        android:id="@+id/brick_set_x_layout"
+        style="@style/BrickContainer.Motion.Small" >
 
         <TextView
             style="@style/BrickText.SingleLine"
@@ -55,7 +54,8 @@
         <EditText
             android:id="@+id/brick_set_x_edit_text"
             style="@style/BrickEditText"
-            android:inputType="number|numberDecimal|numberSigned" >
+            android:inputType="number|numberDecimal|numberSigned" 
+            >
         </EditText>
     </LinearLayout>
 
