@@ -20,7 +20,6 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -37,7 +36,6 @@
         android:visibility="gone" />
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/brick_point_to_layout"
         style="@style/BrickContainer.Motion.Medium"
         android:gravity="center_vertical"
@@ -51,9 +49,9 @@
             android:id="@+id/brick_point_to_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="50dp"
             android:clickable="false"
-            android:focusable="false" />
+            android:focusable="false"
+            android:paddingLeft="48dp" />
     </LinearLayout>
 
 </LinearLayout>
