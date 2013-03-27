@@ -119,9 +119,11 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		assertTrue("A category was not visible after opening BrickCategoryDialog", solo.searchText(categoryLooksLabel));
 		assertTrue("A category was not visible after opening BrickCategoryDialog", solo.searchText(categorySoundLabel));
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
-				solo.searchText(categoryUserVariablesLabel));
-		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(categoryControlLabel));
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		solo.scrollListToBottom(fragmentListView);
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(categoryUserVariablesLabel));
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(categoryLegoNXTLabel));
 
@@ -133,6 +135,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		String brickLegoStopMotor = solo.getString(R.string.motor_stop);
 		String brickSetVariable = solo.getString(R.string.brick_set_variable);
 
+		solo.scrollListToTop(fragmentListView);
 		solo.clickOnText(categoryMotionLabel);
 		assertTrue("AddBrickDialog was not opened after selecting a category",
 				solo.waitForText(brickPlaceAtText, 0, 2000));
@@ -152,6 +155,8 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 				solo.waitForText(brickWhenStarted, 0, 2000));
 		solo.goBack();
 
+		fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		solo.scrollListToBottom(fragmentListView);
 		solo.clickOnText(categoryUserVariablesLabel);
 		assertTrue("AddBrickDialog was not opened after selecting a category",
 				solo.waitForText(brickSetVariable, 0, 2000));
@@ -500,6 +505,8 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.goBack();
 
 		solo.sleep(500);
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		solo.scrollListToBottom(fragmentListView);
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
 
 		UiTestUtils.openOptionsMenu(solo);
