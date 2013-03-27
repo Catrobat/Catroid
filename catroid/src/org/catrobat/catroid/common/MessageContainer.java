@@ -97,7 +97,7 @@ public class MessageContainer {
 		if (messageAdapter == null) {
 			messageAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 			messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			messageAdapter.add(context.getString(R.string.broadcast_nothing_selected));
+			messageAdapter.add(context.getString(R.string.new_broadcast_message));
 			Set<String> messageSet = receiverMap.keySet();
 			for (String message : messageSet) {
 				messageAdapter.add(message);
