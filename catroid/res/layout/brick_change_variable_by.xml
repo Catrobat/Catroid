@@ -39,7 +39,7 @@
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/brick_change_variable_layout"
-        style="@style/BrickContainer.Control.Medium"
+        style="@style/BrickContainer.UserVariables.Medium"
         android:orientation="vertical" >
 
         <TextView

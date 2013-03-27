@@ -38,7 +38,7 @@
 
     <LinearLayout
         android:id="@+id/brick_set_variable_layout"
-        style="@style/BrickContainer.Control.Medium"
+        style="@style/BrickContainer.UserVariables.Medium"
         android:orientation="vertical" >
 
         <TextView
