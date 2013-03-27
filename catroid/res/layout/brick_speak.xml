@@ -56,7 +56,6 @@
         <EditText
             android:id="@+id/brick_speak_edit_text"
             style="@style/BrickEditText"
-            android:paddingLeft="50dp"
             android:layout_width="match_parent"
             android:gravity="left"
             android:inputType="text" >

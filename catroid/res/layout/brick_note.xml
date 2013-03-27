@@ -59,7 +59,6 @@
             android:inputType="textMultiLine"
             android:maxLines="3"
             android:minLines="1"
-            android:paddingLeft="50dp" >
         </EditText>
     </LinearLayout>
 
