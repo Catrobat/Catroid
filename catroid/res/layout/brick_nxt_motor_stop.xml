@@ -37,10 +37,7 @@
 
     <LinearLayout
         android:id="@+id/brick_nxt_motor_stop_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/brick_red"
-        android:orientation="horizontal" >
+        style="@style/BrickContainer.Lego.Small" >
 
         <RelativeLayout
             android:layout_width="match_parent"

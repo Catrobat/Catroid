@@ -38,10 +38,7 @@
 
     <LinearLayout
         android:id="@+id/brick_nxt_play_tone_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/brick_red"
-        android:orientation="vertical" >
+        style="@style/BrickContainer.Lego.Big" >
 
         <TextView
             style="@style/BrickText"
