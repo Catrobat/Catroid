@@ -949,6 +949,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			int brickPosition = brickList.indexOf(brick) + 1;
 			while ((brickPosition < brickList.size()) && !(brickList.get(brickPosition) instanceof ScriptBrick)) {
 				Brick currentBrick = brickList.get(brickPosition);
+				if (currentBrick == null) {
+					break;
+				}
 				if (check) {
 					addElementToCheckedBricks(currentBrick);
 					animatedBricks.add(currentBrick);
@@ -975,6 +978,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			int from = 0;
 			int to = 0;
 			for (Brick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts(false)) {
+				if (currentBrick == null) {
+					break;
+				}
 				if (check) {
 					animatedBricks.add(currentBrick);
 					addElementToCheckedBricks(currentBrick);

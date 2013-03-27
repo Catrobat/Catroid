@@ -39,34 +39,18 @@
         android:id="@+id/brick_nxt_motor_stop_layout"
         style="@style/BrickContainer.Lego.Small" >
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/ValueTextView"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/motor_stop" >
+        </TextView>
+
+        <Spinner
+            android:id="@+id/stop_motor_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true" >
-
-            <TextView
-                android:id="@+id/ValueTextView"
-                style="@style/BrickText"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:paddingRight="10dip"
-                android:text="@string/motor_stop" >
-            </TextView>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" >
-
-                <Spinner
-                    android:id="@+id/stop_motor_spinner"
-                    android:layout_width="76dp"
-                    android:layout_height="35dp"
-                    android:clickable="false"
-                    android:focusable="false" />
-            </LinearLayout>
-        </RelativeLayout>
+            android:clickable="false"
+            android:focusable="false" />
     </LinearLayout>
 
 </LinearLayout>
