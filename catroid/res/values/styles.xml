@@ -127,7 +127,8 @@
         <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:gravity">left|bottom</item>
+        <item name="android:layout_alignParentRight="true"></item>
+        <item name="android:layout_centerVertical="true"></item>
     </style>
 
     <style name="BrickText.SingleLine">
@@ -149,7 +150,7 @@
     <style name="BrickEditText" parent="@style/BrickPrototypeTextView">
         <item name="android:maxLines">1</item>
         <item name="android:visibility">gone</item>
-        <item name="android:gravity">left|bottom</item>
+        
     </style>
 
     <style name="BrickContainer">
