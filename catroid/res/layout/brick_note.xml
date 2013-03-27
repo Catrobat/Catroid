@@ -58,8 +58,7 @@
             android:gravity="left"
             android:inputType="textMultiLine"
             android:maxLines="3"
-            android:minLines="1">
-        </EditText>
+            android:minLines="1" />
     </LinearLayout>
 
 </LinearLayout>
