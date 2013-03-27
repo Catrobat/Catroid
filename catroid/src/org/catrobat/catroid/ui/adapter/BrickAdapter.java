@@ -989,13 +989,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				}
 				currentBrick.getCheckBox().setChecked(check);
 			}
-			Brick ToBrick = brickList.get(to);
 			if (from > to) {
 				int temp = from;
 				from = to;
 				to = temp;
 			}
-			//handleBrickEnabledState(ToBrick, !check);
 			from++;
 			while (from < to) {
 				Brick currentBrick = brickList.get(from);

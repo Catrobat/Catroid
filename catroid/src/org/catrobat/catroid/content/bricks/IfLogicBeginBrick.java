@@ -98,31 +98,11 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 
 		setCheckboxView(R.id.brick_if_begin_checkbox);
 		final Brick brickInstance = this;
-		/*
-		 * checkbox.setOnClickListener(new OnClickListener() {
-		 * 
-		 * @Override
-		 * public void onClick(View v) {
-		 * checked = !checked;
-		 * if (!checked) {
-		 * for (Brick currentBrick : adapter.getCheckedBricks()) {
-		 * currentBrick.setCheckedBoolean(false);
-		 * }
-		 * }
-		 * adapter.handleCheck(brickInstance, checked);
-		 * }
-		 * });
-		 */
 
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				checked = isChecked;
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
