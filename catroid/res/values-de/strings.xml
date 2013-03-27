@@ -238,6 +238,7 @@
     <string name="category_looks">Aussehen</string>
     <string name="category_sound">Klang</string>
     <string name="category_control">Steuerung</string>
+    <string name="category_variables">Benutzervariablen</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <!--  -->
 

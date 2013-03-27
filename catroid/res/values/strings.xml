@@ -240,6 +240,7 @@
     <string name="category_looks">Looks</string>
     <string name="category_sound">Sound</string>
     <string name="category_control">Control</string>
+    <string name="category_variables">User Variables</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <!--  -->
 
