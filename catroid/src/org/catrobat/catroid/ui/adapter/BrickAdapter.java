@@ -1024,6 +1024,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 			for (final Brick animationBrick : animatedBricks) {
 				Animation animation = AnimationUtils.loadAnimation(context, R.anim.blink);
+
 				animation.setAnimationListener(new AnimationListener() {
 
 					@Override
@@ -1041,13 +1042,15 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 						animationBrick.setAnimationState(false);
 					}
 				});
-
 				int position = animatedBricks.indexOf(animationBrick);
 				animationBrick.setAnimationState(true);
 				View view = animationBrick.getView(context, position, this);
-				view.startAnimation(animation);
 
+				if (view.hasWindowFocus()) {
+					view.startAnimation(animation);
+				}
 			}
+
 		}
 		animatedBricks.clear();
 	}
