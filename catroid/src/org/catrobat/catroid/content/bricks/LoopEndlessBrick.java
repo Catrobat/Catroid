@@ -29,9 +29,10 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 
 public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
@@ -60,16 +61,31 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 			final Brick brickInstance = this;
 
-			checkbox.setOnClickListener(new OnClickListener() {
+			/*
+			 * checkbox.setOnClickListener(new OnClickListener() {
+			 * 
+			 * @Override
+			 * public void onClick(View v) {
+			 * checked = !checked;
+			 * if (!checked) {
+			 * for (Brick currentBrick : adapter.getCheckedBricks()) {
+			 * currentBrick.setCheckedBoolean(false);
+			 * }
+			 * }
+			 * adapter.handleCheck(brickInstance, checked);
+			 * }
+			 * });
+			 */
+			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				@Override
-				public void onClick(View v) {
-					checked = !checked;
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					checked = isChecked;
 					if (!checked) {
 						for (Brick currentBrick : adapter.getCheckedBricks()) {
 							currentBrick.setCheckedBoolean(false);
 						}
 					}
-					adapter.handleCheck(brickInstance, checked);
+					adapter.handleCheck(brickInstance, isChecked);
 				}
 			});
 		}
@@ -105,12 +121,26 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 			final Brick brickInstance = this;
 
-			checkbox.setOnClickListener(new OnClickListener() {
-
+			/*
+			 * checkbox.setOnClickListener(new OnClickListener() {
+			 * 
+			 * @Override
+			 * public void onClick(View v) {
+			 * checked = !checked;
+			 * adapter.handleCheck(brickInstance, checked);
+			 * }
+			 * });
+			 */
+			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				@Override
-				public void onClick(View v) {
-					checked = !checked;
-					adapter.handleCheck(brickInstance, checked);
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					checked = isChecked;
+					if (!checked) {
+						for (Brick currentBrick : adapter.getCheckedBricks()) {
+							currentBrick.setCheckedBoolean(false);
+						}
+					}
+					adapter.handleCheck(brickInstance, isChecked);
 				}
 			});
 		}

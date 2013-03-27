@@ -34,8 +34,9 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -75,16 +76,31 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 
 		setCheckboxView(R.id.brick_if_end_if_checkbox);
 		final Brick brickInstance = this;
-		checkbox.setOnClickListener(new OnClickListener() {
+		/*
+		 * checkbox.setOnClickListener(new OnClickListener() {
+		 * 
+		 * @Override
+		 * public void onClick(View v) {
+		 * checked = !checked;
+		 * if (!checked) {
+		 * for (Brick currentBrick : adapter.getCheckedBricks()) {
+		 * currentBrick.setCheckedBoolean(false);
+		 * }
+		 * }
+		 * adapter.handleCheck(brickInstance, checked);
+		 * }
+		 * });
+		 */
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
-			public void onClick(View v) {
-				checked = !checked;
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
 				if (!checked) {
 					for (Brick currentBrick : adapter.getCheckedBricks()) {
 						currentBrick.setCheckedBoolean(false);
 					}
 				}
-				adapter.handleCheck(brickInstance, checked);
+				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
 		return view;
