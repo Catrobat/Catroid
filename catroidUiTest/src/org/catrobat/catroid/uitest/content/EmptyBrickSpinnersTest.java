@@ -27,14 +27,11 @@ import java.io.IOException;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.BroadcastBrick;
-import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -53,8 +50,6 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 	private final static String LOOK_DATA_NAME = "lookData";
 	private final static String POINT_TO_PRITE_NAME = "pointSprite";
 	private final static String TEST_SOUND_TITLE = "soundTitle";
-	private final static String TEST_BROADCAST_MESSAGE = "broadcastMessage";
-	private final static String TEST_BROADCAST_WAIT_MESSAGE = "broadcastWaitMessage";
 
 	public EmptyBrickSpinnersTest() {
 		super(ScriptActivity.class);
@@ -93,15 +88,6 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 		solo.clickOnText(TEST_SOUND_TITLE);
 		solo.clickOnText(spinnerNothingSelectedText);
 
-		assertTrue(TEST_BROADCAST_WAIT_MESSAGE + " Message is not selected",
-				solo.searchText(TEST_BROADCAST_WAIT_MESSAGE));
-		solo.clickOnText(TEST_BROADCAST_WAIT_MESSAGE);
-		solo.clickOnText(spinnerNothingSelectedText);
-
-		assertTrue(TEST_BROADCAST_MESSAGE + " Message is not selected", solo.searchText(TEST_BROADCAST_MESSAGE));
-		solo.clickOnText(TEST_BROADCAST_MESSAGE);
-		solo.clickOnText(spinnerNothingSelectedText);
-
 		// go back that the project xml is saved
 		solo.goBack();
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -124,26 +110,10 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 		addSetLookBrick(sprite, startScript);
 		addPointToBrick(sprite, pointToSprite, startScript);
 		addPlaySoundBrick(sprite, startScript);
-		addBroadcastWaitBrick(sprite, startScript);
-		addBroadcastBrick(sprite, startScript);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(startScript);
-	}
-
-	private void addBroadcastBrick(Sprite sprite, Script startScript) {
-		MessageContainer.addMessage(TEST_BROADCAST_MESSAGE);
-		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);
-		broadcastBrick.setSelectedMessage(TEST_BROADCAST_MESSAGE);
-		startScript.addBrick(broadcastBrick);
-	}
-
-	private void addBroadcastWaitBrick(Sprite sprite, Script startScript) {
-		MessageContainer.addMessage(TEST_BROADCAST_WAIT_MESSAGE);
-		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite);
-		broadcastWaitBrick.setSelectedMessage(TEST_BROADCAST_WAIT_MESSAGE);
-		startScript.addBrick(broadcastWaitBrick);
 	}
 
 	private void addPlaySoundBrick(Sprite sprite, Script startScript) {
