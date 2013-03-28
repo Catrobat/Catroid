@@ -61,7 +61,7 @@
 
     <!-- Settings activity -->
     <string name="preference_title">"設定"</string>
-    <string name="preference_enable_title_mindstorm_bricks">"レゴ ブロックを有効にする"</string>
+    <string name="preference_title_enable_mindstorm_bricks">"レゴ ブロックを有効にする"</string>
     <string name="preference_description_mindstorm_bricks">"これらのブロックは、レゴマインドストームロボットを制御するために使用されています。"</string>
     <!--  -->
 

@@ -63,7 +63,7 @@
 
     <!-- Settings activity -->
     <string name="preference_title">Einstellungen</string>
-    <string name="preference_enable_title_mindstorm_bricks">Lego Mindstorm Bausteine</string>
+    <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorm Bausteine</string>
     <string name="preference_description_mindstorm_bricks">Erlaube Steuerung eines Lego Mindstorm Roboters</string>
     <!--  -->
 

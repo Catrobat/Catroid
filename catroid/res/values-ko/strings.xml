@@ -58,7 +58,7 @@
     <string name="upload_project">"프로젝트 업로드"</string>
     <!-- Settings activity -->
     <string name="preference_title">"설정"</string>
-    <string name="preference_enable_title_mindstorm_bricks">"레고 마인드 스톰 블록을 사용"</string>
+    <string name="preference_title_enable_mindstorm_bricks">"레고 마인드 스톰 블록을 사용"</string>
     <string name="preference_description_mindstorm_bricks">"이 블록은 레고 마인드 스톰 로봇을 제어하는​​ 데 사용됩니다."</string>
     <!-- About Dialog -->
     <string name="about_title">"Catroid에 대하여"</string>

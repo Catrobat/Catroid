@@ -72,7 +72,7 @@
 
     <!-- Settings activity -->
     <string name="preference_title">Setări</string>
-    <string name="preference_enable_title_mindstorm_bricks">Permiterea blocurilor Mindstorm</string>
+    <string name="preference_title_enable_mindstorm_bricks">Permiterea blocurilor Mindstorm</string>
     <string name="preference_description_mindstorm_bricks">Aceste blocuri sunt folosite pentru controlul roboților Mindstorm.</string>
     <!--  -->
 

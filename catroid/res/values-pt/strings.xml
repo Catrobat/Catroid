@@ -62,7 +62,7 @@
 
     <!-- Settings activity -->
     <string name="preference_title">"Configurações"</string>
-    <string name="preference_enable_title_mindstorm_bricks">"Blocos do Lego Mindstorms"</string>
+    <string name="preference_title_enable_mindstorm_bricks">"Blocos do Lego Mindstorms"</string>
     <string name="preference_description_mindstorm_bricks">"Permitir o controle de robôs de Lego Mindstorms"</string>
     <!--  -->
 
