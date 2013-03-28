@@ -37,7 +37,6 @@
         android:visibility="gone" />
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/brick_broadcast_wait_layout"
         style="@style/BrickContainer.Control.Medium"
         android:orientation="vertical" >

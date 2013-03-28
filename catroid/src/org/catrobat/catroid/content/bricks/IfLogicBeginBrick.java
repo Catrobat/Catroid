@@ -38,6 +38,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -96,16 +98,12 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 
 		setCheckboxView(R.id.brick_if_begin_checkbox);
 		final Brick brickInstance = this;
-		checkbox.setOnClickListener(new OnClickListener() {
+
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
-			public void onClick(View v) {
-				checked = !checked;
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
-				adapter.handleCheck(brickInstance, checked);
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
 
