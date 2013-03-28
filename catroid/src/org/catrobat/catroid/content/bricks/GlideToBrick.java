@@ -88,6 +88,7 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_glide_to, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_glide_to_checkbox);
 		final Brick brickInstance = this;

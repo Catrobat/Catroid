@@ -91,6 +91,7 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		}
 
 		view = View.inflate(context, R.layout.brick_change_variable_by, null);
+		view = getViewWithAlpha(alphaValue);
 		setCheckboxView(R.id.brick_change_variable_checkbox);
 		final Brick brickInstance = this;
 

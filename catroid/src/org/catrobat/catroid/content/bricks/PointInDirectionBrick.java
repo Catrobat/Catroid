@@ -114,6 +114,7 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_point_in_direction, null);
+		view = getViewWithAlpha(alphaValue);
 		setCheckboxView(R.id.brick_point_in_direction_checkbox);
 
 		final Brick brickInstance = this;

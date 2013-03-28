@@ -76,6 +76,7 @@ public class ChangeYByNBrick extends BrickBaseType implements OnClickListener {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_change_y, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_change_y_checkbox);
 		final Brick brickInstance = this;

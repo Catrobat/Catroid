@@ -74,6 +74,7 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		}
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view = inflater.inflate(R.layout.brick_loop_end, null);
+		view = getViewWithAlpha(alphaValue);
 		checkbox = (CheckBox) view.findViewById(R.id.brick_loop_end_checkbox);
 		final Brick brickInstance = this;
 

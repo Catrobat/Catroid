@@ -93,8 +93,12 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 
 		view = View.inflate(context, R.layout.brick_if_begin_if, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_if_begin_checkbox);
 		final Brick brickInstance = this;

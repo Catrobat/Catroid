@@ -69,8 +69,13 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
+
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view = inflater.inflate(R.layout.brick_if_else, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_if_else_checkbox);
 		final Brick brickInstance = this;

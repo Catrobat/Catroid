@@ -75,6 +75,7 @@ public class WaitBrick extends BrickBaseType implements OnClickListener {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_wait, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_wait_checkbox);
 

@@ -79,6 +79,7 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_set_ghost_effect, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_set_ghost_effect_checkbox);
 

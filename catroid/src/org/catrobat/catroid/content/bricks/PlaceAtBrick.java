@@ -80,6 +80,7 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
 		}
 
 		view = View.inflate(context, R.layout.brick_place_at, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_place_at_checkbox);
 
