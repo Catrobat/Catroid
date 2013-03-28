@@ -114,8 +114,8 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 
 		solo.pressSpinnerItem(THIRD_BRICK_SPINNER_INDEX, 2);
 		solo.sleep(200);
-		assertEquals("Wrong selection", testString, ((Spinner) solo.getView(BROADCAST_WAIT_SPINNER_ID)).getSelectedItem()
-				.toString());
+		assertEquals("Wrong selection", testString, ((Spinner) solo.getView(BROADCAST_WAIT_SPINNER_ID))
+				.getSelectedItem().toString());
 
 		enterNewTextIntoSpinner(BROADCAST_SPINNER_ID, testString2);
 		// just to get focus
@@ -144,19 +144,19 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.waitForText(solo.getString(R.string.new_broadcast_message));
 		solo.clickInList(0);
 		solo.waitForView(EditText.class);
-		solo.clickOnButton(solo.getString(R.string.cancel_button));
+		solo.goBack();
 
 		solo.clickOnView(solo.getView(BROADCAST_SPINNER_ID));
 		solo.waitForText(solo.getString(R.string.new_broadcast_message));
 		solo.clickInList(0);
 		solo.waitForView(EditText.class);
-		solo.clickOnButton(solo.getString(R.string.cancel_button));
+		solo.goBack();
 
 		solo.clickOnView(solo.getView(BROADCAST_WAIT_SPINNER_ID));
 		solo.waitForText(solo.getString(R.string.new_broadcast_message));
 		solo.clickInList(0);
 		solo.waitForView(EditText.class);
-		solo.clickOnButton(solo.getString(R.string.cancel_button));
+		solo.goBack();
 
 		checkIfSpinnerTextsCorrect(testString, testString3, testString3);
 	}
