@@ -102,9 +102,7 @@ public class Look extends Image {
 		if (x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight()) {
 			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
 				if (whenParallelAction == null) {
-					whenParallelAction = ExtendedActions.parallel();
 					sprite.createWhenScriptActionSequence("Tapped");
-					addAction(whenParallelAction);
 				} else {
 					whenParallelAction.restart();
 				}
@@ -354,7 +352,7 @@ public class Look extends Image {
 		}
 	}
 
-	public void addWhenSequenceToParallelAction(SequenceAction action) {
-		whenParallelAction.addAction(action);
+	public void setWhenParallelAction(ParallelAction action) {
+		whenParallelAction = action;
 	}
 }
