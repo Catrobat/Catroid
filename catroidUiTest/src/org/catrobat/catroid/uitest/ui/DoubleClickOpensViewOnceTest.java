@@ -1,3 +1,25 @@
+/**
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2013 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://developer.catrobat.org/license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
+ *  
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.catrobat.catroid.uitest.ui;
 
 import junit.framework.TestSuite;
@@ -16,19 +38,20 @@ import android.view.View;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class FastDoubleClickTest extends TestSuite {
+public class DoubleClickOpensViewOnceTest extends TestSuite {
 	private static final int SOLO_WAIT_TIMEOUT = 2000;
 
 	public static TestSuite suite() {
-		TestSuite suite = new TestSuite(FastDoubleClickTest.class.getName());
-		suite.addTestSuite(MainMenuFastDoubleClickTest.class);
+		TestSuite suite = new TestSuite(DoubleClickOpensViewOnceTest.class.getName());
+		suite.addTestSuite(MainMenuDoubleClickOpensViewOnceTest.class);
 		return suite;
 	}
 
-	private static class Base<T extends Activity> extends ActivityInstrumentationTestCase2<T> {
+	private static class ActivityInstrumentationTestBase<T extends Activity> extends
+			ActivityInstrumentationTestCase2<T> {
 		protected Solo solo;
 
-		public Base(Class<T> clazz) {
+		public ActivityInstrumentationTestBase(Class<T> clazz) {
 			super(clazz);
 		}
 
@@ -47,24 +70,26 @@ public class FastDoubleClickTest extends TestSuite {
 			solo = null;
 		}
 
-		public void a(ClickCommand clickCommand, int buttonId, int openedViewId) {
+		public void checkDoubleClickOpensViewOnce(OnClickCommand clickCommand, int buttonId, int openedViewId) {
 			View button = getButton(buttonId);
-			simulateFastDoubleClick(clickCommand);
+			simulateDoubleClick(clickCommand);
 			waitForViewById(openedViewId);
 			goBack();
 			waitForView(button);
 		}
 
-		public void a(ClickCommand clickCommand, int buttonId, String openedViewTag, boolean isKeyboardVisible) {
+		public void checkDoubleClickOpensViewOnce(OnClickCommand clickCommand, int buttonId,
+				String openedDialogFragmentTag) {
+			checkDoubleClickOpensViewOnce(clickCommand, buttonId, openedDialogFragmentTag, false);
+		}
+
+		public void checkDoubleClickOpensViewOnce(OnClickCommand clickCommand, int buttonId, String openedViewTag,
+				boolean isKeyboardVisible) {
 			View button = getButton(buttonId);
-			simulateFastDoubleClick(clickCommand);
+			simulateDoubleClick(clickCommand);
 			waitForViewByTag(openedViewTag);
 			goBack(isKeyboardVisible);
 			waitForView(button);
-		}
-
-		public void a(ClickCommand clickCommand, int buttonId, String openedDialogFragmentTag) {
-			a(clickCommand, buttonId, openedDialogFragmentTag, false);
 		}
 
 		private View getButton(int id) {
@@ -73,7 +98,7 @@ public class FastDoubleClickTest extends TestSuite {
 			return button;
 		}
 
-		private void simulateFastDoubleClick(ClickCommand clickCommand) {
+		private void simulateDoubleClick(OnClickCommand clickCommand) {
 			clickCommand.execute();
 			clickCommand.execute();
 		}
@@ -102,24 +127,20 @@ public class FastDoubleClickTest extends TestSuite {
 		}
 
 		private void waitForView(View view) {
-			waitForView(view, false);
-		}
-
-		private void waitForView(View view, boolean activityNeedsFocus) {
 			if (!solo.waitForView(view, SOLO_WAIT_TIMEOUT, true)) {
 				fail("Didn't return to view which contains the button (" + solo.getCurrentViews() + ")");
 			}
 
-			if (activityNeedsFocus && !solo.getCurrentActivity().hasWindowFocus()) {
+			if (!solo.getCurrentActivity().hasWindowFocus()) {
 				fail("Activity didn't gain focus");
 			}
 		}
 	}
 
-	public static class MainMenuFastDoubleClickTest extends Base<MainMenuActivity> {
+	public static class MainMenuDoubleClickOpensViewOnceTest extends ActivityInstrumentationTestBase<MainMenuActivity> {
 		private MainMenuActivity activity;
 
-		public MainMenuFastDoubleClickTest() {
+		public MainMenuDoubleClickOpensViewOnceTest() {
 			super(MainMenuActivity.class);
 		}
 
@@ -136,7 +157,7 @@ public class FastDoubleClickTest extends TestSuite {
 		}
 
 		public void testMainMenuButtonContinue() {
-			a(new ClickCommand() {
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
 				@Override
 				public void execute() {
 					activity.handleContinueButton(null);
@@ -145,7 +166,7 @@ public class FastDoubleClickTest extends TestSuite {
 		}
 
 		public void testMainMenuButtonNew() {
-			a(new ClickCommand() {
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
 				@Override
 				public void execute() {
 					activity.handleNewButton(null);
@@ -154,7 +175,7 @@ public class FastDoubleClickTest extends TestSuite {
 		}
 
 		public void testMainMenuButtonMyProjects() {
-			a(new ClickCommand() {
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
 				@Override
 				public void execute() {
 					activity.handleProgramsButton(null);
@@ -163,7 +184,7 @@ public class FastDoubleClickTest extends TestSuite {
 		}
 
 		public void testMainMenuButtonUpload() {
-			a(new ClickCommand() {
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
 				@Override
 				public void execute() {
 					activity.handleUploadButton(null);
@@ -172,7 +193,7 @@ public class FastDoubleClickTest extends TestSuite {
 		}
 	}
 
-	private abstract static class ClickCommand {
+	private abstract static class OnClickCommand {
 		public abstract void execute();
 	}
 }
