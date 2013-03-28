@@ -155,8 +155,7 @@ public class StageListener implements ApplicationListener {
 
 		sprites = project.getSpriteList();
 		sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
-		stage.addActor(sprites.get(0).look);
-		for (int i = sprites.size() - 1; i > 0; i--) {
+		for (int i = 0; i < sprites.size(); i++) {
 			stage.addActor(sprites.get(i).look);
 		}
 		if (DEBUG) {
@@ -261,9 +260,8 @@ public class StageListener implements ApplicationListener {
 			project = ProjectManager.getInstance().getCurrentProject();
 			sprites = project.getSpriteList();
 			sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
-			stage.addActor(sprites.get(0).look);
 			sprites.get(0).pause();
-			for (int i = spriteSize - 1; i > 0; i--) {
+			for (int i = 0; i < spriteSize; i++) {
 				Sprite sprite = sprites.get(i);
 				stage.addActor(sprite.look);
 				sprite.pause();
