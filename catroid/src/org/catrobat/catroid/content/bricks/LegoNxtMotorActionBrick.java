@@ -135,8 +135,15 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 				android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.motor_spinner);
-		motorSpinner.setClickable(true);
-		motorSpinner.setEnabled(true);
+
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+			motorSpinner.setClickable(true);
+			motorSpinner.setEnabled(true);
+		} else {
+			motorSpinner.setClickable(false);
+			motorSpinner.setEnabled(false);
+		}
+
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -161,6 +168,9 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 
 	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
 		FormulaEditorFragment.showFragment(view, this, speed);
 	}
 

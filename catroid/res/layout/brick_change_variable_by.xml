@@ -37,9 +37,8 @@
         android:visibility="gone" />
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/brick_change_variable_layout"
-        style="@style/BrickContainer.Control.Medium"
+        style="@style/BrickContainer.UserVariables.Medium"
         android:orientation="vertical" >
 
         <TextView
@@ -69,6 +68,7 @@
             <EditText
                 android:id="@+id/brick_change_variable_edit_text"
                 style="@style/BrickEditText"
+                android:gravity="left"
                 android:layout_width="match_parent"
                 android:inputType="number|numberDecimal|numberSigned" />
         </LinearLayout>
