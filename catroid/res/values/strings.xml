@@ -246,7 +246,8 @@
 
 
     <!-- Motion bricks -->
-    <string name="brick_place_at_x">Place at X:</string>
+    <string name="brick_place_at">Place at:</string>
+    <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="brick_set_x">Set X to:</string>
     <string name="brick_set_y">Set Y to:</string>
