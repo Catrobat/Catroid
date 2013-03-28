@@ -145,17 +145,20 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickInList(0);
 		solo.waitForView(EditText.class);
 		solo.goBack();
+		solo.goBack();
 
 		solo.clickOnView(solo.getView(BROADCAST_SPINNER_ID));
 		solo.waitForText(solo.getString(R.string.new_broadcast_message));
 		solo.clickInList(0);
 		solo.waitForView(EditText.class);
 		solo.goBack();
+		solo.goBack();
 
 		solo.clickOnView(solo.getView(BROADCAST_WAIT_SPINNER_ID));
 		solo.waitForText(solo.getString(R.string.new_broadcast_message));
 		solo.clickInList(0);
 		solo.waitForView(EditText.class);
+		solo.goBack();
 		solo.goBack();
 
 		checkIfSpinnerTextsCorrect(testString, testString3, testString3);
