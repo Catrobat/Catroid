@@ -101,7 +101,7 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		broadcastSpinner.setFocusableInTouchMode(false);
 		broadcastSpinner.setFocusable(false);
 		broadcastSpinner.setClickable(true);
-		broadcastSpinner.setFocusable(true);
+		broadcastSpinner.setEnabled(true);
 
 		final ArrayAdapter<String> spinnerAdapter = MessageContainer.getMessageAdapter(context);
 
