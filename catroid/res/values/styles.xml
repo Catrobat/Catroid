@@ -64,12 +64,6 @@
         <item name="android:windowAnimationStyle">@style/slide_up_dialog_animation</item>
     </style>
 
-    <style name="settings_activity" parent="Theme.Sherlock.Light.DarkActionBar">
-        <item name="actionBarStyle">@style/Widget.Catroid.ActionBar</item>
-        <item name="android:actionBarStyle">@style/Widget.Catroid.ActionBar</item>
-        <item name="android:windowBackground">@color/fragment_background_color</item>
-    </style>
-
     <style name="slide_left_dialog_animation">
         <item name="android:windowEnterAnimation">@anim/slide_in</item>
         <item name="android:windowExitAnimation">@anim/slide_out</item>

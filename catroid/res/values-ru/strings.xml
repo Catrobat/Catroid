@@ -71,9 +71,9 @@
 
 
     <!-- Settings activity -->
-    <string name="pref_title">Настройки</string>
-    <string name="pref_enable_ms_bricks">Включить блоки Mindstorm</string>
-    <string name="pref_descr_ms_bricks">Эти блоки используются для контроля роботов Mindstorm.</string>
+    <string name="preference_title">Настройки</string>
+    <string name="preference_enable_title_mindstorm_bricks">Включить блоки Mindstorm</string>
+    <string name="preference_description_mindstorm_bricks">Эти блоки используются для контроля роботов Mindstorm.</string>
     <!--  -->
 
 
