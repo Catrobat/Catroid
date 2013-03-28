@@ -137,6 +137,9 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 
 	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
 		switch (view.getId()) {
 			case R.id.nxt_tone_freq_edit_text:
 				FormulaEditorFragment.showFragment(view, this, frequency);
@@ -145,7 +148,6 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 				FormulaEditorFragment.showFragment(view, this, durationInSeconds);
 				break;
 		}
-
 	}
 
 	@Override

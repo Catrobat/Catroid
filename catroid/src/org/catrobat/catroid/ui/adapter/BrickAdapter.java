@@ -890,7 +890,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	public void handleCheck(Brick brick, boolean isChecked) {
-		notifyDataSetChanged();
 		if (brick == null) {
 			return;
 		}
@@ -950,6 +949,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			int brickPosition = brickList.indexOf(brick) + 1;
 			while ((brickPosition < brickList.size()) && !(brickList.get(brickPosition) instanceof ScriptBrick)) {
 				Brick currentBrick = brickList.get(brickPosition);
+				if (currentBrick == null) {
+					break;
+				}
 				if (check) {
 					addElementToCheckedBricks(currentBrick);
 					animatedBricks.add(currentBrick);
@@ -976,6 +978,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			int from = 0;
 			int to = 0;
 			for (Brick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts(false)) {
+				if (currentBrick == null) {
+					break;
+				}
 				if (check) {
 					animatedBricks.add(currentBrick);
 					addElementToCheckedBricks(currentBrick);
@@ -990,13 +995,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				}
 				currentBrick.getCheckBox().setChecked(check);
 			}
-			Brick ToBrick = brickList.get(to);
 			if (from > to) {
 				int temp = from;
 				from = to;
 				to = temp;
 			}
-			handleBrickEnabledState(ToBrick, !check);
 			from++;
 			while (from < to) {
 				Brick currentBrick = brickList.get(from);
@@ -1027,6 +1030,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 			for (final Brick animationBrick : animatedBricks) {
 				Animation animation = AnimationUtils.loadAnimation(context, R.anim.blink);
+
 				animation.setAnimationListener(new AnimationListener() {
 
 					@Override
@@ -1044,13 +1048,15 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 						animationBrick.setAnimationState(false);
 					}
 				});
-
 				int position = animatedBricks.indexOf(animationBrick);
 				animationBrick.setAnimationState(true);
 				View view = animationBrick.getView(context, position, this);
-				view.startAnimation(animation);
 
+				if (view.hasWindowFocus()) {
+					view.startAnimation(animation);
+				}
 			}
+
 		}
 		animatedBricks.clear();
 	}
