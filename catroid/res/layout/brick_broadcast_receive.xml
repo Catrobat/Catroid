@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:clickable="true"
+                android:clickable="false"
                 android:focusable="false"
                 android:text="@string/new_broadcast_message" />
         </LinearLayout>
