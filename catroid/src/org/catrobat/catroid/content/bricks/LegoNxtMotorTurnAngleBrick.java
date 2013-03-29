@@ -108,7 +108,11 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 		view = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_nxt_motor_turn_checkbox);
 		final Brick brickInstance = this;
@@ -135,8 +139,15 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.motor_spinner);
-		motorSpinner.setClickable(true);
-		motorSpinner.setEnabled(true);
+
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+			motorSpinner.setClickable(true);
+			motorSpinner.setEnabled(true);
+		} else {
+			motorSpinner.setClickable(false);
+			motorSpinner.setEnabled(false);
+		}
+
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -159,6 +170,9 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 
 	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
 		FormulaEditorFragment.showFragment(view, this, degrees);
 	}
 

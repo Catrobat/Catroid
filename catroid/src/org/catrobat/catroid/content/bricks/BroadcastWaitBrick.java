@@ -99,6 +99,7 @@ public class BroadcastWaitBrick extends BrickBaseType {
 		}
 
 		view = View.inflate(context, R.layout.brick_broadcast_wait, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_broadcast_wait_checkbox);
 		final Brick brickInstance = this;

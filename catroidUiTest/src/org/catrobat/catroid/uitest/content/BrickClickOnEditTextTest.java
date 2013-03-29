@@ -38,6 +38,7 @@ import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -83,6 +84,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
+
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(categoryMotionText);
 		ArrayList<Integer> listOfYPosition = UiTestUtils.getListItemYPositions(solo);
@@ -200,6 +202,8 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 		solo.scrollUp();
 		solo.goBack();
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_motor_action);
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		solo.scrollListToBottom(fragmentListView);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getString(R.string.category_lego_nxt));
 

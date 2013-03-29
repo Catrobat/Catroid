@@ -98,10 +98,16 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		});
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_receive_spinner);
-		broadcastSpinner.setFocusableInTouchMode(false);
-		broadcastSpinner.setFocusable(false);
-		broadcastSpinner.setClickable(true);
-		broadcastSpinner.setEnabled(true);
+
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+			broadcastSpinner.setClickable(true);
+			broadcastSpinner.setEnabled(true);
+			broadcastSpinner.setFocusable(true);
+		} else {
+			broadcastSpinner.setClickable(false);
+			broadcastSpinner.setEnabled(false);
+			broadcastSpinner.setFocusable(false);
+		}
 
 		final ArrayAdapter<String> spinnerAdapter = MessageContainer.getMessageAdapter(context);
 

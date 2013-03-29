@@ -85,7 +85,11 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 		view = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_nxt_motor_stop_checkbox);
 		final Brick brickInstance = this;
@@ -103,8 +107,15 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.stop_motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);
-		motorSpinner.setClickable(true);
-		motorSpinner.setEnabled(true);
+
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+			motorSpinner.setClickable(true);
+			motorSpinner.setEnabled(true);
+		} else {
+			motorSpinner.setClickable(false);
+			motorSpinner.setEnabled(false);
+		}
+
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setSelection(motorEnum.ordinal());
 		return view;

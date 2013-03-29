@@ -76,6 +76,7 @@ public class NoteBrick extends BrickBaseType {
 		}
 
 		view = View.inflate(context, R.layout.brick_note, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_note_checkbox);
 
