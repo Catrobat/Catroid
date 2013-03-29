@@ -71,28 +71,32 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		public void checkDoubleClickOpensViewOnce(OnClickCommand clickCommand, int buttonId, int openedViewId) {
-			View button = getButton(buttonId);
-			simulateDoubleClick(clickCommand);
-			waitForViewById(openedViewId);
-			goBack();
-			waitForView(button);
+			checkDoubleClickOpensViewOnce(clickCommand, buttonId, openedViewId, false);
 		}
 
-		public void checkDoubleClickOpensViewOnce(OnClickCommand clickCommand, int buttonId,
-				String openedDialogFragmentTag) {
-			checkDoubleClickOpensViewOnce(clickCommand, buttonId, openedDialogFragmentTag, false);
-		}
-
-		public void checkDoubleClickOpensViewOnce(OnClickCommand clickCommand, int buttonId, String openedViewTag,
+		public void checkDoubleClickOpensViewOnce(OnClickCommand clickCommand, int buttonId, int openedViewId,
 				boolean isKeyboardVisible) {
-			View button = getButton(buttonId);
+			View button = findView(buttonId);
 			simulateDoubleClick(clickCommand);
-			waitForViewByTag(openedViewTag);
+			waitForView(openedViewId);
 			goBack(isKeyboardVisible);
 			waitForView(button);
 		}
 
-		private View getButton(int id) {
+		public void checkDoubleClickOpensViewOnce(OnClickCommand clickCommand, int buttonId, String openedViewTag) {
+			checkDoubleClickOpensViewOnce(clickCommand, buttonId, openedViewTag, false);
+		}
+
+		public void checkDoubleClickOpensViewOnce(OnClickCommand clickCommand, int buttonId, String openedViewTag,
+				boolean isKeyboardVisible) {
+			View button = findView(buttonId);
+			simulateDoubleClick(clickCommand);
+			waitForView(openedViewTag);
+			goBack(isKeyboardVisible);
+			waitForView(button);
+		}
+
+		private View findView(int id) {
 			View button = solo.getCurrentActivity().findViewById(id);
 			assertNotNull("Button not found", button);
 			return button;
@@ -103,10 +107,6 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			clickCommand.execute();
 		}
 
-		private void goBack() {
-			goBack(false);
-		}
-
 		private void goBack(boolean isKeyboardVisible) {
 			solo.goBack();
 			if (isKeyboardVisible) {
@@ -114,13 +114,13 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			}
 		}
 
-		private void waitForViewById(int id) {
+		private void waitForView(int id) {
 			if (!solo.waitForFragmentById(id, SOLO_WAIT_TIMEOUT)) {
 				fail("Couldn't find opened view after clicking on button");
 			}
 		}
 
-		private void waitForViewByTag(String tag) {
+		private void waitForView(String tag) {
 			if (!solo.waitForFragmentByTag(tag, SOLO_WAIT_TIMEOUT)) {
 				fail("Couldn't find opened view after clicking on button");
 			}
