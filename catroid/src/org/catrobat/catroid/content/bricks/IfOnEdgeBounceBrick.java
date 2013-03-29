@@ -61,6 +61,7 @@ public class IfOnEdgeBounceBrick extends BrickBaseType {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_if_on_edge_bounce_checkbox);
 		final Brick brickInstance = this;
