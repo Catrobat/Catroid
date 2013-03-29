@@ -97,7 +97,8 @@ public class BrickBaseType implements Brick {
 		if (checkbox != null) {
 			checkboxVisibility = checkbox.getVisibility();
 			enabled = checkbox.isEnabled();
-			isChecked = checkbox.isChecked();
+			//isChecked = checkbox.isChecked();
+			isChecked = checked;
 		}
 		checkbox = (CheckBox) view.findViewById(id);
 		checkbox.setChecked(isChecked);

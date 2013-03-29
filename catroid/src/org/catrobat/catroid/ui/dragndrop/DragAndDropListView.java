@@ -126,14 +126,16 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			if (brick instanceof ScriptBrick) {
 				boolean checked = !brick.isChecked();
 				brick.setCheckedBoolean(checked);
-				//brick.getCheckBox().setChecked(checked);
-				brick.getView(adapter.getContext(), itemPosition, adapter);
+				brick.getCheckBox().setChecked(checked);
+
 				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
+					for (Brick currentBrick : adapter.getCheckedBricksFromScriptBrick((ScriptBrick) brick)) {
 						currentBrick.setCheckedBoolean(false);
 					}
 				}
 				adapter.handleCheck(brick, checked);
+				brick.getView(adapter.getContext(), itemPosition, adapter);
+				return true;
 			}
 		}
 

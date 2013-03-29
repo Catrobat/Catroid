@@ -947,6 +947,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	private boolean smartBrickSelection(Brick brick, boolean checked) {
 
 		if (brick instanceof ScriptBrick) {
+
 			if (checked) {
 				addElementToCheckedBricks(brick);
 				animatedBricks.add(brick);
@@ -1090,6 +1091,19 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	public List<Brick> getCheckedBricks() {
 		return checkedBricks;
+	}
+
+	public List<Brick> getCheckedBricksFromScriptBrick(ScriptBrick brick) {
+		int brickPosition = checkedBricks.indexOf(brick);
+		if (brickPosition >= 0) {
+			List<Brick> checkedBricksInScript = new ArrayList<Brick>();
+			while ((brickPosition < brickList.size()) && !(brickList.get(brickPosition) instanceof ScriptBrick)) {
+				checkedBricksInScript.add(brickList.get(brickPosition));
+				brickPosition++;
+			}
+			return checkedBricksInScript;
+		}
+		return null;
 	}
 
 	public List<Brick> getReversedCheckedBrickList() {
