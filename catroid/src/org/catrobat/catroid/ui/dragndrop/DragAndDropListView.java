@@ -123,7 +123,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			int itemPosition = pointToPosition(x, y);
 			itemPosition = itemPosition < 0 ? adapter.getCount() - 1 : itemPosition;
 			final Brick brick = (Brick) adapter.getItem(itemPosition);
-			if (brick instanceof ScriptBrick) {
+			if (adapter.isActionMode() && brick instanceof ScriptBrick) {
 				boolean checked = !brick.isChecked();
 				brick.setCheckedBoolean(checked);
 				brick.getCheckBox().setChecked(checked);

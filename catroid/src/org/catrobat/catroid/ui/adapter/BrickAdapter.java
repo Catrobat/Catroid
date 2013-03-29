@@ -90,6 +90,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private int selectMode;
 	private OnBrickEditListener onBrickEditListener;
+	private boolean actionMode = false;
 
 	public int listItemCount = 0;
 
@@ -122,6 +123,14 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				brick.setBrickAdapter(this);
 			}
 		}
+	}
+
+	public boolean isActionMode() {
+		return actionMode;
+	}
+
+	public void setActionMode(boolean actionMode) {
+		this.actionMode = actionMode;
 	}
 
 	public List<Brick> getBrickList() {
