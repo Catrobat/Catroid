@@ -27,8 +27,10 @@ import junit.framework.TestSuite;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
+import org.catrobat.catroid.uitest.util.Reflection;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -103,7 +105,11 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		private void simulateDoubleClick(OnClickCommand clickCommand) {
+			ViewSwitchLock viewSwitchLock = (ViewSwitchLock) Reflection
+					.getPrivateField(getActivity(), "viewSwitchLock");
+			assertFalse("ViewSwitchLock already locked", (Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
 			clickCommand.execute();
+			assertTrue("ViewSwitchLock not locked", (Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
 			clickCommand.execute();
 		}
 
