@@ -77,6 +77,7 @@ public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener
 		}
 
 		view = View.inflate(context, R.layout.brick_change_size_by_n, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_change_size_by_checkbox);
 		final Brick brickInstance = this;

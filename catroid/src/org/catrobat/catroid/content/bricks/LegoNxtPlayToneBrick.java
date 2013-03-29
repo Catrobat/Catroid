@@ -92,7 +92,11 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 		view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_nxt_play_tone_checkbox);
 

@@ -82,6 +82,7 @@ public class PointToBrick extends BrickBaseType {
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view = inflater.inflate(R.layout.brick_point_to, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_point_to_checkbox);
 

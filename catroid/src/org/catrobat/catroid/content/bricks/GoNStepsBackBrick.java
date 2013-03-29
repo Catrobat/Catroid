@@ -75,6 +75,7 @@ public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener 
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_go_back, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_go_back_checkbox);
 		final Brick brickInstance = this;

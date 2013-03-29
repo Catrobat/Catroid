@@ -74,6 +74,7 @@ public class ChangeBrightnessByNBrick extends BrickBaseType implements OnClickLi
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_change_brightness, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_change_brightness_checkbox);
 		final Brick brickInstance = this;

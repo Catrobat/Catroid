@@ -66,6 +66,7 @@ public class ForeverBrick extends LoopBeginBrick {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_forever, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_forever_checkbox);
 		final Brick brickInstance = this;

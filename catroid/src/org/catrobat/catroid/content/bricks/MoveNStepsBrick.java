@@ -78,6 +78,7 @@ public class MoveNStepsBrick extends BrickBaseType implements OnClickListener {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_move_n_steps, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_move_n_steps_checkbox);
 

@@ -87,8 +87,12 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener {
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 
 		view = View.inflate(context, R.layout.brick_set_variable, null);
+		view = getViewWithAlpha(alphaValue);
 		setCheckboxView(R.id.brick_set_variable_checkbox);
 
 		final Brick brickInstance = this;

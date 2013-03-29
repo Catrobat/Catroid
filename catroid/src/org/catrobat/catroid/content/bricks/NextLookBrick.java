@@ -75,6 +75,7 @@ public class NextLookBrick extends BrickBaseType {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_next_look, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_next_look_checkbox);
 
