@@ -722,7 +722,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			wrapper.startAnimation(animation);
 			animatedBricks.remove(brickList.get(position));
 		}
-		notifyDataSetChanged();
 		return wrapper;
 	}
 
@@ -820,7 +819,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if ((selectMode == Constants.SELECT_NONE)) {
 			alertDialog.show();
 		}
-		notifyDataSetChanged();
 	}
 
 	private int calculateItemPositionAndTouchPointY(View view) {
@@ -876,7 +874,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				checkbox.setChecked(false);
 			}
 		}
-		notifyDataSetChanged();
 	}
 
 	public void setCheckboxVisibility(int visibility) {
@@ -897,7 +894,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	public void handleCheck(Brick brick, boolean isChecked) {
-		notifyDataSetChanged();
 		if (brick == null) {
 			return;
 		}

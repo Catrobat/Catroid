@@ -64,11 +64,13 @@ public class WhenBrick extends ScriptBrick {
 
 		setCheckboxView(R.id.brick_when_checkbox);
 
-		//checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		//@Override
-		//public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		//method moved to to DragAndDropListView since it is not working on 2.x
 		/*
+		 * checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		 * 
+		 * @Override
+		 * public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		 * 
 		 * checked = isChecked;
 		 * if (!checked) {
 		 * for (Brick currentBrick : adapter.getCheckedBricks()) {
@@ -76,9 +78,10 @@ public class WhenBrick extends ScriptBrick {
 		 * }
 		 * }
 		 * adapter.handleCheck(brickInstance, checked);
+		 * }
+		 * });
 		 */
-		//	}
-		//});
+
 		// inactive until spinner has more than one element
 		//		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_when_spinner);
 		//		spinner.setFocusable(false);
