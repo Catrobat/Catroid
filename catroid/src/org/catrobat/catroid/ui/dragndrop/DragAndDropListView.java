@@ -30,6 +30,8 @@ package org.catrobat.catroid.ui.dragndrop;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.utils.Utils;
 
@@ -106,6 +108,34 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent event) {
+		//hack: on Android 2.x getView() is not always called when checkbox is checked.
+		//Therefore the action is catched here and does exactly the same as otherwise the
+		//onCheckedChangeListener would do
+		if (event.getAction() == MotionEvent.ACTION_UP) {
+			int x = (int) event.getX();
+			int y = (int) event.getY();
+			if (y < 0) {
+				y = 0;
+			} else if (y > getHeight()) {
+				y = getHeight();
+			}
+			BrickAdapter adapter = ((BrickAdapter) dragAndDropListener);
+			int itemPosition = pointToPosition(x, y);
+			itemPosition = itemPosition < 0 ? adapter.getCount() - 1 : itemPosition;
+			final Brick brick = (Brick) adapter.getItem(itemPosition);
+			if (brick instanceof ScriptBrick) {
+				boolean checked = !brick.isChecked();
+				brick.setCheckedBoolean(checked);
+				//brick.getCheckBox().setChecked(checked);
+				brick.getView(adapter.getContext(), itemPosition, adapter);
+				if (!checked) {
+					for (Brick currentBrick : adapter.getCheckedBricks()) {
+						currentBrick.setCheckedBoolean(false);
+					}
+				}
+				adapter.handleCheck(brick, checked);
+			}
+		}
 
 		if (dragAndDropListener != null && dragView != null) {
 			onTouchEvent(event);

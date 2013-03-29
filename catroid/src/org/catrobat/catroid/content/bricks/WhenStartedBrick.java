@@ -66,17 +66,19 @@ public class WhenStartedBrick extends ScriptBrick {
 		view = View.inflate(context, R.layout.brick_when_started, null);
 
 		setCheckboxView(R.id.brick_when_started_checkbox);
-		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
-				adapter.handleCheck(brickInstance, checked);
+				//method moved to to DragAndDropListView since it is not working on 2.x
+				/*
+				 * checked = isChecked;
+				 * if (!checked) {
+				 * for (Brick currentBrick : adapter.getCheckedBricks()) {
+				 * currentBrick.setCheckedBoolean(false);
+				 * }
+				 * }
+				 * adapter.handleCheck(brickInstance, checked);
+				 */
 			}
 		});
 

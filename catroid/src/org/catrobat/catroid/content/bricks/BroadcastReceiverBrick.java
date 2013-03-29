@@ -77,17 +77,19 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
 
 		setCheckboxView(R.id.brick_broadcast_receive_checkbox);
-		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
-				adapter.handleCheck(brickInstance, checked);
+				//method moved to to DragAndDropListView since it is not working on 2.x
+				/*
+				 * checked = isChecked;
+				 * if (!checked) {
+				 * for (Brick currentBrick : adapter.getCheckedBricks()) {
+				 * currentBrick.setCheckedBoolean(false);
+				 * }
+				 * }
+				 * adapter.handleCheck(brickInstance, checked);
+				 */
 			}
 		});
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_receive_spinner);
