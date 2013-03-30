@@ -57,7 +57,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testToggleMindstormBricks() {
 		String settings = solo.getString(R.string.main_menu_settings);
-		String mindstormsPreferenceString = solo.getString(R.string.pref_enable_ms_bricks);
+		String mindstormsPreferenceString = solo.getString(R.string.preference_title_enable_mindstorm_bricks);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -80,7 +80,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnMenuItem(settings);
 		solo.waitForActivity(SettingsActivity.class.getSimpleName());
 
-		assertTrue("Wrong title", solo.searchText(solo.getString(R.string.pref_title)));
+		assertTrue("Wrong title", solo.searchText(solo.getString(R.string.preference_title)));
 
 		solo.clickOnText(mindstormsPreferenceString);
 		solo.goBack();
