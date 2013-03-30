@@ -30,19 +30,20 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEndBrick {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
 	private static final String TAG = IfLogicElseBrick.class.getSimpleName();
 	private IfLogicBeginBrick ifBeginBrick;
 	private IfLogicEndBrick ifEndBrick;
@@ -64,9 +65,39 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
+		if (view == null) {
+			alphaValue = 255;
+		}
+
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_if_else, null);
+		view = inflater.inflate(R.layout.brick_if_else, null);
+		view = getViewWithAlpha(alphaValue);
+
+		setCheckboxView(R.id.brick_if_else_checkbox);
+		final Brick brickInstance = this;
+
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
+
+		return view;
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_if_else_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
 	}
 
 	@Override
@@ -109,11 +140,18 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts() {
+	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
+		//TODO: handle sorting
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
-		nestingBrickList.add(ifBeginBrick);
-		nestingBrickList.add(this);
-		nestingBrickList.add(ifEndBrick);
+		if (sorted) {
+			nestingBrickList.add(ifBeginBrick);
+			nestingBrickList.add(this);
+			nestingBrickList.add(ifEndBrick);
+		} else {
+			//nestingBrickList.add(this);
+			nestingBrickList.add(ifBeginBrick);
+			nestingBrickList.add(ifEndBrick);
+		}
 
 		return nestingBrickList;
 	}

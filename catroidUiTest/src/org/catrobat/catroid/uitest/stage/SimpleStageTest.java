@@ -41,11 +41,12 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
+		UiTestUtils.prepareStageForTest();
 		UiTestUtils.createEmptyProject();
 		Values.SCREEN_HEIGHT = 20;
 		Values.SCREEN_WIDTH = 20;
 		solo = new Solo(getInstrumentation(), getActivity());
-		super.setUp();
 	}
 
 	@Override

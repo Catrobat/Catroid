@@ -30,17 +30,18 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class ClearGraphicEffectBrick implements Brick {
+public class ClearGraphicEffectBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
-
-	private transient View view;
 
 	public ClearGraphicEffectBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -56,8 +57,24 @@ public class ClearGraphicEffectBrick implements Brick {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
+		view = View.inflate(context, R.layout.brick_clear_graphic_effect, null);
+		view = getViewWithAlpha(alphaValue);
+
+		setCheckboxView(R.id.brick_clear_graphic_effect_checkbox);
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
+
+		return view;
 	}
 
 	@Override
@@ -68,10 +85,11 @@ public class ClearGraphicEffectBrick implements Brick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_clear_graphic_effect, null);
-		}
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_clear_graphic_effect_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
 
 		return view;
 	}

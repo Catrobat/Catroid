@@ -32,21 +32,23 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class ChangeVolumeByNBrick implements Brick, OnClickListener {
+public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
-	private Sprite sprite;
 	private Formula volume;
 
-	private transient View view;
 	private transient View prototypeView;
 
 	public ChangeVolumeByNBrick() {
@@ -83,9 +85,24 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		view = View.inflate(context, R.layout.brick_change_volume_by, null);
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 
+		view = View.inflate(context, R.layout.brick_change_volume_by, null);
+		view = getViewWithAlpha(alphaValue);
+
+		setCheckboxView(R.id.brick_change_volume_by_checkbox);
+		final Brick brickInstance = this;
+
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
 		volume.setTextFieldId(R.id.brick_change_volume_by_edit_text);
@@ -95,7 +112,6 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 		edit.setVisibility(View.VISIBLE);
 
 		edit.setOnClickListener(this);
-
 		return view;
 	}
 
@@ -114,7 +130,19 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 	}
 
 	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_volume_by_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
+	}
+
+	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
 		FormulaEditorFragment.showFragment(view, this, volume);
 	}
 

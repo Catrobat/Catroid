@@ -76,6 +76,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	public void setUp() throws Exception {
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.prepareStageForTest();
 	}
 
 	@Override
@@ -121,6 +122,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		Values.SCREEN_HEIGHT = displayMetrics.heightPixels;
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
 
 		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 

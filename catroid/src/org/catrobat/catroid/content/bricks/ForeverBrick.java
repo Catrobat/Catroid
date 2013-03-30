@@ -30,16 +30,18 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ForeverBrick extends LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
-
-	private transient View view;
 
 	public ForeverBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -59,11 +61,38 @@ public class ForeverBrick extends LoopBeginBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_forever, null);
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
 		}
+		view = View.inflate(context, R.layout.brick_forever, null);
+		view = getViewWithAlpha(alphaValue);
 
+		setCheckboxView(R.id.brick_forever_checkbox);
+		final Brick brickInstance = this;
+
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				if (!checked) {
+					for (Brick currentBrick : adapter.getCheckedBricks()) {
+						currentBrick.setCheckedBoolean(false);
+					}
+				}
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
+
+		return view;
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_forever_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
 		return view;
 	}
 

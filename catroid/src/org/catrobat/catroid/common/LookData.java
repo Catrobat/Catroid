@@ -159,7 +159,7 @@ public class LookData implements Serializable, Cloneable {
 		thumbnailBitmap = null;
 	}
 
-	public int[] getResolution() {
+	public int[] getMeasure() {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(getAbsolutePath(), options);

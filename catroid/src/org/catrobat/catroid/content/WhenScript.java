@@ -80,7 +80,7 @@ public class WhenScript extends Script {
 	@Override
 	public ScriptBrick getScriptBrick() {
 		if (brick == null) {
-			brick = new WhenBrick(sprite, this);
+			brick = new WhenBrick(object, this);
 		}
 
 		return brick;

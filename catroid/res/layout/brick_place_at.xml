@@ -20,38 +20,73 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
 -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Motion.Small" >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_place_at_x" >
-    </TextView>
+    <CheckBox
+        android:id="@+id/brick_place_at_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/brick_place_at_prototype_text_view_x"
-        style="@style/BrickPrototypeTextView" />
+    <LinearLayout
+        android:id="@+id/brick_place_at_layout"
+        style="@style/BrickContainer.Motion.Medium"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/brick_place_at_edit_text_x"
-        style="@style/BrickEditText"
-        android:inputType="number|numberDecimal|numberSigned" >
-    </EditText>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/y_label" >
-    </TextView>
+            <TextView
+                style="@style/BrickText.SingleLine"
+                android:text="@string/brick_place_at" >
+            </TextView>
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/brick_place_at_prototype_text_view_y"
-        style="@style/BrickPrototypeTextView" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+			
+            <TextView
+                style="@style/BrickText.SingleLine"
+                android:text="@string/x_label" >
+            </TextView>
+            
+            <TextView
+                android:id="@+id/brick_place_at_prototype_text_view_x"
+                style="@style/BrickPrototypeTextView" />
 
-    <EditText
-        android:id="@+id/brick_place_at_edit_text_y"
-        style="@style/BrickEditText"
-        android:inputType="number|numberDecimal|numberSigned" >
-    </EditText>
+            <EditText
+                android:id="@+id/brick_place_at_edit_text_x"
+                style="@style/BrickEditText"
+                android:inputType="number|numberDecimal|numberSigned" >
+            </EditText>
 
+            <TextView
+                style="@style/BrickText.SingleLine"
+                android:text="@string/y_label" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/brick_place_at_prototype_text_view_y"
+                style="@style/BrickPrototypeTextView" />
+
+            <EditText
+                android:id="@+id/brick_place_at_edit_text_y"
+                style="@style/BrickEditText"
+                android:inputType="number|numberDecimal|numberSigned" >
+            </EditText>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

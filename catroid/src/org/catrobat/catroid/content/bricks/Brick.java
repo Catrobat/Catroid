@@ -27,10 +27,12 @@ import java.util.List;
 
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -59,4 +61,19 @@ public interface Brick extends Serializable {
 
 	public int getRequiredResources();
 
+	public void setCheckboxVisibility(int visibility);
+
+	public int getAlphaValue();
+
+	public void setBrickAdapter(BrickAdapter adapter);
+
+	public CheckBox getCheckBox();
+
+	public void setCheckedBoolean(boolean newValue);
+
+	public void setCheckboxView(int id);
+
+	public View getViewWithAlpha(int alphaValue);
+
+	void setAnimationState(boolean animationState);
 }

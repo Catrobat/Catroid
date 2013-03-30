@@ -31,10 +31,15 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -42,7 +47,6 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	static final int FOREVER = -1;
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = LoopEndBrick.class.getSimpleName();
-	private Sprite sprite;
 	private LoopBeginBrick loopBeginBrick;
 
 	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
@@ -97,9 +101,36 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_loop_end, null);
+		view = inflater.inflate(R.layout.brick_loop_end, null);
+		view = getViewWithAlpha(alphaValue);
+		checkbox = (CheckBox) view.findViewById(R.id.brick_loop_end_checkbox);
+		final Brick brickInstance = this;
+
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
+		return view;
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_loop_end_layout);
+		if (layout == null) {
+			layout = (LinearLayout) view.findViewById(R.id.brick_loop_end_no_puzzle_layout);
+		}
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
 	}
 
 	@Override
@@ -137,11 +168,15 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts() {
+	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
-		nestingBrickList.add(loopBeginBrick);
-		nestingBrickList.add(this);
-
+		if (sorted) {
+			nestingBrickList.add(loopBeginBrick);
+			nestingBrickList.add(this);
+		} else {
+			nestingBrickList.add(this);
+			nestingBrickList.add(loopBeginBrick);
+		}
 		return nestingBrickList;
 	}
 
@@ -157,5 +192,4 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		returnActionList.add(sequence);
 		return returnActionList;
 	}
-
 }

@@ -20,41 +20,56 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Control.Medium"
-    android:orientation="vertical" >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_change_variable" />
-
-    <Spinner
-        android:id="@+id/variable_spinner"
-        android:layout_width="match_parent"
+    <CheckBox
+        android:id="@+id/brick_change_variable_checkbox"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="false"
-        android:focusable="false" />
+        android:gravity="center_vertical"
+        android:visibility="gone" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:id="@+id/brick_change_variable_layout"
+        style="@style/BrickContainer.UserVariables.Medium"
+        android:orientation="vertical" >
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/by_label" />
+            android:text="@string/brick_change_variable" />
 
-        <TextView
-            style="@style/BrickPrototypeTextView"
-            android:id="@+id/brick_change_variable_prototype_view" />
-
-        <EditText
-            android:id="@+id/brick_change_variable_edit_text"
-            style="@style/BrickEditText"
+        <Spinner
+            android:id="@+id/variable_spinner"
             android:layout_width="match_parent"
-            android:inputType="number|numberDecimal|numberSigned" />
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                style="@style/BrickText.SingleLine"
+                android:text="@string/by_label" />
+
+            <TextView
+                android:id="@+id/brick_change_variable_prototype_view"
+                style="@style/BrickPrototypeTextView" />
+
+            <EditText
+                android:id="@+id/brick_change_variable_edit_text"
+                style="@style/BrickEditText"
+                android:inputType="number|numberDecimal|numberSigned" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

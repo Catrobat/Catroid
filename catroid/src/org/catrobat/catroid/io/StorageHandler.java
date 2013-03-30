@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.XmlHeader;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
@@ -96,6 +97,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
@@ -123,6 +125,7 @@ public class StorageHandler {
 		xstream = new XStream(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
 		xstream.processAnnotations(XmlHeader.class);
+		xstream.processAnnotations(UserVariablesContainer.class);
 		setXstreamAliases();
 
 		if (!Utils.externalStorageAvailable()) {
@@ -138,9 +141,11 @@ public class StorageHandler {
 
 		xstream.alias("broadcastScript", BroadcastScript.class);
 		xstream.alias("script", Script.class);
-		xstream.alias("sprite", Sprite.class);
+		xstream.alias("object", Sprite.class);
 		xstream.alias("startScript", StartScript.class);
 		xstream.alias("whenScript", WhenScript.class);
+
+		xstream.aliasField("object", BrickBaseType.class, "sprite");
 
 		xstream.alias("broadcastBrick", BroadcastBrick.class);
 		xstream.alias("broadcastReceiverBrick", BroadcastReceiverBrick.class);
