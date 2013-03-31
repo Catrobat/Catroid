@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -200,6 +201,13 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 		returnActionList.add(ifAction);
 
 		return returnActionList;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		IfLogicBeginBrick copyBrick = (IfLogicBeginBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 }

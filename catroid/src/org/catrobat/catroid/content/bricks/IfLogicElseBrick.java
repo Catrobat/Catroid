@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
@@ -167,6 +168,13 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
 		returnActionList.add(sequence);
 		return returnActionList;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		IfLogicElseBrick copyBrick = (IfLogicElseBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 }

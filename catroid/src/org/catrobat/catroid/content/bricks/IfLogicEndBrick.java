@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
@@ -165,4 +166,42 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 		return returnActionList;
 	}
 
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		//IfLogicEndBrick copyBrick = new IfLogicEndBrick(sprite, null, null);
+
+		ArrayList<Brick> currentBrickList = script.getBrickList();
+		int elseCounter = 0;
+		int ifCounter = 0;
+
+		IfLogicElseBrick elseBrick = null;
+		IfLogicBeginBrick ifBeginBrick = null;
+
+		for (int i = currentBrickList.size() - 1; i >= 0; i--) {
+			Brick brick = currentBrickList.get(i);
+
+			if (brick instanceof IfLogicEndBrick) {
+				ifCounter++;
+				elseCounter++;
+			} else if (brick instanceof IfLogicElseBrick) {
+				if (elseCounter == 0) {
+					elseBrick = (IfLogicElseBrick) brick;
+				} else {
+					elseCounter--;
+				}
+			} else if (brick instanceof IfLogicBeginBrick) {
+				if (ifCounter == 0) {
+					ifBeginBrick = (IfLogicBeginBrick) brick;
+				} else {
+					ifCounter--;
+				}
+			}
+		}
+
+		IfLogicEndBrick copyBrick = new IfLogicEndBrick(sprite, elseBrick, ifBeginBrick);
+		ifBeginBrick.setElseBrick(elseBrick);
+		ifBeginBrick.setEndBrick(copyBrick);
+
+		return copyBrick;
+	}
 }
