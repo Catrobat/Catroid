@@ -63,8 +63,8 @@
 
     <!-- Settings activity -->
     <string name="pref_title">Settings</string>
-    <string name="pref_enable_ms_bricks">Lego Mindstorms bricks</string>
-    <string name="pref_descr_ms_bricks">Allow to control Lego Mindstorms robots</string>
+    <string name="pref_enable_ms_bricks">Lego Mindstorms bricks</string><string name="pref_enable_robot_albert_bricks">Robot Albert bricks</string>
+    <string name="pref_descr_ms_bricks">Allow to control Lego Mindstorms robots</string><string name="pref_descr_robot_albert_bricks">Allow to control robot Albert</string>
     <!--  -->
 
 
