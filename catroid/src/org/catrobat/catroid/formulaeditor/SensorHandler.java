@@ -104,7 +104,7 @@ public class SensorHandler implements SensorEventListener {
 				getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
 				sensorValue = Double.valueOf(orientations[0]);
-				return sensorValue * radianToDegreeConst;
+				return sensorValue * radianToDegreeConst * -1f;
 
 			case X_ORIENTATION:
 
@@ -119,7 +119,7 @@ public class SensorHandler implements SensorEventListener {
 				getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
 				sensorValue = Double.valueOf(orientations[1]);
-				return sensorValue * radianToDegreeConst * -1;
+				return sensorValue * radianToDegreeConst * -1f;
 		}
 
 		return 0d;
