@@ -49,11 +49,12 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -69,7 +70,6 @@ public class StageListener implements ApplicationListener {
 	private FPSLogger fpsLogger;
 
 	private Stage stage;
-	private Group parentGroup;
 	private boolean paused = false;
 	private boolean finished = false;
 	private boolean firstStart = true;
@@ -106,7 +106,6 @@ public class StageListener implements ApplicationListener {
 
 	private ScreenModes screenMode;
 
-	private Texture background;
 	private Texture axes;
 
 	private boolean makeTestPixels = false;
@@ -155,8 +154,9 @@ public class StageListener implements ApplicationListener {
 		camera.position.set(0, 0, 0);
 
 		sprites = project.getSpriteList();
-		for (Sprite sprite : sprites) {
-			stage.addActor(sprite.look);
+		sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
+		for (int i = 0; i < sprites.size(); i++) {
+			stage.addActor(sprites.get(i).look);
 		}
 		if (DEBUG) {
 			OrthoCamController camController = new OrthoCamController(camera);
@@ -169,7 +169,6 @@ public class StageListener implements ApplicationListener {
 			Gdx.input.setInputProcessor(stage);
 		}
 
-		background = new Texture(Gdx.files.internal("stage/white_pixel.bmp"));
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 		skipFirstFrameForAutomaticScreenshot = true;
 	}
@@ -258,12 +257,12 @@ public class StageListener implements ApplicationListener {
 			stage.clear();
 			SoundManager.getInstance().clear();
 
-			parentGroup = new Group();
 			project = ProjectManager.getInstance().getCurrentProject();
 			sprites = project.getSpriteList();
+			sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
+			sprites.get(0).pause();
 			for (int i = 0; i < spriteSize; i++) {
 				Sprite sprite = sprites.get(i);
-				parentGroup.addActor(sprite.look);
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}
@@ -299,9 +298,10 @@ public class StageListener implements ApplicationListener {
 				break;
 		}
 
-		this.drawRectangle();
+		batch.setProjectionMatrix(camera.combined);
 
 		if (firstStart) {
+			sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
 			int spriteSize = sprites.size();
 			for (int i = 0; i < spriteSize; i++) {
 				sprites.get(i).createStartScriptActionSequence();
@@ -381,13 +381,6 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	private void drawRectangle() {
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-		batch.draw(background, -virtualWidthHalf, -virtualHeightHalf, virtualWidth, virtualHeight);
-		batch.end();
-	}
-
 	private void drawAxes() {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
@@ -415,7 +408,6 @@ public class StageListener implements ApplicationListener {
 		}
 		stage.dispose();
 		font.dispose();
-		background.dispose();
 		axes.dispose();
 		disposeTextures();
 	}
@@ -477,6 +469,16 @@ public class StageListener implements ApplicationListener {
 				screenMode = ScreenModes.MAXIMIZE;
 				break;
 		}
+	}
+
+	private LookData createWhiteBackgroundLookData() {
+		LookData whiteBackground = new LookData();
+		Pixmap whiteBackgroundPixmap = new Pixmap((int) virtualWidth, (int) virtualHeight, Format.RGBA8888);
+		whiteBackgroundPixmap.setColor(Color.WHITE);
+		whiteBackgroundPixmap.fill();
+		whiteBackground.setPixmap(whiteBackgroundPixmap);
+		whiteBackground.setTextureRegion();
+		return whiteBackground;
 	}
 
 	private void renderTextures() {
