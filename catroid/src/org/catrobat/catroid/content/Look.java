@@ -99,15 +99,19 @@ public class Look extends Image {
 		cloneLook.broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>(this.broadcastSequenceMap);
 		cloneLook.broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>(
 				this.broadcastWaitSequenceMap);
-		cloneLook.whenSequenceList = new ArrayList<SequenceAction>(this.whenSequenceList);
+		cloneLook.whenParallelAction = null;
 		cloneLook.allActionAreFinished = this.allActionAreFinished;
 
-		cloneLook.setBounds(0f, 0f, 0f, 0f);
-		cloneLook.setOrigin(0f, 0f);
-		cloneLook.setScale(1f, 1f);
-		cloneLook.setRotation(0f);
-		cloneLook.setTouchable(Touchable.enabled);
+		return cloneLook;
+	}
 
+	public Look copyLookForSprite(final Sprite cloneSprite) {
+		final Look cloneLook = clone();
+		cloneLook.sprite = cloneSprite;
+
+		for (EventListener listener : cloneSprite.look.getListeners()) {
+			cloneLook.removeListener(listener);
+		}
 		cloneLook.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -126,34 +130,7 @@ public class Look extends Image {
 			}
 		});
 
-		return cloneLook;
-	}
-
-	public Look copyLookForSprite(final Sprite cloneSprite) {
-		Look cloneLook = clone();
-
-		for (EventListener listener : cloneSprite.look.getListeners()) {
-			cloneSprite.look.removeListener(listener);
-		}
-		cloneSprite.look.addListener(new InputListener() {
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				return cloneSprite.look.doTouchDown(x, y, pointer);
-			}
-		});
-		cloneSprite.look.addListener(new BroadcastListener() {
-			@Override
-			public void handleBroadcastEvent(BroadcastEvent event, String broadcastMessage) {
-				cloneSprite.look.doHandleBroadcastEvent(broadcastMessage);
-			}
-
-			@Override
-			public void handleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
-				cloneSprite.look.doHandleBroadcastFromWaiterEvent(event, broadcastMessage);
-			}
-		});
-
-		cloneLook.whenSequenceList = new ArrayList<SequenceAction>();
+		cloneLook.whenParallelAction = null;
 		cloneLook.broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
 		cloneLook.broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
 

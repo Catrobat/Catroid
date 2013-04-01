@@ -136,7 +136,6 @@ public class Sprite implements Serializable, Cloneable {
 		} catch (IndexOutOfBoundsException e) {
 			e.printStackTrace();
 		}
-		cloneSprite.look.sprite = cloneSprite;
 
 		return cloneSprite;
 
