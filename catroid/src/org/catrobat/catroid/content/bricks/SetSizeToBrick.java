@@ -74,6 +74,7 @@ public class SetSizeToBrick extends BrickBaseType implements OnClickListener {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_set_size_to, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_set_size_to_checkbox);
 

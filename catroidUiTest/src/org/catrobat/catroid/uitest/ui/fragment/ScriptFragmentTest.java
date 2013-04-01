@@ -128,7 +128,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 				solo.searchText(categoryLegoNXTLabel));
 
 		// Test if the correct category opens when clicked
-		String brickPlaceAtText = solo.getString(R.string.brick_place_at_x);
+		String brickPlaceAtText = solo.getString(R.string.brick_place_at);
 		String brickSetLook = solo.getString(R.string.brick_set_look);
 		String brickPlaySound = solo.getString(R.string.brick_play_sound);
 		String brickWhenStarted = solo.getString(R.string.brick_when_started);

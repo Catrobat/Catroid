@@ -71,8 +71,13 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
+
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view = inflater.inflate(R.layout.brick_if_end_if, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_if_end_if_checkbox);
 		final Brick brickInstance = this;

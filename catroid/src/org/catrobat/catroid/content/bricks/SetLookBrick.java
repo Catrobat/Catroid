@@ -72,6 +72,7 @@ public class SetLookBrick extends BrickBaseType {
 		}
 		final Brick brickInstance = this;
 		view = View.inflate(context, R.layout.brick_set_look, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_set_look_checkbox);
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

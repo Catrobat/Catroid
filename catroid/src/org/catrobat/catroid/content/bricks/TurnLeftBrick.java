@@ -76,6 +76,7 @@ public class TurnLeftBrick extends BrickBaseType implements OnClickListener {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_turn_left, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_turn_left_checkbox);
 

@@ -68,6 +68,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		}
 
 		view = View.inflate(context, R.layout.brick_play_sound, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_play_sound_checkbox);
 

@@ -108,7 +108,11 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 		view = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_nxt_motor_turn_checkbox);
 		final Brick brickInstance = this;

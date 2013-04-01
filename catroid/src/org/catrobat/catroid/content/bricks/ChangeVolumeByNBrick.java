@@ -77,6 +77,7 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_change_volume_by, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_change_volume_by_checkbox);
 		final Brick brickInstance = this;

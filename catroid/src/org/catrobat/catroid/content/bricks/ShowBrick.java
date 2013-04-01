@@ -60,6 +60,7 @@ public class ShowBrick extends BrickBaseType {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_show, null);
+		view = getViewWithAlpha(alphaValue);
 		setCheckboxView(R.id.brick_show_checkbox);
 
 		final Brick brickInstance = this;

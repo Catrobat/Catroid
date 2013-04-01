@@ -68,8 +68,6 @@
             <EditText
                 android:id="@+id/brick_set_variable_edit_text"
                 style="@style/BrickEditText"
-                android:gravity="left"
-                android:layout_width="match_parent"
                 android:inputType="number|numberDecimal|numberSigned" />
         </LinearLayout>
     </LinearLayout>
