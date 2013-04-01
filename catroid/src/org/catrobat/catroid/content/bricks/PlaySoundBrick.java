@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
@@ -59,6 +60,18 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		PlaySoundBrick copyBrick = (PlaySoundBrick) clone();
+		copyBrick.sprite = sprite;
+		for (SoundInfo soundInfo : sprite.getSoundList()) {
+			if (soundInfo.getAbsolutePath().equals(sound.getAbsolutePath())) {
+				copyBrick.sound = soundInfo;
+			}
+		}
+		return copyBrick;
 	}
 
 	@Override

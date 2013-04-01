@@ -56,10 +56,24 @@ public class WhenBrick extends ScriptBrick {
 	}
 
 	@Override
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		WhenBrick copyBrick = (WhenBrick) clone();
+		copyBrick.sprite = sprite;
+		copyBrick.whenScript = (WhenScript) script;
+		return copyBrick;
+	}
+
+	@Override
 	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;
 		}
+
 		view = View.inflate(context, R.layout.brick_when, null);
 
 		setCheckboxView(R.id.brick_when_checkbox);

@@ -44,6 +44,8 @@ public abstract class Script implements Serializable {
 	public Script() {
 	}
 
+	public abstract Script copyScriptForSprite(Sprite copySprite);
+
 	protected Object readResolve() {
 		init();
 		return this;
