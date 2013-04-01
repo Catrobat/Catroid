@@ -1,0 +1,296 @@
+﻿Merge branch 'master' of https://github.com/Catrobat/Catroid into copySprites
+
+Conflicts:
+	catroid/src/org/catrobat/catroid/content/bricks/ChangeBrightnessByNBrick.java
+	catroid/src/org/catrobat/catroid/content/bricks/ChangeGhostEffectByNBrick.java
+	catroid/src/org/catrobat/catroid/content/bricks/ChangeVolumeByNBrick.java
+	catroid/src/org/catrobat/catroid/content/bricks/SetBrightnessBrick.java
+	catroid/src/org/catrobat/catroid/content/bricks/SetGhostEffectBrick.java
+	catroidUiTest/src/org/catrobat/catroid/uitest/util/UiTestUtils.java
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch copySprites
+# Your branch is ahead of 'origin/copySprites' by 1 commit.
+#
+# All conflicts fixed but you are still merging.
+#   (use "git commit" to conclude merge)
+#
+# Changes to be committed:
+#
+#	new file:   catroid/res/drawable-hdpi/bg_dialog.9.png
+#	new file:   catroid/res/drawable-hdpi/ic_action_redo.png
+#	new file:   catroid/res/drawable-hdpi/ic_action_undo.png
+#	new file:   catroid/res/drawable-hdpi/textfield_pressed.9.png
+#	new file:   catroid/res/drawable/back_button.png
+#	new file:   catroid/res/drawable/cancel_button.png
+#	new file:   catroid/res/drawable/edit_text_formula_editor_selected.xml
+#	new file:   catroid/res/drawable/formula_editor_button.9.png
+#	new file:   catroid/res/drawable/formula_editor_button_pressed.9.png
+#	new file:   catroid/res/drawable/formula_editor_keyboard_button.xml
+#	new file:   catroid/res/drawable/formula_green.png
+#	new file:   catroid/res/drawable/ok_button.png
+#	new file:   catroid/res/drawable/redo_32_32.png
+#	new file:   catroid/res/drawable/textfield_pressed_android4.9.png
+#	new file:   catroid/res/drawable/undo_32_32.png
+#	new file:   catroid/res/layout/brick_change_variable_by.xml
+#	new file:   catroid/res/layout/brick_if_begin_if.xml
+#	new file:   catroid/res/layout/brick_if_else.xml
+#	new file:   catroid/res/layout/brick_if_end_if.xml
+#	modified:   catroid/res/layout/brick_nxt_motor_action.xml
+#	modified:   catroid/res/layout/brick_nxt_motor_stop.xml
+#	modified:   catroid/res/layout/brick_nxt_motor_turn_angle.xml
+#	modified:   catroid/res/layout/brick_nxt_play_tone.xml
+#	new file:   catroid/res/layout/brick_set_variable.xml
+#	new file:   catroid/res/layout/dialog_formula_editor_variable_name.xml
+#	new file:   catroid/res/layout/dialog_formulaeditor_compute.xml
+#	new file:   catroid/res/layout/formula_editor_keyboard.xml
+#	new file:   catroid/res/layout/fragment_formula_editor.xml
+#	new file:   catroid/res/layout/fragment_formula_editor_list.xml
+#	new file:   catroid/res/layout/fragment_formula_editor_list_item.xml
+#	new file:   catroid/res/layout/fragment_formula_editor_variablelist.xml
+#	new file:   catroid/res/layout/fragment_formula_editor_variablelist_item.xml
+#	new file:   catroid/res/menu/menu_formulaeditor_variablelist.xml
+#	modified:   catroid/res/values-de/strings.xml
+#	modified:   catroid/res/values/colors.xml
+#	modified:   catroid/res/values/dimens.xml
+#	modified:   catroid/res/values/strings.xml
+#	modified:   catroid/res/values/styles.xml
+#	modified:   catroid/src/org/catrobat/catroid/common/BrickValues.java
+#	modified:   catroid/src/org/catrobat/catroid/common/Constants.java
+#	modified:   catroid/src/org/catrobat/catroid/content/Project.java
+#	modified:   catroid/src/org/catrobat/catroid/content/Script.java
+#	modified:   catroid/src/org/catrobat/catroid/content/Sprite.java
+#	new file:   catroid/src/org/catrobat/catroid/content/XmlHeader.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/BroadcastAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/BroadcastNotifyAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/ChangeBrightnessByNAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/ChangeGhostEffectByNAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/ChangeSizeByNAction.java
+#	new file:   catroid/src/org/catrobat/catroid/content/actions/ChangeVariableAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/ChangeVolumeByNAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/ChangeXByNAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/ChangeYByNAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/ClearGraphicEffectAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/ComeToFrontAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/ExtendedActions.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/GlideToAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/GoNStepsBackAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/HideAction.java
+#	new file:   catroid/src/org/catrobat/catroid/content/actions/IfLogicAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/IfOnEdgeBounceAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/LegoNxtMotorActionAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/LegoNxtMotorStopAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/LegoNxtMotorTurnAngleAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/LegoNxtPlayToneAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/MoveNStepsAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/NextLookAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/PlaySoundAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/PointInDirectionAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/PointToAction.java
+#	new file:   catroid/src/org/catrobat/catroid/content/actions/RepeatAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/SetBrightnessAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/SetGhostEffectAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/SetLookAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/SetSizeToAction.java
+#	new file:   catroid/src/org/catrobat/catroid/content/actions/SetVariableAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/SetVolumeToAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/SetXAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/SetYAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/ShowAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/SpeakAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/TurnLeftAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/actions/TurnRightAction.java
+#	new file:   catroid/src/org/catrobat/catroid/content/actions/WaitAction.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/Brick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/BroadcastBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/BroadcastReceiverBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/BroadcastWaitBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/ChangeBrightnessByNBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/ChangeGhostEffectByNBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/ChangeSizeByNBrick.java
+#	new file:   catroid/src/org/catrobat/catroid/content/bricks/ChangeVariableBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/ChangeVolumeByNBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/ChangeXByNBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/ChangeYByNBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/ClearGraphicEffectBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/ComeToFrontBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/ForeverBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/GlideToBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/GoNStepsBackBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/HideBrick.java
+#	new file:   catroid/src/org/catrobat/catroid/content/bricks/IfLogicBeginBrick.java
+#	new file:   catroid/src/org/catrobat/catroid/content/bricks/IfLogicElseBrick.java
+#	new file:   catroid/src/org/catrobat/catroid/content/bricks/IfLogicEndBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/IfOnEdgeBounceBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/LegoNxtMotorActionBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/LegoNxtMotorStopBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/LegoNxtMotorTurnAngleBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/LegoNxtPlayToneBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/LoopEndBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/MoveNStepsBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/NextLookBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/NoteBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/PlaceAtBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/PlaySoundBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/PointInDirectionBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/PointToBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/RepeatBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/SetBrightnessBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/SetGhostEffectBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/SetLookBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/SetSizeToBrick.java
+#	new file:   catroid/src/org/catrobat/catroid/content/bricks/SetVariableBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/SetVolumeToBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/SetXBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/SetYBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/ShowBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/SpeakBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/StopAllSoundsBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/TurnLeftBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/TurnRightBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/WaitBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/WhenBrick.java
+#	modified:   catroid/src/org/catrobat/catroid/content/bricks/WhenStartedBrick.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/ExternInternRepresentationMapping.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/ExternToken.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/Formula.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/FormulaEditorEditText.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/FormulaEditorHistory.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/FormulaElement.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/Functions.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/InternFormula.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/InternFormulaKeyboardAdapter.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/InternFormulaParser.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/InternFormulaState.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/InternFormulaTokenSelection.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/InternFormulaUtils.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/InternToExternGenerator.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/InternToken.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/InternTokenType.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/Operators.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/SensorHandler.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/SensorManager.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/SensorManagerInterface.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/Sensors.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/UserVariable.java
+#	new file:   catroid/src/org/catrobat/catroid/formulaeditor/UserVariablesContainer.java
+#	modified:   catroid/src/org/catrobat/catroid/io/StorageHandler.java
+#	modified:   catroid/src/org/catrobat/catroid/stage/StageActivity.java
+#	modified:   catroid/src/org/catrobat/catroid/stage/StageListener.java
+#	modified:   catroid/src/org/catrobat/catroid/ui/ProgramMenuActivity.java
+#	modified:   catroid/src/org/catrobat/catroid/ui/ProjectActivity.java
+#	modified:   catroid/src/org/catrobat/catroid/ui/ScriptActivity.java
+#	new file:   catroid/src/org/catrobat/catroid/ui/adapter/UserVariableAdapter.java
+#	modified:   catroid/src/org/catrobat/catroid/ui/dialogs/AddBrickDialog.java
+#	new file:   catroid/src/org/catrobat/catroid/ui/dialogs/FormulaEditorComputeDialog.java
+#	new file:   catroid/src/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java
+#	new file:   catroid/src/org/catrobat/catroid/ui/fragment/FormulaEditorListFragment.java
+#	new file:   catroid/src/org/catrobat/catroid/ui/fragment/FormulaEditorVariableListFragment.java
+#	modified:   catroid/src/org/catrobat/catroid/ui/fragment/LookFragment.java
+#	modified:   catroid/src/org/catrobat/catroid/ui/fragment/ScriptFragment.java
+#	modified:   catroid/src/org/catrobat/catroid/ui/fragment/SoundFragment.java
+#	modified:   catroid/src/org/catrobat/catroid/utils/UtilCamera.java
+#	modified:   catroid/src/org/catrobat/catroid/web/ServerCalls.java
+#	deleted:    catroidSourceTest/res/catrobat_v0.3_XMLsToValidate/complexProjectWithAllBricks.xml
+#	deleted:    catroidSourceTest/res/catrobat_v0.3_XMLsToValidate/standardProject.xml
+#	modified:   catroidSourceTest/src/org/catrobat/catroid/test/code/CheckForAssertionsTest.java
+#	new file:   catroidSourceTest/src/org/catrobat/catroid/test/code/TextCursorDrawTest.java
+#	deleted:    catroidTest/assets/standardProject.xml
+#	deleted:    catroidTest/assets/test_malformed_project.xml
+#	deleted:    catroidTest/assets/test_pointto_project.xml
+#	deleted:    catroidTest/assets/test_project.xml
+#	deleted:    catroidTest/assets/test_sound_project.xml
+#	modified:   catroidTest/src/org/catrobat/catroid/test/ProjectManagerTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/FileChecksumContainerTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/ChangeBrightnessByNActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/ChangeGhostEffectByNActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/ChangeSizeByNActionTest.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/content/actions/ChangeVariableActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/ChangeVolumeByNActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/ChangeXByNActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/ChangeYByNActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/ForeverActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/GlideToActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/GoNStepsBackActionTest.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/content/actions/IfLogicActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/IfOnEdgeBounceActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/MoveNStepsActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/PlaceAtBrickTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/RepeatActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/SetBrightnessActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/SetGhostEffectActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/SetSizeToActionTest.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/content/actions/SetVariableActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/SetVolumeToActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/SetXActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/SetYActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/SpeakActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/TurnLeftActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/TurnRightActionTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/actions/WaitActionTest.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/content/bricks/BrickCloneTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/content/project/ProjectTest.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/formulaeditor/ExternInternRepresentationMappingTest.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/formulaeditor/FormulaElementTest.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/formulaeditor/FormulaTest.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/formulaeditor/InternFormulaStateTest.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/formulaeditor/InternFormulaTest.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/formulaeditor/InternFormulaTokenSelectionTest.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/formulaeditor/InternFormulaUtilsTest.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/formulaeditor/InternTokenTypeTest.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/formulaeditor/LookSensorValuesInterpretationTest.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/formulaeditor/ParserTest.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/formulaeditor/ParserTestErrorDedection.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/formulaeditor/ParserTestFunctions.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/formulaeditor/SensorTest.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/formulaeditor/UserVariablesInterpretationTest.java
+#	modified:   catroidTest/src/org/catrobat/catroid/test/io/StorageHandlerTest.java
+#	new file:   catroidTest/src/org/catrobat/catroid/test/utils/SimulatedSensorManager.java
+#	new file:   catroidUiTest/libs/easymock-3.1.jar
+#	new file:   catroidUiTest/libs/junit-4.8.2.jar
+#	new file:   catroidUiTest/libs/powermock-easymock-1.4.12-full.jar
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/BrickValueParameterTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/ChangeBrightnessByNBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/ChangeGhostEffectByNBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/ChangeSizeByNBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/ChangeVolumeByNBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/ChangeXByNBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/ChangeYByNBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/GlideToBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/GoNStepsBackTest.java
+#	new file:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/IfBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/LegoNxtMotorActionBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/LegoNxtMotorTurnAngleBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/LegoNxtPlayToneBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/MoveNStepsBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/PlaceAtBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/RepeatBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/SetBrightnessBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/SetGhostEffectBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/SetSizeToBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/SetVolumeToBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/SetXBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/SetYBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/TurnLeftBrickTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/TurnRightBrickTest.java
+#	new file:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/VariableBricksTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/content/brick/WaitBrickTest.java
+#	new file:   catroidUiTest/src/org/catrobat/catroid/uitest/formulaeditor/FormulaEditorEditTextTest.java
+#	new file:   catroidUiTest/src/org/catrobat/catroid/uitest/formulaeditor/FormulaEditorFragmentTest.java
+#	new file:   catroidUiTest/src/org/catrobat/catroid/uitest/formulaeditor/FormulaEditorKeyboardTest.java
+#	new file:   catroidUiTest/src/org/catrobat/catroid/uitest/formulaeditor/FormulaEditorUserVariableTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/ui/dialog/DeleteDialogTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/ui/dialog/StageDialogTest.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/ui/fragment/LookFragmentTest.java
+#	new file:   catroidUiTest/src/org/catrobat/catroid/uitest/util/SimulatedSensorManager.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/util/UiTestUtils.java
+#	modified:   catroidUiTest/src/org/catrobat/catroid/uitest/web/ProjectUpAndDownloadTest.java
+#
+

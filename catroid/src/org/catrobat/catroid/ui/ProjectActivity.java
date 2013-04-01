@@ -116,6 +116,7 @@ public class ProjectActivity extends SherlockFragmentActivity {
 			}
 
 			case R.id.copy: {
+				spritesListFragment.startCopyActionMode();
 				break;
 			}
 

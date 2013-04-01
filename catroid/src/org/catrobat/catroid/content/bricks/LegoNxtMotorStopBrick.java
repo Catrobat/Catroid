@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
@@ -68,6 +69,18 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 	@Override
 	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
+	}
+
+	@Override
+	public Sprite getSprite() {
+		return this.sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		LegoNxtMotorStopBrick copyBrick = (LegoNxtMotorStopBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override
