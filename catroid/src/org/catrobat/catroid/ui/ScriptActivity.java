@@ -353,6 +353,9 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	}
 
 	public void handleAddButton(View view) {
+		//		if (viewSwitchLock.tryLock()) {
+		//			return;
+		//		}
 		currentFragment.handleAddButton();
 	}
 

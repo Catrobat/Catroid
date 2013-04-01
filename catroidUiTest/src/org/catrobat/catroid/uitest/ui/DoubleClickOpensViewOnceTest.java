@@ -24,13 +24,22 @@ package org.catrobat.catroid.uitest.ui;
 
 import junit.framework.TestSuite;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ViewSwitchLock;
+import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.ui.ProgramMenuActivity;
+import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
-import org.catrobat.catroid.uitest.util.Reflection;
+import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -45,13 +54,31 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 
 	public static TestSuite suite() {
 		TestSuite suite = new TestSuite(DoubleClickOpensViewOnceTest.class.getName());
-		suite.addTestSuite(MainMenuDoubleClickOpensViewOnceTest.class);
+		//		suite.addTestSuite(MainMenuDoubleClickOpensViewOnceTest.class);
+		//		suite.addTestSuite(MyProjectsDoubleClickOpensViewOnceTest.class);
+		//		suite.addTestSuite(ProgramMenuActivityDoubleClickOpensViewOnceTest.class);
+		//		suite.addTestSuite(ProjectActivityDoubleClickOpensViewOnceTest.class);
+		suite.addTestSuite(ScriptActivityDoubleClickOpensViewOnceTest.class);
+
 		return suite;
+	}
+
+	private abstract static class OnClickCommand {
+		public void runOnUiThread(Activity activity) {
+			final OnClickCommand self = this;
+			activity.runOnUiThread(new Runnable() {
+				public void run() {
+					self.execute();
+				}
+			});
+		}
+
+		protected abstract void execute();
 	}
 
 	private static class ActivityInstrumentationTestBase<T extends Activity> extends
 			ActivityInstrumentationTestCase2<T> {
-		protected Solo solo;
+		public Solo solo;
 
 		public ActivityInstrumentationTestBase(Class<T> clazz) {
 			super(clazz);
@@ -98,6 +125,19 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			waitForView(button);
 		}
 
+		public void checkDoubleClickOpensViewOnce(OnClickCommand clickCommand, int buttonId, Class<?> activityClass) {
+			checkDoubleClickOpensViewOnce(clickCommand, buttonId, activityClass, false);
+		}
+
+		public void checkDoubleClickOpensViewOnce(OnClickCommand clickCommand, int buttonId, Class<?> activityClass,
+				boolean isKeyboardVisible) {
+			View button = findView(buttonId);
+			simulateDoubleClick(clickCommand);
+			waitForView(activityClass);
+			goBack(isKeyboardVisible);
+			waitForView(button);
+		}
+
 		private View findView(int id) {
 			View button = solo.getCurrentActivity().findViewById(id);
 			assertNotNull("Button not found", button);
@@ -105,12 +145,9 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		private void simulateDoubleClick(OnClickCommand clickCommand) {
-			ViewSwitchLock viewSwitchLock = (ViewSwitchLock) Reflection
-					.getPrivateField(getActivity(), "viewSwitchLock");
-			assertFalse("ViewSwitchLock already locked", (Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
-			clickCommand.execute();
-			assertTrue("ViewSwitchLock not locked", (Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
-			clickCommand.execute();
+			Activity activity = solo.getCurrentActivity();
+			clickCommand.runOnUiThread(activity);
+			clickCommand.runOnUiThread(activity);
 		}
 
 		private void goBack(boolean isKeyboardVisible) {
@@ -140,6 +177,10 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			if (!solo.getCurrentActivity().hasWindowFocus()) {
 				fail("Activity didn't gain focus");
 			}
+		}
+
+		private void waitForView(Class<?> activity) {
+			solo.waitForActivity(activity.getSimpleName());
 		}
 	}
 
@@ -199,7 +240,178 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 	}
 
-	private abstract static class OnClickCommand {
-		public abstract void execute();
+	public static class MyProjectsDoubleClickOpensViewOnceTest extends
+			ActivityInstrumentationTestBase<MyProjectsActivity> {
+		private MyProjectsActivity activity;
+
+		public MyProjectsDoubleClickOpensViewOnceTest() {
+			super(MyProjectsActivity.class);
+		}
+
+		@Override
+		public void setUp() throws Exception {
+			super.setUp();
+			activity = (MyProjectsActivity) solo.getCurrentActivity();
+		}
+
+		@Override
+		public void tearDown() throws Exception {
+			super.tearDown();
+			activity = null;
+		}
+
+		public void testMyProjectsAddButton() {
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+				@Override
+				public void execute() {
+					activity.handleAddButton(null);
+				}
+			}, R.id.button_add, NewProjectDialog.DIALOG_FRAGMENT_TAG, true);
+		}
+	}
+
+	public static class ProgramMenuActivityDoubleClickOpensViewOnceTest extends
+			ActivityInstrumentationTestBase<ProgramMenuActivity> {
+		private ProgramMenuActivity activity;
+
+		public ProgramMenuActivityDoubleClickOpensViewOnceTest() {
+			super(ProgramMenuActivity.class);
+		}
+
+		@Override
+		public void setUp() throws Exception {
+			UiTestUtils.createTestProject();
+			ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
+			super.setUp();
+			activity = (ProgramMenuActivity) solo.getCurrentActivity();
+		}
+
+		@Override
+		public void tearDown() throws Exception {
+			super.tearDown();
+			UiTestUtils.clearAllUtilTestProjects();
+			activity = null;
+		}
+
+		public void testProgramMenuLooksButton() {
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+				@Override
+				public void execute() {
+					activity.handleLooksButton(null);
+				}
+			}, R.id.program_menu_button_looks, LookFragment.TAG);
+		}
+
+		public void testProgramMenuPlayButton() {
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+				@Override
+				public void execute() {
+					activity.handlePlayButton(null);
+				}
+			}, R.id.button_play, StageActivity.class, true);
+		}
+
+		public void testProgramMenuScriptsButton() {
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+				@Override
+				public void execute() {
+					activity.handleScriptsButton(null);
+				}
+			}, R.id.program_menu_button_scripts, ScriptFragment.TAG);
+		}
+
+		public void testProgramMenuSoundsButton() {
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+				@Override
+				public void execute() {
+					activity.handleSoundsButton(null);
+				}
+			}, R.id.program_menu_button_sounds, SoundFragment.TAG);
+		}
+	}
+
+	public static class ProjectActivityDoubleClickOpensViewOnceTest extends
+			ActivityInstrumentationTestBase<ProjectActivity> {
+		private ProjectActivity activity;
+
+		public ProjectActivityDoubleClickOpensViewOnceTest() {
+			super(ProjectActivity.class);
+		}
+
+		@Override
+		public void setUp() throws Exception {
+			UiTestUtils.createTestProject();
+			ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
+			super.setUp();
+			activity = (ProjectActivity) solo.getCurrentActivity();
+		}
+
+		@Override
+		public void tearDown() throws Exception {
+			super.tearDown();
+			UiTestUtils.clearAllUtilTestProjects();
+			activity = null;
+		}
+
+		public void testProjectAddButton() {
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+				@Override
+				public void execute() {
+					activity.handleAddButton(null);
+				}
+			}, R.id.button_add, NewSpriteDialog.DIALOG_FRAGMENT_TAG, true);
+		}
+
+		public void testProjectPlayButton() {
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+				@Override
+				public void execute() {
+					activity.handlePlayButton(null);
+				}
+			}, R.id.button_play, StageActivity.class, true);
+		}
+	}
+
+	public static class ScriptActivityDoubleClickOpensViewOnceTest extends
+			ActivityInstrumentationTestBase<MainMenuActivity> {
+		private ScriptActivity activity;
+
+		public ScriptActivityDoubleClickOpensViewOnceTest() {
+			super(MainMenuActivity.class);
+		}
+
+		@Override
+		public void setUp() throws Exception {
+			UiTestUtils.createTestProject();
+			ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
+			super.setUp();
+			UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+			activity = (ScriptActivity) solo.getCurrentActivity();
+		}
+
+		@Override
+		public void tearDown() throws Exception {
+			super.tearDown();
+			UiTestUtils.clearAllUtilTestProjects();
+			activity = null;
+		}
+
+		public void testProjectAddButton() {
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+				@Override
+				public void execute() {
+					activity.handleAddButton(null);
+				}
+			}, R.id.button_add, ScriptFragment.TAG);
+		}
+
+		public void testProjectPlayButton() {
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+				@Override
+				public void execute() {
+					activity.handlePlayButton(null);
+				}
+			}, R.id.button_play, StageActivity.class, true);
+		}
 	}
 }

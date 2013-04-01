@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.ui;
 
+import java.util.concurrent.locks.Lock;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -40,6 +42,7 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class ProgramMenuActivity extends SherlockFragmentActivity {
 	private ActionBar actionBar;
+	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,14 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 			((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.backgrounds);
 		} else {
 			((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.looks);
+		}
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (hasFocus) {
+			viewSwitchLock.unlock();
 		}
 	}
 
@@ -113,18 +124,30 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 	}
 
 	public void handleScriptsButton(View v) {
+		if (viewSwitchLock.tryLock()) {
+			return;
+		}
 		startScriptActivity(ScriptActivity.FRAGMENT_SCRIPTS);
 	}
 
 	public void handleLooksButton(View v) {
+		if (viewSwitchLock.tryLock()) {
+			return;
+		}
 		startScriptActivity(ScriptActivity.FRAGMENT_LOOKS);
 	}
 
 	public void handleSoundsButton(View v) {
+		if (viewSwitchLock.tryLock()) {
+			return;
+		}
 		startScriptActivity(ScriptActivity.FRAGMENT_SOUNDS);
 	}
 
 	public void handlePlayButton(View view) {
+		if (viewSwitchLock.tryLock()) {
+			return;
+		}
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}
