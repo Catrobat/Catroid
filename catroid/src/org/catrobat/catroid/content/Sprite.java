@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
 
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class Sprite implements Serializable, Cloneable {
@@ -142,15 +143,17 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void createWhenScriptActionSequence(String action) {
+		ParallelAction whenParallelAction = ExtendedActions.parallel();
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript) {
 				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
 					SequenceAction sequence = createActionSequence(s);
-					look.addWhenSequenceAction(sequence);
-					look.addAction(sequence);
+					whenParallelAction.addAction(sequence);
 				}
 			}
 		}
+		look.setWhenParallelAction(whenParallelAction);
+		look.addAction(whenParallelAction);
 	}
 
 	public SequenceAction createBroadcastScriptActionSequence(BroadcastScript script) {

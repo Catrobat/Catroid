@@ -37,6 +37,7 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -53,7 +54,7 @@ public class Look extends Image {
 	protected Pixmap pixmap;
 	private HashMap<String, ArrayList<SequenceAction>> broadcastSequenceMap;
 	private HashMap<String, ArrayList<SequenceAction>> broadcastWaitSequenceMap;
-	private ArrayList<SequenceAction> whenSequenceList;
+	private ParallelAction whenParallelAction;
 	private boolean allActionAreFinished = false;
 
 	public Look(Sprite sprite) {
@@ -66,7 +67,7 @@ public class Look extends Image {
 		this.alphaValue = 1f;
 		this.brightnessValue = 1f;
 		this.show = true;
-		this.whenSequenceList = new ArrayList<SequenceAction>();
+		this.whenParallelAction = null;
 		this.broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
 		this.broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
 		this.addListener(new InputListener() {
@@ -172,11 +173,10 @@ public class Look extends Image {
 
 		if (x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight()) {
 			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
-				if (whenSequenceList.isEmpty()) {
+				if (whenParallelAction == null) {
 					sprite.createWhenScriptActionSequence("Tapped");
-				}
-				for (SequenceAction action : whenSequenceList) {
-					action.restart();
+				} else {
+					whenParallelAction.restart();
 				}
 				return true;
 			}
@@ -424,7 +424,7 @@ public class Look extends Image {
 		}
 	}
 
-	public void addWhenSequenceAction(SequenceAction action) {
-		whenSequenceList.add(action);
+	public void setWhenParallelAction(ParallelAction action) {
+		whenParallelAction = action;
 	}
 }

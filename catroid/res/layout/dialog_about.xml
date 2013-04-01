@@ -54,13 +54,4 @@
         android:gravity="right"
         android:textSize="8sp" />
 
-    <Button
-        android:id="@+id/dialog_about_ok_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/dialog_about_text_view_version_name"
-        android:background="@android:color/transparent"
-        android:drawableTop="@drawable/bottom_separator"
-        android:text="@string/ok" />
-
 </RelativeLayout>
