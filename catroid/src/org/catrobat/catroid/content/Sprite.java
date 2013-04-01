@@ -104,12 +104,12 @@ public class Sprite implements Serializable, Cloneable {
 
 	@Override
 	public Sprite clone() {
-		Sprite cloneSprite = new Sprite();
+		final Sprite cloneSprite = new Sprite();
 		cloneSprite.setName(this.getName());
 
 		ArrayList<LookData> cloneLookList = new ArrayList<LookData>();
 		for (LookData element : this.lookList) {
-			cloneLookList.add(element.copyCostumeDataForSprite(cloneSprite));
+			cloneLookList.add(element.copyLookDataForSprite(cloneSprite));
 		}
 		cloneSprite.lookList = cloneLookList;
 
@@ -129,10 +129,11 @@ public class Sprite implements Serializable, Cloneable {
 
 		cloneSprite.init();
 
-		cloneSprite.look = this.look.clone();
+		cloneSprite.look = this.look.copyLookForSprite(cloneSprite);
 		try {
 			cloneSprite.look.setLookData(cloneSprite.getLookDataList().get(0));
 		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
 		}
 		cloneSprite.look.sprite = cloneSprite;
 

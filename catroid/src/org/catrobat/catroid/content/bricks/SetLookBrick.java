@@ -75,6 +75,7 @@ public class SetLookBrick extends BrickBaseType {
 		for (LookData data : sprite.getLookDataList()) {
 			if (data.getAbsolutePath().equals(look.getAbsolutePath())) {
 				copyBrick.look = data;
+				break;
 			}
 		}
 		return copyBrick;

@@ -63,7 +63,7 @@ public class LookData implements Serializable, Cloneable {
 		return cloneLookData;
 	}
 
-	public LookData copyCostumeDataForSprite(Sprite sprite) {
+	public LookData copyLookDataForSprite(Sprite sprite) {
 		LookData cloneLookData = new LookData();
 
 		cloneLookData.name = this.name;

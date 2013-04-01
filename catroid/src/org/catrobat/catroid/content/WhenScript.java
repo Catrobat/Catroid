@@ -94,7 +94,7 @@ public class WhenScript extends Script {
 		cloneScript.action = getAction();
 
 		for (Brick b : getBrickList()) {
-			cloneBrickList.add(b.copyBrickForSprite(copySprite, this));
+			cloneBrickList.add(b.copyBrickForSprite(copySprite, cloneScript));
 		}
 
 		return cloneScript;

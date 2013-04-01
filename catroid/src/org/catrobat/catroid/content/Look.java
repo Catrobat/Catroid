@@ -33,6 +33,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -89,7 +90,7 @@ public class Look extends Image {
 
 	@Override
 	public Look clone() {
-		Look cloneLook = new Look(null);
+		final Look cloneLook = new Look(null);
 
 		cloneLook.alphaValue = this.alphaValue;
 		cloneLook.brightnessValue = this.brightnessValue;
@@ -100,29 +101,60 @@ public class Look extends Image {
 		cloneLook.whenSequenceList = new ArrayList<SequenceAction>(this.whenSequenceList);
 		cloneLook.allActionAreFinished = this.allActionAreFinished;
 
-		setBounds(0f, 0f, 0f, 0f);
-		setOrigin(0f, 0f);
-		setScale(1f, 1f);
-		setRotation(0f);
-		setTouchable(Touchable.enabled);
+		cloneLook.setBounds(0f, 0f, 0f, 0f);
+		cloneLook.setOrigin(0f, 0f);
+		cloneLook.setScale(1f, 1f);
+		cloneLook.setRotation(0f);
+		cloneLook.setTouchable(Touchable.enabled);
 
 		cloneLook.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				return doTouchDown(x, y, pointer);
+				return cloneLook.doTouchDown(x, y, pointer);
 			}
 		});
 		cloneLook.addListener(new BroadcastListener() {
 			@Override
 			public void handleBroadcastEvent(BroadcastEvent event, String broadcastMessage) {
-				doHandleBroadcastEvent(broadcastMessage);
+				cloneLook.doHandleBroadcastEvent(broadcastMessage);
 			}
 
 			@Override
 			public void handleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
-				doHandleBroadcastFromWaiterEvent(event, broadcastMessage);
+				cloneLook.doHandleBroadcastFromWaiterEvent(event, broadcastMessage);
 			}
 		});
+
+		return cloneLook;
+	}
+
+	public Look copyLookForSprite(final Sprite cloneSprite) {
+		Look cloneLook = clone();
+
+		for (EventListener listener : cloneSprite.look.getListeners()) {
+			cloneSprite.look.removeListener(listener);
+		}
+		cloneSprite.look.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				return cloneSprite.look.doTouchDown(x, y, pointer);
+			}
+		});
+		cloneSprite.look.addListener(new BroadcastListener() {
+			@Override
+			public void handleBroadcastEvent(BroadcastEvent event, String broadcastMessage) {
+				cloneSprite.look.doHandleBroadcastEvent(broadcastMessage);
+			}
+
+			@Override
+			public void handleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
+				cloneSprite.look.doHandleBroadcastFromWaiterEvent(event, broadcastMessage);
+			}
+		});
+
+		cloneLook.whenSequenceList = new ArrayList<SequenceAction>();
+		cloneLook.broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
+		cloneLook.broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
 
 		return cloneLook;
 	}

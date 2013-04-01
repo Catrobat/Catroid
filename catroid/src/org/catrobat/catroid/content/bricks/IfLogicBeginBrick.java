@@ -205,7 +205,10 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		IfLogicBeginBrick copyBrick = (IfLogicBeginBrick) clone();
+		//ifEndBrick and ifElseBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
+		IfLogicBeginBrick copyBrick = (IfLogicBeginBrick) clone(); //Using the clone method because of its flexibility if new fields are added  
+		copyBrick.ifElseBrick = null; 							   //if the Formula gets a field sprite, a seperate copy method will be needed
+		copyBrick.ifEndBrick = null;
 		copyBrick.sprite = sprite;
 		return copyBrick;
 	}

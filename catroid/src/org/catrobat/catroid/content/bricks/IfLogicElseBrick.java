@@ -172,7 +172,10 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		IfLogicElseBrick copyBrick = (IfLogicElseBrick) clone();
+		//ifEndBrick and ifBeginBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
+		IfLogicElseBrick copyBrick = (IfLogicElseBrick) clone(); //Using the clone method because of its flexibility if new fields are added
+		copyBrick.ifBeginBrick = null;
+		copyBrick.ifEndBrick = null;
 		copyBrick.sprite = sprite;
 		return copyBrick;
 	}

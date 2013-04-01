@@ -78,7 +78,7 @@ public class BroadcastScript extends Script {
 		cloneScript.receivedMessage = receivedMessage;
 
 		for (Brick b : getBrickList()) {
-			cloneBrickList.add(b.copyBrickForSprite(copySprite, this));
+			cloneBrickList.add(b.copyBrickForSprite(copySprite, cloneScript));
 		}
 
 		return cloneScript;

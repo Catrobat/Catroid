@@ -168,40 +168,41 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		//IfLogicEndBrick copyBrick = new IfLogicEndBrick(sprite, null, null);
+		IfLogicBeginBrick beginBrick = null;
+		IfLogicElseBrick elseBrick = null;
 
 		ArrayList<Brick> currentBrickList = script.getBrickList();
-		int elseCounter = 0;
-		int ifCounter = 0;
-
-		IfLogicElseBrick elseBrick = null;
-		IfLogicBeginBrick ifBeginBrick = null;
-
+		int loopEnds = 0;
 		for (int i = currentBrickList.size() - 1; i >= 0; i--) {
-			Brick brick = currentBrickList.get(i);
-
-			if (brick instanceof IfLogicEndBrick) {
-				ifCounter++;
-				elseCounter++;
-			} else if (brick instanceof IfLogicElseBrick) {
-				if (elseCounter == 0) {
-					elseBrick = (IfLogicElseBrick) brick;
+			Brick b = currentBrickList.get(i);
+			if (b instanceof IfLogicBeginBrick) {
+				if (loopEnds > 0) {
+					loopEnds--;
 				} else {
-					elseCounter--;
+					beginBrick = (IfLogicBeginBrick) b;
+					break;
 				}
-			} else if (brick instanceof IfLogicBeginBrick) {
-				if (ifCounter == 0) {
-					ifBeginBrick = (IfLogicBeginBrick) brick;
-				} else {
-					ifCounter--;
+			} else if (b instanceof IfLogicElseBrick) {
+				if (loopEnds != 0) {
+					elseBrick = (IfLogicElseBrick) b;
 				}
+			} else if (b instanceof IfLogicEndBrick) {
+				loopEnds++;
 			}
 		}
 
-		IfLogicEndBrick copyBrick = new IfLogicEndBrick(sprite, elseBrick, ifBeginBrick);
-		ifBeginBrick.setElseBrick(elseBrick);
-		ifBeginBrick.setEndBrick(copyBrick);
+		IfLogicEndBrick copyBrick = (IfLogicEndBrick) clone(); //Using the clone method because of its flexibility if new fields are added
+		copyBrick.sprite = sprite;
+		copyBrick.elseBrick = elseBrick;
+		copyBrick.beginBrick = beginBrick;
+
+		beginBrick.setElseBrick(elseBrick);
+		beginBrick.setEndBrick(this);
+		if (elseBrick != null) {
+			elseBrick.setIfEndBrick(this);
+		}
 
 		return copyBrick;
 	}
+
 }
