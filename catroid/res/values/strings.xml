@@ -451,9 +451,9 @@
     <string name="formula_editor_sensor_x_acceleration">x_acceleration</string>
     <string name="formula_editor_sensor_y_acceleration">y_acceleration</string>
     <string name="formula_editor_sensor_z_acceleration">z_acceleration</string>
-    <string name="formula_editor_sensor_z_orientation">z_orientation</string>
-    <string name="formula_editor_sensor_x_orientation">x_orientation</string>
-    <string name="formula_editor_sensor_y_orientation">y_orientation</string>
+    <string name="formula_editor_sensor_compass_direction">compass_direction</string>
+    <string name="formula_editor_sensor_x_inclination">x_inclination</string>
+    <string name="formula_editor_sensor_y_inclination">y_inclination</string>
     <string name="formula_editor_look_x">look_x</string>
     <string name="formula_editor_look_y">look_y</string>
     <string name="formula_editor_look_ghosteffect">look_ghosteffect</string>
