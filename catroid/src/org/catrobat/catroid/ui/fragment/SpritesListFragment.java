@@ -332,11 +332,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 						.concat(this.getString(R.string.copy_sprite_finished)), Toast.LENGTH_LONG).show();
 
 		Log.d("Sprite copied", addSprite.toString());
-
-		//TODO: find better way to set reference to sprite
-		ProjectManager.getInstance().saveProject();
-		ProjectManager.getInstance().loadProject(ProjectManager.getInstance().getCurrentProject().getName(),
-				this.getActivity(), false);
 	}
 
 	private static String getSpriteName(String name, int nextNumber) {
