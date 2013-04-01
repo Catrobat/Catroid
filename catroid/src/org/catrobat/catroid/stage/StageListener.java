@@ -428,19 +428,32 @@ public class StageListener implements ApplicationListener {
 
 	private boolean saveScreenshot(byte[] screenshot) {
 		int length = screenshot.length;
+		Bitmap fullScreenBitmap, centerSquareBitmap;
 		int[] colors = new int[length / 4];
 
 		for (int i = 0; i < length; i += 4) {
 			colors[i / 4] = Color.argb(255, screenshot[i + 0] & 0xFF, screenshot[i + 1] & 0xFF,
 					screenshot[i + 2] & 0xFF);
 		}
-		Bitmap bitmap = Bitmap.createBitmap(colors, 0, screenshotWidth, screenshotWidth, screenshotHeight,
+		fullScreenBitmap = Bitmap.createBitmap(colors, 0, screenshotWidth, screenshotWidth, screenshotHeight,
 				Config.ARGB_8888);
+
+		if (screenshotWidth < screenshotHeight) {
+			int verticalMargin = (screenshotHeight - screenshotWidth) / 2;
+			centerSquareBitmap = Bitmap.createBitmap(fullScreenBitmap, 0, verticalMargin, screenshotWidth,
+					screenshotWidth);
+		} else if (screenshotWidth > screenshotHeight) {
+			int horizontalMargin = (screenshotWidth - screenshotHeight) / 2;
+			centerSquareBitmap = Bitmap.createBitmap(fullScreenBitmap, horizontalMargin, 0, screenshotHeight,
+					screenshotHeight);
+		} else {
+			centerSquareBitmap = Bitmap.createBitmap(fullScreenBitmap, 0, 0, screenshotWidth, screenshotHeight);
+		}
 
 		FileHandle image = Gdx.files.absolute(pathForScreenshot + SCREENSHOT_FILE_NAME);
 		OutputStream stream = image.write(false);
 		try {
-			bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+			centerSquareBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
 			stream.close();
 		} catch (IOException e) {
 			return false;
