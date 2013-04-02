@@ -179,8 +179,8 @@ public class ProjectActivity extends SherlockFragmentActivity {
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 		if (hasFocus) {
-			sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_INIT));
 			viewSwitchLock.unlock();
+			sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_INIT));
 		}
 	}
 
@@ -189,7 +189,7 @@ public class ProjectActivity extends SherlockFragmentActivity {
 	}
 
 	public void handleAddButton(View view) {
-		if (viewSwitchLock.tryLock()) {
+		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
 		NewSpriteDialog dialog = new NewSpriteDialog();
@@ -197,7 +197,7 @@ public class ProjectActivity extends SherlockFragmentActivity {
 	}
 
 	public void handlePlayButton(View view) {
-		if (viewSwitchLock.tryLock()) {
+		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
 		Intent intent = new Intent(this, PreStageActivity.class);

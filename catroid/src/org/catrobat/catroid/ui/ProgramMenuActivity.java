@@ -124,28 +124,28 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 	}
 
 	public void handleScriptsButton(View v) {
-		if (viewSwitchLock.tryLock()) {
+		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
 		startScriptActivity(ScriptActivity.FRAGMENT_SCRIPTS);
 	}
 
 	public void handleLooksButton(View v) {
-		if (viewSwitchLock.tryLock()) {
+		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
 		startScriptActivity(ScriptActivity.FRAGMENT_LOOKS);
 	}
 
 	public void handleSoundsButton(View v) {
-		if (viewSwitchLock.tryLock()) {
+		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
 		startScriptActivity(ScriptActivity.FRAGMENT_SOUNDS);
 	}
 
 	public void handlePlayButton(View view) {
-		if (viewSwitchLock.tryLock()) {
+		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
 		Intent intent = new Intent(this, PreStageActivity.class);

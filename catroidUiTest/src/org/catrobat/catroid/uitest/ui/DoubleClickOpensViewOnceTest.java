@@ -37,8 +37,10 @@ import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.app.Activity;
@@ -58,7 +60,8 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		//		suite.addTestSuite(MyProjectsDoubleClickOpensViewOnceTest.class);
 		//		suite.addTestSuite(ProgramMenuActivityDoubleClickOpensViewOnceTest.class);
 		//		suite.addTestSuite(ProjectActivityDoubleClickOpensViewOnceTest.class);
-		suite.addTestSuite(ScriptActivityDoubleClickOpensViewOnceTest.class);
+		//		suite.addTestSuite(ScriptActivityDoubleClickOpensViewOnceTest.class);
+		suite.addTestSuite(ScriptFragmentDoubleClickOpensViewOnceTest.class);
 
 		return suite;
 	}
@@ -373,11 +376,11 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 	}
 
 	public static class ScriptActivityDoubleClickOpensViewOnceTest extends
-			ActivityInstrumentationTestBase<MainMenuActivity> {
+			ActivityInstrumentationTestBase<ScriptActivity> {
 		private ScriptActivity activity;
 
 		public ScriptActivityDoubleClickOpensViewOnceTest() {
-			super(MainMenuActivity.class);
+			super(ScriptActivity.class);
 		}
 
 		@Override
@@ -385,7 +388,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			UiTestUtils.createTestProject();
 			ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
 			super.setUp();
-			UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+			//			UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 			activity = (ScriptActivity) solo.getCurrentActivity();
 		}
 
@@ -412,6 +415,40 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 					activity.handlePlayButton(null);
 				}
 			}, R.id.button_play, StageActivity.class, true);
+		}
+	}
+
+	public static class ScriptFragmentDoubleClickOpensViewOnceTest extends
+			ActivityInstrumentationTestBase<MainMenuActivity> {
+		private ScriptFragment fragment;
+
+		public ScriptFragmentDoubleClickOpensViewOnceTest() {
+			super(MainMenuActivity.class);
+		}
+
+		@Override
+		public void setUp() throws Exception {
+			UiTestUtils.createTestProject();
+			ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
+			super.setUp();
+			UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+			fragment = (ScriptFragment) Reflection.getPrivateField(solo.getCurrentActivity(), "currentFragment");
+		}
+
+		@Override
+		public void tearDown() throws Exception {
+			super.tearDown();
+			UiTestUtils.clearAllUtilTestProjects();
+			fragment = null;
+		}
+
+		public void testScriptFragmentAddButton() {
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+				@Override
+				public void execute() {
+					fragment.handleAddButton();
+				}
+			}, R.id.script_fragment_container, ScriptActivityFragment.class);
 		}
 	}
 }

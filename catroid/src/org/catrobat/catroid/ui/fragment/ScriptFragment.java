@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.fragment;
 
 import java.util.List;
+import java.util.concurrent.locks.Lock;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -33,6 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickAdapter.OnBrickEditListener;
 import org.catrobat.catroid.ui.dialogs.AddBrickDialog;
@@ -88,6 +90,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	private NewBrickAddedReceiver brickAddedReceiver;
 	private BrickListChangedReceiver brickListChangedReceiver;
+
+	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -325,6 +329,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			listView.animateHoveringBrick();
 			return;
 		}
+
 		showCategoryFragment();
 	}
 
@@ -361,7 +366,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void startEditInPaintroidActionMode() {
-
 	}
 
 	@Override

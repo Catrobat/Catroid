@@ -121,7 +121,7 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 	}
 
 	public void handleAddButton(View view) {
-		if (viewSwitchLock.tryLock()) {
+		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
 		NewProjectDialog dialog = new NewProjectDialog();
