@@ -1148,6 +1148,33 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("Did not copy the selected project", solo.searchText(UiTestUtils.COPIED_PROJECT_NAME, true));
 	}
 
+	public void testCopyProjectViaActionBar() {
+		String copy = solo.getString(R.string.copy);
+		createProjects();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
+
+		solo.clickOnCheckBox(0);
+		assertTrue("Actionbar title is not displayed correctly!", solo.searchText(copy));
+		solo.clickOnCheckBox(1);
+		solo.sleep(200);
+		boolean checked = solo.getCurrentCheckBoxes().get(0).isChecked();
+
+		assertFalse("First project is still checked!", checked);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		solo.sleep(200);
+		solo.clearEditText(0);
+		solo.enterText(0, UiTestUtils.COPIED_PROJECT_NAME);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		assertTrue("Did not copy the selected project", solo.searchText(UiTestUtils.COPIED_PROJECT_NAME, true));
+	}
+
 	public void testCopyProjectMixedCase() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
