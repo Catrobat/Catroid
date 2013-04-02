@@ -155,8 +155,8 @@ public class StageListener implements ApplicationListener {
 
 		sprites = project.getSpriteList();
 		sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
-		for (int i = 0; i < sprites.size(); i++) {
-			stage.addActor(sprites.get(i).look);
+		for (int sprite = 0; sprite < sprites.size(); sprite++) {
+			stage.addActor(sprites.get(sprite).look);
 		}
 		if (DEBUG) {
 			OrthoCamController camController = new OrthoCamController(camera);
