@@ -117,6 +117,11 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 				handleShowDetails(!projectsListFragment.getShowDetails(), item);
 				break;
 			}
+			case R.id.settings: {
+				Intent intent = new Intent(MyProjectsActivity.this, SettingsActivity.class);
+				startActivity(intent);
+				break;
+			}
 		}
 		return super.onOptionsItemSelected(item);
 	}

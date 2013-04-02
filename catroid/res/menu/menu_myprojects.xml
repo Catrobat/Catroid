@@ -46,8 +46,8 @@
         android:title="@string/show_details"/>
     
     <item
-        android:id="@+id/set_description"
+        android:id="@+id/settings"
         android:showAsAction="never"
-        android:title="@string/set_description"/>
+        android:title="@string/main_menu_settings"/>
 
 </menu>

@@ -49,6 +49,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -193,6 +194,14 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertEquals(MyProjectsActivity.class.getSimpleName()
 				+ " not set to be in portrait mode in AndroidManifest.xml!", ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
 				activityInfo.screenOrientation);
+	}
+
+	public void testOverFlowMenuSettings() {
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings));
+		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
 	}
 
 	public void testDeleteSprite() {
