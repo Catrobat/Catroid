@@ -20,7 +20,7 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -64,6 +64,7 @@
     </EditText>
 
     <LinearLayout
+        android:id="@+id/register_button_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/password"
@@ -82,6 +83,33 @@
             android:layout_height="wrap_content"
             android:layout_weight=".5"
             android:text="@string/password_forgotten" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/register_button_layout"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/register_terms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:text="@string/register_terms" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/register_terms_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_horizontal"
+            android:textColorLink="#E68B00"
+            android:textSize="20sp" >
+        </TextView>
     </LinearLayout>
 
 </RelativeLayout>

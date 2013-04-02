@@ -210,6 +210,8 @@
     <string name="password_forgotten">Password forgotten</string>
     <string name="new_user_registered">new account created</string>
     <string name="register_error">Error occurred</string>
+    <string name="register_terms">By registering, you agree to our</string>
+    <string name="register_catroid_terms_of_use_text">terms of use</string>
     <!--  -->
 
 

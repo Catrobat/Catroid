@@ -217,6 +217,8 @@
     <string name="password_forgotten">Passwort\nvergessen</string>
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>
+    <string name="register_terms">Mit der Registrierung akzeptierst du unsere</string>
+    <string name="register_catroid_terms_of_use_text">Lizenzbedingungen</string>
     <!--  -->
 
 
