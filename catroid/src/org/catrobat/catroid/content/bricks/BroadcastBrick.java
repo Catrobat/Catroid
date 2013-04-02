@@ -27,6 +27,7 @@ import java.util.List;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
@@ -68,6 +69,18 @@ public class BroadcastBrick extends BrickBaseType {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
+	}
+
+	@Override
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		BroadcastBrick copyBrick = (BroadcastBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	public void setSelectedMessage(String message) {
@@ -154,7 +167,9 @@ public class BroadcastBrick extends BrickBaseType {
 
 	@Override
 	public Brick clone() {
-		return new BroadcastBrick(sprite);
+		BroadcastBrick cloneBrick = new BroadcastBrick(sprite);
+		cloneBrick.broadcastMessage = broadcastMessage;
+		return cloneBrick;
 	}
 
 	@Override

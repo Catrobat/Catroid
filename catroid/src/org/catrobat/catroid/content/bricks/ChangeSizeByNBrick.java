@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -68,6 +69,18 @@ public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
+	}
+
+	@Override
+	public Sprite getSprite() {
+		return this.sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		ChangeSizeByNBrick copyBrick = (ChangeSizeByNBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override

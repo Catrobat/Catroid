@@ -33,6 +33,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -86,6 +87,54 @@ public class Look extends Image {
 				doHandleBroadcastFromWaiterEvent(event, broadcastMessage);
 			}
 		});
+	}
+
+	@Override
+	public Look clone() {
+		final Look cloneLook = new Look(null);
+
+		cloneLook.alphaValue = this.alphaValue;
+		cloneLook.brightnessValue = this.brightnessValue;
+		cloneLook.show = this.show;
+		cloneLook.broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>(this.broadcastSequenceMap);
+		cloneLook.broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>(
+				this.broadcastWaitSequenceMap);
+		cloneLook.whenParallelAction = null;
+		cloneLook.allActionAreFinished = this.allActionAreFinished;
+
+		return cloneLook;
+	}
+
+	public Look copyLookForSprite(final Sprite cloneSprite) {
+		final Look cloneLook = clone();
+		cloneLook.sprite = cloneSprite;
+
+		for (EventListener listener : cloneSprite.look.getListeners()) {
+			cloneLook.removeListener(listener);
+		}
+		cloneLook.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				return cloneLook.doTouchDown(x, y, pointer);
+			}
+		});
+		cloneLook.addListener(new BroadcastListener() {
+			@Override
+			public void handleBroadcastEvent(BroadcastEvent event, String broadcastMessage) {
+				cloneLook.doHandleBroadcastEvent(broadcastMessage);
+			}
+
+			@Override
+			public void handleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
+				cloneLook.doHandleBroadcastFromWaiterEvent(event, broadcastMessage);
+			}
+		});
+
+		cloneLook.whenParallelAction = null;
+		cloneLook.broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
+		cloneLook.broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
+
+		return cloneLook;
 	}
 
 	public boolean doTouchDown(float x, float y, int pointer) {
