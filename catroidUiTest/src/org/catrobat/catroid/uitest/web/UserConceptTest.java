@@ -74,6 +74,18 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo = null;
 	}
 
+	public void testLicenceLinkPresent() throws Throwable {
+		setTestUrl();
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		prefs.edit().putString(Constants.TOKEN, null).commit();
+
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+
+		assertTrue("Licence text not present", solo.searchText(solo.getString(R.string.register_terms)));
+		assertTrue("Licence link not present",
+				solo.searchText(solo.getString(R.string.register_catroid_terms_of_use_text)));
+	}
+
 	public void testRegisterNewUser() throws Throwable {
 		setTestUrl();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());

@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationTask;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 import org.catrobat.catroid.web.ServerCalls;
@@ -33,6 +34,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,7 +44,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import org.catrobat.catroid.R;
+import android.widget.TextView;
 
 public class LoginRegisterDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
@@ -50,6 +53,7 @@ public class LoginRegisterDialog extends DialogFragment implements OnRegistratio
 
 	private EditText usernameEditText;
 	private EditText passwordEditText;
+	private TextView termsOfUseLinkTextView;
 	private Button loginOrRegister;
 	private Button passwordForgotten;
 
@@ -59,21 +63,27 @@ public class LoginRegisterDialog extends DialogFragment implements OnRegistratio
 
 		usernameEditText = (EditText) rootView.findViewById(R.id.username);
 		passwordEditText = (EditText) rootView.findViewById(R.id.password);
+		termsOfUseLinkTextView = (TextView) rootView.findViewById(R.id.register_terms_link);
 		loginOrRegister = (Button) rootView.findViewById(R.id.login_register_button);
 		passwordForgotten = (Button) rootView.findViewById(R.id.password_forgotten_button);
+
+		String termsOfUseUrl = getString(R.string.about_link_template, getString(R.string.catrobat_terms_of_use),
+				getString(R.string.register_catroid_terms_of_use_text));
+		termsOfUseLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
+		termsOfUseLinkTextView.setText(Html.fromHtml(termsOfUseUrl));
 
 		usernameEditText.setText("");
 		passwordEditText.setText("");
 
 		loginOrRegister.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(View view) {
 				handleLoginRegisterButtonClick();
 			}
 		});
 		passwordForgotten.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(View view) {
 				handlePasswordForgottenButtonClick();
 			}
 		});
