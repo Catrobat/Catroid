@@ -61,12 +61,12 @@ public class InternToExternGenerator {
 				R.string.formula_editor_sensor_y_acceleration);
 		internExternLanguageConverterMap.put(Sensors.Z_ACCELERATION.name(),
 				R.string.formula_editor_sensor_z_acceleration);
+		internExternLanguageConverterMap.put(Sensors.COMPASS_DIRECTION.name(),
+				R.string.formula_editor_sensor_compass_direction);
 		internExternLanguageConverterMap
-				.put(Sensors.Z_ORIENTATION.name(), R.string.formula_editor_sensor_z_orientation);
+				.put(Sensors.X_INCLINATION.name(), R.string.formula_editor_sensor_x_inclination);
 		internExternLanguageConverterMap
-				.put(Sensors.X_ORIENTATION.name(), R.string.formula_editor_sensor_x_orientation);
-		internExternLanguageConverterMap
-				.put(Sensors.Y_ORIENTATION.name(), R.string.formula_editor_sensor_y_orientation);
+				.put(Sensors.Y_INCLINATION.name(), R.string.formula_editor_sensor_y_inclination);
 		internExternLanguageConverterMap.put(Sensors.LOOK_X.name(), R.string.formula_editor_look_x);
 		internExternLanguageConverterMap.put(Sensors.LOOK_Y.name(), R.string.formula_editor_look_y);
 		internExternLanguageConverterMap.put(Sensors.LOOK_GHOSTEFFECT.name(), R.string.formula_editor_look_ghosteffect);

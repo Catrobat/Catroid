@@ -615,16 +615,16 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_z_acceleration));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
-		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_z_orientation));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_z_orientation));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_compass_direction));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_compass_direction));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
-		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_y_orientation));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_y_orientation));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_y_inclination));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_y_inclination));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
-		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_x_orientation));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_x_orientation));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_x_inclination));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_x_inclination));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
 		solo.waitForText(getActivity().getString(R.string.formula_editor_look_x));
