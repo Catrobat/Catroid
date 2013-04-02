@@ -36,8 +36,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class Sprite implements Serializable {
-
+public class Sprite implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private List<Script> scriptList;
@@ -102,6 +101,44 @@ public class Sprite implements Serializable {
 
 			}
 		}
+	}
+
+	@Override
+	public Sprite clone() {
+		final Sprite cloneSprite = new Sprite();
+		cloneSprite.setName(this.getName());
+
+		ArrayList<LookData> cloneLookList = new ArrayList<LookData>();
+		for (LookData element : this.lookList) {
+			cloneLookList.add(element.copyLookDataForSprite(cloneSprite));
+		}
+		cloneSprite.lookList = cloneLookList;
+
+		ArrayList<SoundInfo> cloneSoundList = new ArrayList<SoundInfo>();
+		for (SoundInfo element : this.soundList) {
+			cloneSoundList.add(element.copySoundInfoForSprite(cloneSprite));
+		}
+		cloneSprite.soundList = cloneSoundList;
+
+		//The scripts have to be the last copied items
+		List<Script> cloneScriptList = new ArrayList<Script>();
+		for (Script element : this.scriptList) {
+			Script addElement = element.copyScriptForSprite(cloneSprite);
+			cloneScriptList.add(addElement);
+		}
+		cloneSprite.scriptList = cloneScriptList;
+
+		cloneSprite.init();
+
+		cloneSprite.look = this.look.copyLookForSprite(cloneSprite);
+		try {
+			cloneSprite.look.setLookData(cloneSprite.getLookDataList().get(0));
+		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
+		}
+
+		return cloneSprite;
+
 	}
 
 	public void createWhenScriptActionSequence(String action) {
