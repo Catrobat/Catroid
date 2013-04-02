@@ -44,5 +44,7 @@
     <dimen name="key_margin">1dip</dimen>
     <dimen name="text_size_xxsmall">10sp</dimen>
     <dimen name="text_size_xxlarge">24sp</dimen>
+    <dimen name="brick_category_height">90dp</dimen>
+    <dimen name="text_size_brick_category">22sp</dimen>
 
 </resources>

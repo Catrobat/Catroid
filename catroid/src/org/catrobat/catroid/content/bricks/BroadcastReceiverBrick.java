@@ -66,6 +66,19 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	}
 
 	@Override
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		BroadcastReceiverBrick copyBrick = (BroadcastReceiverBrick) clone();
+		copyBrick.sprite = sprite;
+		copyBrick.receiveScript = (BroadcastScript) script;
+		return copyBrick;
+	}
+
+	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;
@@ -92,8 +105,17 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		});
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_receive_spinner);
 		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
-		broadcastSpinner.setClickable(true);
-		broadcastSpinner.setFocusable(true);
+
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+			broadcastSpinner.setClickable(true);
+			broadcastSpinner.setEnabled(true);
+			broadcastSpinner.setFocusable(true);
+		} else {
+			broadcastSpinner.setClickable(false);
+			broadcastSpinner.setEnabled(false);
+			broadcastSpinner.setFocusable(false);
+		}
+
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			private boolean start = true;
 

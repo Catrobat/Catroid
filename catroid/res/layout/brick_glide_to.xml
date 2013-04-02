@@ -38,7 +38,7 @@
 
     <LinearLayout
         android:id="@+id/brick_glide_to_layout"
-        style="@style/BrickContainer.Motion.Big"
+        style="@style/BrickContainer.Motion.Medium"
         android:gravity="center_vertical"
         android:orientation="vertical" >
 

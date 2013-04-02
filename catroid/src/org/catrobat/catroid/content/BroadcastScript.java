@@ -22,7 +22,10 @@
  */
 package org.catrobat.catroid.content;
 
+import java.util.ArrayList;
+
 import org.catrobat.catroid.common.MessageContainer;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 
@@ -43,7 +46,7 @@ public class BroadcastScript extends Script {
 	@Override
 	public ScriptBrick getScriptBrick() {
 		if (brick == null) {
-			brick = new BroadcastReceiverBrick(sprite, this);
+			brick = new BroadcastReceiverBrick(object, this);
 		}
 
 		return brick;
@@ -66,5 +69,18 @@ public class BroadcastScript extends Script {
 
 	public String getBroadcastMessage() {
 		return this.receivedMessage;
+	}
+
+	@Override
+	public Script copyScriptForSprite(Sprite copySprite) {
+		BroadcastScript cloneScript = new BroadcastScript(copySprite);
+		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
+		cloneScript.receivedMessage = receivedMessage;
+
+		for (Brick b : getBrickList()) {
+			cloneBrickList.add(b.copyBrickForSprite(copySprite, cloneScript));
+		}
+
+		return cloneScript;
 	}
 }

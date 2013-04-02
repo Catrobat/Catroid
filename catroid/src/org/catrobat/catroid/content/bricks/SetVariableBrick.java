@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -87,8 +88,12 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener {
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 
 		view = View.inflate(context, R.layout.brick_set_variable, null);
+		view = getViewWithAlpha(alphaValue);
 		setCheckboxView(R.id.brick_set_variable_checkbox);
 
 		final Brick brickInstance = this;
@@ -110,7 +115,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener {
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.variable_spinner);
 		UserVariableAdapter variabeAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.createUserVariableAdapter(context, sprite.getName());
+				.createUserVariableAdapter(context, sprite);
 		variabeAdapter.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 		variableSpinner.setAdapter(variabeAdapter);
 
@@ -167,6 +172,13 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener {
 			return;
 		}
 		FormulaEditorFragment.showFragment(view, this, variableFormula);
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		SetVariableBrick copyBrick = (SetVariableBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 }

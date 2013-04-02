@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.SharedPreferences;
@@ -111,6 +112,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		String categoryControlLabel = solo.getString(R.string.category_control);
 		String categoryLooksLabel = solo.getString(R.string.category_looks);
 		String categoryMotionLabel = solo.getString(R.string.category_motion);
+		String categoryUserVariablesLabel = solo.getString(R.string.category_variables);
 
 		// Test if all Categories are present
 		assertTrue("A category was not visible after opening BrickCategoryDialog", solo.searchText(categoryMotionLabel));
@@ -118,16 +120,22 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		assertTrue("A category was not visible after opening BrickCategoryDialog", solo.searchText(categorySoundLabel));
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(categoryControlLabel));
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		solo.scrollListToBottom(fragmentListView);
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(categoryUserVariablesLabel));
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(categoryLegoNXTLabel));
 
 		// Test if the correct category opens when clicked
-		String brickPlaceAtText = solo.getString(R.string.brick_place_at_x);
+		String brickPlaceAtText = solo.getString(R.string.brick_place_at);
 		String brickSetLook = solo.getString(R.string.brick_set_look);
 		String brickPlaySound = solo.getString(R.string.brick_play_sound);
 		String brickWhenStarted = solo.getString(R.string.brick_when_started);
 		String brickLegoStopMotor = solo.getString(R.string.motor_stop);
+		String brickSetVariable = solo.getString(R.string.brick_set_variable);
 
+		solo.scrollListToTop(fragmentListView);
 		solo.clickOnText(categoryMotionLabel);
 		assertTrue("AddBrickDialog was not opened after selecting a category",
 				solo.waitForText(brickPlaceAtText, 0, 2000));
@@ -145,6 +153,13 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnText(categoryControlLabel);
 		assertTrue("AddBrickDialog was not opened after selecting a category",
 				solo.waitForText(brickWhenStarted, 0, 2000));
+		solo.goBack();
+
+		fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		solo.scrollListToBottom(fragmentListView);
+		solo.clickOnText(categoryUserVariablesLabel);
+		assertTrue("AddBrickDialog was not opened after selecting a category",
+				solo.waitForText(brickSetVariable, 0, 2000));
 		solo.goBack();
 
 		solo.clickOnText(categoryLegoNXTLabel);
@@ -419,7 +434,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		String setBackground = solo.getString(R.string.brick_set_background);
 		String nextBackground = solo.getString(R.string.brick_next_background);
 		String comeToFront = solo.getString(R.string.brick_come_to_front);
-		String goNStepsBack = solo.getString(R.string.brick_go_back);
+		String ifOnEdgeBounce = solo.getString(R.string.brick_if_on_edge_bounce);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryLooks);
@@ -437,7 +452,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryMotion);
 		assertFalse("ComeToFrontBrick is in the brick list!", solo.searchText(comeToFront));
-		assertFalse("GoNStepsBackBrick is in the brick list!", solo.searchText(goNStepsBack));
+		assertFalse("IfOnEdgeBounceBrick is in the brick list!", solo.searchText(ifOnEdgeBounce));
 	}
 
 	public void testOptionsMenuItems() {
@@ -455,5 +470,51 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		assertFalse("Found menu item '" + rename + "'", solo.waitForText(rename, 1, timeToWait, false, true));
 		assertFalse("Found menu item '" + delete + "'", solo.waitForText(delete, 1, timeToWait, false, true));
 		assertFalse("Found menu item '" + showDetails + "'", solo.waitForText(showDetails, 1, timeToWait, false, true));
+	}
+
+	public void testOptionsEnableLegoMindstormBricks() {
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		String settings = solo.getString(R.string.pref_title);
+		String mindstormsPreferenceString = solo.getString(R.string.pref_enable_ms_bricks);
+		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
+			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
+		}
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+
+		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
+
+		solo.sleep(300);
+		solo.goBack();
+		assertEquals("Action bar navigation spinner doesn't show \'" + solo.getString(R.string.scripts) + "\'",
+				solo.getString(R.string.scripts), UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo).getSelectedItem()
+						.toString());
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+
+		UiTestUtils.openOptionsMenu(solo);
+
+		solo.clickOnText(settings);
+		solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
+		solo.clickOnText(mindstormsPreferenceString);
+		solo.goBack();
+
+		solo.sleep(500);
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		solo.scrollListToBottom(fragmentListView);
+		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
+
+		UiTestUtils.openOptionsMenu(solo);
+		solo.clickOnText(settings);
+		solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
+		solo.clickOnText(mindstormsPreferenceString);
+		solo.goBack();
+
+		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
 	}
 }

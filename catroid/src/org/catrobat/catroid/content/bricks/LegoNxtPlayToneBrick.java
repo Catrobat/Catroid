@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -73,6 +74,18 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 	}
 
 	@Override
+	public Sprite getSprite() {
+		return this.sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		LegoNxtPlayToneBrick copyBrick = (LegoNxtPlayToneBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.nxt_tone_duration_text_view);
@@ -92,7 +105,11 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 		view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_nxt_play_tone_checkbox);
 
@@ -137,6 +154,9 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 
 	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
 		switch (view.getId()) {
 			case R.id.nxt_tone_freq_edit_text:
 				FormulaEditorFragment.showFragment(view, this, frequency);
@@ -145,7 +165,6 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 				FormulaEditorFragment.showFragment(view, this, durationInSeconds);
 				break;
 		}
-
 	}
 
 	@Override

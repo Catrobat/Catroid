@@ -34,9 +34,8 @@
     <color name="dark_gray">#5a5858</color>
     <color name="gray">#808080</color>
     <color name="actionbar_background">#002534</color>
-    <color name="actionbar_title_color">#FCBB20</color>
-    <color name="fragment_background_color">#03222C</color>
     <color name="actionbar_title_color">#6F8E9B</color>
+    <color name="fragment_background_color">#03222C</color>
     <color name="transparent">#00000000 </color>
     <color name="formula_editor_background">#FFFFFF</color>
     <color name="list_item_thumbnail_border_color">#A8DFF4</color>
@@ -95,4 +94,8 @@
     <!-- My Projects Activity Colors -->
 	<color name="my_projects_activity_background_color">#04222C</color>
 	
+
+    <!-- Brick Category Fragment Colors -->
+    <color name="brick_category_fragment_text_color">#FFFFFF</color>
+
 </resources>

@@ -30,6 +30,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -87,6 +88,8 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		solo.scrollListToBottom(fragmentListView);
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
 	}
 }

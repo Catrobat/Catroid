@@ -28,6 +28,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -61,6 +62,14 @@ public class BroadcastWaitBrick extends BrickBaseType {
 		this.sprite = sprite;
 	}
 
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		BroadcastWaitBrick copyBrick = (BroadcastWaitBrick) clone();
+		copyBrick.sprite = sprite;
+		copyBrick.broadcastMessage = broadcastMessage;
+		return copyBrick;
+	}
+
 	public void setSelectedMessage(String selectedMessage) {
 		this.broadcastMessage = selectedMessage;
 		MessageContainer.addMessage(this.broadcastMessage);
@@ -92,6 +101,7 @@ public class BroadcastWaitBrick extends BrickBaseType {
 		}
 
 		view = View.inflate(context, R.layout.brick_broadcast_wait, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_broadcast_wait_checkbox);
 		final Brick brickInstance = this;

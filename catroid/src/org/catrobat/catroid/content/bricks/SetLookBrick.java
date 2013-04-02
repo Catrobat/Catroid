@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
@@ -61,6 +62,25 @@ public class SetLookBrick extends BrickBaseType {
 		this.look = lookData;
 	}
 
+	@Override
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		SetLookBrick copyBrick = (SetLookBrick) clone();
+		copyBrick.sprite = sprite;
+
+		for (LookData data : sprite.getLookDataList()) {
+			if (data.getAbsolutePath().equals(look.getAbsolutePath())) {
+				copyBrick.look = data;
+				break;
+			}
+		}
+		return copyBrick;
+	}
+
 	public String getImagePath() {
 		return look.getAbsolutePath();
 	}
@@ -72,6 +92,7 @@ public class SetLookBrick extends BrickBaseType {
 		}
 		final Brick brickInstance = this;
 		view = View.inflate(context, R.layout.brick_set_look, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_set_look_checkbox);
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

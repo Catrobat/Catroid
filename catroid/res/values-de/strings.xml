@@ -95,6 +95,11 @@
     <string name="spritelist_objects_headline">OBJEKTE</string>
     <!--  -->
 
+    <!-- Sprite activity -->
+    <string name="copy_sprite_finished"> kopiert.</string>
+    <string name="copy_sprite_prefix">Objekt:</string>
+    <string name="copy_sprite_name_suffix">_Kopie</string>
+    <!--  -->
 
     <!-- Script activity -->
     <string name="scripts">Skripte</string>
@@ -241,12 +246,14 @@
     <string name="category_looks">Aussehen</string>
     <string name="category_sound">Klang</string>
     <string name="category_control">Steuerung</string>
+    <string name="category_variables">Benutzervariablen</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <!--  -->
 
 
     <!-- Motion bricks -->
-    <string name="brick_place_at_x">Setze Position X:</string>
+    <string name="brick_place_at">Setze Position:</string>
+    <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="brick_set_x">Setze X auf:</string>
     <string name="brick_set_y">Setze Y auf:</string>
@@ -255,7 +262,7 @@
     <string name="brick_go_back">Gehe</string>
     <plurals name="brick_go_back_layer_plural">
         <item quantity="one">Ebene nach hinten</item>
-        <item quantity="other">Ebenen nach hinte</item>
+        <item quantity="other">Ebenen nach hinten</item>
     </plurals>
     <string name="brick_come_to_front">Komme nach vorn</string>
     <string name="brick_if_on_edge_bounce">Pralle vom Rand ab</string>
