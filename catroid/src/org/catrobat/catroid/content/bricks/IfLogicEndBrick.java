@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
@@ -163,6 +164,45 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
 		returnActionList.add(sequence);
 		return returnActionList;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		IfLogicBeginBrick beginBrick = null;
+		IfLogicElseBrick elseBrick = null;
+
+		ArrayList<Brick> currentBrickList = script.getBrickList();
+		int loopEnds = 0;
+		for (int i = currentBrickList.size() - 1; i >= 0; i--) {
+			Brick b = currentBrickList.get(i);
+			if (b instanceof IfLogicBeginBrick) {
+				if (loopEnds > 0) {
+					loopEnds--;
+				} else {
+					beginBrick = (IfLogicBeginBrick) b;
+					break;
+				}
+			} else if (b instanceof IfLogicElseBrick) {
+				if (loopEnds != 0) {
+					elseBrick = (IfLogicElseBrick) b;
+				}
+			} else if (b instanceof IfLogicEndBrick) {
+				loopEnds++;
+			}
+		}
+
+		IfLogicEndBrick copyBrick = (IfLogicEndBrick) clone(); //Using the clone method because of its flexibility if new fields are added
+		copyBrick.sprite = sprite;
+		copyBrick.elseBrick = elseBrick;
+		copyBrick.beginBrick = beginBrick;
+
+		beginBrick.setElseBrick(elseBrick);
+		beginBrick.setEndBrick(this);
+		if (elseBrick != null) {
+			elseBrick.setIfEndBrick(this);
+		}
+
+		return copyBrick;
 	}
 
 }
