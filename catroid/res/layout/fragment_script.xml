@@ -20,6 +20,7 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_script_relative_layout"
@@ -33,9 +34,9 @@
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:cacheColorHint="#00000000" />
-   
+        android:layout_height="wrap_content" 
+        android:cacheColorHint="#00000000"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
@@ -47,13 +48,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animationCache="@string/animation_cache_enabled"
-            android:cacheColorHint="#00000000"
+            android:cacheColorHint="@color/solid_black"
             android:clickable="false"
             android:divider="@android:color/transparent"
             android:dividerHeight="-5dip"
             android:drawSelectorOnTop="false"
             android:drawingCacheQuality="high"
+            android:fadingEdgeLength="10dp"
             android:fastScrollEnabled="true"
+            android:requiresFadingEdge="vertical"
             android:scrollingCache="@string/scrolling_cache_enabled" />
     </LinearLayout>
 
