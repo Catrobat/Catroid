@@ -37,7 +37,6 @@
         android:visibility="gone" />
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/brick_set_look_layout"
         style="@style/BrickContainer.Look.Medium"
         android:gravity="center_vertical"
@@ -52,7 +51,6 @@
             android:id="@+id/brick_set_look_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="50dp"
             android:clickable="false"
             android:focusable="false" />
     </LinearLayout>

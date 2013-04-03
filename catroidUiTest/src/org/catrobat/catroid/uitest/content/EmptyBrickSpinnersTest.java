@@ -36,7 +36,6 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
-import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -51,7 +50,6 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 	private Solo solo;
 	private final static String TEST_PROJECT_NAME = UiTestUtils.PROJECTNAME1;
 	private final static String LOOK_DATA_NAME = "lookData";
-	private final static String POINT_TO_PRITE_NAME = "pointSprite";
 	private final static String TEST_SOUND_TITLE = "soundTitle";
 	private final static String TEST_BROADCAST_MESSAGE = "broadcastMessage";
 	private final static String TEST_BROADCAST_WAIT_MESSAGE = "broadcastWaitMessage";
@@ -82,11 +80,6 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 
 		assertTrue("look " + LOOK_DATA_NAME + " is not selected", solo.searchText(LOOK_DATA_NAME));
 		solo.clickOnText(LOOK_DATA_NAME);
-
-		solo.clickOnText(spinnerNothingSelectedText);
-
-		assertTrue(POINT_TO_PRITE_NAME + " Sprite is not selected", solo.searchText(POINT_TO_PRITE_NAME));
-		solo.clickOnText(POINT_TO_PRITE_NAME);
 		solo.clickOnText(spinnerNothingSelectedText);
 
 		assertTrue(TEST_SOUND_TITLE + " Sound is not selected", solo.searchText(TEST_SOUND_TITLE));
@@ -114,15 +107,12 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 	private void createSpinnerProject() {
 		Project project = new Project(null, TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("testSprite");
-		Sprite pointToSprite = new Sprite(POINT_TO_PRITE_NAME);
-		project.addSprite(pointToSprite);
 		project.addSprite(sprite);
 
 		Script startScript = new StartScript(sprite);
 		sprite.addScript(startScript);
 
 		addSetLookBrick(sprite, startScript);
-		addPointToBrick(sprite, pointToSprite, startScript);
 		addPlaySoundBrick(sprite, startScript);
 		addBroadcastWaitBrick(sprite, startScript);
 		addBroadcastBrick(sprite, startScript);
@@ -154,11 +144,6 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick(sprite);
 		playSoundBrick.setSoundInfo(dummySoundInfo);
 		startScript.addBrick(playSoundBrick);
-	}
-
-	private void addPointToBrick(Sprite sprite, Sprite pointToSprite, Script startScript) {
-		PointToBrick pointToBrick = new PointToBrick(sprite, pointToSprite);
-		startScript.addBrick(pointToBrick);
 	}
 
 	private void addSetLookBrick(Sprite sprite, Script startScript) {

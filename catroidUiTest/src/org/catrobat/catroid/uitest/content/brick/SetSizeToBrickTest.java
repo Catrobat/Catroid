@@ -23,7 +23,6 @@
 package org.catrobat.catroid.uitest.content.brick;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -34,13 +33,11 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
@@ -51,11 +48,10 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private static final int SCREEN_WIDTH = 480;
 	private static final int SCREEN_HEIGHT = 800;
 
@@ -69,14 +65,16 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	private int imageRawId = org.catrobat.catroid.uitest.R.raw.red_quad;
 
 	public SetSizeToBrickTest() {
-		super(ScriptActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.prepareStageForTest();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
 	}
 
 	@Override
@@ -94,27 +92,10 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 	@Smoke
 	public void testSetSizeToBrick() {
-		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
-		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
-
-		int childrenCount = adapter.getChildCountFromLastGroup();
-		int groupCount = adapter.getScriptCount();
-
-		assertEquals("Incorrect number of bricks.", 3, dragDropListView.getChildCount());
-		assertEquals("Incorrect number of bricks.", 2, childrenCount);
-
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
-
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0).getClass().getSimpleName(),
-				adapter.getChild(groupCount - 1, 0).getClass().getSimpleName());
-		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_set_size_to)));
-
 		double newSize = 200;
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, newSize, "size", setSizeToBrick);
 
-		// -------------------------------------------------------------------------------------------------------------
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
@@ -163,7 +144,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		Values.SCREEN_HEIGHT = SCREEN_HEIGHT;
 		Values.SCREEN_WIDTH = SCREEN_WIDTH;
 
-		project = new Project(null, projectName);
+		project = new Project(getActivity(), projectName);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		setSizeToBrick = new SetSizeToBrick(sprite, 100);

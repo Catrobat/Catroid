@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
@@ -60,6 +61,7 @@ public class StopAllSoundsBrick extends BrickBaseType {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_stop_all_sounds, null);
+		view = getViewWithAlpha(alphaValue);
 		setCheckboxView(R.id.brick_stop_all_sounds_checkbox);
 
 		final Brick brickInstance = this;
@@ -74,11 +76,19 @@ public class StopAllSoundsBrick extends BrickBaseType {
 	}
 
 	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		StopAllSoundsBrick copyBrick = (StopAllSoundsBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
+	}
+
+	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_stop_all_sounds_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 		this.alphaValue = (alphaValue);
+
 		return view;
 	}
 

@@ -65,6 +65,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
@@ -72,12 +73,14 @@ import com.actionbarsherlock.view.Menu;
 
 public class SpritesListFragment extends SherlockListFragment implements OnSpriteCheckedListener {
 
+	//TODO: new dialog for copying using CustomIconContextMenu
+
 	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsProjects";
 
-	private static String deleteActionModeTitle;
-	private static String singleItemAppendixDeleteActionMode;
-	private static String multipleItemAppendixDeleteActionMode;
+	private static String multiSelectActionModeTitle;
+	private static String singleItemAppendixMultiSelectActionMode;
+	private static String multipleItemAppendixMultiSelectActionMode;
 
 	private SpriteAdapter spriteAdapter;
 	private ArrayList<Sprite> spriteList;
@@ -217,13 +220,15 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		menu.setHeaderTitle(spriteToEdit.getName());
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
-		menu.findItem(R.id.context_menu_copy).setVisible(false);
+		menu.findItem(R.id.context_menu_copy).setVisible(true);
+
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.context_menu_copy:
+				copySprite();
 				break;
 
 			case R.id.context_menu_cut:
@@ -256,18 +261,18 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		int numberOfSelectedItems = spriteAdapter.getAmountOfCheckedSprites();
 
 		if (numberOfSelectedItems == 0) {
-			actionMode.setTitle(deleteActionModeTitle);
+			actionMode.setTitle(multiSelectActionModeTitle);
 		} else {
-			String appendix = multipleItemAppendixDeleteActionMode;
+			String appendix = multipleItemAppendixMultiSelectActionMode;
 
 			if (numberOfSelectedItems == 1) {
-				appendix = singleItemAppendixDeleteActionMode;
+				appendix = singleItemAppendixMultiSelectActionMode;
 			}
 
 			String numberOfItems = Integer.toString(numberOfSelectedItems);
-			String completeTitle = deleteActionModeTitle + " " + numberOfItems + " " + appendix;
+			String completeTitle = multiSelectActionModeTitle + " " + numberOfItems + " " + appendix;
 
-			int titleLength = deleteActionModeTitle.length();
+			int titleLength = multiSelectActionModeTitle.length();
 
 			Spannable completeSpannedTitle = new SpannableString(completeTitle);
 			completeSpannedTitle.setSpan(
@@ -294,6 +299,14 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		}
 	}
 
+	public void startCopyActionMode() {
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
+			BottomBar.disableButtons(getActivity());
+			isRenameActionMode = false;
+		}
+	}
+
 	public Sprite getSpriteToEdit() {
 		return spriteToEdit;
 	}
@@ -301,6 +314,40 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	public void handleCheckBoxClick(View view) {
 		int position = getListView().getPositionForView(view);
 		getListView().setItemChecked(position, ((CheckBox) view.findViewById(R.id.sprite_checkbox)).isChecked());
+	}
+
+	public void copySprite() {
+		Sprite addSprite = spriteToEdit.clone();
+		addSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)), 0));
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+		projectManager.addSprite(addSprite);
+		projectManager.setCurrentSprite(addSprite);
+
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
+
+		Toast.makeText(
+				getActivity(),
+				this.getString(R.string.copy_sprite_prefix).concat(" ").concat(spriteToEdit.getName()).concat(" ")
+						.concat(this.getString(R.string.copy_sprite_finished)), Toast.LENGTH_LONG).show();
+
+		Log.d("Sprite copied", addSprite.toString());
+	}
+
+	private static String getSpriteName(String name, int nextNumber) {
+		String newName;
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		if (nextNumber == 0) {
+			newName = name;
+		} else {
+			newName = name + nextNumber;
+		}
+		for (Sprite s : spriteList) {
+			if (s.getName().equals(newName)) {
+				return getSpriteName(name, ++nextNumber);
+			}
+		}
+		return newName;
 	}
 
 	public void showRenameDialog() {
@@ -386,11 +433,11 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 			actionModeActive = true;
 
-			deleteActionModeTitle = getString(R.string.delete);
-			singleItemAppendixDeleteActionMode = getString(R.string.sprite);
-			multipleItemAppendixDeleteActionMode = getString(R.string.sprites);
+			multiSelectActionModeTitle = getString(R.string.delete);
+			singleItemAppendixMultiSelectActionMode = getString(R.string.sprite);
+			multipleItemAppendixMultiSelectActionMode = getString(R.string.sprites);
 
-			mode.setTitle(deleteActionModeTitle);
+			mode.setTitle(multiSelectActionModeTitle);
 
 			return true;
 		}
@@ -451,6 +498,53 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				int position = iterator.next();
 				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
 				showRenameDialog();
+			}
+			setSelectMode(Constants.SELECT_NONE);
+			spriteAdapter.clearCheckedSprites();
+
+			actionMode = null;
+			actionModeActive = false;
+
+			BottomBar.enableButtons(getActivity());
+		}
+	};
+
+	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(Constants.MULTI_SELECT);
+
+			actionModeActive = true;
+
+			multiSelectActionModeTitle = getString(R.string.copy);
+			singleItemAppendixMultiSelectActionMode = getString(R.string.sprite);
+			multipleItemAppendixMultiSelectActionMode = getString(R.string.sprites);
+
+			mode.setTitle(multiSelectActionModeTitle);
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
+			Iterator<Integer> iterator = checkedSprites.iterator();
+			int numCopied = 0;
+			while (iterator.hasNext()) {
+				int position = iterator.next();
+				spriteToEdit = (Sprite) getListView().getItemAtPosition(position - numCopied);
+				copySprite();
+				numCopied++;
 			}
 			setSelectMode(Constants.SELECT_NONE);
 			spriteAdapter.clearCheckedSprites();
