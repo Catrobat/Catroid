@@ -162,7 +162,17 @@ public class BroadcastBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_broadcast, null);
+		View prototypeView = View.inflate(context, R.layout.brick_broadcast, null);
+		Spinner broadcastWaitSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_spinner);
+		broadcastWaitSpinner.setFocusableInTouchMode(false);
+		broadcastWaitSpinner.setFocusable(false);
+		SpinnerAdapter broadcastWaitSpinnerAdapter = MessageContainer.getMessageAdapter(context);
+		broadcastWaitSpinner.setAdapter(broadcastWaitSpinnerAdapter);
+		if (broadcastWaitSpinnerAdapter.getCount() > 1) {
+			oldMessage = context.getString(R.string.brick_broadcast_default_value);
+			setSpinnerSelection(broadcastWaitSpinner);
+		}
+		return prototypeView;
 	}
 
 	@Override
@@ -195,7 +205,12 @@ public class BroadcastBrick extends BrickBaseType {
 			if (oldMessage != null && !oldMessage.equals("")) {
 				spinner.setSelection(MessageContainer.getPositionOfMessageInAdapter(oldMessage), true);
 			} else {
-				spinner.setSelection(0, true);
+				SpinnerAdapter spinnerAdapter = spinner.getAdapter();
+				if (spinnerAdapter != null && spinnerAdapter.getCount() > 1) {
+					spinner.setSelection(1, true);
+				} else {
+					spinner.setSelection(0, true);
+				}
 			}
 		}
 	}
