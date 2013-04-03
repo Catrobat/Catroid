@@ -33,12 +33,10 @@ import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils.TruncateAt;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -47,7 +45,7 @@ import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -67,12 +65,8 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	private static final int TIME_WINDOW = 2000;
 
 	public static final String FORMULA_EDITOR_FRAGMENT_TAG = "formula_editor_fragment";
-	private static final int MAX_BUTTON_LINES = 1;
-
-	private static final int BUTTON_ALPHA = 175;
 
 	private Context context;
-
 	private Brick currentBrick;
 	private Formula currentFormula;
 	private FormulaEditorEditText formulaEditorEditText;
@@ -86,8 +80,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 	public boolean restoreInstance = false;
 	private View fragmentView;
-	private Drawable activeButton;
-	private Drawable inactiveButton;
 
 	public FormulaEditorFragment(Brick brick, Formula formula) {
 		currentBrick = brick;
@@ -260,16 +252,20 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		for (int index = 0; index < formulaEditorKeyboard.getChildCount(); index++) {
 			LinearLayout child = (LinearLayout) formulaEditorKeyboard.getChildAt(index);
 			for (int nestedIndex = 0; nestedIndex < child.getChildCount(); nestedIndex++) {
-				Button key = (Button) child.getChildAt(nestedIndex);
-				key.setOnTouchListener(touchListener);
-				key.setLines(MAX_BUTTON_LINES);
-				key.setEllipsize(TruncateAt.END);
+				View view = child.getChildAt(nestedIndex);
+				view.setOnTouchListener(touchListener);
+
+				//				Button button = null;
+				//				try {
+				//					button = (Button) view;
+				//				} catch (Exception exception) {
+				//					break;
+				//				}
+				//				button.setLines(MAX_BUTTON_LINES);
+				//				button.setEllipsize(TruncateAt.END);
 			}
 		}
 
-		activeButton = getActivity().getResources().getDrawable(R.drawable.formula_editor_button);
-		inactiveButton = getActivity().getResources().getDrawable(R.drawable.formula_editor_button);
-		inactiveButton.setAlpha(BUTTON_ALPHA);
 		updateButtonViewOnKeyboard();
 
 		super.onStart();
@@ -455,22 +451,23 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 	private void updateButtonViewOnKeyboard() {
 
-		Button undo = (Button) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_undo);
+		ImageButton undo = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_undo);
 		if (!formulaEditorEditText.getHistory().undoIsPossible()) {
-			undo.setBackgroundDrawable(inactiveButton);
+			undo.setImageResource(R.drawable.icon_undo_disabled);
 			undo.setClickable(false);
 		} else {
-			undo.setBackgroundDrawable(activeButton);
+			undo.setImageResource(R.drawable.icon_undo);
 			undo.setClickable(true);
 		}
 
-		Button redo = (Button) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_redo);
+		ImageButton redo = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_redo);
 		if (!formulaEditorEditText.getHistory().redoIsPossible()) {
-			redo.setBackgroundDrawable(inactiveButton);
+			redo.setImageResource(R.drawable.icon_redo_disabled);
 			redo.setClickable(false);
 		} else {
-			redo.setBackgroundDrawable(activeButton);
+			redo.setImageResource(R.drawable.icon_redo);
 			redo.setClickable(true);
 		}
+
 	}
 }
