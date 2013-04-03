@@ -28,6 +28,10 @@ import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 
@@ -88,5 +92,25 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
+	}
+
+	public void testOrientation() throws NameNotFoundException {
+		/// Method 1: Assert it is currently in portrait mode.
+		assertEquals("SettingsActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, getActivity()
+				.getResources().getConfiguration().orientation);
+
+		/// Method 2: Retreive info about Activity as collected from AndroidManifest.xml
+		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
+		PackageManager packageManager = getActivity().getPackageManager();
+		ActivityInfo activityInfo = packageManager.getActivityInfo(getActivity().getComponentName(),
+				PackageManager.GET_ACTIVITIES);
+
+		// Note that the activity is _indeed_ rotated on your device/emulator!
+		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+
+		assertEquals(
+				SettingsActivity.class.getSimpleName() + " not set to be in portrait mode in AndroidManifest.xml!",
+				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
 }
