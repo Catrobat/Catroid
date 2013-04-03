@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -38,6 +39,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -91,21 +94,21 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 
 		view = View.inflate(context, R.layout.brick_if_begin_if, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_if_begin_checkbox);
 		final Brick brickInstance = this;
-		checkbox.setOnClickListener(new OnClickListener() {
+
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
-			public void onClick(View v) {
-				checked = !checked;
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
-				adapter.handleCheck(brickInstance, checked);
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
 
@@ -198,6 +201,16 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 		returnActionList.add(ifAction);
 
 		return returnActionList;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		//ifEndBrick and ifElseBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
+		IfLogicBeginBrick copyBrick = (IfLogicBeginBrick) clone(); //Using the clone method because of its flexibility if new fields are added  
+		copyBrick.ifElseBrick = null; 							   //if the Formula gets a field sprite, a seperate copy method will be needed
+		copyBrick.ifEndBrick = null;
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 }

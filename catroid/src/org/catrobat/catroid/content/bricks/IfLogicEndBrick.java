@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
@@ -34,8 +35,9 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -70,21 +72,22 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
+
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view = inflater.inflate(R.layout.brick_if_end_if, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_if_end_if_checkbox);
 		final Brick brickInstance = this;
-		checkbox.setOnClickListener(new OnClickListener() {
+
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
-			public void onClick(View v) {
-				checked = !checked;
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
-				adapter.handleCheck(brickInstance, checked);
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
 		return view;
@@ -161,6 +164,45 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
 		returnActionList.add(sequence);
 		return returnActionList;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		IfLogicBeginBrick beginBrick = null;
+		IfLogicElseBrick elseBrick = null;
+
+		ArrayList<Brick> currentBrickList = script.getBrickList();
+		int loopEnds = 0;
+		for (int i = currentBrickList.size() - 1; i >= 0; i--) {
+			Brick b = currentBrickList.get(i);
+			if (b instanceof IfLogicBeginBrick) {
+				if (loopEnds > 0) {
+					loopEnds--;
+				} else {
+					beginBrick = (IfLogicBeginBrick) b;
+					break;
+				}
+			} else if (b instanceof IfLogicElseBrick) {
+				if (loopEnds != 0) {
+					elseBrick = (IfLogicElseBrick) b;
+				}
+			} else if (b instanceof IfLogicEndBrick) {
+				loopEnds++;
+			}
+		}
+
+		IfLogicEndBrick copyBrick = (IfLogicEndBrick) clone(); //Using the clone method because of its flexibility if new fields are added
+		copyBrick.sprite = sprite;
+		copyBrick.elseBrick = elseBrick;
+		copyBrick.beginBrick = beginBrick;
+
+		beginBrick.setElseBrick(elseBrick);
+		beginBrick.setEndBrick(this);
+		if (elseBrick != null) {
+			elseBrick.setIfEndBrick(this);
+		}
+
+		return copyBrick;
 	}
 
 }

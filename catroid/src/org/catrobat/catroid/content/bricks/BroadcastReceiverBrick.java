@@ -40,8 +40,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
@@ -66,6 +64,19 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	}
 
 	@Override
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		BroadcastReceiverBrick copyBrick = (BroadcastReceiverBrick) clone();
+		copyBrick.sprite = sprite;
+		copyBrick.receiveScript = (BroadcastScript) script;
+		return copyBrick;
+	}
+
+	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;
@@ -77,23 +88,37 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
 
 		setCheckboxView(R.id.brick_broadcast_receive_checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
-				adapter.handleCheck(brickInstance, checked);
-			}
-		});
+
+		//method moved to to DragAndDropListView since it is not working on 2.x
+		/*
+		 * checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		 * 
+		 * @Override
+		 * public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		 * checked = isChecked;
+		 * if (!checked) {
+		 * for (Brick currentBrick : adapter.getCheckedBricks()) {
+		 * currentBrick.setCheckedBoolean(false);
+		 * }
+		 * }
+		 * adapter.handleCheck(brickInstance, checked);
+		 * }
+		 * });
+		 */
+
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_receive_spinner);
 		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
-		broadcastSpinner.setClickable(true);
-		broadcastSpinner.setFocusable(true);
+
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+			broadcastSpinner.setClickable(true);
+			broadcastSpinner.setEnabled(true);
+			broadcastSpinner.setFocusable(true);
+		} else {
+			broadcastSpinner.setClickable(false);
+			broadcastSpinner.setEnabled(false);
+			broadcastSpinner.setFocusable(false);
+		}
+
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			private boolean start = true;
 

@@ -33,9 +33,11 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -52,7 +54,7 @@ public class Look extends Image {
 	protected Pixmap pixmap;
 	private HashMap<String, ArrayList<SequenceAction>> broadcastSequenceMap;
 	private HashMap<String, ArrayList<SequenceAction>> broadcastWaitSequenceMap;
-	private ArrayList<SequenceAction> whenSequenceList;
+	private ParallelAction whenParallelAction;
 	private boolean allActionAreFinished = false;
 
 	public Look(Sprite sprite) {
@@ -65,7 +67,7 @@ public class Look extends Image {
 		this.alphaValue = 1f;
 		this.brightnessValue = 1f;
 		this.show = true;
-		this.whenSequenceList = new ArrayList<SequenceAction>();
+		this.whenParallelAction = null;
 		this.broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
 		this.broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
 		this.addListener(new InputListener() {
@@ -87,6 +89,54 @@ public class Look extends Image {
 		});
 	}
 
+	@Override
+	public Look clone() {
+		final Look cloneLook = new Look(null);
+
+		cloneLook.alphaValue = this.alphaValue;
+		cloneLook.brightnessValue = this.brightnessValue;
+		cloneLook.show = this.show;
+		cloneLook.broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>(this.broadcastSequenceMap);
+		cloneLook.broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>(
+				this.broadcastWaitSequenceMap);
+		cloneLook.whenParallelAction = null;
+		cloneLook.allActionAreFinished = this.allActionAreFinished;
+
+		return cloneLook;
+	}
+
+	public Look copyLookForSprite(final Sprite cloneSprite) {
+		final Look cloneLook = clone();
+		cloneLook.sprite = cloneSprite;
+
+		for (EventListener listener : cloneSprite.look.getListeners()) {
+			cloneLook.removeListener(listener);
+		}
+		cloneLook.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				return cloneLook.doTouchDown(x, y, pointer);
+			}
+		});
+		cloneLook.addListener(new BroadcastListener() {
+			@Override
+			public void handleBroadcastEvent(BroadcastEvent event, String broadcastMessage) {
+				cloneLook.doHandleBroadcastEvent(broadcastMessage);
+			}
+
+			@Override
+			public void handleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
+				cloneLook.doHandleBroadcastFromWaiterEvent(event, broadcastMessage);
+			}
+		});
+
+		cloneLook.whenParallelAction = null;
+		cloneLook.broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
+		cloneLook.broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
+
+		return cloneLook;
+	}
+
 	public boolean doTouchDown(float x, float y, int pointer) {
 		if (sprite.isPaused) {
 			return true;
@@ -100,11 +150,10 @@ public class Look extends Image {
 
 		if (x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight()) {
 			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
-				if (whenSequenceList.isEmpty()) {
+				if (whenParallelAction == null) {
 					sprite.createWhenScriptActionSequence("Tapped");
-				}
-				for (SequenceAction action : whenSequenceList) {
-					action.restart();
+				} else {
+					whenParallelAction.restart();
 				}
 				return true;
 			}
@@ -352,7 +401,7 @@ public class Look extends Image {
 		}
 	}
 
-	public void addWhenSequenceAction(SequenceAction action) {
-		whenSequenceList.add(action);
+	public void setWhenParallelAction(ParallelAction action) {
+		whenParallelAction = action;
 	}
 }
