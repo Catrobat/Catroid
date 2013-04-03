@@ -107,12 +107,12 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		assertNotSame("Wrong selection", testString, ((Spinner) solo.getView(BROADCAST_SPINNER_ID)).getSelectedItem()
 				.toString());
 
-		solo.pressSpinnerItem(SECOND_BRICK_SPINNER_INDEX, 2);
+		solo.pressSpinnerItem(SECOND_BRICK_SPINNER_INDEX, 1);
 		solo.sleep(200);
 		assertEquals("Wrong selection", testString, ((Spinner) solo.getView(BROADCAST_SPINNER_ID)).getSelectedItem()
 				.toString());
 
-		solo.pressSpinnerItem(THIRD_BRICK_SPINNER_INDEX, 2);
+		solo.pressSpinnerItem(THIRD_BRICK_SPINNER_INDEX, 1);
 		solo.sleep(200);
 		assertEquals("Wrong selection", testString, ((Spinner) solo.getView(BROADCAST_WAIT_SPINNER_ID))
 				.getSelectedItem().toString());
@@ -135,7 +135,7 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 
 		checkIfSpinnerTextsCorrect(testString, testString2, testString3);
 
-		solo.pressSpinnerItem(SECOND_BRICK_SPINNER_INDEX, 4);
+		solo.pressSpinnerItem(SECOND_BRICK_SPINNER_INDEX, 1);
 		solo.sleep(200);
 		assertEquals("Wrong selection", testString3, ((Spinner) solo.getView(BROADCAST_SPINNER_ID)).getSelectedItem()
 				.toString());
@@ -162,6 +162,12 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.goBack();
 
 		checkIfSpinnerTextsCorrect(testString, testString3, testString3);
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.category_control));
+		assertTrue("Wrong selection in prototype spinner",
+				solo.isSpinnerTextSelected(0, solo.getString(R.string.brick_broadcast_default_value)));
 	}
 
 	private void checkIfSpinnerTextsCorrect(String firstTextSpinner, String secondTextSpinner, String thirdTextSpinner) {
