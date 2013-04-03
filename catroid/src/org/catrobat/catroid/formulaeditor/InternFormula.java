@@ -929,4 +929,15 @@ public class InternFormula {
 		}
 	}
 
+	public boolean isThereSomethingToDelete() {
+		if (cursorTokenPosition == null) {
+			return false;
+		}
+		if (cursorTokenPosition == CursorTokenPosition.LEFT) {
+			if (getFirstLeftInternToken(externCursorPosition - 1) == null) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

@@ -449,7 +449,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 	}
 
-	private void updateButtonViewOnKeyboard() {
+	public void updateButtonViewOnKeyboard() {
 
 		ImageButton undo = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_undo);
 		if (!formulaEditorEditText.getHistory().undoIsPossible()) {
@@ -467,6 +467,15 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		} else {
 			redo.setImageResource(R.drawable.icon_redo);
 			redo.setClickable(true);
+		}
+
+		ImageButton backspace = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_delete);
+		if (!currentFormula.getInternFormulaState().createInternFormulaFromState().isThereSomethingToDelete()) {
+			backspace.setImageResource(R.drawable.icon_backspace_disabled);
+			backspace.setClickable(false);
+		} else {
+			backspace.setImageResource(R.drawable.icon_backspace);
+			backspace.setClickable(true);
 		}
 
 	}
