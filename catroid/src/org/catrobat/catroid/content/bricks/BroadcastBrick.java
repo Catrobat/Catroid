@@ -163,15 +163,13 @@ public class BroadcastBrick extends BrickBaseType {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_broadcast, null);
-		Spinner broadcastWaitSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_spinner);
-		broadcastWaitSpinner.setFocusableInTouchMode(false);
-		broadcastWaitSpinner.setFocusable(false);
-		SpinnerAdapter broadcastWaitSpinnerAdapter = MessageContainer.getMessageAdapter(context);
-		broadcastWaitSpinner.setAdapter(broadcastWaitSpinnerAdapter);
-		if (broadcastWaitSpinnerAdapter.getCount() > 1) {
-			oldMessage = context.getString(R.string.brick_broadcast_default_value);
-			setSpinnerSelection(broadcastWaitSpinner);
-		}
+		Spinner broadcastSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_spinner);
+		broadcastSpinner.setFocusableInTouchMode(false);
+		broadcastSpinner.setFocusable(false);
+		SpinnerAdapter broadcastSpinnerAdapter = MessageContainer.getMessageAdapter(context);
+		broadcastSpinner.setAdapter(broadcastSpinnerAdapter);
+		oldMessage = context.getString(R.string.brick_broadcast_default_value);
+		setSpinnerSelection(broadcastSpinner);
 		return prototypeView;
 	}
 

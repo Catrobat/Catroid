@@ -174,10 +174,8 @@ public class BroadcastWaitBrick extends BrickBaseType {
 		broadcastWaitSpinner.setFocusable(false);
 		SpinnerAdapter broadcastWaitSpinnerAdapter = MessageContainer.getMessageAdapter(context);
 		broadcastWaitSpinner.setAdapter(broadcastWaitSpinnerAdapter);
-		if (broadcastWaitSpinnerAdapter.getCount() > 1) {
-			oldMessage = context.getString(R.string.brick_broadcast_default_value);
-			setSpinnerSelection(broadcastWaitSpinner);
-		}
+		oldMessage = context.getString(R.string.brick_broadcast_default_value);
+		setSpinnerSelection(broadcastWaitSpinner);
 		return prototypeView;
 	}
 

@@ -161,15 +161,13 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_broadcast_receive, null);
-		Spinner broadcastWaitSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_receive_spinner);
-		broadcastWaitSpinner.setFocusableInTouchMode(false);
-		broadcastWaitSpinner.setFocusable(false);
-		SpinnerAdapter broadcastWaitSpinnerAdapter = MessageContainer.getMessageAdapter(context);
-		broadcastWaitSpinner.setAdapter(broadcastWaitSpinnerAdapter);
-		if (broadcastWaitSpinnerAdapter.getCount() > 1) {
-			oldMessage = context.getString(R.string.brick_broadcast_default_value);
-			setSpinnerSelection(broadcastWaitSpinner);
-		}
+		Spinner broadcastReceiverSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_receive_spinner);
+		broadcastReceiverSpinner.setFocusableInTouchMode(false);
+		broadcastReceiverSpinner.setFocusable(false);
+		SpinnerAdapter broadcastReceiverSpinnerAdapter = MessageContainer.getMessageAdapter(context);
+		broadcastReceiverSpinner.setAdapter(broadcastReceiverSpinnerAdapter);
+		oldMessage = context.getString(R.string.brick_broadcast_default_value);
+		setSpinnerSelection(broadcastReceiverSpinner);
 		return prototypeView;
 	}
 
