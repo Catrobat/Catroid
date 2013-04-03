@@ -476,8 +476,8 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		String settings = solo.getString(R.string.pref_title);
-		String mindstormsPreferenceString = solo.getString(R.string.pref_enable_ms_bricks);
+		String settings = solo.getString(R.string.preference_title);
+		String mindstormsPreferenceString = solo.getString(R.string.preference_title_enable_mindstorm_bricks);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
