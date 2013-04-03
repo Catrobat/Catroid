@@ -57,6 +57,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private static final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
 	private static final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
+	private static final int RESOURCE_IMAGE3 = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses_jpg;
 	private static final int VISIBLE = View.VISIBLE;
 	private static final int GONE = View.GONE;
 	private static final int ACTION_MODE_COPY = 0;
@@ -67,6 +68,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	private static final String FIRST_TEST_LOOK_NAME = "lookNameTest";
 	private static final String SECOND_TEST_LOOK_NAME = "lookNameTest2";
+	private static final String THIRD_TEST_LOOK_NAME = "lookNameTest3";
 
 	private String copy;
 	private String rename;
@@ -77,9 +79,11 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	private LookData lookData;
 	private LookData lookData2;
+	private LookData lookData3;
 
 	private File imageFile;
 	private File imageFile2;
+	private File imageFileJpg;
 	private File paintroidImageFile;
 
 	private ArrayList<LookData> lookDataList;
@@ -111,6 +115,8 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
 		imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_banzai.png",
 				RESOURCE_IMAGE2, getActivity(), UiTestUtils.FileTypes.IMAGE);
+		imageFileJpg = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.jpg",
+				RESOURCE_IMAGE3, getActivity(), UiTestUtils.FileTypes.IMAGE);
 
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testFile.png",
 				R.drawable.catroid_banzai, getActivity());
@@ -127,7 +133,14 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		lookData2.setLookName(SECOND_TEST_LOOK_NAME);
 		lookDataList.add(lookData2);
 
-		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
+		projectManager.getFileChecksumContainer().addChecksum(lookData2.getChecksum(), lookData2.getAbsolutePath());
+
+		lookData3 = new LookData();
+		lookData3.setLookFilename(imageFileJpg.getName());
+		lookData3.setLookName(THIRD_TEST_LOOK_NAME);
+		lookDataList.add(lookData3);
+
+		projectManager.getFileChecksumContainer().addChecksum(lookData3.getChecksum(), lookData3.getAbsolutePath());
 
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
 		projectManager.getCurrentProject().getXmlHeader().virtualScreenWidth = display.getWidth();
@@ -458,6 +471,23 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		}
 		assertTrue("File not added in LookDataList", isInLookDataListPaintroidImage);
 		assertFalse("File not deleted from LookDataList", isInLookDataListSunnglasses);
+	}
+
+	public void testPaintroidImagefileExtension() {
+		getLookFragment().setSelectedLookData(lookData3);
+
+		Bundle bundleForPaintroid = new Bundle();
+		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, imageFileJpg.getAbsolutePath());
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
+		intent.putExtras(bundleForPaintroid);
+
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_PAINTROID_EDIT_IMAGE);
+
+		solo.sleep(100000);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+
+		//		assertTrue("Copied file does not have correct fileextension", lookData3.getLookFileName().endsWith(".png"));
 	}
 
 	public void testEditImageWithPaintroidNoChanges() {
