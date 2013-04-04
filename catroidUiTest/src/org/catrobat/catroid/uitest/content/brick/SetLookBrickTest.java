@@ -109,8 +109,6 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testSpinnerUpdatesDelete() {
-		String spinnerNothingText = solo.getString(R.string.broadcast_nothing_selected);
-
 		solo.clickOnText(lookName);
 
 		assertTrue(lookName + " is not in Spinner", solo.searchText(lookName));
@@ -134,7 +132,6 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	public void testSpinnerUpdatesRename() {
 		String newName = "nameRenamed";
-		String spinnerNothingText = solo.getString(R.string.broadcast_nothing_selected);
 
 		solo.clickOnText(lookName);
 
