@@ -351,13 +351,16 @@ public class AddBrickFragment extends SherlockListFragment {
 
 		controlBrickList.add(new ForeverBrick(sprite));
 		controlBrickList.add(new IfLogicBeginBrick(sprite, 0));
-		controlBrickList.add(new SetVariableBrick(sprite, 0));
-		controlBrickList.add(new ChangeVariableBrick(sprite, 0));
 
 		RepeatBrick repeatBrick = new RepeatBrick(sprite, BrickValues.REPEAT);
 		controlBrickList.add(repeatBrick);
 
 		brickMap.put(context.getString(R.string.category_control), controlBrickList);
+
+		List<Brick> userVariablesBrickList = new ArrayList<Brick>();
+		userVariablesBrickList.add(new SetVariableBrick(sprite, 0));
+		userVariablesBrickList.add(new ChangeVariableBrick(sprite, 0));
+		brickMap.put(context.getString(R.string.category_variables), userVariablesBrickList);
 
 		List<Brick> legoNXTBrickList = new ArrayList<Brick>();
 		LegoNxtMotorTurnAngleBrick legoNxtMotorTurnAngleBrick = new LegoNxtMotorTurnAngleBrick(sprite,
