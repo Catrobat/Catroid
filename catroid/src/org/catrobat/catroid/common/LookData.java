@@ -22,9 +22,12 @@
  */
 package org.catrobat.catroid.common;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
 
@@ -36,8 +39,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class LookData implements Serializable {
-
+public class LookData implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 
 	private String name;
@@ -50,6 +52,31 @@ public class LookData implements Serializable {
 	private transient Pixmap pixmap = null;
 	private transient Pixmap originalPixmap = null;
 	private transient TextureRegion region = null;
+
+	@Override
+	public LookData clone() {
+		LookData cloneLookData = new LookData();
+
+		cloneLookData.name = this.name;
+		cloneLookData.fileName = this.fileName;
+
+		return cloneLookData;
+	}
+
+	public LookData copyLookDataForSprite(Sprite sprite) {
+		LookData cloneLookData = new LookData();
+
+		cloneLookData.name = this.name;
+
+		try {
+			cloneLookData.fileName = StorageHandler.getInstance()
+					.duplicateImage(ProjectManager.INSTANCE.getCurrentProject().getName(), fileName).getName();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return cloneLookData;
+	}
 
 	public TextureRegion getTextureRegion() {
 		if (region == null) {

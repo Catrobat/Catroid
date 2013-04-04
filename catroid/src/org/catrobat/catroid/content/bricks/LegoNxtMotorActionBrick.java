@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -90,6 +91,18 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 	}
 
 	@Override
+	public Sprite getSprite() {
+		return this.sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		LegoNxtMotorActionBrick copyBrick = (LegoNxtMotorActionBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.motor_action_speed_text_view);
@@ -108,8 +121,12 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 
 		view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
+		view = getViewWithAlpha(alphaValue);
 		setCheckboxView(R.id.brick_nxt_motor_action_checkbox);
 
 		final Brick brickInstance = this;
@@ -135,8 +152,15 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 				android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.motor_spinner);
-		motorSpinner.setClickable(true);
-		motorSpinner.setEnabled(true);
+
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+			motorSpinner.setClickable(true);
+			motorSpinner.setEnabled(true);
+		} else {
+			motorSpinner.setClickable(false);
+			motorSpinner.setEnabled(false);
+		}
+
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -161,6 +185,9 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 
 	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
 		FormulaEditorFragment.showFragment(view, this, speed);
 	}
 

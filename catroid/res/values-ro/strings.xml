@@ -71,9 +71,9 @@
 
 
     <!-- Settings activity -->
-    <string name="pref_title">Setări</string>
-    <string name="pref_enable_ms_bricks">Permiterea blocurilor Mindstorm</string>
-    <string name="pref_descr_ms_bricks">Aceste blocuri sunt folosite pentru controlul roboților Mindstorm.</string>
+    <string name="preference_title">Setări</string>
+    <string name="preference_title_enable_mindstorm_bricks">Permiterea blocurilor Mindstorm</string>
+    <string name="preference_description_mindstorm_bricks">Aceste blocuri sunt folosite pentru controlul roboților Mindstorm.</string>
     <!--  -->
 
 

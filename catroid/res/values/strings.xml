@@ -62,9 +62,9 @@
 
 
     <!-- Settings activity -->
-    <string name="pref_title">Settings</string>
-    <string name="pref_enable_ms_bricks">Lego Mindstorms bricks</string>
-    <string name="pref_descr_ms_bricks">Allow to control Lego Mindstorms robots</string>
+    <string name="preference_title">Settings</string>
+    <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorms bricks</string>
+    <string name="preference_description_mindstorm_bricks">Allow to control Lego Mindstorms robots</string>
     <!--  -->
 
 
@@ -88,6 +88,7 @@
     <string name="show_details">Show Details</string>
     <string name="hide_details">Hide Details</string>
     <string name="insert_below">Insert Below</string>
+
     <string name="edit_in_paintroid">Edit in Paintroid</string>
     <string name="sprite">Sprite</string>
     <string name="sprites">Sprites</string>
@@ -96,6 +97,12 @@
     <!--  -->
 
 
+
+    <string name="copy_sprite_finished">copied.</string>
+    <string name="copy_sprite_prefix">Sprite:</string>
+    <string name="copy_sprite_name_suffix">_Copy</string>
+    <!--  -->
+    
     <!-- Script activity -->
     <string name="scripts">Scripts</string>
     <string name="look">Look</string>
@@ -200,6 +207,8 @@
     <string name="password_forgotten">Password forgotten</string>
     <string name="new_user_registered">new account created</string>
     <string name="register_error">Error occurred</string>
+    <string name="register_terms">By registering, you agree to our</string>
+    <string name="register_catroid_terms_of_use_text">terms of use</string>
     <!--  -->
 
 
@@ -237,12 +246,14 @@
     <string name="category_looks">Looks</string>
     <string name="category_sound">Sound</string>
     <string name="category_control">Control</string>
+    <string name="category_variables">User Variables</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <!--  -->
 
 
     <!-- Motion bricks -->
-    <string name="brick_place_at_x">Place at X:</string>
+    <string name="brick_place_at">Place at:</string>
+    <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="brick_set_x">Set X to:</string>
     <string name="brick_set_y">Set Y to:</string>
@@ -446,9 +457,9 @@
     <string name="formula_editor_sensor_x_acceleration">x_acceleration</string>
     <string name="formula_editor_sensor_y_acceleration">y_acceleration</string>
     <string name="formula_editor_sensor_z_acceleration">z_acceleration</string>
-    <string name="formula_editor_sensor_z_orientation">z_orientation</string>
-    <string name="formula_editor_sensor_x_orientation">x_orientation</string>
-    <string name="formula_editor_sensor_y_orientation">y_orientation</string>
+    <string name="formula_editor_sensor_compass_direction">compass_direction</string>
+    <string name="formula_editor_sensor_x_inclination">x_inclination</string>
+    <string name="formula_editor_sensor_y_inclination">y_inclination</string>
     <string name="formula_editor_look_x">look_x</string>
     <string name="formula_editor_look_y">look_y</string>
     <string name="formula_editor_look_ghosteffect">look_ghosteffect</string>

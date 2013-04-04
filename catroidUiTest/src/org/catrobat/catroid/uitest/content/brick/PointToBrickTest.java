@@ -39,7 +39,9 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -79,14 +81,33 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_point_to)));
-		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.brick_point_to_spinner));
+		int oldSpriteListSize = project.getSpriteList().size();
 
-		String spinnerNothingSelectedText = solo.getString(R.string.broadcast_nothing_selected);
-		solo.waitForText(spinnerNothingSelectedText);
+		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_point_to)));
+
+		String spinnerNewText = solo.getString(R.string.new_broadcast_message);
+		String newSpriteName = "cat3";
+
+		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.brick_point_to_spinner));
+		solo.waitForText(spinnerNewText);
 		solo.clickInList(0);
-		solo.waitForText(spinnerNothingSelectedText);
-		assertEquals("Wrong selection", spinnerNothingSelectedText, solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.waitForView(EditText.class);
+		solo.enterText(0, newSpriteName);
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sleep(300);
+
+		assertEquals("Wrong number of sprites", oldSpriteListSize + 1, project.getSpriteList().size());
+		assertEquals("Wrong selection", newSpriteName, ((Spinner) solo.getView(R.id.brick_point_to_spinner))
+				.getSelectedItem().toString());
+
+		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.brick_point_to_spinner));
+		solo.waitForText(spinnerNewText);
+		solo.clickInList(0);
+		solo.goBack();
+		solo.goBack();
+
+		assertEquals("Wrong selection", newSpriteName, ((Spinner) solo.getView(R.id.brick_point_to_spinner))
+				.getSelectedItem().toString());
 	}
 
 	private void createProject() {
