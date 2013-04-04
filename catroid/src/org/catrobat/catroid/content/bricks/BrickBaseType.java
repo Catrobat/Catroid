@@ -46,6 +46,11 @@ public class BrickBaseType implements Brick {
 	public transient boolean animationState = false;
 
 	@Override
+	public boolean isChecked() {
+		return checked;
+	}
+
+	@Override
 	public void setAnimationState(boolean animationState) {
 		this.animationState = animationState;
 	}

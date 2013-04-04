@@ -111,7 +111,9 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.SettingsActivity"
-            android:theme="@style/settings_activity" />
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Catroid" />
         <activity
             android:name=".bluetooth.DeviceListActivity"
             android:theme="@android:style/Theme.Dialog" />
