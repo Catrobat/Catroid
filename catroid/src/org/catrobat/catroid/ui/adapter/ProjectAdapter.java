@@ -114,15 +114,15 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		View convertView = convView;
 		ViewHolder holder;
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.activity_my_projects_item, null);
+			convertView = inflater.inflate(R.layout.activity_my_projects_list_item, null);
 			holder = new ViewHolder();
-			holder.background = convertView.findViewById(R.id.my_projects_item_background);
+			holder.background = convertView.findViewById(R.id.my_projects_activity_item_background);
 			holder.checkbox = (CheckBox) convertView.findViewById(R.id.project_checkbox);
 			holder.projectName = (TextView) convertView.findViewById(R.id.my_projects_activity_project_title);
 			holder.image = (ImageView) convertView.findViewById(R.id.my_projects_activity_project_image);
 			holder.size = (TextView) convertView.findViewById(R.id.my_projects_activity_size_of_project_2);
 			holder.dateChanged = (TextView) convertView.findViewById(R.id.my_projects_activity_project_changed_2);
-			holder.projectDetails = convertView.findViewById(R.id.my_projects_list_item_details);
+			holder.projectDetails = convertView.findViewById(R.id.my_projects_activity_list_item_details);
 			holder.arrow = (ImageView) convertView.findViewById(R.id.arrow_right);
 			// temporarily removed - because of upcoming release, and bad performance of projectdescription
 			//			holder.description = (TextView) convertView.findViewById(R.id.my_projects_activity_description);
@@ -188,7 +188,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 			holder.checkbox.setVisibility(View.GONE);
 			holder.checkbox.setChecked(false);
 			holder.arrow.setVisibility(View.VISIBLE);
-			holder.background.setBackgroundResource(R.drawable.my_projects_list_item_background);
+			holder.background.setBackgroundResource(R.drawable.my_projects_activity_list_item_background);
 			clearCheckedProjects();
 		}
 

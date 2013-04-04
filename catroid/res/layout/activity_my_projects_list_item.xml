@@ -42,10 +42,10 @@
             android:visibility="gone" />
 
         <RelativeLayout
-            android:id="@+id/my_projects_item_background"
+            android:id="@+id/my_projects_activity_item_background"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/my_projects_list_item_background" >
+            android:background="@drawable/my_projects_activity_list_item_background" >
 
             <ImageView
                 android:id="@+id/my_projects_activity_project_image"
@@ -56,7 +56,7 @@
                 android:scaleType="centerCrop"
                 android:cropToPadding="true"
                 android:padding="1.5dp"
-                android:background="@drawable/my_projects_list_item_thumbnail_border" />
+                android:background="@drawable/my_projects_activity_list_item_thumbnail_border" />
 
             <include layout="@layout/activity_my_projects_title_details_view" />
             

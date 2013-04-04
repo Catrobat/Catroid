@@ -203,7 +203,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			}
 		});
 
-		adapter = new ProjectAdapter(getActivity(), R.layout.activity_my_projects_item,
+		adapter = new ProjectAdapter(getActivity(), R.layout.activity_my_projects_list_item,
 				R.id.my_projects_activity_project_title, projectList);
 		setListAdapter(adapter);
 	}

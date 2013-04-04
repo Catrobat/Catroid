@@ -907,7 +907,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
-		View projectDetails = solo.getView(R.id.my_projects_list_item_details);
+		View projectDetails = solo.getView(R.id.my_projects_activity_list_item_details);
 		UiTestUtils.clickOnActionBar(solo, R.id.show_details);
 		solo.sleep(200);
 		assertEquals("Project details are not showing!", View.VISIBLE, projectDetails.getVisibility());
@@ -931,7 +931,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 
 		//get details view again, otherwise assert will fail
-		projectDetails = solo.getView(R.id.my_projects_list_item_details);
+		projectDetails = solo.getView(R.id.my_projects_activity_list_item_details);
 		assertEquals("Project details are still showing!", View.GONE, projectDetails.getVisibility());
 
 		UiTestUtils.openOptionsMenu(solo);
