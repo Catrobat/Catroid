@@ -127,9 +127,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener {
 			variableSpinner.setFocusable(false);
 		}
 
-		if (userVariable != null) {
-			variableSpinner.setSelection(variabeAdapter.getPositionOfItem(userVariable));
-		}
+		setSpinnerSelection(context, variableSpinner);
 
 		variableSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
@@ -148,7 +146,19 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_set_variable, null);
+		View prototypeView = View.inflate(context, R.layout.brick_set_variable, null);
+		Spinner setVariableSpinner = (Spinner) prototypeView.findViewById(R.id.variable_spinner);
+		setVariableSpinner.setFocusableInTouchMode(false);
+		setVariableSpinner.setFocusable(false);
+		UserVariableAdapter setVariableSpinnerAdapter = ProjectManager.getInstance().getCurrentProject()
+				.getUserVariables().createUserVariableAdapter(context, sprite);
+		setVariableSpinnerAdapter.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
+		setVariableSpinner.setAdapter(setVariableSpinnerAdapter);
+		setSpinnerSelection(context, setVariableSpinner);
+
+		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
+		textSetVariable.setText(String.valueOf(variableFormula.interpretFloat(sprite)));
+		return prototypeView;
 	}
 
 	@Override
@@ -181,4 +191,18 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener {
 		return copyBrick;
 	}
 
+	private void setSpinnerSelection(Context context, Spinner spinner) {
+		final UserVariableAdapter variabeAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.createUserVariableAdapter(context, sprite);
+
+		if (userVariable != null) {
+			spinner.setSelection(variabeAdapter.getPositionOfItem(userVariable), true);
+		} else {
+			if (variabeAdapter != null && variabeAdapter.getCount() > 1) {
+				spinner.setSelection(1, true);
+			} else {
+				spinner.setSelection(0, true);
+			}
+		}
+	}
 }
