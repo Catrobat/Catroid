@@ -31,7 +31,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -80,13 +79,13 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 		BrickAdapter adapter = fragment.getAdapter();
 
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
-		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
+		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 4);
 
 		int numberOfBricks = ProjectManager.getInstance().getCurrentScript().getBrickList().size();
-		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(6), 10, yPositionList.get(2), 20);
-		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks + 1) == ProjectManager
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(2), 10, yPositionList.get(5), 10);
+		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks - 1) == ProjectManager
 				.getInstance().getCurrentScript().getBrickList().size());
-		assertEquals("Incorrect Brick after dragging over Script", (Brick) adapter.getItem(7) instanceof WaitBrick,
+		assertEquals("Incorrect Brick after dragging over Script", (Brick) adapter.getItem(4) instanceof WaitBrick,
 				true);
 	}
 
@@ -101,8 +100,6 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 		Script whenScript2 = new WhenScript(firstSprite);
 
 		brickListToCheck = new ArrayList<Brick>();
-		brickListToCheck.add(new HideBrick(firstSprite));
-		brickListToCheck.add(new ShowBrick(firstSprite));
 		brickListToCheck.add(new SetSizeToBrick(firstSprite, size));
 		brickListToCheck.add(new WaitBrick(firstSprite, 100));
 

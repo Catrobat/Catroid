@@ -354,6 +354,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			unregisterForContextMenu(listView);
 			BottomBar.disableButtons(getActivity());
 			adapter.setCheckboxVisibility(View.VISIBLE);
+			adapter.setActionMode(true);
 		}
 	}
 
@@ -437,6 +438,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 			registerForContextMenu(listView);
 			BottomBar.enableButtons(getActivity());
+			adapter.setActionMode(false);
 		}
 	};
 

@@ -33,8 +33,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -58,26 +56,45 @@ public class WhenBrick extends ScriptBrick {
 	}
 
 	@Override
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		WhenBrick copyBrick = (WhenBrick) clone();
+		copyBrick.sprite = sprite;
+		copyBrick.whenScript = (WhenScript) script;
+		return copyBrick;
+	}
+
+	@Override
 	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;
 		}
+
 		view = View.inflate(context, R.layout.brick_when, null);
 
 		setCheckboxView(R.id.brick_when_checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
-				adapter.handleCheck(brickInstance, checked);
-			}
-		});
+
+		//method moved to to DragAndDropListView since it is not working on 2.x
+		/*
+		 * checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		 * 
+		 * @Override
+		 * public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		 * 
+		 * checked = isChecked;
+		 * if (!checked) {
+		 * for (Brick currentBrick : adapter.getCheckedBricks()) {
+		 * currentBrick.setCheckedBoolean(false);
+		 * }
+		 * }
+		 * adapter.handleCheck(brickInstance, checked);
+		 * }
+		 * });
+		 */
 
 		// inactive until spinner has more than one element
 		//		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_when_spinner);

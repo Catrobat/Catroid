@@ -33,10 +33,17 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.LoopBeginBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -215,6 +222,72 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			imageFile = new File(currentLookData.getAbsolutePath());
 			assertFalse("Imagefile should be deleted", imageFile.exists());
 		}
+	}
+
+	public void testCopySpriteWithNameTaken() {
+		try {
+			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("Standard Project not created");
+		}
+
+		Sprite sprite = new Sprite(solo.getString(R.string.default_project_sprites_catroid_name)
+				+ solo.getString(R.string.copy_sprite_name_suffix));
+
+		ProjectManager.getInstance().getCurrentProject().addSprite(sprite);
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
+		solo.sleep(200);
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_catroid_name));
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.copy));
+		solo.sleep(1000);
+
+		assertTrue(
+				"Copied Sprite name should habe 1 as suffix!",
+				solo.searchText((solo.getString(R.string.default_project_sprites_catroid_name)
+						+ solo.getString(R.string.copy_sprite_name_suffix) + "1")));
+	}
+
+	public void testCopySprite() {
+		UiTestUtils.createProjectForCopySprite(UiTestUtils.PROJECTNAME1, getActivity());
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		UiTestUtils.clickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
+		solo.sleep(200);
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_catroid_name));
+		solo.sleep(200);
+		assertEquals("Copy is not in context menu!", true, solo.searchText(getActivity().getString(R.string.copy)));
+		solo.clickOnText(getActivity().getString(R.string.copy));
+		solo.sleep(1000);
+
+		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
+		Sprite copiedSprite = ((Sprite) spritesList.getItemAtPosition(3));
+		Sprite firstSprite = ((Sprite) spritesList.getItemAtPosition(1));
+
+		checkNumberOfElements(firstSprite, copiedSprite);
+		checkSpecialBricks(firstSprite, copiedSprite);
+		int brickCounter = checkIds(firstSprite, copiedSprite);
+
+		solo.goBack();
+		solo.sleep(500);
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_catroid_name));
+		solo.clickOnText(getActivity().getString(R.string.delete));
+		solo.sleep(500);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(500);
+		solo.clickOnText(solo.getString(R.string.default_project_sprites_catroid_name)
+				+ solo.getString(R.string.copy_sprite_name_suffix));
+		solo.sleep(500);
+
+		assertEquals("The number of Bricks differs!", ProjectManager.getInstance().getCurrentSprite().getScript(0)
+				.getBrickList().size(), brickCounter);
 	}
 
 	public void testInvalidProject() {
@@ -1082,7 +1155,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 					viewToTest.buildDrawingCache();
 					viewBitmap = viewToTest.getDrawingCache();
-					pixel = viewBitmap.getPixel(1, 1);
+					pixel = viewBitmap.getPixel(1, viewBitmap.getHeight() / 2);
 					viewToTest.destroyDrawingCache();
 				}
 			}
@@ -1177,5 +1250,110 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			Log.e("CATROID", e.toString());
 			fail("corrupting project failed due to IOException");
 		}
+	}
+
+	private int checkNumberOfElements(Sprite firstSprite, Sprite copiedSprite) {
+
+		ArrayList<SoundInfo> copiedSoundList = copiedSprite.getSoundList();
+		ArrayList<SoundInfo> firstSoundList = firstSprite.getSoundList();
+		assertEquals("The number of sounds differs!", firstSoundList.size(), copiedSoundList.size());
+
+		ArrayList<LookData> copiedCustomeList = copiedSprite.getLookDataList();
+		ArrayList<LookData> firstCustomeList = firstSprite.getLookDataList();
+		assertEquals("The number of customes differs!", firstCustomeList.size(), copiedCustomeList.size());
+
+		assertEquals(
+				"The first sprite is NOT copied!",
+				copiedSprite.getName(),
+				solo.getString(R.string.default_project_sprites_catroid_name)
+						+ solo.getString(R.string.copy_sprite_name_suffix));
+		assertEquals("The first sprite has a new name!", firstSprite.getName(),
+				solo.getString(R.string.default_project_sprites_catroid_name));
+
+		ArrayList<Brick> brickListCopiedSprite = copiedSprite.getScript(0).getBrickList();
+		ArrayList<Brick> brickListFirstSprite = firstSprite.getScript(0).getBrickList();
+
+		assertEquals("The number of Scripts differs!", copiedSprite.getNumberOfScripts(),
+				firstSprite.getNumberOfScripts());
+		assertEquals("The number of Bricks differs!", brickListCopiedSprite.size(), brickListFirstSprite.size());
+
+		int brickCounter = 0;
+		for (Brick element : brickListCopiedSprite) {
+			assertEquals("Brick classes are different!", element.getClass(), brickListFirstSprite.get(brickCounter)
+					.getClass());
+			brickCounter++;
+		}
+		return brickCounter;
+	}
+
+	private void checkSpecialBricks(Sprite firstSprite, Sprite copiedSprite) {
+
+		assertEquals("Message of BroadcastReceiver Brick is not right!",
+				((BroadcastScript) (firstSprite.getScript(1))).getBroadcastMessage(),
+				((BroadcastScript) (copiedSprite.getScript(1))).getBroadcastMessage());
+
+		ArrayList<Brick> brickListCopiedSprite = copiedSprite.getScript(0).getBrickList();
+		ArrayList<Brick> brickListFirstSprite = firstSprite.getScript(0).getBrickList();
+
+		LoopBeginBrick firstLoopBrick = (LoopBeginBrick) brickListFirstSprite.get(32);
+		LoopBeginBrick copiedLoopBrick = (LoopBeginBrick) brickListCopiedSprite.get(32);
+		LoopEndBrick firstEndBrick = firstLoopBrick.getLoopEndBrick();
+		LoopEndBrick copiedEndBrick = copiedLoopBrick.getLoopEndBrick();
+		assertNotSame("Loop Brick is not copied right!", firstEndBrick, copiedEndBrick);
+		assertNotSame("Loop Brick is not copied right!", firstEndBrick.getLoopBeginBrick(),
+				copiedEndBrick.getLoopBeginBrick());
+		assertEquals("Loop Brick is not copied right!", firstEndBrick.getLoopBeginBrick(), firstLoopBrick);
+		assertEquals("Loop Brick is not copied right!", copiedEndBrick.getLoopBeginBrick(), copiedLoopBrick);
+		assertEquals("Loop Brick is not copied right!", firstLoopBrick.getLoopEndBrick(), firstEndBrick);
+		assertEquals("Loop Brick is not copied right!", copiedLoopBrick.getLoopEndBrick(), copiedEndBrick);
+	}
+
+	private int checkIds(Sprite firstSprite, Sprite copiedSprite) {
+
+		ArrayList<Brick> brickListCopiedSprite = copiedSprite.getScript(0).getBrickList();
+		ArrayList<Brick> brickListFirstSprite = firstSprite.getScript(0).getBrickList();
+
+		assertNotSame("Sprite is not copied!", firstSprite, copiedSprite);
+		assertNotSame("CustomDataList is not copied!", firstSprite.getLookDataList(), copiedSprite.getLookDataList());
+		assertNotSame("Script is no copied!", firstSprite.getScript(0), copiedSprite.getScript(0));
+		assertNotSame("Script is no copied!", firstSprite.getScript(1), copiedSprite.getScript(1));
+		assertNotSame("Soundlist is no copied!", firstSprite.getSoundList(), copiedSprite.getSoundList());
+
+		brickListFirstSprite = firstSprite.getScript(0).getBrickList();
+		brickListCopiedSprite = copiedSprite.getScript(0).getBrickList();
+		assertNotSame("Script is not copied!", brickListFirstSprite, brickListCopiedSprite);
+
+		int loopCounter = 0;
+		for (Brick element : brickListFirstSprite) {
+			assertNotSame("Brick is not copied!", element, brickListCopiedSprite.get(loopCounter));
+			loopCounter++;
+		}
+
+		solo.clickOnText(solo.getString(R.string.default_project_sprites_catroid_name)
+				+ solo.getString(R.string.copy_sprite_name_suffix));
+		solo.sleep(1000);
+
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Script scriptCopied = currentSprite.getScript(0);
+
+		Script scriptOriginal = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getScript(0);
+
+		scriptCopied.addBrick(new SetXBrick(currentSprite, 10));
+		assertEquals("The number of Bricks differs!", scriptCopied.getBrickList().size() - 1, scriptOriginal
+				.getBrickList().size());
+
+		scriptOriginal.addBrick(new SetXBrick(currentSprite, 10));
+		assertEquals("The number of Bricks differs!", scriptCopied.getBrickList().size(), scriptOriginal.getBrickList()
+				.size());
+
+		scriptCopied.removeBrick(scriptCopied.getBrickList().get(5));
+		assertEquals("The number of Bricks differs!", scriptCopied.getBrickList().size() + 1, scriptOriginal
+				.getBrickList().size());
+
+		scriptOriginal.removeBrick(scriptOriginal.getBrickList().get(6));
+		assertEquals("The number of Bricks differs!", scriptCopied.getBrickList().size(), scriptOriginal.getBrickList()
+				.size());
+
+		return scriptCopied.getBrickList().size();
 	}
 }

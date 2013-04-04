@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -91,6 +92,7 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		}
 
 		view = View.inflate(context, R.layout.brick_change_variable_by, null);
+		view = getViewWithAlpha(alphaValue);
 		setCheckboxView(R.id.brick_change_variable_checkbox);
 		final Brick brickInstance = this;
 
@@ -175,6 +177,13 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.changeVariable(sprite, variableFormula, userVariable));
 		return null;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		ChangeVariableBrick copyBrick = (ChangeVariableBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 }
