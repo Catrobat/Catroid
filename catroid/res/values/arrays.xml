@@ -53,6 +53,13 @@
         <item>A+C</item>
         <item>All</item>
     </string-array>
+    
+    <!-- Robot Albert motors spinner -->
+    <string-array name="robot_albert_motor_chooser">
+        <item>L</item>
+        <item>R</item>
+        <item>L+R</item>
+    </string-array>
 
     <string-array name="fancy_directions_chooser">
         <item>right (45°)</item>

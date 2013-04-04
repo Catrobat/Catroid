@@ -26,6 +26,7 @@ import org.catrobat.catroid.R;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
@@ -48,6 +49,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Log.d("!!!!!!!!!!!!!!", "onOptionsItemSelected");
 		switch (item.getItemId()) {
 			case android.R.id.home: {
 				Intent intent = new Intent(this, MainMenuActivity.class);

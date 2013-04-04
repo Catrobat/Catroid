@@ -209,8 +209,12 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	}
 
 	public void handleWebButton(View v) {
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catroid_website).toString()));
-		startActivity(browserIntent);
+		//Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catroid_website).toString()));
+		//startActivity(browserIntent);
+
+		//just for robot-testing:
+		Intent intent = new Intent(MainMenuActivity.this, AlbertControlActivity.class);
+		startActivity(intent);
 	}
 
 	public void handleUploadButton(View v) {

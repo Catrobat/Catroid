@@ -40,7 +40,7 @@
  *   		You should have received a copy of the GNU Affero General Public License
  *   		along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.LegoNXT;
+package org.catrobat.catroid.robot.albert;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ import android.util.Log;
  * Objects of this class can either be run as standalone thread or controlled
  * by the owners, i.e. calling the send/recive methods by themselves.
  */
-public abstract class LegoNXTCommunicator extends Thread {
+public abstract class RobotAlbertCommunicator extends Thread {
 	public static final int MOTOR_A = 0;
 	public static final int MOTOR_B = 1;
 	public static final int MOTOR_C = 2;
@@ -100,7 +100,7 @@ public abstract class LegoNXTCommunicator extends Thread {
 
 	protected Resources mResources;
 
-	public LegoNXTCommunicator(Handler uiHandler, Resources resources) {
+	public RobotAlbertCommunicator(Handler uiHandler, Resources resources) {
 		this.uiHandler = uiHandler;
 		this.mResources = resources;
 	}
@@ -212,37 +212,42 @@ public abstract class LegoNXTCommunicator extends Thread {
 		//		for (int i = 0; i < message.length; i++) {
 		//			Log.i("bt", " " + (0x000000FF & message[i]));
 		//		}
-		Log.d("NXT", "Why is LegoNXTCommunicator active?");
 
-		switch (message[1]) {
-
-			case LCPMessage.SET_OUTPUT_STATE:
-				//sendState(RECEIVED_MESSAGE, message);
-				analyzeMessageSetOutputState(message);
-				break;
-
-			case LCPMessage.GET_OUTPUT_STATE:
-				//sendState(RECEIVED_MESSAGE, message);
-				receivedMessages.add(message);
-				analyzeMessageGetOutputState(message);
-				break;
-			default:
-				Log.i("bt", "Unknown Message received by LegoNXTCommunicator over bluetooth " + message.length);
-				receivedMessages.add(message);
-				break;
-		}
+		/*
+		 * switch (message[1]) {
+		 * 
+		 * case LCPMessage.SET_OUTPUT_STATE:
+		 * //sendState(RECEIVED_MESSAGE, message);
+		 * analyzeMessageSetOutputState(message);
+		 * break;
+		 * 
+		 * case LCPMessage.GET_OUTPUT_STATE:
+		 * //sendState(RECEIVED_MESSAGE, message);
+		 * receivedMessages.add(message);
+		 * analyzeMessageGetOutputState(message);
+		 * break;
+		 * default:
+		 * Log.i("bt", "Unknown Message received by LegoNXTCommunicator over bluetooth " + message.length);
+		 * receivedMessages.add(message);
+		 * break;
+		 * }
+		 */
 	}
 
 	protected void analyzeMessageSetOutputState(byte[] message) {
 		//change command byte0 to DIRECT_COMMAND_REPLY to use!
-		Log.i("bt", "Direct command executed: " + (int) message[0]);
-		Log.i("bt", "executed Command was: " + (int) message[1]);
-		Log.i("bt", "Status: " + (int) message[2]);
-		Log.i("bt", "Length: " + message.length);
+		/*
+		 * Log.i("bt", "Direct command executed: " + (int) message[0]);
+		 * Log.i("bt", "executed Command was: " + (int) message[1]);
+		 * Log.i("bt", "Status: " + (int) message[2]);
+		 * Log.i("bt", "Length: " + message.length);
+		 */
 
 	}
 
 	protected void analyzeMessageGetOutputState(byte[] message) {
+
+		Log.d("!!!!", "Why are u there?");
 		//See Lego NXT Docu or LCPMessage class for info on numbers!
 		Log.i("bt", "Message Length: " + message.length);
 		Log.i("bt", "GetOutputState executed: " + (int) message[0]);
@@ -272,9 +277,11 @@ public abstract class LegoNXTCommunicator extends Thread {
 	}
 
 	protected void doBeep(int frequency, int duration) {
-		byte[] message = LCPMessage.getBeepMessage(frequency, duration);
-		sendMessageAndState(message);
-		waitSomeTime(20);
+		/*
+		 * byte[] message = LCPMessage.getBeepMessage(frequency, duration);
+		 * sendMessageAndState(message);
+		 * waitSomeTime(20);
+		 */
 	}
 
 	protected void waitSomeTime(int millis) {
@@ -293,13 +300,47 @@ public abstract class LegoNXTCommunicator extends Thread {
 	}
 
 	protected synchronized void moveMotor(int motor, int speed, int end) {
-		byte[] message = LCPMessage.getMotorMessage(motor, speed, end);
-		sendMessageAndState(message);
-		//Log.i("bto", "Motor " + motor + " speed " + speed);
+		/*
+		 * byte[] message = LCPMessage.getMotorMessage(motor, speed, end);
+		 * sendMessageAndState(message);
+		 * //Log.i("bto", "Motor " + motor + " speed " + speed);
+		 * 
+		 * if (requestConfirmFromDevice) {
+		 * byte[] test = LCPMessage.getOutputStateMessage(motor);
+		 * sendMessageAndState(test);
+		 * }
+		 */
+	}
 
-		if (requestConfirmFromDevice) {
-			byte[] test = LCPMessage.getOutputStateMessage(motor);
-			sendMessageAndState(test);
+	protected synchronized void albertMoveForward() {
+		byte[] buffer = new byte[22];
+		buffer[0] = (byte) 0xAA;
+		buffer[1] = (byte) 0x55;
+		buffer[2] = (byte) 20;
+		buffer[3] = (byte) 6;
+		buffer[4] = (byte) 0x11;
+		buffer[5] = (byte) 0;
+		buffer[6] = (byte) 0;
+		buffer[7] = (byte) 0xFF;
+		buffer[8] = (byte) 100; //Left motor
+		buffer[9] = (byte) 100; //Right motor
+		buffer[10] = (byte) 0; //Buzzer
+		buffer[11] = (byte) 0; //Left LED Red
+		buffer[12] = (byte) 0; //Left LED Green
+		buffer[13] = (byte) 0; //Left LED Blue
+		buffer[14] = (byte) 0; //Right LED Red
+		buffer[15] = (byte) 0; //Right LED Green
+		buffer[16] = (byte) 0; //Right LED Blue
+		buffer[17] = (byte) 0; //Front-LED 0...1
+		buffer[18] = (byte) 0; //Reserved
+		buffer[19] = (byte) 0; //Body-LED 0...255
+		buffer[20] = (byte) 0x0D;
+		buffer[21] = (byte) 0x0A;
+
+		try {
+			sendMessage(buffer);
+		} catch (IOException e) {
+			sendState(STATE_SENDERROR);
 		}
 	}
 
@@ -308,24 +349,34 @@ public abstract class LegoNXTCommunicator extends Thread {
 		@Override
 		public void handleMessage(Message myMessage) {
 
-			switch (myMessage.what) {
-				case TONE_COMMAND:
-					doBeep(myMessage.getData().getInt("frequency"), myMessage.getData().getInt("duration"));
-					break;
-				case DISCONNECT:
-					break;
-				default:
-					int motor;
-					int speed;
-					int angle;
-					motor = myMessage.getData().getInt("motor");
-					speed = myMessage.getData().getInt("speed");
-					angle = myMessage.getData().getInt("angle");
-					moveMotor(motor, speed, angle);
+			/*
+			 * switch (myMessage.what) {
+			 * case TONE_COMMAND:
+			 * doBeep(myMessage.getData().getInt("frequency"), myMessage.getData().getInt("duration"));
+			 * break;
+			 * case DISCONNECT:
+			 * break;
+			 * default:
+			 * 
+			 * int motor;
+			 * int speed;
+			 * int angle;
+			 * motor = myMessage.getData().getInt("motor");
+			 * speed = myMessage.getData().getInt("speed");
+			 * angle = myMessage.getData().getInt("angle");
+			 * moveMotor(motor, speed, angle);
+			 * 
+			 * Log.d("Albert", "Handler:albertMoveForward()");
+			 * albertMoveForward();
+			 * 
+			 * break;
+			 * 
+			 * }
+			 */
+			Log.d("Albert", "Handler:albertMoveForward()");
+			albertMoveForward();
 
-					break;
-
-			}
 		}
+
 	};
 }

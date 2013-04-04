@@ -45,6 +45,8 @@ package org.catrobat.catroid.bluetooth;
 import java.util.ArrayList;
 import java.util.Set;
 
+import org.catrobat.catroid.R;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -62,7 +64,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 public class DeviceListActivity extends Activity {
 	public static final String PAIRING = "pairing";
@@ -91,6 +92,9 @@ public class DeviceListActivity extends Activity {
 
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.device_list);
+
+		//TODO:
+		//Set title according to the selected Device
 		setTitle(R.string.select_device);
 
 		setResult(Activity.RESULT_CANCELED);

@@ -34,6 +34,8 @@ import org.catrobat.catroid.bluetooth.BluetoothManager;
 import org.catrobat.catroid.bluetooth.DeviceListActivity;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.robot.albert.RobotAlbert;
+import org.catrobat.catroid.robot.albert.RobotAlbertBtCommunicator;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -64,12 +66,18 @@ public class PreStageActivity extends Activity {
 
 	private boolean autoConnect = false;
 
+	private static RobotAlbert robotAlbert;
+
+	private boolean nxt_active = false;
+	private boolean robot_albert_active = false;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		int required_resources = getRequiredRessources();
 		requiredResourceCounter = Integer.bitCount(required_resources);
+		BluetoothManager bluetoothManager = null;
 
 		if ((required_resources & Brick.TEXT_TO_SPEECH) > 0) {
 			Intent checkIntent = new Intent();
@@ -77,7 +85,8 @@ public class PreStageActivity extends Activity {
 			startActivityForResult(checkIntent, REQUEST_TEXT_TO_SPEECH);
 		}
 		if ((required_resources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
-			BluetoothManager bluetoothManager = new BluetoothManager(this);
+			Log.d("LegoNXT", "LegoNXT-Brick recognized");
+			bluetoothManager = new BluetoothManager(this);
 
 			int bluetoothState = bluetoothManager.activateBluetooth();
 			if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
@@ -85,7 +94,30 @@ public class PreStageActivity extends Activity {
 				Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
 				resourceFailed();
 			} else if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
+				nxt_active = true;
+
 				if (legoNXT == null) {
+					startBluetoothCommunication(true);
+				} else {
+					resourceInitialized();
+				}
+
+			}
+		}
+		if ((required_resources & Brick.BLUETOOTH_ROBOT_ALBERT) > 0) {
+			Log.d("RobotAlbert", "Albert-Brick recognized");
+			if (bluetoothManager == null) {
+				bluetoothManager = new BluetoothManager(this);
+			}
+			int bluetoothState = bluetoothManager.activateBluetooth();
+			if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
+
+				Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
+				resourceFailed();
+			} else if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
+				robot_albert_active = true;
+
+				if (robotAlbert == null) {
 					startBluetoothCommunication(true);
 				} else {
 					resourceInitialized();
@@ -121,6 +153,9 @@ public class PreStageActivity extends Activity {
 		if (legoNXT != null) {
 			legoNXT.pauseCommunicator();
 		}
+		if (robotAlbert != null) {
+			robotAlbert.pauseCommunicator();
+		}
 	}
 
 	//all resources that should not have to be reinitialized every stage start
@@ -128,6 +163,10 @@ public class PreStageActivity extends Activity {
 		if (legoNXT != null) {
 			legoNXT.destroyCommunicator();
 			legoNXT = null;
+		}
+		if (robotAlbert != null) {
+			robotAlbert.destroyCommunicator();
+			robotAlbert = null;
 		}
 	}
 
@@ -191,10 +230,20 @@ public class PreStageActivity extends Activity {
 			case REQUEST_CONNECT_DEVICE:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
-						legoNXT = new LegoNXT(this, recieveHandler);
-						String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-						autoConnect = data.getExtras().getBoolean(DeviceListActivity.AUTO_CONNECT);
-						legoNXT.startBTCommunicator(address);
+						if (nxt_active == true) {
+							Log.d("LegoNXT", "PreStageActivity:onActivityResult: NXT recognized");
+							legoNXT = new LegoNXT(this, recieveHandler);
+							String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+							autoConnect = data.getExtras().getBoolean(DeviceListActivity.AUTO_CONNECT);
+							legoNXT.startBTCommunicator(address);
+						}
+						if (robot_albert_active == true) {
+							Log.d("RobotAlbert", "PreStageActivity:onActivityResult: Albert recognized");
+							robotAlbert = new RobotAlbert(this, recieveHandler);
+							String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+							autoConnect = data.getExtras().getBoolean(DeviceListActivity.AUTO_CONNECT);
+							robotAlbert.startBTCommunicator(address);
+						}
 						break;
 
 					case Activity.RESULT_CANCELED:
@@ -272,24 +321,52 @@ public class PreStageActivity extends Activity {
 		public void handleMessage(Message myMessage) {
 
 			Log.i("bt", "message" + myMessage.getData().getInt("message"));
-			switch (myMessage.getData().getInt("message")) {
-				case LegoNXTBtCommunicator.STATE_CONNECTED:
-					//autoConnect = false;
-					connectingProgressDialog.dismiss();
-					resourceInitialized();
-					break;
-				case LegoNXTBtCommunicator.STATE_CONNECTERROR:
-					Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_SHORT).show();
-					connectingProgressDialog.dismiss();
-					legoNXT.destroyCommunicator();
-					legoNXT = null;
-					if (autoConnect) {
-						startBluetoothCommunication(false);
-					} else {
-						resourceFailed();
-					}
-					break;
+
+			if (nxt_active == true) {
+				Log.d("LegoNXT", "recieveHandler:handleMessage: NXT recognized");
+				switch (myMessage.getData().getInt("message")) {
+					case LegoNXTBtCommunicator.STATE_CONNECTED:
+						//autoConnect = false;
+						connectingProgressDialog.dismiss();
+						resourceInitialized();
+						break;
+					case LegoNXTBtCommunicator.STATE_CONNECTERROR:
+						Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_SHORT).show();
+						connectingProgressDialog.dismiss();
+						legoNXT.destroyCommunicator();
+						legoNXT = null;
+						if (autoConnect) {
+							startBluetoothCommunication(false);
+						} else {
+							resourceFailed();
+						}
+						break;
+				}
 			}
+			if (robot_albert_active == true) {
+
+				Log.d("RobotAlbert", "recieveHandler:handleMessage: Albert recognized");
+
+				switch (myMessage.getData().getInt("message")) {
+					case RobotAlbertBtCommunicator.STATE_CONNECTED:
+						//autoConnect = false;
+						connectingProgressDialog.dismiss();
+						resourceInitialized();
+						break;
+					case RobotAlbertBtCommunicator.STATE_CONNECTERROR:
+						Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_SHORT).show();
+						connectingProgressDialog.dismiss();
+						robotAlbert.destroyCommunicator();
+						robotAlbert = null;
+						if (autoConnect) {
+							startBluetoothCommunication(false);
+						} else {
+							resourceFailed();
+						}
+						break;
+				}
+			}
+
 		}
 	};
 }

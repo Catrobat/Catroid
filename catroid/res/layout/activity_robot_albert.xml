@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_robot_albert"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/button1"
+        style="@style/MainMenuButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="forward"
+        android:text="Vorwärts" />
+
+    <Button
+        android:id="@+id/button2"
+        style="@style/MainMenuButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="stop"
+        android:text="Stop" />
+
+    <Button
+        android:id="@+id/button3"
+        style="@style/MainMenuButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="backward"
+        android:text="Rückwärts" />
+
+    <Button
+        android:id="@+id/button4"
+        style="@style/MainMenuButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="left"
+        android:text="Links" />
+
+    <Button
+        android:id="@+id/button5"
+        style="@style/MainMenuButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="right"
+        android:text="Rechts" />
+
+    <Button
+        android:id="@+id/button6"
+        style="@style/MainMenuButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="eyecolor"
+        android:text="Change eye-color" />
+
+</LinearLayout>
