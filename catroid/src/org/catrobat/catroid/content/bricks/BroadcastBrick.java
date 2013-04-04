@@ -102,6 +102,9 @@ public class BroadcastBrick extends BrickBaseType {
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 		view = View.inflate(context, R.layout.brick_broadcast, null);
 		view = getViewWithAlpha(alphaValue);
 		setCheckboxView(R.id.brick_broadcast_checkbox);

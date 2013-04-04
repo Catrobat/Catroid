@@ -62,9 +62,9 @@
 
 
     <!-- Settings activity -->
-    <string name="pref_title">Settings</string>
-    <string name="pref_enable_ms_bricks">Lego Mindstorms bricks</string>
-    <string name="pref_descr_ms_bricks">Allow to control Lego Mindstorms robots</string>
+    <string name="preference_title">Settings</string>
+    <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorms bricks</string>
+    <string name="preference_description_mindstorm_bricks">Allow to control Lego Mindstorms robots</string>
     <!--  -->
 
 
@@ -208,6 +208,8 @@
     <string name="password_forgotten">Password forgotten</string>
     <string name="new_user_registered">new account created</string>
     <string name="register_error">Error occurred</string>
+    <string name="register_terms">By registering, you agree to our</string>
+    <string name="register_catroid_terms_of_use_text">terms of use</string>
     <!--  -->
 
 
