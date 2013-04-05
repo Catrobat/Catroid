@@ -138,9 +138,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		lookData3 = new LookData();
 		lookData3.setLookFilename(imageFileJpg.getName());
 		lookData3.setLookName(THIRD_TEST_LOOK_NAME);
-		lookDataList.add(lookData3);
-
-		projectManager.getFileChecksumContainer().addChecksum(lookData3.getChecksum(), lookData3.getAbsolutePath());
 
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
 		projectManager.getCurrentProject().getXmlHeader().virtualScreenWidth = display.getWidth();
@@ -474,6 +471,10 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testPaintroidImagefileExtension() {
+		String lookDataModifiedHash = lookData3.getLookFileName();
+		lookDataModifiedHash = lookDataModifiedHash.replace('0', '1');
+		lookData3.setLookFilename(lookDataModifiedHash);
+
 		getLookFragment().setSelectedLookData(lookData3);
 
 		Bundle bundleForPaintroid = new Bundle();
@@ -484,10 +485,10 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 
-		solo.sleep(100000);
+		solo.sleep(500);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
-		//		assertTrue("Copied file does not have correct fileextension", lookData3.getLookFileName().endsWith(".png"));
+		assertTrue("Copied file does not have correct fileextension", lookData3.getLookFileName().endsWith(".png"));
 	}
 
 	public void testEditImageWithPaintroidNoChanges() {
