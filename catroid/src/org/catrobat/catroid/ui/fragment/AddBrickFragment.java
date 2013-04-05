@@ -176,7 +176,6 @@ public class AddBrickFragment extends SherlockListFragment {
 	@Override
 	public void onDestroy() {
 		resetActionBar();
-		getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
 		super.onDestroy();
 	}
 

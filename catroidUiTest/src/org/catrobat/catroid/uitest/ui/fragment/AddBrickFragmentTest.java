@@ -66,10 +66,10 @@ public class AddBrickFragmentTest extends ActivityInstrumentationTestCase2<MainM
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 
 		checkActionBarInACatagory(solo.getString(R.string.category_sound), "sound");
-		checkActionBarInACatagory(solo.getString(R.string.category_lego_nxt), "lego nxt");
 		checkActionBarInACatagory(solo.getString(R.string.category_control), "control");
 		checkActionBarInACatagory(solo.getString(R.string.category_looks), "looks");
 		checkActionBarInACatagory(solo.getString(R.string.category_motion), "motion");
+		checkActionBarInACatagory(solo.getString(R.string.category_lego_nxt), "lego nxt");
 
 	}
 
