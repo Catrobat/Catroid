@@ -84,9 +84,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testSelectLookAndPlay() {
-		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
-		solo.clickOnText(lookName);
-		assertTrue(lookName + " is not selected in Spinner", solo.searchText(lookName));
+		assertTrue(lookName + " is not selected in Spinner", solo.isSpinnerTextSelected(lookName));
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 
@@ -111,9 +109,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testSpinnerUpdatesDelete() {
-		String spinnerNothingText = solo.getString(R.string.broadcast_nothing_selected);
-
-		solo.clickOnText(spinnerNothingText);
+		solo.clickOnText(lookName);
 
 		assertTrue(lookName + " is not in Spinner", solo.searchText(lookName));
 		assertTrue(lookName2 + " is not in Spinner", solo.searchText(lookName2));
@@ -127,7 +123,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		clickOnSpinnerItem(solo.getString(R.string.category_looks), solo.getString(R.string.scripts));
 
-		solo.clickOnText(spinnerNothingText);
+		solo.clickOnText(lookName2);
 
 		assertFalse(lookName + " is still in Spinner", solo.searchText(lookName));
 		assertTrue(lookName2 + " is not in Spinner", solo.searchText(lookName2));
@@ -136,9 +132,8 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	public void testSpinnerUpdatesRename() {
 		String newName = "nameRenamed";
-		String spinnerNothingText = solo.getString(R.string.broadcast_nothing_selected);
 
-		solo.clickOnText(spinnerNothingText);
+		solo.clickOnText(lookName);
 
 		assertTrue(lookName + " is not in Spinner", solo.searchText(lookName));
 		assertTrue(lookName2 + " is not in Spinner", solo.searchText(lookName2));
@@ -156,7 +151,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		clickOnSpinnerItem(solo.getString(R.string.category_looks), solo.getString(R.string.scripts));
 
-		solo.clickOnText(spinnerNothingText);
+		solo.clickOnText(newName);
 
 		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
 		assertTrue(lookName2 + " is not in Spinner", solo.searchText(lookName2));
@@ -166,8 +161,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void testAdapterUpdateInScriptActivity() {
 		String look1ImagePath = lookDataList.get(0).getAbsolutePath();
 		String look2ImagePath = lookDataList.get(1).getAbsolutePath();
-		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
-		solo.clickOnText(lookName);
+		assertTrue(lookName + " is not selected in Spinner", solo.isSpinnerTextSelected(lookName));
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());

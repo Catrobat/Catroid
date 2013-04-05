@@ -88,7 +88,6 @@
     <string name="show_details">Show Details</string>
     <string name="hide_details">Hide Details</string>
     <string name="insert_below">Insert Below</string>
-
     <string name="edit_in_paintroid">Edit in Paintroid</string>
     <string name="sprite">Sprite</string>
     <string name="sprites">Sprites</string>
@@ -96,13 +95,12 @@
     <string name="spritelist_objects_headline">OBJECTS</string>
     <!--  -->
 
-
-
     <string name="copy_sprite_finished">copied.</string>
     <string name="copy_sprite_prefix">Sprite:</string>
     <string name="copy_sprite_name_suffix">_Copy</string>
     <!--  -->
-    
+
+
     <!-- Script activity -->
     <string name="scripts">Scripts</string>
     <string name="look">Look</string>
@@ -123,7 +121,6 @@
     <string name="select_look_from_gallery">Select image</string>
     <string name="select_look_from_camera">Select photo</string>
     <string name="look_measure">Measure:</string>
-    
 
     <!-- Sound fragment -->
     <string name="rename_sound_dialog">Rename Sound</string>
@@ -165,7 +162,8 @@
     <!-- Script context menu -->
     <string name="script_context_menu_title">Script Menu</string>
     <!--  -->
-    
+
+
     <!-- Look context menu -->
     <string name="look_context_menu_edit_in_paintroid">Edit in Paintroid</string>
     <!--  -->
@@ -238,11 +236,13 @@
     <string name="broadcast_nothing_selected">Nothing…</string>
     <!--  -->
 
-	<!-- Brick general -->
+
+    <!-- Brick general -->
     <string name="brick_single">Brick</string>
     <string name="brick_multiple">Bricks</string>
     <!--  -->
-	
+
+
     <!-- Brick categories -->
     <string name="categories">Categories</string>
     <string name="category_motion">Motion</string>
@@ -263,27 +263,35 @@
     <string name="brick_change_x_by">Change X by:</string>
     <string name="brick_change_y_by">Change Y by:</string>
     <string name="brick_go_back">Go back</string>
+
     <plurals name="brick_go_back_layer_plural">
         <item quantity="one">layer</item>
         <item quantity="other">layers</item>
     </plurals>
+
     <string name="brick_come_to_front">Go to front</string>
     <string name="brick_if_on_edge_bounce">If on edge, bounce</string>
     <string name="brick_move">Move</string>
+
     <plurals name="brick_move_n_step_plural">
         <item quantity="one">step</item>
         <item quantity="other">steps</item>
     </plurals>
+
     <string name="brick_turn_left">Turn left</string>
+
     <plurals name="brick_turn_left_degree_plural">
         <item quantity="one">degree</item>
         <item quantity="other">degrees</item>
     </plurals>
+
     <string name="brick_turn_right">Turn right</string>
+
     <plurals name="brick_turn_right_degree_plural">
         <item quantity="one">degree</item>
         <item quantity="other">degrees</item>
     </plurals>
+
     <string name="brick_point_in_direction">Point in direction</string>
     <string name="brick_point_in_direction_choose_direction">Choose direction</string>
     <string name="brick_point_to">Point towards</string>
@@ -320,24 +328,29 @@
     <string name="brick_speak_default_value">"Hello!"</string>
     <!--  -->
 
+
     <!-- Control bricks -->
     <string name="brick_when_started">When program started</string>
     <string name="brick_when">When tapped</string>
     <string name="brick_wait">Wait</string>
+
     <plurals name="second_plural">
         <item quantity="one">second</item>
         <item quantity="other">seconds</item>
     </plurals>
+
     <string name="brick_broadcast_receive">When I receive</string>
     <string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
     <string name="brick_note">Note</string>
     <string name="brick_forever">Forever</string>
     <string name="brick_repeat">Repeat</string>
+
     <plurals name="time_plural">
         <item quantity="one">time</item>
         <item quantity="other">times</item>
     </plurals>
+
     <string name="brick_loop_end">End of loop</string>
     <string name="brick_if_begin">If</string>
     <string name="brick_if_begin_second_part">is true then</string>
@@ -345,8 +358,10 @@
     <string name="brick_if_end">End If</string>
     <string name="brick_set_variable">Set variable</string>
     <string name="brick_change_variable">Change variable</string>
-    <string name="brick_note_default_value">"add comment here..."</string>
+    <string name="brick_note_default_value">"add comment here…"</string>
+    <string name="brick_broadcast_default_value">"message 1"</string>
     <!--  -->
+
 
     <!-- defaultValues -->
     <string name="default_project_name">My first project</string>

@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -38,6 +39,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -137,6 +139,10 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		assertEquals("Value in Brick PointInDirection is not correct", (float) BrickValues.POINT_IN_DIRECTION,
 				pointInDirectionPrototypeValue);
 
+		solo.searchText(solo.getString(R.string.brick_point_to));
+		Spinner pointToSpinner = (Spinner) solo.getView(R.id.brick_point_to_spinner);
+		assertEquals("Value in PointToBrick is not correct", "Dog", pointToSpinner.getSelectedItem().toString());
+
 		solo.searchText(solo.getString(R.string.brick_glide));
 		TextView glideSecondsTextView = (TextView) solo.getView(R.id.brick_glide_to_prototype_text_view_duration);
 		float glideSecondsPrototypeValue = Float.parseFloat(glideSecondsTextView.getText().toString());
@@ -174,6 +180,11 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryLooksText);
+
+		solo.searchText(solo.getString(R.string.brick_set_look));
+		Spinner setLookSpinner = (Spinner) solo.getView(R.id.brick_set_look_spinner);
+		assertEquals("Value in SetLookBrick is not correct", solo.getString(R.string.broadcast_nothing_selected),
+				setLookSpinner.getSelectedItem().toString());
 
 		TextView setSizeToTextView = (TextView) solo.getView(R.id.brick_set_size_to_prototype_text_view);
 		float setSizeToPrototypeValue = Float.parseFloat(setSizeToTextView.getText().toString());
@@ -226,6 +237,11 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categorySoundText);
 
+		solo.searchText(solo.getString(R.string.brick_play_sound));
+		Spinner playSoundSpinner = (Spinner) solo.getView(R.id.playsound_spinner);
+		assertEquals("Value in PlaySoundBrick is not correct", solo.getString(R.string.broadcast_nothing_selected),
+				playSoundSpinner.getSelectedItem().toString());
+
 		TextView setVolumeToTextView = (TextView) solo.getView(R.id.brick_set_volume_to_prototype_text_view);
 		float setVolumeToPrototypeValue = Float.parseFloat(setVolumeToTextView.getText().toString());
 		assertEquals("Value in Brick SetVolumeTo is not correct", (float) BrickValues.SET_VOLUME_TO,
@@ -275,6 +291,23 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		TextView waitSecondsTextView = (TextView) solo.getView(R.id.brick_wait_prototype_text_view);
 		float waitPrototypeValue = Float.parseFloat(waitSecondsTextView.getText().toString());
 		assertEquals("Value in Brick Wait is not correct", (float) BrickValues.WAIT / 1000, waitPrototypeValue);
+
+		solo.searchText(solo.getString(R.string.brick_broadcast_receive));
+		Spinner broadcastReceiveSpinner = (Spinner) solo.getView(R.id.brick_broadcast_receive_spinner);
+		assertEquals("Value in BroadcastReceiverBrick is not correct",
+				solo.getString(R.string.brick_broadcast_default_value), broadcastReceiveSpinner.getSelectedItem()
+						.toString());
+
+		solo.searchText(solo.getString(R.string.brick_broadcast));
+		Spinner broadcastSpinner = (Spinner) solo.getView(R.id.brick_broadcast_spinner);
+		assertEquals("Value in BroadcastBrick is not correct", solo.getString(R.string.brick_broadcast_default_value),
+				broadcastSpinner.getSelectedItem().toString());
+
+		solo.searchText(solo.getString(R.string.brick_broadcast_wait));
+		Spinner broadcastWaitSpinner = (Spinner) solo.getView(R.id.brick_broadcast_wait_spinner);
+		assertEquals("Value in BroadcastWaitBrick is not correct",
+				solo.getString(R.string.brick_broadcast_default_value), broadcastWaitSpinner.getSelectedItem()
+						.toString());
 
 		solo.searchText(solo.getString(R.string.brick_note));
 		TextView noteTextView = (TextView) solo.getView(R.id.brick_note_prototype_text_view);
@@ -339,6 +372,30 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 				nxtPlayToneEditTextValue);
 	}
 
+	@Smoke
+	public void testUserVariablesBricksDefaultValues() {
+		String categoryUserVariablesText = solo.getString(R.string.category_variables);
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.clickOnText(categoryUserVariablesText);
+
+		solo.searchText(solo.getString(R.string.brick_set_variable));
+		Spinner setVariableSpinner = (Spinner) solo.getView(R.id.set_variable_spinner);
+		assertEquals("Value in SetVariableBrick is not correct", "BrickValueParameterTestUserVariable",
+				((UserVariable) setVariableSpinner.getSelectedItem()).getName());
+
+		TextView setVariableTextView = (TextView) solo.getView(R.id.brick_set_variable_prototype_view);
+		assertEquals("Value in SetVariableBrick is not correct", "0.0", setVariableTextView.getText().toString());
+
+		solo.searchText(solo.getString(R.string.brick_change_variable));
+		Spinner changeVariableSpinner = (Spinner) solo.getView(R.id.change_variable_spinner);
+		assertEquals("Value in ChangeVariableBrick is not correct", "BrickValueParameterTestUserVariable",
+				((UserVariable) changeVariableSpinner.getSelectedItem()).getName());
+
+		TextView changeVariableTextView = (TextView) solo.getView(R.id.brick_change_variable_prototype_view);
+		assertEquals("Value in SetVariableBrick is not correct", "0.0", changeVariableTextView.getText().toString());
+	}
+
 	private void createProject() {
 		Project project = new Project(null, UiTestUtils.PROJECTNAME1);
 		Sprite sprite = new Sprite("Dog");
@@ -349,6 +406,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		sprite.addScript(script1);
 		project.addSprite(sprite);
 		project.addSprite(sprite1);
+		project.getUserVariables().addProjectUserVariable("BrickValueParameterTestUserVariable", 0.0);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
