@@ -97,10 +97,13 @@ public class MessageContainer {
 		if (messageAdapter == null) {
 			messageAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 			messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			messageAdapter.add(context.getString(R.string.broadcast_nothing_selected));
+			messageAdapter.add(context.getString(R.string.new_broadcast_message));
+			addMessage(context.getString(R.string.brick_broadcast_default_value));
 			Set<String> messageSet = receiverMap.keySet();
 			for (String message : messageSet) {
-				messageAdapter.add(message);
+				if (!message.equals(context.getString(R.string.brick_broadcast_default_value))) {
+					messageAdapter.add(message);
+				}
 			}
 		}
 		return messageAdapter;

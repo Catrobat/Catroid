@@ -169,6 +169,12 @@ public class PointToBrick extends BrickBaseType {
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.brick_point_to, null);
+		Spinner pointToSpinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
+		pointToSpinner.setFocusableInTouchMode(false);
+		pointToSpinner.setFocusable(false);
+		SpinnerAdapter pointToSpinnerAdapter = getArrayAdapterFromSpriteList(context);
+		pointToSpinner.setAdapter(pointToSpinnerAdapter);
+		setSpinnerSelection(pointToSpinner);
 		return view;
 	}
 
@@ -193,12 +199,16 @@ public class PointToBrick extends BrickBaseType {
 					((SpinnerAdapterWrapper) spinner.getAdapter()).getAdapter().getPosition(pointedObject.getName()),
 					true);
 		} else {
-			if (spinner.getAdapter().getCount() > 1) {
+			if (oldSelectedObject != null && !oldSelectedObject.equals("")) {
 				spinner.setSelection(
 						((SpinnerAdapterWrapper) spinner.getAdapter()).getAdapter().getPosition(this.oldSelectedObject),
 						true);
 			} else {
-				spinner.setSelection(0, true);
+				if (spinner.getAdapter().getCount() > 1) {
+					spinner.setSelection(1, true);
+				} else {
+					spinner.setSelection(0, true);
+				}
 			}
 		}
 	}
