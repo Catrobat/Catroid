@@ -70,6 +70,7 @@ public class AddBrickFragmentTest extends ActivityInstrumentationTestCase2<MainM
 		checkActionBarInACatagory(solo.getString(R.string.category_looks), "looks");
 		checkActionBarInACatagory(solo.getString(R.string.category_motion), "motion");
 		checkActionBarInACatagory(solo.getString(R.string.category_lego_nxt), "lego nxt");
+		checkActionBarInACatagory(solo.getString(R.string.category_variables), "variables");
 
 	}
 
