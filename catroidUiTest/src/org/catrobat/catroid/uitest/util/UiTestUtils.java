@@ -381,10 +381,24 @@ public class UiTestUtils {
 		if (!solo.waitForText(solo.getCurrentActivity().getString(categoryStringId), nThElement, 5000)) {
 			fail("Text not shown in 5 secs!");
 		}
+
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		if (!solo.waitForText(solo.getCurrentActivity().getString(brickStringId), nThElement, 5000)) {
-			fail("Text not shown in 5 secs!");
+		solo.searchText(solo.getCurrentActivity().getString(categoryStringId));
+
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+
+		//		while (!solo.waitForText(solo.getCurrentActivity().getString(brickStringId), nThElement, 5000)) {
+		//			if (!solo.scrollDownList(fragmentListView)) {
+		//				fail("Text not shown");
+		//			}
+		//		}
+
+		while (!solo.searchText(solo.getCurrentActivity().getString(brickStringId))) {
+			if (!solo.scrollDownList(fragmentListView)) {
+				fail("Text not shown");
+			}
 		}
+
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId), nThElement, true);
 		solo.sleep(500);
 	}

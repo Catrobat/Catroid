@@ -87,6 +87,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryMotionText);
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
 
 		TextView placeAtXTextView = (TextView) solo.getView(R.id.brick_place_at_prototype_text_view_x);
 		int xPositionPrototypeValue = Integer.parseInt(placeAtXTextView.getText().toString());
@@ -115,12 +116,16 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		int changeYByPrototypeValue = Integer.parseInt(changeYByTextView.getText().toString());
 		assertEquals("Value in Brick ChangeYBy is not correct", BrickValues.CHANGE_Y_BY, changeYByPrototypeValue);
 
-		solo.searchText(solo.getString(R.string.brick_move));
+		if (!solo.searchText(solo.getString(R.string.brick_move))) {
+			solo.scrollDownList(fragmentListView);
+		}
 		TextView moveNStepsTextView = (TextView) solo.getView(R.id.brick_move_n_steps_prototype_text_view);
 		float moveNStepsPrototypeValue = Float.parseFloat(moveNStepsTextView.getText().toString());
 		assertEquals("Value in Brick MoveNSteps is not correct", BrickValues.MOVE_STEPS, moveNStepsPrototypeValue);
 
-		solo.searchText(solo.getString(R.string.brick_turn_left));
+		if (!solo.searchText(solo.getString(R.string.brick_turn_left))) {
+			solo.scrollDownList(fragmentListView);
+		}
 		TextView turnLeftTextView = (TextView) solo.getView(R.id.brick_turn_left_prototype_text_view);
 		float turnLeftPrototypeValue = Float.parseFloat(turnLeftTextView.getText().toString());
 		assertEquals("Value in Brick TurnLeft is not correct", (float) BrickValues.TURN_DEGREES, turnLeftPrototypeValue);
@@ -151,6 +156,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		int glideYPrototypeValue = Integer.parseInt(glideYTextView.getText().toString());
 		assertEquals("Value in Brick GlideY is not correct", BrickValues.Y_POSITION, glideYPrototypeValue);
 
+		solo.scrollDownList(fragmentListView);
 		solo.searchText(solo.getString(R.string.brick_go_back));
 		TextView goBackTextView = (TextView) solo.getView(R.id.brick_go_back_prototype_text_view);
 		int goBackPrototypeValue = Integer.parseInt(goBackTextView.getText().toString());
@@ -175,6 +181,8 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryLooksText);
 
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+
 		TextView setSizeToTextView = (TextView) solo.getView(R.id.brick_set_size_to_prototype_text_view);
 		float setSizeToPrototypeValue = Float.parseFloat(setSizeToTextView.getText().toString());
 		assertEquals("Value in Brick SetSizeTo is not correct", (float) BrickValues.SET_SIZE_TO,
@@ -198,7 +206,9 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		assertEquals("Value in Brick SetGhostEffect is not correct", (float) BrickValues.SET_GHOST_EFFECT,
 				changeGhostEffectPrototypeValue);
 
-		solo.searchText(solo.getString(R.string.brick_set_brightness));
+		if (!solo.searchText(solo.getString(R.string.brick_set_brightness))) {
+			solo.scrollDownList(fragmentListView);
+		}
 		TextView setBrightnessTextView = (TextView) solo.getView(R.id.brick_set_brightness_prototype_text_view);
 		float setBrightnessPrototypeValue = Float.parseFloat(setBrightnessTextView.getText().toString());
 		assertEquals("Value in Brick SetBrightness is not correct", (float) BrickValues.SET_BRIGHTNESS_TO,
@@ -276,7 +286,10 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		float waitPrototypeValue = Float.parseFloat(waitSecondsTextView.getText().toString());
 		assertEquals("Value in Brick Wait is not correct", (float) BrickValues.WAIT / 1000, waitPrototypeValue);
 
-		solo.searchText(solo.getString(R.string.brick_note));
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		if (!solo.searchText(solo.getString(R.string.brick_note))) {
+			solo.scrollDownList(fragmentListView);
+		}
 		TextView noteTextView = (TextView) solo.getView(R.id.brick_note_prototype_text_view);
 		String notePrototypeValue = noteTextView.getText().toString();
 		String defaultNoteValue = solo.getString(R.string.brick_note_default_value);
