@@ -97,14 +97,6 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		super.onWindowFocusChanged(hasFocus);
-		if (hasFocus) {
-			viewSwitchLock.unlock();
-		}
-	}
-
 	private void setUpActionBar() {
 		String title;
 		Project currentProject = ProjectManager.INSTANCE.getCurrentProject();

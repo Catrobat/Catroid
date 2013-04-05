@@ -52,15 +52,15 @@ import android.view.View;
 import com.jayway.android.robotium.solo.Solo;
 
 public class DoubleClickOpensViewOnceTest extends TestSuite {
-	private static final int SOLO_WAIT_TIMEOUT = 2000;
+	private static final int SOLO_WAIT_FOR_VIEW_TIMEOUT = 2000;
 
 	public static TestSuite suite() {
 		TestSuite suite = new TestSuite(DoubleClickOpensViewOnceTest.class.getName());
-		//		suite.addTestSuite(MainMenuDoubleClickOpensViewOnceTest.class);
-		//		suite.addTestSuite(MyProjectsDoubleClickOpensViewOnceTest.class);
-		//		suite.addTestSuite(ProgramMenuActivityDoubleClickOpensViewOnceTest.class);
-		//		suite.addTestSuite(ProjectActivityDoubleClickOpensViewOnceTest.class);
-		//		suite.addTestSuite(ScriptActivityDoubleClickOpensViewOnceTest.class);
+		suite.addTestSuite(MainMenuDoubleClickOpensViewOnceTest.class);
+		suite.addTestSuite(MyProjectsDoubleClickOpensViewOnceTest.class);
+		suite.addTestSuite(ProgramMenuActivityDoubleClickOpensViewOnceTest.class);
+		suite.addTestSuite(ProjectActivityDoubleClickOpensViewOnceTest.class);
+		suite.addTestSuite(ScriptActivityDoubleClickOpensViewOnceTest.class);
 		suite.addTestSuite(ScriptFragmentDoubleClickOpensViewOnceTest.class);
 
 		return suite;
@@ -161,19 +161,19 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		private void waitForView(int id) {
-			if (!solo.waitForFragmentById(id, SOLO_WAIT_TIMEOUT)) {
+			if (!solo.waitForFragmentById(id, SOLO_WAIT_FOR_VIEW_TIMEOUT)) {
 				fail("Couldn't find opened view after clicking on button");
 			}
 		}
 
 		private void waitForView(String tag) {
-			if (!solo.waitForFragmentByTag(tag, SOLO_WAIT_TIMEOUT)) {
+			if (!solo.waitForFragmentByTag(tag, SOLO_WAIT_FOR_VIEW_TIMEOUT)) {
 				fail("Couldn't find opened view after clicking on button");
 			}
 		}
 
 		private void waitForView(View view) {
-			if (!solo.waitForView(view, SOLO_WAIT_TIMEOUT, true)) {
+			if (!solo.waitForView(view, SOLO_WAIT_FOR_VIEW_TIMEOUT, true)) {
 				fail("Didn't return to view which contains the button (" + solo.getCurrentViews() + ")");
 			}
 
@@ -296,15 +296,6 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			activity = null;
 		}
 
-		public void testProgramMenuLooksButton() {
-			checkDoubleClickOpensViewOnce(new OnClickCommand() {
-				@Override
-				public void execute() {
-					activity.handleLooksButton(null);
-				}
-			}, R.id.program_menu_button_looks, LookFragment.TAG);
-		}
-
 		public void testProgramMenuPlayButton() {
 			checkDoubleClickOpensViewOnce(new OnClickCommand() {
 				@Override
@@ -321,6 +312,15 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 					activity.handleScriptsButton(null);
 				}
 			}, R.id.program_menu_button_scripts, ScriptFragment.TAG);
+		}
+
+		public void testProgramMenuLooksButton() {
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+				@Override
+				public void execute() {
+					activity.handleLooksButton(null);
+				}
+			}, R.id.program_menu_button_looks, LookFragment.TAG);
 		}
 
 		public void testProgramMenuSoundsButton() {
@@ -388,7 +388,6 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			UiTestUtils.createTestProject();
 			ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
 			super.setUp();
-			//			UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 			activity = (ScriptActivity) solo.getCurrentActivity();
 		}
 
@@ -449,6 +448,52 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 					fragment.handleAddButton();
 				}
 			}, R.id.script_fragment_container, ScriptActivityFragment.class);
+		}
+
+		public void testBrickAdapterOnItemClick() {
+			// TODO: Test it
+		}
+
+		public void testBrickCategoryFragmentOnItemClick() {
+			// TODO: Test it
+		}
+	}
+
+	public static class LookFragmentDoubleClickOpensViewOnceTest extends
+			ActivityInstrumentationTestBase<MainMenuActivity> {
+		private LookFragment fragment;
+
+		public LookFragmentDoubleClickOpensViewOnceTest() {
+			super(MainMenuActivity.class);
+		}
+
+		@Override
+		public void setUp() throws Exception {
+			UiTestUtils.createTestProject();
+			ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
+			super.setUp();
+			UiTestUtils.getIntoLooksFromMainMenu(solo);
+			fragment = (LookFragment) Reflection.getPrivateField(solo.getCurrentActivity(), "currentFragment");
+		}
+
+		@Override
+		public void tearDown() throws Exception {
+			super.tearDown();
+			UiTestUtils.clearAllUtilTestProjects();
+			fragment = null;
+		}
+
+		public void testLookFragmentAddButton() {
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+				@Override
+				public void execute() {
+					fragment.handleAddButton();
+				}
+			}, R.id.script_fragment_container, ScriptActivityFragment.class);
+		}
+
+		public void testLookFragmentOnLookEdit() {
+			// TODO: Test it
 		}
 	}
 }

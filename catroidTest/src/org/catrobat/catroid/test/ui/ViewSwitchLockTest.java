@@ -55,6 +55,21 @@ public class ViewSwitchLockTest extends AndroidTestCase {
 		assertFalse("ViewSwitch hasn't been unlocked", (Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
 	}
 
+	public void testViewSwitchAutoUnlock() throws InterruptedException {
+		Lock viewSwitchLock = new ViewSwitchLock();
+		long timeout = (Long) Reflection.getPrivateField(ViewSwitchLock.class, "UNLOCK_TIMEOUT");
+
+		viewSwitchLock.tryLock();
+		assertTrue("ViewSwitch lock isn't locked", (Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
+		Thread.sleep(timeout + 50);
+		assertFalse("ViewSwitch lock didn't unlock automatically",
+				(Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
+	}
+
+	public void testDefaultSettings() {
+		assertEquals("Wrong default setting", 200l, Reflection.getPrivateField(ViewSwitchLock.class, "UNLOCK_TIMEOUT"));
+	}
+
 	public void testUnsupportedMethods() {
 		Lock viewSwitchLock = new ViewSwitchLock();
 

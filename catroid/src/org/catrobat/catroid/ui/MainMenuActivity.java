@@ -137,14 +137,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	}
 
 	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		super.onWindowFocusChanged(hasFocus);
-		if (hasFocus) {
-			viewSwitchLock.unlock();
-		}
-	}
-
-	@Override
 	public void onPause() {
 		super.onPause();
 		if (!Utils.externalStorageAvailable()) {

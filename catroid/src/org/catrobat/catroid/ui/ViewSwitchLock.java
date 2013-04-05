@@ -27,6 +27,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
 public class ViewSwitchLock implements Lock {
+	private final static long UNLOCK_TIMEOUT = 500;
 	private boolean locked = false;
 
 	@Override
@@ -36,6 +37,19 @@ public class ViewSwitchLock implements Lock {
 		}
 
 		locked = true;
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(UNLOCK_TIMEOUT);
+				} catch (InterruptedException interruptedException) {
+					interruptedException.printStackTrace();
+				}
+				ViewSwitchLock.this.unlock();
+			}
+		}).start();
+
 		return true;
 	}
 

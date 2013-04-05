@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.adapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -37,6 +38,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 
@@ -85,6 +87,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private int selectMode;
 	private OnBrickEditListener onBrickEditListener;
+
+	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	public int listItemCount = 0;
 
@@ -764,6 +768,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	@Override
 	public void onClick(final View view) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+
 		animatedBricks.clear();
 		final int itemPosition = calculateItemPositionAndTouchPointY(view);
 

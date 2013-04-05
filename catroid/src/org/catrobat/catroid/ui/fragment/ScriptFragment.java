@@ -325,6 +325,10 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void handleAddButton() {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+
 		if (listView.isCurrentlyDragging()) {
 			listView.animateHoveringBrick();
 			return;

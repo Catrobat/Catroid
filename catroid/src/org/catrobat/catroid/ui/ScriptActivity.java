@@ -356,14 +356,6 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		return super.onKeyDown(keyCode, event);
 	}
 
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		super.onWindowFocusChanged(hasFocus);
-		if (hasFocus) {
-			viewSwitchLock.unlock();
-		}
-	}
-
 	public void handleAddButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;

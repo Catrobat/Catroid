@@ -71,14 +71,6 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		super.onWindowFocusChanged(hasFocus);
-		if (hasFocus) {
-			viewSwitchLock.unlock();
-		}
-	}
-
-	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			SensorHandler.startSensorListener(this);

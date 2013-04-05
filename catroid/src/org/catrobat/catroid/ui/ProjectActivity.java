@@ -180,7 +180,6 @@ public class ProjectActivity extends SherlockFragmentActivity {
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 		if (hasFocus) {
-			viewSwitchLock.unlock();
 			sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_INIT));
 		}
 	}
