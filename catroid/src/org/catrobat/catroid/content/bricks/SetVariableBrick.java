@@ -113,7 +113,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener {
 		edit_text.setVisibility(View.VISIBLE);
 		edit_text.setOnClickListener(this);
 
-		Spinner variableSpinner = (Spinner) view.findViewById(R.id.variable_spinner);
+		Spinner variableSpinner = (Spinner) view.findViewById(R.id.set_variable_spinner);
 		UserVariableAdapter variabeAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.createUserVariableAdapter(context, sprite);
 		variabeAdapter.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
@@ -147,7 +147,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_set_variable, null);
-		Spinner setVariableSpinner = (Spinner) prototypeView.findViewById(R.id.variable_spinner);
+		Spinner setVariableSpinner = (Spinner) prototypeView.findViewById(R.id.set_variable_spinner);
 		setVariableSpinner.setFocusableInTouchMode(false);
 		setVariableSpinner.setFocusable(false);
 		UserVariableAdapter setVariableSpinnerAdapter = ProjectManager.getInstance().getCurrentProject()
