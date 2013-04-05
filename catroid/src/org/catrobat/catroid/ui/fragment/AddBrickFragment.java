@@ -249,7 +249,9 @@ public class AddBrickFragment extends SherlockListFragment {
 		ChangeYByNBrick changeYByNBrick = new ChangeYByNBrick(sprite, BrickValues.CHANGE_Y_BY);
 		motionBrickList.add(changeYByNBrick);
 
-		motionBrickList.add(new IfOnEdgeBounceBrick(sprite));
+		if (!isBackground(sprite)) {
+			motionBrickList.add(new IfOnEdgeBounceBrick(sprite));
+		}
 
 		MoveNStepsBrick moveNStepsBrick = new MoveNStepsBrick(sprite, BrickValues.MOVE_STEPS);
 		motionBrickList.add(moveNStepsBrick);
