@@ -29,6 +29,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -69,9 +70,10 @@ public class AddBrickFragmentTest extends ActivityInstrumentationTestCase2<MainM
 		checkActionBarInACatagory(solo.getString(R.string.category_control), "control");
 		checkActionBarInACatagory(solo.getString(R.string.category_looks), "looks");
 		checkActionBarInACatagory(solo.getString(R.string.category_motion), "motion");
-		checkActionBarInACatagory(solo.getString(R.string.category_lego_nxt), "lego nxt");
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		solo.scrollDownList(fragmentListView);
 		checkActionBarInACatagory(solo.getString(R.string.category_variables), "variables");
-
+		checkActionBarInACatagory(solo.getString(R.string.category_lego_nxt), "lego nxt");
 	}
 
 	public void testCorrectReturnToScriptFragment() {
