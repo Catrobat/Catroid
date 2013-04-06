@@ -62,9 +62,9 @@
 
 
     <!-- Settings activity -->
-    <string name="pref_title">Einstellungen</string>
-    <string name="pref_enable_ms_bricks">Lego Mindstorm Bausteine</string>
-    <string name="pref_descr_ms_bricks">Erlaube Steuerung eines Lego Mindstorm Roboters</string>
+    <string name="preference_title">Einstellungen</string>
+    <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorm Bausteine</string>
+    <string name="preference_description_mindstorm_bricks">Erlaube Steuerung eines Lego Mindstorm Roboters</string>
     <!--  -->
 
 
@@ -92,6 +92,13 @@
     <string name="sprites">Objekte</string>
     <string name="spritelist_background_headline">HINTERGRUND</string>
     <string name="spritelist_objects_headline">OBJEKTE</string>
+    <!--  -->
+
+
+    <!-- Sprite activity -->
+    <string name="copy_sprite_finished"> kopiert.</string>
+    <string name="copy_sprite_prefix">Objekt:</string>
+    <string name="copy_sprite_name_suffix">_Kopie</string>
     <!--  -->
 
 
@@ -161,8 +168,8 @@
     <!-- Script context menu -->
     <string name="script_context_menu_title">Skript Menü</string>
     <!--  -->
-    
-    
+
+
     <!-- Look context menu -->
     <string name="look_context_menu_edit_in_paintroid">Bearbeite In Paintroid</string>
     <!--  -->
@@ -181,8 +188,8 @@
     <string name="new_project_description_dialog_hint">Meine Beschreibung</string>
     <string name="new_project_name">Projektname:</string>
     <!--  -->
-    
- 
+
+
     <!-- Rename Dialog -->
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">Mein Objekt</string>
@@ -212,6 +219,8 @@
     <string name="password_forgotten">Passwort\nvergessen</string>
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>
+    <string name="register_terms">Mit der Registrierung akzeptierst du unsere</string>
+    <string name="register_catroid_terms_of_use_text">Lizenzbedingungen</string>
     <!--  -->
 
 
@@ -226,11 +235,13 @@
     <string name="new_broadcast_message">Neu…</string>
     <string name="broadcast_nothing_selected">Nichts…</string>
     <!--  -->
-	
-	<!-- Brick general -->
+
+
+    <!-- Brick general -->
     <string name="brick_single">Baustein</string>
     <string name="brick_multiple">Bausteine</string>
     <!--  -->
+
 
     <!-- Brick categories -->
     <string name="categories">Kategorien</string>
@@ -238,39 +249,49 @@
     <string name="category_looks">Aussehen</string>
     <string name="category_sound">Klang</string>
     <string name="category_control">Steuerung</string>
+    <string name="category_variables">Benutzervariablen</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <!--  -->
 
 
     <!-- Motion bricks -->
-    <string name="brick_place_at_x">Setze Position X:</string>
+    <string name="brick_place_at">Setze Position:</string>
+    <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="brick_set_x">Setze X auf:</string>
     <string name="brick_set_y">Setze Y auf:</string>
     <string name="brick_change_x_by">Ändere X um:</string>
     <string name="brick_change_y_by">Ändere Y um:</string>
     <string name="brick_go_back">Gehe</string>
+
     <plurals name="brick_go_back_layer_plural">
         <item quantity="one">Ebene nach hinten</item>
-        <item quantity="other">Ebenen nach hinte</item>
+        <item quantity="other">Ebenen nach hinten</item>
     </plurals>
+
     <string name="brick_come_to_front">Komme nach vorn</string>
     <string name="brick_if_on_edge_bounce">Pralle vom Rand ab</string>
     <string name="brick_move">Gehe</string>
+
     <plurals name="brick_move_n_step_plural">
         <item quantity="one">Schritt</item>
         <item quantity="other">Schritte</item>
     </plurals>
+
     <string name="brick_turn_left">Drehe links</string>
+
     <plurals name="brick_turn_left_degree_plural">
         <item quantity="one">Grad</item>
         <item quantity="other">Grad</item>
     </plurals>
+
     <string name="brick_turn_right">Drehe rechts</string>
+
     <plurals name="brick_turn_right_degree_plural">
         <item quantity="one">Grad</item>
         <item quantity="other">Grad</item>
     </plurals>
+
     <string name="brick_point_in_direction">Zeige in Richtung</string>
     <string name="brick_point_in_direction_choose_direction">Wähle Richtung</string>
     <string name="brick_point_to">Zeige auf</string>
@@ -312,20 +333,24 @@
     <string name="brick_when_started">Wenn Programm gestartet</string>
     <string name="brick_when">Wenn angetippt</string>
     <string name="brick_wait">Warte</string>
+
     <plurals name="second_plural">
         <item quantity="one">Sekunde</item>
         <item quantity="other">Sekunden</item>
     </plurals>
+
     <string name="brick_broadcast_receive">Wenn ich empfange:</string>
     <string name="brick_broadcast">Verschicke an alle:</string>
     <string name="brick_broadcast_wait">Verschicke und warte:</string>
     <string name="brick_note">Notiz</string>
     <string name="brick_forever">Wiederhole fortlaufend</string>
     <string name="brick_repeat">Wiederhole</string>
+
     <plurals name="time_plural">
         <item quantity="one">mal</item>
         <item quantity="other">mal</item>
     </plurals>
+
     <string name="brick_loop_end">Wiederholen beenden</string>
     <string name="brick_if_begin">Falls</string>
     <string name="brick_if_begin_second_part">wahr ist, dann</string>
@@ -333,8 +358,10 @@
     <string name="brick_if_end">sonst Ende</string>
     <string name="brick_set_variable">Setze Variable</string>
     <string name="brick_change_variable">Ändere Variable</string>
-    <string name="brick_note_default_value">"Anmerkung hier hinzufügen..." </string>
+    <string name="brick_note_default_value">"Anmerkung hier hinzufügen…" </string>
+    <string name="brick_broadcast_default_value">"Nachricht 1"</string>
     <!--  -->
+
 
     <!-- defaultValues -->
     <string name="default_project_name">Mein erstes Projekt</string>
@@ -449,9 +476,9 @@
     <string name="formula_editor_sensor_x_acceleration">x_beschleunigung</string>
     <string name="formula_editor_sensor_y_acceleration">y_beschleunigung</string>
     <string name="formula_editor_sensor_z_acceleration">z_beschleunigung</string>
-    <string name="formula_editor_sensor_z_orientation">z_orientierung</string>
-    <string name="formula_editor_sensor_x_orientation">x_orientierung</string>
-    <string name="formula_editor_sensor_y_orientation">y_orientierung</string>
+    <string name="formula_editor_sensor_compass_direction">Kompass_Richtung</string>
+    <string name="formula_editor_sensor_x_inclination">x_Neigung</string>
+    <string name="formula_editor_sensor_y_inclination">y_Neigung</string>
     <string name="formula_editor_look_x">aussehen_x</string>
     <string name="formula_editor_look_y">aussehen_y</string>
     <string name="formula_editor_look_ghosteffect">aussehen_durchsichtigkeits_effekt</string>

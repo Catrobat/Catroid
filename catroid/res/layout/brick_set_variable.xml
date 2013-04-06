@@ -20,7 +20,6 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -38,7 +37,7 @@
 
     <LinearLayout
         android:id="@+id/brick_set_variable_layout"
-        style="@style/BrickContainer.Control.Medium"
+        style="@style/BrickContainer.UserVariables.Medium"
         android:orientation="vertical" >
 
         <TextView
@@ -46,7 +45,7 @@
             android:text="@string/brick_set_variable" />
 
         <Spinner
-            android:id="@+id/variable_spinner"
+            android:id="@+id/set_variable_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="false"
@@ -68,8 +67,8 @@
             <EditText
                 android:id="@+id/brick_set_variable_edit_text"
                 style="@style/BrickEditText"
-                android:layout_width="match_parent"
                 android:inputType="number|numberDecimal|numberSigned" />
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

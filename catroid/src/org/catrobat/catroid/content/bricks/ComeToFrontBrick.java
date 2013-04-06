@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
@@ -61,6 +62,7 @@ public class ComeToFrontBrick extends BrickBaseType {
 		}
 
 		view = View.inflate(context, R.layout.brick_go_to_front, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_go_to_front_checkbox);
 		final Brick brickInstance = this;
@@ -73,6 +75,13 @@ public class ComeToFrontBrick extends BrickBaseType {
 		});
 
 		return view;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		ComeToFrontBrick copyBrick = (ComeToFrontBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override
