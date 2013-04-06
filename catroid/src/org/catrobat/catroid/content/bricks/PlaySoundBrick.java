@@ -41,6 +41,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -108,11 +109,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 			soundbrickSpinner.setOnItemSelectedListener(this);
 		}
 
-		if (sprite.getSoundList().contains(sound)) {
-			soundbrickSpinner.setSelection(sprite.getSoundList().indexOf(sound) + 1, true);
-		} else {
-			soundbrickSpinner.setSelection(0);
-		}
+		setSpinnerSelection(soundbrickSpinner);
 
 		return view;
 	}
@@ -141,7 +138,14 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_play_sound, null);
+		View prototypeView = View.inflate(context, R.layout.brick_play_sound, null);
+		Spinner playSoundSpinner = (Spinner) prototypeView.findViewById(R.id.playsound_spinner);
+		playSoundSpinner.setFocusableInTouchMode(false);
+		playSoundSpinner.setFocusable(false);
+		SpinnerAdapter playSoundSpinnerAdapter = createSoundAdapter(context);
+		playSoundSpinner.setAdapter(playSoundSpinnerAdapter);
+		setSpinnerSelection(playSoundSpinner);
+		return prototypeView;
 	}
 
 	@Override
@@ -171,5 +175,17 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.playSound(sprite, sound));
 		return null;
+	}
+
+	private void setSpinnerSelection(Spinner spinner) {
+		if (sprite.getSoundList().contains(sound)) {
+			spinner.setSelection(sprite.getSoundList().indexOf(sound) + 1, true);
+		} else {
+			if (spinner.getAdapter() != null && spinner.getAdapter().getCount() > 1) {
+				spinner.setSelection(1, true);
+			} else {
+				spinner.setSelection(0, true);
+			}
+		}
 	}
 }
