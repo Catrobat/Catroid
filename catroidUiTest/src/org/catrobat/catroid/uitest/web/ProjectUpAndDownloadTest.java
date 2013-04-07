@@ -331,6 +331,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
 		solo.waitForText(uploadButtonText);
 		solo.goBack();
+		solo.sleep(500);
 		solo.clickOnButton(uploadButtonText);
 
 		assertTrue("When uploading a project with the standard project name,  the error message should be shown",
@@ -341,6 +342,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
 		solo.waitForText(uploadButtonText);
 		solo.goBack();
+		solo.sleep(500);
 
 		while (solo.scrollUp()) {
 

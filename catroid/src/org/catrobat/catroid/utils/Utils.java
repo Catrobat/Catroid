@@ -382,11 +382,12 @@ public class Utils {
 	public static boolean isStandardProject(Project projectToCheck, Context context) {
 
 		try {
-
 			if (standardProject == null) {
-				standardProject = StandardProjectHandler.createStandardProject(
+				standardProject = StandardProjectHandler.createAndSaveStandardProject(
 						context.getString(R.string.default_project_name), context);
 			}
+
+			ProjectManager.getInstance().setProject(projectToCheck);
 
 			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
 			int start = standardProjectXMLString.indexOf("<objectList>");

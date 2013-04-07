@@ -42,6 +42,8 @@ import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -245,16 +247,16 @@ public class UtilsTest extends AndroidTestCase {
 		Script catroidScript = standardProject.getSpriteList().get(1).getScript(1);
 		ArrayList<Brick> brickList = catroidScript.getBrickList();
 		SetLookBrick setLookBrick = null;
-		//WaitBrick waitBrick = null;
+		WaitBrick waitBrick = null;
 		for (int i = 0; i < brickList.size(); i++) {
 			if (brickList.get(i) instanceof SetLookBrick) {
 				setLookBrick = (SetLookBrick) brickList.get(i);
 				break;
 			}
-			//			if (brickList.get(i) instanceof WaitBrick) {
-			//				waitBrick = (WaitBrick) brickList.get(i);
-			//				break;
-			//			}
+			if (brickList.get(i) instanceof WaitBrick) {
+				waitBrick = (WaitBrick) brickList.get(i);
+				break;
+			}
 		}
 
 		if (setLookBrick != null) {
@@ -269,19 +271,19 @@ public class UtilsTest extends AndroidTestCase {
 					Utils.isStandardProject(standardProject, getContext()));
 		}
 
-		//		if (waitBrick != null) {
-		//			Formula oldTime = waitBrick.getTimeToWait();
-		//			Formula formula = new Forumla; 
-		//			formula
-		//			waitBrick.setTimeToWait(2345);
-		//			assertFalse("Failed to recognize that the project is not standard after changing the wait brick",
-		//					Utils.projectSameAsStandardProject(standardProject, getContext()));
-		//
-		//			waitBrick.setTimeToWait(oldTime);
-		//			assertTrue("Failed to recognize the standard project",
-		//					Utils.projectSameAsStandardProject(standardProject, getContext()));
-		//
-		//		}
+		if (waitBrick != null) {
+			Formula oldTime = waitBrick.getTimeToWait();
+			Formula newTimeToWait = new Formula(2345);
+
+			waitBrick.setTimeToWait(newTimeToWait);
+			assertFalse("Failed to recognize that the project is not standard after changing the wait brick",
+					Utils.isStandardProject(standardProject, getContext()));
+
+			waitBrick.setTimeToWait(oldTime);
+			assertTrue("Failed to recognize the standard project",
+					Utils.isStandardProject(standardProject, getContext()));
+
+		}
 	}
 
 	private void removeBrickAndCompareToStandardProject() {
