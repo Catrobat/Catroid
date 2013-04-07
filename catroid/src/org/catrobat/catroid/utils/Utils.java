@@ -389,17 +389,13 @@ public class Utils {
 			}
 
 			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
-
-			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
-
 			int start = standardProjectXMLString.indexOf("<objectList>");
 			int end = standardProjectXMLString.indexOf("</objectList>");
-
 			String standardProjectSpriteList = standardProjectXMLString.substring(start, end);
 
+			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
 			start = projectToCheckXMLString.indexOf("<objectList>");
 			end = projectToCheckXMLString.indexOf("</objectList>");
-
 			String projectToCheckStringList = projectToCheckXMLString.substring(start, end);
 
 			return standardProjectSpriteList.contentEquals(projectToCheckStringList);
