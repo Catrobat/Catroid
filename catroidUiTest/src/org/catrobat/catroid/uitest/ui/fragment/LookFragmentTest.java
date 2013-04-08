@@ -472,7 +472,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	public void testPaintroidImagefileExtension() {
 		String lookDataModifiedHash = lookData3.getLookFileName();
-		lookDataModifiedHash = lookDataModifiedHash.replace('0', '1');
+		lookDataModifiedHash = "THIS_IS_A_MODIFIED_HASH_AND_HERE_ARE_SOME_DUMMIE_CHARS";
 		lookData3.setLookFilename(lookDataModifiedHash);
 
 		getLookFragment().setSelectedLookData(lookData3);
