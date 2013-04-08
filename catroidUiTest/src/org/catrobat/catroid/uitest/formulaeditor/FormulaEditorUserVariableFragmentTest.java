@@ -41,11 +41,8 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.content.res.ColorStateList;
-import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -135,7 +132,6 @@ public class FormulaEditorUserVariableFragmentTest extends
 		Script startScript1 = new StartScript(firstSprite);
 		firstSprite.addScript(startScript1);
 		startScript1.addBrick(setVariableBrick);
-
 	}
 
 	private void finishUserVariableCreationSafeButSlow(String itemString, boolean forAllSprites) {
@@ -171,7 +167,6 @@ public class FormulaEditorUserVariableFragmentTest extends
 
 			solo.clickOnButton(solo.getString(R.string.ok));
 			solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable), 0, 1000);
-
 		}
 	}
 
@@ -312,7 +307,6 @@ public class FormulaEditorUserVariableFragmentTest extends
 
 		assertTrue("Value of UserVariable not saved after stage!",
 				userVariable.getValue().compareTo(SET_USERVARIABLE_TO_BRICK_VALUE) == 0);
-
 	}
 
 	public void testCreateUserVariable() {
@@ -450,7 +444,6 @@ public class FormulaEditorUserVariableFragmentTest extends
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString);
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString2nd);
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString3rd);
-
 	}
 
 	public void testKeyCodeBackOnContextMode() {
@@ -552,7 +545,6 @@ public class FormulaEditorUserVariableFragmentTest extends
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("local");
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("global");
-
 	}
 
 	public void testCreateUserVariableDoubleName() {
@@ -585,37 +577,15 @@ public class FormulaEditorUserVariableFragmentTest extends
 
 		solo.waitForText(itemString);
 
-		Button positiveButton = solo.getButton(solo.getString(R.string.ok));
-		ColorStateList actualPositiveButtonTextColor = positiveButton.getTextColors();
-		ColorStateList expectedPositiveButtonTextColor = solo.getCurrentActivity().getResources()
-				.getColorStateList(R.color.gray);
-
-		assertEquals("Wrong PositiveButton TextColor", expectedPositiveButtonTextColor, actualPositiveButtonTextColor);
-
-		EditText userVariableNameEditText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
-		ColorDrawable cd = (ColorDrawable) userVariableNameEditText.getBackground();
-		int colorBackground = (Integer) Reflection.getPrivateField(Reflection.getPrivateField(cd, "mState"),
-				"mBaseColor");
-		int colorMustBe = solo.getCurrentActivity().getResources().getColor(R.color.solid_red);
-
-		assertEquals("Wrong BackgroundColor when UserVariableName already exists", colorMustBe, colorBackground);
-
 		solo.clearEditText(editText);
 		solo.enterText(editText, "var2");
 
 		assertTrue("Inserted variable not shown", solo.waitForText("var2"));
 
-		userVariableNameEditText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
-		cd = (ColorDrawable) userVariableNameEditText.getBackground();
-		colorBackground = (Integer) Reflection.getPrivateField(Reflection.getPrivateField(cd, "mState"), "mBaseColor");
-		colorMustBe = solo.getCurrentActivity().getResources().getColor(R.color.transparent);
-		assertEquals("Wrong BackgroundColor", colorMustBe, colorBackground);
-
 		finishUserVariableCreationSafeButSlow("var2", true);
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var1");
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var2");
-
 	}
 
 	public void testVisibilityOfMenuItems() {
@@ -635,7 +605,6 @@ public class FormulaEditorUserVariableFragmentTest extends
 		assertTrue("MenuItem should not be found!", solo.getView(R.id.edit_in_paintroid) == null);
 		assertTrue("MenuItem should not be found!", solo.getView(R.id.show_details) == null);
 		assertTrue("MenuItem should not be found!", solo.getView(R.id.settings) == null);
-
 	}
 
 	public void testEmptyUserVariableCreation() {
@@ -653,16 +622,15 @@ public class FormulaEditorUserVariableFragmentTest extends
 
 		solo.enterText(editText, "");
 		Button ok = solo.getButton(solo.getString(R.string.ok));
-		assertFalse("Ok-Button should not be clickable!", ok.isClickable());
+		assertFalse("Ok-Button should not be clickable!", ok.isEnabled());
 
 		solo.enterText(editText, "easy");
 		ok = solo.getButton(solo.getString(R.string.ok));
-		assertTrue("Ok-Button should be clickable!", ok.isClickable());
+		assertTrue("Ok-Button should be clickable!", ok.isEnabled());
 
 		solo.enterText(editText, "");
 		ok = solo.getButton(solo.getString(R.string.ok));
-		assertFalse("Ok-Button should not be clickable!", ok.isClickable());
-
+		assertFalse("Ok-Button should not be clickable!", ok.isEnabled());
 	}
 
 	private ListView getVariableListView() {
