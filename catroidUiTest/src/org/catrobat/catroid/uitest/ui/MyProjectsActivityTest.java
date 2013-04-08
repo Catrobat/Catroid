@@ -1325,7 +1325,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			View viewToTest = currentViews.get(i);
 			currentViewID = viewToTest.getId();
 			if (currentViewID == imageViewID) { // Only stop at Image View...
-				TextView textView = (TextView) currentViews.get(i + 1);
+				TextView textView = (TextView) currentViews.get(i + 2);
 				if (textView.getText().equals(UiTestUtils.DEFAULT_TEST_PROJECT_NAME)) { // ...and check if it belongs to the test project
 
 					viewToTest.buildDrawingCache();
