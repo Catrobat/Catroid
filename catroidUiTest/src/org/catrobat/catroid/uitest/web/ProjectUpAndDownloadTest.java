@@ -479,8 +479,6 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		intent.setAction(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse(downloadUrl));
 		solo.goBack();
-		solo.goBack();
-		solo.goBack();
 		launchActivityWithIntent("org.catrobat.catroid", MainMenuActivity.class, intent);
 		solo.sleep(500);
 		assertTrue("OverwriteRenameDialog not shown.", solo.searchText(solo.getString(R.string.overwrite_text)));
