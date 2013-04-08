@@ -39,6 +39,7 @@ import android.widget.ArrayAdapter;
 public class MessageContainer {
 
 	private static TreeMap<String, Vector<BroadcastScript>> receiverMap = new TreeMap<String, Vector<BroadcastScript>>();
+	private static TreeMap<String, Vector<BroadcastScript>> backupReceiverMap = null;
 	private static ArrayAdapter<String> messageAdapter = null;
 
 	public static void clear() {
@@ -47,6 +48,27 @@ public class MessageContainer {
 			messageAdapter.clear();
 			messageAdapter = null;
 		}
+	}
+
+	public static void createBackup() {
+		backupReceiverMap = receiverMap;
+		receiverMap = new TreeMap<String, Vector<BroadcastScript>>();
+	}
+
+	public static void clearBackup() {
+		if (backupReceiverMap != null) {
+			backupReceiverMap.clear();
+			backupReceiverMap = null;
+		}
+		if (messageAdapter != null) {
+			messageAdapter.clear();
+			messageAdapter = null;
+		}
+	}
+
+	public static void restoreBackup() {
+		receiverMap = backupReceiverMap;
+		backupReceiverMap = null;
 	}
 
 	public static void addMessage(String message) {
@@ -87,20 +109,23 @@ public class MessageContainer {
 		return receiverMap.keySet();
 	}
 
-	private static synchronized void addMessageToAdapter(String message) {
+	private static void addMessageToAdapter(String message) {
 		if (messageAdapter != null) {
 			messageAdapter.add(message);
 		}
 	}
 
-	public static synchronized ArrayAdapter<String> getMessageAdapter(Context context) {
+	public static ArrayAdapter<String> getMessageAdapter(Context context) {
 		if (messageAdapter == null) {
 			messageAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 			messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			messageAdapter.add(context.getString(R.string.broadcast_nothing_selected));
+			messageAdapter.add(context.getString(R.string.new_broadcast_message));
+			addMessage(context.getString(R.string.brick_broadcast_default_value));
 			Set<String> messageSet = receiverMap.keySet();
 			for (String message : messageSet) {
-				messageAdapter.add(message);
+				if (!message.equals(context.getString(R.string.brick_broadcast_default_value))) {
+					messageAdapter.add(message);
+				}
 			}
 		}
 		return messageAdapter;

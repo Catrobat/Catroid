@@ -41,6 +41,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -129,11 +130,7 @@ public class SetLookBrick extends BrickBaseType {
 			}
 		});
 
-		if (sprite.getLookDataList().contains(look)) {
-			lookbrickSpinner.setSelection(sprite.getLookDataList().indexOf(look) + 1, true);
-		} else {
-			lookbrickSpinner.setSelection(0);
-		}
+		setSpinnerSelection(lookbrickSpinner);
 
 		if (sprite.getName().equals(context.getString(R.string.background))) {
 			TextView textView = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
@@ -171,6 +168,12 @@ public class SetLookBrick extends BrickBaseType {
 			TextView textView = (TextView) prototypeView.findViewById(R.id.brick_set_look_prototype_text_view);
 			textView.setText(R.string.brick_set_background);
 		}
+		Spinner setLookSpinner = (Spinner) prototypeView.findViewById(R.id.brick_set_look_spinner);
+		setLookSpinner.setFocusableInTouchMode(false);
+		setLookSpinner.setFocusable(false);
+		SpinnerAdapter setLookSpinnerAdapter = createLookAdapter(context);
+		setLookSpinner.setAdapter(setLookSpinnerAdapter);
+		setSpinnerSelection(setLookSpinner);
 		return prototypeView;
 	}
 
@@ -189,5 +192,17 @@ public class SetLookBrick extends BrickBaseType {
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.setLook(sprite, look));
 		return null;
+	}
+
+	private void setSpinnerSelection(Spinner spinner) {
+		if (sprite.getLookDataList().contains(look)) {
+			spinner.setSelection(sprite.getLookDataList().indexOf(look) + 1, true);
+		} else {
+			if (spinner.getAdapter() != null && spinner.getAdapter().getCount() > 1) {
+				spinner.setSelection(1, true);
+			} else {
+				spinner.setSelection(0);
+			}
+		}
 	}
 }

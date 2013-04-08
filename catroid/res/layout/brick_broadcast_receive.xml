@@ -39,33 +39,18 @@
         android:id="@+id/brick_broadcast_receive_layout"
         style="@style/BrickContainer.Script.Medium"
         android:orientation="vertical" >
-        
+
         <TextView
             style="@style/BrickText.SingleLine"
             android:paddingTop="25dp"
             android:text="@string/brick_broadcast_receive" />
 
-        <LinearLayout
+        <Spinner
+            android:id="@+id/brick_broadcast_receive_spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" 
-            >
-
-            <Spinner
-                android:id="@+id/brick_broadcast_receive_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false" />
-
-            <Button
-                android:id="@+id/brick_broadcast_receive_button_new_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="false"
-                android:focusable="false"
-                android:text="@string/new_broadcast_message" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false" />
     </LinearLayout>
 
 </LinearLayout>

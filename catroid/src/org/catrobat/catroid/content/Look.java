@@ -55,6 +55,7 @@ public class Look extends Image {
 	private HashMap<String, ArrayList<SequenceAction>> broadcastSequenceMap;
 	private HashMap<String, ArrayList<SequenceAction>> broadcastWaitSequenceMap;
 	private ParallelAction whenParallelAction;
+	private ArrayList<Action> actionsToRestart;
 	private boolean allActionAreFinished = false;
 
 	public Look(Sprite sprite) {
@@ -70,6 +71,7 @@ public class Look extends Image {
 		this.whenParallelAction = null;
 		this.broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
 		this.broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
+		this.actionsToRestart = new ArrayList<Action>();
 		this.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -167,7 +169,7 @@ public class Look extends Image {
 				if (action.getActor() == null) {
 					addAction(action);
 				} else {
-					action.restart();
+					actionsToRestart.add(action);
 				}
 			}
 		}
@@ -190,7 +192,7 @@ public class Look extends Image {
 				Array<Action> actions = action.getActions();
 				BroadcastNotifyAction notifyAction = (BroadcastNotifyAction) actions.get(actions.size - 1);
 				notifyAction.setEvent(event);
-				action.restart();
+				actionsToRestart.add(action);
 			}
 		}
 	}
@@ -209,6 +211,10 @@ public class Look extends Image {
 		allActionAreFinished = false;
 		int finishedCount = 0;
 		for (int i = 0, n = actions.size; i < n; i++) {
+			for (Action actionToRestart : actionsToRestart) {
+				actionToRestart.restart();
+				actionsToRestart.remove(actionToRestart);
+			}
 			Action action = actions.get(i);
 			if (action.act(delta)) {
 				finishedCount++;
