@@ -420,7 +420,7 @@ public class FormulaEditorUserVariableFragmentTest extends
 		assertTrue("Add Variable Dialog not shown", solo.waitForText("Variable name ?"));
 		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		solo.enterText(editText, itemString3rd);
-		solo.clickOnView(solo.getView(R.id.dialog_formula_editor_variable_name_radio_button_right));
+		solo.clickOnView(solo.getView(R.id.dialog_formula_editor_variable_name_local_variable_radio_button));
 		finishUserVariableCreationSafeButSlow(itemString3rd, true);
 
 		solo.clickOnView(solo.getView(R.id.delete));
@@ -473,7 +473,7 @@ public class FormulaEditorUserVariableFragmentTest extends
 		assertTrue("Add Variable Dialog not shown", solo.waitForText("Variable name ?"));
 		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		solo.enterText(editText, itemString3rd);
-		solo.clickOnView(solo.getView(R.id.dialog_formula_editor_variable_name_radio_button_right));
+		solo.clickOnView(solo.getView(R.id.dialog_formula_editor_variable_name_local_variable_radio_button));
 		finishUserVariableCreationSafeButSlow(itemString3rd, true);
 
 		solo.clickOnView(solo.getView(R.id.delete));
