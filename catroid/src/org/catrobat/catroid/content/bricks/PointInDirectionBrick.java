@@ -67,18 +67,6 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 		}
 	}
 
-	/*
-	 * protected Object readResolve() {
-	 * for (Direction direction : Direction.values()) {
-	 * if (Math.abs(direction.getDegrees() - degrees) < 0.1) {
-	 * this.direction = direction;
-	 * break;
-	 * }
-	 * }
-	 * return this;
-	 * }
-	 */
-
 	public PointInDirectionBrick() {
 
 	}
