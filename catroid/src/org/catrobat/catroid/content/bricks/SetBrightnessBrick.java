@@ -70,11 +70,6 @@ public class SetBrightnessBrick extends BrickBaseType implements OnClickListener
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		SetBrightnessBrick copyBrick = (SetBrightnessBrick) clone();
 		copyBrick.sprite = sprite;

@@ -79,11 +79,6 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;

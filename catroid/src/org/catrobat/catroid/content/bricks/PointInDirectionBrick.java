@@ -110,11 +110,6 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		PointInDirectionBrick copyBrick = (PointInDirectionBrick) clone();
 		copyBrick.sprite = sprite;

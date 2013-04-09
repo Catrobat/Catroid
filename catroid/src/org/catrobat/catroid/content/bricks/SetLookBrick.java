@@ -64,11 +64,6 @@ public class SetLookBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		SetLookBrick copyBrick = (SetLookBrick) clone();
 		copyBrick.sprite = sprite;

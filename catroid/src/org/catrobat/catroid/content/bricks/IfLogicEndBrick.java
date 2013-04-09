@@ -63,11 +63,6 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;
