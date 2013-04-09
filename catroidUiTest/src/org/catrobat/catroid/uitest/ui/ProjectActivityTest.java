@@ -139,7 +139,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(1000);
 
 		assertTrue(
-				"Copied Sprite name should habe 1 as suffix!",
+				"Copied Sprite name should have 1 as suffix!",
 				solo.searchText((solo.getString(R.string.default_project_sprites_catroid_name)
 						+ solo.getString(R.string.copy_sprite_name_suffix) + "1")));
 	}
