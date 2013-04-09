@@ -78,6 +78,7 @@ public class Look extends Image {
 				return doTouchDown(x, y, pointer);
 			}
 		});
+
 		this.addListener(new BroadcastListener() {
 			@Override
 			public void handleBroadcastEvent(BroadcastEvent event, String broadcastMessage) {
