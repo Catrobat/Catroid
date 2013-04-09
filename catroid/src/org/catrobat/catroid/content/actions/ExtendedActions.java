@@ -218,7 +218,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static PointInDirectionAction pointInDirection(Sprite sprite, float degrees) {
+	public static PointInDirectionAction pointInDirection(Sprite sprite, Formula degrees) {
 		PointInDirectionAction action = action(PointInDirectionAction.class);
 		action.setSprite(sprite);
 		action.setDegrees(degrees);
