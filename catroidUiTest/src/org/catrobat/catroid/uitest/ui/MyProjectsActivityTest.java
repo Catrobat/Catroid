@@ -749,6 +749,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void testCancelRenameActionMode() {
+		String rename = solo.getString(R.string.rename);
 		String cancel = solo.getString(R.string.cancel_button);
 		String ok = solo.getString(R.string.ok);
 		createProjects();
@@ -757,7 +758,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
-		UiTestUtils.clickOnActionBar(solo, R.id.rename);
+		UiTestUtils.openActionMode(solo, rename, R.id.rename);
 
 		solo.clickOnCheckBox(0);
 
