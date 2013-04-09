@@ -469,12 +469,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 					getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 		}
 
-		UiTestUtils.saveFileToProject(cacheProjectName + 24, "screenshot.png", IMAGE_RESOURCE_2, getInstrumentation()
-				.getContext(), UiTestUtils.FileTypes.ROOT);
-		ProjectManager.getInstance().setProject(firstCacheTestProject);
-		UiTestUtils.saveFileToProject(cacheProjectName + 26, "screenshot.png", IMAGE_RESOURCE_3, getInstrumentation()
-				.getContext(), UiTestUtils.FileTypes.ROOT);
-
 		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "before sleep");
 		solo.sleep(100);
 		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "after sleep");
@@ -482,6 +476,49 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "after intent");
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "activity visible");
+
+		ArrayList<ListView> listViews = solo.getCurrentListViews();
+		while (solo.getCurrentListViews().size() == 0) {
+			solo.sleep(100);
+			listViews = solo.getCurrentListViews();
+		}
+
+		ListView projectList = listViews.get(0);
+
+		ArrayList<TextView> textViews = solo.getCurrentTextViews(projectList);
+		String firstCacheProjectName = "";
+		String secondCacheProjectName = "";
+
+		int projectTitleCounter = 0;
+		for (TextView textView : textViews) {
+			if (projectTitleCounter == 2) {
+				break;
+			}
+			if (textView.getId() == R.id.my_projects_activity_project_title) {
+				projectTitleCounter++;
+				switch (projectTitleCounter) {
+					case 1:
+						firstCacheProjectName = textView.getText().toString();
+						break;
+
+					case 2:
+						secondCacheProjectName = textView.getText().toString();
+						break;
+				}
+			}
+		}
+
+		UiTestUtils.saveFileToProject(firstCacheProjectName, "screenshot.png", IMAGE_RESOURCE_2, getInstrumentation()
+				.getContext(), UiTestUtils.FileTypes.ROOT);
+		ProjectManager.getInstance().setProject(firstCacheTestProject);
+		UiTestUtils.saveFileToProject(secondCacheProjectName, "screenshot.png", IMAGE_RESOURCE_3, getInstrumentation()
+				.getContext(), UiTestUtils.FileTypes.ROOT);
+
+		//leave and reenter MyProjectsActivity 
+		solo.goBack();
+		solo.sleep(100);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 
 		solo.scrollToBottom();
 		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "scroll bottom");
