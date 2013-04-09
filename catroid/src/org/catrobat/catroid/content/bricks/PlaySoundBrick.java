@@ -29,10 +29,15 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.ui.ScriptActivity;
 
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -49,9 +54,11 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 	private static final long serialVersionUID = 1L;
 
 	private SoundInfo sound;
+	private transient SoundInfo oldSelectedSound;
 
 	public PlaySoundBrick(Sprite sprite) {
 		this.sprite = sprite;
+		this.oldSelectedSound = null;
 	}
 
 	public PlaySoundBrick() {
@@ -95,8 +102,8 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 			}
 		});
 
-		Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
-		soundbrickSpinner.setAdapter(createSoundAdapter(context));
+		final Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
+
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			soundbrickSpinner.setClickable(true);
 			soundbrickSpinner.setEnabled(true);
@@ -108,6 +115,13 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			soundbrickSpinner.setOnItemSelectedListener(this);
 		}
+
+		final ArrayAdapter<SoundInfo> spinnerAdapter = createSoundAdapter(context);
+
+		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, soundbrickSpinner,
+				spinnerAdapter);
+
+		soundbrickSpinner.setAdapter(spinnerAdapterWrapper);
 
 		setSpinnerSelection(soundbrickSpinner);
 
@@ -123,12 +137,12 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		return view;
 	}
 
-	private ArrayAdapter<?> createSoundAdapter(Context context) {
+	private ArrayAdapter<SoundInfo> createSoundAdapter(Context context) {
 		ArrayAdapter<SoundInfo> arrayAdapter = new ArrayAdapter<SoundInfo>(context,
 				android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		SoundInfo dummySoundInfo = new SoundInfo();
-		dummySoundInfo.setTitle(context.getString(R.string.broadcast_nothing_selected));
+		dummySoundInfo.setTitle(context.getString(R.string.new_broadcast_message));
 		arrayAdapter.add(dummySoundInfo);
 		for (SoundInfo soundInfo : sprite.getSoundList()) {
 			arrayAdapter.add(soundInfo);
@@ -164,6 +178,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 			sound = null;
 		} else {
 			sound = (SoundInfo) parent.getItemAtPosition(position);
+			oldSelectedSound = sound;
 		}
 	}
 
@@ -179,13 +194,113 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 
 	private void setSpinnerSelection(Spinner spinner) {
 		if (sprite.getSoundList().contains(sound)) {
+			oldSelectedSound = sound;
 			spinner.setSelection(sprite.getSoundList().indexOf(sound) + 1, true);
 		} else {
 			if (spinner.getAdapter() != null && spinner.getAdapter().getCount() > 1) {
-				spinner.setSelection(1, true);
+				spinner.setSelection(sprite.getSoundList().indexOf(oldSelectedSound) + 1, true);
 			} else {
 				spinner.setSelection(0, true);
 			}
+		}
+	}
+
+	private class SpinnerAdapterWrapper implements SpinnerAdapter {
+
+		protected Context context;
+		protected Spinner spinner;
+		protected ArrayAdapter<SoundInfo> spinnerAdapter;
+
+		private boolean isTouchInDropDownView;
+
+		public SpinnerAdapterWrapper(Context context, Spinner spinner, ArrayAdapter<SoundInfo> spinnerAdapter) {
+			this.context = context;
+			this.spinner = spinner;
+			this.spinnerAdapter = spinnerAdapter;
+
+			this.isTouchInDropDownView = false;
+		}
+
+		@Override
+		public void registerDataSetObserver(DataSetObserver paramDataSetObserver) {
+			spinnerAdapter.registerDataSetObserver(paramDataSetObserver);
+		}
+
+		@Override
+		public void unregisterDataSetObserver(DataSetObserver paramDataSetObserver) {
+			spinnerAdapter.unregisterDataSetObserver(paramDataSetObserver);
+		}
+
+		@Override
+		public int getCount() {
+			return spinnerAdapter.getCount();
+		}
+
+		@Override
+		public Object getItem(int paramInt) {
+			return spinnerAdapter.getItem(paramInt);
+		}
+
+		@Override
+		public long getItemId(int paramInt) {
+			SoundInfo currentSound = spinnerAdapter.getItem(paramInt);
+			if (!currentSound.getTitle().equals(context.getString(R.string.new_broadcast_message))) {
+				oldSelectedSound = currentSound;
+			}
+			return spinnerAdapter.getItemId(paramInt);
+		}
+
+		@Override
+		public boolean hasStableIds() {
+			return spinnerAdapter.hasStableIds();
+		}
+
+		@Override
+		public View getView(int paramInt, View paramView, ViewGroup paramViewGroup) {
+			if (isTouchInDropDownView) {
+				isTouchInDropDownView = false;
+				if (paramInt == 0) {
+					switchToSoundFragmentFromScriptFragment();
+				}
+			}
+			return spinnerAdapter.getView(paramInt, paramView, paramViewGroup);
+		}
+
+		@Override
+		public int getItemViewType(int paramInt) {
+			return spinnerAdapter.getItemViewType(paramInt);
+		}
+
+		@Override
+		public int getViewTypeCount() {
+			return spinnerAdapter.getViewTypeCount();
+		}
+
+		@Override
+		public boolean isEmpty() {
+			return spinnerAdapter.isEmpty();
+		}
+
+		@Override
+		public View getDropDownView(int paramInt, View paramView, ViewGroup paramViewGroup) {
+			View dropDownView = spinnerAdapter.getDropDownView(paramInt, paramView, paramViewGroup);
+
+			dropDownView.setOnTouchListener(new OnTouchListener() {
+				@Override
+				public boolean onTouch(View paramView, MotionEvent paramMotionEvent) {
+					isTouchInDropDownView = true;
+					return false;
+				}
+			});
+
+			return dropDownView;
+		}
+
+		private void switchToSoundFragmentFromScriptFragment() {
+			ScriptActivity activity = ((ScriptActivity) context);
+			activity.switchToFragmentFromScriptFragment(ScriptActivity.FRAGMENT_SOUNDS);
+
+			setSpinnerSelection(spinner);
 		}
 	}
 }

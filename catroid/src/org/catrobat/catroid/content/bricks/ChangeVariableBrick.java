@@ -113,10 +113,10 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		edit_text.setOnClickListener(this);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
-		UserVariableAdapter variabeAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		UserVariableAdapter variableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.createUserVariableAdapter(context, sprite);
-		variabeAdapter.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
-		variableSpinner.setAdapter(variabeAdapter);
+		variableAdapter.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
+		variableSpinner.setAdapter(variableAdapter);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			variableSpinner.setClickable(true);
@@ -197,13 +197,13 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 	}
 
 	private void setSpinnerSelection(Context context, Spinner spinner) {
-		final UserVariableAdapter variabeAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		final UserVariableAdapter variableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.createUserVariableAdapter(context, sprite);
 
 		if (userVariable != null) {
-			spinner.setSelection(variabeAdapter.getPositionOfItem(userVariable), true);
+			spinner.setSelection(variableAdapter.getPositionOfItem(userVariable), true);
 		} else {
-			if (variabeAdapter != null && variabeAdapter.getCount() > 1) {
+			if (variableAdapter != null && variableAdapter.getCount() > 1) {
 				spinner.setSelection(1, true);
 			} else {
 				spinner.setSelection(0, true);
