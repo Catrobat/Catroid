@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -91,6 +92,7 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		}
 
 		view = View.inflate(context, R.layout.brick_change_variable_by, null);
+		view = getViewWithAlpha(alphaValue);
 		setCheckboxView(R.id.brick_change_variable_checkbox);
 		final Brick brickInstance = this;
 
@@ -110,7 +112,7 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		edit_text.setVisibility(View.VISIBLE);
 		edit_text.setOnClickListener(this);
 
-		Spinner variableSpinner = (Spinner) view.findViewById(R.id.variable_spinner);
+		Spinner variableSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
 		UserVariableAdapter variabeAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.createUserVariableAdapter(context, sprite);
 		variabeAdapter.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
@@ -124,9 +126,7 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 			variableSpinner.setFocusable(false);
 		}
 
-		if (userVariable != null) {
-			variableSpinner.setSelection(variabeAdapter.getPositionOfItem(userVariable));
-		}
+		setSpinnerSelection(context, variableSpinner);
 
 		variableSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
@@ -145,7 +145,19 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_variable_by, null);
+		View prototypeView = View.inflate(context, R.layout.brick_change_variable_by, null);
+		Spinner changeVariableSpinner = (Spinner) prototypeView.findViewById(R.id.change_variable_spinner);
+		changeVariableSpinner.setFocusableInTouchMode(false);
+		changeVariableSpinner.setFocusable(false);
+		UserVariableAdapter changeVariableSpinnerAdapter = ProjectManager.getInstance().getCurrentProject()
+				.getUserVariables().createUserVariableAdapter(context, sprite);
+		changeVariableSpinnerAdapter.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
+		changeVariableSpinner.setAdapter(changeVariableSpinnerAdapter);
+		setSpinnerSelection(context, changeVariableSpinner);
+
+		TextView textChangeVariable = (TextView) prototypeView.findViewById(R.id.brick_change_variable_prototype_view);
+		textChangeVariable.setText(String.valueOf(variableFormula.interpretFloat(sprite)));
+		return prototypeView;
 	}
 
 	@Override
@@ -177,4 +189,25 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		return null;
 	}
 
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		ChangeVariableBrick copyBrick = (ChangeVariableBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
+	}
+
+	private void setSpinnerSelection(Context context, Spinner spinner) {
+		final UserVariableAdapter variabeAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.createUserVariableAdapter(context, sprite);
+
+		if (userVariable != null) {
+			spinner.setSelection(variabeAdapter.getPositionOfItem(userVariable), true);
+		} else {
+			if (variabeAdapter != null && variabeAdapter.getCount() > 1) {
+				spinner.setSelection(1, true);
+			} else {
+				spinner.setSelection(0, true);
+			}
+		}
+	}
 }

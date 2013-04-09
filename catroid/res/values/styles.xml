@@ -64,12 +64,6 @@
         <item name="android:windowAnimationStyle">@style/slide_up_dialog_animation</item>
     </style>
 
-    <style name="settings_activity" parent="Theme.Sherlock.Light.DarkActionBar">
-        <item name="actionBarStyle">@style/Widget.Catroid.ActionBar</item>
-        <item name="android:actionBarStyle">@style/Widget.Catroid.ActionBar</item>
-        <item name="android:windowBackground">@android:color/white</item>
-    </style>
-
     <style name="slide_left_dialog_animation">
         <item name="android:windowEnterAnimation">@anim/slide_in</item>
         <item name="android:windowExitAnimation">@anim/slide_out</item>
@@ -127,11 +121,10 @@
         <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:paddingLeft">50dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
     </style>
 
     <style name="BrickText.SingleLine">
-        <item name="android:layout_gravity">center_vertical</item>
     </style>
 
     <style name="BrickPrototypeTextView" parent="android:style/Widget.EditText">
@@ -150,6 +143,7 @@
     <style name="BrickEditText" parent="@style/BrickPrototypeTextView">
         <item name="android:maxLines">1</item>
         <item name="android:visibility">gone</item>
+        
     </style>
 
     <style name="BrickContainer">
@@ -207,6 +201,40 @@
         <item name="android:minHeight">@dimen/brick_height_big</item>
         <item name="android:background">@drawable/brick_green_3h</item>
     </style>
+    
+    <style name="BrickContainer.UserVariables"></style>
+
+    <style name="BrickContainer.UserVariables.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_red_1h</item>
+    </style>
+
+    <style name="BrickContainer.UserVariables.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_red_2h</item>
+    </style>
+
+    <style name="BrickContainer.UserVariables.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_red_3h</item>
+    </style>
+    
+    <style name="BrickContainer.Lego"></style>
+
+    <style name="BrickContainer.Lego.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_cyan_1h</item>
+    </style>
+
+    <style name="BrickContainer.Lego.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_cyan_2h</item>
+    </style>
+
+    <style name="BrickContainer.Lego.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_cyan_3h</item>
+    </style>
 
     <style name="BrickContainer.Control"></style>
 
@@ -217,13 +245,11 @@
 
     <style name="BrickContainer.Control.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:gravity">center_vertical</item>
         <item name="android:background">@drawable/brick_orange_2h</item>
     </style>
 
     <style name="BrickContainer.Control.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:gravity">center_vertical</item>
         <item name="android:background">@drawable/brick_orange_3h</item>
     </style>
 
@@ -231,12 +257,12 @@
 
     <style name="BrickContainer.Script.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_control</item>
+        <item name="android:background">@drawable/brick_control_1h</item>
     </style>
 
     <style name="BrickContainer.Script.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_control</item>
+        <item name="android:background">@drawable/brick_control_2h</item>
     </style>
 
     <style name="brick_new">
@@ -335,4 +361,5 @@
         <item name="android:background">@drawable/brick_selection_background_variables</item>
         <item name="android:drawableRight">@drawable/main_menu_button_arrow_variables</item>
     </style>
+
 </resources>
