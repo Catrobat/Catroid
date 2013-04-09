@@ -622,15 +622,15 @@ public class FormulaEditorUserVariableFragmentTest extends
 
 		solo.enterText(editText, "");
 		Button ok = solo.getButton(solo.getString(R.string.ok));
-		assertFalse("Ok-Button should not be clickable!", ok.isEnabled());
+		assertFalse("Ok-Button should not be enabled!", ok.isEnabled());
 
 		solo.enterText(editText, "easy");
 		ok = solo.getButton(solo.getString(R.string.ok));
-		assertTrue("Ok-Button should be clickable!", ok.isEnabled());
+		assertTrue("Ok-Button should be enabled!", ok.isEnabled());
 
 		solo.enterText(editText, "");
 		ok = solo.getButton(solo.getString(R.string.ok));
-		assertFalse("Ok-Button should not be clickable!", ok.isEnabled());
+		assertFalse("Ok-Button should not be enabled!", ok.isEnabled());
 	}
 
 	private ListView getVariableListView() {

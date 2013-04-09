@@ -43,8 +43,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockDialogFragment;
-
 public class NewVariableDialog extends SherlockDialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_variable_catroid";
@@ -115,7 +113,7 @@ public class NewVariableDialog extends SherlockDialogFragment {
 	}
 
 	private void handleOnShow(final Dialog dialogNewVariable) {
-		Button positiveButton = ((AlertDialog) dialogNewVariable).getButton(AlertDialog.BUTTON_POSITIVE);
+		final Button positiveButton = ((AlertDialog) dialogNewVariable).getButton(AlertDialog.BUTTON_POSITIVE);
 		positiveButton.setEnabled(false);
 
 		EditText dialogEditText = (EditText) dialogNewVariable
@@ -137,7 +135,6 @@ public class NewVariableDialog extends SherlockDialogFragment {
 
 			@Override
 			public void afterTextChanged(Editable editable) {
-				Button positiveButton = ((AlertDialog) dialogNewVariable).getButton(AlertDialog.BUTTON_POSITIVE);
 
 				String variableName = editable.toString();
 				if (ProjectManager.getInstance().getCurrentProject().getUserVariables()
