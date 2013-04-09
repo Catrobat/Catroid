@@ -342,8 +342,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		} else {
 			newName = name + nextNumber;
 		}
-		for (Sprite s : spriteList) {
-			if (s.getName().equals(newName)) {
+		for (Sprite sprite : spriteList) {
+			if (sprite.getName().equals(newName)) {
 				return getSpriteName(name, ++nextNumber);
 			}
 		}

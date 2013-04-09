@@ -169,19 +169,19 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 		ArrayList<Brick> currentBrickList = script.getBrickList();
 		int loopEnds = 0;
 		for (int i = currentBrickList.size() - 1; i >= 0; i--) {
-			Brick b = currentBrickList.get(i);
-			if (b instanceof IfLogicBeginBrick) {
+			Brick brick = currentBrickList.get(i);
+			if (brick instanceof IfLogicBeginBrick) {
 				if (loopEnds > 0) {
 					loopEnds--;
 				} else {
-					beginBrick = (IfLogicBeginBrick) b;
+					beginBrick = (IfLogicBeginBrick) brick;
 					break;
 				}
-			} else if (b instanceof IfLogicElseBrick) {
+			} else if (brick instanceof IfLogicElseBrick) {
 				if (loopEnds != 0) {
-					elseBrick = (IfLogicElseBrick) b;
+					elseBrick = (IfLogicElseBrick) brick;
 				}
-			} else if (b instanceof IfLogicEndBrick) {
+			} else if (brick instanceof IfLogicEndBrick) {
 				loopEnds++;
 			}
 		}

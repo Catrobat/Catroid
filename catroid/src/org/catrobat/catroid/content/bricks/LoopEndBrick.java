@@ -73,17 +73,17 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		ArrayList<Brick> currentBrickList = script.getBrickList();
 		int loopEnds = 0;
 		for (int i = currentBrickList.size() - 1; i >= 0; i--) {
-			Brick b = currentBrickList.get(i);
-			if (b instanceof LoopBeginBrick) {
+			Brick brick = currentBrickList.get(i);
+			if (brick instanceof LoopBeginBrick) {
 				if (loopEnds > 0) {
 					loopEnds--;
 				} else {
-					copyBrick.loopBeginBrick = (LoopBeginBrick) b;
-					LoopBeginBrick lbb = (LoopBeginBrick) b;
+					copyBrick.loopBeginBrick = (LoopBeginBrick) brick;
+					LoopBeginBrick lbb = (LoopBeginBrick) brick;
 					lbb.setLoopEndBrick(copyBrick);
 					break;
 				}
-			} else if (b instanceof LoopEndBrick) {
+			} else if (brick instanceof LoopEndBrick) {
 				loopEnds++;
 			}
 		}
