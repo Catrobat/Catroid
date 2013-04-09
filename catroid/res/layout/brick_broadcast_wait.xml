@@ -20,7 +20,6 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -45,27 +44,12 @@
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_broadcast_wait" />
 
-        <LinearLayout
+        <Spinner
+            android:id="@+id/brick_broadcast_wait_spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <Spinner
-                android:id="@+id/brick_broadcast_wait_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:clickable="false"
-                android:focusable="false" />
-
-            <Button
-                android:id="@+id/brick_broadcast_wait_button_new_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="false"
-                android:focusable="false"
-                android:text="@string/new_broadcast_message" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false" />
     </LinearLayout>
 
 </LinearLayout>
