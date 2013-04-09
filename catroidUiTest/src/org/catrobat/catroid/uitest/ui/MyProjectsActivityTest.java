@@ -722,13 +722,15 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void testRenameCurrentProjectViaActionBar() {
+		String rename = solo.getString(R.string.rename);
 		createProjects();
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
-		UiTestUtils.clickOnActionBar(solo, R.id.rename);
+		UiTestUtils.openActionMode(solo, rename, R.id.rename);
+		solo.clickOnText(rename);
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		solo.sleep(100);
@@ -909,7 +911,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
 		View projectDetails = solo.getView(R.id.my_projects_activity_list_item_details);
-		UiTestUtils.clickOnActionBar(solo, R.id.show_details);
+		UiTestUtils.openOptionsMenu(solo);
+		solo.clickOnText(showDetailsText);
 		solo.sleep(200);
 		assertEquals("Project details are not showing!", View.VISIBLE, projectDetails.getVisibility());
 
@@ -1328,10 +1331,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			if (currentViewID == imageViewID) { // Only stop at Image View...
 				TextView textView = (TextView) currentViews.get(i + 2);
 				if (textView.getText().equals(UiTestUtils.DEFAULT_TEST_PROJECT_NAME)) { // ...and check if it belongs to the test project
-
 					viewToTest.buildDrawingCache();
 					viewBitmap = viewToTest.getDrawingCache();
-					pixel = viewBitmap.getPixel(1, viewBitmap.getHeight() / 2);
+					pixel = viewBitmap.getPixel(viewBitmap.getWidth() / 2, viewBitmap.getHeight() / 2);
 					viewToTest.destroyDrawingCache();
 				}
 			}
