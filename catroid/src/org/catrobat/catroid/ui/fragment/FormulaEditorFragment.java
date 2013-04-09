@@ -470,7 +470,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		}
 
 		ImageButton backspace = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_delete);
-		if (!currentFormula.getInternFormulaState().createInternFormulaFromState().isThereSomethingToDelete()) {
+		if (!formulaEditorEditText.isThereSomethingToDelete()) {
 			backspace.setImageResource(R.drawable.icon_backspace_disabled);
 			backspace.setClickable(false);
 		} else {

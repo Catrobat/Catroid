@@ -189,6 +189,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 			internFormula = lastStep.createInternFormulaFromState();
 			internFormula.generateExternFormulaStringAndInternExternMapping(context);
+			internFormula.updateInternCursorPosition();
 			updateTextAndCursorFromInternFormula();
 		}
 
@@ -205,6 +206,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 			internFormula = nextStep.createInternFormulaFromState();
 			internFormula.generateExternFormulaStringAndInternExternMapping(context);
+			internFormula.updateInternCursorPosition();
 			updateTextAndCursorFromInternFormula();
 		}
 		formulaEditorFragment.refreshFormulaPreviewString();
@@ -339,5 +341,9 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	public FormulaEditorHistory getHistory() {
 		return history;
+	}
+
+	public boolean isThereSomethingToDelete() {
+		return internFormula.isThereSomethingToDelete();
 	}
 }
