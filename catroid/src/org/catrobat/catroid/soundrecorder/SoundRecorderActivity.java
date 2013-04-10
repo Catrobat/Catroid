@@ -86,8 +86,8 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 	}
 
 	@Override
-	public void onClick(View v) {
-		if (v.getId() == R.id.soundrecorder_record_button) {
+	public void onClick(View view) {
+		if (view.getId() == R.id.soundrecorder_record_button) {
 			if (soundRecorder != null && soundRecorder.isRecording()) {
 				stopRecording();
 				timeRecorderChronometer.stop();
