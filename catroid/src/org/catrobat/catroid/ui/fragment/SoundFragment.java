@@ -113,6 +113,12 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	private boolean isRenameActionMode;
 
+	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
+
+	public void setOnSoundInfoListChangedAfterNewListener(OnSoundInfoListChangedAfterNewListener listener) {
+		soundInfoListChangedAfterNewListener = listener;
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -682,6 +688,10 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		adapter.notifyDataSetChanged();
 
+		if (soundInfoListChangedAfterNewListener != null) {
+			soundInfoListChangedAfterNewListener.onSoundInfoListChangedAfterNew(newSoundInfo);
+		}
+
 		//scroll down the list to the new item:
 		{
 			final ListView listView = getListView();
@@ -749,5 +759,11 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				break;
 		}
 		return false;
+	}
+
+	public interface OnSoundInfoListChangedAfterNewListener {
+
+		public void onSoundInfoListChangedAfterNew(SoundInfo soundInfo);
+
 	}
 }

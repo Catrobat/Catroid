@@ -30,6 +30,8 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.ui.fragment.SoundFragment.OnSoundInfoListChangedAfterNewListener;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -50,7 +52,8 @@ import android.widget.SpinnerAdapter;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListener {
+public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListener,
+		OnSoundInfoListChangedAfterNewListener {
 	private static final long serialVersionUID = 1L;
 
 	private SoundInfo sound;
@@ -118,8 +121,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 
 		final ArrayAdapter<SoundInfo> spinnerAdapter = createSoundAdapter(context);
 
-		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, soundbrickSpinner,
-				spinnerAdapter);
+		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinnerAdapter);
 
 		soundbrickSpinner.setAdapter(spinnerAdapterWrapper);
 
@@ -205,17 +207,23 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		}
 	}
 
+	private void setOnSoundInfoListChangedAfterNewListener(Context context) {
+		ScriptActivity scriptActivity = (ScriptActivity) context;
+		SoundFragment soundFragment = (SoundFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_SOUNDS);
+		if (soundFragment != null) {
+			soundFragment.setOnSoundInfoListChangedAfterNewListener(this);
+		}
+	}
+
 	private class SpinnerAdapterWrapper implements SpinnerAdapter {
 
 		protected Context context;
-		protected Spinner spinner;
 		protected ArrayAdapter<SoundInfo> spinnerAdapter;
 
 		private boolean isTouchInDropDownView;
 
-		public SpinnerAdapterWrapper(Context context, Spinner spinner, ArrayAdapter<SoundInfo> spinnerAdapter) {
+		public SpinnerAdapterWrapper(Context context, ArrayAdapter<SoundInfo> spinnerAdapter) {
 			this.context = context;
-			this.spinner = spinner;
 			this.spinnerAdapter = spinnerAdapter;
 
 			this.isTouchInDropDownView = false;
@@ -297,10 +305,15 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		}
 
 		private void switchToSoundFragmentFromScriptFragment() {
-			ScriptActivity activity = ((ScriptActivity) context);
-			activity.switchToFragmentFromScriptFragment(ScriptActivity.FRAGMENT_SOUNDS);
+			ScriptActivity scriptActivity = ((ScriptActivity) context);
+			scriptActivity.switchToFragmentFromScriptFragment(ScriptActivity.FRAGMENT_SOUNDS);
 
-			setSpinnerSelection(spinner);
+			setOnSoundInfoListChangedAfterNewListener(context);
 		}
+	}
+
+	@Override
+	public void onSoundInfoListChangedAfterNew(SoundInfo soundInfo) {
+		oldSelectedSound = soundInfo;
 	}
 }
