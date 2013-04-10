@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -160,6 +161,29 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnText(soundName);
 		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
+	}
+
+	public void testAddNewSound() {
+		String newText = solo.getString(R.string.new_broadcast_message);
+		String soundRecorderText = solo.getString(R.string.soundrecorder_name);
+		String recordedFilename = solo.getString(R.string.soundrecorder_recorded_filename);
+
+		solo.clickOnText(soundName);
+		solo.clickOnText(newText);
+
+		solo.waitForText(soundRecorderText);
+		assertTrue("Catroid Sound Recorder is not present", solo.searchText(soundRecorderText));
+		solo.clickOnText(soundRecorderText);
+
+		solo.waitForActivity(SoundRecorderActivity.class.getSimpleName());
+		solo.clickOnText(solo.getString(R.string.soundrecorder_record_start));
+		solo.sleep(500);
+		solo.clickOnText(solo.getString(R.string.soundrecorder_record_stop));
+
+		solo.waitForText(recordedFilename);
+		solo.goBack();
+
+		assertTrue("New sound file is not selected", solo.isSpinnerTextSelected(recordedFilename));
 	}
 
 	private void clickOnSpinnerItem(String selectedSpinnerItem, String itemName) {

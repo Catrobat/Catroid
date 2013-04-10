@@ -239,7 +239,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 
 		solo.searchText(solo.getString(R.string.brick_play_sound));
 		Spinner playSoundSpinner = (Spinner) solo.getView(R.id.playsound_spinner);
-		assertEquals("Value in PlaySoundBrick is not correct", solo.getString(R.string.broadcast_nothing_selected),
+		assertEquals("Value in PlaySoundBrick is not correct", solo.getString(R.string.new_broadcast_message),
 				playSoundSpinner.getSelectedItem().toString());
 
 		TextView setVolumeToTextView = (TextView) solo.getView(R.id.brick_set_volume_to_prototype_text_view);
