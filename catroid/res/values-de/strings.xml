@@ -142,9 +142,6 @@
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
-    <string name="soundrecorder_record_start">Aufnehmen</string>
-    <string name="soundrecorder_record_stop">Beenden</string>
-    <string name="soundrecorder_recording">Aufnahme gestartet…</string>
     <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
     <string name="soundrecorder_recorded_filename">Aufnahme</string>
     <!--  -->
