@@ -213,6 +213,18 @@ public class UploadProjectDialog extends DialogFragment {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_no_name_entered));
 			return;
 		}
+
+		if (uploadName.equals(getString(R.string.default_project_name))) {
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_upload_project_with_default_name));
+			return;
+		}
+
+		Context context = getActivity().getApplicationContext();
+		if (Utils.isStandardProject(projectManager.getCurrentProject(), context)) {
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_upload_default_project));
+			return;
+		}
+
 		if (!uploadName.equals(currentProjectName)) {
 
 			projectRename.setVisibility(View.VISIBLE);

@@ -26,6 +26,7 @@
  * 	manningr@users.sourceforge.net
  * Source: http://www.java2s.com/Code/Java/File-Input-Output/Autilityclassformanipulatingpaths.htm
  */
+
 package org.catrobat.catroid.utils;
 
 import java.io.File;
@@ -43,6 +44,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
@@ -66,6 +68,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -81,6 +84,8 @@ public class Utils {
 	public static final int FILE_INTENT = 2;
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
 	private static boolean isUnderTest;
+
+	private static Project standardProject;
 
 	public static boolean externalStorageAvailable() {
 		String externalStorageState = Environment.getExternalStorageState();
@@ -363,6 +368,46 @@ public class Utils {
 			return null;
 		}
 		return pixmap;
+	}
+
+	public static void setBottomBarActivated(Activity activity, boolean isActive) {
+		LinearLayout bottomBarLayout = (LinearLayout) activity.findViewById(R.id.bottom_bar);
+
+		if (bottomBarLayout != null) {
+			bottomBarLayout.findViewById(R.id.button_add).setClickable(isActive);
+			bottomBarLayout.findViewById(R.id.button_play).setClickable(isActive);
+		}
+	}
+
+	public static boolean isStandardProject(Project projectToCheck, Context context) {
+
+		try {
+			if (standardProject == null) {
+				standardProject = StandardProjectHandler.createAndSaveStandardProject(
+						context.getString(R.string.default_project_name), context);
+			}
+
+			ProjectManager.getInstance().setProject(projectToCheck);
+			ProjectManager.getInstance().saveProject();
+
+			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
+			int start = standardProjectXMLString.indexOf("<objectList>");
+			int end = standardProjectXMLString.indexOf("</objectList>");
+			String standardProjectSpriteList = standardProjectXMLString.substring(start, end);
+
+			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
+			start = projectToCheckXMLString.indexOf("<objectList>");
+			end = projectToCheckXMLString.indexOf("</objectList>");
+			String projectToCheckStringList = projectToCheckXMLString.substring(start, end);
+
+			return standardProjectSpriteList.contentEquals(projectToCheckStringList);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return true;
+
 	}
 
 	public static int convertDoubleToPluralInteger(double value) {

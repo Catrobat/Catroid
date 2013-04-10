@@ -63,6 +63,10 @@ public class SetLookBrick extends BrickBaseType {
 		this.look = lookData;
 	}
 
+	public LookData getLook() {
+		return this.look;
+	}
+
 	@Override
 	public Sprite getSprite() {
 		return sprite;
