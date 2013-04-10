@@ -125,7 +125,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		fragTransaction.commit();
 	}
 
-	public void updateBrickViewAndFormula(Brick newBrick, Formula newFormula) {
+	private void updateBrickViewAndFormula(Brick newBrick, Formula newFormula) {
 		formulaEditorBrick.removeAllViews();
 		View newBrickView = newBrick.getView(context, 0, null);
 		formulaEditorBrick.addView(newBrickView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
@@ -276,7 +276,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		super.onPrepareOptionsMenu(menu);
 	}
 
-	public void setInputFormula(Formula newFormula, int mode) {
+	private void setInputFormula(Formula newFormula, int mode) {
 
 		int orientation = getResources().getConfiguration().orientation;
 
@@ -316,7 +316,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		}
 	}
 
-	public boolean saveFormulaIfPossible() {
+	private boolean saveFormulaIfPossible() {
 		InternFormulaParser formulaToParse = formulaEditorEditText.getFormulaParser();
 		FormulaElement formulaParseTree = formulaToParse.parseFormula();
 		int err = formulaToParse.getErrorTokenIndex();
@@ -367,7 +367,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 	}
 
-	public void showToast(int ressourceId) {
+	private void showToast(int ressourceId) {
 		Toast.makeText(context, getString(ressourceId), Toast.LENGTH_LONG).show();
 	}
 
@@ -385,8 +385,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		return false;
 	}
 
-	public void endFormulaEditor() {
-
+	private void endFormulaEditor() {
 		if (formulaEditorEditText.hasChanges()) {
 			if (saveFormulaIfPossible()) {
 				onUserDismiss();
@@ -394,13 +393,11 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		} else {
 			onUserDismiss();
 		}
-
 	}
 
 	public void refreshFormulaPreviewString() {
 		currentFormula.refreshTextField(brickView, formulaEditorEditText.getText().toString(),
 				formulaEditorEditText.getAbsoluteCursorPosition());
-
 	}
 
 	private void showFormulaEditorListFragment(String tag, int actionbarResId) {
