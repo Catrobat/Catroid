@@ -200,7 +200,11 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 			spinner.setSelection(sprite.getSoundList().indexOf(sound) + 1, true);
 		} else {
 			if (spinner.getAdapter() != null && spinner.getAdapter().getCount() > 1) {
-				spinner.setSelection(sprite.getSoundList().indexOf(oldSelectedSound) + 1, true);
+				if (sprite.getSoundList().indexOf(oldSelectedSound) >= 0) {
+					spinner.setSelection(sprite.getSoundList().indexOf(oldSelectedSound) + 1, true);
+				} else {
+					spinner.setSelection(1, true);
+				}
 			} else {
 				spinner.setSelection(0, true);
 			}
