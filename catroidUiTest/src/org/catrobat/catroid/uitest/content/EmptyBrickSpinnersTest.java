@@ -77,10 +77,6 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 		solo.clickOnText(LOOK_DATA_NAME);
 		solo.clickOnText(spinnerNothingSelectedText);
 
-		assertTrue(TEST_SOUND_TITLE + " Sound is not selected", solo.searchText(TEST_SOUND_TITLE));
-		solo.clickOnText(TEST_SOUND_TITLE);
-		solo.clickOnText(spinnerNothingSelectedText);
-
 		// go back that the project xml is saved
 		solo.goBack();
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
