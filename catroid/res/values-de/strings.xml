@@ -293,7 +293,6 @@
     </plurals>
 
     <string name="brick_point_in_direction">Zeige in Richtung</string>
-    <string name="brick_point_in_direction_choose_direction">Wähle Richtung</string>
     <string name="brick_point_to">Zeige auf</string>
     <string name="brick_glide">Gleite</string>
     <string name="brick_glide_to_x">zu X:</string>
@@ -390,7 +389,6 @@
     <string name="error_new_project">Beim Erstellen des neuen Projektes ist ein Fehler aufgetreten.</string>
     <string name="error_rename_project">Beim Umbenennen des Projektes vor dem Upload ist ein Fehler aufgetreten.</string>
     <string name="error_load_project">Beim Laden des Projektes ist ein Fehler aufgetreten.</string>
-    <string name="error_no_number_entered">Bitte eine Zahl eingeben.</string>
     <string name="error_screenshot_failed">Beim Speichern des Screenshots ist ein Fehler aufgetreten.</string>
     <string name="error_load_image">Beim Laden des Bildes ist ein Fehler aufgetreten.</string>
     <string name="error_load_sound">Beim Laden des Audiofiles ist ein Fehler aufgetreten.</string>
@@ -506,6 +504,7 @@
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
     <string name="formula_editor_make_new_variable">Erstelle neue Variable</string>
+    <string name="formula_editor_variable_dialog_title">Neue Variable</string>
     <string name="formula_editor_variable_dialog_for_all_sprites">Für alle Objekte</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
     <string name="formula_editor_variable_dialog_hint">Namen eingeben</string>
