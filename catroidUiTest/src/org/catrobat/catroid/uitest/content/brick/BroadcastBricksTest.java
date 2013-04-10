@@ -50,8 +50,8 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 	private Solo solo;
 	private Project project;
 
-	private static final int SECOND_BRICK_SPINNER_INDEX = 1;
-	private static final int THIRD_BRICK_SPINNER_INDEX = 2;
+	private static final int SECOND_BRICK_SPINNER_INDEX = 2;
+	private static final int THIRD_BRICK_SPINNER_INDEX = 3;
 
 	private static final int BROADCAST_RECEIVE_SPINNER_ID = R.id.brick_broadcast_receive_spinner;
 	private static final int BROADCAST_SPINNER_ID = R.id.brick_broadcast_spinner;
@@ -163,11 +163,19 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 
 		checkIfSpinnerTextsCorrect(testString, testString3, testString3);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		solo.sleep(200);
-		solo.clickOnText(solo.getString(R.string.category_control));
-		assertTrue("Wrong selection in prototype spinner",
-				solo.isSpinnerTextSelected(0, solo.getString(R.string.brick_broadcast_default_value)));
+		solo.clickLongOnText(solo.getString(R.string.brick_broadcast_receive));
+		solo.clickOnText(solo.getString(R.string.delete));
+
+		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
+
+		// just to get focus
+		solo.clickOnText(brickBroadcastString);
+		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
+			solo.goBack();
+		}
+		assertEquals("Wrong selection", solo.getString(R.string.brick_broadcast_default_value),
+				((Spinner) solo.getView(R.id.brick_broadcast_spinner)).getSelectedItem().toString());
+
 	}
 
 	private void checkIfSpinnerTextsCorrect(String firstTextSpinner, String secondTextSpinner, String thirdTextSpinner) {
