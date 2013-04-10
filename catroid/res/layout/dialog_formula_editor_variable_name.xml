@@ -21,35 +21,33 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <EditText
         android:id="@+id/dialog_formula_editor_variable_name_edit_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:ems="10"
         android:hint="@string/formula_editor_variable_dialog_hint"
         android:inputType="text" />
 
     <RadioGroup
         android:id="@+id/dialog_formula_editor_variable_name_radio_group"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/dialog_formula_editor_variable_name_edit_text"
-        android:orientation="horizontal" >
+        android:orientation="vertical" >
 
         <RadioButton
-            android:id="@+id/dialog_formula_editor_variable_name_radio_button_left"
+            android:id="@+id/dialog_formula_editor_variable_name_global_variable_radio_button"
+            android:checked="true"
             android:text="@string/formula_editor_variable_dialog_for_all_sprites" />
 
         <RadioButton
-            android:id="@+id/dialog_formula_editor_variable_name_radio_button_right"
+            android:id="@+id/dialog_formula_editor_variable_name_local_variable_radio_button"
             android:text="@string/formula_editor_variable_dialog_for_this_sprite_only" />
     </RadioGroup>
 
-</RelativeLayout>
+</LinearLayout>
