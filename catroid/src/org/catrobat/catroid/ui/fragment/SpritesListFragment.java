@@ -539,12 +539,10 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		public void onDestroyActionMode(ActionMode mode) {
 			Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
 			Iterator<Integer> iterator = checkedSprites.iterator();
-			int numCopied = 0;
 			while (iterator.hasNext()) {
 				int position = iterator.next();
-				spriteToEdit = (Sprite) getListView().getItemAtPosition(position - numCopied);
+				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
 				copySprite();
-				numCopied++;
 			}
 			setSelectMode(Constants.SELECT_NONE);
 			spriteAdapter.clearCheckedSprites();
