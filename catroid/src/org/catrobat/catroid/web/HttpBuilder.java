@@ -29,6 +29,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.apache.http.entity.StringEntity;
+
 class HttpBuilder {
 
 	private static final String HTTP_NEWLINE = "\r\n";
@@ -86,7 +88,9 @@ class HttpBuilder {
 		outputStream.writeBytes(HTTP_NEWLINE);
 		outputStream.writeBytes(HTTP_NEWLINE);
 		// write content
-		outputStream.writeBytes(value);
+		StringEntity valueEntity = new StringEntity(value, "UTF-8");
+		valueEntity.writeTo(outputStream);
+
 		outputStream.writeBytes(HTTP_NEWLINE);
 		outputStream.flush();
 	}
