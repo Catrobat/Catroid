@@ -32,14 +32,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Chronometer;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -47,11 +47,8 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 public class SoundRecorderActivity extends SherlockFragmentActivity implements OnClickListener {
 
 	private SoundRecorder soundRecorder;
-	private ImageView recordButton;
-	private TextView recordText;
-	private LinearLayout recordLayout;
-
-	private TextView recordingIndicationText;
+	private Chronometer timeRecorderChronometer;
+	private ImageButton recordButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,12 +56,9 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 
 		setContentView(R.layout.activity_soundrecorder);
 
-		recordLayout = (LinearLayout) findViewById(R.id.soundrecorder_linearlayout_record);
-		recordButton = (ImageView) findViewById(R.id.soundrecorder_imageview_record);
-		recordText = (TextView) findViewById(R.id.soundrecorder_textview_record_start_stop);
-		recordingIndicationText = (TextView) findViewById(R.id.soundrecorder_textview_recording_hint);
-
-		recordLayout.setOnClickListener(this);
+		recordButton = (ImageButton) findViewById(R.id.soundrecorder_record_button);
+		timeRecorderChronometer = (Chronometer) findViewById(R.id.soundrecorder_chronometer_time_recorded);
+		recordButton.setOnClickListener(this);
 		Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this);
 	}
 
@@ -92,13 +86,17 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 	}
 
 	@Override
-	public void onClick(View v) {
-		if (v.getId() == R.id.soundrecorder_linearlayout_record) {
+	public void onClick(View view) {
+		if (view.getId() == R.id.soundrecorder_record_button) {
 			if (soundRecorder != null && soundRecorder.isRecording()) {
 				stopRecording();
+				timeRecorderChronometer.stop();
 				finish();
 			} else {
 				startRecording();
+				long currentPlayingBase = SystemClock.elapsedRealtime();
+				timeRecorderChronometer.setBase(currentPlayingBase);
+				timeRecorderChronometer.start();
 			}
 		}
 	}
@@ -126,9 +124,7 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 	}
 
 	private void setViewsToRecordingState() {
-		recordButton.setImageResource(R.drawable.ic_record);
-		recordText.setText(R.string.soundrecorder_record_stop);
-		recordingIndicationText.setVisibility(View.VISIBLE);
+		recordButton.setImageResource(R.drawable.microphone_icon_active);
 	}
 
 	private synchronized void stopRecording() {
@@ -148,9 +144,7 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 	}
 
 	private void setViewsToNotRecordingState() {
-		recordButton.setImageResource(R.drawable.ic_record_inactive);
-		recordText.setText(R.string.soundrecorder_record_start);
-		recordingIndicationText.setVisibility(View.INVISIBLE);
+		recordButton.setImageResource(R.drawable.microphone_icon);
 	}
 
 }
