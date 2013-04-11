@@ -1155,7 +1155,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 					viewToTest.buildDrawingCache();
 					viewBitmap = viewToTest.getDrawingCache();
-					pixel = viewBitmap.getPixel(1, 1);
+					pixel = viewBitmap.getPixel(1, viewBitmap.getHeight() / 2);
 					viewToTest.destroyDrawingCache();
 				}
 			}

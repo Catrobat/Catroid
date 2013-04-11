@@ -69,6 +69,8 @@ public interface Brick extends Serializable {
 
 	public CheckBox getCheckBox();
 
+	public boolean isChecked();
+
 	public void setCheckedBoolean(boolean newValue);
 
 	public void setCheckboxView(int id);
