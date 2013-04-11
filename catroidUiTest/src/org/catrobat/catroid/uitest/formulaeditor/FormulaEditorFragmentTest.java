@@ -90,37 +90,6 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
 
-	//	public void testEditTextFields() {
-	//		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-	//		catKeyboardClicker.clickOnKey("0");
-	//		solo.sleep(100);
-	//		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
-	//		catKeyboardClicker.clickOnKey("1");
-	//		solo.sleep(100);
-	//		solo.clickOnEditText(FORMULA_EDITOR_EDIT_TEXT_ID);
-	//		catKeyboardClicker.clickOnKey("2");
-	//		solo.sleep(100);
-	//		solo.clickOnEditText(3);
-	//		catKeyboardClicker.clickOnKey("3");
-	//		solo.sleep(100);
-	//		solo.clickOnEditText(4);
-	//		catKeyboardClicker.clickOnKey("4");
-	//		solo.sleep(10000);
-	//		//		solo.clickOnEditText(5);
-	//		//		catKeyboardClicker.clickOnKey("5");
-	//		//		solo.clickOnEditText(6);
-	//		//		catKeyboardClicker.clickOnKey("6");
-	//		//		solo.clickOnEditText(7);
-	//		//		catKeyboardClicker.clickOnKey("7");
-	//		//		solo.clickOnEditText(8);
-	//		//		catKeyboardClicker.clickOnKey("8");
-	//		//		solo.clickOnEditText(9);
-	//		//		catKeyboardClicker.clickOnKey("9");
-	//		//		solo.clickOnEditText(10);
-	//		//		catKeyboardClicker.clickOnKey("10");
-	//
-	//	}
-
 	public void testChangeFormula() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -175,7 +144,6 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 	public void testUndo() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		//		catKeyboardClicker.clearEditTextWithCursorBehindLastCharacterOnlyQuickly(FORMULA_EDITOR_EDIT_TEXT_ID);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
@@ -223,7 +191,6 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 	public void testUndoRedo() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		//catKeyboardClicker.clearEditTextWithOnlyNumbersQuickly(FORMULA_EDITOR_EDIT_TEXT_ID);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
@@ -307,7 +274,6 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 				+ getActivity().getString(R.string.formula_editor_function_cos) + "( 90 - - 30 ) , 1 ) ";
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		//		catKeyboardClicker.clearEditTextWithCursorBehindLastCharacterOnlyQuickly(FORMULA_EDITOR_EDIT_TEXT_ID);
 
 		solo.sleep(250);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
