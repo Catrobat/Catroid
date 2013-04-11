@@ -254,15 +254,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			for (int nestedIndex = 0; nestedIndex < child.getChildCount(); nestedIndex++) {
 				View view = child.getChildAt(nestedIndex);
 				view.setOnTouchListener(touchListener);
-
-				//				Button button = null;
-				//				try {
-				//					button = (Button) view;
-				//				} catch (Exception exception) {
-				//					break;
-				//				}
-				//				button.setLines(MAX_BUTTON_LINES);
-				//				button.setEllipsize(TruncateAt.END);
 			}
 		}
 
