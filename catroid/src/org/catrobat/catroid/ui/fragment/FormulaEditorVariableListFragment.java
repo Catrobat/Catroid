@@ -159,6 +159,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 			@Override
 			public void onClick(View view) {
 				NewVariableDialog dialog = new NewVariableDialog();
+				dialog.addVariableDialogListener(FormulaEditorVariableListFragment.this);
 				dialog.show(getSherlockActivity().getSupportFragmentManager(), NewVariableDialog.DIALOG_FRAGMENT_TAG);
 			}
 		});

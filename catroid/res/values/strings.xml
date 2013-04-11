@@ -354,6 +354,7 @@
     <string name="brick_if_end">End If</string>
     <string name="brick_set_variable">Set variable</string>
     <string name="brick_change_variable">Change variable</string>
+    <string name="brick_variable_spinner_create_new_variable">New…</string>
     <string name="brick_note_default_value">"add comment here…"</string>
     <string name="brick_broadcast_default_value">"message 1"</string>
     <!--  -->
