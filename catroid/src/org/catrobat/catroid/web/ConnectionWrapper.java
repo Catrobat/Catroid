@@ -63,6 +63,9 @@ public class ConnectionWrapper {
 			WebconnectionException {
 		String answer = "";
 		try {
+			// important to call this before connect
+			ftpClient.setControlEncoding("UTF-8");
+
 			ftpClient.connect(urlString, ServerCalls.FTP_PORT);
 			ftpClient.login(FTP_USERNAME, FTP_PASSWORD);
 
