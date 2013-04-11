@@ -36,6 +36,8 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -43,6 +45,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -73,7 +76,7 @@ public class ChangeVariableTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	@Smoke
-	public void testCreateNewUserVariable() {
+	public void testCreateNewUserVariableAndDeletion() {
 		String userVariableName = "testVariable1";
 		String secondUserVariableName = "testVariable2";
 
@@ -122,6 +125,33 @@ public class ChangeVariableTest extends ActivityInstrumentationTestCase2<MainMen
 		userVariable = (UserVariable) Reflection.getPrivateField(changeVariableBrick, "userVariable");
 		assertNotNull("UserVariable is null", userVariable);
 		assertTrue("UserVariable Name not as expected", userVariable.getName().equals(secondUserVariableName));
+
+		solo.clickOnEditText(0);
+		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable)));
+
+		solo.clickLongOnText(secondUserVariableName);
+		assertTrue("Delete not shown", solo.waitForText(solo.getString(R.string.delete)));
+		solo.clickOnText(solo.getString(R.string.delete));
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable)));
+
+		solo.goBack();
+		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+		assertTrue("Variable not set in spinner after deletion", solo.searchText(userVariableName));
+		Spinner userVariableSpinner = (Spinner) solo.getView(R.id.change_variable_spinner);
+		assertEquals("UserVariable count not as expected in spinner", 2, userVariableSpinner.getAdapter().getCount());
+
+		solo.goBack();
+		assertTrue("ScriptFragment not visible", solo.waitForFragmentByTag(ScriptFragment.TAG));
+		assertTrue("Variable not set in spinner after deletion", solo.searchText(userVariableName));
+		userVariableSpinner = (Spinner) solo.getView(R.id.change_variable_spinner);
+		assertEquals("UserVariable count not as expected in spinner", 2, userVariableSpinner.getAdapter().getCount());
+		userVariable = (UserVariable) Reflection.getPrivateField(changeVariableBrick, "userVariable");
+		assertNotNull("UserVariable is null", userVariable);
+		assertTrue("UserVariable Name not as expected", userVariable.getName().equals(userVariableName));
 	}
 
 	private void createProject() {
