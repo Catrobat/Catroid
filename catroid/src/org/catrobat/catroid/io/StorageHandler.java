@@ -453,6 +453,10 @@ public class StorageHandler {
 		}
 	}
 
+	public String getXMLStringOfAProject(Project project) {
+		return xstream.toXML(project);
+	}
+
 	private File copyFileAddCheckSum(File destinationFile, File sourceFile, File directory) throws IOException {
 		File copiedFile = UtilFile.copyFile(destinationFile, sourceFile, directory);
 		addChecksum(destinationFile, sourceFile);

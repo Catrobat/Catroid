@@ -146,9 +146,6 @@
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
-    <string name="soundrecorder_record_start">Start recording</string>
-    <string name="soundrecorder_record_stop">Stop recording</string>
-    <string name="soundrecorder_recording">recording in progress…</string>
     <string name="soundrecorder_error">Sound recording failed</string>
     <string name="soundrecorder_recorded_filename">record</string>
     <!--  -->
@@ -395,6 +392,8 @@
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
     <string name="error_project_compatability">The project is not compatible with this version of catroid.</string>
     <string name="error_copy_project">An error occurred while copying the project.</string>
+    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \'My first project\'. Please rename the project.</string>
+    <string name="error_upload_default_project">You cannot upload this project because it is the same as \'My first project\'. Please modify it, and try again.</string>
     <!--  -->
 
 

@@ -142,9 +142,6 @@
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
-    <string name="soundrecorder_record_start">Aufnehmen</string>
-    <string name="soundrecorder_record_stop">Beenden</string>
-    <string name="soundrecorder_recording">Aufnahme gestartet…</string>
     <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
     <string name="soundrecorder_recorded_filename">Aufnahme</string>
     <!--  -->
@@ -395,6 +392,8 @@
     <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
     <string name="error_project_compatability">Das Projekt ist nicht mit dieser Version von Catroid kompatibel.</string>
     <string name="error_copy_project">Beim kopieren des Projektes ist ein Fehler aufgetreten.</string>
+    <string name="error_upload_project_with_default_name">Das Projekt mit dem Namen \'Mein erstes Projekt\' kann nicht hochgeladen werden. Bitte das Projekt umbenennen.</string>
+    <string name="error_upload_default_project">Das Projekt entspricht dem Projekt \'Mein erstes Projekt\'. Bitte das Projekt umbauen oder etwas ändern, und noch einmal versuchen.</string>
     <!--  -->
 
 
