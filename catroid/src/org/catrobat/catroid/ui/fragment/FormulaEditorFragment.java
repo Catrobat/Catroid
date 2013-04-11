@@ -137,6 +137,10 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		fragTransaction.commit();
 	}
 
+	public void updateBrickView() {
+		updateBrickView(currentBrick);
+	}
+
 	private void updateBrickView(Brick newBrick) {
 		formulaEditorBrick.removeAllViews();
 		View newBrickView = newBrick.getView(context, 0, null);

@@ -240,8 +240,11 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 				FragmentTransaction fragmentTransaction = getSherlockActivity().getSupportFragmentManager()
 						.beginTransaction();
 				fragmentTransaction.hide(this);
-				fragmentTransaction.show(getSherlockActivity().getSupportFragmentManager().findFragmentByTag(
-						FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
+				FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) getSherlockActivity()
+						.getSupportFragmentManager().findFragmentByTag(
+								FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+				formulaEditorFragment.updateBrickView();
+				fragmentTransaction.show(formulaEditorFragment);
 				fragmentTransaction.commit();
 				return true;
 			default:

@@ -43,6 +43,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -141,7 +142,8 @@ public class ChangeVariableTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		assertTrue("Variable not set in spinner after deletion", solo.searchText(userVariableName));
-		Spinner userVariableSpinner = (Spinner) solo.getView(R.id.change_variable_spinner);
+		Spinner userVariableSpinner = (Spinner) UiTestUtils.getViewContainerByIds(solo, R.id.change_variable_spinner,
+				R.id.formula_editor_brick_space);
 		assertEquals("UserVariable count not as expected in spinner", 2, userVariableSpinner.getAdapter().getCount());
 
 		solo.goBack();
@@ -150,6 +152,41 @@ public class ChangeVariableTest extends ActivityInstrumentationTestCase2<MainMen
 		userVariableSpinner = (Spinner) solo.getView(R.id.change_variable_spinner);
 		assertEquals("UserVariable count not as expected in spinner", 2, userVariableSpinner.getAdapter().getCount());
 		userVariable = (UserVariable) Reflection.getPrivateField(changeVariableBrick, "userVariable");
+		assertNotNull("UserVariable is null", userVariable);
+		assertTrue("UserVariable Name not as expected", userVariable.getName().equals(userVariableName));
+	}
+
+	public void testCreateUserVariableInFormulaEditor() {
+		String userVariableName = "testVariable1";
+
+		solo.clickOnEditText(0);
+		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
+		assertTrue("Variable Fragment not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable)));
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
+		assertTrue("Add Variable Dialog not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_variable_dialog_title)));
+		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
+
+		solo.enterText(editText, userVariableName);
+		finishUserVariableCreationSafeButSlow(userVariableName, true);
+
+		solo.goBack();
+		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+		assertTrue("Variable not set in spinner after creation", solo.searchText(userVariableName));
+		Spinner userVariableSpinner = (Spinner) UiTestUtils.getViewContainerByIds(solo, R.id.change_variable_spinner,
+				R.id.formula_editor_brick_space);
+		assertEquals("UserVariable count not as expected in spinner", 2, userVariableSpinner.getAdapter().getCount());
+		assertEquals("Variable not set in spinner after creation", 1, userVariableSpinner.getSelectedItemPosition());
+
+		solo.goBack();
+		assertTrue("ScriptFragment not visible", solo.waitForFragmentByTag(ScriptFragment.TAG));
+		assertTrue("Variable not set in spinner after deletion", solo.searchText(userVariableName));
+		userVariableSpinner = (Spinner) solo.getView(R.id.change_variable_spinner);
+		assertEquals("UserVariable count not as expected in spinner", 2, userVariableSpinner.getAdapter().getCount());
+		UserVariable userVariable = (UserVariable) Reflection.getPrivateField(changeVariableBrick, "userVariable");
 		assertNotNull("UserVariable is null", userVariable);
 		assertTrue("UserVariable Name not as expected", userVariable.getName().equals(userVariableName));
 	}
@@ -167,6 +204,42 @@ public class ChangeVariableTest extends ActivityInstrumentationTestCase2<MainMen
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
+	}
+
+	private void finishUserVariableCreationSafeButSlow(String itemString, boolean forAllSprites) {
+		int iteration = 0;
+
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable), 0, 1000);
+
+		while (!solo.searchText(solo.getString(R.string.formula_editor_make_new_variable), true)) {
+
+			if (iteration++ < MAX_ITERATIONS && iteration > 1) {
+				solo.goBack();
+				assertTrue("Variable Fragment not shown",
+						solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable), 0, 4000));
+				solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
+				assertTrue("Add Variable Dialog not shown",
+						solo.waitForText(solo.getString(R.string.formula_editor_variable_dialog_title)));
+
+				EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
+				solo.enterText(editText, itemString);
+
+				if (forAllSprites) {
+					assertTrue("Variable Dialog not shown",
+							solo.waitForText(solo.getString(R.string.formula_editor_variable_dialog_for_all_sprites)));
+					solo.clickOnText(solo.getString(R.string.formula_editor_variable_dialog_for_all_sprites));
+				} else {
+					assertTrue("Variable Dialog not shown", solo.waitForText(solo
+							.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only)));
+					solo.clickOnText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only));
+				}
+			}
+			Log.i("info", "(" + iteration + ")OkButton-found: " + solo.searchButton(solo.getString(R.string.ok)));
+
+			solo.clickOnButton(solo.getString(R.string.ok));
+			solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable), 0, 1000);
+		}
 	}
 
 }
