@@ -70,6 +70,7 @@ public class ChangeVariableTest extends ActivityInstrumentationTestCase2<MainMen
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();

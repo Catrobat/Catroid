@@ -101,12 +101,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 		getSherlockActivity().getSupportActionBar().setTitle(getString(R.string.formula_editor_title));
 
-		if (variableDeletedReceiver == null) {
-			variableDeletedReceiver = new VariableDeletedReceiver();
-		}
-
-		IntentFilter filterVariableDeleted = new IntentFilter(ScriptActivity.ACTION_VARIABLE_DELETED);
-		getActivity().registerReceiver(variableDeletedReceiver, filterVariableDeleted);
 	}
 
 	public static void showFragment(View view, Brick brick, Formula formula) {
@@ -465,6 +459,27 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 				updateBrickView(currentBrick);
 			}
 		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		if (variableDeletedReceiver != null) {
+			getActivity().unregisterReceiver(variableDeletedReceiver);
+		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		if (variableDeletedReceiver == null) {
+			variableDeletedReceiver = new VariableDeletedReceiver();
+		}
+
+		IntentFilter filterVariableDeleted = new IntentFilter(ScriptActivity.ACTION_VARIABLE_DELETED);
+		getActivity().registerReceiver(variableDeletedReceiver, filterVariableDeleted);
 	}
 
 }
