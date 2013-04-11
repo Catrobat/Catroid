@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.fragment;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.catrobat.catroid.ProjectManager;
@@ -33,6 +34,8 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
@@ -89,6 +92,9 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	private SpriteRenamedReceiver spriteRenamedReceiver;
 	private SpritesListChangedReceiver spritesListChangedReceiver;
 	private SpritesListInitReceiver spritesListInitReceiver;
+
+	private UserVariablesContainer userVariablesContainer;
+	private Map<Sprite, List<UserVariable>> spriteVariables;
 
 	private ActionMode actionMode;
 
@@ -321,8 +327,18 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		addSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)), 0));
 
 		ProjectManager projectManager = ProjectManager.getInstance();
+		userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
+
+		List<UserVariable> userVariablesList = userVariablesContainer.getOrCreateVariableListForSprite(spriteToEdit);
+
 		projectManager.addSprite(addSprite);
 		projectManager.setCurrentSprite(addSprite);
+
+		userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
+		for (int i = 0; i < userVariablesList.size(); i++) {
+			userVariablesContainer.addSpriteUserVariable(userVariablesList.get(i).getName(), userVariablesList.get(i)
+					.getValue());
+		}
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
 
