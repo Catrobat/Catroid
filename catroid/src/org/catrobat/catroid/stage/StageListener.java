@@ -159,7 +159,6 @@ public class StageListener implements ApplicationListener {
 		for (int sprite = 0; sprite < sprites.size(); sprite++) {
 			Look look = sprites.get(sprite).look;
 			stage.addActor(look);
-			stage.addListener(look.getListeners().first());
 		}
 		if (DEBUG) {
 			OrthoCamController camController = new OrthoCamController(camera);
@@ -267,7 +266,6 @@ public class StageListener implements ApplicationListener {
 			for (int i = 0; i < spriteSize; i++) {
 				Sprite sprite = sprites.get(i);
 				stage.addActor(sprite.look);
-				stage.addListener(sprite.look.getListeners().first());
 				sprite.pause();
 			}
 

@@ -32,7 +32,9 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -75,7 +77,18 @@ public class Look extends Image {
 		this.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				return doTouchDown(x, y, pointer);
+				if (doTouchDown(x, y, pointer)) {
+					return true;
+				}
+				setTouchable(Touchable.disabled);
+				Vector2 pointParent = new Vector2();
+				localToParentCoordinates(pointParent.set(x, y));
+				Actor target = getParent().hit(pointParent.x, pointParent.y, true);
+				if (target != null) {
+					target.fire(event);
+				}
+				setTouchable(Touchable.enabled);
+				return false;
 			}
 		});
 
@@ -118,7 +131,18 @@ public class Look extends Image {
 		cloneLook.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				return cloneLook.doTouchDown(x, y, pointer);
+				if (doTouchDown(x, y, pointer)) {
+					return true;
+				}
+				cloneLook.setTouchable(Touchable.disabled);
+				Vector2 pointParent = new Vector2();
+				cloneLook.localToParentCoordinates(pointParent.set(x, y));
+				Actor target = cloneLook.getParent().hit(pointParent.x, pointParent.y, true);
+				if (target != null) {
+					target.fire(event);
+				}
+				cloneLook.setTouchable(Touchable.enabled);
+				return false;
 			}
 		});
 		cloneLook.addListener(new BroadcastListener() {
@@ -151,14 +175,15 @@ public class Look extends Image {
 		// We use Y-down, libgdx Y-up. This is the fix for accurate y-axis detection
 		y = getHeight() - y;
 
-		if (x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight()) {
+		if (x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight() && alphaValue > 0.0) {
 			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
 				if (whenParallelAction == null) {
 					sprite.createWhenScriptActionSequence("Tapped");
+					return true;
 				} else {
 					whenParallelAction.restart();
+					return true;
 				}
-				return true;
 			}
 		}
 		return false;
@@ -201,6 +226,11 @@ public class Look extends Image {
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		checkImageChanged();
+		if (Float.compare(alphaValue, 0.0f) == 0) {
+			setVisible(false);
+		} else {
+			setVisible(true);
+		}
 		if (this.show && this.getDrawable() != null) {
 			super.draw(batch, this.alphaValue);
 		}

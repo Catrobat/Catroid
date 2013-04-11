@@ -76,7 +76,7 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 		solo = null;
 	}
 
-	public void testTapOnTransparentAreaOfForegroundSprite() {
+	public void testTapOnSideAreaOfForegroundSprite() {
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(2000);
@@ -87,7 +87,7 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 		int fishPosY = (int) fish.look.getYPosition();
 		assertTrue("Sprite fish is not at x=0 and y=0", fishPosX == 0 && fishPosY == 0);
 		assertTrue("Sprite fish is not the foreground sprite", fish.look.getZIndex() > cat.look.getZIndex());
-		UiTestUtils.clickOnStageCoordinates(solo, 38, 52, screenWidth, screenHeight);
+		UiTestUtils.clickOnStageCoordinates(solo, 22, 45, screenWidth, screenHeight);
 		solo.sleep(1000);
 		catPosX = (int) cat.look.getXPosition();
 		catPosY = (int) cat.look.getYPosition();
@@ -103,6 +103,58 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 		fishPosX = (int) fish.look.getXPosition();
 		fishPosY = (int) fish.look.getYPosition();
 		assertTrue("Sprite fish has moved", fishPosX == fishX && fishPosY == fishY);
+	}
+
+	public void testTapOnHalfTransparentAreaOfForegroundSprite() {
+		fish.look.setAlphaValue(0.5f);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
+		solo.sleep(2000);
+		int catPosX = (int) cat.look.getXPosition();
+		int catPosY = (int) cat.look.getYPosition();
+		assertTrue("Sprite cat is not at x=0 and y=0", catPosX == 0 && catPosY == 0);
+		int fishPosX = (int) fish.look.getXPosition();
+		int fishPosY = (int) fish.look.getYPosition();
+		assertTrue("Sprite fish is not at x=0 and y=0", fishPosX == 0 && fishPosY == 0);
+		assertTrue("Sprite fish is not the foreground sprite", fish.look.getZIndex() > cat.look.getZIndex());
+		UiTestUtils.clickOnStageCoordinates(solo, 22, 45, screenWidth, screenHeight);
+		solo.sleep(1000);
+		catPosX = (int) cat.look.getXPosition();
+		catPosY = (int) cat.look.getYPosition();
+		assertTrue("Sprite cat is at false position", catPosX == catX && catPosY == catY);
+		fishPosX = (int) fish.look.getXPosition();
+		fishPosY = (int) fish.look.getYPosition();
+		assertTrue("Sprite fish has moved", fishPosX == 0 && fishPosY == 0);
+		UiTestUtils.clickOnStageCoordinates(solo, 0, 0, screenWidth, screenHeight);
+		solo.sleep(1000);
+		catPosX = (int) cat.look.getXPosition();
+		catPosY = (int) cat.look.getYPosition();
+		assertTrue("Sprite cat is at false position", catPosX == catX && catPosY == catY);
+		fishPosX = (int) fish.look.getXPosition();
+		fishPosY = (int) fish.look.getYPosition();
+		assertTrue("Sprite fish has moved", fishPosX == fishX && fishPosY == fishY);
+	}
+
+	public void testTapOnFullTransparentAreaOfForegroundSprite() {
+		fish.look.setAlphaValue(0.0f);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
+		solo.sleep(2000);
+		int catPosX = (int) cat.look.getXPosition();
+		int catPosY = (int) cat.look.getYPosition();
+		assertTrue("Sprite cat is not at x=0 and y=0", catPosX == 0 && catPosY == 0);
+		int fishPosX = (int) fish.look.getXPosition();
+		int fishPosY = (int) fish.look.getYPosition();
+		assertTrue("Sprite fish is not at x=0 and y=0", fishPosX == 0 && fishPosY == 0);
+		assertTrue("Sprite fish is not the foreground sprite", fish.look.getZIndex() > cat.look.getZIndex());
+		UiTestUtils.clickOnStageCoordinates(solo, 0, 0, screenWidth, screenHeight);
+		solo.sleep(1000);
+		catPosX = (int) cat.look.getXPosition();
+		catPosY = (int) cat.look.getYPosition();
+		assertTrue("Sprite cat is at false position", catPosX == catX && catPosY == catY);
+		fishPosX = (int) fish.look.getXPosition();
+		fishPosY = (int) fish.look.getYPosition();
+		assertTrue("Sprite fish has moved", fishPosX == 0 && fishPosY == 0);
 	}
 
 	private void createProject() {
