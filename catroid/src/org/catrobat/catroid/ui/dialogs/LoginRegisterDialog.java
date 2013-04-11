@@ -72,15 +72,8 @@ public class LoginRegisterDialog extends DialogFragment implements OnRegistratio
 
 		final AlertDialog loginRegisterDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
 				.setTitle(getString(R.string.login_register_dialog_title))
-				.setPositiveButton(getString(R.string.login_or_register), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-					}
-				}).setNeutralButton(getString(R.string.password_forgotten), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-					}
-				}).create();
+				.setPositiveButton(getString(R.string.login_or_register), null)
+				.setNeutralButton(getString(R.string.password_forgotten), null).create();
 		loginRegisterDialog.setCanceledOnTouchOutside(true);
 
 		loginRegisterDialog.setOnShowListener(new OnShowListener() {
