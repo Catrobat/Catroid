@@ -1389,8 +1389,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		playTheProject(false, false, false); // green to green
 		int greenPixel1 = createScreenshotBitmap();
+
+		//The color values below are those we get on our test devices
 		String greenHexValue = "ff00fc00";
-		String redHexValue = "ffff0000";
+		String redHexValue = "fff80000";
 		String pixelHexValue = Integer.toHexString(greenPixel1);
 		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
