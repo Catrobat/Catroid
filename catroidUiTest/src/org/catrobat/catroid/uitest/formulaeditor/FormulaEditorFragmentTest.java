@@ -30,14 +30,16 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaEditorHistory;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.graphics.Rect;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -503,8 +505,8 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		assertTrue("Formula Editor Fragment not shown!",
 				solo.waitForText(solo.getString(R.string.formula_editor_title)));
 
-		Button undo = (Button) solo.getView(R.id.formula_editor_keyboard_undo);
-		Button redo = (Button) solo.getView(R.id.formula_editor_keyboard_redo);
+		ImageButton undo = (ImageButton) solo.getView(R.id.formula_editor_keyboard_undo);
+		ImageButton redo = (ImageButton) solo.getView(R.id.formula_editor_keyboard_redo);
 
 		assertTrue("Undo Button not inactive!", !undo.isClickable());
 		assertTrue("Redo Button not inactive!", !redo.isClickable());
@@ -525,5 +527,45 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		assertTrue("Undo Button not inactive!", !undo.isClickable());
 		assertTrue("Redo Button not active!", redo.isClickable());
 
+	}
+
+	public void testDeleteButtonViewOfKeyboard() {
+
+		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		assertTrue("Formula Editor Fragment not shown!",
+				solo.waitForText(solo.getString(R.string.formula_editor_title)));
+
+		ImageButton delete = (ImageButton) solo.getView(R.id.formula_editor_keyboard_delete);
+		assertTrue("Delete Button not active!", delete.isClickable());
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		assertTrue("Delete Button not inactive!", !delete.isClickable());
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));
+		assertTrue("Delete Button not active!", delete.isClickable());
+
+		setAbsoluteCursorPosition(0);
+		assertTrue("Delete Button not inactive!", !delete.isClickable());
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_undo));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_undo));
+		assertTrue("Delete Button not active!", delete.isClickable());
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_redo));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_redo));
+		assertTrue("Delete Button not inactive!", !delete.isClickable());
+	}
+
+	private void setAbsoluteCursorPosition(int position) {
+		((FormulaEditorEditText) solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)).setDoNotMoveCursorOnTab(true);
+		Reflection.setPrivateField(solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID), "absoluteCursorPosition", position);
+		clickOnFormulaEditorEditText();
+	}
+
+	//click on edit text
+	private void clickOnFormulaEditorEditText() {
+		Rect globalVisibleRect = new Rect();
+		solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getGlobalVisibleRect(globalVisibleRect);
+		solo.clickOnScreen(30, globalVisibleRect.top + 10);
 	}
 }
