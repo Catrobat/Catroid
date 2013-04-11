@@ -88,6 +88,8 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 	private boolean isSoundFragmentFromPlaySoundBrickNew = false;
 	private boolean isSoundFragmentHandleAddButtonHandled = false;
+	private boolean isLookFragmentFromSetLookBrickNew = false;
+	private boolean isLookFragmentHandleAddButtonHandled = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -134,6 +136,11 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 					if (currentFragmentPosition == FRAGMENT_SOUNDS && isSoundFragmentFromPlaySoundBrickNew) {
 						isSoundFragmentFromPlaySoundBrickNew = false;
+						isSoundFragmentHandleAddButtonHandled = false;
+					}
+
+					if (currentFragmentPosition == FRAGMENT_LOOKS && isLookFragmentFromSetLookBrickNew) {
+						isLookFragmentFromSetLookBrickNew = false;
 						isSoundFragmentHandleAddButtonHandled = false;
 					}
 
@@ -354,6 +361,14 @@ public class ScriptActivity extends SherlockFragmentActivity {
 			}
 		}
 
+		if (lookFragment != null) {
+			if (lookFragment.isVisible()) {
+				if (lookFragment.onKey(null, keyCode, event)) {
+					return true;
+				}
+			}
+		}
+
 		int backStackEntryCount = fragmentManager.getBackStackEntryCount();
 		for (int i = backStackEntryCount; i > 0; --i) {
 			if (fragmentManager.getBackStackEntryAt(i - 1).getName() != BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG) {
@@ -493,6 +508,22 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		this.isSoundFragmentHandleAddButtonHandled = isSoundFragmentHandleAddButtonHandled;
 	}
 
+	public boolean getIsLookFragmentFromSetLookBrickNew() {
+		return this.isLookFragmentFromSetLookBrickNew;
+	}
+
+	public void setIsLookFragmentFromSetLookBrickNewFalse() {
+		this.isLookFragmentFromSetLookBrickNew = false;
+	}
+
+	public boolean getIsLookFragmentHandleAddButtonHandled() {
+		return this.isLookFragmentHandleAddButtonHandled;
+	}
+
+	public void setIsLookFragmentHandleAddButtonHandled(boolean isLookFragmentHandleAddButtonHandled) {
+		this.isLookFragmentHandleAddButtonHandled = isLookFragmentHandleAddButtonHandled;
+	}
+
 	public void switchToFragmentFromScriptFragment(int fragmentPosition) {
 		ActionBar actionBar = getSupportActionBar();
 
@@ -505,6 +536,16 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 		switch (fragmentPosition) {
 			case FRAGMENT_LOOKS:
+				actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_LOOKS);
+				isLookFragmentFromSetLookBrickNew = true;
+
+				if (lookFragment == null) {
+					lookFragment = new LookFragment();
+					fragmentTransaction.add(R.id.script_fragment_container, lookFragment, LookFragment.TAG);
+				} else {
+					fragmentTransaction.show(lookFragment);
+				}
+				setCurrentFragment(FRAGMENT_LOOKS);
 				break;
 
 			case FRAGMENT_SOUNDS:
