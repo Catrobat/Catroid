@@ -143,7 +143,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					if (((Spinner) v).getSelectedItemPosition() == 0) {
+					if (((Spinner) v).getSelectedItemPosition() == 0 && ((Spinner) v).getAdapter().getCount() == 1) {
 						NewVariableDialog dialog = new NewVariableDialog((Spinner) v);
 						dialog.addVariableDialogListener(SetVariableBrick.this);
 						dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
@@ -228,22 +228,27 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		return copyBrick;
 	}
 
+	private void updateUserVariableIfDeleted(UserVariableAdapterWrapper userVariableAdapterWrapper) {
+		if (userVariable != null) {
+			if (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0) {
+				userVariable = null;
+			}
+		}
+	}
+
 	private void setSpinnerSelection(Spinner variableSpinner) {
 		UserVariableAdapterWrapper userVariableAdapterWrapper = (UserVariableAdapterWrapper) variableSpinner
 				.getAdapter();
 
+		updateUserVariableIfDeleted(userVariableAdapterWrapper);
+
 		if (userVariable != null) {
 			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(userVariable), true);
-			if (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0) {
-				userVariable = null;
-			}
 		} else {
-			if (userVariableAdapterWrapper != null && userVariableAdapterWrapper.getCount() > 1) {
-				variableSpinner.setSelection(1, true);
-				userVariable = userVariableAdapterWrapper.getItem(1);
-			} else {
-				variableSpinner.setSelection(0, true);
-			}
+
+			variableSpinner.setSelection(userVariableAdapterWrapper.getCount() - 1, true);
+			userVariable = userVariableAdapterWrapper.getItem(userVariableAdapterWrapper.getCount() - 1);
+
 		}
 	}
 
@@ -252,10 +257,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		UserVariableAdapterWrapper userVariableAdapterWrapper = ((UserVariableAdapterWrapper) spinnerToUpdate
 				.getAdapter());
 		userVariableAdapterWrapper.notifyDataSetChanged();
-		spinnerToUpdate.setSelection(userVariableAdapterWrapper.getCount() - 1);
-		if (userVariableAdapterWrapper.getCount() > 1) {
-			userVariable = userVariableAdapterWrapper.getItem(userVariableAdapterWrapper.getCount() - 1);
-		}
+		setSpinnerSelection(spinnerToUpdate);
 	}
 
 }
