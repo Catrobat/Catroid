@@ -60,8 +60,6 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
 	private Formula variableFormula;
-	private transient UserVariableAdapterWrapper userVariableAdapterWrapper;
-	private Spinner variableSpinner;
 
 	public ChangeVariableBrick(Sprite sprite, Formula variableFormula) {
 		this.sprite = sprite;
@@ -120,10 +118,11 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		edit_text.setVisibility(View.VISIBLE);
 		edit_text.setOnClickListener(this);
 
-		variableSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
+		Spinner variableSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
 		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.createUserVariableAdapter(context, sprite);
-		userVariableAdapterWrapper = new UserVariableAdapterWrapper(context, userVariableAdapter);
+		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
+				userVariableAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
@@ -180,13 +179,14 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_change_variable_by, null);
-		variableSpinner = (Spinner) prototypeView.findViewById(R.id.change_variable_spinner);
+		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.change_variable_spinner);
 		variableSpinner.setFocusableInTouchMode(false);
 		variableSpinner.setFocusable(false);
 		UserVariableAdapter changeVariableSpinnerAdapter = ProjectManager.getInstance().getCurrentProject()
 				.getUserVariables().createUserVariableAdapter(context, sprite);
 
-		userVariableAdapterWrapper = new UserVariableAdapterWrapper(context, changeVariableSpinnerAdapter);
+		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
+				changeVariableSpinnerAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
 		setSpinnerSelection(variableSpinner);
