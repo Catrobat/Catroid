@@ -39,8 +39,10 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
@@ -58,8 +60,6 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
 	private Formula variableFormula;
-	private transient UserVariableAdapterWrapper userVariableAdapterWrapper;
-	private Spinner variableSpinner;
 
 	public SetVariableBrick(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
 		this.sprite = sprite;
@@ -119,10 +119,11 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		edit_text.setVisibility(View.VISIBLE);
 		edit_text.setOnClickListener(this);
 
-		variableSpinner = (Spinner) view.findViewById(R.id.set_variable_spinner);
+		Spinner variableSpinner = (Spinner) view.findViewById(R.id.set_variable_spinner);
 		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.createUserVariableAdapter(context, sprite);
-		userVariableAdapterWrapper = new UserVariableAdapterWrapper(context, userVariableAdapter);
+		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
+				userVariableAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
@@ -135,17 +136,34 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 			variableSpinner.setFocusable(false);
 		}
 
-		setSpinnerSelection(context, variableSpinner);
+		setSpinnerSelection(variableSpinner);
 
+		variableSpinner.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					if (((Spinner) v).getSelectedItemPosition() == 0) {
+						NewVariableDialog dialog = new NewVariableDialog((Spinner) v);
+						dialog.addVariableDialogListener(SetVariableBrick.this);
+						dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
+								NewVariableDialog.DIALOG_FRAGMENT_TAG);
+						return true;
+					}
+				}
+				return false;
+			}
+		});
 		variableSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position == 0) {
-					NewVariableDialog dialog = new NewVariableDialog();
+				if (position == 0 && ((UserVariableAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
+					NewVariableDialog dialog = new NewVariableDialog((Spinner) parent);
 					dialog.addVariableDialogListener(SetVariableBrick.this);
 					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
 							NewVariableDialog.DIALOG_FRAGMENT_TAG);
 				}
+				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
 			}
 
@@ -161,20 +179,22 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_set_variable, null);
-		Spinner setVariableSpinner = (Spinner) prototypeView.findViewById(R.id.set_variable_spinner);
-		setVariableSpinner.setFocusableInTouchMode(false);
-		setVariableSpinner.setFocusable(false);
+		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.set_variable_spinner);
+		variableSpinner.setFocusableInTouchMode(false);
+		variableSpinner.setFocusable(false);
 		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.createUserVariableAdapter(context, sprite);
 
-		userVariableAdapterWrapper = new UserVariableAdapterWrapper(context, userVariableAdapter);
+		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
+				userVariableAdapter);
 
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
-		setVariableSpinner.setAdapter(userVariableAdapterWrapper);
-		setSpinnerSelection(context, setVariableSpinner);
+		variableSpinner.setAdapter(userVariableAdapterWrapper);
+		setSpinnerSelection(variableSpinner);
 
 		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
 		textSetVariable.setText(String.valueOf(variableFormula.interpretFloat(sprite)));
+
 		return prototypeView;
 	}
 
@@ -208,24 +228,34 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		return copyBrick;
 	}
 
-	private void setSpinnerSelection(Context context, Spinner spinner) {
-		UserVariableAdapterWrapper userVariableAdapterWrapper = (UserVariableAdapterWrapper) spinner.getAdapter();
+	private void setSpinnerSelection(Spinner variableSpinner) {
+		UserVariableAdapterWrapper userVariableAdapterWrapper = (UserVariableAdapterWrapper) variableSpinner
+				.getAdapter();
 
 		if (userVariable != null) {
-			spinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(userVariable), true);
+			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(userVariable), true);
+			if (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0) {
+				userVariable = null;
+			}
 		} else {
 			if (userVariableAdapterWrapper != null && userVariableAdapterWrapper.getCount() > 1) {
-				spinner.setSelection(1, true);
+				variableSpinner.setSelection(1, true);
 				userVariable = userVariableAdapterWrapper.getItem(1);
 			} else {
-				spinner.setSelection(0, true);
+				variableSpinner.setSelection(0, true);
 			}
 		}
 	}
 
 	@Override
-	public void onFinishNewVariableDialog() {
+	public void onFinishNewVariableDialog(Spinner spinnerToUpdate) {
+		UserVariableAdapterWrapper userVariableAdapterWrapper = ((UserVariableAdapterWrapper) spinnerToUpdate
+				.getAdapter());
 		userVariableAdapterWrapper.notifyDataSetChanged();
-		variableSpinner.setSelection(userVariableAdapterWrapper.getCount() - 1);
+		spinnerToUpdate.setSelection(userVariableAdapterWrapper.getCount() - 1);
+		if (userVariableAdapterWrapper.getCount() > 1) {
+			userVariable = userVariableAdapterWrapper.getItem(userVariableAdapterWrapper.getCount() - 1);
+		}
 	}
+
 }

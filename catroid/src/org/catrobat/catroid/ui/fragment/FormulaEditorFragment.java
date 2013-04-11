@@ -29,9 +29,13 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -83,6 +87,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 	public boolean restoreInstance = false;
 	private View fragmentView;
+	private VariableDeletedReceiver variableDeletedReceiver;
 
 	public FormulaEditorFragment(Brick brick, Formula formula) {
 		currentBrick = brick;
@@ -95,6 +100,13 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		setHasOptionsMenu(true);
 
 		getSherlockActivity().getSupportActionBar().setTitle(getString(R.string.formula_editor_title));
+
+		if (variableDeletedReceiver == null) {
+			variableDeletedReceiver = new VariableDeletedReceiver();
+		}
+
+		IntentFilter filterVariableDeleted = new IntentFilter(ScriptActivity.ACTION_VARIABLE_DELETED);
+		getActivity().registerReceiver(variableDeletedReceiver, filterVariableDeleted);
 	}
 
 	public static void showFragment(View view, Brick brick, Formula formula) {
@@ -125,15 +137,20 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		fragTransaction.commit();
 	}
 
-	private void updateBrickViewAndFormula(Brick newBrick, Formula newFormula) {
+	private void updateBrickView(Brick newBrick) {
 		formulaEditorBrick.removeAllViews();
 		View newBrickView = newBrick.getView(context, 0, null);
 		formulaEditorBrick.addView(newBrickView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.MATCH_PARENT));
 		brickView = newBrickView;
+		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
+
+	}
+
+	private void updateBrickViewAndFormula(Brick newBrick, Formula newFormula) {
+		updateBrickView(newBrick);
 		currentFormula = newFormula;
 		setInputFormula(newFormula, SET_FORMULA_ON_CREATE_VIEW);
-		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
 	}
 
 	private void onUserDismiss() {
@@ -435,6 +452,15 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		Log.e("info", "heights: " + brickRect.bottom + " | " + keyboardRec.top);
 		formulaEditorEditText.setMaxHeight(keyboardRec.top - brickRect.bottom);
 
+	}
+
+	private class VariableDeletedReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_VARIABLE_DELETED)) {
+				updateBrickView(currentBrick);
+			}
+		}
 	}
 
 }

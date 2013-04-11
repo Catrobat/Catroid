@@ -32,6 +32,9 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
+import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
+import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
+import org.catrobat.catroid.ui.dialogs.NewVariableDialog.NewVariableDialogListener;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
@@ -48,12 +51,15 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class ChangeVariableBrick extends BrickBaseType implements OnClickListener {
+public class ChangeVariableBrick extends BrickBaseType implements OnClickListener, NewVariableDialogListener {
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
 	private Formula variableFormula;
+	private transient UserVariableAdapterWrapper userVariableAdapterWrapper;
+	private Spinner variableSpinner;
 
 	public ChangeVariableBrick(Sprite sprite, Formula variableFormula) {
 		this.sprite = sprite;
@@ -112,11 +118,13 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		edit_text.setVisibility(View.VISIBLE);
 		edit_text.setOnClickListener(this);
 
-		Spinner variableSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
-		UserVariableAdapter variabeAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		variableSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
+		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.createUserVariableAdapter(context, sprite);
-		variabeAdapter.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
-		variableSpinner.setAdapter(variabeAdapter);
+		userVariableAdapterWrapper = new UserVariableAdapterWrapper(context, userVariableAdapter);
+		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
+
+		variableSpinner.setAdapter(userVariableAdapterWrapper);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			variableSpinner.setClickable(true);
@@ -126,11 +134,17 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 			variableSpinner.setFocusable(false);
 		}
 
-		setSpinnerSelection(context, variableSpinner);
+		setSpinnerSelection();
 
 		variableSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if (position == 0) {
+					NewVariableDialog dialog = new NewVariableDialog();
+					dialog.addVariableDialogListener(ChangeVariableBrick.this);
+					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
+							NewVariableDialog.DIALOG_FRAGMENT_TAG);
+				}
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
 			}
 
@@ -146,14 +160,16 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_change_variable_by, null);
-		Spinner changeVariableSpinner = (Spinner) prototypeView.findViewById(R.id.change_variable_spinner);
-		changeVariableSpinner.setFocusableInTouchMode(false);
-		changeVariableSpinner.setFocusable(false);
+		variableSpinner = (Spinner) prototypeView.findViewById(R.id.change_variable_spinner);
+		variableSpinner.setFocusableInTouchMode(false);
+		variableSpinner.setFocusable(false);
 		UserVariableAdapter changeVariableSpinnerAdapter = ProjectManager.getInstance().getCurrentProject()
 				.getUserVariables().createUserVariableAdapter(context, sprite);
-		changeVariableSpinnerAdapter.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
-		changeVariableSpinner.setAdapter(changeVariableSpinnerAdapter);
-		setSpinnerSelection(context, changeVariableSpinner);
+
+		userVariableAdapterWrapper = new UserVariableAdapterWrapper(context, changeVariableSpinnerAdapter);
+		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
+		variableSpinner.setAdapter(userVariableAdapterWrapper);
+		setSpinnerSelection();
 
 		TextView textChangeVariable = (TextView) prototypeView.findViewById(R.id.brick_change_variable_prototype_view);
 		textChangeVariable.setText(String.valueOf(variableFormula.interpretFloat(sprite)));
@@ -196,18 +212,25 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		return copyBrick;
 	}
 
-	private void setSpinnerSelection(Context context, Spinner spinner) {
-		final UserVariableAdapter variabeAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.createUserVariableAdapter(context, sprite);
+	private void setSpinnerSelection() {
+		UserVariableAdapterWrapper userVariableAdapterWrapper = (UserVariableAdapterWrapper) variableSpinner
+				.getAdapter();
 
 		if (userVariable != null) {
-			spinner.setSelection(variabeAdapter.getPositionOfItem(userVariable), true);
+			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(userVariable), true);
 		} else {
-			if (variabeAdapter != null && variabeAdapter.getCount() > 1) {
-				spinner.setSelection(1, true);
+			if (userVariableAdapterWrapper != null && userVariableAdapterWrapper.getCount() > 1) {
+				variableSpinner.setSelection(1, true);
+				userVariable = userVariableAdapterWrapper.getItem(1);
 			} else {
-				spinner.setSelection(0, true);
+				variableSpinner.setSelection(0, true);
 			}
 		}
+	}
+
+	@Override
+	public void onFinishNewVariableDialog(Spinner spinnerToUpdate) {
+		userVariableAdapterWrapper.notifyDataSetChanged();
+		variableSpinner.setSelection(userVariableAdapterWrapper.getCount() - 1);
 	}
 }

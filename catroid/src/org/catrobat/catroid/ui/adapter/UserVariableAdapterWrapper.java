@@ -27,7 +27,9 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ public class UserVariableAdapterWrapper extends BaseAdapter {
 
 	UserVariableAdapter userVariableAdapter;
 	Context context;
+	private boolean isTouchInDropDownView;
 
 	public UserVariableAdapterWrapper(Context context, UserVariableAdapter userVariableAdapter) {
 		this.context = context;
@@ -44,7 +47,7 @@ public class UserVariableAdapterWrapper extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return userVariableAdapter.getCount() + 1; //TODO check +1
+		return userVariableAdapter.getCount() + 1;
 	}
 
 	@Override
@@ -61,7 +64,7 @@ public class UserVariableAdapterWrapper extends BaseAdapter {
 	}
 
 	public int getPositionOfItem(UserVariable item) {
-		return userVariableAdapter.getPositionOfItem(item);
+		return userVariableAdapter.getPositionOfItem(item) + 1;
 	}
 
 	@Override
@@ -102,11 +105,27 @@ public class UserVariableAdapterWrapper extends BaseAdapter {
 		} else {
 			view = userVariableAdapter.getDropDownView(position - 1, convertView, parent);
 		}
+
+		view.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View paramView, MotionEvent paramMotionEvent) {
+				isTouchInDropDownView = true;
+				return false;
+			}
+		});
 		return view;
 	}
 
 	public void setItemLayout(int itemLayout, int textViewId) {
 		userVariableAdapter.setItemLayout(itemLayout, textViewId);
+	}
+
+	public boolean isTouchInDropDownView() {
+		return isTouchInDropDownView;
+	}
+
+	public void resetIsTouchInDropDownView() {
+		isTouchInDropDownView = false;
 	}
 
 }

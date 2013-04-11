@@ -43,6 +43,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
@@ -50,12 +51,28 @@ import com.actionbarsherlock.app.SherlockDialogFragment;
 public class NewVariableDialog extends SherlockDialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_variable_catroid";
+	Spinner spinnerToUpdate;
+
+	public NewVariableDialog() {
+		super();
+	}
+
+	public NewVariableDialog(Spinner spinnerToUpdate) {
+		super();
+		this.spinnerToUpdate = spinnerToUpdate;
+	}
 
 	public interface NewVariableDialogListener {
-		void onFinishNewVariableDialog();
+		void onFinishNewVariableDialog(Spinner spinnerToUpdate);
 	}
 
 	private List<NewVariableDialogListener> newVariableDialogListenerList = new ArrayList<NewVariableDialog.NewVariableDialogListener>();
+
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		super.onCancel(dialog);
+		variableDialogListenerListFinishNewVariableDialog();
+	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
@@ -94,7 +111,7 @@ public class NewVariableDialog extends SherlockDialogFragment {
 
 	private void variableDialogListenerListFinishNewVariableDialog() {
 		for (NewVariableDialogListener newVariableDialogListener : newVariableDialogListenerList) {
-			newVariableDialogListener.onFinishNewVariableDialog();
+			newVariableDialogListener.onFinishNewVariableDialog(spinnerToUpdate);
 		}
 	}
 
@@ -167,4 +184,5 @@ public class NewVariableDialog extends SherlockDialogFragment {
 			}
 		});
 	}
+
 }
