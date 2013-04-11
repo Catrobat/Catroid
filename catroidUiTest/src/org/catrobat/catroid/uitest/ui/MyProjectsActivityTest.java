@@ -1389,7 +1389,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		playTheProject(false, false, false); // green to green
 		int greenPixel1 = createScreenshotBitmap();
-		String greenHexValue = "ff00ff00";
+		String greenHexValue = "ff00fc00";
 		String redHexValue = "ffff0000";
 		String pixelHexValue = Integer.toHexString(greenPixel1);
 		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
