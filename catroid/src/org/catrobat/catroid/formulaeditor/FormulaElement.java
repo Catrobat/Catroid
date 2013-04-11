@@ -428,7 +428,7 @@ public class FormulaElement implements Serializable {
 	public FormulaElement clone() {
 		FormulaElement leftChildClone = leftChild == null ? null : leftChild.clone();
 		FormulaElement rightChildClone = rightChild == null ? null : rightChild.clone();
-		return new FormulaElement(type, new String(value), null, leftChildClone, rightChildClone);
+		return new FormulaElement(type, new String(value == null ? "" : value), null, leftChildClone, rightChildClone);
 	}
 
 }
