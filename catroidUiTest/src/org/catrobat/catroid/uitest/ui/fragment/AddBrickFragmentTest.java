@@ -66,10 +66,12 @@ public class AddBrickFragmentTest extends ActivityInstrumentationTestCase2<MainM
 		goToAddBrickFromMainMenu();
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 
-		checkActionBarInACatagory(solo.getString(R.string.category_sound), "sound");
 		checkActionBarInACatagory(solo.getString(R.string.category_control), "control");
-		checkActionBarInACatagory(solo.getString(R.string.category_looks), "looks");
 		checkActionBarInACatagory(solo.getString(R.string.category_motion), "motion");
+		checkActionBarInACatagory(solo.getString(R.string.category_sound), "sound");
+		checkActionBarInACatagory(solo.getString(R.string.category_looks), "looks");
+		//searchText just to get focus
+		solo.searchText(solo.getString(R.string.categories));
 		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
 		solo.scrollDownList(fragmentListView);
 		checkActionBarInACatagory(solo.getString(R.string.category_variables), "variables");
