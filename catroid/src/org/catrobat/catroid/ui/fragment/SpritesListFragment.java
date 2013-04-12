@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.fragment;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.catrobat.catroid.ProjectManager;
@@ -94,7 +93,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	private SpritesListInitReceiver spritesListInitReceiver;
 
 	private UserVariablesContainer userVariablesContainer;
-	private Map<Sprite, List<UserVariable>> spriteVariables;
 
 	private ActionMode actionMode;
 

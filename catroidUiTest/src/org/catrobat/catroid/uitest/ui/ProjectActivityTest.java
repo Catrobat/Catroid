@@ -35,10 +35,13 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
@@ -52,6 +55,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -113,6 +117,57 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 		solo = null;
+	}
+
+	public void testCopySpriteWithUserVariables() {
+		Project project = new Project(null, "testProject");
+
+		Sprite firstSprite = new Sprite("firstSprite");
+		Sprite secondSprite = new Sprite("Catroid");
+		project.addSprite(firstSprite);
+		project.addSprite(secondSprite);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(secondSprite);
+
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().addSpriteUserVariable("p", 0d);
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().addSpriteUserVariable("q", 0d);
+
+		Double setVariable1ToValue = Double.valueOf(3d);
+		Double setVariable2ToValue = Double.valueOf(8d);
+
+		SetVariableBrick setVariableBrick1 = new SetVariableBrick(secondSprite, new Formula(setVariable1ToValue),
+				ProjectManager.getInstance().getCurrentProject().getUserVariables().getUserVariable("p", secondSprite));
+
+		SetVariableBrick setVariableBrick2 = new SetVariableBrick(secondSprite, new Formula(setVariable2ToValue),
+				ProjectManager.getInstance().getCurrentProject().getUserVariables().getUserVariable("q", secondSprite));
+
+		Script startScript1 = new StartScript(secondSprite);
+		secondSprite.addScript(startScript1);
+		startScript1.addBrick(setVariableBrick1);
+		startScript1.addBrick(setVariableBrick2);
+
+		solo.clickOnButton(0);
+
+		solo.sleep(200);
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_catroid_name));
+		solo.sleep(200);
+		assertEquals("Copy is not in context menu!", true, solo.searchText(getActivity().getString(R.string.copy)));
+		solo.clickOnText(getActivity().getString(R.string.copy));
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_catroid_name));
+		Sprite copiedSprite = project.getSpriteList().get(2);
+		ProjectManager.getInstance().setCurrentSprite(copiedSprite);
+
+		double q = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable("q", copiedSprite).getValue();
+
+		double p = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable("p", copiedSprite).getValue();
+
+		Log.e("CATROID", "q hat den Wert: " + q);
+		Log.e("CATROID", "p hat den Wert: " + p);
+
+		assertEquals("The local uservariable q exists after copying the sprite!", 0.0, q);
+		assertEquals("The local uservariable p exists after copying the sprite!", 0.0, p);
 	}
 
 	public void testCopySpriteWithNameTaken() {
