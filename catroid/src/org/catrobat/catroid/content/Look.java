@@ -32,7 +32,6 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -81,9 +80,7 @@ public class Look extends Image {
 					return true;
 				}
 				setTouchable(Touchable.disabled);
-				Vector2 pointParent = new Vector2();
-				localToParentCoordinates(pointParent.set(x, y));
-				Actor target = getParent().hit(pointParent.x, pointParent.y, true);
+				Actor target = getParent().hit(event.getStageX(), event.getStageY(), true);
 				if (target != null) {
 					target.fire(event);
 				}
@@ -117,6 +114,7 @@ public class Look extends Image {
 				this.broadcastWaitSequenceMap);
 		cloneLook.whenParallelAction = null;
 		cloneLook.allActionAreFinished = this.allActionAreFinished;
+		cloneLook.actionsToRestart = new ArrayList<Action>();
 
 		return cloneLook;
 	}
@@ -135,9 +133,7 @@ public class Look extends Image {
 					return true;
 				}
 				cloneLook.setTouchable(Touchable.disabled);
-				Vector2 pointParent = new Vector2();
-				cloneLook.localToParentCoordinates(pointParent.set(x, y));
-				Actor target = cloneLook.getParent().hit(pointParent.x, pointParent.y, true);
+				Actor target = cloneLook.getParent().hit(event.getStageX(), event.getStageY(), true);
 				if (target != null) {
 					target.fire(event);
 				}
