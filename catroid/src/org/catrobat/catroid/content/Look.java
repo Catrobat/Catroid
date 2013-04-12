@@ -24,6 +24,7 @@ package org.catrobat.catroid.content;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
@@ -211,9 +212,10 @@ public class Look extends Image {
 		allActionAreFinished = false;
 		int finishedCount = 0;
 		for (int i = 0, n = actions.size; i < n; i++) {
-			for (Action actionToRestart : actionsToRestart) {
+			for (Iterator<Action> iterator = actionsToRestart.iterator(); iterator.hasNext();) {
+				Action actionToRestart = iterator.next();
 				actionToRestart.restart();
-				actionsToRestart.remove(actionToRestart);
+				iterator.remove();
 			}
 			Action action = actions.get(i);
 			if (action.act(delta)) {

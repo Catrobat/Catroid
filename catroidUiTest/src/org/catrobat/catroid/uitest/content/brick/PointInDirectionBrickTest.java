@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -45,7 +44,7 @@ import android.widget.ListView;
 import com.jayway.android.robotium.solo.Solo;
 
 public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
-
+	private static final double SET_DEGREE = 90.0;
 	private Solo solo;
 	private Project project;
 	private PointInDirectionBrick pointInDirectionBrick;
@@ -85,68 +84,7 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_point_in_direction)));
 
-		solo.clickOnEditText(0);
-
-		solo.clickInList(1);
-		assertEquals("Wrong value in field!", "90", solo.getEditText(0).getText().toString());
-		solo.clickInList(2);
-		assertEquals("Wrong value in field!", "-90", solo.getEditText(0).getText().toString());
-		solo.clickInList(3);
-		assertEquals("Wrong value in field!", "0", solo.getEditText(0).getText().toString());
-		solo.clickInList(4);
-		assertEquals("Wrong value in field!", "180", solo.getEditText(0).getText().toString());
-
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, "100");
-		solo.clickOnButton(solo.getString(R.string.ok));
-
-		solo.sleep(200);
-
-		assertTrue("Wrong selection", solo.searchEditText("100"));
-
-		double degrees = (Double) Reflection.getPrivateField(pointInDirectionBrick, "degrees");
-		assertEquals("Text not updated", "" + degrees, "100.0");
-
-		solo.clickOnEditText(0);
-
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, "-12.34");
-		solo.clickOnButton(solo.getString(R.string.ok));
-
-		solo.sleep(200);
-
-		assertTrue("Wrong selection", solo.searchEditText("-12.34"));
-
-		degrees = 0.0;
-		degrees = (Double) Reflection.getPrivateField(pointInDirectionBrick, "degrees");
-		assertEquals("Text not updated", "" + degrees, "-12.34");
-
-		solo.clickOnEditText(0);
-		solo.clickOnButton(solo.getString(R.string.cancel_button));
-
-		solo.sleep(200);
-
-		assertTrue("Wrong selection", solo.searchEditText("-12.34"));
-
-		degrees = 0.0;
-		degrees = (Double) Reflection.getPrivateField(pointInDirectionBrick, "degrees");
-		assertEquals("Text not updated", "" + degrees, "-12.34");
-
-		solo.clickOnEditText(0);
-
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.clickOnButton(solo.getString(R.string.cancel_button));
-
-		solo.sleep(200);
-
-		assertTrue("Wrong selection", solo.searchEditText("-12.34"));
-
-		degrees = 0.0;
-		degrees = (Double) Reflection.getPrivateField(pointInDirectionBrick, "degrees");
-		assertEquals("Text not updated", "" + degrees, "-12.34");
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, SET_DEGREE, "degrees", pointInDirectionBrick);
 	}
 
 	private void createProject() {

@@ -23,18 +23,19 @@
 package org.catrobat.catroid.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class PointInDirectionAction extends TemporalAction {
 
 	private Sprite sprite;
-	private float degrees;
+	private Formula degrees;
 
 	@Override
 	protected void update(float percent) {
 		float degreeOffset = 90.0f;
-		sprite.look.setRotation(-degrees + degreeOffset);
+		sprite.look.setRotation(-degrees.interpretFloat(sprite) + degreeOffset);
 
 	}
 
@@ -42,7 +43,7 @@ public class PointInDirectionAction extends TemporalAction {
 		this.sprite = sprite;
 	}
 
-	public void setDegrees(float degrees) {
+	public void setDegrees(Formula degrees) {
 		this.degrees = degrees;
 	}
 
