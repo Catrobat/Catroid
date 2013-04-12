@@ -199,7 +199,7 @@
 
     <!-- Stage menu dialog -->
     <string name="stage_dialog_back">Zurück</string>
-    <string name="stage_dialog_resume">Fortsetzen</string>
+    <string name="stage_dialog_continue">Fortsetzen</string>
     <string name="stage_dialog_restart">Neu starten</string>
     <string name="stage_dialog_maximize">Maximieren/\nDehnen</string>
     <string name="stage_dialog_axes_on">Achsen Ein</string>
