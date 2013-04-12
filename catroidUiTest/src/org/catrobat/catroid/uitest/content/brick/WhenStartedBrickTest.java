@@ -101,7 +101,16 @@ public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.sleep(200);
 
-		UiTestUtils.addNewBrick(solo, R.string.brick_when_started);
+		//--------------------------------------------------------------------------------------------------
+		//		UiTestUtils.addNewBrick(solo, R.string.brick_when);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.clickOnText(solo.getString(R.string.category_control));
+		solo.searchText(solo.getString(R.string.category_control));
+		//		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		//		solo.scrollListToBottom(fragmentListView);
+		//		solo.clickOnText(solo.getString(R.string.brick_when));
+		solo.clickOnScreen(200, 300);
+		//--------------------------------------------------------------------------------------------------
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
@@ -111,12 +120,12 @@ public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<MainM
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(0) instanceof WhenScript));
+				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof WhenScript));
 
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(1).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof StartScript));
+				(ProjectManager.getInstance().getCurrentSprite().getScript(2) instanceof StartScript));
 
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(2).getBrickList();
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
@@ -141,7 +150,7 @@ public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<MainM
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(1).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof StartScript));
+				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof WhenScript));
 
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(2).getBrickList();
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
