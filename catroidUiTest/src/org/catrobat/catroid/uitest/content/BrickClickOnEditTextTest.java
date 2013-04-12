@@ -104,11 +104,6 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 		assertTrue("Set brick should be instance of SetYBrick", brickListToCheck.get(0) instanceof SetYBrick);
 		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(1) instanceof SetXBrick);
 
-		solo.clickOnText(solo.getString(R.string.brick_set_x));
-		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
-		solo.clickOnText(solo.getString(R.string.brick_set_y));
-		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
-
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 
 		editTextFieldVisibility(solo.getString(R.string.category_control));
@@ -116,6 +111,8 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 		editTextFieldVisibility(solo.getString(R.string.category_sound));
 		editTextFieldVisibility(solo.getString(R.string.category_looks));
 		editTextFieldVisibility(solo.getString(R.string.category_variables));
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		solo.scrollDownList(fragmentListView);
 		editTextFieldVisibility(solo.getString(R.string.category_lego_nxt));
 
 	}
@@ -139,22 +136,26 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnText(category);
 
 		solo.searchText(category);
+		int ignoreFirstTwo = 0;
 
 		ArrayList<EditText> editTextList = solo.getCurrentEditTexts();
 		for (EditText text : editTextList) {
-			if (text.getVisibility() == View.VISIBLE) {
+			if (text.getVisibility() == View.VISIBLE && ignoreFirstTwo > 2) {
 				fail("EditTexts should be invisible in AddBrickFragment! Check other brick xmls for more information");
 			}
+			ignoreFirstTwo++;
 		}
 
 		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
 		solo.scrollDownList(fragmentListView);
 
+		ignoreFirstTwo = 0;
 		editTextList = solo.getCurrentEditTexts();
 		for (EditText text : editTextList) {
-			if (text.getVisibility() == View.VISIBLE) {
+			if (text.getVisibility() == View.VISIBLE && ignoreFirstTwo > 2) {
 				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
 			}
+			ignoreFirstTwo++;
 		}
 
 		solo.scrollUpList(fragmentListView);
