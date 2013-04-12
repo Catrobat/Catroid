@@ -89,6 +89,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryMotionText);
+		solo.searchText(categoryMotionText);
 		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
 
 		TextView placeAtXTextView = (TextView) solo.getView(R.id.brick_place_at_prototype_text_view_x);
@@ -124,9 +125,8 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		int changeYByPrototypeValue = Integer.parseInt(changeYByTextView.getText().toString());
 		assertEquals("Value in Brick ChangeYBy is not correct", BrickValues.CHANGE_Y_BY, changeYByPrototypeValue);
 
-		if (!solo.searchText(solo.getString(R.string.brick_move))) {
-			solo.scrollDownList(fragmentListView);
-		}
+		solo.scrollDownList(fragmentListView);
+		solo.searchText(solo.getString(R.string.brick_move));
 		TextView moveNStepsTextView = (TextView) solo.getView(R.id.brick_move_n_steps_prototype_text_view);
 		float moveNStepsPrototypeValue = Float.parseFloat(moveNStepsTextView.getText().toString());
 		assertEquals("Value in Brick MoveNSteps is not correct", BrickValues.MOVE_STEPS, moveNStepsPrototypeValue);
@@ -201,6 +201,8 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryLooksText);
 
+		// Just to get focus
+		solo.searchText(categoryLooksText);
 		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
 
 		if (!solo.searchText(solo.getString(R.string.brick_set_look))) {
@@ -320,11 +322,13 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryControlText);
 
+		//Just to get focus
+		solo.searchText(categoryControlText);
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+
 		TextView waitSecondsTextView = (TextView) solo.getView(R.id.brick_wait_prototype_text_view);
 		float waitPrototypeValue = Float.parseFloat(waitSecondsTextView.getText().toString());
 		assertEquals("Value in Brick Wait is not correct", (float) BrickValues.WAIT / 1000, waitPrototypeValue);
-
-		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
 
 		if (!solo.searchText(solo.getString(R.string.brick_broadcast_receive))) {
 			solo.scrollDownList(fragmentListView);
@@ -334,12 +338,16 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 				solo.getString(R.string.brick_broadcast_default_value), broadcastReceiveSpinner.getSelectedItem()
 						.toString());
 
-		solo.searchText(solo.getString(R.string.brick_broadcast));
+		if (!solo.searchText(solo.getString(R.string.brick_broadcast))) {
+			solo.scrollDownList(fragmentListView);
+		}
 		Spinner broadcastSpinner = (Spinner) solo.getView(R.id.brick_broadcast_spinner);
 		assertEquals("Value in BroadcastBrick is not correct", solo.getString(R.string.brick_broadcast_default_value),
 				broadcastSpinner.getSelectedItem().toString());
 
-		solo.searchText(solo.getString(R.string.brick_broadcast_wait));
+		if (!solo.searchText(solo.getString(R.string.brick_broadcast_wait))) {
+			solo.scrollDownList(fragmentListView);
+		}
 		Spinner broadcastWaitSpinner = (Spinner) solo.getView(R.id.brick_broadcast_wait_spinner);
 		assertEquals("Value in BroadcastWaitBrick is not correct",
 				solo.getString(R.string.brick_broadcast_default_value), broadcastWaitSpinner.getSelectedItem()

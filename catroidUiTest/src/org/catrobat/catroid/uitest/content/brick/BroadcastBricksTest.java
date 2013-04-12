@@ -50,8 +50,8 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 	private Solo solo;
 	private Project project;
 
-	private static final int SECOND_BRICK_SPINNER_INDEX = 2;
-	private static final int THIRD_BRICK_SPINNER_INDEX = 3;
+	private static final int SECOND_BRICK_SPINNER_INDEX = 1;
+	private static final int THIRD_BRICK_SPINNER_INDEX = 2;
 
 	private static final int BROADCAST_RECEIVE_SPINNER_ID = R.id.brick_broadcast_receive_spinner;
 	private static final int BROADCAST_SPINNER_ID = R.id.brick_broadcast_spinner;
