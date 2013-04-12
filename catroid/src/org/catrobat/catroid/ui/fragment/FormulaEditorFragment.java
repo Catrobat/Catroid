@@ -133,6 +133,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	}
 
 	private void updateBrickView(Brick newBrick) {
+		currentBrick = newBrick;
 		formulaEditorBrick.removeAllViews();
 		View newBrickView = newBrick.getView(context, 0, null);
 		formulaEditorBrick.addView(newBrickView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
