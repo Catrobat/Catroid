@@ -449,8 +449,6 @@
     <string name="formula_editor_false">False</string>
     <string name="formula_editor_decimal_mark">.</string>
     <string name="formula_editor_title">Formula Editor</string>
-    <string name="formula_editor_button_undo">&lt;&lt;</string>
-    <string name="formula_editor_button_redo">&gt;&gt;</string>
     <string name="formula_editor_changes_saved">Changes saved!</string>
     <string name="formula_editor_changes_discarded">Changes discarded!</string>
     <string name="formula_editor_parse_fail">Error: Fix or press again now to discard all changes</string>
@@ -484,7 +482,6 @@
     <string name="formula_editor_look_rotation">look_rotation</string>
     <string name="formula_editor_look_layer">look_layer</string>
     <string name="formula_editor_compute">Compute</string>
-    <string name="formula_editor_delete">Delete</string>
     <string name="formula_editor_object">Object</string>
     <string name="formula_editor_math">Math</string>
     <string name="formula_editor_logic">Logic</string>
