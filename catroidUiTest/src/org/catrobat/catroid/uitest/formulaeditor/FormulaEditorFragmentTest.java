@@ -30,13 +30,16 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaEditorHistory;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.graphics.Rect;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
+import android.widget.ImageButton;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -86,37 +89,6 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
-	//	public void testEditTextFields() {
-	//		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-	//		catKeyboardClicker.clickOnKey("0");
-	//		solo.sleep(100);
-	//		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
-	//		catKeyboardClicker.clickOnKey("1");
-	//		solo.sleep(100);
-	//		solo.clickOnEditText(FORMULA_EDITOR_EDIT_TEXT_ID);
-	//		catKeyboardClicker.clickOnKey("2");
-	//		solo.sleep(100);
-	//		solo.clickOnEditText(3);
-	//		catKeyboardClicker.clickOnKey("3");
-	//		solo.sleep(100);
-	//		solo.clickOnEditText(4);
-	//		catKeyboardClicker.clickOnKey("4");
-	//		solo.sleep(10000);
-	//		//		solo.clickOnEditText(5);
-	//		//		catKeyboardClicker.clickOnKey("5");
-	//		//		solo.clickOnEditText(6);
-	//		//		catKeyboardClicker.clickOnKey("6");
-	//		//		solo.clickOnEditText(7);
-	//		//		catKeyboardClicker.clickOnKey("7");
-	//		//		solo.clickOnEditText(8);
-	//		//		catKeyboardClicker.clickOnKey("8");
-	//		//		solo.clickOnEditText(9);
-	//		//		catKeyboardClicker.clickOnKey("9");
-	//		//		solo.clickOnEditText(10);
-	//		//		catKeyboardClicker.clickOnKey("10");
-	//
-	//	}
 
 	public void testChangeFormula() {
 
@@ -172,7 +144,6 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 	public void testUndo() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		//		catKeyboardClicker.clearEditTextWithCursorBehindLastCharacterOnlyQuickly(FORMULA_EDITOR_EDIT_TEXT_ID);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
@@ -220,7 +191,6 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 	public void testUndoRedo() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		//catKeyboardClicker.clearEditTextWithOnlyNumbersQuickly(FORMULA_EDITOR_EDIT_TEXT_ID);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
@@ -304,7 +274,6 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 				+ getActivity().getString(R.string.formula_editor_function_cos) + "( 90 - - 30 ) , 1 ) ";
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		//		catKeyboardClicker.clearEditTextWithCursorBehindLastCharacterOnlyQuickly(FORMULA_EDITOR_EDIT_TEXT_ID);
 
 		solo.sleep(250);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
@@ -494,5 +463,75 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		isFound = solo.searchText("5") && solo.searchText("-") && solo.searchText("4");
 		assertTrue("5 - 4 not found!", isFound);
 
+	}
+
+	public void testRedoAndUndoButtonViewOfKeyboard() {
+
+		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		assertTrue("Formula Editor Fragment not shown!",
+				solo.waitForText(solo.getString(R.string.formula_editor_title)));
+
+		ImageButton undo = (ImageButton) solo.getView(R.id.formula_editor_keyboard_undo);
+		ImageButton redo = (ImageButton) solo.getView(R.id.formula_editor_keyboard_redo);
+
+		assertTrue("Undo Button not inactive!", !undo.isClickable());
+		assertTrue("Redo Button not inactive!", !redo.isClickable());
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_6));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_6));
+
+		assertTrue("Undo Button not active!", undo.isClickable());
+		assertTrue("Redo Button not inactive!", !redo.isClickable());
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_undo));
+
+		assertTrue("Undo Button not active!", undo.isClickable());
+		assertTrue("Redo Button not active!", redo.isClickable());
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_undo));
+
+		assertTrue("Undo Button not inactive!", !undo.isClickable());
+		assertTrue("Redo Button not active!", redo.isClickable());
+
+	}
+
+	public void testDeleteButtonViewOfKeyboard() {
+
+		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		assertTrue("Formula Editor Fragment not shown!",
+				solo.waitForText(solo.getString(R.string.formula_editor_title)));
+
+		ImageButton delete = (ImageButton) solo.getView(R.id.formula_editor_keyboard_delete);
+		assertTrue("Delete Button not active!", delete.isClickable());
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		assertTrue("Delete Button not inactive!", !delete.isClickable());
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));
+		assertTrue("Delete Button not active!", delete.isClickable());
+
+		setAbsoluteCursorPosition(0);
+		assertTrue("Delete Button not inactive!", !delete.isClickable());
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_undo));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_undo));
+		assertTrue("Delete Button not active!", delete.isClickable());
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_redo));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_redo));
+		assertTrue("Delete Button not inactive!", !delete.isClickable());
+	}
+
+	private void setAbsoluteCursorPosition(int position) {
+		((FormulaEditorEditText) solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)).setDoNotMoveCursorOnTab(true);
+		Reflection.setPrivateField(solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID), "absoluteCursorPosition", position);
+		clickOnFormulaEditorEditText();
+	}
+
+	//click on edit text
+	private void clickOnFormulaEditorEditText() {
+		Rect globalVisibleRect = new Rect();
+		solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getGlobalVisibleRect(globalVisibleRect);
+		solo.clickOnScreen(30, globalVisibleRect.top + 10);
 	}
 }
