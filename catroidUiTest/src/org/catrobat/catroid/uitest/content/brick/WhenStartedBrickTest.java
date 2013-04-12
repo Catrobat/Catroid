@@ -76,6 +76,7 @@ public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<MainM
 
 		ArrayList<Integer> yPosition;
 		int addedYPosition;
+		float whenBrickPosition = 300;
 
 		assertEquals("Incorrect number of bricks.", 4, UiTestUtils.getScriptListView(solo).getCount());
 
@@ -101,16 +102,10 @@ public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.sleep(200);
 
-		//--------------------------------------------------------------------------------------------------
-		//		UiTestUtils.addNewBrick(solo, R.string.brick_when);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(solo.getString(R.string.category_control));
 		solo.searchText(solo.getString(R.string.category_control));
-		//		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
-		//		solo.scrollListToBottom(fragmentListView);
-		//		solo.clickOnText(solo.getString(R.string.brick_when));
-		solo.clickOnScreen(200, 300);
-		//--------------------------------------------------------------------------------------------------
+		solo.clickOnScreen(200, whenBrickPosition);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
