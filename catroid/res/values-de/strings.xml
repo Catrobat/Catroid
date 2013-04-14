@@ -354,6 +354,7 @@
     <string name="brick_if_end">sonst Ende</string>
     <string name="brick_set_variable">Setze Variable</string>
     <string name="brick_change_variable">Ändere Variable</string>
+    <string name="brick_variable_spinner_create_new_variable">Neu…</string>
     <string name="brick_note_default_value">"Anmerkung hier hinzufügen…" </string>
     <string name="brick_broadcast_default_value">"Nachricht 1"</string>
     <!--  -->
@@ -447,8 +448,6 @@
     <string name="formula_editor_false">Falsch</string>
     <string name="formula_editor_decimal_mark">,</string>
     <string name="formula_editor_title">Formel Editor</string>
-    <string name="formula_editor_button_undo">&lt;&lt;</string>
-    <string name="formula_editor_button_redo">&gt;&gt;</string>
     <string name="formula_editor_changes_saved">Änderungen gespeichert!</string>
     <string name="formula_editor_changes_discarded">Änderungen verworfen!</string>
     <string name="formula_editor_parse_fail">Fehler in der Eingabe! Zum Verwerfen erneut klicken.</string>
@@ -482,7 +481,6 @@
     <string name="formula_editor_look_rotation">aussehen_rotation</string>
     <string name="formula_editor_look_layer">aussehen_ebene</string>
     <string name="formula_editor_compute">Berechnen</string>
-    <string name="formula_editor_delete">Löschen</string>
     <string name="formula_editor_object">Objekt</string>
     <string name="formula_editor_math">Funktionen</string>
     <string name="formula_editor_logic">Logik</string>
