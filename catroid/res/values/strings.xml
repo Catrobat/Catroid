@@ -89,14 +89,14 @@
     <string name="hide_details">Hide Details</string>
     <string name="insert_below">Insert Below</string>
     <string name="edit_in_paintroid">Edit in Paintroid</string>
-    <string name="sprite">Sprite</string>
-    <string name="sprites">Sprites</string>
+    <string name="sprite">Object</string>
+    <string name="sprites">Objects</string>
     <string name="spritelist_background_headline">BACKGROUND</string>
     <string name="spritelist_objects_headline">OBJECTS</string>
     <!--  -->
 
     <string name="copy_sprite_finished">copied.</string>
-    <string name="copy_sprite_prefix">Sprite:</string>
+    <string name="copy_sprite_prefix">Object:</string>
     <string name="copy_sprite_name_suffix">_Copy</string>
     <!--  -->
 
@@ -182,11 +182,11 @@
 
 
     <!-- New sprite dialog -->
-    <string name="new_sprite_dialog_default_sprite_name">My Sprite</string>
-    <string name="new_sprite_dialog_title">Name of new Sprite</string>
-    <string name="spritename_already_exists">This spritename already exists</string>
-    <string name="rename_sprite_dialog">Rename Sprite</string>
-    <string name="spritename_invalid">This spritename is invalid</string>
+    <string name="new_sprite_dialog_default_sprite_name">My Object</string>
+    <string name="new_sprite_dialog_title">Name of new Object</string>
+    <string name="spritename_already_exists">This object name already exists</string>
+    <string name="rename_sprite_dialog">Rename Object</string>
+    <string name="spritename_invalid">This object name is invalid</string>
     <!--  -->
 
 
