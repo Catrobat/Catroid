@@ -216,7 +216,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.goBack();
 		assertTrue("Testfile not added from mockActivity", solo.searchText(testFile));
 
-		solo.goBack();
+		solo.waitForFragmentByTag(LookFragment.TAG);
 		assertTrue("", solo.isSpinnerTextSelected(testFile));
 	}
 

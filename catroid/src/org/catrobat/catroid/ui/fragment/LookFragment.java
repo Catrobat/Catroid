@@ -125,6 +125,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	private String paintroidIntentActivityName = "org.catrobat.paintroid.MainActivity";
 
 	private boolean isRenameActionMode;
+	private boolean isResultHandled = false;
 
 	private OnLookDataListChangedAfterNewListener lookDataListChangedAfterNewListener;
 
@@ -205,6 +206,16 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
 
 		handleAddButtonFromNew();
+
+		if (isResultHandled) {
+			isResultHandled = false;
+
+			ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+			if (scriptActivity.getIsLookFragmentFromSetLookBrickNew()
+					&& scriptActivity.getIsLookFragmentHandleAddButtonHandled()) {
+				switchToScriptFragment();
+			}
+		}
 	}
 
 	@Override
@@ -266,6 +277,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 					loadPictureFromCameraIntoCatroid();
 					break;
 			}
+
+			isResultHandled = true;
 		}
 	}
 
@@ -958,21 +971,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
 				ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-
 				if (scriptActivity.getIsLookFragmentFromSetLookBrickNew()) {
-					ActionBar actionBar = scriptActivity.getSupportActionBar();
-					actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_SCRIPTS);
-					scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
-
-					FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager()
-							.beginTransaction();
-					fragmentTransaction.hide(this);
-					fragmentTransaction.show(scriptActivity.getSupportFragmentManager().findFragmentByTag(
-							ScriptFragment.TAG));
-					fragmentTransaction.commit();
-
-					scriptActivity.setIsLookFragmentFromSetLookBrickNewFalse();
-					scriptActivity.setIsLookFragmentHandleAddButtonHandled(false);
+					switchToScriptFragment();
 
 					return true;
 				}
@@ -980,6 +980,21 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				break;
 		}
 		return false;
+	}
+
+	private void switchToScriptFragment() {
+		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+		ActionBar actionBar = scriptActivity.getSupportActionBar();
+		actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_SCRIPTS);
+		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
+
+		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.hide(this);
+		fragmentTransaction.show(scriptActivity.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
+		fragmentTransaction.commit();
+
+		scriptActivity.setIsLookFragmentFromSetLookBrickNewFalse();
+		scriptActivity.setIsLookFragmentHandleAddButtonHandled(false);
 	}
 
 	public interface OnLookDataListChangedAfterNewListener {

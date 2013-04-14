@@ -38,6 +38,7 @@ import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.media.MediaPlayer;
@@ -183,7 +184,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnImageButton(0);
 
 		solo.waitForText(recordedFilename);
-		solo.goBack();
+		solo.waitForFragmentByTag(SoundFragment.TAG);
 
 		assertTrue("New sound file is not selected", solo.isSpinnerTextSelected(recordedFilename));
 	}

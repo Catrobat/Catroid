@@ -112,6 +112,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private ActionMode actionMode;
 
 	private boolean isRenameActionMode;
+	private boolean isResultHandled = false;
 
 	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
 
@@ -364,6 +365,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		getLoaderManager().destroyLoader(ID_LOADER_MEDIA_IMAGE);
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+
+		isResultHandled = true;
 	}
 
 	@Override
@@ -702,6 +705,16 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				}
 			});
 		}
+
+		if (isResultHandled) {
+			isResultHandled = false;
+
+			ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+			if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
+					&& scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
+				switchToScriptFragment();
+			}
+		}
 	}
 
 	private void initClickListener() {
@@ -737,21 +750,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
 				ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-
 				if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()) {
-					ActionBar actionBar = scriptActivity.getSupportActionBar();
-					actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_SCRIPTS);
-					scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
-
-					FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager()
-							.beginTransaction();
-					fragmentTransaction.hide(this);
-					fragmentTransaction.show(scriptActivity.getSupportFragmentManager().findFragmentByTag(
-							ScriptFragment.TAG));
-					fragmentTransaction.commit();
-
-					scriptActivity.setIsSoundFragmentFromPlaySoundBrickNewFalse();
-					scriptActivity.setIsSoundFragmentHandleAddButtonHandled(false);
+					switchToScriptFragment();
 
 					return true;
 				}
@@ -759,6 +759,21 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				break;
 		}
 		return false;
+	}
+
+	private void switchToScriptFragment() {
+		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+		ActionBar actionBar = scriptActivity.getSupportActionBar();
+		actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_SCRIPTS);
+		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
+
+		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.hide(this);
+		fragmentTransaction.show(scriptActivity.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
+		fragmentTransaction.commit();
+
+		scriptActivity.setIsSoundFragmentFromPlaySoundBrickNewFalse();
+		scriptActivity.setIsSoundFragmentHandleAddButtonHandled(false);
 	}
 
 	public interface OnSoundInfoListChangedAfterNewListener {
