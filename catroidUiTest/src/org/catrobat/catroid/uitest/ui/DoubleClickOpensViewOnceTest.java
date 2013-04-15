@@ -22,20 +22,27 @@
  */
 package org.catrobat.catroid.uitest.ui;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import junit.framework.TestSuite;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.ui.dialogs.AddBrickDialog;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -44,15 +51,17 @@ import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class DoubleClickOpensViewOnceTest extends TestSuite {
-	private static final int SOLO_WAIT_FOR_VIEW_TIMEOUT = 2000;
+	private static final int SOLO_WAIT_FOR_VIEW_TIMEOUT = 3000;
 
 	public static TestSuite suite() {
 		TestSuite suite = new TestSuite(DoubleClickOpensViewOnceTest.class.getName());
@@ -62,6 +71,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		suite.addTestSuite(ProjectActivityDoubleClickOpensViewOnceTest.class);
 		suite.addTestSuite(ScriptActivityDoubleClickOpensViewOnceTest.class);
 		suite.addTestSuite(ScriptFragmentDoubleClickOpensViewOnceTest.class);
+		suite.addTestSuite(LookFragmentDoubleClickOpensViewOnceTest.class);
 
 		return suite;
 	}
@@ -451,16 +461,46 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		public void testBrickAdapterOnItemClick() {
-			// TODO: Test it
+			final View brickView = solo.getView(R.id.brick_hide_layout);
+			ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+			ScriptFragment scriptFragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
+			final BrickAdapter brickAdapter = scriptFragment.getAdapter();
+
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+				@Override
+				protected void execute() {
+					brickAdapter.onClick(brickView);
+				}
+			}, R.id.brick_hide_layout, AlertDialog.class);
 		}
 
 		public void testBrickCategoryFragmentOnItemClick() {
-			// TODO: Test it
+			View addButton = solo.getView(R.id.button_add);
+			solo.clickOnView(addButton);
+			solo.waitForFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+
+			ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+			BrickCategoryFragment brickCategoryFragment = (BrickCategoryFragment) activity.getSupportFragmentManager()
+					.findFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+			solo.sleep(500);
+			final OnItemClickListener onItemClickListener = brickCategoryFragment.getListView()
+					.getOnItemClickListener();
+
+			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+				@Override
+				protected void execute() {
+					onItemClickListener.onItemClick(null, null, 0, 0);
+				}
+			}, brickCategoryFragment.getId(), AddBrickDialog.class);
+
 		}
 	}
 
 	public static class LookFragmentDoubleClickOpensViewOnceTest extends
 			ActivityInstrumentationTestBase<MainMenuActivity> {
+		private static final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
+		private static final String FIRST_TEST_LOOK_NAME = "lookNameTest";
+
 		private LookFragment fragment;
 
 		public LookFragmentDoubleClickOpensViewOnceTest() {
@@ -470,9 +510,19 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		@Override
 		public void setUp() throws Exception {
 			UiTestUtils.createTestProject();
+
+			File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+					"catroid_sunglasses.png", RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
+
+			ArrayList<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
+			LookData lookData = new LookData();
+			lookData.setLookFilename(imageFile.getName());
+			lookData.setLookName(FIRST_TEST_LOOK_NAME);
+			lookDataList.add(lookData);
+
 			ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
 			super.setUp();
-			UiTestUtils.getIntoLooksFromMainMenu(solo);
+			UiTestUtils.getIntoLooksFromMainMenu(solo, true);
 			fragment = (LookFragment) Reflection.getPrivateField(solo.getCurrentActivity(), "currentFragment");
 		}
 
@@ -492,8 +542,18 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			}, R.id.script_fragment_container, ScriptActivityFragment.class);
 		}
 
-		public void testLookFragmentOnLookEdit() {
-			// TODO: Test it
-		}
+		//		public void testLookFragmentOnLookEdit() {
+		// TODO: Use paintroid mockup here.
+		//			final View lookView = solo.getView(R.id.look_main_layout);
+		//			ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+		//			final LookFragment lookFragment = (LookFragment) activity.getFragment(ScriptActivity.FRAGMENT_LOOKS);
+		//			
+		//			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+		//				@Override
+		//				protected void execute() {
+		//					lookFragment.onLookEdit(lookView);
+		//				}
+		//			}, R.id.brick_hide_layout, AlertDialog.class);
+		//		}
 	}
 }
