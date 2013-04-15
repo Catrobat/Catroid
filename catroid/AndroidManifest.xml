@@ -110,6 +110,8 @@
             android:theme="@style/Theme.Catroid" />
         <activity
             android:name=".ui.SettingsActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Catroid" />
         <activity
             android:name=".bluetooth.DeviceListActivity"
