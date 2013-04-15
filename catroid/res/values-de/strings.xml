@@ -142,9 +142,6 @@
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
-    <string name="soundrecorder_record_start">Aufnehmen</string>
-    <string name="soundrecorder_record_stop">Beenden</string>
-    <string name="soundrecorder_recording">Aufnahme gestartet…</string>
     <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
     <string name="soundrecorder_recorded_filename">Aufnahme</string>
     <!--  -->
@@ -293,7 +290,6 @@
     </plurals>
 
     <string name="brick_point_in_direction">Zeige in Richtung</string>
-    <string name="brick_point_in_direction_choose_direction">Wähle Richtung</string>
     <string name="brick_point_to">Zeige auf</string>
     <string name="brick_glide">Gleite</string>
     <string name="brick_glide_to_x">zu X:</string>
@@ -358,6 +354,7 @@
     <string name="brick_if_end">sonst Ende</string>
     <string name="brick_set_variable">Setze Variable</string>
     <string name="brick_change_variable">Ändere Variable</string>
+    <string name="brick_variable_spinner_create_new_variable">Neu…</string>
     <string name="brick_note_default_value">"Anmerkung hier hinzufügen…" </string>
     <string name="brick_broadcast_default_value">"Nachricht 1"</string>
     <!--  -->
@@ -390,13 +387,14 @@
     <string name="error_new_project">Beim Erstellen des neuen Projektes ist ein Fehler aufgetreten.</string>
     <string name="error_rename_project">Beim Umbenennen des Projektes vor dem Upload ist ein Fehler aufgetreten.</string>
     <string name="error_load_project">Beim Laden des Projektes ist ein Fehler aufgetreten.</string>
-    <string name="error_no_number_entered">Bitte eine Zahl eingeben.</string>
     <string name="error_screenshot_failed">Beim Speichern des Screenshots ist ein Fehler aufgetreten.</string>
     <string name="error_load_image">Beim Laden des Bildes ist ein Fehler aufgetreten.</string>
     <string name="error_load_sound">Beim Laden des Audiofiles ist ein Fehler aufgetreten.</string>
     <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
     <string name="error_project_compatability">Das Projekt ist nicht mit dieser Version von Catroid kompatibel.</string>
     <string name="error_copy_project">Beim kopieren des Projektes ist ein Fehler aufgetreten.</string>
+    <string name="error_upload_project_with_default_name">Das Projekt mit dem Namen \'Mein erstes Projekt\' kann nicht hochgeladen werden. Bitte das Projekt umbenennen.</string>
+    <string name="error_upload_default_project">Das Projekt entspricht dem Projekt \'Mein erstes Projekt\'. Bitte das Projekt umbauen oder etwas ändern, und noch einmal versuchen.</string>
     <!--  -->
 
 
@@ -450,8 +448,6 @@
     <string name="formula_editor_false">Falsch</string>
     <string name="formula_editor_decimal_mark">,</string>
     <string name="formula_editor_title">Formel Editor</string>
-    <string name="formula_editor_button_undo">&lt;&lt;</string>
-    <string name="formula_editor_button_redo">&gt;&gt;</string>
     <string name="formula_editor_changes_saved">Änderungen gespeichert!</string>
     <string name="formula_editor_changes_discarded">Änderungen verworfen!</string>
     <string name="formula_editor_parse_fail">Fehler in der Eingabe! Zum Verwerfen erneut klicken.</string>
@@ -485,7 +481,6 @@
     <string name="formula_editor_look_rotation">aussehen_rotation</string>
     <string name="formula_editor_look_layer">aussehen_ebene</string>
     <string name="formula_editor_compute">Berechnen</string>
-    <string name="formula_editor_delete">Löschen</string>
     <string name="formula_editor_object">Objekt</string>
     <string name="formula_editor_math">Funktionen</string>
     <string name="formula_editor_logic">Logik</string>
@@ -506,6 +501,7 @@
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
     <string name="formula_editor_make_new_variable">Erstelle neue Variable</string>
+    <string name="formula_editor_variable_dialog_title">Neue Variable</string>
     <string name="formula_editor_variable_dialog_for_all_sprites">Für alle Objekte</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
     <string name="formula_editor_variable_dialog_hint">Namen eingeben</string>

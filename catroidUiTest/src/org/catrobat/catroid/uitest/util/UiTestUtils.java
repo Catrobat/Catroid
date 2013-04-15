@@ -93,6 +93,7 @@ import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -753,6 +754,12 @@ public class UiTestUtils {
 		beginBrick.setLoopEndBrick(endBrick);
 		brickList.add(beginBrick);
 		brickList.add(endBrick);
+
+		FormulaElement numberElement = new FormulaElement(FormulaElement.ElementType.NUMBER, "1", null);
+		FormulaElement bracesElement = new FormulaElement(FormulaElement.ElementType.BRACKET, null, null, null,
+				numberElement);
+		Formula formula = new Formula(bracesElement);
+		brickList.add(new WaitBrick(firstSprite, formula));
 
 		for (Brick brick : brickList) {
 			firstSpriteScript.addBrick(brick);
