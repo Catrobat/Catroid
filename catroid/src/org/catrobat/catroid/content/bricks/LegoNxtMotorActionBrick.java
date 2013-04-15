@@ -91,11 +91,6 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		LegoNxtMotorActionBrick copyBrick = (LegoNxtMotorActionBrick) clone();
 		copyBrick.sprite = sprite;

@@ -91,11 +91,6 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		LegoNxtMotorTurnAngleBrick copyBrick = (LegoNxtMotorTurnAngleBrick) clone();
 		copyBrick.sprite = sprite;

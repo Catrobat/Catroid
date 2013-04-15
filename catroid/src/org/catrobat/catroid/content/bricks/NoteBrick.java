@@ -67,11 +67,6 @@ public class NoteBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		NoteBrick copyBrick = (NoteBrick) clone();
 		copyBrick.sprite = sprite;
