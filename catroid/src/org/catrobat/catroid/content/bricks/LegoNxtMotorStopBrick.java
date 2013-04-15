@@ -72,11 +72,6 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		LegoNxtMotorStopBrick copyBrick = (LegoNxtMotorStopBrick) clone();
 		copyBrick.sprite = sprite;

@@ -80,11 +80,6 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		GlideToBrick copyBrick = (GlideToBrick) clone();
 		copyBrick.sprite = sprite;

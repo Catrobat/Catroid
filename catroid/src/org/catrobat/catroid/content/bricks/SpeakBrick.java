@@ -64,11 +64,6 @@ public class SpeakBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		SpeakBrick copyBrick = (SpeakBrick) clone();
 		copyBrick.sprite = sprite;

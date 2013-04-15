@@ -111,7 +111,7 @@ public class FormulaEditorUserVariableFragmentTest extends
 		startScript2.addBrick(glideToBrick);
 	}
 
-	private void createProjectSetVariableToBrick(String projectName) throws InterruptedException {
+	public void createProjectSetVariableToBrick(String projectName) throws InterruptedException {
 
 		project = new Project(null, projectName);
 
