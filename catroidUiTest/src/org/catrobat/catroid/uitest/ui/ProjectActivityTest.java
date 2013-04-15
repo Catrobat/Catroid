@@ -166,8 +166,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		Log.e("CATROID", "q hat den Wert: " + q);
 		Log.e("CATROID", "p hat den Wert: " + p);
 
-		assertEquals("The local uservariable q exists after copying the sprite!", 0.0, q);
-		assertEquals("The local uservariable p exists after copying the sprite!", 0.0, p);
+		assertEquals("The local uservariable q does not exist after copying the sprite!", 0.0, q);
+		assertEquals("The local uservariable p does not exist after copying the sprite!", 0.0, p);
 	}
 
 	public void testCopySpriteWithNameTaken() {
