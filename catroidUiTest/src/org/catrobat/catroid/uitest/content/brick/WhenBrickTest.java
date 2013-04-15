@@ -73,7 +73,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		}
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
-		//
+
 		int groupCount = adapter.getScriptCount();
 		ArrayList<Integer> yPosition;
 		int addedYPosition;

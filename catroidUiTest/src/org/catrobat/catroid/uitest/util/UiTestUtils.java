@@ -388,12 +388,6 @@ public class UiTestUtils {
 
 		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
 
-		//		while (!solo.waitForText(solo.getCurrentActivity().getString(brickStringId), nThElement, 5000)) {
-		//			if (!solo.scrollDownList(fragmentListView)) {
-		//				fail("Text not shown");
-		//			}
-		//		}
-
 		while (!solo.searchText(solo.getCurrentActivity().getString(brickStringId))) {
 			if (!solo.scrollDownList(fragmentListView)) {
 				fail("Text not shown");

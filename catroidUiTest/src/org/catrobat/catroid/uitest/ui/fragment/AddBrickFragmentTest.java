@@ -66,16 +66,16 @@ public class AddBrickFragmentTest extends ActivityInstrumentationTestCase2<MainM
 		goToAddBrickFromMainMenu();
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 
-		checkActionBarInACatagory(solo.getString(R.string.category_control), "control");
-		checkActionBarInACatagory(solo.getString(R.string.category_motion), "motion");
-		checkActionBarInACatagory(solo.getString(R.string.category_sound), "sound");
-		checkActionBarInACatagory(solo.getString(R.string.category_looks), "looks");
+		checkActionBarInACategory(solo.getString(R.string.category_control), "control");
+		checkActionBarInACategory(solo.getString(R.string.category_motion), "motion");
+		checkActionBarInACategory(solo.getString(R.string.category_sound), "sound");
+		checkActionBarInACategory(solo.getString(R.string.category_looks), "looks");
 		//searchText just to get focus
 		solo.searchText(solo.getString(R.string.categories));
 		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
 		solo.scrollDownList(fragmentListView);
-		checkActionBarInACatagory(solo.getString(R.string.category_variables), "variables");
-		checkActionBarInACatagory(solo.getString(R.string.category_lego_nxt), "lego nxt");
+		checkActionBarInACategory(solo.getString(R.string.category_variables), "variables");
+		checkActionBarInACategory(solo.getString(R.string.category_lego_nxt), "lego nxt");
 	}
 
 	public void testCorrectReturnToScriptFragment() {
@@ -107,7 +107,7 @@ public class AddBrickFragmentTest extends ActivityInstrumentationTestCase2<MainM
 
 	}
 
-	private void checkActionBarInACatagory(String categoryID, String category) {
+	private void checkActionBarInACategory(String categoryID, String category) {
 		String showDetails = solo.getString(R.string.show_details);
 
 		solo.clickOnText(categoryID);
