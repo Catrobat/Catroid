@@ -84,7 +84,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 			}
 		}
 
-		assertEquals("Loop delay did was not 20ms!", deltaY * REPEAT_TIMES, (int) testSprite.look.getYPosition());
+		assertEquals("Loop delay did was not 20ms!", deltaY * REPEAT_TIMES, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 
 	}
 
@@ -109,7 +109,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 			testSprite.look.act(1.0f);
 		}
 
-		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY, (int) testSprite.look.getYPosition());
+		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testRepeatCount() {
@@ -135,7 +135,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 			testSprite.look.act(1.0f);
 		}
 
-		assertEquals("Executed the wrong number of times!", deltaY * 9, (int) testSprite.look.getYPosition());
+		assertEquals("Executed the wrong number of times!", deltaY * 9, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 
 	}
 
@@ -170,7 +170,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 
 		testSprite.look.act(delta);
 		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * REPEAT_TIMES * deltaY,
-				(int) testSprite.look.getYPosition());
+				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNegativeRepeats() throws InterruptedException {
@@ -200,7 +200,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 
 		assertEquals("Executed the wrong number of times!", 0, executedCount);
 		assertEquals("Loop was executed although repeats were set to zero!", expectedDeltaY,
-				(int) testSprite.look.getYPosition());
+				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 }

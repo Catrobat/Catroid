@@ -49,13 +49,13 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 	@Override
 	protected void setUp() {
 		testSprite = new Sprite("sprite");
-		testSprite.look.setXPosition(LOOK_X_POSITION);
-		testSprite.look.setYPosition(LOOK_Y_POSITION);
+		testSprite.look.setXInUserInterfaceDimensionUnit(LOOK_X_POSITION);
+		testSprite.look.setYInUserInterfaceDimensionUnit(LOOK_Y_POSITION);
 		testSprite.look.setAlphaValue(LOOK_ALPHA);
 		testSprite.look.setBrightnessValue(LOOK_BRIGHTNESS);
 		testSprite.look.setScaleX(LOOK_SCALE);
 		testSprite.look.setScaleY(LOOK_SCALE);
-		testSprite.look.setRotation(LOOK_ROTATION);
+		testSprite.look.setRotationInUserInterfaceDimensionUnit(LOOK_ROTATION);
 	}
 
 	public Formula getFormulaBySensor(Sensors sensor) {

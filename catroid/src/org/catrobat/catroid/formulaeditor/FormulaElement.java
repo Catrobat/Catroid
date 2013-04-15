@@ -309,16 +309,16 @@ public class FormulaElement implements Serializable {
 				returnValue = (double) sprite.look.getZIndex();
 				break;
 			case LOOK_ROTATION:
-				returnValue = (double) sprite.look.getRotation();
+				returnValue = (double) sprite.look.getRotationInUserInterfaceDimensionUnit();
 				break;
 			case LOOK_SIZE:
 				returnValue = (double) sprite.look.getScaleX();
 				break;
 			case LOOK_X:
-				returnValue = (double) sprite.look.getXPosition();
+				returnValue = (double) sprite.look.getXInUserInterfaceDimensionUnit();
 				break;
 			case LOOK_Y:
-				returnValue = (double) sprite.look.getYPosition();
+				returnValue = (double) sprite.look.getYInUserInterfaceDimensionUnit();
 				break;
 		}
 		return returnValue;

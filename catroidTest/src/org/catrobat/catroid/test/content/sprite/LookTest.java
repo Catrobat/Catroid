@@ -69,19 +69,19 @@ public class LookTest extends InstrumentationTestCase {
 	}
 
 	public void testXYPositions() {
-		look.setXPosition(50f);
-		assertEquals("Wrong x position!", 50f, look.getXPosition());
-		look.setYPosition(120f);
-		assertEquals("Wrong y position!", 120f, look.getYPosition());
+		look.setXInUserInterfaceDimensionUnit(50f);
+		assertEquals("Wrong x position!", 50f, look.getXInUserInterfaceDimensionUnit());
+		look.setYInUserInterfaceDimensionUnit(120f);
+		assertEquals("Wrong y position!", 120f, look.getYInUserInterfaceDimensionUnit());
 		look.setWidth(120f);
 		look.setHeight(200f);
-		look.setXPosition(66f);
-		assertEquals("Wrong x position!", 66f, look.getXPosition());
-		look.setYPosition(42f);
-		assertEquals("Wrong y position!", 42f, look.getYPosition());
-		look.setXYPosition(123f, 456f);
-		assertEquals("Wrong x position!", 123f, look.getXPosition());
-		assertEquals("Wrong x position!", 456f, look.getYPosition());
+		look.setXInUserInterfaceDimensionUnit(66f);
+		assertEquals("Wrong x position!", 66f, look.getXInUserInterfaceDimensionUnit());
+		look.setYInUserInterfaceDimensionUnit(42f);
+		assertEquals("Wrong y position!", 42f, look.getYInUserInterfaceDimensionUnit());
+		look.setXYInUserInterfaceDimensionUnit(123f, 456f);
+		assertEquals("Wrong x position!", 123f, look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong x position!", 456f, look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testImagePath() {

@@ -46,6 +46,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
 public class Look extends Image {
+	private float DEGREE_UI_OFFSET = 90.0f;
+	private float DEGREES_IN_A_CIRCLE = 360.0f;
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
@@ -322,29 +324,37 @@ public class Look extends Image {
 		this.imageChanged = true;
 	}
 
-	public void setXPosition(float x) {
+	public void setXInUserInterfaceDimensionUnit(float x) {
 		setX(x - getWidth() / 2f);
 	}
 
-	public void setYPosition(float y) {
+	public void setYInUserInterfaceDimensionUnit(float y) {
 		setY(y - getHeight() / 2f);
 	}
 
-	public void setXYPosition(float x, float y) {
+	public void setXYInUserInterfaceDimensionUnit(float x, float y) {
 		setX(x - getWidth() / 2f);
 		setY(y - getHeight() / 2f);
 	}
 
-	public float getXPosition() {
+	public float getXInUserInterfaceDimensionUnit() {
 		float xPosition = getX();
 		xPosition += getWidth() / 2f;
 		return xPosition;
 	}
 
-	public float getYPosition() {
+	public float getYInUserInterfaceDimensionUnit() {
 		float yPosition = getY();
 		yPosition += getHeight() / 2f;
 		return yPosition;
+	}
+
+	public float getRotationInUserInterfaceDimensionUnit() {
+		return modulo(-getRotation() + DEGREE_UI_OFFSET, DEGREES_IN_A_CIRCLE);
+	}
+
+	public void setRotationInUserInterfaceDimensionUnit(float degrees) {
+		setRotation(-degrees + DEGREE_UI_OFFSET);
 	}
 
 	public void setLookData(LookData lookData) {
@@ -395,17 +405,17 @@ public class Look extends Image {
 		return alphaValue;
 	}
 
-	public void setBrightnessValue(float percent) {
-		if (percent < 0f) {
-			percent = 0f;
+	public void setBrightnessValue(float percentagePoints) {
+		if (percentagePoints < 0f) {
+			percentagePoints = 0f;
 		}
-		brightnessValue = percent;
+		brightnessValue = percentagePoints;
 		brightnessChanged = true;
 		imageChanged = true;
 	}
 
-	public void changeBrightnessValueBy(float percent) {
-		brightnessValue += percent;
+	public void changeBrightnessValueBy(float percentagePoints) {
+		brightnessValue += percentagePoints;
 		if (brightnessValue < 0f) {
 			brightnessValue = 0f;
 		}
@@ -437,5 +447,10 @@ public class Look extends Image {
 
 	public void setWhenParallelAction(ParallelAction action) {
 		whenParallelAction = action;
+	}
+
+	private float modulo(float number, float modulo) {
+		float result = number % modulo;
+		return result < 0 ? result + modulo : result;
 	}
 }
