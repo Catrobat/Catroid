@@ -107,15 +107,10 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof LoopEndBrick);
 
-		//--------------------------------------------------------------------------------------------------
-		//UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(solo.getString(R.string.category_control));
 		solo.searchText(solo.getString(R.string.category_control));
-		//		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
-		//		solo.scrollListToBottom(fragmentListView);
 		solo.clickOnText(solo.getString(R.string.brick_broadcast_receive));
-		//--------------------------------------------------------------------------------------------------
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		int addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
@@ -139,15 +134,12 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
 
-		//--------------------------------------------------------------------------------------------------
-		//		UiTestUtils.addNewBrick(solo, R.string.brick_repeat);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(solo.getString(R.string.category_control));
 		solo.searchText(solo.getString(R.string.category_control));
 		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
 		solo.scrollListToBottom(fragmentListView);
 		solo.clickOnText(solo.getString(R.string.brick_repeat));
-		//--------------------------------------------------------------------------------------------------
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);

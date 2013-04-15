@@ -166,7 +166,13 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickLongOnText(solo.getString(R.string.brick_broadcast_receive));
 		solo.clickOnText(solo.getString(R.string.delete));
 
-		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.clickOnText(solo.getString(R.string.category_control));
+		solo.searchText(solo.getString(R.string.category_control));
+		//click on brick broadcast
+		solo.clickOnScreen(200, 700);
+
+		solo.sleep(500);
 
 		// just to get focus
 		solo.clickOnText(brickBroadcastString);
