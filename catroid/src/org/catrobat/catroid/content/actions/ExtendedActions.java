@@ -221,7 +221,7 @@ public class ExtendedActions extends Actions {
 	public static PointInDirectionAction pointInDirection(Sprite sprite, Formula degrees) {
 		PointInDirectionAction action = action(PointInDirectionAction.class);
 		action.setSprite(sprite);
-		action.setDegreesInUIDimensionUnit(degrees);
+		action.setDegreesInUserInterfaceDimensionUnit(degrees);
 		return action;
 	}
 

@@ -42,7 +42,7 @@ public class PointInDirectionAction extends TemporalAction {
 		this.sprite = sprite;
 	}
 
-	public void setDegreesInUIDimensionUnit(Formula degrees) {
+	public void setDegreesInUserInterfaceDimensionUnit(Formula degrees) {
 		this.degrees = degrees;
 	}
 
