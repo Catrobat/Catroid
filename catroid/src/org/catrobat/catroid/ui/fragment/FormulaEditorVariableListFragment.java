@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
 import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
@@ -51,7 +52,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -161,8 +162,8 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 			}
 		});
 
-		Button bottomBar = (Button) getSherlockActivity().findViewById(R.id.formula_editor_variable_list_bottom_bar);
-		bottomBar.setOnClickListener(new View.OnClickListener() {
+		LinearLayout buttonAdd = (LinearLayout) getSherlockActivity().findViewById(R.id.button_add);
+		buttonAdd.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				NewVariableDialog dialog = new NewVariableDialog();
@@ -170,6 +171,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 				dialog.show(getSherlockActivity().getSupportFragmentManager(), NewVariableDialog.DIALOG_FRAGMENT_TAG);
 			}
 		});
+
 		adapter.notifyDataSetChanged();
 
 		super.onStart();
@@ -218,6 +220,12 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		Fragment formulaEditorFragment = fragmentManager
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		fragTransaction.hide(formulaEditorFragment);
+
+		activity.findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
+		activity.findViewById(R.id.bottom_bar_separator).setVisibility(View.GONE);
+		activity.findViewById(R.id.button_play).setVisibility(View.GONE);
+
+		BottomBar.disableButtons(activity);
 		fragTransaction.show(this);
 		fragTransaction.commit();
 
@@ -241,6 +249,8 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	public boolean onKey(DialogInterface d, int keyCode, KeyEvent event) {
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
+				getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.GONE);
+
 				FragmentTransaction fragmentTransaction = getSherlockActivity().getSupportFragmentManager()
 						.beginTransaction();
 				fragmentTransaction.hide(this);

@@ -36,11 +36,4 @@
         android:layout_marginTop="3.5dp"
         android:dividerHeight="3dp" />
 
-    <Button
-        android:id="@+id/formula_editor_variable_list_bottom_bar"
-        android:layout_alignParentBottom="true" 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/formula_editor_make_new_variable" />
-
 </RelativeLayout>

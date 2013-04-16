@@ -165,7 +165,7 @@ public class SetVariableTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertTrue("Variable Fragment not shown",
 				solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable)));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
+		solo.clickOnView(solo.getView(R.id.button_add));
 		assertTrue("Add Variable Dialog not shown",
 				solo.waitForText(solo.getString(R.string.formula_editor_variable_dialog_title)));
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
@@ -219,7 +219,7 @@ public class SetVariableTest extends ActivityInstrumentationTestCase2<MainMenuAc
 				solo.goBack();
 				assertTrue("Variable Fragment not shown",
 						solo.waitForText(solo.getString(R.string.formula_editor_make_new_variable), 0, 4000));
-				solo.clickOnView(solo.getView(R.id.formula_editor_variable_list_bottom_bar));
+				solo.clickOnView(solo.getView(R.id.button_add));
 				assertTrue("Add Variable Dialog not shown",
 						solo.waitForText(solo.getString(R.string.formula_editor_variable_dialog_title)));
 
