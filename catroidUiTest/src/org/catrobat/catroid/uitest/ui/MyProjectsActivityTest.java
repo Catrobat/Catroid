@@ -427,11 +427,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				viewBitmap = viewToTest.getDrawingCache();
 				int testPixelX = viewBitmap.getWidth() / 2;
 				int testPixelY = viewBitmap.getHeight() / 2;
+				//the following equals ARGB value #fff8fcf8, which is 
+				//the white value on the test device
+				int expectedWhite = -459528;
 				switch (counter) {
 					case 1:
 						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
-						assertEquals("Image color should be white",
-								solo.getCurrentActivity().getResources().getColor(R.color.white), pixelColor);
+						assertEquals("Image color should be white", expectedWhite, pixelColor);
 
 						assertEquals("Image is not scaled right", expectedImageWidth, viewBitmap.getWidth());
 						assertEquals("Image is not scaled right", expectedImageHeigth, viewBitmap.getHeight());
@@ -524,7 +526,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "scroll bottom");
 		solo.scrollToTop();
 		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "scroll up");
-		solo.sleep(500);
+		solo.sleep(100);
 		int currentViewID;
 		int pixelColor;
 		int imageViewID = R.id.my_projects_activity_project_image;
@@ -538,11 +540,15 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				viewBitmap = viewToTest.getDrawingCache();
 				int testPixelX = viewBitmap.getWidth() / 2;
 				int testPixelY = viewBitmap.getHeight() / 2;
+
+				//the following equals ARGB value #fff8fcf8, which is 
+				//the white value on the test device
+				int expectedWhite = -459528;
 				switch (counter) {
 					case 1:
 						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
-						assertEquals("Image color should be white",
-								solo.getCurrentActivity().getResources().getColor(R.color.white), pixelColor);
+
+						assertEquals("Image color should be white", expectedWhite, pixelColor);
 						break;
 					case 2:
 						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
@@ -551,8 +557,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 						break;
 					case 3:
 						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
-						assertEquals("Image color should be white",
-								solo.getCurrentActivity().getResources().getColor(R.color.white), pixelColor);
+						assertEquals("Image color should be white", expectedWhite, pixelColor);
 						break;
 					default:
 						break;
