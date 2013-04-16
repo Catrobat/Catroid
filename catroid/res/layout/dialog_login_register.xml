@@ -64,31 +64,9 @@
     </EditText>
 
     <LinearLayout
-        android:id="@+id/register_button_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/password"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/login_register_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:text="@string/login_or_register" />
-
-        <Button
-            android:id="@+id/password_forgotten_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:text="@string/password_forgotten" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/register_button_layout"
         android:orientation="vertical" >
 
         <TextView

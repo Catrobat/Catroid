@@ -72,11 +72,6 @@ public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		ChangeSizeByNBrick copyBrick = (ChangeSizeByNBrick) clone();
 		copyBrick.sprite = sprite;

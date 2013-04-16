@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
 import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
 import org.catrobat.catroid.ui.dialogs.NewVariableDialog.NewVariableDialogListener;
@@ -37,6 +38,7 @@ import org.catrobat.catroid.ui.dialogs.NewVariableDialog.NewVariableDialogListen
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -51,6 +53,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -163,10 +166,12 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 			@Override
 			public void onClick(View view) {
 				NewVariableDialog dialog = new NewVariableDialog();
+				dialog.addVariableDialogListener(FormulaEditorVariableListFragment.this);
 				dialog.show(getSherlockActivity().getSupportFragmentManager(), NewVariableDialog.DIALOG_FRAGMENT_TAG);
 			}
 		});
 		adapter.notifyDataSetChanged();
+
 		super.onStart();
 	}
 
@@ -191,6 +196,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 					ProjectManager.getInstance().getCurrentProject().getUserVariables()
 							.deleteUserVariableByName(adapter.getItem(deleteIndex).getName());
 					adapter.notifyDataSetChanged();
+					getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_VARIABLE_DELETED));
 				}
 				return true;
 			default:
@@ -200,7 +206,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	}
 
 	@Override
-	public void onFinishNewVariableDialog() {
+	public void onFinishNewVariableDialog(Spinner spinnerToUpdate) {
 		adapter.notifyDataSetChanged();
 	}
 
@@ -238,8 +244,11 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 				FragmentTransaction fragmentTransaction = getSherlockActivity().getSupportFragmentManager()
 						.beginTransaction();
 				fragmentTransaction.hide(this);
-				fragmentTransaction.show(getSherlockActivity().getSupportFragmentManager().findFragmentByTag(
-						FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
+				FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) getSherlockActivity()
+						.getSupportFragmentManager().findFragmentByTag(
+								FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+				formulaEditorFragment.updateBrickView();
+				fragmentTransaction.show(formulaEditorFragment);
 				fragmentTransaction.commit();
 				return true;
 			default:
@@ -280,10 +289,12 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 				}
 			}
 
-			adapter.setSelectMode(Constants.SELECT_NONE);
 			adapter.notifyDataSetChanged();
+			getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_VARIABLE_DELETED));
+			adapter.setSelectMode(Constants.SELECT_NONE);
 			contextActionMode = null;
 			inContextMode = false;
 		}
 	};
+
 }

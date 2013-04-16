@@ -75,6 +75,10 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		this.textViewId = textViewId;
 	}
 
+	public int getItemLayout() {
+		return itemLayout;
+	}
+
 	@Override
 	public int getCount() {
 		return spriteVariables.size() + projectVariables.size();
@@ -193,8 +197,12 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 			holder = new ViewHolder();
 			holder.text1 = (TextView) view.findViewById(android.R.id.text1);
 			view.setTag(holder);
-		} else {
+		} else if (view.getTag() instanceof ViewHolder) {
 			holder = (ViewHolder) view.getTag();
+		} else {
+			holder = new ViewHolder();
+			holder.text1 = (TextView) view.findViewById(android.R.id.text1);
+			view.setTag(holder);
 		}
 		holder.text1.setText(variable.getName());
 		return view;

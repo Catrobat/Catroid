@@ -22,9 +22,11 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -41,6 +43,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
@@ -48,9 +51,27 @@ import com.actionbarsherlock.app.SherlockDialogFragment;
 public class NewVariableDialog extends SherlockDialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_variable_catroid";
+	Spinner spinnerToUpdate;
+
+	public NewVariableDialog() {
+		super();
+	}
+
+	public NewVariableDialog(Spinner spinnerToUpdate) {
+		super();
+		this.spinnerToUpdate = spinnerToUpdate;
+	}
 
 	public interface NewVariableDialogListener {
-		void onFinishNewVariableDialog();
+		void onFinishNewVariableDialog(Spinner spinnerToUpdate);
+	}
+
+	private List<NewVariableDialogListener> newVariableDialogListenerList = new ArrayList<NewVariableDialog.NewVariableDialogListener>();
+
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		super.onCancel(dialog);
+		variableDialogListenerListFinishNewVariableDialog();
 	}
 
 	@Override
@@ -84,6 +105,16 @@ public class NewVariableDialog extends SherlockDialogFragment {
 		return dialogNewVariable;
 	}
 
+	public void addVariableDialogListener(NewVariableDialogListener newVariableDialogListener) {
+		newVariableDialogListenerList.add(newVariableDialogListener);
+	}
+
+	private void variableDialogListenerListFinishNewVariableDialog() {
+		for (NewVariableDialogListener newVariableDialogListener : newVariableDialogListenerList) {
+			newVariableDialogListener.onFinishNewVariableDialog(spinnerToUpdate);
+		}
+	}
+
 	private void handleOkButton(View dialogView) {
 		EditText variableNameEditText = (EditText) dialogView
 				.findViewById(R.id.dialog_formula_editor_variable_name_edit_text);
@@ -91,9 +122,6 @@ public class NewVariableDialog extends SherlockDialogFragment {
 				.findViewById(R.id.dialog_formula_editor_variable_name_local_variable_radio_button);
 		RadioButton globalVariable = (RadioButton) dialogView
 				.findViewById(R.id.dialog_formula_editor_variable_name_global_variable_radio_button);
-
-		NewVariableDialogListener newVariableDialogListener = (NewVariableDialogListener) getSherlockActivity()
-				.getSupportFragmentManager().findFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
 
 		String variableName = variableNameEditText.getText().toString();
 		if (globalVariable.isChecked()) {
@@ -105,12 +133,12 @@ public class NewVariableDialog extends SherlockDialogFragment {
 			} else {
 				ProjectManager.getInstance().getCurrentProject().getUserVariables()
 						.addProjectUserVariable(variableName, 0.0);
-				newVariableDialogListener.onFinishNewVariableDialog();
+				variableDialogListenerListFinishNewVariableDialog();
 			}
 		} else if (localVariable.isChecked()) {
 			ProjectManager.getInstance().getCurrentProject().getUserVariables()
 					.addSpriteUserVariable(variableName, 0.0);
-			newVariableDialogListener.onFinishNewVariableDialog();
+			variableDialogListenerListFinishNewVariableDialog();
 		}
 	}
 
@@ -156,4 +184,5 @@ public class NewVariableDialog extends SherlockDialogFragment {
 			}
 		});
 	}
+
 }
