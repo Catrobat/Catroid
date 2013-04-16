@@ -34,7 +34,7 @@
         android:icon="@drawable/ic_menu_delete"
         android:showAsAction="ifRoom"
         android:title="@string/delete"/>
-    
+
     <item
         android:id="@+id/rename"
         android:showAsAction="never"

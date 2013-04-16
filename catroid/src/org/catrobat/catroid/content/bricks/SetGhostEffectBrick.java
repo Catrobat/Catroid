@@ -70,11 +70,6 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		SetGhostEffectBrick copyBrick = (SetGhostEffectBrick) clone();
 		copyBrick.sprite = sprite;

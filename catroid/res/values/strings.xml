@@ -233,7 +233,6 @@
 
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">New…</string>
-    <string name="broadcast_nothing_selected">Nothing…</string>
     <!--  -->
 
 
@@ -357,6 +356,7 @@
     <string name="brick_if_end">End If</string>
     <string name="brick_set_variable">Set variable</string>
     <string name="brick_change_variable">Change variable</string>
+    <string name="brick_variable_spinner_create_new_variable">New…</string>
     <string name="brick_note_default_value">"add comment here…"</string>
     <string name="brick_broadcast_default_value">"message 1"</string>
     <!--  -->
@@ -451,8 +451,6 @@
     <string name="formula_editor_false">False</string>
     <string name="formula_editor_decimal_mark">.</string>
     <string name="formula_editor_title">Formula Editor</string>
-    <string name="formula_editor_button_undo">&lt;&lt;</string>
-    <string name="formula_editor_button_redo">&gt;&gt;</string>
     <string name="formula_editor_changes_saved">Changes saved!</string>
     <string name="formula_editor_changes_discarded">Changes discarded!</string>
     <string name="formula_editor_parse_fail">Error: Fix or press again now to discard all changes</string>
@@ -486,7 +484,6 @@
     <string name="formula_editor_look_rotation">look_rotation</string>
     <string name="formula_editor_look_layer">look_layer</string>
     <string name="formula_editor_compute">Compute</string>
-    <string name="formula_editor_delete">Delete</string>
     <string name="formula_editor_object">Object</string>
     <string name="formula_editor_math">Math</string>
     <string name="formula_editor_logic">Logic</string>

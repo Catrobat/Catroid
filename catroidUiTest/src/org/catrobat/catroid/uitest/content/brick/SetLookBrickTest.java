@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
@@ -37,8 +38,11 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -53,6 +57,9 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 	private File lookFile;
 	private File lookFile2;
 	private ArrayList<LookData> lookDataList;
+	private String testFile = "testFile";
+
+	private File paintroidImageFile;
 
 	public SetLookBrickTest() {
 		super(MainMenuActivity.class);
@@ -62,7 +69,12 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.clearAllUtilTestProjects();
+
+		paintroidImageFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/" + testFile + ".png",
+				R.drawable.catroid_banzai, getActivity());
+
 		createProject();
+
 		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -79,6 +91,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		if (lookFile2.exists()) {
 			lookFile2.delete();
 		}
+		paintroidImageFile.delete();
 		super.tearDown();
 		solo = null;
 	}
@@ -174,6 +187,37 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 			selectLook(lookName2, lookName, look2ImagePath);
 			selectLook(lookName, lookName2, look1ImagePath);
 		}
+	}
+
+	public void testAddNewLook() {
+		String newText = solo.getString(R.string.new_broadcast_message);
+		String scriptsSpinnerText = solo.getString(R.string.scripts);
+		String looksSpinnerText = solo.getString(R.string.looks);
+
+		Bundle bundleForGallery = new Bundle();
+		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
+		intent.putExtras(bundleForGallery);
+
+		clickOnSpinnerItem(scriptsSpinnerText, looksSpinnerText);
+		clickOnSpinnerItem(looksSpinnerText, scriptsSpinnerText);
+
+		solo.clickOnText(lookName);
+		solo.clickOnText(newText);
+
+		ScriptActivity currentActivity = (ScriptActivity) solo.getCurrentActivity();
+		solo.sleep(200);
+		LookFragment lookFragment = (LookFragment) currentActivity.getFragment(ScriptActivity.FRAGMENT_LOOKS);
+		lookFragment.startActivityForResult(intent, LookFragment.REQUEST_SELECT_IMAGE);
+
+		solo.sleep(200);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.goBack();
+		assertTrue("Testfile not added from mockActivity", solo.searchText(testFile));
+
+		solo.waitForFragmentByTag(LookFragment.TAG);
+		assertTrue("", solo.isSpinnerTextSelected(testFile));
 	}
 
 	public void selectLook(String newLook, String oldName, String lookImagePath) {

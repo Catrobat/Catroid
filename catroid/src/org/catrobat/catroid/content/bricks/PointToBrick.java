@@ -76,11 +76,6 @@ public class PointToBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		PointToBrick copyBrick = (PointToBrick) clone();
 		copyBrick.sprite = sprite;

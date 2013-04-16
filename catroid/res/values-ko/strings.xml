@@ -301,8 +301,6 @@
     <!-- Formula Editor Strings -->
     <string name="formula_editor_decimal_mark">"."</string>
     <string name="formula_editor_title">"수식 편집기"</string>
-    <string name="formula_editor_button_undo">"실행 취소"</string>
-    <string name="formula_editor_button_redo">"다시 실행"</string>
     <string name="formula_editor_changes_saved">"변경 내용이 저장되었습니다."</string>
     <string name="formula_editor_changes_discarded">"변경 내용이 취소되었습니다."</string>
     <string name="formula_editor_parse_fail">"입력에 오류가 있습니다! 해결하거나 취소하려면 다시 누르십시오."</string>

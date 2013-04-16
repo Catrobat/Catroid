@@ -72,11 +72,6 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		ChangeGhostEffectByNBrick copyBrick = (ChangeGhostEffectByNBrick) clone();
 		copyBrick.sprite = sprite;

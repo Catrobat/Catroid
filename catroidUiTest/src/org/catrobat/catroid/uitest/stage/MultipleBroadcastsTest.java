@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.uitest.stage;
 
-import org.catrobat.catroid.ProjectManager;
+import java.util.ArrayList;
+
 import org.catrobat.catroid.content.BroadcastScript;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -73,15 +73,15 @@ public class MultipleBroadcastsTest extends ActivityInstrumentationTestCase2<Sta
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(2000);
-		assertEquals("Sprite1 is at the false x position", sprite1PosX, (int) sprite1.look.getX());
-		assertEquals("Sprite2 is at the false x position", sprite2PosX, (int) sprite2.look.getX());
-		assertEquals("Sprite3 is at the false x position", sprite3PosX, (int) sprite3.look.getX());
-		assertEquals("Sprite4 is at the false x position", sprite4PosX, (int) sprite4.look.getX());
+		assertEquals("Sprite1 is at the false x position", sprite1PosX, (int) sprite1.look.getXPosition());
+		assertEquals("Sprite2 is at the false x position", sprite2PosX, (int) sprite2.look.getXPosition());
+		assertEquals("Sprite3 is at the false x position", sprite3PosX, (int) sprite3.look.getXPosition());
+		assertEquals("Sprite4 is at the false x position", sprite4PosX, (int) sprite4.look.getXPosition());
 
 	}
 
 	private void createProject() {
-		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 
 		sprite1 = new Sprite("sprite1");
 		StartScript startScript1 = new StartScript(sprite1);
@@ -94,7 +94,7 @@ public class MultipleBroadcastsTest extends ActivityInstrumentationTestCase2<Sta
 		broadcastScript1.addBrick(setXBrick1);
 		sprite1.addScript(startScript1);
 		sprite1.addScript(broadcastScript1);
-		project.addSprite(sprite1);
+		spriteList.add(sprite1);
 
 		sprite2 = new Sprite("sprite2");
 		StartScript startScript2 = new StartScript(sprite2);
@@ -107,7 +107,7 @@ public class MultipleBroadcastsTest extends ActivityInstrumentationTestCase2<Sta
 		broadcastScript2.addBrick(setXBrick2);
 		sprite2.addScript(startScript2);
 		sprite2.addScript(broadcastScript2);
-		project.addSprite(sprite2);
+		spriteList.add(sprite2);
 
 		sprite3 = new Sprite("sprite3");
 		StartScript startScript3 = new StartScript(sprite3);
@@ -120,7 +120,7 @@ public class MultipleBroadcastsTest extends ActivityInstrumentationTestCase2<Sta
 		broadcastScript3.addBrick(setXBrick3);
 		sprite3.addScript(startScript3);
 		sprite3.addScript(broadcastScript3);
-		project.addSprite(sprite3);
+		spriteList.add(sprite3);
 
 		sprite4 = new Sprite("sprite4");
 		StartScript startScript4 = new StartScript(sprite4);
@@ -133,10 +133,9 @@ public class MultipleBroadcastsTest extends ActivityInstrumentationTestCase2<Sta
 		broadcastScript4.addBrick(setXBrick4);
 		sprite4.addScript(startScript4);
 		sprite4.addScript(broadcastScript4);
-		project.addSprite(sprite4);
+		spriteList.add(sprite4);
 
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().saveProject();
+		UiTestUtils.createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, spriteList, null);
 	}
 
 }

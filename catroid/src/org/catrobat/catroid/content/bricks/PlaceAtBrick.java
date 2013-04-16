@@ -75,11 +75,6 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		PlaceAtBrick copyBrick = (PlaceAtBrick) clone();
 		copyBrick.sprite = sprite;
