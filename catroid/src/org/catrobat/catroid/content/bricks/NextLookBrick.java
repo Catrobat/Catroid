@@ -54,11 +54,6 @@ public class NextLookBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		NextLookBrick copyBrick = (NextLookBrick) clone();
 		copyBrick.sprite = sprite;

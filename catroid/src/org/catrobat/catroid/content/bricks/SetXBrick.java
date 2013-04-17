@@ -70,11 +70,6 @@ public class SetXBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		SetXBrick copyBrick = (SetXBrick) clone();
 		copyBrick.sprite = sprite;

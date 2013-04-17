@@ -82,12 +82,6 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		return NO_RESOURCES;
 	}
 
-	@Override
-	public Sprite getSprite() {
-		return sprite;
-
-	}
-
 	public ChangeVariableBrick() {
 	}
 

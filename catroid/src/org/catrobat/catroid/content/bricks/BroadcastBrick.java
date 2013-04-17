@@ -72,11 +72,6 @@ public class BroadcastBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		BroadcastBrick copyBrick = (BroadcastBrick) clone();
 		copyBrick.sprite = sprite;

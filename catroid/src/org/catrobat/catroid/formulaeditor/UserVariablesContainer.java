@@ -89,7 +89,7 @@ public class UserVariablesContainer implements Serializable {
 		}
 	}
 
-	private List<UserVariable> getOrCreateVariableListForSprite(Sprite sprite) {
+	public List<UserVariable> getOrCreateVariableListForSprite(Sprite sprite) {
 		List<UserVariable> vars = spriteVariables.get(sprite);
 		if (vars == null) {
 			vars = new ArrayList<UserVariable>();
