@@ -214,7 +214,6 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.goBack();
-		solo.sleep(1000);
 		assertTrue("Testfile not added from mockActivity", solo.searchText(testFile));
 
 		solo.waitForFragmentByTag(LookFragment.TAG);
