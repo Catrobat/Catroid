@@ -710,7 +710,7 @@ public class UiTestUtils {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		Project project = new Project(context, projectName);
-		Sprite firstSprite = new Sprite(context.getString(R.string.default_project_sprites_catroid_name));
+		Sprite firstSprite = new Sprite(context.getString(R.string.default_project_sprites_pocketcode_name));
 		Sprite secondSprite = new Sprite("second_sprite");
 
 		Script firstSpriteScript = new StartScript(firstSprite);

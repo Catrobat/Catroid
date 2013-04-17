@@ -83,7 +83,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		assertTrue("Licence text not present", solo.searchText(solo.getString(R.string.register_terms)));
 		assertTrue("Licence link not present",
-				solo.searchText(solo.getString(R.string.register_catroid_terms_of_use_text)));
+				solo.searchText(solo.getString(R.string.register_pocketcode_terms_of_use_text)));
 	}
 
 	public void testRegisterNewUser() throws Throwable {
