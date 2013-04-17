@@ -32,7 +32,10 @@ import org.catrobat.catroid.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.ResultReceiver;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class ServerCalls {
@@ -193,7 +196,7 @@ public class ServerCalls {
 	}
 
 	public boolean registerOrCheckToken(String username, String password, String userEmail, String language,
-			String country, String token) throws WebconnectionException {
+			String country, Context context) throws WebconnectionException {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
 		}
@@ -203,7 +206,6 @@ public class ServerCalls {
 			postValues.put(REG_USER_NAME, username);
 			postValues.put(REG_USER_PASSWORD, password);
 			postValues.put(REG_USER_EMAIL, userEmail);
-			postValues.put(Constants.TOKEN, token);
 
 			if (country != null) {
 				postValues.put(REG_USER_COUNTRY, country);
@@ -218,11 +220,14 @@ public class ServerCalls {
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
+			String token = "";
 
 			Log.v(TAG, "result string: " + resultString);
 
 			jsonObject = new JSONObject(resultString);
 			statusCode = jsonObject.getInt("statusCode");
+			token = jsonObject.getString("token");
+
 			String serverAnswer = jsonObject.optString("answer");
 
 			boolean registered;
@@ -230,6 +235,8 @@ public class ServerCalls {
 				registered = false;
 			} else if (statusCode == SERVER_RESPONSE_REGISTER_OK) {
 				registered = true;
+				SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+				sharedPreferences.edit().putString(Constants.TOKEN, token).commit();
 			} else {
 				throw new WebconnectionException(statusCode, serverAnswer);
 			}
