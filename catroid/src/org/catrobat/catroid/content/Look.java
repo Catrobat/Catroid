@@ -46,8 +46,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
 public class Look extends Image {
-	private float DEGREE_UI_OFFSET = 90.0f;
-	private float DEGREES_IN_A_CIRCLE = 360.0f;
+	private static final float DEGREE_UI_OFFSET = 90.0f;
+	private static final float DEGREES_IN_A_CIRCLE = 360.0f;
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
