@@ -285,7 +285,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		fragmentTransaction.add(R.id.script_fragment_container, brickCategoryFragment,
 				BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 
-		//fragmentTransaction.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+		fragmentTransaction.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 		fragmentTransaction.commit();
 
 		adapter.notifyDataSetChanged();
