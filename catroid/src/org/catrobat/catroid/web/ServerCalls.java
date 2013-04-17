@@ -77,7 +77,7 @@ public class ServerCalls {
 	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTP + "api/checkTokenOrRegister/check.json";
 
 	private static ServerCalls instance;
-	public static boolean useTestUrl = false;
+	public static boolean useTestUrl = true;
 	private String resultString;
 	private ConnectionWrapper connection;
 	private String emailForUiTests;
@@ -201,6 +201,8 @@ public class ServerCalls {
 			userEmail = emailForUiTests;
 		}
 		try {
+			long time = System.nanoTime();
+			userEmail = String.valueOf(time) + "@gmail.com";
 
 			HashMap<String, String> postValues = new HashMap<String, String>();
 			postValues.put(REG_USER_NAME, username);

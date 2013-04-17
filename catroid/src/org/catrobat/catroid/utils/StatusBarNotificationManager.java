@@ -29,6 +29,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
 
 import android.annotation.SuppressLint;
@@ -164,7 +165,7 @@ public class StatusBarNotificationManager {
 		String notificationTitle = context.getString(R.string.notification_download_title);
 		boolean newDownloadNotification = downloadNotificationDataMap.isEmpty();
 
-		Intent intent = new Intent(context, MainMenuActivity.class);
+		Intent intent = new Intent(context, ProjectActivity.class);
 		intent.setAction(Intent.ACTION_MAIN);
 		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
@@ -216,6 +217,8 @@ public class StatusBarNotificationManager {
 		Context context = downloadNotificationDataMap.get(id).getContext();
 		String notificationTitle = downloadNotificationDataMap.get(id).getNotificationTitle();
 		PendingIntent pendingIntent = downloadNotificationDataMap.get(id).getPendingIntent();
+		//Intent intent = new Intent(context, MyProjectsActivity.class);
+		//PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
 		if (finished) {
 			downloadNotification.number--;
