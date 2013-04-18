@@ -123,7 +123,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		Project project = new Project(null, "testProject");
 
 		Sprite firstSprite = new Sprite("firstSprite");
-		Sprite secondSprite = new Sprite("Catroid");
+		Sprite secondSprite = new Sprite("Pocket Code");
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);
 		ProjectManager.getInstance().setProject(project);
