@@ -215,7 +215,8 @@ public class StatusBarNotificationManager {
 	private void updateDownloadNotification(Integer id, String message, int notificationCode, boolean finished) {
 		Context context = downloadNotificationDataMap.get(id).getContext();
 		String notificationTitle = downloadNotificationDataMap.get(id).getNotificationTitle();
-		PendingIntent pendingIntent = downloadNotificationDataMap.get(id).getPendingIntent();
+		Intent intent = new Intent(context, MyProjectsActivity.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
 		if (finished) {
 			downloadNotification.number--;
