@@ -77,7 +77,8 @@ public class ServerCalls {
 	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTP + "api/checkToken/check.json";
 	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTP + "api/checkTokenOrRegister/check.json";
 
-	private static final int TOKEN_LENGTH = 32;
+	public static final int TOKEN_LENGTH = 32;
+	public static final String TOKEN_CODE_INVALID = "-1";
 
 	private static ServerCalls instance;
 	public static boolean useTestUrl = false;
@@ -238,7 +239,8 @@ public class ServerCalls {
 
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
 				tokenReceived = jsonObject.getString("token");
-				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.isEmpty() || tokenReceived.equals("-1")) {
+				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.isEmpty()
+						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
 					throw new WebconnectionException(statusCode, serverAnswer);
 				}
 				if (context != null) {

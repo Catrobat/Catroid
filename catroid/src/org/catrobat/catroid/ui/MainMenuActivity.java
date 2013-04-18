@@ -39,6 +39,7 @@ import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.ServerCalls;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -218,7 +219,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 
-		if (token == Constants.NO_TOKEN || token.length() != 32 || token.equals("-1")) {
+		if (token == Constants.NO_TOKEN || token.length() != ServerCalls.TOKEN_LENGTH
+				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
 			showLoginRegisterDialog();
 		} else {
 			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token, username);
