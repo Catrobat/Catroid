@@ -80,7 +80,7 @@ public class ServerCalls {
 	private static final int TOKEN_LENGTH = 32;
 
 	private static ServerCalls instance;
-	public static boolean useTestUrl = true;
+	public static boolean useTestUrl = false;
 	private String resultString;
 	private ConnectionWrapper connection;
 	private String emailForUiTests;
@@ -207,9 +207,6 @@ public class ServerCalls {
 			userEmail = emailForUiTests;
 		}
 		try {
-			//long time = System.nanoTime();
-			//userEmail = String.valueOf(time) + "jhg@gmail.com";
-
 			HashMap<String, String> postValues = new HashMap<String, String>();
 			postValues.put(REG_USER_NAME, username);
 			postValues.put(REG_USER_PASSWORD, password);
@@ -239,7 +236,6 @@ public class ServerCalls {
 			statusCode = jsonObject.getInt("statusCode");
 			String serverAnswer = jsonObject.optString("answer");
 
-			//if status code ok..
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
 				tokenReceived = jsonObject.getString("token");
 				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.isEmpty() || tokenReceived.equals("-1")) {
