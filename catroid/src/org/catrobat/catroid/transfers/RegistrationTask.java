@@ -82,7 +82,6 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			String country = UtilDeviceInfo.getUserCountryCode(context);
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-			token = "jsdlfjsdflj";
 
 			userRegistered = ServerCalls.getInstance().registerOrCheckToken(username, password, email, language,
 					country, token, context);

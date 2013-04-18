@@ -50,6 +50,8 @@ public final class Constants {
 	//Web:
 	public static final String TOKEN = "token";
 	public static final String NO_TOKEN = "no_token";
+	public static final String USERNAME = "username";
+	public static final String NO_USERNAME = "no_username";
 
 	// Paintroid
 	public static final String EXTRA_PICTURE_PATH_PAINTROID = "org.catrobat.extra.PAINTROID_PICTURE_PATH";

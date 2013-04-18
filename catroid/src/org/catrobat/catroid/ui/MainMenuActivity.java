@@ -215,12 +215,13 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 	public void handleUploadButton(View v) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		String token = preferences.getString(Constants.TOKEN, null);
+		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 
-		if (token == null || token.length() == 0 || token.equals("0")) {
+		if (token == Constants.NO_TOKEN || token.length() != 32 || token.equals("-1")) {
 			showLoginRegisterDialog();
 		} else {
-			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token);
+			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token, username);
 			checkTokenTask.setOnCheckTokenCompleteListener(this);
 			checkTokenTask.execute();
 		}

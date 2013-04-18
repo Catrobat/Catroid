@@ -223,15 +223,13 @@ public class ConnectionWrapper {
 	}
 
 	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws IOException {
+		//System.setProperty("http.keepAlive", "false");
 		HttpBuilder httpBuilder = buildPost(urlString, postValues);
 		httpBuilder.close();
 
 		InputStream resultStream = null;
-		Object error = urlConnection.getContent();
-		String e = error.toString();
-		Log.i(TAG, "erorr!!!: " + e);
 
-		//Log.i(TAG, "http response code: " + urlConnection.getResponseCode());
+		Log.i(TAG, "http response code: " + urlConnection.getResponseCode());
 		resultStream = urlConnection.getInputStream();
 
 		return getString(resultStream);

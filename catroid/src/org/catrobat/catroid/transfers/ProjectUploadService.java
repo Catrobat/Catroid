@@ -52,6 +52,7 @@ public class ProjectUploadService extends IntentService {
 	private boolean result;
 	public ResultReceiver receiver;
 	private Integer notificationId;
+	private String username;
 
 	public ProjectUploadService() {
 		super("ProjectUploadService");
@@ -64,6 +65,7 @@ public class ProjectUploadService extends IntentService {
 		this.projectName = intent.getStringExtra("uploadName");
 		this.projectDescription = intent.getStringExtra("projectDescription");
 		this.token = intent.getStringExtra("token");
+		this.username = intent.getStringExtra("username");
 		this.serverAnswer = "";
 		this.result = true;
 		this.notificationId = intent.getIntExtra("notificationId", 0);
@@ -107,7 +109,7 @@ public class ProjectUploadService extends IntentService {
 			String language = UtilDeviceInfo.getUserLanguageCode(this);
 
 			ServerCalls.getInstance().uploadProject(projectName, projectDescription, zipFileString, userEmail,
-					language, token, receiver, notificationId);
+					language, token, username, receiver, notificationId);
 
 			zipFile.delete();
 		} catch (IOException e) {

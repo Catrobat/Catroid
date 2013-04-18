@@ -46,6 +46,7 @@ public class ServerCalls {
 	private static final String REG_USER_COUNTRY = "registrationCountry";
 	private static final String REG_USER_LANGUAGE = "registrationLanguage";
 	private static final String REG_USER_EMAIL = "registrationEmail";
+	private static final String LOGIN_USERNAME = "username";
 
 	private static final String FILE_UPLOAD_TAG = "upload";
 	private static final String PROJECT_NAME_TAG = "projectTitle";
@@ -76,6 +77,8 @@ public class ServerCalls {
 	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTP + "api/checkToken/check.json";
 	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTP + "api/checkTokenOrRegister/check.json";
 
+	private static final int TOKEN_LENGTH = 32;
+
 	private static ServerCalls instance;
 	public static boolean useTestUrl = true;
 	private String resultString;
@@ -100,7 +103,7 @@ public class ServerCalls {
 	}
 
 	public void uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
-			String language, String token, ResultReceiver receiver, Integer notificationId)
+			String language, String token, String username, ResultReceiver receiver, Integer notificationId)
 			throws WebconnectionException {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
@@ -114,6 +117,7 @@ public class ServerCalls {
 			postValues.put(USER_EMAIL, userEmail);
 			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
 			postValues.put(Constants.TOKEN, token);
+			postValues.put(Constants.USERNAME, username);
 			postValues.put(CATROID_FILE_NAME, projectName + ".catrobat");
 
 			if (language != null) {
@@ -160,13 +164,15 @@ public class ServerCalls {
 
 	}
 
-	public boolean checkToken(String token) throws WebconnectionException {
+	public boolean checkToken(String token, String username) throws WebconnectionException {
 		try {
 			HashMap<String, String> postValues = new HashMap<String, String>();
 			postValues.put(Constants.TOKEN, token);
+			postValues.put(LOGIN_USERNAME, username);
 
 			String serverUrl = useTestUrl ? TEST_CHECK_TOKEN_URL : CHECK_TOKEN_URL;
 
+			Log.v(TAG, "post values - token:" + token + "user: " + username);
 			Log.v(TAG, "url to upload: " + serverUrl);
 			resultString = connection.doHttpPost(serverUrl, postValues);
 
@@ -231,15 +237,17 @@ public class ServerCalls {
 
 			jsonObject = new JSONObject(resultString);
 			statusCode = jsonObject.getInt("statusCode");
+			String serverAnswer = jsonObject.optString("answer");
 
 			//if status code ok..
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
 				tokenReceived = jsonObject.getString("token");
+				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.isEmpty() || tokenReceived.equals("-1")) {
+					throw new WebconnectionException(statusCode, serverAnswer);
+				}
 				SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 				sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
 			}
-
-			String serverAnswer = jsonObject.optString("answer");
 
 			boolean registered;
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
@@ -247,7 +255,8 @@ public class ServerCalls {
 			} else if (statusCode == SERVER_RESPONSE_REGISTER_OK) {
 				registered = true;
 				SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-				sharedPreferences.edit().putString(Constants.TOKEN, token).commit();
+				sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
+				sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
 			} else {
 				throw new WebconnectionException(statusCode, serverAnswer);
 			}
