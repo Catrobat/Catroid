@@ -30,7 +30,6 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
-import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorListFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
@@ -367,15 +366,6 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				if (lookFragment.onKey(null, keyCode, event)) {
 					return true;
 				}
-			}
-		}
-
-		int backStackEntryCount = fragmentManager.getBackStackEntryCount();
-		for (int i = backStackEntryCount; i > 0; --i) {
-			if (fragmentManager.getBackStackEntryAt(i - 1).getName() != BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG) {
-				fragmentManager.popBackStack();
-			} else {
-				break;
 			}
 		}
 
