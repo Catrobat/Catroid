@@ -23,6 +23,7 @@
 package org.catrobat.catroid.transfers;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -31,7 +32,9 @@ import org.catrobat.catroid.web.WebconnectionException;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
@@ -77,9 +80,12 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			String email = UtilDeviceInfo.getUserEmail(context);
 			String language = UtilDeviceInfo.getUserLanguageCode(context);
 			String country = UtilDeviceInfo.getUserCountryCode(context);
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+			token = "jsdlfjsdflj";
 
 			userRegistered = ServerCalls.getInstance().registerOrCheckToken(username, password, email, language,
-					country, context);
+					country, token, context);
 
 			return true;
 

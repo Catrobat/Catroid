@@ -196,18 +196,21 @@ public class ServerCalls {
 	}
 
 	public boolean registerOrCheckToken(String username, String password, String userEmail, String language,
-			String country, Context context) throws WebconnectionException {
+			String country, String token, Context context) throws WebconnectionException {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
 		}
 		try {
 			long time = System.nanoTime();
-			userEmail = String.valueOf(time) + "@gmail.com";
+			userEmail = String.valueOf(time) + "jhg@gmail.com";
 
 			HashMap<String, String> postValues = new HashMap<String, String>();
 			postValues.put(REG_USER_NAME, username);
 			postValues.put(REG_USER_PASSWORD, password);
 			postValues.put(REG_USER_EMAIL, userEmail);
+			if (token != Constants.NO_TOKEN) {
+				postValues.put(Constants.TOKEN, token);
+			}
 
 			if (country != null) {
 				postValues.put(REG_USER_COUNTRY, country);
@@ -222,13 +225,19 @@ public class ServerCalls {
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
-			String token = "";
+			String tokenReceived = "";
 
 			Log.v(TAG, "result string: " + resultString);
 
 			jsonObject = new JSONObject(resultString);
 			statusCode = jsonObject.getInt("statusCode");
-			token = jsonObject.getString("token");
+
+			//if status code ok..
+			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
+				tokenReceived = jsonObject.getString("token");
+				SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+				sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
+			}
 
 			String serverAnswer = jsonObject.optString("answer");
 
