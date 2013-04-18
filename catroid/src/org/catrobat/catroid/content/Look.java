@@ -176,11 +176,10 @@ public class Look extends Image {
 			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
 				if (whenParallelAction == null) {
 					sprite.createWhenScriptActionSequence("Tapped");
-					return true;
 				} else {
 					whenParallelAction.restart();
-					return true;
 				}
+				return true;
 			}
 		}
 		return false;

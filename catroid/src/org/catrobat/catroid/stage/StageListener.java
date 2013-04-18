@@ -30,7 +30,6 @@ import java.util.List;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Values;
-import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
@@ -157,8 +156,7 @@ public class StageListener implements ApplicationListener {
 		sprites = project.getSpriteList();
 		sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
 		for (int sprite = 0; sprite < sprites.size(); sprite++) {
-			Look look = sprites.get(sprite).look;
-			stage.addActor(look);
+			stage.addActor(sprites.get(sprite).look);
 		}
 		if (DEBUG) {
 			OrthoCamController camController = new OrthoCamController(camera);
