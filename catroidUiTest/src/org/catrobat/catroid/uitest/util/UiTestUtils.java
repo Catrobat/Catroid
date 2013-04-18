@@ -1214,6 +1214,10 @@ public class UiTestUtils {
 		return false;
 	}
 
+	public static void clickOnStageCoordinates(Solo solo, int x, int y, int screenWidth, int screenHeight) {
+		solo.clickOnScreen(screenWidth / 2 + x, screenHeight / 2 - y);
+	}
+
 	/**
 	 * Returns to the main screen.
 	 * This method should be called in tearDown() in tests which use Robotium.

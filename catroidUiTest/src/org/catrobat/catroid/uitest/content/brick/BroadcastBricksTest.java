@@ -179,6 +179,7 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
 			solo.goBack();
 		}
+
 		assertEquals("Wrong selection", solo.getString(R.string.brick_broadcast_default_value),
 				((Spinner) solo.getView(R.id.brick_broadcast_spinner)).getSelectedItem().toString());
 
