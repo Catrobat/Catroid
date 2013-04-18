@@ -37,6 +37,7 @@ import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -187,6 +188,11 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.waitForFragmentByTag(SoundFragment.TAG);
 
 		assertTrue("New sound file is not selected", solo.isSpinnerTextSelected(recordedFilename));
+
+		solo.goBack();
+		String programMenuActivityClass = ProgramMenuActivity.class.getSimpleName().toString();
+		assertTrue("Should be in " + programMenuActivityClass, solo.getCurrentActivity().getClass().getSimpleName()
+				.toString().equals(programMenuActivityClass));
 	}
 
 	private void clickOnSpinnerItem(String selectedSpinnerItem, String itemName) {
