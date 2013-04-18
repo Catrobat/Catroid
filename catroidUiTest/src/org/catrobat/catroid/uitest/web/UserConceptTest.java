@@ -33,7 +33,6 @@ import org.catrobat.catroid.web.ServerCalls;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
@@ -214,11 +213,8 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
 		solo.setActivityOrientation(Solo.PORTRAIT);
 
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			solo.clickOnButton(0);
-		} else {
-			solo.clickOnButton(1);
-		}
+		int buttonId = android.R.id.button1;
+		solo.clickOnView(solo.getView(buttonId));
 	}
 
 	private void clearSharedPreferences() {
