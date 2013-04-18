@@ -101,7 +101,6 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.UtilToken;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -110,14 +109,12 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -929,19 +926,17 @@ public class UiTestUtils {
 	}
 
 	public static void createValidUser(Context context) {
+
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
 			String testPassword = "pwspws";
 			String testEmail = testUser + "@gmail.com";
 
-			String token = UtilToken.calculateToken(testUser, testPassword);
+			String token = Constants.NO_TOKEN;
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-					"de", "at", token);
+					"de", "at", token, context);
 
 			assert (userRegistered);
-
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			sharedPreferences.edit().putString(Constants.TOKEN, token).commit();
 
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
