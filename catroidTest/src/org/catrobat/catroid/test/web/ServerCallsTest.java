@@ -22,11 +22,13 @@
  */
 package org.catrobat.catroid.test.web;
 
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilToken;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
@@ -46,6 +48,8 @@ public class ServerCallsTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		ServerCalls.useTestUrl = true;
+		//SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		//sharedPreferences.edit().clear();
 	}
 
 	@Override
@@ -60,15 +64,17 @@ public class ServerCallsTest extends AndroidTestCase {
 			String testUser = "testUser" + System.currentTimeMillis();
 			String testPassword = "pwspws";
 			String testEmail = testUser + "@gmail.com";
+			String token = Constants.NO_TOKEN;
 
-			String token = UtilToken.calculateToken(testUser, testPassword);
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-					"de", "at", token);
+					"de", "at", token, getContext());
 
-			assertTrue("Should be a new user, but server responce indicates that this user already exists",
+			assertTrue("Should be a new user, but server response indicates that this user already exists",
 					userRegistered);
 
-			boolean tokenOk = ServerCalls.getInstance().checkToken(token);
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+			boolean tokenOk = ServerCalls.getInstance().checkToken(token, testUser);
 
 			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
 			assertTrue("token should be ok", tokenOk);
@@ -86,19 +92,21 @@ public class ServerCallsTest extends AndroidTestCase {
 			String testPassword = "pwspws";
 			String testEmail = testUser + "@gmail.com";
 
-			String token = UtilToken.calculateToken(testUser, testPassword);
+			String token = Constants.NO_TOKEN;
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-					"de", "at", token);
+					"de", "at", token, getContext());
 
 			Log.i(LOG_TAG, "user registered: " + userRegistered);
-			assertTrue("Should be a new user, but server responce indicates that this user already exists",
+			assertTrue("Should be a new user, but server response indicates that this user already exists",
 					userRegistered);
 
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 			userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de",
-					"at", token);
+					"at", token, getContext());
 
 			Log.i(LOG_TAG, "user registered: " + userRegistered);
-			assertFalse("Should be an existing user, but server responce indicates that this user is new",
+			assertFalse("Should be an existing user, but server response indicates that this user is new",
 					userRegistered);
 
 		} catch (WebconnectionException e) {
@@ -115,17 +123,19 @@ public class ServerCallsTest extends AndroidTestCase {
 			String testPassword = "pwspws";
 			String testEmail = testUser + "@gmail.com";
 
-			String token = UtilToken.calculateToken(testUser, testPassword);
+			String token = Constants.NO_TOKEN;
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-					"de", "at", token);
+					"de", "at", token, getContext());
 
 			Log.i(LOG_TAG, "user registered: " + userRegistered);
-			assertTrue("Should be a new user, but server responce indicates that this user already exists",
+			assertTrue("Should be a new user, but server response indicates that this user already exists",
 					userRegistered);
 
 			String wrongPassword = "wrongpassword";
-			token = UtilToken.calculateToken(testUser, wrongPassword);
-			ServerCalls.getInstance().registerOrCheckToken(testUser, wrongPassword, testEmail, "de", "at", token);
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+			ServerCalls.getInstance().registerOrCheckToken(testUser, wrongPassword, testEmail, "de", "at", token,
+					getContext());
 
 			assertFalse("should never be reached because the password is wrong", true);
 
@@ -146,17 +156,18 @@ public class ServerCallsTest extends AndroidTestCase {
 			String testPassword = "pwspws";
 			String testEmail = testUser + "@gmail.com";
 
-			String token = UtilToken.calculateToken(testUser, testPassword);
+			String token = Constants.NO_TOKEN;
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-					"de", "at", token);
+					"de", "at", token, getContext());
 
 			Log.i(LOG_TAG, "user registered: " + userRegistered);
 			assertTrue("Should be a new user, but server responce indicates that this user already exists",
 					userRegistered);
 
 			String newUser = "testUser" + System.currentTimeMillis();
-			token = UtilToken.calculateToken(newUser, testPassword);
-			ServerCalls.getInstance().registerOrCheckToken(newUser, testPassword, testEmail, "de", "at", token);
+			token = Constants.NO_TOKEN;
+			ServerCalls.getInstance().registerOrCheckToken(newUser, testPassword, testEmail, "de", "at", token,
+					getContext());
 
 			assertFalse(
 					"should never be reached because two registrations with the same email address are not allowed",
@@ -179,8 +190,9 @@ public class ServerCallsTest extends AndroidTestCase {
 			String testPassword = "short";
 			String testEmail = testUser + "@gmail.com";
 
-			String token = UtilToken.calculateToken(testUser, testPassword);
-			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de", "at", token);
+			String token = Constants.NO_TOKEN;
+			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de", "at", token,
+					getContext());
 
 			assertFalse("should never be reached because the password is too short", true);
 
@@ -200,8 +212,9 @@ public class ServerCallsTest extends AndroidTestCase {
 			String testPassword = "pwspws";
 			String testEmail = "invalidEmail";
 
-			String token = UtilToken.calculateToken(testUser, testPassword);
-			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de", "at", token);
+			String token = Constants.NO_TOKEN;
+			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de", "at", token,
+					getContext());
 
 			assertFalse("should never be reached because the email is not valid", true);
 
@@ -218,7 +231,8 @@ public class ServerCallsTest extends AndroidTestCase {
 	public void testCheckTokenAnonymous() {
 		try {
 			String anonymousToken = "0";
-			boolean tokenOk = ServerCalls.getInstance().checkToken(anonymousToken);
+			String username = "anonymous";
+			boolean tokenOk = ServerCalls.getInstance().checkToken(anonymousToken, username);
 
 			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
 			assertTrue("token should be ok", tokenOk);
@@ -233,7 +247,8 @@ public class ServerCallsTest extends AndroidTestCase {
 	public void testCheckTokenWrong() {
 		try {
 			String wrongToken = "blub";
-			boolean tokenOk = ServerCalls.getInstance().checkToken(wrongToken);
+			String username = "badUser";
+			boolean tokenOk = ServerCalls.getInstance().checkToken(wrongToken, username);
 
 			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
 			assertFalse("should not be reanched, exception is thrown", tokenOk);
@@ -252,15 +267,17 @@ public class ServerCallsTest extends AndroidTestCase {
 			String testPassword = "pwspws";
 			String testEmail = testUser + "@gmail.com";
 
-			String token = UtilToken.calculateToken(testUser, testPassword);
+			String token = Constants.NO_TOKEN;
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-					"de", "at", token);
+					"de", "at", token, getContext());
 
 			Log.i(LOG_TAG, "user registered: " + userRegistered);
 			assertTrue("Should be a new user, but server responce indicates that this user already exists",
 					userRegistered);
 
-			boolean tokenOk = ServerCalls.getInstance().checkToken(token);
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+			boolean tokenOk = ServerCalls.getInstance().checkToken(token, testUser);
 
 			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
 			assertTrue("token should be ok", tokenOk);

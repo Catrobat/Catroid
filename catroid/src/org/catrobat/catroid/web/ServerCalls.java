@@ -207,8 +207,8 @@ public class ServerCalls {
 			userEmail = emailForUiTests;
 		}
 		try {
-			long time = System.nanoTime();
-			userEmail = String.valueOf(time) + "jhg@gmail.com";
+			//long time = System.nanoTime();
+			//userEmail = String.valueOf(time) + "jhg@gmail.com";
 
 			HashMap<String, String> postValues = new HashMap<String, String>();
 			postValues.put(REG_USER_NAME, username);
@@ -245,8 +245,11 @@ public class ServerCalls {
 				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.isEmpty() || tokenReceived.equals("-1")) {
 					throw new WebconnectionException(statusCode, serverAnswer);
 				}
-				SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-				sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
+				if (context != null) {
+					SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+					sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
+					sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
+				}
 			}
 
 			boolean registered;
@@ -254,9 +257,6 @@ public class ServerCalls {
 				registered = false;
 			} else if (statusCode == SERVER_RESPONSE_REGISTER_OK) {
 				registered = true;
-				SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-				sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
-				sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
 			} else {
 				throw new WebconnectionException(statusCode, serverAnswer);
 			}
