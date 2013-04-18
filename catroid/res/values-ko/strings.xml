@@ -230,10 +230,10 @@
     <string name="action_swipeDown">"아래쪽으로 밀기"</string>
     <!-- defaultValues -->
     <string name="default_project_name">"내 첫 프로젝트"</string>
-    <string name="default_project_sprites_catroid_name">"Catroid"</string>
-    <string name="default_project_sprites_catroid_normalcat">"normalCat"</string>
-    <string name="default_project_sprites_catroid_banzaicat">"banzaiCat"</string>
-    <string name="default_project_sprites_catroid_cheshirecat">"cheshireCat"</string>
+    <string name="default_project_sprites_pocketcode_name">"Catroid"</string>
+    <string name="default_project_sprites_pocketcode_normalcat">"normalCat"</string>
+    <string name="default_project_sprites_pocketcode_banzaicat">"banzaiCat"</string>
+    <string name="default_project_sprites_pocketcode_cheshirecat">"cheshireCat"</string>
     <string name="default_project_backgroundname">"  \"background\": {
 "</string>
     <string name="default_project_backgroundcolor">"# 604fff"</string>

@@ -63,7 +63,7 @@ public class LoginRegisterDialog extends DialogFragment implements OnRegistratio
 		termsOfUseLinkTextView = (TextView) rootView.findViewById(R.id.register_terms_link);
 
 		String termsOfUseUrl = getString(R.string.about_link_template, getString(R.string.catrobat_terms_of_use),
-				getString(R.string.register_catroid_terms_of_use_text));
+				getString(R.string.register_pocketcode_terms_of_use_text));
 		termsOfUseLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
 		termsOfUseLinkTextView.setText(Html.fromHtml(termsOfUseUrl));
 

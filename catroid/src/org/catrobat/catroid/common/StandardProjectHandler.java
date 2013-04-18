@@ -58,15 +58,15 @@ public class StandardProjectHandler {
 	}
 
 	public static Project createAndSaveStandardProject(String projectName, Context context) throws IOException {
-		String normalCatName = context.getString(R.string.default_project_sprites_catroid_normalcat);
-		String banzaiCatName = context.getString(R.string.default_project_sprites_catroid_banzaicat);
-		String cheshireCatName = context.getString(R.string.default_project_sprites_catroid_cheshirecat);
+		String normalCatName = context.getString(R.string.default_project_sprites_pocketcode_normalcat);
+		String banzaiCatName = context.getString(R.string.default_project_sprites_pocketcode_banzaicat);
+		String cheshireCatName = context.getString(R.string.default_project_sprites_pocketcode_cheshirecat);
 		String backgroundName = context.getString(R.string.default_project_backgroundname);
 
 		Project defaultProject = new Project(context, projectName);
 		StorageHandler.getInstance().saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
-		Sprite sprite = new Sprite(context.getString(R.string.default_project_sprites_catroid_name));
+		Sprite sprite = new Sprite(context.getString(R.string.default_project_sprites_pocketcode_name));
 		Sprite backgroundSprite = defaultProject.getSpriteList().get(0);
 
 		Script backgroundStartScript = new StartScript(backgroundSprite);
