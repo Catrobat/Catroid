@@ -107,12 +107,12 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		assertNotSame("Wrong selection", testString, ((Spinner) solo.getView(BROADCAST_SPINNER_ID)).getSelectedItem()
 				.toString());
 
-		solo.pressSpinnerItem(SECOND_BRICK_SPINNER_INDEX + 1, 1);
+		solo.pressSpinnerItem(SECOND_BRICK_SPINNER_INDEX, 1);
 		solo.sleep(200);
 		assertEquals("Wrong selection", testString, ((Spinner) solo.getView(BROADCAST_SPINNER_ID)).getSelectedItem()
 				.toString());
 
-		solo.pressSpinnerItem(THIRD_BRICK_SPINNER_INDEX + 1, 1);
+		solo.pressSpinnerItem(THIRD_BRICK_SPINNER_INDEX, 1);
 		solo.sleep(200);
 		assertEquals("Wrong selection", testString, ((Spinner) solo.getView(BROADCAST_WAIT_SPINNER_ID))
 				.getSelectedItem().toString());
@@ -135,7 +135,7 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 
 		checkIfSpinnerTextsCorrect(testString, testString2, testString3);
 
-		solo.pressSpinnerItem(SECOND_BRICK_SPINNER_INDEX + 1, 1);
+		solo.pressSpinnerItem(SECOND_BRICK_SPINNER_INDEX, 1);
 		solo.sleep(200);
 		assertEquals("Wrong selection", testString3, ((Spinner) solo.getView(BROADCAST_SPINNER_ID)).getSelectedItem()
 				.toString());
