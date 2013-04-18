@@ -37,7 +37,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class AboutDialogFragment extends DialogFragment {
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_about_catroid";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_about_pocketcode";
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
@@ -46,8 +46,8 @@ public class AboutDialogFragment extends DialogFragment {
 		TextView aboutUrlTextView = (TextView) view.findViewById(R.id.dialog_about_text_view_url);
 		aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-		String aboutUrl = getString(R.string.about_link_template, getString(R.string.about_catroid_license_url),
-				getString(R.string.dialog_about_catroid_license_link_text));
+		String aboutUrl = getString(R.string.about_link_template, getString(R.string.about_pocketcode_license_url),
+				getString(R.string.dialog_about_pocketcode_license_link_text));
 
 		aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
 
