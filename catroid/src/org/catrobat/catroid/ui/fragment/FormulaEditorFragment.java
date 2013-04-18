@@ -115,7 +115,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 		if (formulaEditorFragment == null) {
 			formulaEditorFragment = new FormulaEditorFragment();
-			formulaEditorFragment = new FormulaEditorFragment();
 			Bundle bundle = new Bundle();
 			bundle.putSerializable(BRICK_BUNDLE_ARGUMENT, brick);
 			bundle.putSerializable(FORMULA_BUNDLE_ARGUMENT, formula);
