@@ -102,17 +102,22 @@ public class ServerCallsTest extends AndroidTestCase {
 
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-			userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de",
-					"at", token, getContext());
+			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de", "at", token,
+					getContext());
 
-			Log.i(LOG_TAG, "user registered: " + userRegistered);
-			assertFalse("Should be an existing user, but server response indicates that this user is new",
-					userRegistered);
-
-		} catch (WebconnectionException e) {
-			e.printStackTrace();
-			assertFalse("WebconnectionException \nstatus code:" + e.getStatusCode() + "\nmessage: " + e.getMessage(),
+			assertFalse(
+					"An exception should be thrown because authentication failed, but server response indicates that this user is new",
 					true);
+		} catch (WebconnectionException e) {
+			//e.printStackTrace();
+			//Log.i(LOG_TAG, "user registered: " + userRegistered);
+
+			assertEquals(
+					"Server should return status code 602 because authentication failed due to already existing username",
+					602, e.getStatusCode());
+
+			//assertFalse("WebconnectionException \nstatus code:" + e.getStatusCode() + "\nmessage: " + e.getMessage(),
+			//		true);
 		}
 
 	}
