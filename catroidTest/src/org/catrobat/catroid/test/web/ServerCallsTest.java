@@ -109,15 +109,9 @@ public class ServerCallsTest extends AndroidTestCase {
 					"An exception should be thrown because authentication failed, but server response indicates that this user is new",
 					true);
 		} catch (WebconnectionException e) {
-			//e.printStackTrace();
-			//Log.i(LOG_TAG, "user registered: " + userRegistered);
-
 			assertEquals(
 					"Server should return status code 602 because authentication failed due to already existing username",
 					602, e.getStatusCode());
-
-			//assertFalse("WebconnectionException \nstatus code:" + e.getStatusCode() + "\nmessage: " + e.getMessage(),
-			//		true);
 		}
 
 	}

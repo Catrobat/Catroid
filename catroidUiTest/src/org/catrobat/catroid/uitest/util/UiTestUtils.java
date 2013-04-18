@@ -102,6 +102,8 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.web.WebconnectionException;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -924,26 +926,26 @@ public class UiTestUtils {
 	}
 
 	public static void createValidUser(Context context) {
-		/*
-		 * try {
-		 * String testUser = "testUser" + System.currentTimeMillis();
-		 * String testPassword = "pwspws";
-		 * String testEmail = testUser + "@gmail.com";
-		 * 
-		 * String token = UtilToken.calculateToken(testUser, testPassword);
-		 * boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-		 * "de", "at", token);
-		 * 
-		 * assert (userRegistered);
-		 * 
-		 * SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		 * sharedPreferences.edit().putString(Constants.TOKEN, token).commit();
-		 * 
-		 * } catch (WebconnectionException e) {
-		 * e.printStackTrace();
-		 * fail("Error creating test user.");
-		 * }
-		 */
+
+		try {
+			String testUser = "testUser" + System.currentTimeMillis();
+			String testPassword = "pwspws";
+			String testEmail = testUser + "@gmail.com";
+
+			String token = Constants.NO_TOKEN;
+			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
+					"de", "at", token, context);
+
+			assert (userRegistered);
+
+			//SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+			//token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+			//sharedPreferences.edit().putString(Constants.TOKEN, token).commit();
+
+		} catch (WebconnectionException e) {
+			e.printStackTrace();
+			fail("Error creating test user.");
+		}
 	}
 
 	// Stage methods

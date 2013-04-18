@@ -33,6 +33,7 @@ import org.catrobat.catroid.web.ServerCalls;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
@@ -89,7 +90,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	public void testRegisterNewUser() throws Throwable {
 		setTestUrl();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		prefs.edit().putString(Constants.TOKEN, null).commit();
+		prefs.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.sleep(1000);
@@ -155,6 +156,30 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
 	}
 
+	public void testLoginWhenUploading() throws Throwable {
+		setTestUrl();
+		clearSharedPreferences();
+
+		solo.sleep(500);
+		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
+		solo.sleep(4000);
+
+		String username = "MAXmustermann"; //real username is MaxMustermann
+		String password = "password";
+		String testEmail = "max" + System.currentTimeMillis() + "@gmail.com";
+		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
+		EditText usernameEditText = (EditText) solo.getView(R.id.username);
+		EditText passwordEditText = (EditText) solo.getView(R.id.password);
+		solo.enterText(usernameEditText, username);
+		solo.enterText(passwordEditText, password);
+		solo.clickOnButton(solo.getString(R.string.login_or_register));
+		solo.sleep(5000);
+
+		TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
+		ArrayList<View> currentViews = solo.getCurrentViews();
+		assertTrue("Cannot login because username is upper or lower case", currentViews.contains(uploadProject));
+	}
+
 	private void setTestUrl() throws Throwable {
 		runTestOnUiThread(new Runnable() {
 			public void run() {
@@ -189,31 +214,11 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
 		solo.setActivityOrientation(Solo.PORTRAIT);
 
-		solo.clickOnButton(0);
-	}
-
-	public void testLoginWhenUploading() throws Throwable {
-		setTestUrl();
-		clearSharedPreferences();
-
-		solo.sleep(500);
-		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
-		solo.sleep(4000);
-
-		String username = "MAXmustermann"; //real username is MaxMustermann
-		String password = "password";
-		String testEmail = "maxmustermann@gmail.com";
-		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
-		EditText usernameEditText = (EditText) solo.getView(R.id.username);
-		EditText passwordEditText = (EditText) solo.getView(R.id.password);
-		solo.enterText(usernameEditText, username);
-		solo.enterText(passwordEditText, password);
-		solo.clickOnButton(solo.getString(R.string.login_or_register));
-		solo.sleep(5000);
-
-		TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
-		ArrayList<View> currentViews = solo.getCurrentViews();
-		assertTrue("Cannot login because username is upper or lower case", currentViews.contains(uploadProject));
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+			solo.clickOnButton(0);
+		} else {
+			solo.clickOnButton(1);
+		}
 	}
 
 	private void clearSharedPreferences() {
