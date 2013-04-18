@@ -37,7 +37,7 @@ import android.test.AndroidTestCase;
 
 public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 
-	private static final float LOOK_ALPHA = 0.5f;
+	private static final float LOOK_ALPHA = 0.42f;
 	private static final float LOOK_Y_POSITION = 23.4f;
 	private static final float LOOK_X_POSITION = 5.6f;
 	private static final float LOOK_BRIGHTNESS = 0.7f;
@@ -51,10 +51,9 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 		testSprite = new Sprite("sprite");
 		testSprite.look.setXInUserInterfaceDimensionUnit(LOOK_X_POSITION);
 		testSprite.look.setYInUserInterfaceDimensionUnit(LOOK_Y_POSITION);
-		testSprite.look.setAlphaValue(LOOK_ALPHA);
-		testSprite.look.setBrightness(LOOK_BRIGHTNESS);
-		testSprite.look.setScaleX(LOOK_SCALE);
-		testSprite.look.setScaleY(LOOK_SCALE);
+		testSprite.look.setGhostEffectInUserInterfaceDimensionUnit(LOOK_ALPHA);
+		testSprite.look.setBrightnessInUserInterfaceDimensionUnit(LOOK_BRIGHTNESS);
+		testSprite.look.setSizeInUserInterfaceDimensionUnit(LOOK_SCALE);
 		testSprite.look.setRotationInUserInterfaceDimensionUnit(LOOK_ROTATION);
 	}
 
@@ -71,31 +70,31 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 	public void testLookSensorValues() {
 
 		Formula lookXPositionFormula = getFormulaBySensor(Sensors.LOOK_X);
-		assertEquals("Formula interpretation is not as expected", LOOK_X_POSITION,
+		assertEquals("Formula interpretation is not as expected (x-Position)", LOOK_X_POSITION,
 				lookXPositionFormula.interpretFloat(testSprite), DELTA);
 
 		Formula lookYPositionFormula = getFormulaBySensor(Sensors.LOOK_Y);
-		assertEquals("Formula interpretation is not as expected", LOOK_Y_POSITION,
+		assertEquals("Formula interpretation is not as expected (y-Position)", LOOK_Y_POSITION,
 				lookYPositionFormula.interpretFloat(testSprite), DELTA);
 
 		Formula lookAlphaValueFormula = getFormulaBySensor(Sensors.LOOK_GHOSTEFFECT);
-		assertEquals("Formula interpretation is not as expected", LOOK_ALPHA,
+		assertEquals("Formula interpretation is not as expected (ghosteffect)", LOOK_ALPHA,
 				lookAlphaValueFormula.interpretFloat(testSprite), DELTA);
 
 		Formula lookBrightnessFormula = getFormulaBySensor(Sensors.LOOK_BRIGHTNESS);
-		assertEquals("Formula interpretation is not as expected", LOOK_BRIGHTNESS,
+		assertEquals("Formula interpretation is not as expected (brightness)", LOOK_BRIGHTNESS,
 				lookBrightnessFormula.interpretFloat(testSprite), DELTA);
 
 		Formula lookScaleFormula = getFormulaBySensor(Sensors.LOOK_SIZE);
-		assertEquals("Formula interpretation is not as expected", LOOK_SCALE,
+		assertEquals("Formula interpretation is not as expected (size)", LOOK_SCALE,
 				lookScaleFormula.interpretFloat(testSprite), DELTA);
 
 		Formula lookRotateFormula = getFormulaBySensor(Sensors.LOOK_ROTATION);
-		assertEquals("Formula interpretation is not as expected", LOOK_ROTATION,
+		assertEquals("Formula interpretation is not as expected (rotation)", LOOK_ROTATION,
 				lookRotateFormula.interpretFloat(testSprite), DELTA);
 
 		Formula lookZPositionFormula = getFormulaBySensor(Sensors.LOOK_LAYER);
-		assertEquals("Formula interpretation is not as expected", testSprite.look.getZIndex(),
+		assertEquals("Formula interpretation is not as expected (z-index)", testSprite.look.getZIndex(),
 				lookZPositionFormula.interpretInteger(testSprite));
 
 	}

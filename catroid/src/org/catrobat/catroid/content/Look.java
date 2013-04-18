@@ -377,7 +377,7 @@ public class Look extends Image {
 	}
 
 	public void setSizeInUserInterfaceDimensionUnit(float percentagePoints) {
-		setScale(percentagePoints / 100, percentagePoints / 100);
+		setScale(percentagePoints / 100f, percentagePoints / 100f);
 	}
 
 	public float getSize() {
@@ -386,7 +386,7 @@ public class Look extends Image {
 	}
 
 	public float getSizeInUserInterfaceDimensionUnit() {
-		return getSize() * 100;
+		return getSize() * 100f;
 	}
 
 	public void setAlphaValue(float alphaValue) {
@@ -414,7 +414,11 @@ public class Look extends Image {
 	}
 
 	public float getGhostEffectInUserInterfaceDimensionUnit() {
-		return (1 - alphaValue) * 100;
+		return (1f - alphaValue) * 100f;
+	}
+
+	public void setGhostEffectInUserInterfaceDimensionUnit(float percentagePoints) {
+		alphaValue = (100f - percentagePoints) / 100f;
 	}
 
 	public void setBrightness(float percent) {
@@ -427,7 +431,7 @@ public class Look extends Image {
 	}
 
 	public void setBrightnessInUserInterfaceDimensionUnit(float percentagePoints) {
-		setBrightness(percentagePoints / 100);
+		setBrightness(percentagePoints / 100f);
 	}
 
 	public void changeBrightnessValueBy(float percent) {
@@ -444,7 +448,7 @@ public class Look extends Image {
 	}
 
 	public float getBrightnessInUserInterfaceDimensionUnit() {
-		return brightnessValue * 100;
+		return brightnessValue * 100f;
 	}
 
 	public LookData getLookData() {
