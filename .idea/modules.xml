@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/libraryProjects/actionbarsherlock/actionbarsherlock.iml" filepath="$PROJECT_DIR$/libraryProjects/actionbarsherlock/actionbarsherlock.iml" />
+      <module fileurl="file://$PROJECT_DIR$/catroid/catroid.iml" filepath="$PROJECT_DIR$/catroid/catroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/catroidLegoNXTBTTest/catroidLegoNXTBTTest.iml" filepath="$PROJECT_DIR$/catroidLegoNXTBTTest/catroidLegoNXTBTTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/catroidSourceTest/catroidSourceTest.iml" filepath="$PROJECT_DIR$/catroidSourceTest/catroidSourceTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/catroidTest/catroidTest.iml" filepath="$PROJECT_DIR$/catroidTest/catroidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/catroidUiTest/catroidUiTest.iml" filepath="$PROJECT_DIR$/catroidUiTest/catroidUiTest.iml" />
+    </modules>
+  </component>
+</project>
+
