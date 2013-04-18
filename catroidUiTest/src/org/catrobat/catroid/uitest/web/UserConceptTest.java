@@ -164,7 +164,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
 		solo.sleep(4000);
 
-		String username = "MAXmustermann"; //real username is MaxMustermann
+		String username = "MAXmUstermann"; //real username is MaxMustermann
 		String password = "password";
 		String testEmail = "max" + System.currentTimeMillis() + "@gmail.com";
 		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);

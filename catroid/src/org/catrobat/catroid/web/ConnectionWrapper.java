@@ -223,7 +223,6 @@ public class ConnectionWrapper {
 	}
 
 	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws IOException {
-		//System.setProperty("http.keepAlive", "false");
 		HttpBuilder httpBuilder = buildPost(urlString, postValues);
 		httpBuilder.close();
 

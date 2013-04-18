@@ -938,10 +938,6 @@ public class UiTestUtils {
 
 			assert (userRegistered);
 
-			//SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			//token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-			//sharedPreferences.edit().putString(Constants.TOKEN, token).commit();
-
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			fail("Error creating test user.");

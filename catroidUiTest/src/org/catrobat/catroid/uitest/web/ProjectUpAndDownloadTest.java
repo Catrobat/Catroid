@@ -456,7 +456,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.sleep(500);
 
 		try {
-			boolean success = solo.waitForText(solo.getString(R.string.success_project_upload), 1, 50000);
+			boolean success = solo.waitForText(solo.getString(R.string.success_project_upload), 1, 40000);
 			assertTrue("Upload failed. Internet connection?", success);
 			String resultString = (String) Reflection.getPrivateField(ServerCalls.getInstance(), "resultString");
 			JSONObject jsonObject;

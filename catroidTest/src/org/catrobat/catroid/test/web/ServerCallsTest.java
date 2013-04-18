@@ -48,8 +48,6 @@ public class ServerCallsTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		ServerCalls.useTestUrl = true;
-		//SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-		//sharedPreferences.edit().clear();
 	}
 
 	@Override
