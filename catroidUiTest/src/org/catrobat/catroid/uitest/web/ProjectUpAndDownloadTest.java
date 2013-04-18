@@ -366,14 +366,14 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.waitForText(solo.getString(R.string.main_menu_continue));
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 
-		solo.waitForText(solo.getString(R.string.default_project_sprites_catroid_name));
-		solo.clickOnText(solo.getString(R.string.default_project_sprites_catroid_name));
+		solo.waitForText(solo.getString(R.string.default_project_sprites_pocketcode_name));
+		solo.clickOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
 
 		solo.waitForText(solo.getString(R.string.looks));
 		solo.clickOnButton(solo.getString(R.string.looks));
 
 		String deleteLookText = solo.getString(R.string.delete);
-		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_catroid_normalcat));
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_normalcat));
 		solo.waitForText(deleteLookText);
 		solo.clickOnText(deleteLookText);
 		solo.clickOnButton(solo.getString(R.string.ok));
