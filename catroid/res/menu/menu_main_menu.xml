@@ -30,6 +30,6 @@
     <item
         android:id="@+id/menu_about"
         android:showAsAction="withText"
-        android:title="@string/main_menu_about_catroid"/>
+        android:title="@string/main_menu_about_pocketcode"/>
 
 </menu>

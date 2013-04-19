@@ -230,10 +230,10 @@
     <string name="action_swipeDown">"아래쪽으로 밀기"</string>
     <!-- defaultValues -->
     <string name="default_project_name">"내 첫 프로젝트"</string>
-    <string name="default_project_sprites_catroid_name">"Catroid"</string>
-    <string name="default_project_sprites_catroid_normalcat">"normalCat"</string>
-    <string name="default_project_sprites_catroid_banzaicat">"banzaiCat"</string>
-    <string name="default_project_sprites_catroid_cheshirecat">"cheshireCat"</string>
+    <string name="default_project_sprites_pocketcode_name">"Catroid"</string>
+    <string name="default_project_sprites_pocketcode_normalcat">"normalCat"</string>
+    <string name="default_project_sprites_pocketcode_banzaicat">"banzaiCat"</string>
+    <string name="default_project_sprites_pocketcode_cheshirecat">"cheshireCat"</string>
     <string name="default_project_backgroundname">"  \"background\": {
 "</string>
     <string name="default_project_backgroundcolor">"# 604fff"</string>
@@ -301,8 +301,6 @@
     <!-- Formula Editor Strings -->
     <string name="formula_editor_decimal_mark">"."</string>
     <string name="formula_editor_title">"수식 편집기"</string>
-    <string name="formula_editor_button_undo">"실행 취소"</string>
-    <string name="formula_editor_button_redo">"다시 실행"</string>
     <string name="formula_editor_changes_saved">"변경 내용이 저장되었습니다."</string>
     <string name="formula_editor_changes_discarded">"변경 내용이 취소되었습니다."</string>
     <string name="formula_editor_parse_fail">"입력에 오류가 있습니다! 해결하거나 취소하려면 다시 누르십시오."</string>

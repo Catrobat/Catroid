@@ -71,11 +71,6 @@ public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener 
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		GoNStepsBackBrick copyBrick = (GoNStepsBackBrick) clone();
 		copyBrick.sprite = sprite;

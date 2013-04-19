@@ -70,11 +70,6 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		BroadcastReceiverBrick copyBrick = (BroadcastReceiverBrick) clone();
 		copyBrick.sprite = sprite;

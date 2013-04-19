@@ -224,7 +224,6 @@ public class ConnectionWrapper {
 
 	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws IOException {
 		HttpBuilder httpBuilder = buildPost(urlString, postValues);
-		//HttpBuilder out = buildPost(urlString, postValues);
 		httpBuilder.close();
 
 		InputStream resultStream = null;
