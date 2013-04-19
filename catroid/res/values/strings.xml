@@ -145,7 +145,7 @@
 
 
     <!-- Soundrecorder activity -->
-    <string name="soundrecorder_name">Sound Recorder</string>
+    <string name="soundrecorder_name">Pocket Code Recorder</string>
     <string name="soundrecorder_error">Sound recording failed</string>
     <string name="soundrecorder_recorded_filename">record</string>
     <!--  -->
