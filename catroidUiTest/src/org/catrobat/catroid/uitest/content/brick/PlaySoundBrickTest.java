@@ -179,9 +179,9 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnText(soundRecorderText);
 
 		solo.waitForActivity(SoundRecorderActivity.class.getSimpleName());
-		solo.clickOnImageButton(0);
+		solo.clickOnImageButton(1);
 		solo.sleep(500);
-		solo.clickOnImageButton(0);
+		solo.clickOnImageButton(1);
 
 		solo.waitForText(recordedFilename);
 		solo.waitForFragmentByTag(SoundFragment.TAG);
