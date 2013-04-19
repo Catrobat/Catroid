@@ -51,11 +51,13 @@
     <style name="StageButton">
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
-        <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textScaleX">0.7</item>
         <item name="android:background">@null</item>
-    </style>
+    </style>    
 
     <style name="brick_dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@null</item>
