@@ -172,8 +172,8 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnText(newText);
 
 		// quickfix for Jenkins to get rid of Resources$NotFoundException: String resource
-		// String soundRecorderText = solo.getString(R.string.soundrecorder_name);
-		String soundRecorderText = "Catroid Sound Recorder";
+//		String soundRecorderText = solo.getString(R.string.soundrecorder_name);
+		String soundRecorderText = "Sound Recorder";
 		solo.waitForText(soundRecorderText);
 		assertTrue("Catroid Sound Recorder is not present", solo.searchText(soundRecorderText));
 		solo.clickOnText(soundRecorderText);
