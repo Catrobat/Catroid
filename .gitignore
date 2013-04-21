@@ -27,3 +27,5 @@ local.properties
 proguard-project.txt
 lint.xml
 !libraryProjects/actionbarsherlock/lint.xml
+
+#testcomment
