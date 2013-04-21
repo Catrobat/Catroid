@@ -38,6 +38,7 @@
     <color name="fragment_background_color">#03222C</color>
     <color name="transparent">#00000000 </color>
     <color name="formula_editor_background">#FFFFFF</color>
+    <color name="formula_editor_keyboard_text_color">#A8DFF4</color>
 
     <!-- Main Menu Colors -->
     <color name="main_menu_button_text_color">#A8DFF4</color>
@@ -87,5 +88,9 @@
 
     <!-- Brick Category Fragment Colors -->
     <color name="brick_category_fragment_text_color">#FFFFFF</color>
+    
+    <!-- Stage Menu Colors -->
+    <color name="stage_dialog_background_color">#224466</color>
+    <color name="stage_dialog_text_color">#A8DFF4</color>
 
 </resources>

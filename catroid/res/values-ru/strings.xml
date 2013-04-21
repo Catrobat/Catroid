@@ -71,9 +71,9 @@
 
 
     <!-- Settings activity -->
-    <string name="pref_title">Настройки</string>
-    <string name="pref_enable_ms_bricks">Включить блоки Mindstorm</string>
-    <string name="pref_descr_ms_bricks">Эти блоки используются для контроля роботов Mindstorm.</string>
+    <string name="preference_title">Настройки</string>
+    <string name="preference_title_enable_mindstorm_bricks">Включить блоки Mindstorm</string>
+    <string name="preference_description_mindstorm_bricks">Эти блоки используются для контроля роботов Mindstorm.</string>
     <!--  -->
 
 
@@ -84,7 +84,7 @@
         Catroid разрабатывается в Институте Технологий Программного Обеспечения в 
         Техническом Университете Граца в Австрии.\n\n
         Эта программа лицензированна под лицензией GNU GPL v3.\n\n</string>
-    <string name="dialog_about_catroid_license_link_text">О Catroid</string>
+    <string name="dialog_about_pocketcode_license_link_text">О Catroid</string>
     <!--  -->
 
 

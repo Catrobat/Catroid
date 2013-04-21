@@ -56,11 +56,6 @@ public class WhenBrick extends ScriptBrick {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		WhenBrick copyBrick = (WhenBrick) clone();
 		copyBrick.sprite = sprite;

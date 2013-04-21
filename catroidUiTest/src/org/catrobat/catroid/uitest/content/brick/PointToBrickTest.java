@@ -50,6 +50,10 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 	private Solo solo;
 	private Project project;
 
+	private final String spriteName1 = "cat1";
+	private final String spriteName2 = "cat2";
+	private final String newSpriteName = "cat3";
+
 	public PointToBrickTest() {
 		super(ScriptActivity.class);
 	}
@@ -82,11 +86,9 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		int oldSpriteListSize = project.getSpriteList().size();
+		String spinnerNewText = solo.getString(R.string.new_broadcast_message);
 
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_point_to)));
-
-		String spinnerNewText = solo.getString(R.string.new_broadcast_message);
-		String newSpriteName = "cat3";
 
 		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.brick_point_to_spinner));
 		solo.waitForText(spinnerNewText);
@@ -108,19 +110,46 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 		assertEquals("Wrong selection", newSpriteName, ((Spinner) solo.getView(R.id.brick_point_to_spinner))
 				.getSelectedItem().toString());
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.clickOnText(solo.getString(R.string.category_motion));
+		solo.searchText(solo.getString(R.string.category_motion));
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		solo.scrollDownList(fragmentListView);
+		assertTrue("Wrong selection in prototype spinner", solo.isSpinnerTextSelected(spriteName2));
+
+		UiTestUtils.goToHomeActivity(getActivity());
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		solo.clickLongOnText(spriteName1);
+		solo.waitForText(solo.getString(R.string.delete));
+		solo.clickOnText(solo.getString(R.string.delete));
+		solo.clickLongOnText(newSpriteName);
+		solo.waitForText(solo.getString(R.string.delete));
+		solo.clickOnText(solo.getString(R.string.delete));
+
+		solo.clickOnText(spriteName2);
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.scripts));
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.clickOnText(solo.getString(R.string.category_motion));
+		solo.searchText(solo.getString(R.string.category_motion));
+		fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		solo.scrollDownList(fragmentListView);
+		assertTrue("Wrong selection in prototype spinner", solo.isSpinnerTextSelected(spinnerNewText));
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-		Sprite sprite2 = new Sprite("cat2");
+		Sprite sprite2 = new Sprite(spriteName2);
 		Script startScript2 = new StartScript(sprite2);
 		PlaceAtBrick placeAt2 = new PlaceAtBrick(sprite2, -400, -300);
 		startScript2.addBrick(placeAt2);
 		sprite2.addScript(startScript2);
 		project.addSprite(sprite2);
 
-		Sprite sprite1 = new Sprite("cat1");
+		Sprite sprite1 = new Sprite(spriteName1);
 		Script startScript1 = new StartScript(sprite1);
 		PlaceAtBrick placeAt1 = new PlaceAtBrick(sprite1, 300, 400);
 		startScript1.addBrick(placeAt1);

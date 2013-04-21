@@ -57,9 +57,9 @@
     <string name="about">"Catroid에 대하여"</string>
     <string name="upload_project">"프로젝트 업로드"</string>
     <!-- Settings activity -->
-    <string name="pref_title">"설정"</string>
-    <string name="pref_enable_ms_bricks">"레고 마인드 스톰 블록을 사용"</string>
-    <string name="pref_descr_ms_bricks">"이 블록은 레고 마인드 스톰 로봇을 제어하는​​ 데 사용됩니다."</string>
+    <string name="preference_title">"설정"</string>
+    <string name="preference_title_enable_mindstorm_bricks">"레고 마인드 스톰 블록을 사용"</string>
+    <string name="preference_description_mindstorm_bricks">"이 블록은 레고 마인드 스톰 로봇을 제어하는​​ 데 사용됩니다."</string>
     <!-- About Dialog -->
     <string name="about_title">"Catroid에 대하여"</string>
     <string name="about_text">"Catroid는 시각적 프로그래밍 언어인 Catrobat의 안드로이드를 위한 프로그래밍 환경이자 인터프리터입니다. \n \n Catroid는 GNU AGPL V3 라이센스에 따라 사용이 허가됩니다. 라이센스의 자세한 내용은 아래 링크를 참조하십시오. \n"</string>
@@ -230,10 +230,10 @@
     <string name="action_swipeDown">"아래쪽으로 밀기"</string>
     <!-- defaultValues -->
     <string name="default_project_name">"내 첫 프로젝트"</string>
-    <string name="default_project_sprites_catroid_name">"Catroid"</string>
-    <string name="default_project_sprites_catroid_normalcat">"normalCat"</string>
-    <string name="default_project_sprites_catroid_banzaicat">"banzaiCat"</string>
-    <string name="default_project_sprites_catroid_cheshirecat">"cheshireCat"</string>
+    <string name="default_project_sprites_pocketcode_name">"Catroid"</string>
+    <string name="default_project_sprites_pocketcode_normalcat">"normalCat"</string>
+    <string name="default_project_sprites_pocketcode_banzaicat">"banzaiCat"</string>
+    <string name="default_project_sprites_pocketcode_cheshirecat">"cheshireCat"</string>
     <string name="default_project_backgroundname">"  \"background\": {
 "</string>
     <string name="default_project_backgroundcolor">"# 604fff"</string>
@@ -301,8 +301,6 @@
     <!-- Formula Editor Strings -->
     <string name="formula_editor_decimal_mark">"."</string>
     <string name="formula_editor_title">"수식 편집기"</string>
-    <string name="formula_editor_button_undo">"실행 취소"</string>
-    <string name="formula_editor_button_redo">"다시 실행"</string>
     <string name="formula_editor_changes_saved">"변경 내용이 저장되었습니다."</string>
     <string name="formula_editor_changes_discarded">"변경 내용이 취소되었습니다."</string>
     <string name="formula_editor_parse_fail">"입력에 오류가 있습니다! 해결하거나 취소하려면 다시 누르십시오."</string>

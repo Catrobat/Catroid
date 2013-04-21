@@ -70,9 +70,12 @@ public class WaitBrick extends BrickBaseType implements OnClickListener {
 		return NO_RESOURCES;
 	}
 
-	@Override
-	public Sprite getSprite() {
-		return sprite;
+	public Formula getTimeToWait() {
+		return timeToWaitInSeconds;
+	}
+
+	public void setTimeToWait(Formula timeToWaitInSeconds) {
+		this.timeToWaitInSeconds = timeToWaitInSeconds;
 	}
 
 	@Override

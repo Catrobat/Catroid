@@ -43,7 +43,7 @@ import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.ui.dialogs.AddBrickDialog;
+import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.utils.UtilFile;
 import org.json.JSONException;
 
@@ -90,7 +90,7 @@ public class XMLValidatingTest extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(startScript);
 
-		Method[] methods = AddBrickDialog.class.getDeclaredMethods();
+		Method[] methods = AddBrickFragment.class.getDeclaredMethods();
 		HashMap<String, List<Brick>> brickMap = null;
 		for (Method method : methods) {
 			if (method.getName().equalsIgnoreCase("setupBrickMap")) {

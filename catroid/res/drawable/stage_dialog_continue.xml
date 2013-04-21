@@ -22,12 +22,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval" >
+    android:shape="ring"
+    android:useLevel="false" >
 
     <size
-        android:height="50dp"
-        android:width="50dp" />
+        android:height="65dip"
+        android:width="65dip" />
 
-    <solid android:color="@color/main_menu_button_text_color" />
+    <gradient
+        android:endColor="#CCCCFF"
+        android:startColor="#AAAADD"
+        android:type="sweep"
+        android:useLevel="false" />
 
 </shape>

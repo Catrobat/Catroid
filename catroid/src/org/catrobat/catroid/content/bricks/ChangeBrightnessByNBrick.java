@@ -70,11 +70,6 @@ public class ChangeBrightnessByNBrick extends BrickBaseType implements OnClickLi
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		ChangeBrightnessByNBrick copyBrick = (ChangeBrightnessByNBrick) clone();
 		copyBrick.sprite = sprite;

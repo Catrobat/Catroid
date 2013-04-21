@@ -113,7 +113,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		assertTrue("Successful screenshot Toast not found!",
 				solo.searchText(solo.getString(R.string.notification_screenshot_ok)));
 
-		solo.clickOnText(solo.getString(R.string.stage_dialog_resume));
+		solo.clickOnText(solo.getString(R.string.stage_dialog_continue));
 
 		// -------------------------------------------------------------------------------------------------------------
 		Bitmap screenshot = BitmapFactory.decodeFile(Constants.DEFAULT_ROOT + "/" + projectName + "/"
@@ -125,15 +125,15 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		int blackQuadHeight = blackQuad.getHeight();
 		int blackQuadWidth = blackQuad.getWidth();
 		Log.v(TAG, "black_quad.png x: " + blackQuadHeight + " y: " + blackQuadWidth);
-		Log.v(TAG, "Screen height: " + Values.SCREEN_HEIGHT + " width: " + Values.SCREEN_WIDTH);
+		Log.v(TAG, "Screenshot height: " + Values.SCREEN_WIDTH + " width: " + Values.SCREEN_WIDTH);
 
 		Log.v(TAG, (Values.SCREEN_WIDTH / 2) + (blackQuadHeight / 2) + 5 + "");
-		Log.v(TAG, (Values.SCREEN_HEIGHT / 2) + (blackQuadWidth / 2) + 5 + "");
 
+		//Two times width, because of the quadratically screenshots
 		int colorInsideSizedQuad = screenshot.getPixel((Values.SCREEN_WIDTH / 2) + (blackQuadWidth / 2) + 5,
-				(Values.SCREEN_HEIGHT / 2) + (blackQuadHeight / 2) + 5);
+				(Values.SCREEN_WIDTH / 2) + (blackQuadHeight / 2) + 5);
 		int colorOutsideSizedQuad = screenshot.getPixel(Values.SCREEN_WIDTH / 2 + blackQuadWidth + 10,
-				Values.SCREEN_HEIGHT / 2 + blackQuadHeight + 10);
+				Values.SCREEN_WIDTH / 2 + blackQuadHeight + 10);
 
 		assertEquals("Image was not scaled up even though SetSizeTo was exectuted before!", Color.RED,
 				colorInsideSizedQuad);
