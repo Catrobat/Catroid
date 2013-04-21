@@ -74,11 +74,6 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		LegoNxtPlayToneBrick copyBrick = (LegoNxtPlayToneBrick) clone();
 		copyBrick.sprite = sprite;

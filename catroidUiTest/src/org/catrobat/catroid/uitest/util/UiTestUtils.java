@@ -101,7 +101,6 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.UtilToken;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -110,14 +109,12 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -382,10 +379,18 @@ public class UiTestUtils {
 		if (!solo.waitForText(solo.getCurrentActivity().getString(categoryStringId), nThElement, 5000)) {
 			fail("Text not shown in 5 secs!");
 		}
+
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		if (!solo.waitForText(solo.getCurrentActivity().getString(brickStringId), nThElement, 5000)) {
-			fail("Text not shown in 5 secs!");
+		solo.searchText(solo.getCurrentActivity().getString(categoryStringId));
+
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+
+		while (!solo.searchText(solo.getCurrentActivity().getString(brickStringId))) {
+			if (!solo.scrollDownList(fragmentListView)) {
+				fail("Text not shown");
+			}
 		}
+
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId), nThElement, true);
 		solo.sleep(500);
 	}
@@ -702,7 +707,7 @@ public class UiTestUtils {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		Project project = new Project(context, projectName);
-		Sprite firstSprite = new Sprite(context.getString(R.string.default_project_sprites_catroid_name));
+		Sprite firstSprite = new Sprite(context.getString(R.string.default_project_sprites_pocketcode_name));
 		Sprite secondSprite = new Sprite("second_sprite");
 
 		Script firstSpriteScript = new StartScript(firstSprite);
@@ -921,19 +926,17 @@ public class UiTestUtils {
 	}
 
 	public static void createValidUser(Context context) {
+
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
 			String testPassword = "pwspws";
 			String testEmail = testUser + "@gmail.com";
 
-			String token = UtilToken.calculateToken(testUser, testPassword);
+			String token = Constants.NO_TOKEN;
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-					"de", "at", token);
+					"de", "at", token, context);
 
 			assert (userRegistered);
-
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			sharedPreferences.edit().putString(Constants.TOKEN, token).commit();
 
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
@@ -1204,6 +1207,10 @@ public class UiTestUtils {
 			}
 		}
 		return false;
+	}
+
+	public static void clickOnStageCoordinates(Solo solo, int x, int y, int screenWidth, int screenHeight) {
+		solo.clickOnScreen(screenWidth / 2 + x, screenHeight / 2 - y);
 	}
 
 	/**

@@ -72,11 +72,6 @@ public class TurnRightBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		TurnRightBrick copyBrick = (TurnRightBrick) clone();
 		copyBrick.sprite = sprite;

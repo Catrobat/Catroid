@@ -33,6 +33,8 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
@@ -89,6 +91,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	private SpriteRenamedReceiver spriteRenamedReceiver;
 	private SpritesListChangedReceiver spritesListChangedReceiver;
 	private SpritesListInitReceiver spritesListInitReceiver;
+
+	private UserVariablesContainer userVariablesContainer;
 
 	private ActionMode actionMode;
 
@@ -321,8 +325,18 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		addSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)), 0));
 
 		ProjectManager projectManager = ProjectManager.getInstance();
+		userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
+
+		List<UserVariable> userVariablesList = userVariablesContainer.getOrCreateVariableListForSprite(spriteToEdit);
+
 		projectManager.addSprite(addSprite);
 		projectManager.setCurrentSprite(addSprite);
+
+		userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
+		for (int variable = 0; variable < userVariablesList.size(); variable++) {
+			userVariablesContainer.addSpriteUserVariable(userVariablesList.get(variable).getName(), userVariablesList.get(variable)
+					.getValue());
+		}
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
 
@@ -342,8 +356,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		} else {
 			newName = name + nextNumber;
 		}
-		for (Sprite s : spriteList) {
-			if (s.getName().equals(newName)) {
+		for (Sprite sprite : spriteList) {
+			if (sprite.getName().equals(newName)) {
 				return getSpriteName(name, ++nextNumber);
 			}
 		}
@@ -539,12 +553,10 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		public void onDestroyActionMode(ActionMode mode) {
 			Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
 			Iterator<Integer> iterator = checkedSprites.iterator();
-			int numCopied = 0;
 			while (iterator.hasNext()) {
 				int position = iterator.next();
-				spriteToEdit = (Sprite) getListView().getItemAtPosition(position - numCopied);
+				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
 				copySprite();
-				numCopied++;
 			}
 			setSelectMode(Constants.SELECT_NONE);
 			spriteAdapter.clearCheckedSprites();

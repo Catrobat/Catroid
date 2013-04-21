@@ -88,5 +88,9 @@
 
     <!-- Brick Category Fragment Colors -->
     <color name="brick_category_fragment_text_color">#FFFFFF</color>
+    
+    <!-- Stage Menu Colors -->
+    <color name="stage_dialog_background_color">#224466</color>
+    <color name="stage_dialog_text_color">#A8DFF4</color>
 
 </resources>
