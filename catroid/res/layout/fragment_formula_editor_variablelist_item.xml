@@ -20,7 +20,7 @@
  *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,7 +28,7 @@
     android:longClickable="true"
     android:minHeight="60dp"
     android:orientation="horizontal" >
-    
+
     <CheckBox
         android:id="@+id/fragment_formula_editor_variablelist_item_checkbox"
         android:layout_width="wrap_content"
@@ -37,76 +37,46 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="13dp"
         android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/fragment_formulaeditor_item_main_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/sound_fragment_button_gradient"
+        android:baselineAligned="false"
+        android:gravity="center_vertical"
+        android:longClickable="true"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/fragment_formula_editor_variablelist_item_name_text_view"
+            style="@style/formulaeditor_variblelist_fragment_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp" />
+
+        <TextView
+            android:id="@+id/fragment_formula_editor_variablelist_colon_view"
+            style="@style/formulaeditor_variblelist_fragment_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:paddingRight="10dp"
+            android:text="@string/formula_editor_colon"
+            android:layout_toLeftOf="@+id/fragment_formula_editor_variablelist_item_value_text_view"
+            android:layout_toRightOf="@+id/fragment_formula_editor_variablelist_item_name_text_view" />        
         
-    <RelativeLayout 
-	    android:id="@+id/fragment_formulaeditor_item_main_linear_layout"
-	    android:layout_width="match_parent"
-    	android:layout_height="match_parent"
-	    android:background="@drawable/sound_fragment_button_gradient"
-    	android:longClickable="true"
-    	android:baselineAligned="false"
-    	android:orientation="horizontal"
-    	android:gravity="center_vertical">
-    
-	    <TextView style="@style/formulaeditor_variblelist_fragment_main"
-	        android:id="@+id/fragment_formula_editor_variablelist_item_name_text_view"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:paddingLeft="10dp"
-	        android:gravity="center_vertical"
-	        android:layout_alignParentLeft="true"
-	        android:layout_toLeftOf="@+id/fragment_formula_editor_variablelist_item_value_text_view" />
-	   
-	    <TextView style="@style/formulaeditor_variblelist_fragment_main"
-	        android:id="@+id/fragment_formula_editor_variablelist_item_value_text_view"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:paddingLeft="10dp"
-	        android:paddingRight="10dp"
-	        android:gravity="center_vertical"
-	        android:textColor="@color/solid_white" 
-	        android:layout_alignParentRight="true" />
-	 
+        <TextView
+            android:id="@+id/fragment_formula_editor_variablelist_item_value_text_view"
+            style="@style/formulaeditor_variblelist_fragment_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:textColor="@color/solid_white" />
     </RelativeLayout>
-</LinearLayout>
-
-<!--
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:longClickable="true"
-    android:orientation="horizontal"
-    android:paddingLeft="6dp"
-    android:paddingRight="6dp" 
-    android:background="@drawable/abs__ab_bottom_solid_dark_holo" >
-    
-
-    <CheckBox
-        android:id="@+id/fragment_formula_editor_variablelist_item_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:visibility="gone" />
-        
-    <TextView style="@style/fragment_text"
-        android:id="@+id/fragment_formula_editor_variablelist_item_textview1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:minHeight="?android:attr/listPreferredItemHeight"
-        android:gravity="center_vertical"
-        android:textColor="@color/solid_white" />
-    
-    <TextView style="@style/fragment_text"
-        android:id="@+id/fragment_formula_editor_variablelist_item_textview2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="5dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:minHeight="?android:attr/listPreferredItemHeight"
-        android:gravity="center_vertical"
-        android:textColor="@color/solid_white" />
 
 </LinearLayout>
- -->

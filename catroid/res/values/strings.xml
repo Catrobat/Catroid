@@ -509,6 +509,7 @@
         <item quantity="one">variable selected!</item>
         <item quantity="other">variables selected!</item>
     </plurals>
+    <string name="formula_editor_colon">:</string>
     <!--  -->
 
 </resources>
