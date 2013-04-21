@@ -48,6 +48,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.prepareStageForTest();
 		UiTestUtils.createTestProject();
 
 		solo = new Solo(getInstrumentation(), getActivity());
@@ -90,8 +91,8 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 
 		checkMainMenuButton();
 
-		UiTestUtils.getIntoCostumesFromMainMenu(solo, true);
-		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
+		UiTestUtils.getIntoLooksFromMainMenu(solo, true);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_look_relative_layout);
 
 		checkMainMenuButton();
 
@@ -113,7 +114,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		checkplayProgramButton();
 
 		UiTestUtils.changeToFragmentViaActionbar(solo, scripts, looks);
-		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_look_relative_layout);
 		assertTrue("Spinner item '" + looks + "' not shown", solo.waitForText(looks, 0, 300, false, true));
 
 		checkplayProgramButton();
@@ -151,7 +152,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 
 		UiTestUtils.clickOnActionBarSpinnerItem(solo, looksSpinnerIndexRelativeToCurrentSelected);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_look_relative_layout);
 		assertTrue("Spinner item '" + looks + "' not selected", solo.waitForText(looks, 0, timeToWait, false, true));
 
 		soundsSpinnerIndexRelativeToCurrentSelected = 1;
@@ -181,7 +182,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		checkSettingsAndGoBack();
 
 		UiTestUtils.changeToFragmentViaActionbar(solo, scripts, looks);
-		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_look_relative_layout);
 		assertTrue("Spinner item '" + looks + "' not shown", solo.waitForText(looks, 0, 300, false, true));
 
 		checkSettingsAndGoBack();

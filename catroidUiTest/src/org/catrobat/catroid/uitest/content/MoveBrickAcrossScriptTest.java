@@ -31,21 +31,19 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.os.Handler;
-import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import android.view.MotionEvent;
-import android.view.ViewConfiguration;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -68,76 +66,27 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 		solo = null;
 	}
 
-	private void longClickAndDrag(final float xFrom, final float yFrom, final float xTo, final float yTo,
-			final int steps) {
-		Handler handler = new Handler(getActivity().getMainLooper());
-
-		handler.post(new Runnable() {
-
-			public void run() {
-				MotionEvent downEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
-						MotionEvent.ACTION_DOWN, xFrom, yFrom, 0);
-				getActivity().dispatchTouchEvent(downEvent);
-			}
-		});
-
-		solo.sleep(ViewConfiguration.getLongPressTimeout() + 200);
-
-		handler.post(new Runnable() {
-			public void run() {
-
-				for (int i = 0; i <= steps; i++) {
-					float x = xFrom + (((xTo - xFrom) / steps) * i);
-					float y = yFrom + (((yTo - yFrom) / steps) * i);
-					MotionEvent moveEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
-							MotionEvent.ACTION_MOVE, x, y, 0);
-					getActivity().dispatchTouchEvent(moveEvent);
-					solo.sleep(20);
-				}
-			}
-		});
-
-		solo.sleep(steps * 20 + 200);
-		handler.post(new Runnable() {
-			public void run() {
-				MotionEvent upEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
-						MotionEvent.ACTION_UP, xTo, yTo, 0);
-				getActivity().dispatchTouchEvent(upEvent);
-			}
-		});
-		solo.sleep(1000);
-	}
-
-	/**
-	 * For some unknown reason the brick stays hovering and invisible after MotionEvent.ACTION_DOWN.
-	 * This behavior appears only in a test, not in the application itself.
-	 */
 	@Smoke
 	public void testMoveBrickAcrossScript() {
-		//		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
-		//		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
-		//		BrickAdapter adapter = fragment.getAdapter();
+		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
+		BrickAdapter adapter = fragment.getAdapter();
 
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
-		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
+		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 4);
 
 		int numberOfBricks = ProjectManager.getInstance().getCurrentScript().getBrickList().size();
-		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(6), 10, yPositionList.get(2), 20);
-		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks + 1) == ProjectManager
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(2), 10, yPositionList.get(5), 10);
+		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks - 1) == ProjectManager
 				.getInstance().getCurrentScript().getBrickList().size());
-		longClickAndDrag(10, yPositionList.get(6), 10, yPositionList.get(2), 20);
-		//		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks - 1) == ProjectManager
-		//				.getInstance().getCurrentSprite().getScript(0).getBrickList().size());
-		//
-		//		assertEquals("Incorrect Brick after dragging over Script", (Brick) adapter.getItem(7) instanceof WaitBrick,
-		//				true);
+		assertEquals("Incorrect Brick after dragging over Script", (Brick) adapter.getItem(4) instanceof WaitBrick,
+				true);
 	}
 
 	private void createProject(String projectName) {
@@ -151,8 +100,6 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 		Script whenScript2 = new WhenScript(firstSprite);
 
 		brickListToCheck = new ArrayList<Brick>();
-		brickListToCheck.add(new HideBrick(firstSprite));
-		brickListToCheck.add(new ShowBrick(firstSprite));
 		brickListToCheck.add(new SetSizeToBrick(firstSprite, size));
 		brickListToCheck.add(new WaitBrick(firstSprite, 100));
 

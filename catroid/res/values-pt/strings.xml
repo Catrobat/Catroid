@@ -27,7 +27,6 @@
     <string name="cancel_button">"Cancelar"</string>
     <string name="rename">"Renomear"</string>
     <string name="delete">"Excluir"</string>
-    <string name="delete_lowercase">"excluir"</string>
     <string name="yes">"Sim"</string>
     <string name="no">"Não"</string>
     <string name="copy">"Copiar"</string>
@@ -57,21 +56,21 @@
     <string name="main_menu_web">"Comunidade"</string>
     <string name="main_menu_upload">"Upload"</string>
     <string name="main_menu_settings">"Configurações"</string>
-    <string name="main_menu_about_catroid">"Sobre Catroid"</string>
+    <string name="main_menu_about_pocketcode">"Sobre Catroid"</string>
     <!--  -->
 
 
     <!-- Settings activity -->
-    <string name="pref_title">"Configurações"</string>
-    <string name="pref_enable_ms_bricks">"Blocos do Lego Mindstorms"</string>
-    <string name="pref_descr_ms_bricks">"Permitir o controle de robôs de Lego Mindstorms"</string>
+    <string name="preference_title">"Configurações"</string>
+    <string name="preference_title_enable_mindstorm_bricks">"Blocos do Lego Mindstorms"</string>
+    <string name="preference_description_mindstorm_bricks">"Permitir o controle de robôs de Lego Mindstorms"</string>
     <!--  -->
 
 
     <!-- About Dialog -->
     <string name="dialog_about_title">"Sobre Catroid"</string>
     <string name="dialog_about_license_info">"Catroid é um ambiente de programação e interpretador para dispositivos Android da linguagem de programação visual Catrobat.\n\nCatroid é principalmente licenciado sob a licença GNU v3 AGPL. Para detalhes da licença veja o link abaixo.\n"</string>
-    <string name="dialog_about_catroid_license_link_text">"Licença Catroid"</string>
+    <string name="dialog_about_pocketcode_license_link_text">"Licença Catroid"</string>
     <!--  -->
 
 
@@ -79,29 +78,27 @@
     <string name="project_name">"Projeto:"</string>
     <string name="number_of_scripts">"Comandos:"</string>
     <string name="number_of_bricks">"Blocos:"</string>
-    <string name="number_of_costumes">"Trajes:"</string>
+    <string name="number_of_looks">"Trajes:"</string>
     <string name="number_of_sounds">"Som:"</string>
     <string name="show_details">"Mostrar Detalhes"</string>
     <string name="hide_details">"Esconder Detalhes"</string>
     <string name="insert_below">"Inserir Abaixo"</string>
     <!-- ScriptTab activity -->
     <string name="scripts">"Comandos"</string>
-    <string name="costumes">"Trajes"</string>
+    <string name="looks">"Trajes"</string>
     <string name="sounds">"Sons"</string>
     <string name="backgrounds">"Planos de Fundo"</string>
-    <!-- Costume activity -->
-    <string name="rename_costume_dialog">"Renomear traje"</string>
-    <string name="edit_costume_paintroid">"Paintroid"</string>
-    <string name="copy_costume">"copiar"</string>
-    <string name="costumename_invalid">"Nome do traje inválido"</string>
-    <string name="copy_costume_addition">"copiar"</string>
+    <!-- Look activity -->
+    <string name="rename_look_dialog">"Renomear traje"</string>
+    <string name="lookname_invalid">"Nome do traje inválido"</string>
+    <string name="copy_look_addition">"copiar"</string>
     <string name="paintroid_not_installed">"Paintroid não instalado!\nVocê deseja instalá-lo?"</string>
-    <string name="default_costume_name">"traje"</string>
-    <string name="delete_costume_dialog">"Excluir traje?"</string>
-    <string name="add_costume_from_camera">"Da Câmera"</string>
-    <string name="add_costume_from_gallery">"Da Galeria"</string>
-    <string name="select_costume_from_gallery">"Selecione uma imagem"</string>
-    <string name="select_costume_from_camera">"Selecione uma foto"</string>
+    <string name="default_look_name">"traje"</string>
+    <string name="delete_look_dialog">"Excluir traje?"</string>
+    <string name="add_look_from_camera">"Da Câmera"</string>
+    <string name="add_look_from_gallery">"Da Galeria"</string>
+    <string name="select_look_from_gallery">"Selecione uma imagem"</string>
+    <string name="select_look_from_camera">"Selecione uma foto"</string>
     <!-- Sound activity -->
     <string name="rename_sound_dialog">"Renomear som"</string>
     <string name="soundname_invalid">"Nome de som inválido"</string>
@@ -164,7 +161,7 @@
 
     <!-- Stage menu dialog -->
     <string name="stage_dialog_back">"Voltar"</string>
-    <string name="stage_dialog_resume">"Continuar"</string>
+    <string name="stage_dialog_continue">"Continuar"</string>
     <string name="stage_dialog_restart">"Recomeçar"</string>
     <string name="stage_dialog_maximize">"Maximizar/\nEsticar"</string>
     <string name="stage_dialog_axes_on">"Eixos Desligados"</string>
@@ -211,7 +208,7 @@
 
 
     <!-- Looks bricks -->
-    <string name="brick_set_costume">"Mude traje para"</string>
+    <string name="brick_set_look">"Mude traje para"</string>
     <string name="brick_set_background">"Determine fundo de tela"</string>
     <string name="brick_set_size_to">"Mude o tamanho em"</string>
     <string name="brick_change_size_by">"Mude o tamanho para"</string>
@@ -224,7 +221,7 @@
     <string name="by_label">"por"</string>
     <string name="to_label">"para"</string>
     <string name="brick_clear_graphic_effect">"Limpar efeitos gráficos"</string>
-    <string name="brick_next_costume">"Traje seguinte"</string>
+    <string name="brick_next_look">"Traje seguinte"</string>
     <string name="brick_next_background">"Próximo fundo de tela"</string>
     <!-- Sound bricks -->
     <string name="brick_play_sound">"Toque o som"</string>
@@ -255,10 +252,10 @@
     <string name="action_swipeDown">"arrastar para baixo"</string>
     <!-- defaultValues -->
     <string name="default_project_name">"Meu primeiro projeto"</string>
-    <string name="default_project_sprites_catroid_name">"Catroid"</string>
-    <string name="default_project_sprites_catroid_normalcat">"normalCat"</string>
-    <string name="default_project_sprites_catroid_banzaicat">"banzaiCat"</string>
-    <string name="default_project_sprites_catroid_cheshirecat">"cheshireCat"</string>
+    <string name="default_project_sprites_pocketcode_name">"Catroid"</string>
+    <string name="default_project_sprites_pocketcode_normalcat">"normalCat"</string>
+    <string name="default_project_sprites_pocketcode_banzaicat">"banzaiCat"</string>
+    <string name="default_project_sprites_pocketcode_cheshirecat">"cheshireCat"</string>
     <string name="default_project_backgroundname">"Plano de fundo"</string>
     <string name="default_project_backgroundcolor">"#604fff"</string>
     <!-- Notifications -->

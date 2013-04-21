@@ -32,7 +32,10 @@ import org.catrobat.catroid.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.ResultReceiver;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class ServerCalls {
@@ -43,6 +46,7 @@ public class ServerCalls {
 	private static final String REG_USER_COUNTRY = "registrationCountry";
 	private static final String REG_USER_LANGUAGE = "registrationLanguage";
 	private static final String REG_USER_EMAIL = "registrationEmail";
+	private static final String LOGIN_USERNAME = "username";
 
 	private static final String FILE_UPLOAD_TAG = "upload";
 	private static final String PROJECT_NAME_TAG = "projectTitle";
@@ -73,11 +77,15 @@ public class ServerCalls {
 	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTP + "api/checkToken/check.json";
 	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTP + "api/checkTokenOrRegister/check.json";
 
+	public static final int TOKEN_LENGTH = 32;
+	public static final String TOKEN_CODE_INVALID = "-1";
+
 	private static ServerCalls instance;
 	public static boolean useTestUrl = false;
 	private String resultString;
 	private ConnectionWrapper connection;
 	private String emailForUiTests;
+	private int uploadStatusCode;
 
 	protected ServerCalls() {
 		connection = new ConnectionWrapper();
@@ -96,7 +104,7 @@ public class ServerCalls {
 	}
 
 	public void uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
-			String language, String token, ResultReceiver receiver, Integer notificationId)
+			String language, String token, String username, ResultReceiver receiver, Integer notificationId)
 			throws WebconnectionException {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
@@ -110,6 +118,7 @@ public class ServerCalls {
 			postValues.put(USER_EMAIL, userEmail);
 			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
 			postValues.put(Constants.TOKEN, token);
+			postValues.put(Constants.USERNAME, username);
 			postValues.put(CATROID_FILE_NAME, projectName + ".catrobat");
 
 			if (language != null) {
@@ -120,8 +129,22 @@ public class ServerCalls {
 			String httpPostUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL_HTTP;
 
 			Log.v(TAG, "url to upload: " + serverUrl);
-			connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString, receiver,
-					httpPostUrl, notificationId);
+			String answer = connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString,
+					receiver, httpPostUrl, notificationId);
+
+			// check statusCode from Webserver
+			JSONObject jsonObject = null;
+			Log.v(TAG, "result string: " + answer);
+			jsonObject = new JSONObject(answer);
+			uploadStatusCode = jsonObject.getInt("statusCode");
+			String serverAnswer = jsonObject.optString("answer");
+
+			if (uploadStatusCode != 200) {
+				throw new WebconnectionException(uploadStatusCode, serverAnswer);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
@@ -142,13 +165,15 @@ public class ServerCalls {
 
 	}
 
-	public boolean checkToken(String token) throws WebconnectionException {
+	public boolean checkToken(String token, String username) throws WebconnectionException {
 		try {
 			HashMap<String, String> postValues = new HashMap<String, String>();
 			postValues.put(Constants.TOKEN, token);
+			postValues.put(LOGIN_USERNAME, username);
 
 			String serverUrl = useTestUrl ? TEST_CHECK_TOKEN_URL : CHECK_TOKEN_URL;
 
+			Log.v(TAG, "post values - token:" + token + "user: " + username);
 			Log.v(TAG, "url to upload: " + serverUrl);
 			resultString = connection.doHttpPost(serverUrl, postValues);
 
@@ -178,17 +203,18 @@ public class ServerCalls {
 	}
 
 	public boolean registerOrCheckToken(String username, String password, String userEmail, String language,
-			String country, String token) throws WebconnectionException {
+			String country, String token, Context context) throws WebconnectionException {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
 		}
 		try {
-
 			HashMap<String, String> postValues = new HashMap<String, String>();
 			postValues.put(REG_USER_NAME, username);
 			postValues.put(REG_USER_PASSWORD, password);
 			postValues.put(REG_USER_EMAIL, userEmail);
-			postValues.put(Constants.TOKEN, token);
+			if (token != Constants.NO_TOKEN) {
+				postValues.put(Constants.TOKEN, token);
+			}
 
 			if (country != null) {
 				postValues.put(REG_USER_COUNTRY, country);
@@ -203,12 +229,26 @@ public class ServerCalls {
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
+			String tokenReceived = "";
 
 			Log.v(TAG, "result string: " + resultString);
 
 			jsonObject = new JSONObject(resultString);
 			statusCode = jsonObject.getInt("statusCode");
 			String serverAnswer = jsonObject.optString("answer");
+
+			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
+				tokenReceived = jsonObject.getString("token");
+				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.isEmpty()
+						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
+					throw new WebconnectionException(statusCode, serverAnswer);
+				}
+				if (context != null) {
+					SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+					sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
+					sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
+				}
+			}
 
 			boolean registered;
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK) {

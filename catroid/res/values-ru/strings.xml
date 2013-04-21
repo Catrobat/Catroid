@@ -33,7 +33,6 @@
     <string name="cancel_button">Отмена</string>
     <string name="rename">Переименовать</string>
     <string name="delete">Удалить</string>
-    <string name="delete_lowercase">удалить</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <!-- User interface -->
@@ -72,9 +71,9 @@
 
 
     <!-- Settings activity -->
-    <string name="pref_title">Настройки</string>
-    <string name="pref_enable_ms_bricks">Включить блоки Mindstorm</string>
-    <string name="pref_descr_ms_bricks">Эти блоки используются для контроля роботов Mindstorm.</string>
+    <string name="preference_title">Настройки</string>
+    <string name="preference_title_enable_mindstorm_bricks">Включить блоки Mindstorm</string>
+    <string name="preference_description_mindstorm_bricks">Эти блоки используются для контроля роботов Mindstorm.</string>
     <!--  -->
 
 
@@ -85,7 +84,7 @@
         Catroid разрабатывается в Институте Технологий Программного Обеспечения в 
         Техническом Университете Граца в Австрии.\n\n
         Эта программа лицензированна под лицензией GNU GPL v3.\n\n</string>
-    <string name="dialog_about_catroid_license_link_text">О Catroid</string>
+    <string name="dialog_about_pocketcode_license_link_text">О Catroid</string>
     <!--  -->
 
 
@@ -102,21 +101,19 @@
     <!-- <string name="add_new_script">Добавить новый Скрипт</string> -->
     <!-- ScriptTab activity -->
     <string name="scripts">Скрипты</string>
-    <string name="costumes">Костюмы</string>
+    <string name="looks">Костюмы</string>
     <string name="sounds">Звуки</string>
-    <!-- Costume activity -->
-    <!-- <string name="costume_list">Изображение:</string> -->
-    <string name="rename_costume_dialog">Переименовать изображение</string>
-    <string name="edit_costume">редактировать</string>
-    <string name="edit_costume_paintroid">Paintroid</string>
-    <string name="copy_costume">скопировать</string>
-    <string name="costumename_invalid">Это название изображение является недействительным</string>
+    <!-- Look activity -->
+    <!-- <string name="look_list">Изображение:</string> -->
+    <string name="rename_look_dialog">Переименовать изображение</string>
+    <string name="edit_look">редактировать</string>
+    <string name="lookname_invalid">Это название изображение является недействительным</string>
     <!-- <string name="edit_in_paintroid">Редактировать в paintroid</string> -->
-    <string name="copy_costume_addition">скопировать</string>
+    <string name="copy_look_addition">скопировать</string>
     <string name="select_image">Выбрать изображение</string>
     <string name="paintroid_not_installed">Paintroid не установлен!\nЖелаете ли вы его установить?</string>
-    <string name="default_costume_name">костюм</string>
-    <string name="delete_costume_dialog">Удалить костюм?</string>
+    <string name="default_look_name">костюм</string>
+    <string name="delete_look_dialog">Удалить костюм?</string>
     <!-- Sound activity -->
     <!-- <string name="sound_list">Звук:</string> -->
     <string name="rename_sound_dialog">Переименовать звук</string>
@@ -199,7 +196,7 @@
     <string name="brick_show">Показать</string>
     <string name="brick_place_at_x">Поместить на X:</string>
     <string name="y_label">Y:</string>
-    <string name="brick_set_costume">Задать костюм</string>
+    <string name="brick_set_look">Задать костюм</string>
     <string name="brick_set_size_to">Установить размер на</string>
     <string name="brick_go_back">Назад на</string>
     <string name="brick_go_back_layers">слоев</string>
@@ -351,7 +348,7 @@
     <string name="just_a_v">v</string>
     <string name="number_to_small">Слишком маленькое значение!</string>
     <string name="number_to_big">Слишком большое значение!</string>
-    <string name="add_costume_from_gallery">Из галереи</string>
-    <string name="add_costume_from_camera">Камера</string>
+    <string name="add_look_from_gallery">Из галереи</string>
+    <string name="add_look_from_camera">Камера</string>
 
 </resources>

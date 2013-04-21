@@ -63,6 +63,9 @@ public class ConnectionWrapper {
 			WebconnectionException {
 		String answer = "";
 		try {
+			// important to call this before connect
+			ftpClient.setControlEncoding("UTF-8");
+
 			ftpClient.connect(urlString, ServerCalls.FTP_PORT);
 			ftpClient.login(FTP_USERNAME, FTP_PASSWORD);
 
@@ -221,7 +224,6 @@ public class ConnectionWrapper {
 
 	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws IOException {
 		HttpBuilder httpBuilder = buildPost(urlString, postValues);
-		//HttpBuilder out = buildPost(urlString, postValues);
 		httpBuilder.close();
 
 		InputStream resultStream = null;

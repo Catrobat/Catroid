@@ -26,11 +26,11 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.Vector;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
-import org.catrobat.catroid.R;
 
 /**
  * @author Johannes Iber
@@ -38,20 +38,50 @@ import org.catrobat.catroid.R;
  */
 public class MessageContainer {
 
-	private TreeMap<String, Vector<BroadcastScript>> receiverMap = new TreeMap<String, Vector<BroadcastScript>>();
-	private ArrayAdapter<String> messageAdapter = null;
+	private static TreeMap<String, Vector<BroadcastScript>> receiverMap = new TreeMap<String, Vector<BroadcastScript>>();
+	private static TreeMap<String, Vector<BroadcastScript>> backupReceiverMap = null;
+	private static ArrayAdapter<String> messageAdapter = null;
 
-	public void addMessage(String message) {
+	public static void clear() {
+		receiverMap.clear();
+		if (messageAdapter != null) {
+			messageAdapter.clear();
+			messageAdapter = null;
+		}
+	}
+
+	public static void createBackup() {
+		backupReceiverMap = receiverMap;
+		receiverMap = new TreeMap<String, Vector<BroadcastScript>>();
+	}
+
+	public static void clearBackup() {
+		if (backupReceiverMap != null) {
+			backupReceiverMap.clear();
+			backupReceiverMap = null;
+		}
+		if (messageAdapter != null) {
+			messageAdapter.clear();
+			messageAdapter = null;
+		}
+	}
+
+	public static void restoreBackup() {
+		receiverMap = backupReceiverMap;
+		backupReceiverMap = null;
+	}
+
+	public static void addMessage(String message) {
 		if (message.length() == 0) {
 			return;
 		}
 		if (!receiverMap.containsKey(message)) {
 			receiverMap.put(message, new Vector<BroadcastScript>());
-			this.addMessageToAdapter(message);
+			addMessageToAdapter(message);
 		}
 	}
 
-	public void addMessage(String message, BroadcastScript script) {
+	public static void addMessage(String message, BroadcastScript script) {
 		if (message.length() == 0) {
 			return;
 		}
@@ -61,44 +91,47 @@ public class MessageContainer {
 			Vector<BroadcastScript> receiverVec = new Vector<BroadcastScript>();
 			receiverVec.add(script);
 			receiverMap.put(message, receiverVec);
-			this.addMessageToAdapter(message);
+			addMessageToAdapter(message);
 		}
 	}
 
-	public void deleteReceiverScript(String message, BroadcastScript script) {
+	public static void deleteReceiverScript(String message, BroadcastScript script) {
 		if (receiverMap.containsKey(message)) {
 			receiverMap.get(message).removeElement(script);
 		}
 	}
 
-	public Vector<BroadcastScript> getReceiverOfMessage(String message) {
+	public static Vector<BroadcastScript> getReceiverOfMessage(String message) {
 		return receiverMap.get(message);
 	}
 
-	public Set<String> getMessages() {
+	public static Set<String> getMessages() {
 		return receiverMap.keySet();
 	}
 
-	private synchronized void addMessageToAdapter(String message) {
+	private static void addMessageToAdapter(String message) {
 		if (messageAdapter != null) {
 			messageAdapter.add(message);
 		}
 	}
 
-	public synchronized ArrayAdapter<String> getMessageAdapter(Context context) {
+	public static ArrayAdapter<String> getMessageAdapter(Context context) {
 		if (messageAdapter == null) {
 			messageAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 			messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			messageAdapter.add(context.getString(R.string.broadcast_nothing_selected));
+			messageAdapter.add(context.getString(R.string.new_broadcast_message));
+			addMessage(context.getString(R.string.brick_broadcast_default_value));
 			Set<String> messageSet = receiverMap.keySet();
 			for (String message : messageSet) {
-				messageAdapter.add(message);
+				if (!message.equals(context.getString(R.string.brick_broadcast_default_value))) {
+					messageAdapter.add(message);
+				}
 			}
 		}
 		return messageAdapter;
 	}
 
-	public int getPositionOfMessageInAdapter(String message) {
+	public static int getPositionOfMessageInAdapter(String message) {
 		if (!receiverMap.containsKey(message)) {
 			return -1;
 		}

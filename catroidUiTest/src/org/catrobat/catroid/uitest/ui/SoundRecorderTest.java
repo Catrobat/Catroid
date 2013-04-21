@@ -109,14 +109,14 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	public void recordSound() throws InterruptedException {
 		solo.waitForActivity(SoundRecorderActivity.class.getSimpleName());
-		solo.clickOnText(solo.getString(R.string.soundrecorder_record_start));
+		solo.clickOnImageButton(0);
 		solo.sleep(500);
-		solo.clickOnText(solo.getString(R.string.soundrecorder_record_stop));
+		solo.clickOnImageButton(0);
 	}
 
 	public void recordSoundGoBackWhileRecording() throws InterruptedException {
 		solo.waitForActivity(SoundRecorderActivity.class.getSimpleName());
-		solo.clickOnText(solo.getString(R.string.soundrecorder_record_start));
+		solo.clickOnImageButton(0);
 		solo.sleep(500);
 		solo.goBack();
 	}
@@ -147,6 +147,7 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenu
 			recordTitle += (recordNumber - 1);
 		}
 
+		solo.sleep(500);
 		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		assertEquals("wrong number of items in the list ", recordNumber, soundInfoList.size());
 		SoundInfo lastAddedSoundInfo = soundInfoList.get(soundInfoList.size() - 1);

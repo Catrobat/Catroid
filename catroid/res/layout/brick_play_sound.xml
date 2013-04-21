@@ -20,22 +20,39 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Sound.Medium"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_play_sound" >
-    </TextView>
-
-    <Spinner
-        android:id="@+id/playsound_spinner"
-        android:layout_width="match_parent"
+    <CheckBox
+        android:id="@+id/brick_play_sound_checkbox"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="false"
-        android:focusable="false" />
+        android:gravity="center_vertical"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/brick_play_sound_layout"
+        style="@style/BrickContainer.Sound.Medium"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_play_sound" >
+        </TextView>
+
+        <Spinner
+            android:id="@+id/playsound_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false" />
+    </LinearLayout>
 
 </LinearLayout>

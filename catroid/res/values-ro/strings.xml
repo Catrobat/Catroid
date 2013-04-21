@@ -33,7 +33,6 @@
     <string name="cancel_button">Anulare</string>
     <string name="rename">Redenumire</string>
     <string name="delete">Ștergere</string>
-    <string name="delete_lowercase">ștergere</string>
     <string name="yes">Da</string>
     <string name="no">Nu</string>
     <!-- User interface -->
@@ -72,9 +71,9 @@
 
 
     <!-- Settings activity -->
-    <string name="pref_title">Setări</string>
-    <string name="pref_enable_ms_bricks">Permiterea blocurilor Mindstorm</string>
-    <string name="pref_descr_ms_bricks">Aceste blocuri sunt folosite pentru controlul roboților Mindstorm.</string>
+    <string name="preference_title">Setări</string>
+    <string name="preference_title_enable_mindstorm_bricks">Permiterea blocurilor Mindstorm</string>
+    <string name="preference_description_mindstorm_bricks">Aceste blocuri sunt folosite pentru controlul roboților Mindstorm.</string>
     <!--  -->
 
 
@@ -85,7 +84,7 @@
         Catroid este dezvoltat în Instituția Tehnologiilor Software la
         Universitatea Tehnologică din Graz în Austria.\n\n
         Această programă este licențiată sub licența GNU GPL v3.\n\n</string>
-    <string name="dialog_about_catroid_license_link_text">Despre Catroid</string>
+    <string name="dialog_about_pocketcode_license_link_text">Despre Catroid</string>
     <!--  -->
 
 
@@ -102,17 +101,15 @@
     <!-- <string name="add_new_script">Adăugarea noului Script</string> -->
     <!-- ScriptTab activity -->
     <string name="scripts">Scripte</string>
-    <string name="costumes">Imaginele</string>
+    <string name="looks">Imaginele</string>
     <string name="sounds">Sunete</string>
-    <!-- Costume activity -->
-    <!-- <string name="costume_list">Imagine:</string> -->
-    <string name="rename_costume_dialog">Redenumirea imaginii</string>
-    <string name="edit_costume">editare</string>
-    <string name="edit_costume_paintroid">Paintroid</string>
-    <string name="copy_costume">copiere</string>
-    <string name="costumename_invalid">Această imagine este nevalidă</string>
+    <!-- Look activity -->
+    <!-- <string name="look_list">Imagine:</string> -->
+    <string name="rename_look_dialog">Redenumirea imaginii</string>
+    <string name="edit_look">editare</string>
+    <string name="lookname_invalid">Această imagine este nevalidă</string>
     <!-- <string name="edit_in_paintroid">Editare în paintroid</string> -->
-    <string name="copy_costume_addition">copiere</string>
+    <string name="copy_look_addition">copiere</string>
     <string name="select_image">Selectați Imaginea</string>
     <string name="paintroid_not_installed">Paintroid nu este instalt!\nDoriți să îl instalați?</string>
     <!-- Sound activity -->
@@ -189,7 +186,7 @@
     <string name="brick_show">Arată</string>
     <string name="brick_place_at_x">Plasează la X:</string>
     <string name="y_label">Y:</string>
-    <string name="brick_set_costume">Setează costumul</string>
+    <string name="brick_set_look">Setează costumul</string>
     <string name="brick_set_size_to">Setează mărimea la</string>
     <string name="brick_go_back">Înapoi</string>
     <string name="brick_go_back_layers">nivele</string>

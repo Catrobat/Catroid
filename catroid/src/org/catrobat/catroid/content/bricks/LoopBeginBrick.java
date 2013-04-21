@@ -25,19 +25,17 @@ package org.catrobat.catroid.content.bricks;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-
 
 public abstract class LoopBeginBrick extends NestingBrick {
 	private static final long serialVersionUID = 1L;
-	protected Sprite sprite;
+
 	protected LoopEndBrick loopEndBrick;
 	private transient long beginLoopTime;
 
 	protected LoopBeginBrick() {
 	}
-
-	public abstract void execute();
 
 	protected void setFirstStartTime() {
 		beginLoopTime = System.nanoTime();
@@ -49,10 +47,6 @@ public abstract class LoopBeginBrick extends NestingBrick {
 
 	public void setBeginLoopTime(long beginLoopTime) {
 		this.beginLoopTime = beginLoopTime;
-	}
-
-	public Sprite getSprite() {
-		return this.sprite;
 	}
 
 	public LoopEndBrick getLoopEndBrick() {
@@ -87,7 +81,7 @@ public abstract class LoopBeginBrick extends NestingBrick {
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts() {
+	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
 		nestingBrickList.add(this);
 		nestingBrickList.add(loopEndBrick);
@@ -97,5 +91,13 @@ public abstract class LoopBeginBrick extends NestingBrick {
 
 	@Override
 	public abstract Brick clone();
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		//loopEndBrick will be set in the LoopEndBrick's copyBrickForSprite method
+		LoopBeginBrick copyBrick = (LoopBeginBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
+	}
 
 }

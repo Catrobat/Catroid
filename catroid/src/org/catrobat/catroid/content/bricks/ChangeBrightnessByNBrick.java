@@ -22,32 +22,44 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+public class ChangeBrightnessByNBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private double changeBrightness;
-	private Sprite sprite;
+	private Formula changeBrightness;
 
-	private transient View view;
+	private transient View prototypeView;
 
 	public ChangeBrightnessByNBrick() {
 
 	}
 
-	public ChangeBrightnessByNBrick(Sprite sprite, double changeBrightness) {
+	public ChangeBrightnessByNBrick(Sprite sprite, double changeBrightnessValue) {
+		this.sprite = sprite;
+		changeBrightness = new Formula(changeBrightnessValue);
+	}
+
+	public ChangeBrightnessByNBrick(Sprite sprite, Formula changeBrightness) {
 		this.sprite = sprite;
 		this.changeBrightness = changeBrightness;
 	}
@@ -58,71 +70,78 @@ public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void execute() {
-		sprite.costume.changeBrightnessValueBy((float) (this.changeBrightness / 100));
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		ChangeBrightnessByNBrick copyBrick = (ChangeBrightnessByNBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	public double getChangeBrightness() {
-		return changeBrightness;
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 
 		view = View.inflate(context, R.layout.brick_change_brightness, null);
+		view = getViewWithAlpha(alphaValue);
 
+		setCheckboxView(R.id.brick_change_brightness_checkbox);
+		final Brick brickInstance = this;
+
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_brightness_prototype_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_change_brightness_edit_text);
-		editX.setText(String.valueOf(changeBrightness));
+		changeBrightness.setTextFieldId(R.id.brick_change_brightness_edit_text);
+		changeBrightness.refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
 
 		editX.setOnClickListener(this);
-
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_brightness, null);
+		prototypeView = View.inflate(context, R.layout.brick_change_brightness, null);
+		TextView textChangeBrightness = (TextView) prototypeView
+				.findViewById(R.id.brick_change_brightness_prototype_text_view);
+		textChangeBrightness.setText(String.valueOf(changeBrightness.interpretFloat(sprite)));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeBrightnessByNBrick(getSprite(), getChangeBrightness());
+		return new ChangeBrightnessByNBrick(getSprite(), changeBrightness.clone());
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_brightness_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
 	}
 
 	@Override
 	public void onClick(View view) {
-		ScriptActivity activity = (ScriptActivity) view.getContext();
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
+		FormulaEditorFragment.showFragment(view, this, changeBrightness);
+	}
 
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(changeBrightness));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-						| InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					changeBrightness = Double.parseDouble(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_brightness_brick");
+		sequence.addAction(ExtendedActions.changeBrightnessByN(sprite, changeBrightness));
+		return null;
 	}
 }

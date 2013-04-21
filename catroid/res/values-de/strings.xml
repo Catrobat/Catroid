@@ -24,11 +24,10 @@
 <resources>
 
     <!-- General terms -->
-    <string name="app_name">Catroid</string>
+    <string name="app_name">Pocket Code</string>
     <string name="cancel_button">Abbrechen</string>
     <string name="rename">Umbenennen</string>
     <string name="delete">Löschen</string>
-    <string name="delete_lowercase">löschen</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="copy">Kopieren</string>
@@ -45,7 +44,7 @@
     <string name="loading">Laden…</string>
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="add">Neu</string>
     <!--  -->
 
@@ -58,24 +57,24 @@
     <string name="main_menu_web">Web</string>
     <string name="main_menu_upload">Hochladen</string>
     <string name="main_menu_settings">Einstellungen</string>
-    <string name="main_menu_about_catroid">Über Catroid</string>
+    <string name="main_menu_about_pocketcode">Über Pocket Code</string>
     <!--  -->
 
 
     <!-- Settings activity -->
-    <string name="pref_title">Einstellungen</string>
-    <string name="pref_enable_ms_bricks">Lego Mindstorm Bausteine</string>
-    <string name="pref_descr_ms_bricks">Erlaube Steuerung eines Lego Mindstorm Roboters</string>
+    <string name="preference_title">Einstellungen</string>
+    <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorm Bausteine</string>
+    <string name="preference_description_mindstorm_bricks">Erlaube Steuerung eines Lego Mindstorm Roboters</string>
     <!--  -->
 
 
     <!-- About Dialog -->
-    <string name="dialog_about_title">Über Catroid</string>
-    <string name="dialog_about_license_info">Catroid ist eine Programmierumgebung für Androidgeräte für die grafische
+    <string name="dialog_about_title">Über Pocket Code</string>
+    <string name="dialog_about_license_info">Pocket Code ist eine Programmierumgebung für Androidgeräte für die grafische
         Programmiersprache Catrobat.\n\n
-        Der Großteil von Catroid steht unter der GNU AGPL v3 Lizenz.
+        Der Großteil von Pocket Code steht unter der GNU AGPL v3 Lizenz.
         Für nähere Informationen zur Lizenz siehe untenstehenden Link.\n</string>
-    <string name="dialog_about_catroid_license_link_text">Catroid Lizenz</string>
+    <string name="dialog_about_pocketcode_license_link_text">Pocket Code Lizenz</string>
     <!--  -->
 
 
@@ -83,58 +82,66 @@
     <string name="project_name">Projekt:</string>
     <string name="number_of_scripts">Skripte:</string>
     <string name="number_of_bricks">Bausteine:</string>
-    <string name="number_of_costumes">Kostüme:</string>
+    <string name="number_of_looks">Aussehen:</string>
     <string name="number_of_sounds">Klänge:</string>
     <string name="show_details">Details anzeigen</string>
     <string name="hide_details">Details verbergen</string>
     <string name="insert_below">Darunter einfügen</string>
+    <string name="edit_in_paintroid">Bearbeite In Paintroid</string>
     <string name="sprite">Objekt</string>
     <string name="sprites">Objekte</string>
+    <string name="spritelist_background_headline">HINTERGRUND</string>
+    <string name="spritelist_objects_headline">OBJEKTE</string>
     <!--  -->
 
 
-    <!-- ScriptTab activity -->
+    <!-- Sprite activity -->
+    <string name="copy_sprite_finished"> kopiert.</string>
+    <string name="copy_sprite_prefix">Objekt:</string>
+    <string name="copy_sprite_name_suffix">_Kopie</string>
+    <!--  -->
+
+
+    <!-- Script activity -->
     <string name="scripts">Skripte</string>
-    <string name="costumes">Kostüme</string>
+    <string name="look">Aussehen</string>
+    <string name="looks">Aussehen</string>
     <string name="sounds">Klänge</string>
     <string name="backgrounds">Hintergründe</string>
+    <string name="size">Größe:</string>
     <!--  -->
 
 
-    <!-- Costume activity -->
-    <string name="rename_costume_dialog">Kostüm umbenennen</string>
-    <string name="edit_costume_paintroid">Paintroid</string>
-    <string name="copy_costume">kopieren</string>
-    <string name="costumename_invalid">Dieser Name ist nicht zulässig</string>
-    <string name="copy_costume_addition">Kopie</string>
+    <!-- Look fragment -->
+    <string name="rename_look_dialog">Aussehen umbenennen</string>
+    <string name="lookname_invalid">Dieser Name ist nicht zulässig</string>
+    <string name="copy_look_addition">Kopie</string>
     <string name="paintroid_not_installed">Paintroid ist nicht installiert!\nJetzt herunterladen?</string>
-    <string name="default_costume_name">Kostüm</string>
-    <string name="delete_costume_dialog">Kostüm löschen?</string>
-    <string name="new_costume_dialog_title">Kostüm hinzufügen</string>
-    <string name="add_costume_from_gallery">Von Galerie</string>
-    <string name="add_costume_from_camera">Von Kamera</string>
-    <string name="select_costume_from_gallery">Bild auswählen</string>
-    <string name="select_costume_from_camera">Photo auswählen</string>
+    <string name="default_look_name">Aussehen</string>
+    <string name="delete_look_dialog">Aussehen löschen?</string>
+    <string name="new_look_dialog_title">Aussehen hinzufügen</string>
+    <string name="add_look_from_gallery">Von Galerie</string>
+    <string name="add_look_from_camera">Von Kamera</string>
+    <string name="select_look_from_gallery">Bild auswählen</string>
+    <string name="select_look_from_camera">Photo auswählen</string>
+    <string name="look_measure">Abmessung:</string>
     <!--  -->
 
 
-    <!-- Sound activity -->
+    <!-- Sound fragment -->
     <string name="rename_sound_dialog">Klang umbenennen</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="sound_play">abspielen</string>
     <string name="sound_pause">pausieren</string>
     <string name="sound_select_source">Klang auswählen</string>
     <string name="sound_time_seperator">/</string>
-    <string name="sound_size">Größe:</string>
     <string name="delete_sound_dialog">Klang löschen?</string>
+    <string name="length">Länge:</string>
     <!--  -->
 
 
     <!-- Soundrecorder activity -->
-    <string name="soundrecorder_name">Catroid Sound Recorder</string>
-    <string name="soundrecorder_record_start">Aufnehmen</string>
-    <string name="soundrecorder_record_stop">Beenden</string>
-    <string name="soundrecorder_recording">Aufnahme gestartet…</string>
+    <string name="soundrecorder_name">Pocket Code Sound Recorder</string>
     <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
     <string name="soundrecorder_recorded_filename">Aufnahme</string>
     <!--  -->
@@ -160,6 +167,11 @@
     <!--  -->
 
 
+    <!-- Look context menu -->
+    <string name="look_context_menu_edit_in_paintroid">Bearbeite In Paintroid</string>
+    <!--  -->
+
+
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Verschiebe Baustein</string>
     <string name="brick_context_dialog_delete_brick">Lösche Baustein</string>
@@ -172,7 +184,6 @@
     <string name="new_project_dialog_hint">Mein Projekt</string>
     <string name="new_project_description_dialog_hint">Meine Beschreibung</string>
     <string name="new_project_name">Projektname:</string>
-    <string name="new_project_description">Projektbeschreibung:</string>
     <!--  -->
 
 
@@ -188,7 +199,7 @@
 
     <!-- Stage menu dialog -->
     <string name="stage_dialog_back">Zurück</string>
-    <string name="stage_dialog_resume">Fortsetzen</string>
+    <string name="stage_dialog_continue">Fortsetzen</string>
     <string name="stage_dialog_restart">Neu starten</string>
     <string name="stage_dialog_maximize">Maximieren/\nDehnen</string>
     <string name="stage_dialog_axes_on">Achsen Ein</string>
@@ -205,6 +216,8 @@
     <string name="password_forgotten">Passwort\nvergessen</string>
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>
+    <string name="register_terms">Mit der Registrierung akzeptierst du unsere</string>
+    <string name="register_pocketcode_terms_of_use_text">Lizenzbedingungen</string>
     <!--  -->
 
 
@@ -217,7 +230,12 @@
 
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">Neu…</string>
-    <string name="broadcast_nothing_selected">Nichts…</string>
+    <!--  -->
+
+
+    <!-- Brick general -->
+    <string name="brick_single">Baustein</string>
+    <string name="brick_multiple">Bausteine</string>
     <!--  -->
 
 
@@ -227,29 +245,50 @@
     <string name="category_looks">Aussehen</string>
     <string name="category_sound">Klang</string>
     <string name="category_control">Steuerung</string>
+    <string name="category_variables">Benutzervariablen</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <!--  -->
 
 
     <!-- Motion bricks -->
-    <string name="brick_place_at_x">Setze Position X:</string>
+    <string name="brick_place_at">Setze Position:</string>
+    <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="brick_set_x">Setze X auf:</string>
     <string name="brick_set_y">Setze Y auf:</string>
     <string name="brick_change_x_by">Ändere X um:</string>
     <string name="brick_change_y_by">Ändere Y um:</string>
     <string name="brick_go_back">Gehe</string>
-    <string name="brick_go_back_layers">Ebenen nach hinten</string>
+
+    <plurals name="brick_go_back_layer_plural">
+        <item quantity="one">Ebene nach hinten</item>
+        <item quantity="other">Ebenen nach hinten</item>
+    </plurals>
+
     <string name="brick_come_to_front">Komme nach vorn</string>
     <string name="brick_if_on_edge_bounce">Pralle vom Rand ab</string>
     <string name="brick_move">Gehe</string>
-    <string name="brick_move_n_steps">Schritte</string>
+
+    <plurals name="brick_move_n_step_plural">
+        <item quantity="one">Schritt</item>
+        <item quantity="other">Schritte</item>
+    </plurals>
+
     <string name="brick_turn_left">Drehe links</string>
-    <string name="brick_turn_left_degrees">Grad</string>
+
+    <plurals name="brick_turn_left_degree_plural">
+        <item quantity="one">Grad</item>
+        <item quantity="other">Grad</item>
+    </plurals>
+
     <string name="brick_turn_right">Drehe rechts</string>
-    <string name="brick_turn_right_degrees">Grad</string>
+
+    <plurals name="brick_turn_right_degree_plural">
+        <item quantity="one">Grad</item>
+        <item quantity="other">Grad</item>
+    </plurals>
+
     <string name="brick_point_in_direction">Zeige in Richtung</string>
-    <string name="brick_point_in_direction_choose_direction">Wähle Richtung</string>
     <string name="brick_point_to">Zeige auf</string>
     <string name="brick_glide">Gleite</string>
     <string name="brick_glide_to_x">zu X:</string>
@@ -257,7 +296,7 @@
 
 
     <!-- Looks bricks -->
-    <string name="brick_set_costume">Setze Kostüm</string>
+    <string name="brick_set_look">Setze Aussehen</string>
     <string name="brick_set_background">Setze Hintergrund</string>
     <string name="brick_set_size_to">Setze Größe auf</string>
     <string name="brick_change_size_by">Ändere Größe um</string>
@@ -270,7 +309,7 @@
     <string name="by_label">um</string>
     <string name="to_label">auf</string>
     <string name="brick_clear_graphic_effect">Schalte Grafikeffekte aus</string>
-    <string name="brick_next_costume">Nächstes Kostüm</string>
+    <string name="brick_next_look">Nächstes Aussehen</string>
     <string name="brick_next_background">Nächster Hintergrund</string>
     <!--  -->
 
@@ -281,36 +320,51 @@
     <string name="brick_set_volume_to">Setze Lautstärke auf</string>
     <string name="brick_change_volume_by">Ändere Lautstärke um</string>
     <string name="brick_speak">Sprich</string>
+    <string name="brick_speak_default_value">"Hallo!"</string>
     <!--  -->
 
 
     <!-- Control bricks -->
-    <string name="brick_when_started">Wenn Projekt gestartet</string>
-    <string name="brick_when">Wenn</string>
+    <string name="brick_when_started">Wenn Programm gestartet</string>
+    <string name="brick_when">Wenn angetippt</string>
     <string name="brick_wait">Warte</string>
-    <string name="seconds">Sekunden</string>
+
+    <plurals name="second_plural">
+        <item quantity="one">Sekunde</item>
+        <item quantity="other">Sekunden</item>
+    </plurals>
+
     <string name="brick_broadcast_receive">Wenn ich empfange:</string>
     <string name="brick_broadcast">Verschicke an alle:</string>
     <string name="brick_broadcast_wait">Verschicke und warte:</string>
     <string name="brick_note">Notiz</string>
     <string name="brick_forever">Wiederhole fortlaufend</string>
     <string name="brick_repeat">Wiederhole</string>
-    <string name="times_label">mal</string>
+
+    <plurals name="time_plural">
+        <item quantity="one">mal</item>
+        <item quantity="other">mal</item>
+    </plurals>
+
     <string name="brick_loop_end">Wiederholen beenden</string>
-    <!--  -->
-
-
-    <!-- Actions -->
-    <string name="action_tapped">angetippt</string>
+    <string name="brick_if_begin">Falls</string>
+    <string name="brick_if_begin_second_part">wahr ist, dann</string>
+    <string name="brick_if_else">sonst</string>
+    <string name="brick_if_end">sonst Ende</string>
+    <string name="brick_set_variable">Setze Variable</string>
+    <string name="brick_change_variable">Ändere Variable</string>
+    <string name="brick_variable_spinner_create_new_variable">Neu…</string>
+    <string name="brick_note_default_value">"Anmerkung hier hinzufügen…" </string>
+    <string name="brick_broadcast_default_value">"Nachricht 1"</string>
     <!--  -->
 
 
     <!-- defaultValues -->
     <string name="default_project_name">Mein erstes Projekt</string>
-    <string name="default_project_sprites_catroid_name">Catroid</string>
-    <string name="default_project_sprites_catroid_normalcat">Katze normal</string>
-    <string name="default_project_sprites_catroid_banzaicat">Banzai-Katze</string>
-    <string name="default_project_sprites_catroid_cheshirecat">Grinsekatze</string>
+    <string name="default_project_sprites_pocketcode_name">Pocket Code</string>
+    <string name="default_project_sprites_pocketcode_normalcat">Katze normal</string>
+    <string name="default_project_sprites_pocketcode_banzaicat">Banzai-Katze</string>
+    <string name="default_project_sprites_pocketcode_cheshirecat">Grinsekatze</string>
     <string name="default_project_backgroundname">Hintergrund</string>
     <string name="default_project_backgroundcolor">#604fff</string>
     <!--  -->
@@ -324,7 +378,7 @@
 
 
     <!-- Error messages -->
-    <string name="error_no_writiable_external_storage_available">Um Catroid zu starten wird beschreibbarer externer Speicher wie z.B. eine SD Karte benötigt.\nSie können diesen Fehler beheben indem sie den externen Speicher beschreibbar machen oder eine SD Karte einlegen und es erneut versuchen.</string>
+    <string name="error_no_writiable_external_storage_available">Um Pocket Code zu starten wird beschreibbarer externer Speicher wie z.B. eine SD Karte benötigt.\nSie können diesen Fehler beheben indem sie den externen Speicher beschreibbar machen oder eine SD Karte einlegen und es erneut versuchen.</string>
     <string name="error_no_name_entered">Bitte einen Namen eingeben.</string>
     <string name="error_project_exists">Es gibt bereits ein Projekt mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.</string>
     <string name="error_project_upload">Beim Upload des Projektes ist ein Fehler aufgetreten.</string>
@@ -332,13 +386,14 @@
     <string name="error_new_project">Beim Erstellen des neuen Projektes ist ein Fehler aufgetreten.</string>
     <string name="error_rename_project">Beim Umbenennen des Projektes vor dem Upload ist ein Fehler aufgetreten.</string>
     <string name="error_load_project">Beim Laden des Projektes ist ein Fehler aufgetreten.</string>
-    <string name="error_no_number_entered">Bitte eine Zahl eingeben.</string>
     <string name="error_screenshot_failed">Beim Speichern des Screenshots ist ein Fehler aufgetreten.</string>
     <string name="error_load_image">Beim Laden des Bildes ist ein Fehler aufgetreten.</string>
     <string name="error_load_sound">Beim Laden des Audiofiles ist ein Fehler aufgetreten.</string>
     <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
-    <string name="error_project_compatability">Das Projekt ist nicht mit dieser Version von Catroid kompatibel.</string>
+    <string name="error_project_compatability">Das Projekt ist nicht mit dieser Version von Pocket Code kompatibel.</string>
     <string name="error_copy_project">Beim kopieren des Projektes ist ein Fehler aufgetreten.</string>
+    <string name="error_upload_project_with_default_name">Das Projekt mit dem Namen \'Mein erstes Projekt\' kann nicht hochgeladen werden. Bitte das Projekt umbenennen.</string>
+    <string name="error_upload_default_project">Das Projekt entspricht dem Projekt \'Mein erstes Projekt\'. Bitte das Projekt umbauen oder etwas ändern, und noch einmal versuchen.</string>
     <!--  -->
 
 
@@ -383,8 +438,73 @@
     <string name="nxt_tone_frequency">Frequenz</string>
     <string name="tone_duration">Dauer</string>
     <string name="nxt_tone_hundred_hz">x100Hz</string>
-    <string name="number_to_small">Wert ist zu klein!</string>
-    <string name="number_to_big">Wert ist zu groß!</string>
+    <string name="seconds">Sekunden</string>
+    <!--  -->
+
+
+    <!-- Formula Editor Strings -->
+    <string name="formula_editor_true">Wahr</string>
+    <string name="formula_editor_false">Falsch</string>
+    <string name="formula_editor_decimal_mark">,</string>
+    <string name="formula_editor_title">Formel Editor</string>
+    <string name="formula_editor_changes_saved">Änderungen gespeichert!</string>
+    <string name="formula_editor_changes_discarded">Änderungen verworfen!</string>
+    <string name="formula_editor_parse_fail">Fehler in der Eingabe! Zum Verwerfen erneut klicken.</string>
+    <string name="formula_nothing_selected">Bitte Wert eingeben!</string>
+    <string name="formula_editor_parse_fail_formula_too_long">Formel zu lang! Zum Verwerfen erneut klicken.</string>
+    <string name="formula_editor_choose_look_variable">Aussehen Variable auswählen:</string>
+    <string name="formula_editor_existing_user_variable">Name wird bereits verwendet!</string>
+    <string name="formula_editor_bracket_open">(</string>
+    <string name="formula_editor_bracket_close">)</string>
+    <string name="formula_editor_function_sin">sin</string>
+    <string name="formula_editor_function_cos">cos</string>
+    <string name="formula_editor_function_tan">tan</string>
+    <string name="formula_editor_function_ln">ln</string>
+    <string name="formula_editor_function_log">log</string>
+    <string name="formula_editor_function_pi">pi</string>
+    <string name="formula_editor_function_sqrt">wurzel</string>
+    <string name="formula_editor_function_rand">zufall</string>
+    <string name="formula_editor_function_abs">abs</string>
+    <string name="formula_editor_function_round">round</string>
+    <string name="formula_editor_sensor_x_acceleration">x_beschleunigung</string>
+    <string name="formula_editor_sensor_y_acceleration">y_beschleunigung</string>
+    <string name="formula_editor_sensor_z_acceleration">z_beschleunigung</string>
+    <string name="formula_editor_sensor_compass_direction">Kompass_Richtung</string>
+    <string name="formula_editor_sensor_x_inclination">x_Neigung</string>
+    <string name="formula_editor_sensor_y_inclination">y_Neigung</string>
+    <string name="formula_editor_look_x">aussehen_x</string>
+    <string name="formula_editor_look_y">aussehen_y</string>
+    <string name="formula_editor_look_ghosteffect">aussehen_durchsichtigkeits_effekt</string>
+    <string name="formula_editor_look_brightness">aussehen_helligkeit</string>
+    <string name="formula_editor_look_size">aussehen_größe</string>
+    <string name="formula_editor_look_rotation">aussehen_rotation</string>
+    <string name="formula_editor_look_layer">aussehen_ebene</string>
+    <string name="formula_editor_compute">Berechnen</string>
+    <string name="formula_editor_object">Objekt</string>
+    <string name="formula_editor_math">Funktionen</string>
+    <string name="formula_editor_logic">Logik</string>
+    <string name="formula_editor_sensors">Sensoren</string>
+    <string name="formula_editor_variables">Variablen</string>
+    <string name="formula_editor_logic_notequal">&#x2260;</string>
+    <string name="formula_editor_logic_lesserthan">&lt;</string>
+    <string name="formula_editor_logic_greaterthan">&gt;</string>
+    <string name="formula_editor_logic_and">UND</string>
+    <string name="formula_editor_logic_or">ODER</string>
+    <string name="formula_editor_logic_not">NICHT</string>
+    <string name="formula_editor_logic_greaterequal">&#x2265;</string>
+    <string name="formula_editor_logic_leserequal">&#x2264;</string>
+    <string name="formula_editor_logic_equal">=</string>
+    <string name="formula_editor_operator_mult">×</string>
+    <string name="formula_editor_operator_plus">+</string>
+    <string name="formula_editor_operator_minus">-</string>
+    <string name="formula_editor_operator_divide">÷</string>
+    <string name="formula_editor_operator_power">^</string>
+    <string name="formula_editor_make_new_variable">Erstelle neue Variable</string>
+    <string name="formula_editor_variable_dialog_title">Neue Variable</string>
+    <string name="formula_editor_variable_dialog_for_all_sprites">Für alle Objekte</string>
+    <string name="formula_editor_variable_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
+    <string name="formula_editor_variable_dialog_hint">Namen eingeben</string>
+    <string name="formula_editor_variable_context_action_item_selected">Variablen ausgewählt!</string>
     <!--  -->
 
 </resources>

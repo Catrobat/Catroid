@@ -36,7 +36,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.io.StorageHandler;
@@ -126,17 +126,18 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.clearEditText(0);
 		solo.enterText(0, "");
-		Button okButton = (Button) solo.getView(R.id.new_project_ok_button);
+
+		Button okButton = solo.getButton(getActivity().getString(R.string.ok));
 
 		assertFalse("New project ok button is enabled!", okButton.isEnabled());
-		solo.clickOnButton(0);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject);
 		directory.mkdirs();
 		solo.sleep(50);
 		solo.clearEditText(0);
 		solo.enterText(0, testProject);
-		solo.clickOnButton(0);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.clickOnButton(0);
@@ -147,7 +148,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(50);
 		solo.clearEditText(0);
 		solo.enterText(0, name);
-		solo.clickOnButton(0);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.clickOnButton(solo.getString(R.string.close));
@@ -246,7 +247,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
@@ -271,8 +272,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		runTestOnUiThread(new Runnable() {
 			public void run() {
-				ProjectManager.INSTANCE.loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getActivity(),
-						getActivity(), true);
+				ProjectManager.INSTANCE.loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getActivity(), true);
 			}
 		});
 
@@ -348,9 +348,9 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		Sprite backgroundSprite = standardProject.getSpriteList().get(0);
 		Script startingScript = backgroundSprite.getScript(0);
 		assertEquals("Number of bricks in background sprite was wrong", 1, backgroundSprite.getNumberOfBricks());
-		startingScript.addBrick(new SetCostumeBrick(backgroundSprite));
-		startingScript.addBrick(new SetCostumeBrick(backgroundSprite));
-		startingScript.addBrick(new SetCostumeBrick(backgroundSprite));
+		startingScript.addBrick(new SetLookBrick(backgroundSprite));
+		startingScript.addBrick(new SetLookBrick(backgroundSprite));
+		startingScript.addBrick(new SetLookBrick(backgroundSprite));
 		assertEquals("Number of bricks in background sprite was wrong", 4, backgroundSprite.getNumberOfBricks());
 		ProjectManager.INSTANCE.setCurrentSprite(backgroundSprite);
 		ProjectManager.INSTANCE.setCurrentScript(startingScript);
@@ -375,5 +375,28 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(500);
 		assertEquals("Number of bricks in background sprite was wrong - standard project was overwritten", 4,
 				ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
+	}
+
+	public void testProjectNameVisible() {
+		createTestProject(testProject);
+		createTestProject(testProject2);
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.clickOnText(testProject);
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+
+		solo.goBack();
+		assertTrue("The name of the current project is not displayed on the continue button", solo.getButton(0)
+				.getText().toString().endsWith(testProject));
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.clickOnText(testProject2);
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+
+		solo.goBack();
+		assertTrue("The name of the current project is not displayed on the continue button", solo.getButton(0)
+				.getText().toString().endsWith(testProject2));
 	}
 }

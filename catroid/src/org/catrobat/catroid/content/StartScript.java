@@ -22,6 +22,9 @@
  */
 package org.catrobat.catroid.content;
 
+import java.util.ArrayList;
+
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 
@@ -31,7 +34,6 @@ public class StartScript extends Script {
 
 	public StartScript(Sprite sprite) {
 		super(sprite);
-		super.isFinished = false;
 	}
 
 	public StartScript(Sprite sprite, WhenStartedBrick brick) {
@@ -41,7 +43,6 @@ public class StartScript extends Script {
 
 	@Override
 	protected Object readResolve() {
-		isFinished = false;
 		super.readResolve();
 		return this;
 	}
@@ -49,9 +50,21 @@ public class StartScript extends Script {
 	@Override
 	public ScriptBrick getScriptBrick() {
 		if (brick == null) {
-			brick = new WhenStartedBrick(sprite, this);
+			brick = new WhenStartedBrick(object, this);
 		}
 
 		return brick;
+	}
+
+	@Override
+	public Script copyScriptForSprite(Sprite copySprite) {
+		Script cloneScript = new StartScript(copySprite);
+		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
+
+		for (Brick b : getBrickList()) {
+			cloneBrickList.add(b.copyBrickForSprite(copySprite, cloneScript));
+		}
+
+		return cloneScript;
 	}
 }

@@ -28,7 +28,10 @@
  */
 package org.catrobat.catroid.ui.dragndrop;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.utils.Utils;
 
@@ -49,7 +52,6 @@ import android.view.View.OnLongClickListener;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
-import org.catrobat.catroid.R;
 
 public class DragAndDropListView extends ListView implements OnLongClickListener {
 
@@ -106,6 +108,36 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent event) {
+		//hack: on Android 2.x getView() is not always called when checkbox is checked.
+		//Therefore the action is catched here and does exactly the same as otherwise the
+		//onCheckedChangeListener would do
+		if (event.getAction() == MotionEvent.ACTION_UP) {
+			int x = (int) event.getX();
+			int y = (int) event.getY();
+			if (y < 0) {
+				y = 0;
+			} else if (y > getHeight()) {
+				y = getHeight();
+			}
+			BrickAdapter adapter = ((BrickAdapter) dragAndDropListener);
+			int itemPosition = pointToPosition(x, y);
+			itemPosition = itemPosition < 0 ? adapter.getCount() - 1 : itemPosition;
+			final Brick brick = (Brick) adapter.getItem(itemPosition);
+			if (adapter.isActionMode() && brick instanceof ScriptBrick) {
+				boolean checked = !brick.isChecked();
+				brick.setCheckedBoolean(checked);
+				brick.getCheckBox().setChecked(checked);
+
+				if (!checked) {
+					for (Brick currentBrick : adapter.getCheckedBricksFromScriptBrick((ScriptBrick) brick)) {
+						currentBrick.setCheckedBoolean(false);
+					}
+				}
+				adapter.handleCheck(brick, checked);
+				brick.getView(adapter.getContext(), itemPosition, adapter);
+				return true;
+			}
+		}
 
 		if (dragAndDropListener != null && dragView != null) {
 			onTouchEvent(event);
@@ -379,9 +411,9 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		}
 	}
 
-	public boolean setHoveringBrick() {
+	public void animateHoveringBrick() {
 		if (dragView == null) {
-			return false;
+			return;
 		}
 
 		WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView.getLayoutParams();
@@ -393,8 +425,6 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			getWindowManager().addView(dragView, dragViewParameters);
 			blinkAnimationTimestamp = now + 800;
 		}
-
-		return true;
 	}
 
 	public boolean isCurrentlyDragging() {

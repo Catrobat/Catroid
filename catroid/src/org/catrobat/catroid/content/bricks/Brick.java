@@ -23,12 +23,18 @@
 package org.catrobat.catroid.content.bricks;
 
 import java.io.Serializable;
+import java.util.List;
 
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public interface Brick extends Serializable {
 
@@ -40,9 +46,12 @@ public interface Brick extends Serializable {
 
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
 
-	public void execute();
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence);
 
 	public Sprite getSprite();
+
+	//needed for the Sprite#clone()-Method
+	public Brick copyBrickForSprite(Sprite sprite, Script script);
 
 	public View getView(Context context, int brickId, BaseAdapter adapter);
 
@@ -52,4 +61,21 @@ public interface Brick extends Serializable {
 
 	public int getRequiredResources();
 
+	public void setCheckboxVisibility(int visibility);
+
+	public int getAlphaValue();
+
+	public void setBrickAdapter(BrickAdapter adapter);
+
+	public CheckBox getCheckBox();
+
+	public boolean isChecked();
+
+	public void setCheckedBoolean(boolean newValue);
+
+	public void setCheckboxView(int id);
+
+	public View getViewWithAlpha(int alphaValue);
+
+	void setAnimationState(boolean animationState);
 }

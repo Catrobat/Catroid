@@ -20,73 +20,90 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Motion.Big"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
+
+    <CheckBox
+        android:id="@+id/brick_glide_to_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:id="@+id/brick_glide_to_layout"
+        style="@style/BrickContainer.Motion.Medium"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
 
-        <TextView
-            style="@style/BrickText.SingleLine"
-            android:text="@string/brick_glide" >
-        </TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/brick_glide_to_prototype_text_view_duration"
-            style="@style/BrickPrototypeTextView" >
-        </TextView>
+            <TextView
+                style="@style/BrickText.SingleLine"
+                android:text="@string/brick_glide" >
+            </TextView>
 
-        <EditText
-            android:id="@+id/brick_glide_to_edit_text_duration"
-            style="@style/BrickEditText"
-            android:inputType="number|numberDecimal" >
-        </EditText>
+            <TextView
+                android:id="@+id/brick_glide_to_prototype_text_view_duration"
+                style="@style/BrickPrototypeTextView" >
+            </TextView>
 
-        <TextView
-            style="@style/BrickText.SingleLine"
-            android:text="@string/seconds" >
-        </TextView>
-    </LinearLayout>
+            <EditText
+                android:id="@+id/brick_glide_to_edit_text_duration"
+                style="@style/BrickEditText"
+                android:inputType="number|numberDecimal" >
+            </EditText>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+            <TextView
+                android:id="@+id/brick_glide_to_seconds_text_view"
+                style="@style/BrickText.SingleLine" >
+            </TextView>
+        </LinearLayout>
 
-        <TextView
-            style="@style/BrickText.SingleLine"
-            android:text="@string/brick_glide_to_x" >
-        </TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/brick_glide_to_prototype_text_view_x"
-            style="@style/BrickPrototypeTextView" >
-        </TextView>
+            <TextView
+                style="@style/BrickText.SingleLine"
+                android:text="@string/brick_glide_to_x" >
+            </TextView>
 
-        <EditText
-            android:id="@+id/brick_glide_to_edit_text_x"
-            style="@style/BrickEditText"
-            android:inputType="number|numberDecimal|numberSigned" >
-        </EditText>
+            <TextView
+                android:id="@+id/brick_glide_to_prototype_text_view_x"
+                style="@style/BrickPrototypeTextView" >
+            </TextView>
 
-        <TextView
-            style="@style/BrickText.SingleLine"
-            android:text="@string/y_label" >
-        </TextView>
+            <EditText
+                android:id="@+id/brick_glide_to_edit_text_x"
+                style="@style/BrickEditText"
+                android:inputType="number|numberDecimal|numberSigned" >
+            </EditText>
 
-        <TextView
-            android:id="@+id/brick_glide_to_prototype_text_view_y"
-            style="@style/BrickPrototypeTextView" >
-        </TextView>
+            <TextView
+                style="@style/BrickText.SingleLine"
+                android:text="@string/y_label" >
+            </TextView>
 
-        <EditText
-            android:id="@+id/brick_glide_to_edit_text_y"
-            style="@style/BrickEditText"
-            android:inputType="number|numberDecimal|numberSigned" >
-        </EditText>
+            <TextView
+                android:id="@+id/brick_glide_to_prototype_text_view_y"
+                style="@style/BrickPrototypeTextView" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/brick_glide_to_edit_text_y"
+                style="@style/BrickEditText"
+                android:inputType="number|numberDecimal|numberSigned" >
+            </EditText>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

@@ -25,7 +25,7 @@ package org.catrobat.catroid.uitest.stage;
 import java.io.File;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -34,8 +34,8 @@ import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.io.StorageHandler;
@@ -59,14 +59,14 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
+		UiTestUtils.prepareStageForTest();
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
-		super.setUp();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -84,7 +84,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		byte[] blackBrightnessPixel = { (byte) 127, (byte) 127, (byte) 127, (byte) 255 };
 
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(500);
+		solo.sleep(1400);
 		byte[] screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
 
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(redPixel, screenArray, -41, -41, screenWidth, screenHeight);
@@ -159,16 +159,16 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		// yellow Sprite
 		Sprite yellowSprite = new Sprite("yellowSprite");
 		StartScript yellowStartScript = new StartScript(yellowSprite);
-		SetCostumeBrick yellowCostumeBrick = new SetCostumeBrick(yellowSprite);
-		CostumeData yellowCostumeData = new CostumeData();
+		SetLookBrick yellowLookBrick = new SetLookBrick(yellowSprite);
+		LookData yellowLookData = new LookData();
 		String yellowImageName = "yellow_image.bmp";
 
-		yellowCostumeData.setCostumeName(yellowImageName);
+		yellowLookData.setLookName(yellowImageName);
 
-		yellowSprite.getCostumeDataList().add(yellowCostumeData);
+		yellowSprite.getLookDataList().add(yellowLookData);
 
-		yellowCostumeBrick.setCostume(yellowCostumeData);
-		yellowStartScript.addBrick(yellowCostumeBrick);
+		yellowLookBrick.setLook(yellowLookData);
+		yellowStartScript.addBrick(yellowLookBrick);
 		yellowStartScript.addBrick(new PlaceAtBrick(yellowSprite, -21, 21));
 
 		yellowSprite.addScript(yellowStartScript);
@@ -182,16 +182,16 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		// blue Sprite
 		Sprite blueSprite = new Sprite("blueSprite");
 		StartScript blueStartScript = new StartScript(blueSprite);
-		SetCostumeBrick blueCostumeBrick = new SetCostumeBrick(blueSprite);
-		CostumeData blueCostumeData = new CostumeData();
+		SetLookBrick blueLookBrick = new SetLookBrick(blueSprite);
+		LookData blueLookData = new LookData();
 		String blueImageName = "blue_image.bmp";
 
-		blueCostumeData.setCostumeName(blueImageName);
+		blueLookData.setLookName(blueImageName);
 
-		blueSprite.getCostumeDataList().add(blueCostumeData);
+		blueSprite.getLookDataList().add(blueLookData);
 
-		blueCostumeBrick.setCostume(blueCostumeData);
-		blueStartScript.addBrick(blueCostumeBrick);
+		blueLookBrick.setLook(blueLookData);
+		blueStartScript.addBrick(blueLookBrick);
 		blueStartScript.addBrick(new PlaceAtBrick(blueSprite, 21, 21));
 
 		blueSprite.addScript(blueStartScript);
@@ -205,16 +205,16 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		// green Sprite
 		Sprite greenSprite = new Sprite("greenSprite");
 		StartScript greenStartScript = new StartScript(greenSprite);
-		SetCostumeBrick greenCostumeBrick = new SetCostumeBrick(greenSprite);
-		CostumeData greenCostumeData = new CostumeData();
+		SetLookBrick greenLookBrick = new SetLookBrick(greenSprite);
+		LookData greenLookData = new LookData();
 		String greenImageName = "green_image.bmp";
 
-		greenCostumeData.setCostumeName(greenImageName);
+		greenLookData.setLookName(greenImageName);
 
-		greenSprite.getCostumeDataList().add(greenCostumeData);
+		greenSprite.getLookDataList().add(greenLookData);
 
-		greenCostumeBrick.setCostume(greenCostumeData);
-		greenStartScript.addBrick(greenCostumeBrick);
+		greenLookBrick.setLook(greenLookData);
+		greenStartScript.addBrick(greenLookBrick);
 		greenStartScript.addBrick(new PlaceAtBrick(greenSprite, 21, -21));
 
 		greenSprite.addScript(greenStartScript);
@@ -228,16 +228,16 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		// red Sprite
 		Sprite redSprite = new Sprite("redSprite");
 		StartScript redStartScript = new StartScript(redSprite);
-		SetCostumeBrick redCostumeBrick = new SetCostumeBrick(redSprite);
-		CostumeData redCostumeData = new CostumeData();
+		SetLookBrick redLookBrick = new SetLookBrick(redSprite);
+		LookData redLookData = new LookData();
 		String redImageName = "red_image.bmp";
 
-		redCostumeData.setCostumeName(redImageName);
+		redLookData.setLookName(redImageName);
 
-		redSprite.getCostumeDataList().add(redCostumeData);
+		redSprite.getLookDataList().add(redLookData);
 
-		redCostumeBrick.setCostume(redCostumeData);
-		redStartScript.addBrick(redCostumeBrick);
+		redLookBrick.setLook(redLookData);
+		redStartScript.addBrick(redLookBrick);
 		redStartScript.addBrick(new PlaceAtBrick(redSprite, -21, -21));
 
 		redSprite.addScript(redStartScript);
@@ -255,16 +255,16 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		// black Sprite
 		Sprite blackSprite = new Sprite("blackSprite");
 		StartScript blackStartScript = new StartScript(blackSprite);
-		SetCostumeBrick blackCostumeBrick = new SetCostumeBrick(blackSprite);
-		CostumeData blackCostumeData = new CostumeData();
+		SetLookBrick blackLookBrick = new SetLookBrick(blackSprite);
+		LookData blackLookData = new LookData();
 		String blackImageName = "black_image.bmp";
 
-		blackCostumeData.setCostumeName(blackImageName);
+		blackLookData.setLookName(blackImageName);
 
-		blackSprite.getCostumeDataList().add(blackCostumeData);
+		blackSprite.getLookDataList().add(blackLookData);
 
-		blackCostumeBrick.setCostume(blackCostumeData);
-		blackStartScript.addBrick(blackCostumeBrick);
+		blackLookBrick.setLook(blackLookData);
+		blackStartScript.addBrick(blackLookBrick);
 		blackStartScript.addBrick(new PlaceAtBrick(blackSprite, -50, 50));
 
 		blackSprite.addScript(blackStartScript);
@@ -300,11 +300,11 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		File blackImageFile = UiTestUtils.saveFileToProject(project.getName(), blackImageName,
 				org.catrobat.catroid.uitest.R.raw.black_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
-		yellowCostumeData.setCostumeFilename(yellowImageFile.getName());
-		greenCostumeData.setCostumeFilename(greenImageFile.getName());
-		blueCostumeData.setCostumeFilename(blueImageFile.getName());
-		redCostumeData.setCostumeFilename(redImageFile.getName());
-		blackCostumeData.setCostumeFilename(blackImageFile.getName());
+		yellowLookData.setLookFilename(yellowImageFile.getName());
+		greenLookData.setLookFilename(greenImageFile.getName());
+		blueLookData.setLookFilename(blueImageFile.getName());
+		redLookData.setLookFilename(redImageFile.getName());
+		blackLookData.setLookFilename(blackImageFile.getName());
 
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);

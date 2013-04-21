@@ -34,13 +34,11 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.os.Build;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -79,7 +77,7 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -90,46 +88,14 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.motor_angle)));
 		assertTrue("Unit missing for angle!", solo.searchText("°"));
 
-		EditText turnEditText = (EditText) solo.getView(R.id.motor_turn_angle_edit_text);
-		assertFalse("Edittext should not be clickable", turnEditText.isClickable());
-		assertFalse("Edittext should be disabled", turnEditText.isEnabled());
-
-		solo.clickOnButton(0);
-		solo.clickInList(1);
-		assertEquals("Wrong value in field!", "45", solo.getEditText(0).getText().toString());
-		solo.clickInList(2);
-		assertEquals("Wrong value in field!", "90", solo.getEditText(0).getText().toString());
-		solo.clickInList(3);
-		assertEquals("Wrong value in field!", "-45", solo.getEditText(0).getText().toString());
-		solo.clickInList(4);
-		assertEquals("Wrong value in field!", "-90", solo.getEditText(0).getText().toString());
-		solo.clickInList(5);
-		assertEquals("Wrong value in field!", "180", solo.getEditText(0).getText().toString());
-
-		UiTestUtils.clickEnterClose(solo, 0, SET_ANGLE + "");
-
-		int angle = (Integer) Reflection.getPrivateField(motorBrick, "degrees");
-		assertEquals("Wrong text in field.", SET_ANGLE, angle);
-		assertEquals("Value in Brick is not updated.", SET_ANGLE + "", solo.getEditText(0).getText().toString());
-
-		solo.sleep(200);
-		solo.clickOnView(solo.getView(R.id.directions_btn));
-		try {
-			UiTestUtils.clickEnterClose(solo, 0, "");
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			fail("Numberformat Exception should not occur");
-		}
-		angle = (Integer) Reflection.getPrivateField(motorBrick, "degrees");
-		assertEquals("Wrong text in field.", 0, angle);
-		assertEquals("Value in Brick is not updated.", "0", solo.getEditText(0).getText().toString());
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, SET_ANGLE, "degrees", motorBrick);
 
 		String[] array = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
 		assertTrue("Spinner items list too short!", array.length == 4);
 
 		int legoSpinnerIndex = 1;
 
-		if (Build.VERSION.SDK_INT < 15) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			legoSpinnerIndex = 0;
 		}
 

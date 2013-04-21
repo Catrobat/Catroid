@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
@@ -30,7 +31,6 @@ import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -50,18 +50,13 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.dialog_stage);
-
-		getWindow().setGravity(Gravity.LEFT);
+		//getWindow().setGravity(Gravity.BOTTOM);
+		getWindow().setBackgroundDrawableResource(R.color.transparent);
 
 		((Button) findViewById(R.id.stage_dialog_button_back)).setOnClickListener(this);
-		((Button) findViewById(R.id.stage_dialog_button_resume)).setOnClickListener(this);
+		((Button) findViewById(R.id.stage_dialog_button_continue)).setOnClickListener(this);
 		((Button) findViewById(R.id.stage_dialog_button_restart)).setOnClickListener(this);
 		((Button) findViewById(R.id.stage_dialog_button_toggle_axes)).setOnClickListener(this);
-		if (stageActivity.getResizePossible()) {
-			((Button) findViewById(R.id.stage_dialog_button_maximize)).setOnClickListener(this);
-		} else {
-			((Button) findViewById(R.id.stage_dialog_button_maximize)).setVisibility(View.GONE);
-		}
 		((Button) findViewById(R.id.stage_dialog_button_screenshot)).setOnClickListener(this);
 	}
 
@@ -69,12 +64,11 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.stage_dialog_button_back:
-				dismiss();
-				new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
+				onBackPressed();
 				break;
-			case R.id.stage_dialog_button_resume:
+			case R.id.stage_dialog_button_continue:
 				dismiss();
-				stageActivity.pauseOrContinue();
+				stageActivity.resume();
 				break;
 			case R.id.stage_dialog_button_restart:
 				dismiss();
@@ -83,17 +77,8 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			case R.id.stage_dialog_button_toggle_axes:
 				toggleAxes();
 				break;
-			case R.id.stage_dialog_button_maximize:
-				stageListener.changeScreenSize();
-				break;
 			case R.id.stage_dialog_button_screenshot:
-				if (stageListener.makeScreenshot()) {
-					Toast.makeText(stageActivity, stageActivity.getString(R.string.notification_screenshot_ok),
-							Toast.LENGTH_SHORT).show();
-				} else {
-					Toast.makeText(stageActivity, stageActivity.getString(R.string.error_screenshot_failed),
-							Toast.LENGTH_SHORT).show();
-				}
+				makeScreenshot();
 				break;
 			default:
 				Log.w("CATROID", "Unimplemented button clicked! This shouldn't happen!");
@@ -107,6 +92,20 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
 	}
 
+	private void makeScreenshot() {
+		if (stageListener.makeScreenshot()) {
+			Toast.makeText(stageActivity, stageActivity.getString(R.string.notification_screenshot_ok),
+					Toast.LENGTH_SHORT).show();
+			if (!ProjectManager.getInstance().getCurrentProject().isManualScreenshot()) {
+				ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
+				ProjectManager.getInstance().saveProject();
+			}
+		} else {
+			Toast.makeText(stageActivity, stageActivity.getString(R.string.error_screenshot_failed), Toast.LENGTH_SHORT)
+					.show();
+		}
+	}
+
 	private void restartProject() {
 		stageListener.reloadProject(stageActivity, this);
 		synchronized (this) {
@@ -116,7 +115,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				Log.e("CATROID", "Thread activated too early!", e);
 			}
 		}
-		stageActivity.pauseOrContinue();
+		stageActivity.resume();
 	}
 
 	private void toggleAxes() {

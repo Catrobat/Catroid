@@ -75,7 +75,7 @@ public class ChangeGhostEffectByNBrickTest extends ActivityInstrumentationTestCa
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -85,10 +85,9 @@ public class ChangeGhostEffectByNBrickTest extends ActivityInstrumentationTestCa
 		assertTrue("Wrong Brick instance.", adapter.getChild(groupCount - 1, 0) instanceof ChangeGhostEffectByNBrick);
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_change_ghost_effect)));
 
-		UiTestUtils.clickEnterClose(solo, 0, EFFECT_TO_CHANGE + "");
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, EFFECT_TO_CHANGE, "changeGhostEffect",
+				changeGhostEffectByNBrick);
 
-		assertEquals("Wrong text in field", EFFECT_TO_CHANGE, changeGhostEffectByNBrick.getChangeGhostEffect());
-		assertEquals("Text not updated", EFFECT_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	private void createProject() {

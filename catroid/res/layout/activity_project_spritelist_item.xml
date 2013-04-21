@@ -23,95 +23,56 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/spritelist_item_background"
+    android:layout_height="@dimen/spritelist_item_height"
+    android:background="@color/project_activity_background_color"
     android:orientation="vertical" >
+
+    <include layout="@layout/activity_project_background_headline" />
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/spritelist_item_background"
+        android:layout_height="@dimen/spritelist_item_height"
         android:orientation="horizontal" >
 
         <CheckBox
-            android:id="@+id/checkbox"
+            android:id="@+id/sprite_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:visibility="gone"/>
-
-        <ImageView
-            android:id="@+id/sprite_img"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="6dip"
-            android:scaleType="centerCrop" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:visibility="gone" />
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="70dp" >
+            android:id="@+id/spritelist_item_background"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/spritelist_item_background" >
 
-            <TextView
-                android:id="@+id/sprite_title"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:paddingLeft="10dp"
-                android:singleLine="true"
-                android:textColor="@color/solid_black"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/sprite_img"
+                android:layout_width="72dp"
+                android:layout_height="65dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="9dp"
+                android:scaleType="centerCrop"
+                android:cropToPadding="true"
+                android:padding="1.5dp"
+                android:background="@drawable/spritelist_item_thumbnail_border" />
 
-            <RelativeLayout
+            <include layout="@layout/activity_project_sprite_title_details_view" />
+
+            <ImageView
+                android:id="@+id/arrow_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/sprite_title" >
-
-                <TextView
-                    android:id="@+id/textView_number_of_scripts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:textColor="@color/backbrown"
-                    android:textSize="12dip" />
-
-                <TextView
-                    android:id="@+id/textView_number_of_costumes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/textView_number_of_scripts"
-                    android:paddingLeft="10dp"
-                    android:textColor="@color/backbrown"
-                    android:textSize="12dip" />
-
-                <TextView
-                    android:id="@+id/textView_number_of_bricks"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:paddingRight="8dp"
-                    android:textColor="@color/backbrown"
-                    android:textSize="12dip" />
-
-                <TextView
-                    android:id="@+id/textView_number_of_sounds"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@id/textView_number_of_bricks"
-                    android:paddingRight="8dp"
-                    android:textColor="@color/backbrown"
-                    android:textSize="12dip" />
-            </RelativeLayout>
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="14dp"
+                android:src="@drawable/ic_arrow_right_dark" />
         </RelativeLayout>
     </LinearLayout>
 
-    <View
-        android:id="@+id/sprite_divider"
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="@color/divider"
-        android:visibility="visible" />
+    <include layout="@layout/activity_project_objects_headline" />
 
 </LinearLayout>

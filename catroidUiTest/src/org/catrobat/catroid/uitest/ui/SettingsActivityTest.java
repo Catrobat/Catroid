@@ -24,15 +24,17 @@ package org.catrobat.catroid.uitest.ui;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
-import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -59,11 +61,8 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testToggleMindstormBricks() {
-		int actionBarIconIndex = 0;
-		String currentProject = solo.getString(R.string.main_menu_continue);
-		String background = solo.getString(R.string.background);
 		String settings = solo.getString(R.string.main_menu_settings);
-		String mindstormsPreferenceString = solo.getString(R.string.pref_enable_ms_bricks);
+		String mindstormsPreferenceString = solo.getString(R.string.preference_title_enable_mindstorm_bricks);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -75,33 +74,46 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 			solo.goBack();
 		}
 
-		solo.clickOnText(currentProject);
-		solo.clickOnText(background);
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
-		solo.clickOnText(solo.getString(R.string.scripts));
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
 		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
+		// 0 is the Home Button in the ActionBar
+		solo.clickOnImage(0);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
 		solo.clickOnMenuItem(settings);
 		solo.waitForActivity(SettingsActivity.class.getSimpleName());
 
-		assertTrue("Wrong title", solo.searchText(solo.getString(R.string.pref_title)));
+		assertTrue("Wrong title", solo.searchText(solo.getString(R.string.preference_title)));
 
 		solo.clickOnText(mindstormsPreferenceString);
-		solo.clickOnImage(actionBarIconIndex);
+		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnText(currentProject);
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.clickOnText(background);
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
-		solo.clickOnText(solo.getString(R.string.scripts));
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		solo.scrollListToBottom(fragmentListView);
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
+	}
+
+	public void testOrientation() throws NameNotFoundException {
+		/// Method 1: Assert it is currently in portrait mode.
+		assertEquals("SettingsActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, getActivity()
+				.getResources().getConfiguration().orientation);
+
+		/// Method 2: Retreive info about Activity as collected from AndroidManifest.xml
+		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
+		PackageManager packageManager = getActivity().getPackageManager();
+		ActivityInfo activityInfo = packageManager.getActivityInfo(getActivity().getComponentName(),
+				PackageManager.GET_ACTIVITIES);
+
+		// Note that the activity is _indeed_ rotated on your device/emulator!
+		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+
+		assertEquals(
+				SettingsActivity.class.getSimpleName() + " not set to be in portrait mode in AndroidManifest.xml!",
+				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
 }

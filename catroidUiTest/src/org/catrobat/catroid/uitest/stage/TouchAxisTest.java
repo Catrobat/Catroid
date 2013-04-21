@@ -26,14 +26,14 @@ import java.io.File;
 import java.util.Arrays;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
@@ -53,13 +53,13 @@ public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivit
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.prepareStageForTest();
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -90,15 +90,15 @@ public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivit
 
 		Sprite touchSprite = new Sprite("touchSprite");
 		Script startScript = new StartScript(touchSprite);
-		SetCostumeBrick setAlphaCostumeBrick = new SetCostumeBrick(touchSprite);
+		SetLookBrick setAlphaLookBrick = new SetLookBrick(touchSprite);
 
-		CostumeData touchCostumeData = new CostumeData();
-		touchCostumeData.setCostumeName(alphaTestImageName);
-		touchSprite.getCostumeDataList().add(touchCostumeData);
+		LookData touchLookData = new LookData();
+		touchLookData.setLookName(alphaTestImageName);
+		touchSprite.getLookDataList().add(touchLookData);
 
-		setAlphaCostumeBrick.setCostume(touchCostumeData);
+		setAlphaLookBrick.setLook(touchLookData);
 
-		startScript.addBrick(setAlphaCostumeBrick);
+		startScript.addBrick(setAlphaLookBrick);
 		touchSprite.addScript(startScript);
 
 		WhenScript touchWhenScript = new WhenScript(touchSprite);
@@ -114,7 +114,7 @@ public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivit
 		File alphaTestImage = UiTestUtils.saveFileToProject(testProject.getName(), alphaTestImageName,
 				org.catrobat.catroid.uitest.R.raw.alpha_test_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
-		touchCostumeData.setCostumeFilename(alphaTestImage.getName());
+		touchLookData.setLookFilename(alphaTestImage.getName());
 
 		StorageHandler.getInstance().saveProject(testProject);
 		ProjectManager.getInstance().setProject(testProject);
