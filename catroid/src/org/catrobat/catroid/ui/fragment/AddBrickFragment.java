@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.dialogs;
+package org.catrobat.catroid.ui.fragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,93 +86,117 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
-import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
-import android.widget.TextView;
 
-public class AddBrickDialog extends DialogFragment {
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+
+public class AddBrickFragment extends SherlockListFragment {
 
 	private static final String BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category";
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_add_brick";
-
-	private HashMap<String, List<Brick>> brickMap;
-
-	private ListView listView;
-	private PrototypeBrickAdapter adapter;
-	private String selectedCategory;
+	public static final String ADD_BRICK_FRAGMENT_TAG = "add_brick_fragment";
 	private ScriptFragment scriptFragment;
+	private CharSequence previousActionBarTitle;
+	private int previousActionBarNavigationMode;
+	private HashMap<String, List<Brick>> brickMap;
+	private PrototypeBrickAdapter adapter;
 
-	public static AddBrickDialog newInstance(String selectedCategory, ScriptFragment scriptFragment) {
-		AddBrickDialog dialog = new AddBrickDialog();
-
+	public static AddBrickFragment newInstance(String selectedCategory, ScriptFragment scriptFragment) {
+		AddBrickFragment fragment = new AddBrickFragment();
 		Bundle arguments = new Bundle();
 		arguments.putString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY, selectedCategory);
-		dialog.setArguments(arguments);
-		dialog.scriptFragment = scriptFragment;
+		fragment.setArguments(arguments);
+		fragment.scriptFragment = scriptFragment;
+		return fragment;
+	}
 
-		return dialog;
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_brick_add, null);
+
+		setUpActionBar();
+		setupBrickCategories();
+
+		return view;
+	}
+
+	private void setupBrickCategories() {
+		Context context = getActivity();
+
+		brickMap = setupBrickMap(ProjectManager.getInstance().getCurrentSprite(), context);
+		adapter = new PrototypeBrickAdapter(context, brickMap.get(this.getArguments().getString(
+				BUNDLE_ARGUMENTS_SELECTED_CATEGORY)));
+		this.setListAdapter(adapter);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setRetainInstance(true);
+		setHasOptionsMenu(true);
+	}
 
-		selectedCategory = getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY);
+	private void setUpActionBar() {
+		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		actionBar.setDisplayShowTitleEnabled(true);
+		previousActionBarTitle = actionBar.getTitle();
+		actionBar.setTitle(this.getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY));
+		previousActionBarNavigationMode = actionBar.getNavigationMode();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+	}
+
+	private void resetActionBar() {
+		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		actionBar.setTitle(previousActionBarTitle);
+		actionBar.setNavigationMode(previousActionBarNavigationMode);
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.dialog_brick_add, null);
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		menu.findItem(R.id.delete).setVisible(false);
+		super.onCreateOptionsMenu(menu, inflater);
+	}
 
-		ImageButton closeButton = (ImageButton) rootView.findViewById(R.id.dialog_brick_title_button_close);
-		TextView textView = (TextView) rootView.findViewById(R.id.dialog_brick_title_text_view_title);
-		listView = (ListView) rootView.findViewById(R.id.dialog_brick_add_list_view);
+	@Override
+	public void onDestroy() {
+		resetActionBar();
+		super.onDestroy();
+	}
 
-		closeButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dismiss();
-			}
-		});
+	private static boolean isBackground(Sprite sprite) {
+		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(sprite) == 0) {
+			return true;
+		}
+		return false;
+	}
 
-		textView.setText(selectedCategory);
-
-		Window window = getDialog().getWindow();
-		window.requestFeature(Window.FEATURE_NO_TITLE);
-		window.setGravity(Gravity.CENTER | Gravity.FILL_HORIZONTAL | Gravity.FILL_VERTICAL);
-		window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-		return rootView;
+	@Override
+	public void onResume() {
+		super.onResume();
+		setupBrickCategories();
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
 
-		Context context = getActivity();
-
-		brickMap = setupBrickMap(ProjectManager.getInstance().getCurrentSprite(), context);
-		adapter = new PrototypeBrickAdapter(context, brickMap.get(selectedCategory));
-		listView.setAdapter(adapter);
-		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Brick brickToBeAdded = getBrickClone(adapter.getItem(position));
@@ -184,13 +208,17 @@ public class AddBrickDialog extends DialogFragment {
 					ProjectManager.getInstance().setCurrentScript(script);
 				}
 
-				dismiss();
-
 				FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-				Fragment previousFragment = getFragmentManager().findFragmentByTag(
+				Fragment categoryFragment = getFragmentManager().findFragmentByTag(
 						BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
-				if (previousFragment != null) {
-					fragmentTransaction.remove(previousFragment);
+				if (categoryFragment != null) {
+					fragmentTransaction.remove(categoryFragment);
+					getFragmentManager().popBackStack();
+				}
+				Fragment addBrickFragment = getFragmentManager().findFragmentByTag(
+						AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
+				if (addBrickFragment != null) {
+					fragmentTransaction.remove(addBrickFragment);
 					getFragmentManager().popBackStack();
 				}
 				fragmentTransaction.commit();
@@ -199,23 +227,8 @@ public class AddBrickDialog extends DialogFragment {
 		});
 	}
 
-	@Override
-	public void onDestroyView() {
-		if (getDialog() != null && getRetainInstance()) {
-			getDialog().setOnDismissListener(null);
-		}
-		super.onDestroyView();
-	}
-
 	public Brick getBrickClone(Brick brick) {
 		return brick.clone();
-	}
-
-	private static boolean isBackground(Sprite sprite) {
-		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(sprite) == 0) {
-			return true;
-		}
-		return false;
 	}
 
 	private static HashMap<String, List<Brick>> setupBrickMap(Sprite sprite, Context context) {
@@ -236,7 +249,9 @@ public class AddBrickDialog extends DialogFragment {
 		ChangeYByNBrick changeYByNBrick = new ChangeYByNBrick(sprite, BrickValues.CHANGE_Y_BY);
 		motionBrickList.add(changeYByNBrick);
 
-		motionBrickList.add(new IfOnEdgeBounceBrick(sprite));
+		if (!isBackground(sprite)) {
+			motionBrickList.add(new IfOnEdgeBounceBrick(sprite));
+		}
 
 		MoveNStepsBrick moveNStepsBrick = new MoveNStepsBrick(sprite, BrickValues.MOVE_STEPS);
 		motionBrickList.add(moveNStepsBrick);

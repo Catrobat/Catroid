@@ -24,6 +24,7 @@ package org.catrobat.catroid.content;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
@@ -33,6 +34,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -75,9 +77,19 @@ public class Look extends Image {
 		this.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				return doTouchDown(x, y, pointer);
+				if (doTouchDown(x, y, pointer)) {
+					return true;
+				}
+				setTouchable(Touchable.disabled);
+				Actor target = getParent().hit(event.getStageX(), event.getStageY(), true);
+				if (target != null) {
+					target.fire(event);
+				}
+				setTouchable(Touchable.enabled);
+				return false;
 			}
 		});
+
 		this.addListener(new BroadcastListener() {
 			@Override
 			public void handleBroadcastEvent(BroadcastEvent event, String broadcastMessage) {
@@ -103,6 +115,7 @@ public class Look extends Image {
 				this.broadcastWaitSequenceMap);
 		cloneLook.whenParallelAction = null;
 		cloneLook.allActionAreFinished = this.allActionAreFinished;
+		cloneLook.actionsToRestart = new ArrayList<Action>();
 
 		return cloneLook;
 	}
@@ -117,7 +130,16 @@ public class Look extends Image {
 		cloneLook.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				return cloneLook.doTouchDown(x, y, pointer);
+				if (doTouchDown(x, y, pointer)) {
+					return true;
+				}
+				cloneLook.setTouchable(Touchable.disabled);
+				Actor target = cloneLook.getParent().hit(event.getStageX(), event.getStageY(), true);
+				if (target != null) {
+					target.fire(event);
+				}
+				cloneLook.setTouchable(Touchable.enabled);
+				return false;
 			}
 		});
 		cloneLook.addListener(new BroadcastListener() {
@@ -200,6 +222,11 @@ public class Look extends Image {
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		checkImageChanged();
+		if (Float.compare(alphaValue, 0.0f) == 0) {
+			setVisible(false);
+		} else {
+			setVisible(true);
+		}
 		if (this.show && this.getDrawable() != null) {
 			super.draw(batch, this.alphaValue);
 		}
@@ -211,9 +238,10 @@ public class Look extends Image {
 		allActionAreFinished = false;
 		int finishedCount = 0;
 		for (int i = 0, n = actions.size; i < n; i++) {
-			for (Action actionToRestart : actionsToRestart) {
+			for (Iterator<Action> iterator = actionsToRestart.iterator(); iterator.hasNext();) {
+				Action actionToRestart = iterator.next();
 				actionToRestart.restart();
-				actionsToRestart.remove(actionToRestart);
+				iterator.remove();
 			}
 			Action action = actions.get(i);
 			if (action.act(delta)) {

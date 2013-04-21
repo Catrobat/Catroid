@@ -43,9 +43,11 @@ import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.utils.Utils;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -57,6 +59,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -66,6 +69,7 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -74,11 +78,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
 public class SoundFragment extends ScriptActivityFragment implements OnSoundEditListener,
-		LoaderManager.LoaderCallbacks<Cursor> {
+		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
 
 	public static final String TAG = SoundFragment.class.getSimpleName();
 	public static final int REQUEST_SELECT_MUSIC = 0;
@@ -107,6 +112,13 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private ActionMode actionMode;
 
 	private boolean isRenameActionMode;
+	private boolean isResultHandled = false;
+
+	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
+
+	public void setOnSoundInfoListChangedAfterNewListener(OnSoundInfoListChangedAfterNewListener listener) {
+		soundInfoListChangedAfterNewListener = listener;
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -185,6 +197,16 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				.getApplicationContext());
 
 		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
+
+		handleAddButtonFromNew();
+	}
+
+	@Override
+	public void onHiddenChanged(boolean hidden) {
+		super.onHiddenChanged(hidden);
+		if (!hidden) {
+			handleAddButtonFromNew();
+		}
 	}
 
 	@Override
@@ -343,6 +365,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		getLoaderManager().destroyLoader(ID_LOADER_MEDIA_IMAGE);
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+
+		isResultHandled = true;
 	}
 
 	@Override
@@ -667,6 +691,10 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		adapter.notifyDataSetChanged();
 
+		if (soundInfoListChangedAfterNewListener != null) {
+			soundInfoListChangedAfterNewListener.onSoundInfoListChangedAfterNew(newSoundInfo);
+		}
+
 		//scroll down the list to the new item:
 		{
 			final ListView listView = getListView();
@@ -676,6 +704,16 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 					listView.setSelection(listView.getCount() - 1);
 				}
 			});
+		}
+
+		if (isResultHandled) {
+			isResultHandled = false;
+
+			ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+			if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
+					&& scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
+				switchToScriptFragment();
+			}
 		}
 	}
 
@@ -696,5 +734,51 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
+	}
+
+	private void handleAddButtonFromNew() {
+		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+		if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
+				&& !scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
+			scriptActivity.setIsSoundFragmentHandleAddButtonHandled(true);
+			handleAddButton();
+		}
+	}
+
+	@Override
+	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+		switch (keyCode) {
+			case KeyEvent.KEYCODE_BACK:
+				ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+				if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()) {
+					switchToScriptFragment();
+
+					return true;
+				}
+			default:
+				break;
+		}
+		return false;
+	}
+
+	private void switchToScriptFragment() {
+		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+		ActionBar actionBar = scriptActivity.getSupportActionBar();
+		actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_SCRIPTS);
+		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
+
+		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.hide(this);
+		fragmentTransaction.show(scriptActivity.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
+		fragmentTransaction.commit();
+
+		scriptActivity.setIsSoundFragmentFromPlaySoundBrickNewFalse();
+		scriptActivity.setIsSoundFragmentHandleAddButtonHandled(false);
+	}
+
+	public interface OnSoundInfoListChangedAfterNewListener {
+
+		public void onSoundInfoListChangedAfterNew(SoundInfo soundInfo);
+
 	}
 }

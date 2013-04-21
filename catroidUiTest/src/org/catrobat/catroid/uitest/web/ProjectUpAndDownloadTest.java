@@ -249,34 +249,32 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
 	}
 
-	//	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {
-	//		setServerURLToTestUrl();
-	//
-	//		String testProject = UiTestUtils.JAPANESE_PROJECT_NAME;
-	//		createTestProject(testProject);
-	//
-	//		//intent to the main activity is sent since changing activity orientation is not working
-	//		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
-	//		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
-	//		getActivity().startActivity(intent);
-	//
-	//		UiTestUtils.createValidUser(getActivity());
-	//
-	//		uploadProject(testProject, "");
-	//		solo.sleep(5000);
-	//
-	//		Project uploadProject = StorageHandler.getInstance().loadProject(testProject);
-	//		String DeserializedProjectName = uploadProject.getName();
-	//		assertTrue("Deserialized project name was changed", DeserializedProjectName.equalsIgnoreCase(testProject));
-	//
-	//		UiTestUtils.clearAllUtilTestProjects();
-	//
-	//		downloadProjectAndReplace(testProject);
-	//		Project downloadedProject = StorageHandler.getInstance().loadProject(testProject);
-	//
-	//		String serverProjectName = downloadedProject.getName();
-	//		assertTrue("Project name on server was changed", serverProjectName.equalsIgnoreCase(testProject));
-	//	}
+	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {
+		setServerURLToTestUrl();
+
+		String testProject = UiTestUtils.JAPANESE_PROJECT_NAME;
+		createTestProject(testProject);
+
+		//intent to the main activity is sent since changing activity orientation is not working
+		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
+		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
+		getActivity().startActivity(intent);
+
+		UiTestUtils.createValidUser(getActivity());
+
+		uploadProject(testProject, "");
+		solo.sleep(5000);
+
+		Project uploadProject = StorageHandler.getInstance().loadProject(testProject);
+		String DeserializedProjectName = uploadProject.getName();
+		assertTrue("Deserialized project name was changed", DeserializedProjectName.equalsIgnoreCase(testProject));
+
+		downloadProjectAndReplace(testProject);
+		Project downloadedProject = StorageHandler.getInstance().loadProject(testProject);
+
+		String serverProjectName = downloadedProject.getName();
+		assertTrue("Project name on server was changed", serverProjectName.equalsIgnoreCase(testProject));
+	}
 
 	public void testDownload() throws Throwable {
 		setServerURLToTestUrl();
@@ -368,14 +366,14 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.waitForText(solo.getString(R.string.main_menu_continue));
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 
-		solo.waitForText(solo.getString(R.string.default_project_sprites_catroid_name));
-		solo.clickOnText(solo.getString(R.string.default_project_sprites_catroid_name));
+		solo.waitForText(solo.getString(R.string.default_project_sprites_pocketcode_name));
+		solo.clickOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
 
 		solo.waitForText(solo.getString(R.string.looks));
 		solo.clickOnButton(solo.getString(R.string.looks));
 
 		String deleteLookText = solo.getString(R.string.delete);
-		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_catroid_normalcat));
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_normalcat));
 		solo.waitForText(deleteLookText);
 		solo.clickOnText(deleteLookText);
 		solo.clickOnButton(solo.getString(R.string.ok));
@@ -458,7 +456,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.sleep(500);
 
 		try {
-			boolean success = solo.waitForText(solo.getString(R.string.success_project_upload));
+			boolean success = solo.waitForText(solo.getString(R.string.success_project_upload), 1, 40000);
 			assertTrue("Upload failed. Internet connection?", success);
 			String resultString = (String) Reflection.getPrivateField(ServerCalls.getInstance(), "resultString");
 			JSONObject jsonObject;

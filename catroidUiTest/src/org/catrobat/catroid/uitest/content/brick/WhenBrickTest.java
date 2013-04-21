@@ -93,7 +93,8 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		solo.sleep(100);
 
-		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 1);
+		//		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 1);
+		UiTestUtils.addNewBrick(solo, R.string.brick_when);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
@@ -102,12 +103,17 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.sleep(200);
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
+		solo.searchText(solo.getString(R.string.brick_when_started));
 		assertTrue("Wrong Script instance.",
 				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof WhenScript));
 
 		solo.sleep(200);
 
-		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 1);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.clickOnText(solo.getString(R.string.category_control));
+		solo.searchText(solo.getString(R.string.category_control));
+
+		solo.clickOnScreen(200, 300);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);

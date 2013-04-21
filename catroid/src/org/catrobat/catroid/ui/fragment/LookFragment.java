@@ -50,6 +50,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -65,6 +66,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -73,6 +75,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,12 +84,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.badlogic.gdx.graphics.Pixmap;
 
 public class LookFragment extends ScriptActivityFragment implements OnLookEditListener,
-		LoaderManager.LoaderCallbacks<Cursor> {
+		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
 
 	public static final int REQUEST_SELECT_IMAGE = 0;
 	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
@@ -123,6 +127,13 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	private String paintroidIntentActivityName = "org.catrobat.paintroid.MainActivity";
 
 	private boolean isRenameActionMode;
+	private boolean isResultHandled = false;
+
+	private OnLookDataListChangedAfterNewListener lookDataListChangedAfterNewListener;
+
+	public void setOnLookDataListChangedAfterNewListener(OnLookDataListChangedAfterNewListener listener) {
+		lookDataListChangedAfterNewListener = listener;
+	}
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
@@ -197,6 +208,26 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				.getApplicationContext());
 
 		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
+
+		handleAddButtonFromNew();
+
+		if (isResultHandled) {
+			isResultHandled = false;
+
+			ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+			if (scriptActivity.getIsLookFragmentFromSetLookBrickNew()
+					&& scriptActivity.getIsLookFragmentHandleAddButtonHandled()) {
+				switchToScriptFragment();
+			}
+		}
+	}
+
+	@Override
+	public void onHiddenChanged(boolean hidden) {
+		super.onHiddenChanged(hidden);
+		if (!hidden) {
+			handleAddButtonFromNew();
+		}
 	}
 
 	@Override
@@ -250,6 +281,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 					loadPictureFromCameraIntoCatroid();
 					break;
 			}
+
+			isResultHandled = true;
 		}
 	}
 
@@ -493,6 +526,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		lookDataList.add(lookData);
 
 		adapter.notifyDataSetChanged();
+
+		if (lookDataListChangedAfterNewListener != null) {
+			lookDataListChangedAfterNewListener.onLookDataListChangedAfterNew(lookData);
+		}
 
 		//scroll down the list to the new item:
 		final ListView listView = getListView();
@@ -930,5 +967,51 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	protected void showDeleteDialog() {
 		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedLookPosition);
 		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void handleAddButtonFromNew() {
+		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+		if (scriptActivity.getIsLookFragmentFromSetLookBrickNew()
+				&& !scriptActivity.getIsLookFragmentHandleAddButtonHandled()) {
+			scriptActivity.setIsLookFragmentHandleAddButtonHandled(true);
+			handleAddButton();
+		}
+	}
+
+	@Override
+	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+		switch (keyCode) {
+			case KeyEvent.KEYCODE_BACK:
+				ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+				if (scriptActivity.getIsLookFragmentFromSetLookBrickNew()) {
+					switchToScriptFragment();
+
+					return true;
+				}
+			default:
+				break;
+		}
+		return false;
+	}
+
+	private void switchToScriptFragment() {
+		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+		ActionBar actionBar = scriptActivity.getSupportActionBar();
+		actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_SCRIPTS);
+		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
+
+		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.hide(this);
+		fragmentTransaction.show(scriptActivity.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
+		fragmentTransaction.commit();
+
+		scriptActivity.setIsLookFragmentFromSetLookBrickNewFalse();
+		scriptActivity.setIsLookFragmentHandleAddButtonHandled(false);
+	}
+
+	public interface OnLookDataListChangedAfterNewListener {
+
+		public void onLookDataListChangedAfterNew(LookData soundInfo);
+
 	}
 }

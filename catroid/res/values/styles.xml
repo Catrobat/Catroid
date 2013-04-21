@@ -48,12 +48,12 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
-    <style name="StageButton">
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
-        <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:layout_width">wrap_content</item>
+   <style name="StageButton">
+        <item name="android:padding">4dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1.5</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textScaleX">0.7</item>
         <item name="android:background">@null</item>
     </style>
 
@@ -314,6 +314,20 @@
     <style name="FormulaEditorButton">
         <item name="android:layout_width">0dp</item>
         <item name="android:background">@drawable/formula_editor_keyboard_button</item>
+        <item name="android:layout_height">@dimen/key_height</item>
+        <item name="android:layout_marginBottom">@dimen/key_margin</item>
+        <item name="android:layout_marginRight">@dimen/key_margin</item>
+        <item name="android:textColor">@color/formula_editor_keyboard_text_color</item> 
+        <item name="android:lines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+    
+    <style name="FormulaEditorImageButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:background">@drawable/formula_editor_keyboard_button</item>
+        <item name="android:layout_height">@dimen/key_height</item>
+        <item name="android:layout_marginBottom">@dimen/key_margin</item>
+        <item name="android:layout_marginRight">@dimen/key_margin</item>
     </style>
 
     <style name="BrickCategory">

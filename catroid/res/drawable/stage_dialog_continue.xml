@@ -26,12 +26,12 @@
     android:useLevel="false" >
 
     <size
-        android:height="50dip"
-        android:width="50dip" />
+        android:height="65dip"
+        android:width="65dip" />
 
     <gradient
-        android:endColor="#ffffd300"
-        android:startColor="#4c737373"
+        android:endColor="#CCCCFF"
+        android:startColor="#AAAADD"
         android:type="sweep"
         android:useLevel="false" />
 

@@ -73,11 +73,6 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		ChangeVolumeByNBrick copyBrick = (ChangeVolumeByNBrick) clone();
 		copyBrick.sprite = sprite;

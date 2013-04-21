@@ -37,7 +37,6 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickAdapter.OnBrickEditListener;
-import org.catrobat.catroid.ui.dialogs.AddBrickDialog;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
@@ -48,7 +47,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
@@ -237,16 +235,16 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onCategorySelected(String category) {
 		selectedCategory = category;
-
-		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-		Fragment previousFragment = getFragmentManager().findFragmentByTag(AddBrickDialog.DIALOG_FRAGMENT_TAG);
-		if (previousFragment != null) {
-			fragmentTransaction.remove(previousFragment);
-		}
+		AddBrickFragment addBrickFragment = AddBrickFragment.newInstance(selectedCategory, this);
+		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		fragmentTransaction.add(R.id.script_fragment_container, addBrickFragment,
+				AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
 		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
 
-		AddBrickDialog addBrickDialog = AddBrickDialog.newInstance(selectedCategory, this);
-		addBrickDialog.show(fragmentTransaction, AddBrickDialog.DIALOG_FRAGMENT_TAG);
+		adapter.notifyDataSetChanged();
+
 	}
 
 	public void updateAdapterAfterAddNewBrick(Brick brickToBeAdded) {
@@ -291,7 +289,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		fragmentTransaction.add(R.id.script_fragment_container, brickCategoryFragment,
 				BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 
-		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 		fragmentTransaction.commit();
 
 		adapter.notifyDataSetChanged();

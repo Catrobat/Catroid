@@ -38,7 +38,6 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.dialogs.AddBrickDialog;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
@@ -513,7 +512,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 				protected void execute() {
 					onItemClickListener.onItemClick(null, null, 0, 0);
 				}
-			}, brickCategoryFragment.getId(), AddBrickDialog.DIALOG_FRAGMENT_TAG);
+			}, brickCategoryFragment.getId(), BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 		}
 	}
 
