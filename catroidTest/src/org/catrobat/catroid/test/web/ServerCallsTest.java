@@ -37,8 +37,8 @@ import android.util.Log;
  */
 public class ServerCallsTest extends AndroidTestCase {
 	private static final String LOG_TAG = ServerCalls.class.getSimpleName();
-	public static final int SERVER_ERROR_TOKEN_INVALID = 601;
-	public static final int SERVER_ERROR_AUTHENTICATION_REGISTRATION_FAILED = 602;
+	public static final int STATUS_CODE_AUTHENTICATION_FAILED = 601;
+	public static final int STATUS_CODE_AUTHENTICATION_REGISTRATION_FAILED = 602;
 
 	public ServerCallsTest() {
 		super();
@@ -100,16 +100,16 @@ public class ServerCallsTest extends AndroidTestCase {
 
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de", "at", token,
-					getContext());
+			userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de",
+					"at", token, getContext());
 
-			assertFalse(
-					"An exception should be thrown because authentication failed, but server response indicates that this user is new",
-					true);
+			Log.i(LOG_TAG, "user registered: " + userRegistered);
+			assertFalse("Should be an existing user, but server responce indicates that this user is new",
+					userRegistered);
 		} catch (WebconnectionException e) {
-			assertEquals(
-					"Server should return status code 602 because authentication failed due to already existing username",
-					602, e.getStatusCode());
+			e.printStackTrace();
+			assertFalse("WebconnectionException \nstatus code:" + e.getStatusCode() + "\nmessage: " + e.getMessage(),
+					true);
 		}
 
 	}
@@ -139,8 +139,7 @@ public class ServerCallsTest extends AndroidTestCase {
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the password is wrong", true);
-			assertEquals("wrong status code from server", SERVER_ERROR_AUTHENTICATION_REGISTRATION_FAILED,
-					e.getStatusCode());
+			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
@@ -173,7 +172,7 @@ public class ServerCallsTest extends AndroidTestCase {
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the email already exists on the server", true);
-			assertEquals("wrong status code from server", SERVER_ERROR_AUTHENTICATION_REGISTRATION_FAILED,
+			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_REGISTRATION_FAILED,
 					e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
@@ -196,7 +195,7 @@ public class ServerCallsTest extends AndroidTestCase {
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the password is too short", true);
-			assertEquals("wrong status code from server", SERVER_ERROR_AUTHENTICATION_REGISTRATION_FAILED,
+			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_REGISTRATION_FAILED,
 					e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
@@ -218,7 +217,7 @@ public class ServerCallsTest extends AndroidTestCase {
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the email is not valid", true);
-			assertEquals("wrong status code from server", SERVER_ERROR_AUTHENTICATION_REGISTRATION_FAILED,
+			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_REGISTRATION_FAILED,
 					e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
@@ -252,7 +251,7 @@ public class ServerCallsTest extends AndroidTestCase {
 
 		} catch (WebconnectionException e) {
 			assertTrue("exception is thrown if we pass a wrong token", true);
-			assertEquals("wrong status code from server", SERVER_ERROR_TOKEN_INVALID, e.getStatusCode());
+			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}

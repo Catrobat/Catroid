@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.uitest.web;
 
-import java.util.ArrayList;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -36,9 +34,6 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -155,29 +150,32 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
 	}
 
-	public void testLoginWhenUploading() throws Throwable {
-		setTestUrl();
-		clearSharedPreferences();
-
-		solo.sleep(500);
-		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
-		solo.sleep(4000);
-
-		String username = "MAXmUstermann"; //real username is MaxMustermann
-		String password = "password";
-		String testEmail = "max" + System.currentTimeMillis() + "@gmail.com";
-		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
-		EditText usernameEditText = (EditText) solo.getView(R.id.username);
-		EditText passwordEditText = (EditText) solo.getView(R.id.password);
-		solo.enterText(usernameEditText, username);
-		solo.enterText(passwordEditText, password);
-		solo.clickOnButton(solo.getString(R.string.login_or_register));
-		solo.sleep(5000);
-
-		TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
-		ArrayList<View> currentViews = solo.getCurrentViews();
-		assertTrue("Cannot login because username is upper or lower case", currentViews.contains(uploadProject));
-	}
+	//cur
+	/*
+	 * public void testLoginWhenUploading() throws Throwable {
+	 * setTestUrl();
+	 * clearSharedPreferences();
+	 * 
+	 * solo.sleep(500);
+	 * solo.clickOnButton(solo.getString(R.string.main_menu_upload));
+	 * solo.sleep(4000);
+	 * 
+	 * String username = "MAXmUstermann"; //real username is MaxMustermann
+	 * String password = "password";
+	 * String testEmail = "max" + System.currentTimeMillis() + "@gmail.com";
+	 * Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
+	 * EditText usernameEditText = (EditText) solo.getView(R.id.username);
+	 * EditText passwordEditText = (EditText) solo.getView(R.id.password);
+	 * solo.enterText(usernameEditText, username);
+	 * solo.enterText(passwordEditText, password);
+	 * solo.clickOnButton(solo.getString(R.string.login_or_register));
+	 * solo.sleep(5000);
+	 * 
+	 * TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
+	 * ArrayList<View> currentViews = solo.getCurrentViews();
+	 * assertTrue("Cannot login because username is upper or lower case", currentViews.contains(uploadProject));
+	 * }
+	 */
 
 	private void setTestUrl() throws Throwable {
 		runTestOnUiThread(new Runnable() {
