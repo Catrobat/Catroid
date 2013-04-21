@@ -814,11 +814,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		builder.setItems(items.toArray(new CharSequence[items.size()]), new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int item) {
-				if (items.get(item).equals(context.getText(R.string.brick_context_dialog_move_brick))) {
+				CharSequence clickedItemText = items.get(item);
+				if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_move_brick))) {
 					view.performLongClick();
-				} else if (items.get(item).equals(context.getText(R.string.brick_context_dialog_delete_brick))) {
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_brick))) {
 					removeFromBrickListAndProject(itemPosition, false);
-				} else if (items.get(item).equals(context.getText(R.string.brick_context_dialog_animate_bricks))) {
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_animate_bricks))) {
 					int itemPosition = calculateItemPositionAndTouchPointY(view);
 					Brick brick = brickList.get(itemPosition);
 					if (brick instanceof NestingBrick) {

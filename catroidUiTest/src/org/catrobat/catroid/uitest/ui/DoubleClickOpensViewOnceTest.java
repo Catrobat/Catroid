@@ -44,14 +44,12 @@ import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
-import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
@@ -78,10 +76,9 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 
 	private abstract static class OnClickCommand {
 		public void runOnUiThread(Activity activity) {
-			final OnClickCommand self = this;
 			activity.runOnUiThread(new Runnable() {
 				public void run() {
-					self.execute();
+					OnClickCommand.this.execute();
 				}
 			});
 		}
@@ -125,28 +122,43 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			waitForView(button);
 		}
 
-		public void checkDoubleClickOpensViewOnce(OnClickCommand clickCommand, int buttonId, String openedViewTag) {
-			checkDoubleClickOpensViewOnce(clickCommand, buttonId, openedViewTag, false);
+		public void checkDoubleClickOpensViewOnceFragment(OnClickCommand clickCommand, int buttonId,
+				String openedFragmentTag) {
+			checkDoubleClickOpensViewOnceFragment(clickCommand, buttonId, openedFragmentTag, false);
 		}
 
-		public void checkDoubleClickOpensViewOnce(OnClickCommand clickCommand, int buttonId, String openedViewTag,
-				boolean isKeyboardVisible) {
+		public void checkDoubleClickOpensViewOnceFragment(OnClickCommand clickCommand, int buttonId,
+				String openedFragmentTag, boolean isKeyboardVisible) {
 			View button = findView(buttonId);
 			simulateDoubleClick(clickCommand);
-			waitForView(openedViewTag);
+			waitForFragment(openedFragmentTag);
 			goBack(isKeyboardVisible);
 			waitForView(button);
 		}
 
-		public void checkDoubleClickOpensViewOnce(OnClickCommand clickCommand, int buttonId, Class<?> activityClass) {
-			checkDoubleClickOpensViewOnce(clickCommand, buttonId, activityClass, false);
+		public void checkDoubleClickOpensViewOnceActivity(OnClickCommand clickCommand, int buttonId,
+				String openedActivityTag) {
+			checkDoubleClickOpensViewOnceActivity(clickCommand, buttonId, openedActivityTag, false);
 		}
 
-		public void checkDoubleClickOpensViewOnce(OnClickCommand clickCommand, int buttonId, Class<?> activityClass,
+		public void checkDoubleClickOpensViewOnceActivity(OnClickCommand clickCommand, int buttonId,
+				String openedActivityTag, boolean isKeyboardVisible) {
+			View button = findView(buttonId);
+			simulateDoubleClick(clickCommand);
+			waitForActivity(openedActivityTag);
+			goBack(isKeyboardVisible);
+			waitForView(button);
+		}
+
+		public void checkDoubleClickOpensViewOnce(OnClickCommand clickCommand, int buttonId, String text) {
+			checkDoubleClickOpensViewOnce(clickCommand, buttonId, text, false);
+		}
+
+		public void checkDoubleClickOpensViewOnce(OnClickCommand clickCommand, int buttonId, String text,
 				boolean isKeyboardVisible) {
 			View button = findView(buttonId);
 			simulateDoubleClick(clickCommand);
-			waitForView(activityClass);
+			waitForText(text);
 			goBack(isKeyboardVisible);
 			waitForView(button);
 		}
@@ -176,8 +188,14 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			}
 		}
 
-		private void waitForView(String tag) {
+		private void waitForFragment(String tag) {
 			if (!solo.waitForFragmentByTag(tag, SOLO_WAIT_FOR_VIEW_TIMEOUT)) {
+				fail("Couldn't find opened view after clicking on button");
+			}
+		}
+
+		private void waitForActivity(String tag) {
+			if (!solo.waitForActivity(tag, SOLO_WAIT_FOR_VIEW_TIMEOUT)) {
 				fail("Couldn't find opened view after clicking on button");
 			}
 		}
@@ -192,8 +210,10 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			}
 		}
 
-		private void waitForView(Class<?> activity) {
-			solo.waitForActivity(activity.getSimpleName());
+		private void waitForText(String text) {
+			if (!solo.waitForText(text)) {
+				fail("Didn't find text " + text);
+			}
 		}
 	}
 
@@ -226,7 +246,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		public void testMainMenuButtonNew() {
-			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+			checkDoubleClickOpensViewOnceFragment(new OnClickCommand() {
 				@Override
 				public void execute() {
 					activity.handleNewButton(null);
@@ -244,7 +264,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		public void testMainMenuButtonUpload() {
-			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+			checkDoubleClickOpensViewOnceFragment(new OnClickCommand() {
 				@Override
 				public void execute() {
 					activity.handleUploadButton(null);
@@ -274,7 +294,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		public void testMyProjectsAddButton() {
-			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+			checkDoubleClickOpensViewOnceFragment(new OnClickCommand() {
 				@Override
 				public void execute() {
 					activity.handleAddButton(null);
@@ -307,16 +327,16 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		public void testProgramMenuPlayButton() {
-			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+			checkDoubleClickOpensViewOnceActivity(new OnClickCommand() {
 				@Override
 				public void execute() {
 					activity.handlePlayButton(null);
 				}
-			}, R.id.button_play, StageActivity.class, true);
+			}, R.id.button_play, StageActivity.TAG, true);
 		}
 
 		public void testProgramMenuScriptsButton() {
-			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+			checkDoubleClickOpensViewOnceFragment(new OnClickCommand() {
 				@Override
 				public void execute() {
 					activity.handleScriptsButton(null);
@@ -325,7 +345,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		public void testProgramMenuLooksButton() {
-			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+			checkDoubleClickOpensViewOnceFragment(new OnClickCommand() {
 				@Override
 				public void execute() {
 					activity.handleLooksButton(null);
@@ -334,7 +354,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		public void testProgramMenuSoundsButton() {
-			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+			checkDoubleClickOpensViewOnceFragment(new OnClickCommand() {
 				@Override
 				public void execute() {
 					activity.handleSoundsButton(null);
@@ -367,7 +387,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		public void testProjectAddButton() {
-			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+			checkDoubleClickOpensViewOnceFragment(new OnClickCommand() {
 				@Override
 				public void execute() {
 					activity.handleAddButton(null);
@@ -376,12 +396,12 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		public void testProjectPlayButton() {
-			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+			checkDoubleClickOpensViewOnceActivity(new OnClickCommand() {
 				@Override
 				public void execute() {
 					activity.handlePlayButton(null);
 				}
-			}, R.id.button_play, StageActivity.class, true);
+			}, R.id.button_play, StageActivity.TAG, true);
 		}
 	}
 
@@ -409,7 +429,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		public void testProjectAddButton() {
-			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+			checkDoubleClickOpensViewOnceFragment(new OnClickCommand() {
 				@Override
 				public void execute() {
 					activity.handleAddButton(null);
@@ -418,12 +438,12 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		public void testProjectPlayButton() {
-			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+			checkDoubleClickOpensViewOnceActivity(new OnClickCommand() {
 				@Override
 				public void execute() {
 					activity.handlePlayButton(null);
 				}
-			}, R.id.button_play, StageActivity.class, true);
+			}, R.id.button_play, StageActivity.TAG, true);
 		}
 	}
 
@@ -452,12 +472,12 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		public void testScriptFragmentAddButton() {
-			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+			checkDoubleClickOpensViewOnceFragment(new OnClickCommand() {
 				@Override
 				public void execute() {
 					fragment.handleAddButton();
 				}
-			}, R.id.script_fragment_container, ScriptActivityFragment.class);
+			}, R.id.script_fragment_container, ScriptFragment.TAG);
 		}
 
 		public void testBrickAdapterOnItemClick() {
@@ -471,7 +491,9 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 				protected void execute() {
 					brickAdapter.onClick(brickView);
 				}
-			}, R.id.brick_hide_layout, AlertDialog.class);
+			}, R.id.brick_hide_layout,
+					getActivity().getApplicationContext().getText(R.string.brick_context_dialog_delete_brick)
+							.toString());
 		}
 
 		public void testBrickCategoryFragmentOnItemClick() {
@@ -482,17 +504,16 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
 			BrickCategoryFragment brickCategoryFragment = (BrickCategoryFragment) activity.getSupportFragmentManager()
 					.findFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
-			solo.sleep(500);
+			solo.sleep(250);
 			final OnItemClickListener onItemClickListener = brickCategoryFragment.getListView()
 					.getOnItemClickListener();
 
-			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+			checkDoubleClickOpensViewOnceFragment(new OnClickCommand() {
 				@Override
 				protected void execute() {
 					onItemClickListener.onItemClick(null, null, 0, 0);
 				}
-			}, brickCategoryFragment.getId(), AddBrickDialog.class);
-
+			}, brickCategoryFragment.getId(), AddBrickDialog.DIALOG_FRAGMENT_TAG);
 		}
 	}
 
@@ -534,26 +555,12 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		public void testLookFragmentAddButton() {
-			checkDoubleClickOpensViewOnce(new OnClickCommand() {
+			checkDoubleClickOpensViewOnceFragment(new OnClickCommand() {
 				@Override
 				public void execute() {
 					fragment.handleAddButton();
 				}
-			}, R.id.script_fragment_container, ScriptActivityFragment.class);
+			}, R.id.script_fragment_container, LookFragment.TAG);
 		}
-
-		//		public void testLookFragmentOnLookEdit() {
-		// TODO: Use paintroid mockup here.
-		//			final View lookView = solo.getView(R.id.look_main_layout);
-		//			ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
-		//			final LookFragment lookFragment = (LookFragment) activity.getFragment(ScriptActivity.FRAGMENT_LOOKS);
-		//			
-		//			checkDoubleClickOpensViewOnce(new OnClickCommand() {
-		//				@Override
-		//				protected void execute() {
-		//					lookFragment.onLookEdit(lookView);
-		//				}
-		//			}, R.id.brick_hide_layout, AlertDialog.class);
-		//		}
 	}
 }
