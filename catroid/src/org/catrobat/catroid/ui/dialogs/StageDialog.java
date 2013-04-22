@@ -51,8 +51,8 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.dialog_stage);
+
 		getWindow().setGravity(Gravity.BOTTOM);
-		getWindow().setBackgroundDrawableResource(R.color.transparent);
 
 		((Button) findViewById(R.id.stage_dialog_button_back)).setOnClickListener(this);
 		((Button) findViewById(R.id.stage_dialog_button_continue)).setOnClickListener(this);
