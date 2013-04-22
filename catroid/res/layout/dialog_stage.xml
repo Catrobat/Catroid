@@ -22,76 +22,61 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <!-- Menu buttons -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:gravity="left"
+    android:paddingLeft="5dip"
+    android:paddingRight="5dip" >
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/stage_layout_relative"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="bottom" >
-    
-	<ImageView
-	    android:id="@+id/stage_menu_background"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_alignParentBottom="true"
-	    android:layout_centerHorizontal="true"
-	    android:background="@drawable/menu" />
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-	<LinearLayout
-	    android:id="@+id/stage_layout_linear"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_alignLeft="@+id/stage_menu_background"
-	    android:layout_alignRight="@+id/stage_menu_background"
-	    android:layout_alignTop="@+id/stage_menu_background"
-	    android:layout_marginTop="8dp"
-	    android:orientation="horizontal" >
+        <Button
+            android:id="@+id/stage_dialog_button_back"
+            style="@style/StageButton"
+            android:drawableTop="@drawable/stage_dialog_back"
+            android:text="@string/stage_dialog_back" >
+        </Button>
 
-	    <Button
-	        android:id="@+id/stage_dialog_button_back"
-	        style="@style/StageButton"
-	        android:drawableTop="@drawable/back"
-	        android:text="@string/stage_dialog_back"
-	        android:textColor="@color/stage_dialog_text_color" />
+        <Button
+            android:id="@+id/stage_dialog_button_resume"
+            style="@style/StageButton"
+            android:drawableTop="@drawable/stage_dialog_resume"
+            android:text="@string/stage_dialog_resume" >
+        </Button>
 
-	    <Button
-	        android:id="@+id/stage_dialog_button_restart"
-	        style="@style/StageButton"
-	        android:drawableTop="@drawable/restart"
-	        android:text="@string/stage_dialog_restart"
-	        android:textColor="@color/stage_dialog_text_color" />
+        <Button
+            android:id="@+id/stage_dialog_button_restart"
+            style="@style/StageButton"
+            android:drawableTop="@drawable/stage_dialog_restart"
+            android:text="@string/stage_dialog_restart" >
+        </Button>
 
-	    <Button
-	        android:id="@+id/stage_dialog_button_continue"
-	        style="@style/StageButton"
-	        android:layout_width="0dp"
-	        android:layout_weight="2"
-	        android:drawableTop="@drawable/stage_menu_continue"
-	        android:text="@string/stage_dialog_continue"
-	        android:textColor="@color/stage_dialog_text_color"
-	        android:textScaleX="1" />
+        <Button
+            android:id="@+id/stage_dialog_button_toggle_axes"
+            style="@style/StageButton"
+            android:drawableTop="@drawable/stage_dialog_toggle_axes"
+            android:text="@string/stage_dialog_axes_on" >
+        </Button>
 
-	    <Button
-	        android:id="@+id/stage_dialog_button_screenshot"
-	        style="@style/StageButton"
-	        android:layout_width="0dp"
-	        android:layout_weight="1.7"	            
-	        android:drawableTop="@drawable/screenshot"
-	        android:text="@string/stage_dialog_screenshot"
-	        android:textColor="@color/stage_dialog_text_color" />
+        <Button
+            android:id="@+id/stage_dialog_button_maximize"
+            style="@style/StageButton"
+            android:drawableTop="@drawable/stage_dialog_maximize"
+            android:text="@string/stage_dialog_maximize" >
+        </Button>
 
-	    <Button
-	        android:id="@+id/stage_dialog_button_toggle_axes"
-	        style="@style/StageButton"
-	        android:layout_width="0dp"
-	        android:layout_weight="1.3"	               
-	        android:drawableTop="@drawable/axis"
-	        android:text="@string/stage_dialog_axes_on"
-	        android:textColor="@color/stage_dialog_text_color" />
-	</LinearLayout>
+        <Button
+            android:id="@+id/stage_dialog_button_screenshot"
+            style="@style/StageButton"
+            android:drawableTop="@drawable/stage_dialog_screenshot"
+            android:text="@string/stage_dialog_screenshot" >
+        </Button>
+    </LinearLayout>
 
-</RelativeLayout>
-        
-
-
-
+</ScrollView>
