@@ -48,12 +48,12 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
-   <style name="StageButton">
-        <item name="android:padding">4dp</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_weight">1.5</item>
+    <style name="StageButton">
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textScaleX">0.7</item>
         <item name="android:background">@null</item>
     </style>
 
