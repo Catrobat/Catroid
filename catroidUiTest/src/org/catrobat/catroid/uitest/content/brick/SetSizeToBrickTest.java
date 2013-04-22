@@ -113,7 +113,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		assertTrue("Successful screenshot Toast not found!",
 				solo.searchText(solo.getString(R.string.notification_screenshot_ok)));
 
-		solo.clickOnText(solo.getString(R.string.stage_dialog_continue));
+		solo.clickOnText(solo.getString(R.string.stage_dialog_resume));
 
 		// -------------------------------------------------------------------------------------------------------------
 		Bitmap screenshot = BitmapFactory.decodeFile(Constants.DEFAULT_ROOT + "/" + projectName + "/"
