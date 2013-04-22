@@ -193,7 +193,6 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 				.parseInt(goBackEditTextString.substring(0, goBackEditTextString.length() - 1));
 		assertEquals("Value in Selected Brick GoBack is not correct", BrickValues.GO_BACK, goBackEditTextValue);
 	}
-
 	@Smoke
 	public void testLookBricksDefaultValues() {
 		String categoryLooksText = solo.getString(R.string.category_looks);
