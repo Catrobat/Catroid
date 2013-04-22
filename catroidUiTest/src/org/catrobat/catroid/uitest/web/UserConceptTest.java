@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.uitest.web;
 
+import java.util.ArrayList;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -34,6 +36,8 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
+import android.view.View;
+import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -150,32 +154,40 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
 	}
 
-	//cur
-	/*
-	 * public void testLoginWhenUploading() throws Throwable {
-	 * setTestUrl();
-	 * clearSharedPreferences();
-	 * 
-	 * solo.sleep(500);
-	 * solo.clickOnButton(solo.getString(R.string.main_menu_upload));
-	 * solo.sleep(4000);
-	 * 
-	 * String username = "MAXmUstermann"; //real username is MaxMustermann
-	 * String password = "password";
-	 * String testEmail = "max" + System.currentTimeMillis() + "@gmail.com";
-	 * Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
-	 * EditText usernameEditText = (EditText) solo.getView(R.id.username);
-	 * EditText passwordEditText = (EditText) solo.getView(R.id.password);
-	 * solo.enterText(usernameEditText, username);
-	 * solo.enterText(passwordEditText, password);
-	 * solo.clickOnButton(solo.getString(R.string.login_or_register));
-	 * solo.sleep(5000);
-	 * 
-	 * TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
-	 * ArrayList<View> currentViews = solo.getCurrentViews();
-	 * assertTrue("Cannot login because username is upper or lower case", currentViews.contains(uploadProject));
-	 * }
-	 */
+	public void testRegisterUsernameDifferentCases() throws Throwable {
+		setTestUrl();
+		clearSharedPreferences();
+
+		solo.sleep(500);
+		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
+		solo.sleep(4000);
+
+		String username = "UpperCaseUser" + System.currentTimeMillis();
+		fillLoginDialogWithUsername(true, username);
+
+		/*
+		 * solo.sleep(1500);
+		 * solo.goBack();
+		 * solo.sleep(1500);
+		 * solo.goBack();
+		 * solo.sleep(1500);
+		 */
+		UiTestUtils.goBackToHome(getInstrumentation());
+
+		clearSharedPreferences();
+
+		solo.sleep(500);
+		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
+		solo.sleep(4000);
+
+		username = username.toLowerCase();
+		fillLoginDialogWithUsername(true, username);
+
+		TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
+		ArrayList<View> currentViews = solo.getCurrentViews();
+		assertTrue("Cannot login because username is upper or lower case", currentViews.contains(uploadProject));
+
+	}
 
 	private void setTestUrl() throws Throwable {
 		runTestOnUiThread(new Runnable() {
@@ -183,6 +195,36 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 				ServerCalls.useTestUrl = true;
 			}
 		});
+	}
+
+	private void fillLoginDialogWithUsername(boolean correct, String username) {
+		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
+
+		// enter a username
+		String testUser = username;
+		solo.clearEditText(0);
+		solo.enterText(0, testUser);
+		// enter a password
+		String testPassword;
+		if (correct) {
+			testPassword = "blubblub";
+		} else {
+			testPassword = "short";
+		}
+		solo.clearEditText(1);
+		solo.clickOnEditText(1);
+		solo.enterText(1, testPassword);
+
+		// set the email to use. we need a random email because the server does not allow same email with different users 
+		String testEmail = testUser + "@gmail.com";
+		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testPassword));
+		solo.sleep(1000);
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+
+		int buttonId = android.R.id.button1;
+		solo.clickOnView(solo.getView(buttonId));
 	}
 
 	private void fillLoginDialog(boolean correct) {
