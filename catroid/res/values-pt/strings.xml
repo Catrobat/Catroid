@@ -163,7 +163,6 @@
     <string name="stage_dialog_back">"Voltar"</string>
     <string name="stage_dialog_continue">"Continuar"</string>
     <string name="stage_dialog_restart">"Recomeçar"</string>
-    <string name="stage_dialog_maximize">"Maximizar/\nEsticar"</string>
     <string name="stage_dialog_axes_on">"Eixos Desligados"</string>
     <string name="stage_dialog_axes_off">"Eixos Ligados"</string>
     <string name="stage_dialog_screenshot">"Foto da Tela"</string>

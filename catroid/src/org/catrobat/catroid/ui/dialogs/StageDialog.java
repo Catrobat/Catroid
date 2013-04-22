@@ -31,8 +31,8 @@ import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -51,7 +51,15 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.dialog_stage);
-		getWindow().setGravity(Gravity.BOTTOM);
+		getWindow().getAttributes();
+
+		getWindow().getAttributes();
+
+		int width = LayoutParams.MATCH_PARENT;
+		int height = LayoutParams.WRAP_CONTENT;
+
+		getWindow().setLayout(width, height);
+
 		getWindow().setBackgroundDrawableResource(R.color.transparent);
 
 		((Button) findViewById(R.id.stage_dialog_button_back)).setOnClickListener(this);
