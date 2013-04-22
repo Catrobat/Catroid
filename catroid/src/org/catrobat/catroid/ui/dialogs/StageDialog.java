@@ -31,6 +31,7 @@ import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -50,13 +51,18 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.dialog_stage);
-		//getWindow().setGravity(Gravity.BOTTOM);
-		getWindow().setBackgroundDrawableResource(R.color.transparent);
+
+		getWindow().setGravity(Gravity.LEFT);
 
 		((Button) findViewById(R.id.stage_dialog_button_back)).setOnClickListener(this);
-		((Button) findViewById(R.id.stage_dialog_button_continue)).setOnClickListener(this);
+		((Button) findViewById(R.id.stage_dialog_button_resume)).setOnClickListener(this);
 		((Button) findViewById(R.id.stage_dialog_button_restart)).setOnClickListener(this);
 		((Button) findViewById(R.id.stage_dialog_button_toggle_axes)).setOnClickListener(this);
+		if (stageActivity.getResizePossible()) {
+			((Button) findViewById(R.id.stage_dialog_button_maximize)).setOnClickListener(this);
+		} else {
+			((Button) findViewById(R.id.stage_dialog_button_maximize)).setVisibility(View.GONE);
+		}
 		((Button) findViewById(R.id.stage_dialog_button_screenshot)).setOnClickListener(this);
 	}
 
@@ -66,7 +72,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			case R.id.stage_dialog_button_back:
 				onBackPressed();
 				break;
-			case R.id.stage_dialog_button_continue:
+			case R.id.stage_dialog_button_resume:
 				dismiss();
 				stageActivity.resume();
 				break;
@@ -76,6 +82,9 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				break;
 			case R.id.stage_dialog_button_toggle_axes:
 				toggleAxes();
+				break;
+			case R.id.stage_dialog_button_maximize:
+				stageListener.changeScreenSize();
 				break;
 			case R.id.stage_dialog_button_screenshot:
 				makeScreenshot();
