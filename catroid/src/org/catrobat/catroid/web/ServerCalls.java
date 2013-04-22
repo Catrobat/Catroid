@@ -81,7 +81,7 @@ public class ServerCalls {
 	public static final String TOKEN_CODE_INVALID = "-1";
 
 	private static ServerCalls instance;
-	public static boolean useTestUrl = false;
+	public static boolean useTestUrl = true;
 	private String resultString;
 	private ConnectionWrapper connection;
 	private String emailForUiTests;
@@ -104,11 +104,12 @@ public class ServerCalls {
 	}
 
 	public void uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
-			String language, String token, String username, ResultReceiver receiver, Integer notificationId)
-			throws WebconnectionException {
+			String language, String token, String username, ResultReceiver receiver, Integer notificationId,
+			Context context) throws WebconnectionException {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
 		}
+
 		try {
 			String md5Checksum = Utils.md5Checksum(new File(zipFileString));
 
@@ -138,8 +139,22 @@ public class ServerCalls {
 			jsonObject = new JSONObject(answer);
 			uploadStatusCode = jsonObject.getInt("statusCode");
 			String serverAnswer = jsonObject.optString("answer");
+			String tokenReceived = "";
 
-			if (uploadStatusCode != 200) {
+			if (uploadStatusCode == SERVER_RESPONSE_TOKEN_OK) {
+				tokenReceived = jsonObject.getString("token");
+				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.isEmpty()
+						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
+					throw new WebconnectionException(uploadStatusCode, serverAnswer);
+				}
+				if (context != null) {
+					SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+					sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
+					sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
+				}
+			}
+
+			if (uploadStatusCode != SERVER_RESPONSE_TOKEN_OK) {
 				throw new WebconnectionException(uploadStatusCode, serverAnswer);
 			}
 		} catch (JSONException e) {

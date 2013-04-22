@@ -98,6 +98,20 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		});
 	}
 
+	public void testTokenReplacementAfterUpload() throws Throwable {
+		setServerURLToTestUrl();
+
+		UiTestUtils.createValidUser(getActivity());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		String originalToken = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		uploadProject(newTestProject, newTestDescription);
+		String newToken = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+
+		assertFalse("Original token not available", originalToken.equals(Constants.NO_TOKEN));
+		assertFalse("New token not available", newToken.equals(Constants.NO_TOKEN));
+		assertFalse("Original token should be replaced by new token after upload", originalToken.equals(newToken));
+	}
+
 	public void testUploadProjectSuccess() throws Throwable {
 		setServerURLToTestUrl();
 
