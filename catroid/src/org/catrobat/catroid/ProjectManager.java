@@ -24,7 +24,11 @@ package org.catrobat.catroid;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.util.concurrent.*;
+import java.util.concurrent.locks.ReentrantLock;
 
+import android.os.AsyncTask;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.MessageContainer;
@@ -49,7 +53,7 @@ public class ProjectManager {
 
 	private ProjectManager() {
 		fileChecksumContainer = new FileChecksumContainer();
-	}
+    }
 
 	public static ProjectManager getInstance() {
 		return INSTANCE;
@@ -127,7 +131,10 @@ public class ProjectManager {
 		if (project == null) {
 			return false;
 		}
-		return StorageHandler.getInstance().saveProject(project);
+		//return StorageHandler.getInstance().saveProject(project);
+        SaveProjectAsync saveTask = new SaveProjectAsync();
+        saveTask.execute();
+        return true;
 	}
 
 	public boolean initializeDefaultProject(Context context) {
@@ -336,4 +343,13 @@ public class ProjectManager {
 	public void setFileChecksumContainer(FileChecksumContainer fileChecksumContainer) {
 		this.fileChecksumContainer = fileChecksumContainer;
 	}
+
+    private class SaveProjectAsync extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            StorageHandler.getInstance().saveProject(project);
+            return null;
+        }
+    }
 }
