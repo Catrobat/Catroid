@@ -213,7 +213,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
 		solo.sleep(200);
-		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_catroid_name));
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
 		solo.sleep(200);
 		solo.clickOnText(solo.getString(R.string.delete));
 		solo.sleep(1000);

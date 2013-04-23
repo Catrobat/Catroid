@@ -39,6 +39,7 @@ import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.ServerCalls;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -209,18 +210,20 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	}
 
 	public void handleWebButton(View v) {
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catroid_website).toString()));
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.pocketcode_website).toString()));
 		startActivity(browserIntent);
 	}
 
 	public void handleUploadButton(View v) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		String token = preferences.getString(Constants.TOKEN, null);
+		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 
-		if (token == null || token.length() == 0 || token.equals("0")) {
+		if (token == Constants.NO_TOKEN || token.length() != ServerCalls.TOKEN_LENGTH
+				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
 			showLoginRegisterDialog();
 		} else {
-			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token);
+			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token, username);
 			checkTokenTask.setOnCheckTokenCompleteListener(this);
 			checkTokenTask.execute();
 		}

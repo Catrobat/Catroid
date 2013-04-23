@@ -24,7 +24,7 @@
 <resources>
 
     <!-- General terms -->
-    <string name="app_name">Catroid</string>
+    <string name="app_name">Pocket Code</string>
     <string name="cancel_button">Cancel</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
@@ -57,7 +57,7 @@
     <string name="main_menu_web">Community</string>
     <string name="main_menu_upload">Upload</string>
     <string name="main_menu_settings">Settings</string>
-    <string name="main_menu_about_catroid">About Catroid</string>
+    <string name="main_menu_about_pocketcode">About Pocket Code</string>
     <!--  -->
 
 
@@ -69,13 +69,13 @@
 
 
     <!-- About Dialog -->
-    <string name="dialog_about_title">About Catroid</string>
-    <string name="dialog_about_license_info">Catroid is a programming 
+    <string name="dialog_about_title">About Pocket Code</string>
+    <string name="dialog_about_license_info">Pocket Code is a programming 
         environment and interpreter for Android devices for the visual 
         programming language Catrobat.\n\n
-        Catroid is mainly licensed under the GNU AGPL v3 License. 
+        Pocket Code is mainly licensed under the GNU AGPL v3 License. 
         For the precise details of the license see the link below.\n</string>
-    <string name="dialog_about_catroid_license_link_text">Catroid License</string>
+    <string name="dialog_about_pocketcode_license_link_text">Pocket Code License</string>
     <!--  -->
 
 
@@ -148,7 +148,7 @@
 
 
     <!-- Soundrecorder activity -->
-    <string name="soundrecorder_name">Catroid Sound Recorder</string>
+    <string name="soundrecorder_name">Pocket Code Recorder</string>
     <string name="soundrecorder_error">Sound recording failed</string>
     <string name="soundrecorder_recorded_filename">record</string>
     <!--  -->
@@ -209,7 +209,7 @@
     <string name="new_user_registered">new account created</string>
     <string name="register_error">Error occurred</string>
     <string name="register_terms">By registering, you agree to our</string>
-    <string name="register_catroid_terms_of_use_text">terms of use</string>
+    <string name="register_pocketcode_terms_of_use_text">terms of use</string>
     <!--  -->
 
 
@@ -364,10 +364,10 @@
 
     <!-- defaultValues -->
     <string name="default_project_name">My first project</string>
-    <string name="default_project_sprites_catroid_name">Catroid</string>
-    <string name="default_project_sprites_catroid_normalcat">normalCat</string>
-    <string name="default_project_sprites_catroid_banzaicat">banzaiCat</string>
-    <string name="default_project_sprites_catroid_cheshirecat">cheshireCat</string>
+    <string name="default_project_sprites_pocketcode_name">Pocket Code</string>
+    <string name="default_project_sprites_pocketcode_normalcat">normalCat</string>
+    <string name="default_project_sprites_pocketcode_banzaicat">banzaiCat</string>
+    <string name="default_project_sprites_pocketcode_cheshirecat">cheshireCat</string>
     <string name="default_project_backgroundname">background</string>
     <string name="default_project_backgroundcolor">#604fff</string>
     <!--  -->
@@ -381,7 +381,7 @@
 
 
     <!-- Error messages -->
-    <string name="error_no_writiable_external_storage_available">Catroid requires writable external storage like an SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting an SD card, then try again.</string>
+    <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like an SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting an SD card, then try again.</string>
     <string name="error_no_name_entered">Please enter a name.</string>
     <string name="error_project_exists">A project with the same name already exists.\nPlease choose a different name.</string>
     <string name="error_project_upload">An error occurred while uploading the project.</string>
@@ -393,7 +393,7 @@
     <string name="error_load_image">An error occurred while loading the image.</string>
     <string name="error_load_sound">An error occurred while loading the sound.</string>
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
-    <string name="error_project_compatability">The project is not compatible with this version of catroid.</string>
+    <string name="error_project_compatability">The project is not compatible with this version of Pocket Code.</string>
     <string name="error_copy_project">An error occurred while copying the project.</string>
     <string name="error_upload_project_with_default_name">You cannot upload a project with the name \'My first project\'. Please rename the project.</string>
     <string name="error_upload_default_project">You cannot upload this project because it is the same as \'My first project\'. Please modify it, and try again.</string>
