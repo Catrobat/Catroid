@@ -37,8 +37,8 @@ public class GlideToActionTest extends AndroidTestCase {
 
 	public void testNormalBehavior() throws InterruptedException {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXPosition());
-		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYPosition());
+		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 		sprite.look.setWidth(100.0f);
 		sprite.look.setHeight(50.0f);
 
@@ -50,9 +50,9 @@ public class GlideToActionTest extends AndroidTestCase {
 		} while (!action.act(currentTimeDelta));
 
 		assertEquals("Incorrect sprite x position after GlideToBrick executed", xPosition.interpretFloat(sprite),
-				sprite.look.getXPosition());
+				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Incorrect sprite y position after GlideToBrick executed", yPosition.interpretFloat(sprite),
-				sprite.look.getYPosition());
+				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullActor() {
@@ -74,24 +74,24 @@ public class GlideToActionTest extends AndroidTestCase {
 		action.act(1.0f);
 
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum x float value", (float) Integer.MAX_VALUE,
-				sprite.look.getXPosition());
+				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum y float value", (float) Integer.MAX_VALUE,
-				sprite.look.getYPosition());
+				sprite.look.getYInUserInterfaceDimensionUnit());
 
 		action = ExtendedActions.placeAt(sprite, new Formula(Integer.MIN_VALUE), new Formula(Integer.MIN_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
 		assertEquals("PlaceAtBrick failed to place Sprite at minimum x float value", (float) Integer.MIN_VALUE,
-				sprite.look.getXPosition());
+				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("PlaceAtBrick failed to place Sprite at minimum y float value", (float) Integer.MIN_VALUE,
-				sprite.look.getYPosition());
+				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testPauseResume() throws InterruptedException {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXPosition());
-		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYPosition());
+		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 		sprite.look.setWidth(100.0f);
 		sprite.look.setHeight(50.0f);
 
@@ -108,8 +108,8 @@ public class GlideToActionTest extends AndroidTestCase {
 		} while (!action.act(currentTimeDelta));
 
 		assertEquals("Incorrect sprite x position after GlideToBrick executed", xPosition.interpretFloat(sprite),
-				sprite.look.getXPosition());
+				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Incorrect sprite y position after GlideToBrick executed", yPosition.interpretFloat(sprite),
-				sprite.look.getYPosition());
+				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }
