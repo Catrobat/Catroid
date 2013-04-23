@@ -87,7 +87,7 @@ public class BroadCastReceiverRegressionTest extends ActivityInstrumentationTest
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 
-		assertEquals("Broadcast was not executed!", xMovement, (int) sprite.look.getXPosition());
+		assertEquals("Broadcast was not executed!", xMovement, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 
 		solo.goBack();
 		solo.goBack();
@@ -98,6 +98,6 @@ public class BroadCastReceiverRegressionTest extends ActivityInstrumentationTest
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 
-		assertEquals("Broadcast didn't work a second time!", xMovement, (int) sprite.look.getXPosition());
+		assertEquals("Broadcast didn't work a second time!", xMovement, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 }

@@ -34,7 +34,7 @@ public class SetXAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		sprite.look.setXPosition(x.interpretFloat(sprite));
+		sprite.look.setXInUserInterfaceDimensionUnit(x.interpretFloat(sprite));
 	}
 
 	public void setSprite(Sprite sprite) {

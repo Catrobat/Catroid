@@ -59,7 +59,7 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals("Wrong initialization!", 1f, look.getScaleX());
 		assertEquals("Wrong initialization!", 1f, look.getScaleY());
 		assertEquals("Wrong initialization!", 1f, look.getAlphaValue());
-		assertEquals("Wrong initialization!", 1f, look.getBrightnessValue());
+		assertEquals("Wrong initialization!", 1f, look.getBrightness());
 		assertEquals("Wrong initialization!", 1f, look.getSize());
 		assertEquals("Wrong initialization!", 0, look.getZIndex());
 		assertEquals("Wrong initialization!", true, look.show);
@@ -69,19 +69,19 @@ public class LookTest extends InstrumentationTestCase {
 	}
 
 	public void testXYPositions() {
-		look.setXPosition(50f);
-		assertEquals("Wrong x position!", 50f, look.getXPosition());
-		look.setYPosition(120f);
-		assertEquals("Wrong y position!", 120f, look.getYPosition());
+		look.setXInUserInterfaceDimensionUnit(50f);
+		assertEquals("Wrong x position!", 50f, look.getXInUserInterfaceDimensionUnit());
+		look.setYInUserInterfaceDimensionUnit(120f);
+		assertEquals("Wrong y position!", 120f, look.getYInUserInterfaceDimensionUnit());
 		look.setWidth(120f);
 		look.setHeight(200f);
-		look.setXPosition(66f);
-		assertEquals("Wrong x position!", 66f, look.getXPosition());
-		look.setYPosition(42f);
-		assertEquals("Wrong y position!", 42f, look.getYPosition());
-		look.setXYPosition(123f, 456f);
-		assertEquals("Wrong x position!", 123f, look.getXPosition());
-		assertEquals("Wrong x position!", 456f, look.getYPosition());
+		look.setXInUserInterfaceDimensionUnit(66f);
+		assertEquals("Wrong x position!", 66f, look.getXInUserInterfaceDimensionUnit());
+		look.setYInUserInterfaceDimensionUnit(42f);
+		assertEquals("Wrong y position!", 42f, look.getYInUserInterfaceDimensionUnit());
+		look.setXYInUserInterfaceDimensionUnit(123f, 456f);
+		assertEquals("Wrong x position!", 123f, look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong x position!", 456f, look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testImagePath() {
@@ -110,10 +110,10 @@ public class LookTest extends InstrumentationTestCase {
 	}
 
 	public void testBrightnessValue() {
-		look.setBrightnessValue(0.42f);
-		assertEquals("Wrong brightness value!", 0.42f, look.getBrightnessValue());
+		look.setBrightness(0.42f);
+		assertEquals("Wrong brightness value!", 0.42f, look.getBrightness());
 		look.changeBrightnessValueBy(0.2f);
-		assertEquals("Wrong brightness value!", 0.62f, look.getBrightnessValue());
+		assertEquals("Wrong brightness value!", 0.62f, look.getBrightness());
 	}
 
 }
