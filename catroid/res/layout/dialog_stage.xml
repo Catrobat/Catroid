@@ -70,7 +70,7 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:drawableTop="@drawable/stage_menu_continue"
-            android:text="@string/stage_dialog_continue"
+            android:text="@string/stage_dialog_resume"
             android:textColor="@color/stage_dialog_text_color" />
 
         <Button
@@ -109,4 +109,3 @@
         android:background="@drawable/menu_side" />
 
 </RelativeLayout>
-

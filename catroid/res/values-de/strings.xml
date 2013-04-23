@@ -141,7 +141,7 @@
 
 
     <!-- Soundrecorder activity -->
-    <string name="soundrecorder_name">Pocket Code Sound Recorder</string>
+    <string name="soundrecorder_name">Pocket Code Recorder</string>
     <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
     <string name="soundrecorder_recorded_filename">Aufnahme</string>
     <!--  -->
@@ -199,7 +199,7 @@
 
     <!-- Stage menu dialog -->
     <string name="stage_dialog_back">Zurück</string>
-    <string name="stage_dialog_continue">Fortsetzen</string>
+    <string name="stage_dialog_resume">Fortsetzen</string>
     <string name="stage_dialog_restart">Neu starten</string>
     <string name="stage_dialog_axes_on">Achsen Ein</string>
     <string name="stage_dialog_axes_off">Achsen Aus</string>

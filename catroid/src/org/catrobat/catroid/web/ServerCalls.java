@@ -65,7 +65,7 @@ public class ServerCalls {
 
 	private static final String FILE_UPLOAD_URL = BASE_URL_FTP;
 	private static final String CHECK_TOKEN_URL = BASE_URL_HTTP + "api/checkToken/check.json";
-	public static final String REGISTRATION_URL = BASE_URL_HTTP + "api/checkTokenOrRegister/check.json";
+	public static final String REGISTRATION_URL = BASE_URL_HTTP + "api/loginOrRegister/loginOrRegister.json";
 
 	public static final String BASE_URL_TEST_HTTP = "http://catroidtest.ist.tugraz.at/";
 	public static final String BASE_URL_TEST_FTP = "catroidtest.ist.tugraz.at";
@@ -75,7 +75,7 @@ public class ServerCalls {
 
 	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST_FTP;
 	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTP + "api/checkToken/check.json";
-	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTP + "api/checkTokenOrRegister/check.json";
+	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTP + "api/loginOrRegister/loginOrRegister.json";
 
 	public static final int TOKEN_LENGTH = 32;
 	public static final String TOKEN_CODE_INVALID = "-1";

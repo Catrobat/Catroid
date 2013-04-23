@@ -35,14 +35,14 @@ public class ClearGraphicEffectActionTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("new sprite");
 		sprite.look.setAlphaValue(value);
 		assertEquals("Look hasn't ghost effect.", value, sprite.look.getAlphaValue());
-		sprite.look.setBrightnessValue(value);
-		assertEquals("Look hasn't brightness effect.", value, sprite.look.getBrightnessValue());
+		sprite.look.setBrightness(value);
+		assertEquals("Look hasn't brightness effect.", value, sprite.look.getBrightness());
 
 		ClearGraphicEffectAction action = ExtendedActions.clearGraphicEffect(sprite);
 		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Look's ghost effect is removed.", 1f, sprite.look.getAlphaValue());
-		assertEquals("Look's brightness effect is removed.", 1f, sprite.look.getBrightnessValue());
+		assertEquals("Look's brightness effect is removed.", 1f, sprite.look.getBrightness());
 	}
 
 	public void testNullSprite() {
