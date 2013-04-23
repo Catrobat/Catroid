@@ -37,7 +37,7 @@
     <string name="pocketcode_website" translatable="false">http://www.pocketcode.org</string>
     <string name="about_pocketcode_license_url" translatable="false">http://developer.catrobat.org/licenses</string>
     <string name="about_link_template" translatable="false">&lt;a href="%1$s">%2$s&lt;/a></string>
-    <string name="catrobat_forum" translatable="false">https://groups.google.com/group/catrobat</string>
+    <string name="catrobat_forum" translatable="false">http://catrob.at/PocketCodeUserForum</string>
     <string name="catrobat_terms_of_use" translatable="false">http://www.pocketcode.org/catroid/termsofuse</string>
 
     <!-- Settings, some overridden in values-v14 -->
