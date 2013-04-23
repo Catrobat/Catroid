@@ -22,13 +22,9 @@
  */
 package org.catrobat.catroid;
 
-import java.io.File;
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.util.concurrent.*;
-import java.util.concurrent.locks.ReentrantLock;
-
+import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.MessageContainer;
@@ -39,8 +35,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.Utils;
 
-import android.content.Context;
-import android.util.Log;
+import java.io.File;
+import java.io.IOException;
 
 public class ProjectManager {
 
