@@ -28,7 +28,7 @@
     android:layout_height="50dp"
     android:background="@drawable/spritelist_item_background"
     android:gravity="center_vertical"
-    android:paddingLeft="6dp"
+    android:paddingLeft="10dp"
     android:paddingRight="6dp"
     android:textAppearance="?android:attr/textAppearanceLarge"
     android:textColor="@color/sound_fragment_text_main_color" />

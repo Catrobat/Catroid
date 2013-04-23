@@ -49,6 +49,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -90,6 +91,8 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	private boolean isSoundFragmentHandleAddButtonHandled = false;
 	private boolean isLookFragmentFromSetLookBrickNew = false;
 	private boolean isLookFragmentHandleAddButtonHandled = false;
+
+	private LinearLayout btn_add;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -161,6 +164,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		boolean fragmentExists = true;
 		currentFragmentPosition = fragmentPosition;
 
+		Log.d("CatroidFragmentTag", "ScriptActivity updateCurrentFragment");
 		switch (currentFragmentPosition) {
 			case FRAGMENT_SCRIPTS:
 				if (scriptFragment == null) {
