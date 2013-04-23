@@ -30,7 +30,6 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
-import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorListFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
@@ -372,7 +371,9 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 		int backStackEntryCount = fragmentManager.getBackStackEntryCount();
 		for (int i = backStackEntryCount; i > 0; --i) {
-			if (fragmentManager.getBackStackEntryAt(i - 1).getName() != BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG) {
+			String backStackEntryName = fragmentManager.getBackStackEntryAt(i - 1).getName();
+			if (backStackEntryName != null
+					&& (backStackEntryName.equals(LookFragment.TAG) || backStackEntryName.equals(SoundFragment.TAG))) {
 				fragmentManager.popBackStack();
 			} else {
 				break;
@@ -530,7 +531,6 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 		ScriptActivityFragment scriptFragment = getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.addToBackStack(null);
 		if (scriptFragment.isVisible()) {
 			fragmentTransaction.hide(scriptFragment);
 		}
@@ -540,6 +540,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_LOOKS);
 				isLookFragmentFromSetLookBrickNew = true;
 
+				fragmentTransaction.addToBackStack(LookFragment.TAG);
 				if (lookFragment == null) {
 					lookFragment = new LookFragment();
 					fragmentTransaction.add(R.id.script_fragment_container, lookFragment, LookFragment.TAG);
@@ -553,6 +554,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_SOUNDS);
 				isSoundFragmentFromPlaySoundBrickNew = true;
 
+				fragmentTransaction.addToBackStack(SoundFragment.TAG);
 				if (soundFragment == null) {
 					soundFragment = new SoundFragment();
 					fragmentTransaction.add(R.id.script_fragment_container, soundFragment, SoundFragment.TAG);

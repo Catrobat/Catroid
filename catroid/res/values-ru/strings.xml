@@ -84,7 +84,7 @@
         Catroid разрабатывается в Институте Технологий Программного Обеспечения в 
         Техническом Университете Граца в Австрии.\n\n
         Эта программа лицензированна под лицензией GNU GPL v3.\n\n</string>
-    <string name="dialog_about_catroid_license_link_text">О Catroid</string>
+    <string name="dialog_about_pocketcode_license_link_text">О Catroid</string>
     <!--  -->
 
 

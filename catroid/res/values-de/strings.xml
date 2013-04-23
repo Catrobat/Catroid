@@ -24,7 +24,7 @@
 <resources>
 
     <!-- General terms -->
-    <string name="app_name">Catroid</string>
+    <string name="app_name">Pocket Code</string>
     <string name="cancel_button">Abbrechen</string>
     <string name="rename">Umbenennen</string>
     <string name="delete">Löschen</string>
@@ -57,7 +57,7 @@
     <string name="main_menu_web">Web</string>
     <string name="main_menu_upload">Hochladen</string>
     <string name="main_menu_settings">Einstellungen</string>
-    <string name="main_menu_about_catroid">Über Catroid</string>
+    <string name="main_menu_about_pocketcode">Über Pocket Code</string>
     <!--  -->
 
 
@@ -69,12 +69,12 @@
 
 
     <!-- About Dialog -->
-    <string name="dialog_about_title">Über Catroid</string>
-    <string name="dialog_about_license_info">Catroid ist eine Programmierumgebung für Androidgeräte für die grafische
+    <string name="dialog_about_title">Über Pocket Code</string>
+    <string name="dialog_about_license_info">Pocket Code ist eine Programmierumgebung für Androidgeräte für die grafische
         Programmiersprache Catrobat.\n\n
-        Der Großteil von Catroid steht unter der GNU AGPL v3 Lizenz.
+        Der Großteil von Pocket Code steht unter der GNU AGPL v3 Lizenz.
         Für nähere Informationen zur Lizenz siehe untenstehenden Link.\n</string>
-    <string name="dialog_about_catroid_license_link_text">Catroid Lizenz</string>
+    <string name="dialog_about_pocketcode_license_link_text">Pocket Code Lizenz</string>
     <!--  -->
 
 
@@ -141,7 +141,7 @@
 
 
     <!-- Soundrecorder activity -->
-    <string name="soundrecorder_name">Catroid Sound Recorder</string>
+    <string name="soundrecorder_name">Pocket Code Recorder</string>
     <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
     <string name="soundrecorder_recorded_filename">Aufnahme</string>
     <!--  -->
@@ -217,7 +217,7 @@
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>
     <string name="register_terms">Mit der Registrierung akzeptierst du unsere</string>
-    <string name="register_catroid_terms_of_use_text">Lizenzbedingungen</string>
+    <string name="register_pocketcode_terms_of_use_text">Lizenzbedingungen</string>
     <!--  -->
 
 
@@ -361,10 +361,10 @@
 
     <!-- defaultValues -->
     <string name="default_project_name">Mein erstes Projekt</string>
-    <string name="default_project_sprites_catroid_name">Catroid</string>
-    <string name="default_project_sprites_catroid_normalcat">Katze normal</string>
-    <string name="default_project_sprites_catroid_banzaicat">Banzai-Katze</string>
-    <string name="default_project_sprites_catroid_cheshirecat">Grinsekatze</string>
+    <string name="default_project_sprites_pocketcode_name">Pocket Code</string>
+    <string name="default_project_sprites_pocketcode_normalcat">Katze normal</string>
+    <string name="default_project_sprites_pocketcode_banzaicat">Banzai-Katze</string>
+    <string name="default_project_sprites_pocketcode_cheshirecat">Grinsekatze</string>
     <string name="default_project_backgroundname">Hintergrund</string>
     <string name="default_project_backgroundcolor">#604fff</string>
     <!--  -->
@@ -378,7 +378,7 @@
 
 
     <!-- Error messages -->
-    <string name="error_no_writiable_external_storage_available">Um Catroid zu starten wird beschreibbarer externer Speicher wie z.B. eine SD Karte benötigt.\nSie können diesen Fehler beheben indem sie den externen Speicher beschreibbar machen oder eine SD Karte einlegen und es erneut versuchen.</string>
+    <string name="error_no_writiable_external_storage_available">Um Pocket Code zu starten wird beschreibbarer externer Speicher wie z.B. eine SD Karte benötigt.\nSie können diesen Fehler beheben indem sie den externen Speicher beschreibbar machen oder eine SD Karte einlegen und es erneut versuchen.</string>
     <string name="error_no_name_entered">Bitte einen Namen eingeben.</string>
     <string name="error_project_exists">Es gibt bereits ein Projekt mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.</string>
     <string name="error_project_upload">Beim Upload des Projektes ist ein Fehler aufgetreten.</string>
@@ -390,7 +390,7 @@
     <string name="error_load_image">Beim Laden des Bildes ist ein Fehler aufgetreten.</string>
     <string name="error_load_sound">Beim Laden des Audiofiles ist ein Fehler aufgetreten.</string>
     <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
-    <string name="error_project_compatability">Das Projekt ist nicht mit dieser Version von Catroid kompatibel.</string>
+    <string name="error_project_compatability">Das Projekt ist nicht mit dieser Version von Pocket Code kompatibel.</string>
     <string name="error_copy_project">Beim kopieren des Projektes ist ein Fehler aufgetreten.</string>
     <string name="error_upload_project_with_default_name">Das Projekt mit dem Namen \'Mein erstes Projekt\' kann nicht hochgeladen werden. Bitte das Projekt umbenennen.</string>
     <string name="error_upload_default_project">Das Projekt entspricht dem Projekt \'Mein erstes Projekt\'. Bitte das Projekt umbauen oder etwas ändern, und noch einmal versuchen.</string>

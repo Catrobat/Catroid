@@ -123,7 +123,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		Project project = new Project(null, "testProject");
 
 		Sprite firstSprite = new Sprite("firstSprite");
-		Sprite secondSprite = new Sprite("Catroid");
+		Sprite secondSprite = new Sprite("Pocket Code");
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);
 		ProjectManager.getInstance().setProject(project);
@@ -149,11 +149,11 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(0);
 
 		solo.sleep(200);
-		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_catroid_name));
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
 		solo.sleep(200);
 		assertEquals("Copy is not in context menu!", true, solo.searchText(getActivity().getString(R.string.copy)));
 		solo.clickOnText(getActivity().getString(R.string.copy));
-		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_catroid_name));
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
 		Sprite copiedSprite = project.getSpriteList().get(2);
 		ProjectManager.getInstance().setCurrentSprite(copiedSprite);
 
@@ -178,7 +178,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 			fail("Standard Project not created");
 		}
 
-		Sprite sprite = new Sprite(solo.getString(R.string.default_project_sprites_catroid_name)
+		Sprite sprite = new Sprite(solo.getString(R.string.default_project_sprites_pocketcode_name)
 				+ solo.getString(R.string.copy_sprite_name_suffix));
 
 		ProjectManager.getInstance().getCurrentProject().addSprite(sprite);
@@ -188,14 +188,14 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
 		solo.sleep(200);
-		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_catroid_name));
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
 		solo.sleep(200);
 		solo.clickOnText(solo.getString(R.string.copy));
 		solo.sleep(1000);
 
 		assertTrue(
 				"Copied Sprite name should have 1 as suffix!",
-				solo.searchText((solo.getString(R.string.default_project_sprites_catroid_name)
+				solo.searchText((solo.getString(R.string.default_project_sprites_pocketcode_name)
 						+ solo.getString(R.string.copy_sprite_name_suffix) + "1")));
 	}
 
@@ -207,7 +207,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
 		solo.sleep(200);
-		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_catroid_name));
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
 		solo.sleep(200);
 		assertEquals("Copy is not in context menu!", true, solo.searchText(getActivity().getString(R.string.copy)));
 		solo.clickOnText(getActivity().getString(R.string.copy));
@@ -223,12 +223,12 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		solo.goBack();
 		solo.sleep(500);
-		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_catroid_name));
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
 		solo.clickOnText(getActivity().getString(R.string.delete));
 		solo.sleep(500);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(500);
-		solo.clickOnText(solo.getString(R.string.default_project_sprites_catroid_name)
+		solo.clickOnText(solo.getString(R.string.default_project_sprites_pocketcode_name)
 				+ solo.getString(R.string.copy_sprite_name_suffix));
 		solo.sleep(500);
 
@@ -1005,10 +1005,10 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals(
 				"The first sprite is NOT copied!",
 				copiedSprite.getName(),
-				solo.getString(R.string.default_project_sprites_catroid_name)
+				solo.getString(R.string.default_project_sprites_pocketcode_name)
 						+ solo.getString(R.string.copy_sprite_name_suffix));
 		assertEquals("The first sprite has a new name!", firstSprite.getName(),
-				solo.getString(R.string.default_project_sprites_catroid_name));
+				solo.getString(R.string.default_project_sprites_pocketcode_name));
 
 		ArrayList<Brick> brickListCopiedSprite = copiedSprite.getScript(0).getBrickList();
 		ArrayList<Brick> brickListFirstSprite = firstSprite.getScript(0).getBrickList();
@@ -1069,7 +1069,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 			loopCounter++;
 		}
 
-		solo.clickOnText(solo.getString(R.string.default_project_sprites_catroid_name)
+		solo.clickOnText(solo.getString(R.string.default_project_sprites_pocketcode_name)
 				+ solo.getString(R.string.copy_sprite_name_suffix));
 		solo.sleep(1000);
 
