@@ -143,7 +143,6 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 				}
 			});
 		}
-
 		if (holder.checkbox == null) {
 			return view;
 		}

@@ -24,15 +24,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/sound_fragment_background_color"
     android:orientation="vertical" >
 
     <ListView
         android:id="@android:id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:divider="@color/divider"
-        android:dividerHeight="2dp"        
-        android:fadingEdge="none" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="#00000000"
+        android:divider="@color/sound_fragment_background_color"
+        android:layout_marginTop="3.5dp"
+        android:dividerHeight="3dp" />
 
 </LinearLayout>

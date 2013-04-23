@@ -335,6 +335,11 @@
         <item name="android:textSize">22sp</item>
     </style>
     
+    <style name="formulaeditor_variblelist_fragment_variable_value" parent ="fragment_basic_style">
+        <item name="android:textColor">@color/solid_white</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    
         <style name="BrickCategory">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
