@@ -333,6 +333,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 	@Override
 	public void onLookDataListChangedAfterNew(LookData lookData) {
+		look = lookData;
 		oldSelectedLook = lookData;
 	}
 }

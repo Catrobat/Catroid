@@ -318,6 +318,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 
 	@Override
 	public void onSoundInfoListChangedAfterNew(SoundInfo soundInfo) {
+		sound = soundInfo;
 		oldSelectedSound = soundInfo;
 	}
 }
