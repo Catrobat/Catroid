@@ -32,19 +32,20 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment;
 
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
 public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 
-	private FragmentActivity parentActivity;
+	private SherlockFragmentActivity parentActivity;
 	private ProjectsListFragment parentFragment;
 	private String newName;
 
 	public CopyProjectTask(ProjectsListFragment parentActivity) {
 		this.parentFragment = parentActivity;
-		this.parentActivity = parentFragment.getActivity();
+		this.parentActivity = parentFragment.getSherlockActivity();
 	}
 
 	@Override
