@@ -1163,6 +1163,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		SetLookBrick setBackgroundBrick = new SetLookBrick(projectManager.getCurrentSprite());
 		projectManager.getCurrentScript().addBrick(setBackgroundBrick);
 		setBackgroundBrick.setLook(backgroundGreen);
+		StorageHandler.getInstance().saveProject(projectManager.getCurrentProject());
 	}
 
 	private void corruptProjectXML(String projectName) {
