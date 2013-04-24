@@ -85,7 +85,8 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 		//quickfix: if fragment is not attached an instrumentation fault occurs
 		//return if fragment is detached
 		if (!parentFragment.isAdded()) {
-			parentFragment.onAttach(parentActivity);
+			return;
+			//parentFragment.onAttach(parentActivity);
 		}
 
 		if (!result) {
