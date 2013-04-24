@@ -73,16 +73,8 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 		} catch (IOException exception) {
 			UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
 			Log.e("CATROID", "Error while copying project, destroy newly created directories.", exception);
-
-			Utils.showErrorDialog(parentFragment.getActivity(), parentFragment.getString(R.string.error_copy_project));
 			return false;
 		}
-
-		Toast.makeText(
-				parentFragment.getActivity(),
-				parentFragment.getString(R.string.project_name) + " " + newName + " "
-						+ parentFragment.getString(R.string.copy_project_finished), Toast.LENGTH_SHORT).show();
-		parentFragment.onCopyProject();
 		return true;
 	}
 
@@ -98,17 +90,15 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 		}
 
 		if (!result) {
-			//Utils.showErrorDialog(parentFragment.getActivity(), parentFragment.getString(R.string.error_copy_project));
+			Utils.showErrorDialog(parentFragment.getActivity(), parentFragment.getString(R.string.error_copy_project));
 			return;
 		}
 
-		/*
-		 * Toast.makeText(
-		 * parentFragment.getActivity(),
-		 * parentFragment.getString(R.string.project_name) + " " + newName + " "
-		 * + parentFragment.getString(R.string.copy_project_finished), Toast.LENGTH_SHORT).show();
-		 * parentFragment.onCopyProject();
-		 */
+		Toast.makeText(
+				parentFragment.getActivity(),
+				parentFragment.getString(R.string.project_name) + " " + newName + " "
+						+ parentFragment.getString(R.string.copy_project_finished), Toast.LENGTH_SHORT).show();
+		parentFragment.onCopyProject();
 	}
 
 	private void copyDirectory(File destinationFile, File sourceFile) throws IOException {
