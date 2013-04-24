@@ -78,6 +78,12 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 	protected void onPostExecute(Boolean result) {
 		super.onPostExecute(result);
 
+		//quickfix: if fragment is not attached an instrumentation fault occurs
+		//return if fragment is detached
+		if (!parentActivity.isAdded()) {
+			return;
+		}
+
 		if (!result) {
 			Utils.showErrorDialog(parentActivity.getActivity(), parentActivity.getString(R.string.error_copy_project));
 			return;
