@@ -587,9 +587,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void testDeleteProjectViaActionBar() {
-		//		String deleteActionModeTitle = solo.getString(R.string.delete);
-		//		String singleItemAppendixDeleteActionMode = solo.getString(R.string.program);
-		//		String multipleItemAppendixDeleteActionMode = solo.getString(R.string.programs);
 		String delete = solo.getString(R.string.delete);
 		createProjects();
 		solo.sleep(200);
@@ -600,11 +597,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		solo.clickOnCheckBox(1);
-		//		assertTrue("Actionbar title is not displayed correctly!",
-		//				solo.searchText(deleteActionModeTitle + " 1 " + singleItemAppendixDeleteActionMode));
-		//		solo.clickOnCheckBox(2);
-		//		assertTrue("Actionbar title is not displayed correctly!",
-		//				solo.searchText(deleteActionModeTitle + " 2 " + multipleItemAppendixDeleteActionMode));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.sleep(300);

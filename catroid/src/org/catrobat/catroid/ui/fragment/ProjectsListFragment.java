@@ -91,11 +91,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 	private boolean actionModeActive = false;
 
-	//	private static final int CONTEXT_MENU_ITEM_RENAME = 0;
-	//	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 1;
-	//	private static final int CONTEXT_MENU_ITEM_DELETE = 2;
-	//	private static final int CONTEXT_MENU_ITEM_COPY = 3;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		setRetainInstance(true);
@@ -228,18 +223,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 				getActivity().startActivity(intent);
 			}
 		});
-		//		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
-		//			@Override
-		//			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-		//				projectToEdit = projectList.get(position);
-		//
-		//				if (projectToEdit != null) {
-		//					showEditProjectContextDialog();
-		//				}
-		//
-		//				return true;
-		//			}
-		//		});
 	}
 
 	@Override
@@ -282,19 +265,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		}
 		return super.onContextItemSelected(item);
 	}
-
-	//	private void showEditProjectContextDialog() {
-	//		FragmentTransaction ft = getFragmentManager().beginTransaction();
-	//		Fragment prev = getFragmentManager().findFragmentByTag(CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
-	//		if (prev != null) {
-	//			ft.remove(prev);
-	//		}
-	//		ft.addToBackStack(null);
-	//
-	//		CustomIconContextMenu dialog = CustomIconContextMenu.newInstance(projectToEdit.projectName);
-	//		initCustomContextMenu(dialog);
-	//		dialog.show(getFragmentManager(), CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
-	//	}
 
 	@Override
 	public void onProjectChecked() {
@@ -367,51 +337,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		dialogCopyProject.setParentFragment(parentFragment);
 		dialogCopyProject.show(getActivity().getSupportFragmentManager(), CopyProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
-
-	//	private void initCustomContextMenu(CustomIconContextMenu iconContextMenu) {
-	//		Resources resources = getResources();
-	//
-	//		IconMenuAdapter adapter = new IconMenuAdapter(getActivity());
-	//		adapter.addItem(resources, this.getString(R.string.rename), R.drawable.ic_context_rename,
-	//				CONTEXT_MENU_ITEM_RENAME);
-	//		adapter.addItem(resources, this.getString(R.string.set_description), R.drawable.ic_menu_description,
-	//				CONTEXT_MENU_ITEM_DESCRIPTION);
-	//		adapter.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
-	//				CONTEXT_MENU_ITEM_DELETE);
-	//		adapter.addItem(resources, this.getString(R.string.copy), R.drawable.ic_context_copy, CONTEXT_MENU_ITEM_COPY);
-	//		iconContextMenu.setAdapter(adapter);
-	//
-	//		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
-	//			@Override
-	//			public void onClick(int menuId) {
-	//				switch (menuId) {
-	//					case CONTEXT_MENU_ITEM_RENAME:
-	//						RenameProjectDialog dialogRenameProject = RenameProjectDialog
-	//								.newInstance(projectToEdit.projectName);
-	//						dialogRenameProject.setOnProjectRenameListener(ProjectsListFragment.this);
-	//						dialogRenameProject.show(getActivity().getSupportFragmentManager(),
-	//								RenameProjectDialog.DIALOG_FRAGMENT_TAG);
-	//						break;
-	//					case CONTEXT_MENU_ITEM_DESCRIPTION:
-	//						SetDescriptionDialog dialogSetDescription = SetDescriptionDialog
-	//								.newInstance(projectToEdit.projectName);
-	//						dialogSetDescription.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
-	//						dialogSetDescription.show(getActivity().getSupportFragmentManager(),
-	//								SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
-	//						break;
-	//					case CONTEXT_MENU_ITEM_DELETE:
-	//						deleteProject();
-	//						break;
-	//					case CONTEXT_MENU_ITEM_COPY:
-	//						CopyProjectDialog dialogCopyProject = CopyProjectDialog.newInstance(projectToEdit.projectName);
-	//						dialogCopyProject.setParentFragment(parentFragment);
-	//						dialogCopyProject.show(getActivity().getSupportFragmentManager(),
-	//								CopyProjectDialog.DIALOG_FRAGMENT_TAG);
-	//						break;
-	//				}
-	//			}
-	//		});
-	//	}
 
 	private void deleteProject() {
 		ProjectManager projectManager = ProjectManager.getInstance();
