@@ -59,7 +59,7 @@ public class ServerCalls {
 	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
 
-	public static final String BASE_URL_HTTP = "http://www.catroid.org/";
+	public static final String BASE_URL_HTTP = "https://www.catroid.org/";
 	public static final String BASE_URL_FTP = "catroid.org";
 	public static final int FTP_PORT = 8080;
 
@@ -67,7 +67,7 @@ public class ServerCalls {
 	private static final String CHECK_TOKEN_URL = BASE_URL_HTTP + "api/checkToken/check.json";
 	public static final String REGISTRATION_URL = BASE_URL_HTTP + "api/loginOrRegister/loginOrRegister.json";
 
-	public static final String BASE_URL_TEST_HTTP = "http://catroidtest.ist.tugraz.at/";
+	public static final String BASE_URL_TEST_HTTP = "https://catroidtest.ist.tugraz.at/";
 	public static final String BASE_URL_TEST_FTP = "catroidtest.ist.tugraz.at";
 
 	public static final String TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTP + "api/upload/upload.json";
@@ -127,11 +127,11 @@ public class ServerCalls {
 			}
 
 			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL : FILE_UPLOAD_URL;
-			String httpPostUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL_HTTP;
+			String httpsPostUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL_HTTP;
 
 			Log.v(TAG, "url to upload: " + serverUrl);
 			String answer = connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString,
-					receiver, httpPostUrl, notificationId);
+					receiver, httpsPostUrl, notificationId);
 
 			// check statusCode from Webserver
 			JSONObject jsonObject = null;
@@ -169,7 +169,7 @@ public class ServerCalls {
 	public void downloadProject(String downloadUrl, String zipFileString, ResultReceiver receiver,
 			Integer notificationId, String projectName) throws WebconnectionException {
 		try {
-			connection.doHttpPostFileDownload(downloadUrl, null, zipFileString, receiver, notificationId, projectName);
+			connection.doHttpsPostFileDownload(downloadUrl, null, zipFileString, receiver, notificationId, projectName);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(0);
@@ -190,7 +190,7 @@ public class ServerCalls {
 
 			Log.v(TAG, "post values - token:" + token + "user: " + username);
 			Log.v(TAG, "url to upload: " + serverUrl);
-			resultString = connection.doHttpPost(serverUrl, postValues);
+			resultString = connection.doHttpsPost(serverUrl, postValues);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
@@ -240,7 +240,7 @@ public class ServerCalls {
 			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
 
 			Log.v(TAG, "url to use: " + serverUrl);
-			resultString = connection.doHttpPost(serverUrl, postValues);
+			resultString = connection.doHttpsPost(serverUrl, postValues);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
