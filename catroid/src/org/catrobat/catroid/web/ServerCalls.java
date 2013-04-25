@@ -59,8 +59,8 @@ public class ServerCalls {
 	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
 
-	public static final String BASE_URL_HTTP = "https://www.catroid.org/";
-	public static final String BASE_URL_FTP = "catroid.org";
+	public static final String BASE_URL_HTTP = "https://www.pocketcode.org/";
+	public static final String BASE_URL_FTP = "pocketcode.org";
 	public static final int FTP_PORT = 8080;
 
 	private static final String FILE_UPLOAD_URL = BASE_URL_FTP;
