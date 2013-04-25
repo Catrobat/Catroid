@@ -100,6 +100,24 @@
         <item name="android:textColor">@color/main_menu_button_text_continue_program_name_color</item>
     </style>
 
+    <style name="ListViewItemTitleText">
+        <item name="android:paddingLeft">12.5dp</item>
+        <item name="android:paddingRight">42dp</item>
+        <item name="android:shadowColor">@color/list_view_item_title_text_shadow_color</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">3</item>
+        <item name="android:shadowRadius">1.5</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/list_view_item_title_text_color</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    
+    <style name="ListViewItemDetailsText">
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/list_view_item_details_text_color</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    
     <style name="ProgramMenuButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/program_menu_button_height</item>
