@@ -586,7 +586,48 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				.getCurrentProject().getName());
 	}
 
-	public void testDeleteProjectsViaActionBar() {
+	public void testDeleteProjectViaActionBar() {
+		//		String deleteActionModeTitle = solo.getString(R.string.delete);
+		//		String singleItemAppendixDeleteActionMode = solo.getString(R.string.program);
+		//		String multipleItemAppendixDeleteActionMode = solo.getString(R.string.programs);
+		String delete = solo.getString(R.string.delete);
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+
+		solo.clickOnCheckBox(1);
+		//		assertTrue("Actionbar title is not displayed correctly!",
+		//				solo.searchText(deleteActionModeTitle + " 1 " + singleItemAppendixDeleteActionMode));
+		//		solo.clickOnCheckBox(2);
+		//		assertTrue("Actionbar title is not displayed correctly!",
+		//				solo.searchText(deleteActionModeTitle + " 2 " + multipleItemAppendixDeleteActionMode));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.sleep(300);
+		ProjectManager projectManager = ProjectManager.INSTANCE;
+		String currentProjectName = projectManager.getCurrentProject().getName();
+
+		assertEquals("Current project is not " + UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+				UiTestUtils.DEFAULT_TEST_PROJECT_NAME, currentProjectName);
+
+		File rootDirectory = new File(Constants.DEFAULT_ROOT);
+		ArrayList<String> projectList = (ArrayList<String>) UtilFile.getProjectNames(rootDirectory);
+		boolean projectDeleted = true;
+		for (String project : projectList) {
+			if (project.equalsIgnoreCase(UiTestUtils.PROJECTNAME1)) {
+				projectDeleted = false;
+			}
+		}
+
+		assertTrue(UiTestUtils.PROJECTNAME1 + " has not been deleted!", projectDeleted);
+
+	}
+
+	public void testDeleteActionModeTitleChange() {
 		String deleteActionModeTitle = solo.getString(R.string.delete);
 		String singleItemAppendixDeleteActionMode = solo.getString(R.string.program);
 		String multipleItemAppendixDeleteActionMode = solo.getString(R.string.programs);
@@ -606,13 +647,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("Actionbar title is not displayed correctly!",
 				solo.searchText(deleteActionModeTitle + " 2 " + multipleItemAppendixDeleteActionMode));
 
-		UiTestUtils.acceptAndCloseActionMode(solo);
-		solo.sleep(300);
-		ProjectManager projectManager = ProjectManager.INSTANCE;
-		String currentProjectName = projectManager.getCurrentProject().getName();
-
-		assertEquals("Current project is not the default project!", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-				currentProjectName);
 	}
 
 	public void testCancelDeleteActionMode() {
