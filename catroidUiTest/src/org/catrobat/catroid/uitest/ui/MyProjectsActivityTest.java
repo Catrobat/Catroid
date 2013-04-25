@@ -599,20 +599,20 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
-		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
 		assertTrue("Actionbar title is not displayed correctly!",
 				solo.searchText(deleteActionModeTitle + " 1 " + singleItemAppendixDeleteActionMode));
-		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(2);
 		assertTrue("Actionbar title is not displayed correctly!",
 				solo.searchText(deleteActionModeTitle + " 2 " + multipleItemAppendixDeleteActionMode));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.sleep(300);
 		ProjectManager projectManager = ProjectManager.INSTANCE;
-		String defaultProjectName = solo.getString(R.string.default_project_name);
 		String currentProjectName = projectManager.getCurrentProject().getName();
 
-		assertEquals("Current project is not the default project!", defaultProjectName, currentProjectName);
+		assertEquals("Current project is not the default project!", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+				currentProjectName);
 	}
 
 	public void testCancelDeleteActionMode() {
