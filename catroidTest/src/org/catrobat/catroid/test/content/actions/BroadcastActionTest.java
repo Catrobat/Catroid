@@ -63,7 +63,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 			sprite.look.act(1.0f);
 		}
 
-		assertEquals("Simple broadcast failed", testPosition, (int) sprite.look.getXPosition());
+		assertEquals("Simple broadcast failed", testPosition, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	public void testBroadcastWait() {
@@ -97,6 +97,6 @@ public class BroadcastActionTest extends AndroidTestCase {
 			sprite.look.act(1.0f);
 		}
 
-		assertEquals("Broadcast and wait failed", testPosition, (int) sprite.look.getXPosition());
+		assertEquals("Broadcast and wait failed", testPosition, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 }

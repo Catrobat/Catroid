@@ -35,14 +35,14 @@ public class SetYActionTest extends AndroidTestCase {
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXPosition());
-		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYPosition());
+		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		SetYAction action = ExtendedActions.setY(sprite, yPosition);
 		action.act(1.0f);
 
 		assertEquals("Incorrect sprite y position after SetYBrick executed", yPosition.interpretFloat(sprite),
-				sprite.look.getYPosition());
+				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
@@ -62,12 +62,12 @@ public class SetYActionTest extends AndroidTestCase {
 		action.act(1.0f);
 
 		assertEquals("SetYBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
-				(int) sprite.look.getYPosition());
+				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 
 		action = ExtendedActions.setY(sprite, new Formula(Integer.MIN_VALUE));
 		action.act(1.0f);
 
 		assertEquals("SetYBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
-				(int) sprite.look.getYPosition());
+				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

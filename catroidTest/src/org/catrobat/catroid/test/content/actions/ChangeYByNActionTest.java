@@ -35,10 +35,10 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXPosition());
-		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYPosition());
+		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
-		int yPosition = (int) sprite.look.getYPosition();
+		int yPosition = (int) sprite.look.getYInUserInterfaceDimensionUnit();
 
 		ChangeYByNAction action = ExtendedActions.changeYByN(sprite, yMovement);
 		sprite.look.addAction(action);
@@ -46,7 +46,7 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 
 		yPosition += yMovement.interpretInteger(sprite);
 		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", (float) yPosition,
-				sprite.look.getYPosition());
+				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
@@ -64,24 +64,24 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("testSprite");
 
 		int yPosition = 10;
-		sprite.look.setXYPosition(sprite.look.getXPosition(), yPosition);
+		sprite.look.setXYInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
 
 		ChangeYByNAction action = ExtendedActions.changeYByN(sprite, new Formula(Integer.MAX_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
 		assertEquals("ChangeYByNBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
-				(int) sprite.look.getYPosition());
+				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 
 		yPosition = -10;
-		sprite.look.setXYPosition(sprite.look.getXPosition(), yPosition);
+		sprite.look.setXYInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
 
 		action = ExtendedActions.changeYByN(sprite, new Formula(Integer.MIN_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
 		assertEquals("ChangeYByNBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
-				(int) sprite.look.getYPosition());
+				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 
 	}
 }

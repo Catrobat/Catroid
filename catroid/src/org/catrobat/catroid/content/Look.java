@@ -46,6 +46,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
 public class Look extends Image {
+	private static final float DEGREE_UI_OFFSET = 90.0f;
+	private static final float DEGREES_IN_A_CIRCLE = 360.0f;
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
@@ -322,29 +324,37 @@ public class Look extends Image {
 		this.imageChanged = true;
 	}
 
-	public void setXPosition(float x) {
+	public void setXInUserInterfaceDimensionUnit(float x) {
 		setX(x - getWidth() / 2f);
 	}
 
-	public void setYPosition(float y) {
+	public void setYInUserInterfaceDimensionUnit(float y) {
 		setY(y - getHeight() / 2f);
 	}
 
-	public void setXYPosition(float x, float y) {
+	public void setXYInUserInterfaceDimensionUnit(float x, float y) {
 		setX(x - getWidth() / 2f);
 		setY(y - getHeight() / 2f);
 	}
 
-	public float getXPosition() {
+	public float getXInUserInterfaceDimensionUnit() {
 		float xPosition = getX();
 		xPosition += getWidth() / 2f;
 		return xPosition;
 	}
 
-	public float getYPosition() {
+	public float getYInUserInterfaceDimensionUnit() {
 		float yPosition = getY();
 		yPosition += getHeight() / 2f;
 		return yPosition;
+	}
+
+	public float getRotationInUserInterfaceDimensionUnit() {
+		return modulo(-getRotation() + DEGREE_UI_OFFSET, DEGREES_IN_A_CIRCLE);
+	}
+
+	public void setRotationInUserInterfaceDimensionUnit(float degrees) {
+		setRotation(-degrees + DEGREE_UI_OFFSET);
 	}
 
 	public void setLookData(LookData lookData) {
@@ -366,9 +376,17 @@ public class Look extends Image {
 		setScale(size, size);
 	}
 
+	public void setSizeInUserInterfaceDimensionUnit(float percentagePoints) {
+		setScale(percentagePoints / 100f, percentagePoints / 100f);
+	}
+
 	public float getSize() {
 		float size = (getScaleX() + getScaleY()) / 2f;
 		return size;
+	}
+
+	public float getSizeInUserInterfaceDimensionUnit() {
+		return getSize() * 100f;
 	}
 
 	public void setAlphaValue(float alphaValue) {
@@ -395,13 +413,25 @@ public class Look extends Image {
 		return alphaValue;
 	}
 
-	public void setBrightnessValue(float percent) {
+	public float getGhostEffectInUserInterfaceDimensionUnit() {
+		return (1f - alphaValue) * 100f;
+	}
+
+	public void setGhostEffectInUserInterfaceDimensionUnit(float percentagePoints) {
+		alphaValue = (100f - percentagePoints) / 100f;
+	}
+
+	public void setBrightness(float percent) {
 		if (percent < 0f) {
 			percent = 0f;
 		}
 		brightnessValue = percent;
 		brightnessChanged = true;
 		imageChanged = true;
+	}
+
+	public void setBrightnessInUserInterfaceDimensionUnit(float percentagePoints) {
+		setBrightness(percentagePoints / 100f);
 	}
 
 	public void changeBrightnessValueBy(float percent) {
@@ -413,8 +443,12 @@ public class Look extends Image {
 		imageChanged = true;
 	}
 
-	public float getBrightnessValue() {
+	public float getBrightness() {
 		return brightnessValue;
+	}
+
+	public float getBrightnessInUserInterfaceDimensionUnit() {
+		return brightnessValue * 100f;
 	}
 
 	public LookData getLookData() {
@@ -437,5 +471,10 @@ public class Look extends Image {
 
 	public void setWhenParallelAction(ParallelAction action) {
 		whenParallelAction = action;
+	}
+
+	private float modulo(float number, float modulo) {
+		float result = number % modulo;
+		return result < 0 ? result + modulo : result;
 	}
 }
