@@ -76,6 +76,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		private TextView bricks;
 		private TextView looks;
 		private TextView sounds;
+		private View details;
 		private ImageView arrow;
 	}
 
@@ -116,7 +117,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder = new ViewHolder();
 			holder.background = (RelativeLayout) spriteView.findViewById(R.id.spritelist_item_background);
 			holder.checkbox = (CheckBox) spriteView.findViewById(R.id.sprite_checkbox);
-			holder.text = (TextView) spriteView.findViewById(R.id.sprite_title);
+			holder.text = (TextView) spriteView.findViewById(R.id.project_activity_sprite_title);
 			holder.backgroundHeadline = (LinearLayout) spriteView.findViewById(R.id.spritelist_background_headline);
 			holder.objectsHeadline = (LinearLayout) spriteView.findViewById(R.id.spritelist_objects_headline);
 			holder.image = (ImageView) spriteView.findViewById(R.id.sprite_img);
@@ -124,6 +125,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder.bricks = (TextView) spriteView.findViewById(R.id.textView_number_of_bricks);
 			holder.looks = (TextView) spriteView.findViewById(R.id.textView_number_of_looks);
 			holder.sounds = (TextView) spriteView.findViewById(R.id.textView_number_of_sounds);
+			holder.details = spriteView.findViewById(R.id.project_activity_sprite_details);
 			holder.arrow = (ImageView) spriteView.findViewById(R.id.arrow_right);
 			spriteView.setTag(holder);
 		} else {
@@ -183,15 +185,9 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 				+ sprite.getSoundList().size());
 
 		if (!showDetails) {
-			holder.scripts.setVisibility(View.GONE);
-			holder.bricks.setVisibility(View.GONE);
-			holder.looks.setVisibility(View.GONE);
-			holder.sounds.setVisibility(View.GONE);
+			holder.details.setVisibility(View.GONE);
 		} else {
-			holder.scripts.setVisibility(View.VISIBLE);
-			holder.bricks.setVisibility(View.VISIBLE);
-			holder.looks.setVisibility(View.VISIBLE);
-			holder.sounds.setVisibility(View.VISIBLE);
+			holder.details.setVisibility(View.VISIBLE);
 		}
 
 		if (position == 0) {

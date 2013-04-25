@@ -25,7 +25,7 @@
     package="org.catrobat.catroid"
     android:installLocation="auto"
     android:versionCode="2147483646"
-    android:versionName="0.7.0beta" >
+    android:versionName="0.7.1beta" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -107,7 +107,8 @@
             android:name=".ui.MyProjectsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Catroid" />
+            android:theme="@style/Theme.Catroid"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.SettingsActivity"
             android:noHistory="true"
@@ -119,8 +120,8 @@
         <activity
             android:name=".soundrecorder.SoundRecorderActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
             android:label="@string/soundrecorder_name"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Catroid" >
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
