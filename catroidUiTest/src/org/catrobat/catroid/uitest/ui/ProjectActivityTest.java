@@ -539,6 +539,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		String showDetailsText = solo.getString(R.string.show_details);
 		String hideDetailsText = solo.getString(R.string.hide_details);
 
+		View detailsView = solo.getView(R.id.project_activity_sprite_details);
 		TextView tvScriptCount = ((TextView) solo.getView(R.id.textView_number_of_scripts));
 		TextView tvBrickCount = ((TextView) solo.getView(R.id.textView_number_of_bricks));
 		TextView tvLookCount = ((TextView) solo.getView(R.id.textView_number_of_looks));
@@ -554,12 +555,12 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 			solo.goBack();
 		}
 
-		checkVisibilityOfViews(tvScriptCount, tvBrickCount, tvLookCount, tvSoundCount, false);
+		checkVisibilityOfViews(detailsView, false);
 
 		solo.clickOnMenuItem(showDetailsText);
 		solo.sleep(300);
 
-		checkVisibilityOfViews(tvScriptCount, tvBrickCount, tvLookCount, tvSoundCount, true);
+		checkVisibilityOfViews(detailsView, true);
 
 		UiTestUtils.openOptionsMenu(solo);
 		assertTrue("Hide details should be shown!", solo.waitForText(hideDetailsText));
@@ -572,7 +573,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
-		checkVisibilityOfViews(tvScriptCount, tvBrickCount, tvLookCount, tvSoundCount, true);
+		checkVisibilityOfViews(detailsView, true);
 
 		solo.clickOnMenuItem(hideDetailsText);
 		solo.sleep(300);
@@ -907,8 +908,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		projectManager.setProject(project);
 	}
 
-	private void checkVisibilityOfViews(TextView tvScriptCount, TextView tvBrickCount, TextView tvLookCount,
-			TextView tvSoundCount, boolean visible) {
+	private void checkVisibilityOfViews(View detailsView, boolean visible) {
 		int visibility = View.GONE;
 
 		String assertMessageAffix = "not gone";
@@ -918,10 +918,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 			assertMessageAffix = "not visible";
 		}
 
-		assertTrue("Script count " + assertMessageAffix, tvSoundCount.getVisibility() == visibility);
-		assertTrue("Brick count " + assertMessageAffix, tvBrickCount.getVisibility() == visibility);
-		assertTrue("Look count " + assertMessageAffix, tvLookCount.getVisibility() == visibility);
-		assertTrue("Sound count " + assertMessageAffix, tvSoundCount.getVisibility() == visibility);
+		assertTrue("Details " + assertMessageAffix, detailsView.getVisibility() == visibility);
 	}
 
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,

@@ -22,53 +22,65 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/project_activity_sprite_description"
+    android:id="@+id/my_projects_activity_list_item_description"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
-    android:layout_toRightOf="@+id/sprite_img" >
+    android:layout_toRightOf="@+id/my_projects_activity_project_image" >
 
     <TextView
-        android:id="@+id/project_activity_sprite_title"
+        android:id="@+id/my_projects_activity_project_title"
+        style="@style/ListViewItemTitleText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        style="@style/ListViewItemTitleText" />
+        android:maxLines="2" />
 
     <RelativeLayout
-        android:id="@+id/project_activity_sprite_details"
+        android:id="@+id/my_projects_activity_list_item_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/project_activity_sprite_title" 
-        style="@style/ListViewItemDetailsText">
+        android:visibility="gone"
+        style="@style/ListViewItemDetailsText"
+        android:layout_below="@id/my_projects_activity_project_title" >
 
         <TextView
-            android:id="@+id/textView_number_of_scripts"
+            android:id="@+id/my_projects_activity_project_changed_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="12.5dp" />
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_below="@id/my_projects_activity_project_title"
+            android:layout_marginLeft="12.5dp"
+            android:layout_toRightOf="@id/my_projects_activity_project_image"
+            android:text="@string/last_used" />
 
         <TextView
-            android:id="@+id/textView_number_of_looks"
+            android:id="@+id/my_projects_activity_size_of_project_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textView_number_of_scripts"
-            android:paddingLeft="12.5dp" />
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_below="@id/my_projects_activity_project_changed_1"
+            android:layout_marginLeft="12.5dp"
+            android:layout_toRightOf="@id/my_projects_activity_project_image"
+            android:text="@string/size_of_project" />
 
         <TextView
-            android:id="@+id/textView_number_of_bricks"
+            android:id="@+id/my_projects_activity_project_changed_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/textView_number_of_scripts"
-            android:paddingLeft="39dp" />
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_below="@id/my_projects_activity_project_title"
+            android:layout_marginLeft="24dp"
+            android:layout_toRightOf="@id/my_projects_activity_project_changed_1" />
 
         <TextView
-            android:id="@+id/textView_number_of_sounds"
+            android:id="@+id/my_projects_activity_size_of_project_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textView_number_of_bricks"
-            android:layout_toRightOf="@id/textView_number_of_scripts"
-            android:paddingLeft="39dp" />
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_below="@id/my_projects_activity_project_changed_2"
+            android:layout_marginLeft="24dp"
+            android:layout_toRightOf="@id/my_projects_activity_project_changed_1" />
     </RelativeLayout>
 
 </RelativeLayout>

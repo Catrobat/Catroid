@@ -26,7 +26,11 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.ProjectScreenshotLoader;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
 import org.catrobat.catroid.utils.UtilFile;
@@ -37,17 +41,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 public class ProjectAdapter extends ArrayAdapter<ProjectData> {
+	private boolean showDetails;
+	private int selectMode;
+	private Set<Integer> checkedProjects = new TreeSet<Integer>();
+	private OnProjectCheckedListener onProjectCheckedListener;
 
 	private static class ViewHolder {
+		private View background;
+		private CheckBox checkbox;
 		private TextView projectName;
 		private ImageView image;
 		private TextView size;
 		private TextView dateChanged;
+		private View projectDetails;
+		private ImageView arrow;
 		// temporarily removed - because of upcoming release, and bad performance of projectdescription
 		//		public TextView description;
 	}
@@ -59,19 +73,57 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		super(context, resource, textViewResourceId, objects);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		screenshotLoader = new ProjectScreenshotLoader(context);
+		showDetails = false;
+		selectMode = Constants.SELECT_NONE;
+	}
+
+	public void setOnProjectCheckedListener(OnProjectCheckedListener listener) {
+		onProjectCheckedListener = listener;
+	}
+
+	public void setShowDetails(boolean showDetails) {
+		this.showDetails = showDetails;
+	}
+
+	public boolean getShowDetails() {
+		return showDetails;
+	}
+
+	public void setSelectMode(int selectMode) {
+		this.selectMode = selectMode;
+	}
+
+	public int getSelectMode() {
+		return selectMode;
+	}
+
+	public Set<Integer> getCheckedProjects() {
+		return checkedProjects;
+	}
+
+	public int getAmountOfCheckedProjects() {
+		return checkedProjects.size();
+	}
+
+	public void clearCheckedProjects() {
+		checkedProjects.clear();
 	}
 
 	@Override
-	public View getView(int position, View convView, ViewGroup parent) {
+	public View getView(final int position, View convView, ViewGroup parent) {
 		View convertView = convView;
 		ViewHolder holder;
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.activity_my_projects_item, null);
+			convertView = inflater.inflate(R.layout.activity_my_projects_list_item, null);
 			holder = new ViewHolder();
+			holder.background = convertView.findViewById(R.id.my_projects_activity_item_background);
+			holder.checkbox = (CheckBox) convertView.findViewById(R.id.project_checkbox);
 			holder.projectName = (TextView) convertView.findViewById(R.id.my_projects_activity_project_title);
 			holder.image = (ImageView) convertView.findViewById(R.id.my_projects_activity_project_image);
 			holder.size = (TextView) convertView.findViewById(R.id.my_projects_activity_size_of_project_2);
 			holder.dateChanged = (TextView) convertView.findViewById(R.id.my_projects_activity_project_changed_2);
+			holder.projectDetails = convertView.findViewById(R.id.my_projects_activity_list_item_details);
+			holder.arrow = (ImageView) convertView.findViewById(R.id.arrow_right);
 			// temporarily removed - because of upcoming release, and bad performance of projectdescription
 			//			holder.description = (TextView) convertView.findViewById(R.id.my_projects_activity_description);
 			convertView.setTag(holder);
@@ -97,6 +149,49 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		//set project image (threaded):
 		screenshotLoader.loadAndShowScreenshot(projectName, holder.image);
 
+		if (!showDetails) {
+			holder.projectDetails.setVisibility(View.GONE);
+		} else {
+			holder.projectDetails.setVisibility(View.VISIBLE);
+		}
+
+		holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					if (selectMode == Constants.SINGLE_SELECT) {
+						clearCheckedProjects();
+					}
+					checkedProjects.add(position);
+				} else {
+					checkedProjects.remove(position);
+				}
+				notifyDataSetChanged();
+
+				if (onProjectCheckedListener != null) {
+					onProjectCheckedListener.onProjectChecked();
+				}
+			}
+		});
+
+		if (checkedProjects.contains(position)) {
+			holder.checkbox.setChecked(true);
+		} else {
+			holder.checkbox.setChecked(false);
+		}
+		if (selectMode != Constants.SELECT_NONE) {
+			holder.checkbox.setVisibility(View.VISIBLE);
+			holder.arrow.setVisibility(View.GONE);
+			holder.background.setBackgroundResource(R.drawable.my_projects_list_item_background_shadowed);
+		} else {
+			holder.checkbox.setVisibility(View.GONE);
+			holder.checkbox.setChecked(false);
+			holder.arrow.setVisibility(View.VISIBLE);
+			holder.background.setBackgroundResource(R.drawable.my_projects_activity_list_item_background);
+			clearCheckedProjects();
+		}
+
 		//set project description:
 
 		// temporarily removed - because of upcoming release, and bad performance of projectdescription
@@ -112,5 +207,9 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		//		}
 
 		return convertView;
+	}
+
+	public interface OnProjectCheckedListener {
+		public void onProjectChecked();
 	}
 }
