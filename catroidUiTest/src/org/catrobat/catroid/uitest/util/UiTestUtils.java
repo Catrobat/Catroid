@@ -425,6 +425,7 @@ public class UiTestUtils {
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
+		StorageHandler.getInstance().saveProject(project);
 
 		return brickList;
 	}
