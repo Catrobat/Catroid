@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.Utils;
@@ -59,19 +60,19 @@ public class ServerCalls {
 	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
 
-	public static final String BASE_URL_HTTP = "http://www.pocketcode.org/";
+	public static final String BASE_URL_HTTPS = "https://www.pocketcode.org/";
 	public static final String BASE_URL_FTP = "pocketcode.org";
 	public static final int FTP_PORT = 8080;
 
 	private static final String FILE_UPLOAD_URL = BASE_URL_FTP;
-	private static final String CHECK_TOKEN_URL = BASE_URL_HTTP + "api/checkToken/check.json";
-	public static final String REGISTRATION_URL = BASE_URL_HTTP + "api/loginOrRegister/loginOrRegister.json";
+	private static final String CHECK_TOKEN_URL = BASE_URL_HTTPS + "api/checkToken/check.json";
+	public static final String REGISTRATION_URL = BASE_URL_HTTPS + "api/loginOrRegister/loginOrRegister.json";
 
 	public static final String BASE_URL_TEST_HTTP = "http://catroidtest.ist.tugraz.at/";
 	public static final String BASE_URL_TEST_FTP = "catroidtest.ist.tugraz.at";
 
 	public static final String TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTP + "api/upload/upload.json";
-	public static final String FILE_UPLOAD_URL_HTTP = BASE_URL_HTTP + "api/upload/upload.json";
+	public static final String FILE_UPLOAD_URL_HTTPS = BASE_URL_HTTPS + "api/upload/upload.json";
 
 	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST_FTP;
 	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTP + "api/checkToken/check.json";
@@ -121,7 +122,7 @@ public class ServerCalls {
 			postValues.put(PROJECT_NAME_TAG, projectName);
 			postValues.put(PROJECT_DESCRIPTION_TAG, projectDescription);
 			postValues.put(USER_EMAIL, userEmail);
-			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
+			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase(Locale.US));
 			postValues.put(Constants.TOKEN, token);
 			postValues.put(Constants.USERNAME, username);
 			postValues.put(CATROID_FILE_NAME, projectName + ".catrobat");
@@ -131,7 +132,7 @@ public class ServerCalls {
 			}
 
 			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL : FILE_UPLOAD_URL;
-			String httpPostUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL_HTTP;
+			String httpPostUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL_HTTPS;
 
 			Log.v(TAG, "url to upload: " + serverUrl);
 			String answer = connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString,
@@ -173,7 +174,7 @@ public class ServerCalls {
 	public void downloadProject(String downloadUrl, String zipFileString, ResultReceiver receiver,
 			Integer notificationId, String projectName) throws WebconnectionException {
 		try {
-			connection.doHttpPostFileDownload(downloadUrl, null, zipFileString, receiver, notificationId, projectName);
+			connection.doHttpsPostFileDownload(downloadUrl, null, zipFileString, receiver, notificationId, projectName);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(0);
@@ -194,7 +195,7 @@ public class ServerCalls {
 
 			Log.v(TAG, "post values - token:" + token + "user: " + username);
 			Log.v(TAG, "url to upload: " + serverUrl);
-			resultString = connection.doHttpPost(serverUrl, postValues);
+			resultString = connection.doHttpsPost(serverUrl, postValues);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
@@ -244,7 +245,7 @@ public class ServerCalls {
 			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
 
 			Log.v(TAG, "url to use: " + serverUrl);
-			resultString = connection.doHttpPost(serverUrl, postValues);
+			resultString = connection.doHttpsPost(serverUrl, postValues);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
@@ -286,5 +287,4 @@ public class ServerCalls {
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
 		}
 	}
-
 }

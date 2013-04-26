@@ -25,22 +25,22 @@ package org.catrobat.catroid.web;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.http.entity.StringEntity;
 
-class HttpBuilder {
+class HttpsBuilder {
 
-	private static final String HTTP_NEWLINE = "\r\n";
-	private static final String HTTP_PREFIX = "--";
-	private static final String HTTP_BOUNDARY_PREFIX = "--------------------";
+	private static final String HTTPS_NEWLINE = "\r\n";
+	private static final String HTTPS_PREFIX = "--";
+	private static final String HTTPS_BOUNDARY_PREFIX = "--------------------";
 
 	private DataOutputStream outputStream;
 	private String boundary;
 
-	public HttpBuilder(OutputStream stream, String boundary) {
+	public HttpsBuilder(OutputStream stream, String boundary) {
 		if (stream == null) {
 			throw new IllegalArgumentException("Output stream is null");
 		}
@@ -52,20 +52,17 @@ class HttpBuilder {
 	}
 
 	public static String createBoundary() {
-		return HTTP_BOUNDARY_PREFIX + Long.toString(System.currentTimeMillis(), 16);
+		return HTTPS_BOUNDARY_PREFIX + Long.toString(System.currentTimeMillis(), 16);
 	}
 
-	public static URLConnection createConnection(URL url) throws IOException {
-		URLConnection urlConnection = url.openConnection();
-		if (urlConnection instanceof HttpURLConnection) {
-			HttpURLConnection httpConnection = (HttpURLConnection) urlConnection;
-			httpConnection.setRequestMethod("POST");
-		}
-		urlConnection.setDoInput(true);
-		urlConnection.setDoOutput(true);
-		urlConnection.setUseCaches(false);
-		urlConnection.setDefaultUseCaches(false);
-		return urlConnection;
+	public static HttpsURLConnection createConnection(URL url) throws IOException {
+		HttpsURLConnection httpsUrlConnection = (HttpsURLConnection) url.openConnection();
+		httpsUrlConnection.setRequestMethod("POST");
+		httpsUrlConnection.setDoInput(true);
+		httpsUrlConnection.setDoOutput(true);
+		httpsUrlConnection.setUseCaches(false);
+		httpsUrlConnection.setDefaultUseCaches(false);
+		return httpsUrlConnection;
 	}
 
 	public static String getContentType(String boundary) {
@@ -80,27 +77,27 @@ class HttpBuilder {
 			value = "";
 		}
 		// write boundary
-		outputStream.writeBytes(HTTP_PREFIX);
+		outputStream.writeBytes(HTTPS_PREFIX);
 		outputStream.writeBytes(boundary);
-		outputStream.writeBytes(HTTP_NEWLINE);
+		outputStream.writeBytes(HTTPS_NEWLINE);
 		// write content header
 		outputStream.writeBytes("Content-Disposition: form-data; name=\"" + name + "\"");
-		outputStream.writeBytes(HTTP_NEWLINE);
-		outputStream.writeBytes(HTTP_NEWLINE);
+		outputStream.writeBytes(HTTPS_NEWLINE);
+		outputStream.writeBytes(HTTPS_NEWLINE);
 		// write content
 		StringEntity valueEntity = new StringEntity(value, "UTF-8");
 		valueEntity.writeTo(outputStream);
 
-		outputStream.writeBytes(HTTP_NEWLINE);
+		outputStream.writeBytes(HTTPS_NEWLINE);
 		outputStream.flush();
 	}
 
 	public void close() throws IOException {
 		// write final boundary
-		outputStream.writeBytes(HTTP_PREFIX);
+		outputStream.writeBytes(HTTPS_PREFIX);
 		outputStream.writeBytes(boundary);
-		outputStream.writeBytes(HTTP_PREFIX);
-		outputStream.writeBytes(HTTP_NEWLINE);
+		outputStream.writeBytes(HTTPS_PREFIX);
+		outputStream.writeBytes(HTTPS_NEWLINE);
 		outputStream.flush();
 		outputStream.close();
 	}

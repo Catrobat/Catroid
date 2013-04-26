@@ -43,7 +43,7 @@ import android.widget.Toast;
 
 public class ProjectDownloadService extends IntentService {
 
-	private static final String DOWNLOAD_FILE_NAME = "down" + Constants.CATROID_EXTENTION;
+	private static final String DOWNLOAD_FILE_NAME = "down" + Constants.CATROBAT_EXTENTION;
 
 	private String projectName;
 	private String zipFileString;
