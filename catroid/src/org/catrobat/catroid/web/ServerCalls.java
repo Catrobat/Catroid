@@ -81,7 +81,7 @@ public class ServerCalls {
 	public static final String TOKEN_CODE_INVALID = "-1";
 
 	private static ServerCalls instance;
-	public static boolean useTestUrl = true;
+	public static boolean useTestUrl = false;
 	private String resultString;
 	private ConnectionWrapper connection;
 	private String emailForUiTests;
