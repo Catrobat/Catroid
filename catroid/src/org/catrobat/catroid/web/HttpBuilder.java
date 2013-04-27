@@ -25,14 +25,13 @@ package org.catrobat.catroid.web;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-import javax.net.ssl.HttpsURLConnection;
-
 import org.apache.http.entity.StringEntity;
 
-class HttpsBuilder {
+class HttpBuilder {
 
 	private static final String HTTP_NEWLINE = "\r\n";
 	private static final String HTTP_PREFIX = "--";
@@ -41,7 +40,7 @@ class HttpsBuilder {
 	private DataOutputStream outputStream;
 	private String boundary;
 
-	public HttpsBuilder(OutputStream stream, String boundary) {
+	public HttpBuilder(OutputStream stream, String boundary) {
 		if (stream == null) {
 			throw new IllegalArgumentException("Output stream is null");
 		}
@@ -58,8 +57,8 @@ class HttpsBuilder {
 
 	public static URLConnection createConnection(URL url) throws IOException {
 		URLConnection urlConnection = url.openConnection();
-		if (urlConnection instanceof HttpsURLConnection) {
-			HttpsURLConnection httpConnection = (HttpsURLConnection) urlConnection;
+		if (urlConnection instanceof HttpURLConnection) {
+			HttpURLConnection httpConnection = (HttpURLConnection) urlConnection;
 			httpConnection.setRequestMethod("POST");
 		}
 		urlConnection.setDoInput(true);

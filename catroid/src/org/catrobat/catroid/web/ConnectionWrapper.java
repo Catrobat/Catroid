@@ -31,14 +31,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
@@ -52,7 +51,7 @@ public class ConnectionWrapper {
 
 	private final static String TAG = ConnectionWrapper.class.getSimpleName();
 	private static final Integer DATA_STREAM_UPDATE_SIZE = 1024 * 16; //16 KB
-	private HttpsURLConnection urlConnection;
+	private HttpURLConnection urlConnection;
 
 	public static final String FTP_USERNAME = "ftp-uploader";
 	public static final String FTP_PASSWORD = "cat.ftp.loader";
@@ -60,7 +59,7 @@ public class ConnectionWrapper {
 	private FTPClient ftpClient = new FTPClient();
 
 	public String doFtpPostFileUpload(String urlString, HashMap<String, String> postValues, String fileTag,
-			String filePath, ResultReceiver receiver, String httpsPostUrl, Integer notificationId) throws IOException,
+			String filePath, ResultReceiver receiver, String httpPostUrl, Integer notificationId) throws IOException,
 			WebconnectionException {
 		String answer = "";
 		try {
@@ -99,7 +98,7 @@ public class ConnectionWrapper {
 			ftpClient.logout();
 			ftpClient.disconnect();
 
-			answer = sendUploadPost(httpsPostUrl, postValues, fileTag, filePath);
+			answer = sendUploadPost(httpPostUrl, postValues, fileTag, filePath);
 
 		} catch (SocketException e) {
 			e.printStackTrace();
@@ -117,12 +116,12 @@ public class ConnectionWrapper {
 		return answer;
 	}
 
-	private String sendUploadPost(String httpsPostUrl, HashMap<String, String> postValues, String fileTag,
+	private String sendUploadPost(String httpPostUrl, HashMap<String, String> postValues, String fileTag,
 			String filePath) throws IOException, WebconnectionException {
 
-		HttpsBuilder httpsBuilder = buildPost(httpsPostUrl, postValues);
+		HttpBuilder httpBuilder = buildPost(httpPostUrl, postValues);
 
-		httpsBuilder.close();
+		httpBuilder.close();
 
 		// response code != 2xx -> error
 		urlConnection.getResponseCode();
@@ -157,13 +156,13 @@ public class ConnectionWrapper {
 		receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, progressBundle);
 	}
 
-	public void doHttpsPostFileDownload(String urlString, HashMap<String, String> postValues, String filePath,
+	public void doHttpPostFileDownload(String urlString, HashMap<String, String> postValues, String filePath,
 			ResultReceiver receiver, Integer notificationId, String projectName) throws IOException {
-		HttpsBuilder httpsBuilder = buildPost(urlString, postValues);
-		httpsBuilder.close();
+		HttpBuilder httpBuilder = buildPost(urlString, postValues);
+		httpBuilder.close();
 
 		URL downloadUrl = new URL(urlString);
-		urlConnection = (HttpsURLConnection) downloadUrl.openConnection();
+		urlConnection = (HttpURLConnection) downloadUrl.openConnection();
 		urlConnection.connect();
 		int fileLength = urlConnection.getContentLength();
 
@@ -223,8 +222,8 @@ public class ConnectionWrapper {
 		return "";
 	}
 
-	public String doHttpsPost(String urlString, HashMap<String, String> postValues) throws IOException {
-		HttpsBuilder httpBuilder = buildPost(urlString, postValues);
+	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws IOException {
+		HttpBuilder httpBuilder = buildPost(urlString, postValues);
 		httpBuilder.close();
 
 		InputStream resultStream = null;
@@ -235,23 +234,23 @@ public class ConnectionWrapper {
 		return getString(resultStream);
 	}
 
-	private HttpsBuilder buildPost(String urlString, HashMap<String, String> postValues) throws IOException {
+	private HttpBuilder buildPost(String urlString, HashMap<String, String> postValues) throws IOException {
 		if (postValues == null) {
 			postValues = new HashMap<String, String>();
 		}
 
 		URL url = new URL(urlString);
 
-		String boundary = HttpsBuilder.createBoundary();
-		urlConnection = (HttpsURLConnection) HttpsBuilder.createConnection(url);
+		String boundary = HttpBuilder.createBoundary();
+		urlConnection = (HttpURLConnection) HttpBuilder.createConnection(url);
 
 		urlConnection.setRequestProperty("Accept", "*/*");
-		urlConnection.setRequestProperty("Content-Type", HttpsBuilder.getContentType(boundary));
+		urlConnection.setRequestProperty("Content-Type", HttpBuilder.getContentType(boundary));
 
 		urlConnection.setRequestProperty("Connection", "Keep-Alive");
 		urlConnection.setRequestProperty("Cache-Control", "no-cache");
 
-		HttpsBuilder httpBuilder = new HttpsBuilder(urlConnection.getOutputStream(), boundary);
+		HttpBuilder httpBuilder = new HttpBuilder(urlConnection.getOutputStream(), boundary);
 
 		Set<Entry<String, String>> entries = postValues.entrySet();
 		for (Entry<String, String> entry : entries) {
