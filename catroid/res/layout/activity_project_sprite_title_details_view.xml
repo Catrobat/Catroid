@@ -22,57 +22,45 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/sprite_description"
+    android:id="@+id/project_activity_sprite_description"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
     android:layout_toRightOf="@+id/sprite_img" >
 
     <TextView
-        android:id="@+id/sprite_title"
+        android:id="@+id/project_activity_sprite_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:paddingLeft="12.5dp"
-        android:paddingRight="42dp"
-        android:shadowColor="@color/spritelist_item_text_shadow_color"
-        android:shadowDx="0"
-        android:shadowDy="3"
-        android:shadowRadius="1.5"
-        android:singleLine="true"
-        android:textColor="@color/spritelist_item_text_color"
-        android:textSize="22sp" />
+        style="@style/ListViewItemTitleText" />
 
     <RelativeLayout
+        android:id="@+id/project_activity_sprite_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/sprite_title" >
+        android:layout_below="@id/project_activity_sprite_title" 
+        style="@style/ListViewItemDetailsText">
 
         <TextView
             android:id="@+id/textView_number_of_scripts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="12.5dp"
-            android:textColor="@color/spritelist_details_text_color"
-            android:textSize="14sp" />
+            android:paddingLeft="12.5dp" />
 
         <TextView
             android:id="@+id/textView_number_of_looks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/textView_number_of_scripts"
-            android:paddingLeft="12.5dp"
-            android:textColor="@color/spritelist_details_text_color"
-            android:textSize="14sp" />
+            android:paddingLeft="12.5dp" />
 
         <TextView
             android:id="@+id/textView_number_of_bricks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/textView_number_of_scripts"
-            android:paddingLeft="39dp"
-            android:textColor="@color/spritelist_details_text_color"
-            android:textSize="14sp" />
+            android:paddingLeft="39dp" />
 
         <TextView
             android:id="@+id/textView_number_of_sounds"
@@ -80,9 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/textView_number_of_bricks"
             android:layout_toRightOf="@id/textView_number_of_scripts"
-            android:paddingLeft="39dp"
-            android:textColor="@color/spritelist_details_text_color"
-            android:textSize="14sp" />
+            android:paddingLeft="39dp" />
     </RelativeLayout>
 
 </RelativeLayout>

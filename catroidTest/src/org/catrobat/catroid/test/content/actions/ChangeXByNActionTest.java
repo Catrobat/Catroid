@@ -35,10 +35,10 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXPosition());
-		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYPosition());
+		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
-		int xPosition = (int) sprite.look.getXPosition();
+		int xPosition = (int) sprite.look.getXInUserInterfaceDimensionUnit();
 
 		ChangeXByNAction action = ExtendedActions.changeXByN(sprite, xMovement);
 		sprite.look.addAction(action);
@@ -46,7 +46,7 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 
 		xPosition += xMovement.interpretInteger(sprite);
 		assertEquals("Incorrect sprite x position after ChangeXByNBrick executed", (float) xPosition,
-				sprite.look.getXPosition());
+				sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
@@ -63,24 +63,24 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("testSprite");
 
 		int xPosition = 10;
-		sprite.look.setXYPosition(xPosition, sprite.look.getYPosition());
+		sprite.look.setXYInUserInterfaceDimensionUnit(xPosition, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		ChangeXByNAction action = ExtendedActions.changeXByN(sprite, new Formula(Integer.MAX_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
 		assertEquals("ChangeXByNBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
-				(int) sprite.look.getXPosition());
+				(int) sprite.look.getXInUserInterfaceDimensionUnit());
 
 		xPosition = -10;
-		sprite.look.setXYPosition(xPosition, sprite.look.getYPosition());
+		sprite.look.setXYInUserInterfaceDimensionUnit(xPosition, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		action = ExtendedActions.changeXByN(sprite, new Formula(Integer.MIN_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
 		assertEquals("ChangeXByNBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
-				(int) sprite.look.getXPosition());
+				(int) sprite.look.getXInUserInterfaceDimensionUnit());
 
 	}
 }

@@ -34,7 +34,7 @@ public class ChangeXByNAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		int xPosition = (int) sprite.look.getXPosition();
+		int xPosition = (int) sprite.look.getXInUserInterfaceDimensionUnit();
 		int xMovementValue = xMovement.interpretInteger(sprite);
 
 		if (xPosition > 0 && xMovementValue > 0 && xPosition + xMovementValue < 0) {
@@ -45,7 +45,7 @@ public class ChangeXByNAction extends TemporalAction {
 			xPosition += xMovementValue;
 		}
 
-		sprite.look.setXYPosition(xPosition, sprite.look.getYPosition());
+		sprite.look.setXYInUserInterfaceDimensionUnit(xPosition, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void setSprite(Sprite sprite) {

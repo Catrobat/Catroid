@@ -570,8 +570,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	private void initListeners() {
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		spriteAdapter = new SpriteAdapter(getActivity(), R.layout.activity_project_spritelist_item, R.id.sprite_title,
-				spriteList);
+		spriteAdapter = new SpriteAdapter(getActivity(), R.layout.activity_project_spritelist_item,
+				R.id.project_activity_sprite_title, spriteList);
 
 		spriteAdapter.setOnSpriteCheckedListener(this);
 		setListAdapter(spriteAdapter);

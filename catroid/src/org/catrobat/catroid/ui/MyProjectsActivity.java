@@ -24,13 +24,14 @@ package org.catrobat.catroid.ui;
 
 import java.util.concurrent.locks.Lock;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.ui.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
+import org.catrobat.catroid.ui.fragment.ProjectsListFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -44,6 +45,7 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 
 	private ActionBar actionBar;
 	private Lock viewSwitchLock = new ViewSwitchLock();
+	private ProjectsListFragment projectsListFragment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,9 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 
 		findViewById(R.id.bottom_bar_separator).setVisibility(View.GONE);
 		findViewById(R.id.button_play).setVisibility(View.GONE);
+
+		projectsListFragment = (ProjectsListFragment) getSupportFragmentManager().findFragmentById(
+				R.id.fragment_projects_list);
 	}
 
 	// Code from Stackoverflow to reduce memory problems
@@ -85,6 +90,12 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		handleShowDetails(projectsListFragment.getShowDetails(), menu.findItem(R.id.show_details));
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home: {
@@ -93,23 +104,48 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 				startActivity(intent);
 				return true;
 			}
+			case R.id.copy: {
+				projectsListFragment.startCopyActionMode();
+				break;
+			}
+			case R.id.delete: {
+				projectsListFragment.startDeleteActionMode();
+				break;
+			}
+			case R.id.rename: {
+				projectsListFragment.startRenameActionMode();
+				break;
+			}
+			case R.id.show_details: {
+				handleShowDetails(!projectsListFragment.getShowDetails(), item);
+				break;
+			}
+			case R.id.settings: {
+				Intent intent = new Intent(MyProjectsActivity.this, SettingsActivity.class);
+				startActivity(intent);
+				break;
+			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
 	private void setUpActionBar() {
-		String title;
-		Project currentProject = ProjectManager.INSTANCE.getCurrentProject();
-
-		if (currentProject != null) {
-			title = getResources().getString(R.string.project_name) + " " + currentProject.getName();
-		} else {
-			title = getResources().getString(android.R.string.unknownName);
-		}
+		String title = getResources().getString(R.string.my_projects_activity_title);
 
 		actionBar = getSupportActionBar();
 		actionBar.setTitle(title);
 		actionBar.setHomeButtonEnabled(true);
+	}
+
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (projectsListFragment.getActionModeActive()) {
+			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+				ProjectAdapter adapter = (ProjectAdapter) projectsListFragment.getListAdapter();
+				adapter.clearCheckedProjects();
+			}
+		}
+		return super.dispatchKeyEvent(event);
 	}
 
 	public void handleAddButton(View view) {
@@ -118,5 +154,17 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 		}
 		NewProjectDialog dialog = new NewProjectDialog();
 		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void handleShowDetails(boolean showDetails, MenuItem item) {
+		projectsListFragment.setShowDetails(showDetails);
+
+		String menuItemText = "";
+		if (showDetails) {
+			menuItemText = getString(R.string.hide_details);
+		} else {
+			menuItemText = getString(R.string.show_details);
+		}
+		item.setTitle(menuItemText);
 	}
 }
