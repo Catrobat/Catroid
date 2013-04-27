@@ -23,6 +23,7 @@
 package org.catrobat.catroid.uitest.web;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -56,7 +57,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		saveToken = prefs.getString(Constants.TOKEN, "0");
+		saveToken = prefs.getString(Constants.TOKEN, Constants.NO_TOKEN);
 	}
 
 	@Override
@@ -158,16 +159,19 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		solo.sleep(500);
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
-		solo.sleep(2000);
+		solo.sleep(5000);
 
 		String username = "UpperCaseUser" + System.currentTimeMillis();
 		fillLoginDialogWithUsername(true, username);
 
-		UiTestUtils.goToHomeActivity(getActivity());
-		solo.sleep(500);
-		int buttonId = android.R.id.button2;
-		solo.clickOnView(solo.getView(buttonId));
 		solo.sleep(2000);
+		solo.goBack();
+		solo.sleep(200);
+		solo.goBack();
+		solo.sleep(2000);
+		if (solo.searchText("Cancel")) {
+			solo.clickOnText("Cancel");
+		}
 
 		clearSharedPreferences();
 
@@ -175,7 +179,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
 		solo.sleep(2000);
 
-		username = username.toLowerCase();
+		username = username.toLowerCase(Locale.ENGLISH);
 		fillLoginDialogWithUsername(true, username);
 
 		TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
