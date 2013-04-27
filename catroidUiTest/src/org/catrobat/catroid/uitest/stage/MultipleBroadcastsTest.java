@@ -73,10 +73,10 @@ public class MultipleBroadcastsTest extends ActivityInstrumentationTestCase2<Sta
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(2000);
-		assertEquals("Sprite1 is at the false x position", sprite1PosX, (int) sprite1.look.getXPosition());
-		assertEquals("Sprite2 is at the false x position", sprite2PosX, (int) sprite2.look.getXPosition());
-		assertEquals("Sprite3 is at the false x position", sprite3PosX, (int) sprite3.look.getXPosition());
-		assertEquals("Sprite4 is at the false x position", sprite4PosX, (int) sprite4.look.getXPosition());
+		assertEquals("Sprite1 is at the false x position", sprite1PosX, (int) sprite1.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Sprite2 is at the false x position", sprite2PosX, (int) sprite2.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Sprite3 is at the false x position", sprite3PosX, (int) sprite3.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Sprite4 is at the false x position", sprite4PosX, (int) sprite4.look.getXInUserInterfaceDimensionUnit());
 
 	}
 

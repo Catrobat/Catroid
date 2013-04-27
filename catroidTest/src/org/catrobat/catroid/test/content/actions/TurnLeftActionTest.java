@@ -95,15 +95,15 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		action.act(1.0f);
 
 		assertEquals("Wrong direction!", 10f, sprite.look.getRotation(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		action.restart();
 		action.act(1.0f);
 
 		assertEquals("Wrong direction!", 20f, sprite.look.getRotation(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testTurnLeftAndScale() {
@@ -116,8 +116,8 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		scaleAction.act(1.0f);
 
 		assertEquals("Wrong direction!", 10f, sprite.look.getRotation(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testScaleAndTurnLeft() {
@@ -130,8 +130,8 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		action.act(1.0f);
 
 		assertEquals("Wrong direction!", 10f, sprite.look.getRotation(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
 	}
 
@@ -143,8 +143,8 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		action.act(1.0f);
 
 		assertEquals("Wrong direction!", -10f, sprite.look.getRotation(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testTurnLeft() {
@@ -155,8 +155,8 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		action.act(1.0f);
 
 		assertEquals("Wrong direction!", 370f, sprite.look.getRotation(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testTurnLeftAndTurnRight() {
@@ -169,7 +169,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		turnRightAction.act(1.0f);
 
 		assertEquals("Wrong direction!", 20f, sprite.look.getRotation(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXPosition());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYPosition());
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

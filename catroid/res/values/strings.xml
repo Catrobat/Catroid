@@ -80,7 +80,8 @@
 
 
     <!-- Project activity view -->
-    <string name="project_name">Project:</string>
+    <string name="project_name">Program:</string>
+    <string name="my_projects_activity_title">Programs</string>
     <string name="number_of_scripts">Scripts:</string>
     <string name="number_of_bricks">Bricks:</string>
     <string name="number_of_looks">Looks:</string>
@@ -135,17 +136,19 @@
 
 
     <!-- My Projects activity -->
-    <string name="last_used">Last used:</string>
+    <string name="last_used">Last access:</string>
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
     <string name="rename_project">Rename Project</string>
     <string name="notification_title_copy_project">Copy project</string>
     <string name="copy_project_finished"> copied.</string>
+    <string name="program">Program</string>
+    <string name="programs">Programs</string>
     <!--  -->
 
 
     <!-- Soundrecorder activity -->
-    <string name="soundrecorder_name">Pocket Code Sound Recorder</string>
+    <string name="soundrecorder_name">Pocket Code Recorder</string>
     <string name="soundrecorder_error">Sound recording failed</string>
     <string name="soundrecorder_recorded_filename">record</string>
     <!--  -->
@@ -221,7 +224,6 @@
     <string name="stage_dialog_back">Back</string>
     <string name="stage_dialog_resume">Resume</string>
     <string name="stage_dialog_restart">Restart</string>
-    <string name="stage_dialog_maximize">Maximize/\nStretch</string>
     <string name="stage_dialog_axes_on">Axes On</string>
     <string name="stage_dialog_axes_off">Axes Off</string>
     <string name="stage_dialog_screenshot">Screenshot</string>
@@ -404,7 +406,7 @@
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="upload_description">Description:</string>
     <string name="project_rename">(Your project will be renamed.)</string>
-    <string name="size_of_project">Size of project:</string>
+    <string name="size_of_project">Size:</string>
     <string name="notification_percent_completed">completed</string>
     <string name="notification_upload_title">Uploading project</string>
     <string name="notification_download_title">Downloading project</string>

@@ -43,7 +43,6 @@ import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.utils.Utils;
 
 import android.app.Activity;
 import android.media.MediaPlayer;
@@ -319,61 +318,62 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
 	}
 
-	public void testMaximizeStretch() {
-		Project project = createTestProject(testProject);
-		project.getXmlHeader().virtualScreenWidth = 480;
-		project.getXmlHeader().virtualScreenHeight = 700;
-		project.setDeviceData(getActivity());
-		storageHandler.saveProject(project);
-		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
-		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-
-		Utils.updateScreenWidthAndHeight(getActivity());
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.waitForActivity(StageActivity.class.getSimpleName());
-		assertTrue("Stage not resizeable.", ((StageActivity) solo.getCurrentActivity()).getResizePossible());
-		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
-		byte[] screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
-		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
-		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, Values.SCREEN_HEIGHT - 1, 1, 1);
-		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
-		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, 0, 1, 1);
-		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
-		screenPixel = StageActivity.stageListener.getPixels(0, Values.SCREEN_HEIGHT - 1, 1, 1);
-		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
-		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.stage_dialog_maximize));
-		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
-		solo.sleep(100);
-		byte[] blackPixel = { 0, 0, 0, (byte) 255 };
-		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
-		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
-		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, Values.SCREEN_HEIGHT - 1, 1, 1);
-		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
-		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, 0, 1, 1);
-		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
-		screenPixel = StageActivity.stageListener.getPixels(0, Values.SCREEN_HEIGHT - 1, 1, 1);
-		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
-
-		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT, 1, 1);
-		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
-
-		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.stage_dialog_maximize));
-		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
-		solo.sleep(100);
-		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
-		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
-		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, Values.SCREEN_HEIGHT - 1, 1, 1);
-		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
-		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, 0, 1, 1);
-		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
-		screenPixel = StageActivity.stageListener.getPixels(0, Values.SCREEN_HEIGHT - 1, 1, 1);
-		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
-	}
+	// TODO Refactor test, when maximize button is implemented
+	//	public void testMaximizeStretch() {
+	//		Project project = createTestProject(testProject);
+	//		project.getXmlHeader().virtualScreenWidth = 480;
+	//		project.getXmlHeader().virtualScreenHeight = 700;
+	//		project.setDeviceData(getActivity());
+	//		storageHandler.saveProject(project);
+	//		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+	//		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+	//		solo.waitForFragmentById(R.id.fragment_projects_list);
+	//		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
+	//		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+	//
+	//		Utils.updateScreenWidthAndHeight(getActivity());
+	//		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+	//		solo.waitForActivity(StageActivity.class.getSimpleName());
+	//		assertTrue("Stage not resizeable.", ((StageActivity) solo.getCurrentActivity()).getResizePossible());
+	//		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
+	//		byte[] screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
+	//		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+	//		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, Values.SCREEN_HEIGHT - 1, 1, 1);
+	//		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+	//		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, 0, 1, 1);
+	//		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+	//		screenPixel = StageActivity.stageListener.getPixels(0, Values.SCREEN_HEIGHT - 1, 1, 1);
+	//		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+	//		solo.goBack();
+	//		solo.clickOnButton(solo.getString(R.string.stage_dialog_maximize));
+	//		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
+	//		solo.sleep(100);
+	//		byte[] blackPixel = { 0, 0, 0, (byte) 255 };
+	//		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
+	//		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
+	//		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, Values.SCREEN_HEIGHT - 1, 1, 1);
+	//		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
+	//		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, 0, 1, 1);
+	//		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
+	//		screenPixel = StageActivity.stageListener.getPixels(0, Values.SCREEN_HEIGHT - 1, 1, 1);
+	//		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
+	//
+	//		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT, 1, 1);
+	//		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+	//
+	//		solo.goBack();
+	//		solo.clickOnButton(solo.getString(R.string.stage_dialog_maximize));
+	//		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
+	//		solo.sleep(100);
+	//		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
+	//		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+	//		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, Values.SCREEN_HEIGHT - 1, 1, 1);
+	//		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+	//		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, 0, 1, 1);
+	//		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+	//		screenPixel = StageActivity.stageListener.getPixels(0, Values.SCREEN_HEIGHT - 1, 1, 1);
+	//		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+	//	}
 
 	private Project createTestProject(String projectName) {
 		Project project = new Project(getActivity(), projectName);
