@@ -46,8 +46,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	private Solo solo;
 	private String saveToken;
 
-	//private String testUser;
-
 	public UserConceptTest() {
 		super(MainMenuActivity.class);
 		UiTestUtils.clearAllUtilTestProjects();
@@ -160,25 +158,23 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		solo.sleep(500);
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
-		solo.sleep(4000);
+		solo.sleep(2000);
 
 		String username = "UpperCaseUser" + System.currentTimeMillis();
 		fillLoginDialogWithUsername(true, username);
 
-		/*
-		 * solo.sleep(1500);
-		 * solo.goBack();
-		 * solo.sleep(1500);
-		 * solo.goBack();
-		 * solo.sleep(1500);
-		 */
-		UiTestUtils.goBackToHome(getInstrumentation());
+		solo.sleep(800);
+		solo.goBack();
+		solo.sleep(800);
+		int buttonId = android.R.id.button2;
+		solo.clickOnView(solo.getView(buttonId));
+		solo.sleep(500);
 
 		clearSharedPreferences();
 
 		solo.sleep(500);
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
-		solo.sleep(4000);
+		solo.sleep(2000);
 
 		username = username.toLowerCase();
 		fillLoginDialogWithUsername(true, username);

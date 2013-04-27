@@ -143,7 +143,7 @@ public class ServerCalls {
 
 			if (uploadStatusCode == SERVER_RESPONSE_TOKEN_OK) {
 				tokenReceived = jsonObject.getString("token");
-				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.isEmpty()
+				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived == ""
 						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
 					throw new WebconnectionException(uploadStatusCode, serverAnswer);
 				}
@@ -254,7 +254,7 @@ public class ServerCalls {
 
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
 				tokenReceived = jsonObject.getString("token");
-				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.isEmpty()
+				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived == ""
 						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
 					throw new WebconnectionException(statusCode, serverAnswer);
 				}
