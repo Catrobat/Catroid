@@ -163,12 +163,11 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		String username = "UpperCaseUser" + System.currentTimeMillis();
 		fillLoginDialogWithUsername(true, username);
 
-		solo.sleep(800);
-		solo.goBack();
-		solo.sleep(800);
+		UiTestUtils.goToHomeActivity(getActivity());
+		solo.sleep(500);
 		int buttonId = android.R.id.button2;
 		solo.clickOnView(solo.getView(buttonId));
-		solo.sleep(500);
+		solo.sleep(2000);
 
 		clearSharedPreferences();
 
