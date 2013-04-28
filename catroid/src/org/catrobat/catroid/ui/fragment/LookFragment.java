@@ -633,6 +633,12 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		if (!selectedLookData.getChecksum().equalsIgnoreCase(actualChecksum)) {
 			String oldFileName = selectedLookData.getLookFileName();
 			String newFileName = oldFileName.substring(oldFileName.indexOf('_') + 1);
+
+			//HACK for https://github.com/Catrobat/Catroid/issues/81
+			if (!newFileName.endsWith(".png")) {
+				newFileName = newFileName + ".png";
+			}
+
 			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
 
 			try {
