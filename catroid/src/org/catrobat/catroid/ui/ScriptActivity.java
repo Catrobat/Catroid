@@ -118,7 +118,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
 		final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(
+				R.layout.activity_script_spinner_item, getResources().getStringArray(
 						R.array.script_activity_spinner_items));
 
 		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
