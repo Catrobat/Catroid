@@ -596,7 +596,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
-		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(0);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.sleep(300);
@@ -1278,7 +1278,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		UiTestUtils.saveFileToProject(UiTestUtils.PROJECTNAME1, "screenshot.png", IMAGE_RESOURCE_3,
 				getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 
-		projectManager.setProject(project1);
 	}
 
 	private void playTheProject(boolean switchGreenToRed, boolean switchRedToGreen, boolean makeScreenshot) {
