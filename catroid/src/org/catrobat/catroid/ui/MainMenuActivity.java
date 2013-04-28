@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.concurrent.locks.Lock;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -94,6 +95,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	private static final String PROJECTNAME_TAG = "fname=";
 
 	private ActionBar actionBar;
+	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +125,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	protected void onResume() {
 		super.onResume();
+
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
@@ -188,6 +191,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	}
 
 	public void handleContinueButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
@@ -195,26 +201,42 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	}
 
 	public void handleNewButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		NewProjectDialog dialog = new NewProjectDialog();
 		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	public void handleProgramsButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		Intent intent = new Intent(MainMenuActivity.this, MyProjectsActivity.class);
 		startActivity(intent);
 	}
 
 	public void handleForumButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catrobat_forum).toString()));
 		startActivity(browserIntent);
 	}
 
 	public void handleWebButton(View v) {
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.pocketcode_website).toString()));
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+				Uri.parse(getText(R.string.pocketcode_website).toString()));
 		startActivity(browserIntent);
 	}
 
 	public void handleUploadButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);

@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.ui;
 
+import java.util.concurrent.locks.Lock;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -85,6 +87,8 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 	private static int currentFragmentPosition;
 	private String currentFragmentTag;
+
+	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	private boolean isSoundFragmentFromPlaySoundBrickNew = false;
 	private boolean isSoundFragmentHandleAddButtonHandled = false;
@@ -396,6 +400,9 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	}
 
 	public void handleAddButton(View view) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		currentFragment.handleAddButton();
 	}
 
@@ -403,6 +410,9 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		if (isHoveringActive()) {
 			scriptFragment.getListView().animateHoveringBrick();
 		} else {
+			if (!viewSwitchLock.tryLock()) {
+				return;
+			}
 			Intent intent = new Intent(this, PreStageActivity.class);
 			startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 		}
