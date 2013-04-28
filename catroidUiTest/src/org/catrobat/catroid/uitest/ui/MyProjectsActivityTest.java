@@ -739,9 +739,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clearEditText(0);
 		solo.enterText(0, UiTestUtils.PROJECTNAME3);
 		solo.clickOnText(solo.getString(R.string.ok));
-		solo.sleep(1500);
+		solo.sleep(300);
 		assertTrue("Rename was not successfull!", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
 		solo.goBack();
+		solo.sleep(1500);
 		assertEquals("Current project not updated!", UiTestUtils.PROJECTNAME3, ProjectManager.getInstance()
 				.getCurrentProject().getName());
 	}
