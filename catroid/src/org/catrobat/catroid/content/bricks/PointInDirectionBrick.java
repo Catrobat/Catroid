@@ -49,7 +49,6 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 
 	private Formula degrees;
 
-	private transient Direction direction;
 	private transient EditText setAngleEditText;
 	private transient View prototypeView;
 
@@ -73,8 +72,12 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 
 	public PointInDirectionBrick(Sprite sprite, Direction direction) {
 		this.sprite = sprite;
-		this.direction = direction;
 		this.degrees = new Formula(direction.getDegrees());
+	}
+
+	public PointInDirectionBrick(Sprite sprite, double direction) {
+		this.sprite = sprite;
+		this.degrees = new Formula(direction);
 	}
 
 	@Override
@@ -131,7 +134,7 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 
 	@Override
 	public Brick clone() {
-		return new PointInDirectionBrick(getSprite(), direction);
+		return new PointInDirectionBrick(getSprite(), degrees.interpretFloat(sprite));
 	}
 
 	@Override

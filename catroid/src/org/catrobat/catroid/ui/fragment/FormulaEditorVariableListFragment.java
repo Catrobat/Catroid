@@ -27,7 +27,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.ui.BottomBar;
@@ -67,17 +66,17 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		NewVariableDialogListener {
 
 	public static final String VARIABLE_TAG = "variableFragment";
-	private FormulaEditorEditText formulaEditorEditText;
+	public static final String EDIT_TEXT_BUNDLE_ARGUMENT = "formulaEditorEditText";
+	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
+	public static final String FRAGMENT_TAG_BUNDLE_ARGUMENT = "fragmentTag";
+
 	private String actionBarTitle;
 	private ActionMode contextActionMode;
 	private boolean inContextMode;
 	private int deleteIndex;
 	private UserVariableAdapter adapter;
 
-	public FormulaEditorVariableListFragment(FormulaEditorEditText formulaEditorEditText, String actionBarTitle,
-			String fragmentTag) {
-		this.formulaEditorEditText = formulaEditorEditText;
-		this.actionBarTitle = actionBarTitle;
+	public FormulaEditorVariableListFragment() {
 		contextActionMode = null;
 		deleteIndex = -1;
 		inContextMode = false;
@@ -89,6 +88,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		setHasOptionsMenu(true);
 		initializeUserVariableAdapter();
 
+		this.actionBarTitle = getArguments().getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT);
 	}
 
 	@Override
@@ -123,7 +123,11 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	public void onListItemClick(int position) {
 
 		if (!inContextMode) {
-			formulaEditorEditText.handleKeyEvent(0, "" + adapter.getItem(position).getName());
+			FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSherlockActivity()
+					.getSupportFragmentManager().findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+			if (formulaEditor != null) {
+				formulaEditor.addUserVariableToActiveFormula(adapter.getItem(position).getName());
+			}
 			KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
 			onKey(null, keyEvent.getKeyCode(), keyEvent);
 		}

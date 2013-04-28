@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.adapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -37,6 +38,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 
@@ -91,6 +93,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	private int selectMode;
 	private OnBrickEditListener onBrickEditListener;
 	private boolean actionMode = false;
+
+	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	public int listItemCount = 0;
 
@@ -777,6 +781,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	@Override
 	public void onClick(final View view) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+
 		animatedBricks.clear();
 		final int itemPosition = calculateItemPositionAndTouchPointY(view);
 
@@ -806,11 +814,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		builder.setItems(items.toArray(new CharSequence[items.size()]), new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int item) {
-				if (items.get(item).equals(context.getText(R.string.brick_context_dialog_move_brick))) {
+				CharSequence clickedItemText = items.get(item);
+				if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_move_brick))) {
 					view.performLongClick();
-				} else if (items.get(item).equals(context.getText(R.string.brick_context_dialog_delete_brick))) {
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_brick))) {
 					removeFromBrickListAndProject(itemPosition, false);
-				} else if (items.get(item).equals(context.getText(R.string.brick_context_dialog_animate_bricks))) {
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_animate_bricks))) {
 					int itemPosition = calculateItemPositionAndTouchPointY(view);
 					Brick brick = brickList.get(itemPosition);
 					if (brick instanceof NestingBrick) {
