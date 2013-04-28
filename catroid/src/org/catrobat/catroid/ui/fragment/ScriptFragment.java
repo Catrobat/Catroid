@@ -293,6 +293,15 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			return;
 		}
 
+		getSherlockActivity().findViewById(R.id.button_add).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				handleAddButton();
+			}
+		});
+
 		adapter = new BrickAdapter(getActivity(), sprite, listView);
 		adapter.setOnBrickEditListener(this);
 

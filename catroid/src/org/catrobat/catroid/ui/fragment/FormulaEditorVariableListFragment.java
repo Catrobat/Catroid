@@ -225,7 +225,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		activity.findViewById(R.id.bottom_bar_separator).setVisibility(View.GONE);
 		activity.findViewById(R.id.button_play).setVisibility(View.GONE);
 
-		BottomBar.disableButtons(activity);
+		BottomBar.enableButtons(activity);
 		fragTransaction.show(this);
 		fragTransaction.commit();
 
