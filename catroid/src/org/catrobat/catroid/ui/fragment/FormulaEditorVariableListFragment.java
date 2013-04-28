@@ -43,6 +43,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -80,6 +81,13 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		contextActionMode = null;
 		deleteIndex = -1;
 		inContextMode = false;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		Log.d("CatroidFragmentTag", "FormulaEditorVariableList onresume()");
+
 	}
 
 	@Override
@@ -166,7 +174,15 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 			}
 		});
 
-		LinearLayout buttonAdd = (LinearLayout) getSherlockActivity().findViewById(R.id.button_add);
+		setAddButtonListener(getSherlockActivity());
+
+		adapter.notifyDataSetChanged();
+
+		super.onStart();
+	}
+
+	public void setAddButtonListener(SherlockFragmentActivity sherlokActivity) {
+		LinearLayout buttonAdd = (LinearLayout) sherlokActivity.findViewById(R.id.button_add);
 		buttonAdd.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -175,10 +191,6 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 				dialog.show(getSherlockActivity().getSupportFragmentManager(), NewVariableDialog.DIALOG_FRAGMENT_TAG);
 			}
 		});
-
-		adapter.notifyDataSetChanged();
-
-		super.onStart();
 	}
 
 	@Override
@@ -236,7 +248,6 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		if (adapter != null) {
 			initializeUserVariableAdapter();
 		}
-
 	}
 
 	private void initializeUserVariableAdapter() {
