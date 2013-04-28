@@ -79,7 +79,8 @@
 
 
     <!-- Project activity view -->
-    <string name="project_name">Projekt:</string>
+    <string name="project_name">Programm:</string>
+    <string name="my_projects_activity_title">Programme</string>
     <string name="number_of_scripts">Skripte:</string>
     <string name="number_of_bricks">Bausteine:</string>
     <string name="number_of_looks">Aussehen:</string>
@@ -141,7 +142,7 @@
 
 
     <!-- Soundrecorder activity -->
-    <string name="soundrecorder_name">Pocket Code Sound Recorder</string>
+    <string name="soundrecorder_name">Pocket Code Recorder</string>
     <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
     <string name="soundrecorder_recorded_filename">Aufnahme</string>
     <!--  -->
@@ -153,12 +154,14 @@
 
 
     <!-- My Projects activity -->
-    <string name="last_used">Zuletzt benutzt:</string>
+    <string name="last_used">Letzter Zugriff:</string>
     <string name="description">Beschreibung:</string>
     <string name="set_description">Beschreibung</string>
     <string name="rename_project">Projekt umbenennen</string>
     <string name="notification_title_copy_project">Kopiere Projekt</string>
     <string name="copy_project_finished"> kopiert.</string>
+    <string name="program">Programm</string>
+    <string name="programs">Programme</string>
     <!--  -->
 
 
@@ -199,9 +202,8 @@
 
     <!-- Stage menu dialog -->
     <string name="stage_dialog_back">Zurück</string>
-    <string name="stage_dialog_continue">Fortsetzen</string>
+    <string name="stage_dialog_resume">Fortsetzen</string>
     <string name="stage_dialog_restart">Neu starten</string>
-    <string name="stage_dialog_maximize">Maximieren/\nDehnen</string>
     <string name="stage_dialog_axes_on">Achsen Ein</string>
     <string name="stage_dialog_axes_off">Achsen Aus</string>
     <string name="stage_dialog_screenshot">Screenshot</string>
@@ -404,7 +406,7 @@
     <string name="upload_project_dialog_title">Projekt hochladen</string>
     <string name="upload_description">Beschreibung:</string>
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
-    <string name="size_of_project">Größe des Projekts:</string>
+    <string name="size_of_project">Größe:</string>
     <string name="notification_percent_completed">abgeschlossen</string>
     <string name="notification_upload_title">Projekt raufladen</string>
     <string name="notification_download_title">Projekt runterladen</string>

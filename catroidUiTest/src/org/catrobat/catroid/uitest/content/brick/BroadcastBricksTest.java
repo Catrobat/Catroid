@@ -172,10 +172,9 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		//click on brick broadcast
 		solo.clickOnScreen(200, 700);
 
-		solo.sleep(500);
-
-		// just to get focus
-		solo.clickOnText(brickBroadcastString);
+        solo.sleep(500);
+		// Click on broadcast brick to add it to the script brick
+        solo.clickOnScreen(200, 250);
 		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
 			solo.goBack();
 		}

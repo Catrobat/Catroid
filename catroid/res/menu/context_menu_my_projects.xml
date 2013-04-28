@@ -1,4 +1,5 @@
-/**
+<?xml version="1.0" encoding="utf-8"?>
+<!--
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -19,31 +20,20 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
+-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-
-public class SetBrightnessAction extends TemporalAction {
-
-	private Sprite sprite;
-	private Formula brightness;
-
-	@Override
-	protected void update(float percent) {
-		sprite.look.setBrightness(this.brightness.interpretFloat(sprite) / 100f);
-
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public void setBrightness(Formula brightness) {
-		this.brightness = brightness;
-	}
-
-}
+    <item
+        android:id="@+id/context_menu_copy"
+        android:title="@string/copy" />
+    <item
+        android:id="@+id/context_menu_rename"
+        android:title="@string/rename" />
+    <item
+        android:id="@+id/context_menu_delete"
+        android:title="@string/delete" />
+    <item
+        android:id="@+id/context_menu_set_description"
+        android:title="@string/set_description" />
+</menu>

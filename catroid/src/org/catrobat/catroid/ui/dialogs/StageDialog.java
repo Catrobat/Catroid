@@ -32,6 +32,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -50,7 +51,15 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.dialog_stage);
-		//getWindow().setGravity(Gravity.BOTTOM);
+		getWindow().getAttributes();
+
+		getWindow().getAttributes();
+
+		int width = LayoutParams.MATCH_PARENT;
+		int height = LayoutParams.WRAP_CONTENT;
+
+		getWindow().setLayout(width, height);
+
 		getWindow().setBackgroundDrawableResource(R.color.transparent);
 
 		((Button) findViewById(R.id.stage_dialog_button_back)).setOnClickListener(this);
@@ -58,6 +67,11 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		((Button) findViewById(R.id.stage_dialog_button_restart)).setOnClickListener(this);
 		((Button) findViewById(R.id.stage_dialog_button_toggle_axes)).setOnClickListener(this);
 		((Button) findViewById(R.id.stage_dialog_button_screenshot)).setOnClickListener(this);
+		//		if (stageActivity.getResizePossible()) {
+		//			((Button) findViewById(R.id.stage_dialog_button_maximize)).setOnClickListener(this);
+		//		} else {
+		//			((Button) findViewById(R.id.stage_dialog_button_maximize)).setVisibility(View.GONE);
+		//		}
 	}
 
 	@Override
@@ -77,6 +91,9 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			case R.id.stage_dialog_button_toggle_axes:
 				toggleAxes();
 				break;
+			//			case R.id.stage_dialog_button_maximize:
+			//				stageListener.changeScreenSize();
+			//				break;
 			case R.id.stage_dialog_button_screenshot:
 				makeScreenshot();
 				break;

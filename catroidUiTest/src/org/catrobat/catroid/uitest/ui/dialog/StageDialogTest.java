@@ -287,7 +287,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_axes_on));
-		solo.clickOnButton(solo.getString(R.string.stage_dialog_continue));
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
 		solo.sleep(100);
 		byte[] redPixel = { (byte) 255, 0, 0, (byte) 255 };
 		byte[] stagePixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2, 1,
@@ -303,7 +303,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		UiTestUtils.compareByteArrays(redPixel, stagePixel);
 		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_axes_off));
-		solo.clickOnButton(solo.getString(R.string.stage_dialog_continue));
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
 		solo.sleep(100);
 		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
 		stagePixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2, 1, 1);
@@ -318,6 +318,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
 	}
 
+	// TODO Refactor test, when maximize button is implemented
 	//	public void testMaximizeStretch() {
 	//		Project project = createTestProject(testProject);
 	//		project.getXmlHeader().virtualScreenWidth = 480;
@@ -345,7 +346,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	//		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 	//		solo.goBack();
 	//		solo.clickOnButton(solo.getString(R.string.stage_dialog_maximize));
-	//		solo.clickOnButton(solo.getString(R.string.stage_dialog_continue));
+	//		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
 	//		solo.sleep(100);
 	//		byte[] blackPixel = { 0, 0, 0, (byte) 255 };
 	//		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
@@ -362,7 +363,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	//
 	//		solo.goBack();
 	//		solo.clickOnButton(solo.getString(R.string.stage_dialog_maximize));
-	//		solo.clickOnButton(solo.getString(R.string.stage_dialog_continue));
+	//		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
 	//		solo.sleep(100);
 	//		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
 	//		UiTestUtils.compareByteArrays(whitePixel, screenPixel);

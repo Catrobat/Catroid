@@ -37,6 +37,7 @@ import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -172,8 +173,8 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnText(newText);
 
 		// quickfix for Jenkins to get rid of Resources$NotFoundException: String resource
-		// String soundRecorderText = solo.getString(R.string.soundrecorder_name);
-		String soundRecorderText = "Catroid Sound Recorder";
+//		String soundRecorderText = solo.getString(R.string.soundrecorder_name);
+		String soundRecorderText = "Pocket Code Recorder";
 		solo.waitForText(soundRecorderText);
 		assertTrue("Catroid Sound Recorder is not present", solo.searchText(soundRecorderText));
 		solo.clickOnText(soundRecorderText);
@@ -187,6 +188,11 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.waitForFragmentByTag(SoundFragment.TAG);
 
 		assertTrue("New sound file is not selected", solo.isSpinnerTextSelected(recordedFilename));
+
+		solo.goBack();
+		String programMenuActivityClass = ProgramMenuActivity.class.getSimpleName().toString();
+		assertTrue("Should be in " + programMenuActivityClass, solo.getCurrentActivity().getClass().getSimpleName()
+				.toString().equals(programMenuActivityClass));
 	}
 
 	private void clickOnSpinnerItem(String selectedSpinnerItem, String itemName) {
