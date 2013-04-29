@@ -35,6 +35,7 @@ import android.view.WindowManager;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 
 public class StageActivity extends AndroidApplication {
+	public static final String TAG = StageActivity.class.getSimpleName();
 
 	public static StageListener stageListener;
 	private boolean resizePossible;

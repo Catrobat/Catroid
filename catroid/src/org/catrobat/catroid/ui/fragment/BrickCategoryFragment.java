@@ -24,8 +24,10 @@ package org.catrobat.catroid.ui.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
 
 import android.content.SharedPreferences;
@@ -50,6 +52,8 @@ public class BrickCategoryFragment extends SherlockListFragment {
 	private CharSequence previousActionBarTitle;
 	private OnCategorySelectedListener onCategorySelectedListener;
 	BrickCategoryAdapter adapter;
+
+	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	public void setOnCategorySelectedListener(OnCategorySelectedListener listener) {
 		onCategorySelectedListener = listener;
@@ -79,6 +83,10 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				if (!viewSwitchLock.tryLock()) {
+					return;
+				}
+
 				if (onCategorySelectedListener != null) {
 					onCategorySelectedListener.onCategorySelected(adapter.getItem(position));
 				}
