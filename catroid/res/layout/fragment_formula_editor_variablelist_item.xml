@@ -25,6 +25,7 @@
     android:layout_height="match_parent"
     android:background="@color/sound_fragment_background_color"
     android:longClickable="true"
+    android:clickable="true"
     android:minHeight="60dp"
     android:orientation="horizontal" >
 

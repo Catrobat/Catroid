@@ -129,7 +129,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 	@Override
 	public void onListItemClick(int position) {
-
+		Log.d("catroid", "onListItemClick");
 		if (!inContextMode) {
 			FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSherlockActivity()
 					.getSupportFragmentManager().findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
@@ -291,6 +291,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 			mode.setTitle("0 "
 					+ getActivity().getResources().getQuantityString(
 							R.plurals.formula_editor_variable_context_action_item_selected, 0));
+			getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.GONE);
 			return true;
 		}
 
@@ -319,6 +320,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 			adapter.setSelectMode(Constants.SELECT_NONE);
 			contextActionMode = null;
 			inContextMode = false;
+			getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
 		}
 	};
 
