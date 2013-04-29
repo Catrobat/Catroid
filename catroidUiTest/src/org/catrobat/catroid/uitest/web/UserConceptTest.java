@@ -217,10 +217,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		// set the email to use. we need a random email because the server does not allow same email with different users 
 		String testEmail = testUser + "@gmail.com";
 		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
-		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testPassword));
-		solo.sleep(1000);
-		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
-		solo.setActivityOrientation(Solo.PORTRAIT);
 
 		int buttonId = android.R.id.button1;
 		solo.clickOnView(solo.getView(buttonId));
@@ -247,10 +243,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		// set the email to use. we need a random email because the server does not allow same email with different users 
 		String testEmail = testUser + "@gmail.com";
 		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
-		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testPassword));
-		solo.sleep(1000);
-		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
-		solo.setActivityOrientation(Solo.PORTRAIT);
 
 		int buttonId = android.R.id.button1;
 		solo.clickOnView(solo.getView(buttonId));
