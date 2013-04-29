@@ -46,6 +46,8 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	private Solo solo;
 	private String saveToken;
+	private String loginDialogTitle;
+	private String uploadDialogTitle;
 
 	public UserConceptTest() {
 		super(MainMenuActivity.class);
@@ -58,6 +60,8 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo = new Solo(getInstrumentation(), getActivity());
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		saveToken = prefs.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		loginDialogTitle = solo.getString(R.string.login_register_dialog_title);
+		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
 	}
 
 	@Override
@@ -78,6 +82,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		prefs.edit().putString(Constants.TOKEN, null).commit();
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+		solo.waitForText(loginDialogTitle);
 
 		assertTrue("Licence text not present", solo.searchText(solo.getString(R.string.register_terms)));
 		assertTrue("Licence link not present",
@@ -90,7 +95,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		prefs.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
-		solo.sleep(1000);
+		solo.waitForText(loginDialogTitle);
 
 		fillLoginDialog(true);
 
@@ -102,7 +107,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		UiTestUtils.createValidUser(getActivity());
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
-		solo.sleep(5000);
+		solo.waitForText(uploadDialogTitle);
 
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
@@ -114,9 +119,10 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		prefs.edit().putString(Constants.TOKEN, "").commit();
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
-		solo.sleep(1000);
+		solo.waitForText(loginDialogTitle);
 		fillLoginDialog(true);
 
+		solo.waitForText(uploadDialogTitle);
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 		solo.goBack();
 
@@ -132,10 +138,10 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		prefs.edit().putString(Constants.TOKEN, "wrong_token").commit();
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
-		solo.sleep(4000);
+		solo.waitForText(loginDialogTitle);
 		fillLoginDialog(true);
 
-		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
+		assertNotNull("Upload Dialog is not shown.", uploadDialogTitle);
 	}
 
 	public void testRegisterWithShortPassword() throws Throwable {
@@ -145,7 +151,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		prefs.edit().putString(Constants.TOKEN, null).commit();
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
-		solo.sleep(1000);
+		solo.waitForText(loginDialogTitle);
 		fillLoginDialog(false);
 
 		assertNotNull("no error dialog is shown", solo.getText(solo.getString(R.string.register_error)));
@@ -157,30 +163,28 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		setTestUrl();
 		clearSharedPreferences();
 
-		solo.sleep(500);
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
-		solo.sleep(5000);
+		solo.waitForText(loginDialogTitle);
 
 		String username = "UpperCaseUser" + System.currentTimeMillis();
 		fillLoginDialogWithUsername(true, username);
 
-		solo.sleep(2000);
+		solo.waitForText(uploadDialogTitle);
 		solo.goBack();
 		solo.sleep(200);
 		solo.goBack();
-		solo.sleep(2000);
 		if (solo.searchText("Cancel")) {
 			solo.clickOnText("Cancel");
 		}
 
 		clearSharedPreferences();
 
-		solo.sleep(500);
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
-		solo.sleep(2000);
+		solo.waitForText(loginDialogTitle);
 
 		username = username.toLowerCase(Locale.ENGLISH);
 		fillLoginDialogWithUsername(true, username);
+		solo.waitForText(uploadDialogTitle);
 
 		TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
 		ArrayList<View> currentViews = solo.getCurrentViews();
