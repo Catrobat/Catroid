@@ -153,8 +153,9 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
-		assertTrue("upload project dialog not shown",
-				solo.waitForText(solo.getString(R.string.upload_project_dialog_title), 0, 5000));
+		boolean uploadDialogShown = solo.waitForText(uploadDialogTitle);
+
+		assertTrue("upload project dialog not shown", uploadDialogShown);
 		EditText uploadDescriptionView = (EditText) solo.getView(R.id.project_description_upload);
 		String uploadDescription = uploadDescriptionView.getText().toString();
 		solo.sleep(500);
