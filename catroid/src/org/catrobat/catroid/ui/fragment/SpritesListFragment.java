@@ -44,8 +44,10 @@ import org.catrobat.catroid.ui.adapter.SpriteAdapter.OnSpriteCheckedListener;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 import org.catrobat.catroid.utils.Utils;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -249,7 +251,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				break;
 
 			case R.id.context_menu_delete:
-				deleteSprite();
+				showConfirmDeleteDialog();
 				break;
 
 		}
@@ -334,8 +336,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
 		for (int variable = 0; variable < userVariablesList.size(); variable++) {
-			userVariablesContainer.addSpriteUserVariable(userVariablesList.get(variable).getName(), userVariablesList.get(variable)
-					.getValue());
+			userVariablesContainer.addSpriteUserVariable(userVariablesList.get(variable).getName(), userVariablesList
+					.get(variable).getValue());
 		}
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
@@ -367,6 +369,32 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	public void showRenameDialog() {
 		RenameSpriteDialog dialog = RenameSpriteDialog.newInstance(spriteToEdit.getName());
 		dialog.show(getFragmentManager(), RenameSpriteDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void showConfirmDeleteDialog() {
+		String yes = getActivity().getString(R.string.yes);
+		String no = getActivity().getString(R.string.no);
+		String title = getActivity().getString(R.string.dialog_confirm_delete_object_title);
+		String message = getActivity().getString(R.string.dialog_confirm_delete_object_message);
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setTitle(title);
+		builder.setMessage(message);
+		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				deleteSprite();
+			}
+		});
+		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog alertDialog = builder.create();
+		alertDialog.show();
 	}
 
 	public void deleteSprite() {

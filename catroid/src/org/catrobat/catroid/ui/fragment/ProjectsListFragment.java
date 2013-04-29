@@ -49,6 +49,8 @@ import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog.OnUpdateProjectDescr
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -255,7 +257,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 				break;
 
 			case R.id.context_menu_delete:
-				deleteProject();
+				showConfirmDeleteDialog();
 				break;
 
 			case R.id.context_menu_set_description:
@@ -336,6 +338,32 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		CopyProjectDialog dialogCopyProject = CopyProjectDialog.newInstance(projectToEdit.projectName);
 		dialogCopyProject.setParentFragment(parentFragment);
 		dialogCopyProject.show(getActivity().getSupportFragmentManager(), CopyProjectDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void showConfirmDeleteDialog() {
+		String yes = getActivity().getString(R.string.yes);
+		String no = getActivity().getString(R.string.no);
+		String title = getActivity().getString(R.string.dialog_confirm_delete_program_title);
+		String message = getActivity().getString(R.string.dialog_confirm_delete_program_message);
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setTitle(title);
+		builder.setMessage(message);
+		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				deleteProject();
+			}
+		});
+		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog alertDialog = builder.create();
+		alertDialog.show();
 	}
 
 	private void deleteProject() {

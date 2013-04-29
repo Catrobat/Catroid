@@ -93,6 +93,8 @@
     <string name="sprites">Objekte</string>
     <string name="spritelist_background_headline">HINTERGRUND</string>
     <string name="spritelist_objects_headline">OBJEKTE</string>
+    <string name="dialog_confirm_delete_object_title">Dieses Objekt löschen?</string>
+    <string name="dialog_confirm_delete_object_message">Es kann nicht wiederhergestellt werden!</string>
     <!--  -->
 
 
@@ -162,6 +164,8 @@
     <string name="copy_project_finished"> kopiert.</string>
     <string name="program">Programm</string>
     <string name="programs">Programme</string>
+    <string name="dialog_confirm_delete_program_title">Dieses Programm löschen?</string>
+    <string name="dialog_confirm_delete_program_message">Es kann nicht wiederhergestellt werden!</string>
     <!--  -->
 
 
