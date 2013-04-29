@@ -62,6 +62,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private String testDescription = UiTestUtils.PROJECTDESCRIPTION1;
 	private String newTestDescription = UiTestUtils.PROJECTDESCRIPTION2;
 	private String saveToken;
+	private String uploadDialogTitle;
 	private int serverProjectId;
 
 	private Project standardProject;
@@ -76,7 +77,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		saveToken = prefs.getString(Constants.TOKEN, "0");
+		saveToken = prefs.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
 	}
 
 	@Override
@@ -151,7 +153,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		StorageHandler.getInstance().saveProject(testProject);
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
-		solo.sleep(500);
+		solo.waitForText(uploadDialogTitle);
 
 		// enter a new title
 		solo.clearEditText(0);
@@ -164,7 +166,6 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.enterText(1, newTestDescription);
 
 		solo.clickOnButton(solo.getString(R.string.upload_button));
-		solo.sleep(500);
 
 		boolean uploadErrorOccurred = solo.waitForText(solo.getString(R.string.error_project_upload));
 
@@ -454,7 +455,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 	private void uploadProject(String uploadProjectName, String uploadProjectDescription) {
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
-		solo.sleep(500);
+		solo.waitForText(uploadDialogTitle);
 
 		// enter a new title
 		solo.clearEditText(0);
@@ -470,7 +471,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.sleep(500);
 
 		try {
-			boolean success = solo.waitForText(solo.getString(R.string.success_project_upload), 1, 40000);
+			boolean success = solo.waitForText(solo.getString(R.string.success_project_upload), 1, 50000);
 			assertTrue("Upload failed. Internet connection?", success);
 			String resultString = (String) Reflection.getPrivateField(ServerCalls.getInstance(), "resultString");
 			JSONObject jsonObject;
