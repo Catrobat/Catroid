@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.ui;
 
+import java.util.concurrent.locks.Lock;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
@@ -42,6 +44,7 @@ import com.actionbarsherlock.view.MenuItem;
 public class MyProjectsActivity extends SherlockFragmentActivity {
 
 	private ActionBar actionBar;
+	private Lock viewSwitchLock = new ViewSwitchLock();
 	private ProjectsListFragment projectsListFragment;
 
 	@Override
@@ -146,6 +149,9 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 	}
 
 	public void handleAddButton(View view) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		NewProjectDialog dialog = new NewProjectDialog();
 		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
