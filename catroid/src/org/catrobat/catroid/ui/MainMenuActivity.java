@@ -40,6 +40,7 @@ import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.ProgressBufferedOutputStream;
 import org.catrobat.catroid.web.ServerCalls;
 
 import android.content.Intent;
@@ -78,15 +79,15 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		protected void onReceiveResult(int resultCode, Bundle resultData) {
 			super.onReceiveResult(resultCode, resultData);
 			if (resultCode == Constants.UPDATE_DOWNLOAD_PROGRESS) {
-				long progress = resultData.getLong("currentDownloadProgress");
-				boolean endOfFileReached = resultData.getBoolean("endOfFileReached");
-				Integer notificationId = resultData.getInt("notificationId");
-				String projectName = resultData.getString("projectName");
+				long progress = resultData.getLong(ProgressBufferedOutputStream.TAG_PROGRESS);
+				boolean endOfFileReached = resultData.getBoolean(ProgressBufferedOutputStream.TAG_ENDOFFILE);
+				Integer notificationId = resultData.getInt(ProgressBufferedOutputStream.TAG_NOTIFICATION_ID);
+				String projectName = resultData.getString(ProgressBufferedOutputStream.TAG_PROJECT_NAME);
 				if (endOfFileReached) {
 					progress = 100;
 				}
-				String notificationMessage = "Download " + progress + "% "
-						+ getString(R.string.notification_percent_completed) + ":" + projectName;
+				String notificationMessage = getString(R.string.notification_percent_download) + progress
+						+ getString(R.string.notification_percent_completed) + projectName;
 
 				StatusBarNotificationManager.INSTANCE.updateNotification(notificationId, notificationMessage,
 						Constants.DOWNLOAD_NOTIFICATION, endOfFileReached);
@@ -137,7 +138,17 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		Utils.loadProjectIfNeeded(this);
 		setMainMenuButtonContinueText();
 		findViewById(R.id.main_menu_button_continue).setEnabled(true);
-		StatusBarNotificationManager.INSTANCE.displayDialogs(this);
+		boolean dialogsAreShown = StatusBarNotificationManager.INSTANCE.displayDialogs(this);
+
+		String projectName = getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
+		if (projectName != null && !dialogsAreShown) {
+			ProjectManager.getInstance().loadProject(projectName, this, true);
+			if (ProjectManager.getInstance().getCurrentProject().getName().compareTo(projectName) == 0) {
+				Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
+				startActivity(intent);
+			}
+		}
+		getIntent().removeExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
 	}
 
 	@Override
@@ -302,11 +313,11 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			}
 
 			Intent downloadIntent = new Intent(this, ProjectDownloadService.class);
-			downloadIntent.putExtra("receiver", new DownloadReceiver(new Handler()));
-			downloadIntent.putExtra("downloadName", projectName);
-			downloadIntent.putExtra("url", url);
+			downloadIntent.putExtra(ProjectDownloadService.RECEIVER_TAG, new DownloadReceiver(new Handler()));
+			downloadIntent.putExtra(ProjectDownloadService.DOWNLOAD_NAME_TAG, projectName);
+			downloadIntent.putExtra(ProjectDownloadService.URL_TAG, url);
 			int notificationId = createNotification(projectName);
-			downloadIntent.putExtra("notificationId", notificationId);
+			downloadIntent.putExtra(ProjectDownloadService.ID_TAG, notificationId);
 			startService(downloadIntent);
 
 		} else if (scheme.equals(TYPE_FILE)) {

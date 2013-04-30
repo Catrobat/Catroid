@@ -171,6 +171,7 @@ public class ServerCalls {
 
 	public void downloadProject(String downloadUrl, String zipFileString, ResultReceiver receiver,
 			Integer notificationId, String projectName) throws WebconnectionException {
+
 		try {
 			connection.doHttpPostFileDownload(downloadUrl, new HashMap<String, String>(), zipFileString, receiver,
 					notificationId, projectName);

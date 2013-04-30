@@ -26,6 +26,7 @@ import java.util.UUID;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
@@ -159,6 +160,8 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 
 		StatusBarNotificationManager.INSTANCE.downloadProjectName.remove(projectName);
 		StatusBarNotificationManager.INSTANCE.downloadProjectZipFileString.remove(zipFileString);
+		StatusBarNotificationManager.INSTANCE.projectRenamed(context, projectName, projectText.getText().toString(),
+				Constants.DOWNLOAD_NOTIFICATION);
 
 		return true;
 	}

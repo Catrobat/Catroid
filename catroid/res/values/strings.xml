@@ -403,7 +403,8 @@
     <string name="upload_description">Description:</string>
     <string name="project_rename">(Your program will be renamed.)</string>
     <string name="size_of_project">Size:</string>
-    <string name="notification_percent_completed">completed</string>
+    <string name="notification_percent_download">"Download "</string>
+    <string name="notification_percent_completed">"% completed: "</string>
     <string name="notification_upload_title">Uploading program</string>
     <string name="notification_download_title">Downloading program</string>
     <!--  -->

@@ -39,9 +39,15 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.ResultReceiver;
+import android.util.Log;
 import android.widget.Toast;
 
 public class ProjectDownloadService extends IntentService {
+
+	public static final String RECEIVER_TAG = "receiver";
+	public static final String DOWNLOAD_NAME_TAG = "downloadName";
+	public static final String URL_TAG = "url";
+	public static final String ID_TAG = "notificationId";
 
 	private static final String DOWNLOAD_FILE_NAME = "down" + Constants.CATROBAT_EXTENTION;
 
@@ -60,16 +66,16 @@ public class ProjectDownloadService extends IntentService {
 	}
 
 	public ProjectDownloadService() {
-		super("ProjectDownloadService");
+		super(ProjectDownloadService.class.getSimpleName());
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startID) {
 		int returnCode = super.onStartCommand(intent, flags, startID);
-		this.projectName = intent.getStringExtra("downloadName");
+		this.projectName = intent.getStringExtra(DOWNLOAD_NAME_TAG);
 		this.zipFileString = Utils.buildPath(Constants.TMP_PATH, DOWNLOAD_FILE_NAME);
-		this.url = intent.getStringExtra("url");
-		this.notificationId = intent.getIntExtra("notificationId", 0);
+		this.url = intent.getStringExtra(URL_TAG);
+		this.notificationId = intent.getIntExtra(ID_TAG, 0);
 
 		return returnCode;
 	}
@@ -81,7 +87,7 @@ public class ProjectDownloadService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		receiver = (ResultReceiver) intent.getParcelableExtra("receiver");
+		receiver = (ResultReceiver) intent.getParcelableExtra(RECEIVER_TAG);
 		showOverwriteDialog = false;
 		try {
 			ServerCalls.getInstance().downloadProject(url, zipFileString, receiver, notificationId, projectName);
@@ -112,6 +118,8 @@ public class ProjectDownloadService extends IntentService {
 				MainMenuActivity activity = StatusBarNotificationManager.INSTANCE.getActivity(notificationId);
 				OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, projectName, zipFileString);
 				renameDialog.show(activity.getSupportFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
+
+				Log.e("blah", "running? " + activity.getCurrentFocus());
 			} catch (RuntimeException e) {
 				e.printStackTrace();
 			}
@@ -124,6 +132,14 @@ public class ProjectDownloadService extends IntentService {
 		}
 
 		Toast.makeText(this, R.string.success_project_download, Toast.LENGTH_SHORT).show();
+
+		try {
+			MainMenuActivity activity = StatusBarNotificationManager.INSTANCE.getActivity(notificationId);
+			Log.e("blah", "running? " + activity.getCurrentFocus());
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
+
 		super.onDestroy();
 	}
 

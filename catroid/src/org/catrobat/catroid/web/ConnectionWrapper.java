@@ -25,16 +25,16 @@ package org.catrobat.catroid.web;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Locale;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
-import org.catrobat.catroid.common.Constants;
 
-import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
 
@@ -50,11 +50,6 @@ public class ConnectionWrapper {
 	public static final int FILE_TYPE = org.apache.commons.net.ftp.FTP.BINARY_FILE_TYPE;
 	public static final String FTP_ENCODING = "UTF-8";
 
-	public static final String TAG_PROGRESS = "currentDownloadProgress";
-	public static final String TAG_ENDOFFILE = "endOfFileReached";
-	public static final String TAG_UNKNOWN = "unknown";
-	public static final String TAG_NOTIFICATION_ID = "notificationId";
-	public static final String TAG_PROJECT_NAME = "projectName";
 	public static final String TAG_PROJECT_TITLE = "projectTitle";
 
 	private FTPClient ftpClient = new FTPClient();
@@ -134,33 +129,18 @@ public class ConnectionWrapper {
 		}
 	}
 
-	void updateProgress(ResultReceiver receiver, long progress, boolean endOfFileReached, boolean unknown,
-			Integer notificationId, String projectName) {
-		//send for every 20 kilobytes read a message to update the progress
-		if ((!endOfFileReached)) {
-			sendUpdateIntent(receiver, progress, false, unknown, notificationId, projectName);
-		} else if (endOfFileReached) {
-			sendUpdateIntent(receiver, progress, true, unknown, notificationId, projectName);
-		}
-	}
-
-	private void sendUpdateIntent(ResultReceiver receiver, long progress, boolean endOfFileReached, boolean unknown,
-			Integer notificationId, String projectName) {
-		Bundle progressBundle = new Bundle();
-		progressBundle.putLong(TAG_PROGRESS, progress);
-		progressBundle.putBoolean(TAG_ENDOFFILE, endOfFileReached);
-		progressBundle.putBoolean(TAG_UNKNOWN, unknown);
-		progressBundle.putInt(TAG_NOTIFICATION_ID, notificationId);
-		progressBundle.putString(TAG_PROJECT_NAME, projectName);
-		receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, progressBundle);
-	}
-
 	public void doHttpPostFileDownload(String urlString, HashMap<String, String> postValues, String filePath,
 			ResultReceiver receiver, Integer notificationId, String projectName) throws IOException {
 		HttpRequest request = HttpRequest.post(urlString);
 		File file = new File(filePath);
 		file.getParentFile().mkdirs();
-		request.form(postValues).acceptGzipEncoding().receive(file);
+
+		request = request.form(postValues).acceptGzipEncoding();
+		long fileSize = request.contentLength();
+		OutputStream stream = new ProgressBufferedOutputStream(new FileOutputStream(file), request.bufferSize(),
+				fileSize, receiver, notificationId, projectName);
+		request.receive(stream);
+		stream.close();
 	}
 
 	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws WebconnectionException {
