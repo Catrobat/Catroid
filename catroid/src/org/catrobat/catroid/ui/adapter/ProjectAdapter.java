@@ -23,7 +23,7 @@
 package org.catrobat.catroid.ui.adapter;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -142,7 +142,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		holder.size.setText(UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectName))));
 
 		//set last changed:
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+		DateFormat dateFormat = DateFormat.getDateTimeInstance();
 		Date projectLastModificationDate = new Date(projectData.lastUsed);
 		holder.dateChanged.setText(dateFormat.format(projectLastModificationDate));
 
