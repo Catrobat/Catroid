@@ -80,6 +80,10 @@ public class ServerCalls {
 	public static final int TOKEN_LENGTH = 32;
 	public static final String TOKEN_CODE_INVALID = "-1";
 
+	private static final String JSON_STATUS_CODE = "statusCode";
+	private static final String JSON_ANSWER = "answer";
+	private static final String JSON_TOKEN = "token";
+
 	private static ServerCalls instance;
 	public static boolean useTestUrl = false;
 	private String resultString;
@@ -137,12 +141,12 @@ public class ServerCalls {
 			JSONObject jsonObject = null;
 			Log.v(TAG, "result string: " + answer);
 			jsonObject = new JSONObject(answer);
-			uploadStatusCode = jsonObject.getInt("statusCode");
-			String serverAnswer = jsonObject.optString("answer");
+			uploadStatusCode = jsonObject.getInt(JSON_STATUS_CODE);
+			String serverAnswer = jsonObject.optString(JSON_ANSWER);
 			String tokenReceived = "";
 
 			if (uploadStatusCode == SERVER_RESPONSE_TOKEN_OK) {
-				tokenReceived = jsonObject.getString("token");
+				tokenReceived = jsonObject.getString(JSON_TOKEN);
 				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived == ""
 						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
 					throw new WebconnectionException(uploadStatusCode, serverAnswer);
@@ -198,8 +202,8 @@ public class ServerCalls {
 			Log.v(TAG, "result string: " + resultString);
 
 			jsonObject = new JSONObject(resultString);
-			statusCode = jsonObject.getInt("statusCode");
-			String serverAnswer = jsonObject.optString("answer");
+			statusCode = jsonObject.getInt(JSON_STATUS_CODE);
+			String serverAnswer = jsonObject.optString(JSON_ANSWER);
 
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
 				return true;
@@ -249,11 +253,11 @@ public class ServerCalls {
 			Log.v(TAG, "result string: " + resultString);
 
 			jsonObject = new JSONObject(resultString);
-			statusCode = jsonObject.getInt("statusCode");
-			String serverAnswer = jsonObject.optString("answer");
+			statusCode = jsonObject.getInt(JSON_STATUS_CODE);
+			String serverAnswer = jsonObject.optString(JSON_ANSWER);
 
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
-				tokenReceived = jsonObject.getString("token");
+				tokenReceived = jsonObject.getString(JSON_TOKEN);
 				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived == ""
 						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
 					throw new WebconnectionException(statusCode, serverAnswer);

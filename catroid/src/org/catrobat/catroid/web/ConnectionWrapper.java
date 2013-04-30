@@ -56,6 +56,15 @@ public class ConnectionWrapper {
 	public static final String FTP_USERNAME = "ftp-uploader";
 	public static final String FTP_PASSWORD = "cat.ftp.loader";
 	public static final int FILE_TYPE = org.apache.commons.net.ftp.FTP.BINARY_FILE_TYPE;
+	public static final String FTP_ENCODING = "UTF-8";
+
+	public static final String TAG_PROGRESS = "currentDownloadProgress";
+	public static final String TAG_ENDOFFILE = "endOfFileReached";
+	public static final String TAG_UNKNOWN = "unknown";
+	public static final String TAG_NOTIFICATION_ID = "notificationId";
+	public static final String TAG_PROJECT_NAME = "projectName";
+	public static final String TAG_PROJECT_TITLE = "projectTitle";
+
 	private FTPClient ftpClient = new FTPClient();
 
 	public String doFtpPostFileUpload(String urlString, HashMap<String, String> postValues, String fileTag,
@@ -64,7 +73,7 @@ public class ConnectionWrapper {
 		String answer = "";
 		try {
 			// important to call this before connect
-			ftpClient.setControlEncoding("UTF-8");
+			ftpClient.setControlEncoding(FTP_ENCODING);
 
 			ftpClient.connect(urlString, ServerCalls.FTP_PORT);
 			ftpClient.login(FTP_USERNAME, FTP_PASSWORD);
@@ -83,7 +92,7 @@ public class ConnectionWrapper {
 
 			String fileName = "";
 			if (filePath != null) {
-				fileName = postValues.get("projectTitle");
+				fileName = postValues.get(TAG_PROJECT_TITLE);
 				String extension = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase(Locale.ENGLISH);
 				FtpProgressInputStream ftpProgressStream = new FtpProgressInputStream(inputStream, receiver,
 						notificationId, fileName);
@@ -148,11 +157,11 @@ public class ConnectionWrapper {
 	private void sendUpdateIntent(ResultReceiver receiver, long progress, boolean endOfFileReached, boolean unknown,
 			Integer notificationId, String projectName) {
 		Bundle progressBundle = new Bundle();
-		progressBundle.putLong("currentDownloadProgress", progress);
-		progressBundle.putBoolean("endOfFileReached", endOfFileReached);
-		progressBundle.putBoolean("unknown", unknown);
-		progressBundle.putInt("notificationId", notificationId);
-		progressBundle.putString("projectName", projectName);
+		progressBundle.putLong(TAG_PROGRESS, progress);
+		progressBundle.putBoolean(TAG_ENDOFFILE, endOfFileReached);
+		progressBundle.putBoolean(TAG_UNKNOWN, unknown);
+		progressBundle.putInt(TAG_NOTIFICATION_ID, notificationId);
+		progressBundle.putString(TAG_PROJECT_NAME, projectName);
 		receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, progressBundle);
 	}
 
