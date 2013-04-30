@@ -173,8 +173,9 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.goBack();
 		solo.sleep(200);
 		solo.goBack();
-		if (solo.searchText("Cancel")) {
-			solo.clickOnText("Cancel");
+		String cancel = solo.getString(R.string.cancel_button);
+		if (solo.searchText(cancel)) {
+			solo.clickOnText(cancel);
 		}
 
 		clearSharedPreferences();
