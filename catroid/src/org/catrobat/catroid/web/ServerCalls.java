@@ -59,8 +59,8 @@ public class ServerCalls {
 	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
 
-	public static final String BASE_URL_HTTP = "http://www.catroid.org/";
-	public static final String BASE_URL_FTP = "catroid.org";
+	public static final String BASE_URL_HTTP = "http://www.pocketcode.org/";
+	public static final String BASE_URL_FTP = "pocketcode.org";
 	public static final int FTP_PORT = 8080;
 
 	private static final String FILE_UPLOAD_URL = BASE_URL_FTP;
@@ -79,6 +79,10 @@ public class ServerCalls {
 
 	public static final int TOKEN_LENGTH = 32;
 	public static final String TOKEN_CODE_INVALID = "-1";
+
+	private static final String JSON_STATUS_CODE = "statusCode";
+	private static final String JSON_ANSWER = "answer";
+	private static final String JSON_TOKEN = "token";
 
 	private static ServerCalls instance;
 	public static boolean useTestUrl = false;
@@ -104,11 +108,12 @@ public class ServerCalls {
 	}
 
 	public void uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
-			String language, String token, String username, ResultReceiver receiver, Integer notificationId)
-			throws WebconnectionException {
+			String language, String token, String username, ResultReceiver receiver, Integer notificationId,
+			Context context) throws WebconnectionException {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
 		}
+
 		try {
 			String md5Checksum = Utils.md5Checksum(new File(zipFileString));
 
@@ -136,10 +141,24 @@ public class ServerCalls {
 			JSONObject jsonObject = null;
 			Log.v(TAG, "result string: " + answer);
 			jsonObject = new JSONObject(answer);
-			uploadStatusCode = jsonObject.getInt("statusCode");
-			String serverAnswer = jsonObject.optString("answer");
+			uploadStatusCode = jsonObject.getInt(JSON_STATUS_CODE);
+			String serverAnswer = jsonObject.optString(JSON_ANSWER);
+			String tokenReceived = "";
 
-			if (uploadStatusCode != 200) {
+			if (uploadStatusCode == SERVER_RESPONSE_TOKEN_OK) {
+				tokenReceived = jsonObject.getString(JSON_TOKEN);
+				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived == ""
+						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
+					throw new WebconnectionException(uploadStatusCode, serverAnswer);
+				}
+				if (context != null) {
+					SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+					sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
+					sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
+				}
+			}
+
+			if (uploadStatusCode != SERVER_RESPONSE_TOKEN_OK) {
 				throw new WebconnectionException(uploadStatusCode, serverAnswer);
 			}
 		} catch (JSONException e) {
@@ -183,8 +202,8 @@ public class ServerCalls {
 			Log.v(TAG, "result string: " + resultString);
 
 			jsonObject = new JSONObject(resultString);
-			statusCode = jsonObject.getInt("statusCode");
-			String serverAnswer = jsonObject.optString("answer");
+			statusCode = jsonObject.getInt(JSON_STATUS_CODE);
+			String serverAnswer = jsonObject.optString(JSON_ANSWER);
 
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
 				return true;
@@ -234,12 +253,12 @@ public class ServerCalls {
 			Log.v(TAG, "result string: " + resultString);
 
 			jsonObject = new JSONObject(resultString);
-			statusCode = jsonObject.getInt("statusCode");
-			String serverAnswer = jsonObject.optString("answer");
+			statusCode = jsonObject.getInt(JSON_STATUS_CODE);
+			String serverAnswer = jsonObject.optString(JSON_ANSWER);
 
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
-				tokenReceived = jsonObject.getString("token");
-				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.isEmpty()
+				tokenReceived = jsonObject.getString(JSON_TOKEN);
+				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived == ""
 						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
 					throw new WebconnectionException(statusCode, serverAnswer);
 				}
