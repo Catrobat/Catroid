@@ -508,9 +508,7 @@
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable ausgewählt!</item>
         <item quantity="other">Variablen ausgewählt!</item>
-    </plurals>
-    <string name="formula_editor_colon">: </string>
-    
+    </plurals>    
     <!--  -->
 
 </resources>

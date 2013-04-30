@@ -130,7 +130,7 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
-		holder.text1.setText(variable.getName());
+		holder.text1.setText(variable.getName() + ":");
 		if (holder.text2 != null) {
 			holder.text2.setText(String.valueOf(variable.getValue()));
 		}
