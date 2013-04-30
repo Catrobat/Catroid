@@ -28,7 +28,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.utils.UtilFile;
 
@@ -42,6 +41,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -61,7 +61,7 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 		this.context = context;
 		this.showDetails = showDetails;
 		this.lookDataItems = items;
-		this.selectMode = Constants.SELECT_NONE;
+		this.selectMode = ListView.CHOICE_MODE_NONE;
 	}
 
 	public void setOnLookEditListener(OnLookEditListener listener) {
@@ -119,7 +119,7 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					if (isChecked) {
-						if (selectMode == Constants.SINGLE_SELECT) {
+						if (selectMode == ListView.CHOICE_MODE_SINGLE) {
 							clearCheckedItems();
 						}
 						checkedLooks.add(position);
@@ -136,7 +136,7 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 
 			boolean checkboxIsVisible = false;
 
-			if (selectMode != Constants.SELECT_NONE) {
+			if (selectMode != ListView.CHOICE_MODE_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
 				holder.lookArrowView.setVisibility(View.GONE);
 				holder.lookElement.setBackgroundResource(R.drawable.look_fragment_button_gradient_shadowed);

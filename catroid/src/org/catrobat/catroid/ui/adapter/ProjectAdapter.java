@@ -30,7 +30,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.ProjectScreenshotLoader;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
 import org.catrobat.catroid.utils.UtilFile;
@@ -45,6 +44,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class ProjectAdapter extends ArrayAdapter<ProjectData> {
@@ -74,7 +74,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		screenshotLoader = new ProjectScreenshotLoader(context);
 		showDetails = false;
-		selectMode = Constants.SELECT_NONE;
+		selectMode = ListView.CHOICE_MODE_NONE;
 	}
 
 	public void setOnProjectCheckedListener(OnProjectCheckedListener listener) {
@@ -160,7 +160,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
-					if (selectMode == Constants.SINGLE_SELECT) {
+					if (selectMode == ListView.CHOICE_MODE_SINGLE) {
 						clearCheckedProjects();
 					}
 					checkedProjects.add(position);
@@ -180,7 +180,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		} else {
 			holder.checkbox.setChecked(false);
 		}
-		if (selectMode != Constants.SELECT_NONE) {
+		if (selectMode != ListView.CHOICE_MODE_NONE) {
 			holder.checkbox.setVisibility(View.VISIBLE);
 			holder.arrow.setVisibility(View.GONE);
 			holder.background.setBackgroundResource(R.drawable.my_projects_list_item_background_shadowed);

@@ -27,7 +27,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 
@@ -41,6 +40,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -57,7 +57,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		super(context, resource, textViewResourceId, objects);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.context = context;
-		selectMode = Constants.SELECT_NONE;
+		selectMode = ListView.CHOICE_MODE_NONE;
 		showDetails = false;
 	}
 
@@ -137,7 +137,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
-					if (selectMode == Constants.SINGLE_SELECT) {
+					if (selectMode == ListView.CHOICE_MODE_SINGLE) {
 						clearCheckedSprites();
 					}
 					checkedSprites.add(position);
@@ -197,7 +197,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder.arrow.setVisibility(View.VISIBLE);
 			holder.background.setBackgroundResource(R.drawable.spritelist_item_background);
 		} else {
-			if (selectMode != Constants.SELECT_NONE) {
+			if (selectMode != ListView.CHOICE_MODE_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
 				holder.arrow.setVisibility(View.GONE);
 				holder.background.setBackgroundResource(R.drawable.spritelist_item_background_shadowed);

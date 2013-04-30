@@ -596,7 +596,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.SINGLE_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_SINGLE);
 			mode.setTitle(getString(R.string.rename));
 
 			setActionModeActive(true);
@@ -619,7 +619,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				selectedSoundInfo = (SoundInfo) listView.getItemAtPosition(position);
 				showRenameDialog();
 			}
-			setSelectMode(Constants.SELECT_NONE);
+			setSelectMode(ListView.CHOICE_MODE_NONE);
 			adapter.clearCheckedItems();
 
 			actionMode = null;
@@ -639,7 +639,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.MULTI_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
 			mode.setTitle(R.string.delete);
@@ -670,7 +670,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				deleteSound(position - numberDeleted);
 				++numberDeleted;
 			}
-			setSelectMode(Constants.SELECT_NONE);
+			setSelectMode(ListView.CHOICE_MODE_NONE);
 			adapter.clearCheckedItems();
 
 			actionMode = null;
