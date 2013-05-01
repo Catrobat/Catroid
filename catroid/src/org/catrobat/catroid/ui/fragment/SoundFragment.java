@@ -451,12 +451,15 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		menu.setHeaderTitle(selectedSoundInfo.getTitle());
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
-		menu.findItem(R.id.context_menu_copy).setVisible(false);
+		//menu.findItem(R.id.context_menu_copy).setVisible(false);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case R.id.context_menu_copy:
+				copySound(selectedSoundPosition);
+				break;
 			case R.id.context_menu_cut:
 				break;
 
