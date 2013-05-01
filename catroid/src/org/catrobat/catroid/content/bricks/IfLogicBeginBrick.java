@@ -55,7 +55,6 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	private Formula ifCondition;
 	protected IfLogicElseBrick ifElseBrick;
 	protected IfLogicEndBrick ifEndBrick;
-
 	private transient IfLogicBeginBrick copy;
 
 	public IfLogicBeginBrick(Sprite sprite, int condition) {
@@ -71,6 +70,14 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
+	}
+
+	public IfLogicElseBrick getIfElseBrick() {
+		return ifElseBrick;
+	}
+
+	public IfLogicEndBrick getIfEndBrick() {
+		return ifEndBrick;
 	}
 
 	public IfLogicBeginBrick getCopy() {
