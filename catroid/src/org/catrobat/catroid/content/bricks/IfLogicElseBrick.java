@@ -49,6 +49,8 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 	private IfLogicBeginBrick ifBeginBrick;
 	private IfLogicEndBrick ifEndBrick;
 
+	private transient IfLogicElseBrick copy;
+
 	public IfLogicElseBrick(Sprite sprite, IfLogicBeginBrick ifBeginBrick) {
 		this.sprite = sprite;
 		this.ifBeginBrick = ifBeginBrick;
@@ -58,6 +60,10 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
+	}
+
+	public IfLogicElseBrick getCopy() {
+		return copy;
 	}
 
 	@Override
@@ -98,7 +104,7 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 
 	@Override
 	public Brick clone() {
-		return new IfLogicElseBrick(getSprite(), ifBeginBrick);
+		return new IfLogicElseBrick(sprite, ifBeginBrick);
 	}
 
 	@Override
@@ -108,6 +114,10 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 
 	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
 		this.ifEndBrick = ifEndBrick;
+	}
+
+	public void setIfBeginBrick(IfLogicBeginBrick ifBeginBrick) {
+		this.ifBeginBrick = ifBeginBrick;
 	}
 
 	@Override
@@ -172,6 +182,7 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 		copyBrick.ifBeginBrick = null;
 		copyBrick.ifEndBrick = null;
 		copyBrick.sprite = sprite;
+		this.copy = copyBrick;
 		return copyBrick;
 	}
 

@@ -66,33 +66,44 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		LoopEndBrick copyBrick = new LoopEndBrick();
+
+		LoopEndBrick copyBrick = (LoopEndBrick) clone();
 		copyBrick.sprite = sprite;
-
-		//Sets loopBeginBrick in LoopEndBrick and loopEndBrick in LoopBeginBrick
-		ArrayList<Brick> currentBrickList = script.getBrickList();
-		int loopEnds = 0;
-		for (int i = currentBrickList.size() - 1; i >= 0; i--) {
-			Brick brick = currentBrickList.get(i);
-			if (brick instanceof LoopBeginBrick) {
-				if (loopEnds > 0) {
-					loopEnds--;
-				} else {
-					copyBrick.loopBeginBrick = (LoopBeginBrick) brick;
-					LoopBeginBrick lbb = (LoopBeginBrick) brick;
-					lbb.setLoopEndBrick(copyBrick);
-					break;
-				}
-			} else if (brick instanceof LoopEndBrick) {
-				loopEnds++;
-			}
-		}
-
 		return copyBrick;
+
+		/*
+		 * LoopEndBrick copyBrick = new LoopEndBrick();
+		 * copyBrick.sprite = sprite;
+		 * 
+		 * //Sets loopBeginBrick in LoopEndBrick and loopEndBrick in LoopBeginBrick
+		 * ArrayList<Brick> currentBrickList = script.getBrickList();
+		 * int loopEnds = 0;
+		 * for (int i = currentBrickList.size() - 1; i >= 0; i--) {
+		 * Brick brick = currentBrickList.get(i);
+		 * if (brick instanceof LoopBeginBrick) {
+		 * if (loopEnds > 0) {
+		 * loopEnds--;
+		 * } else {
+		 * copyBrick.loopBeginBrick = (LoopBeginBrick) brick;
+		 * LoopBeginBrick lbb = (LoopBeginBrick) brick;
+		 * lbb.setLoopEndBrick(copyBrick);
+		 * break;
+		 * }
+		 * } else if (brick instanceof LoopEndBrick) {
+		 * loopEnds++;
+		 * }
+		 * }
+		 * 
+		 * return copyBrick;
+		 */
 	}
 
 	public LoopBeginBrick getLoopBeginBrick() {
 		return loopBeginBrick;
+	}
+
+	public void setLoopBeginBrick(LoopBeginBrick loopBeginBrick) {
+		this.loopBeginBrick = loopBeginBrick;
 	}
 
 	@Override

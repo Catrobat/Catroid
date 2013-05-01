@@ -56,6 +56,8 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	protected IfLogicElseBrick ifElseBrick;
 	protected IfLogicEndBrick ifEndBrick;
 
+	private transient IfLogicBeginBrick copy;
+
 	public IfLogicBeginBrick(Sprite sprite, int condition) {
 		this.sprite = sprite;
 		ifCondition = new Formula(condition);
@@ -71,6 +73,10 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 		return NO_RESOURCES;
 	}
 
+	public IfLogicBeginBrick getCopy() {
+		return copy;
+	}
+
 	public void setElseBrick(IfLogicElseBrick elseBrick) {
 		this.ifElseBrick = elseBrick;
 	}
@@ -81,7 +87,7 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new IfLogicBeginBrick(getSprite(), ifCondition.clone());
+		return new IfLogicBeginBrick(sprite, ifCondition.clone());
 	}
 
 	@Override
@@ -202,9 +208,10 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		//ifEndBrick and ifElseBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
 		IfLogicBeginBrick copyBrick = (IfLogicBeginBrick) clone(); //Using the clone method because of its flexibility if new fields are added  
-		copyBrick.ifElseBrick = null; //if the Formula gets a field sprite, a seperate copy method will be needed
+		copyBrick.ifElseBrick = null; //if the Formula gets a field sprite, a separate copy method will be needed
 		copyBrick.ifEndBrick = null;
 		copyBrick.sprite = sprite;
+		this.copy = copyBrick;
 		return copyBrick;
 	}
 

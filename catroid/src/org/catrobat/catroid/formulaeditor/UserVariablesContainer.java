@@ -69,6 +69,12 @@ public class UserVariablesContainer implements Serializable {
 		varList.add(userVariableToAdd);
 	}
 
+	public void addSpriteUserVariableToSprite(Sprite sprite, String userVariableName, Double userVariableValue) {
+		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue);
+		List<UserVariable> varList = getOrCreateVariableListForSprite(sprite);
+		varList.add(userVariableToAdd);
+	}
+
 	public void addProjectUserVariable(String userVariableName, Double userVariableValue) {
 		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue);
 		projectVariables.add(userVariableToAdd);
@@ -90,12 +96,16 @@ public class UserVariablesContainer implements Serializable {
 	}
 
 	public List<UserVariable> getOrCreateVariableListForSprite(Sprite sprite) {
-		List<UserVariable> vars = spriteVariables.get(sprite);
-		if (vars == null) {
-			vars = new ArrayList<UserVariable>();
-			spriteVariables.put(sprite, vars);
+		List<UserVariable> variables = spriteVariables.get(sprite);
+		if (variables == null) {
+			variables = new ArrayList<UserVariable>();
+			spriteVariables.put(sprite, variables);
 		}
-		return vars;
+		return variables;
+	}
+
+	public List<UserVariable> createVariableListForCopySprite(Sprite sprite) {
+		return spriteVariables.get(sprite);
 	}
 
 	private UserVariable findUserVariable(String name, List<UserVariable> variables) {
