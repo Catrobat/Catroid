@@ -49,6 +49,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	private Solo solo;
 	private String saveToken;
+	private String uploadDialogTitle;
 
 	public UploadDialogTest() {
 		super(MainMenuActivity.class);
@@ -60,8 +61,9 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		saveToken = prefs.getString(Constants.TOKEN, "0");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		saveToken = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
 	}
 
 	@Override
@@ -90,7 +92,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.sleep(200);
 		UiTestUtils.createValidUser(getActivity());
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
-		solo.sleep(5000);
+		solo.waitForText(uploadDialogTitle);
 
 		// robotium updated getText with RegularExpressions
 		// need to escape brackets for test to work
@@ -151,8 +153,9 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
-		assertTrue("upload project dialog not shown",
-				solo.waitForText(solo.getString(R.string.upload_project_dialog_title), 0, 5000));
+		boolean uploadDialogShown = solo.waitForText(uploadDialogTitle);
+
+		assertTrue("upload project dialog not shown", uploadDialogShown);
 		EditText uploadDescriptionView = (EditText) solo.getView(R.id.project_description_upload);
 		String uploadDescription = uploadDescriptionView.getText().toString();
 		solo.sleep(500);
@@ -169,9 +172,9 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		UiTestUtils.createValidUser(getActivity());
 		solo.sleep(200);
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+		boolean uploadDialogShown = solo.waitForText(uploadDialogTitle);
 
-		assertTrue("upload project dialog not shown",
-				solo.waitForText(solo.getString(R.string.upload_project_dialog_title), 0, 5000));
+		assertTrue("upload project dialog not shown", uploadDialogShown);
 		EditText editTextUploadName = solo.getEditText(0);
 		EditText editTextUploadDescription = solo.getEditText(1);
 		int projectUploadNameInputType = editTextUploadName.getInputType();
