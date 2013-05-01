@@ -895,20 +895,24 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(200);
 		assertFalse(">>sprite<< string found, should be replaced with >>object<<", solo.searchText("sprite"));
 		assertTrue(">>object<< string not found", solo.searchText("object"));
-		solo.clickOnButton(solo.getString(R.string.close));
+		String close = solo.getString(R.string.close);
+		solo.waitForText(close);
+		solo.clickOnButton(close);
 
 		solo.enterText(0, FIRST_TEST_SPRITE_NAME);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		assertFalse(">>sprite<< string found, should be replaced with >>object<<", solo.searchText("sprite"));
 		assertTrue(">>object<< string not found", solo.searchText("object"));
-		solo.clickOnButton(solo.getString(R.string.close));
-		solo.clickOnButton(solo.getString(R.string.cancel_button));
+		solo.clickOnButton(close);
+		String cancel = solo.getString(R.string.cancel_button);
+		solo.clickOnButton(cancel);
 
 		solo.clickLongOnText(FIRST_TEST_SPRITE_NAME);
 		solo.clickOnText(solo.getString(R.string.rename));
 		assertFalse(">>Sprite<< string found, should be replaced with >>object<<", solo.searchText("Sprite"));
 		assertTrue(">>Object<< string not found", solo.searchText("Object"));
-		solo.clickOnButton(solo.getString(R.string.cancel_button));
+		solo.waitForText(cancel);
+		solo.clickOnButton(cancel);
 
 		solo.clickLongOnText(FIRST_TEST_SPRITE_NAME);
 		solo.clickOnText(solo.getString(R.string.copy));
