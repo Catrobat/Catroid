@@ -727,6 +727,24 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		});
 	}
 
+	private void copySound(int position) {
+
+		SoundInfo soundInfo = soundInfoList.get(position);
+
+		try {
+			StorageHandler.getInstance().copySoundFile(soundInfo.getAbsolutePath());
+
+			String soundName = soundInfo.getTitle() + "_" + getString(R.string.copy_sound_addition);
+			String soundFileName = soundInfo.getSoundFileName();
+
+			updateSoundAdapter(soundName, soundFileName);
+		} catch (IOException e) {
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_load_sound));
+			e.printStackTrace();
+		}
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+	}
+
 	private void deleteSound(int position) {
 		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
 
