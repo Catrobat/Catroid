@@ -593,17 +593,20 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
-				Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
-				startActivity(intent);
+				if (!actionModeActive) {
+					ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
+					Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
+					startActivity(intent);
+				}
 			}
 		});
 
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				spriteToEdit = spriteList.get(position);
-
+				if (!actionModeActive) {
+					spriteToEdit = spriteList.get(position);
+				}
 				// as long as background sprite is always the first one, we're fine
 				if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
 					return true;
