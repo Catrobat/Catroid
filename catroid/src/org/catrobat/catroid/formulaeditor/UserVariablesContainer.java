@@ -98,6 +98,14 @@ public class UserVariablesContainer implements Serializable {
 		return vars;
 	}
 
+	public void cleanVariableListForSprite(Sprite sprite) {
+		List<UserVariable> vars = spriteVariables.get(sprite);
+		if (vars != null) {
+			vars.clear();
+		}
+		spriteVariables.remove(sprite);
+	}
+
 	private UserVariable findUserVariable(String name, List<UserVariable> variables) {
 		if (variables == null) {
 			return null;

@@ -92,8 +92,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	private SpritesListChangedReceiver spritesListChangedReceiver;
 	private SpritesListInitReceiver spritesListInitReceiver;
 
-	private UserVariablesContainer userVariablesContainer;
-
 	private ActionMode actionMode;
 
 	private boolean actionModeActive = false;
@@ -325,7 +323,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		addSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)), 0));
 
 		ProjectManager projectManager = ProjectManager.getInstance();
-		userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
+		UserVariablesContainer userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
 
 		List<UserVariable> userVariablesList = userVariablesContainer.getOrCreateVariableListForSprite(spriteToEdit);
 
@@ -334,8 +332,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
 		for (int variable = 0; variable < userVariablesList.size(); variable++) {
-			userVariablesContainer.addSpriteUserVariable(userVariablesList.get(variable).getName(), userVariablesList.get(variable)
-					.getValue());
+			userVariablesContainer.addSpriteUserVariable(userVariablesList.get(variable).getName(), userVariablesList
+					.get(variable).getValue());
 		}
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
@@ -371,11 +369,15 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	public void deleteSprite() {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
+		UserVariablesContainer userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
+
 		deleteSpriteFiles();
+		userVariablesContainer.cleanVariableListForSprite(spriteToEdit);
+
 		if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
 			projectManager.setCurrentSprite(null);
 		}
+		projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
 	}
 
 	public void setSelectMode(int selectMode) {
