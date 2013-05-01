@@ -131,6 +131,7 @@
     <string name="sound_select_source">Select a sound</string>
     <string name="sound_time_seperator">/</string>
     <string name="delete_sound_dialog">Delete sound?</string>
+    <string name="copy_sound_addition">copy</string>
     <string name="length">Length:</string>
     <!--  -->
 
