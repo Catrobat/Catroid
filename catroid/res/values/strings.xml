@@ -95,6 +95,7 @@
     <string name="spritelist_background_headline">BACKGROUND</string>
     <string name="spritelist_objects_headline">OBJECTS</string>
     <string name="dialog_confirm_delete_object_title">Delete this object?</string>
+    <string name="dialog_confirm_delete_multiple_objects_title">Delete these objects?</string>
     <string name="dialog_confirm_delete_object_message">This can not be undone!</string>
     <!--  -->
 
@@ -147,6 +148,7 @@
     <string name="program">Program</string>
     <string name="programs">Programs</string>
     <string name="dialog_confirm_delete_program_title">Delete this program?</string>
+    <string name="dialog_confirm_delete_multiple_programs_title">Delete these programs?</string>
     <string name="dialog_confirm_delete_program_message">This can not be undone!</string>
     <!--  -->
 

@@ -94,7 +94,8 @@
     <string name="spritelist_background_headline">HINTERGRUND</string>
     <string name="spritelist_objects_headline">OBJEKTE</string>
     <string name="dialog_confirm_delete_object_title">Dieses Objekt löschen?</string>
-    <string name="dialog_confirm_delete_object_message">Es kann nicht wiederhergestellt werden!</string>
+    <string name="dialog_confirm_delete_multiple_objects_title">Diese Objekte löschen?</string>
+    <string name="dialog_confirm_delete_object_message">Kann nicht rückgängig gemacht werden!</string>
     <!--  -->
 
 
@@ -165,7 +166,8 @@
     <string name="program">Programm</string>
     <string name="programs">Programme</string>
     <string name="dialog_confirm_delete_program_title">Dieses Programm löschen?</string>
-    <string name="dialog_confirm_delete_program_message">Es kann nicht wiederhergestellt werden!</string>
+    <string name="dialog_confirm_delete_multiple_programs_title">Diese Programme löschen?</string>
+    <string name="dialog_confirm_delete_program_message">Kann nicht rückgängig gemacht werden!</string>
     <!--  -->
 
 
