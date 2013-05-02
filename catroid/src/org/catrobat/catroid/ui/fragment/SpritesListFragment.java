@@ -63,7 +63,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -215,9 +214,9 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		super.onCreateContextMenu(menu, v, menuInfo);
 
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-		Adapter adapter = getListAdapter();
 
-		spriteToEdit = (Sprite) adapter.getItem(info.position);
+		spriteToEdit = spriteAdapter.getItem(info.position);
+		spriteAdapter.addCheckedSprite(info.position);
 
 		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
 			return;
@@ -374,7 +373,13 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	private void showConfirmDeleteDialog() {
 		String yes = getActivity().getString(R.string.yes);
 		String no = getActivity().getString(R.string.no);
-		String title = getActivity().getString(R.string.dialog_confirm_delete_object_title);
+		String title = "";
+		if (spriteAdapter.getAmountOfCheckedSprites() == 1) {
+			title = getActivity().getString(R.string.dialog_confirm_delete_object_title);
+		} else {
+			title = getActivity().getString(R.string.dialog_confirm_delete_multiple_objects_title);
+		}
+
 		String message = getActivity().getString(R.string.dialog_confirm_delete_object_message);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -383,13 +388,15 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				deleteSprite();
+				deleteCheckedSprites();
+				clearCheckedSpritesAndEnableButtons();
 			}
 		});
 		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
+				clearCheckedSpritesAndEnableButtons();
 			}
 		});
 
@@ -404,6 +411,28 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
 			projectManager.setCurrentSprite(null);
 		}
+	}
+
+	private void deleteCheckedSprites() {
+		Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
+		Iterator<Integer> iterator = checkedSprites.iterator();
+		int numDeleted = 0;
+		while (iterator.hasNext()) {
+			int position = iterator.next();
+			spriteToEdit = (Sprite) getListView().getItemAtPosition(position - numDeleted);
+			deleteSprite();
+			numDeleted++;
+		}
+	}
+
+	private void clearCheckedSpritesAndEnableButtons() {
+		setSelectMode(Constants.SELECT_NONE);
+		spriteAdapter.clearCheckedSprites();
+
+		actionMode = null;
+		actionModeActive = false;
+
+		BottomBar.enableButtons(getActivity());
 	}
 
 	public void setSelectMode(int selectMode) {
@@ -491,22 +520,11 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
-			Iterator<Integer> iterator = checkedSprites.iterator();
-			int numDeleted = 0;
-			while (iterator.hasNext()) {
-				int position = iterator.next();
-				spriteToEdit = (Sprite) getListView().getItemAtPosition(position - numDeleted);
-				deleteSprite();
-				numDeleted++;
+			if (spriteAdapter.getAmountOfCheckedSprites() == 0) {
+				clearCheckedSpritesAndEnableButtons();
+			} else {
+				showConfirmDeleteDialog();
 			}
-			setSelectMode(Constants.SELECT_NONE);
-			spriteAdapter.clearCheckedSprites();
-
-			actionMode = null;
-			actionModeActive = false;
-
-			BottomBar.enableButtons(getActivity());
 		}
 	};
 
@@ -541,13 +559,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
 				showRenameDialog();
 			}
-			setSelectMode(Constants.SELECT_NONE);
-			spriteAdapter.clearCheckedSprites();
-
-			actionMode = null;
-			actionModeActive = false;
-
-			BottomBar.enableButtons(getActivity());
+			clearCheckedSpritesAndEnableButtons();
 		}
 	};
 
@@ -586,13 +598,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
 				copySprite();
 			}
-			setSelectMode(Constants.SELECT_NONE);
-			spriteAdapter.clearCheckedSprites();
-
-			actionMode = null;
-			actionModeActive = false;
-
-			BottomBar.enableButtons(getActivity());
+			clearCheckedSpritesAndEnableButtons();
 		}
 	};
 

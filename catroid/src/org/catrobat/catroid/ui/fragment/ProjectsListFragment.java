@@ -359,6 +359,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				deleteCheckedProjects();
+				clearCheckedProjectsAndEnableButtons();
 			}
 		});
 		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
@@ -408,7 +409,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			deleteProject();
 			numDeleted++;
 		}
-		clearCheckedProjectsAndEnableButtons();
 	}
 
 	private void clearCheckedProjectsAndEnableButtons() {

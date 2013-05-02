@@ -88,6 +88,10 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		return checkedSprites;
 	}
 
+	public void addCheckedSprite(int position) {
+		checkedSprites.add(position);
+	}
+
 	public void clearCheckedSprites() {
 		checkedSprites.clear();
 	}
