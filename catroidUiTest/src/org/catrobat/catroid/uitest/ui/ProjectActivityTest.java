@@ -91,6 +91,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+
 		UiTestUtils.prepareStageForTest();
 
 		UiTestUtils.clearAllUtilTestProjects();
@@ -225,6 +226,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(500);
 		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
 		solo.clickOnText(getActivity().getString(R.string.delete));
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
 		solo.sleep(500);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(500);
