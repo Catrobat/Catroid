@@ -353,6 +353,10 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		int expectedNumberOfSpritesAfterDelete = spriteList.size() - 1;
 		clickOnContextMenuItem(spriteToDelete, delete);
 
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
+
 		// Dialog is handled asynchronously, so we need to wait a while for it to finish
 		solo.sleep(300);
 		spriteList = projectManager.getCurrentProject().getSpriteList();

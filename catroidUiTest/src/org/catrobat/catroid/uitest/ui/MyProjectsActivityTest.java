@@ -57,6 +57,7 @@ import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -208,14 +209,20 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		Project activeProject = ProjectManager.INSTANCE.getCurrentProject();
 		ArrayList<LookData> catroidLookList = activeProject.getSpriteList().get(1).getLookDataList();
 
+		String defaultSpriteName = solo.getString(R.string.default_project_sprites_pocketcode_name);
+		String delete = solo.getString(R.string.delete);
+		String yes = solo.getString(R.string.yes);
+
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
-		solo.sleep(200);
-		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
-		solo.sleep(200);
-		solo.clickOnText(solo.getString(R.string.delete));
+		solo.waitForText(defaultSpriteName);
+		solo.clickLongOnText(defaultSpriteName);
+		solo.waitForText(delete);
+		solo.clickOnText(delete);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
 		solo.sleep(1000);
 
 		File imageFile;
@@ -308,7 +315,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("longclick on project '" + standardProjectName + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, standardProjectName));
 		solo.clickOnText(solo.getString(R.string.delete));
-		assertTrue("delete dialog not closed in time", solo.waitForDialogToClose(5000));
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
+		assertTrue("delete dialog not closed in time", solo.waitForText(standardProjectName));
 
 		if (!solo.waitForView(ListView.class, 0, 5000)) {
 			fail("ListView not shown in 5 secs!");
@@ -502,7 +512,14 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.delete));
-		assertTrue("delete dialog not closed in time", solo.waitForDialogToClose(5000));
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+
+		assertTrue("Dialog title is wrong!",
+				solo.searchText(solo.getString(R.string.dialog_confirm_delete_program_title)));
+
+		solo.clickOnText(yes);
+		assertTrue("delete dialog not closed in time", solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 
 		assertFalse("project " + UiTestUtils.PROJECTNAME1 + " is still visible",
 				solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
@@ -517,6 +534,57 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("project " + UiTestUtils.PROJECTNAME1 + " not deleted", projectDeleted);
 	}
 
+	public void testChooseNoOnDeleteQuestion() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
+				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
+		solo.clickOnText(solo.getString(R.string.delete));
+		String no = solo.getString(R.string.no);
+		solo.waitForText(no);
+		solo.clickOnText(no);
+
+		assertTrue("Project was deleted!", solo.searchText(UiTestUtils.PROJECTNAME1));
+	}
+
+	public void testChooseNoOnDeleteQuestionInActionMode() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		String delete = solo.getString(R.string.delete);
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		solo.clickOnCheckBox(0);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		String no = solo.getString(R.string.no);
+		solo.waitForText(no);
+		solo.clickOnText(no);
+
+		assertTrue("Project was deleted!", solo.searchText(UiTestUtils.PROJECTNAME1));
+
+		int numberOfVisibleCheckBoxes = solo.getCurrentCheckBoxes().size();
+
+		for (CheckBox checkbox : solo.getCurrentCheckBoxes()) {
+			if (checkbox.getVisibility() == View.GONE) {
+				numberOfVisibleCheckBoxes--;
+			}
+		}
+
+		assertEquals("Checkboxes are still showing!", 0, numberOfVisibleCheckBoxes);
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+
+		assertTrue("Bottom bar buttons are not enabled!",
+				solo.searchText(solo.getString(R.string.new_project_dialog_title)));
+	}
+
 	public void testDeleteCurrentProject() {
 		createProjects();
 		solo.sleep(200);
@@ -527,7 +595,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("longclick on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.clickOnText(solo.getString(R.string.delete));
-		assertTrue("delete dialog not closed in time", solo.waitForDialogToClose(5000));
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
+		assertTrue("delete dialog not closed in time", solo.waitForText(UiTestUtils.PROJECTNAME1));
 
 		assertFalse("project " + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " is still visible",
 				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1, true));
@@ -549,10 +620,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		String defaultProjectName = solo.getString(R.string.default_project_name);
 		String buttonDeleteText = solo.getString(R.string.delete);
-
+		String yes = solo.getString(R.string.yes);
 		//delete default project if exists:
 		if (UiTestUtils.longClickOnTextInList(solo, defaultProjectName)) {
 			solo.clickOnText(buttonDeleteText);
+
+			solo.waitForText(yes);
+			solo.clickOnText(yes);
 			assertTrue("delete dialog not closed in time", solo.waitForDialogToClose(5000));
 		}
 
@@ -560,7 +634,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("longclick on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.clickOnText(buttonDeleteText);
-		assertTrue("delete dialog not closed in time", solo.waitForDialogToClose(5000));
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
+		assertTrue("delete dialog not closed in time", solo.waitForText(UiTestUtils.PROJECTNAME1));
 		ProjectManager projectManager = ProjectManager.getInstance();
 		assertFalse("project " + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " is still visible",
 				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1));
@@ -575,7 +651,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(buttonDeleteText);
-		assertTrue("delete dialog not closed in time", solo.waitForDialogToClose(5000));
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
+		assertTrue("delete dialog not closed in time", solo.waitForText(defaultProjectName));
 		assertFalse("project " + UiTestUtils.PROJECTNAME1 + " is still visible",
 				solo.searchText(UiTestUtils.PROJECTNAME1, 1));
 		assertNotSame("the deleted project is still the current project", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
@@ -599,6 +677,15 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnCheckBox(1);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+
+		assertTrue("Dialog title is wrong!",
+				solo.searchText(solo.getString(R.string.dialog_confirm_delete_program_title)));
+
+		solo.clickOnText(yes);
+
 		solo.sleep(300);
 		ProjectManager projectManager = ProjectManager.INSTANCE;
 		String currentProjectName = projectManager.getCurrentProject().getName();
@@ -656,6 +743,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		solo.goBack();
 		solo.sleep(300);
+
+		assertFalse("Delete confirmation dialog is showing!", solo.searchText(solo.getString(R.string.yes)));
 
 		assertTrue("First project has been deleted!", solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		assertTrue("Second project has been deleted!", solo.searchText(UiTestUtils.PROJECTNAME1));
