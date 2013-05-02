@@ -1252,7 +1252,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		Project project2 = new Project(getActivity(), UiTestUtils.PROJECTNAME1);
 		StorageHandler.getInstance().saveProject(project2);
 
-		solo.sleep(1000);
+		solo.sleep(2000);
 
 		Project project1 = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		StorageHandler.getInstance().saveProject(project1);
