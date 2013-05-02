@@ -776,6 +776,14 @@ public class UiTestUtils {
 		BroadcastReceiverBrick brickBroad = new BroadcastReceiverBrick(firstSprite, broadcastScript);
 		firstSprite.addScript(broadcastScript);
 		brickList.add(brickBroad);
+		IfLogicBeginBrick IfBeginBrick = new IfLogicBeginBrick(firstSprite, 0);
+		IfLogicElseBrick IfElseBrick = new IfLogicElseBrick(firstSprite, IfBeginBrick);
+		IfLogicEndBrick IfEndBrick = new IfLogicEndBrick(firstSprite, IfElseBrick, IfBeginBrick);
+		brickList.add(IfBeginBrick);
+		brickList.add(new SpeakBrick(firstSprite, "Hello, I'm true!"));
+		brickList.add(IfElseBrick);
+		brickList.add(new SpeakBrick(firstSprite, "Hallo, I'm false!"));
+		brickList.add(IfEndBrick);
 
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);

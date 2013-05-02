@@ -201,7 +201,7 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 
 	@Override
 	public Brick clone() {
-		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(getSprite(), variableFormula.clone());
+		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(sprite, variableFormula.clone());
 		return clonedBrick;
 	}
 

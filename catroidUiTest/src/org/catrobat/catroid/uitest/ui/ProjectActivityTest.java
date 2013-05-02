@@ -37,6 +37,9 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -1043,6 +1046,23 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals("Loop Brick is not copied right!", copiedEndBrick.getLoopBeginBrick(), copiedLoopBrick);
 		assertEquals("Loop Brick is not copied right!", firstLoopBrick.getLoopEndBrick(), firstEndBrick);
 		assertEquals("Loop Brick is not copied right!", copiedLoopBrick.getLoopEndBrick(), copiedEndBrick);
+
+		IfLogicBeginBrick firstIfBeginBrick = (IfLogicBeginBrick) brickListFirstSprite.get(39);
+		IfLogicBeginBrick copiedIfBeginBrick = (IfLogicBeginBrick) brickListCopiedSprite.get(39);
+		IfLogicElseBrick firstIfElseBrick = firstIfBeginBrick.getIfElseBrick();
+		IfLogicElseBrick copiedIfElseBrick = copiedIfBeginBrick.getIfElseBrick();
+		IfLogicEndBrick firstIfEndBrick = firstIfBeginBrick.getIfEndBrick();
+		IfLogicEndBrick copiedIfEndBrick = copiedIfBeginBrick.getIfEndBrick();
+
+		assertNotSame("If Brick is not copied right!", firstIfEndBrick, copiedIfEndBrick);
+		assertNotSame("If Brick is not copied right!", firstIfEndBrick.getIfBeginBrick(),
+				copiedIfEndBrick.getIfBeginBrick());
+		assertEquals("If Brick is not copied right!", firstIfEndBrick.getIfBeginBrick(), firstIfBeginBrick);
+		assertEquals("If Brick is not copied right!", copiedIfEndBrick.getIfBeginBrick(), copiedIfEndBrick);
+		assertEquals("If Brick is not copied right!", firstIfBeginBrick.getIfElseBrick(), firstIfElseBrick);
+		assertEquals("If Brick is not copied right!", copiedIfBeginBrick.getIfElseBrick(), copiedIfElseBrick);
+		assertEquals("If Brick is not copied right!", firstIfBeginBrick.getIfEndBrick(), firstIfEndBrick);
+		assertEquals("If Brick is not copied right!", copiedIfBeginBrick.getIfEndBrick(), copiedIfEndBrick);
 	}
 
 	private int checkIds(Sprite firstSprite, Sprite copiedSprite) {

@@ -319,22 +319,17 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	}
 
 	public void copySprite() {
-		Sprite addSprite = spriteToEdit.clone();
-		addSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)), 0));
+		Sprite copiedSprite = spriteToEdit.clone();
+		copiedSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)),
+				0));
 
 		ProjectManager projectManager = ProjectManager.getInstance();
-		UserVariablesContainer userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
 
-		List<UserVariable> userVariablesList = userVariablesContainer.getOrCreateVariableListForSprite(spriteToEdit);
+		//TODO: Refactor?
+		copyUserVariables(copiedSprite);
 
-		projectManager.addSprite(addSprite);
-		projectManager.setCurrentSprite(addSprite);
-
-		userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
-		for (int variable = 0; variable < userVariablesList.size(); variable++) {
-			userVariablesContainer.addSpriteUserVariable(userVariablesList.get(variable).getName(), userVariablesList
-					.get(variable).getValue());
-		}
+		projectManager.addSprite(copiedSprite);
+		projectManager.setCurrentSprite(copiedSprite);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
 
@@ -343,7 +338,23 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				this.getString(R.string.copy_sprite_prefix).concat(" ").concat(spriteToEdit.getName()).concat(" ")
 						.concat(this.getString(R.string.copy_sprite_finished)), Toast.LENGTH_LONG).show();
 
-		Log.d("Sprite copied", addSprite.toString());
+		Log.d("Sprite copied", copiedSprite.toString());
+	}
+
+	private void copyUserVariables(Sprite copiedSprite) {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		UserVariablesContainer userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
+
+		List<UserVariable> userVariablesList = userVariablesContainer.getOrCreateVariableListForSprite(spriteToEdit);
+
+		if (userVariablesList != null) {
+			userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
+			for (int variable = 0; variable < userVariablesList.size(); variable++) {
+				String userVariableName = userVariablesList.get(variable).getName();
+				Double userVariableValue = userVariablesList.get(variable).getValue();
+				userVariablesContainer.addSpriteUserVariableToSprite(copiedSprite, userVariableName, userVariableValue);
+			}
+		}
 	}
 
 	private static String getSpriteName(String name, int nextNumber) {
@@ -584,17 +595,20 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
-				Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
-				startActivity(intent);
+				if (!actionModeActive) {
+					ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
+					Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
+					startActivity(intent);
+				}
 			}
 		});
 
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				spriteToEdit = spriteList.get(position);
-
+				if (!actionModeActive) {
+					spriteToEdit = spriteList.get(position);
+				}
 				// as long as background sprite is always the first one, we're fine
 				if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
 					return true;

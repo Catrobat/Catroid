@@ -35,17 +35,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-
 public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 
-	private SherlockFragmentActivity parentActivity;
 	private ProjectsListFragment parentFragment;
 	private String newName;
 
 	public CopyProjectTask(ProjectsListFragment parentActivity) {
 		this.parentFragment = parentActivity;
-		this.parentActivity = parentFragment.getSherlockActivity();
 	}
 
 	@Override
