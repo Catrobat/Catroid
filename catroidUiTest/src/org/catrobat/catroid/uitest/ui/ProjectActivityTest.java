@@ -371,6 +371,28 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				notDeletedSprite.getName());
 	}
 
+	public void testChooseNoOnDeleteQuestion() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		final String spriteToDelete = FIRST_TEST_SPRITE_NAME;
+
+		// Delete sprite
+		int expectedNumberOfSprites = spriteList.size();
+		clickOnContextMenuItem(spriteToDelete, delete);
+
+		String no = solo.getString(R.string.no);
+		solo.waitForText(no);
+		solo.clickOnText(no);
+
+		solo.sleep(300);
+		spriteList = projectManager.getCurrentProject().getSpriteList();
+
+		assertEquals("Size of sprite list has changed!", expectedNumberOfSprites, spriteList.size());
+
+		assertTrue("Sprite is not showing in sprite list!", solo.searchText(spriteToDelete));
+		assertTrue("Sprite is no in Project!", projectManager.spriteExists(spriteToDelete));
+	}
+
 	public void testMainMenuButton() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -775,6 +797,12 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		assertTrue("Title in delete dialog is not correct!",
+				solo.searchText(solo.getString(R.string.dialog_confirm_delete_object_title)));
+		solo.clickOnText(yes);
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, 300));
 
 		checkIfNumberOfSpritesIsEqual(expectedNumberOfSprites);
@@ -792,6 +820,35 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.waitForText(deletedSpriteName, 0, 200, false, false));
 	}
 
+	public void testChooseNoOnDeleteQuestionInActionMode() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		solo.clickOnCheckBox(1);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		String no = solo.getString(R.string.no);
+		solo.waitForText(no);
+		solo.clickOnText(no);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, 300));
+
+		int numberOfVisibleCheckBoxes = solo.getCurrentCheckBoxes().size();
+
+		for (CheckBox checkbox : solo.getCurrentCheckBoxes()) {
+			if (checkbox.getVisibility() == View.GONE) {
+				numberOfVisibleCheckBoxes--;
+			}
+		}
+
+		assertEquals("Checkboxes are still showing!", 0, numberOfVisibleCheckBoxes);
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+
+		assertTrue("Bottom bar buttons are not enabled!",
+				solo.searchText(solo.getString(R.string.new_sprite_dialog_title)));
+	}
+
 	public void testDeleteMultipleSprites() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		solo.scrollListToBottom(0);
@@ -803,6 +860,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnCheckBox(3);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, 300));
 
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
