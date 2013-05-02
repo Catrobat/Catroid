@@ -188,9 +188,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		File projectCodeFile;
 		projectList = new ArrayList<ProjectData>();
 		for (String projectName : UtilFile.getProjectNames(rootDirectory)) {
-			Log.e("ProjectListFragment", "Projectname: " + projectName);
 			projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(projectName), Constants.PROJECTCODE_NAME));
-			Log.e("ProjectListFragment", "Last modified: " + projectCodeFile.lastModified());
 			projectList.add(new ProjectData(projectName, projectCodeFile.lastModified()));
 		}
 		Collections.sort(projectList, new Comparator<ProjectData>() {

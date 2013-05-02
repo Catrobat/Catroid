@@ -393,6 +393,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		ProjectManager.getInstance().setProject(firstCacheTestProject);
 
 		for (int i = 1; i < numberOfCacheProjects; i++) {
+			solo.sleep(500);
 			StorageHandler.getInstance().saveProject(new Project(getActivity(), "cachetestProject" + i));
 			UiTestUtils.saveFileToProject(cacheProjectName + i, "screenshot.png", IMAGE_RESOURCE_2,
 					getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
