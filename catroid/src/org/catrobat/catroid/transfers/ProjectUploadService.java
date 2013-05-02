@@ -34,6 +34,7 @@ import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.os.ResultReceiver;
 import android.util.Log;
@@ -108,8 +109,9 @@ public class ProjectUploadService extends IntentService {
 			String userEmail = UtilDeviceInfo.getUserEmail(this);
 			String language = UtilDeviceInfo.getUserLanguageCode(this);
 
+			Context context = getApplicationContext();
 			ServerCalls.getInstance().uploadProject(projectName, projectDescription, zipFileString, userEmail,
-					language, token, username, receiver, notificationId);
+					language, token, username, receiver, notificationId, context);
 
 			zipFile.delete();
 		} catch (IOException e) {
