@@ -590,7 +590,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	public void testDeleteProjectViaActionBar() {
 		String delete = solo.getString(R.string.delete);
 		createProjects();
-		solo.sleep(200);
+		solo.sleep(1000);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1280,7 +1280,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		UiTestUtils.saveFileToProject(UiTestUtils.PROJECTNAME1, "screenshot.png", IMAGE_RESOURCE_3,
 				getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
-
 	}
 
 	private void playTheProject(boolean switchGreenToRed, boolean switchRedToGreen, boolean makeScreenshot) {
