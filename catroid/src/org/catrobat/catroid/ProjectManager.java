@@ -128,7 +128,7 @@ public class ProjectManager {
 		if (project == null) {
 			return false;
 		}
-		SaveProjectAsynchronous saveTask = new SaveProjectAsynchronous();
+		SaveProjectAsynchronousTask saveTask = new SaveProjectAsynchronousTask();
 		saveTask.execute();
 		return true;
 	}
@@ -340,7 +340,7 @@ public class ProjectManager {
 		this.fileChecksumContainer = fileChecksumContainer;
 	}
 
-	private class SaveProjectAsynchronous extends AsyncTask<Void, Void, Void> {
+	private class SaveProjectAsynchronousTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
 		protected Void doInBackground(Void... params) {
