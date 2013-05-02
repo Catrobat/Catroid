@@ -451,9 +451,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		solo.scrollToBottom();
 		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "scroll bottom");
+		solo.sleep(500);
 		solo.scrollToTop();
 		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "scroll up");
-		solo.sleep(100);
+		solo.sleep(500);
 		int currentViewID;
 		int pixelColor;
 		int imageViewID = R.id.my_projects_activity_project_image;
@@ -1247,6 +1248,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void createProjects() {
+
+		Project project2 = new Project(getActivity(), UiTestUtils.PROJECTNAME1);
+		StorageHandler.getInstance().saveProject(project2);
+
 		Project project1 = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		StorageHandler.getInstance().saveProject(project1);
 		ProjectManager.getInstance().setProject(project1);
@@ -1269,9 +1274,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		StorageHandler.getInstance().saveProject(project1);
 
 		//-------------------------------------------------
-
-		Project project2 = new Project(getActivity(), UiTestUtils.PROJECTNAME1);
-		StorageHandler.getInstance().saveProject(project2);
 
 		UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "screenshot.png", IMAGE_RESOURCE_2,
 				getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
