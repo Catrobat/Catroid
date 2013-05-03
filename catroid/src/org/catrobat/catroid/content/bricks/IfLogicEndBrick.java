@@ -47,14 +47,14 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 	static final int FOREVER = -1;
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicEndBrick.class.getSimpleName();
-	private IfLogicElseBrick elseBrick;
+	private IfLogicElseBrick ifElseBrick;
 
-	private IfLogicBeginBrick beginBrick;
+	private IfLogicBeginBrick ifBeginBrick;
 
 	public IfLogicEndBrick(Sprite sprite, IfLogicElseBrick elseBrick, IfLogicBeginBrick beginBrick) {
 		this.sprite = sprite;
-		this.elseBrick = elseBrick;
-		this.beginBrick = beginBrick;
+		this.ifElseBrick = elseBrick;
+		this.ifBeginBrick = beginBrick;
 		elseBrick.setIfEndBrick(this);
 	}
 
@@ -64,19 +64,19 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 	}
 
 	public IfLogicElseBrick getIfElseBrick() {
-		return elseBrick;
+		return ifElseBrick;
 	}
 
 	public IfLogicBeginBrick getIfBeginBrick() {
-		return beginBrick;
+		return ifBeginBrick;
 	}
 
 	public void setIfElseBrick(IfLogicElseBrick ifElseBrick) {
-		this.elseBrick = ifElseBrick;
+		this.ifElseBrick = ifElseBrick;
 	}
 
 	public void setIfBeginBrick(IfLogicBeginBrick ifBeginBrick) {
-		this.beginBrick = ifBeginBrick;
+		this.ifBeginBrick = ifBeginBrick;
 	}
 
 	@Override
@@ -116,7 +116,7 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 
 	@Override
 	public Brick clone() {
-		return new IfLogicEndBrick(getSprite(), elseBrick, beginBrick);
+		return new IfLogicEndBrick(getSprite(), ifElseBrick, ifBeginBrick);
 	}
 
 	@Override
@@ -126,7 +126,7 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 
 	@Override
 	public boolean isDraggableOver(Brick brick) {
-		if (brick == elseBrick) {
+		if (brick == ifElseBrick) {
 			return false;
 		} else {
 			return true;
@@ -135,7 +135,7 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 
 	@Override
 	public boolean isInitialized() {
-		if (elseBrick == null) {
+		if (ifElseBrick == null) {
 			return false;
 		} else {
 			return true;
@@ -153,12 +153,12 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 		//TODO: handle sorting
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
 		if (sorted) {
-			nestingBrickList.add(beginBrick);
-			nestingBrickList.add(elseBrick);
+			nestingBrickList.add(ifBeginBrick);
+			nestingBrickList.add(ifElseBrick);
 			nestingBrickList.add(this);
 		} else {
 			nestingBrickList.add(this);
-			nestingBrickList.add(beginBrick);
+			nestingBrickList.add(ifBeginBrick);
 			//nestingBrickList.add(ifElseBrick);
 		}
 
@@ -182,8 +182,8 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 
 		IfLogicEndBrick copyBrick = (IfLogicEndBrick) clone(); //Using the clone method because of its flexibility if new fields are added
-		copyBrick.beginBrick = null;
-		copyBrick.elseBrick = null;
+		copyBrick.ifBeginBrick = null;
+		copyBrick.ifElseBrick = null;
 		copyBrick.sprite = sprite;
 		return copyBrick;
 
