@@ -55,6 +55,7 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 		this.sprite = sprite;
 		this.ifElseBrick = elseBrick;
 		this.ifBeginBrick = beginBrick;
+		beginBrick.setIfEndBrick(this);
 		elseBrick.setIfEndBrick(this);
 	}
 

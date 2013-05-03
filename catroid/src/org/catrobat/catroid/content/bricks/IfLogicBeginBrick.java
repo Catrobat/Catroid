@@ -84,11 +84,11 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 		return copy;
 	}
 
-	public void setElseBrick(IfLogicElseBrick elseBrick) {
+	public void setIfElseBrick(IfLogicElseBrick elseBrick) {
 		this.ifElseBrick = elseBrick;
 	}
 
-	public void setEndBrick(IfLogicEndBrick ifEndBrick) {
+	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
 		this.ifEndBrick = ifEndBrick;
 	}
 

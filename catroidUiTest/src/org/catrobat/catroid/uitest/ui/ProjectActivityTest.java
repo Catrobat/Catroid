@@ -1047,22 +1047,41 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals("Loop Brick is not copied right!", firstLoopBrick.getLoopEndBrick(), firstEndBrick);
 		assertEquals("Loop Brick is not copied right!", copiedLoopBrick.getLoopEndBrick(), copiedEndBrick);
 
-		IfLogicBeginBrick firstIfBeginBrick = (IfLogicBeginBrick) brickListFirstSprite.get(39);
-		IfLogicBeginBrick copiedIfBeginBrick = (IfLogicBeginBrick) brickListCopiedSprite.get(39);
-		IfLogicElseBrick firstIfElseBrick = firstIfBeginBrick.getIfElseBrick();
-		IfLogicElseBrick copiedIfElseBrick = copiedIfBeginBrick.getIfElseBrick();
-		IfLogicEndBrick firstIfEndBrick = firstIfBeginBrick.getIfEndBrick();
-		IfLogicEndBrick copiedIfEndBrick = copiedIfBeginBrick.getIfEndBrick();
+		// TODO - [ ] have a look at loop-testing
+		//      - [ ] test the repeat-loop
+		//      - [ ] check correct cloning of conditions (repeat-brick, if-brick)
+		//      - [ ] make it all work :)
 
+		for (int i = 0; i < brickListFirstSprite.size(); i++) {
+			Log.e("blah", i + ": " + brickListFirstSprite.get(i).getClass().getSimpleName());
+		}
+
+		IfLogicBeginBrick firstIfBeginBrick = (IfLogicBeginBrick) brickListFirstSprite.get(37);
+		IfLogicBeginBrick copiedIfBeginBrick = (IfLogicBeginBrick) brickListCopiedSprite.get(37);
+		IfLogicElseBrick firstIfElseBrick = (IfLogicElseBrick) brickListFirstSprite.get(39);
+		IfLogicElseBrick copiedIfElseBrick = (IfLogicElseBrick) brickListCopiedSprite.get(39);
+		IfLogicEndBrick firstIfEndBrick = (IfLogicEndBrick) brickListFirstSprite.get(41);
+		IfLogicEndBrick copiedIfEndBrick = (IfLogicEndBrick) brickListCopiedSprite.get(41);
+
+		assertNotSame("If Brick is not copied right!", firstIfBeginBrick, copiedIfBeginBrick);
+		assertNotSame("If Brick is not copied right!", firstIfElseBrick, copiedIfElseBrick);
 		assertNotSame("If Brick is not copied right!", firstIfEndBrick, copiedIfEndBrick);
-		assertNotSame("If Brick is not copied right!", firstIfEndBrick.getIfBeginBrick(),
-				copiedIfEndBrick.getIfBeginBrick());
-		assertEquals("If Brick is not copied right!", firstIfEndBrick.getIfBeginBrick(), firstIfBeginBrick);
-		assertEquals("If Brick is not copied right!", copiedIfEndBrick.getIfBeginBrick(), copiedIfEndBrick);
-		assertEquals("If Brick is not copied right!", firstIfBeginBrick.getIfElseBrick(), firstIfElseBrick);
-		assertEquals("If Brick is not copied right!", copiedIfBeginBrick.getIfElseBrick(), copiedIfElseBrick);
-		assertEquals("If Brick is not copied right!", firstIfBeginBrick.getIfEndBrick(), firstIfEndBrick);
-		assertEquals("If Brick is not copied right!", copiedIfBeginBrick.getIfEndBrick(), copiedIfEndBrick);
+
+		// checking references of first if-bricks
+		assertEquals("If Brick is not copied right!", firstIfBeginBrick, firstIfElseBrick.getIfBeginBrick());
+		assertEquals("If Brick is not copied right!", firstIfBeginBrick, firstIfEndBrick.getIfBeginBrick());
+		assertEquals("If Brick is not copied right!", firstIfElseBrick, firstIfBeginBrick.getIfElseBrick());
+		assertEquals("If Brick is not copied right!", firstIfElseBrick, firstIfEndBrick.getIfElseBrick());
+		assertEquals("If Brick is not copied right!", firstIfEndBrick, firstIfBeginBrick.getIfEndBrick());
+		assertEquals("If Brick is not copied right!", firstIfEndBrick, firstIfElseBrick.getIfEndBrick());
+
+		// checking references of copied if-bricks
+		assertEquals("If Brick is not copied right!", copiedIfBeginBrick, copiedIfElseBrick.getIfBeginBrick());
+		assertEquals("If Brick is not copied right!", copiedIfBeginBrick, copiedIfEndBrick.getIfBeginBrick());
+		assertEquals("If Brick is not copied right!", copiedIfElseBrick, copiedIfBeginBrick.getIfElseBrick());
+		assertEquals("If Brick is not copied right!", copiedIfElseBrick, copiedIfEndBrick.getIfElseBrick());
+		assertEquals("If Brick is not copied right!", copiedIfEndBrick, copiedIfBeginBrick.getIfEndBrick());
+		assertEquals("If Brick is not copied right!", copiedIfEndBrick, copiedIfElseBrick.getIfEndBrick());
 	}
 
 	private int checkIds(Sprite firstSprite, Sprite copiedSprite) {

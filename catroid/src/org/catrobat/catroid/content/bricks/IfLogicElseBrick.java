@@ -54,7 +54,7 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 	public IfLogicElseBrick(Sprite sprite, IfLogicBeginBrick ifBeginBrick) {
 		this.sprite = sprite;
 		this.ifBeginBrick = ifBeginBrick;
-		ifBeginBrick.setElseBrick(this);
+		ifBeginBrick.setIfElseBrick(this);
 	}
 
 	@Override
@@ -120,6 +120,14 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 		this.ifBeginBrick = ifBeginBrick;
 	}
 
+	public IfLogicBeginBrick getIfBeginBrick() {
+		return ifBeginBrick;
+	}
+
+	public IfLogicEndBrick getIfEndBrick() {
+		return ifEndBrick;
+	}
+
 	@Override
 	public boolean isDraggableOver(Brick brick) {
 		if (brick == ifBeginBrick || brick == ifEndBrick) {
@@ -179,7 +187,7 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		//ifEndBrick and ifBeginBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
 		IfLogicElseBrick copyBrick = (IfLogicElseBrick) clone(); //Using the clone method because of its flexibility if new fields are added
-		ifBeginBrick.setElseBrick(this);
+		ifBeginBrick.setIfElseBrick(this);
 
 		copyBrick.ifBeginBrick = null;
 		copyBrick.ifEndBrick = null;

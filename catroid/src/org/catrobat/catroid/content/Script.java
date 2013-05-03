@@ -170,8 +170,8 @@ public abstract class Script implements Serializable {
 		IfLogicBeginBrick copiedIfBeginBrick = ((IfLogicBeginBrick) ifBrickList.get(0)).getCopy();
 		IfLogicElseBrick copiedIfElseBrick = ((IfLogicElseBrick) ifBrickList.get(1)).getCopy();
 
-		copiedIfBeginBrick.setElseBrick(copiedIfElseBrick);
-		copiedIfBeginBrick.setEndBrick(copiedIfEndBrick);
+		copiedIfBeginBrick.setIfElseBrick(copiedIfElseBrick);
+		copiedIfBeginBrick.setIfEndBrick(copiedIfEndBrick);
 		copiedIfElseBrick.setIfBeginBrick(copiedIfBeginBrick);
 		copiedIfElseBrick.setIfEndBrick(copiedIfEndBrick);
 		copiedIfEndBrick.setIfBeginBrick(copiedIfBeginBrick);
