@@ -165,8 +165,8 @@ public abstract class Script implements Serializable {
 		return brickList.get(index);
 	}
 
-	protected void setIfBrickReferences(IfLogicEndBrick copiedIfEndBrick, IfLogicEndBrick originalEndBrick) {
-		List<NestingBrick> ifBrickList = originalEndBrick.getAllNestingBrickParts(true);
+	protected void setIfBrickReferences(IfLogicEndBrick copiedIfEndBrick, IfLogicEndBrick originalIfEndBrick) {
+		List<NestingBrick> ifBrickList = originalIfEndBrick.getAllNestingBrickParts(true);
 		IfLogicBeginBrick copiedIfBeginBrick = ((IfLogicBeginBrick) ifBrickList.get(0)).getCopy();
 		IfLogicElseBrick copiedIfElseBrick = ((IfLogicElseBrick) ifBrickList.get(1)).getCopy();
 

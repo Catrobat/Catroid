@@ -66,8 +66,9 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-
 		LoopEndBrick copyBrick = (LoopEndBrick) clone();
+		loopBeginBrick.setLoopEndBrick(this);
+
 		copyBrick.sprite = sprite;
 		return copyBrick;
 
