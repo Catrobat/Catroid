@@ -180,8 +180,9 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-
 		IfLogicEndBrick copyBrick = (IfLogicEndBrick) clone(); //Using the clone method because of its flexibility if new fields are added
+		ifElseBrick.setIfEndBrick(this);
+
 		copyBrick.ifBeginBrick = null;
 		copyBrick.ifElseBrick = null;
 		copyBrick.sprite = sprite;
