@@ -74,6 +74,10 @@ public class BroadcastEvent extends Event {
 		this.run = run;
 	}
 
+	public int getNumberOfReceivers() {
+		return this.numberOfReceivers;
+	}
+
 	public void raiseNumberOfReceivers() {
 		this.numberOfReceivers++;
 	}
