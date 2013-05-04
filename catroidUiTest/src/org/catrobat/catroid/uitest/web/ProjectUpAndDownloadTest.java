@@ -313,7 +313,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 			ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(),
 					soundInfo.getAbsolutePath());
 		}
-		ProjectManager.INSTANCE.saveProject();
+		StorageHandler.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
 		Project newProject = StorageHandler.getInstance().loadProject(projectName);
 		ProjectManager.INSTANCE.setProject(newProject);
 
