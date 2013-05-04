@@ -204,19 +204,22 @@ public class Look extends Image {
 			if (!broadcastWaitSequenceMap.containsKey(broadcastMessage)) {
 				ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
 				for (SequenceAction broadcastAction : broadcastSequenceMap.get(broadcastMessage)) {
+					event.raiseNumberOfReceivers();
 					SequenceAction broadcastWaitAction = ExtendedActions.sequence(broadcastAction,
 							ExtendedActions.broadcastNotify(event));
 					actionList.add(broadcastWaitAction);
 					addAction(broadcastWaitAction);
 				}
 				broadcastWaitSequenceMap.put(broadcastMessage, actionList);
-			}
-			ArrayList<SequenceAction> actionList = broadcastWaitSequenceMap.get(broadcastMessage);
-			for (SequenceAction action : actionList) {
-				Array<Action> actions = action.getActions();
-				BroadcastNotifyAction notifyAction = (BroadcastNotifyAction) actions.get(actions.size - 1);
-				notifyAction.setEvent(event);
-				actionsToRestart.add(action);
+			} else {
+				ArrayList<SequenceAction> actionList = broadcastWaitSequenceMap.get(broadcastMessage);
+				for (SequenceAction action : actionList) {
+					event.raiseNumberOfReceivers();
+					Array<Action> actions = action.getActions();
+					BroadcastNotifyAction notifyAction = (BroadcastNotifyAction) actions.get(actions.size - 1);
+					notifyAction.setEvent(event);
+					actionsToRestart.add(action);
+				}
 			}
 		}
 	}
