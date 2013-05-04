@@ -80,7 +80,18 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_nxt_motor_stop, null);
+		View prototypeView = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
+		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.stop_motor_spinner);
+		legoSpinner.setFocusableInTouchMode(false);
+		legoSpinner.setFocusable(false);
+
+		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
+				R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
+		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		legoSpinner.setAdapter(motorAdapter);
+		legoSpinner.setSelection(motorEnum.ordinal());
+		return prototypeView;
 	}
 
 	@Override

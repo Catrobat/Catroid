@@ -102,7 +102,17 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.motor_turn_angle_text_view);
 		textX.setText(String.valueOf(degrees.interpretInteger(sprite)));
-		//TODO set the motorname
+
+		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_turn_angle_spinner);
+		legoSpinner.setFocusableInTouchMode(false);
+		legoSpinner.setFocusable(false);
+
+		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
+				android.R.layout.simple_spinner_item);
+		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		legoSpinner.setAdapter(motorAdapter);
+		legoSpinner.setSelection(motorEnum.ordinal());
 		return prototypeView;
 	}
 
@@ -146,7 +156,7 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 				android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		Spinner motorSpinner = (Spinner) view.findViewById(R.id.motor_spinner);
+		Spinner motorSpinner = (Spinner) view.findViewById(R.id.lego_motor_turn_angle_spinner);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			motorSpinner.setClickable(true);
