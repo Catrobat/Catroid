@@ -261,7 +261,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			adapter.setSelectMode(Constants.MULTI_SELECT);
+			adapter.setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			adapter.notifyDataSetChanged();
 			mode.setTitle("0 " + getString(R.string.formula_editor_variable_context_action_item_selected));
 			return true;
@@ -289,7 +289,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 			adapter.notifyDataSetChanged();
 			getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_VARIABLE_DELETED));
-			adapter.setSelectMode(Constants.SELECT_NONE);
+			adapter.setSelectMode(ListView.CHOICE_MODE_NONE);
 			contextActionMode = null;
 			inContextMode = false;
 		}

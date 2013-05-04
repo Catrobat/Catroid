@@ -268,7 +268,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 	@Override
 	public void onProjectChecked() {
-		boolean isSingleSelectMode = adapter.getSelectMode() == Constants.SINGLE_SELECT ? true : false;
+		boolean isSingleSelectMode = adapter.getSelectMode() == ListView.CHOICE_MODE_SINGLE ? true : false;
 
 		if (isSingleSelectMode || actionMode == null) {
 			return;
@@ -384,7 +384,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.MULTI_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 
 			actionModeActive = true;
 
@@ -413,7 +413,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 				deleteProject();
 				numDeleted++;
 			}
-			setSelectMode(Constants.SELECT_NONE);
+			setSelectMode(ListView.CHOICE_MODE_NONE);
 			adapter.clearCheckedProjects();
 
 			actionMode = null;
@@ -432,7 +432,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.SINGLE_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_SINGLE);
 			mode.setTitle(getString(R.string.rename));
 
 			actionModeActive = true;
@@ -454,7 +454,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 				projectToEdit = (ProjectData) getListView().getItemAtPosition(position);
 				showRenameDialog();
 			}
-			setSelectMode(Constants.SELECT_NONE);
+			setSelectMode(ListView.CHOICE_MODE_NONE);
 			adapter.clearCheckedProjects();
 
 			actionMode = null;
@@ -473,7 +473,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.SINGLE_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_SINGLE);
 			mode.setTitle(getString(R.string.copy));
 
 			actionModeActive = true;
@@ -495,7 +495,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 				projectToEdit = (ProjectData) getListView().getItemAtPosition(position);
 				showCopyProjectDialog();
 			}
-			setSelectMode(Constants.SELECT_NONE);
+			setSelectMode(ListView.CHOICE_MODE_NONE);
 			adapter.clearCheckedProjects();
 
 			actionMode = null;

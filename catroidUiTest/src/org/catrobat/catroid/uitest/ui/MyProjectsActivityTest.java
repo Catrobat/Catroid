@@ -734,6 +734,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		boolean checked = solo.getCurrentCheckBoxes().get(0).isChecked();
 
 		assertFalse("First project is still checked!", checked);
+		solo.scrollToTop();
 		solo.clickOnCheckBox(0);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
