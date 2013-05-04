@@ -31,6 +31,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -119,6 +120,7 @@ public class StorageHandler {
 	private static StorageHandler instance;
 	private XStream xstream;
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
+	private ReentrantLock saveLoadLock = new ReentrantLock();
 
 	private StorageHandler() throws IOException {
 
@@ -220,6 +222,7 @@ public class StorageHandler {
 	}
 
 	public Project loadProject(String projectName) {
+		saveLoadLock.lock();
 		createCatroidRoot();
 		try {
 			File projectDirectory = new File(Utils.buildProjectPath(projectName));
@@ -228,20 +231,25 @@ public class StorageHandler {
 				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
 						Constants.PROJECTCODE_NAME));
 				Project returned = (Project) xstream.fromXML(projectFileStream);
+				saveLoadLock.unlock();
 				return returned;
 			} else {
+				saveLoadLock.unlock();
 				return null;
 			}
 
 		} catch (Exception e) {
 			Log.e("CATROID", "Cannot load project.", e);
+			saveLoadLock.unlock();
 			return null;
 		}
 	}
 
 	public boolean saveProject(Project project) {
+		saveLoadLock.lock();
 		createCatroidRoot();
 		if (project == null) {
+			saveLoadLock.unlock();
 			return false;
 		}
 
@@ -274,10 +282,12 @@ public class StorageHandler {
 			writer.write(XML_HEADER.concat(projectFile));
 			writer.flush();
 			writer.close();
+			saveLoadLock.unlock();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.e(TAG, "saveProject threw an exception and failed.");
+			saveLoadLock.unlock();
 			return false;
 		}
 	}
