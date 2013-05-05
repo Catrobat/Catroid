@@ -36,6 +36,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 public class ProjectManager {
@@ -127,7 +128,9 @@ public class ProjectManager {
 		if (project == null) {
 			return false;
 		}
-		return StorageHandler.getInstance().saveProject(project);
+		SaveProjectAsynchronousTask saveTask = new SaveProjectAsynchronousTask();
+		saveTask.execute();
+		return true;
 	}
 
 	public boolean initializeDefaultProject(Context context) {
@@ -335,5 +338,14 @@ public class ProjectManager {
 
 	public void setFileChecksumContainer(FileChecksumContainer fileChecksumContainer) {
 		this.fileChecksumContainer = fileChecksumContainer;
+	}
+
+	private class SaveProjectAsynchronousTask extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			StorageHandler.getInstance().saveProject(project);
+			return null;
+		}
 	}
 }

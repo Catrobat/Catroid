@@ -206,6 +206,7 @@
     <string name="stage_dialog_restart">Neu starten</string>
     <string name="stage_dialog_axes_on">Achsen Ein</string>
     <string name="stage_dialog_axes_off">Achsen Aus</string>
+    <string name="stage_dialog_maximize">Maximieren/\nDehnen</string>
     <string name="stage_dialog_screenshot">Screenshot</string>
     <!--  -->
 

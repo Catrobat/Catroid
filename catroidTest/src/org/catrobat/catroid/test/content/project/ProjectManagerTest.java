@@ -131,11 +131,11 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		String newProjectName = "newProject";
 		ProjectManager projectManager = ProjectManager.getInstance();
 
-		createTestProject(oldProjectName);
+		Project project = createTestProject(oldProjectName);
 		if (!projectManager.renameProject(newProjectName, getInstrumentation().getContext())) {
 			fail("could not rename Project");
 		}
-		projectManager.saveProject();
+        StorageHandler.getInstance().saveProject(project);
 
 		File oldProjectFolder = new File(Constants.DEFAULT_ROOT + "/" + oldProjectName);
 		File oldProjectFile = new File(Constants.DEFAULT_ROOT + "/" + oldProjectName + "/" + Constants.PROJECTCODE_NAME);

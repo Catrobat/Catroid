@@ -61,6 +61,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.view.ActionMode;
@@ -454,7 +455,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.MULTI_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
 			actionModeTitle = getString(R.string.delete);
@@ -478,7 +479,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			for (Brick brick : checkedBricks) {
 				deleteBrick(brick);
 			}
-			setSelectMode(Constants.SELECT_NONE);
+			setSelectMode(ListView.CHOICE_MODE_NONE);
 			adapter.clearCheckedItems();
 
 			actionMode = null;

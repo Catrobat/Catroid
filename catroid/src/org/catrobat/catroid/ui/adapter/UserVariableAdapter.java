@@ -28,7 +28,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import android.content.Context;
@@ -38,6 +37,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAdapterInterface {
@@ -63,7 +63,7 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		this.spriteVariables = spriteVariables;
 		this.projectVariables = projectVariables;
 		this.context = context;
-		this.selectMode = Constants.SELECT_NONE;
+		this.selectMode = ListView.CHOICE_MODE_NONE;
 		this.itemLayout = R.layout.fragment_formula_editor_variablelist_item;
 		this.checkboxId = R.id.fragment_formula_editor_variablelist_item_checkbox;
 		this.textViewId = R.id.fragment_formula_editor_variablelist_item_name_text_view;
@@ -150,7 +150,7 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		view.setClickable(true);
 		view.setFocusable(true);
 
-		if (selectMode != Constants.SELECT_NONE) {
+		if (selectMode != ListView.CHOICE_MODE_NONE) {
 			holder.checkbox.setVisibility(View.VISIBLE);
 		} else {
 			holder.checkbox.setVisibility(View.GONE);
@@ -162,7 +162,7 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
-					if (selectMode == Constants.SINGLE_SELECT) {
+					if (selectMode == ListView.CHOICE_MODE_SINGLE) {
 						clearCheckedItems();
 					}
 					checkedVariables.add(position);
