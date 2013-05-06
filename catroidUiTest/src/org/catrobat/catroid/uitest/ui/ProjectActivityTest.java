@@ -42,6 +42,7 @@ import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -51,6 +52,7 @@ import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.pm.ActivityInfo;
@@ -1032,40 +1034,65 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				((BroadcastScript) (firstSprite.getScript(1))).getBroadcastMessage(),
 				((BroadcastScript) (copiedSprite.getScript(1))).getBroadcastMessage());
 
-		ArrayList<Brick> brickListCopiedSprite = copiedSprite.getScript(0).getBrickList();
 		ArrayList<Brick> brickListFirstSprite = firstSprite.getScript(0).getBrickList();
+		ArrayList<Brick> brickListCopiedSprite = copiedSprite.getScript(0).getBrickList();
 
+		// check forever-bricks
 		LoopBeginBrick firstLoopBrick = (LoopBeginBrick) brickListFirstSprite.get(32);
+		LoopEndBrick firstEndBrick = (LoopEndBrick) brickListFirstSprite.get(33);
+
 		LoopBeginBrick copiedLoopBrick = (LoopBeginBrick) brickListCopiedSprite.get(32);
-		LoopEndBrick firstEndBrick = firstLoopBrick.getLoopEndBrick();
-		LoopEndBrick copiedEndBrick = copiedLoopBrick.getLoopEndBrick();
+		LoopEndBrick copiedEndBrick = (LoopEndBrick) brickListCopiedSprite.get(33);
+
+		assertNotSame("Loop Brick is not copied right!", firstLoopBrick, copiedLoopBrick);
 		assertNotSame("Loop Brick is not copied right!", firstEndBrick, copiedEndBrick);
-		assertNotSame("Loop Brick is not copied right!", firstEndBrick.getLoopBeginBrick(),
-				copiedEndBrick.getLoopBeginBrick());
-		assertEquals("Loop Brick is not copied right!", firstEndBrick.getLoopBeginBrick(), firstLoopBrick);
-		assertEquals("Loop Brick is not copied right!", copiedEndBrick.getLoopBeginBrick(), copiedLoopBrick);
-		assertEquals("Loop Brick is not copied right!", firstLoopBrick.getLoopEndBrick(), firstEndBrick);
-		assertEquals("Loop Brick is not copied right!", copiedLoopBrick.getLoopEndBrick(), copiedEndBrick);
 
-		// TODO - [ ] have a look at loop-testing
-		//      - [ ] test the repeat-loop
-		//      - [ ] check correct cloning of conditions (repeat-brick, if-brick)
-		//      - [ ] make it all work :)
+		assertEquals("Loop Brick is not copied right!", firstLoopBrick, firstEndBrick.getLoopBeginBrick());
+		assertEquals("Loop Brick is not copied right!", firstEndBrick, firstLoopBrick.getLoopEndBrick());
 
-		for (int i = 0; i < brickListFirstSprite.size(); i++) {
-			Log.e("blah", i + ": " + brickListFirstSprite.get(i).getClass().getSimpleName());
-		}
+		assertEquals("Loop Brick is not copied right!", copiedLoopBrick, copiedEndBrick.getLoopBeginBrick());
+		assertEquals("Loop Brick is not copied right!", copiedEndBrick, copiedLoopBrick.getLoopEndBrick());
 
+		// check repeat-bricks
+		firstLoopBrick = (LoopBeginBrick) brickListFirstSprite.get(34);
+		firstEndBrick = (LoopEndBrick) brickListFirstSprite.get(35);
+
+		copiedLoopBrick = (LoopBeginBrick) brickListCopiedSprite.get(34);
+		copiedEndBrick = (LoopEndBrick) brickListCopiedSprite.get(35);
+
+		Formula firstCondition = (Formula) Reflection.getPrivateField(RepeatBrick.class, firstLoopBrick,
+				"timesToRepeat");
+		Formula copiedCondition = (Formula) Reflection.getPrivateField(RepeatBrick.class, copiedLoopBrick,
+				"timesToRepeat");
+
+		assertNotSame("Loop Brick is not copied right!", firstLoopBrick, copiedLoopBrick);
+		assertNotSame("Loop Brick is not copied right!", firstEndBrick, copiedEndBrick);
+		assertNotSame("Loop Brick is not copied right!", firstCondition, copiedCondition);
+
+		assertEquals("Loop Brick is not copied right!", firstLoopBrick, firstEndBrick.getLoopBeginBrick());
+		assertEquals("Loop Brick is not copied right!", firstEndBrick, firstLoopBrick.getLoopEndBrick());
+
+		assertEquals("Loop Brick is not copied right!", copiedLoopBrick, copiedEndBrick.getLoopBeginBrick());
+		assertEquals("Loop Brick is not copied right!", copiedEndBrick, copiedLoopBrick.getLoopEndBrick());
+
+		// check if-bricks
 		IfLogicBeginBrick firstIfBeginBrick = (IfLogicBeginBrick) brickListFirstSprite.get(37);
-		IfLogicBeginBrick copiedIfBeginBrick = (IfLogicBeginBrick) brickListCopiedSprite.get(37);
 		IfLogicElseBrick firstIfElseBrick = (IfLogicElseBrick) brickListFirstSprite.get(39);
-		IfLogicElseBrick copiedIfElseBrick = (IfLogicElseBrick) brickListCopiedSprite.get(39);
 		IfLogicEndBrick firstIfEndBrick = (IfLogicEndBrick) brickListFirstSprite.get(41);
+
+		IfLogicBeginBrick copiedIfBeginBrick = (IfLogicBeginBrick) brickListCopiedSprite.get(37);
+		IfLogicElseBrick copiedIfElseBrick = (IfLogicElseBrick) brickListCopiedSprite.get(39);
 		IfLogicEndBrick copiedIfEndBrick = (IfLogicEndBrick) brickListCopiedSprite.get(41);
+
+		firstCondition = (Formula) Reflection
+				.getPrivateField(IfLogicBeginBrick.class, firstIfBeginBrick, "ifCondition");
+		copiedCondition = (Formula) Reflection.getPrivateField(IfLogicBeginBrick.class, copiedIfBeginBrick,
+				"ifCondition");
 
 		assertNotSame("If Brick is not copied right!", firstIfBeginBrick, copiedIfBeginBrick);
 		assertNotSame("If Brick is not copied right!", firstIfElseBrick, copiedIfElseBrick);
 		assertNotSame("If Brick is not copied right!", firstIfEndBrick, copiedIfEndBrick);
+		assertNotSame("If Brick is not copied right!", firstCondition, copiedCondition);
 
 		// checking references of first if-bricks
 		assertEquals("If Brick is not copied right!", firstIfBeginBrick, firstIfElseBrick.getIfBeginBrick());

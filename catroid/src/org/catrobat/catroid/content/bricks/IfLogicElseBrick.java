@@ -188,6 +188,7 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 		//ifEndBrick and ifBeginBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
 		IfLogicElseBrick copyBrick = (IfLogicElseBrick) clone(); //Using the clone method because of its flexibility if new fields are added
 		ifBeginBrick.setIfElseBrick(this);
+		ifEndBrick.setIfElseBrick(this);
 
 		copyBrick.ifBeginBrick = null;
 		copyBrick.ifEndBrick = null;
