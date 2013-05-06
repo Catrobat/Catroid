@@ -145,6 +145,11 @@
     </style>
 
     <style name="BrickText.SingleLine"></style>
+    
+    <style name="BrickText.Multiple">
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+    
 
     <style name="BrickPrototypeTextView" parent="android:style/Widget.EditText">
         <item name="android:focusable">false</item>
@@ -160,6 +165,12 @@
     </style>
 
     <style name="BrickEditText" parent="@style/BrickPrototypeTextView">
+        <item name="android:maxLines">1</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+    
+    <style name="BrickEditTextMultiple" parent="@style/BrickPrototypeTextView">
         <item name="android:maxLines">1</item>
         <item name="android:visibility">gone</item>
     </style>

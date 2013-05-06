@@ -41,52 +41,32 @@
 
         <TextView
             android:id="@+id/if_label"
-            style="@style/BrickText"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:paddingRight="5dip"
+            style="@style/BrickText.Multiple"
             android:text="@string/brick_if_begin" >
         </TextView>
-
+        
         <TextView
-            android:id="@+id/brick_if_text_view1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dip"
-            android:layout_toRightOf="@+id/if_label"
-            android:background="@color/white"
-            android:gravity="right"
-            android:minHeight="30dip"
-            android:minWidth="50dip"
-            android:paddingRight="5dip"
-            android:text="0"
-            android:textSize="20dip" >
+            android:id="@+id/brick_if_begin_prototype_text_view"
+            style="@style/BrickPrototypeTextView"
+            android:layout_toRightOf="@id/if_label"
+            android:text="0">
         </TextView>
 
         <EditText
-            android:id="@+id/brick_if_edit_text1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/brick_if_begin_edit_text"
+            style="@style/BrickEditText"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/if_label"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:gravity="right"
-            android:inputType="number|numberDecimal"
-            android:maxLength="10"
-            android:maxLines="1"
-            android:minWidth="75dip"
+            android:layout_toLeftOf="@+id/if_label_second_part"
+            android:layout_toRightOf="@id/if_label"
             android:text="0"
-            android:visibility="gone" >
+            android:inputType="number|numberDecimal"
+            >
         </EditText>
 
         <TextView
             android:id="@+id/if_label_second_part"
-            style="@style/BrickText"
+            style="@style/BrickText.Multiple"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:paddingRight="5dip"
             android:text="@string/brick_if_begin_second_part" >
         </TextView>

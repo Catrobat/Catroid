@@ -35,30 +35,35 @@
         android:gravity="center_vertical"
         android:visibility="gone" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/brick_wait_layout"
         style="@style/BrickContainer.Control.Small" >
 
         <TextView
-            style="@style/BrickText.SingleLine"
+            android:id="@+id/brick_wait_label"
+            style="@style/BrickText.Multiple"
             android:text="@string/brick_wait" >
         </TextView>
 
         <TextView
             android:id="@+id/brick_wait_prototype_text_view"
-            style="@style/BrickPrototypeTextView" >
+            style="@style/BrickPrototypeTextView" 
+            android:layout_toRightOf="@id/brick_wait_label">
         </TextView>
 
         <EditText
             android:id="@+id/brick_wait_edit_text"
             style="@style/BrickEditText"
+            android:layout_toLeftOf="@+id/brick_wait_second_text_view"
+            android:layout_toRightOf="@+id/brick_wait_label"
             android:inputType="number|numberDecimal" >
         </EditText>
 
         <TextView
             android:id="@+id/brick_wait_second_text_view"
-            style="@style/BrickText.SingleLine" >
+            android:layout_alignParentRight="true"
+            style="@style/BrickText.Multiple" >
         </TextView>
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

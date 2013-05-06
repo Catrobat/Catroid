@@ -107,16 +107,16 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 			}
 		});
 
-		TextView text1 = (TextView) view.findViewById(R.id.brick_if_text_view1);
-		EditText edit1 = (EditText) view.findViewById(R.id.brick_if_edit_text1);
+		TextView prototypeTextView = (TextView) view.findViewById(R.id.brick_if_begin_prototype_text_view);
+		EditText ifBeginEditText = (EditText) view.findViewById(R.id.brick_if_begin_edit_text);
 
-		ifCondition.setTextFieldId(R.id.brick_if_edit_text1);
+		ifCondition.setTextFieldId(R.id.brick_if_begin_edit_text);
 		ifCondition.refreshTextField(view);
 
-		text1.setVisibility(View.GONE);
-		edit1.setVisibility(View.VISIBLE);
+		prototypeTextView.setVisibility(View.GONE);
+		ifBeginEditText.setVisibility(View.VISIBLE);
 
-		edit1.setOnClickListener(this);
+		ifBeginEditText.setOnClickListener(this);
 
 		return view;
 	}
