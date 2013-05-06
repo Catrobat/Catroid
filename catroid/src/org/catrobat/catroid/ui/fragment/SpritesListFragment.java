@@ -415,12 +415,12 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITES_LIST_CHANGED)) {
 				spriteAdapter.notifyDataSetChanged();
 				final ListView listView = getListView();
-				//				listView.post(new Runnable() {
-				//					@Override
-				//					public void run() {
-				//						listView.setSelection(listView.getCount() - 1);
-				//					}
-				//				});
+				listView.post(new Runnable() {
+					@Override
+					public void run() {
+						listView.setSelection(listView.getCount() - 1);
+					}
+				});
 			}
 		}
 	}
