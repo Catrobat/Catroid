@@ -51,7 +51,7 @@
             </TextView>
 
             <Spinner
-                android:id="@+id/motor_spinner"
+                android:id="@+id/lego_motor_turn_angle_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="false"

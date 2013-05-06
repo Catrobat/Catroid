@@ -102,7 +102,17 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.motor_action_speed_text_view);
 		textSpeed.setText(String.valueOf(speed.interpretInteger(sprite)));
-		//TODO set the spinner Value to A
+
+		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_action_spinner);
+		legoSpinner.setFocusableInTouchMode(false);
+		legoSpinner.setFocusable(false);
+
+		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
+				android.R.layout.simple_spinner_item);
+		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		legoSpinner.setAdapter(motorAdapter);
+		legoSpinner.setSelection(motorEnum.ordinal());
 		return prototypeView;
 	}
 
@@ -146,7 +156,7 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
 				android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner motorSpinner = (Spinner) view.findViewById(R.id.motor_spinner);
+		Spinner motorSpinner = (Spinner) view.findViewById(R.id.lego_motor_action_spinner);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			motorSpinner.setClickable(true);
