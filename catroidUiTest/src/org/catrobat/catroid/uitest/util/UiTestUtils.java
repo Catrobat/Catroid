@@ -94,6 +94,8 @@ import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.InternToken;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -137,6 +139,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 	private static SparseIntArray brickCategoryMap;
+	private static List<InternToken> internTokenList = new ArrayList<InternToken>();
 
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 	public static final String PROJECTNAME1 = "testingproject1";
@@ -760,21 +763,50 @@ public class UiTestUtils {
 		beginBrick.setLoopEndBrick(endBrick);
 		brickList.add(beginBrick);
 		brickList.add(endBrick);
+		brickList.add(new WaitBrick(firstSprite, 1));
+
+		// create formula to test copying
+		// ( 1 + global ) * local - COMPASS_DIRECTION
 
 		FormulaElement numberElement = new FormulaElement(FormulaElement.ElementType.NUMBER, "1", null);
 		FormulaElement bracesElement = new FormulaElement(FormulaElement.ElementType.BRACKET, null, null, null,
 				numberElement);
-		Formula formula = new Formula(bracesElement);
-		brickList.add(new WaitBrick(firstSprite, formula));
 
-		IfLogicBeginBrick IfBeginBrick = new IfLogicBeginBrick(firstSprite, 0);
-		IfLogicElseBrick IfElseBrick = new IfLogicElseBrick(firstSprite, IfBeginBrick);
-		IfLogicEndBrick IfEndBrick = new IfLogicEndBrick(firstSprite, IfElseBrick, IfBeginBrick);
-		brickList.add(IfBeginBrick);
+		FormulaElement operatorElementPlus = new FormulaElement(FormulaElement.ElementType.OPERATOR, "PLUS", null);
+		FormulaElement operatorElementMult = new FormulaElement(FormulaElement.ElementType.OPERATOR, "MULT", null);
+		FormulaElement operatorElementMinus = new FormulaElement(FormulaElement.ElementType.OPERATOR, "MINUS", null);
+
+		UserVariablesContainer variableContainer = project.getUserVariables();
+		variableContainer.addProjectUserVariable("global", 2.0);
+		FormulaElement variableElementGlobal = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, "global",
+				null);
+		variableContainer.addSpriteUserVariableToSprite(firstSprite, "local", 3.0);
+		FormulaElement variableElemetLocal = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, "local", null);
+
+		FormulaElement sensorElemet = new FormulaElement(FormulaElement.ElementType.SENSOR, "COMPASS_DIRECTION", null);
+
+		operatorElementPlus.setLeftChild(numberElement);
+		operatorElementPlus.setRightChild(variableElementGlobal);
+		bracesElement.setRightChild(operatorElementPlus);
+		operatorElementMult.setLeftChild(bracesElement);
+		operatorElementMult.setRightChild(variableElemetLocal);
+		operatorElementMinus.setLeftChild(operatorElementMult);
+		operatorElementMinus.setRightChild(sensorElemet);
+
+		if (internTokenList.isEmpty()) {
+			internTokenList.addAll(operatorElementMinus.getInternTokenList());
+		}
+
+		Formula formula = new Formula(operatorElementMinus);
+
+		IfLogicBeginBrick ifBeginBrick = new IfLogicBeginBrick(firstSprite, formula);
+		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(firstSprite, ifBeginBrick);
+		IfLogicEndBrick ifEndBrick = new IfLogicEndBrick(firstSprite, ifElseBrick, ifBeginBrick);
+		brickList.add(ifBeginBrick);
 		brickList.add(new SpeakBrick(firstSprite, "Hello, I'm true!"));
-		brickList.add(IfElseBrick);
+		brickList.add(ifElseBrick);
 		brickList.add(new SpeakBrick(firstSprite, "Hallo, I'm false!"));
-		brickList.add(IfEndBrick);
+		brickList.add(ifEndBrick);
 
 		for (Brick brick : brickList) {
 			firstSpriteScript.addBrick(brick);
@@ -795,6 +827,10 @@ public class UiTestUtils {
 		ProjectManager.getInstance().setCurrentScript(firstSpriteScript);
 
 		storageHandler.saveProject(project);
+	}
+
+	public static List<InternToken> getInternTokenList() {
+		return internTokenList;
 	}
 
 	public static void clearAllUtilTestProjects() {

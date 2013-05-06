@@ -46,6 +46,10 @@ import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.InternToken;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -225,6 +229,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		checkNumberOfElements(firstSprite, copiedSprite);
 		checkSpecialBricks(firstSprite, copiedSprite);
+
 		int brickCounter = checkIds(firstSprite, copiedSprite);
 
 		solo.goBack();
@@ -1110,6 +1115,39 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals("If Brick is not copied right!", copiedIfElseBrick, copiedIfEndBrick.getIfElseBrick());
 		assertEquals("If Brick is not copied right!", copiedIfEndBrick, copiedIfBeginBrick.getIfEndBrick());
 		assertEquals("If Brick is not copied right!", copiedIfEndBrick, copiedIfElseBrick.getIfEndBrick());
+
+		// check formula
+		// ( 1 + global ) * local - COMPASS_DIRECTION
+		FormulaElement firstFormulaElement = (FormulaElement) Reflection.getPrivateField(Formula.class, firstCondition,
+				"formulaTree");
+		FormulaElement copiedFormulaElement = (FormulaElement) Reflection.getPrivateField(Formula.class,
+				copiedCondition, "formulaTree");
+		assertNotSame("Formula is not copied right!", firstFormulaElement, copiedFormulaElement);
+
+		List<InternToken> internTokenListReference = UiTestUtils.getInternTokenList();
+		List<InternToken> internTokenListToCheck = firstFormulaElement.getInternTokenList();
+
+		assertEquals("Formula is not copied right!", internTokenListReference.size(), internTokenListToCheck.size());
+		for (int i = 0; i < internTokenListReference.size(); i++) {
+			assertEquals("Formula is not copied right!", internTokenListReference.get(i).getTokenStringValue(),
+					internTokenListToCheck.get(i).getTokenStringValue());
+		}
+
+		internTokenListToCheck = copiedFormulaElement.getInternTokenList();
+		assertEquals("Formula is not copied right!", internTokenListReference.size(), internTokenListToCheck.size());
+		for (int i = 0; i < internTokenListReference.size(); i++) {
+			assertEquals("Formula is not copied right!", internTokenListReference.get(i).getTokenStringValue(),
+					internTokenListToCheck.get(i).getTokenStringValue());
+		}
+
+		UserVariablesContainer variablesContainer = projectManager.getCurrentProject().getUserVariables();
+		UserVariable firstVariable = variablesContainer.getUserVariable("global", firstSprite);
+		UserVariable copiedVariable = variablesContainer.getUserVariable("global", copiedSprite);
+		assertSame("Formula is not copied right!", firstVariable, copiedVariable);
+
+		firstVariable = variablesContainer.getUserVariable("local", firstSprite);
+		copiedVariable = variablesContainer.getUserVariable("local", copiedSprite);
+		assertNotSame("Formula is not copied right!", firstVariable, copiedVariable);
 	}
 
 	private int checkIds(Sprite firstSprite, Sprite copiedSprite) {
