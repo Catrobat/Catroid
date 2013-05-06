@@ -45,7 +45,7 @@ public class BroadcastAction extends Action {
 			}
 			executeOnce = false;
 		}
-		if (event.getRun()) {
+		if (event.getRun() || event.getNumberOfReceivers() == 0) {
 			return true;
 		}
 		return false;
