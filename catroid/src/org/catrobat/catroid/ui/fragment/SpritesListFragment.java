@@ -29,7 +29,6 @@ import java.util.Set;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
@@ -334,8 +333,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
 		for (int variable = 0; variable < userVariablesList.size(); variable++) {
-			userVariablesContainer.addSpriteUserVariable(userVariablesList.get(variable).getName(), userVariablesList.get(variable)
-					.getValue());
+			userVariablesContainer.addSpriteUserVariable(userVariablesList.get(variable).getName(), userVariablesList
+					.get(variable).getValue());
 		}
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
@@ -416,12 +415,12 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITES_LIST_CHANGED)) {
 				spriteAdapter.notifyDataSetChanged();
 				final ListView listView = getListView();
-				listView.post(new Runnable() {
-					@Override
-					public void run() {
-						listView.setSelection(listView.getCount() - 1);
-					}
-				});
+				//				listView.post(new Runnable() {
+				//					@Override
+				//					public void run() {
+				//						listView.setSelection(listView.getCount() - 1);
+				//					}
+				//				});
 			}
 		}
 	}
