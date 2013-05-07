@@ -37,7 +37,6 @@ public class ProjectManagerTest extends AndroidTestCase {
 	private static final String NEW_PROJECT = "NEW_PROJECT";
 	private static final String DOES_NOT_EXIST = "DOES_NOT_EXIST";
 
-	private static final float CATROBAT_LANGUAGE_VERSION_SUPPORTED = Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION;
 	private static final float CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED = 0.0f;
 
 	private ProjectManager projectManager;
@@ -66,7 +65,8 @@ public class ProjectManagerTest extends AndroidTestCase {
 
 		TestUtils.deleteTestProjects();
 
-		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_SUPPORTED);
+		TestUtils
+				.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION);
 
 		result = projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), false);
 		assertTrue("Load project didn't return true", result);
@@ -74,7 +74,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 
 	public void testShouldKeepExistingProjectIfCannotLoadNewProject() {
 		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
-				CATROBAT_LANGUAGE_VERSION_SUPPORTED, OLD_PROJECT);
+				Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION, OLD_PROJECT);
 
 		boolean result = projectManager.loadProject(OLD_PROJECT, getContext(), false);
 		assertTrue("Could not load project.", result);

@@ -29,7 +29,6 @@ import java.util.Set;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
@@ -74,8 +73,6 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
 public class SpritesListFragment extends SherlockListFragment implements OnSpriteCheckedListener {
-
-	//TODO: new dialog for copying using CustomIconContextMenu
 
 	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsProjects";
@@ -325,7 +322,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 
-		//TODO: Refactor?
 		copyUserVariables(copiedSprite);
 
 		projectManager.addSprite(copiedSprite);

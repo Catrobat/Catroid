@@ -189,45 +189,6 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 		copyBrick.ifElseBrick = null;
 		copyBrick.sprite = sprite;
 		return copyBrick;
-
-		/*
-		 * IfLogicBeginBrick ifBeginBrick = null;
-		 * IfLogicElseBrick ifElseBrick = null;
-		 * 
-		 * ArrayList<Brick> currentBrickList = script.getBrickList();
-		 * int loopEnds = 0;
-		 * for (int i = currentBrickList.size() - 1; i >= 0; i--) {
-		 * Brick brick = currentBrickList.get(i);
-		 * if (brick instanceof IfLogicBeginBrick) {
-		 * if (loopEnds > 0) {
-		 * loopEnds--;
-		 * } else {
-		 * ifBeginBrick = (IfLogicBeginBrick) brick;
-		 * break;
-		 * }
-		 * } else if (brick instanceof IfLogicElseBrick) {
-		 * if (loopEnds != 0) {
-		 * ifElseBrick = (IfLogicElseBrick) brick;
-		 * }
-		 * } else if (brick instanceof IfLogicEndBrick) {
-		 * loopEnds++;
-		 * }
-		 * }
-		 * 
-		 * IfLogicEndBrick copyBrick = (IfLogicEndBrick) clone(); //Using the clone method because of its flexibility if
-		 * new fields are added
-		 * copyBrick.sprite = sprite;
-		 * copyBrick.elseBrick = ifElseBrick;
-		 * copyBrick.beginBrick = ifBeginBrick;
-		 * 
-		 * ifBeginBrick.setElseBrick(ifElseBrick);
-		 * ifBeginBrick.setEndBrick(this);
-		 * if (ifElseBrick != null) {
-		 * ifElseBrick.setIfEndBrick(this);
-		 * }
-		 * 
-		 * return copyBrick;
-		 */
 	}
 
 }

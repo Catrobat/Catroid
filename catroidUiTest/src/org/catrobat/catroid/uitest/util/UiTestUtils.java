@@ -1109,11 +1109,6 @@ public class UiTestUtils {
 		static final long serialVersionUID = 1L;
 		private final float catrobatLanguageVersion;
 
-		@SuppressWarnings("unused")
-		public ProjectWithCatrobatLanguageVersion() {
-			catrobatLanguageVersion = Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION;
-		}
-
 		public ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {
 			super(null, name);
 			this.catrobatLanguageVersion = catrobatLanguageVersion;
