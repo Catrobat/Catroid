@@ -29,7 +29,6 @@ import java.util.Set;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
@@ -75,8 +74,6 @@ import com.actionbarsherlock.view.Menu;
 
 public class SpritesListFragment extends SherlockListFragment implements OnSpriteCheckedListener {
 
-	//TODO: new dialog for copying using CustomIconContextMenu
-
 	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsProjects";
 
@@ -91,8 +88,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	private SpriteRenamedReceiver spriteRenamedReceiver;
 	private SpritesListChangedReceiver spritesListChangedReceiver;
 	private SpritesListInitReceiver spritesListInitReceiver;
-
-	private UserVariablesContainer userVariablesContainer;
 
 	private ActionMode actionMode;
 
@@ -321,22 +316,16 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	}
 
 	public void copySprite() {
-		Sprite addSprite = spriteToEdit.clone();
-		addSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)), 0));
+		Sprite copiedSprite = spriteToEdit.clone();
+		copiedSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)),
+				0));
 
 		ProjectManager projectManager = ProjectManager.getInstance();
-		userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
 
-		List<UserVariable> userVariablesList = userVariablesContainer.getOrCreateVariableListForSprite(spriteToEdit);
+		copyUserVariables(copiedSprite);
 
-		projectManager.addSprite(addSprite);
-		projectManager.setCurrentSprite(addSprite);
-
-		userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
-		for (int variable = 0; variable < userVariablesList.size(); variable++) {
-			userVariablesContainer.addSpriteUserVariable(userVariablesList.get(variable).getName(), userVariablesList.get(variable)
-					.getValue());
-		}
+		projectManager.addSprite(copiedSprite);
+		projectManager.setCurrentSprite(copiedSprite);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
 
@@ -345,7 +334,23 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				this.getString(R.string.copy_sprite_prefix).concat(" ").concat(spriteToEdit.getName()).concat(" ")
 						.concat(this.getString(R.string.copy_sprite_finished)), Toast.LENGTH_LONG).show();
 
-		Log.d("Sprite copied", addSprite.toString());
+		Log.d("Sprite copied", copiedSprite.toString());
+	}
+
+	private void copyUserVariables(Sprite copiedSprite) {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		UserVariablesContainer userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
+
+		List<UserVariable> userVariablesList = userVariablesContainer.getOrCreateVariableListForSprite(spriteToEdit);
+
+		if (userVariablesList != null) {
+			userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
+			for (int variable = 0; variable < userVariablesList.size(); variable++) {
+				String userVariableName = userVariablesList.get(variable).getName();
+				Double userVariableValue = userVariablesList.get(variable).getValue();
+				userVariablesContainer.addSpriteUserVariableToSprite(copiedSprite, userVariableName, userVariableValue);
+			}
+		}
 	}
 
 	private static String getSpriteName(String name, int nextNumber) {
@@ -371,11 +376,15 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	public void deleteSprite() {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
+		UserVariablesContainer userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
+
 		deleteSpriteFiles();
+		userVariablesContainer.cleanVariableListForSprite(spriteToEdit);
+
 		if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
 			projectManager.setCurrentSprite(null);
 		}
+		projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
 	}
 
 	public void setSelectMode(int selectMode) {
@@ -443,7 +452,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.MULTI_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 
 			actionModeActive = true;
 
@@ -472,7 +481,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				deleteSprite();
 				numDeleted++;
 			}
-			setSelectMode(Constants.SELECT_NONE);
+			setSelectMode(ListView.CHOICE_MODE_NONE);
 			spriteAdapter.clearCheckedSprites();
 
 			actionMode = null;
@@ -491,7 +500,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.SINGLE_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_SINGLE);
 			mode.setTitle(getString(R.string.rename));
 
 			actionModeActive = true;
@@ -513,7 +522,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
 				showRenameDialog();
 			}
-			setSelectMode(Constants.SELECT_NONE);
+			setSelectMode(ListView.CHOICE_MODE_NONE);
 			spriteAdapter.clearCheckedSprites();
 
 			actionMode = null;
@@ -531,7 +540,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.MULTI_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 
 			actionModeActive = true;
 
@@ -558,7 +567,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
 				copySprite();
 			}
-			setSelectMode(Constants.SELECT_NONE);
+			setSelectMode(ListView.CHOICE_MODE_NONE);
 			spriteAdapter.clearCheckedSprites();
 
 			actionMode = null;
@@ -582,17 +591,20 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
-				Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
-				startActivity(intent);
+				if (!actionModeActive) {
+					ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
+					Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
+					startActivity(intent);
+				}
 			}
 		});
 
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				spriteToEdit = spriteList.get(position);
-
+				if (!actionModeActive) {
+					spriteToEdit = spriteList.get(position);
+				}
 				// as long as background sprite is always the first one, we're fine
 				if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
 					return true;

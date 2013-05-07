@@ -393,6 +393,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		ProjectManager.getInstance().setProject(firstCacheTestProject);
 
 		for (int i = 1; i < numberOfCacheProjects; i++) {
+			solo.sleep(500);
 			StorageHandler.getInstance().saveProject(new Project(getActivity(), "cachetestProject" + i));
 			UiTestUtils.saveFileToProject(cacheProjectName + i, "screenshot.png", IMAGE_RESOURCE_2,
 					getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
@@ -589,7 +590,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	public void testDeleteProjectViaActionBar() {
 		String delete = solo.getString(R.string.delete);
 		createProjects();
-		solo.sleep(200);
+		solo.sleep(2000);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -599,7 +600,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnCheckBox(1);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
-		solo.sleep(300);
+		solo.sleep(1500);
 		ProjectManager projectManager = ProjectManager.INSTANCE;
 		String currentProjectName = projectManager.getCurrentProject().getName();
 
@@ -709,10 +710,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clearEditText(0);
 		solo.enterText(0, UiTestUtils.PROJECTNAME3);
 		solo.clickOnText(solo.getString(R.string.ok));
-		solo.sleep(300);
+		solo.sleep(2000);
 		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
 		solo.goBack();
-		solo.sleep(300);
+		solo.sleep(2000);
 		assertEquals("current project not updated", UiTestUtils.PROJECTNAME3, ProjectManager.getInstance()
 				.getCurrentProject().getName());
 	}
@@ -733,15 +734,17 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		boolean checked = solo.getCurrentCheckBoxes().get(0).isChecked();
 
 		assertFalse("First project is still checked!", checked);
+		solo.scrollToTop();
 		solo.clickOnCheckBox(0);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
 		solo.clearEditText(0);
 		solo.enterText(0, UiTestUtils.PROJECTNAME3);
 		solo.clickOnText(solo.getString(R.string.ok));
-		solo.sleep(300);
+		solo.sleep(2000);
 		assertTrue("Rename was not successfull!", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
 		solo.goBack();
+		solo.sleep(2000);
 		assertEquals("Current project not updated!", UiTestUtils.PROJECTNAME3, ProjectManager.getInstance()
 				.getCurrentProject().getName());
 	}
@@ -1092,6 +1095,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.sleep(1000);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
 		solo.clearEditText(0);
@@ -1246,6 +1250,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void createProjects() {
+
+		Project project2 = new Project(getActivity(), UiTestUtils.PROJECTNAME1);
+		StorageHandler.getInstance().saveProject(project2);
+
+		solo.sleep(2000);
+
 		Project project1 = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		StorageHandler.getInstance().saveProject(project1);
 		ProjectManager.getInstance().setProject(project1);
@@ -1269,14 +1279,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		//-------------------------------------------------
 
-		Project project2 = new Project(getActivity(), UiTestUtils.PROJECTNAME1);
-		StorageHandler.getInstance().saveProject(project2);
-
 		UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "screenshot.png", IMAGE_RESOURCE_2,
 				getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 
 		UiTestUtils.saveFileToProject(UiTestUtils.PROJECTNAME1, "screenshot.png", IMAGE_RESOURCE_3,
 				getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
+
+		solo.sleep(600);
 	}
 
 	private void playTheProject(boolean switchGreenToRed, boolean switchRedToGreen, boolean makeScreenshot) {
@@ -1413,6 +1422,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		SetLookBrick setBackgroundBrick = new SetLookBrick(projectManager.getCurrentSprite());
 		projectManager.getCurrentScript().addBrick(setBackgroundBrick);
 		setBackgroundBrick.setLook(backgroundGreen);
+		StorageHandler.getInstance().saveProject(projectManager.getCurrentProject());
 	}
 
 	private void corruptProjectXML(String projectName) {
