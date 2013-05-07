@@ -34,6 +34,8 @@ public abstract class LoopBeginBrick extends NestingBrick {
 	protected LoopEndBrick loopEndBrick;
 	private transient long beginLoopTime;
 
+	private transient LoopBeginBrick copy;
+
 	protected LoopBeginBrick() {
 	}
 
@@ -97,7 +99,12 @@ public abstract class LoopBeginBrick extends NestingBrick {
 		//loopEndBrick will be set in the LoopEndBrick's copyBrickForSprite method
 		LoopBeginBrick copyBrick = (LoopBeginBrick) clone();
 		copyBrick.sprite = sprite;
+		copy = copyBrick;
 		return copyBrick;
+	}
+
+	public LoopBeginBrick getCopy() {
+		return copy;
 	}
 
 }
