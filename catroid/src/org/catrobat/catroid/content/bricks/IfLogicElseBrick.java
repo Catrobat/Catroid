@@ -49,15 +49,21 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 	private IfLogicBeginBrick ifBeginBrick;
 	private IfLogicEndBrick ifEndBrick;
 
+	private transient IfLogicElseBrick copy;
+
 	public IfLogicElseBrick(Sprite sprite, IfLogicBeginBrick ifBeginBrick) {
 		this.sprite = sprite;
 		this.ifBeginBrick = ifBeginBrick;
-		ifBeginBrick.setElseBrick(this);
+		ifBeginBrick.setIfElseBrick(this);
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
+	}
+
+	public IfLogicElseBrick getCopy() {
+		return copy;
 	}
 
 	@Override
@@ -98,7 +104,7 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 
 	@Override
 	public Brick clone() {
-		return new IfLogicElseBrick(getSprite(), ifBeginBrick);
+		return new IfLogicElseBrick(sprite, ifBeginBrick);
 	}
 
 	@Override
@@ -108,6 +114,18 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 
 	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
 		this.ifEndBrick = ifEndBrick;
+	}
+
+	public void setIfBeginBrick(IfLogicBeginBrick ifBeginBrick) {
+		this.ifBeginBrick = ifBeginBrick;
+	}
+
+	public IfLogicBeginBrick getIfBeginBrick() {
+		return ifBeginBrick;
+	}
+
+	public IfLogicEndBrick getIfEndBrick() {
+		return ifEndBrick;
 	}
 
 	@Override
@@ -169,9 +187,13 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		//ifEndBrick and ifBeginBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
 		IfLogicElseBrick copyBrick = (IfLogicElseBrick) clone(); //Using the clone method because of its flexibility if new fields are added
+		ifBeginBrick.setIfElseBrick(this);
+		ifEndBrick.setIfElseBrick(this);
+
 		copyBrick.ifBeginBrick = null;
 		copyBrick.ifEndBrick = null;
 		copyBrick.sprite = sprite;
+		this.copy = copyBrick;
 		return copyBrick;
 	}
 

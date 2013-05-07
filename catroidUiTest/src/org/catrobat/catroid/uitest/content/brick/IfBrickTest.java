@@ -223,8 +223,8 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		ifBrick = new IfLogicBeginBrick(sprite, 0);
 		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(sprite, ifBrick);
 		IfLogicEndBrick ifEndBrick = new IfLogicEndBrick(sprite, ifElseBrick, ifBrick);
-		ifBrick.setElseBrick(ifElseBrick);
-		ifBrick.setEndBrick(ifEndBrick);
+		ifBrick.setIfElseBrick(ifElseBrick);
+		ifBrick.setIfEndBrick(ifEndBrick);
 
 		script.addBrick(ifBrick);
 		script.addBrick(new ChangeYByNBrick(sprite, -10));
