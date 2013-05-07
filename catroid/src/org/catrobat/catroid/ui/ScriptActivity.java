@@ -183,7 +183,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		boolean fragmentExists = true;
 		currentFragmentPosition = fragmentPosition;
 
-		updateHandleAddButtonClickListener();
+		//updateHandleAddButtonClickListener();
 
 		Log.d("CatroidFragmentTag", "ScriptActivity updateCurrentFragment");
 		switch (currentFragmentPosition) {

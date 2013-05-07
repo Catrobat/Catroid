@@ -73,9 +73,11 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -116,8 +118,21 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
 
+	private LinearLayout btn_add;
+
 	public void setOnSoundInfoListChangedAfterNewListener(OnSoundInfoListChangedAfterNewListener listener) {
 		soundInfoListChangedAfterNewListener = listener;
+	}
+
+	private void setHandleAddbutton() {
+		btn_add = (LinearLayout) getSherlockActivity().findViewById(R.id.button_add);
+		btn_add.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				handleAddButton();
+			}
+		});
+
 	}
 
 	@Override
@@ -149,6 +164,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		setListAdapter(adapter);
 
 		Utils.loadProjectIfNeeded(getActivity());
+		setHandleAddbutton();
+
 	}
 
 	@Override
@@ -174,6 +191,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		setHandleAddbutton();
 
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;
@@ -294,6 +313,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		}
 		if (requestCode == SoundFragment.REQUEST_SELECT_MUSIC) {
 			Log.d("SoundFragment", "onActivityResult RequestMusic");
+			setHandleAddbutton();
 
 		}
 	}
