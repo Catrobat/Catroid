@@ -85,10 +85,12 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 			/*
 			 * Save project after stage in order to keep the values of user variables
 			 */
-			projectManager.saveProject();
+			//			projectManager.saveProject();
 			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 			projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 			projectManager.setCurrentScriptWithPosition(currentScriptPos);
+
+			ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
 		}
 	}
 
