@@ -905,15 +905,14 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertFalse(">>sprite<< string found, should be replaced with >>object<<", solo.searchText("sprite"));
 		assertTrue(">>object<< string not found", solo.searchText("object"));
 		solo.clickOnButton(close);
-		String cancel = solo.getString(R.string.cancel_button);
-		solo.clickOnButton(cancel);
+		solo.goBack();
 
 		solo.clickLongOnText(FIRST_TEST_SPRITE_NAME);
 		solo.clickOnText(solo.getString(R.string.rename));
 		assertFalse(">>Sprite<< string found, should be replaced with >>object<<", solo.searchText("Sprite"));
 		assertTrue(">>Object<< string not found", solo.searchText("Object"));
-		solo.waitForText(cancel);
-		solo.clickOnButton(cancel);
+		solo.goBack();
+		solo.goBack();
 
 		solo.clickLongOnText(FIRST_TEST_SPRITE_NAME);
 		solo.clickOnText(solo.getString(R.string.copy));
