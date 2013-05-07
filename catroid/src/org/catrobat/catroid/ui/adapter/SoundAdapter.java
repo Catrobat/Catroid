@@ -48,6 +48,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActivityAdapterInterface {
@@ -70,7 +71,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 		this.context = context;
 		this.showDetails = showDetails;
 		this.soundInfoItems = items;
-		this.selectMode = Constants.SELECT_NONE;
+		this.selectMode = ListView.CHOICE_MODE_NONE;
 	}
 
 	public void setOnSoundEditListener(OnSoundEditListener listener) {
@@ -137,7 +138,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					if (isChecked) {
-						if (selectMode == Constants.SINGLE_SELECT) {
+						if (selectMode == ListView.CHOICE_MODE_SINGLE) {
 							clearCheckedItems();
 						}
 						checkedSounds.add(position);
@@ -152,7 +153,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 				}
 			});
 
-			if (selectMode != Constants.SELECT_NONE) {
+			if (selectMode != ListView.CHOICE_MODE_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
 				holder.checkbox.setVisibility(View.VISIBLE);
 				holder.soundFragmentButtonLayout
@@ -235,7 +236,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 				Log.e("CATROID", "Cannot get view.", e);
 			}
 
-			if (selectMode != Constants.SELECT_NONE) {
+			if (selectMode != ListView.CHOICE_MODE_NONE) {
 				holder.playButton.setOnClickListener(null);
 				holder.pauseButton.setOnClickListener(null);
 			} else {

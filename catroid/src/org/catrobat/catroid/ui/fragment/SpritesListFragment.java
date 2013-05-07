@@ -426,7 +426,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	}
 
 	private void clearCheckedSpritesAndEnableButtons() {
-		setSelectMode(Constants.SELECT_NONE);
+		setSelectMode(ListView.CHOICE_MODE_NONE);
 		spriteAdapter.clearCheckedSprites();
 
 		actionMode = null;
@@ -500,7 +500,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.MULTI_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 
 			actionModeActive = true;
 
@@ -537,7 +537,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.SINGLE_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_SINGLE);
 			mode.setTitle(getString(R.string.rename));
 
 			actionModeActive = true;
@@ -571,7 +571,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.MULTI_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 
 			actionModeActive = true;
 

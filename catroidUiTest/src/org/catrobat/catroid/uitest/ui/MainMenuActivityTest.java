@@ -354,7 +354,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertEquals("Number of bricks in background sprite was wrong", 4, backgroundSprite.getNumberOfBricks());
 		ProjectManager.INSTANCE.setCurrentSprite(backgroundSprite);
 		ProjectManager.INSTANCE.setCurrentScript(startingScript);
-		ProjectManager.INSTANCE.saveProject();
+		StorageHandler.getInstance().saveProject(standardProject);
 
 		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
