@@ -48,6 +48,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -96,7 +97,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	private boolean isLookFragmentFromSetLookBrickNew = false;
 	private boolean isLookFragmentHandleAddButtonHandled = false;
 
-	private LinearLayout btn_add;
+	private LinearLayout btn_add = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -162,11 +163,27 @@ public class ScriptActivity extends SherlockFragmentActivity {
 			}
 		});
 		actionBar.setSelectedNavigationItem(currentFragmentPosition);
+		btn_add = (LinearLayout) findViewById(R.id.button_add);
+		updateHandleAddButtonClickListener();
+	}
+
+	private void updateHandleAddButtonClickListener() {
+		if (btn_add == null) {
+			btn_add = (LinearLayout) findViewById(R.id.button_add);
+		}
+		btn_add.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				handleAddButton(v);
+			}
+		});
 	}
 
 	private void updateCurrentFragment(int fragmentPosition, FragmentTransaction fragmentTransaction) {
 		boolean fragmentExists = true;
 		currentFragmentPosition = fragmentPosition;
+
+		updateHandleAddButtonClickListener();
 
 		Log.d("CatroidFragmentTag", "ScriptActivity updateCurrentFragment");
 		switch (currentFragmentPosition) {
@@ -542,6 +559,8 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 	public void switchToFragmentFromScriptFragment(int fragmentPosition) {
 		ActionBar actionBar = getSupportActionBar();
+
+		updateHandleAddButtonClickListener();
 
 		ScriptActivityFragment scriptFragment = getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
