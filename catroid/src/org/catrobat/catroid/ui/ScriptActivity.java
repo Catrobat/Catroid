@@ -100,6 +100,13 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	private LinearLayout btn_add = null;
 
 	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		Log.d("ScriptActivity", "ScriptActivityOnResume");
+	}
+
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -183,8 +190,6 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		boolean fragmentExists = true;
 		currentFragmentPosition = fragmentPosition;
 
-		//updateHandleAddButtonClickListener();
-
 		Log.d("CatroidFragmentTag", "ScriptActivity updateCurrentFragment");
 		switch (currentFragmentPosition) {
 			case FRAGMENT_SCRIPTS:
@@ -212,6 +217,8 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				currentFragment = soundFragment;
 				break;
 		}
+
+		updateHandleAddButtonClickListener();
 
 		if (fragmentExists) {
 			fragmentTransaction.show(currentFragment);
@@ -340,10 +347,6 @@ public class ScriptActivity extends SherlockFragmentActivity {
 			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 			projectManager.setCurrentSpriteWithPosition(currentSpritePosition);
 			projectManager.setCurrentScriptWithPosition(currentScriptPosition);
-		}
-		if (requestCode == SoundFragment.REQUEST_SELECT_MUSIC) {
-			Log.d("ScriptActivity", "onActivityResult RequestMusic");
-			updateCurrentFragment(FRAGMENT_SOUNDS, null);
 		}
 	}
 
@@ -601,6 +604,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				break;
 		}
 
+		updateHandleAddButtonClickListener();
 		fragmentTransaction.commit();
 	}
 }
