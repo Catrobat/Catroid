@@ -825,6 +825,36 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.waitForText(deletedSpriteName, 0, 200, false, false));
 	}
 
+	public void testConfirmDeleteObjectDialogTitleChange() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		String delete = solo.getString(R.string.delete);
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+
+		solo.clickOnCheckBox(1);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		String no = solo.getString(R.string.no);
+		solo.waitForText(no);
+
+		assertTrue("Dialog title is wrong!",
+				solo.searchText(solo.getString(R.string.dialog_confirm_delete_object_title)));
+
+		solo.clickOnText(no);
+		solo.sleep(500);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertTrue("Dialog title is wrong!",
+				solo.searchText(solo.getString(R.string.dialog_confirm_delete_multiple_objects_title)));
+
+		solo.clickOnText(no);
+	}
+
 	public void testChooseNoOnDeleteQuestionInActionMode() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
