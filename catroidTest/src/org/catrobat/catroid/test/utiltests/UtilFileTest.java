@@ -31,6 +31,7 @@ import java.util.List;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -133,7 +134,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setProject(project);
 		Sprite sprite = new Sprite("new sprite");
 		project.addSprite(sprite);
-		ProjectManager.getInstance().saveProject();
+        StorageHandler.getInstance().saveProject(project);
 
 		String catroidDirectoryPath = "/sdcard/catroid";
 		File catroidDirectory = new File(catroidDirectoryPath);

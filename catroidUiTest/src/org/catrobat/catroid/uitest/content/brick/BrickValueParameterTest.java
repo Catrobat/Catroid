@@ -193,6 +193,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 				.parseInt(goBackEditTextString.substring(0, goBackEditTextString.length() - 1));
 		assertEquals("Value in Selected Brick GoBack is not correct", BrickValues.GO_BACK, goBackEditTextValue);
 	}
+
 	@Smoke
 	public void testLookBricksDefaultValues() {
 		String categoryLooksText = solo.getString(R.string.category_looks);
@@ -405,6 +406,18 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		int nXTPlayToneFreqPrototypeValue = Integer.parseInt(nxtPlayToneFreqTextView.getText().toString());
 		assertEquals("Value in Brick NXTPlayTone is not correct", BrickValues.LEGO_FREQUENCY,
 				nXTPlayToneFreqPrototypeValue);
+
+		Spinner legoNxtMotorStopSpinner = (Spinner) solo.getView(R.id.stop_motor_spinner);
+		assertEquals("Spinner value in LegoNxtMotorStopBrick is not correct", BrickValues.LEGO_MOTOR,
+				legoNxtMotorStopSpinner.getSelectedItem().toString());
+
+		Spinner legoNxtMotorActionSpinner = (Spinner) solo.getView(R.id.lego_motor_action_spinner);
+		assertEquals("Spinner value in LegoNxtMotorActionBrick is not correct", BrickValues.LEGO_MOTOR,
+				legoNxtMotorActionSpinner.getSelectedItem().toString());
+
+		Spinner legoNxtMotorTurnAngleSpinner = (Spinner) solo.getView(R.id.lego_motor_turn_angle_spinner);
+		assertEquals("Spinner value in LegoNxtMotorTurnAngleBrick is not correct", BrickValues.LEGO_MOTOR,
+				legoNxtMotorTurnAngleSpinner.getSelectedItem().toString());
 
 		solo.clickOnText(solo.getString(R.string.nxt_play_tone));
 		solo.clickOnScreen(200, 200);

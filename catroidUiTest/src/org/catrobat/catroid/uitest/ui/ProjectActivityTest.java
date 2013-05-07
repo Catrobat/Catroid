@@ -42,6 +42,7 @@ import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
@@ -941,8 +942,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		project.addSprite(new Sprite(spriteName));
 
-		projectManager.saveProject();
 		projectManager.setProject(project);
+		StorageHandler.getInstance().saveProject(project);
 	}
 
 	private void checkVisibilityOfViews(View detailsView, boolean visible) {

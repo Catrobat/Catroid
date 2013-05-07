@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -159,7 +160,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
-		ProjectManager.getInstance().saveProject();
+		StorageHandler.getInstance().saveProject(project);
 
 		File image = UiTestUtils.saveFileToProject(projectName, "black_quad.png", imageRawId, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.IMAGE);
@@ -171,7 +172,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		sprite.getLookDataList().add(lookData);
 		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(lookData.getChecksum(), image.getAbsolutePath());
-		ProjectManager.getInstance().saveProject();
+		StorageHandler.getInstance().saveProject(project);
 	}
 
 }

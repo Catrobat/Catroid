@@ -226,6 +226,7 @@
     <string name="stage_dialog_restart">Restart</string>
     <string name="stage_dialog_axes_on">Axes On</string>
     <string name="stage_dialog_axes_off">Axes Off</string>
+    <string name="stage_dialog_maximize">Maximize/\nStretch</string>
     <string name="stage_dialog_screenshot">Screenshot</string>
     <!--  -->
 

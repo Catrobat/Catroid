@@ -29,7 +29,6 @@ import java.util.Set;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
@@ -334,8 +333,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
 		for (int variable = 0; variable < userVariablesList.size(); variable++) {
-			userVariablesContainer.addSpriteUserVariable(userVariablesList.get(variable).getName(), userVariablesList.get(variable)
-					.getValue());
+			userVariablesContainer.addSpriteUserVariable(userVariablesList.get(variable).getName(), userVariablesList
+					.get(variable).getValue());
 		}
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
@@ -443,7 +442,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.MULTI_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 
 			actionModeActive = true;
 
@@ -472,7 +471,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				deleteSprite();
 				numDeleted++;
 			}
-			setSelectMode(Constants.SELECT_NONE);
+			setSelectMode(ListView.CHOICE_MODE_NONE);
 			spriteAdapter.clearCheckedSprites();
 
 			actionMode = null;
@@ -491,7 +490,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.SINGLE_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_SINGLE);
 			mode.setTitle(getString(R.string.rename));
 
 			actionModeActive = true;
@@ -513,7 +512,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
 				showRenameDialog();
 			}
-			setSelectMode(Constants.SELECT_NONE);
+			setSelectMode(ListView.CHOICE_MODE_NONE);
 			spriteAdapter.clearCheckedSprites();
 
 			actionMode = null;
@@ -531,7 +530,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.MULTI_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 
 			actionModeActive = true;
 
@@ -558,7 +557,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
 				copySprite();
 			}
-			setSelectMode(Constants.SELECT_NONE);
+			setSelectMode(ListView.CHOICE_MODE_NONE);
 			spriteAdapter.clearCheckedSprites();
 
 			actionMode = null;

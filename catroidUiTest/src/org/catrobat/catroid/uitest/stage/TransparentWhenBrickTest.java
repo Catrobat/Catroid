@@ -87,17 +87,16 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 		assertTrue("Sprite fish is not the foreground sprite", fish.look.getZIndex() > cat.look.getZIndex());
 		UiTestUtils.clickOnStageCoordinates(solo, 22, 45, screenWidth, screenHeight);
 		solo.sleep(1000);
-		assertTrue("Sprite cat is at false position",
-				cat.look.getXInUserInterfaceDimensionUnit() == catXPosition
-						&& cat.look.getYInUserInterfaceDimensionUnit() == catYPosition);
+		assertTrue("Sprite cat is at false position", cat.look.getXInUserInterfaceDimensionUnit() == catXPosition
+				&& cat.look.getYInUserInterfaceDimensionUnit() == catYPosition);
 		assertTrue("Sprite fish has moved",
 				fish.look.getXInUserInterfaceDimensionUnit() == 0 && fish.look.getYInUserInterfaceDimensionUnit() == 0);
 		UiTestUtils.clickOnStageCoordinates(solo, 0, 0, screenWidth, screenHeight);
 		solo.sleep(1000);
-		assertTrue("Sprite cat is at false position",
-				cat.look.getXInUserInterfaceDimensionUnit() == catXPosition
-						&& cat.look.getYInUserInterfaceDimensionUnit() == catYPosition);
-		assertTrue("Sprite fish has moved",
+		assertTrue("Sprite cat is at false position", cat.look.getXInUserInterfaceDimensionUnit() == catXPosition
+				&& cat.look.getYInUserInterfaceDimensionUnit() == catYPosition);
+		assertTrue(
+				"Sprite fish has moved",
 				fish.look.getXInUserInterfaceDimensionUnit() == fishXPosition
 						&& fish.look.getYInUserInterfaceDimensionUnit() == fishYPosition);
 	}
@@ -114,17 +113,16 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 		assertTrue("Sprite fish is not the foreground sprite", fish.look.getZIndex() > cat.look.getZIndex());
 		UiTestUtils.clickOnStageCoordinates(solo, 22, 45, screenWidth, screenHeight);
 		solo.sleep(1000);
-		assertTrue("Sprite cat is at false position",
-				cat.look.getXInUserInterfaceDimensionUnit() == catXPosition
-						&& cat.look.getYInUserInterfaceDimensionUnit() == catYPosition);
+		assertTrue("Sprite cat is at false position", cat.look.getXInUserInterfaceDimensionUnit() == catXPosition
+				&& cat.look.getYInUserInterfaceDimensionUnit() == catYPosition);
 		assertTrue("Sprite fish has moved",
 				fish.look.getXInUserInterfaceDimensionUnit() == 0 && fish.look.getYInUserInterfaceDimensionUnit() == 0);
 		UiTestUtils.clickOnStageCoordinates(solo, 0, 0, screenWidth, screenHeight);
 		solo.sleep(1000);
-		assertTrue("Sprite cat is at false position",
-				cat.look.getXInUserInterfaceDimensionUnit() == catXPosition
-						&& cat.look.getYInUserInterfaceDimensionUnit() == catYPosition);
-		assertTrue("Sprite fish has moved",
+		assertTrue("Sprite cat is at false position", cat.look.getXInUserInterfaceDimensionUnit() == catXPosition
+				&& cat.look.getYInUserInterfaceDimensionUnit() == catYPosition);
+		assertTrue(
+				"Sprite fish has moved",
 				fish.look.getXInUserInterfaceDimensionUnit() == fishXPosition
 						&& fish.look.getYInUserInterfaceDimensionUnit() == fishYPosition);
 	}
@@ -141,9 +139,8 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 		assertTrue("Sprite fish is not the foreground sprite", fish.look.getZIndex() > cat.look.getZIndex());
 		UiTestUtils.clickOnStageCoordinates(solo, 0, 0, screenWidth, screenHeight);
 		solo.sleep(1000);
-		assertTrue("Sprite cat is at false position",
-				cat.look.getXInUserInterfaceDimensionUnit() == catXPosition
-						&& cat.look.getYInUserInterfaceDimensionUnit() == catYPosition);
+		assertTrue("Sprite cat is at false position", cat.look.getXInUserInterfaceDimensionUnit() == catXPosition
+				&& cat.look.getYInUserInterfaceDimensionUnit() == catYPosition);
 		assertTrue("Sprite fish has moved",
 				fish.look.getXInUserInterfaceDimensionUnit() == 0 && fish.look.getYInUserInterfaceDimensionUnit() == 0);
 	}
@@ -203,6 +200,6 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 		lookDataFish.setLookFilename(fishImageFile.getName());
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().saveProject();
+		StorageHandler.getInstance().saveProject(project);
 	}
 }
