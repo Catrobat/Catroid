@@ -1111,7 +1111,7 @@ public class UiTestUtils {
 
 		@SuppressWarnings("unused")
 		public ProjectWithCatrobatLanguageVersion() {
-			catrobatLanguageVersion = 0.7f;
+			catrobatLanguageVersion = Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION;
 		}
 
 		public ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {

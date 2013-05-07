@@ -24,6 +24,7 @@ package org.catrobat.catroid.test;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -36,7 +37,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 	private static final String NEW_PROJECT = "NEW_PROJECT";
 	private static final String DOES_NOT_EXIST = "DOES_NOT_EXIST";
 
-	private static final float CATROBAT_LANGUAGE_VERSION_SUPPORTED = 0.7f;
+	private static final float CATROBAT_LANGUAGE_VERSION_SUPPORTED = Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION;
 	private static final float CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED = 0.0f;
 
 	private ProjectManager projectManager;
