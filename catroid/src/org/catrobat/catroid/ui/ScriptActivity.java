@@ -312,13 +312,15 @@ public class ScriptActivity extends SherlockFragmentActivity {
 			ProjectManager projectManager = ProjectManager.getInstance();
 			int currentSpritePosition = projectManager.getCurrentSpritePosition();
 			int currentScriptPosition = projectManager.getCurrentScriptPosition();
-			/*
-			 * Save project after stage in order to keep the values of user variables
-			 */
-			projectManager.saveProject();
+			//			/*
+			//			 * Save project after stage in order to keep the values of user variables
+			//			 */
+			//			projectManager.saveProject();
 			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 			projectManager.setCurrentSpriteWithPosition(currentSpritePosition);
 			projectManager.setCurrentScriptWithPosition(currentScriptPosition);
+
+			ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
 		}
 	}
 

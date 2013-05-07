@@ -25,6 +25,7 @@ package org.catrobat.catroid.formulaeditor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -126,4 +127,20 @@ public class UserVariablesContainer implements Serializable {
 		return null;
 	}
 
+	public void resetAllUserVariables() {
+
+		resetUserVariables(projectVariables);
+
+		Iterator<Sprite> spriteIterator = spriteVariables.keySet().iterator();
+		while (spriteIterator.hasNext()) {
+			Sprite currentSprite = spriteIterator.next();
+			resetUserVariables(spriteVariables.get(currentSprite));
+		}
+	}
+
+	private void resetUserVariables(List<UserVariable> UserVariableList) {
+		for (UserVariable userVariable : UserVariableList) {
+			userVariable.setValue(0);
+		}
+	}
 }

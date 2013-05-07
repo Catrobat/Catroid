@@ -116,7 +116,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 					Toast.LENGTH_SHORT).show();
 			if (!ProjectManager.getInstance().getCurrentProject().isManualScreenshot()) {
 				ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
-				ProjectManager.getInstance().saveProject();
+				//				ProjectManager.getInstance().saveProject(); TODO save screenshot
 			}
 		} else {
 			Toast.makeText(stageActivity, stageActivity.getString(R.string.error_screenshot_failed), Toast.LENGTH_SHORT)
