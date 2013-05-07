@@ -341,6 +341,10 @@ public class ScriptActivity extends SherlockFragmentActivity {
 			projectManager.setCurrentSpriteWithPosition(currentSpritePosition);
 			projectManager.setCurrentScriptWithPosition(currentScriptPosition);
 		}
+		if (requestCode == SoundFragment.REQUEST_SELECT_MUSIC) {
+			Log.d("ScriptActivity", "onActivityResult RequestMusic");
+			updateCurrentFragment(FRAGMENT_SOUNDS, null);
+		}
 	}
 
 	@Override
@@ -428,6 +432,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	}
 
 	public void handlePlayButton(View view) {
+		updateHandleAddButtonClickListener();
 		if (isHoveringActive()) {
 			scriptFragment.getListView().animateHoveringBrick();
 		} else {
@@ -559,8 +564,6 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 	public void switchToFragmentFromScriptFragment(int fragmentPosition) {
 		ActionBar actionBar = getSupportActionBar();
-
-		updateHandleAddButtonClickListener();
 
 		ScriptActivityFragment scriptFragment = getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
