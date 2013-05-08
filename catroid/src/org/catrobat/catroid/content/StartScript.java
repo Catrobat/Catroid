@@ -25,6 +25,8 @@ package org.catrobat.catroid.content;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 
@@ -61,10 +63,17 @@ public class StartScript extends Script {
 		Script cloneScript = new StartScript(copySprite);
 		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
 
-		for (Brick b : getBrickList()) {
-			cloneBrickList.add(b.copyBrickForSprite(copySprite, cloneScript));
+		for (Brick brick : getBrickList()) {
+			Brick copiedBrick = brick.copyBrickForSprite(copySprite, cloneScript);
+			if (copiedBrick instanceof IfLogicEndBrick) {
+				setIfBrickReferences((IfLogicEndBrick) copiedBrick, (IfLogicEndBrick) brick);
+			} else if (copiedBrick instanceof LoopEndBrick) {
+				setLoopBrickReferences((LoopEndBrick) copiedBrick, (LoopEndBrick) brick);
+			}
+			cloneBrickList.add(copiedBrick);
 		}
 
 		return cloneScript;
 	}
+
 }
