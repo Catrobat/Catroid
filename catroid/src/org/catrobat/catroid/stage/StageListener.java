@@ -153,7 +153,6 @@ public class StageListener implements ApplicationListener {
 		camera = (OrthographicCamera) stage.getCamera();
 		camera.position.set(0, 0, 0);
 
-		renderTextures();
 		sprites = project.getSpriteList();
 		sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
 		for (Sprite sprite : sprites) {
@@ -201,12 +200,6 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		this.stageDialog = stageDialog;
-		//		ProjectManager projectManager = ProjectManager.getInstance();
-		//		int currentSpritePos = projectManager.getCurrentSpritePosition();
-		//		int currentScriptPos = projectManager.getCurrentScriptPosition();
-		//		projectManager.loadProject(projectManager.getCurrentProject().getName(), context, false);
-		//		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
-		//		projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		reloadProject = true;
 	}
 
