@@ -251,7 +251,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 				solo.searchText(connectedDeviceMacAdress));
 
 		solo.clickOnText(PAIRED_UNAVAILABLE_DEVICE_NAME);
-		solo.sleep(8000);
+		solo.sleep(20000);
 		solo.assertCurrentActivity("Incorrect Activity reached!", ProjectActivity.class);
 	}
 
