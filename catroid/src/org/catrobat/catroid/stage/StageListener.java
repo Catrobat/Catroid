@@ -153,10 +153,11 @@ public class StageListener implements ApplicationListener {
 		camera = (OrthographicCamera) stage.getCamera();
 		camera.position.set(0, 0, 0);
 
+		renderTextures();
 		sprites = project.getSpriteList();
 		sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
-		for (int sprite = 0; sprite < sprites.size(); sprite++) {
-			stage.addActor(sprites.get(sprite).look);
+		for (Sprite sprite : sprites) {
+			stage.addActor(sprite.look);
 		}
 		if (DEBUG) {
 			OrthoCamController camController = new OrthoCamController(camera);
@@ -200,12 +201,12 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		this.stageDialog = stageDialog;
-		ProjectManager projectManager = ProjectManager.getInstance();
-		int currentSpritePos = projectManager.getCurrentSpritePosition();
-		int currentScriptPos = projectManager.getCurrentScriptPosition();
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), context, false);
-		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
-		projectManager.setCurrentScriptWithPosition(currentScriptPos);
+		//		ProjectManager projectManager = ProjectManager.getInstance();
+		//		int currentSpritePos = projectManager.getCurrentSpritePosition();
+		//		int currentScriptPos = projectManager.getCurrentScriptPosition();
+		//		projectManager.loadProject(projectManager.getCurrentProject().getName(), context, false);
+		//		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
+		//		projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		reloadProject = true;
 	}
 
@@ -240,6 +241,10 @@ public class StageListener implements ApplicationListener {
 	public void finish() {
 		finished = true;
 		SoundManager.getInstance().clear();
+		for (Sprite sprite : sprites) {
+			sprite.resume();
+			sprite.resetSprite();
+		}
 
 	}
 
@@ -263,6 +268,7 @@ public class StageListener implements ApplicationListener {
 			sprites.get(0).pause();
 			for (int i = 0; i < spriteSize; i++) {
 				Sprite sprite = sprites.get(i);
+				sprite.resetSprite();
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}
