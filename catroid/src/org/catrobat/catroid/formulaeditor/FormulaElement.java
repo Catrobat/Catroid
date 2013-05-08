@@ -241,6 +241,12 @@ public class FormulaElement implements Serializable {
 
 			case PI:
 				return java.lang.Math.PI;
+
+			case TRUE:
+				return 1.0;
+
+			case FALSE:
+				return 0.0;
 		}
 
 		return 0d;
