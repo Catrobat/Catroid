@@ -52,6 +52,7 @@
         <EditText
             android:id="@+id/brick_change_size_by_edit_text"
             style="@style/BrickEditText"
+            android:maxEms="5"
             android:inputType="number|numberDecimal|numberSigned" >
         </EditText>
 

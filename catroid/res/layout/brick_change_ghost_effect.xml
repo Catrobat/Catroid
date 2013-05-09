@@ -64,6 +64,7 @@
             <EditText
                 android:id="@+id/brick_change_ghost_effect_edit_text"
                 style="@style/BrickEditText"
+                android:maxEms="10"
                 android:inputType="number|numberDecimal|numberSigned" >
             </EditText>
         </LinearLayout>

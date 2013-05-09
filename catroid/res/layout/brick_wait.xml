@@ -35,7 +35,7 @@
         android:gravity="center_vertical"
         android:visibility="gone" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/brick_wait_layout"
         style="@style/BrickContainer.Control.Small" >
 
@@ -48,22 +48,18 @@
         <TextView
             android:id="@+id/brick_wait_prototype_text_view"
             style="@style/BrickPrototypeTextView" 
-            android:layout_toRightOf="@id/brick_wait_label">
-        </TextView>
+        />
 
         <EditText
             android:id="@+id/brick_wait_edit_text"
-            style="@style/BrickEditText"
-            android:layout_toLeftOf="@+id/brick_wait_second_text_view"
-            android:layout_toRightOf="@+id/brick_wait_label"
+            style="@style/BrickEditTextMultiple"
             android:inputType="number|numberDecimal" >
         </EditText>
 
         <TextView
             android:id="@+id/brick_wait_second_text_view"
-            android:layout_alignParentRight="true"
             style="@style/BrickText.Multiple" >
         </TextView>
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

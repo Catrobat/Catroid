@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -42,7 +43,7 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -123,7 +124,7 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.brick_if_begin_layout);
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_if_begin_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 		this.alphaValue = (alphaValue);
@@ -132,7 +133,10 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_if_begin_if, null);
+		View prototypeView = View.inflate(context, R.layout.brick_if_begin_if, null);
+		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_if_begin_prototype_text_view);
+		textIfBegin.setText(String.valueOf(BrickValues.IF_CONDITION));
+		return prototypeView;
 	}
 
 	@Override

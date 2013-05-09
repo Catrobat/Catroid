@@ -35,7 +35,7 @@
         android:gravity="center_vertical"
         android:visibility="gone" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/brick_if_begin_layout"
         style="@style/BrickContainer.Control.Small" >
 
@@ -44,31 +44,22 @@
             style="@style/BrickText.Multiple"
             android:text="@string/brick_if_begin" >
         </TextView>
-        
-        <TextView
-            android:id="@+id/brick_if_begin_prototype_text_view"
-            style="@style/BrickPrototypeTextView"
-            android:layout_toRightOf="@id/if_label"
-            android:text="0">
-        </TextView>
 
         <EditText
             android:id="@+id/brick_if_begin_edit_text"
-            style="@style/BrickEditText"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/if_label_second_part"
-            android:layout_toRightOf="@id/if_label"
-            android:text="0"
-            android:inputType="number|numberDecimal"
-            >
-        </EditText>
+            style="@style/BrickEditTextMultiple"
+            android:inputType="number|numberDecimal" />
+
+        <TextView
+            android:id="@+id/brick_if_begin_prototype_text_view"
+            style="@style/BrickPrototypeTextView" />
 
         <TextView
             android:id="@+id/if_label_second_part"
             style="@style/BrickText.Multiple"
-            android:layout_alignParentRight="true"
-            android:paddingRight="5dip"
+            android:paddingLeft="5dip"
             android:text="@string/brick_if_begin_second_part" >
         </TextView>
-    </RelativeLayout>
+    </LinearLayout>
+
 </LinearLayout>

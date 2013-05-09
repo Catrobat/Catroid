@@ -20,9 +20,6 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -69,7 +66,7 @@
 
             <EditText
                 android:id="@+id/brick_place_at_edit_text_x"
-                style="@style/BrickEditText"
+                style="@style/BrickEditTextMultiple"
                 android:inputType="number|numberDecimal|numberSigned" >
             </EditText>
 
@@ -84,7 +81,7 @@
 
             <EditText
                 android:id="@+id/brick_place_at_edit_text_y"
-                style="@style/BrickEditText"
+                style="@style/BrickEditTextMultiple"
                 android:inputType="number|numberDecimal|numberSigned" >
             </EditText>
         </LinearLayout>

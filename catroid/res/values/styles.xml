@@ -144,10 +144,13 @@
         <item name="android:layout_gravity">center_vertical</item>
     </style>
 
-    <style name="BrickText.SingleLine"></style>
+    <style name="BrickText.SingleLine">
+        <item name="android:maxLines">1</item>
+    </style>
     
     <style name="BrickText.Multiple">
         <item name="android:layout_centerVertical">true</item>
+        <item name="android:maxLines">1</item>
     </style>
     
 
@@ -157,22 +160,19 @@
         <item name="android:clickable">false</item>
         <item name="android:minWidth">@dimen/brick_edit_text_and_prototype_text_view_minimum_width</item>
         <item name="android:gravity">right</item>
-        <item name="android:maxEms">5</item>
         <item name="android:minEms">3</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="BrickEditText" parent="@style/BrickPrototypeTextView">
+    <style name="BrickEditText" parent="BrickPrototypeTextView">
         <item name="android:maxLines">1</item>
         <item name="android:visibility">gone</item>
-        <item name="android:layout_width">match_parent</item>
     </style>
     
-    <style name="BrickEditTextMultiple" parent="@style/BrickPrototypeTextView">
-        <item name="android:maxLines">1</item>
-        <item name="android:visibility">gone</item>
+    <style name="BrickEditTextMultiple" parent="@style/BrickEditText">
+        <item name="android:maxEms">6</item>
     </style>
 
     <style name="BrickContainer">
