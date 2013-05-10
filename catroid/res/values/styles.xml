@@ -166,7 +166,7 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="BrickEditText" parent="BrickPrototypeTextView">
+    <style name="BrickEditText" parent="@style/BrickPrototypeTextView">
         <item name="android:maxLines">1</item>
         <item name="android:visibility">gone</item>
     </style>
