@@ -453,6 +453,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			fragment.setArguments(bundle);
 			fragmentManager.beginTransaction().add(R.id.script_fragment_container, fragment, tag).commit();
 		}
+		((FormulaEditorVariableListFragment) fragment).setAddButtonListener(getSherlockActivity());
 		((FormulaEditorVariableListFragment) fragment).showFragment(context);
 	}
 
