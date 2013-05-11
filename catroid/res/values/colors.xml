@@ -37,8 +37,6 @@
     <color name="actionbar_title_color">#6F8E9B</color>
     <color name="fragment_background_color">#03222C</color>
     <color name="transparent">#00000000 </color>
-    <color name="formula_editor_background">#FFFFFF</color>
-    <color name="formula_editor_keyboard_text_color">#A8DFF4</color>
     <color name="list_item_thumbnail_border_color">#A8DFF4</color>
     
 
@@ -87,6 +85,15 @@
     <color name="sound_fragment_button_gradient_start_color">#00475E</color>
     <color name="sound_fragment_button_gradient_end_color">#003F54</color>
     <color name="sound_fragment_button_top_border_color">#4D7F8F</color>
+    
+    <!-- Formula Editor Fragment Colors -->
+	<color name="formula_editor_background">#FFFFFF</color>
+	<color name="formula_editor_background_color">#04222C</color>
+    <color name="formula_editor_keyboard_text_color">#A8DFF4</color>
+    <color name="formula_editor_text_main_color">#A8DFF4</color>
+	<color name="formula_editor_button_gradient_start_color">#00475E</color>
+    <color name="formula_editor_button_gradient_end_color">#003F54</color>
+    
     
     <!-- List View Item Colors -->
     <color name="list_view_item_title_text_color">#A8DFF4</color>

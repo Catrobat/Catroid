@@ -44,12 +44,12 @@
             style="@style/fragment_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeight"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/sound_fragment_text_main_color"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp" />
+            android:textColor="@color/sound_fragment_text_main_color" />
 
         <TextView
             android:id="@+id/fragment_formula_editor_variablelist_item_value_text_view"

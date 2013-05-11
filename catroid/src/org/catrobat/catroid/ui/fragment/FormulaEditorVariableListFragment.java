@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui.fragment;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -43,7 +42,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -86,8 +84,6 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	@Override
 	public void onResume() {
 		super.onResume();
-		Log.d("CatroidFragmentTag", "FormulaEditorVariableList onresume()");
-
 	}
 
 	@Override
@@ -129,7 +125,6 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 	@Override
 	public void onListItemClick(int position) {
-		Log.d("catroid", "onListItemClick");
 		if (!inContextMode) {
 			FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSherlockActivity()
 					.getSupportFragmentManager().findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);

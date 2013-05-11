@@ -21,9 +21,10 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+<!-- TODO: Change 9patch-->
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_formula_editor_list_item"
-    style="@style/sound_fragment_main"
+    style="@style/formula_editor_fragment_main"
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:background="@drawable/spritelist_item_background"
@@ -31,4 +32,5 @@
     android:paddingLeft="10dp"
     android:paddingRight="6dp"
     android:textAppearance="?android:attr/textAppearanceLarge"
-    android:textColor="@color/sound_fragment_text_main_color" />
+    android:textColor="@color/formula_editor_text_main_color" />
+
