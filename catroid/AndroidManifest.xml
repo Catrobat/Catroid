@@ -28,7 +28,13 @@
     android:versionName="0.7.2beta"
     android:sharedUserId="org.catrobat.catroid" 
     android:process="org.catrobat.catroid">
-
+	
+    <supports-screens 
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="false"/>
+    
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
