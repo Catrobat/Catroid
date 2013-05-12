@@ -27,6 +27,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.LoopBeginBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -157,5 +163,26 @@ public abstract class Script implements Serializable {
 		}
 
 		return brickList.get(index);
+	}
+
+	protected void setIfBrickReferences(IfLogicEndBrick copiedIfEndBrick, IfLogicEndBrick originalIfEndBrick) {
+		List<NestingBrick> ifBrickList = originalIfEndBrick.getAllNestingBrickParts(true);
+		IfLogicBeginBrick copiedIfBeginBrick = ((IfLogicBeginBrick) ifBrickList.get(0)).getCopy();
+		IfLogicElseBrick copiedIfElseBrick = ((IfLogicElseBrick) ifBrickList.get(1)).getCopy();
+
+		copiedIfBeginBrick.setIfElseBrick(copiedIfElseBrick);
+		copiedIfBeginBrick.setIfEndBrick(copiedIfEndBrick);
+		copiedIfElseBrick.setIfBeginBrick(copiedIfBeginBrick);
+		copiedIfElseBrick.setIfEndBrick(copiedIfEndBrick);
+		copiedIfEndBrick.setIfBeginBrick(copiedIfBeginBrick);
+		copiedIfEndBrick.setIfElseBrick(copiedIfElseBrick);
+	}
+
+	protected void setLoopBrickReferences(LoopEndBrick copiedBrick, LoopEndBrick originalBrick) {
+		List<NestingBrick> loopBrickList = originalBrick.getAllNestingBrickParts(true);
+		LoopBeginBrick copiedLoopBeginBrick = ((LoopBeginBrick) loopBrickList.get(0)).getCopy();
+
+		copiedLoopBeginBrick.setLoopEndBrick(copiedBrick);
+		copiedBrick.setLoopBeginBrick(copiedLoopBeginBrick);
 	}
 }
