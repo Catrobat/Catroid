@@ -25,7 +25,9 @@
     package="org.catrobat.catroid"
     android:installLocation="auto"
     android:versionCode="2147483646"
-    android:versionName="0.7.2beta" >
+    android:versionName="0.7.2beta"
+    android:sharedUserId="org.catrobat.catroid" 
+    android:process="org.catrobat.catroid">
 
     <uses-sdk
         android:minSdkVersion="8"
