@@ -88,7 +88,7 @@
     <string name="show_details">Details anzeigen</string>
     <string name="hide_details">Details verbergen</string>
     <string name="insert_below">Darunter einfügen</string>
-    <string name="edit_in_paintroid">Bearbeite In Paintroid</string>
+    <string name="edit_in_pocket_paint">Bearbeite In Pocket Paint</string>
     <string name="sprite">Objekt</string>
     <string name="sprites">Objekte</string>
     <string name="spritelist_background_headline">HINTERGRUND</string>
@@ -117,7 +117,7 @@
     <string name="rename_look_dialog">Aussehen umbenennen</string>
     <string name="lookname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="copy_look_addition">Kopie</string>
-    <string name="paintroid_not_installed">Paintroid ist nicht installiert!\nJetzt herunterladen?</string>
+    <string name="pocket_paint_not_installed">Pocket Paint ist nicht installiert!\nJetzt herunterladen?</string>
     <string name="default_look_name">Aussehen</string>
     <string name="delete_look_dialog">Aussehen löschen?</string>
     <string name="new_look_dialog_title">Aussehen hinzufügen</string>
@@ -171,7 +171,7 @@
 
 
     <!-- Look context menu -->
-    <string name="look_context_menu_edit_in_paintroid">Bearbeite In Paintroid</string>
+    <string name="look_context_menu_edit_in_pocket_paint">Bearbeite In Pocket Paint</string>
     <!--  -->
 
 

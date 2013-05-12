@@ -111,7 +111,7 @@
     <!-- <string name="edit_in_paintroid">Editare în paintroid</string> -->
     <string name="copy_look_addition">copiere</string>
     <string name="select_image">Selectați Imaginea</string>
-    <string name="paintroid_not_installed">Paintroid nu este instalt!\nDoriți să îl instalați?</string>
+    <string name="pocket_paint_not_installed">Paintroid nu este instalt!\nDoriți să îl instalați?</string>
     <!-- Sound activity -->
     <!-- <string name="sound_list">Sunet:</string> -->
     <string name="rename_sound_dialog">Redenumirea sunetului</string>

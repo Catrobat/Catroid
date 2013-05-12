@@ -89,7 +89,7 @@
     <string name="show_details">Show Details</string>
     <string name="hide_details">Hide Details</string>
     <string name="insert_below">Insert Below</string>
-    <string name="edit_in_paintroid">Edit in Paintroid</string>
+    <string name="edit_in_pocket_paint">Edit in Pocket Paint</string>
     <string name="sprite">Sprite</string>
     <string name="sprites">Sprites</string>
     <string name="spritelist_background_headline">BACKGROUND</string>
@@ -116,7 +116,7 @@
     <string name="rename_look_dialog">Rename Look</string>
     <string name="lookname_invalid">This look\'s name is invalid</string>
     <string name="copy_look_addition">copy</string>
-    <string name="paintroid_not_installed">Paintroid is not installed!\nDo you want to install it?</string>
+    <string name="pocket_paint_not_installed">Pocket Paint is not installed!\nDo you want to install it?</string>
     <string name="default_look_name">look</string>
     <string name="delete_look_dialog">Delete look?</string>
     <string name="select_look_from_gallery">Select image</string>
@@ -165,7 +165,7 @@
 
 
     <!-- Look context menu -->
-    <string name="look_context_menu_edit_in_paintroid">Edit in Paintroid</string>
+    <string name="look_context_menu_edit_in_pocket_paint">Edit in Pocket Paint</string>
     <!--  -->
 
 
