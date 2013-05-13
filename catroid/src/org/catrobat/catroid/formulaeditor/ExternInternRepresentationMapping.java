@@ -39,7 +39,7 @@ public class ExternInternRepresentationMapping {
 	public void putMapping(int externStringStartIndex, int externStringEndIndex, int internListIndex) {
 		externInternMapping.put(externStringStartIndex, internListIndex);
 
-		// Set externStringEndIndex -1 because of token seperation.
+		// Set externStringEndIndex -1 because of token separation.
 		// Otherwise, tokens would overlap and mapping would fail.
 		externInternMapping.put(externStringEndIndex - 1, internListIndex);
 

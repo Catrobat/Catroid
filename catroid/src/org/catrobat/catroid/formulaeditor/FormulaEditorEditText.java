@@ -237,7 +237,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	final GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 		@Override
-		public boolean onDoubleTap(MotionEvent e) {
+		public boolean onDoubleTap(MotionEvent event) {
 
 			internFormula.setCursorAndSelection(absoluteCursorPosition, true);
 			history.updateCurrentSelection(internFormula.getSelection());

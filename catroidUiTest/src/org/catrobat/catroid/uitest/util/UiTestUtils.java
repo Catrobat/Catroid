@@ -972,7 +972,6 @@ public class UiTestUtils {
 	}
 
 	public static void createValidUser(Context context) {
-
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
 			String testPassword = "pwspws";
