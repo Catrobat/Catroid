@@ -61,7 +61,6 @@ public class UtilFileTest extends InstrumentationTestCase {
 		subDirectory.mkdir();
 		file2 = new File(subDirectory.getAbsolutePath() + "/file2");
 		file2.createNewFile();
-
 		super.setUp();
 	}
 
