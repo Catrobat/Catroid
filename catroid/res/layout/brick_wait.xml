@@ -40,24 +40,25 @@
         style="@style/BrickContainer.Control.Small" >
 
         <TextView
-            style="@style/BrickText.SingleLine"
+            android:id="@+id/brick_wait_label"
+            style="@style/BrickText.Multiple"
             android:text="@string/brick_wait" >
         </TextView>
 
         <TextView
             android:id="@+id/brick_wait_prototype_text_view"
-            style="@style/BrickPrototypeTextView" >
-        </TextView>
+            style="@style/BrickPrototypeTextView" 
+        />
 
         <EditText
             android:id="@+id/brick_wait_edit_text"
-            style="@style/BrickEditText"
+            style="@style/BrickEditTextMultiple"
             android:inputType="number|numberDecimal" >
         </EditText>
 
         <TextView
             android:id="@+id/brick_wait_second_text_view"
-            style="@style/BrickText.SingleLine" >
+            style="@style/BrickText.Multiple" >
         </TextView>
     </LinearLayout>
 

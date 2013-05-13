@@ -77,7 +77,7 @@
 
             <EditText
                 android:id="@+id/motor_action_speed_edit_text"
-                style="@style/BrickEditText"
+                style="@style/BrickEditTextMultiple"
                 android:clickable="false"
                 android:inputType="number|numberDecimal|numberSigned" >
             </EditText>
