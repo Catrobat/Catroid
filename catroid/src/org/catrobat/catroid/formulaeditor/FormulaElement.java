@@ -241,6 +241,10 @@ public class FormulaElement implements Serializable {
 
 			case PI:
 				return java.lang.Math.PI;
+
+			case MOD:
+				Double divisor = rightChild.interpretRecursive(sprite);
+				return java.lang.Math.IEEEremainder(left, divisor);
 		}
 
 		return 0d;
@@ -248,7 +252,7 @@ public class FormulaElement implements Serializable {
 
 	private Double interpretOperator(Operators operator, Sprite sprite) {
 
-		if (leftChild != null) {// binär operator
+		if (leftChild != null) {// binary operator
 			Double left = leftChild.interpretRecursive(sprite);
 			Double right = rightChild.interpretRecursive(sprite);
 
