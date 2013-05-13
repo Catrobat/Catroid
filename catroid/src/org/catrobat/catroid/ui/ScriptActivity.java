@@ -350,7 +350,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 			projectManager.setCurrentSpriteWithPosition(currentSpritePosition);
 			projectManager.setCurrentScriptWithPosition(currentScriptPosition);
 
-			ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
+			projectManager.getCurrentProject().getUserVariables().resetAllUserVariables();
 		}
 	}
 

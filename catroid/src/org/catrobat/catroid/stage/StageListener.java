@@ -206,6 +206,7 @@ public class StageListener implements ApplicationListener {
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), context, false);
 		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 		projectManager.setCurrentScriptWithPosition(currentScriptPos);
+		projectManager.getCurrentProject().getUserVariables().resetAllUserVariables();
 		reloadProject = true;
 	}
 

@@ -90,7 +90,7 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 			projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 			projectManager.setCurrentScriptWithPosition(currentScriptPos);
 
-			ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
+			projectManager.getCurrentProject().getUserVariables().resetAllUserVariables();
 		}
 	}
 

@@ -32,7 +32,7 @@ public class UserVariable implements Serializable {
 
 	public UserVariable(String name, Double value) {
 		this.name = name;
-		this.value = 0.0;
+		this.value = new Double(0.0); // TODO change constructor
 	}
 
 	public Double getValue() {
@@ -40,7 +40,7 @@ public class UserVariable implements Serializable {
 	}
 
 	public void setValue(double value) {
-		this.value = value;
+		this.value = Double.valueOf(value);
 	}
 
 	public String getName() {
