@@ -369,8 +369,8 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	public void testEditImageInPaintroidThreeWorkflows() {
 
-		Reflection.setPrivateField(getLookFragment(), "paintroidIntentApplicationName", "destroy.intent");
-		Reflection.setPrivateField(getLookFragment(), "paintroidIntentActivityName", "for.science");
+		Reflection.setPrivateField(getLookFragment(), "pocketPaintIntentApplicationName", "destroy.intent");
+		Reflection.setPrivateField(getLookFragment(), "pocketPaintIntentActivityName", "for.science");
 
 		solo.clickOnView(solo.getView(R.id.look_main_layout));
 		assertTrue("Paintroid not installed dialog missing after click on look",
