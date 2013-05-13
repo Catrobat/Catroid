@@ -992,6 +992,42 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
 	}
 
+	public void testConvertVisibleSpriteStringsToObject() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		assertFalse(">>Sprite<< string found, should be replaced with >>object<<", solo.searchText("Sprite"));
+		assertTrue(">>Object<< string not found", solo.searchText("Object"));
+
+		//set empty string as a object name to reproduce the "invalid name" error
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		assertFalse(">>sprite<< string found, should be replaced with >>object<<", solo.searchText("sprite"));
+		assertTrue(">>object<< string not found", solo.searchText("object"));
+		String close = solo.getString(R.string.close);
+		solo.waitForText(close);
+		solo.clickOnButton(close);
+
+		solo.enterText(0, FIRST_TEST_SPRITE_NAME);
+		solo.clickOnButton(solo.getString(R.string.ok));
+		assertFalse(">>sprite<< string found, should be replaced with >>object<<", solo.searchText("sprite"));
+		assertTrue(">>object<< string not found", solo.searchText("object"));
+		solo.clickOnButton(close);
+		solo.goBack();
+
+		solo.clickLongOnText(FIRST_TEST_SPRITE_NAME);
+		solo.clickOnText(solo.getString(R.string.rename));
+		assertFalse(">>Sprite<< string found, should be replaced with >>object<<", solo.searchText("Sprite"));
+		assertTrue(">>Object<< string not found", solo.searchText("Object"));
+		solo.goBack();
+		solo.goBack();
+
+		solo.clickLongOnText(FIRST_TEST_SPRITE_NAME);
+		solo.clickOnText(solo.getString(R.string.copy));
+		assertTrue(">>Object:<< string not found", solo.searchText("Object:"));
+
+	}
+
 	private void addNewSprite(String spriteName) {
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
