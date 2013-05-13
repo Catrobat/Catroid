@@ -45,10 +45,11 @@ public class UtilFileTest extends InstrumentationTestCase {
 	private File file2;
 
 	private String projectName = "project1";
+	private String catroidDirectory = "/sdcard/pocketcode";
 
 	@Override
 	protected void setUp() throws Exception {
-		final String catroidDirectory = "/sdcard/catroid";
+
 		UtilFile.deleteDirectory(new File(catroidDirectory + "/testDirectory"));
 		TestUtils.clearProject(projectName);
 
@@ -134,13 +135,12 @@ public class UtilFileTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setProject(project);
 		Sprite sprite = new Sprite("new sprite");
 		project.addSprite(sprite);
-        StorageHandler.getInstance().saveProject(project);
+		StorageHandler.getInstance().saveProject(project);
 
-		String catroidDirectoryPath = "/sdcard/catroid";
-		File catroidDirectory = new File(catroidDirectoryPath);
-		File project1Directory = new File(catroidDirectory + "/" + projectName);
+		File catroidDirectoryFile = new File(catroidDirectory);
+		File project1Directory = new File(catroidDirectoryFile + "/" + projectName);
 
-		List<File> projectList = UtilFile.getProjectFiles(catroidDirectory);
+		List<File> projectList = UtilFile.getProjectFiles(catroidDirectoryFile);
 
 		assertTrue("project1 should be in Projectlist - is a valid Catroid project",
 				projectList.contains(project1Directory));
