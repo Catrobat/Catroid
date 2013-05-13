@@ -154,7 +154,9 @@ public class StageListener implements ApplicationListener {
 		camera.position.set(0, 0, 0);
 
 		sprites = project.getSpriteList();
-		sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
+		if (sprites.size() > 0) {
+			sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
+		}
 		for (Sprite sprite : sprites) {
 			stage.addActor(sprite.look);
 		}
@@ -257,8 +259,10 @@ public class StageListener implements ApplicationListener {
 
 			project = ProjectManager.getInstance().getCurrentProject();
 			sprites = project.getSpriteList();
-			sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
-			sprites.get(0).pause();
+			if (spriteSize > 0) {
+				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
+				sprites.get(0).pause();
+			}
 			for (int i = 0; i < spriteSize; i++) {
 				Sprite sprite = sprites.get(i);
 				sprite.resetSprite();
@@ -300,8 +304,10 @@ public class StageListener implements ApplicationListener {
 		batch.setProjectionMatrix(camera.combined);
 
 		if (firstStart) {
-			sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
 			int spriteSize = sprites.size();
+			if (spriteSize > 0) {
+				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
+			}
 			for (int i = 0; i < spriteSize; i++) {
 				sprites.get(i).createStartScriptActionSequence();
 			}
