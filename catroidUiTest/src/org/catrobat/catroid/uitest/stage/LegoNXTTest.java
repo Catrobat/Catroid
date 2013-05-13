@@ -70,8 +70,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	// unavailable device is paired with a name that starts with 'SWEET'
 	// e.g. SWEETHEART
 
-	//	private static final String PAIRED_UNAVAILABLE_DEVICE_NAME = "SWEET";
-	//	private static final String PAIRED_UNAVAILABLE_DEVICE_MAC = "00:23:4D:F5:A6:18";
+	//  private static final String PAIRED_UNAVAILABLE_DEVICE_NAME = "SWEET";
+	//  private static final String PAIRED_UNAVAILABLE_DEVICE_MAC = "00:23:4D:F5:A6:18";
 
 	private Solo solo;
 	private final String projectName = UiTestUtils.PROJECTNAME1;
