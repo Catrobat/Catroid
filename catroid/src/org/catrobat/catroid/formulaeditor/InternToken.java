@@ -50,7 +50,6 @@ public class InternToken {
 		if (internTokenType == InternTokenType.NUMBER) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -59,7 +58,6 @@ public class InternToken {
 		if (internTokenType == InternTokenType.OPERATOR && Operators.isOperator(tokenStringValue)) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -67,7 +65,6 @@ public class InternToken {
 		if (internTokenType == InternTokenType.BRACKET_OPEN) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -75,7 +72,6 @@ public class InternToken {
 		if (internTokenType == InternTokenType.BRACKET_CLOSE) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -118,7 +114,6 @@ public class InternToken {
 		if (internTokenType == InternTokenType.PARSER_END_OF_FILE) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -126,7 +121,6 @@ public class InternToken {
 		if (internTokenType == InternTokenType.USER_VARIABLE) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -138,7 +132,6 @@ public class InternToken {
 		for (InternToken internToken : internTokensToAppend) {
 			this.tokenStringValue += internToken.tokenStringValue;
 		}
-
 	}
 
 	public InternTokenType getInternTokenType() {
@@ -150,7 +143,6 @@ public class InternToken {
 	}
 
 	public InternToken deepCopy() {
-
 		return new InternToken(internTokenType, tokenStringValue);
 	}
 
