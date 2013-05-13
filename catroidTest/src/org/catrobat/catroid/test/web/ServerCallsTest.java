@@ -108,8 +108,9 @@ public class ServerCallsTest extends AndroidTestCase {
 					userRegistered);
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
-			assertFalse("WebconnectionException \nstatus code:" + e.getStatusCode() + "\nmessage: " + e.getMessage(),
-					true);
+			assertFalse(
+					"an exception should not be thrown! \nstatus code:" + e.getStatusCode() + "\nmessage: "
+							+ e.getMessage(), true);
 		}
 
 	}
@@ -234,7 +235,9 @@ public class ServerCallsTest extends AndroidTestCase {
 			assertTrue("token should be ok", tokenOk);
 
 		} catch (WebconnectionException e) {
-			assertFalse("an exception should not be thrown", true);
+			assertFalse(
+					"an exception should not be thrown! \nstatus code:" + e.getStatusCode() + "\nmessage: "
+							+ e.getMessage(), true);
 			e.printStackTrace();
 		}
 

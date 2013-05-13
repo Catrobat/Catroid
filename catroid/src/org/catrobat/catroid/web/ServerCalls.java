@@ -164,10 +164,10 @@ public class ServerCalls {
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Exception");
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "IO-Exception");
 		}
 	}
 
@@ -177,10 +177,10 @@ public class ServerCalls {
 			connection.doHttpsPostFileDownload(downloadUrl, null, zipFileString, receiver, notificationId, projectName);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(0);
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Malformed URL");
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(0);
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "IO-Exception");
 		}
 
 	}
@@ -209,16 +209,16 @@ public class ServerCalls {
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
 				return true;
 			} else {
-				throw new WebconnectionException(statusCode, serverAnswer);
+				throw new WebconnectionException(statusCode, "server response token ok, but error: " + serverAnswer);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Exception");
 		}
 
 		catch (IOException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "IO-Exception");
 		}
 	}
 
@@ -281,10 +281,10 @@ public class ServerCalls {
 			return registered;
 		} catch (JSONException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "IO-Error");
 		}
 	}
 }

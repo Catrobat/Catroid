@@ -38,7 +38,9 @@ import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
@@ -84,7 +86,7 @@ public class ConnectionWrapper {
 			if (!FTPReply.isPositiveCompletion(replyCode)) {
 				ftpClient.disconnect();
 				Log.e(TAG, "FTP server refused to connect");
-				throw new WebconnectionException(replyCode);
+				throw new WebconnectionException(replyCode, "FTP server refused to connect!");
 			}
 
 			ftpClient.setFileType(FILE_TYPE);
@@ -136,7 +138,7 @@ public class ConnectionWrapper {
 		// response code != 2xx -> error
 		urlConnection.getResponseCode();
 		if (urlConnection.getResponseCode() / 100 != 2) {
-			throw new WebconnectionException(urlConnection.getResponseCode());
+			throw new WebconnectionException(urlConnection.getResponseCode(), "Error response code should be 2xx!");
 		}
 
 		InputStream resultStream = urlConnection.getInputStream();
@@ -171,8 +173,8 @@ public class ConnectionWrapper {
 		HttpsBuilder httpsBuilder = buildPost(urlString, postValues);
 		httpsBuilder.close();
 
-		URL downloadUrl = new URL(urlString);
-		urlConnection = (HttpsURLConnection) downloadUrl.openConnection();
+		//URL downloadUrl = new URL(urlString);
+		//urlConnection = (HttpsURLConnection) downloadUrl.openConnection();
 		urlConnection.connect();
 		int fileLength = urlConnection.getContentLength();
 
@@ -249,16 +251,26 @@ public class ConnectionWrapper {
 			postValues = new HashMap<String, String>();
 		}
 
+		HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+			@Override
+			public boolean verify(String hostname, SSLSession session) {
+				HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
+				return hv.verify("pocketcode.org", session);
+			}
+		};
+
 		URL url = new URL(urlString);
 
 		String boundary = HttpsBuilder.createBoundary();
-		urlConnection = (HttpsURLConnection) HttpsBuilder.createConnection(url);
+		urlConnection = HttpsBuilder.createConnection(url);
 
 		urlConnection.setRequestProperty("Accept", "*/*");
 		urlConnection.setRequestProperty("Content-Type", HttpsBuilder.getContentType(boundary));
 
 		urlConnection.setRequestProperty("Connection", "Keep-Alive");
 		urlConnection.setRequestProperty("Cache-Control", "no-cache");
+
+		urlConnection.setHostnameVerifier(hostnameVerifier);
 
 		HttpsBuilder httpsBuilder = new HttpsBuilder(urlConnection.getOutputStream(), boundary);
 
