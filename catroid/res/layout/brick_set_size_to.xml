@@ -51,7 +51,7 @@
 
         <EditText
             android:id="@+id/brick_set_size_to_edit_text"
-            style="@style/BrickEditText"
+            style="@style/BrickEditTextMultiple"
             android:inputType="number|numberDecimal" >
         </EditText>
 
