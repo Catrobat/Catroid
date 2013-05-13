@@ -75,7 +75,7 @@
 
             <EditText
                 android:id="@+id/motor_turn_angle_edit_text"
-                style="@style/BrickEditText"
+                style="@style/BrickEditTextMultiple"
                 android:clickable="false"
                 android:inputType="number|numberDecimal|numberSigned"
                 android:visibility="gone" >
