@@ -63,6 +63,12 @@ public class LookData implements Serializable, Cloneable {
 		return cloneLookData;
 	}
 
+	public void resetLookData() {
+		pixmap = null;
+		originalPixmap = null;
+		region = null;
+	}
+
 	public LookData copyLookDataForSprite(Sprite sprite) {
 		LookData cloneLookData = new LookData();
 

@@ -77,6 +77,13 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
+	public void resetSprite() {
+		look = new Look(this);
+		for (LookData lookData : lookList) {
+			lookData.resetLookData();
+		}
+	}
+
 	public Sprite(String name) {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
