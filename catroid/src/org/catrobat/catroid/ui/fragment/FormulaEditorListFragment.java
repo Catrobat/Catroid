@@ -71,7 +71,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_function_ln, R.string.formula_editor_function_log,
 			R.string.formula_editor_function_pi, R.string.formula_editor_function_sqrt,
 			R.string.formula_editor_function_rand, R.string.formula_editor_function_abs,
-			R.string.formula_editor_function_round };
+			R.string.formula_editor_function_round, R.string.formula_editor_function_mod };
 
 	private final int[] SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
@@ -152,10 +152,10 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
-
 		Fragment formulaEditorFragment = fragmentManager
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		fragTransaction.hide(formulaEditorFragment);
+
 		fragTransaction.show(this);
 		fragTransaction.commit();
 	}

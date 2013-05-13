@@ -470,6 +470,7 @@
     <string name="formula_editor_function_rand">random</string>
     <string name="formula_editor_function_abs">abs</string>
     <string name="formula_editor_function_round">round</string>
+    <string name="formula_editor_function_mod">mod</string>
     <string name="formula_editor_sensor_x_acceleration">x_acceleration</string>
     <string name="formula_editor_sensor_y_acceleration">y_acceleration</string>
     <string name="formula_editor_sensor_z_acceleration">z_acceleration</string>
@@ -503,12 +504,14 @@
     <string name="formula_editor_operator_minus">-</string>
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
-    <string name="formula_editor_make_new_variable">make a new variable</string>
     <string name="formula_editor_variable_dialog_title">New Variable</string>
     <string name="formula_editor_variable_dialog_for_all_sprites">For all objects</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">For this object only</string>
     <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
-    <string name="formula_editor_variable_context_action_item_selected">items selected!</string>
+   	<plurals name="formula_editor_variable_context_action_item_selected">
+        <item quantity="one">variable selected!</item>
+        <item quantity="other">variables selected!</item>
+    </plurals>
     <!--  -->
 
 </resources>
