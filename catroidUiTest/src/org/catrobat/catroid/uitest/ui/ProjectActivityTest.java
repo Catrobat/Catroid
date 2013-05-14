@@ -101,6 +101,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+
 		UiTestUtils.prepareStageForTest();
 
 		UiTestUtils.clearAllUtilTestProjects();
@@ -236,6 +237,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(500);
 		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
 		solo.clickOnText(getActivity().getString(R.string.delete));
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
 		solo.sleep(500);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(500);
@@ -364,6 +368,10 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		int expectedNumberOfSpritesAfterDelete = spriteList.size() - 1;
 		clickOnContextMenuItem(spriteToDelete, delete);
 
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
+
 		// Dialog is handled asynchronously, so we need to wait a while for it to finish
 		solo.sleep(300);
 		spriteList = projectManager.getCurrentProject().getSpriteList();
@@ -376,6 +384,28 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		Sprite notDeletedSprite = spriteList.get(1);
 		assertEquals("Subsequent sprite was not moved up after predecessor's deletion", SECOND_TEST_SPRITE_NAME,
 				notDeletedSprite.getName());
+	}
+
+	public void testChooseNoOnDeleteQuestion() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		final String spriteToDelete = FIRST_TEST_SPRITE_NAME;
+
+		// Delete sprite
+		int expectedNumberOfSprites = spriteList.size();
+		clickOnContextMenuItem(spriteToDelete, delete);
+
+		String no = solo.getString(R.string.no);
+		solo.waitForText(no);
+		solo.clickOnText(no);
+
+		solo.sleep(300);
+		spriteList = projectManager.getCurrentProject().getSpriteList();
+
+		assertEquals("Size of sprite list has changed!", expectedNumberOfSprites, spriteList.size());
+
+		assertTrue("Sprite is not showing in sprite list!", solo.searchText(spriteToDelete));
+		assertTrue("Sprite is no in Project!", projectManager.spriteExists(spriteToDelete));
 	}
 
 	public void testMainMenuButton() {
@@ -782,6 +812,12 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		assertTrue("Title in delete dialog is not correct!",
+				solo.searchText(solo.getString(R.string.dialog_confirm_delete_object_title)));
+		solo.clickOnText(yes);
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, 300));
 
 		checkIfNumberOfSpritesIsEqual(expectedNumberOfSprites);
@@ -799,6 +835,65 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.waitForText(deletedSpriteName, 0, 200, false, false));
 	}
 
+	public void testConfirmDeleteObjectDialogTitleChange() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		String delete = solo.getString(R.string.delete);
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+
+		solo.clickOnCheckBox(1);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		String no = solo.getString(R.string.no);
+		solo.waitForText(no);
+
+		assertTrue("Dialog title is wrong!",
+				solo.searchText(solo.getString(R.string.dialog_confirm_delete_object_title)));
+
+		solo.clickOnText(no);
+		solo.sleep(500);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertTrue("Dialog title is wrong!",
+				solo.searchText(solo.getString(R.string.dialog_confirm_delete_multiple_objects_title)));
+
+		solo.clickOnText(no);
+	}
+
+	public void testChooseNoOnDeleteQuestionInActionMode() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		solo.clickOnCheckBox(1);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		String no = solo.getString(R.string.no);
+		solo.waitForText(no);
+		solo.clickOnText(no);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, 300));
+
+		int numberOfVisibleCheckBoxes = solo.getCurrentCheckBoxes().size();
+
+		for (CheckBox checkbox : solo.getCurrentCheckBoxes()) {
+			if (checkbox.getVisibility() == View.GONE) {
+				numberOfVisibleCheckBoxes--;
+			}
+		}
+
+		assertEquals("Checkboxes are still showing!", 0, numberOfVisibleCheckBoxes);
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+
+		assertTrue("Bottom bar buttons are not enabled!",
+				solo.searchText(solo.getString(R.string.new_sprite_dialog_title)));
+	}
+
 	public void testDeleteMultipleSprites() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		solo.scrollListToBottom(0);
@@ -810,6 +905,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnCheckBox(3);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, 300));
 
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
@@ -892,6 +990,42 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings));
 		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
+	}
+
+	public void testConvertVisibleSpriteStringsToObject() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		assertFalse(">>Sprite<< string found, should be replaced with >>object<<", solo.searchText("Sprite"));
+		assertTrue(">>Object<< string not found", solo.searchText("Object"));
+
+		//set empty string as a object name to reproduce the "invalid name" error
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		assertFalse(">>sprite<< string found, should be replaced with >>object<<", solo.searchText("sprite"));
+		assertTrue(">>object<< string not found", solo.searchText("object"));
+		String close = solo.getString(R.string.close);
+		solo.waitForText(close);
+		solo.clickOnButton(close);
+
+		solo.enterText(0, FIRST_TEST_SPRITE_NAME);
+		solo.clickOnButton(solo.getString(R.string.ok));
+		assertFalse(">>sprite<< string found, should be replaced with >>object<<", solo.searchText("sprite"));
+		assertTrue(">>object<< string not found", solo.searchText("object"));
+		solo.clickOnButton(close);
+		solo.goBack();
+
+		solo.clickLongOnText(FIRST_TEST_SPRITE_NAME);
+		solo.clickOnText(solo.getString(R.string.rename));
+		assertFalse(">>Sprite<< string found, should be replaced with >>object<<", solo.searchText("Sprite"));
+		assertTrue(">>Object<< string not found", solo.searchText("Object"));
+		solo.goBack();
+		solo.goBack();
+
+		solo.clickLongOnText(FIRST_TEST_SPRITE_NAME);
+		solo.clickOnText(solo.getString(R.string.copy));
+		assertTrue(">>Object:<< string not found", solo.searchText("Object:"));
+
 	}
 
 	private void addNewSprite(String spriteName) {

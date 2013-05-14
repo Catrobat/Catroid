@@ -68,6 +68,7 @@
             <EditText
                 android:id="@+id/nxt_tone_duration_edit_text"
                 style="@style/BrickEditText"
+                android:maxEms="5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="false"
@@ -97,6 +98,7 @@
             <EditText
                 android:id="@+id/nxt_tone_freq_edit_text"
                 style="@style/BrickEditText"
+                android:maxEms="5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="false"
