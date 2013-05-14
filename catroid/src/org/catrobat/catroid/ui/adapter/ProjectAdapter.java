@@ -105,6 +105,10 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		return checkedProjects.size();
 	}
 
+	public void addCheckedProject(int position) {
+		checkedProjects.add(position);
+	}
+
 	public void clearCheckedProjects() {
 		checkedProjects.clear();
 	}
