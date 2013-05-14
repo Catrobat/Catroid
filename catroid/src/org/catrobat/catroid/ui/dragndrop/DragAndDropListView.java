@@ -233,9 +233,11 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 				MeasureSpec.makeMeasureSpec(Utils.getPhysicalPixels(400, getContext()), MeasureSpec.AT_MOST));
 		view.layout(0, 0, Values.SCREEN_WIDTH, view.getMeasuredHeight());
 
+		view.setDrawingCacheBackgroundColor(Color.TRANSPARENT);
 		view.buildDrawingCache(true);
 
 		if (view.getDrawingCache() == null) {
+			view.setDrawingCacheEnabled(drawingCacheEnabled);
 			return false;
 		}
 
