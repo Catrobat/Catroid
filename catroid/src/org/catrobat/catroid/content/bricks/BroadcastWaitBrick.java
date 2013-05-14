@@ -35,6 +35,7 @@ import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
@@ -51,6 +52,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -59,6 +61,7 @@ public class BroadcastWaitBrick extends BrickBaseType {
 	private String broadcastMessage = "";
 	private BroadcastScript waitScript;
 	private transient String oldMessage = "";
+	private transient AdapterView<?> adapterView;
 
 	public BroadcastWaitBrick() {
 
@@ -154,6 +157,7 @@ public class BroadcastWaitBrick extends BrickBaseType {
 				} else {
 					oldMessage = broadcastMessage;
 				}
+				adapterView = parent;
 			}
 
 			@Override
@@ -184,6 +188,16 @@ public class BroadcastWaitBrick extends BrickBaseType {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_broadcast_wait_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView textBroadcastWaitLabel = (TextView) view.findViewById(R.id.brick_broadcast_wait_label);
+		textBroadcastWaitLabel.setTextColor(textBroadcastWaitLabel.getTextColors().withAlpha(alphaValue));
+		Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_wait_spinner);
+		ColorStateList color = textBroadcastWaitLabel.getTextColors().withAlpha(alphaValue);
+		broadcastSpinner.getBackground().setAlpha(alphaValue);
+		if (adapterView != null) {
+			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+		}
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

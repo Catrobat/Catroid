@@ -32,6 +32,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,6 +53,7 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
+	private transient AdapterView<?> adapterView;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
@@ -173,6 +175,7 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				motorEnum = Motor.values()[position];
 				motor = motorEnum.name();
+				adapterView = arg0;
 			}
 
 			@Override
@@ -201,6 +204,27 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_nxt_motor_action_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView textLegoMotorActionLabel = (TextView) view.findViewById(R.id.lego_motor_action_label);
+		TextView textLegoMotorActionSpeed = (TextView) view.findViewById(R.id.lego_motor_action_speed);
+		TextView textLegoMotorActionPercent = (TextView) view.findViewById(R.id.lego_motor_action_percent);
+		TextView textLegoMotorActionLabelSpeedView = (TextView) view.findViewById(R.id.motor_action_speed_text_view);
+		EditText editSpeed = (EditText) view.findViewById(R.id.motor_action_speed_edit_text);
+
+		textLegoMotorActionLabel.setTextColor(textLegoMotorActionLabel.getTextColors().withAlpha(alphaValue));
+		textLegoMotorActionSpeed.setTextColor(textLegoMotorActionSpeed.getTextColors().withAlpha(alphaValue));
+		textLegoMotorActionPercent.setTextColor(textLegoMotorActionPercent.getTextColors().withAlpha(alphaValue));
+		textLegoMotorActionLabelSpeedView.setTextColor(textLegoMotorActionLabelSpeedView.getTextColors().withAlpha(
+				alphaValue));
+		Spinner motorSpinner = (Spinner) view.findViewById(R.id.lego_motor_action_spinner);
+		ColorStateList color = textLegoMotorActionLabelSpeedView.getTextColors().withAlpha(alphaValue);
+		motorSpinner.getBackground().setAlpha(alphaValue);
+		if (adapterView != null) {
+			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+		}
+		editSpeed.setTextColor(editSpeed.getTextColors().withAlpha(alphaValue));
+		editSpeed.getBackground().setAlpha(alphaValue);
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

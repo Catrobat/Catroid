@@ -173,6 +173,20 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_glide_to_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView glideToLabel = (TextView) view.findViewById(R.id.brick_glide_to_label);
+		TextView glideToXTextView = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_x);
+		TextView glideToYTextView = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_y);
+		EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_x);
+		EditText editY = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_y);
+		glideToLabel.setTextColor(glideToLabel.getTextColors().withAlpha(alphaValue));
+		glideToXTextView.setTextColor(glideToXTextView.getTextColors().withAlpha(alphaValue));
+		glideToYTextView.setTextColor(glideToYTextView.getTextColors().withAlpha(alphaValue));
+		editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
+		editX.getBackground().setAlpha(alphaValue);
+		editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
+		editY.getBackground().setAlpha(alphaValue);
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

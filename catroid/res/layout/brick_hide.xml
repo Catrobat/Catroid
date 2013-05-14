@@ -40,6 +40,7 @@
         style="@style/BrickContainer.Look.Small" >
 
         <TextView
+            android:id="@+id/brick_hide_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_hide" />
     </LinearLayout>
