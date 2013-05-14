@@ -26,8 +26,8 @@
     android:installLocation="auto"
     android:versionCode="2147483646"
     android:versionName="0.7.2beta"
-    android:sharedUserId="org.catrobat.catroid" 
-    android:process="org.catrobat.catroid">
+    android:sharedUserId="org.catrobat" 
+    android:process="org.catrobat">
 	
     <supports-screens 
         android:smallScreens="true"
