@@ -199,14 +199,14 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder.objectsHeadline.setVisibility(View.VISIBLE);
 			holder.checkbox.setVisibility(View.GONE);
 			holder.arrow.setVisibility(View.VISIBLE);
-			holder.background.setBackgroundResource(R.drawable.spritelist_item_background);
+			holder.background.setBackgroundResource(R.drawable.button_background_selector);
 		} else {
 			if (selectMode != ListView.CHOICE_MODE_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
 				holder.arrow.setVisibility(View.GONE);
-				holder.background.setBackgroundResource(R.drawable.spritelist_item_background_shadowed);
+				holder.background.setBackgroundResource(R.drawable.button_background_shadowed);
 			} else {
-				holder.background.setBackgroundResource(R.drawable.spritelist_item_background);
+				holder.background.setBackgroundResource(R.drawable.button_background_selector);
 				holder.checkbox.setVisibility(View.GONE);
 				holder.arrow.setVisibility(View.VISIBLE);
 				holder.checkbox.setChecked(false);
