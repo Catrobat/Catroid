@@ -80,7 +80,7 @@
     <string name="edit_look">"수정"</string>
     <string name="lookname_invalid">"형태의 이름이 잘못되었습니다."</string>
     <string name="copy_look_addition">"복사"</string>
-    <string name="paintroid_not_installed">"그림판이 설치되어 있지 않습니다! \n그림판을 설치하겠습니까?"</string>
+    <string name="pocket_paint_not_installed">"그림판이 설치되어 있지 않습니다! \n그림판을 설치하겠습니까?"</string>
     <string name="default_look_name">"형태"</string>
     <string name="delete_look_dialog">"형태를 삭제하겠습니까?"</string>
     <string name="add_look_from_camera">"카메라에서 가져오기"</string>
