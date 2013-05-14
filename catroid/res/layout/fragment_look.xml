@@ -30,10 +30,11 @@
     <!-- Look list -->
     <ListView
         android:id="@android:id/list"
+        style="@style/ListViewShadowed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:cacheColorHint="#00000000"
         android:paddingTop="3dp"
-        android:paddingBottom="3dp"/>
+        />
 
 </RelativeLayout>

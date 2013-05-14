@@ -75,6 +75,19 @@
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
+    
+    <style name="ListViewShadowed">
+        <item name="android:cacheColorHint">@color/solid_black</item>
+            <item name="android:clickable">false</item>
+            <item name="android:divider">@android:color/transparent</item>
+            <item name="android:dividerHeight">-5dip</item>
+            <item name="android:drawSelectorOnTop">false</item>
+            <item name="android:drawingCacheQuality">high</item>
+            <item name="android:fadingEdgeLength">10dp</item>
+            <item name="android:fastScrollEnabled">true</item>
+            <item name="android:requiresFadingEdge">vertical</item>
+            <item name="android:scrollingCache">@string/scrolling_cache_enabled</item>
+    </style>
 
     <style name="MainMenuButton">
         <item name="android:layout_width">match_parent</item>
