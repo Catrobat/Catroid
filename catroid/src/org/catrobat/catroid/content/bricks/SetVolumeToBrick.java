@@ -123,6 +123,15 @@ public class SetVolumeToBrick extends BrickBaseType implements OnClickListener {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_volume_to_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView textVolume = (TextView) view.findViewById(R.id.brick_set_volume_to_text_view);
+		TextView textPercent = (TextView) view.findViewById(R.id.brick_set_volume_to_percent);
+		EditText editVolume = (EditText) view.findViewById(R.id.brick_set_volume_to_edit_text);
+		textVolume.setTextColor(textVolume.getTextColors().withAlpha(alphaValue));
+		textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
+		editVolume.setTextColor(editVolume.getTextColors().withAlpha(alphaValue));
+		editVolume.getBackground().setAlpha(alphaValue);
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

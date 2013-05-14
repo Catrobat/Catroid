@@ -36,6 +36,7 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -88,6 +89,10 @@ public class StopAllSoundsBrick extends BrickBaseType {
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 		this.alphaValue = (alphaValue);
+
+		TextView textStop = (TextView) view.findViewById(R.id.brick_turn_left_prototype_text_view);
+
+		textStop.setTextColor(textStop.getTextColors().withAlpha(alphaValue));
 
 		return view;
 	}

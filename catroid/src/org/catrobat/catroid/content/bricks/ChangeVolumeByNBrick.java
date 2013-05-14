@@ -129,6 +129,13 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_volume_by_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView changeVolume = (TextView) view.findViewById(R.id.brick_change_volume_by_label);
+		EditText editVolume = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
+		changeVolume.setTextColor(changeVolume.getTextColors().withAlpha(alphaValue));
+		editVolume.setTextColor(editVolume.getTextColors().withAlpha(alphaValue));
+		editVolume.getBackground().setAlpha(alphaValue);
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

@@ -40,6 +40,7 @@
         style="@style/BrickContainer.Sound.Small" >
 
         <TextView
+            android:id="@+id/brick_change_volume_by_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_change_volume_by" >
         </TextView>

@@ -116,16 +116,9 @@ public class SetXBrick extends BrickBaseType implements OnClickListener {
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_set_x_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_set_x_edit_text);
-		//textX.setBackgroundColor(Color.parseColor("175527"));
-		//editX.setBackgroundColor(Color.parseColor("175527"));
 		textX.setTextColor(textX.getTextColors().withAlpha(alphaValue));
 		editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
 		editX.getBackground().setAlpha(alphaValue);
-		//textX.getBackground().setAlpha(alphaValue);
-
-		//Animation animation = AnimationUtils.loadAnimation(context, R.anim.alpha_transparent);
-		//textX.startAnimation(animation);
-		//textX.startAnimation(animation);
 
 		this.alphaValue = (alphaValue);
 		return view;
