@@ -167,7 +167,6 @@ public class Project implements Serializable {
 			for (Sprite currentSprite : spriteList) {
 				for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); scriptIndex++) {
 					Script currentScript = currentSprite.getScript(scriptIndex);
-
 					for (int brickIndex = 0; brickIndex < currentScript.getBrickList().size(); brickIndex++) {
 						Brick currentBrick = currentScript.getBrick(brickIndex);
 						if (currentBrick instanceof BroadcastReceiverBrick) {

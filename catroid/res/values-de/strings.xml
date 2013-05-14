@@ -359,11 +359,12 @@
 
     <!-- defaultValues -->
     <string name="default_project_name">Mein erstes Programm</string>
-    <string name="default_project_sprites_pocketcode_name">Pocket Code</string>
-    <string name="default_project_sprites_pocketcode_normalcat">Katze normal</string>
-    <string name="default_project_sprites_pocketcode_banzaicat">Banzai-Katze</string>
-    <string name="default_project_sprites_pocketcode_cheshirecat">Grinsekatze</string>
+    <string name="default_project_sprites_mole_name">Maulwurf</string>
+    <string name="default_project_sprites_mole_whacked">Benommener Maulwurf</string>
+    <string name="default_project_sprites_mole_sound">Treffer</string>
     <string name="default_project_backgroundname">Hintergrund</string>
+    <string name="default_project_var_random_from">zufällig von</string>
+    <string name="default_project_var_random_to">zufällig bis</string>
     <!--  -->
 
 

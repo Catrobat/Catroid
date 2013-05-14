@@ -69,6 +69,14 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
 		this.yPosition = yPosition;
 	}
 
+	public void setXPosition(Formula xPosition) {
+		this.xPosition = xPosition;
+	}
+
+	public void setYPosition(Formula yPosition) {
+		this.yPosition = yPosition;
+	}
+
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
