@@ -164,15 +164,7 @@ public class ProjectActivity extends SherlockFragmentActivity {
 		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
 			SensorHandler.stopSensorListeners();
 			ProjectManager projectManager = ProjectManager.getInstance();
-			int currentSpritePos = projectManager.getCurrentSpritePosition();
-			int currentScriptPos = projectManager.getCurrentScriptPosition();
-			/*
-			 * Save project after stage in order to keep the values of user variables
-			 */
 			//			projectManager.saveProject();
-			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
-			projectManager.setCurrentSpriteWithPosition(currentSpritePos);
-			projectManager.setCurrentScriptWithPosition(currentScriptPos);
 
 			projectManager.getCurrentProject().getUserVariables().resetAllUserVariables();
 		}

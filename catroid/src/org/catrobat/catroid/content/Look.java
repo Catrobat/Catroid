@@ -480,4 +480,14 @@ public class Look extends Image {
 		float result = number % modulo;
 		return result < 0 ? result + modulo : result;
 	}
+
+	public void resetLookVariables() {
+		brightnessValue = 1f; //LOOK_BRIGHTNESS
+		alphaValue = 1f; //LOOK_GHOSTEFFECT
+		//LOOK_LAYER
+		setRotation(0f);//LOOK_ROTATION
+		setScale(1f, 1f); //LOOK_SIZE
+		setBounds(0f, 0f, 0f, 0f); // LOOK_X + LOOK_Y
+		setOrigin(0f, 0f);
+	}
 }
