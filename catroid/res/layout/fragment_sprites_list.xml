@@ -32,6 +32,5 @@
         style="@style/ListViewShadowed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:animationCache="@string/animation_cache_enabled"
         />
 </LinearLayout>
