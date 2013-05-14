@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import java.io.ObjectStreamException;
 import java.io.Serializable;
 
 public class UserVariable implements Serializable {
@@ -32,7 +33,16 @@ public class UserVariable implements Serializable {
 
 	public UserVariable(String name, Double value) {
 		this.name = name;
-		this.value = new Double(0.0); // TODO change constructor
+		this.value = new Double(value);
+	}
+
+	//	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+	//		this.value = new Double(0.0);
+	//	}
+
+	public Object readResolve() throws ObjectStreamException {
+		this.value = new Double(0);
+		return this;
 	}
 
 	public Double getValue() {
