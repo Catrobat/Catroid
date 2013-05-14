@@ -111,7 +111,7 @@
     <!-- <string name="edit_in_paintroid">Редактировать в paintroid</string> -->
     <string name="copy_look_addition">скопировать</string>
     <string name="select_image">Выбрать изображение</string>
-    <string name="paintroid_not_installed">Paintroid не установлен!\nЖелаете ли вы его установить?</string>
+    <string name="pocket_paint_not_installed">Paintroid не установлен!\nЖелаете ли вы его установить?</string>
     <string name="default_look_name">костюм</string>
     <string name="delete_look_dialog">Удалить костюм?</string>
     <!-- Sound activity -->

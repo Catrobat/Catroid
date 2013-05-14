@@ -586,7 +586,7 @@ public class FormulaEditorUserVariableFragmentTest extends
 		assertTrue("MenuItem should not be found!", solo.getView(R.id.insert_below) == null);
 		assertTrue("MenuItem should not be found!", solo.getView(R.id.move) == null);
 		assertTrue("MenuItem should not be found!", solo.getView(R.id.rename) == null);
-		assertTrue("MenuItem should not be found!", solo.getView(R.id.edit_in_paintroid) == null);
+		assertTrue("MenuItem should not be found!", solo.getView(R.id.edit_in_pocket_paint) == null);
 		assertTrue("MenuItem should not be found!", solo.getView(R.id.show_details) == null);
 		assertTrue("MenuItem should not be found!", solo.getView(R.id.settings) == null);
 	}
