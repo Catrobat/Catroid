@@ -189,10 +189,10 @@
 
 
     <!-- New project dialog -->
-    <string name="new_project_dialog_title">Neues Projekt</string>
-    <string name="new_project_dialog_hint">Mein Projekt</string>
+    <string name="new_project_dialog_title">Neues programm</string>
+    <string name="new_project_dialog_hint">Mein Programm</string>
     <string name="new_project_description_dialog_hint">Meine Beschreibung</string>
-    <string name="new_project_name">Projektname:</string>
+    <string name="new_project_name">Programmname:</string>
     <!--  -->
 
 
