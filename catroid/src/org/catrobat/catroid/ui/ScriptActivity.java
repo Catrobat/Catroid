@@ -319,8 +319,8 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				startActivity(settingsIntent);
 				break;
 
-			case R.id.edit_in_paintroid:
-				currentFragment.startEditInPaintroidActionMode();
+			case R.id.edit_in_pocket_paint:
+				currentFragment.startEditInPocketPaintActionMode();
 				break;
 		}
 		return super.onOptionsItemSelected(item);
