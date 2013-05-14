@@ -90,7 +90,7 @@
     <string name="lookname_invalid">"コスチュームの名前は無効です"</string>
     <string name="copy_look_addition">"コピー"</string>
     <string name="select_image">"画像を選択"</string>
-    <string name="paintroid_not_installed">"ペイントロイドがインストールされていません！\n今、ペイントロイドをインストールしたいですか？"</string>
+    <string name="pocket_paint_not_installed">"ペイントロイドがインストールされていません！\n今、ペイントロイドをインストールしたいですか？"</string>
     <string name="default_look_name">"コスチューム"</string>
     <!-- Sound activity -->
     <string name="rename_sound_dialog">"音の名前を変更します"</string>
