@@ -48,9 +48,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -94,6 +96,15 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	private boolean isSoundFragmentHandleAddButtonHandled = false;
 	private boolean isLookFragmentFromSetLookBrickNew = false;
 	private boolean isLookFragmentHandleAddButtonHandled = false;
+
+	private LinearLayout btn_add = null;
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		Log.d("ScriptActivity", "ScriptActivityOnResume");
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -159,12 +170,27 @@ public class ScriptActivity extends SherlockFragmentActivity {
 			}
 		});
 		actionBar.setSelectedNavigationItem(currentFragmentPosition);
+		btn_add = (LinearLayout) findViewById(R.id.button_add);
+		updateHandleAddButtonClickListener();
+	}
+
+	private void updateHandleAddButtonClickListener() {
+		if (btn_add == null) {
+			btn_add = (LinearLayout) findViewById(R.id.button_add);
+		}
+		btn_add.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				handleAddButton(v);
+			}
+		});
 	}
 
 	private void updateCurrentFragment(int fragmentPosition, FragmentTransaction fragmentTransaction) {
 		boolean fragmentExists = true;
 		currentFragmentPosition = fragmentPosition;
 
+		Log.d("CatroidFragmentTag", "ScriptActivity updateCurrentFragment");
 		switch (currentFragmentPosition) {
 			case FRAGMENT_SCRIPTS:
 				if (scriptFragment == null) {
@@ -191,6 +217,8 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				currentFragment = soundFragment;
 				break;
 		}
+
+		updateHandleAddButtonClickListener();
 
 		if (fragmentExists) {
 			fragmentTransaction.show(currentFragment);
@@ -291,8 +319,8 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				startActivity(settingsIntent);
 				break;
 
-			case R.id.edit_in_paintroid:
-				currentFragment.startEditInPaintroidActionMode();
+			case R.id.edit_in_pocket_paint:
+				currentFragment.startEditInPocketPaintActionMode();
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -302,6 +330,8 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
+		updateHandleAddButtonClickListener();
+
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			SensorHandler.startSensorListener(this);
 			Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
@@ -310,15 +340,10 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
 			SensorHandler.stopSensorListeners();
 			ProjectManager projectManager = ProjectManager.getInstance();
-			int currentSpritePosition = projectManager.getCurrentSpritePosition();
-			int currentScriptPosition = projectManager.getCurrentScriptPosition();
 			/*
 			 * Save project after stage in order to keep the values of user variables
 			 */
 			projectManager.saveProject();
-			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
-			projectManager.setCurrentSpriteWithPosition(currentSpritePosition);
-			projectManager.setCurrentScriptWithPosition(currentScriptPosition);
 		}
 	}
 
@@ -407,6 +432,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	}
 
 	public void handlePlayButton(View view) {
+		updateHandleAddButtonClickListener();
 		if (isHoveringActive()) {
 			scriptFragment.getListView().animateHoveringBrick();
 		} else {
@@ -575,6 +601,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				break;
 		}
 
+		updateHandleAddButtonClickListener();
 		fragmentTransaction.commit();
 	}
 }

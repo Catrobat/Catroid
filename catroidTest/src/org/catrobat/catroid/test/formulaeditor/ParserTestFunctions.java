@@ -196,6 +196,23 @@ public class ParserTestFunctions extends AndroidTestCase {
 		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite), DELTA);
 	}
 
+	public void testMod() {
+		List<InternToken> internTokenList = new LinkedList<InternToken>();
+
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.MOD.name()));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "5"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
+
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
+
+		assertNotNull("Formula is not parsed correctly: mod(5, 2)", parseTree);
+		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite), DELTA);
+	}
+
 	public void testAbs() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 

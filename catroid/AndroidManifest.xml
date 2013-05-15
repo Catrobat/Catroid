@@ -25,8 +25,16 @@
     package="org.catrobat.catroid"
     android:installLocation="auto"
     android:versionCode="2147483646"
-    android:versionName="0.7.2beta" >
-
+    android:versionName="0.7.2beta"
+    android:sharedUserId="org.catrobat" 
+    android:process="org.catrobat">
+	
+    <supports-screens 
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="false"/>
+    
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />

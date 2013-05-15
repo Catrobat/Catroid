@@ -144,7 +144,15 @@
         <item name="android:layout_gravity">center_vertical</item>
     </style>
 
-    <style name="BrickText.SingleLine"></style>
+    <style name="BrickText.SingleLine">
+        <item name="android:maxLines">1</item>
+    </style>
+    
+    <style name="BrickText.Multiple">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:maxLines">1</item>
+    </style>
+    
 
     <style name="BrickPrototypeTextView" parent="android:style/Widget.EditText">
         <item name="android:focusable">false</item>
@@ -152,7 +160,6 @@
         <item name="android:clickable">false</item>
         <item name="android:minWidth">@dimen/brick_edit_text_and_prototype_text_view_minimum_width</item>
         <item name="android:gravity">right</item>
-        <item name="android:maxEms">5</item>
         <item name="android:minEms">3</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:layout_width">wrap_content</item>
@@ -162,6 +169,10 @@
     <style name="BrickEditText" parent="@style/BrickPrototypeTextView">
         <item name="android:maxLines">1</item>
         <item name="android:visibility">gone</item>
+    </style>
+    
+    <style name="BrickEditTextMultiple" parent="@style/BrickEditText">
+        <item name="android:maxEms">6</item>
     </style>
 
     <style name="BrickContainer">
@@ -323,7 +334,7 @@
         <item name="android:textColor">@color/sound_fragment_text_main_color</item>
         <item name="android:textSize">22sp</item>
     </style>
-
+    
     <style name="sound_fragment_detail" parent="fragment_basic_style">
         <item name="android:textColor">@color/sound_fragment_text_detail_color</item>
         <item name="android:textSize">14sp</item>
@@ -347,8 +358,18 @@
         <item name="android:layout_marginBottom">@dimen/key_margin</item>
         <item name="android:layout_marginRight">@dimen/key_margin</item>
     </style>
-
-    <style name="BrickCategory">
+    
+    <style name="formulaeditor_variblelist_fragment_main" parent ="fragment_basic_style">
+        <item name="android:textColor">@color/sound_fragment_text_main_color</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    
+    <style name="formulaeditor_variblelist_fragment_variable_value" parent ="fragment_basic_style">
+        <item name="android:textColor">@color/solid_white</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    
+        <style name="BrickCategory">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
