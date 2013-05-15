@@ -78,9 +78,6 @@
     
     <style name="ListViewShadowed">
         <item name="android:cacheColorHint">@color/solid_black</item>
-        <item name="android:clickable">false</item>
-        <item name="android:divider">@android:color/transparent</item>
-        <item name="android:dividerHeight">-5dip</item>
         <item name="android:drawSelectorOnTop">false</item>
         <item name="android:drawingCacheQuality">high</item>
         <item name="android:fadingEdgeLength">10dp</item>
