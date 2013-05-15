@@ -368,7 +368,7 @@ public class AddBrickDialog extends DialogFragment {
 		//Robot Albert
 		List<Brick> robotAlbertBrickList = new ArrayList<Brick>();
 		RobotAlbertMotorActionBrick robotAlbertMotorActionBrick = new RobotAlbertMotorActionBrick(sprite,
-				RobotAlbertMotorActionBrick.Motor.MOTOR_A, BrickValues.LEGO_SPEED);
+				RobotAlbertMotorActionBrick.Motor.Left, BrickValues.ROBOT_ALBERT_SPEED);
 		robotAlbertBrickList.add(robotAlbertMotorActionBrick);
 		brickMap.put(context.getString(R.string.category_robot_albert), robotAlbertBrickList);
 

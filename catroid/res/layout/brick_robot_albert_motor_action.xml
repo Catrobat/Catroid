@@ -39,7 +39,7 @@
         android:id="@+id/brick_robot_albert_motor_action_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/brick_yellow_end"
+        android:background="@drawable/brick_red"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -51,7 +51,7 @@
                 style="@style/BrickText"
                 android:layout_centerVertical="true"
                 android:paddingRight="10dip"
-                android:text="@string/brick_motor_action" >
+                android:text="@string/brick_robot_albert_motor_action" >
             </TextView>
 
             <LinearLayout
@@ -81,7 +81,7 @@
                 style="@style/BrickText"
                 android:layout_centerVertical="true"
                 android:paddingRight="10dip"
-                android:text="@string/motor_speed" >
+                android:text="@string/robot_albert_motor_speed" >
             </TextView>
 
             <LinearLayout
@@ -99,7 +99,7 @@
                     android:background="@color/white"
                     android:gravity="right"
                     android:minHeight="30dip"
-                    android:minWidth="50dip"
+                    android:minWidth="70dip"
                     android:paddingRight="5dip"
                     android:text="0"
                     android:textSize="20dip" >

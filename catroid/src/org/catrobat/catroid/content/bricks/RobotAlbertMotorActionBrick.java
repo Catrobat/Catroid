@@ -53,7 +53,7 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 	private transient View prototypeView;
 
 	public static enum Motor {
-		MOTOR_A, MOTOR_B
+		Left, Right, Both
 	}
 
 	private String motor;
@@ -91,8 +91,8 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
-		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.motor_action_speed_text_view);
+		prototypeView = View.inflate(context, R.layout.brick_robot_albert_motor_action, null);
+		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.robot_albert_motor_action_speed_text_view);
 		textSpeed.setText(String.valueOf(speed.interpretInteger(sprite)));
 		//TODO set the spinner Value to A
 		return prototypeView;
@@ -131,8 +131,8 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 
 		editSpeed.setOnClickListener(this);
 
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
-				android.R.layout.simple_spinner_item);
+		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
+				R.array.robot_albert_motor_chooser, android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.robot_albert_motor_spinner);
 		motorSpinner.setClickable(true);

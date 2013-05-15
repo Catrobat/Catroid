@@ -58,15 +58,17 @@ import android.util.Log;
  * by the owners, i.e. calling the send/recive methods by themselves.
  */
 public abstract class RobotAlbertCommunicator extends Thread {
-	public static final int MOTOR_A = 0;
-	public static final int MOTOR_B = 1;
-	public static final int MOTOR_C = 2;
-	public static final int MOTOR_B_ACTION = 40;
-	public static final int MOTOR_RESET = 10;
-	public static final int DO_BEEP = 51;
-	public static final int DO_ACTION = 52;
-	public static final int READ_MOTOR_STATE = 60;
-	public static final int GET_FIRMWARE_VERSION = 70;
+	public static final int MOTOR_LEFT = 0;
+	public static final int MOTOR_RIGHT = 1;
+	public static final int MOTOR_BOTH = 2;
+	/*
+	 * public static final int MOTOR_B_ACTION = 40;
+	 * public static final int MOTOR_RESET = 10;
+	 * public static final int DO_BEEP = 51;
+	 * public static final int DO_ACTION = 52;
+	 * public static final int READ_MOTOR_STATE = 60;
+	 * public static final int GET_FIRMWARE_VERSION = 70;
+	 */
 	public static final int DISCONNECT = 99;
 
 	public static final int DISPLAY_TOAST = 1000;
@@ -76,20 +78,23 @@ public abstract class RobotAlbertCommunicator extends Thread {
 	public static final int MOTOR_STATE = 1003;
 	public static final int STATE_RECEIVEERROR = 1004;
 	public static final int STATE_SENDERROR = 1005;
-	public static final int FIRMWARE_VERSION = 1006;
-	public static final int FIND_FILES = 1007;
-	public static final int START_PROGRAM = 1008;
-	public static final int STOP_PROGRAM = 1009;
-	public static final int GET_PROGRAM_NAME = 1010;
-	public static final int PROGRAM_NAME = 1011;
-	public static final int SAY_TEXT = 1030;
-	public static final int VIBRATE_PHONE = 1031;
+	//public static final int FIRMWARE_VERSION = 1006;
+	/*
+	 * public static final int FIND_FILES = 1007;
+	 * public static final int START_PROGRAM = 1008;
+	 * public static final int STOP_PROGRAM = 1009;
+	 * public static final int GET_PROGRAM_NAME = 1010;
+	 * public static final int PROGRAM_NAME = 1011;
+	 * public static final int SAY_TEXT = 1030;
+	 * public static final int VIBRATE_PHONE = 1031;
+	 */
 	public static final int RECEIVED_MESSAGE = 1111;
 
-	public static final int NO_DELAY = 0;
-	public static final int GENERAL_COMMAND = 100;
+	//public static final int NO_DELAY = 0;
+	//public static final int GENERAL_COMMAND = 100;
 	public static final int MOTOR_COMMAND = 102;
-	public static final int TONE_COMMAND = 101;
+	public static final int MOTOR_RESET_COMMAND = 103;
+	//public static final int TONE_COMMAND = 101;
 
 	protected boolean connected = false;
 	protected Handler uiHandler;
@@ -99,6 +104,8 @@ public abstract class RobotAlbertCommunicator extends Thread {
 	protected byte[] returnMessage;
 
 	protected Resources mResources;
+
+	private ControlCommands commands = new ControlCommands();
 
 	public RobotAlbertCommunicator(Handler uiHandler, Resources resources) {
 		this.uiHandler = uiHandler;
@@ -312,33 +319,39 @@ public abstract class RobotAlbertCommunicator extends Thread {
 		 */
 	}
 
-	protected synchronized void albertMoveForward() {
-		byte[] buffer = new byte[22];
-		buffer[0] = (byte) 0xAA;
-		buffer[1] = (byte) 0x55;
-		buffer[2] = (byte) 20;
-		buffer[3] = (byte) 6;
-		buffer[4] = (byte) 0x11;
-		buffer[5] = (byte) 0;
-		buffer[6] = (byte) 0;
-		buffer[7] = (byte) 0xFF;
-		buffer[8] = (byte) 100; //Left motor
-		buffer[9] = (byte) 100; //Right motor
-		buffer[10] = (byte) 0; //Buzzer
-		buffer[11] = (byte) 0; //Left LED Red
-		buffer[12] = (byte) 0; //Left LED Green
-		buffer[13] = (byte) 0; //Left LED Blue
-		buffer[14] = (byte) 0; //Right LED Red
-		buffer[15] = (byte) 0; //Right LED Green
-		buffer[16] = (byte) 0; //Right LED Blue
-		buffer[17] = (byte) 0; //Front-LED 0...1
-		buffer[18] = (byte) 0; //Reserved
-		buffer[19] = (byte) 0; //Body-LED 0...255
-		buffer[20] = (byte) 0x0D;
-		buffer[21] = (byte) 0x0A;
+	protected synchronized void resetRobotAlbert() {
+		commands.resetRobotAlbert();
+		sendCommandMessage(commands.getCommandMessage());
+	}
 
+	protected synchronized void sendCommandMessage(byte[] command_message) {
+		/*
+		 * byte[] buffer = new byte[22];
+		 * buffer[0] = (byte) 0xAA;
+		 * buffer[1] = (byte) 0x55;
+		 * buffer[2] = (byte) 20;
+		 * buffer[3] = (byte) 6;
+		 * buffer[4] = (byte) 0x11;
+		 * buffer[5] = (byte) 0;
+		 * buffer[6] = (byte) 0;
+		 * buffer[7] = (byte) 0xFF;
+		 * buffer[8] = (byte) 100; //Left motor
+		 * buffer[9] = (byte) 100; //Right motor
+		 * buffer[10] = (byte) 0; //Buzzer
+		 * buffer[11] = (byte) 0; //Left LED Red
+		 * buffer[12] = (byte) 0; //Left LED Green
+		 * buffer[13] = (byte) 0; //Left LED Blue
+		 * buffer[14] = (byte) 0; //Right LED Red
+		 * buffer[15] = (byte) 0; //Right LED Green
+		 * buffer[16] = (byte) 0; //Right LED Blue
+		 * buffer[17] = (byte) 0; //Front-LED 0...1
+		 * buffer[18] = (byte) 0; //Reserved
+		 * buffer[19] = (byte) 0; //Body-LED 0...255
+		 * buffer[20] = (byte) 0x0D;
+		 * buffer[21] = (byte) 0x0A;
+		 */
 		try {
-			sendMessage(buffer);
+			sendMessage(command_message);
 		} catch (IOException e) {
 			sendState(STATE_SENDERROR);
 		}
@@ -347,7 +360,7 @@ public abstract class RobotAlbertCommunicator extends Thread {
 	// receive messages from the UI
 	final Handler myHandler = new Handler() {
 		@Override
-		public void handleMessage(Message myMessage) {
+		public void handleMessage(Message message) {
 
 			/*
 			 * switch (myMessage.what) {
@@ -373,9 +386,56 @@ public abstract class RobotAlbertCommunicator extends Thread {
 			 * 
 			 * }
 			 */
+			switch (message.what) {
+				case MOTOR_COMMAND:
+					Log.d("Albert", "create command-message");
+					int motor = message.getData().getInt("motor");
+					int speed = message.getData().getInt("speed");
+					switch (motor) {
+						case MOTOR_LEFT:
+							Log.d("Albert", "set speed of left-motor:" + speed);
+							commands.setSpeedOfLeftMotor(speed);
+							break;
+						case MOTOR_RIGHT:
+							Log.d("Albert", "set speed of right-motor:" + speed);
+							commands.setSpeedOfRightMotor(speed);
+							break;
+						case MOTOR_BOTH:
+							Log.d("Albert", "set speed of both-motors:" + speed);
+							commands.setSpeedOfLeftMotor(speed);
+							commands.setSpeedOfRightMotor(speed);
+							break;
+						default:
+							Log.d("Albert", "Handler: ERROR: default-Motor !!!!!!!!!!!!!!!");
+					}
+					byte[] command_message = commands.getCommandMessage();
+					Log.d("Albert", "buffer[2]=" + command_message[2]);
+					Log.d("Albert", "buffer[3]=" + command_message[3]);
+					Log.d("Albert", "buffer[7]=" + command_message[7]);
+					Log.d("Albert", "buffer[8]=" + command_message[8]);
+					Log.d("Albert", "buffer[9]=" + command_message[9]);
+					Log.d("Albert", "buffer[21]=" + command_message[21]);
+					sendCommandMessage(command_message);
+					break;
+				case MOTOR_RESET_COMMAND:
+					//int motor = MOTOR_BOTH;
+					Log.d("RobotAlbertC.Handler", "MotorResetCommand received");
+					commands.setSpeedOfLeftMotor(0);
+					commands.setSpeedOfRightMotor(0);
+					byte[] commandmessage = commands.getCommandMessage();
+					Log.d("Albert", "buffer[2]=" + commandmessage[2]);
+					Log.d("Albert", "buffer[3]=" + commandmessage[3]);
+					Log.d("Albert", "buffer[7]=" + commandmessage[7]);
+					Log.d("Albert", "buffer[8]=" + commandmessage[8]);
+					Log.d("Albert", "buffer[9]=" + commandmessage[9]);
+					Log.d("Albert", "buffer[21]=" + commandmessage[21]);
+					sendCommandMessage(commandmessage);
+					break;
+				default:
+					Log.d("RobotAlbertCommunicator", "handleMessage: Default !!!!!!!!!!!!!!!");
+					break;
+			}
 			Log.d("Albert", "Handler:albertMoveForward()");
-			albertMoveForward();
-
 		}
 
 	};

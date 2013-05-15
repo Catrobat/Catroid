@@ -234,11 +234,14 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		myHandler.removeMessages(0);
 		myHandler.removeMessages(1);
 		myHandler.removeMessages(2);
+
 		/*
 		 * moveMotor(0, 0, 0);
 		 * moveMotor(1, 0, 0);
 		 * moveMotor(2, 0, 0);
 		 */
+		resetRobotAlbert();
+
 	}
 
 	/**

@@ -56,9 +56,9 @@
     
     <!-- Robot Albert motors spinner -->
     <string-array name="robot_albert_motor_chooser">
-        <item>L</item>
-        <item>R</item>
-        <item>L+R</item>
+        <item>Left</item>
+        <item>Right</item>
+        <item>Both</item>
     </string-array>
 
     <string-array name="fancy_directions_chooser">

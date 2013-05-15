@@ -23,7 +23,7 @@
 package org.catrobat.catroid.content.actions;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick.Motor;
+import org.catrobat.catroid.content.bricks.RobotAlbertMotorActionBrick.Motor;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.robot.albert.RobotAlbert;
 
@@ -34,7 +34,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 public class RobotAlbertMotorActionAction extends TemporalAction {
 	private static final int MIN_SPEED = -100;
 	private static final int MAX_SPEED = 100;
-	private static final int NO_DELAY = 0;
 
 	private Motor motorEnum;
 	private Formula speed;
@@ -42,9 +41,10 @@ public class RobotAlbertMotorActionAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
+
+		int speedValue = speed.interpretInteger(MIN_SPEED, MAX_SPEED, sprite);
+
 		/*
-		 * int speedValue = speed.interpretInteger(MIN_SPEED, MAX_SPEED, sprite);
-		 * 
 		 * if (motorEnum.equals(Motor.MOTOR_A_C)) {
 		 * LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), speedValue, 0);
 		 * LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), speedValue, 0);
@@ -52,10 +52,22 @@ public class RobotAlbertMotorActionAction extends TemporalAction {
 		 * LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), speedValue, 0);
 		 * }
 		 */
+
 		//LegoNXT.sendBTCMotorMessage((int) (duration * 1000), motor, 0, 0);
 		//RobotAlbert.sendRobotAlbertMotorMessage();
-		Log.d("RobotAlbert", "RobotAlbertMotorActionAction before send");
-		RobotAlbert.sendRobotAlbertMotorMessage();
+		int motor = 2;
+		if (motorEnum.equals(Motor.Left)) {
+			motor = Motor.Left.ordinal();
+		} else if (motorEnum.equals(Motor.Right)) {
+			motor = Motor.Right.ordinal();
+		} else if (motorEnum.equals(Motor.Both)) {
+			motor = Motor.Both.ordinal();
+		} else {
+			Log.d("Albert", "Error: motorEnum:" + motorEnum);
+		}
+
+		Log.d("RobotAlbert", "RobotAlbertMotorActionAction before send: speed=" + speedValue);
+		RobotAlbert.sendRobotAlbertMotorMessage(motor, speedValue);
 		Log.d("RobotAlbert", "RobotAlbertMotorActionAction after sended");
 	}
 

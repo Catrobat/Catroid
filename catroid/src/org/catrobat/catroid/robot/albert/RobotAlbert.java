@@ -70,7 +70,8 @@ public class RobotAlbert implements BTConnectable {
 	private Handler recieverHandler;
 	private Activity activity;
 
-	private static int TONE_COMMAND = 101;
+	//private static int TONE_COMMAND = 101;
+	private static final int MOTOR_COMMAND = 102;
 
 	public RobotAlbert(Activity activity, Handler recieverHandler) {
 		this.activity = activity;
@@ -103,6 +104,7 @@ public class RobotAlbert implements BTConnectable {
 		if (myCommunicator != null) {
 			//sendBTCMotorMessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.DISCONNECT, 0, 0);
 			try {
+				myCommunicator.stopAllNXTMovement();
 				myCommunicator.destroyNXTconnection();
 			} catch (IOException e) { // TODO Auto-generated method stub
 
@@ -155,14 +157,16 @@ public class RobotAlbert implements BTConnectable {
 		 */
 	}
 
-	public static synchronized void sendRobotAlbertMotorMessage() {
+	public static synchronized void sendRobotAlbertMotorMessage(int motor, int speed) {
 		Log.d("RobotAlbert", "sendRobotAlbertMotorMessage():Bundle");
 		Bundle myBundle = new Bundle();
+		myBundle.putInt("motor", motor);
+		myBundle.putInt("speed", speed);
 		Log.d("RobotAlbert", "1");
 		Message myMessage = btcHandler.obtainMessage();
 		Log.d("RobotAlbert", "2");
 		myMessage.setData(myBundle);
-		//myMessage.what;
+		myMessage.what = MOTOR_COMMAND;
 		Log.d("RobotAlbert", "sendRobotAlbertMotorMessage():btcHandler.sendMessage(...)");
 		btcHandler.sendMessage(myMessage);
 		Log.d("RobotAlbert", "sendRobotAlbertMotorMessage finished!");
@@ -192,6 +196,7 @@ public class RobotAlbert implements BTConnectable {
 
 	public void connectRobotAlbert() {
 		Intent serverIntent = new Intent(this.activity, DeviceListActivity.class);
+		serverIntent.putExtra("RobotAlbert", true);
 		activity.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
 
 	}

@@ -58,4 +58,5 @@ public class BrickValues {
 	public static final int LEGO_FREQUENCY = 2;
 
 	//Constants Robot Albert
+	public static final int ROBOT_ALBERT_SPEED = 100;
 }
