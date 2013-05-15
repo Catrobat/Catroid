@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
@@ -34,9 +35,10 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -62,8 +64,21 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		return NO_RESOURCES;
 	}
 
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		LoopEndBrick copyBrick = (LoopEndBrick) clone();
+		loopBeginBrick.setLoopEndBrick(this);
+
+		copyBrick.sprite = sprite;
+		return copyBrick;
+	}
+
 	public LoopBeginBrick getLoopBeginBrick() {
 		return loopBeginBrick;
+	}
+
+	public void setLoopBeginBrick(LoopBeginBrick loopBeginBrick) {
+		this.loopBeginBrick = loopBeginBrick;
 	}
 
 	@Override
@@ -71,25 +86,19 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = inflater.inflate(R.layout.brick_loop_end, null);
-			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_end_checkbox);
-			final Brick brickInstance = this;
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		view = inflater.inflate(R.layout.brick_loop_end, null);
+		view = getViewWithAlpha(alphaValue);
+		checkbox = (CheckBox) view.findViewById(R.id.brick_loop_end_checkbox);
+		final Brick brickInstance = this;
 
-			checkbox.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					checked = !checked;
-					if (!checked) {
-						for (Brick currentBrick : adapter.getCheckedBricks()) {
-							currentBrick.setCheckedBoolean(false);
-						}
-					}
-					adapter.handleCheck(brickInstance, checked);
-				}
-			});
-		}
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 		return view;
 	}
 

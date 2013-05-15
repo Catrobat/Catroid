@@ -38,7 +38,7 @@
 
     <LinearLayout
         android:id="@+id/brick_glide_to_layout"
-        style="@style/BrickContainer.Motion.Big"
+        style="@style/BrickContainer.Motion.Medium"
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
@@ -59,6 +59,7 @@
             <EditText
                 android:id="@+id/brick_glide_to_edit_text_duration"
                 style="@style/BrickEditText"
+                android:maxEms="7"
                 android:inputType="number|numberDecimal" >
             </EditText>
 
@@ -85,6 +86,7 @@
             <EditText
                 android:id="@+id/brick_glide_to_edit_text_x"
                 style="@style/BrickEditText"
+                android:maxEms="5"
                 android:inputType="number|numberDecimal|numberSigned" >
             </EditText>
 
@@ -101,6 +103,7 @@
             <EditText
                 android:id="@+id/brick_glide_to_edit_text_y"
                 style="@style/BrickEditText"
+                android:maxEms="5"
                 android:inputType="number|numberDecimal|numberSigned" >
             </EditText>
         </LinearLayout>

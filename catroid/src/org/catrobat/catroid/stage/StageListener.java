@@ -54,11 +54,12 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -74,7 +75,6 @@ public class StageListener implements ApplicationListener {
 	private FPSLogger fpsLogger;
 
 	private Stage stage;
-	private Group parentGroup;
 	private boolean paused = false;
 	private boolean finished = false;
 	private boolean firstStart = true;
@@ -111,7 +111,6 @@ public class StageListener implements ApplicationListener {
 
 	private ScreenModes screenMode;
 
-	private Texture background;
 	private Texture axes;
 
 	private boolean makeTestPixels = false;
@@ -160,6 +159,9 @@ public class StageListener implements ApplicationListener {
 		camera.position.set(0, 0, 0);
 
 		sprites = project.getSpriteList();
+		if (sprites.size() > 0) {
+			sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
+		}
 		for (Sprite sprite : sprites) {
 			stage.addActor(sprite.look);
 		}
@@ -174,7 +176,6 @@ public class StageListener implements ApplicationListener {
 			Gdx.input.setInputProcessor(stage);
 		}
 
-		background = new Texture(Gdx.files.internal("stage/white_pixel.bmp"));
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 		skipFirstFrameForAutomaticScreenshot = true;
 	}
@@ -209,12 +210,6 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		this.stageDialog = stageDialog;
-		ProjectManager projectManager = ProjectManager.getInstance();
-		int currentSpritePos = projectManager.getCurrentSpritePosition();
-		int currentScriptPos = projectManager.getCurrentScriptPosition();
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), context, false);
-		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
-		projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		reloadProject = true;
 	}
 
@@ -260,6 +255,10 @@ public class StageListener implements ApplicationListener {
 	public void finish() {
 		finished = true;
 		SoundManager.getInstance().clear();
+		for (Sprite sprite : sprites) {
+			sprite.resume();
+			sprite.resetSprite();
+		}
 
 	}
 
@@ -277,12 +276,15 @@ public class StageListener implements ApplicationListener {
 			stage.clear();
 			SoundManager.getInstance().clear();
 
-			parentGroup = new Group();
 			project = ProjectManager.getInstance().getCurrentProject();
 			sprites = project.getSpriteList();
+			if (spriteSize > 0) {
+				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
+				sprites.get(0).pause();
+			}
 			for (int i = 0; i < spriteSize; i++) {
 				Sprite sprite = sprites.get(i);
-				parentGroup.addActor(sprite.look);
+				sprite.resetSprite();
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}
@@ -318,10 +320,13 @@ public class StageListener implements ApplicationListener {
 				break;
 		}
 
-		this.drawRectangle();
+		batch.setProjectionMatrix(camera.combined);
 
 		if (firstStart) {
 			int spriteSize = sprites.size();
+			if (spriteSize > 0) {
+				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
+			}
 			for (int i = 0; i < spriteSize; i++) {
 				sprites.get(i).createStartScriptActionSequence();
 			}
@@ -400,13 +405,6 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	private void drawRectangle() {
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-		batch.draw(background, -virtualWidthHalf, -virtualHeightHalf, virtualWidth, virtualHeight);
-		batch.end();
-	}
-
 	private void drawAxes() {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
@@ -434,7 +432,6 @@ public class StageListener implements ApplicationListener {
 		}
 		stage.dispose();
 		font.dispose();
-		background.dispose();
 		axes.dispose();
 		disposeTextures();
 	}
@@ -455,19 +452,32 @@ public class StageListener implements ApplicationListener {
 
 	private boolean saveScreenshot(byte[] screenshot) {
 		int length = screenshot.length;
+		Bitmap fullScreenBitmap, centerSquareBitmap;
 		int[] colors = new int[length / 4];
 
 		for (int i = 0; i < length; i += 4) {
 			colors[i / 4] = Color.argb(255, screenshot[i + 0] & 0xFF, screenshot[i + 1] & 0xFF,
 					screenshot[i + 2] & 0xFF);
 		}
-		Bitmap bitmap = Bitmap.createBitmap(colors, 0, screenshotWidth, screenshotWidth, screenshotHeight,
+		fullScreenBitmap = Bitmap.createBitmap(colors, 0, screenshotWidth, screenshotWidth, screenshotHeight,
 				Config.ARGB_8888);
+
+		if (screenshotWidth < screenshotHeight) {
+			int verticalMargin = (screenshotHeight - screenshotWidth) / 2;
+			centerSquareBitmap = Bitmap.createBitmap(fullScreenBitmap, 0, verticalMargin, screenshotWidth,
+					screenshotWidth);
+		} else if (screenshotWidth > screenshotHeight) {
+			int horizontalMargin = (screenshotWidth - screenshotHeight) / 2;
+			centerSquareBitmap = Bitmap.createBitmap(fullScreenBitmap, horizontalMargin, 0, screenshotHeight,
+					screenshotHeight);
+		} else {
+			centerSquareBitmap = Bitmap.createBitmap(fullScreenBitmap, 0, 0, screenshotWidth, screenshotHeight);
+		}
 
 		FileHandle image = Gdx.files.absolute(pathForScreenshot + SCREENSHOT_FILE_NAME);
 		OutputStream stream = image.write(false);
 		try {
-			bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+			centerSquareBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
 			stream.close();
 		} catch (IOException e) {
 			return false;
@@ -496,6 +506,16 @@ public class StageListener implements ApplicationListener {
 				screenMode = ScreenModes.MAXIMIZE;
 				break;
 		}
+	}
+
+	private LookData createWhiteBackgroundLookData() {
+		LookData whiteBackground = new LookData();
+		Pixmap whiteBackgroundPixmap = new Pixmap((int) virtualWidth, (int) virtualHeight, Format.RGBA8888);
+		whiteBackgroundPixmap.setColor(Color.WHITE);
+		whiteBackgroundPixmap.fill();
+		whiteBackground.setPixmap(whiteBackgroundPixmap);
+		whiteBackground.setTextureRegion();
+		return whiteBackground;
 	}
 
 	private void renderTextures() {

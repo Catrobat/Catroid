@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.fragment;
 
 import java.util.List;
+import java.util.concurrent.locks.Lock;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -33,9 +34,9 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickAdapter.OnBrickEditListener;
-import org.catrobat.catroid.ui.dialogs.AddBrickDialog;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
@@ -46,7 +47,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
@@ -58,7 +58,11 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -89,14 +93,19 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	private NewBrickAddedReceiver brickAddedReceiver;
 	private BrickListChangedReceiver brickListChangedReceiver;
 
+	private Lock viewSwitchLock = new ViewSwitchLock();
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg onCreate");
+
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg onCreateView");
 		View rootView = inflater.inflate(R.layout.fragment_script, null);
 
 		listView = (DragAndDropListView) rootView.findViewById(R.id.brick_list_view);
@@ -106,6 +115,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
+		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg onActivityCreated");
+
 		super.onActivityCreated(savedInstanceState);
 
 		if (savedInstanceState != null) {
@@ -119,7 +130,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.rename).setVisible(false);
-		menu.findItem(R.id.edit_in_paintroid).setVisible(false);
+		menu.findItem(R.id.edit_in_pocket_paint).setVisible(false);
 		menu.findItem(R.id.copy).setVisible(false);
 
 		super.onPrepareOptionsMenu(menu);
@@ -134,6 +145,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onStart() {
 		super.onStart();
+		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg onStart");
 
 		sprite = ProjectManager.INSTANCE.getCurrentSprite();
 		if (sprite == null) {
@@ -145,6 +157,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onResume() {
+		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg onResume");
 		super.onResume();
 
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
@@ -171,6 +184,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onPause() {
 		super.onPause();
+		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg onPause");
 
 		ProjectManager projectManager = ProjectManager.INSTANCE;
 		if (projectManager.getCurrentProject() != null) {
@@ -222,27 +236,45 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	public BrickAdapter getAdapter() {
+		BottomBar.enableButtons(getActivity());
+		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg getAdapter");
+
+		LinearLayout llout_add = (LinearLayout) getActivity().findViewById(R.id.button_add);
+		LinearLayout llout_play = (LinearLayout) getActivity().findViewById(R.id.button_play);
+
+		llout_add.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "toast here llout_add", Toast.LENGTH_LONG).show();
+				handleAddButton();
+			}
+		});
+		BottomBar.setButtonVisible(getSherlockActivity());
+		BottomBar.enableButtons(getSherlockActivity());
 		return adapter;
 	}
 
 	@Override
 	public DragAndDropListView getListView() {
+		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg getListView");
+
 		return listView;
 	}
 
 	@Override
 	public void onCategorySelected(String category) {
 		selectedCategory = category;
-
-		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-		Fragment previousFragment = getFragmentManager().findFragmentByTag(AddBrickDialog.DIALOG_FRAGMENT_TAG);
-		if (previousFragment != null) {
-			fragmentTransaction.remove(previousFragment);
-		}
+		AddBrickFragment addBrickFragment = AddBrickFragment.newInstance(selectedCategory, this);
+		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		fragmentTransaction.add(R.id.script_fragment_container, addBrickFragment,
+				AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
 		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
 
-		AddBrickDialog addBrickDialog = AddBrickDialog.newInstance(selectedCategory, this);
-		addBrickDialog.show(fragmentTransaction, AddBrickDialog.DIALOG_FRAGMENT_TAG);
+		adapter.notifyDataSetChanged();
+
 	}
 
 	public void updateAdapterAfterAddNewBrick(Brick brickToBeAdded) {
@@ -259,10 +291,21 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void initListeners() {
+		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg initListeners");
+
 		sprite = ProjectManager.INSTANCE.getCurrentSprite();
 		if (sprite == null) {
 			return;
 		}
+
+		getSherlockActivity().findViewById(R.id.button_add).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				handleAddButton();
+			}
+		});
 
 		adapter = new BrickAdapter(getActivity(), sprite, listView);
 		adapter.setOnBrickEditListener(this);
@@ -287,7 +330,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		fragmentTransaction.add(R.id.script_fragment_container, brickCategoryFragment,
 				BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 
-		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 		fragmentTransaction.commit();
 
 		adapter.notifyDataSetChanged();
@@ -321,10 +364,15 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void handleAddButton() {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+
 		if (listView.isCurrentlyDragging()) {
 			listView.animateHoveringBrick();
 			return;
 		}
+
 		showCategoryFragment();
 	}
 
@@ -356,12 +404,12 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			unregisterForContextMenu(listView);
 			BottomBar.disableButtons(getActivity());
 			adapter.setCheckboxVisibility(View.VISIBLE);
+			adapter.setActionMode(true);
 		}
 	}
 
 	@Override
-	public void startEditInPaintroidActionMode() {
-
+	public void startEditInPocketPaintActionMode() {
 	}
 
 	@Override
@@ -407,7 +455,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.MULTI_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
 			actionModeTitle = getString(R.string.delete);
@@ -431,7 +479,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			for (Brick brick : checkedBricks) {
 				deleteBrick(brick);
 			}
-			setSelectMode(Constants.SELECT_NONE);
+			setSelectMode(ListView.CHOICE_MODE_NONE);
 			adapter.clearCheckedItems();
 
 			actionMode = null;
@@ -439,6 +487,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 			registerForContextMenu(listView);
 			BottomBar.enableButtons(getActivity());
+			adapter.setActionMode(false);
 		}
 	};
 

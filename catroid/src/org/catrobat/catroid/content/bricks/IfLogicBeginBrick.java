@@ -27,6 +27,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -38,8 +40,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -52,6 +56,7 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	private Formula ifCondition;
 	protected IfLogicElseBrick ifElseBrick;
 	protected IfLogicEndBrick ifEndBrick;
+	private transient IfLogicBeginBrick copy;
 
 	public IfLogicBeginBrick(Sprite sprite, int condition) {
 		this.sprite = sprite;
@@ -68,22 +73,29 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 		return NO_RESOURCES;
 	}
 
-	@Override
-	public Sprite getSprite() {
-		return this.sprite;
+	public IfLogicElseBrick getIfElseBrick() {
+		return ifElseBrick;
 	}
 
-	public void setElseBrick(IfLogicElseBrick elseBrick) {
+	public IfLogicEndBrick getIfEndBrick() {
+		return ifEndBrick;
+	}
+
+	public IfLogicBeginBrick getCopy() {
+		return copy;
+	}
+
+	public void setIfElseBrick(IfLogicElseBrick elseBrick) {
 		this.ifElseBrick = elseBrick;
 	}
 
-	public void setEndBrick(IfLogicEndBrick ifEndBrick) {
+	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
 		this.ifEndBrick = ifEndBrick;
 	}
 
 	@Override
 	public Brick clone() {
-		return new IfLogicBeginBrick(getSprite(), ifCondition.clone());
+		return new IfLogicBeginBrick(sprite, ifCondition.clone());
 	}
 
 	@Override
@@ -91,41 +103,41 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 
 		view = View.inflate(context, R.layout.brick_if_begin_if, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_if_begin_checkbox);
 		final Brick brickInstance = this;
-		checkbox.setOnClickListener(new OnClickListener() {
+
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
-			public void onClick(View v) {
-				checked = !checked;
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
-				adapter.handleCheck(brickInstance, checked);
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
 
-		TextView text1 = (TextView) view.findViewById(R.id.brick_if_text_view1);
-		EditText edit1 = (EditText) view.findViewById(R.id.brick_if_edit_text1);
+		TextView prototypeTextView = (TextView) view.findViewById(R.id.brick_if_begin_prototype_text_view);
+		EditText ifBeginEditText = (EditText) view.findViewById(R.id.brick_if_begin_edit_text);
 
-		ifCondition.setTextFieldId(R.id.brick_if_edit_text1);
+		ifCondition.setTextFieldId(R.id.brick_if_begin_edit_text);
 		ifCondition.refreshTextField(view);
 
-		text1.setVisibility(View.GONE);
-		edit1.setVisibility(View.VISIBLE);
+		prototypeTextView.setVisibility(View.GONE);
+		ifBeginEditText.setVisibility(View.VISIBLE);
 
-		edit1.setOnClickListener(this);
+		ifBeginEditText.setOnClickListener(this);
 
 		return view;
 	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.brick_if_begin_layout);
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_if_begin_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 		this.alphaValue = (alphaValue);
@@ -134,7 +146,10 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_if_begin_if, null);
+		View prototypeView = View.inflate(context, R.layout.brick_if_begin_if, null);
+		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_if_begin_prototype_text_view);
+		textIfBegin.setText(String.valueOf(BrickValues.IF_CONDITION));
+		return prototypeView;
 	}
 
 	@Override
@@ -198,6 +213,17 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 		returnActionList.add(ifAction);
 
 		return returnActionList;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		//ifEndBrick and ifElseBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
+		IfLogicBeginBrick copyBrick = (IfLogicBeginBrick) clone(); //Using the clone method because of its flexibility if new fields are added  
+		copyBrick.ifElseBrick = null; //if the Formula gets a field sprite, a separate copy method will be needed
+		copyBrick.ifEndBrick = null;
+		copyBrick.sprite = sprite;
+		this.copy = copyBrick;
+		return copyBrick;
 	}
 
 }

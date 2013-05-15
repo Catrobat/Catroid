@@ -31,6 +31,9 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
+import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.InstrumentationTestCase;
@@ -81,7 +84,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 			}
 		}
 
-		assertEquals("Loop delay did was not 20ms!", deltaY * REPEAT_TIMES, (int) testSprite.look.getYPosition());
+		assertEquals("Loop delay did was not 20ms!", deltaY * REPEAT_TIMES, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 
 	}
 
@@ -106,7 +109,34 @@ public class RepeatActionTest extends InstrumentationTestCase {
 			testSprite.look.act(1.0f);
 		}
 
-		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY, (int) testSprite.look.getYPosition());
+		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
+	}
+
+	public void testRepeatCount() {
+		testSprite.removeAllScripts();
+		Script testScript = new StartScript(testSprite);
+
+		Formula repeatFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.LOOK_Y.name(), null));
+		RepeatBrick repeatBrick = new RepeatBrick(testSprite, repeatFormula);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		final int deltaY = -10;
+
+		testScript.addBrick(new ChangeYByNBrick(testSprite, 10));
+		testScript.addBrick(repeatBrick);
+		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(loopEndBrick);
+
+		testSprite.addScript(testScript);
+		testSprite.createStartScriptActionSequence();
+
+		while (!testSprite.look.getAllActionsAreFinished()) {
+			testSprite.look.act(1.0f);
+		}
+
+		assertEquals("Executed the wrong number of times!", deltaY * 9, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
+
 	}
 
 	public void testNestedRepeatBrick() throws InterruptedException {
@@ -140,7 +170,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 
 		testSprite.look.act(delta);
 		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * REPEAT_TIMES * deltaY,
-				(int) testSprite.look.getYPosition());
+				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNegativeRepeats() throws InterruptedException {
@@ -170,7 +200,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 
 		assertEquals("Executed the wrong number of times!", 0, executedCount);
 		assertEquals("Loop was executed although repeats were set to zero!", expectedDeltaY,
-				(int) testSprite.look.getYPosition());
+				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 }

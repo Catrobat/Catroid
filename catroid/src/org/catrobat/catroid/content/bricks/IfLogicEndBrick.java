@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
@@ -34,8 +35,9 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -45,13 +47,15 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 	static final int FOREVER = -1;
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicEndBrick.class.getSimpleName();
-	private IfLogicElseBrick elseBrick;
-	private IfLogicBeginBrick beginBrick;
+	private IfLogicElseBrick ifElseBrick;
+
+	private IfLogicBeginBrick ifBeginBrick;
 
 	public IfLogicEndBrick(Sprite sprite, IfLogicElseBrick elseBrick, IfLogicBeginBrick beginBrick) {
 		this.sprite = sprite;
-		this.elseBrick = elseBrick;
-		this.beginBrick = beginBrick;
+		this.ifElseBrick = elseBrick;
+		this.ifBeginBrick = beginBrick;
+		beginBrick.setIfEndBrick(this);
 		elseBrick.setIfEndBrick(this);
 	}
 
@@ -60,9 +64,20 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 		return NO_RESOURCES;
 	}
 
-	@Override
-	public Sprite getSprite() {
-		return sprite;
+	public IfLogicElseBrick getIfElseBrick() {
+		return ifElseBrick;
+	}
+
+	public IfLogicBeginBrick getIfBeginBrick() {
+		return ifBeginBrick;
+	}
+
+	public void setIfElseBrick(IfLogicElseBrick ifElseBrick) {
+		this.ifElseBrick = ifElseBrick;
+	}
+
+	public void setIfBeginBrick(IfLogicBeginBrick ifBeginBrick) {
+		this.ifBeginBrick = ifBeginBrick;
 	}
 
 	@Override
@@ -70,21 +85,22 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
+
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view = inflater.inflate(R.layout.brick_if_end_if, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_if_end_if_checkbox);
 		final Brick brickInstance = this;
-		checkbox.setOnClickListener(new OnClickListener() {
+
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
-			public void onClick(View v) {
-				checked = !checked;
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
-				adapter.handleCheck(brickInstance, checked);
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
 		return view;
@@ -101,7 +117,7 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 
 	@Override
 	public Brick clone() {
-		return new IfLogicEndBrick(getSprite(), elseBrick, beginBrick);
+		return new IfLogicEndBrick(getSprite(), ifElseBrick, ifBeginBrick);
 	}
 
 	@Override
@@ -111,7 +127,7 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 
 	@Override
 	public boolean isDraggableOver(Brick brick) {
-		if (brick == elseBrick) {
+		if (brick == ifElseBrick) {
 			return false;
 		} else {
 			return true;
@@ -120,7 +136,7 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 
 	@Override
 	public boolean isInitialized() {
-		if (elseBrick == null) {
+		if (ifElseBrick == null) {
 			return false;
 		} else {
 			return true;
@@ -129,7 +145,7 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 
 	@Override
 	public void initialize() {
-		//elseBrick = new IfLogicElseBrick(sprite);
+		//ifElseBrick = new IfLogicElseBrick(sprite);
 		Log.w(TAG, "Cannot create the IfLogic Bricks from here!");
 	}
 
@@ -138,13 +154,13 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 		//TODO: handle sorting
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
 		if (sorted) {
-			nestingBrickList.add(beginBrick);
-			nestingBrickList.add(elseBrick);
+			nestingBrickList.add(ifBeginBrick);
+			nestingBrickList.add(ifElseBrick);
 			nestingBrickList.add(this);
 		} else {
 			nestingBrickList.add(this);
-			nestingBrickList.add(beginBrick);
-			//nestingBrickList.add(elseBrick);
+			nestingBrickList.add(ifBeginBrick);
+			//nestingBrickList.add(ifElseBrick);
 		}
 
 		return nestingBrickList;
@@ -161,6 +177,18 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
 		returnActionList.add(sequence);
 		return returnActionList;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		IfLogicEndBrick copyBrick = (IfLogicEndBrick) clone(); //Using the clone method because of its flexibility if new fields are added
+		ifBeginBrick.setIfEndBrick(this);
+		ifElseBrick.setIfEndBrick(this);
+
+		copyBrick.ifBeginBrick = null;
+		copyBrick.ifElseBrick = null;
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 }

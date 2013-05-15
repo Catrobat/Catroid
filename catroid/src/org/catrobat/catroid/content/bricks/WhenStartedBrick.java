@@ -33,8 +33,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -59,26 +57,40 @@ public class WhenStartedBrick extends ScriptBrick {
 	}
 
 	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		WhenStartedBrick copyBrick = (WhenStartedBrick) clone();
+		copyBrick.sprite = sprite;
+		copyBrick.script = script;
+		return copyBrick;
+	}
+
+	@Override
 	public View getView(Context context, int brickId, final BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;
+
 		}
 		view = View.inflate(context, R.layout.brick_when_started, null);
 
 		setCheckboxView(R.id.brick_when_started_checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
-				adapter.handleCheck(brickInstance, checked);
-			}
-		});
+
+		//method moved to to DragAndDropListView since it is not working on 2.x
+		/*
+		 * checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		 * 
+		 * @Override
+		 * public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		 * checked = isChecked;
+		 * if (!checked) {
+		 * for (Brick currentBrick : adapter.getCheckedBricks()) {
+		 * currentBrick.setCheckedBoolean(false);
+		 * }
+		 * }
+		 * adapter.handleCheck(brickInstance, checked);
+		 * 
+		 * }
+		 * });
+		 */
 
 		return view;
 	}

@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.ui;
 
+import java.util.concurrent.locks.Lock;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -40,6 +42,7 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class ProgramMenuActivity extends SherlockFragmentActivity {
 	private ActionBar actionBar;
+	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,15 +80,10 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
 			SensorHandler.stopSensorListeners();
 			ProjectManager projectManager = ProjectManager.getInstance();
-			int currentSpritePos = projectManager.getCurrentSpritePosition();
-			int currentScriptPos = projectManager.getCurrentScriptPosition();
 			/*
 			 * Save project after stage in order to keep the values of user variables
 			 */
 			projectManager.saveProject();
-			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
-			projectManager.setCurrentSpriteWithPosition(currentSpritePos);
-			projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		}
 	}
 
@@ -113,18 +111,30 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 	}
 
 	public void handleScriptsButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		startScriptActivity(ScriptActivity.FRAGMENT_SCRIPTS);
 	}
 
 	public void handleLooksButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		startScriptActivity(ScriptActivity.FRAGMENT_LOOKS);
 	}
 
 	public void handleSoundsButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		startScriptActivity(ScriptActivity.FRAGMENT_SOUNDS);
 	}
 
 	public void handlePlayButton(View view) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}

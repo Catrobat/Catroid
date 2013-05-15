@@ -50,10 +50,10 @@ public class PointToAction extends TemporalAction {
 		int pointedSpriteXPosition = 0, pointedSpriteYPosition = 0;
 		double base = 0.0, height = 0.0, value = 0.0;
 
-		spriteXPosition = (int) sprite.look.getXPosition();
-		spriteYPosition = (int) sprite.look.getYPosition();
-		pointedSpriteXPosition = (int) pointedSprite.look.getXPosition();
-		pointedSpriteYPosition = (int) pointedSprite.look.getYPosition();
+		spriteXPosition = (int) sprite.look.getXInUserInterfaceDimensionUnit();
+		spriteYPosition = (int) sprite.look.getYInUserInterfaceDimensionUnit();
+		pointedSpriteXPosition = (int) pointedSprite.look.getXInUserInterfaceDimensionUnit();
+		pointedSpriteYPosition = (int) pointedSprite.look.getYInUserInterfaceDimensionUnit();
 
 		double rotationDegrees;
 		if (spriteXPosition == pointedSpriteXPosition && spriteYPosition == pointedSpriteYPosition) {

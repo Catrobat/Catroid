@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -62,6 +63,13 @@ public class SpeakBrick extends BrickBaseType {
 		return TEXT_TO_SPEECH;
 	}
 
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		SpeakBrick copyBrick = (SpeakBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
+	}
+
 	public String getText() {
 		return text;
 	}
@@ -72,6 +80,7 @@ public class SpeakBrick extends BrickBaseType {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_speak, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_speak_checkbox);
 

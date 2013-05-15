@@ -138,7 +138,7 @@ public class InternFormula {
 
 	}
 
-	private void updateInternCursorPosition() {
+	public void updateInternCursorPosition() {
 		Integer cursorPositionTokenIndex = externInternRepresentationMapping
 				.getInternTokenByExternIndex(externCursorPosition);
 
@@ -929,4 +929,18 @@ public class InternFormula {
 		}
 	}
 
+	public boolean isThereSomethingToDelete() {
+		if (internFormulaTokenSelection != null) {
+			return true;
+		}
+		if (cursorTokenPosition == null) {
+			return false;
+		}
+		if (cursorTokenPosition == CursorTokenPosition.LEFT) {
+			if (getFirstLeftInternToken(externCursorPosition - 1) == null) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

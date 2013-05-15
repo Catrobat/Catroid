@@ -40,17 +40,17 @@ public enum Operators {
 		isLogicalOperator = isLogical;
 	}
 
-	public int compareOperatorTo(Operators op) {
-		int returnVa = 0;
-		if (priority > op.priority) {
-			returnVa = 1;
-		} else if (priority == op.priority) {
-			returnVa = 0;
-		} else if (priority < op.priority) {
-			returnVa = -1;
+	public int compareOperatorTo(Operators operator) {
+		int returnValue = 0;
+		if (priority > operator.priority) {
+			returnValue = 1;
+		} else if (priority == operator.priority) {
+			returnValue = 0;
+		} else if (priority < operator.priority) {
+			returnValue = -1;
 		}
 
-		return returnVa;
+		return returnValue;
 	}
 
 	public static Operators getOperatorByValue(String value) {

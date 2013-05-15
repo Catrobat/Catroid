@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -90,11 +91,28 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 	}
 
 	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		LegoNxtMotorTurnAngleBrick copyBrick = (LegoNxtMotorTurnAngleBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.motor_turn_angle_text_view);
 		textX.setText(String.valueOf(degrees.interpretInteger(sprite)));
-		//TODO set the motorname
+
+		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_turn_angle_spinner);
+		legoSpinner.setFocusableInTouchMode(false);
+		legoSpinner.setFocusable(false);
+
+		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
+				android.R.layout.simple_spinner_item);
+		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		legoSpinner.setAdapter(motorAdapter);
+		legoSpinner.setSelection(motorEnum.ordinal());
 		return prototypeView;
 	}
 
@@ -108,7 +126,11 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 		view = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_nxt_motor_turn_checkbox);
 		final Brick brickInstance = this;
@@ -134,9 +156,16 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 				android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		Spinner motorSpinner = (Spinner) view.findViewById(R.id.motor_spinner);
-		motorSpinner.setClickable(true);
-		motorSpinner.setEnabled(true);
+		Spinner motorSpinner = (Spinner) view.findViewById(R.id.lego_motor_turn_angle_spinner);
+
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+			motorSpinner.setClickable(true);
+			motorSpinner.setEnabled(true);
+		} else {
+			motorSpinner.setClickable(false);
+			motorSpinner.setEnabled(false);
+		}
+
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -159,6 +188,9 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 
 	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
 		FormulaEditorFragment.showFragment(view, this, degrees);
 	}
 

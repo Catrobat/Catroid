@@ -33,10 +33,10 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
 
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class Sprite implements Serializable {
-
+public class Sprite implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private List<Script> scriptList;
@@ -77,6 +77,13 @@ public class Sprite implements Serializable {
 		}
 	}
 
+	public void resetSprite() {
+		look = new Look(this);
+		for (LookData lookData : lookList) {
+			lookData.resetLookData();
+		}
+	}
+
 	public Sprite(String name) {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
@@ -103,16 +110,56 @@ public class Sprite implements Serializable {
 		}
 	}
 
+	@Override
+	public Sprite clone() {
+		final Sprite cloneSprite = new Sprite();
+		cloneSprite.setName(this.getName());
+
+		ArrayList<LookData> cloneLookList = new ArrayList<LookData>();
+		for (LookData element : this.lookList) {
+			cloneLookList.add(element.copyLookDataForSprite(cloneSprite));
+		}
+		cloneSprite.lookList = cloneLookList;
+
+		ArrayList<SoundInfo> cloneSoundList = new ArrayList<SoundInfo>();
+		for (SoundInfo element : this.soundList) {
+			cloneSoundList.add(element.copySoundInfoForSprite(cloneSprite));
+		}
+		cloneSprite.soundList = cloneSoundList;
+
+		//The scripts have to be the last copied items
+		List<Script> cloneScriptList = new ArrayList<Script>();
+		for (Script element : this.scriptList) {
+			Script addElement = element.copyScriptForSprite(cloneSprite);
+			cloneScriptList.add(addElement);
+		}
+		cloneSprite.scriptList = cloneScriptList;
+
+		cloneSprite.init();
+
+		cloneSprite.look = this.look.copyLookForSprite(cloneSprite);
+		try {
+			cloneSprite.look.setLookData(cloneSprite.getLookDataList().get(0));
+		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
+		}
+
+		return cloneSprite;
+
+	}
+
 	public void createWhenScriptActionSequence(String action) {
+		ParallelAction whenParallelAction = ExtendedActions.parallel();
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript) {
 				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
 					SequenceAction sequence = createActionSequence(s);
-					look.addWhenSequenceAction(sequence);
-					look.addAction(sequence);
+					whenParallelAction.addAction(sequence);
 				}
 			}
 		}
+		look.setWhenParallelAction(whenParallelAction);
+		look.addAction(whenParallelAction);
 	}
 
 	public SequenceAction createBroadcastScriptActionSequence(BroadcastScript script) {

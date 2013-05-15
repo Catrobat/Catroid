@@ -36,7 +36,6 @@
         android:visibility="gone" />
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/brick_change_size_by_layout"
         style="@style/BrickContainer.Look.Small" >
 
@@ -53,6 +52,7 @@
         <EditText
             android:id="@+id/brick_change_size_by_edit_text"
             style="@style/BrickEditText"
+            android:maxEms="5"
             android:inputType="number|numberDecimal|numberSigned" >
         </EditText>
 

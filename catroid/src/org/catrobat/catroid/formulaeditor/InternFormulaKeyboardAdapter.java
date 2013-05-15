@@ -82,6 +82,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildSingleParameterFunction(Functions.ABS, "0");
 			case R.string.formula_editor_function_round:
 				return buildSingleParameterFunction(Functions.ROUND, "0");
+			case R.string.formula_editor_function_mod:
+				return buildDoubleParameterFunction(Functions.MOD, "1", "1");
 
 				//SENSOR
 
@@ -91,12 +93,12 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.Y_ACCELERATION);
 			case R.string.formula_editor_sensor_z_acceleration:
 				return buildSensor(Sensors.Z_ACCELERATION);
-			case R.string.formula_editor_sensor_z_orientation:
-				return buildSensor(Sensors.Z_ORIENTATION);
-			case R.string.formula_editor_sensor_x_orientation:
-				return buildSensor(Sensors.X_ORIENTATION);
-			case R.string.formula_editor_sensor_y_orientation:
-				return buildSensor(Sensors.Y_ORIENTATION);
+			case R.string.formula_editor_sensor_compass_direction:
+				return buildSensor(Sensors.COMPASS_DIRECTION);
+			case R.string.formula_editor_sensor_x_inclination:
+				return buildSensor(Sensors.X_INCLINATION);
+			case R.string.formula_editor_sensor_y_inclination:
+				return buildSensor(Sensors.Y_INCLINATION);
 
 				//PERIOD
 			case R.id.formula_editor_keyboard_decimal_mark:

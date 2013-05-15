@@ -60,16 +60,16 @@
 
 
     <!-- Settings activity -->
-    <string name="pref_title">"設定"</string>
-    <string name="pref_enable_ms_bricks">"レゴ ブロックを有効にする"</string>
-    <string name="pref_descr_ms_bricks">"これらのブロックは、レゴマインドストームロボットを制御するために使用されています。"</string>
+    <string name="preference_title">"設定"</string>
+    <string name="preference_title_enable_mindstorm_bricks">"レゴ ブロックを有効にする"</string>
+    <string name="preference_description_mindstorm_bricks">"これらのブロックは、レゴマインドストームロボットを制御するために使用されています。"</string>
     <!--  -->
 
 
     <!-- About Dialog -->
     <string name="dialog_about_title">"キャットロイドについて"</string>
     <string name="dialog_about_license_info">"キャットロイドは、マサチューセッツ工科大学のメディアラボで生涯幼稚園グループによって開発されたパソコン用のスクラッチプログラミング言語に着想を得、Androidデバイスのためのオンデバイス ビジュアルプログラミング言語です。\n\nのキャットロイドは、主にGNU AGPL v3の下でライセンスされています。ライセンスの詳細については、下記リンクをご参照ください。\n"</string>
-    <string name="dialog_about_catroid_license_link_text">"キャットロイドについて"</string>
+    <string name="dialog_about_pocketcode_license_link_text">"キャットロイドについて"</string>
     <!--  -->
 
 
@@ -90,7 +90,7 @@
     <string name="lookname_invalid">"コスチュームの名前は無効です"</string>
     <string name="copy_look_addition">"コピー"</string>
     <string name="select_image">"画像を選択"</string>
-    <string name="paintroid_not_installed">"ペイントロイドがインストールされていません！\n今、ペイントロイドをインストールしたいですか？"</string>
+    <string name="pocket_paint_not_installed">"ペイントロイドがインストールされていません！\n今、ペイントロイドをインストールしたいですか？"</string>
     <string name="default_look_name">"コスチューム"</string>
     <!-- Sound activity -->
     <string name="rename_sound_dialog">"音の名前を変更します"</string>
@@ -221,10 +221,10 @@
     <string name="action_swipeDown">"スワイプダウン"</string>
     <!-- defaultValues -->
     <string name="default_project_name">"私の最初のプロジェクト"</string>
-    <string name="default_project_sprites_catroid_name">"キャットロイド"</string>
-    <string name="default_project_sprites_catroid_normalcat">"ネコ"</string>
-    <string name="default_project_sprites_catroid_banzaicat">"万歳ネコ"</string>
-    <string name="default_project_sprites_catroid_cheshirecat">"チェシャーネコ"</string>
+    <string name="default_project_sprites_pocketcode_name">"キャットロイド"</string>
+    <string name="default_project_sprites_pocketcode_normalcat">"ネコ"</string>
+    <string name="default_project_sprites_pocketcode_banzaicat">"万歳ネコ"</string>
+    <string name="default_project_sprites_pocketcode_cheshirecat">"チェシャーネコ"</string>
     <string name="default_project_backgroundname">"背景"</string>
     <string name="default_project_backgroundcolor">"#604fff"</string>
     <!-- Notifications -->

@@ -27,7 +27,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 
@@ -41,6 +40,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -57,7 +57,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		super(context, resource, textViewResourceId, objects);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.context = context;
-		selectMode = Constants.SELECT_NONE;
+		selectMode = ListView.CHOICE_MODE_NONE;
 		showDetails = false;
 	}
 
@@ -76,6 +76,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		private TextView bricks;
 		private TextView looks;
 		private TextView sounds;
+		private View details;
 		private ImageView arrow;
 	}
 
@@ -85,6 +86,10 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 
 	public Set<Integer> getCheckedSprites() {
 		return checkedSprites;
+	}
+
+	public void addCheckedSprite(int position) {
+		checkedSprites.add(position);
 	}
 
 	public void clearCheckedSprites() {
@@ -116,7 +121,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder = new ViewHolder();
 			holder.background = (RelativeLayout) spriteView.findViewById(R.id.spritelist_item_background);
 			holder.checkbox = (CheckBox) spriteView.findViewById(R.id.sprite_checkbox);
-			holder.text = (TextView) spriteView.findViewById(R.id.sprite_title);
+			holder.text = (TextView) spriteView.findViewById(R.id.project_activity_sprite_title);
 			holder.backgroundHeadline = (LinearLayout) spriteView.findViewById(R.id.spritelist_background_headline);
 			holder.objectsHeadline = (LinearLayout) spriteView.findViewById(R.id.spritelist_objects_headline);
 			holder.image = (ImageView) spriteView.findViewById(R.id.sprite_img);
@@ -124,6 +129,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder.bricks = (TextView) spriteView.findViewById(R.id.textView_number_of_bricks);
 			holder.looks = (TextView) spriteView.findViewById(R.id.textView_number_of_looks);
 			holder.sounds = (TextView) spriteView.findViewById(R.id.textView_number_of_sounds);
+			holder.details = spriteView.findViewById(R.id.project_activity_sprite_details);
 			holder.arrow = (ImageView) spriteView.findViewById(R.id.arrow_right);
 			spriteView.setTag(holder);
 		} else {
@@ -135,7 +141,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
-					if (selectMode == Constants.SINGLE_SELECT) {
+					if (selectMode == ListView.CHOICE_MODE_SINGLE) {
 						clearCheckedSprites();
 					}
 					checkedSprites.add(position);
@@ -183,15 +189,9 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 				+ sprite.getSoundList().size());
 
 		if (!showDetails) {
-			holder.scripts.setVisibility(View.GONE);
-			holder.bricks.setVisibility(View.GONE);
-			holder.looks.setVisibility(View.GONE);
-			holder.sounds.setVisibility(View.GONE);
+			holder.details.setVisibility(View.GONE);
 		} else {
-			holder.scripts.setVisibility(View.VISIBLE);
-			holder.bricks.setVisibility(View.VISIBLE);
-			holder.looks.setVisibility(View.VISIBLE);
-			holder.sounds.setVisibility(View.VISIBLE);
+			holder.details.setVisibility(View.VISIBLE);
 		}
 
 		if (position == 0) {
@@ -201,7 +201,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder.arrow.setVisibility(View.VISIBLE);
 			holder.background.setBackgroundResource(R.drawable.spritelist_item_background);
 		} else {
-			if (selectMode != Constants.SELECT_NONE) {
+			if (selectMode != ListView.CHOICE_MODE_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
 				holder.arrow.setVisibility(View.GONE);
 				holder.background.setBackgroundResource(R.drawable.spritelist_item_background_shadowed);

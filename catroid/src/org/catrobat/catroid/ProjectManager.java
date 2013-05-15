@@ -27,6 +27,7 @@ import java.io.IOException;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -35,6 +36,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 public class ProjectManager {
@@ -57,16 +59,19 @@ public class ProjectManager {
 	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
 		fileChecksumContainer = new FileChecksumContainer();
 		Project oldProject = project;
+		MessageContainer.createBackup();
 		project = StorageHandler.getInstance().loadProject(projectName);
 
 		if (project == null) {
 			if (oldProject != null) {
 				project = oldProject;
+				MessageContainer.restoreBackup();
 			} else {
 				project = Utils.findValidProject();
 				if (project == null) {
 					try {
 						project = StandardProjectHandler.createAndSaveStandardProject(context);
+						MessageContainer.clearBackup();
 					} catch (IOException e) {
 						if (errorMessage) {
 							Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
@@ -102,6 +107,7 @@ public class ProjectManager {
 				project.getSpriteList().get(0).setName(context.getString(R.string.background));
 				project.getSpriteList().get(0).look.setZIndex(0);
 			}
+			MessageContainer.clearBackup();
 			currentSprite = null;
 			currentScript = null;
 			Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
@@ -122,7 +128,9 @@ public class ProjectManager {
 		if (project == null) {
 			return false;
 		}
-		return StorageHandler.getInstance().saveProject(project);
+		SaveProjectAsynchronousTask saveTask = new SaveProjectAsynchronousTask();
+		saveTask.execute();
+		return true;
 	}
 
 	public boolean initializeDefaultProject(Context context) {
@@ -330,5 +338,14 @@ public class ProjectManager {
 
 	public void setFileChecksumContainer(FileChecksumContainer fileChecksumContainer) {
 		this.fileChecksumContainer = fileChecksumContainer;
+	}
+
+	private class SaveProjectAsynchronousTask extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			StorageHandler.getInstance().saveProject(project);
+			return null;
+		}
 	}
 }

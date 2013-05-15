@@ -57,6 +57,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private static final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
 	private static final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
+	private static final int RESOURCE_IMAGE3 = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses_jpg;
 	private static final int VISIBLE = View.VISIBLE;
 	private static final int GONE = View.GONE;
 	private static final int ACTION_MODE_COPY = 0;
@@ -67,6 +68,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	private static final String FIRST_TEST_LOOK_NAME = "lookNameTest";
 	private static final String SECOND_TEST_LOOK_NAME = "lookNameTest2";
+	private static final String THIRD_TEST_LOOK_NAME = "lookNameTest3";
 
 	private String copy;
 	private String rename;
@@ -77,9 +79,11 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	private LookData lookData;
 	private LookData lookData2;
+	private LookData lookData3;
 
 	private File imageFile;
 	private File imageFile2;
+	private File imageFileJpg;
 	private File paintroidImageFile;
 
 	private ArrayList<LookData> lookDataList;
@@ -111,6 +115,8 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
 		imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_banzai.png",
 				RESOURCE_IMAGE2, getActivity(), UiTestUtils.FileTypes.IMAGE);
+		imageFileJpg = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.jpg",
+				RESOURCE_IMAGE3, getActivity(), UiTestUtils.FileTypes.IMAGE);
 
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testFile.png",
 				R.drawable.catroid_banzai, getActivity());
@@ -127,7 +133,11 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		lookData2.setLookName(SECOND_TEST_LOOK_NAME);
 		lookDataList.add(lookData2);
 
-		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
+		projectManager.getFileChecksumContainer().addChecksum(lookData2.getChecksum(), lookData2.getAbsolutePath());
+
+		lookData3 = new LookData();
+		lookData3.setLookFilename(imageFileJpg.getName());
+		lookData3.setLookName(THIRD_TEST_LOOK_NAME);
 
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
 		projectManager.getCurrentProject().getXmlHeader().virtualScreenWidth = display.getWidth();
@@ -141,7 +151,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		renameDialogTitle = solo.getString(R.string.rename_look_dialog);
 		delete = solo.getString(R.string.delete);
 		deleteDialogTitle = solo.getString(R.string.delete_look_dialog);
-		editInPaintroid = solo.getString(R.string.edit_in_paintroid);
+		editInPaintroid = solo.getString(R.string.edit_in_pocket_paint);
 
 		if (getLookAdapter().getShowDetails()) {
 			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
@@ -312,7 +322,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		String md5ChecksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
-		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, paintroidImageFile.getAbsolutePath());
+		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, paintroidImageFile.getAbsolutePath());
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
@@ -359,24 +369,24 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	public void testEditImageInPaintroidThreeWorkflows() {
 
-		Reflection.setPrivateField(getLookFragment(), "paintroidIntentApplicationName", "destroy.intent");
-		Reflection.setPrivateField(getLookFragment(), "paintroidIntentActivityName", "for.science");
+		Reflection.setPrivateField(getLookFragment(), "pocketPaintIntentApplicationName", "destroy.intent");
+		Reflection.setPrivateField(getLookFragment(), "pocketPaintIntentActivityName", "for.science");
 
 		solo.clickOnView(solo.getView(R.id.look_main_layout));
 		assertTrue("Paintroid not installed dialog missing after click on look",
-				solo.searchText(solo.getString(R.string.paintroid_not_installed)));
+				solo.searchText(solo.getString(R.string.pocket_paint_not_installed)));
 		solo.clickOnButton(solo.getString(R.string.no));
 
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, solo.getString(R.string.edit_in_paintroid));
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, solo.getString(R.string.edit_in_pocket_paint));
 		assertTrue("Paintroid not installed dialog missing after longclick on look and context menu selection",
-				solo.searchText(solo.getString(R.string.paintroid_not_installed)));
+				solo.searchText(solo.getString(R.string.pocket_paint_not_installed)));
 		solo.clickOnButton(solo.getString(R.string.no));
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.edit_in_paintroid), 0);
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.edit_in_pocket_paint), 0);
 		solo.clickOnCheckBox(1);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		assertTrue("Paintroid not installed dialog missing after action mode selection",
-				solo.searchText(solo.getString(R.string.paintroid_not_installed)));
+				solo.searchText(solo.getString(R.string.pocket_paint_not_installed)));
 		solo.clickOnButton(solo.getString(R.string.no));
 	}
 
@@ -429,13 +439,13 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		String md5ChecksumImageFile = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
-		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, imageFile.getAbsolutePath());
+		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, imageFile.getAbsolutePath());
 		bundleForPaintroid.putString("secondExtra", paintroidImageFile.getAbsolutePath());
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_PAINTROID_EDIT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 
 		solo.sleep(5000);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -460,6 +470,27 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertFalse("File not deleted from LookDataList", isInLookDataListSunnglasses);
 	}
 
+	public void testPaintroidImagefileExtension() {
+		String lookDataModifiedHash = lookData3.getLookFileName();
+		lookDataModifiedHash = "THIS_IS_A_MODIFIED_HASH_AND_HERE_ARE_SOME_DUMMIE_CHARS";
+		lookData3.setLookFilename(lookDataModifiedHash);
+
+		getLookFragment().setSelectedLookData(lookData3);
+
+		Bundle bundleForPaintroid = new Bundle();
+		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, imageFileJpg.getAbsolutePath());
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
+		intent.putExtras(bundleForPaintroid);
+
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+
+		solo.sleep(500);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+
+		assertTrue("Copied file does not have correct fileextension", lookData3.getLookFileName().endsWith(".png"));
+	}
+
 	public void testEditImageWithPaintroidNoChanges() {
 		int oldNumberOfLookDatas = lookDataList.size();
 
@@ -468,12 +499,12 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		String md5ChecksumImageFile = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
-		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, imageFile.getAbsolutePath());
+		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, imageFile.getAbsolutePath());
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_PAINTROID_EDIT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -503,7 +534,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_PAINTROID_EDIT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -530,14 +561,14 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		String md5ChecksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
-		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, imageFile.getAbsolutePath());
+		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, imageFile.getAbsolutePath());
 		bundleForPaintroid.putString("secondExtra", imageFile2.getAbsolutePath());
 
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_PAINTROID_EDIT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 		solo.sleep(4000);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
@@ -575,14 +606,14 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		String md5ChecksumImageFile = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
-		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, imageFile.getAbsolutePath());
+		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, imageFile.getAbsolutePath());
 		bundleForPaintroid.putString("secondExtra", imageFile2.getAbsolutePath());
 
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_PAINTROID_EDIT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 		solo.sleep(4000);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
@@ -637,7 +668,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		String md5ChecksumImageFile = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
-		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, imageFile.getAbsolutePath());
+		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, imageFile.getAbsolutePath());
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);

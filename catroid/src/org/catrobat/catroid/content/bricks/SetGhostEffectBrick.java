@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -69,8 +70,10 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		SetGhostEffectBrick copyBrick = (SetGhostEffectBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override
@@ -78,7 +81,9 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 		if (animationState) {
 			return view;
 		}
+
 		view = View.inflate(context, R.layout.brick_set_ghost_effect, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_set_ghost_effect_checkbox);
 

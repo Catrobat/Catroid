@@ -34,11 +34,13 @@
     <color name="dark_gray">#5a5858</color>
     <color name="gray">#808080</color>
     <color name="actionbar_background">#002534</color>
-    <color name="actionbar_title_color">#FCBB20</color>
-    <color name="fragment_background_color">#03222C</color>
     <color name="actionbar_title_color">#6F8E9B</color>
+    <color name="fragment_background_color">#03222C</color>
     <color name="transparent">#00000000 </color>
     <color name="formula_editor_background">#FFFFFF</color>
+    <color name="formula_editor_keyboard_text_color">#A8DFF4</color>
+    <color name="list_item_thumbnail_border_color">#A8DFF4</color>
+    
 
     <!-- Main Menu Colors -->
     <color name="main_menu_button_text_color">#A8DFF4</color>
@@ -47,15 +49,15 @@
     <color name="main_menu_button_background_gradient_start_color">#00475E</color>
     <color name="main_menu_button_background_gradient_end_color">#003F54</color>
     <color name="main_menu_button_background_top_border_color">#4D7F8F</color>
-
+    
     <!-- Project Activity Colors -->
-    <color name="spritelist_item_thumbnail_border_color">#A8DFF4</color>
-    <color name="spritelist_item_text_color">#A8DFF4</color>
-    <color name="spritelist_item_text_shadow_color">#7F000000</color>
-    <color name="spritelist_details_text_color">#CCCCCC</color>
-    <color name="spritelist_separation_line_color">#51656C</color>
-    <color name="project_activity_background_color">#04222C</color>
-
+	<color name="spritelist_item_thumbnail_border_color">#A8DFF4</color>
+	<color name="spritelist_item_text_color">#A8DFF4</color>
+	<color name="spritelist_item_text_shadow_color">#7F000000</color>
+	<color name="spritelist_details_text_color">#CCCCCC</color>
+	<color name="spritelist_separation_line_color">#51656C</color>
+	<color name="project_activity_background_color">#04222C</color>
+    
     <!-- Program Menu Colors -->
     <color name="program_menu_button_text_color">#A8DFF4</color>
     <color name="program_menu_button_text_shadow_color">#7F000000</color>
@@ -64,12 +66,12 @@
     <color name="program_menu_button_background_gradient_end_color">#003F54</color>
     <color name="program_menu_button_background_top_border_color">#4D7F8F</color>
     <color name="program_menu_background_color">#04222C</color>
-
+    
     <!-- Bottom Bar Colors -->
     <color name="bottom_bar_button_background_gradient_start_color">#00475E</color>
     <color name="bottom_bar_button_background_gradient_end_color">#003F54</color>
     <color name="bottom_bar_button_background_top_border_color">#4D7F8F</color>
-
+    
     <!-- Look Fragment Colors -->
     <color name="look_fragment_text_main_color">#A8DFF4</color>
     <color name="look_fragment_text_detail_color">#BFD0D6</color>
@@ -77,7 +79,7 @@
     <color name="look_fragment_button_gradient_start_color">#00475E</color>
     <color name="look_fragment_button_gradient_end_color">#003F54</color>
     <color name="look_fragment_button_top_border_color">#4D7F8F</color>
-
+    
     <!-- Sound Fragment Colors -->
     <color name="sound_fragment_text_main_color">#A8DFF4</color>
     <color name="sound_fragment_text_detail_color">#BFD0D6</color>
@@ -85,8 +87,20 @@
     <color name="sound_fragment_button_gradient_start_color">#00475E</color>
     <color name="sound_fragment_button_gradient_end_color">#003F54</color>
     <color name="sound_fragment_button_top_border_color">#4D7F8F</color>
+    
+    <!-- List View Item Colors -->
+    <color name="list_view_item_title_text_color">#A8DFF4</color>
+    <color name="list_view_item_details_text_color">@color/silver</color>
+    <color name="list_view_item_title_text_shadow_color">#7F000000</color>
+    
+    <!-- My Projects Activity Colors -->
+	<color name="my_projects_activity_background_color">#04222C</color>
+	
 
     <!-- Brick Category Fragment Colors -->
     <color name="brick_category_fragment_text_color">#FFFFFF</color>
-
+    
+    <!-- Stage Menu Colors -->
+    <color name="stage_dialog_background_color">#CC00475E</color>
+    <color name="stage_dialog_text_color">#A8DFF4</color>
 </resources>

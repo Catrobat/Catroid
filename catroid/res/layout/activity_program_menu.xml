@@ -30,7 +30,7 @@
     <Button
         android:id="@+id/program_menu_button_scripts"
         style="@style/ProgramMenuButton"
-        android:drawableLeft="@drawable/program_menu_scripts"
+        android:drawableLeft="@drawable/ic_program_menu_scripts"
         android:onClick="handleScriptsButton"
         android:text="@string/scripts" />
 
@@ -38,7 +38,7 @@
         android:id="@+id/program_menu_button_looks"
         style="@style/ProgramMenuButton"
         android:layout_below="@id/program_menu_button_scripts"
-        android:drawableLeft="@drawable/program_menu_looks"
+        android:drawableLeft="@drawable/ic_program_menu_looks"
         android:onClick="handleLooksButton"
         android:text="@string/looks" />
 
@@ -46,7 +46,7 @@
         android:id="@+id/program_menu_button_sounds"
         style="@style/ProgramMenuButton"
         android:layout_below="@id/program_menu_button_looks"
-        android:drawableLeft="@drawable/program_menu_sounds"
+        android:drawableLeft="@drawable/ic_program_menu_sounds"
         android:onClick="handleSoundsButton"
         android:text="@string/sounds" />
 

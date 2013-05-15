@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -70,11 +71,19 @@ public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener 
 	}
 
 	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		GoNStepsBackBrick copyBrick = (GoNStepsBackBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
+	}
+
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_go_back, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_go_back_checkbox);
 		final Brick brickInstance = this;
@@ -86,6 +95,7 @@ public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener 
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
+
 		TextView text = (TextView) view.findViewById(R.id.brick_go_back_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_go_back_edit_text);
 

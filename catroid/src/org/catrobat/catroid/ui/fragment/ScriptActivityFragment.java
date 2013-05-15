@@ -24,10 +24,6 @@ package org.catrobat.catroid.ui.fragment;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-/**
- * @author Daniel
- * 
- */
 public abstract class ScriptActivityFragment extends SherlockListFragment {
 
 	protected boolean actionModeActive = false;
@@ -54,7 +50,7 @@ public abstract class ScriptActivityFragment extends SherlockListFragment {
 
 	public abstract void startDeleteActionMode();
 
-	public abstract void startEditInPaintroidActionMode();
+	public abstract void startEditInPocketPaintActionMode();
 
 	public abstract void handleAddButton();
 

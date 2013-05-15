@@ -56,21 +56,21 @@
     <string name="main_menu_web">"Comunidade"</string>
     <string name="main_menu_upload">"Upload"</string>
     <string name="main_menu_settings">"Configurações"</string>
-    <string name="main_menu_about_catroid">"Sobre Catroid"</string>
+    <string name="main_menu_about_pocketcode">"Sobre Catroid"</string>
     <!--  -->
 
 
     <!-- Settings activity -->
-    <string name="pref_title">"Configurações"</string>
-    <string name="pref_enable_ms_bricks">"Blocos do Lego Mindstorms"</string>
-    <string name="pref_descr_ms_bricks">"Permitir o controle de robôs de Lego Mindstorms"</string>
+    <string name="preference_title">"Configurações"</string>
+    <string name="preference_title_enable_mindstorm_bricks">"Blocos do Lego Mindstorms"</string>
+    <string name="preference_description_mindstorm_bricks">"Permitir o controle de robôs de Lego Mindstorms"</string>
     <!--  -->
 
 
     <!-- About Dialog -->
     <string name="dialog_about_title">"Sobre Catroid"</string>
     <string name="dialog_about_license_info">"Catroid é um ambiente de programação e interpretador para dispositivos Android da linguagem de programação visual Catrobat.\n\nCatroid é principalmente licenciado sob a licença GNU v3 AGPL. Para detalhes da licença veja o link abaixo.\n"</string>
-    <string name="dialog_about_catroid_license_link_text">"Licença Catroid"</string>
+    <string name="dialog_about_pocketcode_license_link_text">"Licença Catroid"</string>
     <!--  -->
 
 
@@ -92,7 +92,7 @@
     <string name="rename_look_dialog">"Renomear traje"</string>
     <string name="lookname_invalid">"Nome do traje inválido"</string>
     <string name="copy_look_addition">"copiar"</string>
-    <string name="paintroid_not_installed">"Paintroid não instalado!\nVocê deseja instalá-lo?"</string>
+    <string name="pocket_paint_not_installed">"Paintroid não instalado!\nVocê deseja instalá-lo?"</string>
     <string name="default_look_name">"traje"</string>
     <string name="delete_look_dialog">"Excluir traje?"</string>
     <string name="add_look_from_camera">"Da Câmera"</string>
@@ -163,9 +163,9 @@
     <string name="stage_dialog_back">"Voltar"</string>
     <string name="stage_dialog_resume">"Continuar"</string>
     <string name="stage_dialog_restart">"Recomeçar"</string>
-    <string name="stage_dialog_maximize">"Maximizar/\nEsticar"</string>
     <string name="stage_dialog_axes_on">"Eixos Desligados"</string>
     <string name="stage_dialog_axes_off">"Eixos Ligados"</string>
+    <string name="stage_dialog_maximize">"Maximizar/\nEsticar"</string>
     <string name="stage_dialog_screenshot">"Foto da Tela"</string>
     <!--  -->
 
@@ -252,10 +252,10 @@
     <string name="action_swipeDown">"arrastar para baixo"</string>
     <!-- defaultValues -->
     <string name="default_project_name">"Meu primeiro projeto"</string>
-    <string name="default_project_sprites_catroid_name">"Catroid"</string>
-    <string name="default_project_sprites_catroid_normalcat">"normalCat"</string>
-    <string name="default_project_sprites_catroid_banzaicat">"banzaiCat"</string>
-    <string name="default_project_sprites_catroid_cheshirecat">"cheshireCat"</string>
+    <string name="default_project_sprites_pocketcode_name">"Catroid"</string>
+    <string name="default_project_sprites_pocketcode_normalcat">"normalCat"</string>
+    <string name="default_project_sprites_pocketcode_banzaicat">"banzaiCat"</string>
+    <string name="default_project_sprites_pocketcode_cheshirecat">"cheshireCat"</string>
     <string name="default_project_backgroundname">"Plano de fundo"</string>
     <string name="default_project_backgroundcolor">"#604fff"</string>
     <!-- Notifications -->

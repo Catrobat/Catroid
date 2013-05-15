@@ -261,14 +261,14 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(1000);
+		solo.sleep(4000);
 		assertTrue("Sound not playing.", mediaPlayer.isPlaying());
 		int positionBeforeRestart = mediaPlayer.getCurrentPosition();
 		solo.goBack();
 		solo.sleep(500);
 		assertFalse("Sound playing but should be paused.", mediaPlayer.isPlaying());
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_restart));
-		solo.sleep(300);
+		solo.sleep(2000);
 		@SuppressWarnings("unchecked")
 		ArrayList<MediaPlayer> mediaPlayerArrayList = (ArrayList<MediaPlayer>) Reflection.getPrivateField(
 				SoundManager.getInstance(), "mediaPlayers");
@@ -345,8 +345,8 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		screenPixel = StageActivity.stageListener.getPixels(0, Values.SCREEN_HEIGHT - 1, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.stage_dialog_maximize));
-		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
+		solo.clickOnView(solo.getView(R.id.stage_dialog_button_maximize));
+		solo.clickOnView(solo.getView(R.id.stage_dialog_button_continue));
 		solo.sleep(100);
 		byte[] blackPixel = { 0, 0, 0, (byte) 255 };
 		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
@@ -362,8 +362,8 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 
 		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.stage_dialog_maximize));
-		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
+		solo.clickOnView(solo.getView(R.id.stage_dialog_button_maximize));
+		solo.clickOnView(solo.getView(R.id.stage_dialog_button_continue));
 		solo.sleep(100);
 		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);

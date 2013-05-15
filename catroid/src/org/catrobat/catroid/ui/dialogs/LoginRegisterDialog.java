@@ -22,10 +22,13 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationTask;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 import org.catrobat.catroid.web.ServerCalls;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
@@ -33,15 +36,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import org.catrobat.catroid.R;
+import android.widget.TextView;
 
 public class LoginRegisterDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
@@ -50,48 +52,56 @@ public class LoginRegisterDialog extends DialogFragment implements OnRegistratio
 
 	private EditText usernameEditText;
 	private EditText passwordEditText;
-	private Button loginOrRegister;
-	private Button passwordForgotten;
+	private TextView termsOfUseLinkTextView;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.dialog_login_register, container);
+	public Dialog onCreateDialog(Bundle bundle) {
+		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_login_register, null);
 
 		usernameEditText = (EditText) rootView.findViewById(R.id.username);
 		passwordEditText = (EditText) rootView.findViewById(R.id.password);
-		loginOrRegister = (Button) rootView.findViewById(R.id.login_register_button);
-		passwordForgotten = (Button) rootView.findViewById(R.id.password_forgotten_button);
+		termsOfUseLinkTextView = (TextView) rootView.findViewById(R.id.register_terms_link);
+
+		String termsOfUseUrl = getString(R.string.about_link_template, getString(R.string.catrobat_terms_of_use),
+				getString(R.string.register_pocketcode_terms_of_use_text));
+		termsOfUseLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
+		termsOfUseLinkTextView.setText(Html.fromHtml(termsOfUseUrl));
 
 		usernameEditText.setText("");
 		passwordEditText.setText("");
 
-		loginOrRegister.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				handleLoginRegisterButtonClick();
-			}
-		});
-		passwordForgotten.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				handlePasswordForgottenButtonClick();
-			}
-		});
+		final AlertDialog loginRegisterDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
+				.setTitle(getString(R.string.login_register_dialog_title))
+				.setPositiveButton(getString(R.string.login_or_register), null)
+				.setNeutralButton(getString(R.string.password_forgotten), null).create();
+		loginRegisterDialog.setCanceledOnTouchOutside(true);
 
-		getDialog().setTitle(R.string.login_register_dialog_title);
-		getDialog().setCanceledOnTouchOutside(true);
-		getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-
-		getDialog().setOnShowListener(new OnShowListener() {
+		loginRegisterDialog.setOnShowListener(new OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
 				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
 						Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(usernameEditText, InputMethodManager.SHOW_IMPLICIT);
+
+				Button loginRegisterButton = loginRegisterDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+				loginRegisterButton.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						handleLoginRegisterButtonClick();
+					}
+				});
+
+				Button passwordForgottenButton = loginRegisterDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+				passwordForgottenButton.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						handlePasswordForgottenButtonClick();
+					}
+				});
 			}
 		});
 
-		return rootView;
+		return loginRegisterDialog;
 	}
 
 	@Override

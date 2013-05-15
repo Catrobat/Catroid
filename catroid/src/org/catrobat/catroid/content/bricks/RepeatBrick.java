@@ -71,7 +71,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new RepeatBrick(getSprite(), timesToRepeat.clone());
+		return new RepeatBrick(sprite, timesToRepeat.clone());
 	}
 
 	@Override
@@ -81,6 +81,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		}
 
 		view = View.inflate(context, R.layout.brick_repeat, null);
+		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_repeat_checkbox);
 

@@ -213,6 +213,18 @@ public class UploadProjectDialog extends DialogFragment {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_no_name_entered));
 			return;
 		}
+
+		if (uploadName.equals(getString(R.string.default_project_name))) {
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_upload_project_with_default_name));
+			return;
+		}
+
+		Context context = getActivity().getApplicationContext();
+		if (Utils.isStandardProject(projectManager.getCurrentProject(), context)) {
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_upload_default_project));
+			return;
+		}
+
 		if (!uploadName.equals(currentProjectName)) {
 
 			projectRename.setVisibility(View.VISIBLE);
@@ -233,17 +245,20 @@ public class UploadProjectDialog extends DialogFragment {
 		String projectPath = Constants.DEFAULT_ROOT + "/" + projectManager.getCurrentProject().getName();
 
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		String token = sharedPreferences.getString(Constants.TOKEN, "0");
+		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 		Intent uploadIntent = new Intent(getActivity(), ProjectUploadService.class);
 		uploadIntent.putExtra("receiver", new UploadReceiver(new Handler()));
 		uploadIntent.putExtra("uploadName", uploadName);
 		uploadIntent.putExtra("projectDescription", projectDescription);
 		uploadIntent.putExtra("projectPath", projectPath);
+		uploadIntent.putExtra("username", username);
 		uploadIntent.putExtra("token", token);
 		int notificationId = createNotification(uploadName);
 		uploadIntent.putExtra("notificationId", notificationId);
 		activity = getActivity();
 		activity.startService(uploadIntent);
+
 	}
 
 	public int createNotification(String uploadName) {
