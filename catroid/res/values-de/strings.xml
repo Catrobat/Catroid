@@ -493,6 +493,7 @@
     <string name="formula_editor_logic">Logik</string>
     <string name="formula_editor_sensors">Sensoren</string>
     <string name="formula_editor_variables">Variablen</string>
+    <string name="formula_editor_random">Zufall</string>
     <string name="formula_editor_logic_notequal">&#x2260;</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
     <string name="formula_editor_logic_greaterthan">&gt;</string>

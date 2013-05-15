@@ -494,6 +494,7 @@
     <string name="formula_editor_logic">Logic</string>
     <string name="formula_editor_sensors">Sensors</string>
     <string name="formula_editor_variables">Variables</string>
+    <string name="formula_editor_random">Random</string>
     <string name="formula_editor_logic_notequal">&#x2260;</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
     <string name="formula_editor_logic_greaterthan">&gt;</string>
