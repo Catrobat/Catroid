@@ -126,6 +126,8 @@ public class StageListener implements ApplicationListener {
 
 	public boolean axesOn = false;
 
+	private byte[] thumbnail;
+
 	StageListener() {
 	}
 
@@ -240,6 +242,8 @@ public class StageListener implements ApplicationListener {
 	public void finish() {
 		finished = true;
 		SoundManager.getInstance().clear();
+		prepareScreenshotFiles();
+		saveScreenshot(thumbnail);
 
 	}
 
@@ -348,8 +352,8 @@ public class StageListener implements ApplicationListener {
 			if (skipFirstFrameForAutomaticScreenshot) {
 				skipFirstFrameForAutomaticScreenshot = false;
 			} else {
-				prepareScreenshotFiles();
-				this.makeThumbnail();
+				thumbnail = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth,
+						screenshotHeight, true);
 				makeAutomaticScreenshot = false;
 			}
 		}
@@ -410,12 +414,6 @@ public class StageListener implements ApplicationListener {
 		font.dispose();
 		axes.dispose();
 		disposeTextures();
-	}
-
-	private void makeThumbnail() {
-		byte[] screenshot = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth,
-				screenshotHeight, true);
-		this.saveScreenshot(screenshot);
 	}
 
 	public boolean makeScreenshot() {
