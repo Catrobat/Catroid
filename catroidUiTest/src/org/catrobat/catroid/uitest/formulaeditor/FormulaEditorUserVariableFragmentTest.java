@@ -241,11 +241,7 @@ public class FormulaEditorUserVariableFragmentTest extends
 		ListView listView = getVariableListView();
 
 		UserVariable userVariable = (UserVariable) listView.getItemAtPosition(0);
-
-		Double setVariableToValue = Double.valueOf(SET_USERVARIABLE_TO_BRICK_VALUE);
-
-		assertTrue("Value of UserVariable not saved after stage!", userVariable.getValue()
-				.compareTo(setVariableToValue) == 0);
+		assertTrue("Value of UserVariable not reseted after stage!", userVariable.getValue() == 0);
 
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
@@ -270,9 +266,7 @@ public class FormulaEditorUserVariableFragmentTest extends
 		listView = getVariableListView();
 
 		userVariable = (UserVariable) listView.getItemAtPosition(0);
-
-		assertTrue("Value of UserVariable not saved after stage!",
-				userVariable.getValue().compareTo(SET_USERVARIABLE_TO_BRICK_VALUE) == 0);
+		assertTrue("Value of UserVariable not reseted after stage!", userVariable.getValue() == 0);
 
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
@@ -303,9 +297,7 @@ public class FormulaEditorUserVariableFragmentTest extends
 		listView = getVariableListView();
 
 		userVariable = (UserVariable) listView.getItemAtPosition(0);
-
-		assertTrue("Value of UserVariable not saved after stage!",
-				userVariable.getValue().compareTo(SET_USERVARIABLE_TO_BRICK_VALUE) == 0);
+		assertTrue("Value of UserVariable not reseted after stage!", userVariable.getValue() == 0);
 	}
 
 	public void testCreateUserVariable() {
