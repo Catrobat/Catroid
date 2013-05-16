@@ -96,15 +96,12 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg onCreate");
-
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg onCreateView");
 		View rootView = inflater.inflate(R.layout.fragment_script, null);
 
 		listView = (DragAndDropListView) rootView.findViewById(R.id.brick_list_view);
@@ -114,8 +111,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg onActivityCreated");
-
 		super.onActivityCreated(savedInstanceState);
 
 		if (savedInstanceState != null) {
@@ -144,8 +139,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onStart() {
 		super.onStart();
-		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg onStart");
-
 		sprite = ProjectManager.INSTANCE.getCurrentSprite();
 		if (sprite == null) {
 			return;
@@ -156,7 +149,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onResume() {
-		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg onResume");
 		super.onResume();
 
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
@@ -183,8 +175,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onPause() {
 		super.onPause();
-		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg onPause");
-
 		ProjectManager projectManager = ProjectManager.INSTANCE;
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
