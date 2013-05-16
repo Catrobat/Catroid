@@ -142,6 +142,16 @@ public class TurnRightBrick extends BrickBaseType implements OnClickListener {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_turn_right_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
+		TextView times = (TextView) view.findViewById(R.id.brick_turn_right_degree_text_view);
+		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_right_degree_text_view);
+
+		textDegrees.setTextColor(textDegrees.getTextColors().withAlpha(alphaValue));
+		times.setTextColor(times.getTextColors().withAlpha(alphaValue));
+		editDegrees.setTextColor(editDegrees.getTextColors().withAlpha(alphaValue));
+		editDegrees.getBackground().setAlpha(alphaValue);
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

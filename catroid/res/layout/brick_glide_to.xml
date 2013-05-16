@@ -47,6 +47,7 @@
             android:layout_height="wrap_content" >
 
             <TextView
+                android:id="@+id/brick_glide_to_label"
                 style="@style/BrickText.SingleLine"
                 android:text="@string/brick_glide" >
             </TextView>

@@ -127,6 +127,15 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_ghost_effect_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView textGhost = (TextView) view.findViewById(R.id.brick_change_ghost_effect_label);
+		//TextView textPercent = (TextView) view.findViewById(R.id.brick_change_ghost_effect_percent);
+		EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
+		textGhost.setTextColor(textGhost.getTextColors().withAlpha(alphaValue));
+		//textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
+		editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
+		editGhostEffect.getBackground().setAlpha(alphaValue);
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}
