@@ -188,7 +188,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		setSpinnerSelection(variableSpinner);
 
 		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
-		textSetVariable.setText(String.valueOf(variableFormula.interpretFloat(sprite)));
+		textSetVariable.setText(String.valueOf(variableFormula.interpretDouble(sprite)));
 
 		return prototypeView;
 	}

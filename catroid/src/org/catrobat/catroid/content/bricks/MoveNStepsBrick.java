@@ -109,7 +109,7 @@ public class MoveNStepsBrick extends BrickBaseType implements OnClickListener {
 
 		if (steps.isSingleNumberFormula()) {
 			times.setText(view.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
-					Utils.convertDoubleToPluralInteger(steps.interpretFloat(sprite))));
+					Utils.convertDoubleToPluralInteger(steps.interpretDouble(sprite))));
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -129,10 +129,10 @@ public class MoveNStepsBrick extends BrickBaseType implements OnClickListener {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		prototypeView = inflater.inflate(R.layout.brick_move_n_steps, null);
 		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_prototype_text_view);
-		textSteps.setText(String.valueOf(steps.interpretFloat(sprite)));
+		textSteps.setText(String.valueOf(steps.interpretDouble(sprite)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_step_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
-				Utils.convertDoubleToPluralInteger(steps.interpretFloat(sprite))));
+				Utils.convertDoubleToPluralInteger(steps.interpretDouble(sprite))));
 		return prototypeView;
 	}
 

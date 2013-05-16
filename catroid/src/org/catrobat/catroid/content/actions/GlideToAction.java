@@ -40,7 +40,7 @@ public class GlideToAction extends TemporalAction {
 	@Override
 	protected void begin() {
 		if (duration != null) {
-			super.setDuration(duration.interpretFloat(sprite));
+			super.setDuration((float) duration.interpretDouble(sprite));
 		}
 
 		startX = actor.getX() + actor.getWidth() / 2f;

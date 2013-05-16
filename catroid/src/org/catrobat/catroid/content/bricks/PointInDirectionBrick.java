@@ -128,13 +128,13 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 		prototypeView = View.inflate(context, R.layout.brick_point_in_direction, null);
 		TextView setAngleTextView = (TextView) prototypeView
 				.findViewById(R.id.brick_point_in_direction_prototype_text_view);
-		setAngleTextView.setText(String.valueOf(degrees.interpretFloat(sprite)));
+		setAngleTextView.setText(String.valueOf(degrees.interpretDouble(sprite)));
 		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new PointInDirectionBrick(getSprite(), degrees.interpretFloat(sprite));
+		return new PointInDirectionBrick(getSprite(), degrees.interpretDouble(sprite));
 	}
 
 	@Override

@@ -102,22 +102,25 @@ public class Formula implements Serializable {
 
 	}
 
-	public float interpretFloat(Sprite sprite) {
-		Double interpretedValue = formulaTree.interpretRecursive(sprite);
-		return interpretedValue.floatValue();
+	public double interpretDouble(Sprite sprite) {
+		return formulaTree.interpretRecursive(sprite);
 	}
 
-	public float interpretFloat(float minValue, float maxValue, Sprite sprite) {
+	public float interpretFloat(Sprite sprite) {
+		return (float) interpretDouble(sprite);
+	}
 
-		float interpretedFloatValue = interpretFloat(sprite);
+	public double interpretDouble(double minValue, double maxValue, Sprite sprite) {
+
+		double interpretedDoubleValue = interpretDouble(sprite);
 
 		if (minValue <= maxValue) {
 
-			interpretedFloatValue = Math.min(maxValue, interpretedFloatValue);
-			interpretedFloatValue = Math.max(minValue, interpretedFloatValue);
+			interpretedDoubleValue = Math.min(maxValue, interpretedDoubleValue);
+			interpretedDoubleValue = Math.max(minValue, interpretedDoubleValue);
 		}
 
-		return interpretedFloatValue;
+		return interpretedDoubleValue;
 	}
 
 	public void setRoot(FormulaElement formula) {
