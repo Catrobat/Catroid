@@ -62,7 +62,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -237,16 +236,12 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	public BrickAdapter getAdapter() {
 		BottomBar.enableButtons(getActivity());
-		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg getAdapter");
 
-		LinearLayout llout_add = (LinearLayout) getActivity().findViewById(R.id.button_add);
-		LinearLayout llout_play = (LinearLayout) getActivity().findViewById(R.id.button_play);
+		LinearLayout layoutAdd = (LinearLayout) getActivity().findViewById(R.id.button_add);
 
-		llout_add.setOnClickListener(new OnClickListener() {
+		layoutAdd.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "toast here llout_add", Toast.LENGTH_LONG).show();
 				handleAddButton();
 			}
 		});
@@ -257,8 +252,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public DragAndDropListView getListView() {
-		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg getListView");
-
 		return listView;
 	}
 
@@ -291,8 +284,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void initListeners() {
-		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg initListeners");
-
 		sprite = ProjectManager.INSTANCE.getCurrentSprite();
 		if (sprite == null) {
 			return;
@@ -302,7 +293,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				handleAddButton();
 			}
 		});
