@@ -121,7 +121,7 @@ public class FormulaEditorUserVariableFragmentTest extends
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.addProjectUserVariable(USER_VARIABLE_NAME_UNDERLINE_PREFIX, 0d);
+				.addProjectUserVariable(USER_VARIABLE_NAME_UNDERLINE_PREFIX);
 
 		Double setVariableToValue = Double.valueOf(SET_USERVARIABLE_TO_BRICK_VALUE);
 

@@ -63,7 +63,7 @@ public class UserVariablesInterpretationTest extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.addProjectUserVariable(USER_VARIABLE_NAME, USER_VARIABLE_VALUE);
+				.addProjectUserVariable(USER_VARIABLE_NAME);
 	}
 
 	public void testUservariables() {

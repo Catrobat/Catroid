@@ -31,17 +31,13 @@ public class UserVariable implements Serializable {
 	private String name;
 	private transient Double value;
 
-	public UserVariable(String name, Double value) {
+	public UserVariable(String name) {
 		this.name = name;
-		this.value = new Double(value);
+		this.value = new Double(0.0);
 	}
 
-	//	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
-	//		this.value = new Double(0.0);
-	//	}
-
 	public Object readResolve() throws ObjectStreamException {
-		this.value = new Double(0);
+		this.value = new Double(0.0);
 		return this;
 	}
 
