@@ -79,11 +79,7 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 		}
 		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
 			SensorHandler.stopSensorListeners();
-			ProjectManager projectManager = ProjectManager.getInstance();
-
-			//			projectManager.saveProject();
-
-			projectManager.getCurrentProject().getUserVariables().resetAllUserVariables();
+			ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
 		}
 	}
 
