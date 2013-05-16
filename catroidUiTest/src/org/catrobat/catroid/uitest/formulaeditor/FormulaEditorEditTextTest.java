@@ -627,32 +627,32 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_x_inclination));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
-		solo.waitForText(getActivity().getString(R.string.formula_editor_look_x));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_look_x));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_object_x));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_object_x));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
-		solo.waitForText(getActivity().getString(R.string.formula_editor_look_y));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_look_y));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_object_y));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_object_y));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
-		solo.waitForText(getActivity().getString(R.string.formula_editor_look_ghosteffect));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_look_ghosteffect));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_object_ghosteffect));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_object_ghosteffect));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
-		solo.waitForText(getActivity().getString(R.string.formula_editor_look_brightness));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_look_brightness));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_object_brightness));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_object_brightness));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
-		solo.waitForText(getActivity().getString(R.string.formula_editor_look_size));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_look_size));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_object_size));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_object_size));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
-		solo.waitForText(getActivity().getString(R.string.formula_editor_look_rotation));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_look_rotation));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_object_rotation));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_object_rotation));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
-		solo.waitForText(getActivity().getString(R.string.formula_editor_look_layer));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_look_layer));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_object_layer));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_object_layer));
 
 		String editTextString = formulaEditorEditText.getText().toString();
 		boolean hyphenOrCostumephraseOrSpritephraseFound = editTextString.contains(hyphen)

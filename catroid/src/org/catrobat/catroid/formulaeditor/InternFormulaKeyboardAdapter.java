@@ -150,19 +150,19 @@ public class InternFormulaKeyboardAdapter {
 
 				//COSTUME
 
-			case R.string.formula_editor_look_x:
+			case R.string.formula_editor_object_x:
 				return buildLook(Sensors.LOOK_X);
-			case R.string.formula_editor_look_y:
+			case R.string.formula_editor_object_y:
 				return buildLook(Sensors.LOOK_Y);
-			case R.string.formula_editor_look_ghosteffect:
+			case R.string.formula_editor_object_ghosteffect:
 				return buildLook(Sensors.LOOK_GHOSTEFFECT);
-			case R.string.formula_editor_look_brightness:
+			case R.string.formula_editor_object_brightness:
 				return buildLook(Sensors.LOOK_BRIGHTNESS);
-			case R.string.formula_editor_look_size:
+			case R.string.formula_editor_object_size:
 				return buildLook(Sensors.LOOK_SIZE);
-			case R.string.formula_editor_look_rotation:
+			case R.string.formula_editor_object_rotation:
 				return buildLook(Sensors.LOOK_ROTATION);
-			case R.string.formula_editor_look_layer:
+			case R.string.formula_editor_object_layer:
 				return buildLook(Sensors.LOOK_LAYER);
 
 		}
