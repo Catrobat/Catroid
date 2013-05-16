@@ -82,7 +82,7 @@ public class StageListener implements ApplicationListener {
 	private int screenshotHeight;
 	private int screenshotX;
 	private int screenshotY;
-	private byte[] screenshot;
+	private byte[] screenshot = null;
 	// in first frame, framebuffer could be empty and screenshot
 	// would be white
 	private boolean skipFirstFrameForAutomaticScreenshot;
@@ -242,8 +242,10 @@ public class StageListener implements ApplicationListener {
 			sprite.resume();
 			sprite.resetSprite();
 		}
-		prepareScreenshotFiles();
-		saveScreenshot(thumbnail);
+		if (thumbnail != null) {
+			prepareScreenshotFiles();
+			saveScreenshot(thumbnail);
+		}
 
 	}
 
