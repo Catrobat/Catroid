@@ -151,19 +151,19 @@ public class InternFormulaKeyboardAdapter {
 				//COSTUME
 
 			case R.string.formula_editor_object_x:
-				return buildLook(Sensors.LOOK_X);
+				return buildObject(Sensors.OBJECT_X);
 			case R.string.formula_editor_object_y:
-				return buildLook(Sensors.LOOK_Y);
+				return buildObject(Sensors.OBJECT_Y);
 			case R.string.formula_editor_object_ghosteffect:
-				return buildLook(Sensors.LOOK_GHOSTEFFECT);
+				return buildObject(Sensors.OBJECT_GHOSTEFFECT);
 			case R.string.formula_editor_object_brightness:
-				return buildLook(Sensors.LOOK_BRIGHTNESS);
+				return buildObject(Sensors.OBJECT_BRIGHTNESS);
 			case R.string.formula_editor_object_size:
-				return buildLook(Sensors.LOOK_SIZE);
+				return buildObject(Sensors.OBJECT_SIZE);
 			case R.string.formula_editor_object_rotation:
-				return buildLook(Sensors.LOOK_ROTATION);
+				return buildObject(Sensors.OBJECT_ROTATION);
 			case R.string.formula_editor_object_layer:
-				return buildLook(Sensors.LOOK_LAYER);
+				return buildObject(Sensors.OBJECT_LAYER);
 
 		}
 
@@ -201,7 +201,7 @@ public class InternFormulaKeyboardAdapter {
 		return returnList;
 	}
 
-	private List<InternToken> buildLook(Sensors sensors) {
+	private List<InternToken> buildObject(Sensors sensors) {
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(InternTokenType.SENSOR, sensors.name()));
 		return returnList;

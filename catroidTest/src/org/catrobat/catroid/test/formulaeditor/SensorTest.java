@@ -77,7 +77,7 @@ public class SensorTest extends InstrumentationTestCase {
 	public void testSensorHandlerWithLookSensorValue() {
 		SensorHandler.startSensorListener(getInstrumentation().getContext());
 		assertEquals("SensorHandler returned wrong value when Sensor is not found in List", 0d,
-				SensorHandler.getSensorValue(Sensors.LOOK_BRIGHTNESS));
+				SensorHandler.getSensorValue(Sensors.OBJECT_BRIGHTNESS));
 		SensorHandler.stopSensorListeners();
 	}
 
