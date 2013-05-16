@@ -66,7 +66,7 @@ public class SetVolumeToActionTest extends InstrumentationTestCase {
 	public void testVolume() {
 		SetVolumeToAction action = ExtendedActions.setVolumeTo(null, volume);
 		action.act(1.0f);
-		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", volume.interpretDouble(null),
+		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", volume.interpretFloat(null),
 				SoundManager.getInstance().getVolume());
 	}
 
