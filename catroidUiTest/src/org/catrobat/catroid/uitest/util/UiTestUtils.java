@@ -263,7 +263,7 @@ public class UiTestUtils {
 
 		Formula formula = (Formula) Reflection.getPrivateField(theBrick, fieldName);
 
-		assertEquals("Wrong text in field", newValue, formula.interpretFloat(theBrick.getSprite()), 0.01f);
+		assertEquals("Wrong text in field", newValue, formula.interpretDouble(theBrick.getSprite()), 0.01f);
 		assertEquals("Text not updated in the brick list", newValue,
 				Double.parseDouble(solo.getEditText(editTextNumber).getText().toString().replace(',', '.')), 0.01f);
 
@@ -972,7 +972,6 @@ public class UiTestUtils {
 	}
 
 	public static void createValidUser(Context context) {
-
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
 			String testPassword = "pwspws";

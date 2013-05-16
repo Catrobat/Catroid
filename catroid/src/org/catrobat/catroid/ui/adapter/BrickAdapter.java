@@ -45,6 +45,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -801,6 +802,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 		view.setDrawingCacheEnabled(true);
+		view.setDrawingCacheBackgroundColor(Color.TRANSPARENT);
 		view.buildDrawingCache(true);
 
 		if (view.getDrawingCache() != null) {

@@ -361,6 +361,13 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String defaultNoteValue = solo.getString(R.string.brick_note_default_value);
 		assertEquals("Value in Note Speak is not correct", defaultNoteValue, notePrototypeValue);
 
+		if (!solo.searchText(solo.getString(R.string.brick_if_begin))) {
+			solo.scrollDownList(fragmentListView);
+		}
+		TextView ifLogicBeginView = (TextView) solo.getView(R.id.brick_if_begin_prototype_text_view);
+		int ifLogicBeginPrototypeValue = Integer.parseInt(ifLogicBeginView.getText().toString());
+		assertEquals("Value in If Begin is not correct", BrickValues.IF_CONDITION, ifLogicBeginPrototypeValue);
+
 		if (!solo.searchText(solo.getString(R.string.brick_repeat))) {
 			solo.scrollDownList(fragmentListView);
 		}

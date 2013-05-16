@@ -128,7 +128,7 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener {
 		TextView times = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
 		if (durationInSeconds.isSingleNumberFormula()) {
 			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-					Utils.convertDoubleToPluralInteger(durationInSeconds.interpretFloat(sprite))));
+					Utils.convertDoubleToPluralInteger(durationInSeconds.interpretDouble(sprite))));
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -156,10 +156,10 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener {
 		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_y);
 		textY.setText(String.valueOf(yDestination.interpretInteger(sprite)));
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
-		textDuration.setText(String.valueOf(durationInSeconds.interpretFloat(sprite)));
+		textDuration.setText(String.valueOf(durationInSeconds.interpretDouble(sprite)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_glide_to_seconds_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(durationInSeconds.interpretFloat(sprite))));
+				Utils.convertDoubleToPluralInteger(durationInSeconds.interpretDouble(sprite))));
 		return prototypeView;
 	}
 
