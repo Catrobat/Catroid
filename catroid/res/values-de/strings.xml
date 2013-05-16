@@ -476,6 +476,8 @@
     <string name="formula_editor_function_abs">abs</string>
     <string name="formula_editor_function_round">round</string>
     <string name="formula_editor_function_mod">mod</string>
+    <string name="formula_editor_function_true">WAHR</string>
+    <string name="formula_editor_function_false">FALSCH</string>
     <string name="formula_editor_sensor_x_acceleration">x_beschleunigung</string>
     <string name="formula_editor_sensor_y_acceleration">y_beschleunigung</string>
     <string name="formula_editor_sensor_z_acceleration">z_beschleunigung</string>
@@ -513,10 +515,11 @@
     <string name="formula_editor_variable_dialog_for_all_sprites">Für alle Objekte</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
     <string name="formula_editor_variable_dialog_hint">Namen eingeben</string>
+
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable ausgewählt!</item>
         <item quantity="other">Variablen ausgewählt!</item>
-    </plurals>    
+    </plurals>
     <!--  -->
 
 </resources>
