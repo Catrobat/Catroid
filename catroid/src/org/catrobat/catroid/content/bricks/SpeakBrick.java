@@ -134,7 +134,7 @@ public class SpeakBrick extends BrickBaseType {
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 
-		TextView textSpeak = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
+		TextView textSpeak = (TextView) view.findViewById(R.id.brick_speak_label);
 		EditText editDegrees = (EditText) view.findViewById(R.id.brick_speak_edit_text);
 
 		textSpeak.setTextColor(textSpeak.getTextColors().withAlpha(alphaValue));

@@ -141,9 +141,9 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 
-		TextView repeatLabel = (TextView) view.findViewById(R.id.brick_repeat_layout);
-		EditText editRepeat = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
-		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
+		TextView repeatLabel = (TextView) view.findViewById(R.id.brick_repeat_label);
+		EditText editRepeat = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
+		TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
 		repeatLabel.setTextColor(repeatLabel.getTextColors().withAlpha(alphaValue));
 		times.setTextColor(times.getTextColors().withAlpha(alphaValue));
 		editRepeat.setTextColor(editRepeat.getTextColors().withAlpha(alphaValue));

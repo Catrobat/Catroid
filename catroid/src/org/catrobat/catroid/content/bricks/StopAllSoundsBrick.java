@@ -90,8 +90,7 @@ public class StopAllSoundsBrick extends BrickBaseType {
 		background.setAlpha(alphaValue);
 		this.alphaValue = (alphaValue);
 
-		TextView textStop = (TextView) view.findViewById(R.id.brick_turn_left_prototype_text_view);
-
+		TextView textStop = (TextView) view.findViewById(R.id.brick_stop_all_sounds_label);
 		textStop.setTextColor(textStop.getTextColors().withAlpha(alphaValue));
 
 		return view;

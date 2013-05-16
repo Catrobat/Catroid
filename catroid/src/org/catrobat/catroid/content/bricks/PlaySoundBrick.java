@@ -142,7 +142,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		TextView playSoundLabel = (TextView) view.findViewById(R.id.brick_play_sound_label);
 		playSoundLabel.setTextColor(playSoundLabel.getTextColors().withAlpha(alphaValue));
 
-		Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
+		Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
 
 		ColorStateList color = playSoundLabel.getTextColors().withAlpha(alphaValue);
 		lookbrickSpinner.getBackground().setAlpha(alphaValue);

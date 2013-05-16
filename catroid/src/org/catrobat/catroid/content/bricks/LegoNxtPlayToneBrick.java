@@ -182,6 +182,7 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 		textLegoPlayToneDurationTextView.setTextColor(textLegoPlayToneDurationTextView.getTextColors().withAlpha(
 				alphaValue));
 		textLegoPlayToneSeconds.setTextColor(textLegoPlayToneSeconds.getTextColors().withAlpha(alphaValue));
+		textLegoPlayToneFrequency.setTextColor(textLegoPlayToneFrequency.getTextColors().withAlpha(alphaValue));
 		textLegoPlayToneOz.setTextColor(textLegoPlayToneOz.getTextColors().withAlpha(alphaValue));
 
 		editLegoFrequency.setTextColor(editLegoFrequency.getTextColors().withAlpha(alphaValue));

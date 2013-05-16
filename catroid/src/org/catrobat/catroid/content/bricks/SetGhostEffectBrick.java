@@ -127,10 +127,12 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 
-		TextView textGhost = (TextView) view.findViewById(R.id.brick_set_ghost_effect_label);
+		TextView textGhostLabel = (TextView) view.findViewById(R.id.brick_set_ghost_effect_label);
+		TextView textGhostTo = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to);
 		TextView textPercent = (TextView) view.findViewById(R.id.brick_set_ghost_effect_percent);
 		EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
-		textGhost.setTextColor(textGhost.getTextColors().withAlpha(alphaValue));
+		textGhostLabel.setTextColor(textGhostLabel.getTextColors().withAlpha(alphaValue));
+		textGhostTo.setTextColor(textGhostTo.getTextColors().withAlpha(alphaValue));
 		textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
 		editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
 		editGhostEffect.getBackground().setAlpha(alphaValue);
