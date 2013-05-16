@@ -110,7 +110,7 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 		UiTestUtils.insertValueViaFormulaEditor(solo, 0, STEPS_TO_MOVE);
 
 		assertEquals("Wrong text in field.", STEPS_TO_MOVE,
-				(double) ((Formula) Reflection.getPrivateField(moveNStepsBrick, "steps")).interpretFloat(null));
+				(double) ((Formula) Reflection.getPrivateField(moveNStepsBrick, "steps")).interpretDouble(null));
 		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE,
 				Double.valueOf(solo.getEditText(0).getText().toString()));
 

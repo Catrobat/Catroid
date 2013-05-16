@@ -114,7 +114,7 @@ public class WaitBrick extends BrickBaseType implements OnClickListener {
 
 		if (timeToWaitInSeconds.isSingleNumberFormula()) {
 			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-					Utils.convertDoubleToPluralInteger(timeToWaitInSeconds.interpretFloat(sprite))));
+					Utils.convertDoubleToPluralInteger(timeToWaitInSeconds.interpretDouble(sprite))));
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -136,7 +136,7 @@ public class WaitBrick extends BrickBaseType implements OnClickListener {
 		textWait.setText(String.valueOf(timeToWaitInSeconds.interpretInteger(sprite)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_wait_second_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(timeToWaitInSeconds.interpretFloat(sprite))));
+				Utils.convertDoubleToPluralInteger(timeToWaitInSeconds.interpretDouble(sprite))));
 		return prototypeView;
 	}
 

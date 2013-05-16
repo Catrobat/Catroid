@@ -95,7 +95,7 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 		UiTestUtils.insertValueViaFormulaEditor(solo, 0, STEPS_TO_GO_BACK);
 
 		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK,
-				(int) ((Formula) Reflection.getPrivateField(goNStepsBackBrick, "steps")).interpretFloat(null));
+				(int) ((Formula) Reflection.getPrivateField(goNStepsBackBrick, "steps")).interpretDouble(null));
 		assertEquals("Value in Brick is not updated.", (double) STEPS_TO_GO_BACK,
 				Double.valueOf(solo.getEditText(0).getText().toString()));
 

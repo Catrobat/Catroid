@@ -106,7 +106,7 @@ public class TurnLeftBrick extends BrickBaseType implements OnClickListener {
 
 		if (degrees.isSingleNumberFormula()) {
 			times.setText(view.getResources().getQuantityString(R.plurals.brick_turn_left_degree_plural,
-					Utils.convertDoubleToPluralInteger(degrees.interpretFloat(sprite))));
+					Utils.convertDoubleToPluralInteger(degrees.interpretDouble(sprite))));
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -125,10 +125,10 @@ public class TurnLeftBrick extends BrickBaseType implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_turn_left, null);
 		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_left_prototype_text_view);
-		textDegrees.setText(String.valueOf(degrees.interpretFloat(sprite)));
+		textDegrees.setText(String.valueOf(degrees.interpretDouble(sprite)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_turn_left_degree_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.brick_turn_left_degree_plural,
-				Utils.convertDoubleToPluralInteger(degrees.interpretFloat(sprite))));
+				Utils.convertDoubleToPluralInteger(degrees.interpretDouble(sprite))));
 		return prototypeView;
 	}
 

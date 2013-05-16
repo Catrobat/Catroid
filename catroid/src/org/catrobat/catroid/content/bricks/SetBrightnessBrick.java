@@ -112,7 +112,7 @@ public class SetBrightnessBrick extends BrickBaseType implements OnClickListener
 		prototypeView = View.inflate(context, R.layout.brick_set_brightness, null);
 		TextView textSetBrightness = (TextView) prototypeView
 				.findViewById(R.id.brick_set_brightness_prototype_text_view);
-		textSetBrightness.setText(String.valueOf(brightness.interpretFloat(sprite)));
+		textSetBrightness.setText(String.valueOf(brightness.interpretDouble(sprite)));
 		return prototypeView;
 	}
 
