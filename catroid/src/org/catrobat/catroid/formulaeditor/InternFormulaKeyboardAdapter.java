@@ -84,6 +84,10 @@ public class InternFormulaKeyboardAdapter {
 				return buildSingleParameterFunction(Functions.ROUND, "0");
 			case R.string.formula_editor_function_mod:
 				return buildDoubleParameterFunction(Functions.MOD, "1", "1");
+			case R.string.formula_editor_function_true:
+				return buildFunctionWithoutParametersAndBrackets(Functions.TRUE);
+			case R.string.formula_editor_function_false:
+				return buildFunctionWithoutParametersAndBrackets(Functions.FALSE);
 
 				//SENSOR
 
