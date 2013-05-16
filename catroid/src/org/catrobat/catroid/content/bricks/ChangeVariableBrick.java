@@ -186,7 +186,7 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		setSpinnerSelection(variableSpinner);
 
 		TextView textChangeVariable = (TextView) prototypeView.findViewById(R.id.brick_change_variable_prototype_view);
-		textChangeVariable.setText(String.valueOf(variableFormula.interpretFloat(sprite)));
+		textChangeVariable.setText(String.valueOf(variableFormula.interpretDouble(sprite)));
 		return prototypeView;
 	}
 

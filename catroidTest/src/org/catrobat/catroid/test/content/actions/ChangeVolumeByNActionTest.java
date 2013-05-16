@@ -68,7 +68,7 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 		assertEquals("Unexpected initial volume value", 70.0f, SoundManager.getInstance().getVolume());
 
 		float volume = SoundManager.getInstance().getVolume();
-		volume += louder.interpretFloat(null);
+		volume += louder.interpretDouble(null);
 
 		ChangeVolumeByNAction action1 = ExtendedActions.changeVolumeByN(null, louder);
 		action1.act(1.0f);
@@ -76,7 +76,7 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 				.getVolume());
 
 		volume = SoundManager.getInstance().getVolume();
-		volume += softer.interpretFloat(null);
+		volume += softer.interpretDouble(null);
 
 		ChangeVolumeByNAction action2 = ExtendedActions.changeVolumeByN(null, softer);
 		action2.act(1.0f);
