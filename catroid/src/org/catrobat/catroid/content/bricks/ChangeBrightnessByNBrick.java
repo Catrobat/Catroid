@@ -112,7 +112,7 @@ public class ChangeBrightnessByNBrick extends BrickBaseType implements OnClickLi
 		prototypeView = View.inflate(context, R.layout.brick_change_brightness, null);
 		TextView textChangeBrightness = (TextView) prototypeView
 				.findViewById(R.id.brick_change_brightness_prototype_text_view);
-		textChangeBrightness.setText(String.valueOf(changeBrightness.interpretFloat(sprite)));
+		textChangeBrightness.setText(String.valueOf(changeBrightness.interpretDouble(sprite)));
 		return prototypeView;
 	}
 

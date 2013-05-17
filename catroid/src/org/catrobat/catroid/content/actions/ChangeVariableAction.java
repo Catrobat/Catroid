@@ -52,7 +52,7 @@ public class ChangeVariableAction extends Action {
 			return true;
 		}
 		double originalValue = userVariable.getValue();
-		double value = changeVariable.interpretFloat(sprite);
+		double value = changeVariable.interpretDouble(sprite);
 		userVariable.setValue(originalValue + value);
 		return true;
 	}

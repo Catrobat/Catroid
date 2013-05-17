@@ -245,6 +245,12 @@ public class FormulaElement implements Serializable {
 			case MOD:
 				Double divisor = rightChild.interpretRecursive(sprite);
 				return java.lang.Math.IEEEremainder(left, divisor);
+
+			case TRUE:
+				return 1.0;
+
+			case FALSE:
+				return 0.0;
 		}
 
 		return 0d;

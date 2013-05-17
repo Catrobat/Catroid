@@ -34,7 +34,7 @@ public class ChangeGhostEffectByNAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		float changeGhostEffectValue = changeGhostEffect.interpretFloat(sprite) / -100.0F;
+		float changeGhostEffectValue = changeGhostEffect.interpretFloat(sprite) / -100.0f;
 		sprite.look.changeAlphaValueBy(changeGhostEffectValue);
 
 	}

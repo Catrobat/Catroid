@@ -115,7 +115,7 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 		prototypeView = View.inflate(context, R.layout.brick_change_volume_by, null);
 		TextView textSetVolumenTo = (TextView) prototypeView
 				.findViewById(R.id.brick_change_volume_by_prototype_text_view);
-		textSetVolumenTo.setText(String.valueOf(volume.interpretFloat(sprite)));
+		textSetVolumenTo.setText(String.valueOf(volume.interpretDouble(sprite)));
 		return prototypeView;
 	}
 

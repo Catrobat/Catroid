@@ -39,20 +39,20 @@ public class ChangeGhostEffectByNActionTest extends AndroidTestCase {
 		assertEquals("Unexpected initial sprite ghost effect value", 1f, sprite.look.getAlphaValue());
 
 		float ghostEffect = sprite.look.getAlphaValue();
-		ghostEffect -= increaseGhostEffect.interpretFloat(sprite);
+		ghostEffect -= increaseGhostEffect.interpretDouble(sprite);
 
 		ChangeGhostEffectByNAction action1 = ExtendedActions.changeGhostEffectByN(sprite, new Formula(
-				increaseGhostEffect.interpretFloat(sprite) * 100.0f));
+				increaseGhostEffect.interpretDouble(sprite) * 100.0f));
 		sprite.look.addAction(action1);
 		action1.act(1.0f);
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", ghostEffect,
 				sprite.look.getAlphaValue());
 
 		ghostEffect = sprite.look.getAlphaValue();
-		ghostEffect -= decreaseGhostEffect.interpretFloat(sprite);
+		ghostEffect -= decreaseGhostEffect.interpretDouble(sprite);
 
 		ChangeGhostEffectByNAction action2 = ExtendedActions.changeGhostEffectByN(sprite, new Formula(
-				decreaseGhostEffect.interpretFloat(sprite) * 100.0f));
+				decreaseGhostEffect.interpretDouble(sprite) * 100.0f));
 		sprite.look.addAction(action2);
 		action2.act(1.0f);
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", ghostEffect,

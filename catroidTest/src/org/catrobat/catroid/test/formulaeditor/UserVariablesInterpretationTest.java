@@ -70,7 +70,7 @@ public class UserVariablesInterpretationTest extends AndroidTestCase {
 
 		Formula formula = getUservariableByName(USER_VARIABLE_NAME);
 		assertEquals("Formula interpretation is not as expected", USER_VARIABLE_VALUE,
-				formula.interpretFloat(testSprite), DELTA);
+				formula.interpretDouble(testSprite), DELTA);
 	}
 
 	public void testNotExistingUservariable() {
