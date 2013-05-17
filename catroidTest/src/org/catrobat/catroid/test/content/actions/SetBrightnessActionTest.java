@@ -57,7 +57,6 @@ public class SetBrightnessActionTest extends InstrumentationTestCase {
 		SetBrightnessAction action = ExtendedActions.setBrightness(sprite,
 				new Formula(-brightnessValue.interpretFloat(sprite)));
 		action.act(1.0f);
-		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", 0f,
-				sprite.look.getBrightness());
+		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", 0f, sprite.look.getBrightness());
 	}
 }

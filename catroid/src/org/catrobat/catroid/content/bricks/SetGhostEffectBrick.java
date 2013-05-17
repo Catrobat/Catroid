@@ -112,7 +112,7 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 		prototypeView = View.inflate(context, R.layout.brick_set_ghost_effect, null);
 		TextView textSetGhostEffect = (TextView) prototypeView
 				.findViewById(R.id.brick_set_ghost_effect_to_prototype_text_view);
-		textSetGhostEffect.setText(String.valueOf(transparency.interpretFloat(sprite)));
+		textSetGhostEffect.setText(String.valueOf(transparency.interpretDouble(sprite)));
 		return prototypeView;
 	}
 

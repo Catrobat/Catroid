@@ -107,22 +107,24 @@ public class LookSensorValuesTest extends ActivityInstrumentationTestCase2<Stage
 
 		Formula lookYPositionFormula = getFormulaBySensor(Sensors.OBJECT_Y);
 		assertEquals("Variable shows false x position", SPRITE_Y_POSITION, lookYPositionFormula.interpretFloat(sprite),
-				DELTA);
+
+		DELTA);
 
 		Formula lookAlphaValueFormula = getFormulaBySensor(Sensors.OBJECT_GHOSTEFFECT);
 		assertEquals("Variable shows false ghosteffect", SPRITE_GHOSTEFFECT,
-				lookAlphaValueFormula.interpretFloat(sprite), DELTA);
+				lookAlphaValueFormula.interpretDouble(sprite), DELTA);
 
 		Formula lookBrightnessFormula = getFormulaBySensor(Sensors.OBJECT_BRIGHTNESS);
 		assertEquals("Variable shows false brightness", SPRITE_BRIGHTNESS,
-				lookBrightnessFormula.interpretFloat(sprite), DELTA);
+				lookBrightnessFormula.interpretDouble(sprite), DELTA);
 
 		Formula lookScaleFormula = getFormulaBySensor(Sensors.OBJECT_SIZE);
 		assertEquals("Variable shows false size", SPRITE_SIZE, lookScaleFormula.interpretFloat(sprite), DELTA);
 
 		Formula lookRotateFormula = getFormulaBySensor(Sensors.OBJECT_ROTATION);
 		assertEquals("Variable shows false direction", SPRITE_DIRECTION, lookRotateFormula.interpretFloat(sprite),
-				DELTA);
+
+		DELTA);
 
 		Formula lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
 		assertEquals("Variable shows false z index", NUMBER_OF_SPRITES - SPRITE_LAYER_CHANGE,

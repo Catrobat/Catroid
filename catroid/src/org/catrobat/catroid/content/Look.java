@@ -227,7 +227,7 @@ public class Look extends Image {
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		checkImageChanged();
-		if (Float.compare(alphaValue, 0.0f) == 0) {
+		if (Double.compare(alphaValue, 0.0f) == 0) {
 			setVisible(false);
 		} else {
 			setVisible(true);

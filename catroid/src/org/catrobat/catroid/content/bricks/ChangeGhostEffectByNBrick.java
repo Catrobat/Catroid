@@ -113,7 +113,7 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 		prototypeView = View.inflate(context, R.layout.brick_change_ghost_effect, null);
 		TextView textChangeGhostEffect = (TextView) prototypeView
 				.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
-		textChangeGhostEffect.setText(String.valueOf(changeGhostEffect.interpretFloat(sprite)));
+		textChangeGhostEffect.setText(String.valueOf(changeGhostEffect.interpretDouble(sprite)));
 		return prototypeView;
 	}
 

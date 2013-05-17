@@ -106,7 +106,7 @@ public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener 
 
 		if (steps.isSingleNumberFormula()) {
 			times.setText(view.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
-					Utils.convertDoubleToPluralInteger(steps.interpretFloat(sprite))));
+					Utils.convertDoubleToPluralInteger(steps.interpretDouble(sprite))));
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -128,7 +128,7 @@ public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener 
 		textSteps.setText(String.valueOf(steps.interpretInteger(sprite)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
-				Utils.convertDoubleToPluralInteger(steps.interpretFloat(sprite))));
+				Utils.convertDoubleToPluralInteger(steps.interpretDouble(sprite))));
 		return prototypeView;
 
 	}
