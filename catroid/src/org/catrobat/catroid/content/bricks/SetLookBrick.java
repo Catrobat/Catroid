@@ -34,6 +34,7 @@ import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment.OnLookDataListChangedAfterNewListener;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
@@ -58,6 +59,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 	private LookData look;
 	private transient View prototypeView;
 	private transient LookData oldSelectedLook;
+	private transient AdapterView<?> adapterView;
 
 	public SetLookBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -130,6 +132,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		lookbrickSpinner.setAdapter(spinnerAdapterWrapper);
 
 		lookbrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position == 0) {
@@ -137,6 +140,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 				} else {
 					look = (LookData) parent.getItemAtPosition(position);
 					oldSelectedLook = look;
+					adapterView = parent;
 				}
 			}
 
@@ -160,6 +164,17 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_look_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
+		TextView lookbrickTextView = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
+
+		ColorStateList color = lookbrickTextView.getTextColors().withAlpha(alphaValue);
+		lookbrickTextView.setTextColor(color);
+		lookbrickSpinner.getBackground().setAlpha(alphaValue);
+		if (adapterView != null) {
+			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+		}
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

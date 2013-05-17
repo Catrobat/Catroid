@@ -109,6 +109,10 @@ public class NextLookBrick extends BrickBaseType {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_next_look_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView nextLookLabel = (TextView) view.findViewById(R.id.brick_next_look_text_view);
+		nextLookLabel.setTextColor(nextLookLabel.getTextColors().withAlpha(alphaValue));
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

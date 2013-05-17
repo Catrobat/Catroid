@@ -31,6 +31,7 @@
     <Button
         android:id="@+id/main_menu_button_continue"
         style="@style/MainMenuButton"
+        android:layout_marginTop="3dp"
         android:layout_height="0dp"
         android:layout_weight="1.5"
         android:drawableLeft="@drawable/ic_main_menu_continue"

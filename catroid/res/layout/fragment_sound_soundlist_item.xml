@@ -43,7 +43,7 @@
 	    android:id="@+id/fragment_sound_item_main_linear_layout"
 	    android:layout_width="match_parent"
     	android:layout_height="match_parent"
-	    android:background="@drawable/sound_fragment_button_gradient"
+	    android:background="@drawable/button_background_selector"
     	android:longClickable="true"
     	android:baselineAligned="false"
     	android:minHeight="90dp"

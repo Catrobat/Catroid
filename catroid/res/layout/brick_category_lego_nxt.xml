@@ -25,7 +25,7 @@
     style="@style/BrickCategory" >
 
     <TextView
-        style="@style/BrickCategoryText.Variables"
+        style="@style/BrickCategoryText.Lego"
         android:text="@string/category_lego_nxt" >
     </TextView>
 

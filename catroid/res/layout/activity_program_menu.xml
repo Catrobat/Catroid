@@ -30,6 +30,7 @@
     <Button
         android:id="@+id/program_menu_button_scripts"
         style="@style/ProgramMenuButton"
+        android:layout_marginTop="3dp"
         android:drawableLeft="@drawable/ic_program_menu_scripts"
         android:onClick="handleScriptsButton"
         android:text="@string/scripts" />

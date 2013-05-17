@@ -37,7 +37,7 @@
         android:layout_marginBottom="13dp"
         android:layout_marginTop="80dp"
         android:gravity="center"
-        android:textColor="@color/main_menu_button_background_top_border_color"
+        android:textColor="@color/button_background_top_border_color"
         android:textSize="36sp" />
 
     <View
@@ -45,7 +45,7 @@
         android:layout_height="13dp"
         android:layout_below="@+id/soundrecorder_chronometer_time_recorded"
         android:layout_centerHorizontal="true"
-        android:background="@color/main_menu_button_background_top_border_color" />
+        android:background="@color/button_background_top_border_color" />
 
     <FrameLayout
         android:layout_width="wrap_content"
