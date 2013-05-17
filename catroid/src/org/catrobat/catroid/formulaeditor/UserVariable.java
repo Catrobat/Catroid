@@ -22,23 +22,17 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import java.io.ObjectStreamException;
 import java.io.Serializable;
 
 public class UserVariable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String name;
-	private transient Double value;
+	private Double value;
 
 	public UserVariable(String name) {
 		this.name = name;
 		this.value = new Double(0.0);
-	}
-
-	public Object readResolve() throws ObjectStreamException {
-		this.value = new Double(0.0);
-		return this;
 	}
 
 	public Double getValue() {
