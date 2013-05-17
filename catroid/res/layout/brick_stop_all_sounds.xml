@@ -41,6 +41,7 @@
         style="@style/BrickContainer.Sound.Small" >
 
         <TextView
+            android:id="@+id/brick_stop_all_sounds_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_stop_all_sounds" >
         </TextView>

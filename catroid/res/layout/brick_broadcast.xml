@@ -41,6 +41,7 @@
         android:orientation="vertical" >
 
         <TextView
+            android:id="@+id/brick_broadcast_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_broadcast" />
 

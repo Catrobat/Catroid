@@ -33,7 +33,6 @@
     <string name="copy">Kopieren</string>
     <string name="cut">Ausschneiden</string>
     <string name="move">Verschieben</string>
-    <string name="play">Play</string>
     <!--  -->
 
 
@@ -45,7 +44,6 @@
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
     <string name="ok">OK</string>
-    <string name="add">Neu</string>
     <!--  -->
 
 
@@ -497,6 +495,7 @@
     <string name="formula_editor_logic">Logik</string>
     <string name="formula_editor_sensors">Sensoren</string>
     <string name="formula_editor_variables">Variablen</string>
+    <string name="formula_editor_random">Zufall</string>
     <string name="formula_editor_logic_notequal">&#x2260;</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
     <string name="formula_editor_logic_greaterthan">&gt;</string>

@@ -45,19 +45,13 @@
 
         <org.catrobat.catroid.ui.dragndrop.DragAndDropListView
             android:id="@+id/brick_list_view"
+            style="@style/ListViewShadowed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:animationCache="@string/animation_cache_enabled"
-            android:cacheColorHint="@color/solid_black"
             android:clickable="false"
             android:divider="@android:color/transparent"
             android:dividerHeight="-5dip"
-            android:drawSelectorOnTop="false"
-            android:drawingCacheQuality="high"
-            android:fadingEdgeLength="10dp"
-            android:fastScrollEnabled="true"
-            android:requiresFadingEdge="vertical"
-            android:scrollingCache="@string/scrolling_cache_enabled" />
+             />
     </LinearLayout>
 
 </LinearLayout>

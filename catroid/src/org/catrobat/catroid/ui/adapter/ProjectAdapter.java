@@ -187,12 +187,12 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		if (selectMode != ListView.CHOICE_MODE_NONE) {
 			holder.checkbox.setVisibility(View.VISIBLE);
 			holder.arrow.setVisibility(View.GONE);
-			holder.background.setBackgroundResource(R.drawable.my_projects_list_item_background_shadowed);
+			holder.background.setBackgroundResource(R.drawable.button_background_shadowed);
 		} else {
 			holder.checkbox.setVisibility(View.GONE);
 			holder.checkbox.setChecked(false);
 			holder.arrow.setVisibility(View.VISIBLE);
-			holder.background.setBackgroundResource(R.drawable.my_projects_activity_list_item_background);
+			holder.background.setBackgroundResource(R.drawable.button_background_selector);
 			clearCheckedProjects();
 		}
 

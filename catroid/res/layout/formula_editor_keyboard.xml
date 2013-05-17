@@ -227,7 +227,7 @@
             android:id="@+id/formula_editor_keyboard_random"
             style="@style/FormulaEditorButton"
             android:layout_weight="0.355"
-            android:text="@string/formula_editor_function_rand"/>
+            android:text="@string/formula_editor_random"/>
 
         <Button
             android:id="@+id/formula_editor_keyboard_variables"

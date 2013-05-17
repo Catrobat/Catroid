@@ -139,14 +139,14 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 			if (selectMode != ListView.CHOICE_MODE_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
 				holder.lookArrowView.setVisibility(View.GONE);
-				holder.lookElement.setBackgroundResource(R.drawable.look_fragment_button_gradient_shadowed);
+				holder.lookElement.setBackgroundResource(R.drawable.button_background_shadowed);
 				holder.lookElement.setClickable(false);
 				checkboxIsVisible = true;
 			} else {
 				holder.checkbox.setVisibility(View.GONE);
 				holder.checkbox.setChecked(false);
 				holder.lookArrowView.setVisibility(View.VISIBLE);
-				holder.lookElement.setBackgroundResource(R.drawable.look_fragment_button_gradient);
+				holder.lookElement.setBackgroundResource(R.drawable.button_background_selector);
 				holder.lookElement.setClickable(true);
 				clearCheckedItems();
 			}

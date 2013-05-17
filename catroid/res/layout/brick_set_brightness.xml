@@ -43,6 +43,7 @@
         android:orientation="vertical" >
 
         <TextView
+            android:id="@+id/brick_set_brightness_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_set_brightness" >
         </TextView>
@@ -52,6 +53,7 @@
             android:layout_height="wrap_content" >
 
             <TextView
+                android:id="@+id/brick_set_brightness_to_textview"
                 style="@style/BrickText.SingleLine"
                 android:text="@string/to_label" >
             </TextView>
@@ -69,6 +71,7 @@
             </EditText>
 
             <TextView
+                android:id="@+id/brick_set_brightness_to_percent"
                 style="@style/BrickText.SingleLine"
                 android:text="@string/percent_symbol" >
             </TextView>

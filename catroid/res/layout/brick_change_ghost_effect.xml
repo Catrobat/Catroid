@@ -43,6 +43,7 @@
         android:orientation="vertical" >
 
         <TextView
+            android:id="@+id/brick_change_ghost_effect_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_change_ghost_effect" >
         </TextView>
@@ -52,6 +53,7 @@
             android:layout_height="wrap_content" >
 
             <TextView
+                android:id="@+id/brick_change_ghost_effect_by"
                 style="@style/BrickText.SingleLine"
                 android:text="@string/by_label" >
             </TextView>
@@ -67,6 +69,7 @@
                 android:maxEms="10"
                 android:inputType="number|numberDecimal|numberSigned" >
             </EditText>
+
         </LinearLayout>
     </LinearLayout>
 
