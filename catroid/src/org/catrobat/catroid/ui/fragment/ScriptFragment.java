@@ -240,12 +240,10 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		Log.d("CatroidFragmentTag", "ScriptActivityFragment msg getAdapter");
 
 		LinearLayout llout_add = (LinearLayout) getActivity().findViewById(R.id.button_add);
-		LinearLayout llout_play = (LinearLayout) getActivity().findViewById(R.id.button_play);
 
 		llout_add.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "toast here llout_add", Toast.LENGTH_LONG).show();
 				handleAddButton();
 			}
@@ -302,7 +300,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				handleAddButton();
 			}
 		});

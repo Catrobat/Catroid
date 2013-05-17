@@ -42,7 +42,7 @@
         android:id="@+id/fragment_look_item_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/look_fragment_button_gradient"
+        android:background="@drawable/button_background_selector"
         android:gravity="center_vertical"
         android:longClickable="true"
         android:orientation="horizontal" >
@@ -55,7 +55,8 @@
             android:layout_marginLeft="9dp"
             android:background="@drawable/image_contour"
             android:contentDescription="@string/look"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
+            android:cropToPadding="true"
             android:src="@drawable/catroid_banzai" />
 
         <LinearLayout
