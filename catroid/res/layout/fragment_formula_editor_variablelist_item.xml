@@ -37,7 +37,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/sound_fragment_button_gradient" >
+        android:background="@drawable/button_background_selector" >
 
         <TextView
             android:id="@+id/fragment_formula_editor_variablelist_item_name_text_view"

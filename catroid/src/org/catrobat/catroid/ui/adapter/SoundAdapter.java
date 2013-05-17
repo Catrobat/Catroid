@@ -156,12 +156,11 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 			if (selectMode != ListView.CHOICE_MODE_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
 				holder.checkbox.setVisibility(View.VISIBLE);
-				holder.soundFragmentButtonLayout
-						.setBackgroundResource(R.drawable.sound_fragment_button_gradient_shadowed);
+				holder.soundFragmentButtonLayout.setBackgroundResource(R.drawable.button_background_shadowed);
 			} else {
 				holder.checkbox.setVisibility(View.GONE);
 				holder.checkbox.setVisibility(View.GONE);
-				holder.soundFragmentButtonLayout.setBackgroundResource(R.drawable.sound_fragment_button_gradient);
+				holder.soundFragmentButtonLayout.setBackgroundResource(R.drawable.button_background_selector);
 				holder.checkbox.setChecked(false);
 				clearCheckedItems();
 			}
