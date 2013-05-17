@@ -476,12 +476,15 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		menu.setHeaderTitle(selectedSoundInfo.getTitle());
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
-		menu.findItem(R.id.context_menu_copy).setVisible(false);
+		//menu.findItem(R.id.context_menu_copy).setVisible(false);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case R.id.context_menu_copy:
+				copySound(selectedSoundPosition);
+				break;
 			case R.id.context_menu_cut:
 				break;
 
@@ -750,6 +753,24 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				return false;
 			}
 		});
+	}
+
+	private void copySound(int position) {
+
+		SoundInfo soundInfo = soundInfoList.get(position);
+
+		try {
+			StorageHandler.getInstance().copySoundFile(soundInfo.getAbsolutePath());
+
+			String soundName = soundInfo.getTitle() + "_" + getString(R.string.copy_sound_addition);
+			String soundFileName = soundInfo.getSoundFileName();
+
+			updateSoundAdapter(soundName, soundFileName);
+		} catch (IOException e) {
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_load_sound));
+			e.printStackTrace();
+		}
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
 	private void deleteSound(int position) {

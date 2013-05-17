@@ -65,6 +65,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	private Solo solo;
 
+	private String copy;
 	private String rename;
 	private String renameDialogTitle;
 	private String delete;
@@ -120,6 +121,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		UiTestUtils.getIntoSoundsFromMainMenu(solo);
 
+		copy = solo.getString(R.string.copy);
 		rename = solo.getString(R.string.rename);
 		renameDialogTitle = solo.getString(R.string.rename_sound_dialog);
 		delete = solo.getString(R.string.delete);
@@ -143,6 +145,22 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	public void testInitialLayout() {
 		assertFalse("Initially showing details", getSoundAdapter().getShowDetails());
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
+	}
+
+	public void testCopySoundContextMenu() {
+		SoundAdapter adapter = getSoundAdapter();
+		assertNotNull("Could not get Adapter", adapter);
+
+		int oldCount = adapter.getCount();
+
+		clickOnContextMenuItem(SECOND_TEST_SOUND_NAME, solo.getString(R.string.copy));
+		solo.sleep(100);
+
+		int newCount = adapter.getCount();
+
+		assertEquals("Old count was not correct", 2, oldCount);
+		assertEquals("New count is not correct - one sound should be copied", 3, newCount);
+		assertEquals("Count of the soundList is not correct", newCount, getCurrentNumberOfSounds());
 	}
 
 	public void testDeleteSoundContextMenu() {
