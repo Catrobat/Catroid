@@ -21,25 +21,14 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true"
+          android:drawable="@drawable/bottom_bar_background_pressed" /> <!-- pressed -->
+    <item android:state_focused="true"
+          android:drawable="@drawable/bottom_bar_background" /> <!-- focused -->
+    <item android:state_hovered="true"
+          android:drawable="@drawable/bottom_bar_background" /> <!-- hovered -->
+    <item android:drawable="@drawable/bottom_bar_background" /> <!-- default -->
+</selector>
 
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item>
-        <shape android:shape="rectangle" >
-            <stroke
-                android:width="1.3dp"
-                android:color="@color/sound_fragment_button_top_border_color" >
-            </stroke>
-        </shape>
-    </item>
-    <item android:top="1.3dp">
-        <shape android:shape="rectangle" >
-            <gradient
-                android:angle="270.0"
-                android:centerColor="@color/sound_fragment_button_gradient_start_color"
-                android:centerY="0.67"
-                android:endColor="@color/sound_fragment_button_gradient_end_color"
-                android:startColor="@color/sound_fragment_button_gradient_start_color"
-                android:type="linear" />
-        </shape>
-    </item>
-</layer-list>
+

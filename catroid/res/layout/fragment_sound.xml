@@ -28,13 +28,15 @@
     android:background="@color/sound_fragment_background_color" >
 
     <!-- Sound list -->
+
     <ListView
         android:id="@android:id/list"
+        style="@style/ListViewShadowed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
         android:cacheColorHint="#00000000"
-        android:divider="@color/sound_fragment_background_color"
-        android:layout_marginTop="3.5dp"
-        android:dividerHeight="3dp" />
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
 
 </RelativeLayout>
