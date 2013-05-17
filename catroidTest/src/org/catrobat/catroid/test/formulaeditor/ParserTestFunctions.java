@@ -244,4 +244,65 @@ public class ParserTestFunctions extends AndroidTestCase {
 		assertEquals("Formula error value is not as expected", 0, internParser.getErrorTokenIndex());
 	}
 
+	public void testArcsin() {
+		List<InternToken> internTokenList = new LinkedList<InternToken>();
+
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ARCSIN.name()));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
+
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
+
+		assertNotNull("Formula is not parsed correctly: arcsin(1)", parseTree);
+		assertEquals("Formula interpretation is not as expected", 90, parseTree.interpretRecursive(testSprite));
+	}
+
+	public void testArccos() {
+		List<InternToken> internTokenList = new LinkedList<InternToken>();
+
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ARCCOS.name()));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "0.5"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
+
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
+
+		assertNotNull("Formula is not parsed correctly: arccos(0.5)", parseTree);
+		assertEquals("Formula interpretation is not as expected", 60, parseTree.interpretRecursive(testSprite));
+	}
+
+	public void testArctan() {
+		List<InternToken> internTokenList = new LinkedList<InternToken>();
+
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ARCTAN.name()));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
+
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
+
+		assertNotNull("Formula is not parsed correctly: arctan(1)", parseTree);
+		assertEquals("Formula interpretation is not as expected", 45, parseTree.interpretRecursive(testSprite));
+	}
+
+	public void testExp() {
+		List<InternToken> internTokenList = new LinkedList<InternToken>();
+
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.EXP.name()));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
+
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
+
+		assertNotNull("Formula is not parsed correctly: exp(2)", parseTree);
+		assertEquals("Formula interpretation is not as expected", Math.exp(2.0),
+				parseTree.interpretRecursive(testSprite));
+	}
+
 }
