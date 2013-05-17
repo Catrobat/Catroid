@@ -41,6 +41,7 @@
         style="@style/BrickContainer.Motion.Small" >
 
         <TextView
+            android:id="@+id/brick_set_x_text_view"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_set_x" >
         </TextView>

@@ -41,6 +41,7 @@
         style="@style/BrickContainer.Look.Small" >
 
         <TextView
+            android:id="@+id/brick_show_textview"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_show" />
     </LinearLayout>

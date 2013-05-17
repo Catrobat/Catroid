@@ -36,6 +36,7 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -89,6 +90,9 @@ public class HideBrick extends BrickBaseType {
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 		this.alphaValue = (alphaValue);
+
+		TextView hideLabel = (TextView) view.findViewById(R.id.brick_hide_label);
+		hideLabel.setTextColor(hideLabel.getTextColors().withAlpha(alphaValue));
 
 		return view;
 	}
