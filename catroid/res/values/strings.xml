@@ -33,7 +33,6 @@
     <string name="copy">Copy</string>
     <string name="cut">Cut</string>
     <string name="move">Move</string>
-    <string name="play">Play</string>
     <!--  -->
 
 
@@ -45,7 +44,6 @@
     <string name="background">Background</string>
     <string name="stage">Stage</string>
     <string name="ok">OK</string>
-    <string name="add">Add</string>
     <!--  -->
 
 
@@ -183,12 +181,11 @@
 
 
     <!-- New project dialog -->
-    <string name="new_project_dialog_title">New project</string>
-    <string name="new_project_dialog_hint">My Project</string>
+    <string name="new_project_dialog_title">New program</string>
+    <string name="new_project_dialog_hint">My Program</string>
     <string name="new_project_description_dialog_hint">My Description</string>
-    <string name="new_project_name">Project name:</string>
+    <string name="new_project_name">Program name:</string>
     <!--  -->
-
 
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">My Object</string>
@@ -498,6 +495,7 @@
     <string name="formula_editor_logic">Logic</string>
     <string name="formula_editor_sensors">Sensors</string>
     <string name="formula_editor_variables">Variables</string>
+    <string name="formula_editor_random">Random</string>
     <string name="formula_editor_logic_notequal">&#x2260;</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
     <string name="formula_editor_logic_greaterthan">&gt;</string>

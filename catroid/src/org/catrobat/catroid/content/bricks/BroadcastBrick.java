@@ -34,6 +34,7 @@ import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
@@ -50,6 +51,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -60,6 +62,7 @@ public class BroadcastBrick extends BrickBaseType {
 
 	private String broadcastMessage = "";
 	private transient String oldMessage = "";
+	private transient AdapterView<?> adapterView;
 
 	public BroadcastBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -146,6 +149,7 @@ public class BroadcastBrick extends BrickBaseType {
 				} else {
 					oldMessage = broadcastMessage;
 				}
+				adapterView = parent;
 			}
 
 			@Override
@@ -183,6 +187,16 @@ public class BroadcastBrick extends BrickBaseType {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_broadcast_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView textBroadcastLabel = (TextView) view.findViewById(R.id.brick_broadcast_label);
+		textBroadcastLabel.setTextColor(textBroadcastLabel.getTextColors().withAlpha(alphaValue));
+		Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);
+		ColorStateList color = textBroadcastLabel.getTextColors().withAlpha(alphaValue);
+		broadcastSpinner.getBackground().setAlpha(alphaValue);
+		if (adapterView != null) {
+			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+		}
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

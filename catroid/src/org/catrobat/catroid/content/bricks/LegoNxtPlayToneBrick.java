@@ -167,6 +167,29 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_nxt_play_tone_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView textLegoPlayToneLabel = (TextView) view.findViewById(R.id.brick_nxt_play_tone_label);
+		TextView textLegoPlayToneDuration = (TextView) view.findViewById(R.id.brick_nxt_play_tone_duration);
+		TextView textLegoPlayToneDurationTextView = (TextView) view.findViewById(R.id.nxt_tone_duration_text_view);
+		TextView textLegoPlayToneSeconds = (TextView) view.findViewById(R.id.brick_nxt_play_tone_seconds);
+		TextView textLegoPlayToneFrequency = (TextView) view.findViewById(R.id.brick_nxt_play_tone_frequency);
+		TextView textLegoPlayToneOz = (TextView) view.findViewById(R.id.brick_nxt_play_tone_hundred_hz);
+
+		EditText editLegoDuration = (EditText) view.findViewById(R.id.nxt_tone_duration_edit_text);
+		EditText editLegoFrequency = (EditText) view.findViewById(R.id.nxt_tone_freq_edit_text);
+		textLegoPlayToneLabel.setTextColor(textLegoPlayToneLabel.getTextColors().withAlpha(alphaValue));
+		textLegoPlayToneDuration.setTextColor(textLegoPlayToneDuration.getTextColors().withAlpha(alphaValue));
+		textLegoPlayToneDurationTextView.setTextColor(textLegoPlayToneDurationTextView.getTextColors().withAlpha(
+				alphaValue));
+		textLegoPlayToneSeconds.setTextColor(textLegoPlayToneSeconds.getTextColors().withAlpha(alphaValue));
+		textLegoPlayToneFrequency.setTextColor(textLegoPlayToneFrequency.getTextColors().withAlpha(alphaValue));
+		textLegoPlayToneOz.setTextColor(textLegoPlayToneOz.getTextColors().withAlpha(alphaValue));
+
+		editLegoFrequency.setTextColor(editLegoFrequency.getTextColors().withAlpha(alphaValue));
+		editLegoFrequency.getBackground().setAlpha(alphaValue);
+		editLegoDuration.setTextColor(editLegoDuration.getTextColors().withAlpha(alphaValue));
+		editLegoDuration.getBackground().setAlpha(alphaValue);
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

@@ -126,6 +126,13 @@ public class ChangeXByNBrick extends BrickBaseType implements OnClickListener {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_x_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView changeXByLabel = (TextView) view.findViewById(R.id.brick_change_x_label);
+		EditText editChangeSize = (EditText) view.findViewById(R.id.brick_change_x_edit_text);
+		changeXByLabel.setTextColor(changeXByLabel.getTextColors().withAlpha(alphaValue));
+		editChangeSize.setTextColor(editChangeSize.getTextColors().withAlpha(alphaValue));
+		editChangeSize.getBackground().setAlpha(alphaValue);
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

@@ -42,6 +42,7 @@
         android:orientation="vertical" >
 
         <TextView
+            android:id="@+id/brick_point_to_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_point_to" />
 

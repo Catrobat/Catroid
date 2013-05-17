@@ -39,6 +39,7 @@
         style="@style/BrickContainer.Motion.Small" >
 
         <TextView
+            android:id="@+id/brick_go_back_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_go_back" >
         </TextView>

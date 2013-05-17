@@ -42,6 +42,7 @@
         style="@style/BrickContainer.Motion.Small" >
 
         <TextView
+            android:id="@+id/brick_change_y_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_change_y_by" >
         </TextView>

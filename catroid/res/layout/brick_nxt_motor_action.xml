@@ -46,6 +46,7 @@
             android:layout_height="wrap_content" >
 
             <TextView
+                android:id="@+id/lego_motor_action_label"
                 style="@style/BrickText.SingleLine"
                 android:text="@string/brick_motor_action" >
             </TextView>
@@ -66,6 +67,7 @@
             android:layout_height="wrap_content" >
 
             <TextView
+                android:id="@+id/lego_motor_action_speed"
                 style="@style/BrickText.SingleLine"
                 android:text="@string/motor_speed" >
             </TextView>
@@ -83,6 +85,7 @@
             </EditText>
 
             <TextView
+                android:id="@+id/lego_motor_action_percent"
                 style="@style/BrickText"
                 android:text="@string/percent_symbol" >
             </TextView>
