@@ -62,15 +62,7 @@ public class UserVariablesInterpretationTest extends AndroidTestCase {
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
-		ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.addProjectUserVariable(USER_VARIABLE_NAME);
-	}
-
-	public void testUservariables() {
-
-		Formula formula = getUservariableByName(USER_VARIABLE_NAME);
-		assertEquals("Formula interpretation is not as expected", USER_VARIABLE_VALUE,
-				formula.interpretDouble(testSprite), DELTA);
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().addProjectUserVariable(USER_VARIABLE_NAME);
 	}
 
 	public void testNotExistingUservariable() {
