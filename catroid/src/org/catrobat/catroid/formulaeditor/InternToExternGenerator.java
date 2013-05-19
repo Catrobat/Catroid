@@ -56,6 +56,12 @@ public class InternToExternGenerator {
 		internExternLanguageConverterMap.put(Functions.ABS.name(), R.string.formula_editor_function_abs);
 		internExternLanguageConverterMap.put(Functions.ROUND.name(), R.string.formula_editor_function_round);
 		internExternLanguageConverterMap.put(Functions.MOD.name(), R.string.formula_editor_function_mod);
+		internExternLanguageConverterMap.put(Functions.ARCSIN.name(), R.string.formula_editor_function_arcsin);
+		internExternLanguageConverterMap.put(Functions.ARCCOS.name(), R.string.formula_editor_function_arccos);
+		internExternLanguageConverterMap.put(Functions.ARCTAN.name(), R.string.formula_editor_function_arctan);
+		internExternLanguageConverterMap.put(Functions.EXP.name(), R.string.formula_editor_function_exp);
+		internExternLanguageConverterMap.put(Functions.MAX.name(), R.string.formula_editor_function_max);
+		internExternLanguageConverterMap.put(Functions.MIN.name(), R.string.formula_editor_function_min);
 		internExternLanguageConverterMap.put(Sensors.X_ACCELERATION.name(),
 				R.string.formula_editor_sensor_x_acceleration);
 		internExternLanguageConverterMap.put(Sensors.Y_ACCELERATION.name(),

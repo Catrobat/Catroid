@@ -23,7 +23,7 @@
 package org.catrobat.catroid.formulaeditor;
 
 public enum Functions {
-	SIN, COS, TAN, LN, LOG, SQRT, RAND, ROUND, ABS, PI, MOD, ARCSIN, ARCCOS, ARCTAN, EXP;
+	SIN, COS, TAN, LN, LOG, SQRT, RAND, ROUND, ABS, PI, MOD, ARCSIN, ARCCOS, ARCTAN, EXP, MAX, MIN;
 
 	public static boolean isFunction(String value) {
 		if (getFunctionByValue(value) == null) {

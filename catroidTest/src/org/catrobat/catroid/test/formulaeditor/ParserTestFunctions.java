@@ -256,7 +256,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaElement parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: arcsin(1)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 90, parseTree.interpretRecursive(testSprite));
+		assertEquals("Formula interpretation is not as expected", 90d, parseTree.interpretRecursive(testSprite));
 	}
 
 	public void testArccos() {
@@ -264,14 +264,14 @@ public class ParserTestFunctions extends AndroidTestCase {
 
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ARCCOS.name()));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "0.5"));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "0"));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
 
-		assertNotNull("Formula is not parsed correctly: arccos(0.5)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 60, parseTree.interpretRecursive(testSprite));
+		assertNotNull("Formula is not parsed correctly: arccos(0)", parseTree);
+		assertEquals("Formula interpretation is not as expected", 90d, parseTree.interpretRecursive(testSprite));
 	}
 
 	public void testArctan() {
@@ -286,7 +286,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaElement parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: arctan(1)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 45, parseTree.interpretRecursive(testSprite));
+		assertEquals("Formula interpretation is not as expected", 45d, parseTree.interpretRecursive(testSprite));
 	}
 
 	public void testExp() {
@@ -303,6 +303,42 @@ public class ParserTestFunctions extends AndroidTestCase {
 		assertNotNull("Formula is not parsed correctly: exp(2)", parseTree);
 		assertEquals("Formula interpretation is not as expected", Math.exp(2.0),
 				parseTree.interpretRecursive(testSprite));
+	}
+
+	public void testMax() {
+		List<InternToken> internTokenList = new LinkedList<InternToken>();
+
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.MAX.name()));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "3"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER, ","));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "4"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
+
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
+
+		assertNotNull("Formula is not parsed correctly: max(3,4)", parseTree);
+		assertEquals("Formula interpretation is not as expected", 4d, parseTree.interpretRecursive(testSprite));
+
+	}
+
+	public void testMin() {
+		List<InternToken> internTokenList = new LinkedList<InternToken>();
+
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.MIN.name()));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "3"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER, ","));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "4"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
+
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
+
+		assertNotNull("Formula is not parsed correctly: min(3,4)", parseTree);
+		assertEquals("Formula interpretation is not as expected", 3d, parseTree.interpretRecursive(testSprite));
+
 	}
 
 }
