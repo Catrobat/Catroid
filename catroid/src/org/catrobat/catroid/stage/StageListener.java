@@ -156,12 +156,17 @@ public class StageListener implements ApplicationListener {
 		camera.position.set(0, 0, 0);
 
 		sprites = project.getSpriteList();
+
+		for (Sprite sprite : sprites) {
+			sprite.resetSprite();
+			stage.addActor(sprite.look);
+			sprite.resume();
+		}
+
 		if (sprites.size() > 0) {
 			sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
 		}
-		for (Sprite sprite : sprites) {
-			stage.addActor(sprite.look);
-		}
+
 		if (DEBUG) {
 			OrthoCamController camController = new OrthoCamController(camera);
 			InputMultiplexer multiplexer = new InputMultiplexer();
@@ -238,10 +243,6 @@ public class StageListener implements ApplicationListener {
 	public void finish() {
 		finished = true;
 		SoundManager.getInstance().clear();
-		for (Sprite sprite : sprites) {
-			sprite.resume();
-			sprite.resetSprite();
-		}
 		if (thumbnail != null) {
 			prepareScreenshotFiles();
 			saveScreenshot(thumbnail);
