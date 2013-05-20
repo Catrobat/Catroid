@@ -102,8 +102,10 @@ public class ConnectionWrapper {
 
 		} catch (SocketException e) {
 			e.printStackTrace();
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "FTP server refused to connect!");
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "FTP connection problem!");
 		} finally {
 			if (ftpClient.isConnected()) {
 				try {
@@ -125,7 +127,7 @@ public class ConnectionWrapper {
 			throw new WebconnectionException(request.code(), "Error response code should be 2xx!");
 		}
 
-		return request.message();
+		return request.body();
 	}
 
 	void updateProgress(ResultReceiver receiver, long progress, boolean endOfFileReached, boolean unknown,
@@ -149,7 +151,7 @@ public class ConnectionWrapper {
 		receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, progressBundle);
 	}
 
-	public void doHttpsPostFileDownload(String urlString, HashMap<String, String> postValues, String filePath,
+	public void doHttpPostFileDownload(String urlString, HashMap<String, String> postValues, String filePath,
 			ResultReceiver receiver, Integer notificationId, String projectName) throws IOException {
 		HttpRequest request = HttpRequest.post(urlString);
 		File file = new File(filePath);
@@ -157,7 +159,7 @@ public class ConnectionWrapper {
 		request.form(postValues).acceptGzipEncoding().receive(file);
 	}
 
-	public String doHttpsPost(String urlString, HashMap<String, String> postValues) throws IOException {
+	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws IOException {
 		return HttpRequest.post(urlString).form(postValues).body();
 	}
 

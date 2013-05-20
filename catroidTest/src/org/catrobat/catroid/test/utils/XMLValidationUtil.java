@@ -57,7 +57,7 @@ public class XMLValidationUtil {
 		postValues.put("xmlToValidate", xmlContent);
 
 		ConnectionWrapper connection = new ConnectionWrapper();
-		String response = connection.doHttpsPost(XML_VALIDATING_URL, postValues);
+		String response = connection.doHttpPost(XML_VALIDATING_URL, postValues);
 
 		JSONObject jsonResponce = new JSONObject(response);
 		Log.i(LOG_TAG, "json responce: " + jsonResponce.toString());

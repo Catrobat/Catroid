@@ -102,7 +102,6 @@ public class ProjectDownloadService extends IntentService {
 
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
 
 		if (result && showOverwriteDialog) {
 			//project name and zip file string are temporariliy saved in the StatusBarNotificationManager to create it later on in the right context  
@@ -125,6 +124,7 @@ public class ProjectDownloadService extends IntentService {
 		}
 
 		Toast.makeText(this, R.string.success_project_download, Toast.LENGTH_SHORT).show();
+		super.onDestroy();
 	}
 
 	private void showDialog(int messageId) {

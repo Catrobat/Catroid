@@ -125,7 +125,7 @@ public class ServerCalls {
 			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase(Locale.US));
 			postValues.put(Constants.TOKEN, token);
 			postValues.put(Constants.USERNAME, username);
-			postValues.put(CATROID_FILE_NAME, projectName + ".catrobat");
+			postValues.put(CATROID_FILE_NAME, projectName + Constants.CATROBAT_EXTENTION);
 
 			if (language != null) {
 				postValues.put(USER_LANGUAGE, language);
@@ -137,28 +137,29 @@ public class ServerCalls {
 			Log.v(TAG, "url to upload: " + serverUrl);
 			String answer = connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString,
 					receiver, httpPostUrl, notificationId);
+			if (answer != "") {
+				// check statusCode from Webserver
+				JSONObject jsonObject = null;
+				Log.v(TAG, "result string: " + answer);
+				jsonObject = new JSONObject(answer);
+				uploadStatusCode = jsonObject.getInt(JSON_STATUS_CODE);
+				String serverAnswer = jsonObject.optString(JSON_ANSWER);
+				String tokenReceived = "";
 
-			// check statusCode from Webserver
-			JSONObject jsonObject = null;
-			Log.v(TAG, "result string: " + answer);
-			jsonObject = new JSONObject(answer);
-			uploadStatusCode = jsonObject.getInt(JSON_STATUS_CODE);
-			String serverAnswer = jsonObject.optString(JSON_ANSWER);
-			String tokenReceived = "";
-
-			if (uploadStatusCode == SERVER_RESPONSE_TOKEN_OK) {
-				tokenReceived = jsonObject.getString(JSON_TOKEN);
-				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived == ""
-						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
+				if (uploadStatusCode == SERVER_RESPONSE_TOKEN_OK) {
+					tokenReceived = jsonObject.getString(JSON_TOKEN);
+					if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived == ""
+							|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
+						throw new WebconnectionException(uploadStatusCode, serverAnswer);
+					}
+					if (context != null) {
+						SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+						sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
+						sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
+					}
+				} else {
 					throw new WebconnectionException(uploadStatusCode, serverAnswer);
 				}
-				if (context != null) {
-					SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-					sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
-					sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
-				}
-			} else {
-				throw new WebconnectionException(uploadStatusCode, serverAnswer);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -172,7 +173,7 @@ public class ServerCalls {
 	public void downloadProject(String downloadUrl, String zipFileString, ResultReceiver receiver,
 			Integer notificationId, String projectName) throws WebconnectionException {
 		try {
-			connection.doHttpsPostFileDownload(downloadUrl, null, zipFileString, receiver, notificationId, projectName);
+			connection.doHttpPostFileDownload(downloadUrl, null, zipFileString, receiver, notificationId, projectName);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Malformed URL");
@@ -193,7 +194,7 @@ public class ServerCalls {
 
 			Log.v(TAG, "post values - token:" + token + "user: " + username);
 			Log.v(TAG, "url to upload: " + serverUrl);
-			resultString = connection.doHttpsPost(serverUrl, postValues);
+			resultString = connection.doHttpPost(serverUrl, postValues);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
@@ -243,7 +244,7 @@ public class ServerCalls {
 			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
 
 			Log.v(TAG, "url to use: " + serverUrl);
-			resultString = connection.doHttpsPost(serverUrl, postValues);
+			resultString = connection.doHttpPost(serverUrl, postValues);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
