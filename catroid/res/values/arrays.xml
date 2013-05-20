@@ -20,60 +20,32 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <resources>
-
-    <!-- Point in direction spinner -->
-    <string-array name="point_in_direction_values">
-        <item>90</item>
-        <item>-90</item>
-        <item>0</item>
-        <item>180</item>
-    </string-array>
-
-    <string-array name="point_in_direction_strings">
-        <item>(90) right</item>
-        <item>(-90) left</item>
-        <item>(0) up</item>
-        <item>(180) down</item>
-    </string-array>
 
     <!-- Mindroid motors spinner -->
     <string-array name="nxt_motor_chooser">
-        <item>A</item>
-        <item>B</item>
-        <item>C</item>
-        <item>A+C</item>
+        <item>@string/nxt_motor_a</item>
+        <item>@string/nxt_motor_b</item>
+        <item>@string/nxt_motor_c</item>
+        <item>@string/nxt_motor_a_and_c</item>
     </string-array>
-
     <string-array name="nxt_stop_motor_chooser">
-        <item>A</item>
-        <item>B</item>
-        <item>C</item>
-        <item>A+C</item>
-        <item>All</item>
+        <item>@string/nxt_motor_a</item>
+        <item>@string/nxt_motor_b</item>
+        <item>@string/nxt_motor_c</item>
+        <item>@string/nxt_motor_a_and_c</item>
+        <item>@string/nxt_motor_all</item>
     </string-array>
 
-    <string-array name="fancy_directions_chooser">
-        <item>right (45°)</item>
-        <item>right (90°)</item>
-        <item>left  (45°)</item>
-        <item>left  (90°)</item>
-        <item>turn (180°)</item>
-        <item>spin (360°)</item>
-    </string-array>
-
-    <string-array name="yes_no_array">
-        <item>Yes</item>
-        <item>No</item>
-    </string-array>
-
+    <!-- Script Activity Spinner -->
     <string-array name="script_activity_spinner_items">
         <item>@string/scripts</item>
         <item>@string/category_looks</item>
         <item>@string/sounds</item>
     </string-array>
 
+    <!-- New Look Dialog -->
     <string-array name="new_look_chooser">
         <item>@string/add_look_from_camera</item>
         <item>@string/add_look_from_gallery</item>
