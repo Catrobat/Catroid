@@ -42,12 +42,12 @@ import android.util.Log;
 public class ServerCalls {
 	private final static String TAG = "ServerCalls";
 
-	private static final String REG_USER_NAME = "registrationUsername";
-	private static final String REG_USER_PASSWORD = "registrationPassword";
-	private static final String REG_USER_COUNTRY = "registrationCountry";
-	private static final String REG_USER_LANGUAGE = "registrationLanguage";
-	private static final String REG_USER_EMAIL = "registrationEmail";
-	private static final String LOGIN_USERNAME = "username";
+	private static final String REGISTRATION_USERNAME_KEY = "registrationUsername";
+	private static final String REGISTRATION_PASSWORD_KEY = "registrationPassword";
+	private static final String REGISTRATION_COUNTRY_KEY = "registrationCountry";
+	private static final String REGISTRATION_LANGUAGE_KEY = "registrationLanguage";
+	private static final String REGISTRATION_EMAIL_KEY = "registrationEmail";
+	private static final String LOGIN_USERNAME_KEY = "username";
 
 	private static final String FILE_UPLOAD_TAG = "upload";
 	private static final String PROJECT_NAME_TAG = "projectTitle";
@@ -66,7 +66,7 @@ public class ServerCalls {
 
 	private static final String FILE_UPLOAD_URL = BASE_URL_FTP;
 	private static final String CHECK_TOKEN_URL = BASE_URL_HTTPS + "api/checkToken/check.json";
-	public static final String REGISTRATION_URL = BASE_URL_HTTPS + "api/loginOrRegister/loginOrRegister.json";
+	private static final String REGISTRATION_URL = BASE_URL_HTTPS + "api/loginOrRegister/loginOrRegister.json";
 
 	public static final String BASE_URL_TEST_HTTP = "http://catroidtest.ist.tugraz.at/";
 	public static final String BASE_URL_TEST_FTP = "catroidtest.ist.tugraz.at";
@@ -188,7 +188,7 @@ public class ServerCalls {
 		try {
 			HashMap<String, String> postValues = new HashMap<String, String>();
 			postValues.put(Constants.TOKEN, token);
-			postValues.put(LOGIN_USERNAME, username);
+			postValues.put(LOGIN_USERNAME_KEY, username);
 
 			String serverUrl = useTestUrl ? TEST_CHECK_TOKEN_URL : CHECK_TOKEN_URL;
 
@@ -214,11 +214,6 @@ public class ServerCalls {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Exception");
 		}
-
-		catch (IOException e) {
-			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "IO-Exception");
-		}
 	}
 
 	public boolean registerOrCheckToken(String username, String password, String userEmail, String language,
@@ -228,18 +223,18 @@ public class ServerCalls {
 		}
 		try {
 			HashMap<String, String> postValues = new HashMap<String, String>();
-			postValues.put(REG_USER_NAME, username);
-			postValues.put(REG_USER_PASSWORD, password);
-			postValues.put(REG_USER_EMAIL, userEmail);
+			postValues.put(REGISTRATION_USERNAME_KEY, username);
+			postValues.put(REGISTRATION_PASSWORD_KEY, password);
+			postValues.put(REGISTRATION_EMAIL_KEY, userEmail);
 			if (token != Constants.NO_TOKEN) {
 				postValues.put(Constants.TOKEN, token);
 			}
 
 			if (country != null) {
-				postValues.put(REG_USER_COUNTRY, country);
+				postValues.put(REGISTRATION_COUNTRY_KEY, country);
 			}
 			if (language != null) {
-				postValues.put(REG_USER_LANGUAGE, language);
+				postValues.put(REGISTRATION_LANGUAGE_KEY, language);
 			}
 			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
 
@@ -281,9 +276,6 @@ public class ServerCalls {
 		} catch (JSONException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "IO-Error");
 		}
 	}
 }

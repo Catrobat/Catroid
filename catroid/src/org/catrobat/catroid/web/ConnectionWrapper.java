@@ -39,6 +39,7 @@ import android.os.ResultReceiver;
 import android.util.Log;
 
 import com.github.kevinsawicki.http.HttpRequest;
+import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
 
 public class ConnectionWrapper {
 
@@ -120,14 +121,17 @@ public class ConnectionWrapper {
 
 	private String sendUploadPost(String httpPostUrl, HashMap<String, String> postValues, String fileTag,
 			String filePath) throws IOException, WebconnectionException {
-
-		HttpRequest request = HttpRequest.post(httpPostUrl).form(postValues);
-
-		if (request.code() / 100 != 2) {
-			throw new WebconnectionException(request.code(), "Error response code should be 2xx!");
+		try {
+			HttpRequest request = HttpRequest.post(httpPostUrl).form(postValues);
+			if (!(request.code() == 200 || request.code() == 201)) {
+				throw new WebconnectionException(request.code(), "Error response code should be 200 or 201!");
+			}
+			return request.body();
+		} catch (HttpRequestException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
+					"Connection could not be established!");
 		}
-
-		return request.body();
 	}
 
 	void updateProgress(ResultReceiver receiver, long progress, boolean endOfFileReached, boolean unknown,
@@ -159,8 +163,14 @@ public class ConnectionWrapper {
 		request.form(postValues).acceptGzipEncoding().receive(file);
 	}
 
-	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws IOException {
-		return HttpRequest.post(urlString).form(postValues).body();
+	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws WebconnectionException {
+		try {
+			return HttpRequest.post(urlString).form(postValues).body();
+		} catch (HttpRequestException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
+					"Connection could not be established!");
+		}
 	}
 
 	/*
