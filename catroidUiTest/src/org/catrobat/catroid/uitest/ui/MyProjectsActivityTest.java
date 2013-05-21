@@ -398,15 +398,15 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		//create first cache test project and set it as current project 
 		Project firstCacheTestProject = new Project(getActivity(), "cachetestProject" + 0);
 		StorageHandler.getInstance().saveProject(firstCacheTestProject);
-		UiTestUtils.saveFileToProject(cacheProjectName + 0, "screenshot.png", IMAGE_RESOURCE_2, getInstrumentation()
-				.getContext(), UiTestUtils.FileTypes.ROOT);
+		UiTestUtils.saveFileToProject(cacheProjectName + 0, "StageListener.SCREENSHOT_MANUAL_FILE_NAME",
+				IMAGE_RESOURCE_2, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 		ProjectManager.getInstance().setProject(firstCacheTestProject);
 
 		for (int i = 1; i < numberOfCacheProjects; i++) {
 			solo.sleep(500);
 			StorageHandler.getInstance().saveProject(new Project(getActivity(), "cachetestProject" + i));
-			UiTestUtils.saveFileToProject(cacheProjectName + i, "screenshot.png", IMAGE_RESOURCE_2,
-					getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
+			UiTestUtils.saveFileToProject(cacheProjectName + i, "StageListener.SCREENSHOT_MANUAL_FILE_NAME",
+					IMAGE_RESOURCE_2, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 		}
 
 		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "before sleep");
@@ -448,11 +448,11 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			}
 		}
 
-		UiTestUtils.saveFileToProject(firstCacheProjectName, "screenshot.png", IMAGE_RESOURCE_2, getInstrumentation()
-				.getContext(), UiTestUtils.FileTypes.ROOT);
+		UiTestUtils.saveFileToProject(firstCacheProjectName, "StageListener.SCREENSHOT_MANUAL_FILE_NAME",
+				IMAGE_RESOURCE_2, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 		ProjectManager.getInstance().setProject(firstCacheTestProject);
-		UiTestUtils.saveFileToProject(secondCacheProjectName, "screenshot.png", IMAGE_RESOURCE_3, getInstrumentation()
-				.getContext(), UiTestUtils.FileTypes.ROOT);
+		UiTestUtils.saveFileToProject(secondCacheProjectName, "StageListener.SCREENSHOT_MANUAL_FILE_NAME",
+				IMAGE_RESOURCE_3, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 
 		//leave and reenter MyProjectsActivity 
 		solo.goBack();
@@ -1402,11 +1402,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		//-------------------------------------------------
 
-		UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "screenshot.png", IMAGE_RESOURCE_2,
-				getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
+		UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+				"StageListener.SCREENSHOT_MANUAL_FILE_NAME", IMAGE_RESOURCE_2, getInstrumentation().getContext(),
+				UiTestUtils.FileTypes.ROOT);
 
-		UiTestUtils.saveFileToProject(UiTestUtils.PROJECTNAME1, "screenshot.png", IMAGE_RESOURCE_3,
-				getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
+		UiTestUtils.saveFileToProject(UiTestUtils.PROJECTNAME1, "StageListener.SCREENSHOT_MANUAL_FILE_NAME",
+				IMAGE_RESOURCE_3, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 
 		solo.sleep(600);
 	}
@@ -1519,10 +1520,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createEmptyProject();
 
-		File imageFile1 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "screenshot.png",
-				IMAGE_RESOURCE_4, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
-		File imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "screenshot.png",
-				IMAGE_RESOURCE_5, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
+		File imageFile1 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+				"StageListener.SCREENSHOT_MANUAL_FILE_NAME", IMAGE_RESOURCE_4, getInstrumentation().getContext(),
+				UiTestUtils.FileTypes.IMAGE);
+		File imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+				"StageListener.SCREENSHOT_MANUAL_FILE_NAME", IMAGE_RESOURCE_5, getInstrumentation().getContext(),
+				UiTestUtils.FileTypes.IMAGE);
 
 		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
 

@@ -133,14 +133,6 @@ public class Project implements Serializable {
 		xmlHeader.setCatrobatLanguageVersion(catrobatLanguageVersion);
 	}
 
-	public boolean isManualScreenshot() {
-		return xmlHeader.isProgramScreenshotManuallyTaken();
-	}
-
-	public void setManualScreenshot(boolean manualScreenshot) {
-		xmlHeader.setProgramScreenshotManuallyTaken(manualScreenshot);
-	}
-
 	public void setDeviceData(Context context) {
 		// TODO add other header values
 		xmlHeader.setDeviceName(Build.MODEL);
