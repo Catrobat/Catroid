@@ -1,2 +1,0 @@
-create_on_use_flag=1
-rvm use ruby-1.9.3-head@catroid
