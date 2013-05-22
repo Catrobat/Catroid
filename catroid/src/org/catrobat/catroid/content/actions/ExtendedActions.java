@@ -218,10 +218,10 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static PointInDirectionAction pointInDirection(Sprite sprite, float degrees) {
+	public static PointInDirectionAction pointInDirection(Sprite sprite, Formula degrees) {
 		PointInDirectionAction action = action(PointInDirectionAction.class);
 		action.setSprite(sprite);
-		action.setDegrees(degrees);
+		action.setDegreesInUserInterfaceDimensionUnit(degrees);
 		return action;
 	}
 
@@ -290,7 +290,6 @@ public class ExtendedActions extends Actions {
 	public static SpeakAction speak(String text, SpeakBrick speakBrick) {
 		SpeakAction action = action(SpeakAction.class);
 		action.setText(text);
-		action.setSpeakBrick(speakBrick);
 		return action;
 	}
 

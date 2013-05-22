@@ -25,8 +25,16 @@
     package="org.catrobat.catroid"
     android:installLocation="auto"
     android:versionCode="2147483646"
-    android:versionName="0.7.0beta" >
-
+    android:versionName="0.7.2beta"
+    android:sharedUserId="org.catrobat" 
+    android:process="org.catrobat">
+	
+    <supports-screens 
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="false"/>
+    
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
@@ -62,12 +70,25 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
+                
                 <data
                     android:host="*"
                     android:pathPattern="@string/catroid_extension_pathPattern"
                     android:scheme="http" />
             </intent-filter>
+            
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                
+                <data
+                    android:host="*"
+                    android:pathPattern="@string/catroid_extension_pathPattern"
+                    android:scheme="https" />
+            </intent-filter>
+            
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -75,7 +96,7 @@
 
                 <data
                     android:host="*"
-                    android:mimeType="application/zip"
+                    android:mimeType="application/catrobat+zip"
                     android:pathPattern="@string/catroid_extension_pathPattern"
                     android:scheme="file" />
             </intent-filter>
@@ -101,23 +122,27 @@
         <activity
             android:name=".ui.ScriptActivity"
             android:theme="@style/Theme.Catroid"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.MyProjectsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Catroid" />
+            android:theme="@style/Theme.Catroid"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.SettingsActivity"
-            android:theme="@style/settings_activity" />
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Catroid" />
         <activity
             android:name=".bluetooth.DeviceListActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".soundrecorder.SoundRecorderActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
             android:label="@string/soundrecorder_name"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Catroid" >
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />

@@ -21,36 +21,36 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/program_menu_background_color"
     android:orientation="vertical" >
 
     <Button
         android:id="@+id/program_menu_button_scripts"
         style="@style/ProgramMenuButton"
-        android:drawableLeft="@drawable/program_menu_scripts"
-        android:drawableRight="@drawable/ic_media_play"
+        android:layout_marginTop="3dp"
+        android:drawableLeft="@drawable/ic_program_menu_scripts"
         android:onClick="handleScriptsButton"
         android:text="@string/scripts" />
 
     <Button
         android:id="@+id/program_menu_button_looks"
         style="@style/ProgramMenuButton"
-        android:drawableLeft="@drawable/program_menu_looks"
-        android:drawableRight="@drawable/ic_media_play"
+        android:layout_below="@id/program_menu_button_scripts"
+        android:drawableLeft="@drawable/ic_program_menu_looks"
         android:onClick="handleLooksButton"
         android:text="@string/looks" />
 
     <Button
         android:id="@+id/program_menu_button_sounds"
         style="@style/ProgramMenuButton"
-        android:drawableLeft="@drawable/program_menu_sounds"
-        android:drawableRight="@drawable/ic_media_play"
+        android:layout_below="@id/program_menu_button_looks"
+        android:drawableLeft="@drawable/ic_program_menu_sounds"
         android:onClick="handleSoundsButton"
         android:text="@string/sounds" />
 
     <include layout="@layout/bottom_bar" />
 
-</LinearLayout>
+</RelativeLayout>

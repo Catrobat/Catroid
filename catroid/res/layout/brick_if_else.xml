@@ -24,11 +24,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/brick_yellow"
+    android:gravity="center_vertical"
     android:orientation="horizontal" >
 
-    <TextView
-        style="@style/BrickText"
-        android:text="@string/brick_if_else" />
+    <CheckBox
+        android:id="@+id/brick_if_else_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
 
+    <LinearLayout
+        android:id="@+id/brick_if_else_layout"
+        style="@style/BrickContainer.Control.Small" >
+
+        <TextView
+            android:id="@+id/brick_if_else_label"
+            style="@style/BrickText"
+            android:text="@string/brick_if_else" />
+    </LinearLayout>
 </LinearLayout>

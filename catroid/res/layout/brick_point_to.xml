@@ -21,20 +21,37 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Motion.Medium"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_point_to" />
-
-    <Spinner
-        android:id="@+id/brick_point_to_spinner"
-        android:layout_width="match_parent"
+    <CheckBox
+        android:id="@+id/brick_point_to_checkbox"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="false"
-        android:focusable="false" />
+        android:gravity="center_vertical"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/brick_point_to_layout"
+        style="@style/BrickContainer.Motion.Medium"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/brick_point_to_label"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_point_to" />
+
+        <Spinner
+            android:id="@+id/brick_point_to_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false" />
+    </LinearLayout>
 
 </LinearLayout>

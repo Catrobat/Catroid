@@ -25,38 +25,43 @@ package org.catrobat.catroid.content.bricks;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class LegoNxtMotorActionBrick implements Brick, OnClickListener {
+public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
+	private transient AdapterView<?> adapterView;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
 	}
 
-	private Sprite sprite;
 	private String motor;
 	private transient Motor motorEnum;
 	private transient EditText editSpeed;
-
 	private Formula speed;
 
 	protected Object readResolve() {
@@ -88,8 +93,10 @@ public class LegoNxtMotorActionBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		LegoNxtMotorActionBrick copyBrick = (LegoNxtMotorActionBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override
@@ -97,7 +104,17 @@ public class LegoNxtMotorActionBrick implements Brick, OnClickListener {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.motor_action_speed_text_view);
 		textSpeed.setText(String.valueOf(speed.interpretInteger(sprite)));
-		//TODO set the spinner Value to A
+
+		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_action_spinner);
+		legoSpinner.setFocusableInTouchMode(false);
+		legoSpinner.setFocusable(false);
+
+		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
+				android.R.layout.simple_spinner_item);
+		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		legoSpinner.setAdapter(motorAdapter);
+		legoSpinner.setSelection(motorEnum.ordinal());
 		return prototypeView;
 	}
 
@@ -107,14 +124,31 @@ public class LegoNxtMotorActionBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 
-		View brickView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
+		view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
+		view = getViewWithAlpha(alphaValue);
+		setCheckboxView(R.id.brick_nxt_motor_action_checkbox);
 
-		TextView textSpeed = (TextView) brickView.findViewById(R.id.motor_action_speed_text_view);
-		editSpeed = (EditText) brickView.findViewById(R.id.motor_action_speed_edit_text);
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
+
+		TextView textSpeed = (TextView) view.findViewById(R.id.motor_action_speed_text_view);
+		editSpeed = (EditText) view.findViewById(R.id.motor_action_speed_edit_text);
 		speed.setTextFieldId(R.id.motor_action_speed_edit_text);
-		speed.refreshTextField(brickView);
+		speed.refreshTextField(view);
 
 		textSpeed.setVisibility(View.GONE);
 		editSpeed.setVisibility(View.VISIBLE);
@@ -124,9 +158,16 @@ public class LegoNxtMotorActionBrick implements Brick, OnClickListener {
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
 				android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.motor_spinner);
-		motorSpinner.setClickable(true);
-		motorSpinner.setEnabled(true);
+		Spinner motorSpinner = (Spinner) view.findViewById(R.id.lego_motor_action_spinner);
+
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+			motorSpinner.setClickable(true);
+			motorSpinner.setEnabled(true);
+		} else {
+			motorSpinner.setClickable(false);
+			motorSpinner.setEnabled(false);
+		}
+
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -134,6 +175,7 @@ public class LegoNxtMotorActionBrick implements Brick, OnClickListener {
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				motorEnum = Motor.values()[position];
 				motor = motorEnum.name();
+				adapterView = arg0;
 			}
 
 			@Override
@@ -146,12 +188,45 @@ public class LegoNxtMotorActionBrick implements Brick, OnClickListener {
 
 		motorSpinner.setSelection(motorEnum.ordinal());
 
-		return brickView;
+		return view;
 	}
 
 	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
 		FormulaEditorFragment.showFragment(view, this, speed);
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_nxt_motor_action_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+
+		TextView textLegoMotorActionLabel = (TextView) view.findViewById(R.id.lego_motor_action_label);
+		TextView textLegoMotorActionSpeed = (TextView) view.findViewById(R.id.lego_motor_action_speed);
+		TextView textLegoMotorActionPercent = (TextView) view.findViewById(R.id.lego_motor_action_percent);
+		TextView textLegoMotorActionLabelSpeedView = (TextView) view.findViewById(R.id.motor_action_speed_text_view);
+		EditText editSpeed = (EditText) view.findViewById(R.id.motor_action_speed_edit_text);
+
+		textLegoMotorActionLabel.setTextColor(textLegoMotorActionLabel.getTextColors().withAlpha(alphaValue));
+		textLegoMotorActionSpeed.setTextColor(textLegoMotorActionSpeed.getTextColors().withAlpha(alphaValue));
+		textLegoMotorActionPercent.setTextColor(textLegoMotorActionPercent.getTextColors().withAlpha(alphaValue));
+		textLegoMotorActionLabelSpeedView.setTextColor(textLegoMotorActionLabelSpeedView.getTextColors().withAlpha(
+				alphaValue));
+		Spinner motorSpinner = (Spinner) view.findViewById(R.id.lego_motor_action_spinner);
+		ColorStateList color = textLegoMotorActionLabelSpeedView.getTextColors().withAlpha(alphaValue);
+		motorSpinner.getBackground().setAlpha(alphaValue);
+		if (adapterView != null) {
+			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+		}
+		editSpeed.setTextColor(editSpeed.getTextColors().withAlpha(alphaValue));
+		editSpeed.getBackground().setAlpha(alphaValue);
+
+		this.alphaValue = (alphaValue);
+		return view;
 	}
 
 	@Override

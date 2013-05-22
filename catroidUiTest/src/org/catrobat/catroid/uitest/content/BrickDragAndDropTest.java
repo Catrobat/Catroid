@@ -29,9 +29,9 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -108,7 +108,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		assertTrue("Second brick should be instance of StopAllSoundsBrick",
 				brickListToCheck.get(1) instanceof StopAllSoundsBrick);
 
-		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
+		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
 		solo.clickOnScreen(200, 200);
 
 		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
@@ -135,7 +135,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnText(scriptsName);
 		solo.sleep(400);
 
-		assertTrue("Last Brick should now be BroadcastBrick", adapter.getItem(3) instanceof BroadcastBrick);
+		assertTrue("Last Brick should now be WaitBrick", adapter.getItem(3) instanceof WaitBrick);
 	}
 
 	public void testAddNewBrickFromAnotherCategory() {
@@ -143,7 +143,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(solo.getString(categoryStringId));
-		solo.clickOnImageButton(0);
+		solo.goBack();
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_stop_all_sounds);
 		solo.clickOnText(solo.getString(categoryStringId));
 		solo.clickOnText(solo.getString(R.string.brick_stop_all_sounds));

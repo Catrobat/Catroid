@@ -27,7 +27,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 
@@ -41,7 +40,8 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class SpriteAdapter extends ArrayAdapter<Sprite> {
@@ -57,7 +57,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		super(context, resource, textViewResourceId, objects);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.context = context;
-		selectMode = Constants.SELECT_NONE;
+		selectMode = ListView.CHOICE_MODE_NONE;
 		showDetails = false;
 	}
 
@@ -66,14 +66,18 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 	}
 
 	private static class ViewHolder {
+		private RelativeLayout background;
 		private CheckBox checkbox;
 		private TextView text;
+		private LinearLayout backgroundHeadline;
+		private LinearLayout objectsHeadline;
 		private ImageView image;
-		private View divider;
 		private TextView scripts;
 		private TextView bricks;
 		private TextView looks;
 		private TextView sounds;
+		private View details;
+		private ImageView arrow;
 	}
 
 	public int getAmountOfCheckedSprites() {
@@ -82,6 +86,10 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 
 	public Set<Integer> getCheckedSprites() {
 		return checkedSprites;
+	}
+
+	public void addCheckedSprite(int position) {
+		checkedSprites.add(position);
 	}
 
 	public void clearCheckedSprites() {
@@ -111,14 +119,18 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		if (convertView == null) {
 			spriteView = inflater.inflate(R.layout.activity_project_spritelist_item, null);
 			holder = new ViewHolder();
+			holder.background = (RelativeLayout) spriteView.findViewById(R.id.spritelist_item_background);
 			holder.checkbox = (CheckBox) spriteView.findViewById(R.id.sprite_checkbox);
-			holder.text = (TextView) spriteView.findViewById(R.id.sprite_title);
+			holder.text = (TextView) spriteView.findViewById(R.id.project_activity_sprite_title);
+			holder.backgroundHeadline = (LinearLayout) spriteView.findViewById(R.id.spritelist_background_headline);
+			holder.objectsHeadline = (LinearLayout) spriteView.findViewById(R.id.spritelist_objects_headline);
 			holder.image = (ImageView) spriteView.findViewById(R.id.sprite_img);
-			holder.divider = spriteView.findViewById(R.id.sprite_divider);
 			holder.scripts = (TextView) spriteView.findViewById(R.id.textView_number_of_scripts);
 			holder.bricks = (TextView) spriteView.findViewById(R.id.textView_number_of_bricks);
 			holder.looks = (TextView) spriteView.findViewById(R.id.textView_number_of_looks);
 			holder.sounds = (TextView) spriteView.findViewById(R.id.textView_number_of_sounds);
+			holder.details = spriteView.findViewById(R.id.project_activity_sprite_details);
+			holder.arrow = (ImageView) spriteView.findViewById(R.id.arrow_right);
 			spriteView.setTag(holder);
 		} else {
 			holder = (ViewHolder) spriteView.getTag();
@@ -129,7 +141,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
-					if (selectMode == Constants.SINGLE_SELECT) {
+					if (selectMode == ListView.CHOICE_MODE_SINGLE) {
 						clearCheckedSprites();
 					}
 					checkedSprites.add(position);
@@ -177,35 +189,37 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 				+ sprite.getSoundList().size());
 
 		if (!showDetails) {
-			holder.scripts.setVisibility(View.GONE);
-			holder.bricks.setVisibility(View.GONE);
-			holder.looks.setVisibility(View.GONE);
-			holder.sounds.setVisibility(View.GONE);
+			holder.details.setVisibility(View.GONE);
 		} else {
-			holder.scripts.setVisibility(View.VISIBLE);
-			holder.bricks.setVisibility(View.VISIBLE);
-			holder.looks.setVisibility(View.VISIBLE);
-			holder.sounds.setVisibility(View.VISIBLE);
+			holder.details.setVisibility(View.VISIBLE);
 		}
 
 		if (position == 0) {
-			holder.divider.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 4));
-			// normally a color would be enough in this case(R.color.gray)
-			// but when I tested the color value, I did not get the correct color - the gray was slightly different
-			// should be #808080 for gray - but always was #848284
-			// with a shape gradient, I get the correct color in the testcase
-			holder.divider.setBackgroundResource(R.color.divider_background);
+			holder.backgroundHeadline.setVisibility(View.VISIBLE);
+			holder.objectsHeadline.setVisibility(View.VISIBLE);
 			holder.checkbox.setVisibility(View.GONE);
-		} else {
-			holder.divider.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 2));
-			holder.divider.setBackgroundResource(R.color.divider);
-			if (selectMode != Constants.SELECT_NONE) {
-				holder.checkbox.setVisibility(View.VISIBLE);
+			holder.arrow.setVisibility(View.VISIBLE);
+			if (selectMode == ListView.CHOICE_MODE_NONE) {
+				holder.background.setBackgroundResource(R.drawable.button_background_selector);
 			} else {
+				holder.arrow.setVisibility(View.GONE);
+				holder.background.setBackgroundResource(R.drawable.button_background);
+			}
+
+		} else {
+			if (selectMode != ListView.CHOICE_MODE_NONE) {
+				holder.checkbox.setVisibility(View.VISIBLE);
+				holder.arrow.setVisibility(View.GONE);
+				holder.background.setBackgroundResource(R.drawable.button_background_shadowed);
+			} else {
+				holder.background.setBackgroundResource(R.drawable.button_background_selector);
 				holder.checkbox.setVisibility(View.GONE);
+				holder.arrow.setVisibility(View.VISIBLE);
 				holder.checkbox.setChecked(false);
 				clearCheckedSprites();
 			}
+			holder.backgroundHeadline.setVisibility(View.GONE);
+			holder.objectsHeadline.setVisibility(View.GONE);
 		}
 		return spriteView;
 	}

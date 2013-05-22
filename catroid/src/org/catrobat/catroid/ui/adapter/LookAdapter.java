@@ -28,7 +28,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.utils.UtilFile;
 
@@ -42,6 +41,8 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivityAdapterInterface {
@@ -60,7 +61,7 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 		this.context = context;
 		this.showDetails = showDetails;
 		this.lookDataItems = items;
-		this.selectMode = Constants.SELECT_NONE;
+		this.selectMode = ListView.CHOICE_MODE_NONE;
 	}
 
 	public void setOnLookEditListener(OnLookEditListener listener) {
@@ -73,7 +74,10 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 		private TextView lookNameTextView;
 		private LinearLayout lookDetailsLinearLayout;
 		private TextView lookFileSizeTextView;
-		private TextView lookResolutionTextView;
+		private TextView lookMeasureTextView;
+		private ImageView lookArrowView;
+		private RelativeLayout lookElement;
+
 	}
 
 	@Override
@@ -86,14 +90,17 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 
 			holder = new ViewHolder();
 
-			holder.lookImageView = (ImageView) convertView.findViewById(R.id.look_image);
-			holder.checkbox = (CheckBox) convertView.findViewById(R.id.look_checkbox);
-			holder.lookNameTextView = (TextView) convertView.findViewById(R.id.look_name);
-			holder.lookDetailsLinearLayout = (LinearLayout) convertView.findViewById(R.id.look_details);
-			holder.lookFileSizeTextView = (TextView) holder.lookDetailsLinearLayout.findViewById(R.id.look_size);
-			holder.lookResolutionTextView = (TextView) holder.lookDetailsLinearLayout
-					.findViewById(R.id.look_resolution);
-
+			holder.lookImageView = (ImageView) convertView.findViewById(R.id.fragment_look_item_image_view);
+			holder.checkbox = (CheckBox) convertView.findViewById(R.id.fragment_look_item_checkbox);
+			holder.lookNameTextView = (TextView) convertView.findViewById(R.id.fragment_look_item_name_text_view);
+			holder.lookDetailsLinearLayout = (LinearLayout) convertView
+					.findViewById(R.id.fragment_look_item_detail_linear_layout);
+			holder.lookFileSizeTextView = (TextView) holder.lookDetailsLinearLayout
+					.findViewById(R.id.fragment_look_item_size_text_view);
+			holder.lookMeasureTextView = (TextView) holder.lookDetailsLinearLayout
+					.findViewById(R.id.fragment_look_item_measure_text_view);
+			holder.lookArrowView = (ImageView) convertView.findViewById(R.id.fragment_look_item_arrow_image_view);
+			holder.lookElement = (RelativeLayout) convertView.findViewById(R.id.fragment_look_item_relative_layout);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -103,7 +110,7 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 
 		if (lookData != null) {
 			holder.lookNameTextView.setTag(position);
-			holder.lookImageView.setTag(position);
+			holder.lookElement.setTag(position);
 
 			holder.lookImageView.setImageBitmap(lookData.getThumbnailBitmap());
 			holder.lookNameTextView.setText(lookData.getLookName());
@@ -112,7 +119,7 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					if (isChecked) {
-						if (selectMode == Constants.SINGLE_SELECT) {
+						if (selectMode == ListView.CHOICE_MODE_SINGLE) {
 							clearCheckedItems();
 						}
 						checkedLooks.add(position);
@@ -129,12 +136,18 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 
 			boolean checkboxIsVisible = false;
 
-			if (selectMode != Constants.SELECT_NONE) {
+			if (selectMode != ListView.CHOICE_MODE_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
+				holder.lookArrowView.setVisibility(View.GONE);
+				holder.lookElement.setBackgroundResource(R.drawable.button_background_shadowed);
+				holder.lookElement.setClickable(false);
 				checkboxIsVisible = true;
 			} else {
 				holder.checkbox.setVisibility(View.GONE);
 				holder.checkbox.setChecked(false);
+				holder.lookArrowView.setVisibility(View.VISIBLE);
+				holder.lookElement.setBackgroundResource(R.drawable.button_background_selector);
+				holder.lookElement.setClickable(true);
 				clearCheckedItems();
 			}
 
@@ -146,17 +159,12 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 
 			if (showDetails) {
 				if (lookData.getAbsolutePath() != null) {
-					holder.lookFileSizeTextView.setText(getContext().getString(R.string.size) + " "
-							+ UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
+					holder.lookFileSizeTextView.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
 				}
-				int[] resolution = lookData.getResolution();
-				String resolutionString = resolution[0] + " x " + resolution[1];
+				int[] measure = lookData.getMeasure();
+				String measureString = measure[0] + " x " + measure[1];
 
-				// Shorter string on active ActionMode
-				if (!checkboxIsVisible) {
-					resolutionString = getContext().getString(R.string.look_resolution) + " " + resolutionString;
-				}
-				holder.lookResolutionTextView.setText(resolutionString);
+				holder.lookMeasureTextView.setText(measureString);
 				holder.lookDetailsLinearLayout.setVisibility(TextView.VISIBLE);
 			} else {
 				holder.lookDetailsLinearLayout.setVisibility(TextView.GONE);
@@ -168,15 +176,18 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 			} else {
 				holder.lookImageView.setEnabled(true);
 			}
-
-			holder.lookImageView.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (onLookEditListener != null) {
-						onLookEditListener.onLookEdit(v);
+			if (holder.lookElement.isClickable()) {
+				holder.lookElement.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if (onLookEditListener != null) {
+							onLookEditListener.onLookEdit(v);
+						}
 					}
-				}
-			});
+				});
+			} else {
+				holder.lookElement.setOnClickListener(null);
+			}
 		}
 		return convertView;
 	}

@@ -21,28 +21,45 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Control.Small" >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_wait" >
-    </TextView>
+    <CheckBox
+        android:id="@+id/brick_wait_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/brick_wait_prototype_text_view"
-        style="@style/BrickPrototypeTextView" >
-    </TextView>
+    <LinearLayout
+        android:id="@+id/brick_wait_layout"
+        style="@style/BrickContainer.Control.Small" >
 
-    <EditText
-        android:id="@+id/brick_wait_edit_text"
-        style="@style/BrickEditText"
-        android:inputType="number|numberDecimal" >
-    </EditText>
+        <TextView
+            android:id="@+id/brick_wait_label"
+            style="@style/BrickText.Multiple"
+            android:text="@string/brick_wait" >
+        </TextView>
 
-    <TextView
-        android:id="@+id/brick_wait_second_text_view"
-        style="@style/BrickText.SingleLine" >
-    </TextView>
+        <TextView
+            android:id="@+id/brick_wait_prototype_text_view"
+            style="@style/BrickPrototypeTextView" 
+        />
+
+        <EditText
+            android:id="@+id/brick_wait_edit_text"
+            style="@style/BrickEditTextMultiple"
+            android:inputType="number|numberDecimal" >
+        </EditText>
+
+        <TextView
+            android:id="@+id/brick_wait_second_text_view"
+            style="@style/BrickText.Multiple" >
+        </TextView>
+    </LinearLayout>
 
 </LinearLayout>

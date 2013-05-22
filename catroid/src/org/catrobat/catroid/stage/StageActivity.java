@@ -35,6 +35,7 @@ import android.view.WindowManager;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 
 public class StageActivity extends AndroidApplication {
+	public static final String TAG = StageActivity.class.getSimpleName();
 
 	public static StageListener stageListener;
 	private boolean resizePossible;
@@ -52,6 +53,9 @@ public class StageActivity extends AndroidApplication {
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 		initialize(stageListener, true);
+		if (ProjectManager.getInstance().getCurrentProject().isManualScreenshot()) {
+			stageListener.setMakeAutomaticScreenshot(false);
+		}
 	}
 
 	@Override
@@ -61,7 +65,6 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	public void manageLoadAndFinish() {
-		finish();
 		stageListener.pause();
 		stageListener.finish();
 

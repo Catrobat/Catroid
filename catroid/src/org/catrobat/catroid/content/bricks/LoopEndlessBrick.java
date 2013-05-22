@@ -22,17 +22,24 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
+	private transient boolean isPuzzleView = true;
 
 	public LoopEndlessBrick() {
 
@@ -43,9 +50,46 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_loop_endless, null);
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
+		if (view == null || !isPuzzleView) {
+			isPuzzleView = true;
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			view = inflater.inflate(R.layout.brick_loop_endless, null);
+			view = getViewWithAlpha(alphaValue);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_checkbox);
+
+			final Brick brickInstance = this;
+
+			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					checked = isChecked;
+					adapter.handleCheck(brickInstance, isChecked);
+				}
+			});
+		}
+		return view;
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = null;
+		if (isPuzzleView) {
+			layout = (LinearLayout) view.findViewById(R.id.brick_loop_endless_layout);
+			TextView endlessLabel = (TextView) view.findViewById(R.id.brick_loop_endless_label);
+			endlessLabel.setTextColor(endlessLabel.getTextColors().withAlpha(alphaValue));
+		} else {
+			layout = (LinearLayout) view.findViewById(R.id.brick_loop_endless_nopuzzle_layout);
+			TextView endlessLabel = (TextView) view.findViewById(R.id.brick_loop_endless_nopuzzle_label);
+			endlessLabel.setTextColor(endlessLabel.getTextColors().withAlpha(alphaValue));
+		}
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
 	}
 
 	@Override
@@ -54,8 +98,24 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 	}
 
 	@Override
-	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_loop_endless_no_puzzle, null);
+	public View getNoPuzzleView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (view == null || isPuzzleView) {
+			isPuzzleView = false;
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			view = inflater.inflate(R.layout.brick_loop_endless_no_puzzle, null);
+			view = getViewWithAlpha(alphaValue);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_no_puzzle_checkbox);
+
+			final Brick brickInstance = this;
+
+			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					checked = isChecked;
+					adapter.handleCheck(brickInstance, isChecked);
+				}
+			});
+		}
+		return view;
 	}
 }

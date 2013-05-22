@@ -31,6 +31,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -44,6 +45,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.XmlHeader;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
@@ -96,6 +98,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
@@ -117,12 +120,14 @@ public class StorageHandler {
 	private static StorageHandler instance;
 	private XStream xstream;
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
+	private ReentrantLock saveLoadLock = new ReentrantLock();
 
 	private StorageHandler() throws IOException {
 
 		xstream = new XStream(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
 		xstream.processAnnotations(XmlHeader.class);
+		xstream.processAnnotations(UserVariablesContainer.class);
 		setXstreamAliases();
 
 		if (!Utils.externalStorageAvailable()) {
@@ -138,9 +143,11 @@ public class StorageHandler {
 
 		xstream.alias("broadcastScript", BroadcastScript.class);
 		xstream.alias("script", Script.class);
-		xstream.alias("sprite", Sprite.class);
+		xstream.alias("object", Sprite.class);
 		xstream.alias("startScript", StartScript.class);
 		xstream.alias("whenScript", WhenScript.class);
+
+		xstream.aliasField("object", BrickBaseType.class, "sprite");
 
 		xstream.alias("broadcastBrick", BroadcastBrick.class);
 		xstream.alias("broadcastReceiverBrick", BroadcastReceiverBrick.class);
@@ -215,6 +222,7 @@ public class StorageHandler {
 	}
 
 	public Project loadProject(String projectName) {
+		saveLoadLock.lock();
 		createCatroidRoot();
 		try {
 			File projectDirectory = new File(Utils.buildProjectPath(projectName));
@@ -223,20 +231,25 @@ public class StorageHandler {
 				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
 						Constants.PROJECTCODE_NAME));
 				Project returned = (Project) xstream.fromXML(projectFileStream);
+				saveLoadLock.unlock();
 				return returned;
 			} else {
+				saveLoadLock.unlock();
 				return null;
 			}
 
 		} catch (Exception e) {
 			Log.e("CATROID", "Cannot load project.", e);
+			saveLoadLock.unlock();
 			return null;
 		}
 	}
 
 	public boolean saveProject(Project project) {
+		saveLoadLock.lock();
 		createCatroidRoot();
 		if (project == null) {
+			saveLoadLock.unlock();
 			return false;
 		}
 
@@ -269,10 +282,12 @@ public class StorageHandler {
 			writer.write(XML_HEADER.concat(projectFile));
 			writer.flush();
 			writer.close();
+			saveLoadLock.unlock();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.e(TAG, "saveProject threw an exception and failed.");
+			saveLoadLock.unlock();
 			return false;
 		}
 	}
@@ -368,6 +383,12 @@ public class StorageHandler {
 		}
 	}
 
+	public File duplicateImage(String currentProjectName, String imageName) throws IOException {
+		File imageDirectory = new File(Utils.buildPath(Utils.buildProjectPath(currentProjectName),
+				Constants.IMAGE_DIRECTORY));
+		return copyImage(currentProjectName, Utils.buildPath(imageDirectory.getAbsolutePath(), imageName), null);
+	}
+
 	private File copyAndResizeImage(File outputFile, File inputFile, File imageDirectory) throws IOException {
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(inputFile.getAbsolutePath(),
@@ -440,6 +461,10 @@ public class StorageHandler {
 				container.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 			}
 		}
+	}
+
+	public String getXMLStringOfAProject(Project project) {
+		return xstream.toXML(project);
 	}
 
 	private File copyFileAddCheckSum(File destinationFile, File sourceFile, File directory) throws IOException {

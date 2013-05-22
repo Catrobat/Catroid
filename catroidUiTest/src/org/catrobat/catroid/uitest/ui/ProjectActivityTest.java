@@ -22,25 +22,50 @@
  */
 package org.catrobat.catroid.uitest.ui;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.LoopBeginBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
+import org.catrobat.catroid.content.bricks.SetXBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.InternToken;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -77,6 +102,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void setUp() throws Exception {
 		super.setUp();
 
+		UiTestUtils.prepareStageForTest();
+
 		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
 
@@ -101,6 +128,127 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 		solo = null;
+	}
+
+	public void testCopySpriteWithUserVariables() {
+		Project project = new Project(null, "testProject");
+
+		Sprite firstSprite = new Sprite("firstSprite");
+		Sprite secondSprite = new Sprite("Pocket Code");
+		project.addSprite(firstSprite);
+		project.addSprite(secondSprite);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(secondSprite);
+
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().addSpriteUserVariable("p");
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().addSpriteUserVariable("q");
+
+		Double setVariable1ToValue = Double.valueOf(3d);
+		Double setVariable2ToValue = Double.valueOf(8d);
+
+		SetVariableBrick setVariableBrick1 = new SetVariableBrick(secondSprite, new Formula(setVariable1ToValue),
+				ProjectManager.getInstance().getCurrentProject().getUserVariables().getUserVariable("p", secondSprite));
+
+		SetVariableBrick setVariableBrick2 = new SetVariableBrick(secondSprite, new Formula(setVariable2ToValue),
+				ProjectManager.getInstance().getCurrentProject().getUserVariables().getUserVariable("q", secondSprite));
+
+		Script startScript1 = new StartScript(secondSprite);
+		secondSprite.addScript(startScript1);
+		startScript1.addBrick(setVariableBrick1);
+		startScript1.addBrick(setVariableBrick2);
+
+		solo.clickOnButton(0);
+
+		solo.sleep(200);
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
+		solo.sleep(200);
+		assertEquals("Copy is not in context menu!", true, solo.searchText(getActivity().getString(R.string.copy)));
+		solo.clickOnText(getActivity().getString(R.string.copy));
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
+		Sprite copiedSprite = project.getSpriteList().get(2);
+		ProjectManager.getInstance().setCurrentSprite(copiedSprite);
+
+		double q = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable("q", copiedSprite).getValue();
+
+		double p = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable("p", copiedSprite).getValue();
+
+		Log.e("CATROID", "q hat den Wert: " + q);
+		Log.e("CATROID", "p hat den Wert: " + p);
+
+		assertEquals("The local uservariable q does not exist after copying the sprite!", 0.0, q);
+		assertEquals("The local uservariable p does not exist after copying the sprite!", 0.0, p);
+	}
+
+	public void testCopySpriteWithNameTaken() {
+		try {
+			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("Standard Project not created");
+		}
+
+		Sprite sprite = new Sprite(solo.getString(R.string.default_project_sprites_pocketcode_name)
+				+ solo.getString(R.string.copy_sprite_name_suffix));
+
+		ProjectManager.getInstance().getCurrentProject().addSprite(sprite);
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
+		solo.sleep(200);
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.copy));
+		solo.sleep(1000);
+
+		assertTrue(
+				"Copied Sprite name should have 1 as suffix!",
+				solo.searchText((solo.getString(R.string.default_project_sprites_pocketcode_name)
+						+ solo.getString(R.string.copy_sprite_name_suffix) + "1")));
+	}
+
+	public void testCopySprite() {
+		UiTestUtils.createProjectForCopySprite(UiTestUtils.PROJECTNAME1, getActivity());
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		UiTestUtils.clickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
+		solo.sleep(200);
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
+		solo.sleep(200);
+		assertEquals("Copy is not in context menu!", true, solo.searchText(getActivity().getString(R.string.copy)));
+		solo.clickOnText(getActivity().getString(R.string.copy));
+		solo.sleep(1000);
+
+		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
+		Sprite copiedSprite = ((Sprite) spritesList.getItemAtPosition(3));
+		Sprite firstSprite = ((Sprite) spritesList.getItemAtPosition(1));
+
+		checkNumberOfElements(firstSprite, copiedSprite);
+		checkSpecialBricks(firstSprite, copiedSprite);
+
+		int brickCounter = checkIds(firstSprite, copiedSprite);
+
+		solo.goBack();
+		solo.sleep(500);
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
+		solo.clickOnText(getActivity().getString(R.string.delete));
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
+		solo.sleep(500);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(500);
+		solo.clickOnText(solo.getString(R.string.default_project_sprites_pocketcode_name)
+				+ solo.getString(R.string.copy_sprite_name_suffix));
+		solo.sleep(500);
+
+		assertEquals("The number of Bricks differs!", ProjectManager.getInstance().getCurrentSprite().getScript(0)
+				.getBrickList().size(), brickCounter);
 	}
 
 	public void testBackgroundSprite() {
@@ -220,6 +368,10 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		int expectedNumberOfSpritesAfterDelete = spriteList.size() - 1;
 		clickOnContextMenuItem(spriteToDelete, delete);
 
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
+
 		// Dialog is handled asynchronously, so we need to wait a while for it to finish
 		solo.sleep(300);
 		spriteList = projectManager.getCurrentProject().getSpriteList();
@@ -232,6 +384,28 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		Sprite notDeletedSprite = spriteList.get(1);
 		assertEquals("Subsequent sprite was not moved up after predecessor's deletion", SECOND_TEST_SPRITE_NAME,
 				notDeletedSprite.getName());
+	}
+
+	public void testChooseNoOnDeleteQuestion() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		final String spriteToDelete = FIRST_TEST_SPRITE_NAME;
+
+		// Delete sprite
+		int expectedNumberOfSprites = spriteList.size();
+		clickOnContextMenuItem(spriteToDelete, delete);
+
+		String no = solo.getString(R.string.no);
+		solo.waitForText(no);
+		solo.clickOnText(no);
+
+		solo.sleep(300);
+		spriteList = projectManager.getCurrentProject().getSpriteList();
+
+		assertEquals("Size of sprite list has changed!", expectedNumberOfSprites, spriteList.size());
+
+		assertTrue("Sprite is not showing in sprite list!", solo.searchText(spriteToDelete));
+		assertTrue("Sprite is no in Project!", projectManager.spriteExists(spriteToDelete));
 	}
 
 	public void testMainMenuButton() {
@@ -359,44 +533,45 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("not in NewSpriteDialog", solo.searchText(dialogRenameSpriteText));
 	}
 
-	public void testDivider() {
+	public void testHeadlinesInList() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-
 		ListView listView = solo.getCurrentListViews().get(0);
 
-		assertTrue("ListView divider should be null", listView.getDivider() == null);
-		assertTrue("Listview dividerheight should be 0", listView.getDividerHeight() == 0);
+		View listItemView = listView.getAdapter().getView(0, null, null);
 
-		int currentViewID;
-		int pixelColor;
-		int colorDivider;
+		View backgroundHeadline = listItemView.findViewById(R.id.spritelist_background_headline);
 
-		Bitmap viewBitmap;
-		boolean isBackground = true;
+		assertEquals("Background headline should be visible above background sprite!",
+				backgroundHeadline.getVisibility(), View.VISIBLE);
 
-		for (View viewToTest : solo.getCurrentViews()) {
-			currentViewID = viewToTest.getId();
+		View objectsHeadline = listItemView.findViewById(R.id.spritelist_objects_headline);
 
-			if (currentViewID == R.id.sprite_divider) {
-				viewToTest.buildDrawingCache();
-				viewBitmap = viewToTest.getDrawingCache();
+		assertEquals("Objects headline should be visible under background sprite!", objectsHeadline.getVisibility(),
+				View.VISIBLE);
 
-				if (isBackground) {
-					pixelColor = viewBitmap.getPixel(1, 3);
-					viewToTest.destroyDrawingCache();
-					assertTrue("Background divider should have 4px height", viewToTest.getHeight() == 4);
-					colorDivider = solo.getCurrentActivity().getResources().getColor(R.color.gray);
-					assertEquals("Divider color for background should be gray", pixelColor, colorDivider);
-					isBackground = false;
-				} else {
-					pixelColor = viewBitmap.getPixel(1, 1);
-					viewToTest.destroyDrawingCache();
-					assertTrue("Normal Sprite divider should have 2px height", viewToTest.getHeight() == 2);
-					colorDivider = solo.getCurrentActivity().getResources().getColor(R.color.egg_yellow);
-					assertEquals("Divider color for normal sprite should be eggyellow", pixelColor, colorDivider);
-				}
-			}
-		}
+		listItemView = listView.getAdapter().getView(1, null, null);
+
+		backgroundHeadline = listItemView.findViewById(R.id.spritelist_background_headline);
+
+		assertEquals("Background headline should not be visible for sprite " + FIRST_TEST_SPRITE_NAME + "!",
+				backgroundHeadline.getVisibility(), View.GONE);
+
+		objectsHeadline = listItemView.findViewById(R.id.spritelist_objects_headline);
+
+		assertEquals("Objects headline should not be visible for sprite " + FIRST_TEST_SPRITE_NAME + "!",
+				objectsHeadline.getVisibility(), View.GONE);
+	}
+
+	public void testClickOnHeadlines() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		String backgroundHeadline = solo.getString(R.string.spritelist_background_headline);
+		solo.clickOnText(backgroundHeadline);
+		solo.assertCurrentActivity("Click on background headline switched activity!", ProjectActivity.class);
+
+		String objectsHeadline = solo.getString(R.string.spritelist_objects_headline);
+		solo.clickOnText(objectsHeadline);
+		solo.assertCurrentActivity("Click on objects headline switched activity!", ProjectActivity.class);
 	}
 
 	public void testSpriteListDetails() {
@@ -405,6 +580,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		String showDetailsText = solo.getString(R.string.show_details);
 		String hideDetailsText = solo.getString(R.string.hide_details);
 
+		View detailsView = solo.getView(R.id.project_activity_sprite_details);
 		TextView tvScriptCount = ((TextView) solo.getView(R.id.textView_number_of_scripts));
 		TextView tvBrickCount = ((TextView) solo.getView(R.id.textView_number_of_bricks));
 		TextView tvLookCount = ((TextView) solo.getView(R.id.textView_number_of_looks));
@@ -420,12 +596,12 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 			solo.goBack();
 		}
 
-		checkVisibilityOfViews(tvScriptCount, tvBrickCount, tvLookCount, tvSoundCount, false);
+		checkVisibilityOfViews(detailsView, false);
 
 		solo.clickOnMenuItem(showDetailsText);
 		solo.sleep(300);
 
-		checkVisibilityOfViews(tvScriptCount, tvBrickCount, tvLookCount, tvSoundCount, true);
+		checkVisibilityOfViews(detailsView, true);
 
 		UiTestUtils.openOptionsMenu(solo);
 		assertTrue("Hide details should be shown!", solo.waitForText(hideDetailsText));
@@ -438,7 +614,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
-		checkVisibilityOfViews(tvScriptCount, tvBrickCount, tvLookCount, tvSoundCount, true);
+		checkVisibilityOfViews(detailsView, true);
 
 		solo.clickOnMenuItem(hideDetailsText);
 		solo.sleep(300);
@@ -636,6 +812,12 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		assertTrue("Title in delete dialog is not correct!",
+				solo.searchText(solo.getString(R.string.dialog_confirm_delete_object_title)));
+		solo.clickOnText(yes);
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, 300));
 
 		checkIfNumberOfSpritesIsEqual(expectedNumberOfSprites);
@@ -653,8 +835,69 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.waitForText(deletedSpriteName, 0, 200, false, false));
 	}
 
+	public void testConfirmDeleteObjectDialogTitleChange() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		String delete = solo.getString(R.string.delete);
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+
+		solo.clickOnCheckBox(1);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		String no = solo.getString(R.string.no);
+		solo.waitForText(no);
+
+		assertTrue("Dialog title is wrong!",
+				solo.searchText(solo.getString(R.string.dialog_confirm_delete_object_title)));
+
+		solo.clickOnText(no);
+		solo.sleep(500);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertTrue("Dialog title is wrong!",
+				solo.searchText(solo.getString(R.string.dialog_confirm_delete_multiple_objects_title)));
+
+		solo.clickOnText(no);
+	}
+
+	public void testChooseNoOnDeleteQuestionInActionMode() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		solo.clickOnCheckBox(1);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		String no = solo.getString(R.string.no);
+		solo.waitForText(no);
+		solo.clickOnText(no);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, 300));
+
+		int numberOfVisibleCheckBoxes = solo.getCurrentCheckBoxes().size();
+
+		for (CheckBox checkbox : solo.getCurrentCheckBoxes()) {
+			if (checkbox.getVisibility() == View.GONE) {
+				numberOfVisibleCheckBoxes--;
+			}
+		}
+
+		assertEquals("Checkboxes are still showing!", 0, numberOfVisibleCheckBoxes);
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+
+		assertTrue("Bottom bar buttons are not enabled!",
+				solo.searchText(solo.getString(R.string.new_sprite_dialog_title)));
+	}
+
 	public void testDeleteMultipleSprites() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		solo.scrollListToBottom(0);
+
 		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		solo.clickOnCheckBox(1);
@@ -662,6 +905,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnCheckBox(3);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, 300));
 
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
@@ -746,6 +992,42 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
 	}
 
+	public void testConvertVisibleSpriteStringsToObject() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		assertFalse(">>Sprite<< string found, should be replaced with >>object<<", solo.searchText("Sprite"));
+		assertTrue(">>Object<< string not found", solo.searchText("Object"));
+
+		//set empty string as a object name to reproduce the "invalid name" error
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		assertFalse(">>sprite<< string found, should be replaced with >>object<<", solo.searchText("sprite"));
+		assertTrue(">>object<< string not found", solo.searchText("object"));
+		String close = solo.getString(R.string.close);
+		solo.waitForText(close);
+		solo.clickOnButton(close);
+
+		solo.enterText(0, FIRST_TEST_SPRITE_NAME);
+		solo.clickOnButton(solo.getString(R.string.ok));
+		assertFalse(">>sprite<< string found, should be replaced with >>object<<", solo.searchText("sprite"));
+		assertTrue(">>object<< string not found", solo.searchText("object"));
+		solo.clickOnButton(close);
+		solo.goBack();
+
+		solo.clickLongOnText(FIRST_TEST_SPRITE_NAME);
+		solo.clickOnText(solo.getString(R.string.rename));
+		assertFalse(">>Sprite<< string found, should be replaced with >>object<<", solo.searchText("Sprite"));
+		assertTrue(">>Object<< string not found", solo.searchText("Object"));
+		solo.goBack();
+		solo.goBack();
+
+		solo.clickLongOnText(FIRST_TEST_SPRITE_NAME);
+		solo.clickOnText(solo.getString(R.string.copy));
+		assertTrue(">>Object:<< string not found", solo.searchText("Object:"));
+
+	}
+
 	private void addNewSprite(String spriteName) {
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
@@ -767,12 +1049,11 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		project.addSprite(new Sprite(spriteName));
 
-		projectManager.saveProject();
 		projectManager.setProject(project);
+		StorageHandler.getInstance().saveProject(project);
 	}
 
-	private void checkVisibilityOfViews(TextView tvScriptCount, TextView tvBrickCount, TextView tvLookCount,
-			TextView tvSoundCount, boolean visible) {
+	private void checkVisibilityOfViews(View detailsView, boolean visible) {
 		int visibility = View.GONE;
 
 		String assertMessageAffix = "not gone";
@@ -782,10 +1063,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 			assertMessageAffix = "not visible";
 		}
 
-		assertTrue("Script count " + assertMessageAffix, tvSoundCount.getVisibility() == visibility);
-		assertTrue("Brick count " + assertMessageAffix, tvBrickCount.getVisibility() == visibility);
-		assertTrue("Look count " + assertMessageAffix, tvLookCount.getVisibility() == visibility);
-		assertTrue("Sound count " + assertMessageAffix, tvSoundCount.getVisibility() == visibility);
+		assertTrue("Details " + assertMessageAffix, detailsView.getVisibility() == visibility);
 	}
 
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
@@ -854,5 +1132,204 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.enterText(0, text);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(200);
+	}
+
+	private int checkNumberOfElements(Sprite firstSprite, Sprite copiedSprite) {
+
+		ArrayList<SoundInfo> copiedSoundList = copiedSprite.getSoundList();
+		ArrayList<SoundInfo> firstSoundList = firstSprite.getSoundList();
+		assertEquals("The number of sounds differs!", firstSoundList.size(), copiedSoundList.size());
+
+		ArrayList<LookData> copiedCustomeList = copiedSprite.getLookDataList();
+		ArrayList<LookData> firstCustomeList = firstSprite.getLookDataList();
+		assertEquals("The number of customes differs!", firstCustomeList.size(), copiedCustomeList.size());
+
+		assertEquals(
+				"The first sprite is NOT copied!",
+				copiedSprite.getName(),
+				solo.getString(R.string.default_project_sprites_pocketcode_name)
+						+ solo.getString(R.string.copy_sprite_name_suffix));
+		assertEquals("The first sprite has a new name!", firstSprite.getName(),
+				solo.getString(R.string.default_project_sprites_pocketcode_name));
+
+		ArrayList<Brick> brickListCopiedSprite = copiedSprite.getScript(0).getBrickList();
+		ArrayList<Brick> brickListFirstSprite = firstSprite.getScript(0).getBrickList();
+
+		assertEquals("The number of Scripts differs!", copiedSprite.getNumberOfScripts(),
+				firstSprite.getNumberOfScripts());
+		assertEquals("The number of Bricks differs!", brickListCopiedSprite.size(), brickListFirstSprite.size());
+
+		int brickCounter = 0;
+		for (Brick element : brickListCopiedSprite) {
+			assertEquals("Brick classes are different!", element.getClass(), brickListFirstSprite.get(brickCounter)
+					.getClass());
+			brickCounter++;
+		}
+		return brickCounter;
+	}
+
+	private void checkSpecialBricks(Sprite firstSprite, Sprite copiedSprite) {
+
+		assertEquals("Message of BroadcastReceiver Brick is not right!",
+				((BroadcastScript) (firstSprite.getScript(1))).getBroadcastMessage(),
+				((BroadcastScript) (copiedSprite.getScript(1))).getBroadcastMessage());
+
+		ArrayList<Brick> brickListFirstSprite = firstSprite.getScript(0).getBrickList();
+		ArrayList<Brick> brickListCopiedSprite = copiedSprite.getScript(0).getBrickList();
+
+		// check forever-bricks
+		LoopBeginBrick firstLoopBrick = (LoopBeginBrick) brickListFirstSprite.get(32);
+		LoopEndBrick firstEndBrick = (LoopEndBrick) brickListFirstSprite.get(33);
+
+		LoopBeginBrick copiedLoopBrick = (LoopBeginBrick) brickListCopiedSprite.get(32);
+		LoopEndBrick copiedEndBrick = (LoopEndBrick) brickListCopiedSprite.get(33);
+
+		assertNotSame("Loop Brick is not copied right!", firstLoopBrick, copiedLoopBrick);
+		assertNotSame("Loop Brick is not copied right!", firstEndBrick, copiedEndBrick);
+
+		assertEquals("Loop Brick is not copied right!", firstLoopBrick, firstEndBrick.getLoopBeginBrick());
+		assertEquals("Loop Brick is not copied right!", firstEndBrick, firstLoopBrick.getLoopEndBrick());
+
+		assertEquals("Loop Brick is not copied right!", copiedLoopBrick, copiedEndBrick.getLoopBeginBrick());
+		assertEquals("Loop Brick is not copied right!", copiedEndBrick, copiedLoopBrick.getLoopEndBrick());
+
+		// check repeat-bricks
+		firstLoopBrick = (LoopBeginBrick) brickListFirstSprite.get(34);
+		firstEndBrick = (LoopEndBrick) brickListFirstSprite.get(35);
+
+		copiedLoopBrick = (LoopBeginBrick) brickListCopiedSprite.get(34);
+		copiedEndBrick = (LoopEndBrick) brickListCopiedSprite.get(35);
+
+		Formula firstCondition = (Formula) Reflection.getPrivateField(RepeatBrick.class, firstLoopBrick,
+				"timesToRepeat");
+		Formula copiedCondition = (Formula) Reflection.getPrivateField(RepeatBrick.class, copiedLoopBrick,
+				"timesToRepeat");
+
+		assertNotSame("Loop Brick is not copied right!", firstLoopBrick, copiedLoopBrick);
+		assertNotSame("Loop Brick is not copied right!", firstEndBrick, copiedEndBrick);
+		assertNotSame("Loop Brick is not copied right!", firstCondition, copiedCondition);
+
+		assertEquals("Loop Brick is not copied right!", firstLoopBrick, firstEndBrick.getLoopBeginBrick());
+		assertEquals("Loop Brick is not copied right!", firstEndBrick, firstLoopBrick.getLoopEndBrick());
+
+		assertEquals("Loop Brick is not copied right!", copiedLoopBrick, copiedEndBrick.getLoopBeginBrick());
+		assertEquals("Loop Brick is not copied right!", copiedEndBrick, copiedLoopBrick.getLoopEndBrick());
+
+		// check if-bricks
+		IfLogicBeginBrick firstIfBeginBrick = (IfLogicBeginBrick) brickListFirstSprite.get(37);
+		IfLogicElseBrick firstIfElseBrick = (IfLogicElseBrick) brickListFirstSprite.get(39);
+		IfLogicEndBrick firstIfEndBrick = (IfLogicEndBrick) brickListFirstSprite.get(41);
+
+		IfLogicBeginBrick copiedIfBeginBrick = (IfLogicBeginBrick) brickListCopiedSprite.get(37);
+		IfLogicElseBrick copiedIfElseBrick = (IfLogicElseBrick) brickListCopiedSprite.get(39);
+		IfLogicEndBrick copiedIfEndBrick = (IfLogicEndBrick) brickListCopiedSprite.get(41);
+
+		firstCondition = (Formula) Reflection
+				.getPrivateField(IfLogicBeginBrick.class, firstIfBeginBrick, "ifCondition");
+		copiedCondition = (Formula) Reflection.getPrivateField(IfLogicBeginBrick.class, copiedIfBeginBrick,
+				"ifCondition");
+
+		assertNotSame("If Brick is not copied right!", firstIfBeginBrick, copiedIfBeginBrick);
+		assertNotSame("If Brick is not copied right!", firstIfElseBrick, copiedIfElseBrick);
+		assertNotSame("If Brick is not copied right!", firstIfEndBrick, copiedIfEndBrick);
+		assertNotSame("If Brick is not copied right!", firstCondition, copiedCondition);
+
+		// checking references of first if-bricks
+		assertEquals("If Brick is not copied right!", firstIfBeginBrick, firstIfElseBrick.getIfBeginBrick());
+		assertEquals("If Brick is not copied right!", firstIfBeginBrick, firstIfEndBrick.getIfBeginBrick());
+		assertEquals("If Brick is not copied right!", firstIfElseBrick, firstIfBeginBrick.getIfElseBrick());
+		assertEquals("If Brick is not copied right!", firstIfElseBrick, firstIfEndBrick.getIfElseBrick());
+		assertEquals("If Brick is not copied right!", firstIfEndBrick, firstIfBeginBrick.getIfEndBrick());
+		assertEquals("If Brick is not copied right!", firstIfEndBrick, firstIfElseBrick.getIfEndBrick());
+
+		// checking references of copied if-bricks
+		assertEquals("If Brick is not copied right!", copiedIfBeginBrick, copiedIfElseBrick.getIfBeginBrick());
+		assertEquals("If Brick is not copied right!", copiedIfBeginBrick, copiedIfEndBrick.getIfBeginBrick());
+		assertEquals("If Brick is not copied right!", copiedIfElseBrick, copiedIfBeginBrick.getIfElseBrick());
+		assertEquals("If Brick is not copied right!", copiedIfElseBrick, copiedIfEndBrick.getIfElseBrick());
+		assertEquals("If Brick is not copied right!", copiedIfEndBrick, copiedIfBeginBrick.getIfEndBrick());
+		assertEquals("If Brick is not copied right!", copiedIfEndBrick, copiedIfElseBrick.getIfEndBrick());
+
+		// check formula
+		// ( 1 + global ) * local - COMPASS_DIRECTION
+		FormulaElement firstFormulaElement = (FormulaElement) Reflection.getPrivateField(Formula.class, firstCondition,
+				"formulaTree");
+		FormulaElement copiedFormulaElement = (FormulaElement) Reflection.getPrivateField(Formula.class,
+				copiedCondition, "formulaTree");
+		assertNotSame("Formula is not copied right!", firstFormulaElement, copiedFormulaElement);
+
+		List<InternToken> internTokenListReference = UiTestUtils.getInternTokenList();
+		List<InternToken> internTokenListToCheck = firstFormulaElement.getInternTokenList();
+
+		assertEquals("Formula is not copied right!", internTokenListReference.size(), internTokenListToCheck.size());
+		for (int i = 0; i < internTokenListReference.size(); i++) {
+			assertEquals("Formula is not copied right!", internTokenListReference.get(i).getTokenStringValue(),
+					internTokenListToCheck.get(i).getTokenStringValue());
+		}
+
+		internTokenListToCheck = copiedFormulaElement.getInternTokenList();
+		assertEquals("Formula is not copied right!", internTokenListReference.size(), internTokenListToCheck.size());
+		for (int i = 0; i < internTokenListReference.size(); i++) {
+			assertEquals("Formula is not copied right!", internTokenListReference.get(i).getTokenStringValue(),
+					internTokenListToCheck.get(i).getTokenStringValue());
+		}
+
+		UserVariablesContainer variablesContainer = projectManager.getCurrentProject().getUserVariables();
+		UserVariable firstVariable = variablesContainer.getUserVariable("global", firstSprite);
+		UserVariable copiedVariable = variablesContainer.getUserVariable("global", copiedSprite);
+		assertSame("Formula is not copied right!", firstVariable, copiedVariable);
+
+		firstVariable = variablesContainer.getUserVariable("local", firstSprite);
+		copiedVariable = variablesContainer.getUserVariable("local", copiedSprite);
+		assertNotSame("Formula is not copied right!", firstVariable, copiedVariable);
+	}
+
+	private int checkIds(Sprite firstSprite, Sprite copiedSprite) {
+
+		ArrayList<Brick> brickListCopiedSprite = copiedSprite.getScript(0).getBrickList();
+		ArrayList<Brick> brickListFirstSprite = firstSprite.getScript(0).getBrickList();
+
+		assertNotSame("Sprite is not copied!", firstSprite, copiedSprite);
+		assertNotSame("CustomDataList is not copied!", firstSprite.getLookDataList(), copiedSprite.getLookDataList());
+		assertNotSame("Script is no copied!", firstSprite.getScript(0), copiedSprite.getScript(0));
+		assertNotSame("Script is no copied!", firstSprite.getScript(1), copiedSprite.getScript(1));
+		assertNotSame("Soundlist is no copied!", firstSprite.getSoundList(), copiedSprite.getSoundList());
+
+		brickListFirstSprite = firstSprite.getScript(0).getBrickList();
+		brickListCopiedSprite = copiedSprite.getScript(0).getBrickList();
+		assertNotSame("Script is not copied!", brickListFirstSprite, brickListCopiedSprite);
+
+		int loopCounter = 0;
+		for (Brick element : brickListFirstSprite) {
+			assertNotSame("Brick is not copied!", element, brickListCopiedSprite.get(loopCounter));
+			loopCounter++;
+		}
+
+		solo.clickOnText(solo.getString(R.string.default_project_sprites_pocketcode_name)
+				+ solo.getString(R.string.copy_sprite_name_suffix));
+		solo.sleep(1000);
+
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Script scriptCopied = currentSprite.getScript(0);
+
+		Script scriptOriginal = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getScript(0);
+
+		scriptCopied.addBrick(new SetXBrick(currentSprite, 10));
+		assertEquals("The number of Bricks differs!", scriptCopied.getBrickList().size() - 1, scriptOriginal
+				.getBrickList().size());
+
+		scriptOriginal.addBrick(new SetXBrick(currentSprite, 10));
+		assertEquals("The number of Bricks differs!", scriptCopied.getBrickList().size(), scriptOriginal.getBrickList()
+				.size());
+
+		scriptCopied.removeBrick(scriptCopied.getBrickList().get(5));
+		assertEquals("The number of Bricks differs!", scriptCopied.getBrickList().size() + 1, scriptOriginal
+				.getBrickList().size());
+
+		scriptOriginal.removeBrick(scriptOriginal.getBrickList().get(6));
+		assertEquals("The number of Bricks differs!", scriptCopied.getBrickList().size(), scriptOriginal.getBrickList()
+				.size());
+
+		return scriptCopied.getBrickList().size();
 	}
 }

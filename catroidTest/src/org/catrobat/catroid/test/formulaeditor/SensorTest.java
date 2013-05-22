@@ -87,36 +87,34 @@ public class SensorTest extends InstrumentationTestCase {
 		createProject();
 
 		Formula formula = createFormulaWithSensor(Sensors.X_ACCELERATION);
-		ChangeSizeByNBrick xBrick = new ChangeSizeByNBrick(firstSprite, formula);
-		startScript1.addBrick(xBrick);
+		ChangeSizeByNBrick xAccelerationBrick = new ChangeSizeByNBrick(firstSprite, formula);
+		startScript1.addBrick(xAccelerationBrick);
 
 		Formula formula1 = createFormulaWithSensor(Sensors.Y_ACCELERATION);
-		ChangeSizeByNBrick yBrick = new ChangeSizeByNBrick(firstSprite, formula1);
-		startScript1.addBrick(yBrick);
+		ChangeSizeByNBrick yAccelerationBrick = new ChangeSizeByNBrick(firstSprite, formula1);
+		startScript1.addBrick(yAccelerationBrick);
 
 		Formula formula2 = createFormulaWithSensor(Sensors.Z_ACCELERATION);
-		ChangeSizeByNBrick zBrick = new ChangeSizeByNBrick(firstSprite, formula2);
-		startScript1.addBrick(zBrick);
+		ChangeSizeByNBrick zAccelerationBrick = new ChangeSizeByNBrick(firstSprite, formula2);
+		startScript1.addBrick(zAccelerationBrick);
 
-		Formula formula3 = createFormulaWithSensor(Sensors.Z_ORIENTATION);
-		ChangeSizeByNBrick azimuthBrick = new ChangeSizeByNBrick(firstSprite, formula3);
-		startScript1.addBrick(azimuthBrick);
+		Formula formula3 = createFormulaWithSensor(Sensors.COMPASS_DIRECTION);
+		ChangeSizeByNBrick compassDirectionBrick = new ChangeSizeByNBrick(firstSprite, formula3);
+		startScript1.addBrick(compassDirectionBrick);
 
-		Formula formula4 = createFormulaWithSensor(Sensors.X_ORIENTATION);
-		ChangeSizeByNBrick pitchBrick = new ChangeSizeByNBrick(firstSprite, formula4);
-		startScript1.addBrick(pitchBrick);
+		Formula formula4 = createFormulaWithSensor(Sensors.X_INCLINATION);
+		ChangeSizeByNBrick xInclincationBrick = new ChangeSizeByNBrick(firstSprite, formula4);
+		startScript1.addBrick(xInclincationBrick);
 
-		Formula formula5 = createFormulaWithSensor(Sensors.Y_ORIENTATION);
-		ChangeSizeByNBrick rollBrick = new ChangeSizeByNBrick(firstSprite, formula5);
-		startScript1.addBrick(rollBrick);
+		Formula formula5 = createFormulaWithSensor(Sensors.Y_INCLINATION);
+		ChangeSizeByNBrick yInclinationBrick = new ChangeSizeByNBrick(firstSprite, formula5);
+		startScript1.addBrick(yInclinationBrick);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 		//For initialization
-
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
-
 		SensorHandler.stopSensorListeners();
 
 		SensorHandler sensorHandler = (SensorHandler) Reflection.getPrivateField(SensorHandler.class, "instance");
@@ -140,9 +138,9 @@ public class SensorTest extends InstrumentationTestCase {
 			}
 		}
 
-		float expectedX = (Float) Reflection.getPrivateField(sensorHandler, "linearAcceleartionX");
-		float expectedY = (Float) Reflection.getPrivateField(sensorHandler, "linearAcceleartionY");
-		float expectedZ = (Float) Reflection.getPrivateField(sensorHandler, "linearAcceleartionZ");
+		float expectedXAcceleration = (Float) Reflection.getPrivateField(sensorHandler, "linearAcceleartionX");
+		float expectedYAcceleration = (Float) Reflection.getPrivateField(sensorHandler, "linearAcceleartionY");
+		float expectedZAcceleration = (Float) Reflection.getPrivateField(sensorHandler, "linearAcceleartionZ");
 
 		float[] rotationMatrix = new float[16];
 		float[] rotationVector = (float[]) Reflection.getPrivateField(sensorHandler, "rotationVector");
@@ -151,20 +149,35 @@ public class SensorTest extends InstrumentationTestCase {
 		SensorHandler.getRotationMatrixFromVector(rotationMatrix, rotationVector);
 		android.hardware.SensorManager.getOrientation(rotationMatrix, orientations);
 
-		double expectedOrientationZ = Double.valueOf(orientations[0]) * SensorHandler.radianToDegreeConst;
-		double expectedOrientationX = Double.valueOf(orientations[1]) * SensorHandler.radianToDegreeConst;
-		double expectedOrientationY = Double.valueOf(orientations[2]) * SensorHandler.radianToDegreeConst;
+		double expectedCompassDirection = Double.valueOf(orientations[0]) * SensorHandler.radianToDegreeConst * -1f;
+		double expectedXInclination = Double.valueOf(orientations[2]) * SensorHandler.radianToDegreeConst * -1f;
+		double expectedYInclination = Double.valueOf(orientations[1]) * SensorHandler.radianToDegreeConst * -1f;
 
-		assertEquals("Sensor value is wrong", expectedX, formula.interpretFloat(firstSprite), delta);
-		assertEquals("Sensor value is wrong", expectedY, formula1.interpretFloat(firstSprite), delta);
-		assertEquals("Sensor value is wrong", expectedZ, formula2.interpretFloat(firstSprite), delta);
+		assertEquals(
+				"Unexpected sensor value for acceleration in x direction(= in portrait mode, from left to right side of screen surface, in m/s^2)",
+				expectedXAcceleration, formula.interpretDouble(firstSprite), delta);
 
-		assertEquals("Sensor value is wrong", expectedOrientationZ, formula3.interpretFloat(firstSprite), delta);
-		assertEquals("Sensor value is wrong", expectedOrientationX, formula4.interpretFloat(firstSprite), delta);
-		assertEquals("Sensor value is wrong", expectedOrientationY, formula5.interpretFloat(firstSprite), delta);
+		assertEquals(
+				"Unexpected sensor value for acceleration in y direction(= in portrait mode, from bottom to upper side of screen surface, in m/s^2)",
+				expectedYAcceleration, formula1.interpretDouble(firstSprite), delta);
+
+		assertEquals(
+				"Unexpected sensor value for acceleration in z direction(= in portrait mode, from screen surface orthogonally upwards away from screen, in m/s^2)",
+				expectedZAcceleration, formula2.interpretDouble(firstSprite), delta);
+
+		assertEquals(
+				"Unexpected sensor value for compass direction (= in portrait mode, deviation of screen-down-to-up-side (= positive y axis direction) from magnetic north in degrees, with z axis (pointing to sky) serving as rotation axis; positive direction = counter-clockwise turn seen from above; this is the angle between magnetic north and the device's y axis as it is displayed on a compass. For example, if the device's y axis points towards the magnetic north this value is 0, and if the device's y axis is pointing south this value is approaching 180 or -180. When the y axis is pointing west this value is 90 and when it is pointing east this value is -90)",
+				expectedCompassDirection, formula3.interpretDouble(firstSprite), delta);
+
+		assertEquals(
+				"Unexpected sensor value for x inclination (= in portrait mode, deviation from screen-left-to-right-side (= x axis direction) horizontal inclination (range: -180 to +180 degrees; flat = 0); increasing values of x inclination = right border of screen pulled towards user, left border away = positive side of x axis gets lifted up)",
+				expectedXInclination, formula4.interpretDouble(firstSprite), delta);
+
+		assertEquals(
+				"Unexpected sensor value for y inclination (= in portrait mode, deviation from screen-down-to-up-side (= y axis direction) horizontal inclination (range: -180 to +180 degrees; flat = 0); increasing values of y inclination = upper border of screen pulled towards user, lower border away = positive side of y axis gets lifted up)",
+				expectedYInclination, formula5.interpretDouble(firstSprite), delta);
 
 		SensorHandler.stopSensorListeners();
-
 	}
 
 	private boolean checkValidRotationValues(SensorEvent sensorEvent) {
@@ -183,11 +196,8 @@ public class SensorTest extends InstrumentationTestCase {
 			if (Float.compare(orientation, Float.NaN) == 0) {
 				return false;
 			}
-
 		}
-
 		return true;
-
 	}
 
 	private Formula createFormulaWithSensor(Sensors sensor) {

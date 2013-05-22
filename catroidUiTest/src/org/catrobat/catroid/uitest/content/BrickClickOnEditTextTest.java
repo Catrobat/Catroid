@@ -38,6 +38,7 @@ import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -75,152 +76,45 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 	}
 
 	public void testIfEditTextAreVisibleAndClickOnTextSetXandYInAddBrickDialog() {
-		String categoryMotionText = solo.getString(R.string.category_motion);
+		ArrayList<Integer> yPosition;
+		int addedYPosition;
 
-		int categoryStringId = 0;
-		float screenWidth = 0;
-		float getTextViewXPosition = 0;
+		UiTestUtils.addNewBrick(solo, R.string.brick_set_x);
+		solo.sleep(500);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
-		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		solo.clickOnText(categoryMotionText);
-		ArrayList<Integer> listOfYPosition = UiTestUtils.getListItemYPositions(solo);
-		screenWidth = solo.getCurrentActivity().getResources().getDisplayMetrics().widthPixels;
-
-		getTextViewXPosition = (float) ((screenWidth / 2.0) * 0.75);
-		solo.clickOnScreen(getTextViewXPosition, listOfYPosition.get(1));
-		solo.clickOnScreen(200, 200);
+		solo.drag(20, 20, addedYPosition, yPosition.get(0), 20);
+		solo.sleep(200);
 
 		List<Brick> brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		assertEquals("One Brick should be in bricklist", 1, brickListToCheck.size());
 		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(0) instanceof SetXBrick);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_y);
-		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		solo.clickOnText(categoryMotionText);
-		listOfYPosition = UiTestUtils.getListItemYPositions(solo);
-		screenWidth = solo.getCurrentActivity().getResources().getDisplayMetrics().widthPixels;
-		getTextViewXPosition = (float) ((screenWidth / 2.0) * 0.75);
+		UiTestUtils.addNewBrick(solo, R.string.brick_set_y);
+		solo.sleep(500);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
-		solo.clickOnScreen(getTextViewXPosition, listOfYPosition.get(2));
-		solo.clickOnScreen(200, 200);
+		solo.drag(20, 20, addedYPosition, yPosition.get(1), 20);
+		solo.sleep(200);
 
 		brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
-		assertEquals("One Brick should be in bricklist", 2, brickListToCheck.size());
+		assertEquals("Two Bricks should be in bricklist", 2, brickListToCheck.size());
 		assertTrue("Set brick should be instance of SetYBrick", brickListToCheck.get(0) instanceof SetYBrick);
 		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(1) instanceof SetXBrick);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
-		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		solo.clickOnText(categoryMotionText);
 
-		ArrayList<EditText> editTextList = solo.getCurrentEditTexts();
-		for (EditText text : editTextList) {
-			if (text.getVisibility() == View.VISIBLE) {
-				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
-			}
-		}
+		editTextFieldVisibility(solo.getString(R.string.category_control));
+		editTextFieldVisibility(solo.getString(R.string.category_motion));
+		editTextFieldVisibility(solo.getString(R.string.category_sound));
+		editTextFieldVisibility(solo.getString(R.string.category_looks));
+		editTextFieldVisibility(solo.getString(R.string.category_variables));
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		solo.scrollDownList(fragmentListView);
+		editTextFieldVisibility(solo.getString(R.string.category_lego_nxt));
 
-		solo.scrollDown();
-		editTextList = solo.getCurrentEditTexts();
-		for (EditText text : editTextList) {
-			if (text.getVisibility() == View.VISIBLE) {
-				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
-			}
-		}
-
-		solo.scrollUp();
-		solo.goBack();
-		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_size_to);
-		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		solo.clickOnText(solo.getString(R.string.category_looks));
-
-		editTextList = solo.getCurrentEditTexts();
-		for (EditText text : editTextList) {
-			if (text.getVisibility() == View.VISIBLE) {
-				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
-			}
-		}
-
-		solo.scrollDown();
-		editTextList = solo.getCurrentEditTexts();
-		for (EditText text : editTextList) {
-			if (text.getVisibility() == View.VISIBLE) {
-				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
-			}
-		}
-
-		solo.scrollUp();
-		solo.goBack();
-		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_stop_all_sounds);
-		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		solo.clickOnText(solo.getString(R.string.category_sound));
-
-		editTextList = solo.getCurrentEditTexts();
-
-		for (EditText text : editTextList) {
-			if (text.getVisibility() == View.VISIBLE) {
-				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
-			}
-		}
-
-		solo.scrollDown();
-		editTextList = solo.getCurrentEditTexts();
-		for (EditText text : editTextList) {
-			if (text.getVisibility() == View.VISIBLE) {
-				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
-			}
-		}
-
-		solo.scrollUp();
-		solo.goBack();
-		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_when_started);
-		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		solo.clickOnText(solo.getString(R.string.category_control));
-
-		editTextList = solo.getCurrentEditTexts();
-
-		for (EditText text : editTextList) {
-			if (text.getVisibility() == View.VISIBLE) {
-				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
-			}
-		}
-
-		solo.scrollDown();
-		editTextList = solo.getCurrentEditTexts();
-		for (EditText text : editTextList) {
-			if (text.getVisibility() == View.VISIBLE) {
-				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
-			}
-		}
-
-		solo.scrollUp();
-		solo.goBack();
-		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_motor_action);
-		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		solo.clickOnText(solo.getString(R.string.category_lego_nxt));
-
-		editTextList = solo.getCurrentEditTexts();
-
-		for (EditText text : editTextList) {
-			if (text.getVisibility() == View.VISIBLE) {
-				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
-			}
-		}
-
-		solo.scrollDown();
-		editTextList = solo.getCurrentEditTexts();
-		for (EditText text : editTextList) {
-			if (text.getVisibility() == View.VISIBLE) {
-				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
-			}
-		}
-
-		solo.scrollUp();
-		solo.goBack();
 	}
 
 	private void getIntoActivity() {
@@ -235,5 +129,36 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 		UiTestUtils.createEmptyProject();
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+	}
+
+	private void editTextFieldVisibility(String category) {
+
+		solo.clickOnText(category);
+
+		solo.searchText(category);
+		int ignoreFirstTwo = 0;
+
+		ArrayList<EditText> editTextList = solo.getCurrentEditTexts();
+		for (EditText text : editTextList) {
+			if (text.getVisibility() == View.VISIBLE && ignoreFirstTwo > 2) {
+				fail("EditTexts should be invisible in AddBrickFragment! Check other brick xmls for more information");
+			}
+			ignoreFirstTwo++;
+		}
+
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		solo.scrollDownList(fragmentListView);
+
+		ignoreFirstTwo = 0;
+		editTextList = solo.getCurrentEditTexts();
+		for (EditText text : editTextList) {
+			if (text.getVisibility() == View.VISIBLE && ignoreFirstTwo > 2) {
+				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
+			}
+			ignoreFirstTwo++;
+		}
+
+		solo.scrollUpList(fragmentListView);
+		solo.goBack();
 	}
 }

@@ -31,6 +31,8 @@ public class BroadcastEvent extends Event {
 	private Sprite senderSprite;
 	private BroadcastScript waitScript;
 	private boolean run = true;
+	private int numberOfReceivers = 0;
+	private int numberOfFinishedReceivers = 0;
 
 	public Sprite getSenderSprite() {
 		return senderSprite;
@@ -70,6 +72,22 @@ public class BroadcastEvent extends Event {
 
 	public void setRun(boolean run) {
 		this.run = run;
+	}
+
+	public int getNumberOfReceivers() {
+		return this.numberOfReceivers;
+	}
+
+	public void raiseNumberOfReceivers() {
+		this.numberOfReceivers++;
+	}
+
+	public void raiseNumberOfFinishedReceivers() {
+		this.numberOfFinishedReceivers++;
+	}
+
+	public boolean checkIfAllReceiversHaveFinished() {
+		return numberOfReceivers == numberOfFinishedReceivers;
 	}
 
 	static public enum BroadcastType {

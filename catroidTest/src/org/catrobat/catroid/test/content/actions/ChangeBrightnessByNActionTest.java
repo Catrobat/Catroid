@@ -36,25 +36,25 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite brightness value", 1f, sprite.look.getBrightnessValue());
+		assertEquals("Unexpected initial sprite brightness value", 1f, sprite.look.getBrightness());
 
-		float brightness = sprite.look.getBrightnessValue();
-		brightness += brighter.interpretFloat(sprite) / 100f;
+		float brightness = sprite.look.getBrightness();
+		brightness += brighter.interpretDouble(sprite) / 100f;
 
 		ChangeBrightnessByNAction action1 = ExtendedActions.changeBrightnessByN(sprite, brighter);
 		sprite.look.addAction(action1);
 		action1.act(1.0f);
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", brightness,
-				sprite.look.getBrightnessValue());
+				sprite.look.getBrightness());
 
-		brightness = sprite.look.getBrightnessValue();
-		brightness += dimmer.interpretFloat(sprite) / 100f;
+		brightness = sprite.look.getBrightness();
+		brightness += dimmer.interpretDouble(sprite) / 100f;
 
 		ChangeBrightnessByNAction action2 = ExtendedActions.changeBrightnessByN(sprite, dimmer);
 		sprite.look.addAction(action2);
 		action2.act(1.0f);
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", brightness,
-				sprite.look.getBrightnessValue());
+				sprite.look.getBrightness());
 	}
 
 	public void testNullSprite() {

@@ -26,5 +26,10 @@
     <item
         android:id="@+id/script_menu_delete"
         android:title="@string/delete"/>
-
+	
+    <item
+        android:id="@+id/script_menu_copy"
+        android:title="@string/copy"
+        android:visible="false"/>
+    
 </menu>

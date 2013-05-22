@@ -71,9 +71,9 @@
 
 
     <!-- Settings activity -->
-    <string name="pref_title">Настройки</string>
-    <string name="pref_enable_ms_bricks">Включить блоки Mindstorm</string>
-    <string name="pref_descr_ms_bricks">Эти блоки используются для контроля роботов Mindstorm.</string>
+    <string name="preference_title">Настройки</string>
+    <string name="preference_title_enable_mindstorm_bricks">Включить блоки Mindstorm</string>
+    <string name="preference_description_mindstorm_bricks">Эти блоки используются для контроля роботов Mindstorm.</string>
     <!--  -->
 
 
@@ -84,7 +84,7 @@
         Catroid разрабатывается в Институте Технологий Программного Обеспечения в 
         Техническом Университете Граца в Австрии.\n\n
         Эта программа лицензированна под лицензией GNU GPL v3.\n\n</string>
-    <string name="dialog_about_catroid_license_link_text">О Catroid</string>
+    <string name="dialog_about_pocketcode_license_link_text">О Catroid</string>
     <!--  -->
 
 
@@ -111,7 +111,7 @@
     <!-- <string name="edit_in_paintroid">Редактировать в paintroid</string> -->
     <string name="copy_look_addition">скопировать</string>
     <string name="select_image">Выбрать изображение</string>
-    <string name="paintroid_not_installed">Paintroid не установлен!\nЖелаете ли вы его установить?</string>
+    <string name="pocket_paint_not_installed">Paintroid не установлен!\nЖелаете ли вы его установить?</string>
     <string name="default_look_name">костюм</string>
     <string name="delete_look_dialog">Удалить костюм?</string>
     <!-- Sound activity -->

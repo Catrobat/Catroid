@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
@@ -21,6 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Theme.Catroid" parent="Theme.Sherlock.ForceOverflow">
@@ -49,11 +49,13 @@
     </style>
 
     <style name="StageButton">
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
-        <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1.5</item>
+        <item name="android:textScaleX">0.7</item>
         <item name="android:background">@null</item>
     </style>
 
@@ -62,12 +64,6 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowAnimationStyle">@style/slide_up_dialog_animation</item>
-    </style>
-
-    <style name="settings_activity" parent="Theme.Sherlock.Light.DarkActionBar">
-        <item name="actionBarStyle">@style/Widget.Catroid.ActionBar</item>
-        <item name="android:actionBarStyle">@style/Widget.Catroid.ActionBar</item>
-        <item name="android:windowBackground">@android:color/white</item>
     </style>
 
     <style name="slide_left_dialog_animation">
@@ -79,13 +75,23 @@
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
+    
+    <style name="ListViewShadowed">
+        <item name="android:cacheColorHint">@color/solid_black</item>
+        <item name="android:drawSelectorOnTop">false</item>
+        <item name="android:drawingCacheQuality">high</item>
+        <item name="android:fadingEdgeLength">10dp</item>
+        <item name="android:fastScrollEnabled">true</item>
+        <item name="android:requiresFadingEdge">vertical</item>
+        <item name="android:scrollingCache">@string/scrolling_cache_enabled</item>
+        <item name="android:animationCache">@string/animation_cache_enabled</item>
+    </style>
 
     <style name="MainMenuButton">
-        <item name="android:layout_marginTop">3dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:background">@drawable/main_menu_button_background</item>
+        <item name="android:background">@drawable/button_background_selector</item>
         <item name="android:drawablePadding">28dp</item>
         <item name="android:drawableRight">@drawable/ic_main_menu_button_arrow</item>
         <item name="android:gravity">left|center_vertical</item>
@@ -104,18 +110,39 @@
         <item name="android:textColor">@color/main_menu_button_text_continue_program_name_color</item>
     </style>
 
+    <style name="ListViewItemTitleText">
+        <item name="android:paddingLeft">12.5dp</item>
+        <item name="android:paddingRight">42dp</item>
+        <item name="android:shadowColor">@color/list_view_item_title_text_shadow_color</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">3</item>
+        <item name="android:shadowRadius">1.5</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/list_view_item_title_text_color</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    
+    <style name="ListViewItemDetailsText">
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/list_view_item_details_text_color</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    
     <style name="ProgramMenuButton">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0dip</item>
-        <item name="android:layout_weight">0.3</item>
-        <item name="android:paddingLeft">20dp</item>
-        <item name="android:paddingRight">20dip</item>
+        <item name="android:layout_height">@dimen/program_menu_button_height</item>
+        <item name="android:background">@drawable/button_background_selector</item>
+        <item name="android:drawablePadding">28dp</item>
+        <item name="android:drawableRight">@drawable/ic_arrow_right_dark</item>
         <item name="android:gravity">left|center_vertical</item>
-        <item name="android:drawablePadding">10dip</item>
-        <item name="android:textSize">@dimen/text_size_xlarge</item>
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:background">@null</item>
-        <item name="android:singleLine">true</item>
+        <item name="android:paddingLeft">21dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:textSize">@dimen/text_size_program_menu_buttons</item>
+        <item name="android:textColor">@color/program_menu_button_text_color</item>
+        <item name="android:shadowColor">@color/program_menu_button_text_shadow_color</item>
+        <item name="android:shadowRadius">1.5</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">3</item>
     </style>
 
     <style name="BrickText">
@@ -124,11 +151,18 @@
         <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:layout_gravity">center_vertical</item>
     </style>
 
     <style name="BrickText.SingleLine">
-        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:maxLines">1</item>
     </style>
+    
+    <style name="BrickText.Multiple">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:maxLines">1</item>
+    </style>
+    
 
     <style name="BrickPrototypeTextView" parent="android:style/Widget.EditText">
         <item name="android:focusable">false</item>
@@ -136,7 +170,6 @@
         <item name="android:clickable">false</item>
         <item name="android:minWidth">@dimen/brick_edit_text_and_prototype_text_view_minimum_width</item>
         <item name="android:gravity">right</item>
-        <item name="android:maxEms">5</item>
         <item name="android:minEms">3</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:layout_width">wrap_content</item>
@@ -147,76 +180,128 @@
         <item name="android:maxLines">1</item>
         <item name="android:visibility">gone</item>
     </style>
+    
+    <style name="BrickEditTextMultiple" parent="@style/BrickEditText">
+        <item name="android:maxEms">6</item>
+    </style>
 
     <style name="BrickContainer">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="BrickContainer.Motion">
-        <item name="android:background">@drawable/brick_blue</item>
-    </style>
+    <style name="BrickContainer.Motion"></style>
 
     <style name="BrickContainer.Motion.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_blue_1h</item>
     </style>
 
     <style name="BrickContainer.Motion.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_blue_2h</item>
     </style>
 
     <style name="BrickContainer.Motion.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_blue_3h</item>
     </style>
 
-    <style name="BrickContainer.Sound">
-        <item name="android:background">@drawable/brick_magenta</item>
-    </style>
+    <style name="BrickContainer.Sound"></style>
 
     <style name="BrickContainer.Sound.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_violet_1h</item>
     </style>
 
     <style name="BrickContainer.Sound.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_violet_2h</item>
     </style>
 
     <style name="BrickContainer.Sound.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_violet_3h</item>
     </style>
 
-    <style name="BrickContainer.Look">
-        <item name="android:background">@drawable/brick_violet</item>
-    </style>
+    <style name="BrickContainer.Look"></style>
 
     <style name="BrickContainer.Look.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_green_1h</item>
     </style>
 
     <style name="BrickContainer.Look.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_green_2h</item>
     </style>
 
     <style name="BrickContainer.Look.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_green_3h</item>
     </style>
 
-    <style name="BrickContainer.Control">
-        <item name="android:background">@drawable/brick_yellow</item>
+    <style name="BrickContainer.UserVariables"></style>
+
+    <style name="BrickContainer.UserVariables.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_red_1h</item>
     </style>
+
+    <style name="BrickContainer.UserVariables.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_red_2h</item>
+    </style>
+
+    <style name="BrickContainer.UserVariables.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_red_3h</item>
+    </style>
+
+    <style name="BrickContainer.Lego"></style>
+
+    <style name="BrickContainer.Lego.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_cyan_1h</item>
+    </style>
+
+    <style name="BrickContainer.Lego.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_cyan_2h</item>
+    </style>
+
+    <style name="BrickContainer.Lego.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_cyan_3h</item>
+    </style>
+
+    <style name="BrickContainer.Control"></style>
 
     <style name="BrickContainer.Control.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_orange_1h</item>
     </style>
 
     <style name="BrickContainer.Control.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/brick_orange_2h</item>
     </style>
 
     <style name="BrickContainer.Control.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/brick_orange_3h</item>
+    </style>
+
+    <style name="BrickContainer.Script"></style>
+
+    <style name="BrickContainer.Script.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_control_1h</item>
+    </style>
+
+    <style name="BrickContainer.Script.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_control_2h</item>
     </style>
 
     <style name="brick_new">
@@ -235,23 +320,115 @@
     </style>
 
     <style name="fragment_text" parent="fragment_basic_style">
-        <item name="android:layout_marginLeft">8dp</item>
-        <item name="android:layout_marginRight">8dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:textColor">@color/solid_black</item>
         <item name="android:textSize">@dimen/text_size_large</item>
     </style>
 
     <style name="fragment_detail" parent="fragment_basic_style">
-        <item name="android:textColor">@color/backbrown</item>
-        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">@color/look_fragment_text_detail_color</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="look_fragment_main" parent="fragment_basic_style">
+        <item name="android:textColor">@color/look_fragment_text_main_color</item>
+        <item name="android:textSize">22sp</item>
+    </style>
 
+    <style name="look_fragment_detail" parent="fragment_basic_style">
+        <item name="android:textColor">@color/look_fragment_text_detail_color</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="sound_fragment_main" parent="fragment_basic_style">
+        <item name="android:textColor">@color/sound_fragment_text_main_color</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    
+    <style name="sound_fragment_detail" parent="fragment_basic_style">
+        <item name="android:textColor">@color/sound_fragment_text_detail_color</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 
     <style name="FormulaEditorButton">
         <item name="android:layout_width">0dp</item>
         <item name="android:background">@drawable/formula_editor_keyboard_button</item>
-        </style>
+        <item name="android:layout_height">@dimen/key_height</item>
+        <item name="android:layout_marginBottom">@dimen/key_margin</item>
+        <item name="android:layout_marginRight">@dimen/key_margin</item>
+        <item name="android:textColor">@color/formula_editor_keyboard_text_color</item>
+        <item name="android:lines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="FormulaEditorImageButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:background">@drawable/formula_editor_keyboard_button</item>
+        <item name="android:layout_height">@dimen/key_height</item>
+        <item name="android:layout_marginBottom">@dimen/key_margin</item>
+        <item name="android:layout_marginRight">@dimen/key_margin</item>
+    </style>
+    
+    <style name="formulaeditor_variblelist_fragment_main" parent ="fragment_basic_style">
+        <item name="android:textColor">@color/sound_fragment_text_main_color</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    
+    <style name="formulaeditor_variblelist_fragment_variable_value" parent ="fragment_basic_style">
+        <item name="android:textColor">@color/solid_white</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    
+        <style name="BrickCategory">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="BrickCategoryText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/brick_category_height</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:paddingLeft">21dp</item>
+        <item name="android:paddingRight">14dp</item>
+        <item name="android:textColor">@color/brick_category_fragment_text_color</item>
+        <item name="android:textSize">@dimen/text_size_brick_category</item>
+    </style>
+
+    <style name="BrickCategoryText.Control">
+        <item name="android:background">@drawable/brick_selection_background_control</item>
+        <item name="android:drawableRight">@drawable/main_menu_button_arrow_control</item>
+    </style>
+
+    <style name="BrickCategoryText.Motion">
+        <item name="android:background">@drawable/brick_selection_background_motion</item>
+        <item name="android:drawableRight">@drawable/main_menu_button_arrow_motion</item>
+    </style>
+
+    <style name="BrickCategoryText.Sounds">
+        <item name="android:background">@drawable/brick_selection_background_sounds</item>
+        <item name="android:drawableRight">@drawable/main_menu_button_arrow_sounds</item>
+    </style>
+
+    <style name="BrickCategoryText.Looks">
+        <item name="android:background">@drawable/brick_selection_background_looks</item>
+        <item name="android:drawableRight">@drawable/main_menu_button_arrow_looks</item>
+    </style>
+
+    <style name="BrickCategoryText.Variables">
+        <item name="android:background">@drawable/brick_selection_background_variables</item>
+        <item name="android:drawableRight">@drawable/main_menu_button_arrow_variables</item>
+    </style>
+    
+    <style name="BrickCategoryText.Lego">
+        <item name="android:background">@drawable/brick_selection_background_lego</item>
+        <item name="android:drawableRight">@drawable/main_menu_button_arrow_lego</item>
+    </style>
+
+    <style name="ScriptActivitySpinnerItemTextAppearance">
+        <item name="android:textColor">@color/abs__background_holo_light</item>
+        <item name="android:typeface">normal</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
 
 </resources>

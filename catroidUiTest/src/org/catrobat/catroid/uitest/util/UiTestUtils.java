@@ -42,25 +42,67 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BroadcastBrick;
+import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
+import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
+import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
+import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
+import org.catrobat.catroid.content.bricks.LoopBeginBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
+import org.catrobat.catroid.content.bricks.NextLookBrick;
+import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
+import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
+import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
+import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
+import org.catrobat.catroid.content.bricks.SetXBrick;
+import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.TurnLeftBrick;
+import org.catrobat.catroid.content.bricks.TurnRightBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.InternToken;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.UtilToken;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -69,14 +111,12 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -99,6 +139,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 	private static SparseIntArray brickCategoryMap;
+	private static List<InternToken> internTokenList = new ArrayList<InternToken>();
 
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 	public static final String PROJECTNAME1 = "testingproject1";
@@ -222,9 +263,9 @@ public class UiTestUtils {
 
 		Formula formula = (Formula) Reflection.getPrivateField(theBrick, fieldName);
 
-		assertEquals("Wrong text in field", newValue, formula.interpretFloat(theBrick.getSprite()), 0.01f);
+		assertEquals("Wrong text in field", newValue, formula.interpretDouble(theBrick.getSprite()), 0.01f);
 		assertEquals("Text not updated in the brick list", newValue,
-				Double.parseDouble(solo.getEditText(editTextNumber).getText().toString()), 0.01f);
+				Double.parseDouble(solo.getEditText(editTextNumber).getText().toString().replace(',', '.')), 0.01f);
 
 	}
 
@@ -338,13 +379,21 @@ public class UiTestUtils {
 
 	public static void addNewBrick(Solo solo, int categoryStringId, int brickStringId, int nThElement) {
 		clickOnBottomBar(solo, R.id.button_add);
-		if (!solo.waitForText(solo.getCurrentActivity().getString(categoryStringId), 0, 5000)) {
+		if (!solo.waitForText(solo.getCurrentActivity().getString(categoryStringId), nThElement, 5000)) {
 			fail("Text not shown in 5 secs!");
 		}
+
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		if (!solo.waitForText(solo.getCurrentActivity().getString(brickStringId), nThElement, 5000)) {
-			fail("Text not shown in 5 secs!");
+		solo.searchText(solo.getCurrentActivity().getString(categoryStringId));
+
+		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+
+		while (!solo.searchText(solo.getCurrentActivity().getString(brickStringId))) {
+			if (!solo.scrollDownList(fragmentListView)) {
+				fail("Text not shown");
+			}
 		}
+
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId), nThElement, true);
 		solo.sleep(500);
 	}
@@ -379,8 +428,173 @@ public class UiTestUtils {
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
+		StorageHandler.getInstance().saveProject(project);
 
 		return brickList;
+	}
+
+	public static List<Brick> createTestProjectNestedLoops() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+
+		Script testScript = new StartScript(firstSprite);
+
+		ArrayList<Brick> brickList = new ArrayList<Brick>();
+
+		ForeverBrick firstForeverBrick = new ForeverBrick(firstSprite);
+		ForeverBrick secondForeverBrick = new ForeverBrick(firstSprite);
+
+		brickList.add(firstForeverBrick);
+		brickList.add(new ShowBrick(firstSprite));
+		brickList.add(secondForeverBrick);
+		brickList.add(new ComeToFrontBrick(firstSprite));
+		brickList.add(new LoopEndBrick(firstSprite, secondForeverBrick));
+		brickList.add(new LoopEndBrick(firstSprite, firstForeverBrick));
+
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(testScript);
+
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		return brickList;
+	}
+
+	public static List<Brick> createTestProjectIfBricks() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+
+		Script testScript = new StartScript(firstSprite);
+
+		ArrayList<Brick> brickList = new ArrayList<Brick>();
+
+		IfLogicBeginBrick IfBeginBrick = new IfLogicBeginBrick(firstSprite, 0);
+		IfLogicElseBrick IfElseBrick = new IfLogicElseBrick(firstSprite, IfBeginBrick);
+		IfLogicEndBrick IfEndBrick = new IfLogicEndBrick(firstSprite, IfElseBrick, IfBeginBrick);
+
+		brickList.add(IfBeginBrick);
+		brickList.add(new ShowBrick(firstSprite));
+		brickList.add(IfElseBrick);
+		brickList.add(new ComeToFrontBrick(firstSprite));
+		brickList.add(IfEndBrick);
+
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(testScript);
+
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		return brickList;
+	}
+
+	public static List<Brick> createTestProjectWithEveryBrick() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+
+		Script testScript = new StartScript(firstSprite);
+
+		ArrayList<Brick> brickList = new ArrayList<Brick>();
+
+		brickList.add(new BroadcastBrick(firstSprite));
+		brickList.add(new BroadcastWaitBrick(firstSprite));
+		brickList.add(new ChangeBrightnessByNBrick(firstSprite, 0));
+		brickList.add(new ChangeGhostEffectByNBrick(firstSprite, 0));
+		brickList.add(new ChangeSizeByNBrick(firstSprite, 0));
+		brickList.add(new ChangeVolumeByNBrick(firstSprite, 0));
+		brickList.add(new ChangeXByNBrick(firstSprite, 0));
+		brickList.add(new ChangeYByNBrick(firstSprite, 0));
+		brickList.add(new ClearGraphicEffectBrick(firstSprite));
+		brickList.add(new ComeToFrontBrick(firstSprite));
+		brickList.add(new GlideToBrick(firstSprite, 0, 0, 0));
+		brickList.add(new GoNStepsBackBrick(firstSprite, 0));
+		brickList.add(new HideBrick(firstSprite));
+		brickList.add(new IfOnEdgeBounceBrick(firstSprite));
+		//brickList.add(new LegoNxtMotorActionBrick(firstSprite, LegoNxtMotorActionBrick.Motor.MOTOR_A, 0));
+		//brickList.add(new LegoNxtMotorTurnAngleBrick(firstSprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, 0));
+		brickList.add(new MoveNStepsBrick(firstSprite, 0));
+		brickList.add(new NextLookBrick(firstSprite));
+		brickList.add(new NoteBrick(firstSprite));
+		brickList.add(new PlaceAtBrick(firstSprite, 0, 0));
+		brickList.add(new PlaySoundBrick(firstSprite));
+		brickList.add(new PointInDirectionBrick(firstSprite, Direction.DIRECTION_DOWN));
+		brickList.add(new PointToBrick(firstSprite, firstSprite));
+		brickList.add(new SetBrightnessBrick(firstSprite, 0));
+		brickList.add(new SetGhostEffectBrick(firstSprite, 0));
+		brickList.add(new SetLookBrick(firstSprite));
+		brickList.add(new SetSizeToBrick(firstSprite, 0));
+		brickList.add(new SetVolumeToBrick(firstSprite, 0));
+		brickList.add(new SetXBrick(firstSprite, 0));
+		brickList.add(new SetYBrick(firstSprite, 0));
+		brickList.add(new ShowBrick(firstSprite));
+		brickList.add(new SpeakBrick(firstSprite, "Hello"));
+		brickList.add(new StopAllSoundsBrick(firstSprite));
+		brickList.add(new TurnLeftBrick(firstSprite, 0));
+		brickList.add(new TurnRightBrick(firstSprite, 0));
+		brickList.add(new WaitBrick(firstSprite, 0));
+
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(testScript);
+
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		return brickList;
+	}
+
+	public static void createTestProjectForActionModeDelete() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+
+		Script firstScript = new StartScript(firstSprite);
+
+		ArrayList<Brick> firstBrickList = new ArrayList<Brick>();
+		firstBrickList.add(new HideBrick(firstSprite));
+		firstBrickList.add(new ShowBrick(firstSprite));
+
+		for (Brick brick : firstBrickList) {
+			firstScript.addBrick(brick);
+		}
+
+		Script secondScript = new WhenScript(firstSprite);
+		ArrayList<Brick> secondBrickList = new ArrayList<Brick>();
+		secondBrickList.add(new HideBrick(firstSprite));
+		secondBrickList.add(new ShowBrick(firstSprite));
+
+		for (Brick brick : secondBrickList) {
+			secondScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(firstScript);
+		firstSprite.addScript(secondScript);
+
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(firstScript);
+
 	}
 
 	public static void createEmptyProject() {
@@ -491,6 +705,132 @@ public class UiTestUtils {
 
 		StorageHandler.getInstance().saveProject(project);
 		return project;
+	}
+
+	public static void createProjectForCopySprite(String projectName, Context context) {
+		StorageHandler storageHandler = StorageHandler.getInstance();
+
+		Project project = new Project(context, projectName);
+		Sprite firstSprite = new Sprite(context.getString(R.string.default_project_sprites_pocketcode_name));
+		Sprite secondSprite = new Sprite("second_sprite");
+
+		Script firstSpriteScript = new StartScript(firstSprite);
+
+		ArrayList<Brick> brickList = new ArrayList<Brick>();
+		brickList.add(new PlaceAtBrick(firstSprite, 11, 12));
+		brickList.add(new SetXBrick(firstSprite, 13));
+		brickList.add(new SetYBrick(firstSprite, 14));
+		brickList.add(new ChangeXByNBrick(firstSprite, 15));
+		brickList.add(new ChangeXByNBrick(firstSprite, 16));
+		brickList.add(new IfOnEdgeBounceBrick(firstSprite));
+		brickList.add(new MoveNStepsBrick(firstSprite, 17));
+		brickList.add(new TurnLeftBrick(firstSprite, 18));
+		brickList.add(new TurnRightBrick(firstSprite, 19));
+		brickList.add(new PointToBrick(firstSprite, secondSprite));
+		brickList.add(new GlideToBrick(firstSprite, 21, 22, 23));
+		brickList.add(new GoNStepsBackBrick(firstSprite, 24));
+		brickList.add(new ComeToFrontBrick(firstSprite));
+
+		brickList.add(new SetLookBrick(firstSprite));
+		brickList.add(new SetSizeToBrick(firstSprite, 11));
+		brickList.add(new ChangeSizeByNBrick(firstSprite, 12));
+		brickList.add(new HideBrick(firstSprite));
+		brickList.add(new ShowBrick(firstSprite));
+		brickList.add(new SetGhostEffectBrick(firstSprite, 13));
+		brickList.add(new ChangeGhostEffectByNBrick(firstSprite, 14));
+		brickList.add(new SetBrightnessBrick(firstSprite, 15));
+		brickList.add(new ChangeGhostEffectByNBrick(firstSprite, 16));
+		brickList.add(new ClearGraphicEffectBrick(firstSprite));
+		brickList.add(new NextLookBrick(firstSprite));
+
+		brickList.add(new PlaySoundBrick(firstSprite));
+		brickList.add(new StopAllSoundsBrick(firstSprite));
+		brickList.add(new SetVolumeToBrick(firstSprite, 17));
+		brickList.add(new ChangeVolumeByNBrick(firstSprite, 18));
+		brickList.add(new SpeakBrick(firstSprite, "Hallo"));
+
+		brickList.add(new WaitBrick(firstSprite, 19));
+		brickList.add(new BroadcastWaitBrick(firstSprite));
+		brickList.add(new NoteBrick(firstSprite));
+		LoopBeginBrick beginBrick = new ForeverBrick(firstSprite);
+		LoopEndBrick endBrick = new LoopEndBrick(firstSprite, beginBrick);
+		beginBrick.setLoopEndBrick(endBrick);
+		brickList.add(beginBrick);
+		brickList.add(endBrick);
+
+		beginBrick = new RepeatBrick(firstSprite, 20);
+		endBrick = new LoopEndBrick(firstSprite, beginBrick);
+		beginBrick.setLoopEndBrick(endBrick);
+		brickList.add(beginBrick);
+		brickList.add(endBrick);
+		brickList.add(new WaitBrick(firstSprite, 1));
+
+		// create formula to test copying
+		// ( 1 + global ) * local - COMPASS_DIRECTION
+
+		FormulaElement numberElement = new FormulaElement(FormulaElement.ElementType.NUMBER, "1", null);
+		FormulaElement bracesElement = new FormulaElement(FormulaElement.ElementType.BRACKET, null, null, null,
+				numberElement);
+
+		FormulaElement operatorElementPlus = new FormulaElement(FormulaElement.ElementType.OPERATOR, "PLUS", null);
+		FormulaElement operatorElementMult = new FormulaElement(FormulaElement.ElementType.OPERATOR, "MULT", null);
+		FormulaElement operatorElementMinus = new FormulaElement(FormulaElement.ElementType.OPERATOR, "MINUS", null);
+
+		UserVariablesContainer variableContainer = project.getUserVariables();
+		variableContainer.addProjectUserVariable("global");
+		FormulaElement variableElementGlobal = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, "global",
+				null);
+		variableContainer.addSpriteUserVariableToSprite(firstSprite, "local");
+		FormulaElement variableElemetLocal = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, "local", null);
+
+		FormulaElement sensorElemet = new FormulaElement(FormulaElement.ElementType.SENSOR, "COMPASS_DIRECTION", null);
+
+		operatorElementPlus.setLeftChild(numberElement);
+		operatorElementPlus.setRightChild(variableElementGlobal);
+		bracesElement.setRightChild(operatorElementPlus);
+		operatorElementMult.setLeftChild(bracesElement);
+		operatorElementMult.setRightChild(variableElemetLocal);
+		operatorElementMinus.setLeftChild(operatorElementMult);
+		operatorElementMinus.setRightChild(sensorElemet);
+
+		if (internTokenList.isEmpty()) {
+			internTokenList.addAll(operatorElementMinus.getInternTokenList());
+		}
+
+		Formula formula = new Formula(operatorElementMinus);
+
+		IfLogicBeginBrick ifBeginBrick = new IfLogicBeginBrick(firstSprite, formula);
+		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(firstSprite, ifBeginBrick);
+		IfLogicEndBrick ifEndBrick = new IfLogicEndBrick(firstSprite, ifElseBrick, ifBeginBrick);
+		brickList.add(ifBeginBrick);
+		brickList.add(new SpeakBrick(firstSprite, "Hello, I'm true!"));
+		brickList.add(ifElseBrick);
+		brickList.add(new SpeakBrick(firstSprite, "Hallo, I'm false!"));
+		brickList.add(ifEndBrick);
+
+		for (Brick brick : brickList) {
+			firstSpriteScript.addBrick(brick);
+		}
+		firstSprite.addScript(firstSpriteScript);
+
+		BroadcastScript broadcastScript = new BroadcastScript(firstSprite);
+		broadcastScript.setBroadcastMessage("Hallo");
+		BroadcastReceiverBrick brickBroad = new BroadcastReceiverBrick(firstSprite, broadcastScript);
+		firstSprite.addScript(broadcastScript);
+		brickList.add(brickBroad);
+
+		project.addSprite(firstSprite);
+		project.addSprite(secondSprite);
+
+		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setCurrentScript(firstSpriteScript);
+
+		storageHandler.saveProject(project);
+	}
+
+	public static List<InternToken> getInternTokenList() {
+		return internTokenList;
 	}
 
 	public static void clearAllUtilTestProjects() {
@@ -637,14 +977,11 @@ public class UiTestUtils {
 			String testPassword = "pwspws";
 			String testEmail = testUser + "@gmail.com";
 
-			String token = UtilToken.calculateToken(testUser, testPassword);
+			String token = Constants.NO_TOKEN;
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-					"de", "at", token);
+					"de", "at", token, context);
 
 			assert (userRegistered);
-
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			sharedPreferences.edit().putString(Constants.TOKEN, token).commit();
 
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
@@ -771,11 +1108,6 @@ public class UiTestUtils {
 		static final long serialVersionUID = 1L;
 		private final float catrobatLanguageVersion;
 
-		@SuppressWarnings("unused")
-		public ProjectWithCatrobatLanguageVersion() {
-			catrobatLanguageVersion = 0.5f;
-		}
-
 		public ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {
 			super(null, name);
 			this.catrobatLanguageVersion = catrobatLanguageVersion;
@@ -799,7 +1131,7 @@ public class UiTestUtils {
 		ProjectManager.INSTANCE.setProject(project);
 		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
 		ProjectManager.INSTANCE.setCurrentScript(testScript);
-		return ProjectManager.INSTANCE.saveProject();
+		return StorageHandler.getInstance().saveProject(project);
 	}
 
 	public static void goToHomeActivity(Activity activity) {
@@ -814,7 +1146,7 @@ public class UiTestUtils {
 
 			ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
 			ActionBarSherlockCompat actionBarSherlockCompat = (ActionBarSherlockCompat) Reflection.invokeMethod(
-					SherlockFragmentActivity.class, activity, "getSherlock", null, null);
+					SherlockFragmentActivity.class, activity, "getSherlock");
 			actionBarSherlockCompat.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
 		} else {
 			solo.clickOnActionBarHomeButton();
@@ -915,6 +1247,10 @@ public class UiTestUtils {
 			}
 		}
 		return false;
+	}
+
+	public static void clickOnStageCoordinates(Solo solo, int x, int y, int screenWidth, int screenHeight) {
+		solo.clickOnScreen(screenWidth / 2 + x, screenHeight / 2 - y);
 	}
 
 	/**
@@ -1036,5 +1372,9 @@ public class UiTestUtils {
 	public static List<TextView> getViewsByParentId(Solo solo, int parentId) {
 		View parent = solo.getView(parentId);
 		return solo.getCurrentTextViews(parent);
+	}
+
+	public static void prepareStageForTest() {
+		Reflection.setPrivateField(StageListener.class, "DYNAMIC_SAMPLING_RATE_FOR_ACTIONS", false);
 	}
 }

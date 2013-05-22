@@ -45,8 +45,9 @@ public class Project implements Serializable {
 
 	@XStreamAlias("header")
 	private XmlHeader xmlHeader = new XmlHeader();
+	@XStreamAlias("objectList")
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
-
+	@XStreamAlias("variables")
 	private UserVariablesContainer userVariables = null;
 
 	public Project(Context context, String name) {
@@ -132,6 +133,14 @@ public class Project implements Serializable {
 		xmlHeader.setCatrobatLanguageVersion(catrobatLanguageVersion);
 	}
 
+	public boolean isManualScreenshot() {
+		return xmlHeader.isProgramScreenshotManuallyTaken();
+	}
+
+	public void setManualScreenshot(boolean manualScreenshot) {
+		xmlHeader.setProgramScreenshotManuallyTaken(manualScreenshot);
+	}
+
 	public void setDeviceData(Context context) {
 		// TODO add other header values
 		xmlHeader.setDeviceName(Build.MODEL);
@@ -148,7 +157,6 @@ public class Project implements Serializable {
 
 	// default constructor for XMLParser
 	public Project() {
-
 	}
 
 	public UserVariablesContainer getUserVariables() {

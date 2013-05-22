@@ -47,6 +47,8 @@ import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActivityAdapterInterface {
@@ -69,7 +71,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 		this.context = context;
 		this.showDetails = showDetails;
 		this.soundInfoItems = items;
-		this.selectMode = Constants.SELECT_NONE;
+		this.selectMode = ListView.CHOICE_MODE_NONE;
 	}
 
 	public void setOnSoundEditListener(OnSoundEditListener listener) {
@@ -79,12 +81,15 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 	private static class ViewHolder {
 		private ImageButton playButton;
 		private ImageButton pauseButton;
+		private LinearLayout soundFragmentButtonLayout;
 		private CheckBox checkbox;
 		private TextView titleTextView;
 		private TextView timeSeperatorTextView;
 		private TextView timeDurationTextView;
+		private TextView soundFileSizePrefixTextView;
 		private TextView soundFileSizeTextView;
 		private Chronometer timePlayedChronometer;
+
 	}
 
 	@Override
@@ -96,21 +101,26 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 			convertView = View.inflate(context, R.layout.fragment_sound_soundlist_item, null);
 
 			holder = new ViewHolder();
-
-			holder.playButton = (ImageButton) convertView.findViewById(R.id.btn_sound_play);
-			holder.pauseButton = (ImageButton) convertView.findViewById(R.id.btn_sound_pause);
+			holder.playButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_play_image_button);
+			holder.pauseButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_pause_image_button);
 
 			holder.playButton.setVisibility(Button.VISIBLE);
 			holder.pauseButton.setVisibility(Button.GONE);
 
-			holder.checkbox = (CheckBox) convertView.findViewById(R.id.sound_checkbox);
+			holder.soundFragmentButtonLayout = (LinearLayout) convertView
+					.findViewById(R.id.fragment_sound_item_main_linear_layout);
+			holder.checkbox = (CheckBox) convertView.findViewById(R.id.fragment_sound_item_checkbox);
+			holder.titleTextView = (TextView) convertView.findViewById(R.id.fragment_sound_item_title_text_view);
+			holder.timeSeperatorTextView = (TextView) convertView
+					.findViewById(R.id.fragment_sound_item_time_seperator_text_view);
+			holder.timeDurationTextView = (TextView) convertView
+					.findViewById(R.id.fragment_sound_item_duration_text_view);
+			holder.soundFileSizePrefixTextView = (TextView) convertView
+					.findViewById(R.id.fragment_sound_item_size_prefix_text_view);
+			holder.soundFileSizeTextView = (TextView) convertView.findViewById(R.id.fragment_sound_item_size_text_view);
 
-			holder.titleTextView = (TextView) convertView.findViewById(R.id.sound_title);
-			holder.timeSeperatorTextView = (TextView) convertView.findViewById(R.id.sound_time_seperator);
-			holder.timeDurationTextView = (TextView) convertView.findViewById(R.id.sound_duration);
-			holder.soundFileSizeTextView = (TextView) convertView.findViewById(R.id.sound_size);
-
-			holder.timePlayedChronometer = (Chronometer) convertView.findViewById(R.id.sound_chronometer_time_played);
+			holder.timePlayedChronometer = (Chronometer) convertView
+					.findViewById(R.id.fragment_sound_item_time_played_chronometer);
 
 			convertView.setTag(holder);
 		} else {
@@ -128,7 +138,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					if (isChecked) {
-						if (selectMode == Constants.SINGLE_SELECT) {
+						if (selectMode == ListView.CHOICE_MODE_SINGLE) {
 							clearCheckedItems();
 						}
 						checkedSounds.add(position);
@@ -143,10 +153,14 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 				}
 			});
 
-			if (selectMode != Constants.SELECT_NONE) {
+			if (selectMode != ListView.CHOICE_MODE_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
+				holder.checkbox.setVisibility(View.VISIBLE);
+				holder.soundFragmentButtonLayout.setBackgroundResource(R.drawable.button_background_shadowed);
 			} else {
 				holder.checkbox.setVisibility(View.GONE);
+				holder.checkbox.setVisibility(View.GONE);
+				holder.soundFragmentButtonLayout.setBackgroundResource(R.drawable.button_background_selector);
 				holder.checkbox.setChecked(false);
 				clearCheckedItems();
 			}
@@ -206,11 +220,13 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 				}
 
 				if (showDetails) {
-					holder.soundFileSizeTextView.setText(getContext().getString(R.string.size) + " "
-							+ UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
+					holder.soundFileSizeTextView
+							.setText(UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
 					holder.soundFileSizeTextView.setVisibility(TextView.VISIBLE);
+					holder.soundFileSizePrefixTextView.setVisibility(TextView.VISIBLE);
 				} else {
 					holder.soundFileSizeTextView.setVisibility(TextView.GONE);
+					holder.soundFileSizePrefixTextView.setVisibility(TextView.GONE);
 				}
 
 				tempPlayer.reset();
@@ -219,23 +235,28 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 				Log.e("CATROID", "Cannot get view.", e);
 			}
 
-			holder.playButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					if (onSoundEditListener != null) {
-						onSoundEditListener.onSoundPlay(view);
+			if (selectMode != ListView.CHOICE_MODE_NONE) {
+				holder.playButton.setOnClickListener(null);
+				holder.pauseButton.setOnClickListener(null);
+			} else {
+				holder.playButton.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						if (onSoundEditListener != null) {
+							onSoundEditListener.onSoundPlay(view);
+						}
 					}
-				}
-			});
+				});
 
-			holder.pauseButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					if (onSoundEditListener != null) {
-						onSoundEditListener.onSoundPause(view);
+				holder.pauseButton.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						if (onSoundEditListener != null) {
+							onSoundEditListener.onSoundPause(view);
+						}
 					}
-				}
-			});
+				});
+			}
 		}
 		return convertView;
 	}

@@ -30,8 +30,8 @@ import java.io.InputStream;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -61,6 +61,7 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.prepareStageForTest();
 		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -77,7 +78,7 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 		prepareTest();
 
 		String nyanCatPath = "";
-		String nyanCat = "nyancat";
+		String nyanCat = "nyancat_crash";
 		String nyanCatPng = "nyancat_crash.png";
 		try {
 			// need to load image from assets, not from resources folder.
@@ -121,8 +122,8 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 		String scriptsSpinnerText = solo.getString(R.string.scripts);
 		String looksSpinnerText = solo.getString(R.string.category_looks);
 		UiTestUtils.changeToFragmentViaActionbar(solo, looksSpinnerText, scriptsSpinnerText);
-		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
-		solo.clickOnText(nyanCat);
+
+		assertTrue(nyanCat + " is not selected in Spinner", solo.isSpinnerTextSelected(nyanCat));
 
 		UiTestUtils.clickOnActionBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
@@ -177,8 +178,8 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 		String scriptsSpinnerText = solo.getString(R.string.scripts);
 		String looksSpinnerText = solo.getString(R.string.category_looks);
 		UiTestUtils.changeToFragmentViaActionbar(solo, looksSpinnerText, scriptsSpinnerText);
-		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
-		solo.clickOnText(manImage);
+
+		assertTrue(manImage + " is not selected in Spinner", solo.isSpinnerTextSelected(manImage));
 
 		UiTestUtils.clickOnActionBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());

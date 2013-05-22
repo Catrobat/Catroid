@@ -43,9 +43,11 @@ import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.utils.Utils;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -57,6 +59,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -66,19 +69,23 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
 public class SoundFragment extends ScriptActivityFragment implements OnSoundEditListener,
-		LoaderManager.LoaderCallbacks<Cursor> {
+		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
 
 	public static final String TAG = SoundFragment.class.getSimpleName();
 	public static final int REQUEST_SELECT_MUSIC = 0;
@@ -107,6 +114,26 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private ActionMode actionMode;
 
 	private boolean isRenameActionMode;
+	private boolean isResultHandled = false;
+
+	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
+
+	private LinearLayout btn_add;
+
+	public void setOnSoundInfoListChangedAfterNewListener(OnSoundInfoListChangedAfterNewListener listener) {
+		soundInfoListChangedAfterNewListener = listener;
+	}
+
+	private void setHandleAddbutton() {
+		btn_add = (LinearLayout) getSherlockActivity().findViewById(R.id.button_add);
+		btn_add.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				handleAddButton();
+			}
+		});
+
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -137,11 +164,14 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		setListAdapter(adapter);
 
 		Utils.loadProjectIfNeeded(getActivity());
+		setHandleAddbutton();
+
 	}
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.copy).setVisible(false);
+		menu.findItem(R.id.edit_in_pocket_paint).setVisible(false);
 		super.onPrepareOptionsMenu(menu);
 	}
 
@@ -161,6 +191,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		setHandleAddbutton();
 
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;
@@ -184,6 +216,16 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				.getApplicationContext());
 
 		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
+
+		handleAddButtonFromNew();
+	}
+
+	@Override
+	public void onHiddenChanged(boolean hidden) {
+		super.onHiddenChanged(hidden);
+		if (!hidden) {
+			handleAddButtonFromNew();
+		}
 	}
 
 	@Override
@@ -249,9 +291,15 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	}
 
 	@Override
+	public void startEditInPocketPaintActionMode() {
+
+	}
+
+	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
+		Log.d("SoundFragment", "onActivityReuslt");
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_MUSIC && data != null) {
 			Bundle arguments = new Bundle();
@@ -262,6 +310,11 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			} else {
 				getLoaderManager().restartLoader(ID_LOADER_MEDIA_IMAGE, arguments, this);
 			}
+		}
+		if (requestCode == SoundFragment.REQUEST_SELECT_MUSIC) {
+			Log.d("SoundFragment", "onActivityResult RequestMusic");
+			setHandleAddbutton();
+
 		}
 	}
 
@@ -337,6 +390,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		getLoaderManager().destroyLoader(ID_LOADER_MEDIA_IMAGE);
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+
+		isResultHandled = true;
 	}
 
 	@Override
@@ -566,7 +621,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.SINGLE_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_SINGLE);
 			mode.setTitle(getString(R.string.rename));
 
 			setActionModeActive(true);
@@ -589,7 +644,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				selectedSoundInfo = (SoundInfo) listView.getItemAtPosition(position);
 				showRenameDialog();
 			}
-			setSelectMode(Constants.SELECT_NONE);
+			setSelectMode(ListView.CHOICE_MODE_NONE);
 			adapter.clearCheckedItems();
 
 			actionMode = null;
@@ -609,7 +664,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.MULTI_SELECT);
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
 			mode.setTitle(R.string.delete);
@@ -640,7 +695,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				deleteSound(position - numberDeleted);
 				++numberDeleted;
 			}
-			setSelectMode(Constants.SELECT_NONE);
+			setSelectMode(ListView.CHOICE_MODE_NONE);
 			adapter.clearCheckedItems();
 
 			actionMode = null;
@@ -661,6 +716,10 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		adapter.notifyDataSetChanged();
 
+		if (soundInfoListChangedAfterNewListener != null) {
+			soundInfoListChangedAfterNewListener.onSoundInfoListChangedAfterNew(newSoundInfo);
+		}
+
 		//scroll down the list to the new item:
 		{
 			final ListView listView = getListView();
@@ -670,6 +729,16 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 					listView.setSelection(listView.getCount() - 1);
 				}
 			});
+		}
+
+		if (isResultHandled) {
+			isResultHandled = false;
+
+			ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+			if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
+					&& scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
+				switchToScriptFragment();
+			}
 		}
 	}
 
@@ -690,5 +759,51 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
+	}
+
+	private void handleAddButtonFromNew() {
+		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+		if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
+				&& !scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
+			scriptActivity.setIsSoundFragmentHandleAddButtonHandled(true);
+			handleAddButton();
+		}
+	}
+
+	@Override
+	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+		switch (keyCode) {
+			case KeyEvent.KEYCODE_BACK:
+				ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+				if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()) {
+					switchToScriptFragment();
+
+					return true;
+				}
+			default:
+				break;
+		}
+		return false;
+	}
+
+	private void switchToScriptFragment() {
+		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+		ActionBar actionBar = scriptActivity.getSupportActionBar();
+		actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_SCRIPTS);
+		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
+
+		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.hide(this);
+		fragmentTransaction.show(scriptActivity.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
+		fragmentTransaction.commit();
+
+		scriptActivity.setIsSoundFragmentFromPlaySoundBrickNewFalse();
+		scriptActivity.setIsSoundFragmentHandleAddButtonHandled(false);
+	}
+
+	public interface OnSoundInfoListChangedAfterNewListener {
+
+		public void onSoundInfoListChangedAfterNew(SoundInfo soundInfo);
+
 	}
 }

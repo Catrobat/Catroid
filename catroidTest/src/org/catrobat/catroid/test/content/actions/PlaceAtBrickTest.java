@@ -38,17 +38,17 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXPosition());
-		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYPosition());
+		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		GlideToAction action = ExtendedActions.placeAt(sprite, xPosition, yPosition);
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
 		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", X_POSITION_VALUE,
-				(int) sprite.look.getXPosition());
+				(int) sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", Y_POSITON_VALUE,
-				(int) sprite.look.getYPosition());
+				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
@@ -70,17 +70,17 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 		action.act(1.0f);
 
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
-				(int) sprite.look.getXPosition());
+				(int) sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
-				(int) sprite.look.getYPosition());
+				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 
 		action = ExtendedActions.placeAt(sprite, new Formula(Integer.MIN_VALUE), new Formula(Integer.MIN_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
 		assertEquals("PlaceAtBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
-				(int) sprite.look.getXPosition());
+				(int) sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("PlaceAtBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
-				(int) sprite.look.getYPosition());
+				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

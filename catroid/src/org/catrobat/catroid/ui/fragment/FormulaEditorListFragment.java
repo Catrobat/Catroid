@@ -23,14 +23,12 @@
 package org.catrobat.catroid.ui.fragment;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -41,6 +39,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 
@@ -50,6 +49,9 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 	public static final String MATH_TAG = "mathFragment";
 	public static final String LOGIC_TAG = "logicFragment";
 	public static final String SENSOR_TAG = "sensorFragment";
+
+	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
+	public static final String FRAGMENT_TAG_BUNDLE_ARGUMENT = "fragmentTag";
 
 	public static final String[] TAGS = { OBJECT_TAG, MATH_TAG, LOGIC_TAG, SENSOR_TAG };
 
@@ -62,45 +64,47 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_logic_notequal, R.string.formula_editor_logic_lesserthan,
 			R.string.formula_editor_logic_leserequal, R.string.formula_editor_logic_greaterthan,
 			R.string.formula_editor_logic_greaterequal, R.string.formula_editor_logic_and,
-			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not };
+			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not, R.string.formula_editor_function_true,
+			R.string.formula_editor_function_false };
 
 	private static final int[] MATH_ITEMS = { R.string.formula_editor_function_sin,
 			R.string.formula_editor_function_cos, R.string.formula_editor_function_tan,
 			R.string.formula_editor_function_ln, R.string.formula_editor_function_log,
 			R.string.formula_editor_function_pi, R.string.formula_editor_function_sqrt,
 			R.string.formula_editor_function_rand, R.string.formula_editor_function_abs,
-			R.string.formula_editor_function_round };
+			R.string.formula_editor_function_round, R.string.formula_editor_function_mod };
 
 	private final int[] SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
-			R.string.formula_editor_sensor_z_orientation, R.string.formula_editor_sensor_x_orientation,
-			R.string.formula_editor_sensor_y_orientation };
+			R.string.formula_editor_sensor_compass_direction, R.string.formula_editor_sensor_x_inclination,
+			R.string.formula_editor_sensor_y_inclination };
 
-	private final String tag;
+	private String tag;
 	private String[] items;
-	private FormulaEditorEditText formulaEditorEditText;
 	private String actionBarTitle;
 	private int[] itemsIds;
 
 	@Override
 	public void onListItemClick(ListView listView, View view, int position, long id) {
-		formulaEditorEditText.handleKeyEvent(itemsIds[position], "");
+		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSherlockActivity().getSupportFragmentManager()
+				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+		if (formulaEditor != null) {
+			formulaEditor.addResourceToActiveFormula(itemsIds[position]);
+		}
 		KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
 		onKey(null, keyEvent.getKeyCode(), keyEvent);
 	}
 
-	public FormulaEditorListFragment(FormulaEditorEditText formulaEditorEditText, String actionBarTitle,
-			String fragmentTag) {
-		this.formulaEditorEditText = formulaEditorEditText;
-		this.actionBarTitle = actionBarTitle;
-		tag = fragmentTag;
-
+	public FormulaEditorListFragment() {
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+
+		this.actionBarTitle = getArguments().getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT);
+		this.tag = getArguments().getString(FRAGMENT_TAG_BUNDLE_ARGUMENT);
 
 		itemsIds = new int[] {};
 
@@ -128,20 +132,15 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-		menu.findItem(R.id.delete).setVisible(false);
-		menu.findItem(R.id.copy).setVisible(false);
-		menu.findItem(R.id.cut).setVisible(false);
-		menu.findItem(R.id.show_details).setVisible(false);
-		menu.findItem(R.id.insert_below).setVisible(false);
-		menu.findItem(R.id.move).setVisible(false);
-		menu.findItem(R.id.rename).setVisible(false);
-		menu.findItem(R.id.show_details).setVisible(false);
-		menu.findItem(R.id.settings).setVisible(false);
+		for (int index = 0; index < menu.size(); index++) {
+			menu.getItem(index).setVisible(false);
+		}
 
 		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
 		getSherlockActivity().getSupportActionBar().setTitle(actionBarTitle);
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
@@ -151,13 +150,13 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 	}
 
 	public void showFragment(Context context) {
-		FragmentActivity activity = (FragmentActivity) context;
+		SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
-
 		Fragment formulaEditorFragment = fragmentManager
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		fragTransaction.hide(formulaEditorFragment);
+
 		fragTransaction.show(this);
 		fragTransaction.commit();
 	}

@@ -25,26 +25,29 @@ package org.catrobat.catroid.content.bricks;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class SetBrightnessBrick implements Brick, OnClickListener {
+public class SetBrightnessBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Formula brightness;
-	private Sprite sprite;
 
-	private transient View view;
 	private transient View prototypeView;
 
 	public SetBrightnessBrick() {
@@ -67,14 +70,31 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		SetBrightnessBrick copyBrick = (SetBrightnessBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 
 		view = View.inflate(context, R.layout.brick_set_brightness, null);
+		view = getViewWithAlpha(alphaValue);
+
+		setCheckboxView(R.id.brick_set_brightness_checkbox);
+
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_set_brightness_prototype_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_set_brightness_edit_text);
@@ -84,7 +104,6 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 		editX.setVisibility(View.VISIBLE);
 
 		editX.setOnClickListener(this);
-
 		return view;
 	}
 
@@ -93,7 +112,7 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 		prototypeView = View.inflate(context, R.layout.brick_set_brightness, null);
 		TextView textSetBrightness = (TextView) prototypeView
 				.findViewById(R.id.brick_set_brightness_prototype_text_view);
-		textSetBrightness.setText(String.valueOf(brightness.interpretFloat(sprite)));
+		textSetBrightness.setText(String.valueOf(brightness.interpretDouble(sprite)));
 		return prototypeView;
 	}
 
@@ -103,7 +122,30 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 	}
 
 	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_brightness_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+
+		TextView textBrightness = (TextView) view.findViewById(R.id.brick_set_brightness_label);
+		TextView textTo = (TextView) view.findViewById(R.id.brick_set_brightness_to_textview);
+		TextView textPercent = (TextView) view.findViewById(R.id.brick_set_brightness_to_percent);
+		EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_set_brightness_edit_text);
+		textBrightness.setTextColor(textBrightness.getTextColors().withAlpha(alphaValue));
+		textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
+		textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
+		editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
+		editGhostEffect.getBackground().setAlpha(alphaValue);
+
+		this.alphaValue = (alphaValue);
+		return view;
+	}
+
+	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
 		FormulaEditorFragment.showFragment(view, this, brightness);
 	}
 

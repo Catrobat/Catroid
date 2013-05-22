@@ -25,26 +25,29 @@ package org.catrobat.catroid.content.bricks;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class ChangeSizeByNBrick implements Brick, OnClickListener {
+public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
 	private Formula size;
 
-	private transient View view;
 	private transient View prototypeView;
 
 	public ChangeSizeByNBrick() {
@@ -69,15 +72,30 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		ChangeSizeByNBrick copyBrick = (ChangeSizeByNBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 
 		view = View.inflate(context, R.layout.brick_change_size_by_n, null);
+		view = getViewWithAlpha(alphaValue);
 
+		setCheckboxView(R.id.brick_change_size_by_checkbox);
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 		TextView text = (TextView) view.findViewById(R.id.brick_change_size_by_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
 		size.setTextFieldId(R.id.brick_change_size_by_edit_text);
@@ -87,7 +105,6 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 		edit.setVisibility(View.VISIBLE);
 
 		edit.setOnClickListener(this);
-
 		return view;
 	}
 
@@ -96,7 +113,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 		prototypeView = View.inflate(context, R.layout.brick_change_size_by_n, null);
 		TextView textChangeSizeBy = (TextView) prototypeView
 				.findViewById(R.id.brick_change_size_by_prototype_text_view);
-		textChangeSizeBy.setText(String.valueOf(size.interpretFloat(sprite)));
+		textChangeSizeBy.setText(String.valueOf(size.interpretDouble(sprite)));
 		return prototypeView;
 	}
 
@@ -106,7 +123,28 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	}
 
 	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_size_by_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+
+		TextView changeSizeBy = (TextView) view.findViewById(R.id.brick_change_size_by_label);
+		TextView textPercent = (TextView) view.findViewById(R.id.brick_change_size_by_percent);
+		EditText editChangeSize = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
+		changeSizeBy.setTextColor(changeSizeBy.getTextColors().withAlpha(alphaValue));
+		textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
+		editChangeSize.setTextColor(editChangeSize.getTextColors().withAlpha(alphaValue));
+		editChangeSize.getBackground().setAlpha(alphaValue);
+
+		this.alphaValue = (alphaValue);
+		return view;
+	}
+
+	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
 		FormulaEditorFragment.showFragment(view, this, size);
 	}
 

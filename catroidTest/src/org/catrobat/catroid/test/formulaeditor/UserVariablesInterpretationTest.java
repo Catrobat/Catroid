@@ -35,42 +35,60 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 
 import android.test.AndroidTestCase;
 
 public class UserVariablesInterpretationTest extends AndroidTestCase {
 
 	private static final double USER_VARIABLE_VALUE = 5d;
-	private static final String USER_VARIABLE_NAME = "userVariable1";
-	private static final double DELTA = 0.001d;
+	private static final String PROJECT_USER_VARIABLE = "projectUserVariable";
+	private static final double USER_VARIABLE_VALUE2 = 3.141592d;
+	private static final String SPRITE_USER_VARIABLE = "spriteUserVariable";
+	private static final double USER_VARIABLE_RESET = 0.0d;
 	private Sprite testSprite;
 	private Project project;
 	private Sprite firstSprite;
-	private StartScript startScript1;
+	private StartScript startScript;
 	private ChangeSizeByNBrick changeBrick;
 
 	@Override
 	protected void setUp() {
-		testSprite = new Sprite("sprite");
+		testSprite = new Sprite("testSprite");
 		this.project = new Project(null, "testProject");
-		firstSprite = new Sprite("zwoosh");
-		startScript1 = new StartScript(firstSprite);
+		firstSprite = new Sprite("firstSprite");
+		startScript = new StartScript(firstSprite);
 		changeBrick = new ChangeSizeByNBrick(firstSprite, 10);
-		firstSprite.addScript(startScript1);
-		startScript1.addBrick(changeBrick);
+		firstSprite.addScript(startScript);
+		startScript.addBrick(changeBrick);
 		project.addSprite(firstSprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
-		ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.addProjectUserVariable(USER_VARIABLE_NAME, USER_VARIABLE_VALUE);
+		UserVariablesContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
+				.getUserVariables();
+		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE).setValue(USER_VARIABLE_VALUE);
+		userVariableContainer.addSpriteUserVariableToSprite(firstSprite, SPRITE_USER_VARIABLE).setValue(
+				USER_VARIABLE_VALUE2);
 	}
 
-	public void testUservariables() {
+	public void testUserVariableInterpretation() {
+		Formula userVariable = getUservariableByName(PROJECT_USER_VARIABLE);
+		assertEquals("Formula interpretation of ProjectUserVariable is not as expected", USER_VARIABLE_VALUE,
+				userVariable.interpretDouble(testSprite));
 
-		Formula formula = getUservariableByName(USER_VARIABLE_NAME);
-		assertEquals("Formula interpretation is not as expected", USER_VARIABLE_VALUE,
-				formula.interpretFloat(testSprite), DELTA);
+		userVariable = getUservariableByName(SPRITE_USER_VARIABLE);
+		assertEquals("Formula interpretation of SpriteUserVariable is not as expected", USER_VARIABLE_VALUE2,
+				userVariable.interpretDouble(firstSprite));
+	}
+
+	public void testUserVariableReseting() {
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
+		Formula userVariable = getUservariableByName(PROJECT_USER_VARIABLE);
+		assertEquals("ProjectUserVariable didnt reset", USER_VARIABLE_RESET, userVariable.interpretDouble(testSprite));
+
+		userVariable = getUservariableByName(SPRITE_USER_VARIABLE);
+		assertEquals("SpriteUserVariable didnt reset", USER_VARIABLE_RESET, userVariable.interpretDouble(firstSprite));
 	}
 
 	public void testNotExistingUservariable() {
@@ -91,7 +109,6 @@ public class UserVariablesInterpretationTest extends AndroidTestCase {
 		internTokenList.add(new InternToken(InternTokenType.USER_VARIABLE, userVariableName));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
-
 		return new Formula(parseTree);
 	}
 }

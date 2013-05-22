@@ -22,24 +22,25 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;import java.util.List;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class WhenStartedBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
 	private Script script;
-	private Sprite sprite;
-
-	private transient View view;
 
 	public WhenStartedBrick(Sprite sprite, Script script) {
 		this.script = script;
@@ -56,15 +57,40 @@ public class WhenStartedBrick extends ScriptBrick {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		WhenStartedBrick copyBrick = (WhenStartedBrick) clone();
+		copyBrick.sprite = sprite;
+		copyBrick.script = script;
+		return copyBrick;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, final BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_when_started, null);
+	public View getView(Context context, int brickId, final BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+
 		}
+		view = View.inflate(context, R.layout.brick_when_started, null);
+
+		setCheckboxView(R.id.brick_when_started_checkbox);
+
+		//method moved to to DragAndDropListView since it is not working on 2.x
+		/*
+		 * checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		 * 
+		 * @Override
+		 * public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		 * checked = isChecked;
+		 * if (!checked) {
+		 * for (Brick currentBrick : adapter.getCheckedBricks()) {
+		 * currentBrick.setCheckedBoolean(false);
+		 * }
+		 * }
+		 * adapter.handleCheck(brickInstance, checked);
+		 * 
+		 * }
+		 * });
+		 */
 
 		return view;
 	}
@@ -86,6 +112,15 @@ public class WhenStartedBrick extends ScriptBrick {
 		}
 
 		return script;
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_when_started_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+		this.alphaValue = (alphaValue);
+		return view;
 	}
 
 	@Override

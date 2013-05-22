@@ -25,26 +25,29 @@ package org.catrobat.catroid.content.bricks;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class ChangeYByNBrick implements Brick, OnClickListener {
+public class ChangeYByNBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Formula yMovement;
-	private Sprite sprite;
 
-	private transient View view;
 	private transient View prototypeView;
 
 	public ChangeYByNBrick() {
@@ -69,14 +72,30 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		ChangeYByNBrick copyBrick = (ChangeYByNBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 		view = View.inflate(context, R.layout.brick_change_y, null);
+		view = getViewWithAlpha(alphaValue);
+
+		setCheckboxView(R.id.brick_change_y_checkbox);
+		final Brick brickInstance = this;
+
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_change_y_prototype_text_view);
 		EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
@@ -86,7 +105,6 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 		textY.setVisibility(View.GONE);
 		editY.setVisibility(View.VISIBLE);
 		editY.setOnClickListener(this);
-
 		return view;
 	}
 
@@ -104,7 +122,26 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 	}
 
 	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_y_layout);
+		Drawable background = layout.getBackground();
+		background.setAlpha(alphaValue);
+
+		TextView changeYLabel = (TextView) view.findViewById(R.id.brick_change_y_label);
+		EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
+		changeYLabel.setTextColor(changeYLabel.getTextColors().withAlpha(alphaValue));
+		editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
+		editY.getBackground().setAlpha(alphaValue);
+
+		this.alphaValue = (alphaValue);
+		return view;
+	}
+
+	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
 		FormulaEditorFragment.showFragment(view, this, yMovement);
 	}
 

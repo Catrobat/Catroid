@@ -28,7 +28,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import android.content.Context;
@@ -38,6 +37,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAdapterInterface {
@@ -63,16 +63,20 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		this.spriteVariables = spriteVariables;
 		this.projectVariables = projectVariables;
 		this.context = context;
-		this.selectMode = Constants.SELECT_NONE;
+		this.selectMode = ListView.CHOICE_MODE_NONE;
 		this.itemLayout = R.layout.fragment_formula_editor_variablelist_item;
 		this.checkboxId = R.id.fragment_formula_editor_variablelist_item_checkbox;
-		this.textViewId = R.id.fragment_formula_editor_variablelist_item_textview1;
-		this.textViewId2 = R.id.fragment_formula_editor_variablelist_item_textview2;
+		this.textViewId = R.id.fragment_formula_editor_variablelist_item_name_text_view;
+		this.textViewId2 = R.id.fragment_formula_editor_variablelist_item_value_text_view;
 	}
 
 	public void setItemLayout(int itemLayout, int textViewId) {
 		this.itemLayout = itemLayout;
 		this.textViewId = textViewId;
+	}
+
+	public int getItemLayout() {
+		return itemLayout;
 	}
 
 	@Override
@@ -126,7 +130,7 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
-		holder.text1.setText(variable.getName());
+		holder.text1.setText(variable.getName() + ":");
 		if (holder.text2 != null) {
 			holder.text2.setText(String.valueOf(variable.getValue()));
 		}
@@ -139,7 +143,6 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 				}
 			});
 		}
-
 		if (holder.checkbox == null) {
 			return view;
 		}
@@ -147,7 +150,7 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		view.setClickable(true);
 		view.setFocusable(true);
 
-		if (selectMode != Constants.SELECT_NONE) {
+		if (selectMode != ListView.CHOICE_MODE_NONE) {
 			holder.checkbox.setVisibility(View.VISIBLE);
 		} else {
 			holder.checkbox.setVisibility(View.GONE);
@@ -159,7 +162,7 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
-					if (selectMode == Constants.SINGLE_SELECT) {
+					if (selectMode == ListView.CHOICE_MODE_SINGLE) {
 						clearCheckedItems();
 					}
 					checkedVariables.add(position);
@@ -193,8 +196,12 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 			holder = new ViewHolder();
 			holder.text1 = (TextView) view.findViewById(android.R.id.text1);
 			view.setTag(holder);
-		} else {
+		} else if (view.getTag() instanceof ViewHolder) {
 			holder = (ViewHolder) view.getTag();
+		} else {
+			holder = new ViewHolder();
+			holder.text1 = (TextView) view.findViewById(android.R.id.text1);
+			view.setTag(holder);
 		}
 		holder.text1.setText(variable.getName());
 		return view;
