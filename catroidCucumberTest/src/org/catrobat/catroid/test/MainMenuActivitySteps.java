@@ -43,8 +43,8 @@ public class MainMenuActivitySteps extends ActivityInstrumentationTestCase2<Main
         solo.clickOnText(button);
     }
 
-    @Then("^I should the following buttons:$")
-    public void I_see_vertical_layout_menu_elements(List<String> expectedButtons) {
+    @Then("^I should see the following buttons:$")
+    public void I_should_see_the_following_buttons(List<String> expectedButtons) {
         List<String> actualButtons = new ArrayList<String>();
         for (Button button : solo.getCurrentButtons()) {
             String text = button.getText().toString();

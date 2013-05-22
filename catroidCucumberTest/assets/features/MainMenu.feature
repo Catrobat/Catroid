@@ -4,7 +4,7 @@ Feature: Main menu
 
   Scenario: The main menu has a list of labeled buttons
     Given I am in the main menu
-    Then I should the following buttons:
+    Then I should see the following buttons:
       | Continue  |
       | New       |
       | Programs  |
