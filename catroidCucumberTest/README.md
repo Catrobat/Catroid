@@ -1,18 +1,16 @@
 The purpose of this directory is to contain Cucumber tests for Catroid, run
 via calabash-android.
 
-SETUP:
---------------------------------------------------------------------------------
+#### Setup:
 
-Install Ruby (http://www.ruby-lang.org)
-Install RVM (https://rvm.io)
+1. Install [Ruby](http://www.ruby-lang.org)
+2. Install [RVM](https://rvm.io)
 
-You should use RVM with the .rvmrc provided in this directory.
+You should use RVM with the `.ruby-*` files provided in this directory.
 
 You may also need to install bundler (http://rubygems.org/gems/bundler) if you
 don't have it. It is required to build the calabash-android gem.
 
-RUNNING TESTS:
---------------------------------------------------------------------------------
+#### Running tests:
 
 Use the Rakefile to run tests. Run rake -T to list available tasks.
