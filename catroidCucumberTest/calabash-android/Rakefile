@@ -1,8 +1,8 @@
 ################################################################################
 # Catroid Cucumber Test Rakefile
 ################################################################################
-$root_dir      = File.expand_path("../")
-$catroid_dir   = File.expand_path("../catroid")
+$root_dir      = File.expand_path("../../")
+$catroid_dir   = File.expand_path("../../catroid")
 $calabash_root = File.expand_path("calabash-android")
 $catroid_apk   = $catroid_dir + "/bin/catroid-debug.apk"
 
