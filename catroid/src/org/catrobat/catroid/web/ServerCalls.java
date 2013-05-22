@@ -26,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
-import java.util.Locale;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.Utils;
@@ -122,7 +121,7 @@ public class ServerCalls {
 			postValues.put(PROJECT_NAME_TAG, projectName);
 			postValues.put(PROJECT_DESCRIPTION_TAG, projectDescription);
 			postValues.put(USER_EMAIL, userEmail);
-			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase(Locale.US));
+			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum);
 			postValues.put(Constants.TOKEN, token);
 			postValues.put(Constants.USERNAME, username);
 			postValues.put(CATROID_FILE_NAME, projectName + Constants.CATROBAT_EXTENTION);
@@ -173,7 +172,8 @@ public class ServerCalls {
 	public void downloadProject(String downloadUrl, String zipFileString, ResultReceiver receiver,
 			Integer notificationId, String projectName) throws WebconnectionException {
 		try {
-			connection.doHttpPostFileDownload(downloadUrl, null, zipFileString, receiver, notificationId, projectName);
+			connection.doHttpPostFileDownload(downloadUrl, new HashMap<String, String>(), zipFileString, receiver,
+					notificationId, projectName);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Malformed URL");
