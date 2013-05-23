@@ -851,14 +851,14 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		UiTestUtils.openActionMode(solo, rename, R.id.rename);
 		solo.clickOnText(rename);
-		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(2);
 		solo.sleep(100);
-		boolean checked = solo.getCurrentCheckBoxes().get(0).isChecked();
+		boolean checked = solo.getCurrentCheckBoxes().get(1).isChecked();
 
 		assertFalse("First project is still checked!", checked);
 		solo.scrollToTop();
-		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
 		solo.clearEditText(0);
