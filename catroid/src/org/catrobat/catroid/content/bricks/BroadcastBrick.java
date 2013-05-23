@@ -316,7 +316,7 @@ public class BroadcastBrick extends BrickBaseType {
 			return dropDownView;
 		}
 
-		private void showNewMessageDialog() {
+		protected void showNewMessageDialog() {
 			BrickTextDialog editDialog = new BrickTextDialog() {
 
 				@Override
