@@ -200,7 +200,6 @@ public class ProjectManager {
 		if (directoryRenamed) {
 			project.setName(newProjectName);
 			StorageHandler.getInstance().saveProject(project);
-			//			this.saveProject();
 		}
 
 		if (!directoryRenamed) {

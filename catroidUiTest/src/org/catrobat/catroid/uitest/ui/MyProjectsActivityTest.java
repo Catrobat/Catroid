@@ -851,23 +851,22 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		UiTestUtils.openActionMode(solo, rename, R.id.rename);
 		solo.clickOnText(rename);
+		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
-		solo.clickOnCheckBox(2);
-		solo.sleep(100);
-		boolean checked = solo.getCurrentCheckBoxes().get(1).isChecked();
+		solo.sleep(300);
+		boolean checked = solo.getCurrentCheckBoxes().get(0).isChecked();
 
 		assertFalse("First project is still checked!", checked);
 		solo.scrollToTop();
-		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(0);
 		UiTestUtils.acceptAndCloseActionMode(solo);
-
 		solo.clearEditText(0);
 		solo.enterText(0, UiTestUtils.PROJECTNAME3);
-		solo.clickOnText(solo.getString(R.string.ok));
-		solo.sleep(2000);
+		UiTestUtils.clickOnButton(solo, this, solo.getString(R.string.ok));
+		solo.sleep(500);
 		assertTrue("Rename was not successfull!", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
 		solo.goBack();
-		solo.sleep(2000);
+		solo.sleep(500);
 		assertEquals("Current project not updated!", UiTestUtils.PROJECTNAME3, ProjectManager.getInstance()
 				.getCurrentProject().getName());
 	}
