@@ -515,6 +515,9 @@
     <string name="formula_editor_operator_minus">-</string>
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
+    <string name="formula_editor_image_button_description_undo">Rückgängig</string>
+    <string name="formula_editor_image_button_description_redo">Wiederherstellen</string>
+    <string name="formula_editor_image_button_description_delete">löschen</string>
     <string name="formula_editor_variable_dialog_title">Neue Variable</string>
     <string name="formula_editor_variable_dialog_for_all_sprites">Für alle Objekte</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
