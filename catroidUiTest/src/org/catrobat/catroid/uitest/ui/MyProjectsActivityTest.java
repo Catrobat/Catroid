@@ -854,13 +854,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		solo.sleep(300);
-		boolean checked = solo.getCurrentCheckBoxes().get(0).isChecked();
+		boolean checked = solo.isCheckBoxChecked(0);
 
 		assertFalse("First project is still checked!", checked);
 		solo.scrollToTop();
 		solo.clickOnCheckBox(0);
 		solo.sleep(200);
-		while (!solo.getCurrentCheckBoxes().get(0).isChecked()) {
+		while (!solo.isCheckBoxChecked(0)) {
 			solo.sleep(100);
 			solo.clickOnCheckBox(0);
 		}
