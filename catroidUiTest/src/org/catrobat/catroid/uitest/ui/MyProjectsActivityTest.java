@@ -447,12 +447,16 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				}
 			}
 		}
-
-		UiTestUtils.saveFileToProject(firstCacheProjectName, "screenshot.png", IMAGE_RESOURCE_2, getInstrumentation()
-				.getContext(), UiTestUtils.FileTypes.ROOT);
-		ProjectManager.getInstance().setProject(firstCacheTestProject);
+		Project secondCacheTestProject = StorageHandler.getInstance().loadProject(secondCacheProjectName);
 		UiTestUtils.saveFileToProject(secondCacheProjectName, "screenshot.png", IMAGE_RESOURCE_3, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.ROOT);
+		StorageHandler.getInstance().saveProject(secondCacheTestProject);
+		solo.sleep(2000);
+		firstCacheTestProject = StorageHandler.getInstance().loadProject(firstCacheProjectName);
+		UiTestUtils.saveFileToProject(firstCacheProjectName, "screenshot.png", IMAGE_RESOURCE_2, getInstrumentation()
+				.getContext(), UiTestUtils.FileTypes.ROOT);
+		StorageHandler.getInstance().saveProject(firstCacheTestProject);
+		ProjectManager.getInstance().setProject(firstCacheTestProject);
 
 		//leave and reenter MyProjectsActivity 
 		solo.goBack();
@@ -470,7 +474,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		int imageViewID = R.id.my_projects_activity_project_image;
 		Bitmap viewBitmap;
 		int counter = 0;
-		for (View viewToTest : solo.getCurrentViews()) {
+		ArrayList<View> currentViewList = solo.getCurrentViews();
+		for (View viewToTest : currentViewList) {
 			currentViewID = viewToTest.getId();
 			if (imageViewID == currentViewID) {
 				counter++;
