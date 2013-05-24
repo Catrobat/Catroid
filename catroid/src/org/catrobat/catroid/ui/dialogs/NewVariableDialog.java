@@ -132,12 +132,12 @@ public class NewVariableDialog extends SherlockDialogFragment {
 
 			} else {
 				ProjectManager.getInstance().getCurrentProject().getUserVariables()
-						.addProjectUserVariable(variableName, 0.0);
+						.addProjectUserVariable(variableName);
 				variableDialogListenerListFinishNewVariableDialog();
 			}
 		} else if (localVariable.isChecked()) {
 			ProjectManager.getInstance().getCurrentProject().getUserVariables()
-					.addSpriteUserVariable(variableName, 0.0);
+					.addSpriteUserVariable(variableName);
 			variableDialogListenerListFinishNewVariableDialog();
 		}
 	}

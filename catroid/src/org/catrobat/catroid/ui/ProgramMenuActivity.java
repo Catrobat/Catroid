@@ -79,11 +79,6 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 		}
 		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
 			SensorHandler.stopSensorListeners();
-			ProjectManager projectManager = ProjectManager.getInstance();
-			/*
-			 * Save project after stage in order to keep the values of user variables
-			 */
-			projectManager.saveProject();
 		}
 	}
 
@@ -135,6 +130,7 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}
