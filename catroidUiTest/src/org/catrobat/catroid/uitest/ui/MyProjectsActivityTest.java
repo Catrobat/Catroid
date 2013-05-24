@@ -859,6 +859,11 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertFalse("First project is still checked!", checked);
 		solo.scrollToTop();
 		solo.clickOnCheckBox(0);
+		solo.sleep(200);
+		while (!solo.getCurrentCheckBoxes().get(0).isChecked()) {
+			solo.sleep(100);
+			solo.clickOnCheckBox(0);
+		}
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clearEditText(0);
 		solo.enterText(0, UiTestUtils.PROJECTNAME3);
