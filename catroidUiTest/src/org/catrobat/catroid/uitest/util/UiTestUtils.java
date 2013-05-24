@@ -1239,13 +1239,15 @@ public class UiTestUtils {
 	}
 
 	public static boolean longClickOnTextInList(Solo solo, String text) {
-		solo.sleep(300);
-		ArrayList<TextView> textViews = solo.getCurrentTextViews(solo.getView(android.R.id.list));
-		for (int i = 0; i < textViews.size(); i++) {
-			TextView view = textViews.get(i);
-			if (view.getText().toString().equalsIgnoreCase(text)) {
-				solo.clickLongOnView(view);
-				return true;
+		for (int tryCount = 0; tryCount < 3; tryCount++) {
+			solo.sleep(300);
+			ArrayList<TextView> textViews = solo.getCurrentTextViews(solo.getView(android.R.id.list));
+			for (int i = 0; i < textViews.size(); i++) {
+				TextView view = textViews.get(i);
+				if (view.getText().toString().equalsIgnoreCase(text)) {
+					solo.clickLongOnView(view);
+					return true;
+				}
 			}
 		}
 		return false;

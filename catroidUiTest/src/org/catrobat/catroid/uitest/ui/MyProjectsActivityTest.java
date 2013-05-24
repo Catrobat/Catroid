@@ -1043,6 +1043,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		assertEquals("Project details are not showing!", View.VISIBLE, projectDetails.getVisibility());
 
+		solo.sleep(400);
 		UiTestUtils.openOptionsMenu(solo);
 		assertTrue("Menu item still says \"Show Details\"!", solo.searchText(hideDetailsText));
 
@@ -1067,9 +1068,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		projectDetails = solo.getView(R.id.my_projects_activity_list_item_details);
 		assertEquals("Project details are still showing!", View.GONE, projectDetails.getVisibility());
 
-		solo.sleep(200);
+		solo.sleep(400);
 		UiTestUtils.openOptionsMenu(solo);
-		solo.sleep(200);
 		assertTrue("Menu item still says \"Hide Details\"!", solo.searchText(showDetailsText));
 	}
 
