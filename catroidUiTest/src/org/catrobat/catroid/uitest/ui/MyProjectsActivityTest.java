@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -398,14 +399,14 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		//create first cache test project and set it as current project 
 		Project firstCacheTestProject = new Project(getActivity(), "cachetestProject" + 0);
 		StorageHandler.getInstance().saveProject(firstCacheTestProject);
-		UiTestUtils.saveFileToProject(cacheProjectName + 0, "StageListener.SCREENSHOT_MANUAL_FILE_NAME",
+		UiTestUtils.saveFileToProject(cacheProjectName + 0, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
 				IMAGE_RESOURCE_2, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 		ProjectManager.getInstance().setProject(firstCacheTestProject);
 
 		for (int i = 1; i < numberOfCacheProjects; i++) {
 			solo.sleep(500);
 			StorageHandler.getInstance().saveProject(new Project(getActivity(), "cachetestProject" + i));
-			UiTestUtils.saveFileToProject(cacheProjectName + i, "StageListener.SCREENSHOT_MANUAL_FILE_NAME",
+			UiTestUtils.saveFileToProject(cacheProjectName + i, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
 					IMAGE_RESOURCE_2, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 		}
 
@@ -448,10 +449,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			}
 		}
 
-		UiTestUtils.saveFileToProject(firstCacheProjectName, "StageListener.SCREENSHOT_MANUAL_FILE_NAME",
+		UiTestUtils.saveFileToProject(firstCacheProjectName, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
 				IMAGE_RESOURCE_2, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 		ProjectManager.getInstance().setProject(firstCacheTestProject);
-		UiTestUtils.saveFileToProject(secondCacheProjectName, "StageListener.SCREENSHOT_MANUAL_FILE_NAME",
+		UiTestUtils.saveFileToProject(secondCacheProjectName, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
 				IMAGE_RESOURCE_3, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 
 		//leave and reenter MyProjectsActivity 
@@ -1402,11 +1403,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		//-------------------------------------------------
 
-		UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-				"StageListener.SCREENSHOT_MANUAL_FILE_NAME", IMAGE_RESOURCE_2, getInstrumentation().getContext(),
-				UiTestUtils.FileTypes.ROOT);
+		UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
+				IMAGE_RESOURCE_2, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 
-		UiTestUtils.saveFileToProject(UiTestUtils.PROJECTNAME1, "StageListener.SCREENSHOT_MANUAL_FILE_NAME",
+		UiTestUtils.saveFileToProject(UiTestUtils.PROJECTNAME1, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
 				IMAGE_RESOURCE_3, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 
 		solo.sleep(600);
