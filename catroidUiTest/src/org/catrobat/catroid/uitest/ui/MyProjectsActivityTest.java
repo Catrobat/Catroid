@@ -456,7 +456,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		//leave and reenter MyProjectsActivity 
 		solo.goBack();
-		solo.sleep(100);
+		solo.sleep(500);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 
@@ -464,7 +464,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "scroll bottom");
 		solo.scrollToTop();
 		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "scroll up");
-		solo.sleep(100);
+		solo.sleep(500);
 		int currentViewID;
 		int pixelColor;
 		int imageViewID = R.id.my_projects_activity_project_image;
