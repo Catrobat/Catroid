@@ -787,6 +787,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	public void testRenameProject() {
 		createProjects();
+		String currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
 		solo.sleep(200);
 		String buttonPositiveText = solo.getString(R.string.ok);
 		String actionRenameText = solo.getString(R.string.rename);
@@ -805,7 +806,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertFalse("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
 		assertEquals("the renamed project is not first in list", ((ProjectData) (solo.getCurrentListViews().get(0)
 				.getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME3);
-
+		assertEquals("Current project is not the same as at the beginning!", currentProjectName, ProjectManager
+				.getInstance().getCurrentProject().getName());
 		solo.scrollToTop();
 		solo.sleep(300);
 		assertTrue("longclick on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
@@ -819,6 +821,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertFalse("rename wasnt successfull", solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1, true));
 		assertEquals("the renamed project is not first in list", ((ProjectData) (solo.getCurrentListViews().get(0)
 				.getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME1);
+		assertEquals("Current project is not the same after renaming!", UiTestUtils.PROJECTNAME1, ProjectManager
+				.getInstance().getCurrentProject().getName());
+
 	}
 
 	public void testRenameCurrentProject() {
