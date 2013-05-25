@@ -417,15 +417,15 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "activity visible");
 
-		ArrayList<ListView> listViews = solo.getCurrentListViews();
-		while (solo.getCurrentListViews().size() == 0) {
+		ArrayList<ListView> listViews = solo.getCurrentViews(ListView.class);
+		while (solo.getCurrentViews(ListView.class).size() == 0) {
 			solo.sleep(100);
-			listViews = solo.getCurrentListViews();
+			listViews = solo.getCurrentViews(ListView.class);
 		}
 
 		ListView projectList = listViews.get(0);
 
-		ArrayList<TextView> textViews = solo.getCurrentTextViews(projectList);
+		ArrayList<TextView> textViews = solo.getCurrentViews(TextView.class);
 		String firstCacheProjectName = "";
 		String secondCacheProjectName = "";
 
@@ -570,9 +570,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		assertTrue("Project was deleted!", solo.searchText(UiTestUtils.PROJECTNAME1));
 
-		int numberOfVisibleCheckBoxes = solo.getCurrentCheckBoxes().size();
+		int numberOfVisibleCheckBoxes = solo.getCurrentViews(CheckBox.class).size();
 
-		for (CheckBox checkbox : solo.getCurrentCheckBoxes()) {
+		for (CheckBox checkbox : solo.getCurrentViews(CheckBox.class)) {
 			if (checkbox.getVisibility() == View.GONE) {
 				numberOfVisibleCheckBoxes--;
 			}
@@ -803,8 +803,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(300);
 		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
 		assertFalse("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
-		assertEquals("the renamed project is not first in list", ((ProjectData) (solo.getCurrentListViews().get(0)
-				.getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME3);
+		assertEquals("the renamed project is not first in list", ((ProjectData) (solo.getCurrentViews(ListView.class)
+				.get(0).getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME3);
 
 		solo.scrollToTop();
 		solo.sleep(300);
@@ -817,8 +817,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(300);
 		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
 		assertFalse("rename wasnt successfull", solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1, true));
-		assertEquals("the renamed project is not first in list", ((ProjectData) (solo.getCurrentListViews().get(0)
-				.getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME1);
+		assertEquals("the renamed project is not first in list", ((ProjectData) (solo.getCurrentViews(ListView.class)
+				.get(0).getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME1);
 	}
 
 	public void testRenameCurrentProject() {
@@ -854,7 +854,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		solo.sleep(100);
-		boolean checked = solo.getCurrentCheckBoxes().get(0).isChecked();
+		boolean checked = solo.getCurrentViews(CheckBox.class).get(0).isChecked();
 
 		assertFalse("First project is still checked!", checked);
 		solo.scrollToTop();
@@ -1192,9 +1192,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		// temporarily removed - should be added when displaying projectdescription
 		//		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
 		//		assertTrue("description is not shown in activity", solo.searchText("ultricies"));
-		assertEquals("The project is not first in list",
-				((ProjectData) (solo.getCurrentListViews().get(0).getAdapter().getItem(0))).projectName,
-				UiTestUtils.PROJECTNAME1);
+		assertEquals("The project is not first in list", ((ProjectData) (solo.getCurrentViews(ListView.class).get(0)
+				.getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME1);
 
 		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
 		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
@@ -1299,7 +1298,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("Actionbar title is not displayed correctly!", solo.searchText(copy));
 		solo.clickOnCheckBox(1);
 		solo.sleep(200);
-		boolean checked = solo.getCurrentCheckBoxes().get(0).isChecked();
+		boolean checked = solo.getCurrentViews(CheckBox.class).get(0).isChecked();
 
 		assertFalse("First project is still checked!", checked);
 		UiTestUtils.acceptAndCloseActionMode(solo);

@@ -535,7 +535,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testHeadlinesInList() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-		ListView listView = solo.getCurrentListViews().get(0);
+		ListView listView = solo.getCurrentViews(ListView.class).get(0);
 
 		View listItemView = listView.getAdapter().getView(0, null, null);
 
@@ -878,9 +878,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnText(no);
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, 300));
 
-		int numberOfVisibleCheckBoxes = solo.getCurrentCheckBoxes().size();
+		int numberOfVisibleCheckBoxes = solo.getCurrentViews(CheckBox.class).size();
 
-		for (CheckBox checkbox : solo.getCurrentCheckBoxes()) {
+		for (CheckBox checkbox : solo.getCurrentViews(CheckBox.class)) {
 			if (checkbox.getVisibility() == View.GONE) {
 				numberOfVisibleCheckBoxes--;
 			}
@@ -1069,8 +1069,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
 			boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
-		firstCheckBox = solo.getCurrentCheckBoxes().get(1);
-		secondCheckBox = solo.getCurrentCheckBoxes().get(2);
+		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
+		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(2);
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
 		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
 	}

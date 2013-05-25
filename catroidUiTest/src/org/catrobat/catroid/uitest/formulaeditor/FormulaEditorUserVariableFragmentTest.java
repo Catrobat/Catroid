@@ -617,7 +617,7 @@ public class FormulaEditorUserVariableFragmentTest extends
 	}
 
 	private ListView getVariableListView() {
-		return solo.getCurrentListViews().get(2);
+		return solo.getCurrentViews(ListView.class).get(2);
 	}
 
 }
