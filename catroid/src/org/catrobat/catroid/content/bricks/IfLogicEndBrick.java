@@ -39,6 +39,7 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -111,6 +112,10 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_if_end_if_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView ifEndLabel = (TextView) view.findViewById(R.id.brick_if_end_if_label);
+		ifEndLabel.setTextColor(ifEndLabel.getTextColors().withAlpha(alphaValue));
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

@@ -113,10 +113,10 @@ public class VariableBricksTest extends ActivityInstrumentationTestCase2<MainMen
 		ProjectManager.getInstance().setCurrentScript(script);
 
 		userVariablesContainer = project.getUserVariables();
-		userVariablesContainer.addProjectUserVariable("p1", 0.0);
-		userVariablesContainer.addProjectUserVariable("p2", 0.0);
-		userVariablesContainer.addSpriteUserVariable("sprite_var1", 0.0);
-		userVariablesContainer.addSpriteUserVariable("sprite_var2", 0.0);
+		userVariablesContainer.addProjectUserVariable("p1");
+		userVariablesContainer.addProjectUserVariable("p2");
+		userVariablesContainer.addSpriteUserVariable("sprite_var1");
+		userVariablesContainer.addSpriteUserVariable("sprite_var2");
 
 		setVariableBrick = new SetVariableBrick(sprite, 0.0);
 		script.addBrick(setVariableBrick);

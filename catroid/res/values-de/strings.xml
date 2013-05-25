@@ -33,7 +33,6 @@
     <string name="copy">Kopieren</string>
     <string name="cut">Ausschneiden</string>
     <string name="move">Verschieben</string>
-    <string name="play">Play</string>
     <!--  -->
 
 
@@ -45,7 +44,6 @@
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
     <string name="ok">OK</string>
-    <string name="add">Neu</string>
     <!--  -->
 
 
@@ -189,10 +187,10 @@
 
 
     <!-- New project dialog -->
-    <string name="new_project_dialog_title">Neues Projekt</string>
-    <string name="new_project_dialog_hint">Mein Projekt</string>
+    <string name="new_project_dialog_title">Neues Programm</string>
+    <string name="new_project_dialog_hint">Mein Programm</string>
     <string name="new_project_description_dialog_hint">Meine Beschreibung</string>
-    <string name="new_project_name">Projektname:</string>
+    <string name="new_project_name">Programmname:</string>
     <!--  -->
 
 
@@ -448,6 +446,11 @@
     <string name="tone_duration">Dauer</string>
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="seconds">Sekunden</string>
+    <string name="nxt_motor_a">A</string>
+    <string name="nxt_motor_b">B</string>
+    <string name="nxt_motor_c">C</string>
+    <string name="nxt_motor_a_and_c">A+C</string>
+    <string name="nxt_motor_all">Alle</string>
     <!--  -->
 
 
@@ -497,6 +500,7 @@
     <string name="formula_editor_logic">Logik</string>
     <string name="formula_editor_sensors">Sensoren</string>
     <string name="formula_editor_variables">Variablen</string>
+    <string name="formula_editor_random">Zufall</string>
     <string name="formula_editor_logic_notequal">&#x2260;</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
     <string name="formula_editor_logic_greaterthan">&gt;</string>

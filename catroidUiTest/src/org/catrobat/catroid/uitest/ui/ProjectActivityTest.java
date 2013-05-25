@@ -140,8 +140,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(secondSprite);
 
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().addSpriteUserVariable("p", 0d);
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().addSpriteUserVariable("q", 0d);
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().addSpriteUserVariable("p");
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().addSpriteUserVariable("q");
 
 		Double setVariable1ToValue = Double.valueOf(3d);
 		Double setVariable2ToValue = Double.valueOf(8d);

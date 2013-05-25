@@ -266,6 +266,9 @@
     <string name="no_paired_nxt">"ペアのNXTが見つかりませんでした"</string>
     <string name="none_found">"見つかりませんでした。ペアになっていないデバイスがありません"</string>
     <string name="none_paired">"見つかったペアのデバイスがありません"</string>
+    <!--  -->
+
+
     <!-- Lego Mindstorms Strings -->
     <string name="brick_motor_action">"NXTモーターの動き"</string>
     <string name="motor">"モーター"</string>
@@ -279,5 +282,10 @@
     <string name="nxt_tone_hundred_hz">"x100Hz"</string>
     <string name="number_to_small">"値が小さすぎる！"</string>
     <string name="number_to_big">"値が大きすぎる！"</string>
+    <string name="nxt_motor_a">A</string>
+    <string name="nxt_motor_b">B</string>
+    <string name="nxt_motor_c">C</string>
+    <string name="nxt_motor_a_and_c">A+C</string>
+    <string name="nxt_motor_all">すべて</string>
 
 </resources>

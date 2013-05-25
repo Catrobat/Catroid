@@ -779,10 +779,10 @@ public class UiTestUtils {
 		FormulaElement operatorElementMinus = new FormulaElement(FormulaElement.ElementType.OPERATOR, "MINUS", null);
 
 		UserVariablesContainer variableContainer = project.getUserVariables();
-		variableContainer.addProjectUserVariable("global", 2.0);
+		variableContainer.addProjectUserVariable("global");
 		FormulaElement variableElementGlobal = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, "global",
 				null);
-		variableContainer.addSpriteUserVariableToSprite(firstSprite, "local", 3.0);
+		variableContainer.addSpriteUserVariableToSprite(firstSprite, "local");
 		FormulaElement variableElemetLocal = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, "local", null);
 
 		FormulaElement sensorElemet = new FormulaElement(FormulaElement.ElementType.SENSOR, "COMPASS_DIRECTION", null);
