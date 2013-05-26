@@ -108,6 +108,14 @@ public class ProjectScreenshotLoader {
 			String pathOfScreenshot = Utils.buildPath(Utils.buildProjectPath(projectScreenshotData.projectName),
 					StageListener.SCREENSHOT_MANUAL_FILE_NAME);
 			File projectImageFile = new File(pathOfScreenshot);
+
+			if (!(projectImageFile.exists() && projectImageFile.length() > 0)) {
+				projectImageFile.delete();
+				pathOfScreenshot = Utils.buildPath(Utils.buildProjectPath(projectScreenshotData.projectName),
+						StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+				projectImageFile = new File(pathOfScreenshot);
+			}
+
 			final Bitmap projectImage;
 			if (!projectImageFile.exists() || ImageEditing.getImageDimensions(pathOfScreenshot)[0] < 0) {
 				projectImage = null;
