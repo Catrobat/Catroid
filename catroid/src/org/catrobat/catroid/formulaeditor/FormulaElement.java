@@ -70,6 +70,37 @@ public class FormulaElement implements Serializable {
 
 	}
 
+	private Object readResolve() {
+
+		if (type == ElementType.SENSOR) {
+			switch (Sensors.getSensorByValue(value)) {
+				case LOOK_BRIGHTNESS:
+					value = Sensors.OBJECT_BRIGHTNESS.toString();
+					break;
+				case LOOK_GHOSTEFFECT:
+					value = Sensors.OBJECT_GHOSTEFFECT.toString();
+					break;
+				case LOOK_LAYER:
+					value = Sensors.OBJECT_LAYER.toString();
+					break;
+				case LOOK_ROTATION:
+					value = Sensors.OBJECT_ROTATION.toString();
+					break;
+				case LOOK_SIZE:
+					value = Sensors.OBJECT_SIZE.toString();
+					break;
+				case LOOK_X:
+					value = Sensors.OBJECT_X.toString();
+					break;
+				case LOOK_Y:
+					value = Sensors.OBJECT_Y.toString();
+					break;
+			}
+		}
+
+		return this;
+	}
+
 	public String getValue() {
 		return value;
 	}
@@ -152,8 +183,8 @@ public class FormulaElement implements Serializable {
 				break;
 			case SENSOR:
 				Sensors sensor = Sensors.getSensorByValue(value);
-				if (sensor.isLookSensor) {
-					returnValue = interpretLookSensor(sensor, sprite);
+				if (sensor.isObjectSensor) {
+					returnValue = interpretObjectSensor(sensor, sprite);
 				} else {
 					returnValue = SensorHandler.getSensorValue(sensor);
 				}
@@ -306,28 +337,28 @@ public class FormulaElement implements Serializable {
 		return 0d;
 	}
 
-	private Double interpretLookSensor(Sensors sensor, Sprite sprite) {
+	private Double interpretObjectSensor(Sensors sensor, Sprite sprite) {
 		Double returnValue = 0d;
 		switch (sensor) {
-			case LOOK_BRIGHTNESS:
+			case OBJECT_BRIGHTNESS:
 				returnValue = (double) sprite.look.getBrightnessInUserInterfaceDimensionUnit();
 				break;
-			case LOOK_GHOSTEFFECT:
+			case OBJECT_GHOSTEFFECT:
 				returnValue = (double) sprite.look.getGhostEffectInUserInterfaceDimensionUnit();
 				break;
-			case LOOK_LAYER:
+			case OBJECT_LAYER:
 				returnValue = (double) sprite.look.getZIndex();
 				break;
-			case LOOK_ROTATION:
+			case OBJECT_ROTATION:
 				returnValue = (double) sprite.look.getRotationInUserInterfaceDimensionUnit();
 				break;
-			case LOOK_SIZE:
+			case OBJECT_SIZE:
 				returnValue = (double) sprite.look.getSizeInUserInterfaceDimensionUnit();
 				break;
-			case LOOK_X:
+			case OBJECT_X:
 				returnValue = (double) sprite.look.getXInUserInterfaceDimensionUnit();
 				break;
-			case LOOK_Y:
+			case OBJECT_Y:
 				returnValue = (double) sprite.look.getYInUserInterfaceDimensionUnit();
 				break;
 		}
