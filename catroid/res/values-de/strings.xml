@@ -187,7 +187,7 @@
 
 
     <!-- New project dialog -->
-    <string name="new_project_dialog_title">Neues programm</string>
+    <string name="new_project_dialog_title">Neues Programm</string>
     <string name="new_project_dialog_hint">Mein Programm</string>
     <string name="new_project_description_dialog_hint">Meine Beschreibung</string>
     <string name="new_project_name">Programmname:</string>
@@ -446,6 +446,11 @@
     <string name="tone_duration">Dauer</string>
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="seconds">Sekunden</string>
+    <string name="nxt_motor_a">A</string>
+    <string name="nxt_motor_b">B</string>
+    <string name="nxt_motor_c">C</string>
+    <string name="nxt_motor_a_and_c">A+C</string>
+    <string name="nxt_motor_all">Alle</string>
     <!--  -->
 
 
