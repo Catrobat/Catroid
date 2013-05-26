@@ -1521,10 +1521,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		UiTestUtils.createEmptyProject();
 
 		File imageFile1 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-				"StageListener.SCREENSHOT_MANUAL_FILE_NAME", IMAGE_RESOURCE_4, getInstrumentation().getContext(),
+				StageListener.SCREENSHOT_MANUAL_FILE_NAME, IMAGE_RESOURCE_4, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
 		File imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-				"StageListener.SCREENSHOT_MANUAL_FILE_NAME", IMAGE_RESOURCE_5, getInstrumentation().getContext(),
+				StageListener.SCREENSHOT_MANUAL_FILE_NAME, IMAGE_RESOURCE_5, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
 
 		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
