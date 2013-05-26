@@ -22,7 +22,14 @@
  */
 package org.catrobat.catroid.content;
 
+import java.io.File;
 import java.io.Serializable;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.utils.Utils;
+
+import android.util.Log;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -64,6 +71,31 @@ public class XmlHeader implements Serializable {
 	private String userHandle = "";
 
 	public XmlHeader() {
+	}
+
+	public Object readResolve() {
+
+		String oldScreenshotName = "screenshot.xml";
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+
+		if (currentProject != null) {
+			String oldPath = Utils.buildPath(Utils.buildProjectPath(currentProject.getName()), oldScreenshotName);
+
+			File oldScreenshot = new File(oldPath);
+
+			if (oldScreenshot.exists()) {
+				File newScreenshot = new File(StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+				if (!newScreenshot.exists()) {
+					oldScreenshot.renameTo(newScreenshot);
+				} else {
+					Log.i("info", "XML-Transformation Error: " + "new screenshot exists already!");
+				}
+			}
+		} else {
+			Log.i("info", "XML-Transformation Error: " + "currentProject == null -> cant rename screenshot.xml");
+		}
+
+		return this;
 	}
 
 	String getProgramName() {
