@@ -24,12 +24,17 @@ package org.catrobat.catroid.content;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BroadcastBrick;
+import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
+import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.utils.Utils;
 
@@ -163,4 +168,27 @@ public class Project implements Serializable {
 		return userVariables;
 	}
 
+	public void removeUnusedBroadcastMessages() {
+		List<String> usedMessages = new LinkedList<String>();
+		for (Sprite currentSprite : getSpriteList()) {
+			for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); ++scriptIndex) {
+				Script currentScript = currentSprite.getScript(scriptIndex);
+				for (Brick currentBrick : currentScript.getBrickList()) {
+					String message = "";
+					if (currentBrick.getClass().getSimpleName().equals(BroadcastBrick.class.getSimpleName())) {
+						message = ((BroadcastBrick) currentBrick).getSelectedMessage();
+					} else if (currentBrick.getClass().getSimpleName().equals(BroadcastWaitBrick.class.getSimpleName())) {
+						message = ((BroadcastWaitBrick) currentBrick).getSelectedMessage();
+					} else if (currentBrick.getClass().getSimpleName()
+							.equals(BroadcastReceiverBrick.class.getSimpleName())) {
+						message = ((BroadcastReceiverBrick) currentBrick).getSelectedMessage();
+					}
+					if (message != null && !message.equals("") && !usedMessages.contains(message)) {
+						usedMessages.add(message);
+					}
+				}
+			}
+		}
+		MessageContainer.removeOtherMessages(usedMessages);
+	}
 }
