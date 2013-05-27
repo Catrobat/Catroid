@@ -60,7 +60,7 @@ public class Look extends Image {
 	private HashMap<String, ArrayList<SequenceAction>> broadcastWaitSequenceMap;
 	private ParallelAction whenParallelAction;
 	private ArrayList<Action> actionsToRestart;
-	private boolean allActionAreFinished = false;
+	private boolean allActionAreFinished = true;
 
 	public Look(Sprite sprite) {
 		this.sprite = sprite;

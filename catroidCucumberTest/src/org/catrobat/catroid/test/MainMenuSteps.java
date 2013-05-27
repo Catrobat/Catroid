@@ -1,10 +1,9 @@
 package org.catrobat.catroid.test;
 
 import android.app.Activity;
-import android.test.ActivityInstrumentationTestCase2;
+import android.test.AndroidTestCase;
 import android.widget.Button;
 import com.jayway.android.robotium.solo.Solo;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -15,23 +14,11 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainMenuActivitySteps extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-    private Solo solo;
-    private Activity mActivity;
-
-    public MainMenuActivitySteps() {
-        super(MainMenuActivity.class);
-    }
-
-    @Before
-    public void before() {
-        solo = new Solo(getInstrumentation(), getActivity());
-    }
-
+public class MainMenuSteps extends AndroidTestCase {
     @Given("^I am in the main menu$")
     public void I_am_in_the_main_menu() {
-        mActivity = solo.getCurrentActivity();
-        assertEquals(MainMenuActivity.class, mActivity.getClass());
+        Solo solo = (Solo) RunCukes.get(RunCukes.KEY_SOLO);
+        assertEquals(MainMenuActivity.class, solo.getCurrentActivity().getClass());
     }
 
     @When("^I press the (\\w+) button$")
@@ -40,11 +27,13 @@ public class MainMenuActivitySteps extends ActivityInstrumentationTestCase2<Main
         // partial matches, but clickOnButton(String) doesn't work
         // that way. Thus we must always use clickOnText(String) because
         // the features may not contain the full text of the button.
+        Solo solo = (Solo) RunCukes.get(RunCukes.KEY_SOLO);
         solo.clickOnText(button);
     }
 
     @Then("^I should see the following buttons:$")
     public void I_should_see_the_following_buttons(List<String> expectedButtons) {
+        Solo solo = (Solo) RunCukes.get(RunCukes.KEY_SOLO);
         List<String> actualButtons = new ArrayList<String>();
         for (Button button : solo.getCurrentButtons()) {
             String text = button.getText().toString();
@@ -67,7 +56,10 @@ public class MainMenuActivitySteps extends ActivityInstrumentationTestCase2<Main
         } else {
             fail(String.format("View '%s' does not exist.", view));
         }
-        solo.waitForActivity(activityClass.getSimpleName(), 2000);
+        Solo solo = (Solo) RunCukes.get(RunCukes.KEY_SOLO);
+        solo.waitForActivity(activityClass.getSimpleName(), 3000);
         assertEquals(activityClass, solo.getCurrentActivity().getClass());
+        solo.sleep(2000); // give activity time to completely load
+        solo.getCurrentActivity().finish();
     }
 }
