@@ -213,7 +213,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 		solo.clickOnCheckBox(0);
 
 		String expectedTitle = solo.getString(R.string.delete) + " " + Integer.toString(brickListToCheck.size() + 1)
@@ -234,7 +234,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 		solo.clickOnCheckBox(0);
 
 		solo.goBack();
@@ -250,7 +250,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		List<Brick> brickList = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getScript(0)
 				.getBrickList();
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 		solo.clickOnCheckBox(0);
 
 		for (int position = 1; position < brickList.size(); position++) {
@@ -270,7 +270,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		UiTestUtils.createTestProjectForActionModeDelete();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(1);
 		solo.clickOnCheckBox(2);
@@ -292,7 +292,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		UiTestUtils.createTestProjectNestedLoops();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(3);
 		String expectedTitle = solo.getString(R.string.delete) + " " + 3 + " "
@@ -344,7 +344,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		UiTestUtils.createTestProjectIfBricks();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(2);
 		solo.clickOnCheckBox(5);

@@ -216,6 +216,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(solo.getString(R.string.default_project_name));
 		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
 		solo.waitForText(defaultSpriteName);
 		solo.clickLongOnText(defaultSpriteName);
@@ -247,6 +248,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		String myProjectsText = solo.getString(R.string.main_menu_programs);
 		solo.clickOnButton(myProjectsText);
+		solo.waitForText(solo.getString(R.string.default_project_name));
 		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		if (!solo.waitForText(solo.getString(R.string.new_sprite_dialog_default_sprite_name), 0, 5000)) {
@@ -292,6 +294,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(myProjectsText);
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(standardProjectName);
 		assertTrue("click on project '" + standardProjectName + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, standardProjectName));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -312,6 +315,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 1000);
 		solo.clickOnButton(myProjectsText);
 
+		solo.waitForText(standardProjectName);
 		assertTrue("longclick on project '" + standardProjectName + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, standardProjectName));
 		solo.clickOnText(solo.getString(R.string.delete));
@@ -425,7 +429,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		ListView projectList = listViews.get(0);
 
-		ArrayList<TextView> textViews = solo.getCurrentViews(TextView.class);
+		ArrayList<TextView> textViews = solo.getCurrentViews(TextView.class, projectList);
 		String firstCacheProjectName = "";
 		String secondCacheProjectName = "";
 
@@ -485,7 +489,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				switch (counter) {
 					case 1:
 						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
-
 						assertEquals("Image color should be white", expectedWhite, pixelColor);
 						break;
 					case 2:
@@ -510,6 +513,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
 		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.delete));
@@ -541,6 +545,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
 		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.delete));
@@ -560,7 +565,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		String delete = solo.getString(R.string.delete);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 		solo.clickOnCheckBox(0);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
@@ -593,6 +598,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue("longclick on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.clickOnText(solo.getString(R.string.delete));
@@ -632,6 +638,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		}
 
 		//delete first project
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue("longclick on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.clickOnText(buttonDeleteText);
@@ -649,6 +656,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				projectManager.getCurrentProject().getName());
 
 		//delete second project
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
 		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(buttonDeleteText);
@@ -673,7 +681,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(1);
 
@@ -715,7 +723,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(1);
 
@@ -729,7 +737,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		solo.clickOnText(no);
 		solo.sleep(500);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
@@ -752,7 +760,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(1);
 		assertTrue("Actionbar title is not displayed correctly!",
@@ -771,7 +779,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
@@ -794,11 +802,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
 		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(actionRenameText);
 		solo.clearEditText(0);
 		solo.enterText(0, UiTestUtils.PROJECTNAME3);
+		solo.goBack();
 		solo.clickOnText(buttonPositiveText);
 		solo.sleep(300);
 		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
@@ -808,11 +818,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		solo.scrollToTop();
 		solo.sleep(300);
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue("longclick on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.clickOnText(actionRenameText);
 		solo.clearEditText(0);
 		solo.enterText(0, UiTestUtils.PROJECTNAME1);
+		solo.goBack();
 		solo.clickOnText(buttonPositiveText);
 		solo.sleep(300);
 		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
@@ -827,11 +839,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue("longclick on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
 		solo.enterText(0, UiTestUtils.PROJECTNAME3);
+		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.sleep(2000);
 		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
@@ -849,7 +863,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
-		UiTestUtils.openActionMode(solo, rename, R.id.rename);
+		UiTestUtils.openActionMode(solo, rename, R.id.rename, getActivity());
 		solo.clickOnText(rename);
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
@@ -863,9 +877,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		solo.clearEditText(0);
 		solo.enterText(0, UiTestUtils.PROJECTNAME3);
+		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.sleep(2000);
-		assertTrue("Rename was not successfull!", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
+		assertTrue("Rename was not successful!", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
 		solo.goBack();
 		solo.sleep(2000);
 		assertEquals("Current project not updated!", UiTestUtils.PROJECTNAME3, ProjectManager.getInstance()
@@ -882,7 +897,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
-		UiTestUtils.openActionMode(solo, rename, R.id.rename);
+		UiTestUtils.openActionMode(solo, rename, R.id.rename, getActivity());
 
 		solo.clickOnCheckBox(0);
 
@@ -898,6 +913,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue("longclick on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.clickOnText(solo.getString(R.string.rename));
@@ -920,6 +936,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue("longclick on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.clickOnText(solo.getString(R.string.rename));
@@ -938,6 +955,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue("longclick on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.clickOnText(solo.getString(R.string.rename));
@@ -962,6 +980,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
 		solo.enterText(0, renameString);
+		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
 		renameDirectory = new File(Utils.buildProjectPath(renameString));
@@ -975,11 +994,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
 		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
 		solo.enterText(0, renameString);
+		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
 		renameDirectory = new File(Utils.buildProjectPath(renameString));
@@ -993,11 +1014,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
 		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
 		solo.enterText(0, renameString);
+		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
@@ -1011,6 +1034,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
 		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.rename));
@@ -1034,7 +1058,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
 		View projectDetails = solo.getView(R.id.my_projects_activity_list_item_details);
+		solo.waitForView(projectDetails);
 		UiTestUtils.openOptionsMenu(solo);
+		solo.waitForText(showDetailsText);
 		solo.clickOnText(showDetailsText);
 		solo.sleep(200);
 		assertEquals("Project details are not showing!", View.VISIBLE, projectDetails.getVisibility());
@@ -1086,6 +1112,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		solo.enterText(0, UiTestUtils.PROJECTNAME1);
 		solo.sleep(100);
+		solo.goBack();
 		solo.clickOnButton(buttonOkText);
 
 		solo.sleep(200);
@@ -1106,6 +1133,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				.getCurrentProject().getName());
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(500);
 		solo.assertCurrentActivity("not in MainMenuActivity after goBack from ProjectActivity", MainMenuActivity.class);
 		solo.clickOnButton(buttonMyProjectsText);
 		assertTrue("project " + UiTestUtils.PROJECTNAME2 + " was not added",
@@ -1123,6 +1151,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		solo.enterText(0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
 		solo.sleep(200);
+		solo.goBack();
 		solo.clickOnButton(buttonOkText);
 
 		solo.sleep(200);
@@ -1145,6 +1174,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clickOnText(actionSetDescriptionText);
@@ -1159,6 +1189,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		// temporarily removed - should be added when displaying projectdescription
 		//		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
 		//		assertTrue("description is not shown in activity", solo.searchText("ultricies"));
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clickOnText(actionSetDescriptionText);
@@ -1178,6 +1209,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
 		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
 		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clickOnText(actionSetDescriptionText);
@@ -1195,6 +1227,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertEquals("The project is not first in list", ((ProjectData) (solo.getCurrentViews(ListView.class).get(0)
 				.getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME1);
 
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
 		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
 		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clickOnText(actionSetDescriptionText);
@@ -1213,6 +1246,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue("click on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -1233,6 +1267,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 		solo.sleep(300);
 
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue("longclick on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.clickOnText(solo.getString(R.string.copy));
@@ -1247,6 +1282,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String oldChecksum = lookDataOldProject.getChecksum();
 
 		solo.sleep(200);
+		solo.waitForText(UiTestUtils.COPIED_PROJECT_NAME);
 		assertTrue("click on project '" + UiTestUtils.COPIED_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, UiTestUtils.COPIED_PROJECT_NAME));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -1274,6 +1310,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
 		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.copy));
@@ -1291,8 +1328,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.sleep(500);
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy);
+		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
 
 		solo.clickOnCheckBox(0);
 		assertTrue("Actionbar title is not displayed correctly!", solo.searchText(copy));
@@ -1319,6 +1357,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue("longclick on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.clickOnText(solo.getString(R.string.copy));
@@ -1339,6 +1378,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue("longclick on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.clickOnText(solo.getString(R.string.copy));
@@ -1359,11 +1399,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
 		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.copy));
 		solo.clearEditText(0);
 		solo.enterText(0, copyProjectString);
+		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.sleep(200);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);

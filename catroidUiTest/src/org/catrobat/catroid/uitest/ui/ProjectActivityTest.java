@@ -673,7 +673,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		checkIfContextMenuAppears(true, false);
 
 		// Test on rename ActionMode
-		UiTestUtils.openActionMode(solo, rename, 0);
+		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 		solo.waitForText(rename, 1, timeToWait, false, true);
 
 		checkIfContextMenuAppears(false, false);
@@ -697,7 +697,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
 
 		// Test on delete ActionMode
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 		solo.waitForText(delete, 1, timeToWait, false, true);
 
 		checkIfContextMenuAppears(false, true);
@@ -721,7 +721,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testDeleteActionModeCheckingAndTitle() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		int timeToWaitForTitle = 300;
 
@@ -767,7 +767,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		int expectedNumberOfSprites = getCurrentNumberOfSprites();
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		int timeToWait = 300;
 
@@ -787,7 +787,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		int timeToWait = 300;
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
@@ -807,7 +807,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		int expectedNumberOfSprites = getCurrentNumberOfSprites() - 1;
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 
@@ -839,7 +839,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		String delete = solo.getString(R.string.delete);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(1);
 
@@ -853,7 +853,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		solo.clickOnText(no);
 		solo.sleep(500);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
@@ -868,7 +868,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testChooseNoOnDeleteQuestionInActionMode() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 		solo.clickOnCheckBox(1);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -898,7 +898,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		solo.scrollListToBottom(0);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(1);
 		solo.clickOnCheckBox(2);
@@ -920,7 +920,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testRenameActionModeChecking() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-		UiTestUtils.openActionMode(solo, rename, 0);
+		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 
@@ -937,7 +937,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testRenameActionModeIfNothingSelected() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-		UiTestUtils.openActionMode(solo, rename, 0);
+		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
 		int timeToWait = 200;
 
@@ -951,7 +951,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testRenameActionModeIfSelectedAndPressingBack() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-		UiTestUtils.openActionMode(solo, rename, 0);
+		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
 		int timeToWait = 200;
 

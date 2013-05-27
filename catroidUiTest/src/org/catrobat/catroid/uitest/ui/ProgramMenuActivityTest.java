@@ -229,6 +229,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 				addNewSpriteEditText.getHint());
 		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
 		solo.enterText(0, spriteName);
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(200);
 	}

@@ -915,10 +915,10 @@ public class UiTestUtils {
 	 * @param overflowMenuItemId
 	 *            ID of an action item (icon)
 	 */
-	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId) {
+	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId, Activity activity) {
 		if (overflowMenuItemName != null && menuItemId != 0) {
 
-			if (solo.getView(menuItemId) == null) {
+			if (activity.findViewById(menuItemId) == null) {
 				solo.clickOnMenuItem(overflowMenuItemName, true);
 			} else {
 				UiTestUtils.clickOnActionBar(solo, menuItemId);
@@ -1227,7 +1227,7 @@ public class UiTestUtils {
 
 	public static boolean clickOnTextInList(Solo solo, String text) {
 		solo.sleep(300);
-		ArrayList<TextView> textViews = solo.getCurrentViews(TextView.class);
+		ArrayList<TextView> textViews = solo.getCurrentViews(TextView.class, solo.getView(android.R.id.list));
 		for (int i = 0; i < textViews.size(); i++) {
 			TextView view = textViews.get(i);
 			if (view.getText().toString().equalsIgnoreCase(text)) {
@@ -1241,8 +1241,8 @@ public class UiTestUtils {
 	public static boolean longClickOnTextInList(Solo solo, String text) {
 		solo.sleep(300);
 		ArrayList<TextView> textViews = solo.getCurrentViews(TextView.class);
-		for (int i = 0; i < textViews.size(); i++) {
-			TextView view = textViews.get(i);
+		for (int position = 0; position < textViews.size(); position++) {
+			TextView view = textViews.get(position);
 			if (view.getText().toString().equalsIgnoreCase(text)) {
 				solo.clickLongOnView(view);
 				return true;
@@ -1351,7 +1351,7 @@ public class UiTestUtils {
 
 	public static View getViewContainerByString(Solo solo, String text, int containerId) {
 		View parent = solo.getView(containerId);
-		List<TextView> views = solo.getCurrentViews(TextView.class);
+		List<TextView> views = solo.getCurrentViews(TextView.class, parent);
 		for (TextView view : views) {
 
 			if (view.getText().equals(text)) {
@@ -1373,7 +1373,7 @@ public class UiTestUtils {
 
 	public static List<TextView> getViewsByParentId(Solo solo, int parentId) {
 		View parent = solo.getView(parentId);
-		return solo.getCurrentViews(TextView.class);
+		return solo.getCurrentViews(TextView.class, parent);
 	}
 
 	public static void prepareStageForTest() {
