@@ -173,22 +173,26 @@ public class Project implements Serializable {
 		for (Sprite currentSprite : getSpriteList()) {
 			for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); ++scriptIndex) {
 				Script currentScript = currentSprite.getScript(scriptIndex);
+				if (currentScript.getClass().getSimpleName().equals(BroadcastScript.class.getSimpleName())) {
+					addMessageToList(((BroadcastReceiverBrick) currentScript.getScriptBrick()).getSelectedMessage(),
+							usedMessages);
+				}
 				for (Brick currentBrick : currentScript.getBrickList()) {
-					String message = "";
 					if (currentBrick.getClass().getSimpleName().equals(BroadcastBrick.class.getSimpleName())) {
-						message = ((BroadcastBrick) currentBrick).getSelectedMessage();
+						addMessageToList(((BroadcastBrick) currentBrick).getSelectedMessage(), usedMessages);
 					} else if (currentBrick.getClass().getSimpleName().equals(BroadcastWaitBrick.class.getSimpleName())) {
-						message = ((BroadcastWaitBrick) currentBrick).getSelectedMessage();
-					} else if (currentBrick.getClass().getSimpleName()
-							.equals(BroadcastReceiverBrick.class.getSimpleName())) {
-						message = ((BroadcastReceiverBrick) currentBrick).getSelectedMessage();
+						addMessageToList(((BroadcastWaitBrick) currentBrick).getSelectedMessage(), usedMessages);
 					}
-					if (message != null && !message.equals("") && !usedMessages.contains(message)) {
-						usedMessages.add(message);
-					}
+
 				}
 			}
 		}
 		MessageContainer.removeOtherMessages(usedMessages);
+	}
+
+	private void addMessageToList(String message, List<String> list) {
+		if (message != null && !message.equals("") && !list.contains(message)) {
+			list.add(message);
+		}
 	}
 }

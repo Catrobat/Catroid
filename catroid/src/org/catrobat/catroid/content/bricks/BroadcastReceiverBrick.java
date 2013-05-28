@@ -139,6 +139,7 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 				String selectedString = ((String) parent.getItemAtPosition(position)).trim();
 				if (start) {
 					start = false;
+					currentSelected = selectedString;
 					return;
 				}
 				String message = selectedString;
@@ -170,6 +171,9 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		broadcastReceiverSpinner.setFocusable(false);
 		SpinnerAdapter broadcastReceiverSpinnerAdapter = MessageContainer.getMessageAdapter(context);
 		broadcastReceiverSpinner.setAdapter(broadcastReceiverSpinnerAdapter);
+		if (broadcastReceiverSpinnerAdapter.getCount() > 1) {
+			oldMessage = broadcastReceiverSpinnerAdapter.getItem(1).toString();
+		}
 		setSpinnerSelection(broadcastReceiverSpinner);
 		return prototypeView;
 	}

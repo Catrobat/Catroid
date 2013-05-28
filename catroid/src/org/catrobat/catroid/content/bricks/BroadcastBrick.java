@@ -178,6 +178,9 @@ public class BroadcastBrick extends BrickBaseType {
 		broadcastSpinner.setFocusable(false);
 		SpinnerAdapter broadcastSpinnerAdapter = MessageContainer.getMessageAdapter(context);
 		broadcastSpinner.setAdapter(broadcastSpinnerAdapter);
+		if (broadcastSpinnerAdapter.getCount() > 1) {
+			oldMessage = broadcastSpinnerAdapter.getItem(1).toString();
+		}
 		setSpinnerSelection(broadcastSpinner);
 		return prototypeView;
 	}
