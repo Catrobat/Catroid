@@ -35,11 +35,6 @@ public class UserVariable implements Serializable {
 		this.value = new Double(0.0);
 	}
 
-	public Object readResolve() {
-		value = new Double(0.0);
-		return this;
-	}
-
 	public Double getValue() {
 		return value;
 	}

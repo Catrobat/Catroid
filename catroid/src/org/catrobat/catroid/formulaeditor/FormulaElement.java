@@ -70,37 +70,6 @@ public class FormulaElement implements Serializable {
 
 	}
 
-	private Object readResolve() {
-
-		if (type == ElementType.SENSOR) {
-			switch (Sensors.getSensorByValue(value)) {
-				case LOOK_BRIGHTNESS:
-					value = Sensors.OBJECT_BRIGHTNESS.toString();
-					break;
-				case LOOK_GHOSTEFFECT:
-					value = Sensors.OBJECT_GHOSTEFFECT.toString();
-					break;
-				case LOOK_LAYER:
-					value = Sensors.OBJECT_LAYER.toString();
-					break;
-				case LOOK_ROTATION:
-					value = Sensors.OBJECT_ROTATION.toString();
-					break;
-				case LOOK_SIZE:
-					value = Sensors.OBJECT_SIZE.toString();
-					break;
-				case LOOK_X:
-					value = Sensors.OBJECT_X.toString();
-					break;
-				case LOOK_Y:
-					value = Sensors.OBJECT_Y.toString();
-					break;
-			}
-		}
-
-		return this;
-	}
-
 	public String getValue() {
 		return value;
 	}
