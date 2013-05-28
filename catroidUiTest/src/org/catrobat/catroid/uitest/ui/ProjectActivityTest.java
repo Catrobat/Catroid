@@ -197,8 +197,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(solo.getString(R.string.default_project_name));
 		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
-		solo.sleep(200);
+		solo.waitForText(solo.getString(R.string.default_project_sprites_pocketcode_name));
 		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
 		solo.sleep(200);
 		solo.clickOnText(solo.getString(R.string.copy));
@@ -978,6 +979,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clearEditText(0);
 		solo.enterText(0, renamedSpriteName);
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(100);
 
@@ -1009,6 +1011,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(close);
 
 		solo.enterText(0, FIRST_TEST_SPRITE_NAME);
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		assertFalse(">>sprite<< string found, should be replaced with >>object<<", solo.searchText("sprite"));
 		assertTrue(">>object<< string not found", solo.searchText("object"));
@@ -1040,6 +1043,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
 
 		solo.enterText(0, spriteName);
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(200);
 	}
@@ -1130,6 +1134,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		// Don't use UiTestUtils.clickEnterClose(solo, 0, "text")
 		solo.clearEditText(0);
 		solo.enterText(0, text);
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(200);
 	}

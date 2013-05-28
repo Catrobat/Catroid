@@ -141,6 +141,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 	private void enterTextAndCloseDialog(String text) {
 		solo.clearEditText(0);
 		solo.enterText(0, text);
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(200);
 	}

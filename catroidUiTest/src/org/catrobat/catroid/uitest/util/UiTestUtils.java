@@ -916,9 +916,14 @@ public class UiTestUtils {
 	 *            ID of an action item (icon)
 	 */
 	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId, Activity activity) {
-		if (overflowMenuItemName != null && menuItemId != 0) {
 
-			if (activity.findViewById(menuItemId) == null) {
+		if (overflowMenuItemName != null && menuItemId != 0) {
+			ArrayList<View> views = solo.getCurrentViews();
+			ArrayList<Integer> ids = new ArrayList<Integer>();
+			for (View view : views) {
+				ids.add(view.getId());
+			}
+			if (!ids.contains(menuItemId)) {
 				solo.clickOnMenuItem(overflowMenuItemName, true);
 			} else {
 				UiTestUtils.clickOnActionBar(solo, menuItemId);

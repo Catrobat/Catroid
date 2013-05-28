@@ -433,11 +433,13 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.enterText(0, projectToCreate);
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(2000);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.enterText(0, "new sprite");
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(2000);
 
@@ -448,6 +450,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private void addABrickToProject() {
 		solo.clickInList(0);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.waitForText(solo.getString(R.string.scripts));
 		solo.clickOnText(solo.getString(R.string.scripts));
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
 		UiTestUtils.goToHomeActivity(getActivity());
@@ -466,6 +469,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clearEditText(1);
 		solo.clickOnEditText(1);
 		solo.enterText(1, uploadProjectDescription);
+		solo.goBack();
 
 		solo.clickOnButton(solo.getString(R.string.upload_button));
 		solo.sleep(500);
