@@ -117,6 +117,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.test.ActivityInstrumentationTestCase2;
 import android.text.InputType;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -125,6 +126,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -1237,13 +1239,15 @@ public class UiTestUtils {
 	}
 
 	public static boolean longClickOnTextInList(Solo solo, String text) {
-		solo.sleep(300);
-		ArrayList<TextView> textViews = solo.getCurrentTextViews(solo.getView(android.R.id.list));
-		for (int i = 0; i < textViews.size(); i++) {
-			TextView view = textViews.get(i);
-			if (view.getText().toString().equalsIgnoreCase(text)) {
-				solo.clickLongOnView(view);
-				return true;
+		for (int tryCount = 0; tryCount < 3; tryCount++) {
+			solo.sleep(300);
+			ArrayList<TextView> textViews = solo.getCurrentTextViews(solo.getView(android.R.id.list));
+			for (int i = 0; i < textViews.size(); i++) {
+				TextView view = textViews.get(i);
+				if (view.getText().toString().equalsIgnoreCase(text)) {
+					solo.clickLongOnView(view);
+					return true;
+				}
 			}
 		}
 		return false;
@@ -1376,5 +1380,25 @@ public class UiTestUtils {
 
 	public static void prepareStageForTest() {
 		Reflection.setPrivateField(StageListener.class, "DYNAMIC_SAMPLING_RATE_FOR_ACTIONS", false);
+	}
+
+	/*
+	 * This is a workaround from this robotium issue
+	 * http://code.google.com/p/robotium/issues/detail?id=296
+	 * 
+	 * This method should be removed, when the issue is fixed in robotium!
+	 */
+	public static void clickOnButton(Solo solo, ActivityInstrumentationTestCase2<?> testCase, String buttonText) {
+		final Button buttonWithinTheDialog = solo.getButton(buttonText);
+		try {
+			testCase.runTestOnUiThread(new Runnable() {
+				public void run() {
+					buttonWithinTheDialog.performClick();
+				}
+			});
+		} catch (Throwable throwable) {
+			Log.e("CATROID", throwable.getMessage());
+		}
+		solo.sleep(500);
 	}
 }
