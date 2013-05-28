@@ -862,6 +862,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
+		solo.waitForText(renameDialogTitle);
 		assertTrue("Rename dialog didn't show up", solo.searchText(renameDialogTitle, true));
 		assertTrue("No EditText with actual look name", solo.searchEditText(SECOND_TEST_LOOK_NAME));
 
@@ -870,6 +871,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		// If an already existing name was entered a counter should be appended
 		String expectedNewLookName = newLookName + "1";
+		solo.sleep(300);
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		assertEquals("Look is not correctly renamed in lookDataList (1 should be appended)", expectedNewLookName,
 				lookDataList.get(checkboxIndex).getLookName());
@@ -1088,6 +1090,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		int expectedNumberOfLooks = currentNumberOfLooks + 2;
 
 		String copiedLookAddition = "_" + solo.getString(R.string.copy_look_addition);
+		solo.sleep(500);
 
 		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
 		solo.clickOnCheckBox(0);
