@@ -117,6 +117,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.test.ActivityInstrumentationTestCase2;
 import android.text.InputType;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -125,6 +126,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -1383,5 +1385,25 @@ public class UiTestUtils {
 
 	public static void prepareStageForTest() {
 		Reflection.setPrivateField(StageListener.class, "DYNAMIC_SAMPLING_RATE_FOR_ACTIONS", false);
+	}
+
+	/*
+	 * This is a workaround from this robotium issue
+	 * http://code.google.com/p/robotium/issues/detail?id=296
+	 * 
+	 * This method should be removed, when the issue is fixed in robotium!
+	 */
+	public static void clickOnButton(Solo solo, ActivityInstrumentationTestCase2<?> testCase, String buttonText) {
+		final Button buttonWithinTheDialog = solo.getButton(buttonText);
+		try {
+			testCase.runTestOnUiThread(new Runnable() {
+				public void run() {
+					buttonWithinTheDialog.performClick();
+				}
+			});
+		} catch (Throwable throwable) {
+			Log.e("CATROID", throwable.getMessage());
+		}
+		solo.sleep(500);
 	}
 }
