@@ -1062,7 +1062,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		UiTestUtils.openOptionsMenu(solo);
 		solo.waitForText(showDetailsText);
 		solo.clickOnText(showDetailsText);
-		solo.sleep(200);
+		solo.sleep(500);
 		assertEquals("Project details are not showing!", View.VISIBLE, projectDetails.getVisibility());
 
 		UiTestUtils.openOptionsMenu(solo);
@@ -1081,7 +1081,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("Menu item still says \"Show Details\"!", solo.searchText(hideDetailsText));
 
 		solo.clickOnText(hideDetailsText);
-		solo.sleep(200);
+		solo.sleep(500);
 
 		//get details view again, otherwise assert will fail
 		projectDetails = solo.getView(R.id.my_projects_activity_list_item_details);
