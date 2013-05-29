@@ -37,8 +37,8 @@ import android.test.AndroidTestCase;
 public class CategoryBricksFactoryTest extends AndroidTestCase {
 
 	private final CategoryBricksFactory factory = new CategoryBricksFactory();
-	private final Sprite background = new Sprite();
-	private final Sprite sprite = new Sprite();
+	private Sprite background;
+	private Sprite sprite = new Sprite();
 	private Context context = getContext();
 
 	@Override
@@ -46,8 +46,8 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 		super.setUp();
 		context = getContext();
 
-		Project project = new Project();
-		project.addSprite(background);
+		Project project = new Project(context, "Project");
+		background = project.getSpriteList().get(0);
 		project.addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 	}
