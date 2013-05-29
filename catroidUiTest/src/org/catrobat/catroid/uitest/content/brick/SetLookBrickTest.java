@@ -161,6 +161,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		clickOnSpinnerItem(solo.getString(R.string.category_looks), solo.getString(R.string.scripts));

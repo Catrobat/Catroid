@@ -102,7 +102,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		boolean okButtonEnabled = solo.getButton(okButtonText).isEnabled();
 		assertFalse("'" + okButtonText + "' button not deactivated", okButtonEnabled);
 
-		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
+		int spriteEditTextId = solo.getCurrentViews(EditText.class).size() - 1;
 		UiTestUtils.enterText(solo, spriteEditTextId, " ");
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
@@ -141,6 +141,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 	private void enterTextAndCloseDialog(String text) {
 		solo.clearEditText(0);
 		solo.enterText(0, text);
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(200);
 	}
