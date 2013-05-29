@@ -181,7 +181,6 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 
 		assertEquals("Wrong selection", solo.getString(R.string.brick_broadcast_default_value),
 				((Spinner) solo.getView(R.id.brick_broadcast_spinner)).getSelectedItem().toString());
-
 	}
 
 	public void testDeleteUnusedMessages() {
@@ -262,7 +261,10 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.waitForView(EditText.class);
 		solo.enterText(0, text);
 		solo.sleep(200);
-		solo.clickOnButton(solo.getString(R.string.ok));
+
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.ok));
+
 		solo.sleep(300);
 	}
 
