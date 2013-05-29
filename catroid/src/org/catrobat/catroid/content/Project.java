@@ -170,20 +170,27 @@ public class Project implements Serializable {
 
 	public void removeUnusedBroadcastMessages() {
 		List<String> usedMessages = new LinkedList<String>();
-		for (Sprite currentSprite : getSpriteList()) {
-			for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); ++scriptIndex) {
-				Script currentScript = currentSprite.getScript(scriptIndex);
-				if (currentScript.getClass().getSimpleName().equals(BroadcastScript.class.getSimpleName())) {
-					addMessageToList(((BroadcastReceiverBrick) currentScript.getScriptBrick()).getSelectedMessage(),
-							usedMessages);
-				}
-				for (Brick currentBrick : currentScript.getBrickList()) {
-					if (currentBrick.getClass().getSimpleName().equals(BroadcastBrick.class.getSimpleName())) {
-						addMessageToList(((BroadcastBrick) currentBrick).getSelectedMessage(), usedMessages);
-					} else if (currentBrick.getClass().getSimpleName().equals(BroadcastWaitBrick.class.getSimpleName())) {
-						addMessageToList(((BroadcastWaitBrick) currentBrick).getSelectedMessage(), usedMessages);
+		List<Sprite> spriteList = getSpriteList();
+		if (spriteList != null) {
+			for (Sprite currentSprite : spriteList) {
+				for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); ++scriptIndex) {
+					Script currentScript = currentSprite.getScript(scriptIndex);
+					if (currentScript.getClass().getSimpleName().equals(BroadcastScript.class.getSimpleName())) {
+						addMessageToList(
+								((BroadcastReceiverBrick) currentScript.getScriptBrick()).getSelectedMessage(),
+								usedMessages);
 					}
-
+					List<Brick> brickList = currentScript.getBrickList();
+					if (brickList != null) {
+						for (Brick currentBrick : brickList) {
+							if (currentBrick.getClass().getSimpleName().equals(BroadcastBrick.class.getSimpleName())) {
+								addMessageToList(((BroadcastBrick) currentBrick).getSelectedMessage(), usedMessages);
+							} else if (currentBrick.getClass().getSimpleName()
+									.equals(BroadcastWaitBrick.class.getSimpleName())) {
+								addMessageToList(((BroadcastWaitBrick) currentBrick).getSelectedMessage(), usedMessages);
+							}
+						}
+					}
 				}
 			}
 		}
