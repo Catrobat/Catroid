@@ -204,6 +204,9 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		this.stageDialog = stageDialog;
+
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
+
 		reloadProject = true;
 	}
 

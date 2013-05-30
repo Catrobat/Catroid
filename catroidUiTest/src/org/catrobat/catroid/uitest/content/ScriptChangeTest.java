@@ -40,6 +40,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -94,7 +95,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 				.getCurrentScript());
 
 		startBrick = parent.getChildAt(2);
-		String textViewText = solo.getCurrentTextViews(startBrick).get(1).getText().toString();
+		String textViewText = solo.getCurrentViews(TextView.class, startBrick).get(1).getText().toString();
 		String startBrickText = solo.getString(R.string.brick_show);
 		assertEquals("Third script in listView is not startScript", startBrickText, textViewText);
 	}

@@ -103,7 +103,6 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 	public void testUploadProjectSuccessAndTokenReplacementAfterUpload() throws Throwable {
 		setServerURLToTestUrl();
-
 		createTestProject(testProject);
 		addABrickToProject();
 
@@ -115,9 +114,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		UiTestUtils.createValidUser(getActivity());
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		String originalToken = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-
 		uploadProject(newTestProject, newTestDescription);
-
 		String newToken = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
 		assertFalse("Original token not available", originalToken.equals(Constants.NO_TOKEN));
@@ -154,6 +151,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clearEditText(0);
 		solo.clickOnEditText(0);
 		solo.enterText(0, newTestProject);
+		solo.goBack();
 
 		// enter a description
 		solo.clearEditText(1);
@@ -428,13 +426,14 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.enterText(0, projectToCreate);
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.enterText(0, "new sprite");
-		//solo.clickOnButton(solo.getString(R.string.ok));
-		solo.sendKey(Solo.ENTER);
+		solo.goBack();
+		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(2000);
 
 		File file = new File(Constants.DEFAULT_ROOT + "/" + projectToCreate + "/" + Constants.PROJECTCODE_NAME);
@@ -444,6 +443,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private void addABrickToProject() {
 		solo.clickInList(0);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.waitForText(solo.getString(R.string.scripts));
 		solo.clickOnText(solo.getString(R.string.scripts));
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
 		UiTestUtils.goToHomeActivity(getActivity());

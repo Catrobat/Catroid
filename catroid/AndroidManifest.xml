@@ -70,12 +70,25 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
+                
                 <data
                     android:host="*"
                     android:pathPattern="@string/catroid_extension_pathPattern"
                     android:scheme="http" />
             </intent-filter>
+            
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                
+                <data
+                    android:host="*"
+                    android:pathPattern="@string/catroid_extension_pathPattern"
+                    android:scheme="https" />
+            </intent-filter>
+            
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -83,7 +96,7 @@
 
                 <data
                     android:host="*"
-                    android:mimeType="application/zip"
+                    android:mimeType="application/catrobat+zip"
                     android:pathPattern="@string/catroid_extension_pathPattern"
                     android:scheme="file" />
             </intent-filter>

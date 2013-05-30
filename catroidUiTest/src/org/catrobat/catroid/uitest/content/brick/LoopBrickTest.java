@@ -137,7 +137,8 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(solo.getString(R.string.category_control));
 		solo.searchText(solo.getString(R.string.category_control));
-		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
 		solo.clickOnText(solo.getString(R.string.brick_repeat));
 
@@ -167,7 +168,8 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(solo.getString(R.string.category_control));
 		solo.searchText(solo.getString(R.string.category_control));
-		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
 		solo.clickOnText(solo.getString(R.string.brick_forever));
 
@@ -184,7 +186,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(solo.getString(R.string.category_control));
 		solo.searchText(solo.getString(R.string.category_control));
-		fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
 		solo.clickOnScreen(200, foreverBrickPosition);
 
@@ -246,7 +248,8 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(solo.getString(R.string.category_looks));
 		solo.searchText(solo.getString(R.string.category_looks));
-		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
 		solo.clickOnText(solo.getString(R.string.brick_clear_graphic_effect));
 
@@ -258,7 +261,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(solo.getString(R.string.category_control));
 		solo.searchText(solo.getString(R.string.category_control));
-		fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
 		solo.clickOnScreen(200, foreverBrickPosition);
 
@@ -270,7 +273,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(solo.getString(R.string.category_control));
 		solo.searchText(solo.getString(R.string.category_control));
-		fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
 		solo.clickOnScreen(200, foreverBrickPosition);
 
@@ -282,7 +285,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(solo.getString(R.string.category_control));
 		solo.searchText(solo.getString(R.string.category_control));
-		fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
 		solo.clickOnScreen(200, foreverBrickPosition);
 
@@ -294,7 +297,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(solo.getString(R.string.category_control));
 		solo.searchText(solo.getString(R.string.category_control));
-		fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
 		solo.clickOnScreen(200, foreverBrickPosition);
 
