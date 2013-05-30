@@ -128,6 +128,5 @@ public class AddBrickFragmentTest extends ActivityInstrumentationTestCase2<MainM
 		if (!sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
 			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
 		}
-
 	}
 }
