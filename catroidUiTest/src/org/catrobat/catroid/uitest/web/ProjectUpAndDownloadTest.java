@@ -102,6 +102,13 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 	public void testTokenReplacementAfterUpload() throws Throwable {
 		setServerURLToTestUrl();
+		createTestProject(testProject);
+		addABrickToProject();
+
+		//intent to the main activity is sent since changing activity orientation is not working
+		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
+		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
+		getActivity().startActivity(intent);
 
 		UiTestUtils.createValidUser(getActivity());
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -159,6 +166,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clearEditText(0);
 		solo.clickOnEditText(0);
 		solo.enterText(0, newTestProject);
+		solo.goBack();
 
 		// enter a description
 		solo.clearEditText(1);
@@ -433,11 +441,13 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.enterText(0, projectToCreate);
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(2000);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.enterText(0, "new sprite");
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(2000);
 
@@ -448,6 +458,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private void addABrickToProject() {
 		solo.clickInList(0);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.waitForText(solo.getString(R.string.scripts));
 		solo.clickOnText(solo.getString(R.string.scripts));
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
 		UiTestUtils.goToHomeActivity(getActivity());
@@ -461,17 +472,19 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clearEditText(0);
 		solo.clickOnEditText(0);
 		solo.enterText(0, uploadProjectName);
+		solo.goBack();
 
 		// enter a description
 		solo.clearEditText(1);
 		solo.clickOnEditText(1);
 		solo.enterText(1, uploadProjectDescription);
+		solo.hideSoftKeyboard();
 
 		solo.clickOnButton(solo.getString(R.string.upload_button));
 		solo.sleep(500);
 
 		try {
-			boolean success = solo.waitForText(solo.getString(R.string.success_project_upload), 1, 50000);
+			boolean success = solo.waitForText(solo.getString(R.string.success_project_upload), 1, 80000);
 			assertTrue("Upload failed. Internet connection?", success);
 			String resultString = (String) Reflection.getPrivateField(ServerCalls.getInstance(), "resultString");
 			JSONObject jsonObject;

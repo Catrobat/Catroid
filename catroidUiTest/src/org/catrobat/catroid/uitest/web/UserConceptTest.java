@@ -38,6 +38,7 @@ import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -203,11 +204,12 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	private void fillLoginDialogWithUsername(boolean correct, String username) {
 		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
-
+		ArrayList<EditText> currentEditTexts = solo.getCurrentViews(EditText.class);
 		// enter a username
 		String testUser = username;
-		solo.clearEditText(0);
-		solo.enterText(0, testUser);
+		solo.clearEditText(currentEditTexts.get(0));
+		solo.enterText(currentEditTexts.get(0), testUser);
+		solo.goBack();
 		// enter a password
 		String testPassword;
 		if (correct) {
@@ -215,9 +217,9 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		} else {
 			testPassword = "short";
 		}
-		solo.clearEditText(1);
-		solo.clickOnEditText(1);
-		solo.enterText(1, testPassword);
+		solo.clearEditText(currentEditTexts.get(1));
+		solo.clickOnView(currentEditTexts.get(1));
+		solo.enterText(currentEditTexts.get(1), testPassword);
 
 		// set the email to use. we need a random email because the server does not allow same email with different users 
 		String testEmail = testUser + "@gmail.com";
@@ -229,11 +231,12 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	private void fillLoginDialog(boolean correct) {
 		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
-
+		ArrayList<EditText> currentEditTexts = solo.getCurrentViews(EditText.class);
 		// enter a username
 		String testUser = "testUser" + System.currentTimeMillis();
-		solo.clearEditText(0);
-		solo.enterText(0, testUser);
+		solo.clearEditText(currentEditTexts.get(0));
+		solo.enterText(currentEditTexts.get(0), testUser);
+		solo.goBack();
 		// enter a password
 		String testPassword;
 		if (correct) {
@@ -241,9 +244,9 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		} else {
 			testPassword = "short";
 		}
-		solo.clearEditText(1);
-		solo.clickOnEditText(1);
-		solo.enterText(1, testPassword);
+		solo.clearEditText(currentEditTexts.get(1));
+		solo.clickOnView(currentEditTexts.get(1));
+		solo.enterText(currentEditTexts.get(1), testPassword);
 
 		// set the email to use. we need a random email because the server does not allow same email with different users 
 		String testEmail = testUser + "@gmail.com";
