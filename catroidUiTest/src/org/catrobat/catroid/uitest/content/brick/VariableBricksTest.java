@@ -76,8 +76,8 @@ public class VariableBricksTest extends ActivityInstrumentationTestCase2<MainMen
 
 	@Smoke
 	public void testVariableBricks() {
-		Spinner setVariableSpinner = solo.getCurrentSpinners().get(0);
-		Spinner changeVariableSpinner = solo.getCurrentSpinners().get(1);
+		Spinner setVariableSpinner = solo.getCurrentViews(Spinner.class).get(0);
+		Spinner changeVariableSpinner = solo.getCurrentViews(Spinner.class).get(1);
 
 		solo.clickOnView(setVariableSpinner);
 		solo.clickOnText("p2");

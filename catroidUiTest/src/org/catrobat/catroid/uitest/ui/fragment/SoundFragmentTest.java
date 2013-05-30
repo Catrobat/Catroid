@@ -329,7 +329,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	public void testRenameActionModeChecking() {
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
-		UiTestUtils.openActionMode(solo, rename, 0);
+		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
 		// Check if checkboxes are visible
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, VISIBLE);
@@ -347,7 +347,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testRenameActionModeIfNothingSelected() {
-		UiTestUtils.openActionMode(solo, rename, 0);
+		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
 		// Check if rename ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
@@ -357,7 +357,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testRenameActionModeIfSomethingSelectedAndPressingBack() {
-		UiTestUtils.openActionMode(solo, rename, 0);
+		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
@@ -369,7 +369,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testRenameActionModeEqualSoundNames() {
-		UiTestUtils.openActionMode(solo, rename, 0);
+		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
 		int checkboxIndex = 1;
 
@@ -409,7 +409,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		checkIfContextMenuAppears(true, false);
 
 		// Test on rename ActionMode
-		UiTestUtils.openActionMode(solo, rename, 0);
+		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 		solo.waitForText(rename, 1, timeToWait, false, true);
 
 		checkIfContextMenuAppears(false, false);
@@ -433,7 +433,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
 
 		// Test on delete ActionMode
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 		solo.waitForText(delete, 1, timeToWait, false, true);
 
 		checkIfContextMenuAppears(false, true);
@@ -455,7 +455,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testDeleteActionModeCheckingAndTitle() {
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		int timeToWaitForTitle = 300;
 
@@ -501,7 +501,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	public void testDeleteActionModeIfNothingSelected() {
 		int expectedNumberOfSounds = getCurrentNumberOfSounds();
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		// Check if rename ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
@@ -515,7 +515,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	public void testDeleteActionModeIfSelectedAndPressingBack() {
 		int expectedNumberOfSounds = getCurrentNumberOfSounds();
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
@@ -531,7 +531,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	public void testDeleteActionMode() {
 		int expectedNumberOfSounds = getCurrentNumberOfSounds() - 1;
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 
@@ -564,9 +564,9 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		int currentNumberOfSounds = soundInfoList.size();
 		assertEquals("Wrong number of sounds", 5, currentNumberOfSounds);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
-		int[] checkboxIndicesToCheck = { solo.getCurrentCheckBoxes().size() - 1, 0, 2 };
+		int[] checkboxIndicesToCheck = { solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2 };
 		int expectedNumberOfSounds = currentNumberOfSounds - checkboxIndicesToCheck.length;
 
 		solo.scrollDown();
@@ -605,7 +605,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		solo.clickOnView(playImageButton);
 		solo.sleep(timeToWait);
-		UiTestUtils.openActionMode(solo, rename, 0);
+		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 		solo.sleep(timeToWait);
 		assertFalse("Mediaplayer continues playing even if rename action has been opened", soundInfo.isPlaying);
 		solo.goBack();
@@ -613,13 +613,13 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		solo.clickOnView(playImageButton);
 		solo.sleep(timeToWait);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 		solo.sleep(timeToWait);
 		assertFalse("Mediaplayer continues playing even if delete action has been opened", soundInfo.isPlaying);
 		solo.goBack();
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 		solo.clickOnView(playImageButton);
 		solo.clickOnCheckBox(0);
 		solo.sleep(timeToWait);
@@ -717,8 +717,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
 			boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
-		firstCheckBox = solo.getCurrentCheckBoxes().get(0);
-		secondCheckBox = solo.getCurrentCheckBoxes().get(1);
+		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(0);
+		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
 		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
 	}
