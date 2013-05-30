@@ -137,13 +137,13 @@ public class ProjectUploadService extends IntentService {
 	public void onDestroy() {
 		super.onDestroy();
 		if (!result) {
-			showDialog(getString(R.string.error_project_upload));
+			showToast(getString(R.string.error_project_upload));
 			return;
 		}
-		showDialog(getString(R.string.success_project_upload));
+		showToast(getString(R.string.success_project_upload));
 	}
 
-	private void showDialog(String message) {
+	private void showToast(String message) {
 		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
 
