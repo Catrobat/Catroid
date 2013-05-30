@@ -474,24 +474,24 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 		ImageButton undo = (ImageButton) solo.getView(R.id.formula_editor_keyboard_undo);
 		ImageButton redo = (ImageButton) solo.getView(R.id.formula_editor_keyboard_redo);
 
-		assertTrue("Undo Button not inactive!", !undo.isClickable());
-		assertTrue("Redo Button not inactive!", !redo.isClickable());
+		assertTrue("Undo Button not inactive!", !undo.isEnabled());
+		assertTrue("Redo Button not inactive!", !redo.isEnabled());
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_6));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_6));
 
-		assertTrue("Undo Button not active!", undo.isClickable());
-		assertTrue("Redo Button not inactive!", !redo.isClickable());
+		assertTrue("Undo Button not active!", undo.isEnabled());
+		assertTrue("Redo Button not inactive!", !redo.isEnabled());
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_undo));
 
-		assertTrue("Undo Button not active!", undo.isClickable());
-		assertTrue("Redo Button not active!", redo.isClickable());
+		assertTrue("Undo Button not active!", undo.isEnabled());
+		assertTrue("Redo Button not active!", redo.isEnabled());
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_undo));
 
-		assertTrue("Undo Button not inactive!", !undo.isClickable());
-		assertTrue("Redo Button not active!", redo.isClickable());
+		assertTrue("Undo Button not inactive!", !undo.isEnabled());
+		assertTrue("Redo Button not active!", redo.isEnabled());
 
 	}
 
@@ -502,24 +502,24 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 				solo.waitForText(solo.getString(R.string.formula_editor_title)));
 
 		ImageButton delete = (ImageButton) solo.getView(R.id.formula_editor_keyboard_delete);
-		assertTrue("Delete Button not active!", delete.isClickable());
+		assertTrue("Delete Button not active!", delete.isEnabled());
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		assertTrue("Delete Button not inactive!", !delete.isClickable());
+		assertTrue("Delete Button not inactive!", !delete.isEnabled());
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));
-		assertTrue("Delete Button not active!", delete.isClickable());
+		assertTrue("Delete Button not active!", delete.isEnabled());
 
 		setAbsoluteCursorPosition(0);
-		assertTrue("Delete Button not inactive!", !delete.isClickable());
+		assertTrue("Delete Button not inactive!", !delete.isEnabled());
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_undo));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_undo));
-		assertTrue("Delete Button not active!", delete.isClickable());
+		assertTrue("Delete Button not active!", delete.isEnabled());
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_redo));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_redo));
-		assertTrue("Delete Button not inactive!", !delete.isClickable());
+		assertTrue("Delete Button not inactive!", !delete.isEnabled());
 	}
 
 	private void setAbsoluteCursorPosition(int position) {
