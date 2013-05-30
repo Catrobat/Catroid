@@ -135,12 +135,12 @@ public class ProjectUploadService extends IntentService {
 
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
 		if (!result) {
 			showToast(getString(R.string.error_project_upload));
 			return;
 		}
 		showToast(getString(R.string.success_project_upload));
+		super.onDestroy();
 	}
 
 	private void showToast(String message) {
