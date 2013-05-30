@@ -514,28 +514,28 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		ImageButton undo = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_undo);
 		if (!formulaEditorEditText.getHistory().undoIsPossible()) {
 			undo.setImageResource(R.drawable.icon_undo_disabled);
-			undo.setClickable(false);
+			undo.setEnabled(false);
 		} else {
 			undo.setImageResource(R.drawable.icon_undo);
-			undo.setClickable(true);
+			undo.setEnabled(true);
 		}
 
 		ImageButton redo = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_redo);
 		if (!formulaEditorEditText.getHistory().redoIsPossible()) {
 			redo.setImageResource(R.drawable.icon_redo_disabled);
-			redo.setClickable(false);
+			redo.setEnabled(false);
 		} else {
 			redo.setImageResource(R.drawable.icon_redo);
-			redo.setClickable(true);
+			redo.setEnabled(true);
 		}
 
 		ImageButton backspace = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_delete);
 		if (!formulaEditorEditText.isThereSomethingToDelete()) {
 			backspace.setImageResource(R.drawable.icon_backspace_disabled);
-			backspace.setClickable(false);
+			backspace.setEnabled(false);
 		} else {
 			backspace.setImageResource(R.drawable.icon_backspace);
-			backspace.setClickable(true);
+			backspace.setEnabled(true);
 		}
 
 	}
