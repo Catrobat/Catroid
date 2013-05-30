@@ -99,7 +99,7 @@ public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase
 			legoSpinnerIndex = 0;
 		}
 
-		Spinner currentSpinner = solo.getCurrentSpinners().get(legoSpinnerIndex);
+		Spinner currentSpinner = solo.getCurrentViews(Spinner.class).get(legoSpinnerIndex);
 		solo.pressSpinnerItem(legoSpinnerIndex, 0);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", motors[0], currentSpinner.getSelectedItem());

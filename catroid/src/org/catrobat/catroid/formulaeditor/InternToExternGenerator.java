@@ -62,6 +62,8 @@ public class InternToExternGenerator {
 		internExternLanguageConverterMap.put(Functions.EXP.name(), R.string.formula_editor_function_exp);
 		internExternLanguageConverterMap.put(Functions.MAX.name(), R.string.formula_editor_function_max);
 		internExternLanguageConverterMap.put(Functions.MIN.name(), R.string.formula_editor_function_min);
+		internExternLanguageConverterMap.put(Functions.TRUE.name(), R.string.formula_editor_function_true);
+		internExternLanguageConverterMap.put(Functions.FALSE.name(), R.string.formula_editor_function_false);
 		internExternLanguageConverterMap.put(Sensors.X_ACCELERATION.name(),
 				R.string.formula_editor_sensor_x_acceleration);
 		internExternLanguageConverterMap.put(Sensors.Y_ACCELERATION.name(),

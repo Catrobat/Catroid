@@ -72,7 +72,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.addProjectUserVariable(TEST_USERVARIABLE, 0d);
+				.addProjectUserVariable(TEST_USERVARIABLE);
 
 		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
@@ -131,7 +131,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.addProjectUserVariable(TEST_USERVARIABLE, 0d);
+				.addProjectUserVariable(TEST_USERVARIABLE);
 
 		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
@@ -178,7 +178,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
 		ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.addProjectUserVariable(TEST_USERVARIABLE, 0d);
+				.addProjectUserVariable(TEST_USERVARIABLE);
 
 		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);

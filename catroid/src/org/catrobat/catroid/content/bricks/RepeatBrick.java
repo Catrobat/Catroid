@@ -108,7 +108,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 		if (timesToRepeat.isSingleNumberFormula()) {
 			times.setText(view.getResources().getQuantityString(R.plurals.time_plural,
-					Utils.convertDoubleToPluralInteger(timesToRepeat.interpretFloat(sprite))));
+					Utils.convertDoubleToPluralInteger(timesToRepeat.interpretDouble(sprite))));
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -131,7 +131,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		textRepeat.setText(String.valueOf(timesToRepeat.interpretInteger(sprite)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.time_plural,
-				Utils.convertDoubleToPluralInteger(timesToRepeat.interpretFloat(sprite))));
+				Utils.convertDoubleToPluralInteger(timesToRepeat.interpretDouble(sprite))));
 		return prototypeView;
 	}
 
@@ -140,6 +140,15 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_repeat_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView repeatLabel = (TextView) view.findViewById(R.id.brick_repeat_label);
+		EditText editRepeat = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
+		TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
+		repeatLabel.setTextColor(repeatLabel.getTextColors().withAlpha(alphaValue));
+		times.setTextColor(times.getTextColors().withAlpha(alphaValue));
+		editRepeat.setTextColor(editRepeat.getTextColors().withAlpha(alphaValue));
+		editRepeat.getBackground().setAlpha(alphaValue);
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

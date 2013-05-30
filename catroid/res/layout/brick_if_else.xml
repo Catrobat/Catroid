@@ -39,6 +39,7 @@
         style="@style/BrickContainer.Control.Small" >
 
         <TextView
+            android:id="@+id/brick_if_else_label"
             style="@style/BrickText"
             android:text="@string/brick_if_else" />
     </LinearLayout>

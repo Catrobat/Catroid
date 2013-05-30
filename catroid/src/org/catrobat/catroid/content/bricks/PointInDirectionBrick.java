@@ -128,13 +128,13 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 		prototypeView = View.inflate(context, R.layout.brick_point_in_direction, null);
 		TextView setAngleTextView = (TextView) prototypeView
 				.findViewById(R.id.brick_point_in_direction_prototype_text_view);
-		setAngleTextView.setText(String.valueOf(degrees.interpretFloat(sprite)));
+		setAngleTextView.setText(String.valueOf(degrees.interpretDouble(sprite)));
 		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new PointInDirectionBrick(getSprite(), degrees.interpretFloat(sprite));
+		return new PointInDirectionBrick(getSprite(), degrees.interpretDouble(sprite));
 	}
 
 	@Override
@@ -142,6 +142,15 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_point_in_direction_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView pointInDirectionLabel = (TextView) view.findViewById(R.id.brick_point_in_direction_label);
+		TextView pointInDirectionDegree = (TextView) view.findViewById(R.id.brick_point_in_direction_degree);
+		EditText setAngleEditText = (EditText) view.findViewById(R.id.brick_point_in_direction_edit_text);
+		pointInDirectionLabel.setTextColor(pointInDirectionLabel.getTextColors().withAlpha(alphaValue));
+		pointInDirectionDegree.setTextColor(pointInDirectionDegree.getTextColors().withAlpha(alphaValue));
+		setAngleEditText.setTextColor(setAngleEditText.getTextColors().withAlpha(alphaValue));
+		setAngleEditText.getBackground().setAlpha(alphaValue);
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

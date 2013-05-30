@@ -102,26 +102,26 @@ public class LookSensorValuesTest extends ActivityInstrumentationTestCase2<Stage
 				(int) sprite.look.getXInUserInterfaceDimensionUnit());
 
 		Formula lookXPositionFormula = getFormulaBySensor(Sensors.LOOK_X);
-		assertEquals("Variable shows false x position", SPRITE_X_POSITION, lookXPositionFormula.interpretFloat(sprite),
+		assertEquals("Variable shows false x position", SPRITE_X_POSITION, lookXPositionFormula.interpretDouble(sprite),
 				DELTA);
 
 		Formula lookYPositionFormula = getFormulaBySensor(Sensors.LOOK_Y);
-		assertEquals("Variable shows false x position", SPRITE_Y_POSITION, lookYPositionFormula.interpretFloat(sprite),
+		assertEquals("Variable shows false x position", SPRITE_Y_POSITION, lookYPositionFormula.interpretDouble(sprite),
 				DELTA);
 
 		Formula lookAlphaValueFormula = getFormulaBySensor(Sensors.LOOK_GHOSTEFFECT);
 		assertEquals("Variable shows false ghosteffect", SPRITE_GHOSTEFFECT,
-				lookAlphaValueFormula.interpretFloat(sprite), DELTA);
+				lookAlphaValueFormula.interpretDouble(sprite), DELTA);
 
 		Formula lookBrightnessFormula = getFormulaBySensor(Sensors.LOOK_BRIGHTNESS);
 		assertEquals("Variable shows false brightness", SPRITE_BRIGHTNESS,
-				lookBrightnessFormula.interpretFloat(sprite), DELTA);
+				lookBrightnessFormula.interpretDouble(sprite), DELTA);
 
 		Formula lookScaleFormula = getFormulaBySensor(Sensors.LOOK_SIZE);
-		assertEquals("Variable shows false size", SPRITE_SIZE, lookScaleFormula.interpretFloat(sprite), DELTA);
+		assertEquals("Variable shows false size", SPRITE_SIZE, lookScaleFormula.interpretDouble(sprite), DELTA);
 
 		Formula lookRotateFormula = getFormulaBySensor(Sensors.LOOK_ROTATION);
-		assertEquals("Variable shows false direction", SPRITE_DIRECTION, lookRotateFormula.interpretFloat(sprite),
+		assertEquals("Variable shows false direction", SPRITE_DIRECTION, lookRotateFormula.interpretDouble(sprite),
 				DELTA);
 
 		Formula lookZPositionFormula = getFormulaBySensor(Sensors.LOOK_LAYER);

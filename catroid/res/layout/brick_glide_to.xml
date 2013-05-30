@@ -47,6 +47,7 @@
             android:layout_height="wrap_content" >
 
             <TextView
+                android:id="@+id/brick_glide_to_label"
                 style="@style/BrickText.SingleLine"
                 android:text="@string/brick_glide" >
             </TextView>
@@ -74,6 +75,7 @@
             android:layout_height="wrap_content" >
 
             <TextView
+                android:id="@+id/brick_glide_to_x"
                 style="@style/BrickText.SingleLine"
                 android:text="@string/brick_glide_to_x" >
             </TextView>
@@ -91,6 +93,7 @@
             </EditText>
 
             <TextView
+                android:id="@+id/brick_glide_to_y"
                 style="@style/BrickText.SingleLine"
                 android:text="@string/y_label" >
             </TextView>

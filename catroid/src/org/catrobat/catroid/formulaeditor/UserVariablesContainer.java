@@ -25,6 +25,7 @@ package org.catrobat.catroid.formulaeditor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -62,20 +63,22 @@ public class UserVariablesContainer implements Serializable {
 		return var;
 	}
 
-	public void addSpriteUserVariable(String userVariableName, Double userVariableValue) {
+	public UserVariable addSpriteUserVariable(String userVariableName) {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		addSpriteUserVariableToSprite(currentSprite, userVariableName, userVariableValue);
+		return addSpriteUserVariableToSprite(currentSprite, userVariableName);
 	}
 
-	public void addSpriteUserVariableToSprite(Sprite sprite, String userVariableName, Double userVariableValue) {
-		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue);
+	public UserVariable addSpriteUserVariableToSprite(Sprite sprite, String userVariableName) {
+		UserVariable userVariableToAdd = new UserVariable(userVariableName);
 		List<UserVariable> varList = getOrCreateVariableListForSprite(sprite);
 		varList.add(userVariableToAdd);
+		return userVariableToAdd;
 	}
 
-	public void addProjectUserVariable(String userVariableName, Double userVariableValue) {
-		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue);
+	public UserVariable addProjectUserVariable(String userVariableName) {
+		UserVariable userVariableToAdd = new UserVariable(userVariableName);
 		projectVariables.add(userVariableToAdd);
+		return userVariableToAdd;
 	}
 
 	public void deleteUserVariableByName(String userVariableName) {
@@ -126,4 +129,20 @@ public class UserVariablesContainer implements Serializable {
 		return null;
 	}
 
+	public void resetAllUserVariables() {
+
+		resetUserVariables(projectVariables);
+
+		Iterator<Sprite> spriteIterator = spriteVariables.keySet().iterator();
+		while (spriteIterator.hasNext()) {
+			Sprite currentSprite = spriteIterator.next();
+			resetUserVariables(spriteVariables.get(currentSprite));
+		}
+	}
+
+	private void resetUserVariables(List<UserVariable> UserVariableList) {
+		for (UserVariable userVariable : UserVariableList) {
+			userVariable.setValue(0);
+		}
+	}
 }

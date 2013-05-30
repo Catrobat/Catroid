@@ -238,6 +238,7 @@ public class FormulaElement implements Serializable {
 			case MOD:
 				Double divisor = rightChild.interpretRecursive(sprite);
 				return java.lang.Math.IEEEremainder(left, divisor);
+
 			case ARCSIN:
 				return java.lang.Math.toDegrees(Math.asin(left));
 			case ARCCOS:
@@ -252,6 +253,13 @@ public class FormulaElement implements Serializable {
 			case MIN:
 				right = rightChild.interpretRecursive(sprite);
 				return java.lang.Math.min(left, right);
+
+			case TRUE:
+				return 1.0;
+
+			case FALSE:
+				return 0.0;
+
 		}
 
 		return 0d;

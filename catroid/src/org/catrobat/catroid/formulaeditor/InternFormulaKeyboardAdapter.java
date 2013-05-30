@@ -96,6 +96,11 @@ public class InternFormulaKeyboardAdapter {
 				return buildDoubleParameterFunction(Functions.MAX, "0", "1");
 			case R.string.formula_editor_function_min:
 				return buildDoubleParameterFunction(Functions.MIN, "0", "1");
+			case R.string.formula_editor_function_true:
+				return buildFunctionWithoutParametersAndBrackets(Functions.TRUE);
+			case R.string.formula_editor_function_false:
+				return buildFunctionWithoutParametersAndBrackets(Functions.FALSE);
+
 				//SENSOR
 
 			case R.string.formula_editor_sensor_x_acceleration:

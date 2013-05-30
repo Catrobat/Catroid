@@ -41,6 +41,7 @@
         android:background="@drawable/brick_orange_1h_no_plug_slot" >
 
         <TextView
+            android:id="@+id/brick_loop_endless_nopuzzle_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_loop_end" />
     </LinearLayout>

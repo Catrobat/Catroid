@@ -121,7 +121,7 @@ public class ServerCalls {
 			postValues.put(PROJECT_NAME_TAG, projectName);
 			postValues.put(PROJECT_DESCRIPTION_TAG, projectDescription);
 			postValues.put(USER_EMAIL, userEmail);
-			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
+			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum);
 			postValues.put(Constants.TOKEN, token);
 			postValues.put(Constants.USERNAME, username);
 			postValues.put(CATROID_FILE_NAME, projectName + ".catrobat");

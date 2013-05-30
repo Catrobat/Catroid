@@ -42,6 +42,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -96,7 +97,7 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(1).getChildCount());
+		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentViews(ListView.class).get(1).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -110,7 +111,7 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 		UiTestUtils.insertValueViaFormulaEditor(solo, 0, STEPS_TO_MOVE);
 
 		assertEquals("Wrong text in field.", STEPS_TO_MOVE,
-				(double) ((Formula) Reflection.getPrivateField(moveNStepsBrick, "steps")).interpretFloat(null));
+				((Formula) Reflection.getPrivateField(moveNStepsBrick, "steps")).interpretDouble(null));
 		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE,
 				Double.valueOf(solo.getEditText(0).getText().toString()));
 

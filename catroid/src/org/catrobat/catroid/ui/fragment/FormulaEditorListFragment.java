@@ -64,7 +64,8 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_logic_notequal, R.string.formula_editor_logic_lesserthan,
 			R.string.formula_editor_logic_leserequal, R.string.formula_editor_logic_greaterthan,
 			R.string.formula_editor_logic_greaterequal, R.string.formula_editor_logic_and,
-			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not };
+			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not, R.string.formula_editor_function_true,
+			R.string.formula_editor_function_false };
 
 	private static final int[] MATH_ITEMS = { R.string.formula_editor_function_sin,
 			R.string.formula_editor_function_cos, R.string.formula_editor_function_tan,

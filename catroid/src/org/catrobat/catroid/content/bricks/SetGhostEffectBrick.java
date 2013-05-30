@@ -112,7 +112,7 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 		prototypeView = View.inflate(context, R.layout.brick_set_ghost_effect, null);
 		TextView textSetGhostEffect = (TextView) prototypeView
 				.findViewById(R.id.brick_set_ghost_effect_to_prototype_text_view);
-		textSetGhostEffect.setText(String.valueOf(transparency.interpretFloat(sprite)));
+		textSetGhostEffect.setText(String.valueOf(transparency.interpretDouble(sprite)));
 		return prototypeView;
 	}
 
@@ -126,6 +126,17 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_ghost_effect_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView textGhostLabel = (TextView) view.findViewById(R.id.brick_set_ghost_effect_label);
+		TextView textGhostTo = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to);
+		TextView textPercent = (TextView) view.findViewById(R.id.brick_set_ghost_effect_percent);
+		EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
+		textGhostLabel.setTextColor(textGhostLabel.getTextColors().withAlpha(alphaValue));
+		textGhostTo.setTextColor(textGhostTo.getTextColors().withAlpha(alphaValue));
+		textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
+		editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
+		editGhostEffect.getBackground().setAlpha(alphaValue);
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

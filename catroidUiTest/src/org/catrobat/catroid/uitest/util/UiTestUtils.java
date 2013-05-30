@@ -117,6 +117,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.test.ActivityInstrumentationTestCase2;
 import android.text.InputType;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -125,9 +126,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -263,7 +266,7 @@ public class UiTestUtils {
 
 		Formula formula = (Formula) Reflection.getPrivateField(theBrick, fieldName);
 
-		assertEquals("Wrong text in field", newValue, formula.interpretFloat(theBrick.getSprite()), 0.01f);
+		assertEquals("Wrong text in field", newValue, formula.interpretDouble(theBrick.getSprite()), 0.01f);
 		assertEquals("Text not updated in the brick list", newValue,
 				Double.parseDouble(solo.getEditText(editTextNumber).getText().toString().replace(',', '.')), 0.01f);
 
@@ -386,7 +389,8 @@ public class UiTestUtils {
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.searchText(solo.getCurrentActivity().getString(categoryStringId));
 
-		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
 
 		while (!solo.searchText(solo.getCurrentActivity().getString(brickStringId))) {
 			if (!solo.scrollDownList(fragmentListView)) {
@@ -777,10 +781,10 @@ public class UiTestUtils {
 		FormulaElement operatorElementMinus = new FormulaElement(FormulaElement.ElementType.OPERATOR, "MINUS", null);
 
 		UserVariablesContainer variableContainer = project.getUserVariables();
-		variableContainer.addProjectUserVariable("global", 2.0);
+		variableContainer.addProjectUserVariable("global");
 		FormulaElement variableElementGlobal = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, "global",
 				null);
-		variableContainer.addSpriteUserVariableToSprite(firstSprite, "local", 3.0);
+		variableContainer.addSpriteUserVariableToSprite(firstSprite, "local");
 		FormulaElement variableElemetLocal = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, "local", null);
 
 		FormulaElement sensorElemet = new FormulaElement(FormulaElement.ElementType.SENSOR, "COMPASS_DIRECTION", null);
@@ -913,10 +917,15 @@ public class UiTestUtils {
 	 * @param overflowMenuItemId
 	 *            ID of an action item (icon)
 	 */
-	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId) {
-		if (overflowMenuItemName != null && menuItemId != 0) {
+	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId, Activity activity) {
 
-			if (solo.getView(menuItemId) == null) {
+		if (overflowMenuItemName != null && menuItemId != 0) {
+			ArrayList<View> views = solo.getCurrentViews();
+			ArrayList<Integer> ids = new ArrayList<Integer>();
+			for (View view : views) {
+				ids.add(view.getId());
+			}
+			if (!ids.contains(menuItemId)) {
 				solo.clickOnMenuItem(overflowMenuItemName, true);
 			} else {
 				UiTestUtils.clickOnActionBar(solo, menuItemId);
@@ -1030,7 +1039,7 @@ public class UiTestUtils {
 			fail("ListView not shown in 10 secs!");
 		}
 
-		ArrayList<ListView> listViews = solo.getCurrentListViews();
+		ArrayList<ListView> listViews = solo.getCurrentViews(ListView.class);
 		if (listViews.size() <= listViewIndex) {
 			fail("Listview Index wrong");
 		}
@@ -1225,7 +1234,7 @@ public class UiTestUtils {
 
 	public static boolean clickOnTextInList(Solo solo, String text) {
 		solo.sleep(300);
-		ArrayList<TextView> textViews = solo.getCurrentTextViews(solo.getView(android.R.id.list));
+		ArrayList<TextView> textViews = solo.getCurrentViews(TextView.class, solo.getView(android.R.id.list));
 		for (int i = 0; i < textViews.size(); i++) {
 			TextView view = textViews.get(i);
 			if (view.getText().toString().equalsIgnoreCase(text)) {
@@ -1238,9 +1247,9 @@ public class UiTestUtils {
 
 	public static boolean longClickOnTextInList(Solo solo, String text) {
 		solo.sleep(300);
-		ArrayList<TextView> textViews = solo.getCurrentTextViews(solo.getView(android.R.id.list));
-		for (int i = 0; i < textViews.size(); i++) {
-			TextView view = textViews.get(i);
+		ArrayList<TextView> textViews = solo.getCurrentViews(TextView.class);
+		for (int position = 0; position < textViews.size(); position++) {
+			TextView view = textViews.get(position);
 			if (view.getText().toString().equalsIgnoreCase(text)) {
 				solo.clickLongOnView(view);
 				return true;
@@ -1280,7 +1289,7 @@ public class UiTestUtils {
 	}
 
 	public static ListView getScriptListView(Solo solo) {
-		return solo.getCurrentListViews().get(1);
+		return solo.getCurrentViews(ListView.class).get(1);
 	}
 
 	public static void waitForFragment(Solo solo, int fragmentRootLayoutId) {
@@ -1332,7 +1341,7 @@ public class UiTestUtils {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			return UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo).getAdapter().getCount();
 		} else {
-			return solo.getCurrentSpinners().get(ACTION_BAR_SPINNER_INDEX).getAdapter().getCount();
+			return solo.getCurrentViews(Spinner.class).get(ACTION_BAR_SPINNER_INDEX).getAdapter().getCount();
 		}
 	}
 
@@ -1349,7 +1358,7 @@ public class UiTestUtils {
 
 	public static View getViewContainerByString(Solo solo, String text, int containerId) {
 		View parent = solo.getView(containerId);
-		List<TextView> views = solo.getCurrentTextViews(parent);
+		List<TextView> views = solo.getCurrentViews(TextView.class, parent);
 		for (TextView view : views) {
 
 			if (view.getText().equals(text)) {
@@ -1371,10 +1380,30 @@ public class UiTestUtils {
 
 	public static List<TextView> getViewsByParentId(Solo solo, int parentId) {
 		View parent = solo.getView(parentId);
-		return solo.getCurrentTextViews(parent);
+		return solo.getCurrentViews(TextView.class, parent);
 	}
 
 	public static void prepareStageForTest() {
 		Reflection.setPrivateField(StageListener.class, "DYNAMIC_SAMPLING_RATE_FOR_ACTIONS", false);
+	}
+
+	/*
+	 * This is a workaround from this robotium issue
+	 * http://code.google.com/p/robotium/issues/detail?id=296
+	 * 
+	 * This method should be removed, when the issue is fixed in robotium!
+	 */
+	public static void clickOnButton(Solo solo, ActivityInstrumentationTestCase2<?> testCase, String buttonText) {
+		final Button buttonWithinTheDialog = solo.getButton(buttonText);
+		try {
+			testCase.runTestOnUiThread(new Runnable() {
+				public void run() {
+					buttonWithinTheDialog.performClick();
+				}
+			});
+		} catch (Throwable throwable) {
+			Log.e("CATROID", throwable.getMessage());
+		}
+		solo.sleep(500);
 	}
 }
