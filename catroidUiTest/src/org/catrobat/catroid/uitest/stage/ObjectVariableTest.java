@@ -53,7 +53,7 @@ import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class LookSensorValuesTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class ObjectVariableTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private Solo solo;
 	private Sprite sprite;
@@ -76,7 +76,7 @@ public class LookSensorValuesTest extends ActivityInstrumentationTestCase2<MainM
 	private static final int SPRITE_LAYER_CHANGE = 2;
 	private static final int NUMBER_OF_SPRITES = 5;
 
-	public LookSensorValuesTest() {
+	public ObjectVariableTest() {
 		super(MainMenuActivity.class);
 	}
 
