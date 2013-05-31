@@ -172,16 +172,15 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		//click on brick broadcast
 		solo.clickOnScreen(200, 700);
 
-        solo.sleep(500);
+		solo.sleep(500);
 		// Click on broadcast brick to add it to the script brick
-        solo.clickOnScreen(200, 250);
+		solo.clickOnScreen(200, 250);
 		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
 			solo.goBack();
 		}
 
 		assertEquals("Wrong selection", solo.getString(R.string.brick_broadcast_default_value),
 				((Spinner) solo.getView(R.id.brick_broadcast_spinner)).getSelectedItem().toString());
-
 	}
 
 	private void checkIfSpinnerTextsCorrect(String firstTextSpinner, String secondTextSpinner, String thirdTextSpinner) {
@@ -200,7 +199,10 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.waitForView(EditText.class);
 		solo.enterText(0, text);
 		solo.sleep(200);
-		solo.clickOnButton(solo.getString(R.string.ok));
+
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.ok));
+
 		solo.sleep(300);
 	}
 

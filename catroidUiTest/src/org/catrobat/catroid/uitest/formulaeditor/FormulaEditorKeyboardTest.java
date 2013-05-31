@@ -107,7 +107,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
-		ArrayList<EditText> textList = solo.getCurrentEditTexts();
+		ArrayList<EditText> textList = solo.getCurrentViews(EditText.class);
 
 		EditText text = textList.get(textList.size() - 1);
 
@@ -195,7 +195,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
-		ArrayList<EditText> textList = solo.getCurrentEditTexts();
+		ArrayList<EditText> textList = solo.getCurrentViews(EditText.class);
 		EditText text = textList.get(textList.size() - 1);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
@@ -434,7 +434,7 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
-		ArrayList<EditText> textList = solo.getCurrentEditTexts();
+		ArrayList<EditText> textList = solo.getCurrentViews(EditText.class);
 		EditText text = textList.get(textList.size() - 1);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));

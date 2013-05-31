@@ -111,7 +111,8 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 		editTextFieldVisibility(solo.getString(R.string.category_sound));
 		editTextFieldVisibility(solo.getString(R.string.category_looks));
 		editTextFieldVisibility(solo.getString(R.string.category_variables));
-		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollDownList(fragmentListView);
 		editTextFieldVisibility(solo.getString(R.string.category_lego_nxt));
 
@@ -138,7 +139,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 		solo.searchText(category);
 		int ignoreFirstTwo = 0;
 
-		ArrayList<EditText> editTextList = solo.getCurrentEditTexts();
+		ArrayList<EditText> editTextList = solo.getCurrentViews(EditText.class);
 		for (EditText text : editTextList) {
 			if (text.getVisibility() == View.VISIBLE && ignoreFirstTwo > 2) {
 				fail("EditTexts should be invisible in AddBrickFragment! Check other brick xmls for more information");
@@ -146,11 +147,12 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 			ignoreFirstTwo++;
 		}
 
-		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollDownList(fragmentListView);
 
 		ignoreFirstTwo = 0;
-		editTextList = solo.getCurrentEditTexts();
+		editTextList = solo.getCurrentViews(EditText.class);
 		for (EditText text : editTextList) {
 			if (text.getVisibility() == View.VISIBLE && ignoreFirstTwo > 2) {
 				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
