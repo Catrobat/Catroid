@@ -217,7 +217,7 @@ public class UtilsTest extends AndroidTestCase {
 	}
 
 	private void addSpriteAndCompareToStandardProject() {
-		Sprite sprite = new Sprite();
+		Sprite sprite = new Sprite("TestSprite");
 		standardProject.addSprite(sprite);
 		assertFalse("Failed to recognize that the project is not standard after adding a new sprite",
 				Utils.isStandardProject(standardProject, getContext()));

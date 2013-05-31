@@ -54,6 +54,7 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 	private BroadcastScript receiveScript;
 	private transient String oldMessage = "";
+	private transient String currentSelected = "";
 
 	public BroadcastReceiverBrick() {
 
@@ -75,6 +76,10 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		copyBrick.sprite = sprite;
 		copyBrick.receiveScript = (BroadcastScript) script;
 		return copyBrick;
+	}
+
+	public String getSelectedMessage() {
+		return currentSelected;
 	}
 
 	@Override
@@ -130,18 +135,21 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 			private boolean start = true;
 
 			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				String selectedString = ((String) parent.getItemAtPosition(position)).trim();
 				if (start) {
 					start = false;
+					currentSelected = selectedString;
 					return;
 				}
-				String message = ((String) parent.getItemAtPosition(pos)).trim();
+				String message = selectedString;
 
 				if (message == context.getString(R.string.new_broadcast_message)) {
 					receiveScript.setBroadcastMessage("");
 				} else {
 					receiveScript.setBroadcastMessage(message);
 					oldMessage = receiveScript.getBroadcastMessage();
+					currentSelected = selectedString;
 				}
 			}
 
@@ -163,7 +171,9 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		broadcastReceiverSpinner.setFocusable(false);
 		SpinnerAdapter broadcastReceiverSpinnerAdapter = MessageContainer.getMessageAdapter(context);
 		broadcastReceiverSpinner.setAdapter(broadcastReceiverSpinnerAdapter);
-		oldMessage = context.getString(R.string.brick_broadcast_default_value);
+		if (broadcastReceiverSpinnerAdapter.getCount() > 1) {
+			oldMessage = broadcastReceiverSpinnerAdapter.getItem(1).toString();
+		}
 		setSpinnerSelection(broadcastReceiverSpinner);
 		return prototypeView;
 	}
