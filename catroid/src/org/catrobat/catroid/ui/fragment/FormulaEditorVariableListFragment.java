@@ -264,6 +264,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
 				getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.GONE);
+				swapAddButtonListener();
 
 				FragmentTransaction fragmentTransaction = getSherlockActivity().getSupportFragmentManager()
 						.beginTransaction();
@@ -322,5 +323,15 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 			getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
 		}
 	};
+
+	private void swapAddButtonListener() {
+		LinearLayout buttonAdd = (LinearLayout) getSherlockActivity().findViewById(R.id.button_add);
+		buttonAdd.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				((ScriptActivity) getSherlockActivity()).handleAddButton(view);
+			}
+		});
+	}
 
 }
