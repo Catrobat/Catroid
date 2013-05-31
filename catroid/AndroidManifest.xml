@@ -36,7 +36,7 @@
         android:xlargeScreens="false"/>
     
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="9"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -53,7 +53,7 @@
         android:required="true" />
 
     <application
-        android:icon="@drawable/ic_launcher_catroid_fat"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Light.NoTitleBar" >
         <activity
