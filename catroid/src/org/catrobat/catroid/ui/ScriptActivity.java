@@ -174,7 +174,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		updateHandleAddButtonClickListener();
 	}
 
-	private void updateHandleAddButtonClickListener() {
+	public void updateHandleAddButtonClickListener() {
 		if (btn_add == null) {
 			btn_add = (LinearLayout) findViewById(R.id.button_add);
 		}
