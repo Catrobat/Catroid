@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.common;
 
+import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.Vector;
@@ -111,7 +112,9 @@ public class MessageContainer {
 
 	private static void addMessageToAdapter(String message) {
 		if (messageAdapter != null) {
-			messageAdapter.add(message);
+			if (messageAdapter.getPosition(message) < 0) {
+				messageAdapter.add(message);
+			}
 		}
 	}
 
@@ -136,5 +139,26 @@ public class MessageContainer {
 			return -1;
 		}
 		return messageAdapter.getPosition(message);
+	}
+
+	public static void removeOtherMessages(List<String> usedMessages) {
+		TreeMap<String, Vector<BroadcastScript>> receiverMapCopy = receiverMap;
+		receiverMap = new TreeMap<String, Vector<BroadcastScript>>();
+
+		for (String message : receiverMapCopy.keySet()) {
+			if (usedMessages.contains(message)) {
+				addMessage(message);
+			}
+		}
+
+		if (messageAdapter != null) {
+			Context context = messageAdapter.getContext();
+			for (int messageIndex = 0; messageIndex < messageAdapter.getCount(); ++messageIndex) {
+				if (!messageAdapter.getItem(messageIndex).equals(context.getString(R.string.new_broadcast_message))
+						&& !usedMessages.contains(messageAdapter.getItem(messageIndex))) {
+					messageAdapter.remove(messageAdapter.getItem(messageIndex));
+				}
+			}
+		}
 	}
 }
