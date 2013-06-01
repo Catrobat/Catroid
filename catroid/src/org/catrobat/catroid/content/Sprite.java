@@ -75,6 +75,9 @@ public class Sprite implements Serializable, Cloneable {
 		if (lookList == null) {
 			lookList = new ArrayList<LookData>();
 		}
+		if (scriptList == null) {
+			scriptList = new ArrayList<Script>();
+		}
 	}
 
 	public void resetSprite() {
@@ -92,7 +95,7 @@ public class Sprite implements Serializable, Cloneable {
 		init();
 	}
 
-	public Sprite() {
+	private Sprite() {
 
 	}
 
