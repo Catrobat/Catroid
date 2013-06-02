@@ -41,12 +41,12 @@ import android.util.Log;
 public class ServerCalls {
 	private final static String TAG = "ServerCalls";
 
-	private static final String REG_USER_NAME = "registrationUsername";
-	private static final String REG_USER_PASSWORD = "registrationPassword";
-	private static final String REG_USER_COUNTRY = "registrationCountry";
-	private static final String REG_USER_LANGUAGE = "registrationLanguage";
-	private static final String REG_USER_EMAIL = "registrationEmail";
-	private static final String LOGIN_USERNAME = "username";
+	private static final String REGISTRATION_USERNAME_KEY = "registrationUsername";
+	private static final String REGISTRATION_PASSWORD_KEY = "registrationPassword";
+	private static final String REGISTRATION_COUNTRY_KEY = "registrationCountry";
+	private static final String REGISTRATION_LANGUAGE_KEY = "registrationLanguage";
+	private static final String REGISTRATION_EMAIL_KEY = "registrationEmail";
+	private static final String LOGIN_USERNAME_KEY = "username";
 
 	private static final String FILE_UPLOAD_TAG = "upload";
 	private static final String PROJECT_NAME_TAG = "projectTitle";
@@ -59,19 +59,19 @@ public class ServerCalls {
 	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
 
-	public static final String BASE_URL_HTTP = "http://www.pocketcode.org/";
+	public static final String BASE_URL_HTTPS = "https://www.pocketcode.org/";
 	public static final String BASE_URL_FTP = "pocketcode.org";
 	public static final int FTP_PORT = 8080;
 
 	private static final String FILE_UPLOAD_URL = BASE_URL_FTP;
-	private static final String CHECK_TOKEN_URL = BASE_URL_HTTP + "api/checkToken/check.json";
-	public static final String REGISTRATION_URL = BASE_URL_HTTP + "api/loginOrRegister/loginOrRegister.json";
+	private static final String CHECK_TOKEN_URL = BASE_URL_HTTPS + "api/checkToken/check.json";
+	private static final String REGISTRATION_URL = BASE_URL_HTTPS + "api/loginOrRegister/loginOrRegister.json";
 
 	public static final String BASE_URL_TEST_HTTP = "http://catroidtest.ist.tugraz.at/";
 	public static final String BASE_URL_TEST_FTP = "catroidtest.ist.tugraz.at";
 
 	public static final String TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTP + "api/upload/upload.json";
-	public static final String FILE_UPLOAD_URL_HTTP = BASE_URL_HTTP + "api/upload/upload.json";
+	public static final String FILE_UPLOAD_URL_HTTPS = BASE_URL_HTTPS + "api/upload/upload.json";
 
 	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST_FTP;
 	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTP + "api/checkToken/check.json";
@@ -124,62 +124,62 @@ public class ServerCalls {
 			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum);
 			postValues.put(Constants.TOKEN, token);
 			postValues.put(Constants.USERNAME, username);
-			postValues.put(CATROID_FILE_NAME, projectName + ".catrobat");
+			postValues.put(CATROID_FILE_NAME, projectName + Constants.CATROBAT_EXTENTION);
 
 			if (language != null) {
 				postValues.put(USER_LANGUAGE, language);
 			}
 
 			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL : FILE_UPLOAD_URL;
-			String httpPostUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL_HTTP;
+			String httpPostUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL_HTTPS;
 
 			Log.v(TAG, "url to upload: " + serverUrl);
 			String answer = connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString,
 					receiver, httpPostUrl, notificationId);
+			if (answer != "") {
+				// check statusCode from Webserver
+				JSONObject jsonObject = null;
+				Log.v(TAG, "result string: " + answer);
+				jsonObject = new JSONObject(answer);
+				uploadStatusCode = jsonObject.getInt(JSON_STATUS_CODE);
+				String serverAnswer = jsonObject.optString(JSON_ANSWER);
+				String tokenReceived = "";
 
-			// check statusCode from Webserver
-			JSONObject jsonObject = null;
-			Log.v(TAG, "result string: " + answer);
-			jsonObject = new JSONObject(answer);
-			uploadStatusCode = jsonObject.getInt(JSON_STATUS_CODE);
-			String serverAnswer = jsonObject.optString(JSON_ANSWER);
-			String tokenReceived = "";
-
-			if (uploadStatusCode == SERVER_RESPONSE_TOKEN_OK) {
-				tokenReceived = jsonObject.getString(JSON_TOKEN);
-				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived == ""
-						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
+				if (uploadStatusCode == SERVER_RESPONSE_TOKEN_OK) {
+					tokenReceived = jsonObject.getString(JSON_TOKEN);
+					if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived == ""
+							|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
+						throw new WebconnectionException(uploadStatusCode, serverAnswer);
+					}
+					if (context != null) {
+						SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+						sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
+						sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
+					}
+				} else {
 					throw new WebconnectionException(uploadStatusCode, serverAnswer);
 				}
-				if (context != null) {
-					SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-					sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
-					sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
-				}
-			}
-
-			if (uploadStatusCode != SERVER_RESPONSE_TOKEN_OK) {
-				throw new WebconnectionException(uploadStatusCode, serverAnswer);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Exception");
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "IO-Exception");
 		}
 	}
 
 	public void downloadProject(String downloadUrl, String zipFileString, ResultReceiver receiver,
 			Integer notificationId, String projectName) throws WebconnectionException {
 		try {
-			connection.doHttpPostFileDownload(downloadUrl, null, zipFileString, receiver, notificationId, projectName);
+			connection.doHttpPostFileDownload(downloadUrl, new HashMap<String, String>(), zipFileString, receiver,
+					notificationId, projectName);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(0);
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Malformed URL");
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(0);
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "IO-Exception");
 		}
 
 	}
@@ -188,7 +188,7 @@ public class ServerCalls {
 		try {
 			HashMap<String, String> postValues = new HashMap<String, String>();
 			postValues.put(Constants.TOKEN, token);
-			postValues.put(LOGIN_USERNAME, username);
+			postValues.put(LOGIN_USERNAME_KEY, username);
 
 			String serverUrl = useTestUrl ? TEST_CHECK_TOKEN_URL : CHECK_TOKEN_URL;
 
@@ -208,16 +208,11 @@ public class ServerCalls {
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
 				return true;
 			} else {
-				throw new WebconnectionException(statusCode, serverAnswer);
+				throw new WebconnectionException(statusCode, "server response token ok, but error: " + serverAnswer);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
-		}
-
-		catch (IOException e) {
-			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Exception");
 		}
 	}
 
@@ -228,18 +223,18 @@ public class ServerCalls {
 		}
 		try {
 			HashMap<String, String> postValues = new HashMap<String, String>();
-			postValues.put(REG_USER_NAME, username);
-			postValues.put(REG_USER_PASSWORD, password);
-			postValues.put(REG_USER_EMAIL, userEmail);
+			postValues.put(REGISTRATION_USERNAME_KEY, username);
+			postValues.put(REGISTRATION_PASSWORD_KEY, password);
+			postValues.put(REGISTRATION_EMAIL_KEY, userEmail);
 			if (token != Constants.NO_TOKEN) {
 				postValues.put(Constants.TOKEN, token);
 			}
 
 			if (country != null) {
-				postValues.put(REG_USER_COUNTRY, country);
+				postValues.put(REGISTRATION_COUNTRY_KEY, country);
 			}
 			if (language != null) {
-				postValues.put(REG_USER_LANGUAGE, language);
+				postValues.put(REGISTRATION_LANGUAGE_KEY, language);
 			}
 			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
 
@@ -280,11 +275,7 @@ public class ServerCalls {
 			return registered;
 		} catch (JSONException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
 		}
 	}
-
 }
