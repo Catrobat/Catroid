@@ -95,7 +95,7 @@ public class Sprite implements Serializable, Cloneable {
 		init();
 	}
 
-	private Sprite() {
+	public Sprite() {
 
 	}
 
