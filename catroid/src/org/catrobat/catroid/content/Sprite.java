@@ -75,6 +75,9 @@ public class Sprite implements Serializable, Cloneable {
 		if (lookList == null) {
 			lookList = new ArrayList<LookData>();
 		}
+		if (scriptList == null) {
+			scriptList = new ArrayList<Script>();
+		}
 	}
 
 	public void resetSprite() {
@@ -221,7 +224,10 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public int getNumberOfScripts() {
-		return scriptList.size();
+		if (scriptList != null) {
+			return scriptList.size();
+		}
+		return 0;
 	}
 
 	public int getNumberOfBricks() {
