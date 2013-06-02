@@ -43,7 +43,7 @@ import android.widget.Toast;
 public class ProjectUploadService extends IntentService {
 
 	private final static String TAG = ProjectUploadService.class.getSimpleName();
-	private static final String UPLOAD_FILE_NAME = "upload" + Constants.CATROID_EXTENTION;
+	private static final String UPLOAD_FILE_NAME = "upload" + Constants.CATROBAT_EXTENTION;
 
 	private String projectPath;
 	private String projectName;
@@ -135,15 +135,15 @@ public class ProjectUploadService extends IntentService {
 
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
 		if (!result) {
-			showDialog(getString(R.string.error_project_upload));
+			showToast(getString(R.string.error_project_upload));
 			return;
 		}
-		showDialog(getString(R.string.success_project_upload));
+		showToast(getString(R.string.success_project_upload));
+		super.onDestroy();
 	}
 
-	private void showDialog(String message) {
+	private void showToast(String message) {
 		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
 

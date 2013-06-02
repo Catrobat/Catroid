@@ -67,7 +67,7 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 	protected Boolean doInBackground(Void... arg0) {
 		try {
 			if (!Utils.isNetworkAvailable(activity)) {
-				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK);
+				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
 
@@ -112,9 +112,9 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 		if (exception.getMessage() == null) {
-			new Builder(activity).setMessage(messageId).setPositiveButton("OK", null).show();
+			new Builder(activity).setMessage(messageId).setPositiveButton(R.string.ok, null).show();
 		} else {
-			new Builder(activity).setMessage(exception.getMessage()).setPositiveButton("OK", null).show();
+			new Builder(activity).setMessage(exception.getMessage()).setPositiveButton(R.string.ok, null).show();
 		}
 	}
 
