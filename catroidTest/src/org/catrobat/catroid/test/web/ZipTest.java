@@ -57,7 +57,7 @@ public class ZipTest extends AndroidTestCase {
 
 		String[] paths = { pathToTest };
 
-		String zipFileName = Constants.TMP_PATH + "/testzip" + Constants.CATROID_EXTENTION;
+		String zipFileName = Constants.TMP_PATH + "/testzip" + Constants.CATROBAT_EXTENTION;
 		File zipFile = new File(zipFileName);
 		if (zipFile.exists()) {
 			zipFile.delete();
