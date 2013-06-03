@@ -61,6 +61,7 @@ public class BroadcastWaitBrick extends BrickBaseType {
 	private String broadcastMessage = "";
 	private BroadcastScript waitScript;
 	private transient String oldMessage = "";
+	private transient String currentSelected = "";
 	private transient AdapterView<?> adapterView;
 
 	public BroadcastWaitBrick() {
@@ -83,6 +84,10 @@ public class BroadcastWaitBrick extends BrickBaseType {
 		this.broadcastMessage = selectedMessage;
 		this.oldMessage = selectedMessage;
 		MessageContainer.addMessage(this.broadcastMessage);
+	}
+
+	public String getSelectedMessage() {
+		return currentSelected;
 	}
 
 	public String getBroadcastMessage() {
@@ -146,16 +151,19 @@ public class BroadcastWaitBrick extends BrickBaseType {
 			private boolean start = true;
 
 			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				String selectedString = ((String) parent.getItemAtPosition(position)).trim();
 				if (start) {
 					start = false;
+					currentSelected = selectedString;
 					return;
 				}
-				broadcastMessage = ((String) parent.getItemAtPosition(pos)).trim();
+				broadcastMessage = selectedString;
 				if (broadcastMessage == context.getString(R.string.new_broadcast_message)) {
 					broadcastMessage = "";
 				} else {
 					oldMessage = broadcastMessage;
+					currentSelected = selectedString;
 				}
 				adapterView = parent;
 			}
@@ -178,7 +186,9 @@ public class BroadcastWaitBrick extends BrickBaseType {
 		broadcastWaitSpinner.setFocusable(false);
 		SpinnerAdapter broadcastWaitSpinnerAdapter = MessageContainer.getMessageAdapter(context);
 		broadcastWaitSpinner.setAdapter(broadcastWaitSpinnerAdapter);
-		oldMessage = context.getString(R.string.brick_broadcast_default_value);
+		if (broadcastWaitSpinnerAdapter.getCount() > 1) {
+			oldMessage = broadcastWaitSpinnerAdapter.getItem(1).toString();
+		}
 		setSpinnerSelection(broadcastWaitSpinner);
 		return prototypeView;
 	}

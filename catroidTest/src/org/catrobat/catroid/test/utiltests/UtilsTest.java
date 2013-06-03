@@ -29,6 +29,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -108,7 +109,8 @@ public class UtilsTest extends AndroidTestCase {
 
 		try {
 			md5TestFile.createNewFile();
-			assertEquals("MD5 sums are not the same for empty file", MD5_EMPTY, Utils.md5Checksum(md5TestFile));
+			assertEquals("MD5 sums are not the same for empty file", MD5_EMPTY.toLowerCase(Locale.US),
+					Utils.md5Checksum(md5TestFile));
 
 			printWriter = new PrintWriter(md5TestFile);
 			printWriter.print("catroid");
@@ -120,15 +122,17 @@ public class UtilsTest extends AndroidTestCase {
 			}
 		}
 
-		assertEquals("MD5 sums are not the same for catroid file", MD5_CATROID, Utils.md5Checksum(md5TestFile));
+		assertEquals("MD5 sums are not the same for catroid file", MD5_CATROID.toLowerCase(Locale.US),
+				Utils.md5Checksum(md5TestFile));
 
 		UtilFile.deleteDirectory(tempDir);
 	}
 
 	public void testMD5CheckSumOfString() {
-		assertEquals("MD5 sums do not match!", MD5_CATROID, Utils.md5Checksum("catroid"));
-		assertEquals("MD5 sums do not match!", MD5_EMPTY, Utils.md5Checksum(""));
-		assertEquals("MD5 sums do not match!", MD5_HELLO_WORLD, Utils.md5Checksum("Hello World!"));
+		assertEquals("MD5 sums do not match!", MD5_CATROID.toLowerCase(Locale.US), Utils.md5Checksum("catroid"));
+		assertEquals("MD5 sums do not match!", MD5_EMPTY.toLowerCase(Locale.US), Utils.md5Checksum(""));
+		assertEquals("MD5 sums do not match!", MD5_HELLO_WORLD.toLowerCase(Locale.US),
+				Utils.md5Checksum("Hello World!"));
 	}
 
 	public void testBuildPath() {
@@ -213,7 +217,7 @@ public class UtilsTest extends AndroidTestCase {
 	}
 
 	private void addSpriteAndCompareToStandardProject() {
-		Sprite sprite = new Sprite();
+		Sprite sprite = new Sprite("TestSprite");
 		standardProject.addSprite(sprite);
 		assertFalse("Failed to recognize that the project is not standard after adding a new sprite",
 				Utils.isStandardProject(standardProject, getContext()));

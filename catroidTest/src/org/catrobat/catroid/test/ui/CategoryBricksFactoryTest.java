@@ -38,7 +38,7 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 
 	private final CategoryBricksFactory factory = new CategoryBricksFactory();
 	private Sprite background;
-	private Sprite sprite = new Sprite();
+	private Sprite sprite = new Sprite("newSprite");
 	private Context context = getContext();
 
 	@Override
