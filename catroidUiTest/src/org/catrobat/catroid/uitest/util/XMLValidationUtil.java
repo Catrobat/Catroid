@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ConnectionWrapper;
+import org.catrobat.catroid.web.WebconnectionException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,13 +44,15 @@ public class XMLValidationUtil {
 	private static final String XML_VALIDATING_URL = "http://catroid.org/CatrobatLanguage/xmlSchema/version-0.3/validateXmlVersion3.php";
 	private static final String LOG_TAG = XMLValidationUtil.class.getSimpleName();
 
-	public static void sendProjectXMLToServerForValidating(Project projectToValidate) throws IOException, JSONException {
+	public static void sendProjectXMLToServerForValidating(Project projectToValidate) throws IOException,
+			JSONException, WebconnectionException {
 		String projectName = projectToValidate.getName();
 		String fullPathFilename = Utils.buildPath(Utils.buildProjectPath(projectName), Constants.PROJECTCODE_NAME);
 		sendProjectXMLToServerForValidating(fullPathFilename);
 	}
 
-	public static void sendProjectXMLToServerForValidating(String fullPathFilename) throws IOException, JSONException {
+	public static void sendProjectXMLToServerForValidating(String fullPathFilename) throws IOException, JSONException,
+			WebconnectionException {
 
 		String xmlContent = readTextFile(fullPathFilename);
 

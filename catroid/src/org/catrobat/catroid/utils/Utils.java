@@ -36,6 +36,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Semaphore;
 
 import org.catrobat.catroid.BuildConfig;
@@ -197,7 +198,7 @@ public class Utils {
 			}
 		}
 
-		return toHex(messageDigest.digest());
+		return toHex(messageDigest.digest()).toLowerCase(Locale.US);
 	}
 
 	public static String md5Checksum(String string) {
@@ -205,7 +206,7 @@ public class Utils {
 
 		messageDigest.update(string.getBytes());
 
-		return toHex(messageDigest.digest());
+		return toHex(messageDigest.digest()).toLowerCase(Locale.US);
 	}
 
 	public static String getUniqueName() {
