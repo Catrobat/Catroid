@@ -90,6 +90,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		if (formulaEditor != null) {
 			formulaEditor.addResourceToActiveFormula(itemsIds[position]);
+			formulaEditor.updateButtonViewOnKeyboard();
 		}
 		KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
 		onKey(null, keyEvent.getKeyCode(), keyEvent);
