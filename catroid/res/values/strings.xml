@@ -252,7 +252,7 @@
     <string name="category_looks">Looks</string>
     <string name="category_sound">Sound</string>
     <string name="category_control">Control</string>
-    <string name="category_variables">User Variables</string>
+    <string name="category_variables">Variables</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <!--  -->
 
@@ -466,7 +466,7 @@
     <string name="formula_nothing_selected">Define the brick´s input value</string>
     <string name="formula_editor_parse_fail_formula_too_long">Formula too long! Fix or press again to discard.</string>
     <string name="formula_editor_choose_object_variable">Choose your Object Variable:</string>
-    <string name="formula_editor_existing_user_variable">Name already in use!</string>
+    <string name="formula_editor_existing_variable">Name already in use!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sin</string>
