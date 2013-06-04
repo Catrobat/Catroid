@@ -33,10 +33,10 @@ public class WebconnectionException extends Exception {
 	private int statusCode;
 	private String message;
 
-	public WebconnectionException(int statusCode) {
-		super();
-		this.statusCode = statusCode;
-	}
+	//	public WebconnectionException(int statusCode) {
+	//		super();
+	//		this.statusCode = statusCode;
+	//	}
 
 	public WebconnectionException(int statusCode, String message) {
 		super(message);
@@ -53,7 +53,7 @@ public class WebconnectionException extends Exception {
 		if (message == null) {
 			message = "Unknown Error, no exception message given.";
 		}
-		return message;
+		return "Error #" + statusCode + ": " + message;
 	}
 
 }

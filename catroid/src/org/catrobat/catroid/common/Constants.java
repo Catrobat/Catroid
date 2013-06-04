@@ -31,11 +31,11 @@ public final class Constants {
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
 	public static final String APPLICATION_BUILD_NAME = ""; // updated from jenkins nightly/release build
 	public static final String PROJECTCODE_NAME = "code.xml";
-	public static final String CATROID_EXTENTION = ".catrobat";
+	public static final String CATROBAT_EXTENTION = ".catrobat";
 	public static final String RECORDING_EXTENTION = ".mp3";
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
-			+ "/pocketcode";
+			+ "/Pocket Code";
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
 	public static final String IMAGE_DIRECTORY = "images";
 	public static final String SOUND_DIRECTORY = "sounds";
