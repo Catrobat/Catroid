@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
@@ -446,6 +447,45 @@ public class ParserTest extends AndroidTestCase {
 		assertNull("Formula is not parsed correctly: EMPTY FORMULA {}", parseTree);
 		assertEquals("Formula error value not as expected", InternFormulaParser.PARSER_NO_INPUT,
 				internParser.getErrorTokenIndex());
+	}
+
+	public void testFuctionalAndSimpleBrackets() {
+		List<InternToken> internTokenList = new LinkedList<InternToken>();
+
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ABS.name()));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MULT.name()));
+		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN, "("));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "5"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "10"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
+		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE, ")"));
+
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
+
+		assertNotNull("Formula is not parsed correctly: abs(2 * (5 - 10))", parseTree);
+		assertEquals("Formula interpretation is not as expected", 10.0, parseTree.interpretRecursive(testSprite));
+		internTokenList.clear();
+
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "3"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MULT.name()));
+		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN, "("));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.COS.name()));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
+		internTokenList.add(new InternToken(InternTokenType.NUMBER, "0"));
+		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE, ")"));
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
+
+		internParser = new InternFormulaParser(internTokenList);
+		parseTree = internParser.parseFormula();
+
+		assertNotNull("Formula is not parsed correctly: 3 * (2 + cos(0)) ", parseTree);
+		assertEquals("Formula interpretation is not as expected", 9.0, parseTree.interpretRecursive(testSprite));
 	}
 
 }
