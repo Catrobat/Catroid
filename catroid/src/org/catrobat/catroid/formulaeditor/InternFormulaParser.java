@@ -221,7 +221,7 @@ public class InternFormulaParser {
 
 			curElem.replaceElement(new FormulaElement(FormulaElement.ElementType.BRACKET, null, null, null, termList()));
 
-			if (!currentToken.isBracketClose()) {
+			if (!(currentToken.isBracketClose() || currentToken.isFunctionParameterBracketClose())) {
 				throw new InternFormulaParserException("Parse Error");
 			}
 			getNextToken();
@@ -293,7 +293,7 @@ public class InternFormulaParser {
 				functionTree.setRightChild(termList());
 			}
 
-			if (!currentToken.isFunctionParameterBracketClose()) {
+			if (!(currentToken.isFunctionParameterBracketClose() || currentToken.isBracketClose())) {
 				throw new InternFormulaParserException("Parse Error");
 			}
 			getNextToken();
