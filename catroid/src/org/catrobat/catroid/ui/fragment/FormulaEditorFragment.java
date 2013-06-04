@@ -173,7 +173,10 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(false);
 		getSherlockActivity().getSupportActionBar().setNavigationMode(
 				com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_LIST);
-		getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
+
+		activity.findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
+		activity.findViewById(R.id.bottom_bar_separator).setVisibility(View.VISIBLE);
+		activity.findViewById(R.id.button_play).setVisibility(View.VISIBLE);
 
 	}
 
@@ -253,7 +256,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 							return true;
 						case R.id.formula_editor_keyboard_object:
 							showFormulaEditorListFragment(FormulaEditorListFragment.OBJECT_TAG,
-									R.string.formula_editor_choose_look_variable);
+									R.string.formula_editor_choose_object_variable);
 							return true;
 						case R.id.formula_editor_keyboard_sensors:
 							showFormulaEditorListFragment(FormulaEditorListFragment.SENSOR_TAG,

@@ -684,7 +684,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 				method.invoke(internFormula, arguments));
 
 		internTokens = new ArrayList<InternToken>();
-		internTokens.add(new InternToken(InternTokenType.SENSOR, Sensors.LOOK_BRIGHTNESS.name()));
+		internTokens.add(new InternToken(InternTokenType.SENSOR, Sensors.OBJECT_BRIGHTNESS.name()));
 		internFormula = new InternFormula(internTokens);
 		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
 		internFormula.setCursorAndSelection(1, false);
@@ -693,7 +693,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 				method.invoke(internFormula, arguments));
 
 		internTokens = new ArrayList<InternToken>();
-		internTokens.add(new InternToken(InternTokenType.SENSOR, Sensors.LOOK_BRIGHTNESS.name()));
+		internTokens.add(new InternToken(InternTokenType.SENSOR, Sensors.OBJECT_BRIGHTNESS.name()));
 		internFormula = new InternFormula(internTokens);
 		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
 		internFormula.setCursorAndSelection(1, false);
