@@ -84,6 +84,18 @@ public class InternFormulaKeyboardAdapter {
 				return buildSingleParameterFunction(Functions.ROUND, "0");
 			case R.string.formula_editor_function_mod:
 				return buildDoubleParameterFunction(Functions.MOD, "1", "1");
+			case R.string.formula_editor_function_arcsin:
+				return buildSingleParameterFunction(Functions.ARCSIN, "0");
+			case R.string.formula_editor_function_arccos:
+				return buildSingleParameterFunction(Functions.ARCCOS, "0");
+			case R.string.formula_editor_function_arctan:
+				return buildSingleParameterFunction(Functions.ARCTAN, "0");
+			case R.string.formula_editor_function_exp:
+				return buildSingleParameterFunction(Functions.EXP, "1");
+			case R.string.formula_editor_function_max:
+				return buildDoubleParameterFunction(Functions.MAX, "0", "1");
+			case R.string.formula_editor_function_min:
+				return buildDoubleParameterFunction(Functions.MIN, "0", "1");
 			case R.string.formula_editor_function_true:
 				return buildFunctionWithoutParametersAndBrackets(Functions.TRUE);
 			case R.string.formula_editor_function_false:

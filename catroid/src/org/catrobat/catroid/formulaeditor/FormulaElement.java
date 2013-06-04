@@ -179,6 +179,7 @@ public class FormulaElement implements Serializable {
 
 	private Double interpretFunction(Functions function, Sprite sprite) {
 		Double left = null;
+		Double right = null;
 
 		if (leftChild != null) {
 			left = leftChild.interpretRecursive(sprite);
@@ -204,17 +205,9 @@ public class FormulaElement implements Serializable {
 				return java.lang.Math.sqrt(left);
 
 			case RAND:
-				Double right = rightChild.interpretRecursive(sprite);
-				Double minimum;
-				Double maximum;
-
-				if (right > left) {
-					minimum = left;
-					maximum = right;
-				} else {
-					minimum = right;
-					maximum = left;
-				}
+				right = rightChild.interpretRecursive(sprite);
+				Double minimum = java.lang.Math.min(left, right);
+				Double maximum = java.lang.Math.max(left, right);
 
 				Double randomDouble = minimum + (java.lang.Math.random() * (maximum - minimum));
 
@@ -246,11 +239,27 @@ public class FormulaElement implements Serializable {
 				Double divisor = rightChild.interpretRecursive(sprite);
 				return java.lang.Math.IEEEremainder(left, divisor);
 
+			case ARCSIN:
+				return java.lang.Math.toDegrees(Math.asin(left));
+			case ARCCOS:
+				return java.lang.Math.toDegrees(Math.acos(left));
+			case ARCTAN:
+				return java.lang.Math.toDegrees(Math.atan(left));
+			case EXP:
+				return java.lang.Math.exp(left);
+			case MAX:
+				right = rightChild.interpretRecursive(sprite);
+				return java.lang.Math.max(left, right);
+			case MIN:
+				right = rightChild.interpretRecursive(sprite);
+				return java.lang.Math.min(left, right);
+
 			case TRUE:
 				return 1.0;
 
 			case FALSE:
 				return 0.0;
+
 		}
 
 		return 0d;
