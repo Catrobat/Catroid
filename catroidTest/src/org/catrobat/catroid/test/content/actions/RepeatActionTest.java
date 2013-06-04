@@ -116,7 +116,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		testSprite.removeAllScripts();
 		Script testScript = new StartScript(testSprite);
 
-		Formula repeatFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.LOOK_Y.name(), null));
+		Formula repeatFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.OBJECT_Y.name(), null));
 		RepeatBrick repeatBrick = new RepeatBrick(testSprite, repeatFormula);
 		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
 		repeatBrick.setLoopEndBrick(loopEndBrick);

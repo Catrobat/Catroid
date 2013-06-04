@@ -24,7 +24,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.catrobat.catroid.test"
     android:versionCode="2147483646"
-    android:versionName="0.7.2beta" >
+    android:versionName="0.7.3beta" >
 
     <uses-sdk
         android:minSdkVersion="9"
