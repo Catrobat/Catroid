@@ -469,6 +469,12 @@
     <string name="formula_editor_function_abs">abs</string>
     <string name="formula_editor_function_round">round</string>
     <string name="formula_editor_function_mod">mod</string>
+    <string name="formula_editor_function_arcsin">arcsin</string>
+    <string name="formula_editor_function_arccos">arccos</string>
+    <string name="formula_editor_function_arctan">arctan</string>
+    <string name="formula_editor_function_exp">exp</string>
+    <string name="formula_editor_function_max">max</string>
+    <string name="formula_editor_function_min">min</string>
     <string name="formula_editor_function_true">WAHR</string>
     <string name="formula_editor_function_false">FALSCH</string>
     <string name="formula_editor_sensor_x_acceleration">x_beschleunigung</string>
