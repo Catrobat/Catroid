@@ -134,7 +134,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		}
 
 		PreStageActivity.shutdownPersistentResources();
-		Utils.loadProjectIfNeeded(this);
 		setMainMenuButtonContinueText();
 		findViewById(R.id.main_menu_button_continue).setEnabled(true);
 		StatusBarNotificationManager.INSTANCE.displayDialogs(this);
@@ -197,6 +196,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
+		Utils.loadProjectIfNeeded(this);
 		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
@@ -329,7 +329,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 		spannableStringBuilder.append(mainMenuContinue);
 		spannableStringBuilder.append("\n");
-		spannableStringBuilder.append(ProjectManager.INSTANCE.getCurrentProject().getName());
+		spannableStringBuilder.append(Utils.getCurrentProjectName(this));
 
 		spannableStringBuilder.setSpan(textAppearanceSpan, mainMenuContinue.length() + 1,
 				spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
