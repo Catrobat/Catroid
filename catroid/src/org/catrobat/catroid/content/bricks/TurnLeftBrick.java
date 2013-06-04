@@ -30,7 +30,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -102,19 +101,6 @@ public class TurnLeftBrick extends BrickBaseType implements OnClickListener {
 		degrees.setTextFieldId(R.id.brick_turn_left_edit_text);
 		degrees.refreshTextField(view);
 
-		TextView times = (TextView) view.findViewById(R.id.brick_turn_left_degree_text_view);
-
-		if (degrees.isSingleNumberFormula()) {
-			times.setText(view.getResources().getQuantityString(R.plurals.brick_turn_left_degree_plural,
-					Utils.convertDoubleToPluralInteger(degrees.interpretDouble(sprite))));
-		} else {
-
-			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
-			// in hopefully all possible languages
-			times.setText(view.getResources().getQuantityString(R.plurals.brick_turn_left_degree_plural,
-					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
-		}
-
 		textDegrees.setVisibility(View.GONE);
 		editDegrees.setVisibility(View.VISIBLE);
 		editDegrees.setOnClickListener(this);
@@ -126,9 +112,6 @@ public class TurnLeftBrick extends BrickBaseType implements OnClickListener {
 		prototypeView = View.inflate(context, R.layout.brick_turn_left, null);
 		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_left_prototype_text_view);
 		textDegrees.setText(String.valueOf(degrees.interpretDouble(sprite)));
-		TextView times = (TextView) prototypeView.findViewById(R.id.brick_turn_left_degree_text_view);
-		times.setText(context.getResources().getQuantityString(R.plurals.brick_turn_left_degree_plural,
-				Utils.convertDoubleToPluralInteger(degrees.interpretDouble(sprite))));
 		return prototypeView;
 	}
 
