@@ -283,17 +283,7 @@
 
     <string name="brick_turn_left">Turn left</string>
 
-    <plurals name="brick_turn_left_degree_plural">
-        <item quantity="one">degree</item>
-        <item quantity="other">degrees</item>
-    </plurals>
-
     <string name="brick_turn_right">Turn right</string>
-
-    <plurals name="brick_turn_right_degree_plural">
-        <item quantity="one">degree</item>
-        <item quantity="other">degrees</item>
-    </plurals>
 
     <string name="brick_point_in_direction">Point in direction</string>
     <string name="brick_point_to">Point towards</string>
