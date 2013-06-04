@@ -173,7 +173,10 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(false);
 		getSherlockActivity().getSupportActionBar().setNavigationMode(
 				com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_LIST);
-		getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
+
+		activity.findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
+		activity.findViewById(R.id.bottom_bar_separator).setVisibility(View.VISIBLE);
+		activity.findViewById(R.id.button_play).setVisibility(View.VISIBLE);
 
 	}
 
