@@ -118,7 +118,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<MainMen
 
 		// -------------------------------------------------------------------------------------------------------------
 		Bitmap screenshot = BitmapFactory.decodeFile(Constants.DEFAULT_ROOT + "/" + projectName + "/"
-				+ StageListener.SCREENSHOT_FILE_NAME);
+				+ StageListener.SCREENSHOT_MANUAL_FILE_NAME);
 
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;

@@ -23,16 +23,17 @@
 package org.catrobat.catroid.formulaeditor;
 
 public enum Sensors {
-	X_ACCELERATION, Y_ACCELERATION, Z_ACCELERATION, COMPASS_DIRECTION, X_INCLINATION, Y_INCLINATION, LOOK_X(true), LOOK_Y(
-			true), LOOK_GHOSTEFFECT(true), LOOK_BRIGHTNESS(true), LOOK_SIZE(true), LOOK_ROTATION(true), LOOK_LAYER(true);
-	public final boolean isLookSensor;
+	X_ACCELERATION, Y_ACCELERATION, Z_ACCELERATION, COMPASS_DIRECTION, X_INCLINATION, Y_INCLINATION, OBJECT_X(true), OBJECT_Y(
+			true), OBJECT_GHOSTEFFECT(true), OBJECT_BRIGHTNESS(true), OBJECT_SIZE(true), OBJECT_ROTATION(true), OBJECT_LAYER(
+			true);
+	public final boolean isObjectSensor;
 
-	Sensors(boolean isLookSensor) {
-		this.isLookSensor = true;
+	Sensors(boolean isObjectSensor) {
+		this.isObjectSensor = true;
 	}
 
 	Sensors() {
-		this.isLookSensor = false;
+		this.isObjectSensor = false;
 	}
 
 	public static boolean isSensor(String value) {
