@@ -50,7 +50,7 @@
     <string name="about_pocketcode_license_url" translatable="false">http://developer.catrobat.org/licenses</string>
     <string name="about_link_template" translatable="false">&lt;a href="%1$s">%2$s&lt;/a></string>
     <string name="catrobat_forum" translatable="false">http://catrob.at/PocketCodeUserForum</string>
-    <string name="catrobat_terms_of_use" translatable="false">http://www.pocketcode.org/catroid/termsofuse</string>
+    <string name="catrobat_terms_of_use" translatable="false">https://pocketcode.org/termsOfUse</string>
 
     <!-- Settings, some overridden in values-v14 -->
     <string name="scrolling_cache_enabled">false</string>
