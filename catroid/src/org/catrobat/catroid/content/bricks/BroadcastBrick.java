@@ -62,6 +62,7 @@ public class BroadcastBrick extends BrickBaseType {
 
 	private String broadcastMessage = "";
 	private transient String oldMessage = "";
+	private transient String currentSelected = "";
 	private transient AdapterView<?> adapterView;
 
 	public BroadcastBrick(Sprite sprite) {
@@ -85,6 +86,10 @@ public class BroadcastBrick extends BrickBaseType {
 		broadcastMessage = message;
 		oldMessage = message;
 		MessageContainer.addMessage(broadcastMessage);
+	}
+
+	public String getSelectedMessage() {
+		return currentSelected;
 	}
 
 	private Object readResolve() {
@@ -139,15 +144,18 @@ public class BroadcastBrick extends BrickBaseType {
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				String selectedString = ((String) parent.getItemAtPosition(position)).trim();
 				if (start) {
 					start = false;
+					currentSelected = selectedString;
 					return;
 				}
-				broadcastMessage = ((String) parent.getItemAtPosition(position)).trim();
+				broadcastMessage = selectedString;
 				if (broadcastMessage == context.getString(R.string.new_broadcast_message)) {
 					broadcastMessage = "";
 				} else {
 					oldMessage = broadcastMessage;
+					currentSelected = selectedString;
 				}
 				adapterView = parent;
 			}
@@ -170,7 +178,9 @@ public class BroadcastBrick extends BrickBaseType {
 		broadcastSpinner.setFocusable(false);
 		SpinnerAdapter broadcastSpinnerAdapter = MessageContainer.getMessageAdapter(context);
 		broadcastSpinner.setAdapter(broadcastSpinnerAdapter);
-		oldMessage = context.getString(R.string.brick_broadcast_default_value);
+		if (broadcastSpinnerAdapter.getCount() > 1) {
+			oldMessage = broadcastSpinnerAdapter.getItem(1).toString();
+		}
 		setSpinnerSelection(broadcastSpinner);
 		return prototypeView;
 	}

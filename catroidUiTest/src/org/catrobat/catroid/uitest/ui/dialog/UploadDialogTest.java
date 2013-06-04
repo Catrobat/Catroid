@@ -118,6 +118,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.clearEditText(0);
 		solo.enterText(0, newTestProject);
 		assertEquals("rename View is hidden.", renameView.getVisibility(), View.VISIBLE);
+		solo.goBack();
 
 		solo.clickOnButton(solo.getString(R.string.cancel_button));
 	}
@@ -208,6 +209,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.enterText(0, testProject);
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(2000);
 

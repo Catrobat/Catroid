@@ -24,12 +24,17 @@ package org.catrobat.catroid.content;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BroadcastBrick;
+import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
+import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.utils.Utils;
 
@@ -133,14 +138,6 @@ public class Project implements Serializable {
 		xmlHeader.setCatrobatLanguageVersion(catrobatLanguageVersion);
 	}
 
-	public boolean isManualScreenshot() {
-		return xmlHeader.isProgramScreenshotManuallyTaken();
-	}
-
-	public void setManualScreenshot(boolean manualScreenshot) {
-		xmlHeader.setProgramScreenshotManuallyTaken(manualScreenshot);
-	}
-
 	public void setDeviceData(Context context) {
 		// TODO add other header values
 		xmlHeader.setDeviceName(Build.MODEL);
@@ -163,4 +160,38 @@ public class Project implements Serializable {
 		return userVariables;
 	}
 
+	public void removeUnusedBroadcastMessages() {
+		List<String> usedMessages = new LinkedList<String>();
+		List<Sprite> spriteList = getSpriteList();
+		if (spriteList != null) {
+			for (Sprite currentSprite : spriteList) {
+				for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); ++scriptIndex) {
+					Script currentScript = currentSprite.getScript(scriptIndex);
+					if (currentScript.getClass().getSimpleName().equals(BroadcastScript.class.getSimpleName())) {
+						addMessageToList(
+								((BroadcastReceiverBrick) currentScript.getScriptBrick()).getSelectedMessage(),
+								usedMessages);
+					}
+					List<Brick> brickList = currentScript.getBrickList();
+					if (brickList != null) {
+						for (Brick currentBrick : brickList) {
+							if (currentBrick.getClass().getSimpleName().equals(BroadcastBrick.class.getSimpleName())) {
+								addMessageToList(((BroadcastBrick) currentBrick).getSelectedMessage(), usedMessages);
+							} else if (currentBrick.getClass().getSimpleName()
+									.equals(BroadcastWaitBrick.class.getSimpleName())) {
+								addMessageToList(((BroadcastWaitBrick) currentBrick).getSelectedMessage(), usedMessages);
+							}
+						}
+					}
+				}
+			}
+		}
+		MessageContainer.removeOtherMessages(usedMessages);
+	}
+
+	private void addMessageToList(String message, List<String> list) {
+		if (message != null && !message.equals("") && !list.contains(message)) {
+			list.add(message);
+		}
+	}
 }

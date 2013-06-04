@@ -173,7 +173,10 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(false);
 		getSherlockActivity().getSupportActionBar().setNavigationMode(
 				com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_LIST);
-		getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
+
+		activity.findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
+		activity.findViewById(R.id.bottom_bar_separator).setVisibility(View.VISIBLE);
+		activity.findViewById(R.id.button_play).setVisibility(View.VISIBLE);
 
 	}
 
@@ -253,7 +256,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 							return true;
 						case R.id.formula_editor_keyboard_object:
 							showFormulaEditorListFragment(FormulaEditorListFragment.OBJECT_TAG,
-									R.string.formula_editor_choose_look_variable);
+									R.string.formula_editor_choose_object_variable);
 							return true;
 						case R.id.formula_editor_keyboard_sensors:
 							showFormulaEditorListFragment(FormulaEditorListFragment.SENSOR_TAG,
@@ -514,28 +517,28 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		ImageButton undo = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_undo);
 		if (!formulaEditorEditText.getHistory().undoIsPossible()) {
 			undo.setImageResource(R.drawable.icon_undo_disabled);
-			undo.setClickable(false);
+			undo.setEnabled(false);
 		} else {
 			undo.setImageResource(R.drawable.icon_undo);
-			undo.setClickable(true);
+			undo.setEnabled(true);
 		}
 
 		ImageButton redo = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_redo);
 		if (!formulaEditorEditText.getHistory().redoIsPossible()) {
 			redo.setImageResource(R.drawable.icon_redo_disabled);
-			redo.setClickable(false);
+			redo.setEnabled(false);
 		} else {
 			redo.setImageResource(R.drawable.icon_redo);
-			redo.setClickable(true);
+			redo.setEnabled(true);
 		}
 
 		ImageButton backspace = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_delete);
 		if (!formulaEditorEditText.isThereSomethingToDelete()) {
 			backspace.setImageResource(R.drawable.icon_backspace_disabled);
-			backspace.setClickable(false);
+			backspace.setEnabled(false);
 		} else {
 			backspace.setImageResource(R.drawable.icon_backspace);
-			backspace.setClickable(true);
+			backspace.setEnabled(true);
 		}
 
 	}

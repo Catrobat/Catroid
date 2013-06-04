@@ -134,6 +134,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 					.getSupportFragmentManager().findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 			if (formulaEditor != null) {
 				formulaEditor.addUserVariableToActiveFormula(adapter.getItem(position).getName());
+				formulaEditor.updateButtonViewOnKeyboard();
 			}
 			KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
 			onKey(null, keyEvent.getKeyCode(), keyEvent);
@@ -264,6 +265,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
 				getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.GONE);
+				((ScriptActivity) getSherlockActivity()).updateHandleAddButtonClickListener();
 
 				FragmentTransaction fragmentTransaction = getSherlockActivity().getSupportFragmentManager()
 						.beginTransaction();
@@ -322,5 +324,4 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 			getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
 		}
 	};
-
 }

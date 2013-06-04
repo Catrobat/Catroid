@@ -72,7 +72,8 @@ public class AddBrickFragmentTest extends ActivityInstrumentationTestCase2<MainM
 		checkActionBarInACategory(solo.getString(R.string.category_looks), "looks");
 		//searchText just to get focus
 		solo.searchText(solo.getString(R.string.categories));
-		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollDownList(fragmentListView);
 		checkActionBarInACategory(solo.getString(R.string.category_variables), "variables");
 		checkActionBarInACategory(solo.getString(R.string.category_lego_nxt), "lego nxt");
@@ -127,6 +128,5 @@ public class AddBrickFragmentTest extends ActivityInstrumentationTestCase2<MainM
 		if (!sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
 			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
 		}
-
 	}
 }

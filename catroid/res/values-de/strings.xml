@@ -252,7 +252,7 @@
     <string name="category_looks">Aussehen</string>
     <string name="category_sound">Klang</string>
     <string name="category_control">Steuerung</string>
-    <string name="category_variables">Benutzervariablen</string>
+    <string name="category_variables">Variablen</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <!--  -->
 
@@ -283,17 +283,7 @@
 
     <string name="brick_turn_left">Drehe links</string>
 
-    <plurals name="brick_turn_left_degree_plural">
-        <item quantity="one">Grad</item>
-        <item quantity="other">Grad</item>
-    </plurals>
-
     <string name="brick_turn_right">Drehe rechts</string>
-
-    <plurals name="brick_turn_right_degree_plural">
-        <item quantity="one">Grad</item>
-        <item quantity="other">Grad</item>
-    </plurals>
 
     <string name="brick_point_in_direction">Zeige in Richtung</string>
     <string name="brick_point_to">Zeige auf</string>
@@ -464,8 +454,8 @@
     <string name="formula_editor_parse_fail">Fehler in der Eingabe! Zum Verwerfen erneut klicken.</string>
     <string name="formula_nothing_selected">Bitte Wert eingeben!</string>
     <string name="formula_editor_parse_fail_formula_too_long">Formel zu lang! Zum Verwerfen erneut klicken.</string>
-    <string name="formula_editor_choose_look_variable">Aussehen Variable auswählen:</string>
-    <string name="formula_editor_existing_user_variable">Name wird bereits verwendet!</string>
+    <string name="formula_editor_choose_object_variable">Aussehen Variable auswählen:</string>
+    <string name="formula_editor_existing_variable">Name wird bereits verwendet!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sin</string>
@@ -487,13 +477,13 @@
     <string name="formula_editor_sensor_compass_direction">Kompass_Richtung</string>
     <string name="formula_editor_sensor_x_inclination">x_Neigung</string>
     <string name="formula_editor_sensor_y_inclination">y_Neigung</string>
-    <string name="formula_editor_look_x">aussehen_x</string>
-    <string name="formula_editor_look_y">aussehen_y</string>
-    <string name="formula_editor_look_ghosteffect">aussehen_durchsichtigkeits_effekt</string>
-    <string name="formula_editor_look_brightness">aussehen_helligkeit</string>
-    <string name="formula_editor_look_size">aussehen_größe</string>
-    <string name="formula_editor_look_rotation">aussehen_rotation</string>
-    <string name="formula_editor_look_layer">aussehen_ebene</string>
+    <string name="formula_editor_object_x">aussehen_x</string>
+    <string name="formula_editor_object_y">aussehen_y</string>
+    <string name="formula_editor_object_ghosteffect">aussehen_durchsichtigkeits_effekt</string>
+    <string name="formula_editor_object_brightness">aussehen_helligkeit</string>
+    <string name="formula_editor_object_size">aussehen_größe</string>
+    <string name="formula_editor_object_rotation">aussehen_rotation</string>
+    <string name="formula_editor_object_layer">aussehen_ebene</string>
     <string name="formula_editor_compute">Berechnen</string>
     <string name="formula_editor_object">Objekt</string>
     <string name="formula_editor_math">Funktionen</string>
@@ -515,6 +505,9 @@
     <string name="formula_editor_operator_minus">-</string>
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
+    <string name="formula_editor_image_button_description_undo">Rückgängig</string>
+    <string name="formula_editor_image_button_description_redo">Wiederherstellen</string>
+    <string name="formula_editor_image_button_description_delete">Löschen</string>
     <string name="formula_editor_variable_dialog_title">Neue Variable</string>
     <string name="formula_editor_variable_dialog_for_all_sprites">Für alle Objekte</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
