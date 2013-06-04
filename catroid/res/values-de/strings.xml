@@ -252,7 +252,7 @@
     <string name="category_looks">Aussehen</string>
     <string name="category_sound">Klang</string>
     <string name="category_control">Steuerung</string>
-    <string name="category_variables">Benutzervariablen</string>
+    <string name="category_variables">Variablen</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <!--  -->
 
@@ -465,7 +465,7 @@
     <string name="formula_nothing_selected">Bitte Wert eingeben!</string>
     <string name="formula_editor_parse_fail_formula_too_long">Formel zu lang! Zum Verwerfen erneut klicken.</string>
     <string name="formula_editor_choose_object_variable">Aussehen Variable auswählen:</string>
-    <string name="formula_editor_existing_user_variable">Name wird bereits verwendet!</string>
+    <string name="formula_editor_existing_variable">Name wird bereits verwendet!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sin</string>
