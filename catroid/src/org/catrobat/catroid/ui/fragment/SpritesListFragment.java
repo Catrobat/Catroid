@@ -348,7 +348,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
 			for (int variable = 0; variable < userVariablesList.size(); variable++) {
 				String userVariableName = userVariablesList.get(variable).getName();
-				Double userVariableValue = userVariablesList.get(variable).getValue();
 				userVariablesContainer.addSpriteUserVariableToSprite(copiedSprite, userVariableName);
 			}
 		}
