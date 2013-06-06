@@ -26,7 +26,7 @@ import java.io.IOException;
 
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.StandardProjectHandler;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.WhenScript;
@@ -53,8 +53,8 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 	}
 
 	public void testCreateStandardProject() throws IOException {
-		Values.SCREEN_WIDTH = 500;
-		Values.SCREEN_HEIGHT = 1000;
+		ScreenValues.SCREEN_WIDTH = 500;
+		ScreenValues.SCREEN_HEIGHT = 1000;
 
 		Project testProject = StandardProjectHandler.createAndSaveStandardProject(testProjectName, getContext());
 
@@ -66,8 +66,8 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 		int catroidSpriteIndex = 1;
 		LookData backgroundLookData = testProject.getSpriteList().get(backgroundSpriteIndex).getLookDataList()
 				.get(backgroundLookDataIndex);
-		assertEquals("wrong size of background image", Values.SCREEN_WIDTH, backgroundLookData.getMeasure()[0]);
-		assertEquals("wrong size of background image", Values.SCREEN_HEIGHT, backgroundLookData.getMeasure()[1]);
+		assertEquals("wrong size of background image", ScreenValues.SCREEN_WIDTH, backgroundLookData.getMeasure()[0]);
+		assertEquals("wrong size of background image", ScreenValues.SCREEN_HEIGHT, backgroundLookData.getMeasure()[1]);
 		assertEquals("wrong number of scripts in the Catroid sprite", 2,
 				testProject.getSpriteList().get(catroidSpriteIndex).getNumberOfScripts());
 
@@ -79,7 +79,7 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 		for (int cat_number = 0; cat_number < 3; ++cat_number) {
 			LookData catLookData = testProject.getSpriteList().get(catroidSpriteIndex).getLookDataList()
 					.get(cat_number);
-			assertEquals("wrong size of cat image", Values.SCREEN_WIDTH / 3, catLookData.getMeasure()[0]);
+			assertEquals("wrong size of cat image", ScreenValues.SCREEN_WIDTH / 3, catLookData.getMeasure()[0]);
 		}
 
 	}

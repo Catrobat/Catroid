@@ -145,7 +145,7 @@ public class StandardProjectHandler {
 			throws FileNotFoundException {
 		String directoryName = Utils.buildPath(Utils.buildProjectPath(projectName), Constants.IMAGE_DIRECTORY);
 		File backgroundTemp = new File(Utils.buildPath(directoryName, backgroundName));
-		Bitmap backgroundBitmap = ImageEditing.createSingleColorBitmap(Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT,
+		Bitmap backgroundBitmap = ImageEditing.createSingleColorBitmap(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT,
 				Color.parseColor(backgroundColor));
 		StorageHandler.saveBitmapToImageFile(backgroundTemp, backgroundBitmap);
 		File backgroundFile = new File(directoryName, Utils.md5Checksum(backgroundTemp) + FILENAME_SEPARATOR
@@ -166,7 +166,7 @@ public class StandardProjectHandler {
 
 		// scale the cat, that its always 1/3 of the screen width
 		Bitmap tempBitmap = ImageEditing.getScaledBitmapFromPath(tempImageFile.getAbsolutePath(),
-				Values.SCREEN_WIDTH / 3, (int) (Values.SCREEN_WIDTH / 3 * ratio), false);
+				ScreenValues.SCREEN_WIDTH / 3, (int) (ScreenValues.SCREEN_WIDTH / 3 * ratio), false);
 		StorageHandler.saveBitmapToImageFile(tempImageFile, tempBitmap);
 
 		String finalImageFileString = Utils.buildPath(directoryName, Utils.md5Checksum(tempImageFile)

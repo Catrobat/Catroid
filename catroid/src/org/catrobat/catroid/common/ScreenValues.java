@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.common;
 
-public class Values {
+public class ScreenValues {
 
 	public static int SCREEN_WIDTH;
 	public static int SCREEN_HEIGHT;

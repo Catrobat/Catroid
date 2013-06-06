@@ -35,7 +35,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.StandardProjectHandler;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -190,8 +190,8 @@ public class UtilsTest extends AndroidTestCase {
 
 	public void testProjectSameAsStandardProject() {
 		try {
-			Values.SCREEN_WIDTH = 480;
-			Values.SCREEN_HEIGHT = 800;
+			ScreenValues.SCREEN_WIDTH = 480;
+			ScreenValues.SCREEN_HEIGHT = 800;
 
 			standardProject = StandardProjectHandler.createAndSaveStandardProject(
 					getContext().getString(R.string.default_project_name), getContext());
