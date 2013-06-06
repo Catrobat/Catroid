@@ -591,16 +591,16 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_log));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_function_pi));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_pi));
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		solo.waitForText(getActivity().getString(R.string.formula_editor_function_sqrt));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_sqrt));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		solo.waitForText(getActivity().getString(R.string.formula_editor_function_round));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_round));
-
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
-		solo.waitForText(getActivity().getString(R.string.formula_editor_function_pi));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_pi));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
 		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_x_acceleration));
