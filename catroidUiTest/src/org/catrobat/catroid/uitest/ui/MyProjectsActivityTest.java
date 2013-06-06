@@ -455,7 +455,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		Project secondCacheTestProject = StorageHandler.getInstance().loadProject(secondCacheProjectName);
 		UiTestUtils.saveFileToProject(firstCacheProjectName, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
-				IMAGE_RESOURCE_2, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
+				IMAGE_RESOURCE_3, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 		StorageHandler.getInstance().saveProject(secondCacheTestProject);
 		solo.sleep(2000);
 		firstCacheTestProject = StorageHandler.getInstance().loadProject(firstCacheProjectName);
