@@ -26,7 +26,7 @@ import java.io.File;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -146,8 +146,8 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 	}
 
 	private void createProject() {
-		Values.SCREEN_WIDTH = screenWidth;
-		Values.SCREEN_HEIGHT = screenHeight;
+		ScreenValues.SCREEN_WIDTH = screenWidth;
+		ScreenValues.SCREEN_HEIGHT = screenHeight;
 
 		Project project = new Project(null, UiTestUtils.PROJECTNAME1);
 		cat = new Sprite("cat");

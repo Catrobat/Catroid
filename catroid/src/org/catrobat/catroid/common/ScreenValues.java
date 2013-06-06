@@ -22,8 +22,7 @@
  */
 package org.catrobat.catroid.common;
 
-// TODO: Rename class (Display/Screen/Resolution...) and adapt member names. (e.g. only WIDTH and HEIGHT)
-public class Values {
+public class ScreenValues {
 
 	public static int SCREEN_WIDTH;
 	public static int SCREEN_HEIGHT;

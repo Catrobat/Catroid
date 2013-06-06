@@ -46,7 +46,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.common.StandardProjectHandler;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 
@@ -116,8 +116,8 @@ public class Utils {
 	public static void updateScreenWidthAndHeight(Context context) {
 		WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		Display display = windowManager.getDefaultDisplay();
-		Values.SCREEN_WIDTH = display.getWidth();
-		Values.SCREEN_HEIGHT = display.getHeight();
+		ScreenValues.SCREEN_WIDTH = display.getWidth();
+		ScreenValues.SCREEN_HEIGHT = display.getHeight();
 	}
 
 	public static boolean isNetworkAvailable(Context context) {
