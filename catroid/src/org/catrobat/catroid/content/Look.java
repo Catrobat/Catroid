@@ -172,9 +172,9 @@ public class Look extends Image {
 		}
 
 		// We use Y-down, libgdx Y-up. This is the fix for accurate y-axis detection
-		y = getHeight() - y;
+		y = (getHeight() - 1) - y;
 
-		if (x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight()) {
+		if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight()) {
 			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
 				if (whenParallelAction == null) {
 					sprite.createWhenScriptActionSequence("Tapped");

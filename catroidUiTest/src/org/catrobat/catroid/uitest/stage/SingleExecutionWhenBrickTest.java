@@ -26,7 +26,7 @@ import java.io.File;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -107,8 +107,8 @@ public class SingleExecutionWhenBrickTest extends ActivityInstrumentationTestCas
 	}
 
 	private void createProjectWhenBrick() {
-		Values.SCREEN_HEIGHT = SCREEN_HEIGHT;
-		Values.SCREEN_WIDTH = SCREEN_WIDTH;
+		ScreenValues.SCREEN_HEIGHT = SCREEN_HEIGHT;
+		ScreenValues.SCREEN_WIDTH = SCREEN_WIDTH;
 
 		projectWhenBrick = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
