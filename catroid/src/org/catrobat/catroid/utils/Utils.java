@@ -44,9 +44,9 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.common.StandardProjectHandler;
-import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 
@@ -136,7 +136,7 @@ public class Utils {
 	 * @return
 	 *         the path that was constructed.
 	 */
-	static public String buildPath(String... pathElements) {
+	public static String buildPath(String... pathElements) {
 		StringBuilder result = new StringBuilder("/");
 
 		for (String pathElement : pathElements) {
@@ -152,7 +152,7 @@ public class Utils {
 		return returnValue;
 	}
 
-	static public String buildProjectPath(String projectName) {
+	public static String buildProjectPath(String projectName) {
 		return buildPath(Constants.DEFAULT_ROOT, deleteSpecialCharactersInString(projectName));
 	}
 
