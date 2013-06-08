@@ -98,10 +98,10 @@ public class UtilZip {
 			BufferedOutputStream destinationOutputStream = null;
 			byte data[] = new byte[Constants.BUFFER_8K];
 			ZipFile zipfile = new ZipFile(zipFile);
-			Enumeration e = zipfile.entries();
+			Enumeration<? extends ZipEntry> e = zipfile.entries();
 			while (e.hasMoreElements()) {
 
-				zipEntry = (ZipEntry) e.nextElement();
+				zipEntry = e.nextElement();
 				InputStream zipInputStream = zipfile.getInputStream(zipEntry);
 
 				if (zipEntry.isDirectory()) {
@@ -119,9 +119,9 @@ public class UtilZip {
 				while ((count = zipInputStream.read(data, 0, Constants.BUFFER_8K)) != -1) {
 					destinationOutputStream.write(data, 0, count);
 				}
-				zipInputStream.close();
 				destinationOutputStream.flush();
 				destinationOutputStream.close();
+				zipInputStream.close();
 
 			}
 
