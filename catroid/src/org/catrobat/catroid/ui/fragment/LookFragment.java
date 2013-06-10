@@ -373,17 +373,11 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	public void onLoaderReset(Loader<Cursor> loader) {
 	}
 
-	public void selectImageFromCamera() {
-		lookFromCameraUri = UtilCamera.getDefaultLookFromCameraUri(getString(R.string.default_look_name));
-
-		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, lookFromCameraUri);
-
-		Intent chooser = Intent.createChooser(intent, getString(R.string.select_look_from_camera));
-		startActivityForResult(chooser, REQUEST_TAKE_PICTURE);
+	public void addLookDrawNewImage() {
+		sendPocketPaintIntent();
 	}
 
-	public void selectImageFromGallery() {
+	public void addLookChooseImage() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 
 		Bundle bundleForPocketCode = new Bundle();
@@ -688,10 +682,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		sendPocketPaintIntent(position);
 	}
 
-	private void sendPocketPaintIntent(int selected_position) {
-		Intent intent = new Intent("android.intent.action.MAIN");
-		intent.setComponent(new ComponentName(pocketPaintIntentApplicationName, pocketPaintIntentActivityName));
-
+	private boolean checkIfPocketPaintIsInstalled(Intent intent) {
 		// Confirm if Pocket Paint is installed else start dialog --------------------------
 		List<ResolveInfo> packageList = getActivity().getPackageManager().queryIntentActivities(intent,
 				PackageManager.MATCH_DEFAULT_ONLY);
@@ -714,9 +705,37 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 					});
 			AlertDialog alert = builder.create();
 			alert.show();
+			return false;
+		}
+		return true;
+	}
+
+	private void sendPocketPaintIntent() {
+		Intent intent = new Intent("android.intent.action.MAIN");
+		intent.setComponent(new ComponentName(pocketPaintIntentApplicationName, pocketPaintIntentActivityName));
+
+		if (!checkIfPocketPaintIsInstalled(intent)) {
 			return;
 		}
-		//-------------------------------------------------------------------------------
+
+		Bundle bundleForPocketPaint = new Bundle();
+		bundleForPocketPaint.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, "");
+		bundleForPocketPaint
+				.putString(Constants.EXTRA_PICTURE_NAME_POCKET_PAINT, getString(R.string.default_look_name));
+		intent.putExtras(bundleForPocketPaint);
+
+		intent.addCategory("android.intent.category.LAUNCHER");
+		startActivityForResult(intent, REQUEST_SELECT_IMAGE);
+	}
+
+	private void sendPocketPaintIntent(int selected_position) {
+		Intent intent = new Intent("android.intent.action.MAIN");
+		intent.setComponent(new ComponentName(pocketPaintIntentApplicationName, pocketPaintIntentActivityName));
+
+		if (!checkIfPocketPaintIsInstalled(intent)) {
+			return;
+		}
+
 		int position = selected_position;
 		selectedLookData = lookDataList.get(position);
 

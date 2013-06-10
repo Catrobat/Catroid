@@ -60,11 +60,11 @@ public class NewLookDialog extends DialogFragment {
 						}
 						switch (index) {
 							case FROM_CAMERA_INDEX:
-								lookFragment.selectImageFromCamera();
+								lookFragment.addLookDrawNewImage();
 								break;
 
 							case FROM_GALLERY_INDEX:
-								lookFragment.selectImageFromGallery();
+								lookFragment.addLookChooseImage();
 								break;
 							default:
 								break;
