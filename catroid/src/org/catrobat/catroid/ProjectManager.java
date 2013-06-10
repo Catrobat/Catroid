@@ -129,8 +129,6 @@ public class ProjectManager {
 			return false;
 		}
 
-		project.removeUnusedBroadcastMessages();
-
 		SaveProjectAsynchronousTask saveTask = new SaveProjectAsynchronousTask();
 		saveTask.execute();
 		return true;

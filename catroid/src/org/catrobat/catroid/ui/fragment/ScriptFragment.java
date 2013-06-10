@@ -175,16 +175,16 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	public void onPause() {
 		super.onPause();
 		ProjectManager projectManager = ProjectManager.INSTANCE;
-		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
-		}
-
 		if (brickAddedReceiver != null) {
 			getActivity().unregisterReceiver(brickAddedReceiver);
 		}
 
 		if (brickListChangedReceiver != null) {
 			getActivity().unregisterReceiver(brickListChangedReceiver);
+		}
+		if (projectManager.getCurrentProject() != null) {
+			projectManager.saveProject();
+			projectManager.getCurrentProject().removeUnusedBroadcastMessages();
 		}
 	}
 

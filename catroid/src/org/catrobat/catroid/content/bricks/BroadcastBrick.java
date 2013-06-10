@@ -61,6 +61,7 @@ public class BroadcastBrick extends BrickBaseType {
 	private transient ProjectManager projectManager;
 
 	private String broadcastMessage = "";
+
 	private transient String oldMessage = "";
 	private transient String currentSelected = "";
 	private transient AdapterView<?> adapterView;
@@ -75,6 +76,10 @@ public class BroadcastBrick extends BrickBaseType {
 		return NO_RESOURCES;
 	}
 
+	public String getBroadcastMessage() {
+		return broadcastMessage;
+	}
+
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		BroadcastBrick copyBrick = (BroadcastBrick) clone();
@@ -86,6 +91,7 @@ public class BroadcastBrick extends BrickBaseType {
 		broadcastMessage = message;
 		oldMessage = message;
 		MessageContainer.addMessage(broadcastMessage);
+		currentSelected = broadcastMessage;
 	}
 
 	public String getSelectedMessage() {
