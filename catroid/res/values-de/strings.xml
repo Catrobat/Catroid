@@ -122,8 +122,9 @@
     <string name="default_look_name">Aussehen</string>
     <string name="delete_look_dialog">Aussehen löschen?</string>
     <string name="new_look_dialog_title">Aussehen hinzufügen</string>
-    <string name="add_look_from_gallery">Von Galerie</string>
-    <string name="add_look_from_camera">Von Kamera</string>
+    <string name="add_look_from_camera">Von Kamera</string> 
+    <string name="add_look_choose_image">Bild auswählen</string>
+    <string name="add_look_draw_new_image">Neues Bild erstellen</string>
     <string name="select_look_from_gallery">Bild auswählen</string>
     <string name="select_look_from_camera">Photo auswählen</string>
     <string name="look_measure">Abmessung:</string>
