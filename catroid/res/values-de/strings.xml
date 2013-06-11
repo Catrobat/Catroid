@@ -357,7 +357,7 @@
 
 
     <!-- defaultValues -->
-    <string name="default_project_name">Mein erstes Projekt</string>
+    <string name="default_project_name">Mein erstes Programm</string>
     <string name="default_project_sprites_pocketcode_name">Pocket Code</string>
     <string name="default_project_sprites_pocketcode_normalcat">Katze normal</string>
     <string name="default_project_sprites_pocketcode_banzaicat">Banzai-Katze</string>
@@ -369,7 +369,7 @@
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
     <string name="notification_screenshot_ok">Screenshot erfolgreich gespeichert</string>
-    <string name="notification_load_project_cancel">Projekt laden abgebrochen</string>
+    <string name="notification_load_project_cancel">Programm laden abgebrochen</string>
     <!--  -->
 
 
@@ -397,13 +397,13 @@
     <string name="success_project_upload">Upload erfolgreich.</string>
     <string name="success_project_download">Download erfolgreich.</string>
     <string name="upload_button">Hochladen</string>
-    <string name="upload_project_dialog_title">Projekt hochladen</string>
+    <string name="upload_project_dialog_title">Programm hochladen</string>
     <string name="upload_description">Beschreibung:</string>
-    <string name="project_rename">(Das Projekt wird umbenannt.)</string>
+    <string name="project_rename">(Das Programm wird umbenannt.)</string>
     <string name="size_of_project">Größe:</string>
     <string name="notification_percent_completed">abgeschlossen</string>
-    <string name="notification_upload_title">Projekt raufladen</string>
-    <string name="notification_download_title">Projekt runterladen</string>
+    <string name="notification_upload_title">Programm raufladen</string>
+    <string name="notification_download_title">Programm runterladen</string>
     <!--  -->
 
 

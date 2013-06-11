@@ -25,9 +25,7 @@
     package="org.catrobat.catroid.pocketcode"
     android:installLocation="auto"
     android:versionCode="1"
-    android:versionName="0.8.0"
-    android:sharedUserId="org.catrobat" 
-    android:process="org.catrobat">
+    android:versionName="0.8.0" >
 	
     <supports-screens 
         android:smallScreens="true"
