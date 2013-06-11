@@ -358,7 +358,7 @@
 
 
     <!-- defaultValues -->
-    <string name="default_project_name">My first project</string>
+    <string name="default_project_name">My first program</string>
     <string name="default_project_sprites_pocketcode_name">Pocket Code</string>
     <string name="default_project_sprites_pocketcode_normalcat">normalCat</string>
     <string name="default_project_sprites_pocketcode_banzaicat">banzaiCat</string>
@@ -370,7 +370,7 @@
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Please enter a value</string>
     <string name="notification_screenshot_ok">Screenshot saved</string>
-    <string name="notification_load_project_cancel">Canceled loading project</string>
+    <string name="notification_load_project_cancel">Canceled loading program</string>
     <!--  -->
 
 
@@ -387,7 +387,7 @@
     <string name="error_load_image">An error occurred while loading the image.</string>
     <string name="error_load_sound">An error occurred while loading the sound.</string>
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
-    <string name="error_project_compatability">The project is not compatible with this version of Pocket Code.</string>
+    <string name="error_project_compatability">The program is not compatible with this version of Pocket Code.</string>
     <string name="error_copy_project">An error occurred while copying the program.</string>
     <string name="error_upload_project_with_default_name">You cannot upload a program with the name \'My first program\'. Please rename the program.</string>
     <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
@@ -398,13 +398,13 @@
     <string name="success_project_upload">Upload successful.</string>
     <string name="success_project_download">Download successful.</string>
     <string name="upload_button">Upload</string>
-    <string name="upload_project_dialog_title">Upload project</string>
+    <string name="upload_project_dialog_title">Upload program</string>
     <string name="upload_description">Description:</string>
-    <string name="project_rename">(Your project will be renamed.)</string>
+    <string name="project_rename">(Your program will be renamed.)</string>
     <string name="size_of_project">Size:</string>
     <string name="notification_percent_completed">completed</string>
-    <string name="notification_upload_title">Uploading project</string>
-    <string name="notification_download_title">Downloading project</string>
+    <string name="notification_upload_title">Uploading program</string>
+    <string name="notification_download_title">Downloading program</string>
     <!--  -->
 
 
