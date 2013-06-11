@@ -61,6 +61,7 @@ public class BroadcastBrick extends BrickBaseType {
 	private transient ProjectManager projectManager;
 
 	private String broadcastMessage = "";
+
 	private transient String oldMessage = "";
 	private transient String currentSelected = "";
 	private transient AdapterView<?> adapterView;
@@ -73,6 +74,10 @@ public class BroadcastBrick extends BrickBaseType {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
+	}
+
+	public String getBroadcastMessage() {
+		return broadcastMessage;
 	}
 
 	@Override

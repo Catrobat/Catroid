@@ -65,6 +65,10 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		this.receiveScript = receiveScript;
 	}
 
+	public String getBroadcastMessage() {
+		return receiveScript.getBroadcastMessage();
+	}
+
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;

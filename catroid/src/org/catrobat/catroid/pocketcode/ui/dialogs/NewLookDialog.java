@@ -38,7 +38,8 @@ public class NewLookDialog extends DialogFragment {
 	public static final String LOOK_FRAGMENT_KEY = "dialog_new_look_look_fragment";
 
 	public static final int FROM_CAMERA_INDEX = 0;
-	public static final int FROM_GALLERY_INDEX = 1;
+	public static final int CHOOSE_IMAGE_INDEX = 1;
+	public static final int DRAW_NEW_IMAGE = 2;
 
 	private LookFragment lookFragment = null;
 
@@ -60,11 +61,13 @@ public class NewLookDialog extends DialogFragment {
 						}
 						switch (index) {
 							case FROM_CAMERA_INDEX:
-								lookFragment.selectImageFromCamera();
+								lookFragment.addLookFromCamera();
 								break;
-
-							case FROM_GALLERY_INDEX:
-								lookFragment.selectImageFromGallery();
+							case CHOOSE_IMAGE_INDEX:
+								lookFragment.addLookChooseImage();
+								break;
+							case DRAW_NEW_IMAGE:
+								lookFragment.addLookDrawNewImage();
 								break;
 							default:
 								break;

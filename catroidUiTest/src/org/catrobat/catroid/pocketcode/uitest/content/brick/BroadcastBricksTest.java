@@ -228,6 +228,8 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 			assertNotSame(solo.getString(R.string.brick_broadcast_default_value) + " is still in adapter",
 					solo.getString(R.string.brick_broadcast_default_value),
 					broadcastReceiveSpinner.getItemAtPosition(itemIndex));
+			assertEquals("broadcastReceiveSpinner has not the correct number of elements", 2,
+					broadcastReceiveSpinner.getCount());
 		}
 
 		Spinner broadcastSpinner = (Spinner) solo.getView(BROADCAST_SPINNER_ID);
@@ -235,6 +237,7 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 			assertNotSame(solo.getString(R.string.brick_broadcast_default_value) + " is still in adapter",
 					solo.getString(R.string.brick_broadcast_default_value),
 					broadcastSpinner.getItemAtPosition(itemIndex));
+			assertEquals("broadcastSpinner has not the correct number of elements", 2, broadcastSpinner.getCount());
 		}
 
 		Spinner broadcastWaitSpinner = (Spinner) solo.getView(BROADCAST_WAIT_SPINNER_ID);
@@ -242,6 +245,8 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 			assertNotSame(solo.getString(R.string.brick_broadcast_default_value) + " is still in adapter",
 					solo.getString(R.string.brick_broadcast_default_value),
 					broadcastWaitSpinner.getItemAtPosition(itemIndex));
+			assertEquals("broadcastWaitSpinner has not the correct number of elements", 2,
+					broadcastWaitSpinner.getCount());
 		}
 	}
 

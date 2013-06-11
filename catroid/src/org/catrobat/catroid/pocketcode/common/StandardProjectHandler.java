@@ -74,7 +74,7 @@ public class StandardProjectHandler {
 		Script whenScript = new WhenScript(sprite);
 
 		File backgroundFile = createBackgroundImage(projectName, backgroundName,
-				context.getString(R.string.default_project_backgroundcolor));
+				context.getString(R.color.default_project_backgroundcolor));
 
 		File normalCat = copyAndScaleImageToProject(projectName, context, normalCatName, R.drawable.catroid);
 		File banzaiCat = copyAndScaleImageToProject(projectName, context, banzaiCatName, R.drawable.catroid_banzai);
@@ -145,8 +145,8 @@ public class StandardProjectHandler {
 			throws FileNotFoundException {
 		String directoryName = Utils.buildPath(Utils.buildProjectPath(projectName), Constants.IMAGE_DIRECTORY);
 		File backgroundTemp = new File(Utils.buildPath(directoryName, backgroundName));
-		Bitmap backgroundBitmap = ImageEditing.createSingleColorBitmap(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT,
-				Color.parseColor(backgroundColor));
+		Bitmap backgroundBitmap = ImageEditing.createSingleColorBitmap(ScreenValues.SCREEN_WIDTH,
+				ScreenValues.SCREEN_HEIGHT, Color.parseColor(backgroundColor));
 		StorageHandler.saveBitmapToImageFile(backgroundTemp, backgroundBitmap);
 		File backgroundFile = new File(directoryName, Utils.md5Checksum(backgroundTemp) + FILENAME_SEPARATOR
 				+ backgroundTemp.getName());
