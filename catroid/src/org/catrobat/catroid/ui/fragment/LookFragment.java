@@ -92,7 +92,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 public class LookFragment extends ScriptActivityFragment implements OnLookEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
 
-	public static final int REQUEST_SELECT_IMAGE = 0;
+	public static final int REQUEST_SELECT_OR_DRAW_IMAGE = 0;
 	public static final int REQUEST_POCKET_PAINT_EDIT_IMAGE = 1;
 	public static final int REQUEST_TAKE_PICTURE = 2;
 	public static final String TAG = LookFragment.class.getSimpleName();
@@ -265,7 +265,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
-				case REQUEST_SELECT_IMAGE:
+				case REQUEST_SELECT_OR_DRAW_IMAGE:
 					if (data != null) {
 						loadImageIntoCatroid(data);
 					}
@@ -374,7 +374,21 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	public void addLookDrawNewImage() {
-		sendPocketPaintIntent();
+		Intent intent = new Intent("android.intent.action.MAIN");
+		intent.setComponent(new ComponentName(pocketPaintIntentApplicationName, pocketPaintIntentActivityName));
+
+		if (!checkIfPocketPaintIsInstalled(intent)) {
+			return;
+		}
+
+		Bundle bundleForPocketPaint = new Bundle();
+		bundleForPocketPaint.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, "");
+		bundleForPocketPaint
+				.putString(Constants.EXTRA_PICTURE_NAME_POCKET_PAINT, getString(R.string.default_look_name));
+		intent.putExtras(bundleForPocketPaint);
+
+		intent.addCategory("android.intent.category.LAUNCHER");
+		startActivityForResult(intent, REQUEST_SELECT_OR_DRAW_IMAGE);
 	}
 
 	public void addLookChooseImage() {
@@ -388,7 +402,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		intent.putExtras(bundleForPocketCode);
 
 		Intent chooser = Intent.createChooser(intent, getString(R.string.select_look_from_gallery));
-		startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
+		startActivityForResult(chooser, REQUEST_SELECT_OR_DRAW_IMAGE);
 	}
 
 	@Override
@@ -708,24 +722,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			return false;
 		}
 		return true;
-	}
-
-	private void sendPocketPaintIntent() {
-		Intent intent = new Intent("android.intent.action.MAIN");
-		intent.setComponent(new ComponentName(pocketPaintIntentApplicationName, pocketPaintIntentActivityName));
-
-		if (!checkIfPocketPaintIsInstalled(intent)) {
-			return;
-		}
-
-		Bundle bundleForPocketPaint = new Bundle();
-		bundleForPocketPaint.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, "");
-		bundleForPocketPaint
-				.putString(Constants.EXTRA_PICTURE_NAME_POCKET_PAINT, getString(R.string.default_look_name));
-		intent.putExtras(bundleForPocketPaint);
-
-		intent.addCategory("android.intent.category.LAUNCHER");
-		startActivityForResult(intent, REQUEST_SELECT_IMAGE);
 	}
 
 	private void sendPocketPaintIntent(int selected_position) {
