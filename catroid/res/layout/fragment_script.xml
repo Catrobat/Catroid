@@ -43,7 +43,7 @@
         android:layout_weight="1"
         android:orientation="vertical" >
 
-        <org.catrobat.catroid.ui.dragndrop.DragAndDropListView
+        <org.catrobat.catroid.pocketcode.ui.dragndrop.DragAndDropListView
             android:id="@+id/brick_list_view"
             style="@style/ListViewShadowed"
             android:layout_width="match_parent"

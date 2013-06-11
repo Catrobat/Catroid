@@ -25,6 +25,7 @@
 <resources>
 
     <!-- Language independent -->
+    <string name="app_name">Pocket Code</string>
     <string name="catroid_extension_pathPattern" translatable="false">.*\\.catrobat.*</string>
 
     <!-- Symbols -->

@@ -22,9 +22,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.catrobat.catroid.uitest"
-    android:versionCode="2147483646"
-    android:versionName="0.7.3beta" >
+    package="org.catrobat.catroid.pocketcode.uitest"
+    android:versionCode="1"
+    android:versionName="0.8.0" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -37,25 +37,25 @@
         <uses-library android:name="android.test.runner" />
 
         <activity
-            android:name="org.catrobat.catroid.uitest.mockups.MockGalleryActivity"
+            android:name=".mockups.MockGalleryActivity"
             android:exported="true" >
         </activity>
         <activity
-            android:name="org.catrobat.catroid.uitest.mockups.MockPaintroidActivity"
+            android:name=".mockups.MockPaintroidActivity"
             android:exported="true" >
         </activity>
         <activity
-            android:name="org.catrobat.catroid.uitest.mockups.MockSoundActivity"
+            android:name=".mockups.MockSoundActivity"
             android:exported="true" >
         </activity>
     </application>
 
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage="org.catrobat.catroid" />
+        android:targetPackage="org.catrobat.catroid.pocketcode" />
     <!-- this instrumentation is needed to run the tests from jenkins -->
     <instrumentation
         android:name="pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
-        android:targetPackage="org.catrobat.catroid" />
+        android:targetPackage="org.catrobat.catroid.pocketcode" />
 
 </manifest>

@@ -22,9 +22,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.catrobat.catroid.test"
-    android:versionCode="2147483646"
-    android:versionName="0.7.3beta" >
+    package="org.catrobat.catroid.pocketcode.test"
+    android:versionCode="1"
+    android:versionName="0.8.0" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -38,10 +38,10 @@
 
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage="org.catrobat.catroid" />
+        android:targetPackage="org.catrobat.catroid.pocketcode" />
     <!-- this instrumentation is needed to run the tests from jenkins -->
     <instrumentation
         android:name="pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
-        android:targetPackage="org.catrobat.catroid" />
+        android:targetPackage="org.catrobat.catroid.pocketcode" />
 
 </manifest>

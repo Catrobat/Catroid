@@ -34,7 +34,7 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical" />
 
-    <org.catrobat.catroid.formulaeditor.FormulaEditorEditText
+    <org.catrobat.catroid.pocketcode.formulaeditor.FormulaEditorEditText
         android:id="@+id/formula_editor_edit_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
