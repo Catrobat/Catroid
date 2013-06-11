@@ -123,8 +123,6 @@ public class ProjectManager {
 			return;
 		}
 
-		project.removeUnusedBroadcastMessages();
-
 		SaveProjectAsynchronousTask saveTask = new SaveProjectAsynchronousTask();
 		saveTask.execute();
 	}

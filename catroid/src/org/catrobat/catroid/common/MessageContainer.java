@@ -33,10 +33,6 @@ import org.catrobat.catroid.content.BroadcastScript;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
-/**
- * @author Johannes Iber
- * 
- */
 public class MessageContainer {
 
 	private static TreeMap<String, Vector<BroadcastScript>> receiverMap = new TreeMap<String, Vector<BroadcastScript>>();
