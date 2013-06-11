@@ -52,7 +52,7 @@
     <string name="main_menu_continue">Fortsetzen</string>
     <string name="main_menu_programs">Programme</string>
     <string name="main_menu_forum">Forum</string>
-    <string name="main_menu_web">Web</string>
+    <string name="main_menu_web">Gemeinschaft</string>
     <string name="main_menu_upload">Hochladen</string>
     <string name="main_menu_settings">Einstellungen</string>
     <string name="main_menu_about_pocketcode">Über Pocket Code</string>
@@ -62,15 +62,15 @@
     <!-- Settings activity -->
     <string name="preference_title">Einstellungen</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorm Bausteine</string>
-    <string name="preference_description_mindstorm_bricks">Erlaube Steuerung eines Lego Mindstorm Roboters</string>
+    <string name="preference_description_mindstorm_bricks">Erlaube Steuerung von Lego Mindstorm Robotern</string>
     <!--  -->
 
 
     <!-- About Dialog -->
     <string name="dialog_about_title">Über Pocket Code</string>
-    <string name="dialog_about_license_info">Pocket Code ist eine Programmierumgebung für Androidgeräte für die grafische
+    <string name="dialog_about_license_info">Pocket Code ist eine Programmierumgebung für Android-Geräte für die grafische
         Programmiersprache Catrobat.\n\n
-        Der Großteil von Pocket Code steht unter der GNU AGPL v3 Lizenz.
+        Pocket Code steht großteils unter der GNU AGPL v3 Lizenz.
         Für nähere Informationen zur Lizenz siehe untenstehenden Link.\n</string>
     <string name="dialog_about_pocketcode_license_link_text">Pocket Code Lizenz</string>
     <!--  -->
@@ -118,13 +118,9 @@
     <string name="rename_look_dialog">Aussehen umbenennen</string>
     <string name="lookname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="copy_look_addition">Kopie</string>
-    <string name="pocket_paint_not_installed">Pocket Paint ist nicht installiert!\nJetzt herunterladen?</string>
+    <string name="pocket_paint_not_installed">Pocket Paint ist nicht installiert!\nJetzt installieren?</string>
     <string name="default_look_name">Aussehen</string>
     <string name="delete_look_dialog">Aussehen löschen?</string>
-    <string name="new_look_dialog_title">Aussehen hinzufügen</string>
-    <string name="add_look_from_camera">Von Kamera</string> 
-    <string name="add_look_choose_image">Bild auswählen</string>
-    <string name="add_look_draw_new_image">Neues Bild erstellen</string>
     <string name="select_look_from_gallery">Bild auswählen</string>
     <string name="select_look_from_camera">Photo auswählen</string>
     <string name="look_measure">Abmessung:</string>
@@ -141,7 +137,21 @@
     <string name="delete_sound_dialog">Klang löschen?</string>
     <string name="length">Länge:</string>
     <!--  -->
-
+	
+	
+	<!-- My Projects activity -->
+    <string name="last_used">Letzter Zugriff:</string>
+    <string name="description">Beschreibung:</string>
+    <string name="set_description">Beschreibung</string>
+    <string name="rename_project">Programm umbenennen</string>
+    <string name="notification_title_copy_project">Kopiere Programm</string>
+    <string name="copy_project_finished"> kopiert.</string>
+    <string name="program">Programm</string>
+    <string name="programs">Programme</string>
+    <string name="dialog_confirm_delete_program_title">Dieses Programm löschen?</string>
+    <string name="dialog_confirm_delete_multiple_programs_title">Diese Programme löschen?</string>
+    <string name="dialog_confirm_delete_program_message">Kann nicht rückgängig gemacht werden!</string>
+    <!--  -->
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Pocket Code Recorder</string>
@@ -151,22 +161,7 @@
 
 
     <!-- PreStage activity -->
-    <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt herunterladen?</string>
-    <!--  -->
-
-
-    <!-- My Projects activity -->
-    <string name="last_used">Letzter Zugriff:</string>
-    <string name="description">Beschreibung:</string>
-    <string name="set_description">Beschreibung</string>
-    <string name="rename_project">Projekt umbenennen</string>
-    <string name="notification_title_copy_project">Kopiere Projekt</string>
-    <string name="copy_project_finished"> kopiert.</string>
-    <string name="program">Programm</string>
-    <string name="programs">Programme</string>
-    <string name="dialog_confirm_delete_program_title">Dieses Programm löschen?</string>
-    <string name="dialog_confirm_delete_multiple_programs_title">Diese Programme löschen?</string>
-    <string name="dialog_confirm_delete_program_message">Kann nicht rückgängig gemacht werden!</string>
+    <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt installieren?</string>
     <!--  -->
 
 
@@ -185,7 +180,13 @@
     <string name="brick_context_dialog_delete_brick">Lösche Baustein</string>
     <string name="brick_context_dialog_animate_bricks">Animiere Baustein-Teile</string>
     <!--  -->
-
+	
+	<!-- New look dialog -->
+    <string name="new_look_dialog_title">Aussehen hinzufügen</string>
+    <string name="add_look_from_camera">Von Kamera</string> 
+    <string name="add_look_draw_new_image">Neues Bild erstellen</string>
+    <string name="add_look_choose_image">Bild auswählen</string>
+    <!--  -->
 
     <!-- New project dialog -->
     <string name="new_project_dialog_title">Neues Programm</string>
@@ -195,24 +196,12 @@
     <!--  -->
 
 
-    <!-- Rename Dialog -->
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">Mein Objekt</string>
     <string name="new_sprite_dialog_title">Name des Objekts</string>
     <string name="spritename_already_exists">Dieser Objektname existiert bereits</string>
     <string name="spritename_invalid">Dieser Objektname ist ungültig</string>
     <string name="rename_sprite_dialog">Objekt umbenennen</string>
-    <!--  -->
-
-
-    <!-- Stage menu dialog -->
-    <string name="stage_dialog_back">Zurück</string>
-    <string name="stage_dialog_resume">Fortsetzen</string>
-    <string name="stage_dialog_restart">Neu starten</string>
-    <string name="stage_dialog_axes_on">Achsen Ein</string>
-    <string name="stage_dialog_axes_off">Achsen Aus</string>
-    <string name="stage_dialog_maximize">Maximieren/\nDehnen</string>
-    <string name="stage_dialog_screenshot">Screenshot</string>
     <!--  -->
 
 
@@ -230,9 +219,20 @@
 
 
     <!-- OverwriteRenameDialog Strings -->
-    <string name="overwrite_text">Projekt mit gleichem Namen existiert bereits!</string>
-    <string name="overwrite_replace">ersetze bestehendes Projekt</string>
-    <string name="overwrite_rename">benenne heruntergeladenes Projekt um</string>
+    <string name="overwrite_text">Programm mit gleichem Namen existiert bereits!</string>
+    <string name="overwrite_replace">Ersetze bestehendes Programm</string>
+    <string name="overwrite_rename">Benenne heruntergeladenes Programm um</string>
+    <!--  -->
+    
+    
+    <!-- Stage menu dialog -->
+    <string name="stage_dialog_back">Zurück</string>
+    <string name="stage_dialog_resume">Fortsetzen</string>
+    <string name="stage_dialog_restart">Neu starten</string>
+    <string name="stage_dialog_axes_on">Achsen Ein</string>
+    <string name="stage_dialog_axes_off">Achsen Aus</string>
+    <string name="stage_dialog_maximize">Maximieren/\nDehnen</string>
+    <string name="stage_dialog_screenshot">Screenshot</string>
     <!--  -->
 
 
@@ -364,7 +364,6 @@
     <string name="default_project_sprites_pocketcode_banzaicat">Banzai-Katze</string>
     <string name="default_project_sprites_pocketcode_cheshirecat">Grinsekatze</string>
     <string name="default_project_backgroundname">Hintergrund</string>
-    <string name="default_project_backgroundcolor">#604fff</string>
     <!--  -->
 
 
@@ -378,20 +377,20 @@
     <!-- Error messages -->
     <string name="error_no_writiable_external_storage_available">Um Pocket Code zu starten wird beschreibbarer externer Speicher wie z.B. eine SD Karte benötigt.\nSie können diesen Fehler beheben indem sie den externen Speicher beschreibbar machen oder eine SD Karte einlegen und es erneut versuchen.</string>
     <string name="error_no_name_entered">Bitte einen Namen eingeben.</string>
-    <string name="error_project_exists">Es gibt bereits ein Projekt mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.</string>
-    <string name="error_project_upload">Beim Upload des Projektes ist ein Fehler aufgetreten.</string>
-    <string name="error_project_download">Beim Download des Projektes ist ein Fehler aufgetreten.</string>
-    <string name="error_new_project">Beim Erstellen des neuen Projektes ist ein Fehler aufgetreten.</string>
-    <string name="error_rename_project">Beim Umbenennen des Projektes vor dem Upload ist ein Fehler aufgetreten.</string>
-    <string name="error_load_project">Beim Laden des Projektes ist ein Fehler aufgetreten.</string>
+    <string name="error_project_exists">Es gibt bereits ein Programm mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.</string>
+    <string name="error_project_upload">Beim Upload des Programms ist ein Fehler aufgetreten.</string>
+    <string name="error_project_download">Beim Download des Programms ist ein Fehler aufgetreten.</string>
+    <string name="error_new_project">Beim Erstellen des neuen Programms ist ein Fehler aufgetreten.</string>
+    <string name="error_rename_project">Beim Umbenennen des Programms vor dem Upload ist ein Fehler aufgetreten.</string>
+    <string name="error_load_project">Beim Laden des Programms ist ein Fehler aufgetreten.</string>
     <string name="error_screenshot_failed">Beim Speichern des Screenshots ist ein Fehler aufgetreten.</string>
     <string name="error_load_image">Beim Laden des Bildes ist ein Fehler aufgetreten.</string>
     <string name="error_load_sound">Beim Laden des Audiofiles ist ein Fehler aufgetreten.</string>
     <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
-    <string name="error_project_compatability">Das Projekt ist nicht mit dieser Version von Pocket Code kompatibel.</string>
-    <string name="error_copy_project">Beim kopieren des Projektes ist ein Fehler aufgetreten.</string>
-    <string name="error_upload_project_with_default_name">Das Projekt mit dem Namen \'Mein erstes Projekt\' kann nicht hochgeladen werden. Bitte das Projekt umbenennen.</string>
-    <string name="error_upload_default_project">Das Projekt entspricht dem Projekt \'Mein erstes Projekt\'. Bitte das Projekt umbauen oder etwas ändern, und noch einmal versuchen.</string>
+    <string name="error_project_compatability">Das Programm ist nicht mit dieser Version von Pocket Code kompatibel.</string>
+    <string name="error_copy_project">Beim kopieren des Programms ist ein Fehler aufgetreten.</string>
+    <string name="error_upload_project_with_default_name">Das Programm mit dem Namen \'Mein erstes Programm\' kann nicht hochgeladen werden. Bitte das Programm umbenennen.</string>
+    <string name="error_upload_default_project">Das Programm entspricht dem Programm \'Mein erstes Programm\'. Bitte ändere es und versuche es noch einmal.</string>
     <!--  -->
 
 
@@ -410,17 +409,17 @@
 
 
     <!-- Bluetooth Connection Strings -->
-    <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Stage</string>
+    <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Bühne</string>
     <string name="title_paired_devices">Verbundene Geräte</string>
-    <string name="title_other_devices">Nicht verbundene Geräte</string>
+    <string name="title_other_devices">Neue Geräte</string>
     <string name="button_scan">Suche Bluetooth Geräte</string>
+    <string name="select_device">Wähle dein Lego Mindstorms NXT</string>
     <string name="scanning">Suche</string>
-    <string name="select_device">Wähle dein Mindstorms NXT</string>
     <string name="connecting_please_wait">Verbinde zum Lego NXT.\nBitte warten…</string>
-    <string name="pairing_message">Nach dem Pairing, verbinde.</string>
+    <string name="pairing_message">Verbinde nach dem Pairing.</string>
     <string name="problem_at_closing">Problem beim Schließen der Verbindung!</string>
     <string name="bt_connection_failed">Verbindung zum Gerät fehlgeschlagen!</string>
-    <string name="no_paired_nxt">Kein verbundenes NXT</string>
+    <string name="no_paired_nxt">Kein verbundenes NXT gefunden</string>
     <string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
     <string name="none_paired">Keine verbundenen Geräte gefunden</string>
     <!--  -->
@@ -433,8 +432,8 @@
     <string name="motor_angle">Winkel</string>
     <string name="motor_stop">NXT stoppe Motor</string>
     <string name="nxt_play_tone">NXT Ton abspielen</string>
-    <string name="nxt_tone_frequency">Frequenz</string>
     <string name="tone_duration">Dauer</string>
+    <string name="nxt_tone_frequency">Frequenz</string>
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="seconds">Sekunden</string>
     <string name="nxt_motor_a">A</string>
@@ -455,7 +454,7 @@
     <string name="formula_editor_parse_fail">Fehler in der Eingabe! Zum Verwerfen erneut klicken.</string>
     <string name="formula_nothing_selected">Bitte Wert eingeben!</string>
     <string name="formula_editor_parse_fail_formula_too_long">Formel zu lang! Zum Verwerfen erneut klicken.</string>
-    <string name="formula_editor_choose_object_variable">Aussehen Variable auswählen:</string>
+    <string name="formula_editor_choose_object_variable">Objekt-Variable auswählen:</string>
     <string name="formula_editor_existing_variable">Name wird bereits verwendet!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
@@ -484,13 +483,13 @@
     <string name="formula_editor_sensor_compass_direction">Kompass_Richtung</string>
     <string name="formula_editor_sensor_x_inclination">x_Neigung</string>
     <string name="formula_editor_sensor_y_inclination">y_Neigung</string>
-    <string name="formula_editor_object_x">aussehen_x</string>
-    <string name="formula_editor_object_y">aussehen_y</string>
-    <string name="formula_editor_object_ghosteffect">aussehen_durchsichtigkeits_effekt</string>
-    <string name="formula_editor_object_brightness">aussehen_helligkeit</string>
-    <string name="formula_editor_object_size">aussehen_größe</string>
-    <string name="formula_editor_object_rotation">aussehen_rotation</string>
-    <string name="formula_editor_object_layer">aussehen_ebene</string>
+    <string name="formula_editor_object_x">objekt_x</string>
+    <string name="formula_editor_object_y">objekt_y</string>
+    <string name="formula_editor_object_ghosteffect">objekt_durchsichtigkeits_effekt</string>
+    <string name="formula_editor_object_brightness">objekt_helligkeit</string>
+    <string name="formula_editor_object_size">objekt_größe</string>
+    <string name="formula_editor_object_rotation">objekt_rotation</string>
+    <string name="formula_editor_object_layer">objekt_ebene</string>
     <string name="formula_editor_compute">Berechnen</string>
     <string name="formula_editor_object">Objekt</string>
     <string name="formula_editor_math">Funktionen</string>
@@ -518,7 +517,7 @@
     <string name="formula_editor_variable_dialog_title">Neue Variable</string>
     <string name="formula_editor_variable_dialog_for_all_sprites">Für alle Objekte</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
-    <string name="formula_editor_variable_dialog_hint">Namen eingeben</string>
+    <string name="formula_editor_variable_dialog_hint">Variablenname eingeben</string>
 
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable ausgewählt!</item>

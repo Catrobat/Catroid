@@ -96,7 +96,8 @@
     <string name="dialog_confirm_delete_multiple_objects_title">Delete these objects?</string>
     <string name="dialog_confirm_delete_object_message">This can not be undone!</string>
     <!--  -->
-
+	
+	<!-- Sprite activity -->
     <string name="copy_sprite_finished">copied.</string>
     <string name="copy_sprite_prefix">Object:</string>
     <string name="copy_sprite_name_suffix">_Copy</string>
@@ -140,8 +141,8 @@
     <string name="last_used">Last access:</string>
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
-    <string name="rename_project">Rename Project</string>
-    <string name="notification_title_copy_project">Copy project</string>
+    <string name="rename_project">Rename Program</string>
+    <string name="notification_title_copy_project">Copy program</string>
     <string name="copy_project_finished"> copied.</string>
     <string name="program">Program</string>
     <string name="programs">Programs</string>
@@ -149,7 +150,6 @@
     <string name="dialog_confirm_delete_multiple_programs_title">Delete these programs?</string>
     <string name="dialog_confirm_delete_program_message">This can not be undone!</string>
     <!--  -->
-
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Pocket Code Recorder</string>
@@ -179,7 +179,15 @@
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
     <!--  -->
 
-
+	
+	<!-- New look dialog -->
+    <string name="new_look_dialog_title">Add Look</string>
+    <string name="add_look_from_camera">From Camera</string> 
+    <string name="add_look_draw_new_image">Draw new image</string>
+    <string name="add_look_choose_image">Choose image</string>
+    <!--  -->
+    
+    
     <!-- New project dialog -->
     <string name="new_project_dialog_title">New program</string>
     <string name="new_project_dialog_hint">My Program</string>
@@ -197,31 +205,23 @@
     <!--  -->
 
 
-    <!-- New look dialog -->
-    <string name="new_look_dialog_title">Add Look</string>
-    <string name="add_look_from_camera">From Camera</string> 
-    <string name="add_look_draw_new_image">Draw new image</string>
-    <string name="add_look_choose_image">Choose image</string>
-    <!--  -->
-
-
     <!-- Login Register dialog -->
     <string name="login_register_dialog_title">Login</string>
     <string name="username">Username:</string>
     <string name="password">Password:</string>
     <string name="login_or_register">Login or Register</string>
     <string name="password_forgotten">Password forgotten</string>
-    <string name="new_user_registered">new account created</string>
+    <string name="new_user_registered">New account created</string>
     <string name="register_error">Error occurred</string>
     <string name="register_terms">By registering, you agree to our</string>
-    <string name="register_pocketcode_terms_of_use_text">terms of use</string>
+    <string name="register_pocketcode_terms_of_use_text">Terms of use</string>
     <!--  -->
 
 
     <!-- OverwriteRenameDialog Strings -->
-    <string name="overwrite_text">Project with same name already exists!</string>
-    <string name="overwrite_replace">Replace existing Project</string>
-    <string name="overwrite_rename">Rename downloaded Project</string>
+    <string name="overwrite_text">Program with same name already exists!</string>
+    <string name="overwrite_replace">Replace existing program</string>
+    <string name="overwrite_rename">Rename downloaded program</string>
     <!--  -->
 
 
@@ -364,7 +364,6 @@
     <string name="default_project_sprites_pocketcode_banzaicat">banzaiCat</string>
     <string name="default_project_sprites_pocketcode_cheshirecat">cheshireCat</string>
     <string name="default_project_backgroundname">background</string>
-    <string name="default_project_backgroundcolor">#604fff</string>
     <!--  -->
 
 
@@ -378,20 +377,20 @@
     <!-- Error messages -->
     <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like an SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting an SD card, then try again.</string>
     <string name="error_no_name_entered">Please enter a name.</string>
-    <string name="error_project_exists">A project with the same name already exists.\nPlease choose a different name.</string>
-    <string name="error_project_upload">An error occurred while uploading the project.</string>
-    <string name="error_project_download">An error occurred while downloading the project.</string>
-    <string name="error_new_project">An error occurred while creating a new project.</string>
-    <string name="error_rename_project">An error occurred while renaming the project before upload.</string>
-    <string name="error_load_project">An error occurred while loading the project.</string>
+    <string name="error_project_exists">A program with the same name already exists.\nPlease choose a different name.</string>
+    <string name="error_project_upload">An error occurred while uploading the program.</string>
+    <string name="error_project_download">An error occurred while downloading the program.</string>
+    <string name="error_new_project">An error occurred while creating a new program.</string>
+    <string name="error_rename_project">An error occurred while renaming the program before upload.</string>
+    <string name="error_load_project">An error occurred while loading the program.</string>
     <string name="error_screenshot_failed">An error occurred while saving the screenshot.</string>
     <string name="error_load_image">An error occurred while loading the image.</string>
     <string name="error_load_sound">An error occurred while loading the sound.</string>
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
     <string name="error_project_compatability">The project is not compatible with this version of Pocket Code.</string>
-    <string name="error_copy_project">An error occurred while copying the project.</string>
-    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \'My first project\'. Please rename the project.</string>
-    <string name="error_upload_default_project">You cannot upload this project because it is the same as \'My first project\'. Please modify it, and try again.</string>
+    <string name="error_copy_project">An error occurred while copying the program.</string>
+    <string name="error_upload_project_with_default_name">You cannot upload a program with the name \'My first program\'. Please rename the program.</string>
+    <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
     <!--  -->
 
 
@@ -409,7 +408,6 @@
     <!--  -->
 
 
-    <!-- Bluetooth, LegoNXT, Arduino -->
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
     <string name="title_paired_devices">Paired devices</string>
@@ -419,7 +417,7 @@
     <string name="scanning">Scanning</string>
     <string name="connecting_please_wait">Connecting to your device.\nPlease wait…</string>
     <string name="pairing_message">After pairing, connect.</string>
-    <string name="problem_at_closing">Problem in closing the connection!</string>
+    <string name="problem_at_closing">Problem while closing the connection!</string>
     <string name="bt_connection_failed">Connection to device failed!</string>
     <string name="no_paired_nxt">No paired NXT found</string>
     <string name="none_found">No unpaired devices found</string>
@@ -454,7 +452,7 @@
     <string name="formula_editor_changes_saved">Changes saved!</string>
     <string name="formula_editor_changes_discarded">Changes discarded!</string>
     <string name="formula_editor_parse_fail">Error: Fix or press again now to discard all changes</string>
-    <string name="formula_nothing_selected">Define the brick´s input value</string>
+    <string name="formula_nothing_selected">Define input value</string>
     <string name="formula_editor_parse_fail_formula_too_long">Formula too long! Fix or press again to discard.</string>
     <string name="formula_editor_choose_object_variable">Choose your Object Variable:</string>
     <string name="formula_editor_existing_variable">Name already in use!</string>
@@ -522,8 +520,8 @@
     <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
 
     <plurals name="formula_editor_variable_context_action_item_selected">
-        <item quantity="one">variable selected!</item>
-        <item quantity="other">variables selected!</item>
+        <item quantity="one">Variable selected!</item>
+        <item quantity="other">Variables selected!</item>
     </plurals>
     <!--  -->
 
