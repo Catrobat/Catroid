@@ -373,6 +373,16 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	public void onLoaderReset(Loader<Cursor> loader) {
 	}
 
+	public void addLookFromCamera() {
+		lookFromCameraUri = UtilCamera.getDefaultLookFromCameraUri(getString(R.string.default_look_name));
+
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, lookFromCameraUri);
+
+		Intent chooser = Intent.createChooser(intent, getString(R.string.select_look_from_camera));
+		startActivityForResult(chooser, REQUEST_TAKE_PICTURE);
+	}
+
 	public void addLookDrawNewImage() {
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName(pocketPaintIntentApplicationName, pocketPaintIntentActivityName));
