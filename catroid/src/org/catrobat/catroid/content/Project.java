@@ -173,8 +173,7 @@ public class Project implements Serializable {
 						if (currentBrick instanceof BroadcastReceiverBrick) {
 							usedMessages = addMessageToList(
 									((BroadcastReceiverBrick) currentBrick).getBroadcastMessage(), usedMessages);
-						}
-						if (currentBrick instanceof BroadcastBrick) {
+						} else if (currentBrick instanceof BroadcastBrick) {
 							usedMessages = addMessageToList(((BroadcastBrick) currentBrick).getBroadcastMessage(),
 									usedMessages);
 						} else if (currentBrick instanceof BroadcastWaitBrick) {
