@@ -95,8 +95,9 @@
     <string name="pocket_paint_not_installed">"Paintroid não instalado!\nVocê deseja instalá-lo?"</string>
     <string name="default_look_name">"traje"</string>
     <string name="delete_look_dialog">"Excluir traje?"</string>
-    <string name="add_look_from_camera">"Da Câmera"</string>
-    <string name="add_look_from_gallery">"Da Galeria"</string>
+    <string name="add_look_from_camera">"Da Câmera"</string> 
+    <string name="add_look_draw_new_image">"Da Câmera"</string>
+    <string name="add_look_choose_image">"Da Galeria"</string>
     <string name="select_look_from_gallery">"Selecione uma imagem"</string>
     <string name="select_look_from_camera">"Selecione uma foto"</string>
     <!-- Sound activity -->

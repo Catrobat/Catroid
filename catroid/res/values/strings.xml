@@ -199,8 +199,9 @@
 
     <!-- New look dialog -->
     <string name="new_look_dialog_title">Add Look</string>
-    <string name="add_look_from_camera">From Camera</string>
-    <string name="add_look_from_gallery">From Gallery</string>
+    <string name="add_look_from_camera">From Camera</string> 
+    <string name="add_look_draw_new_image">Draw new image</string>
+    <string name="add_look_choose_image">Choose image</string>
     <!--  -->
 
 

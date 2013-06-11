@@ -101,7 +101,7 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
 		solo.sleep(200);
 		assertTrue("Testfile not added from mockActivity", solo.searchText(nyanCat));
 
@@ -157,7 +157,7 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
 		solo.sleep(200);
 		assertTrue("Testfile not added from mockActivity", solo.searchText(manImage));
 

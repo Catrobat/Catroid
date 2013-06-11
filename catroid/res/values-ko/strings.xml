@@ -83,8 +83,9 @@
     <string name="pocket_paint_not_installed">"그림판이 설치되어 있지 않습니다! \n그림판을 설치하겠습니까?"</string>
     <string name="default_look_name">"형태"</string>
     <string name="delete_look_dialog">"형태를 삭제하겠습니까?"</string>
-    <string name="add_look_from_camera">"카메라에서 가져오기"</string>
-    <string name="add_look_from_gallery">"갤러리에서 가져오기"</string>
+    <string name="add_look_from_camera">"카메라에서 가져오기"</string> 
+    <string name="add_look_draw_new_image">"카메라에서 가져오기"</string>
+    <string name="add_look_choose_image">"갤러리에서 가져오기"</string>
     <string name="select_look_from_gallery">"그림 선택"</string>
     <string name="select_look_from_camera">"사진 선택"</string>
     <!-- Sound activity -->
