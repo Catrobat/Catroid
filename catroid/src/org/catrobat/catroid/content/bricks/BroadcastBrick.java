@@ -91,7 +91,6 @@ public class BroadcastBrick extends BrickBaseType {
 		broadcastMessage = message;
 		oldMessage = message;
 		MessageContainer.addMessage(broadcastMessage);
-		currentSelected = broadcastMessage;
 	}
 
 	public String getSelectedMessage() {
