@@ -45,13 +45,14 @@ import android.widget.Spinner;
 
 import com.jayway.android.robotium.solo.Solo;
 
+// BIG TODO: Refactor everything
 public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 
 	private Solo solo;
 	private Project project;
 
-	private static final int SECOND_BRICK_SPINNER_INDEX = 1;
-	private static final int THIRD_BRICK_SPINNER_INDEX = 2;
+	private static final int SECOND_BRICK_SPINNER_INDEX = 2;
+	private static final int THIRD_BRICK_SPINNER_INDEX = 3;
 
 	private static final int BROADCAST_RECEIVE_SPINNER_ID = R.id.brick_broadcast_receive_spinner;
 	private static final int BROADCAST_SPINNER_ID = R.id.brick_broadcast_spinner;
@@ -107,12 +108,12 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		assertNotSame("Wrong selection", testString, ((Spinner) solo.getView(BROADCAST_SPINNER_ID)).getSelectedItem()
 				.toString());
 
-		solo.pressSpinnerItem(SECOND_BRICK_SPINNER_INDEX, 1);
+		solo.pressSpinnerItem(SECOND_BRICK_SPINNER_INDEX, 2);
 		solo.sleep(200);
 		assertEquals("Wrong selection", testString, ((Spinner) solo.getView(BROADCAST_SPINNER_ID)).getSelectedItem()
 				.toString());
 
-		solo.pressSpinnerItem(THIRD_BRICK_SPINNER_INDEX, 1);
+		solo.pressSpinnerItem(THIRD_BRICK_SPINNER_INDEX, 2);
 		solo.sleep(200);
 		assertEquals("Wrong selection", testString, ((Spinner) solo.getView(BROADCAST_WAIT_SPINNER_ID))
 				.getSelectedItem().toString());
@@ -166,18 +167,7 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickLongOnText(solo.getString(R.string.brick_broadcast_receive));
 		solo.clickOnText(solo.getString(R.string.delete));
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		solo.clickOnText(solo.getString(R.string.category_control));
-		solo.searchText(solo.getString(R.string.category_control));
-		//click on brick broadcast
-		solo.clickOnScreen(200, 700);
-
-		solo.sleep(500);
-		// Click on broadcast brick to add it to the script brick
-		solo.clickOnScreen(200, 250);
-		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
-			solo.goBack();
-		}
+		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
 
 		assertEquals("Wrong selection", solo.getString(R.string.brick_broadcast_default_value),
 				((Spinner) solo.getView(R.id.brick_broadcast_spinner)).getSelectedItem().toString());

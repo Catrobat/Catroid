@@ -24,9 +24,9 @@ package org.catrobat.catroid.content.bricks;
 
 import java.util.List;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
+import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -55,10 +55,9 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class BroadcastBrick extends BrickBaseType {
+public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 
 	private static final long serialVersionUID = 1L;
-	private transient ProjectManager projectManager;
 
 	private String broadcastMessage = "";
 
@@ -68,7 +67,6 @@ public class BroadcastBrick extends BrickBaseType {
 
 	public BroadcastBrick(Sprite sprite) {
 		this.sprite = sprite;
-		this.projectManager = ProjectManager.getInstance();
 	}
 
 	@Override
@@ -76,6 +74,7 @@ public class BroadcastBrick extends BrickBaseType {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public String getBroadcastMessage() {
 		return broadcastMessage;
 	}
@@ -98,10 +97,7 @@ public class BroadcastBrick extends BrickBaseType {
 	}
 
 	private Object readResolve() {
-		projectManager = ProjectManager.getInstance();
-		if (broadcastMessage != null && projectManager.getCurrentProject() != null) {
-			MessageContainer.addMessage(broadcastMessage);
-		}
+		MessageContainer.addMessage(broadcastMessage);
 		return this;
 	}
 

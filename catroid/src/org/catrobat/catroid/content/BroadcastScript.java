@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 
-public class BroadcastScript extends Script {
+public class BroadcastScript extends Script implements BroadcastMessage {
 
 	private static final long serialVersionUID = 1L;
 	private String receivedMessage = "";
@@ -56,21 +56,20 @@ public class BroadcastScript extends Script {
 
 	@Override
 	protected Object readResolve() {
-		if (receivedMessage != null && receivedMessage.length() != 0) {
-			MessageContainer.addMessage(receivedMessage, this);
-		}
+		MessageContainer.addMessage(receivedMessage, this);
 		super.readResolve();
 		return this;
 	}
 
 	public void setBroadcastMessage(String selectedMessage) {
-		MessageContainer.deleteReceiverScript(this.receivedMessage, this);
+		MessageContainer.removeReceiverScript(this.receivedMessage, this);
 		this.receivedMessage = selectedMessage;
 		MessageContainer.addMessage(this.receivedMessage, this);
 	}
 
+	@Override
 	public String getBroadcastMessage() {
-		return this.receivedMessage;
+		return receivedMessage;
 	}
 
 	@Override

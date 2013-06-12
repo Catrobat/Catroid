@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
+import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -50,7 +51,7 @@ import android.widget.SpinnerAdapter;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class BroadcastReceiverBrick extends ScriptBrick {
+public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMessage {
 	private static final long serialVersionUID = 1L;
 	private BroadcastScript receiveScript;
 	private transient String oldMessage = "";
@@ -65,6 +66,7 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		this.receiveScript = receiveScript;
 	}
 
+	@Override
 	public String getBroadcastMessage() {
 		return receiveScript.getBroadcastMessage();
 	}
