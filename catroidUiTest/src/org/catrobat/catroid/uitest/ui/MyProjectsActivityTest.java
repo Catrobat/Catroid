@@ -26,7 +26,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
@@ -56,6 +58,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -1116,6 +1119,46 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(400);
 		UiTestUtils.openOptionsMenu(solo);
 		assertTrue("Menu item still says \"Hide Details\"!", solo.searchText(showDetailsText));
+	}
+
+	public void testProjectDetailsLastAccess() {
+		String showDetailsText = solo.getString(R.string.show_details);
+		String hideDetailsText = solo.getString(R.string.hide_details);
+		Date date = new Date(1357038000000l);
+		DateFormat mediumDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
+		createProjects();
+
+		File projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
+				Constants.PROJECTCODE_NAME));
+		projectCodeFile.setLastModified(date.getTime());
+
+		projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(UiTestUtils.PROJECTNAME1),
+				Constants.PROJECTCODE_NAME));
+		Date now = new Date();
+		projectCodeFile.setLastModified(now.getTime() - DateUtils.DAY_IN_MILLIS);
+
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		View projectDetails = solo.getView(R.id.my_projects_activity_list_item_details);
+		solo.waitForView(projectDetails);
+		UiTestUtils.openOptionsMenu(solo);
+
+		if (solo.searchText(hideDetailsText)) {
+			solo.clickOnText(hideDetailsText);
+			UiTestUtils.openOptionsMenu(solo);
+		}
+
+		solo.waitForText(showDetailsText);
+		solo.clickOnText(showDetailsText);
+		solo.sleep(200);
+		assertEquals("Project details are not showing!", View.VISIBLE, projectDetails.getVisibility());
+
+		assertTrue("Last access is not correct!", solo.searchText(solo.getString(R.string.details_date_today)));
+		assertTrue("Last access is not correct!", solo.searchText(solo.getString(R.string.details_date_yesterday)));
+		assertTrue("Last access is not correct!", solo.searchText(mediumDateFormat.format(date)));
 	}
 
 	public void testAddNewProject() {

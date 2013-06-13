@@ -151,6 +151,8 @@
     <string name="dialog_confirm_delete_program_title">Dieses Programm löschen?</string>
     <string name="dialog_confirm_delete_multiple_programs_title">Diese Programme löschen?</string>
     <string name="dialog_confirm_delete_program_message">Kann nicht rückgängig gemacht werden!</string>
+    <string name="details_date_today">Heute</string>
+    <string name="details_date_yesterday">Gestern</string>
     <!--  -->
 
     <!-- Soundrecorder activity -->
@@ -283,9 +285,7 @@
     </plurals>
 
     <string name="brick_turn_left">Drehe links</string>
-
     <string name="brick_turn_right">Drehe rechts</string>
-
     <string name="brick_point_in_direction">Zeige in Richtung</string>
     <string name="brick_point_to">Zeige auf</string>
     <string name="brick_glide">Gleite</string>
