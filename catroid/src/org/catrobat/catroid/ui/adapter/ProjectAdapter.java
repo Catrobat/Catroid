@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.adapter;
 
 import java.io.File;
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -36,6 +37,7 @@ import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -146,9 +148,32 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		holder.size.setText(UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectName))));
 
 		//set last changed:
-		DateFormat dateFormat = DateFormat.getDateTimeInstance();
 		Date projectLastModificationDate = new Date(projectData.lastUsed);
-		holder.dateChanged.setText(dateFormat.format(projectLastModificationDate));
+		Date now = new Date();
+		Date yesterday = new Date(now.getTime() - DateUtils.DAY_IN_MILLIS);
+		DateFormat mediumDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
+		DateFormat shortTimeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
+		String projectLastModificationDateString = "";
+
+		Calendar nowCalendar = Calendar.getInstance();
+		nowCalendar.setTime(now);
+
+		Calendar yesterdayCalendar = Calendar.getInstance();
+		yesterdayCalendar.setTime(yesterday);
+
+		Calendar projectLastModificationDateCalendar = Calendar.getInstance();
+		projectLastModificationDateCalendar.setTime(projectLastModificationDate);
+
+		if (mediumDateFormat.format(projectLastModificationDate).equals(mediumDateFormat.format(now))) {
+			projectLastModificationDateString = getContext().getString(R.string.details_date_today) + " "
+					+ shortTimeFormat.format(projectLastModificationDate);
+		} else if (mediumDateFormat.format(projectLastModificationDate).equals(mediumDateFormat.format(yesterday))) {
+			projectLastModificationDateString = getContext().getString(R.string.details_date_yesterday);
+		} else {
+			projectLastModificationDateString = mediumDateFormat.format(projectLastModificationDate);
+		}
+
+		holder.dateChanged.setText(projectLastModificationDateString);
 
 		//set project image (threaded):
 		screenshotLoader.loadAndShowScreenshot(projectName, holder.image);
