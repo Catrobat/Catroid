@@ -110,10 +110,7 @@ public class MessageContainer {
 	}
 
 	public static int getPositionOfMessageInAdapter(String message) {
-		if (messageAdapter != null) {
-			return messageAdapter.getPosition(message);
-		}
-		return -1;
+		return messageAdapter.getPosition(message);
 	}
 
 	public static void removeUnusedMessages(List<String> usedMessages) {

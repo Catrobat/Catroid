@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -71,7 +72,7 @@ public class BroadCastReceiverRegressionTest extends ActivityInstrumentationTest
 
 		final String testMessage = "RegressionTest#105";
 		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);
-		broadcastBrick.setSelectedMessage(testMessage);
+		Reflection.setPrivateField(broadcastBrick, "broadcastMessage", testMessage);
 		script.addBrick(broadcastBrick);
 
 		BroadcastScript broadcastScript = new BroadcastScript(sprite);
@@ -98,6 +99,7 @@ public class BroadCastReceiverRegressionTest extends ActivityInstrumentationTest
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 
-		assertEquals("Broadcast didn't work a second time!", xMovement, (int) sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Broadcast didn't work a second time!", xMovement,
+				(int) sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 }

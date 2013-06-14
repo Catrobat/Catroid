@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.AndroidTestCase;
 
@@ -42,7 +43,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 		Script script = new StartScript(sprite);
 		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);
 		String message = "simpleTest";
-		broadcastBrick.setSelectedMessage(message);
+		Reflection.setPrivateField(broadcastBrick, "broadcastMessage", message);
 		script.addBrick(broadcastBrick);
 		sprite.addScript(script);
 

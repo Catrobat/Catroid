@@ -73,10 +73,14 @@ public class MultipleBroadcastsTest extends ActivityInstrumentationTestCase2<Sta
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(2000);
-		assertEquals("Sprite1 is at the false x position", sprite1PosX, (int) sprite1.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Sprite2 is at the false x position", sprite2PosX, (int) sprite2.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Sprite3 is at the false x position", sprite3PosX, (int) sprite3.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Sprite4 is at the false x position", sprite4PosX, (int) sprite4.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Sprite1 is at the false x position", sprite1PosX,
+				(int) sprite1.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Sprite2 is at the false x position", sprite2PosX,
+				(int) sprite2.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Sprite3 is at the false x position", sprite3PosX,
+				(int) sprite3.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Sprite4 is at the false x position", sprite4PosX,
+				(int) sprite4.look.getXInUserInterfaceDimensionUnit());
 
 	}
 
@@ -86,7 +90,7 @@ public class MultipleBroadcastsTest extends ActivityInstrumentationTestCase2<Sta
 		sprite1 = new Sprite("sprite1");
 		StartScript startScript1 = new StartScript(sprite1);
 		BroadcastBrick broadcastBrick1 = new BroadcastBrick(sprite1);
-		broadcastBrick1.setSelectedMessage("run");
+		setSelectedMessage(broadcastBrick1, "run");
 		startScript1.addBrick(broadcastBrick1);
 		BroadcastScript broadcastScript1 = new BroadcastScript(sprite1);
 		broadcastScript1.setBroadcastMessage("run");
@@ -99,7 +103,7 @@ public class MultipleBroadcastsTest extends ActivityInstrumentationTestCase2<Sta
 		sprite2 = new Sprite("sprite2");
 		StartScript startScript2 = new StartScript(sprite2);
 		BroadcastBrick broadcastBrick2 = new BroadcastBrick(sprite2);
-		broadcastBrick2.setSelectedMessage("run");
+		setSelectedMessage(broadcastBrick2, "run");
 		startScript2.addBrick(broadcastBrick2);
 		BroadcastScript broadcastScript2 = new BroadcastScript(sprite2);
 		broadcastScript2.setBroadcastMessage("run");
@@ -112,7 +116,7 @@ public class MultipleBroadcastsTest extends ActivityInstrumentationTestCase2<Sta
 		sprite3 = new Sprite("sprite3");
 		StartScript startScript3 = new StartScript(sprite3);
 		BroadcastBrick broadcastBrick3 = new BroadcastBrick(sprite3);
-		broadcastBrick3.setSelectedMessage("run");
+		setSelectedMessage(broadcastBrick3, "run");
 		startScript3.addBrick(broadcastBrick3);
 		BroadcastScript broadcastScript3 = new BroadcastScript(sprite3);
 		broadcastScript3.setBroadcastMessage("run");
@@ -125,7 +129,7 @@ public class MultipleBroadcastsTest extends ActivityInstrumentationTestCase2<Sta
 		sprite4 = new Sprite("sprite4");
 		StartScript startScript4 = new StartScript(sprite4);
 		BroadcastBrick broadcastBrick4 = new BroadcastBrick(sprite4);
-		broadcastBrick4.setSelectedMessage("run");
+		setSelectedMessage(broadcastBrick4, "run");
 		startScript4.addBrick(broadcastBrick4);
 		BroadcastScript broadcastScript4 = new BroadcastScript(sprite4);
 		broadcastScript4.setBroadcastMessage("run");
@@ -136,6 +140,10 @@ public class MultipleBroadcastsTest extends ActivityInstrumentationTestCase2<Sta
 		spriteList.add(sprite4);
 
 		UiTestUtils.createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, spriteList, null);
+	}
+
+	private void setSelectedMessage(BroadcastBrick brick, String message) {
+		Reflection.setPrivateField(brick, "broadcastMessage", message);
 	}
 
 }
