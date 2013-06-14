@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
@@ -64,6 +63,7 @@ public class MessageContainer {
 		if (message == null || message.isEmpty()) {
 			return;
 		}
+
 		if (!receiverMap.containsKey(message)) {
 			receiverMap.put(message, new ArrayList<BroadcastScript>());
 			addMessageToAdapter(message);
@@ -74,14 +74,9 @@ public class MessageContainer {
 		if (message == null || message.isEmpty()) {
 			return;
 		}
-		if (receiverMap.containsKey(message)) {
-			receiverMap.get(message).add(script);
-		} else {
-			List<BroadcastScript> receiverVec = new ArrayList<BroadcastScript>();
-			receiverVec.add(script);
-			receiverMap.put(message, receiverVec);
-			addMessageToAdapter(message);
-		}
+
+		addMessage(message);
+		receiverMap.get(message).add(script);
 	}
 
 	private static void addMessageToAdapter(String message) {
@@ -103,10 +98,11 @@ public class MessageContainer {
 			messageAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 			messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			messageAdapter.add(context.getString(R.string.new_broadcast_message));
-			addMessage(context.getString(R.string.brick_broadcast_default_value));
-			for (String message : receiverMap.keySet()) {
-				if (!message.equals(context.getString(R.string.brick_broadcast_default_value))) {
-					messageAdapter.add(message);
+			if (receiverMap.isEmpty()) {
+				addMessage(context.getString(R.string.brick_broadcast_default_value));
+			} else {
+				for (String message : receiverMap.keySet()) {
+					addMessageToAdapter(message);
 				}
 			}
 		}
@@ -120,22 +116,23 @@ public class MessageContainer {
 		return -1;
 	}
 
-	public static void removeUnusedMessages(Set<String> usedMessages) {
+	public static void removeUnusedMessages(List<String> usedMessages) {
+		messageAdapter = null;
 		receiverMap = new HashMap<String, List<BroadcastScript>>();
 
 		for (String message : usedMessages) {
 			addMessage(message);
 		}
 
-		if (messageAdapter != null) {
-			Context context = messageAdapter.getContext();
-			String newBroadcastMessage = context.getString(R.string.new_broadcast_message);
-			for (int messageIndex = 0; messageIndex < messageAdapter.getCount(); messageIndex++) {
-				String message = messageAdapter.getItem(messageIndex);
-				if (!message.equals(newBroadcastMessage) && !usedMessages.contains(message)) {
-					messageAdapter.remove(message);
-				}
-			}
-		}
+		//		if (messageAdapter != null) {
+		//			Context context = messageAdapter.getContext();
+		//			String newBroadcastMessage = context.getString(R.string.new_broadcast_message);
+		//			for (int messageIndex = 0; messageIndex < messageAdapter.getCount(); messageIndex++) {
+		//				String message = messageAdapter.getItem(messageIndex);
+		//				if (!message.equals(newBroadcastMessage) && !usedMessages.contains(message)) {
+		//					messageAdapter.remove(message);
+		//				}
+		//			}
+		//		}
 	}
 }

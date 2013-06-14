@@ -24,9 +24,7 @@ package org.catrobat.catroid.content;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -159,22 +157,29 @@ public class Project implements Serializable {
 	}
 
 	public void removeUnusedBroadcastMessages() {
-		Set<String> usedMessages = new HashSet<String>();
+		List<String> usedMessages = new ArrayList<String>();
 		for (Sprite currentSprite : spriteList) {
 			for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); scriptIndex++) {
 				Script currentScript = currentSprite.getScript(scriptIndex);
 				if (currentScript instanceof BroadcastMessage) {
-					usedMessages.add(((BroadcastMessage) currentScript).getBroadcastMessage());
+					addBroadcastMessage(((BroadcastMessage) currentScript).getBroadcastMessage(), usedMessages);
 				}
 
 				for (int brickIndex = 0; brickIndex < currentScript.getBrickList().size(); brickIndex++) {
 					Brick currentBrick = currentScript.getBrick(brickIndex);
 					if (currentBrick instanceof BroadcastMessage) {
-						usedMessages.add(((BroadcastMessage) currentBrick).getBroadcastMessage());
+						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
 					}
 				}
 			}
 		}
 		MessageContainer.removeUnusedMessages(usedMessages);
+	}
+
+	private void addBroadcastMessage(String broadcastMessageToAdd, List<String> broadcastMessages) {
+		if (broadcastMessageToAdd != null && !broadcastMessageToAdd.isEmpty()
+				&& !broadcastMessages.contains(broadcastMessageToAdd)) {
+			broadcastMessages.add(broadcastMessageToAdd);
+		}
 	}
 }
