@@ -53,8 +53,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 public class BroadcastWaitBrick extends BrickBaseType implements BroadcastMessage {
 	private static final long serialVersionUID = 1L;
 
-	private String broadcastMessage = "";
-	//	private BroadcastScript waitScript;
+	private String broadcastMessage;
 	private transient AdapterView<?> adapterView;
 
 	private Object readResolve() {
@@ -128,7 +127,7 @@ public class BroadcastWaitBrick extends BrickBaseType implements BroadcastMessag
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				String selectedMessage = broadcastSpinner.getSelectedItem().toString();
-				if (broadcastMessage.equals(context.getString(R.string.new_broadcast_message))) {
+				if (selectedMessage.equals(context.getString(R.string.new_broadcast_message))) {
 					showNewMessageDialog(broadcastSpinner);
 				} else {
 					broadcastMessage = selectedMessage;

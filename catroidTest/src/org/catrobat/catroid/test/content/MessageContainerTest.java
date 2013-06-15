@@ -104,8 +104,7 @@ public class MessageContainerTest extends AndroidTestCase {
 		script1.addBrick(brick1);
 		sprite1.addScript(script1);
 
-		BroadcastScript broadcastScript1 = new BroadcastScript(sprite1);
-		broadcastScript1.setBroadcastMessage(broadcastMessage1);
+		BroadcastScript broadcastScript1 = new BroadcastScript(sprite1, broadcastMessage1);
 		sprite1.addScript(broadcastScript1);
 
 		project1.addSprite(sprite1);
@@ -120,8 +119,7 @@ public class MessageContainerTest extends AndroidTestCase {
 		script2.addBrick(brick2);
 		sprite2.addScript(script2);
 
-		BroadcastScript broadcastScript2 = new BroadcastScript(sprite2);
-		broadcastScript2.setBroadcastMessage(broadcastMessage2);
+		BroadcastScript broadcastScript2 = new BroadcastScript(sprite2, broadcastMessage2);
 		sprite2.addScript(broadcastScript2);
 
 		project2.addSprite(sprite2);

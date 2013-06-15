@@ -54,6 +54,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 	public BroadcastReceiverBrick(Sprite sprite, BroadcastScript receiveScript) {
 		this.sprite = sprite;
 		this.receiveScript = receiveScript;
+		MessageContainer.addMessage(receiveScript.getBroadcastMessage());
 	}
 
 	@Override
@@ -66,7 +67,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 
 	@Override
 	public Brick clone() {
-		return new BroadcastReceiverBrick(sprite, null); // XXX: null?
+		return new BroadcastReceiverBrick(sprite, new BroadcastScript(sprite, getBroadcastMessage()));
 	}
 
 	@Override
@@ -86,9 +87,6 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 		}
 		if (view == null) {
 			alphaValue = 255;
-		}
-		if (receiveScript == null) {
-			receiveScript = new BroadcastScript(sprite);
 		}
 
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
@@ -167,14 +165,11 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 
 	@Override
 	public Script initScript(Sprite sprite) {
-		if (receiveScript == null) {
-			receiveScript = new BroadcastScript(sprite);
-		}
 		return receiveScript;
 	}
 
 	private void setSpinnerSelection(Spinner spinner) {
-		int position = MessageContainer.getPositionOfMessageInAdapter(receiveScript.getBroadcastMessage());
+		int position = MessageContainer.getPositionOfMessageInAdapter(getBroadcastMessage());
 		spinner.setSelection(position, true);
 	}
 
@@ -194,8 +189,8 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 					return false;
 				}
 
-				receiveScript.setBroadcastMessage(newMessage);
 				MessageContainer.addMessage(newMessage);
+				receiveScript.setBroadcastMessage(newMessage);
 				setSpinnerSelection(spinner);
 				return true;
 			}

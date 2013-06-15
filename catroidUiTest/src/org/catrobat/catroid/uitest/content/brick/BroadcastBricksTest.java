@@ -256,19 +256,16 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.waitForView(EditText.class);
 		solo.enterText(0, text);
 		solo.sleep(200);
-
-		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
-
-		solo.sleep(300);
+		solo.waitForView(solo.getView(spinnerId));
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new BroadcastScript(sprite);
-		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite, "message1");
-		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite, "message2");
+		Script script = new BroadcastScript(sprite, "message1");
+		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite, "message2");
+		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite, "message3");
 		script.addBrick(broadcastBrick);
 		script.addBrick(broadcastWaitBrick);
 

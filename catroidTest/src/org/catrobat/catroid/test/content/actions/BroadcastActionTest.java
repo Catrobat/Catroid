@@ -45,10 +45,9 @@ public class BroadcastActionTest extends AndroidTestCase {
 		script.addBrick(broadcastBrick);
 		sprite.addScript(script);
 
-		BroadcastScript broadcastScript = new BroadcastScript(sprite);
+		BroadcastScript broadcastScript = new BroadcastScript(sprite, message);
 		int testPosition = 100;
 		SetXBrick testBrick = new SetXBrick(sprite, testPosition);
-		broadcastScript.setBroadcastMessage(message);
 		broadcastScript.addBrick(testBrick);
 		sprite.addScript(broadcastScript);
 
@@ -76,11 +75,10 @@ public class BroadcastActionTest extends AndroidTestCase {
 		scriptWait.addBrick(setXBrick);
 		sprite.addScript(scriptWait);
 
-		BroadcastScript broadcastScript = new BroadcastScript(sprite);
+		BroadcastScript broadcastScript = new BroadcastScript(sprite, message);
 		WaitBrick waitBrick = new WaitBrick(sprite, 500);
 		int setTestPosition = 20;
 		SetXBrick setXBrick2 = new SetXBrick(sprite, setTestPosition);
-		broadcastScript.setBroadcastMessage(message);
 		broadcastScript.addBrick(waitBrick);
 		broadcastScript.addBrick(setXBrick2);
 		sprite.addScript(broadcastScript);

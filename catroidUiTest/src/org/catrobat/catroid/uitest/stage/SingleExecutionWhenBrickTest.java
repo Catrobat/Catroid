@@ -177,11 +177,10 @@ public class SingleExecutionWhenBrickTest extends ActivityInstrumentationTestCas
 
 		greenSprite.addScript(greenStartScript);
 
-		greenBroadcastScript = new BroadcastScript(greenSprite);
+		greenBroadcastScript = new BroadcastScript(greenSprite, broadcastMessage);
 		WaitBrick waitBrick = new WaitBrick(greenSprite, 2000);
 
 		SetGhostEffectBrick greenSetGhostEffectBrick2 = new SetGhostEffectBrick(greenSprite, 100d);
-		greenBroadcastScript.setBroadcastMessage(broadcastMessage);
 		greenBroadcastScript.addBrick(waitBrick);
 		greenBroadcastScript.addBrick(greenSetGhostEffectBrick2);
 		greenSprite.addScript(greenBroadcastScript);

@@ -216,8 +216,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 
 		spriteInterrupt.addScript(startScriptInterrupt);
 
-		BroadcastScript broadcastScriptInterrupt = new BroadcastScript(spriteInterrupt);
-		broadcastScriptInterrupt.setBroadcastMessage("double");
+		BroadcastScript broadcastScriptInterrupt = new BroadcastScript(spriteInterrupt, "double");
 		WaitBrick waitBrickInterrupt2 = new WaitBrick(spriteInterrupt, 2000);
 		broadcastScriptInterrupt.addBrick(waitBrickInterrupt2);
 		SpeakBrick speakBrickInterrupt2 = new SpeakBrick(spriteInterrupt, textMessageInterrupt);

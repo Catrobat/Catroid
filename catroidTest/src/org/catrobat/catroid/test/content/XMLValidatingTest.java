@@ -81,7 +81,7 @@ public class XMLValidatingTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		Script startScript = new StartScript(sprite);
 		Script whenScript = new WhenScript(sprite);
-		Script broadcastScript = new BroadcastScript(sprite);
+		Script broadcastScript = new BroadcastScript(sprite, "message1");
 		sprite.addScript(startScript);
 		sprite.addScript(whenScript);
 		sprite.addScript(broadcastScript);

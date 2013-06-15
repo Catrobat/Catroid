@@ -817,8 +817,7 @@ public class UiTestUtils {
 		}
 		firstSprite.addScript(firstSpriteScript);
 
-		BroadcastScript broadcastScript = new BroadcastScript(firstSprite);
-		broadcastScript.setBroadcastMessage("Hallo");
+		BroadcastScript broadcastScript = new BroadcastScript(firstSprite, "Hallo");
 		BroadcastReceiverBrick brickBroad = new BroadcastReceiverBrick(firstSprite, broadcastScript);
 		firstSprite.addScript(broadcastScript);
 		brickList.add(brickBroad);
