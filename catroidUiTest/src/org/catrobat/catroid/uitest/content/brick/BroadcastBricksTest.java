@@ -45,7 +45,6 @@ import android.widget.Spinner;
 
 import com.jayway.android.robotium.solo.Solo;
 
-// BIG TODO: Refactor everything
 public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 
 	private Solo solo;
@@ -108,12 +107,12 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		assertNotSame("Wrong selection", testString, ((Spinner) solo.getView(BROADCAST_SPINNER_ID)).getSelectedItem()
 				.toString());
 
-		solo.pressSpinnerItem(SECOND_BRICK_SPINNER_INDEX, 2);
+		solo.pressSpinnerItem(SECOND_BRICK_SPINNER_INDEX, 1);
 		solo.sleep(200);
 		assertEquals("Wrong selection", testString, ((Spinner) solo.getView(BROADCAST_SPINNER_ID)).getSelectedItem()
 				.toString());
 
-		solo.pressSpinnerItem(THIRD_BRICK_SPINNER_INDEX, 2);
+		solo.pressSpinnerItem(THIRD_BRICK_SPINNER_INDEX, 1);
 		solo.sleep(200);
 		assertEquals("Wrong selection", testString, ((Spinner) solo.getView(BROADCAST_WAIT_SPINNER_ID))
 				.getSelectedItem().toString());
@@ -168,7 +167,6 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(solo.getString(R.string.delete));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
-
 		assertEquals("Wrong selection", solo.getString(R.string.brick_broadcast_default_value),
 				((Spinner) solo.getView(R.id.brick_broadcast_spinner)).getSelectedItem().toString());
 	}
@@ -257,15 +255,17 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.enterText(0, text);
 		solo.sleep(200);
 		solo.clickOnText(solo.getString(R.string.ok));
+		solo.sleep(300);
 		solo.waitForView(solo.getView(spinnerId));
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new BroadcastScript(sprite, "message1");
-		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite, "message2");
-		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite, "message3");
+		String broadcastMessage = "message 1";
+		Script script = new BroadcastScript(sprite, broadcastMessage);
+		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite, broadcastMessage);
+		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite, broadcastMessage);
 		script.addBrick(broadcastBrick);
 		script.addBrick(broadcastWaitBrick);
 

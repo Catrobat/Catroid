@@ -112,7 +112,7 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new WhenBrick(sprite, null));
 		controlBrickList.add(new WaitBrick(sprite, BrickValues.WAIT));
 
-		final String broadcastMessage = MessageContainer.getMessageAdapter(context).getItem(1);
+		final String broadcastMessage = MessageContainer.getFirst(context);
 		controlBrickList.add(new BroadcastReceiverBrick(sprite, new BroadcastScript(sprite, broadcastMessage)));
 		controlBrickList.add(new BroadcastBrick(sprite, broadcastMessage));
 		controlBrickList.add(new BroadcastWaitBrick(sprite, broadcastMessage));
