@@ -113,6 +113,10 @@ public class MessageContainer {
 		return messageAdapter.getPosition(message);
 	}
 
+	public static String getFirst(Context context) {
+		return getMessageAdapter(context).getItem(1);
+	}
+
 	public static void removeUnusedMessages(List<String> usedMessages) {
 		messageAdapter = null;
 		receiverMap = new HashMap<String, List<BroadcastScript>>();
@@ -120,16 +124,5 @@ public class MessageContainer {
 		for (String message : usedMessages) {
 			addMessage(message);
 		}
-
-		//		if (messageAdapter != null) {
-		//			Context context = messageAdapter.getContext();
-		//			String newBroadcastMessage = context.getString(R.string.new_broadcast_message);
-		//			for (int messageIndex = 0; messageIndex < messageAdapter.getCount(); messageIndex++) {
-		//				String message = messageAdapter.getItem(messageIndex);
-		//				if (!message.equals(newBroadcastMessage) && !usedMessages.contains(message)) {
-		//					messageAdapter.remove(message);
-		//				}
-		//			}
-		//		}
 	}
 }

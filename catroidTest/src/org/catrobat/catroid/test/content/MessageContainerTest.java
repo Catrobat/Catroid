@@ -100,8 +100,7 @@ public class MessageContainerTest extends AndroidTestCase {
 
 		Sprite sprite1 = new Sprite("cat");
 		Script script1 = new StartScript(sprite1);
-		BroadcastBrick brick1 = new BroadcastBrick(sprite1);
-		Reflection.setPrivateField(brick1, "broadcastMessage", broadcastMessage1);
+		BroadcastBrick brick1 = new BroadcastBrick(sprite1, broadcastMessage1);
 		script1.addBrick(brick1);
 		sprite1.addScript(script1);
 
@@ -117,8 +116,7 @@ public class MessageContainerTest extends AndroidTestCase {
 
 		Sprite sprite2 = new Sprite("cat");
 		Script script2 = new StartScript(sprite2);
-		BroadcastBrick brick2 = new BroadcastBrick(sprite2);
-		Reflection.setPrivateField(brick1, "broadcastMessage", broadcastMessage2);
+		BroadcastBrick brick2 = new BroadcastBrick(sprite2, broadcastMessage2);
 		script2.addBrick(brick2);
 		sprite2.addScript(script2);
 

@@ -40,7 +40,6 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -54,7 +53,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	private static final long serialVersionUID = 1L;
 
-	private String broadcastMessage = null;
+	private String broadcastMessage;
 	private transient AdapterView<?> adapterView;
 
 	private Object readResolve() {
@@ -62,8 +61,10 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		return this;
 	}
 
-	public BroadcastBrick(Sprite sprite) {
+	public BroadcastBrick(Sprite sprite, String broadcastMessage) {
 		this.sprite = sprite;
+		this.broadcastMessage = broadcastMessage;
+		MessageContainer.addMessage(broadcastMessage);
 	}
 
 	@Override
@@ -85,8 +86,7 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 
 	@Override
 	public Brick clone() {
-		BroadcastBrick cloneBrick = new BroadcastBrick(sprite);
-		cloneBrick.broadcastMessage = broadcastMessage;
+		BroadcastBrick cloneBrick = new BroadcastBrick(sprite, broadcastMessage);
 		return cloneBrick;
 	}
 
@@ -126,12 +126,12 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				Spinner spinner = (Spinner) parent;
-				String selectedMessage = spinner.getSelectedItem().toString();
+				String selectedMessage = broadcastSpinner.getSelectedItem().toString();
 				if (selectedMessage.equals(context.getString(R.string.new_broadcast_message))) {
-					showNewMessageDialog(spinner);
+					showNewMessageDialog(broadcastSpinner);
 				} else {
 					broadcastMessage = selectedMessage;
+					setSpinnerSelection(broadcastSpinner);
 					adapterView = parent;
 				}
 			}
@@ -142,7 +142,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		});
 
 		setSpinnerSelection(broadcastSpinner);
-
 		return view;
 	}
 
@@ -177,18 +176,8 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		return view;
 	}
 
-	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.broadcast(sprite, broadcastMessage));
-		return null;
-	}
-
 	private void setSpinnerSelection(Spinner spinner) {
-		ArrayAdapter<String> messageAdapter = MessageContainer.getMessageAdapter(spinner.getContext());
-		if (broadcastMessage == null) {
-			broadcastMessage = messageAdapter.getItem(1);
-		}
-		int position = messageAdapter.getPosition(broadcastMessage);
+		int position = MessageContainer.getPositionOfMessageInAdapter(broadcastMessage);
 		spinner.setSelection(position, true);
 	}
 
@@ -222,5 +211,11 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		};
 
 		editDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "dialog_broadcast_brick");
+	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.broadcast(sprite, broadcastMessage));
+		return null;
 	}
 }

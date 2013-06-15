@@ -267,7 +267,7 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new BroadcastScript(sprite);
-		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);
+		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite, "message");
 		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite);
 		script.addBrick(broadcastBrick);
 		script.addBrick(broadcastWaitBrick);
