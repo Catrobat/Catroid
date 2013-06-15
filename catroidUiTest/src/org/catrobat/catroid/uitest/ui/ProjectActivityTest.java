@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
@@ -212,10 +213,20 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				ProjectManager.getInstance().getCurrentProject().getUserVariables()
 						.getUserVariable(secondUserVariableName, secondSprite));
 
+		ChangeVariableBrick changeVariableBrick1 = new ChangeVariableBrick(secondSprite, new Formula(
+				setVariable1ToValue), ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable(firstUserVariableName, secondSprite));
+
+		ChangeVariableBrick changeVariableBrick2 = new ChangeVariableBrick(secondSprite, new Formula(
+				setVariable2ToValue), ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable(secondUserVariableName, secondSprite));
+
 		Script startScript1 = new StartScript(secondSprite);
 		secondSprite.addScript(startScript1);
 		startScript1.addBrick(setVariableBrick1);
 		startScript1.addBrick(setVariableBrick2);
+		startScript1.addBrick(changeVariableBrick1);
+		startScript1.addBrick(changeVariableBrick2);
 
 		solo.clickOnButton(0);
 
@@ -231,14 +242,20 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.waitForActivity(ScriptActivity.class);
 
-		solo.sleep(200);
-		Spinner firstVariableSpinner = solo.getCurrentViews(Spinner.class).get(0);
-		Spinner secondVariableSpinner = solo.getCurrentViews(Spinner.class).get(1);
+		solo.sleep(500);
+		Spinner setVariableBrick1Spinner = solo.getCurrentViews(Spinner.class).get(0);
+		Spinner setVariableBrick2Spinner = solo.getCurrentViews(Spinner.class).get(1);
+		Spinner changeVariableBrick1Spinner = solo.getCurrentViews(Spinner.class).get(2);
+		Spinner changeVariableBrick2Spinner = solo.getCurrentViews(Spinner.class).get(3);
 
-		assertEquals("Wrong selection in first spinner!", firstUserVariableName,
-				((UserVariable) firstVariableSpinner.getSelectedItem()).getName());
-		assertEquals("Wrong selection in second spinner!", secondUserVariableName,
-				((UserVariable) secondVariableSpinner.getSelectedItem()).getName());
+		assertEquals("Wrong selection in first SetVariableBrick spinner!", firstUserVariableName,
+				((UserVariable) setVariableBrick1Spinner.getSelectedItem()).getName());
+		assertEquals("Wrong selection in second SetVariableBrick spinner!", secondUserVariableName,
+				((UserVariable) setVariableBrick2Spinner.getSelectedItem()).getName());
+		assertEquals("Wrong selection in first ChangeVariableBrick spinner!", firstUserVariableName,
+				((UserVariable) changeVariableBrick1Spinner.getSelectedItem()).getName());
+		assertEquals("Wrong selection in second ChangeVariableBrick spinner!", secondUserVariableName,
+				((UserVariable) changeVariableBrick2Spinner.getSelectedItem()).getName());
 	}
 
 	public void testCopySpriteWithNameTaken() {
