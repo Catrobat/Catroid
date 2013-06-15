@@ -68,16 +68,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
-	public String getBroadcastMessage() {
-		return broadcastMessage;
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		BroadcastBrick copyBrick = (BroadcastBrick) clone();
 		copyBrick.sprite = sprite;
@@ -86,8 +76,17 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 
 	@Override
 	public Brick clone() {
-		BroadcastBrick cloneBrick = new BroadcastBrick(sprite, broadcastMessage);
-		return cloneBrick;
+		return new BroadcastBrick(sprite, broadcastMessage);
+	}
+
+	@Override
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
+	@Override
+	public String getBroadcastMessage() {
+		return broadcastMessage;
 	}
 
 	@Override
@@ -103,6 +102,7 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		setCheckboxView(R.id.brick_broadcast_checkbox);
 
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				checked = isChecked;

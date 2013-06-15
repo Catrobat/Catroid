@@ -34,16 +34,11 @@ import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -53,27 +48,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMessage {
 	private static final long serialVersionUID = 1L;
+
 	private BroadcastScript receiveScript;
-	private transient String oldMessage = "";
-	private transient String currentSelected = "";
-
-	public BroadcastReceiverBrick() {
-
-	}
 
 	public BroadcastReceiverBrick(Sprite sprite, BroadcastScript receiveScript) {
 		this.sprite = sprite;
 		this.receiveScript = receiveScript;
-	}
-
-	@Override
-	public String getBroadcastMessage() {
-		return receiveScript.getBroadcastMessage();
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
 	}
 
 	@Override
@@ -84,8 +64,19 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 		return copyBrick;
 	}
 
-	public String getSelectedMessage() {
-		return currentSelected;
+	@Override
+	public Brick clone() {
+		return new BroadcastReceiverBrick(sprite, null); // XXX: null?
+	}
+
+	@Override
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
+	@Override
+	public String getBroadcastMessage() {
+		return receiveScript.getBroadcastMessage();
 	}
 
 	@Override
@@ -93,35 +84,35 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 		if (receiveScript == null) {
 			receiveScript = new BroadcastScript(sprite);
 		}
 
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
-
+		view = getViewWithAlpha(alphaValue);
 		setCheckboxView(R.id.brick_broadcast_receive_checkbox);
 
-		//method moved to to DragAndDropListView since it is not working on 2.x
-		/*
-		 * checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		 * 
-		 * @Override
-		 * public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		 * checked = isChecked;
-		 * if (!checked) {
-		 * for (Brick currentBrick : adapter.getCheckedBricks()) {
-		 * currentBrick.setCheckedBoolean(false);
-		 * }
-		 * }
-		 * adapter.handleCheck(brickInstance, checked);
-		 * }
-		 * });
-		 */
+		// XXX method moved to to DragAndDropListView since it is not working on 2.x
+		//		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		//
+		//			@Override
+		//			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		//				checked = isChecked;
+		//				if (!checked) {
+		//					for (Brick currentBrick : adapter.getCheckedBricks()) {
+		//						currentBrick.setCheckedBoolean(false);
+		//					}
+		//				}
+		//				adapter.handleCheck(brickInstance, checked);
+		//			}
+		//		});
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_receive_spinner);
 		broadcastSpinner.setFocusableInTouchMode(false);
 		broadcastSpinner.setFocusable(false);
-
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			broadcastSpinner.setClickable(true);
 			broadcastSpinner.setEnabled(true);
@@ -130,32 +121,17 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 			broadcastSpinner.setEnabled(false);
 		}
 
-		final ArrayAdapter<String> spinnerAdapter = MessageContainer.getMessageAdapter(context);
-
-		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, broadcastSpinner,
-				spinnerAdapter);
-
-		broadcastSpinner.setAdapter(spinnerAdapterWrapper);
-
+		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			private boolean start = true;
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				String selectedString = ((String) parent.getItemAtPosition(position)).trim();
-				if (start) {
-					start = false;
-					currentSelected = selectedString;
-					return;
-				}
-				String message = selectedString;
-
-				if (message == context.getString(R.string.new_broadcast_message)) {
-					receiveScript.setBroadcastMessage("");
+				String selectedMessage = broadcastSpinner.getSelectedItem().toString();
+				if (selectedMessage.equals(context.getString(R.string.new_broadcast_message))) {
+					showNewMessageDialog(broadcastSpinner);
 				} else {
-					receiveScript.setBroadcastMessage(message);
-					oldMessage = receiveScript.getBroadcastMessage();
-					currentSelected = selectedString;
+					receiveScript.setBroadcastMessage(selectedMessage);
+					setSpinnerSelection(broadcastSpinner);
 				}
 			}
 
@@ -165,7 +141,6 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 		});
 
 		setSpinnerSelection(broadcastSpinner);
-
 		return view;
 	}
 
@@ -177,9 +152,6 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 		broadcastReceiverSpinner.setFocusable(false);
 		SpinnerAdapter broadcastReceiverSpinnerAdapter = MessageContainer.getMessageAdapter(context);
 		broadcastReceiverSpinner.setAdapter(broadcastReceiverSpinnerAdapter);
-		if (broadcastReceiverSpinnerAdapter.getCount() > 1) {
-			oldMessage = broadcastReceiverSpinnerAdapter.getItem(1).toString();
-		}
 		setSpinnerSelection(broadcastReceiverSpinner);
 		return prototypeView;
 	}
@@ -194,165 +166,52 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 	}
 
 	@Override
-	public Brick clone() {
-		return new BroadcastReceiverBrick(sprite, null);
-	}
-
-	@Override
 	public Script initScript(Sprite sprite) {
 		if (receiveScript == null) {
 			receiveScript = new BroadcastScript(sprite);
 		}
-
 		return receiveScript;
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	private void setSpinnerSelection(Spinner spinner) {
 		int position = MessageContainer.getPositionOfMessageInAdapter(receiveScript.getBroadcastMessage());
-		if (position > 0) {
-			spinner.setSelection(position, true);
-		} else {
-			if (oldMessage != null && !oldMessage.equals("")) {
-				spinner.setSelection(MessageContainer.getPositionOfMessageInAdapter(oldMessage), true);
-			} else {
-				SpinnerAdapter spinnerAdapter = spinner.getAdapter();
-				if (spinnerAdapter != null && spinnerAdapter.getCount() > 1) {
-					spinner.setSelection(1, true);
-				} else {
-					spinner.setSelection(0, true);
-				}
-			}
-		}
+		spinner.setSelection(position, true);
 	}
 
-	private class SpinnerAdapterWrapper implements SpinnerAdapter {
+	private void showNewMessageDialog(final Spinner spinner) {
+		final Context context = spinner.getContext();
+		BrickTextDialog editDialog = new BrickTextDialog() {
 
-		protected Context context;
-		protected Spinner spinner;
-		protected ArrayAdapter<String> spinnerAdapter;
-
-		private boolean isTouchInDropDownView;
-
-		public SpinnerAdapterWrapper(Context context, Spinner spinner, ArrayAdapter<String> spinnerAdapter) {
-			this.context = context;
-			this.spinner = spinner;
-			this.spinnerAdapter = spinnerAdapter;
-
-			this.isTouchInDropDownView = false;
-		}
-
-		@Override
-		public void registerDataSetObserver(DataSetObserver paramDataSetObserver) {
-			spinnerAdapter.registerDataSetObserver(paramDataSetObserver);
-		}
-
-		@Override
-		public void unregisterDataSetObserver(DataSetObserver paramDataSetObserver) {
-			spinnerAdapter.unregisterDataSetObserver(paramDataSetObserver);
-		}
-
-		@Override
-		public int getCount() {
-			return spinnerAdapter.getCount();
-		}
-
-		@Override
-		public Object getItem(int paramInt) {
-			return spinnerAdapter.getItem(paramInt);
-		}
-
-		@Override
-		public long getItemId(int paramInt) {
-			String currentMessage = spinnerAdapter.getItem(paramInt).toString();
-			if (!currentMessage.equals(context.getString(R.string.new_broadcast_message))) {
-				oldMessage = currentMessage;
+			@Override
+			protected void initialize() {
 			}
-			return spinnerAdapter.getItemId(paramInt);
-		}
 
-		@Override
-		public boolean hasStableIds() {
-			return spinnerAdapter.hasStableIds();
-		}
-
-		@Override
-		public View getView(int paramInt, View paramView, ViewGroup paramViewGroup) {
-			if (isTouchInDropDownView) {
-				isTouchInDropDownView = false;
-				if (paramInt == 0) {
-					showNewMessageDialog();
-				}
-			}
-			return spinnerAdapter.getView(paramInt, paramView, paramViewGroup);
-		}
-
-		@Override
-		public int getItemViewType(int paramInt) {
-			return spinnerAdapter.getItemViewType(paramInt);
-		}
-
-		@Override
-		public int getViewTypeCount() {
-			return spinnerAdapter.getViewTypeCount();
-		}
-
-		@Override
-		public boolean isEmpty() {
-			return spinnerAdapter.isEmpty();
-		}
-
-		@Override
-		public View getDropDownView(int paramInt, View paramView, ViewGroup paramViewGroup) {
-			View dropDownView = spinnerAdapter.getDropDownView(paramInt, paramView, paramViewGroup);
-
-			dropDownView.setOnTouchListener(new OnTouchListener() {
-				@Override
-				public boolean onTouch(View paramView, MotionEvent paramMotionEvent) {
-					isTouchInDropDownView = true;
+			@Override
+			protected boolean handleOkButton() {
+				String newMessage = (input.getText().toString()).trim();
+				if (newMessage.isEmpty() || newMessage.equals(context.getString(R.string.new_broadcast_message))) {
+					dismiss();
 					return false;
 				}
-			});
 
-			return dropDownView;
-		}
+				receiveScript.setBroadcastMessage(newMessage);
+				MessageContainer.addMessage(newMessage);
+				setSpinnerSelection(spinner);
+				return true;
+			}
 
-		protected void showNewMessageDialog() {
-			BrickTextDialog editDialog = new BrickTextDialog() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				setSpinnerSelection(spinner);
+				super.onDismiss(dialog);
+			}
+		};
 
-				@Override
-				protected void initialize() {
-				}
+		editDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "dialog_broadcast_brick");
+	}
 
-				@Override
-				protected boolean handleOkButton() {
-					String newMessage = (input.getText().toString()).trim();
-					if (newMessage.length() == 0
-							|| newMessage.equals(context.getString(R.string.new_broadcast_message))) {
-						dismiss();
-						return false;
-					}
-
-					receiveScript.setBroadcastMessage(newMessage);
-					oldMessage = newMessage;
-					setSpinnerSelection(spinner);
-
-					return true;
-				}
-
-				@Override
-				public void onDismiss(DialogInterface dialog) {
-					setSpinnerSelection(spinner);
-					super.onDismiss(dialog);
-				}
-			};
-
-			editDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "dialog_broadcast_brick");
-		}
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		return null;
 	}
 }

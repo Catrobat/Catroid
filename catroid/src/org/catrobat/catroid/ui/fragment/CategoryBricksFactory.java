@@ -111,9 +111,12 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new WhenStartedBrick(sprite, null));
 		controlBrickList.add(new WhenBrick(sprite, null));
 		controlBrickList.add(new WaitBrick(sprite, BrickValues.WAIT));
+
+		final String broadcastMessage = MessageContainer.getMessageAdapter(context).getItem(1);
 		controlBrickList.add(new BroadcastReceiverBrick(sprite, new BroadcastScript(sprite)));
-		controlBrickList.add(new BroadcastBrick(sprite, MessageContainer.getMessageAdapter(context).getItem(1)));
-		controlBrickList.add(new BroadcastWaitBrick(sprite));
+		controlBrickList.add(new BroadcastBrick(sprite, broadcastMessage));
+		controlBrickList.add(new BroadcastWaitBrick(sprite, broadcastMessage));
+
 		controlBrickList.add(new NoteBrick(sprite, context.getString(R.string.brick_note_default_value)));
 		controlBrickList.add(new ForeverBrick(sprite));
 		controlBrickList.add(new IfLogicBeginBrick(sprite, 0));

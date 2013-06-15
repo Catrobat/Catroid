@@ -68,9 +68,8 @@ public class BroadcastActionTest extends AndroidTestCase {
 	public void testBroadcastWait() {
 		Sprite sprite = new Sprite("spriteOne");
 		Script scriptWait = new StartScript(sprite);
-		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite);
 		String message = "waitTest";
-		broadcastWaitBrick.setSelectedMessage(message);
+		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite, message);
 		int testPosition = 100;
 		SetXBrick setXBrick = new SetXBrick(sprite, testPosition);
 		scriptWait.addBrick(broadcastWaitBrick);
