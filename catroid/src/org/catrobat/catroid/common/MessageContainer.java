@@ -109,7 +109,10 @@ public class MessageContainer {
 		return messageAdapter;
 	}
 
-	public static int getPositionOfMessageInAdapter(String message) {
+	public static int getPositionOfMessageInAdapter(Context context, String message) {
+		if (messageAdapter == null) {
+			getMessageAdapter(context);
+		}
 		return messageAdapter.getPosition(message);
 	}
 

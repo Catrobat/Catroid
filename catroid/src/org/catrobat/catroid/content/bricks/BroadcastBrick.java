@@ -177,7 +177,7 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	}
 
 	private void setSpinnerSelection(Spinner spinner) {
-		int position = MessageContainer.getPositionOfMessageInAdapter(broadcastMessage);
+		int position = MessageContainer.getPositionOfMessageInAdapter(spinner.getContext(), broadcastMessage);
 		spinner.setSelection(position, true);
 	}
 

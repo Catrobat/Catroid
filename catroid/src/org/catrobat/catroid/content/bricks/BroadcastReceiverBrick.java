@@ -169,7 +169,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 	}
 
 	private void setSpinnerSelection(Spinner spinner) {
-		int position = MessageContainer.getPositionOfMessageInAdapter(getBroadcastMessage());
+		int position = MessageContainer.getPositionOfMessageInAdapter(spinner.getContext(), getBroadcastMessage());
 		spinner.setSelection(position, true);
 	}
 
