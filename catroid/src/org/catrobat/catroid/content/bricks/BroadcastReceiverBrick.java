@@ -129,7 +129,6 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 					showNewMessageDialog(broadcastSpinner);
 				} else {
 					receiveScript.setBroadcastMessage(selectedMessage);
-					setSpinnerSelection(broadcastSpinner);
 				}
 			}
 

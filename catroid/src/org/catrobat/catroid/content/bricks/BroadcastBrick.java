@@ -131,7 +131,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 					showNewMessageDialog(broadcastSpinner);
 				} else {
 					broadcastMessage = selectedMessage;
-					setSpinnerSelection(broadcastSpinner);
 					adapterView = parent;
 				}
 			}
