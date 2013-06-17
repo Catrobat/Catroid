@@ -99,7 +99,7 @@ public class MessageContainer {
 			messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			messageAdapter.add(context.getString(R.string.new_broadcast_message));
 			if (receiverMap.isEmpty()) {
-				addMessage(context.getString(R.string.brick_broadcast_default_value));
+				addMessage(getFirst(context));
 			} else {
 				for (String message : receiverMap.keySet()) {
 					addMessageToAdapter(message);
@@ -117,7 +117,7 @@ public class MessageContainer {
 	}
 
 	public static String getFirst(Context context) {
-		return getMessageAdapter(context).getItem(1);
+		return context.getString(R.string.brick_broadcast_default_value);
 	}
 
 	public static void removeUnusedMessages(List<String> usedMessages) {

@@ -34,7 +34,7 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 public class BroadcastScript extends Script implements BroadcastMessage {
 
 	private static final long serialVersionUID = 1L;
-	private String broadcastMessage;
+	private String receivedMessage;
 
 	public BroadcastScript(Sprite sprite, String broadcastMessage) {
 		super(sprite);
@@ -52,26 +52,26 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 
 	@Override
 	protected Object readResolve() {
-		MessageContainer.addMessage(broadcastMessage, this);
+		MessageContainer.addMessage(receivedMessage, this);
 		super.readResolve();
 		return this;
 	}
 
 	@Override
 	public String getBroadcastMessage() {
-		return broadcastMessage;
+		return receivedMessage;
 	}
 
 	public void setBroadcastMessage(String broadcastMessage) {
-		MessageContainer.removeReceiverScript(this.broadcastMessage, this);
-		this.broadcastMessage = broadcastMessage;
-		MessageContainer.addMessage(this.broadcastMessage, this);
+		MessageContainer.removeReceiverScript(this.receivedMessage, this);
+		this.receivedMessage = broadcastMessage;
+		MessageContainer.addMessage(this.receivedMessage, this);
 
 	}
 
 	@Override
 	public Script copyScriptForSprite(Sprite copySprite) {
-		BroadcastScript cloneScript = new BroadcastScript(copySprite, broadcastMessage);
+		BroadcastScript cloneScript = new BroadcastScript(copySprite, receivedMessage);
 		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
 
 		for (Brick brick : getBrickList()) {
