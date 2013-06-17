@@ -66,6 +66,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.view.View;
@@ -243,10 +244,17 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.waitForActivity(ScriptActivity.class);
 
 		solo.sleep(500);
-		Spinner setVariableBrick1Spinner = solo.getCurrentViews(Spinner.class).get(0);
-		Spinner setVariableBrick2Spinner = solo.getCurrentViews(Spinner.class).get(1);
-		Spinner changeVariableBrick1Spinner = solo.getCurrentViews(Spinner.class).get(2);
-		Spinner changeVariableBrick2Spinner = solo.getCurrentViews(Spinner.class).get(3);
+
+		int spinnerIndex = 1;
+
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+			spinnerIndex = 0;
+		}
+
+		Spinner setVariableBrick1Spinner = solo.getView(Spinner.class, spinnerIndex);
+		Spinner setVariableBrick2Spinner = solo.getView(Spinner.class, spinnerIndex + 1);
+		Spinner changeVariableBrick1Spinner = solo.getView(Spinner.class, spinnerIndex + 2);
+		Spinner changeVariableBrick2Spinner = solo.getView(Spinner.class, spinnerIndex + 3);
 
 		assertEquals("Wrong selection in first SetVariableBrick spinner!", firstUserVariableName,
 				((UserVariable) setVariableBrick1Spinner.getSelectedItem()).getName());
