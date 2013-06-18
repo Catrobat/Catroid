@@ -43,7 +43,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
-	private final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
+	private final int RESOURCE_IMAGE2 = org.catrobat.catroid.uitest.R.drawable.catroid_banzai;
 	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 	private final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
 	private Solo solo;

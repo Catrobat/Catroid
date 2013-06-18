@@ -715,7 +715,7 @@ public class UiTestUtils {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		Project project = new Project(context, projectName);
-		Sprite firstSprite = new Sprite(context.getString(R.string.default_project_sprites_pocketcode_name));
+		Sprite firstSprite = new Sprite(context.getString(R.string.default_project_sprites_mole_name));
 		Sprite secondSprite = new Sprite("second_sprite");
 
 		Script firstSpriteScript = new StartScript(firstSprite);
@@ -1405,5 +1405,9 @@ public class UiTestUtils {
 			Log.e("CATROID", throwable.getMessage());
 		}
 		solo.sleep(500);
+	}
+
+	public static void waitForText(Solo solo, String text) {
+		assertEquals("Text not found!", true, solo.waitForText(text, 0, 2000));
 	}
 }

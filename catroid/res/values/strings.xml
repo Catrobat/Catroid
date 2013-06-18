@@ -359,11 +359,12 @@
 
     <!-- defaultValues -->
     <string name="default_project_name">My first program</string>
-    <string name="default_project_sprites_pocketcode_name">Pocket Code</string>
-    <string name="default_project_sprites_pocketcode_normalcat">normalCat</string>
-    <string name="default_project_sprites_pocketcode_banzaicat">banzaiCat</string>
-    <string name="default_project_sprites_pocketcode_cheshirecat">cheshireCat</string>
-    <string name="default_project_backgroundname">background</string>
+    <string name="default_project_sprites_mole_name">Mole</string>
+    <string name="default_project_sprites_mole_whacked">Whacked mole</string>
+    <string name="default_project_sprites_mole_sound">Hit</string>
+    <string name="default_project_backgroundname">Background</string>
+    <string name="default_project_var_random_from">random from</string>
+    <string name="default_project_var_random_to">random to</string>
     <!--  -->
 
 

@@ -25,8 +25,8 @@ package org.catrobat.catroid.test.common;
 import java.io.IOException;
 
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.WhenScript;
@@ -53,13 +53,13 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 	}
 
 	public void testCreateStandardProject() throws IOException {
-		ScreenValues.SCREEN_WIDTH = 500;
-		ScreenValues.SCREEN_HEIGHT = 1000;
+		ScreenValues.SCREEN_WIDTH = 720;
+		ScreenValues.SCREEN_HEIGHT = 1134;
 
 		Project testProject = StandardProjectHandler.createAndSaveStandardProject(testProjectName, getContext());
 
 		assertEquals("The Project has the wrong name.", testProjectName, testProject.getName());
-		assertEquals("wrong number of sprites.", 2, testProject.getSpriteList().size());
+		assertEquals("wrong number of sprites.", 5, testProject.getSpriteList().size());
 
 		int backgroundSpriteIndex = 0;
 		int backgroundLookDataIndex = 0;
@@ -74,12 +74,15 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 		int catroidOnTouchScriptIndex = 1;
 		Script whenScript = testProject.getSpriteList().get(catroidSpriteIndex).getScript(catroidOnTouchScriptIndex);
 		assertTrue("not a when script", whenScript instanceof WhenScript);
-		assertEquals("wrong number of bricks in the touch script", 5, whenScript.getBrickList().size());
+		assertEquals("wrong number of bricks in the touch script", 4, whenScript.getBrickList().size());
 
-		for (int cat_number = 0; cat_number < 3; ++cat_number) {
-			LookData catLookData = testProject.getSpriteList().get(catroidSpriteIndex).getLookDataList()
-					.get(cat_number);
-			assertEquals("wrong size of cat image", ScreenValues.SCREEN_WIDTH / 3, catLookData.getMeasure()[0]);
+		for (catroidSpriteIndex = 1; catroidSpriteIndex <= 4; catroidSpriteIndex++) {
+			for (int moleNumber = 0; moleNumber < 3; ++moleNumber) {
+				LookData catLookData = testProject.getSpriteList().get(catroidSpriteIndex).getLookDataList()
+						.get(moleNumber);
+				assertEquals("wrong size of mole image", 720, catLookData.getMeasure()[0]);
+				assertEquals("wrong size of mole image", 542, catLookData.getMeasure()[1]);
+			}
 		}
 
 	}

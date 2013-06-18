@@ -56,7 +56,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private static final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
-	private static final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
+	private static final int RESOURCE_IMAGE2 = org.catrobat.catroid.uitest.R.drawable.catroid_banzai;
 	private static final int RESOURCE_IMAGE3 = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses_jpg;
 	private static final int VISIBLE = View.VISIBLE;
 	private static final int GONE = View.GONE;
@@ -119,7 +119,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				RESOURCE_IMAGE3, getActivity(), UiTestUtils.FileTypes.IMAGE);
 
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testFile.png",
-				R.drawable.catroid_banzai, getActivity());
+				org.catrobat.catroid.uitest.R.drawable.catroid_banzai, getActivity());
 
 		lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());

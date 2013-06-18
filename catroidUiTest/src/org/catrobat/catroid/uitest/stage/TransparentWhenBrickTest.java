@@ -74,7 +74,7 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
+		//UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 		solo = null;
 	}
@@ -144,10 +144,10 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 		assertTrue("Sprite fish is not the foreground sprite", fish.look.getZIndex() > cat.look.getZIndex());
 		UiTestUtils.clickOnStageCoordinates(solo, 0, 0, screenWidth, screenHeight);
 		solo.sleep(1000);
-		assertTrue("Sprite cat is at false position", cat.look.getXInUserInterfaceDimensionUnit() == catXPosition
-				&& cat.look.getYInUserInterfaceDimensionUnit() == catYPosition);
-		assertTrue("Sprite fish has moved",
-				fish.look.getXInUserInterfaceDimensionUnit() == 0 && fish.look.getYInUserInterfaceDimensionUnit() == 0);
+		assertEquals("Sprite cat is at false position", catXPosition, (int) cat.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Sprite cat is at false position", catYPosition, (int) cat.look.getYInUserInterfaceDimensionUnit());
+		assertEquals("Sprite fish has moved", 0, (int) fish.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Sprite fish has moved", 0, (int) fish.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	private void createProject() {
