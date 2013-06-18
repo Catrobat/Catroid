@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
@@ -56,6 +57,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -64,6 +66,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.view.View;
@@ -71,6 +74,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -181,6 +185,87 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		assertEquals("The local uservariable q does not exist after copying the sprite!", 0.0, q);
 		assertEquals("The local uservariable p does not exist after copying the sprite!", 0.0, p);
+	}
+
+	public void testUserVariableSelectionAfterCopySprite() {
+		Project project = new Project(null, "testProject");
+
+		String firstUserVariableName = "p";
+		String secondUserVariableName = "q";
+
+		Sprite firstSprite = new Sprite("firstSprite");
+		Sprite secondSprite = new Sprite("Pocket Code");
+		project.addSprite(firstSprite);
+		project.addSprite(secondSprite);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(secondSprite);
+
+		ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.addSpriteUserVariable(firstUserVariableName);
+		ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.addProjectUserVariable(secondUserVariableName);
+
+		Double setVariable1ToValue = Double.valueOf(3d);
+		Double setVariable2ToValue = Double.valueOf(8d);
+
+		SetVariableBrick setVariableBrick1 = new SetVariableBrick(secondSprite, new Formula(setVariable1ToValue),
+				ProjectManager.getInstance().getCurrentProject().getUserVariables()
+						.getUserVariable(firstUserVariableName, secondSprite));
+
+		SetVariableBrick setVariableBrick2 = new SetVariableBrick(secondSprite, new Formula(setVariable2ToValue),
+				ProjectManager.getInstance().getCurrentProject().getUserVariables()
+						.getUserVariable(secondUserVariableName, secondSprite));
+
+		ChangeVariableBrick changeVariableBrick1 = new ChangeVariableBrick(secondSprite, new Formula(
+				setVariable1ToValue), ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable(firstUserVariableName, secondSprite));
+
+		ChangeVariableBrick changeVariableBrick2 = new ChangeVariableBrick(secondSprite, new Formula(
+				setVariable2ToValue), ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable(secondUserVariableName, secondSprite));
+
+		Script startScript1 = new StartScript(secondSprite);
+		secondSprite.addScript(startScript1);
+		startScript1.addBrick(setVariableBrick1);
+		startScript1.addBrick(setVariableBrick2);
+		startScript1.addBrick(changeVariableBrick1);
+		startScript1.addBrick(changeVariableBrick2);
+
+		solo.clickOnButton(0);
+
+		solo.sleep(200);
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
+		solo.sleep(200);
+		assertEquals("Copy is not in context menu!", true, solo.searchText(getActivity().getString(R.string.copy)));
+		solo.clickOnText(getActivity().getString(R.string.copy));
+		solo.sleep(200);
+
+		Sprite copiedSprite = project.getSpriteList().get(2);
+		solo.clickOnText(copiedSprite.getName());
+		solo.clickOnText(solo.getString(R.string.scripts));
+		solo.waitForActivity(ScriptActivity.class);
+
+		solo.sleep(500);
+
+		int spinnerIndex = 1;
+
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+			spinnerIndex = 0;
+		}
+
+		Spinner setVariableBrick1Spinner = solo.getView(Spinner.class, spinnerIndex);
+		Spinner setVariableBrick2Spinner = solo.getView(Spinner.class, spinnerIndex + 1);
+		Spinner changeVariableBrick1Spinner = solo.getView(Spinner.class, spinnerIndex + 2);
+		Spinner changeVariableBrick2Spinner = solo.getView(Spinner.class, spinnerIndex + 3);
+
+		assertEquals("Wrong selection in first SetVariableBrick spinner!", firstUserVariableName,
+				((UserVariable) setVariableBrick1Spinner.getSelectedItem()).getName());
+		assertEquals("Wrong selection in second SetVariableBrick spinner!", secondUserVariableName,
+				((UserVariable) setVariableBrick2Spinner.getSelectedItem()).getName());
+		assertEquals("Wrong selection in first ChangeVariableBrick spinner!", firstUserVariableName,
+				((UserVariable) changeVariableBrick1Spinner.getSelectedItem()).getName());
+		assertEquals("Wrong selection in second ChangeVariableBrick spinner!", secondUserVariableName,
+				((UserVariable) changeVariableBrick2Spinner.getSelectedItem()).getName());
 	}
 
 	public void testCopySpriteWithNameTaken() {
