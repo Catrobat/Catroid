@@ -124,9 +124,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	private ActionMode actionMode;
 
-	private String pocketPaintIntentApplicationName = "org.catrobat.paintroid";
-	private String pocketPaintIntentActivityName = "org.catrobat.paintroid.MainActivity";
-
 	private boolean isRenameActionMode;
 	private boolean isResultHandled = false;
 
@@ -387,7 +384,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	public void addLookDrawNewImage() {
 		Intent intent = new Intent("android.intent.action.MAIN");
-		intent.setComponent(new ComponentName(pocketPaintIntentApplicationName, pocketPaintIntentActivityName));
+		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
+				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
 
 		if (!checkIfPocketPaintIsInstalled(intent)) {
 			return;
@@ -738,7 +736,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	private void sendPocketPaintIntent(int selected_position) {
 		Intent intent = new Intent("android.intent.action.MAIN");
-		intent.setComponent(new ComponentName(pocketPaintIntentApplicationName, pocketPaintIntentActivityName));
+		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
+				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
 
 		if (!checkIfPocketPaintIsInstalled(intent)) {
 			return;

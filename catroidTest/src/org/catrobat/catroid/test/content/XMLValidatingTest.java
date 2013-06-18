@@ -68,7 +68,6 @@ public class XMLValidatingTest extends AndroidTestCase {
 		TestUtils.clearProject(testProjectName);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void testSerializeProjectWithAllBricks() throws IllegalArgumentException, IllegalAccessException,
 			InvocationTargetException, IOException, JSONException {
 

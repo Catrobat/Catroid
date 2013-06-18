@@ -23,8 +23,8 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.catrobat.catroid.uitest"
-    android:versionCode="2147483646"
-    android:versionName="0.7.3beta" >
+    android:versionCode="2"
+    android:versionName="0.8.1" >
 
     <uses-sdk
         android:minSdkVersion="9"

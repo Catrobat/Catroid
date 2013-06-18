@@ -221,12 +221,7 @@
     <string name="action_swipeDown">"スワイプダウン"</string>
     <!-- defaultValues -->
     <string name="default_project_name">"私の最初のプロジェクト"</string>
-    <string name="default_project_sprites_pocketcode_name">"キャットロイド"</string>
-    <string name="default_project_sprites_pocketcode_normalcat">"ネコ"</string>
-    <string name="default_project_sprites_pocketcode_banzaicat">"万歳ネコ"</string>
-    <string name="default_project_sprites_pocketcode_cheshirecat">"チェシャーネコ"</string>
     <string name="default_project_backgroundname">"背景"</string>
-    <string name="default_project_backgroundcolor">"#604fff"</string>
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">"値を入力してください"</string>
     <string name="notification_screenshot_ok">"スクリーン ショットが保存した"</string>
