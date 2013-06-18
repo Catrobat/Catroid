@@ -57,7 +57,7 @@
             android:contentDescription="@string/look"
             android:scaleType="centerCrop"
             android:cropToPadding="true"
-            android:src="@drawable/catroid_banzai" />
+            android:src="@drawable/default_project_mole_whacked" />
 
         <LinearLayout
             android:layout_width="match_parent"

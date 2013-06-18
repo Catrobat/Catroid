@@ -22,12 +22,9 @@
  */
 package org.catrobat.catroid.pocketcode.common;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 import org.catrobat.catroid.pocketcode.ProjectManager;
-import org.catrobat.catroid.pocketcode.content.Sprite;
-import org.catrobat.catroid.pocketcode.io.StorageHandler;
 import org.catrobat.catroid.pocketcode.utils.ImageEditing;
 import org.catrobat.catroid.pocketcode.utils.Utils;
 
@@ -67,21 +64,6 @@ public class LookData implements Serializable, Cloneable {
 		pixmap = null;
 		originalPixmap = null;
 		region = null;
-	}
-
-	public LookData copyLookDataForSprite(Sprite sprite) {
-		LookData cloneLookData = new LookData();
-
-		cloneLookData.name = this.name;
-
-		try {
-			cloneLookData.fileName = StorageHandler.getInstance()
-					.duplicateImage(ProjectManager.INSTANCE.getCurrentProject().getName(), fileName).getName();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return cloneLookData;
 	}
 
 	public TextureRegion getTextureRegion() {

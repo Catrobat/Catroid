@@ -383,12 +383,6 @@ public class StorageHandler {
 		}
 	}
 
-	public File duplicateImage(String currentProjectName, String imageName) throws IOException {
-		File imageDirectory = new File(Utils.buildPath(Utils.buildProjectPath(currentProjectName),
-				Constants.IMAGE_DIRECTORY));
-		return copyImage(currentProjectName, Utils.buildPath(imageDirectory.getAbsolutePath(), imageName), null);
-	}
-
 	private File copyAndResizeImage(File outputFile, File inputFile, File imageDirectory) throws IOException {
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(inputFile.getAbsolutePath(),

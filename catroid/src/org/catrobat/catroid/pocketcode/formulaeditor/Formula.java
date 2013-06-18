@@ -59,19 +59,31 @@ public class Formula implements Serializable {
 	}
 
 	public Formula(Integer value) {
-		formulaTree = new FormulaElement(ElementType.NUMBER, value.toString(), null);
-		internFormula = new InternFormula(formulaTree.getInternTokenList());
-
-	}
-
-	public Formula(Double value) {
-		formulaTree = new FormulaElement(ElementType.NUMBER, value.toString(), null);
-		internFormula = new InternFormula(formulaTree.getInternTokenList());
+		if (value < 0) {
+			formulaTree = new FormulaElement(ElementType.OPERATOR, Operators.MINUS.toString(), null);
+			formulaTree.setRightChild(new FormulaElement(ElementType.NUMBER, Long.toString(Math.abs((long) value)),
+					formulaTree));
+			internFormula = new InternFormula(formulaTree.getInternTokenList());
+		} else {
+			formulaTree = new FormulaElement(ElementType.NUMBER, value.toString(), null);
+			internFormula = new InternFormula(formulaTree.getInternTokenList());
+		}
 	}
 
 	public Formula(Float value) {
-		formulaTree = new FormulaElement(ElementType.NUMBER, value.toString(), null);
-		internFormula = new InternFormula(formulaTree.getInternTokenList());
+		this(Double.valueOf(value));
+	}
+
+	public Formula(Double value) {
+		if (value < 0) {
+			formulaTree = new FormulaElement(ElementType.OPERATOR, Operators.MINUS.toString(), null);
+			formulaTree.setRightChild(new FormulaElement(ElementType.NUMBER, Double.toString(Math.abs(value)),
+					formulaTree));
+			internFormula = new InternFormula(formulaTree.getInternTokenList());
+		} else {
+			formulaTree = new FormulaElement(ElementType.NUMBER, value.toString(), null);
+			internFormula = new InternFormula(formulaTree.getInternTokenList());
+		}
 	}
 
 	public boolean interpretBoolean(Sprite sprite) {

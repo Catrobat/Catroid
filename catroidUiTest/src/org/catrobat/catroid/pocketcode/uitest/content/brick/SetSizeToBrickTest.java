@@ -108,6 +108,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<MainMen
 
 		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 
+		solo.sleep(400);
+
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.stage_dialog_screenshot));
 

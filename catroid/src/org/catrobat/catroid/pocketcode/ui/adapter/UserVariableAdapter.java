@@ -100,7 +100,7 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 
 	public int getPositionOfItem(UserVariable item) {
 		for (int i = 0; i < getCount(); i++) {
-			if (getItem(i) == item) {
+			if (getItem(i).getName().equals(item.getName())) {
 				return i;
 			}
 		}
