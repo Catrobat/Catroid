@@ -234,7 +234,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(0);
 
 		solo.sleep(200);
-		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_pocketcode_name));
+		solo.clickLongOnText("Pocket Code");
 		solo.sleep(200);
 		assertEquals("Copy is not in context menu!", true, solo.searchText(getActivity().getString(R.string.copy)));
 		solo.clickOnText(getActivity().getString(R.string.copy));
