@@ -50,11 +50,16 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 	private static final long serialVersionUID = 1L;
 
 	private BroadcastScript receiveScript;
+	private transient String broadcastMessage;
+
+	public BroadcastReceiverBrick(Sprite sprite, String broadcastMessage) {
+		this.sprite = sprite;
+		this.broadcastMessage = broadcastMessage;
+	}
 
 	public BroadcastReceiverBrick(Sprite sprite, BroadcastScript receiveScript) {
 		this.sprite = sprite;
 		this.receiveScript = receiveScript;
-		MessageContainer.addMessage(receiveScript.getBroadcastMessage());
 	}
 
 	@Override
@@ -77,6 +82,9 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 
 	@Override
 	public String getBroadcastMessage() {
+		if (receiveScript == null) {
+			return broadcastMessage;
+		}
 		return receiveScript.getBroadcastMessage();
 	}
 
@@ -87,6 +95,10 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 		}
 		if (view == null) {
 			alphaValue = 255;
+		}
+		if (receiveScript == null) {
+			receiveScript = new BroadcastScript(sprite, broadcastMessage);
+			MessageContainer.addMessage(getBroadcastMessage());
 		}
 
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
@@ -129,6 +141,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 					showNewMessageDialog(broadcastSpinner);
 				} else {
 					receiveScript.setBroadcastMessage(selectedMessage);
+					broadcastMessage = selectedMessage;
 				}
 			}
 
@@ -188,8 +201,9 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 					return false;
 				}
 
-				MessageContainer.addMessage(newMessage);
 				receiveScript.setBroadcastMessage(newMessage);
+				broadcastMessage = newMessage;
+				MessageContainer.addMessage(newMessage);
 				setSpinnerSelection(spinner);
 				return true;
 			}

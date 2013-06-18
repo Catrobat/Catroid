@@ -127,5 +127,16 @@ public class MessageContainer {
 		for (String message : usedMessages) {
 			addMessage(message);
 		}
+
+		if (messageAdapter != null) {
+			Context context = messageAdapter.getContext();
+			for (int index = 0; index < messageAdapter.getCount(); index++) {
+				String message = messageAdapter.getItem(index);
+				if (!message.equals(context.getString(R.string.new_broadcast_message))
+						&& !usedMessages.contains(message)) {
+					messageAdapter.remove(message);
+				}
+			}
+		}
 	}
 }
