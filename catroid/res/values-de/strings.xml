@@ -139,6 +139,9 @@
     <string name="sound_time_seperator">/</string>
     <string name="delete_sound_dialog">Klang löschen?</string>
     <string name="length">Länge:</string>
+    <string name="dialog_confirm_delete_sound_title">Diesen Klang löschen?</string>
+    <string name="dialog_confirm_delete_multiple_sounds_title">Diese Klänge löschen?</string>
+    <string name="dialog_confirm_delete_sound_message">Kann nicht rückgängig gemacht werden!</string>
     <!--  -->
 
 

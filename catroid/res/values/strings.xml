@@ -140,6 +140,9 @@
     <string name="sound_time_seperator">/</string>
     <string name="delete_sound_dialog">Delete sound?</string>
     <string name="length">Length:</string>
+    <string name="dialog_confirm_delete_sound_title">Delete this sound?</string>
+    <string name="dialog_confirm_delete_multiple_sounds_title">Delete these sounds?</string>
+    <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
     <!--  -->
 
 
