@@ -817,7 +817,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				int position = iterator.next();
 				copyLook(position);
 			}
-			clearCheckedSpritesAndEnableButtons();
+			clearCheckedLooksAndEnableButtons();
 		}
 	};
 
@@ -853,7 +853,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				selectedLookData = (LookData) listView.getItemAtPosition(position);
 				showRenameDialog();
 			}
-			clearCheckedSpritesAndEnableButtons();
+			clearCheckedLooksAndEnableButtons();
 		}
 	};
 
@@ -886,7 +886,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 			if (adapter.getAmountOfCheckedItems() == 0) {
-				clearCheckedSpritesAndEnableButtons();
+				clearCheckedLooksAndEnableButtons();
 			} else {
 				showConfirmDeleteDialog();
 			}
@@ -924,7 +924,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				int position = iterator.next();
 				sendPocketPaintIntent(position);
 			}
-			clearCheckedSpritesAndEnableButtons();
+			clearCheckedLooksAndEnableButtons();
 		}
 	};
 
@@ -967,14 +967,14 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				deleteCheckedLooks();
-				clearCheckedSpritesAndEnableButtons();
+				clearCheckedLooksAndEnableButtons();
 			}
 		});
 		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
-				clearCheckedSpritesAndEnableButtons();
+				clearCheckedLooksAndEnableButtons();
 			}
 		});
 
@@ -982,7 +982,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		alertDialog.show();
 	}
 
-	private void clearCheckedSpritesAndEnableButtons() {
+	private void clearCheckedLooksAndEnableButtons() {
 		setSelectMode(ListView.CHOICE_MODE_NONE);
 		adapter.clearCheckedItems();
 
