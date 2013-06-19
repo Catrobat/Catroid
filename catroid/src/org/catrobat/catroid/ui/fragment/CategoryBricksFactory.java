@@ -28,7 +28,7 @@ import java.util.List;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -110,9 +110,12 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new WhenStartedBrick(sprite, null));
 		controlBrickList.add(new WhenBrick(sprite, null));
 		controlBrickList.add(new WaitBrick(sprite, BrickValues.WAIT));
-		controlBrickList.add(new BroadcastReceiverBrick(sprite, new BroadcastScript(sprite)));
-		controlBrickList.add(new BroadcastBrick(sprite));
-		controlBrickList.add(new BroadcastWaitBrick(sprite));
+
+		final String broadcastMessage = MessageContainer.getFirst(context);
+		controlBrickList.add(new BroadcastReceiverBrick(sprite, broadcastMessage));
+		controlBrickList.add(new BroadcastBrick(sprite, broadcastMessage));
+		controlBrickList.add(new BroadcastWaitBrick(sprite, broadcastMessage));
+
 		controlBrickList.add(new NoteBrick(sprite, context.getString(R.string.brick_note_default_value)));
 		controlBrickList.add(new ForeverBrick(sprite));
 		controlBrickList.add(new IfLogicBeginBrick(sprite, 0));

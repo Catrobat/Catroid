@@ -31,18 +31,14 @@ import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 
-public class BroadcastScript extends Script {
+public class BroadcastScript extends Script implements BroadcastMessage {
 
 	private static final long serialVersionUID = 1L;
-	private String receivedMessage = "";
+	private String receivedMessage;
 
-	public BroadcastScript(Sprite sprite) {
+	public BroadcastScript(Sprite sprite, String broadcastMessage) {
 		super(sprite);
-	}
-
-	public BroadcastScript(Sprite sprite, BroadcastReceiverBrick brick) {
-		this(sprite);
-		this.brick = brick;
+		setBroadcastMessage(broadcastMessage);
 	}
 
 	@Override
@@ -56,28 +52,27 @@ public class BroadcastScript extends Script {
 
 	@Override
 	protected Object readResolve() {
-		if (receivedMessage != null && receivedMessage.length() != 0) {
-			MessageContainer.addMessage(receivedMessage, this);
-		}
+		MessageContainer.addMessage(receivedMessage, this);
 		super.readResolve();
 		return this;
 	}
 
-	public void setBroadcastMessage(String selectedMessage) {
-		MessageContainer.deleteReceiverScript(this.receivedMessage, this);
-		this.receivedMessage = selectedMessage;
-		MessageContainer.addMessage(this.receivedMessage, this);
+	@Override
+	public String getBroadcastMessage() {
+		return receivedMessage;
 	}
 
-	public String getBroadcastMessage() {
-		return this.receivedMessage;
+	public void setBroadcastMessage(String broadcastMessage) {
+		MessageContainer.removeReceiverScript(this.receivedMessage, this);
+		this.receivedMessage = broadcastMessage;
+		MessageContainer.addMessage(this.receivedMessage, this);
+
 	}
 
 	@Override
 	public Script copyScriptForSprite(Sprite copySprite) {
-		BroadcastScript cloneScript = new BroadcastScript(copySprite);
+		BroadcastScript cloneScript = new BroadcastScript(copySprite, receivedMessage);
 		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
-		cloneScript.receivedMessage = receivedMessage;
 
 		for (Brick brick : getBrickList()) {
 			Brick copiedBrick = brick.copyBrickForSprite(copySprite, cloneScript);
