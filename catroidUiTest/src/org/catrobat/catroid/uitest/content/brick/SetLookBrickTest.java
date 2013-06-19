@@ -72,7 +72,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		UiTestUtils.clearAllUtilTestProjects();
 
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/" + testFile + ".png",
-				R.drawable.catroid_banzai, getActivity());
+				org.catrobat.catroid.uitest.R.drawable.catroid_banzai, getActivity());
 
 		createProject();
 

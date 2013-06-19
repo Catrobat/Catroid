@@ -231,13 +231,6 @@
     <string name="action_swipeDown">"아래쪽으로 밀기"</string>
     <!-- defaultValues -->
     <string name="default_project_name">"내 첫 프로젝트"</string>
-    <string name="default_project_sprites_pocketcode_name">"Catroid"</string>
-    <string name="default_project_sprites_pocketcode_normalcat">"normalCat"</string>
-    <string name="default_project_sprites_pocketcode_banzaicat">"banzaiCat"</string>
-    <string name="default_project_sprites_pocketcode_cheshirecat">"cheshireCat"</string>
-    <string name="default_project_backgroundname">"  \"background\": {
-"</string>
-    <string name="default_project_backgroundcolor">"# 604fff"</string>
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">"값을 입력하십시오"</string>
     <string name="notification_screenshot_ok">"스크린샷이 저장되었습니다."</string>

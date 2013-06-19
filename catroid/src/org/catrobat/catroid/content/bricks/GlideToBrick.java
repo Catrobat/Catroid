@@ -74,6 +74,14 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener {
 		this.durationInSeconds = durationInSeconds;
 	}
 
+	public void setXDestination(Formula xDestination) {
+		this.xDestination = xDestination;
+	}
+
+	public void setYDestination(Formula yDestination) {
+		this.yDestination = yDestination;
+	}
+
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;

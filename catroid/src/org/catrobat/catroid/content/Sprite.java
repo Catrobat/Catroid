@@ -120,7 +120,7 @@ public class Sprite implements Serializable, Cloneable {
 
 		ArrayList<LookData> cloneLookList = new ArrayList<LookData>();
 		for (LookData element : this.lookList) {
-			cloneLookList.add(element.copyLookDataForSprite(cloneSprite));
+			cloneLookList.add(element.clone());
 		}
 		cloneSprite.lookList = cloneLookList;
 
