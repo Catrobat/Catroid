@@ -1305,8 +1305,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		// temporarily removed - should be added when displaying projectdescription
 		//		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
 		//		assertTrue("description is not shown in activity", solo.searchText("ultricies"));
-		assertEquals("The project is not first in list", ((ProjectData) (solo.getCurrentViews(ListView.class).get(0)
-				.getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME1);
+		assertEquals("The project is not first in list", UiTestUtils.PROJECTNAME1, ((ProjectData) (solo
+				.getCurrentViews(ListView.class).get(0).getAdapter().getItem(0))).projectName);
 
 		solo.waitForText(UiTestUtils.PROJECTNAME1);
 		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1);

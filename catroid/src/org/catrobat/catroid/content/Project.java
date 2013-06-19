@@ -24,7 +24,6 @@ package org.catrobat.catroid.content;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
@@ -32,9 +31,6 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BroadcastBrick;
-import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
-import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.utils.Utils;
 
@@ -161,35 +157,29 @@ public class Project implements Serializable {
 	}
 
 	public void removeUnusedBroadcastMessages() {
-		List<String> usedMessages = new LinkedList<String>();
-		List<Sprite> spriteList = getSpriteList();
-		if (spriteList != null) {
-			for (Sprite currentSprite : spriteList) {
-				for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); scriptIndex++) {
-					Script currentScript = currentSprite.getScript(scriptIndex);
-					for (int brickIndex = 0; brickIndex < currentScript.getBrickList().size(); brickIndex++) {
-						Brick currentBrick = currentScript.getBrick(brickIndex);
-						if (currentBrick instanceof BroadcastReceiverBrick) {
-							usedMessages = addMessageToList(
-									((BroadcastReceiverBrick) currentBrick).getBroadcastMessage(), usedMessages);
-						} else if (currentBrick instanceof BroadcastBrick) {
-							usedMessages = addMessageToList(((BroadcastBrick) currentBrick).getBroadcastMessage(),
-									usedMessages);
-						} else if (currentBrick instanceof BroadcastWaitBrick) {
-							usedMessages = addMessageToList(((BroadcastWaitBrick) currentBrick).getBroadcastMessage(),
-									usedMessages);
-						}
+		List<String> usedMessages = new ArrayList<String>();
+		for (Sprite currentSprite : spriteList) {
+			for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); scriptIndex++) {
+				Script currentScript = currentSprite.getScript(scriptIndex);
+				if (currentScript instanceof BroadcastMessage) {
+					addBroadcastMessage(((BroadcastMessage) currentScript).getBroadcastMessage(), usedMessages);
+				}
+
+				for (int brickIndex = 0; brickIndex < currentScript.getBrickList().size(); brickIndex++) {
+					Brick currentBrick = currentScript.getBrick(brickIndex);
+					if (currentBrick instanceof BroadcastMessage) {
+						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
 					}
 				}
 			}
 		}
-		MessageContainer.removeOtherMessages(usedMessages);
+		MessageContainer.removeUnusedMessages(usedMessages);
 	}
 
-	private List<String> addMessageToList(String message, List<String> list) {
-		if (message != null && !message.equals("") && !list.contains(message)) {
-			list.add(message);
+	private void addBroadcastMessage(String broadcastMessageToAdd, List<String> broadcastMessages) {
+		if (broadcastMessageToAdd != null && !broadcastMessageToAdd.isEmpty()
+				&& !broadcastMessages.contains(broadcastMessageToAdd)) {
+			broadcastMessages.add(broadcastMessageToAdd);
 		}
-		return list;
 	}
 }
