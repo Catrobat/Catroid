@@ -40,16 +40,14 @@ public class BroadcastActionTest extends AndroidTestCase {
 	public void testBroadcast() {
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript(sprite);
-		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);
 		String message = "simpleTest";
-		broadcastBrick.setSelectedMessage(message);
+		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite, message);
 		script.addBrick(broadcastBrick);
 		sprite.addScript(script);
 
-		BroadcastScript broadcastScript = new BroadcastScript(sprite);
+		BroadcastScript broadcastScript = new BroadcastScript(sprite, message);
 		int testPosition = 100;
 		SetXBrick testBrick = new SetXBrick(sprite, testPosition);
-		broadcastScript.setBroadcastMessage(message);
 		broadcastScript.addBrick(testBrick);
 		sprite.addScript(broadcastScript);
 
@@ -69,20 +67,18 @@ public class BroadcastActionTest extends AndroidTestCase {
 	public void testBroadcastWait() {
 		Sprite sprite = new Sprite("spriteOne");
 		Script scriptWait = new StartScript(sprite);
-		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite);
 		String message = "waitTest";
-		broadcastWaitBrick.setSelectedMessage(message);
+		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite, message);
 		int testPosition = 100;
 		SetXBrick setXBrick = new SetXBrick(sprite, testPosition);
 		scriptWait.addBrick(broadcastWaitBrick);
 		scriptWait.addBrick(setXBrick);
 		sprite.addScript(scriptWait);
 
-		BroadcastScript broadcastScript = new BroadcastScript(sprite);
+		BroadcastScript broadcastScript = new BroadcastScript(sprite, message);
 		WaitBrick waitBrick = new WaitBrick(sprite, 500);
 		int setTestPosition = 20;
 		SetXBrick setXBrick2 = new SetXBrick(sprite, setTestPosition);
-		broadcastScript.setBroadcastMessage(message);
 		broadcastScript.addBrick(waitBrick);
 		broadcastScript.addBrick(setXBrick2);
 		sprite.addScript(broadcastScript);

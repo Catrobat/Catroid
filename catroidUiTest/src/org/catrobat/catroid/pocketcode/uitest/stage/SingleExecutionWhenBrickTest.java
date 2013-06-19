@@ -139,8 +139,7 @@ public class SingleExecutionWhenBrickTest extends ActivityInstrumentationTestCas
 		StartScript blueStartScript = new StartScript(blueSprite);
 		SetLookBrick blueLookBrick = new SetLookBrick(blueSprite);
 		SetSizeToBrick blueSetSizeToBrick = new SetSizeToBrick(blueSprite, 200d);
-		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(blueSprite);
-		broadcastWaitBrick.setSelectedMessage(broadcastMessage);
+		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(blueSprite, broadcastMessage);
 		LookData blueLookData = new LookData();
 		String blueImageName = "blue_image.bmp";
 
@@ -178,11 +177,10 @@ public class SingleExecutionWhenBrickTest extends ActivityInstrumentationTestCas
 
 		greenSprite.addScript(greenStartScript);
 
-		greenBroadcastScript = new BroadcastScript(greenSprite);
+		greenBroadcastScript = new BroadcastScript(greenSprite, broadcastMessage);
 		WaitBrick waitBrick = new WaitBrick(greenSprite, 2000);
 
 		SetGhostEffectBrick greenSetGhostEffectBrick2 = new SetGhostEffectBrick(greenSprite, 100d);
-		greenBroadcastScript.setBroadcastMessage(broadcastMessage);
 		greenBroadcastScript.addBrick(waitBrick);
 		greenBroadcastScript.addBrick(greenSetGhostEffectBrick2);
 		greenSprite.addScript(greenBroadcastScript);

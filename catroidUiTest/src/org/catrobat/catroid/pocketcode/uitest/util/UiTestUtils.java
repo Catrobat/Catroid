@@ -509,8 +509,8 @@ public class UiTestUtils {
 
 		ArrayList<Brick> brickList = new ArrayList<Brick>();
 
-		brickList.add(new BroadcastBrick(firstSprite));
-		brickList.add(new BroadcastWaitBrick(firstSprite));
+		brickList.add(new BroadcastBrick(firstSprite, "broadcastMessage1"));
+		brickList.add(new BroadcastWaitBrick(firstSprite, "broadcastMessage2"));
 		brickList.add(new ChangeBrightnessByNBrick(firstSprite, 0));
 		brickList.add(new ChangeGhostEffectByNBrick(firstSprite, 0));
 		brickList.add(new ChangeSizeByNBrick(firstSprite, 0));
@@ -750,7 +750,7 @@ public class UiTestUtils {
 		brickList.add(new SpeakBrick(firstSprite, "Hallo"));
 
 		brickList.add(new WaitBrick(firstSprite, 19));
-		brickList.add(new BroadcastWaitBrick(firstSprite));
+		brickList.add(new BroadcastWaitBrick(firstSprite, "firstMessage"));
 		brickList.add(new NoteBrick(firstSprite));
 		LoopBeginBrick beginBrick = new ForeverBrick(firstSprite);
 		LoopEndBrick endBrick = new LoopEndBrick(firstSprite, beginBrick);
@@ -813,8 +813,7 @@ public class UiTestUtils {
 		}
 		firstSprite.addScript(firstSpriteScript);
 
-		BroadcastScript broadcastScript = new BroadcastScript(firstSprite);
-		broadcastScript.setBroadcastMessage("Hallo");
+		BroadcastScript broadcastScript = new BroadcastScript(firstSprite, "Hallo");
 		BroadcastReceiverBrick brickBroad = new BroadcastReceiverBrick(firstSprite, broadcastScript);
 		firstSprite.addScript(broadcastScript);
 		brickList.add(brickBroad);
