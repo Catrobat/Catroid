@@ -61,7 +61,7 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	protected Boolean doInBackground(Void... arg0) {
 		Context context = activity.getApplicationContext();
 		if (projectName != null) {
-			return ProjectManager.getInstance().loadProject(projectName, context, true);
+			return ProjectManager.getInstance().loadProject(projectName, context, false);
 		} else if (ProjectManager.INSTANCE.canLoadProject(context.getString(R.string.default_project_name))) {
 			return ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name), context,
 					false);
