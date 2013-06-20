@@ -199,9 +199,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		String projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
-		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName);
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this));
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		loadProjectTask.execute();
 	}
