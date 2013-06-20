@@ -236,15 +236,24 @@ public class FormulaElement implements Serializable {
 				return java.lang.Math.PI;
 
 			case MOD:
-				Double dividend = left;
-				Double divisor = rightChild.interpretRecursive(sprite);
+				double dividend = left;
+				double divisor = rightChild.interpretRecursive(sprite);
 
-				while (dividend < 0) {
-					dividend += java.lang.Math.abs(divisor);
+				if (dividend == 0 || divisor == 0) {
+					return dividend;
 				}
 
-				double remainder = dividend % divisor;
-				return remainder;
+				if (divisor > 0) {
+					while (dividend < 0) {
+						dividend += java.lang.Math.abs(divisor);
+					}
+				} else {
+					if (dividend > 0) {
+						return (dividend % divisor) + divisor;
+					}
+				}
+
+				return dividend % divisor;
 
 			case ARCSIN:
 				return java.lang.Math.toDegrees(Math.asin(left));
