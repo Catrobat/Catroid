@@ -37,6 +37,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.os.Build;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.EditText;
@@ -50,8 +51,10 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 	private Solo solo;
 	private Project project;
 
-	private static final int SECOND_BRICK_SPINNER_INDEX = 1;
-	private static final int THIRD_BRICK_SPINNER_INDEX = 2;
+	private static final int SECOND_BRICK_SPINNER_INDEX = (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) ? 1
+			: 2;
+	private static final int THIRD_BRICK_SPINNER_INDEX = (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) ? 2
+			: 3;
 
 	private static final int BROADCAST_RECEIVE_SPINNER_ID = R.id.brick_broadcast_receive_spinner;
 	private static final int BROADCAST_SPINNER_ID = R.id.brick_broadcast_spinner;
@@ -165,6 +168,7 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 
 		solo.clickLongOnText(solo.getString(R.string.brick_broadcast_receive));
 		solo.clickOnText(solo.getString(R.string.delete));
+		solo.clickOnButton(solo.getString(R.string.yes));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
 		assertEquals("Wrong selection", solo.getString(R.string.brick_broadcast_default_value),
