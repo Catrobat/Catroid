@@ -54,7 +54,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -279,7 +278,6 @@ public class Utils {
 
 	public static void loadProjectIfNeeded(Context context) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
-			ProgressDialog loadingDialog = ProgressDialog.show(context, "In progress", "Project will be loaded");
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 
@@ -291,7 +289,6 @@ public class Utils {
 			} else {
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
-			loadingDialog.dismiss();
 		}
 	}
 

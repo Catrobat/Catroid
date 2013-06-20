@@ -35,6 +35,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.io.LoadProjectTask;
+import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -74,7 +76,8 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
 public class ProjectsListFragment extends SherlockListFragment implements OnProjectRenameListener,
-		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnProjectCheckedListener {
+		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnProjectCheckedListener,
+		OnLoadProjectCompleteListener {
 
 	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsMyProjects";
@@ -209,21 +212,18 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				try {
-					if (!ProjectManager.getInstance().loadProject((adapter.getItem(position)).projectName,
-							getActivity(), true)) {
-						return; // error message already in ProjectManager
-								// loadProject
-					}
-				} catch (ClassCastException exception) {
-					Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
-					return;
-				}
-
-				Intent intent = new Intent(getActivity(), ProjectActivity.class);
-				getActivity().startActivity(intent);
+				LoadProjectTask loadProjectTask = new LoadProjectTask(getActivity(),
+						(adapter.getItem(position)).projectName);
+				loadProjectTask.setOnLoadProjectCompleteListener(parentFragment);
+				loadProjectTask.execute();
 			}
 		});
+	}
+
+	@Override
+	public void onLoadProjectSuccess() {
+		Intent intent = new Intent(getActivity(), ProjectActivity.class);
+		getActivity().startActivity(intent);
 	}
 
 	@Override

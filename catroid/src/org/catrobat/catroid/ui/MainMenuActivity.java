@@ -29,6 +29,8 @@ import java.util.concurrent.locks.Lock;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.io.LoadProjectTask;
+import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
@@ -63,7 +65,8 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener {
+public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener,
+		OnLoadProjectCompleteListener {
 
 	private String TYPE_FILE = "file";
 	private String TYPE_HTTP = "http";
@@ -196,7 +199,15 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		Utils.loadProjectIfNeeded(this);
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		String projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName);
+		loadProjectTask.setOnLoadProjectCompleteListener(this);
+		loadProjectTask.execute();
+	}
+
+	@Override
+	public void onLoadProjectSuccess() {
 		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
@@ -329,11 +340,16 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 		spannableStringBuilder.append(mainMenuContinue);
 		spannableStringBuilder.append("\n");
-		spannableStringBuilder.append(Utils.getCurrentProjectName(this));
+		String currentProjectName = Utils.getCurrentProjectName(this);
+		if (currentProjectName == null) {
+			currentProjectName = getString(R.string.default_project_name);
+		}
+		spannableStringBuilder.append(currentProjectName);
 
 		spannableStringBuilder.setSpan(textAppearanceSpan, mainMenuContinue.length() + 1,
 				spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
 		mainMenuButtonContinue.setText(spannableStringBuilder);
 	}
+
 }
