@@ -123,26 +123,27 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		UiTestUtils.clickOnHomeActionBarButton(solo);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		checkSpinnerTexts();
-		checkIfUnusedBroadcastMessagesAreRemoved(broadcastReceiverSpinnerId, broadcastMessage);
-		checkIfUnusedBroadcastMessagesAreRemoved(broadcastSpinnerId, broadcastMessage);
-		checkIfUnusedBroadcastMessagesAreRemoved(broadcastWaitSpinnerId, broadcastMessage);
+		checkCorrectSpinnerSelections();
+		checkIfUnusedBroadcastMessagesHaveBeenRemoved(broadcastReceiverSpinnerId, broadcastMessage);
+		checkIfUnusedBroadcastMessagesHaveBeenRemoved(broadcastSpinnerId, broadcastMessage);
+		checkIfUnusedBroadcastMessagesHaveBeenRemoved(broadcastWaitSpinnerId, broadcastMessage);
 	}
 
-	private void checkIfUnusedBroadcastMessagesAreRemoved(int spinnerId, String broadcastMessage) {
+	private void checkIfUnusedBroadcastMessagesHaveBeenRemoved(int spinnerId, String broadcastMessage) {
 		Spinner spinner = (Spinner) solo.getView(spinnerId);
 		assertEquals("broadcastWaitSpinner has not the correct number of elements", 2, spinner.getCount());
-		assertEquals(solo.getString(R.string.new_broadcast_message), spinner.getItemAtPosition(0));
-		assertEquals(broadcastMessage, spinner.getItemAtPosition(1));
+		assertEquals("First spinner element isn't " + solo.getString(R.string.new_broadcast_message),
+				solo.getString(R.string.new_broadcast_message), spinner.getItemAtPosition(0));
+		assertEquals("First broadcast message isn't" + broadcastMessage, broadcastMessage, spinner.getItemAtPosition(1));
 	}
 
-	private void checkSpinnerTexts() {
-		assertEquals(expected.get(broadcastReceiverSpinnerId), ((Spinner) solo.getView(broadcastReceiverSpinnerId))
-				.getSelectedItem().toString());
-		assertEquals(expected.get(broadcastSpinnerId), ((Spinner) solo.getView(broadcastSpinnerId)).getSelectedItem()
-				.toString());
-		assertEquals(expected.get(broadcastWaitSpinnerId), ((Spinner) solo.getView(broadcastWaitSpinnerId))
-				.getSelectedItem().toString());
+	private void checkCorrectSpinnerSelections() {
+		assertEquals("Wrong broadcast message in broadcast receiver.", expected.get(broadcastReceiverSpinnerId),
+				((Spinner) solo.getView(broadcastReceiverSpinnerId)).getSelectedItem().toString());
+		assertEquals("Wrong broadcast message in broadcast.", expected.get(broadcastSpinnerId),
+				((Spinner) solo.getView(broadcastSpinnerId)).getSelectedItem().toString());
+		assertEquals("Wrong broadcast message in broadcastWait.", expected.get(broadcastWaitSpinnerId),
+				((Spinner) solo.getView(broadcastWaitSpinnerId)).getSelectedItem().toString());
 	}
 
 	private void enterNewTextIntoSpinner(int spinnerId, String text) {
@@ -157,26 +158,16 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.waitForView(solo.getView(spinnerId));
 		gainFocus();
 		expected.put(spinnerId, text);
-		checkSpinnerTexts();
+		checkCorrectSpinnerSelections();
 	}
 
 	private void pressSpinnerItem(int spinnerId, String text) {
-		solo.pressSpinnerItem(getSpinnerIndex(spinnerId), 1);
+		solo.clickOnView(solo.getView(spinnerId));
+		solo.clickOnText(text);
 		solo.waitForView(solo.getView(spinnerId));
 		gainFocus();
 		expected.put(spinnerId, text);
-		checkSpinnerTexts();
-	}
-
-	private int getSpinnerIndex(int spinnerId) {
-		if (spinnerId == broadcastReceiverSpinnerId) {
-			return 1;
-		} else if (spinnerId == broadcastSpinnerId) {
-			return 2;
-		} else if (spinnerId == broadcastWaitSpinnerId) {
-			return 3;
-		}
-		return -1;
+		checkCorrectSpinnerSelections();
 	}
 
 	private void dismissEnterNewTextIntoSpinner(int spinnerId) {
@@ -187,15 +178,15 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.goBack();
 		solo.goBack();
 		solo.waitForView(solo.getView(spinnerId));
-		checkSpinnerTexts();
+		checkCorrectSpinnerSelections();
 	}
 
 	private void checkSetupBricks() {
 		ListView view = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
 
-		assertEquals(1, sprite.getNumberOfScripts());
-		assertTrue(sprite.getScript(0) instanceof BroadcastScript);
+		assertEquals("Wrong number of scripts.", 1, sprite.getNumberOfScripts());
+		assertTrue("Wrong script instance.", sprite.getScript(0) instanceof BroadcastScript);
 
 		int childrenCount = sprite.getScript(adapter.getScriptCount() - 1).getBrickList().size();
 		assertEquals("Incorrect number of bricks in sprite.", 3, UiTestUtils.getScriptListView(solo).getChildCount());
