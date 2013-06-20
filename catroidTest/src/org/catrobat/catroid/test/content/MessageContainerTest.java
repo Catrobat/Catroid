@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.catrobat.catroid.ProjectManager;
@@ -33,6 +35,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import android.test.AndroidTestCase;
@@ -60,7 +63,7 @@ public class MessageContainerTest extends AndroidTestCase {
 		boolean loaded = ProjectManager.getInstance().loadProject(projectName1, getContext(), false);
 		assertTrue("Project was not loaded successfully", loaded);
 		if (loaded) {
-			Set<String> keySet = MessageContainer.getMessages();
+			Set<String> keySet = getMessages();
 			assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
 		}
 	}
@@ -69,12 +72,12 @@ public class MessageContainerTest extends AndroidTestCase {
 		boolean loaded = ProjectManager.getInstance().loadProject(projectName1, getContext(), false);
 		assertTrue("Project1 was not loaded successfully", loaded);
 
-		Set<String> keySet = MessageContainer.getMessages();
+		Set<String> keySet = getMessages();
 		assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
 
 		loaded = ProjectManager.getInstance().loadProject(projectName2, getContext(), false);
 		assertTrue("Project2 was not loaded successfully", loaded);
-		keySet = MessageContainer.getMessages();
+		keySet = getMessages();
 		assertEquals("Broadcast message is in the message container", false, keySet.contains(broadcastMessage1));
 		assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage2));
 	}
@@ -83,12 +86,12 @@ public class MessageContainerTest extends AndroidTestCase {
 		boolean loaded = ProjectManager.getInstance().loadProject(projectName1, getContext(), false);
 		assertTrue("Project1 was not loaded successfully", loaded);
 
-		Set<String> keySet = MessageContainer.getMessages();
+		Set<String> keySet = getMessages();
 		assertEquals("Broadcast message has the false position", true, keySet.contains(broadcastMessage1));
 
 		loaded = ProjectManager.getInstance().loadProject(projectName3, getContext(), false);
 		assertFalse("Corrupted project was loaded", loaded);
-		keySet = MessageContainer.getMessages();
+		keySet = getMessages();
 		assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
 	}
 
@@ -97,13 +100,11 @@ public class MessageContainerTest extends AndroidTestCase {
 
 		Sprite sprite1 = new Sprite("cat");
 		Script script1 = new StartScript(sprite1);
-		BroadcastBrick brick1 = new BroadcastBrick(sprite1);
-		brick1.setSelectedMessage(broadcastMessage1);
+		BroadcastBrick brick1 = new BroadcastBrick(sprite1, broadcastMessage1);
 		script1.addBrick(brick1);
 		sprite1.addScript(script1);
 
-		BroadcastScript broadcastScript1 = new BroadcastScript(sprite1);
-		broadcastScript1.setBroadcastMessage(broadcastMessage1);
+		BroadcastScript broadcastScript1 = new BroadcastScript(sprite1, broadcastMessage1);
 		sprite1.addScript(broadcastScript1);
 
 		project1.addSprite(sprite1);
@@ -114,18 +115,21 @@ public class MessageContainerTest extends AndroidTestCase {
 
 		Sprite sprite2 = new Sprite("cat");
 		Script script2 = new StartScript(sprite2);
-		BroadcastBrick brick2 = new BroadcastBrick(sprite2);
-		brick2.setSelectedMessage(broadcastMessage2);
+		BroadcastBrick brick2 = new BroadcastBrick(sprite2, broadcastMessage2);
 		script2.addBrick(brick2);
 		sprite2.addScript(script2);
 
-		BroadcastScript broadcastScript2 = new BroadcastScript(sprite2);
-		broadcastScript2.setBroadcastMessage(broadcastMessage2);
+		BroadcastScript broadcastScript2 = new BroadcastScript(sprite2, broadcastMessage2);
 		sprite2.addScript(broadcastScript2);
 
 		project2.addSprite(sprite2);
 
 		StorageHandler.getInstance().saveProject(project2);
+	}
 
+	@SuppressWarnings("unchecked")
+	private Set<String> getMessages() {
+		return ((Map<String, List<BroadcastScript>>) Reflection.getPrivateField(MessageContainer.class, "receiverMap"))
+				.keySet();
 	}
 }
