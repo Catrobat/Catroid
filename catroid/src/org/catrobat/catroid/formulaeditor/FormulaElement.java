@@ -236,8 +236,14 @@ public class FormulaElement implements Serializable {
 				return java.lang.Math.PI;
 
 			case MOD:
+				Double dividend = left;
 				Double divisor = rightChild.interpretRecursive(sprite);
-				double remainder = left % divisor;
+
+				while (dividend < 0) {
+					dividend += java.lang.Math.abs(divisor);
+				}
+
+				double remainder = dividend % divisor;
 				return remainder;
 
 			case ARCSIN:
