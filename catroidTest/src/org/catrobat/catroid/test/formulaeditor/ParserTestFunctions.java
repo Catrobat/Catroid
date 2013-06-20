@@ -199,8 +199,8 @@ public class ParserTestFunctions extends AndroidTestCase {
 	public void testMod() {
 
 		for (int offset = 0; offset < 10; offset += 1) {
-			Integer dividend = new Integer(0 + offset);
-			Integer divisor = new Integer(0 + offset);
+			Integer dividend = new Integer(1 + offset);
+			Integer divisor = new Integer(1 + offset);
 
 			List<InternToken> internTokenList = new LinkedList<InternToken>();
 			internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.MOD.name()));

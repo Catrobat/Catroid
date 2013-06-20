@@ -237,7 +237,8 @@ public class FormulaElement implements Serializable {
 
 			case MOD:
 				Double divisor = rightChild.interpretRecursive(sprite);
-				return java.lang.Math.IEEEremainder(left, divisor);
+				double remainder = left % divisor;
+				return remainder;
 
 			case ARCSIN:
 				return java.lang.Math.toDegrees(Math.asin(left));
