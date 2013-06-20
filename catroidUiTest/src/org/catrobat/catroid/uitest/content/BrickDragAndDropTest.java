@@ -27,7 +27,7 @@ import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
@@ -66,7 +66,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testClickOnEmptySpace() {
-		solo.clickOnScreen(20, Values.SCREEN_HEIGHT - 150);
+		solo.clickOnScreen(20, ScreenValues.SCREEN_HEIGHT - 150);
 		solo.sleep(200);
 		assertFalse("Brickcategories should not be shown", solo.searchText(solo.getString(R.string.categories)));
 	}

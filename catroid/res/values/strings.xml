@@ -96,7 +96,8 @@
     <string name="dialog_confirm_delete_multiple_objects_title">Delete these objects?</string>
     <string name="dialog_confirm_delete_object_message">This can not be undone!</string>
     <!--  -->
-
+	
+	<!-- Sprite activity -->
     <string name="copy_sprite_finished">copied.</string>
     <string name="copy_sprite_prefix">Object:</string>
     <string name="copy_sprite_name_suffix">_Copy</string>
@@ -140,16 +141,17 @@
     <string name="last_used">Last access:</string>
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
-    <string name="rename_project">Rename Project</string>
-    <string name="notification_title_copy_project">Copy project</string>
+    <string name="rename_project">Rename Program</string>
+    <string name="notification_title_copy_project">Copy program</string>
     <string name="copy_project_finished"> copied.</string>
     <string name="program">Program</string>
     <string name="programs">Programs</string>
     <string name="dialog_confirm_delete_program_title">Delete this program?</string>
     <string name="dialog_confirm_delete_multiple_programs_title">Delete these programs?</string>
     <string name="dialog_confirm_delete_program_message">This can not be undone!</string>
+    <string name="details_date_today">Today</string>
+    <string name="details_date_yesterday">Yesterday</string>
     <!--  -->
-
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Pocket Code Recorder</string>
@@ -179,7 +181,15 @@
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
     <!--  -->
 
-
+	
+	<!-- New look dialog -->
+    <string name="new_look_dialog_title">Add Look</string>
+    <string name="add_look_from_camera">From Camera</string> 
+    <string name="add_look_draw_new_image">Draw new image</string>
+    <string name="add_look_choose_image">Choose image</string>
+    <!--  -->
+    
+    
     <!-- New project dialog -->
     <string name="new_project_dialog_title">New program</string>
     <string name="new_project_dialog_hint">My Program</string>
@@ -197,30 +207,23 @@
     <!--  -->
 
 
-    <!-- New look dialog -->
-    <string name="new_look_dialog_title">Add Look</string>
-    <string name="add_look_from_camera">From Camera</string>
-    <string name="add_look_from_gallery">From Gallery</string>
-    <!--  -->
-
-
     <!-- Login Register dialog -->
     <string name="login_register_dialog_title">Login</string>
     <string name="username">Username:</string>
     <string name="password">Password:</string>
     <string name="login_or_register">Login or Register</string>
     <string name="password_forgotten">Password forgotten</string>
-    <string name="new_user_registered">new account created</string>
+    <string name="new_user_registered">New account created</string>
     <string name="register_error">Error occurred</string>
     <string name="register_terms">By registering, you agree to our</string>
-    <string name="register_pocketcode_terms_of_use_text">terms of use</string>
+    <string name="register_pocketcode_terms_of_use_text">Terms of use</string>
     <!--  -->
 
 
     <!-- OverwriteRenameDialog Strings -->
-    <string name="overwrite_text">Project with same name already exists!</string>
-    <string name="overwrite_replace">Replace existing Project</string>
-    <string name="overwrite_rename">Rename downloaded Project</string>
+    <string name="overwrite_text">Program with same name already exists!</string>
+    <string name="overwrite_replace">Replace existing program</string>
+    <string name="overwrite_rename">Rename downloaded program</string>
     <!--  -->
 
 
@@ -252,7 +255,7 @@
     <string name="category_looks">Looks</string>
     <string name="category_sound">Sound</string>
     <string name="category_control">Control</string>
-    <string name="category_variables">User Variables</string>
+    <string name="category_variables">Variables</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <!--  -->
 
@@ -282,19 +285,7 @@
     </plurals>
 
     <string name="brick_turn_left">Turn left</string>
-
-    <plurals name="brick_turn_left_degree_plural">
-        <item quantity="one">degree</item>
-        <item quantity="other">degrees</item>
-    </plurals>
-
     <string name="brick_turn_right">Turn right</string>
-
-    <plurals name="brick_turn_right_degree_plural">
-        <item quantity="one">degree</item>
-        <item quantity="other">degrees</item>
-    </plurals>
-
     <string name="brick_point_in_direction">Point in direction</string>
     <string name="brick_point_to">Point towards</string>
     <string name="brick_glide">Glide</string>
@@ -309,8 +300,8 @@
     <string name="brick_change_size_by">Change size by</string>
     <string name="brick_hide">Hide</string>
     <string name="brick_show">Show</string>
-    <string name="brick_set_ghost_effect">Set ghost effect</string>
-    <string name="brick_change_ghost_effect">Change ghost effect</string>
+    <string name="brick_set_ghost_effect">Set transparency</string>
+    <string name="brick_change_ghost_effect">Change transparency</string>
     <string name="brick_set_brightness">Set brightness</string>
     <string name="brick_change_brightness">Change brightness</string>
     <string name="by_label">by</string>
@@ -367,40 +358,40 @@
 
 
     <!-- defaultValues -->
-    <string name="default_project_name">My first project</string>
-    <string name="default_project_sprites_pocketcode_name">Pocket Code</string>
-    <string name="default_project_sprites_pocketcode_normalcat">normalCat</string>
-    <string name="default_project_sprites_pocketcode_banzaicat">banzaiCat</string>
-    <string name="default_project_sprites_pocketcode_cheshirecat">cheshireCat</string>
-    <string name="default_project_backgroundname">background</string>
-    <string name="default_project_backgroundcolor">#604fff</string>
+    <string name="default_project_name">My first program</string>
+    <string name="default_project_sprites_mole_name">Mole</string>
+    <string name="default_project_sprites_mole_whacked">Whacked mole</string>
+    <string name="default_project_sprites_mole_sound">Hit</string>
+    <string name="default_project_backgroundname">Background</string>
+    <string name="default_project_var_random_from">random from</string>
+    <string name="default_project_var_random_to">random to</string>
     <!--  -->
 
 
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Please enter a value</string>
     <string name="notification_screenshot_ok">Screenshot saved</string>
-    <string name="notification_load_project_cancel">Canceled loading project</string>
+    <string name="notification_load_project_cancel">Canceled loading program</string>
     <!--  -->
 
 
     <!-- Error messages -->
     <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like an SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting an SD card, then try again.</string>
     <string name="error_no_name_entered">Please enter a name.</string>
-    <string name="error_project_exists">A project with the same name already exists.\nPlease choose a different name.</string>
-    <string name="error_project_upload">An error occurred while uploading the project.</string>
-    <string name="error_project_download">An error occurred while downloading the project.</string>
-    <string name="error_new_project">An error occurred while creating a new project.</string>
-    <string name="error_rename_project">An error occurred while renaming the project before upload.</string>
-    <string name="error_load_project">An error occurred while loading the project.</string>
+    <string name="error_project_exists">A program with the same name already exists.\nPlease choose a different name.</string>
+    <string name="error_project_upload">An error occurred while uploading the program.</string>
+    <string name="error_project_download">An error occurred while downloading the program.</string>
+    <string name="error_new_project">An error occurred while creating a new program.</string>
+    <string name="error_rename_project">An error occurred while renaming the program before upload.</string>
+    <string name="error_load_project">An error occurred while loading the program.</string>
     <string name="error_screenshot_failed">An error occurred while saving the screenshot.</string>
     <string name="error_load_image">An error occurred while loading the image.</string>
     <string name="error_load_sound">An error occurred while loading the sound.</string>
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
-    <string name="error_project_compatability">The project is not compatible with this version of Pocket Code.</string>
-    <string name="error_copy_project">An error occurred while copying the project.</string>
-    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \'My first project\'. Please rename the project.</string>
-    <string name="error_upload_default_project">You cannot upload this project because it is the same as \'My first project\'. Please modify it, and try again.</string>
+    <string name="error_project_compatability">The program is not compatible with this version of Pocket Code.</string>
+    <string name="error_copy_project">An error occurred while copying the program.</string>
+    <string name="error_upload_project_with_default_name">You cannot upload a program with the name \'My first program\'. Please rename the program.</string>
+    <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
     <!--  -->
 
 
@@ -408,17 +399,16 @@
     <string name="success_project_upload">Upload successful.</string>
     <string name="success_project_download">Download successful.</string>
     <string name="upload_button">Upload</string>
-    <string name="upload_project_dialog_title">Upload project</string>
+    <string name="upload_project_dialog_title">Upload program</string>
     <string name="upload_description">Description:</string>
-    <string name="project_rename">(Your project will be renamed.)</string>
+    <string name="project_rename">(Your program will be renamed.)</string>
     <string name="size_of_project">Size:</string>
     <string name="notification_percent_completed">completed</string>
-    <string name="notification_upload_title">Uploading project</string>
-    <string name="notification_download_title">Downloading project</string>
+    <string name="notification_upload_title">Uploading program</string>
+    <string name="notification_download_title">Downloading program</string>
     <!--  -->
 
 
-    <!-- Bluetooth, LegoNXT, Arduino -->
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
     <string name="title_paired_devices">Paired devices</string>
@@ -428,7 +418,7 @@
     <string name="scanning">Scanning</string>
     <string name="connecting_please_wait">Connecting to your device.\nPlease wait…</string>
     <string name="pairing_message">After pairing, connect.</string>
-    <string name="problem_at_closing">Problem in closing the connection!</string>
+    <string name="problem_at_closing">Problem while closing the connection!</string>
     <string name="bt_connection_failed">Connection to device failed!</string>
     <string name="no_paired_nxt">No paired NXT found</string>
     <string name="none_found">No unpaired devices found</string>
@@ -462,11 +452,11 @@
     <string name="formula_editor_title">Formula Editor</string>
     <string name="formula_editor_changes_saved">Changes saved!</string>
     <string name="formula_editor_changes_discarded">Changes discarded!</string>
-    <string name="formula_editor_parse_fail">Error: Fix or press again now to discard all changes</string>
-    <string name="formula_nothing_selected">Define the brick´s input value</string>
-    <string name="formula_editor_parse_fail_formula_too_long">Formula too long! Fix or press again to discard.</string>
-    <string name="formula_editor_choose_object_variable">Choose your Object Variable:</string>
-    <string name="formula_editor_existing_user_variable">Name already in use!</string>
+    <string name="formula_editor_parse_fail">Syntax Error: Fix or press again now to discard all changes</string>
+    <string name="formula_nothing_selected">Define input value</string>
+    <string name="formula_editor_parse_fail_formula_too_long">Formula too long! Fix or press again now to discard all changes.</string>
+    <string name="formula_editor_choose_object_variable">Properties of this object</string>
+    <string name="formula_editor_existing_variable">Name already in use!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sin</string>
@@ -480,21 +470,27 @@
     <string name="formula_editor_function_abs">abs</string>
     <string name="formula_editor_function_round">round</string>
     <string name="formula_editor_function_mod">mod</string>
+    <string name="formula_editor_function_arcsin">arcsin</string>
+    <string name="formula_editor_function_arccos">arccos</string>
+    <string name="formula_editor_function_arctan">arctan</string>
+    <string name="formula_editor_function_exp">exp</string>
+    <string name="formula_editor_function_max">max</string>
+    <string name="formula_editor_function_min">min</string>
     <string name="formula_editor_function_true">TRUE</string>
     <string name="formula_editor_function_false">FALSE</string>
-    <string name="formula_editor_sensor_x_acceleration">x_acceleration</string>
-    <string name="formula_editor_sensor_y_acceleration">y_acceleration</string>
-    <string name="formula_editor_sensor_z_acceleration">z_acceleration</string>
+    <string name="formula_editor_sensor_x_acceleration">acceleration_x</string>
+    <string name="formula_editor_sensor_y_acceleration">acceleration_y</string>
+    <string name="formula_editor_sensor_z_acceleration">acceleration_z</string>
     <string name="formula_editor_sensor_compass_direction">compass_direction</string>
-    <string name="formula_editor_sensor_x_inclination">x_inclination</string>
-    <string name="formula_editor_sensor_y_inclination">y_inclination</string>
-    <string name="formula_editor_object_x">object_x</string>
-    <string name="formula_editor_object_y">object_y</string>
-    <string name="formula_editor_object_ghosteffect">object_ghosteffect</string>
-    <string name="formula_editor_object_brightness">object_brightness</string>
-    <string name="formula_editor_object_size">object_size</string>
-    <string name="formula_editor_object_rotation">object_rotation</string>
-    <string name="formula_editor_object_layer">object_layer</string>
+    <string name="formula_editor_sensor_x_inclination">inclination_x</string>
+    <string name="formula_editor_sensor_y_inclination">inclination_y</string>
+    <string name="formula_editor_object_x">position_x</string>
+    <string name="formula_editor_object_y">position_y</string>
+    <string name="formula_editor_object_ghosteffect">transparency</string>
+    <string name="formula_editor_object_brightness">brightness</string>
+    <string name="formula_editor_object_size">size</string>
+    <string name="formula_editor_object_rotation">direction</string>
+    <string name="formula_editor_object_layer">layer</string>
     <string name="formula_editor_compute">Compute</string>
     <string name="formula_editor_object">Object</string>
     <string name="formula_editor_math">Math</string>
@@ -525,8 +521,8 @@
     <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
 
     <plurals name="formula_editor_variable_context_action_item_selected">
-        <item quantity="one">variable selected!</item>
-        <item quantity="other">variables selected!</item>
+        <item quantity="one">Variable selected!</item>
+        <item quantity="other">Variables selected!</item>
     </plurals>
     <!--  -->
 

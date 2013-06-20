@@ -28,7 +28,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -100,13 +100,15 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-		Values.SCREEN_WIDTH = displayMetrics.widthPixels;
-		Values.SCREEN_HEIGHT = displayMetrics.heightPixels;
+		ScreenValues.SCREEN_WIDTH = displayMetrics.widthPixels;
+		ScreenValues.SCREEN_HEIGHT = displayMetrics.heightPixels;
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
 		solo.assertCurrentActivity("Not in stage", StageActivity.class);
+
+		solo.sleep(400);
 
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.stage_dialog_screenshot));
@@ -126,15 +128,15 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		int blackQuadHeight = blackQuad.getHeight();
 		int blackQuadWidth = blackQuad.getWidth();
 		Log.v(TAG, "black_quad.png x: " + blackQuadHeight + " y: " + blackQuadWidth);
-		Log.v(TAG, "Screenshot height: " + Values.SCREEN_WIDTH + " width: " + Values.SCREEN_WIDTH);
+		Log.v(TAG, "Screenshot height: " + ScreenValues.SCREEN_WIDTH + " width: " + ScreenValues.SCREEN_WIDTH);
 
-		Log.v(TAG, (Values.SCREEN_WIDTH / 2) + (blackQuadHeight / 2) + 5 + "");
+		Log.v(TAG, (ScreenValues.SCREEN_WIDTH / 2) + (blackQuadHeight / 2) + 5 + "");
 
 		//Two times width, because of the quadratically screenshots
-		int colorInsideSizedQuad = screenshot.getPixel((Values.SCREEN_WIDTH / 2) + (blackQuadWidth / 2) + 5,
-				(Values.SCREEN_WIDTH / 2) + (blackQuadHeight / 2) + 5);
-		int colorOutsideSizedQuad = screenshot.getPixel(Values.SCREEN_WIDTH / 2 + blackQuadWidth + 10,
-				Values.SCREEN_WIDTH / 2 + blackQuadHeight + 10);
+		int colorInsideSizedQuad = screenshot.getPixel((ScreenValues.SCREEN_WIDTH / 2) + (blackQuadWidth / 2) + 5,
+				(ScreenValues.SCREEN_WIDTH / 2) + (blackQuadHeight / 2) + 5);
+		int colorOutsideSizedQuad = screenshot.getPixel(ScreenValues.SCREEN_WIDTH / 2 + blackQuadWidth + 10,
+				ScreenValues.SCREEN_WIDTH / 2 + blackQuadHeight + 10);
 
 		assertEquals("Image was not scaled up even though SetSizeTo was exectuted before!", Color.RED,
 				colorInsideSizedQuad);
@@ -142,8 +144,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	private void createProject() {
-		Values.SCREEN_HEIGHT = SCREEN_HEIGHT;
-		Values.SCREEN_WIDTH = SCREEN_WIDTH;
+		ScreenValues.SCREEN_HEIGHT = SCREEN_HEIGHT;
+		ScreenValues.SCREEN_WIDTH = SCREEN_WIDTH;
 
 		project = new Project(getActivity(), projectName);
 		Sprite sprite = new Sprite("cat");

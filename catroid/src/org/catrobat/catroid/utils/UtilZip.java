@@ -28,8 +28,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 import org.catrobat.catroid.common.Constants;
@@ -91,18 +93,21 @@ public class UtilZip {
 
 	public static boolean unZipFile(String zipFile, String outDirectory) {
 		try {
-			FileInputStream fileInputStream = new FileInputStream(zipFile);
-			ZipInputStream zipInputStream = new ZipInputStream(fileInputStream);
 			ZipEntry zipEntry = null;
 
 			BufferedOutputStream destinationOutputStream = null;
 			byte data[] = new byte[Constants.BUFFER_8K];
-			while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+			ZipFile zipfile = new ZipFile(zipFile);
+			Enumeration<? extends ZipEntry> e = zipfile.entries();
+			while (e.hasMoreElements()) {
+
+				zipEntry = e.nextElement();
+				InputStream zipInputStream = zipfile.getInputStream(zipEntry);
 
 				if (zipEntry.isDirectory()) {
 					File file = new File(Utils.buildPath(outDirectory, zipEntry.getName()));
 					file.mkdir();
-					zipInputStream.closeEntry();
+					zipInputStream.close();
 					continue;
 				}
 				File file = new File(Utils.buildPath(outDirectory, zipEntry.getName()));
@@ -116,9 +121,9 @@ public class UtilZip {
 				}
 				destinationOutputStream.flush();
 				destinationOutputStream.close();
+				zipInputStream.close();
 
 			}
-			zipInputStream.close();
 
 			return true;
 		} catch (FileNotFoundException e) {

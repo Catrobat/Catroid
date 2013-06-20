@@ -27,7 +27,7 @@ import java.io.File;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -88,8 +88,8 @@ public class SetLookActionTest extends InstrumentationTestCase {
 
 	public void testSetLook() {
 
-		Values.SCREEN_HEIGHT = 200;
-		Values.SCREEN_WIDTH = 200;
+		ScreenValues.SCREEN_HEIGHT = 200;
+		ScreenValues.SCREEN_WIDTH = 200;
 
 		Sprite sprite = new Sprite("new sprite");
 		project.addSprite(sprite);

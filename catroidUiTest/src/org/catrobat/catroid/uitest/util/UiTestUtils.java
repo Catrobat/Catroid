@@ -513,8 +513,8 @@ public class UiTestUtils {
 
 		ArrayList<Brick> brickList = new ArrayList<Brick>();
 
-		brickList.add(new BroadcastBrick(firstSprite));
-		brickList.add(new BroadcastWaitBrick(firstSprite));
+		brickList.add(new BroadcastBrick(firstSprite, "broadcastMessage1"));
+		brickList.add(new BroadcastWaitBrick(firstSprite, "broadcastMessage2"));
 		brickList.add(new ChangeBrightnessByNBrick(firstSprite, 0));
 		brickList.add(new ChangeGhostEffectByNBrick(firstSprite, 0));
 		brickList.add(new ChangeSizeByNBrick(firstSprite, 0));
@@ -715,7 +715,7 @@ public class UiTestUtils {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		Project project = new Project(context, projectName);
-		Sprite firstSprite = new Sprite(context.getString(R.string.default_project_sprites_pocketcode_name));
+		Sprite firstSprite = new Sprite(context.getString(R.string.default_project_sprites_mole_name));
 		Sprite secondSprite = new Sprite("second_sprite");
 
 		Script firstSpriteScript = new StartScript(firstSprite);
@@ -754,7 +754,7 @@ public class UiTestUtils {
 		brickList.add(new SpeakBrick(firstSprite, "Hallo"));
 
 		brickList.add(new WaitBrick(firstSprite, 19));
-		brickList.add(new BroadcastWaitBrick(firstSprite));
+		brickList.add(new BroadcastWaitBrick(firstSprite, "firstMessage"));
 		brickList.add(new NoteBrick(firstSprite));
 		LoopBeginBrick beginBrick = new ForeverBrick(firstSprite);
 		LoopEndBrick endBrick = new LoopEndBrick(firstSprite, beginBrick);
@@ -817,8 +817,7 @@ public class UiTestUtils {
 		}
 		firstSprite.addScript(firstSpriteScript);
 
-		BroadcastScript broadcastScript = new BroadcastScript(firstSprite);
-		broadcastScript.setBroadcastMessage("Hallo");
+		BroadcastScript broadcastScript = new BroadcastScript(firstSprite, "Hallo");
 		BroadcastReceiverBrick brickBroad = new BroadcastReceiverBrick(firstSprite, broadcastScript);
 		firstSprite.addScript(broadcastScript);
 		brickList.add(brickBroad);
@@ -1405,5 +1404,9 @@ public class UiTestUtils {
 			Log.e("CATROID", throwable.getMessage());
 		}
 		solo.sleep(500);
+	}
+
+	public static void waitForText(Solo solo, String text) {
+		assertEquals("Text not found!", true, solo.waitForText(text, 0, 2000));
 	}
 }

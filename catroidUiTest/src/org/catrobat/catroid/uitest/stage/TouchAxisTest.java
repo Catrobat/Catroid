@@ -27,7 +27,7 @@ import java.util.Arrays;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -72,18 +72,18 @@ public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivit
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 
-		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, 100);
+		solo.clickOnScreen(ScreenValues.SCREEN_WIDTH / 2, 100);
 		solo.sleep(500);
 
 		byte[] blackPixel = { (byte) 0, (byte) 0, (byte) 0, (byte) 255 };
-		byte[] screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH / 2, 100, 1, 1);
+		byte[] screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2, 100, 1, 1);
 
 		assertTrue("Pixels didn't match! Touch area is off!", Arrays.equals(blackPixel, screenPixel));
 	}
 
 	private void createProject() {
-		Values.SCREEN_HEIGHT = 800;
-		Values.SCREEN_WIDTH = 480;
+		ScreenValues.SCREEN_HEIGHT = 800;
+		ScreenValues.SCREEN_WIDTH = 480;
 
 		Project testProject = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		final String alphaTestImageName = "alpha_test_image.png";

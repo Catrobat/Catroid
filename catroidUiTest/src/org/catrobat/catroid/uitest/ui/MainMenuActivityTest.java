@@ -351,11 +351,11 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		Sprite backgroundSprite = standardProject.getSpriteList().get(0);
 		Script startingScript = backgroundSprite.getScript(0);
-		assertEquals("Number of bricks in background sprite was wrong", 1, backgroundSprite.getNumberOfBricks());
+		assertEquals("Number of bricks in background sprite was wrong", 3, backgroundSprite.getNumberOfBricks());
 		startingScript.addBrick(new SetLookBrick(backgroundSprite));
 		startingScript.addBrick(new SetLookBrick(backgroundSprite));
 		startingScript.addBrick(new SetLookBrick(backgroundSprite));
-		assertEquals("Number of bricks in background sprite was wrong", 4, backgroundSprite.getNumberOfBricks());
+		assertEquals("Number of bricks in background sprite was wrong", 6, backgroundSprite.getNumberOfBricks());
 		ProjectManager.INSTANCE.setCurrentSprite(backgroundSprite);
 		ProjectManager.INSTANCE.setCurrentScript(startingScript);
 		StorageHandler.getInstance().saveProject(standardProject);
@@ -376,8 +376,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		ProjectManager.INSTANCE.setProject(null);
 		solo.getCurrentActivity().startActivity(intent);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.sleep(500);
-		assertEquals("Number of bricks in background sprite was wrong - standard project was overwritten", 4,
+		UiTestUtils.waitForText(solo, solo.getString(R.string.default_project_backgroundname));
+		assertEquals("Number of bricks in background sprite was wrong - standard project was overwritten", 6,
 				ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
 	}
 

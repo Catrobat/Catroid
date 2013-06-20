@@ -24,10 +24,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.catrobat.catroid"
     android:installLocation="auto"
-    android:versionCode="2147483646"
-    android:versionName="0.7.3beta"
-    android:sharedUserId="org.catrobat" 
-    android:process="org.catrobat">
+    android:versionCode="2"
+    android:versionName="0.8.1">
 	
     <supports-screens 
         android:smallScreens="true"

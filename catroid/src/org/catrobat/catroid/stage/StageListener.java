@@ -30,7 +30,7 @@ import java.util.List;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
@@ -158,12 +158,17 @@ public class StageListener implements ApplicationListener {
 		camera.position.set(0, 0, 0);
 
 		sprites = project.getSpriteList();
+
+		for (Sprite sprite : sprites) {
+			sprite.resetSprite();
+			stage.addActor(sprite.look);
+			sprite.resume();
+		}
+
 		if (sprites.size() > 0) {
 			sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
 		}
-		for (Sprite sprite : sprites) {
-			stage.addActor(sprite.look);
-		}
+
 		if (DEBUG) {
 			OrthoCamController camController = new OrthoCamController(camera);
 			InputMultiplexer multiplexer = new InputMultiplexer();
@@ -243,10 +248,6 @@ public class StageListener implements ApplicationListener {
 	public void finish() {
 		finished = true;
 		SoundManager.getInstance().clear();
-		for (Sprite sprite : sprites) {
-			sprite.resume();
-			sprite.resetSprite();
-		}
 		if (thumbnail != null) {
 			prepareAutomaticScreenshotAndNoMeadiaFile();
 			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
@@ -304,9 +305,9 @@ public class StageListener implements ApplicationListener {
 				break;
 			case STRETCH:
 			default:
-				Gdx.gl.glViewport(0, 0, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
-				screenshotWidth = Values.SCREEN_WIDTH;
-				screenshotHeight = Values.SCREEN_HEIGHT;
+				Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+				screenshotWidth = ScreenValues.SCREEN_WIDTH;
+				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
 				screenshotX = 0;
 				screenshotY = 0;
 				break;

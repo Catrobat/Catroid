@@ -569,7 +569,7 @@ public class FormulaEditorUserVariableFragmentTest extends
 		solo.enterText(editText, itemString);
 
 		assertTrue("Toast not shown when UserVariableName already exists",
-				solo.waitForText(solo.getString(R.string.formula_editor_existing_user_variable), 0, 5000));
+				solo.waitForText(solo.getString(R.string.formula_editor_existing_variable), 0, 5000));
 
 		solo.waitForText(itemString);
 

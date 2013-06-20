@@ -26,7 +26,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
@@ -56,6 +58,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -210,21 +213,32 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		Project activeProject = ProjectManager.INSTANCE.getCurrentProject();
 		ArrayList<LookData> catroidLookList = activeProject.getSpriteList().get(1).getLookDataList();
 
-		String defaultSpriteName = solo.getString(R.string.default_project_sprites_pocketcode_name);
+		String defaultSpriteName = solo.getString(R.string.default_project_sprites_mole_name);
 		String delete = solo.getString(R.string.delete);
 		String yes = solo.getString(R.string.yes);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
-		solo.waitForText(solo.getString(R.string.default_project_name));
-		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
-		solo.waitForText(defaultSpriteName);
-		solo.clickLongOnText(defaultSpriteName);
-		solo.waitForText(delete);
-		solo.clickOnText(delete);
-		solo.waitForText(yes);
-		solo.clickOnText(yes);
+		for (int i = 1; i <= 4; i++) {
+			UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
+			solo.waitForText(defaultSpriteName + " " + i);
+			solo.clickLongOnText(defaultSpriteName + " " + i);
+			solo.waitForText(delete);
+			solo.clickOnText(delete);
+			solo.waitForText(yes);
+			solo.clickOnText(yes);
+
+			if (i != 4) {
+				File imageFile;
+
+				for (LookData currentLookData : catroidLookList) {
+					imageFile = new File(currentLookData.getAbsolutePath());
+					assertTrue("Imagefile should not be deleted", imageFile.exists());
+				}
+			}
+		}
+
 		solo.sleep(1000);
 
 		File imageFile;
@@ -248,10 +262,17 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 
 		String myProjectsText = solo.getString(R.string.main_menu_programs);
+		assertTrue("Main-Menu not shown in 5 secs!", solo.waitForText(myProjectsText, 0, 5000));
 		solo.clickOnButton(myProjectsText);
-		solo.waitForText(solo.getString(R.string.default_project_name));
-		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
+
+		String defaultProjectName = solo.getString(R.string.default_project_name);
+		assertTrue("Program name not shown in 5 secs!", solo.waitForText(defaultProjectName, 0, 5000));
+		UiTestUtils.clickOnTextInList(solo, defaultProjectName);
+
+		String backgroundName = solo.getString(R.string.default_project_backgroundname);
+		assertTrue("Program does not open within 5 secs!", solo.waitForText(backgroundName));
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+
 		if (!solo.waitForText(solo.getString(R.string.new_sprite_dialog_default_sprite_name), 0, 5000)) {
 			fail("Edit-Dialog not shown in 5 secs!");
 		}
@@ -275,7 +296,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		assertTrue("Default Project should not be overwritten", spriteList.size() == 3);
+		assertTrue("Default Project should not be overwritten", spriteList.size() == 6);
 	}
 
 	public void testDeleteStandardProject() {
@@ -340,7 +361,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				UiTestUtils.clickOnTextInList(solo, standardProjectName));
 
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		assertTrue("Standard Project should be restored", spriteList.size() == 2);
+		assertTrue("Standard Project should be restored", spriteList.size() == 5);
 	}
 
 	public void testProjectsAndImagesVisible() {
@@ -454,8 +475,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		}
 
 		Project secondCacheTestProject = StorageHandler.getInstance().loadProject(secondCacheProjectName);
-		UiTestUtils.saveFileToProject(firstCacheProjectName, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
-				IMAGE_RESOURCE_2, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
+		UiTestUtils.saveFileToProject(secondCacheProjectName, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
+				IMAGE_RESOURCE_3, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 		StorageHandler.getInstance().saveProject(secondCacheTestProject);
 		solo.sleep(2000);
 		firstCacheTestProject = StorageHandler.getInstance().loadProject(firstCacheProjectName);
@@ -1118,49 +1139,82 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("Menu item still says \"Hide Details\"!", solo.searchText(showDetailsText));
 	}
 
+	public void testProjectDetailsLastAccess() {
+		String showDetailsText = solo.getString(R.string.show_details);
+		String hideDetailsText = solo.getString(R.string.hide_details);
+		Date date = new Date(1357038000000l);
+		DateFormat mediumDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
+		createProjects();
+
+		File projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
+				Constants.PROJECTCODE_NAME));
+		projectCodeFile.setLastModified(date.getTime());
+
+		projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(UiTestUtils.PROJECTNAME1),
+				Constants.PROJECTCODE_NAME));
+		Date now = new Date();
+		projectCodeFile.setLastModified(now.getTime() - DateUtils.DAY_IN_MILLIS);
+
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		View projectDetails = solo.getView(R.id.my_projects_activity_list_item_details);
+		solo.waitForView(projectDetails);
+		UiTestUtils.openOptionsMenu(solo);
+
+		if (solo.searchText(hideDetailsText)) {
+			solo.clickOnText(hideDetailsText);
+			UiTestUtils.openOptionsMenu(solo);
+		}
+
+		solo.waitForText(showDetailsText);
+		solo.clickOnText(showDetailsText);
+		solo.sleep(200);
+		assertEquals("Project details are not showing!", View.VISIBLE, projectDetails.getVisibility());
+
+		assertTrue("Last access is not correct!", solo.searchText(solo.getString(R.string.details_date_today)));
+		assertTrue("Last access is not correct!", solo.searchText(solo.getString(R.string.details_date_yesterday)));
+		assertTrue("Last access is not correct!", solo.searchText(mediumDateFormat.format(date)));
+	}
+
 	public void testAddNewProject() {
 		createProjects();
-		solo.sleep(200);
 		String buttonMyProjectsText = solo.getString(R.string.main_menu_programs);
 		String buttonOkText = solo.getString(R.string.ok);
 		String buttonCloseText = solo.getString(R.string.close);
 
+		UiTestUtils.waitForText(solo, buttonMyProjectsText);
 		solo.clickOnButton(buttonMyProjectsText);
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		solo.sleep(200);
+		UiTestUtils.waitForText(solo, solo.getString(R.string.new_project_dialog_title));
 
 		EditText addNewProjectEditText = solo.getEditText(0);
 		assertEquals("Not the proper hint set", solo.getString(R.string.new_project_dialog_hint),
 				addNewProjectEditText.getHint());
 		assertEquals("There should no text be set", "", addNewProjectEditText.getText().toString());
-		solo.sleep(100);
 
 		solo.enterText(0, UiTestUtils.PROJECTNAME1);
-		solo.sleep(100);
 		solo.goBack();
 		solo.clickOnButton(buttonOkText);
 
-		solo.sleep(200);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
-		solo.sleep(100);
 		solo.clickOnButton(buttonCloseText);
-		solo.sleep(100);
 
 		solo.clearEditText(0);
 		solo.enterText(0, UiTestUtils.PROJECTNAME2);
-		solo.sleep(200);
 		solo.clickOnButton(buttonOkText);
 
-		solo.sleep(200);
 		solo.assertCurrentActivity("not in projectactivity", ProjectActivity.class);
 		assertEquals("current project not updated", UiTestUtils.PROJECTNAME2, ProjectManager.getInstance()
 				.getCurrentProject().getName());
+		UiTestUtils.waitForText(solo, UiTestUtils.PROJECTNAME2);
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(500);
 		solo.assertCurrentActivity("not in MainMenuActivity after goBack from ProjectActivity", MainMenuActivity.class);
 		solo.clickOnButton(buttonMyProjectsText);
 		assertTrue("project " + UiTestUtils.PROJECTNAME2 + " was not added",
@@ -1251,8 +1305,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		// temporarily removed - should be added when displaying projectdescription
 		//		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
 		//		assertTrue("description is not shown in activity", solo.searchText("ultricies"));
-		assertEquals("The project is not first in list", ((ProjectData) (solo.getCurrentViews(ListView.class).get(0)
-				.getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME1);
+		assertEquals("The project is not first in list", UiTestUtils.PROJECTNAME1, ((ProjectData) (solo
+				.getCurrentViews(ListView.class).get(0).getAdapter().getItem(0))).projectName);
 
 		solo.waitForText(UiTestUtils.PROJECTNAME1);
 		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1);

@@ -41,15 +41,14 @@ import android.util.Log;
 
 public class ProjectManager {
 
+	public static final ProjectManager INSTANCE = new ProjectManager();
 	private Project project;
 	private Script currentScript;
 	private Sprite currentSprite;
-	public static final ProjectManager INSTANCE = new ProjectManager();
 
-	private FileChecksumContainer fileChecksumContainer;
+	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
 	private ProjectManager() {
-		fileChecksumContainer = new FileChecksumContainer();
 	}
 
 	public static ProjectManager getInstance() {
@@ -116,24 +115,16 @@ public class ProjectManager {
 	}
 
 	public boolean canLoadProject(String projectName) {
-		Project project = StorageHandler.getInstance().loadProject(projectName);
-		if (project == null) {
-			return false;
-		} else {
-			return true;
-		}
+		return StorageHandler.getInstance().loadProject(projectName) != null;
 	}
 
-	public boolean saveProject() {
+	public void saveProject() {
 		if (project == null) {
-			return false;
+			return;
 		}
-
-		project.removeUnusedBroadcastMessages();
 
 		SaveProjectAsynchronousTask saveTask = new SaveProjectAsynchronousTask();
 		saveTask.execute();
-		return true;
 	}
 
 	public boolean initializeDefaultProject(Context context) {
@@ -279,8 +270,8 @@ public class ProjectManager {
 	}
 
 	public boolean spriteExists(String spriteName) {
-		for (Sprite tempSprite : project.getSpriteList()) {
-			if (tempSprite.getName().equalsIgnoreCase(spriteName)) {
+		for (Sprite sprite : project.getSpriteList()) {
+			if (sprite.getName().equalsIgnoreCase(spriteName)) {
 				return true;
 			}
 		}
@@ -298,30 +289,6 @@ public class ProjectManager {
 		}
 
 		return project.getSpriteList().get(currentSpritePosition).getScriptIndex(currentScript);
-	}
-
-	public boolean setCurrentSpriteWithPosition(int position) {
-		if (position >= project.getSpriteList().size() || position < 0) {
-			return false;
-		}
-
-		currentSprite = project.getSpriteList().get(position);
-		return true;
-	}
-
-	public boolean setCurrentScriptWithPosition(int position) {
-		int currentSpritePosition = this.getCurrentSpritePosition();
-		if (currentSpritePosition == -1) {
-			return false;
-		}
-
-		if (position >= project.getSpriteList().get(currentSpritePosition).getNumberOfScripts() || position < 0) {
-			return false;
-		}
-
-		currentScript = project.getSpriteList().get(this.getCurrentSpritePosition()).getScript(position);
-
-		return true;
 	}
 
 	private String createTemporaryDirectoryName(String projectDirectoryName) {
