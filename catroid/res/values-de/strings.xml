@@ -114,6 +114,13 @@
     <!--  -->
 
 
+    <!-- Script fragment -->
+    <string name="dialog_confirm_delete_brick_title">Diesen Baustein löschen?</string>
+    <string name="dialog_confirm_delete_multiple_bricks_title">Diese Bausteine löschen?</string>
+    <string name="dialog_confirm_delete_brick_message">Kann nicht rückgängig gemacht werden!</string>
+    <!--  -->
+
+
     <!-- Look fragment -->
     <string name="rename_look_dialog">Aussehen umbenennen</string>
     <string name="lookname_invalid">Dieser Name ist nicht zulässig</string>
