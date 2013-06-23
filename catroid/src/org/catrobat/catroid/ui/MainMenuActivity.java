@@ -42,6 +42,10 @@ import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -57,13 +61,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener {
+public class MainMenuActivity extends SherlockFragmentActivity implements
+		OnCheckTokenCompleteListener {
+
+	private static final int DIALOG_ALERT = 10;
 
 	private String TYPE_FILE = "file";
 	private String TYPE_HTTP = "http";
@@ -79,16 +87,19 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			super.onReceiveResult(resultCode, resultData);
 			if (resultCode == Constants.UPDATE_DOWNLOAD_PROGRESS) {
 				long progress = resultData.getLong("currentDownloadProgress");
-				boolean endOfFileReached = resultData.getBoolean("endOfFileReached");
+				boolean endOfFileReached = resultData
+						.getBoolean("endOfFileReached");
 				Integer notificationId = resultData.getInt("notificationId");
 				String projectName = resultData.getString("projectName");
 				if (endOfFileReached) {
 					progress = 100;
 				}
 				String notificationMessage = "Download " + progress + "% "
-						+ getString(R.string.notification_percent_completed) + ":" + projectName;
+						+ getString(R.string.notification_percent_completed)
+						+ ":" + projectName;
 
-				StatusBarNotificationManager.INSTANCE.updateNotification(notificationId, notificationMessage,
+				StatusBarNotificationManager.INSTANCE.updateNotification(
+						notificationId, notificationMessage,
 						Constants.DOWNLOAD_NOTIFICATION, endOfFileReached);
 			}
 		}
@@ -152,8 +163,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		// also when you switch activities
 		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
 			ProjectManager.INSTANCE.saveProject();
-			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.INSTANCE.getCurrentProject()
-					.getName());
+			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY,
+					ProjectManager.INSTANCE.getCurrentProject().getName());
 		}
 	}
 
@@ -179,16 +190,18 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_settings: {
-				Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
-				startActivity(intent);
-				return true;
-			}
-			case R.id.menu_about: {
-				AboutDialogFragment aboutDialog = new AboutDialogFragment();
-				aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
-				return true;
-			}
+		case R.id.menu_settings: {
+			Intent intent = new Intent(MainMenuActivity.this,
+					SettingsActivity.class);
+			startActivity(intent);
+			return true;
+		}
+		case R.id.menu_about: {
+			AboutDialogFragment aboutDialog = new AboutDialogFragment();
+			aboutDialog.show(getSupportFragmentManager(),
+					AboutDialogFragment.DIALOG_FRAGMENT_TAG);
+			return true;
+		}
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -198,7 +211,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			return;
 		}
 		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
-			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
+			Intent intent = new Intent(MainMenuActivity.this,
+					ProjectActivity.class);
 			startActivity(intent);
 		}
 	}
@@ -207,15 +221,57 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		NewProjectDialog dialog = new NewProjectDialog();
-		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
+		showDialog(DIALOG_ALERT);
+
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+		case DIALOG_ALERT:
+			// Create out AlterDialog
+			Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage("What orienatation of the project do you want?");
+			builder.setCancelable(true);
+			builder.setPositiveButton("Landscape",
+					new PortraitOnClickListener());
+			builder.setNegativeButton("Portrait",
+					new LandscapeOnClickListener());
+			AlertDialog dialog1 = builder.create();
+			dialog1.show();
+		}
+		return super.onCreateDialog(id);
+	}
+
+	private final class LandscapeOnClickListener implements
+			DialogInterface.OnClickListener {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			Toast.makeText(getApplicationContext(), "Project in portrait mode",
+					Toast.LENGTH_LONG).show();
+			NewProjectDialog dialog2 = new NewProjectDialog();
+			dialog2.show(getSupportFragmentManager(),
+					NewProjectDialog.DIALOG_FRAGMENT_TAG);
+
+		}
+	}
+
+	private final class PortraitOnClickListener implements
+			DialogInterface.OnClickListener {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			Toast.makeText(getApplicationContext(), "To be continued",
+					Toast.LENGTH_LONG).show();
+			MainMenuActivity.this.finish();
+		}
 	}
 
 	public void handleProgramsButton(View v) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		Intent intent = new Intent(MainMenuActivity.this, MyProjectsActivity.class);
+		Intent intent = new Intent(MainMenuActivity.this,
+				MyProjectsActivity.class);
 		startActivity(intent);
 	}
 
@@ -223,7 +279,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catrobat_forum).toString()));
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+				Uri.parse(getText(R.string.catrobat_forum).toString()));
 		startActivity(browserIntent);
 	}
 
@@ -241,15 +298,20 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+		SharedPreferences preferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		String token = preferences.getString(Constants.TOKEN,
+				Constants.NO_TOKEN);
+		String username = preferences.getString(Constants.USERNAME,
+				Constants.NO_USERNAME);
 
-		if (token == Constants.NO_TOKEN || token.length() != ServerCalls.TOKEN_LENGTH
+		if (token == Constants.NO_TOKEN
+				|| token.length() != ServerCalls.TOKEN_LENGTH
 				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
 			showLoginRegisterDialog();
 		} else {
-			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token, username);
+			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token,
+					username);
 			checkTokenTask.setOnCheckTokenCompleteListener(this);
 			checkTokenTask.execute();
 		}
@@ -263,18 +325,21 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	public void onCheckTokenSuccess() {
 		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-		uploadProjectDialog.show(getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+		uploadProjectDialog.show(getSupportFragmentManager(),
+				UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	public int createNotification(String downloadName) {
 		StatusBarNotificationManager manager = StatusBarNotificationManager.INSTANCE;
-		int notificationId = manager.createNotification(downloadName, this, Constants.DOWNLOAD_NOTIFICATION);
+		int notificationId = manager.createNotification(downloadName, this,
+				Constants.DOWNLOAD_NOTIFICATION);
 		return notificationId;
 	}
 
 	private void showLoginRegisterDialog() {
 		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
-		loginRegisterDialog.show(getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
+		loginRegisterDialog.show(getSupportFragmentManager(),
+				LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void unbindDrawables(View view) {
@@ -293,7 +358,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		String scheme = loadExternalProjectUri.getScheme();
 		if (scheme.startsWith((TYPE_HTTP))) {
 			String url = loadExternalProjectUri.toString();
-			int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
+			int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG)
+					+ PROJECTNAME_TAG.length();
 			String projectName = url.substring(projectNameIndex);
 			try {
 				projectName = URLDecoder.decode(projectName, "UTF-8");
@@ -301,8 +367,10 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				Log.e(TAG, "Could not decode project name: " + projectName, e);
 			}
 
-			Intent downloadIntent = new Intent(this, ProjectDownloadService.class);
-			downloadIntent.putExtra("receiver", new DownloadReceiver(new Handler()));
+			Intent downloadIntent = new Intent(this,
+					ProjectDownloadService.class);
+			downloadIntent.putExtra("receiver", new DownloadReceiver(
+					new Handler()));
 			downloadIntent.putExtra("downloadName", projectName);
 			downloadIntent.putExtra("url", url);
 			int notificationId = createNotification(projectName);
@@ -316,23 +384,28 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			int b = path.lastIndexOf('.');
 			String projectName = path.substring(a, b);
 			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
-				Utils.showErrorDialog(this, getResources().getString(R.string.error_load_project));
+				Utils.showErrorDialog(this,
+						getResources().getString(R.string.error_load_project));
 			}
 		}
 	}
 
 	private void setMainMenuButtonContinueText() {
-		Button mainMenuButtonContinue = (Button) this.findViewById(R.id.main_menu_button_continue);
-		TextAppearanceSpan textAppearanceSpan = new TextAppearanceSpan(this, R.style.MainMenuButtonTextSecondLine);
+		Button mainMenuButtonContinue = (Button) this
+				.findViewById(R.id.main_menu_button_continue);
+		TextAppearanceSpan textAppearanceSpan = new TextAppearanceSpan(this,
+				R.style.MainMenuButtonTextSecondLine);
 		SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
 		String mainMenuContinue = this.getString(R.string.main_menu_continue);
 
 		spannableStringBuilder.append(mainMenuContinue);
 		spannableStringBuilder.append("\n");
-		spannableStringBuilder.append(ProjectManager.INSTANCE.getCurrentProject().getName());
+		spannableStringBuilder.append(ProjectManager.INSTANCE
+				.getCurrentProject().getName());
 
-		spannableStringBuilder.setSpan(textAppearanceSpan, mainMenuContinue.length() + 1,
-				spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+		spannableStringBuilder.setSpan(textAppearanceSpan,
+				mainMenuContinue.length() + 1, spannableStringBuilder.length(),
+				Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
 		mainMenuButtonContinue.setText(spannableStringBuilder);
 	}
