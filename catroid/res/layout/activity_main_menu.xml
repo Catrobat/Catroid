@@ -43,7 +43,7 @@
         style="@style/MainMenuButton"
         android:drawableLeft="@drawable/ic_main_menu_new"
         android:onClick="handleNewButton"
-        android:text="@string/main_menu_new" />
+        android:text="shruti" />
 
     <Button
         android:id="@+id/main_menu_button_programs"
