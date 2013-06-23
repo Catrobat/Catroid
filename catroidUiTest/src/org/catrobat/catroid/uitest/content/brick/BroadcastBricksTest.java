@@ -106,6 +106,10 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(solo.getString(R.string.delete));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
+		solo.clickOnScreen(200, 200);
+		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
+			solo.goBack();
+		}
 		Spinner broadcastSpinner = (Spinner) solo.getView(R.id.brick_broadcast_spinner);
 
 		assertEquals("Wrong selection", defaultBroadcastMessage, broadcastSpinner.getSelectedItem().toString());
