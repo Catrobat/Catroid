@@ -231,7 +231,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements
 		case DIALOG_ALERT:
 			// Create out AlterDialog
 			Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage("What orienatation of the project do you want?");
+			builder.setMessage("What orientation of the project do you want?");
 			builder.setCancelable(true);
 			builder.setPositiveButton("Landscape",
 					new PortraitOnClickListener());
