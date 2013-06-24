@@ -74,22 +74,26 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected void onPostExecute(Boolean success) {
 		super.onPostExecute(success);
-		Context context = activity.getApplicationContext();
 
 		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
 		}
 
-		if (success == false) {
-			Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
-		} else if (onLoadProjectCompleteListener != null) {
-			onLoadProjectCompleteListener.onLoadProjectSuccess();
+		if (onLoadProjectCompleteListener != null) {
+			if (success) {
+				onLoadProjectCompleteListener.onLoadProjectSuccess();
+			} else {
+				//				onLoadProjectCompleteListener.onLoadProjectFailed();
+				Utils.showErrorDialog(activity.getApplicationContext(), activity.getString(R.string.error_load_project));
+			}
 		}
 	}
 
 	public interface OnLoadProjectCompleteListener {
 
 		public void onLoadProjectSuccess();
+
+		//		public void onLoadProjectFailed();
 
 	}
 }
