@@ -84,7 +84,7 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 				onLoadProjectCompleteListener.onLoadProjectSuccess();
 			} else {
 				//				onLoadProjectCompleteListener.onLoadProjectFailed();
-				Utils.showErrorDialog(activity.getApplicationContext(), activity.getString(R.string.error_load_project));
+				Utils.showErrorDialog(activity, activity.getString(R.string.error_load_project));
 			}
 		}
 	}
