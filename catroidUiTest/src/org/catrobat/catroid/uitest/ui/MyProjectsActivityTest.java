@@ -362,6 +362,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		assertTrue("Standard Project should be restored", spriteList.size() == 5);
+		solo.sleep(3000);
 	}
 
 	public void testProjectsAndImagesVisible() {

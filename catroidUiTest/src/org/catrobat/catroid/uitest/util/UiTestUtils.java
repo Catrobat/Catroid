@@ -921,14 +921,16 @@ public class UiTestUtils {
 		if (overflowMenuItemName != null && menuItemId != 0) {
 			ArrayList<View> views = solo.getCurrentViews();
 			ArrayList<Integer> ids = new ArrayList<Integer>();
-			for (View view : views) {
-				ids.add(view.getId());
-			}
-			if (!ids.contains(menuItemId)) {
-				solo.clickOnMenuItem(overflowMenuItemName, true);
-			} else {
-				UiTestUtils.clickOnActionBar(solo, menuItemId);
-			}
+			View viewDelete = solo.getView(R.id.delete);
+			solo.clickOnView(viewDelete);
+			//			for (View view : views) {
+			//				ids.add(view.getId());
+			//			}
+			//			if (!ids.contains(menuItemId)) {
+			//				solo.clickOnMenuItem(overflowMenuItemName, true);
+			//			} else {
+			//				UiTestUtils.clickOnActionBar(solo, menuItemId);
+			//			}
 		} else { // From overflow menu
 			solo.clickOnMenuItem(overflowMenuItemName, true);
 		}
