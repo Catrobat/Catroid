@@ -28,7 +28,6 @@ import org.catrobat.catroid.utils.Utils;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 
 public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
@@ -60,14 +59,18 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
-		Context context = activity.getApplicationContext();
-		if (projectName != null) {
-			return ProjectManager.getInstance().loadProject(projectName, context, false);
-		} else if (ProjectManager.INSTANCE.canLoadProject(context.getString(R.string.default_project_name))) {
-			return ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name), context,
-					false);
+		if (projectName == null) {
+			if (ProjectManager.INSTANCE.canLoadProject(activity.getString(R.string.default_project_name))) {
+				return ProjectManager.getInstance().loadProject(activity.getString(R.string.default_project_name),
+						activity, false);
+			} else {
+				return ProjectManager.getInstance().initializeDefaultProject(activity);
+			}
 		} else {
-			return ProjectManager.getInstance().initializeDefaultProject(context);
+			if (!projectName.equals(ProjectManager.getInstance().getCurrentProject().getName())) {
+				return ProjectManager.getInstance().loadProject(projectName, activity, false);
+			}
+			return true;
 		}
 	}
 
