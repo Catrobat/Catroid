@@ -120,6 +120,9 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 		} catch (IOException e) {
 			Log.e("CATROID", "Error recording sound.", e);
 			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
+		} catch (IllegalStateException e) {
+			Log.e("CATROID", "Error recording sound (Other recorder running?).", e);
+			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
 		}
 	}
 
