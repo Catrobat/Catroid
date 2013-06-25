@@ -467,6 +467,7 @@ public class UiTestUtils {
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
+		StorageHandler.getInstance().saveProject(project);
 
 		return brickList;
 	}
@@ -501,6 +502,7 @@ public class UiTestUtils {
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
+		StorageHandler.getInstance().saveProject(project);
 
 		return brickList;
 	}
@@ -562,6 +564,7 @@ public class UiTestUtils {
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
+		StorageHandler.getInstance().saveProject(project);
 
 		return brickList;
 	}
@@ -598,6 +601,7 @@ public class UiTestUtils {
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(firstScript);
+		StorageHandler.getInstance().saveProject(project);
 
 	}
 
@@ -613,6 +617,7 @@ public class UiTestUtils {
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
+		StorageHandler.getInstance().saveProject(project);
 	}
 
 	/**
