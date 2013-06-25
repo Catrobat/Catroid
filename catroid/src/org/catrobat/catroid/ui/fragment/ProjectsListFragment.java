@@ -236,7 +236,10 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 		adapter.addCheckedProject(info.position);
 
-		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(projectToEdit) == 0) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		if (currentProject == null) {
+			ProjectManager.getInstance().loadProject(projectToEdit.projectName, getActivity(), true);
+		} else if (currentProject.getSpriteList().indexOf(projectToEdit) == 0) {
 			return;
 		}
 
