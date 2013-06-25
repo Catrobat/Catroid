@@ -67,7 +67,11 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 				return ProjectManager.getInstance().initializeDefaultProject(activity);
 			}
 		} else {
-			if (!projectName.equals(ProjectManager.getInstance().getCurrentProject().getName())) {
+			String currentProjectName = "";
+			if (ProjectManager.getInstance().getCurrentProject() != null) {
+				currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
+			}
+			if (!projectName.equals(currentProjectName)) {
 				return ProjectManager.getInstance().loadProject(projectName, activity, false);
 			}
 			return true;
