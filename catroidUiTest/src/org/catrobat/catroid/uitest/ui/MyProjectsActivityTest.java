@@ -791,10 +791,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
-		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(0);
 		assertTrue("Actionbar title is not displayed correctly!",
 				solo.searchText(deleteActionModeTitle + " 1 " + singleItemAppendixDeleteActionMode));
-		solo.clickOnCheckBox(2);
+		solo.clickOnCheckBox(1);
 		assertTrue("Actionbar title is not displayed correctly!",
 				solo.searchText(deleteActionModeTitle + " 2 " + multipleItemAppendixDeleteActionMode));
 
