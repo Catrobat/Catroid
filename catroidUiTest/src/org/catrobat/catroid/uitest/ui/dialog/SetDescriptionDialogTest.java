@@ -64,6 +64,7 @@ public class SetDescriptionDialogTest extends ActivityInstrumentationTestCase2<M
 	public void testMultiLineProjectDescription() {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 		Project uploadProject = new Project(getActivity(), testProject);
+		ProjectManager.getInstance().setProject(uploadProject);
 		storageHandler.saveProject(uploadProject);
 
 		solo.sleep(300);
