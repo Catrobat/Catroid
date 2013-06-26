@@ -22,18 +22,15 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import android.hardware.Sensor;
-import android.hardware.SensorEventListener;
+public class SensorCustomEvent extends Object {
+	public int accurency;
+	public Sensors sensor;
+	public long timestamp;
+	public final float[] values;
 
-public interface SensorManagerInterface {
-
-	public void unregisterListener(SensorEventListener listener);
-
-	public void unregisterListener(SensorCustomEventListener listener);
-
-	public boolean registerListener(SensorEventListener listener, Sensor sensor, int rate);
-
-	public boolean registerListener(SensorCustomEventListener listener, Sensors sensor);
-
-	public Sensor getDefaultSensor(int typeLinearAcceleration);
+	public SensorCustomEvent(Sensors SourceSensor, float[] val) {
+		sensor = SourceSensor;
+		values = val;
+		timestamp = System.currentTimeMillis();
+	}
 }

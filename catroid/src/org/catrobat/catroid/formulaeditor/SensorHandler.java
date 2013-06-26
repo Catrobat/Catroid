@@ -22,18 +22,16 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import org.catrobat.catroid.formulaeditor.SensorLoudness.SensorLoudnessEventListener;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 
-public class SensorHandler implements SensorEventListener, SensorLoudnessEventListener {
+public class SensorHandler implements SensorEventListener, SensorCustomEventListener {
 	private static SensorHandler instance = null;
 	private SensorManagerInterface sensorManager = null;
 	private Sensor accelerometerSensor = null;
 	private Sensor rotationVectorSensor = null;
-	private SensorLoudness loudnessSensor = null;
 	private float[] rotationMatrix = new float[16];
 	private float[] rotationVector = new float[3];
 	public static final float radianToDegreeConst = 180f / (float) Math.PI;
@@ -42,14 +40,13 @@ public class SensorHandler implements SensorEventListener, SensorLoudnessEventLi
 	private float linearAcceleartionY = 0f;
 	private float linearAcceleartionZ = 0f;
 
-	private double loudness_ = 0d;
+	private float loudness = 0f;
 
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
 				(android.hardware.SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
 		accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 		rotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
-		loudnessSensor = SensorLoudness.getSensorLoudness();
 	}
 
 	public static void startSensorListener(Context context) {
@@ -57,13 +54,13 @@ public class SensorHandler implements SensorEventListener, SensorLoudnessEventLi
 		if (instance == null) {
 			instance = new SensorHandler(context);
 		}
-		instance.sensorManager.unregisterListener(instance);
-		instance.loudnessSensor.unregisterListener(instance);
+		instance.sensorManager.unregisterListener((SensorEventListener) instance);
+		instance.sensorManager.unregisterListener((SensorCustomEventListener) instance);
 		instance.sensorManager.registerListener(instance, instance.accelerometerSensor,
 				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
 		instance.sensorManager.registerListener(instance, instance.rotationVectorSensor,
 				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
-		instance.loudnessSensor.registerListener(instance);
+		instance.sensorManager.registerListener(instance, Sensors.LOUDNESS);
 	}
 
 	public static void registerListener(SensorEventListener listener) {
@@ -87,8 +84,8 @@ public class SensorHandler implements SensorEventListener, SensorLoudnessEventLi
 		if (instance == null) {
 			return;
 		}
-		instance.sensorManager.unregisterListener(instance);
-		instance.loudnessSensor.unregisterListener(instance);
+		instance.sensorManager.unregisterListener((SensorEventListener) instance);
+		instance.sensorManager.unregisterListener((SensorCustomEventListener) instance);
 	}
 
 	public static Double getSensorValue(Sensors sensor) {
@@ -130,7 +127,7 @@ public class SensorHandler implements SensorEventListener, SensorLoudnessEventLi
 				return sensorValue * radianToDegreeConst * -1f;
 
 			case LOUDNESS:
-				return instance.loudness_;
+				return Double.valueOf(instance.loudness);
 		}
 
 		return 0d;
@@ -138,6 +135,11 @@ public class SensorHandler implements SensorEventListener, SensorLoudnessEventLi
 
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
+
+	}
+
+	@Override
+	public void onCustomAccuracyChanged(Sensors sensor, int acc) {
 
 	}
 
@@ -159,8 +161,12 @@ public class SensorHandler implements SensorEventListener, SensorLoudnessEventLi
 	}
 
 	@Override
-	public void onLoudnessChanged(double loudness) {
-		instance.loudness_ = loudness;
+	public void onCustomSensorChanged(SensorCustomEvent event) {
+		switch (event.sensor) {
+			case LOUDNESS:
+				instance.loudness = event.values[0];
+				break;
+		}
 	}
 
 	//For API Level < 9

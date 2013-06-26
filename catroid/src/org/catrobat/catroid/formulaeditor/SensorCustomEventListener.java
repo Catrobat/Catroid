@@ -22,18 +22,9 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import android.hardware.Sensor;
-import android.hardware.SensorEventListener;
+public interface SensorCustomEventListener {
 
-public interface SensorManagerInterface {
+	abstract void onCustomAccuracyChanged(Sensors sensor, int acc);
 
-	public void unregisterListener(SensorEventListener listener);
-
-	public void unregisterListener(SensorCustomEventListener listener);
-
-	public boolean registerListener(SensorEventListener listener, Sensor sensor, int rate);
-
-	public boolean registerListener(SensorCustomEventListener listener, Sensors sensor);
-
-	public Sensor getDefaultSensor(int typeLinearAcceleration);
+	abstract void onCustomSensorChanged(SensorCustomEvent event);
 }

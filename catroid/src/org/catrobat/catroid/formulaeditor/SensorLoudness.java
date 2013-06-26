@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 
 import android.os.Handler;
-import android.util.Log;
 
 public class SensorLoudness {
 
@@ -37,7 +36,7 @@ public class SensorLoudness {
 
 	private final double MAX_AMP_VALUE = 32767d;
 	private static SensorLoudness instance = null;
-	private ArrayList<SensorLoudnessEventListener> listener_ = new ArrayList<SensorLoudnessEventListener>();
+	private ArrayList<SensorCustomEventListener> listener_ = new ArrayList<SensorCustomEventListener>();
 
 	private SoundRecorder mRecorder = null;
 	private Handler m_handler;
@@ -46,9 +45,11 @@ public class SensorLoudness {
 	Runnable m_statusChecker = new Runnable() {
 		@Override
 		public void run() {
-			double loudness = mRecorder.getMaxAmplitude();
-			for (SensorLoudnessEventListener el : listener_) {
-				el.onLoudnessChanged(scale_range / MAX_AMP_VALUE * loudness);
+			float[] loudness = new float[1];
+			loudness[0] = (float) (scale_range / MAX_AMP_VALUE) * mRecorder.getMaxAmplitude();
+			SensorCustomEvent event = new SensorCustomEvent(Sensors.LOUDNESS, loudness);
+			for (SensorCustomEventListener el : listener_) {
+				el.onCustomSensorChanged(event);
 			}
 			m_handler.postDelayed(m_statusChecker, m_interval);
 		}
@@ -65,7 +66,7 @@ public class SensorLoudness {
 		return instance;
 	}
 
-	public synchronized boolean registerListener(SensorLoudnessEventListener listener) {
+	public synchronized boolean registerListener(SensorCustomEventListener listener) {
 		if (listener_.contains(listener)) {
 			return true;
 		}
@@ -78,14 +79,13 @@ public class SensorLoudness {
 			} catch (Exception e) {
 				listener_.remove(listener);
 				mRecorder = null;
-				Log.e("CATROID", "LoudnessSensor failed to start recording.", e);
 				return false;
 			}
 		}
 		return true;
 	}
 
-	public synchronized void unregisterListener(SensorLoudnessEventListener listener) {
+	public synchronized void unregisterListener(SensorCustomEventListener listener) {
 		if (listener_.contains(listener)) {
 			listener_.remove(listener);
 			if (listener_.size() == 0 && mRecorder != null) {
@@ -94,16 +94,10 @@ public class SensorLoudness {
 					try {
 						mRecorder.stop();
 					} catch (IOException e) {
-						e.printStackTrace();
-						Log.e("CATROID", "LoudnessSensor Stopping failed.",e);
 					}
 				}
 				mRecorder = null;
 			}
 		}
-	}
-
-	public interface SensorLoudnessEventListener {
-		public abstract void onLoudnessChanged(double loudness);
 	}
 }
