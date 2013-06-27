@@ -48,7 +48,7 @@ public class SensorLoudness {
 		public void run() {
 			float[] loudness = new float[1];
 			loudness[0] = (float) (scale_range / MAX_AMP_VALUE) * mRecorder.getMaxAmplitude();
-			if (current_value != loudness[0]) {
+			if (current_value != loudness[0] && loudness[0] != 0f) {
 				current_value = loudness[0];
 				SensorCustomEvent event = new SensorCustomEvent(Sensors.LOUDNESS, loudness);
 				for (SensorCustomEventListener el : listener_) {
