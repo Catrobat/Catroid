@@ -87,6 +87,9 @@ public class UtilFile {
 	static public boolean clearDirectory(File path) {
 		if (path.exists()) {
 			File[] filesInDirectory = path.listFiles();
+			if (filesInDirectory == null) {
+				return false;
+			}
 			for (File file : filesInDirectory) {
 				if (file.isDirectory()) {
 					deleteDirectory(file);

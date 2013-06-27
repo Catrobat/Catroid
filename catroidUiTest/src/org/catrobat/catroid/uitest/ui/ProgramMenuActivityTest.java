@@ -73,8 +73,8 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 	@Override
 	public void tearDown() throws Exception {
 		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
+		solo.finishOpenedActivities();
 		super.tearDown();
 		solo = null;
 		ProjectManager.getInstance().deleteCurrentProject();
@@ -147,11 +147,16 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 	}
 
 	public void testPlayButton() {
+		solo.assertMemoryNotLow();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		UiTestUtils.getIntoProgramMenuFromMainMenu(solo, 0);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Not in StageActivity", StageActivity.class);
+		solo.goBack();
+		solo.goBack();
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.assertCurrentActivity("Not in ProgramMenuActivity", ProgramMenuActivity.class);
 	}
 
 	public void testMenuItemSettings() {
@@ -229,6 +234,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 				addNewSpriteEditText.getHint());
 		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
 		solo.enterText(0, spriteName);
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(200);
 	}

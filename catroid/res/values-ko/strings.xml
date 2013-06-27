@@ -83,8 +83,9 @@
     <string name="pocket_paint_not_installed">"그림판이 설치되어 있지 않습니다! \n그림판을 설치하겠습니까?"</string>
     <string name="default_look_name">"형태"</string>
     <string name="delete_look_dialog">"형태를 삭제하겠습니까?"</string>
-    <string name="add_look_from_camera">"카메라에서 가져오기"</string>
-    <string name="add_look_from_gallery">"갤러리에서 가져오기"</string>
+    <string name="add_look_from_camera">"카메라에서 가져오기"</string> 
+    <string name="add_look_draw_new_image">"카메라에서 가져오기"</string>
+    <string name="add_look_choose_image">"갤러리에서 가져오기"</string>
     <string name="select_look_from_gallery">"그림 선택"</string>
     <string name="select_look_from_camera">"사진 선택"</string>
     <!-- Sound activity -->
@@ -230,13 +231,6 @@
     <string name="action_swipeDown">"아래쪽으로 밀기"</string>
     <!-- defaultValues -->
     <string name="default_project_name">"내 첫 프로젝트"</string>
-    <string name="default_project_sprites_pocketcode_name">"Catroid"</string>
-    <string name="default_project_sprites_pocketcode_normalcat">"normalCat"</string>
-    <string name="default_project_sprites_pocketcode_banzaicat">"banzaiCat"</string>
-    <string name="default_project_sprites_pocketcode_cheshirecat">"cheshireCat"</string>
-    <string name="default_project_backgroundname">"  \"background\": {
-"</string>
-    <string name="default_project_backgroundcolor">"# 604fff"</string>
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">"값을 입력하십시오"</string>
     <string name="notification_screenshot_ok">"스크린샷이 저장되었습니다."</string>
@@ -317,7 +311,7 @@
     <string name="formula_editor_parse_fail">"입력에 오류가 있습니다! 해결하거나 취소하려면 다시 누르십시오."</string>
     <string name="formula_nothing_selected">"블록의 입력 값을 정의"</string>
     <string name="formula_editor_parse_fail_formula_too_long">"수식이 너무 깁니다! 해결하거나 취소하려면 다시 누르십시오."</string>
-    <string name="formula_editor_choose_look_variable">"형태 변수 값를 선택하세요 :"</string>
+    <string name="formula_editor_choose_object_variable">"형태 변수 값를 선택하세요 :"</string>
     <string name="formula_editor_function_sin">"sin"</string>
     <string name="formula_editor_function_cos">"cos"</string>
     <string name="formula_editor_function_tan">"tan"</string>
@@ -335,12 +329,12 @@
     <string name="formula_editor_sensor_compass_direction">compass_direction</string>
     <string name="formula_editor_sensor_x_inclination">x_inclination</string>
     <string name="formula_editor_sensor_y_inclination">y_inclination</string>
-    <string name="formula_editor_look_x">"looks-x"</string>
-    <string name="formula_editor_look_y">"looks-y"</string>
-    <string name="formula_editor_look_ghosteffect">"looks-ghosteffect"</string>
-    <string name="formula_editor_look_brightness">"looks-brightness"</string>
-    <string name="formula_editor_look_size">"looks-size"</string>
-    <string name="formula_editor_look_rotation">"looks-rotation"</string>
-    <string name="formula_editor_look_layer">"looks-layer"</string>
+    <string name="formula_editor_object_x">"looks-x"</string>
+    <string name="formula_editor_object_y">"looks-y"</string>
+    <string name="formula_editor_object_ghosteffect">"looks-ghosteffect"</string>
+    <string name="formula_editor_object_brightness">"looks-brightness"</string>
+    <string name="formula_editor_object_size">"looks-size"</string>
+    <string name="formula_editor_object_rotation">"looks-rotation"</string>
+    <string name="formula_editor_object_layer">"looks-layer"</string>
 
 </resources>

@@ -174,8 +174,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		Script startScriptNormal = new StartScript(spriteNormal);
 		WaitBrick waitBrickNormal = new WaitBrick(spriteNormal, 1000);
 		SpeakBrick speakBrickNormal = new SpeakBrick(spriteNormal, textMessageTest);
-		BroadcastBrick broadcastBrickNormal = new BroadcastBrick(spriteNormal);
-		broadcastBrickNormal.setSelectedMessage("normal");
+		BroadcastBrick broadcastBrickNormal = new BroadcastBrick(spriteNormal, "normal");
 		startScriptNormal.addBrick(waitBrickNormal);
 		startScriptNormal.addBrick(speakBrickNormal);
 		startScriptNormal.addBrick(broadcastBrickNormal);
@@ -209,17 +208,15 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 
 		Script startScriptInterrupt = new StartScript(spriteInterrupt);
 		WaitBrick waitBrickInterrupt = new WaitBrick(spriteNull, 1000);
-		BroadcastBrick broadcastBrick = new BroadcastBrick(spriteInterrupt);
+		BroadcastBrick broadcastBrick = new BroadcastBrick(spriteInterrupt, "double");
 		SpeakBrick speakBrickInterrupt = new SpeakBrick(spriteInterrupt, textMessageLong);
-		broadcastBrick.setSelectedMessage("double");
 		startScriptInterrupt.addBrick(waitBrickInterrupt);
 		startScriptInterrupt.addBrick(broadcastBrick);
 		startScriptInterrupt.addBrick(speakBrickInterrupt);
 
 		spriteInterrupt.addScript(startScriptInterrupt);
 
-		BroadcastScript broadcastScriptInterrupt = new BroadcastScript(spriteInterrupt);
-		broadcastScriptInterrupt.setBroadcastMessage("double");
+		BroadcastScript broadcastScriptInterrupt = new BroadcastScript(spriteInterrupt, "double");
 		WaitBrick waitBrickInterrupt2 = new WaitBrick(spriteInterrupt, 2000);
 		broadcastScriptInterrupt.addBrick(waitBrickInterrupt2);
 		SpeakBrick speakBrickInterrupt2 = new SpeakBrick(spriteInterrupt, textMessageInterrupt);

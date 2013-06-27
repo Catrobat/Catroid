@@ -128,7 +128,7 @@ public class NewVariableDialog extends SherlockDialogFragment {
 			if (ProjectManager.getInstance().getCurrentProject().getUserVariables()
 					.getUserVariable(variableName, ProjectManager.getInstance().getCurrentSprite()) != null) {
 
-				Toast.makeText(getActivity(), R.string.formula_editor_existing_user_variable, Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity(), R.string.formula_editor_existing_variable, Toast.LENGTH_LONG).show();
 
 			} else {
 				ProjectManager.getInstance().getCurrentProject().getUserVariables()
@@ -170,7 +170,7 @@ public class NewVariableDialog extends SherlockDialogFragment {
 				if (ProjectManager.getInstance().getCurrentProject().getUserVariables()
 						.getUserVariable(variableName, ProjectManager.getInstance().getCurrentSprite()) != null) {
 
-					Toast.makeText(getActivity(), R.string.formula_editor_existing_user_variable, Toast.LENGTH_SHORT)
+					Toast.makeText(getActivity(), R.string.formula_editor_existing_variable, Toast.LENGTH_SHORT)
 							.show();
 
 					positiveButton.setEnabled(false);

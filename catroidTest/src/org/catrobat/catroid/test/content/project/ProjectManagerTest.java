@@ -78,7 +78,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 		// verify that new project is default project (see StorageHandler.createDefaultProject)
 		int spriteCount = projectManager.getCurrentProject().getSpriteList().size();
-		assertEquals("New project has wrong number of sprites", 2, spriteCount);
+		assertEquals("New project has wrong number of sprites", 5, spriteCount);
 		Sprite catroid = projectManager.getCurrentProject().getSpriteList().get(1);
 		assertEquals("Catroid sprite has wrong number of scripts", 2, catroid.getNumberOfScripts());
 
@@ -135,7 +135,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		if (!projectManager.renameProject(newProjectName, getInstrumentation().getContext())) {
 			fail("could not rename Project");
 		}
-        StorageHandler.getInstance().saveProject(project);
+		StorageHandler.getInstance().saveProject(project);
 
 		File oldProjectFolder = new File(Constants.DEFAULT_ROOT + "/" + oldProjectName);
 		File oldProjectFile = new File(Constants.DEFAULT_ROOT + "/" + oldProjectName + "/" + Constants.PROJECTCODE_NAME);

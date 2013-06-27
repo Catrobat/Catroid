@@ -84,6 +84,18 @@ public class InternFormulaKeyboardAdapter {
 				return buildSingleParameterFunction(Functions.ROUND, "0");
 			case R.string.formula_editor_function_mod:
 				return buildDoubleParameterFunction(Functions.MOD, "1", "1");
+			case R.string.formula_editor_function_arcsin:
+				return buildSingleParameterFunction(Functions.ARCSIN, "0");
+			case R.string.formula_editor_function_arccos:
+				return buildSingleParameterFunction(Functions.ARCCOS, "0");
+			case R.string.formula_editor_function_arctan:
+				return buildSingleParameterFunction(Functions.ARCTAN, "0");
+			case R.string.formula_editor_function_exp:
+				return buildSingleParameterFunction(Functions.EXP, "1");
+			case R.string.formula_editor_function_max:
+				return buildDoubleParameterFunction(Functions.MAX, "0", "1");
+			case R.string.formula_editor_function_min:
+				return buildDoubleParameterFunction(Functions.MIN, "0", "1");
 			case R.string.formula_editor_function_true:
 				return buildFunctionWithoutParametersAndBrackets(Functions.TRUE);
 			case R.string.formula_editor_function_false:
@@ -150,20 +162,20 @@ public class InternFormulaKeyboardAdapter {
 
 				//COSTUME
 
-			case R.string.formula_editor_look_x:
-				return buildLook(Sensors.LOOK_X);
-			case R.string.formula_editor_look_y:
-				return buildLook(Sensors.LOOK_Y);
-			case R.string.formula_editor_look_ghosteffect:
-				return buildLook(Sensors.LOOK_GHOSTEFFECT);
-			case R.string.formula_editor_look_brightness:
-				return buildLook(Sensors.LOOK_BRIGHTNESS);
-			case R.string.formula_editor_look_size:
-				return buildLook(Sensors.LOOK_SIZE);
-			case R.string.formula_editor_look_rotation:
-				return buildLook(Sensors.LOOK_ROTATION);
-			case R.string.formula_editor_look_layer:
-				return buildLook(Sensors.LOOK_LAYER);
+			case R.string.formula_editor_object_x:
+				return buildObject(Sensors.OBJECT_X);
+			case R.string.formula_editor_object_y:
+				return buildObject(Sensors.OBJECT_Y);
+			case R.string.formula_editor_object_ghosteffect:
+				return buildObject(Sensors.OBJECT_GHOSTEFFECT);
+			case R.string.formula_editor_object_brightness:
+				return buildObject(Sensors.OBJECT_BRIGHTNESS);
+			case R.string.formula_editor_object_size:
+				return buildObject(Sensors.OBJECT_SIZE);
+			case R.string.formula_editor_object_rotation:
+				return buildObject(Sensors.OBJECT_ROTATION);
+			case R.string.formula_editor_object_layer:
+				return buildObject(Sensors.OBJECT_LAYER);
 
 		}
 
@@ -201,7 +213,7 @@ public class InternFormulaKeyboardAdapter {
 		return returnList;
 	}
 
-	private List<InternToken> buildLook(Sensors sensors) {
+	private List<InternToken> buildObject(Sensors sensors) {
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(InternTokenType.SENSOR, sensors.name()));
 		return returnList;

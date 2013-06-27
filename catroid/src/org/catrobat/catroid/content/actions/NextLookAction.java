@@ -40,25 +40,8 @@ public class NextLookAction extends TemporalAction {
 
 		if (lookDataListSize > 0 && sprite.look.getLookData() != null) {
 			LookData currentLookData = sprite.look.getLookData();
-			LookData finalLookData = lookDataList.get(lookDataListSize - 1);
-			boolean executeOnce = true;
-
-			for (LookData lookData : lookDataList) {
-				int currentIndex = lookDataList.indexOf(lookData);
-				int newIndex = currentIndex + 1;
-
-				if (currentLookData.equals(finalLookData) && executeOnce) {
-					executeOnce = false;
-					currentLookData = lookDataList.get(0);
-				}
-
-				else if (currentLookData.equals(lookData) && executeOnce) {
-					executeOnce = false;
-					currentLookData = lookDataList.get(newIndex);
-				}
-
-				sprite.look.setLookData(currentLookData);
-			}
+			int newIndex = (lookDataList.indexOf(currentLookData) + 1) % lookDataListSize;
+			sprite.look.setLookData(lookDataList.get(newIndex));
 		} else {
 			// If there are no looks do nothing
 		}

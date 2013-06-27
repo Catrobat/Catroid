@@ -28,8 +28,9 @@ import java.io.OutputStream;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
@@ -66,7 +67,8 @@ public class StageListener implements ApplicationListener {
 	private static boolean DYNAMIC_SAMPLING_RATE_FOR_ACTIONS = true;
 
 	private static final boolean DEBUG = false;
-	public static final String SCREENSHOT_FILE_NAME = "screenshot.png";
+	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot.png";
+	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot.png";
 	private FPSLogger fpsLogger;
 
 	private Stage stage;
@@ -156,12 +158,17 @@ public class StageListener implements ApplicationListener {
 		camera.position.set(0, 0, 0);
 
 		sprites = project.getSpriteList();
+
+		for (Sprite sprite : sprites) {
+			sprite.resetSprite();
+			stage.addActor(sprite.look);
+			sprite.resume();
+		}
+
 		if (sprites.size() > 0) {
 			sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
 		}
-		for (Sprite sprite : sprites) {
-			stage.addActor(sprite.look);
-		}
+
 		if (DEBUG) {
 			OrthoCamController camController = new OrthoCamController(camera);
 			InputMultiplexer multiplexer = new InputMultiplexer();
@@ -241,13 +248,9 @@ public class StageListener implements ApplicationListener {
 	public void finish() {
 		finished = true;
 		SoundManager.getInstance().clear();
-		for (Sprite sprite : sprites) {
-			sprite.resume();
-			sprite.resetSprite();
-		}
 		if (thumbnail != null) {
-			prepareScreenshotFiles();
-			saveScreenshot(thumbnail);
+			prepareAutomaticScreenshotAndNoMeadiaFile();
+			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
 		}
 
 	}
@@ -302,9 +305,9 @@ public class StageListener implements ApplicationListener {
 				break;
 			case STRETCH:
 			default:
-				Gdx.gl.glViewport(0, 0, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
-				screenshotWidth = Values.SCREEN_WIDTH;
-				screenshotHeight = Values.SCREEN_HEIGHT;
+				Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+				screenshotWidth = ScreenValues.SCREEN_WIDTH;
+				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
 				screenshotX = 0;
 				screenshotY = 0;
 				break;
@@ -426,15 +429,15 @@ public class StageListener implements ApplicationListener {
 		disposeTextures();
 	}
 
-	public boolean makeScreenshot() {
+	public boolean makeManualScreenshot() {
 		makeScreenshot = true;
 		while (makeScreenshot) {
 			Thread.yield();
 		}
-		return this.saveScreenshot(this.screenshot);
+		return this.saveScreenshot(this.screenshot, SCREENSHOT_MANUAL_FILE_NAME);
 	}
 
-	private boolean saveScreenshot(byte[] screenshot) {
+	private boolean saveScreenshot(byte[] screenshot, String fileName) {
 		int length = screenshot.length;
 		Bitmap fullScreenBitmap, centerSquareBitmap;
 		int[] colors = new int[length / 4];
@@ -458,7 +461,7 @@ public class StageListener implements ApplicationListener {
 			centerSquareBitmap = Bitmap.createBitmap(fullScreenBitmap, 0, 0, screenshotWidth, screenshotHeight);
 		}
 
-		FileHandle image = Gdx.files.absolute(pathForScreenshot + SCREENSHOT_FILE_NAME);
+		FileHandle image = Gdx.files.absolute(pathForScreenshot + fileName);
 		OutputStream stream = image.write(false);
 		try {
 			centerSquareBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -537,15 +540,15 @@ public class StageListener implements ApplicationListener {
 		return this.makeAutomaticScreenshot;
 	}
 
-	private void prepareScreenshotFiles() {
-		File noMediaFile = new File(pathForScreenshot + ".nomedia");
-		File screenshotFile = new File(pathForScreenshot + SCREENSHOT_FILE_NAME);
+	private void prepareAutomaticScreenshotAndNoMeadiaFile() {
+		File noMediaFile = new File(pathForScreenshot + Constants.NO_MEDIA_FILE);
+		File screenshotAutomaticFile = new File(pathForScreenshot + SCREENSHOT_AUTOMATIC_FILE_NAME);
 		try {
-			if (screenshotFile.exists()) {
-				screenshotFile.delete();
-				screenshotFile = new File(pathForScreenshot + SCREENSHOT_FILE_NAME);
+			if (screenshotAutomaticFile.exists()) {
+				screenshotAutomaticFile.delete();
+				screenshotAutomaticFile = new File(pathForScreenshot + SCREENSHOT_AUTOMATIC_FILE_NAME);
 			}
-			screenshotFile.createNewFile();
+			screenshotAutomaticFile.createNewFile();
 
 			if (!noMediaFile.exists()) {
 				noMediaFile.createNewFile();

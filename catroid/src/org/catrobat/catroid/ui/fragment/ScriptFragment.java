@@ -60,7 +60,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.actionbarsherlock.view.ActionMode;
@@ -176,16 +175,16 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	public void onPause() {
 		super.onPause();
 		ProjectManager projectManager = ProjectManager.INSTANCE;
-		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
-		}
-
 		if (brickAddedReceiver != null) {
 			getActivity().unregisterReceiver(brickAddedReceiver);
 		}
 
 		if (brickListChangedReceiver != null) {
 			getActivity().unregisterReceiver(brickListChangedReceiver);
+		}
+		if (projectManager.getCurrentProject() != null) {
+			projectManager.saveProject();
+			projectManager.getCurrentProject().removeUnusedBroadcastMessages(); // TODO: Find better place
 		}
 	}
 
@@ -225,18 +224,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	public BrickAdapter getAdapter() {
-		BottomBar.enableButtons(getActivity());
-
-		LinearLayout layoutAdd = (LinearLayout) getActivity().findViewById(R.id.button_add);
-
-		layoutAdd.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				handleAddButton();
-			}
-		});
-		BottomBar.setButtonVisible(getSherlockActivity());
-		BottomBar.enableButtons(getSherlockActivity());
 		return adapter;
 	}
 
@@ -303,7 +290,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	private void showCategoryFragment() {
 		BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
-		brickCategoryFragment.setOnCategorySelectedListener(ScriptFragment.this);
+		brickCategoryFragment.setOnCategorySelectedListener(this);
 		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 

@@ -35,7 +35,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -105,9 +104,8 @@ public class Look extends Image {
 		});
 	}
 
-	@Override
-	public Look clone() {
-		final Look cloneLook = new Look(null);
+	public Look copyLookForSprite(final Sprite cloneSprite) {
+		Look cloneLook = cloneSprite.look;
 
 		cloneLook.alphaValue = this.alphaValue;
 		cloneLook.brightnessValue = this.brightnessValue;
@@ -122,47 +120,6 @@ public class Look extends Image {
 		return cloneLook;
 	}
 
-	public Look copyLookForSprite(final Sprite cloneSprite) {
-		final Look cloneLook = clone();
-		cloneLook.sprite = cloneSprite;
-
-		for (EventListener listener : cloneSprite.look.getListeners()) {
-			cloneLook.removeListener(listener);
-		}
-		cloneLook.addListener(new InputListener() {
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				if (doTouchDown(x, y, pointer)) {
-					return true;
-				}
-				cloneLook.setTouchable(Touchable.disabled);
-				Actor target = cloneLook.getParent().hit(event.getStageX(), event.getStageY(), true);
-				if (target != null) {
-					target.fire(event);
-				}
-				cloneLook.setTouchable(Touchable.enabled);
-				return false;
-			}
-		});
-		cloneLook.addListener(new BroadcastListener() {
-			@Override
-			public void handleBroadcastEvent(BroadcastEvent event, String broadcastMessage) {
-				cloneLook.doHandleBroadcastEvent(broadcastMessage);
-			}
-
-			@Override
-			public void handleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
-				cloneLook.doHandleBroadcastFromWaiterEvent(event, broadcastMessage);
-			}
-		});
-
-		cloneLook.whenParallelAction = null;
-		cloneLook.broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
-		cloneLook.broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
-
-		return cloneLook;
-	}
-
 	public boolean doTouchDown(float x, float y, int pointer) {
 		if (sprite.isPaused) {
 			return true;
@@ -172,9 +129,9 @@ public class Look extends Image {
 		}
 
 		// We use Y-down, libgdx Y-up. This is the fix for accurate y-axis detection
-		y = getHeight() - y;
+		y = (getHeight() - 1) - y;
 
-		if (x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight()) {
+		if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight()) {
 			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
 				if (whenParallelAction == null) {
 					sprite.createWhenScriptActionSequence("Tapped");
