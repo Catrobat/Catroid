@@ -393,6 +393,11 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		@SuppressWarnings("deprecation")
 		int displayWidth = display.getWidth();
 
+		solo.clickLongOnText(solo.getString(R.string.brick_when_started));
+		solo.waitForText(solo.getString(R.string.delete));
+		solo.clickOnText(solo.getString(R.string.delete));
+		solo.clickOnButton(solo.getString(R.string.no));
+
 		UiTestUtils.longClickAndDrag(solo, 30, yPositionList.get(2), displayWidth, yPositionList.get(2), 40);
 		solo.sleep(1000);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
