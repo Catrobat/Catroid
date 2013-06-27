@@ -63,7 +63,7 @@ public class ServerCalls {
 	public static final String BASE_URL_FTP = "pocketcode.org";
 	public static final int FTP_PORT = 8080;
 
-	private static final String FILE_UPLOAD_URL = BASE_URL_FTP;
+	private static final String FILE_UPLOAD_URL = BASE_URL_HTTPS;
 	private static final String CHECK_TOKEN_URL = BASE_URL_HTTPS + "api/checkToken/check.json";
 	private static final String REGISTRATION_URL = BASE_URL_HTTPS + "api/loginOrRegister/loginOrRegister.json";
 
