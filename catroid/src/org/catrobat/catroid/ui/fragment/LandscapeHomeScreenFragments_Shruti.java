@@ -10,8 +10,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class LandscapeHomeScreenFragments_Shruti extends SherlockFragmentActivity {
 
-	boolean detailPage = false;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,19 +32,19 @@ public class LandscapeHomeScreenFragments_Shruti extends SherlockFragmentActivit
 		}
 
 		if (findViewById(R.id.webSite) != null) {
-			detailPage = true;
+
 			getFragmentManager().popBackStack();
 
-			LandscapeHomeScreenWebFragment_Shruti detailFragment = (LandscapeHomeScreenWebFragment_Shruti) getFragmentManager()
+			LandscapeHomeScreenWebFragment_Shruti webFragment = (LandscapeHomeScreenWebFragment_Shruti) getFragmentManager()
 					.findFragmentById(R.id.webSite);
-			if (detailFragment == null) {
+			if (webFragment == null) {
 				FragmentTransaction ft = getFragmentManager().beginTransaction();
-				detailFragment = new LandscapeHomeScreenWebFragment_Shruti();
-				ft.replace(R.id.webSite, detailFragment, "Detail_Fragment1");
+				webFragment = new LandscapeHomeScreenWebFragment_Shruti();
+				ft.replace(R.id.webSite, webFragment, "Detail_Fragment1");
 				ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 				ft.commit();
 				Log.v("shruti", "maybe");
-				detailFragment.setURLContent("https://pocketcode.org");
+				webFragment.setURLContent("https://pocketcode.org");
 				Log.v("shruti", "yes");
 			}
 		}

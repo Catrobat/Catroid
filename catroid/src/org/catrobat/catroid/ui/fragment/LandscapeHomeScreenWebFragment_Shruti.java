@@ -51,14 +51,6 @@ public class LandscapeHomeScreenWebFragment_Shruti extends Fragment {
 		mURL = URL;
 	}
 
-	public void updateURLContent(String URL) {
-		mURL = URL;
-		WebView myWebView = (WebView) getView().findViewById(R.id.pageInfo);
-		myWebView.getSettings().setJavaScriptEnabled(true);
-		myWebView.setWebViewClient(new MyWebViewClient());
-		myWebView.loadUrl(mURL.trim());
-	}
-
 	private class MyWebViewClient extends WebViewClient {
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
