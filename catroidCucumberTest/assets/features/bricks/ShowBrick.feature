@@ -7,7 +7,7 @@ Feature: Show Brick
     And a WhenTappedScript with these bricks:
       | BroadcastBrick | show |
     And an object 'cuke' that has a StartScript with these bricks:
-      | SetLookBrick | any |
+      | SetLookBrick | default_image |
     And a WhenTappedScript with these bricks:
       | HideBrick | null |
     And a BroadcastScript for the show message with these bricks:

@@ -3,6 +3,7 @@ package org.catrobat.catroid.test;
 import android.test.AndroidTestCase;
 import com.jayway.android.robotium.solo.Solo;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -57,5 +58,11 @@ public class ProjectSteps extends AndroidTestCase {
         solo.waitForActivity(StageActivity.class.getSimpleName(), 3000);
         assertEquals(StageActivity.class, solo.getCurrentActivity().getClass());
         solo.sleep(4000);
+    }
+
+    @Then("^I wait (\\d+) milliseconds$")
+    public void I_wait_d_milliseconds(int time) {
+        Solo solo = (Solo) RunCukes.get(RunCukes.KEY_SOLO);
+        solo.sleep(time);
     }
 }

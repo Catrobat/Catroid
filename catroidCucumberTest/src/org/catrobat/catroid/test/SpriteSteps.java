@@ -76,4 +76,17 @@ public class SpriteSteps extends AndroidTestCase {
         }
         assertTrue("Looks did not change!", names.size() > 1);
     }
+
+    @Then("^the object '(\\w+)' has a \\b(x|y) position of (\\d+)$")
+    public void object_has_position(String name, String axis, int position) {
+        Project project = (Project) RunCukes.get(RunCukes.KEY_PROJECT);
+        Sprite sprite = Util.findSprite(project, name);
+        int actualPosition;
+        if ("x".equals(axis)) {
+            actualPosition = Math.round(sprite.look.getX() + sprite.look.getWidth() / 2f);
+        } else {
+            actualPosition = Math.round(sprite.look.getY() + sprite.look.getHeight() / 2f);
+        }
+        assertEquals(position, actualPosition);
+    }
 }

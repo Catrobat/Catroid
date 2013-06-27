@@ -82,29 +82,43 @@ public class ScriptSteps extends AndroidTestCase {
         }
     }
 
-    private Brick newBrick(String className, String argName) throws IOException {
+    private LoopBeginBrick mLoopBeginBrick;
+
+    private Brick newBrick(String className, String arg) throws IOException {
         if (className.equals(SetLookBrick.class.getSimpleName())) {
             SetLookBrick brick = new SetLookBrick(mCurrentSprite);
             LookData lookData = null;
-            if ("background".equals(argName)) {
+            if ("background".equals(arg)) {
                 lookData = newLookData("background", createBackgroundImage("background"));
-            } else if ("any".equals(argName) || argName == null) {
+            } else if ("default_image".equals(arg) || arg == null) {
                 // By default, use a default image for the look.
                 lookData = newLookData(mCurrentSprite.getName() + "-look", R.drawable.catroid);
             } else {
-                fail(String.format("No look for argument '%s'", argName));
+                fail(String.format("No look for argument '%s'", arg));
             }
             mCurrentSprite.getLookDataList().add(lookData);
             brick.setLook(lookData);
             return brick;
         } else if (className.equals(BroadcastBrick.class.getSimpleName())) {
             BroadcastBrick brick = new BroadcastBrick(mCurrentSprite);
-            brick.setSelectedMessage(argName);
+            brick.setSelectedMessage(arg);
+            return brick;
+        } else if (className.equals(ChangeYByNBrick.class.getSimpleName())) {
+            int dy = Integer.parseInt(arg);
+            ChangeYByNBrick brick = new ChangeYByNBrick(mCurrentSprite, dy);
             return brick;
         } else if (className.equals(HideBrick.class.getSimpleName())) {
             return new HideBrick(mCurrentSprite);
         } else if (className.equals(ShowBrick.class.getSimpleName())) {
             return new ShowBrick(mCurrentSprite);
+        } else if (className.equals(RepeatBrick.class.getSimpleName())) {
+            int n = Integer.parseInt(arg);
+            mLoopBeginBrick = new RepeatBrick(mCurrentSprite, n);
+            return mLoopBeginBrick;
+        } else if (className.equals(LoopEndBrick.class.getSimpleName())) {
+            Brick brick = new LoopEndBrick(mCurrentSprite, mLoopBeginBrick);
+            mLoopBeginBrick = null;
+            return brick;
         } else {
             fail(String.format("Unsupported brick '%s'", className));
             return null;
