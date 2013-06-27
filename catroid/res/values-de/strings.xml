@@ -180,6 +180,7 @@
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Verschiebe Baustein</string>
     <string name="brick_context_dialog_delete_brick">Lösche Baustein</string>
+    <string name="brick_context_dialog_copy_brick">Kopiere Baustein</string>
     <string name="brick_context_dialog_animate_bricks">Animiere Baustein-Teile</string>
     <!--  -->
 	

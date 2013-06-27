@@ -121,6 +121,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
+
+		Log.d("TAG", "ScriptFragmet.java --> onPrepareOptionsMenu");
+
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.rename).setVisible(false);
 		menu.findItem(R.id.edit_in_pocket_paint).setVisible(false);
@@ -190,6 +193,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+
+		Log.d("TAG", "@onCreateContextMenu");
+
 		if (view.getId() == R.id.brick_list_view) {
 			menu.setHeaderTitle(R.string.script_context_menu_title);
 
@@ -204,6 +210,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public boolean onContextItemSelected(android.view.MenuItem item) {
+
+		Log.d("TAG", "onContextItemSelected");
 
 		switch (item.getItemId()) {
 			case R.id.script_menu_delete: {

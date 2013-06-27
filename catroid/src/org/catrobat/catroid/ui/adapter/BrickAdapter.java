@@ -798,6 +798,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 		items.add(context.getText(R.string.brick_context_dialog_delete_brick));
 
+		items.add(context.getText(R.string.brick_context_dialog_copy_brick));
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
@@ -819,6 +821,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				CharSequence clickedItemText = items.get(item);
 				if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_move_brick))) {
 					view.performLongClick();
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_copy_brick))) {
+					copyBrickListAndProject(itemPosition, false);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_brick))) {
 					removeFromBrickListAndProject(itemPosition, false);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_animate_bricks))) {
@@ -839,6 +843,26 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if ((selectMode == ListView.CHOICE_MODE_NONE)) {
 			alertDialog.show();
 		}
+	}
+
+	/**
+	 * @param itemPosition
+	 * @param b
+	 */
+	protected void copyBrickListAndProject(int itemPosition, boolean b) {
+		// TODO Auto-generated method stub
+		Log.d("TAG", "BrickAdapter-->copyBrickListAndProject");
+
+		Brick copy;
+
+		Brick origin = (Brick) (dragAndDropListView.getItemAtPosition(itemPosition));
+
+		copy = origin.clone();
+
+		brickList.add(copy);
+
+		notifyDataSetChanged();
+
 	}
 
 	private int calculateItemPositionAndTouchPointY(View view) {
