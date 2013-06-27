@@ -33,6 +33,12 @@
     <string name="copy">Copy</string>
     <string name="cut">Cut</string>
     <string name="move">Move</string>
+     <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <string name="detail_heading">Website</string>
+    
+ 
     <!--  -->
 
 

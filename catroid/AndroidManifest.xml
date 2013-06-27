@@ -56,7 +56,7 @@
         android:theme="@android:style/Theme.Light.NoTitleBar" >
         <activity
             android:name=".ui.MainMenuActivity"
-            android:screenOrientation="portrait"
+           android:screenOrientation="portrait"
             android:theme="@style/Theme.Catroid" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -100,6 +100,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.fragment.LandscapeHomeScreenFragments_Shruti"
+           android:screenOrientation="landscape"
+            android:theme="@style/Theme.Catroid" />
+        
+        <activity
             android:name=".stage.StageActivity"
             android:configChanges="orientation"
             android:label="@string/stage"
@@ -107,6 +112,17 @@
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
         <activity
             android:name=".stage.PreStageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.fragment.ProjectsListFragment"
+            android:screenOrientation="portrait" />
+       
+        <activity
+            android:name=".ui.fragment.LandscapeHomeScreenWebFragment_Shruti"
+            android:screenOrientation="portrait"       
+            android:theme="@style/Theme.Catroid" />
+        <activity
+            android:name=".stage.ListFragment"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ProjectActivity"
