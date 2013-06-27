@@ -507,7 +507,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
-				clearCheckedBricksAndEnableButtons();
+				if (!deleteScriptFromContextMenu) {
+					clearCheckedBricksAndEnableButtons();
+				}
 			}
 		});
 
