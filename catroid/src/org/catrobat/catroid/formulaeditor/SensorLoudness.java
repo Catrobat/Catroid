@@ -31,7 +31,7 @@ import android.os.Handler;
 
 public class SensorLoudness {
 
-	private int m_interval = 50; // 50 milliseconds by default, can be changed later
+	private int m_interval = 50; // 100 milliseconds by default, can be changed later
 	private double scale_range = 100d; //scale the give amplitude to scale_range
 
 	private final double MAX_AMP_VALUE = 32767d;
@@ -40,6 +40,7 @@ public class SensorLoudness {
 
 	private SoundRecorder mRecorder = null;
 	private Handler m_handler;
+	private float current_value = 0f;
 
 	//Periodic update the loudness_value
 	Runnable m_statusChecker = new Runnable() {
@@ -47,9 +48,12 @@ public class SensorLoudness {
 		public void run() {
 			float[] loudness = new float[1];
 			loudness[0] = (float) (scale_range / MAX_AMP_VALUE) * mRecorder.getMaxAmplitude();
-			SensorCustomEvent event = new SensorCustomEvent(Sensors.LOUDNESS, loudness);
-			for (SensorCustomEventListener el : listener_) {
-				el.onCustomSensorChanged(event);
+			if (current_value != loudness[0]) {
+				current_value = loudness[0];
+				SensorCustomEvent event = new SensorCustomEvent(Sensors.LOUDNESS, loudness);
+				for (SensorCustomEventListener el : listener_) {
+					el.onCustomSensorChanged(event);
+				}
 			}
 			m_handler.postDelayed(m_statusChecker, m_interval);
 		}
@@ -97,6 +101,7 @@ public class SensorLoudness {
 					}
 				}
 				mRecorder = null;
+				current_value = 0f;
 			}
 		}
 	}
