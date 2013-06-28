@@ -127,7 +127,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.rename).setVisible(false);
 		menu.findItem(R.id.edit_in_pocket_paint).setVisible(false);
-		menu.findItem(R.id.copy).setVisible(false);
+		menu.findItem(R.id.copy).setVisible(true);
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -335,6 +335,20 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void startCopyActionMode() {
 		// TODO implement copy
+
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
+
+			for (int i = adapter.listItemCount; i < adapter.getBrickList().size(); i++) {
+				adapter.getView(i, null, getListView());
+			}
+
+			unregisterForContextMenu(listView);
+			BottomBar.disableButtons(getActivity());
+			adapter.setCheckboxVisibility(View.VISIBLE);
+			adapter.setActionMode(true);
+		}
+
 	}
 
 	@Override
@@ -465,6 +479,71 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			adapter.setActionMode(false);
 		}
 	};
+
+	// TODO
+	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
+			setActionModeActive(true);
+
+			actionModeTitle = getString(R.string.copy);
+			singleItemAppendixActionMode = getString(R.string.brick_single);
+			multipleItemAppendixActionMode = getString(R.string.brick_multiple);
+
+			mode.setTitle(actionModeTitle);
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			List<Brick> checkedBricks = adapter.getReversedCheckedBrickList();
+
+			for (Brick brick : checkedBricks) {
+				copyBrick(brick);
+			}
+			setSelectMode(ListView.CHOICE_MODE_NONE);
+			adapter.clearCheckedItems();
+
+			actionMode = null;
+			setActionModeActive(false);
+
+			registerForContextMenu(listView);
+			BottomBar.enableButtons(getActivity());
+			adapter.setActionMode(false);
+		}
+	};
+
+	private void copyBrick(Brick brick) {
+
+		if (brick instanceof ScriptBrick) {
+			scriptToEdit = ((ScriptBrick) brick).initScript(ProjectManager.INSTANCE.getCurrentSprite());
+			adapter.handleScriptDelete(sprite, scriptToEdit);
+			return;
+		}
+		int brickId = adapter.getBrickList().indexOf(brick);
+		if (brickId == -1) {
+			return;
+		}
+
+		// TODO add clone
+
+		Brick copy = brick.clone();
+
+		adapter.addNewBrick(brickId, copy);
+	}
 
 	private void deleteBrick(Brick brick) {
 

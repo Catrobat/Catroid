@@ -80,24 +80,29 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo = null;
 	}
 
-	public void testCopyBrick() {
+	public void testCopyActionMode() {
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-		int brickCountInView = UiTestUtils.getScriptListView(solo).getCount();
-		int brickCountInList = brickListToCheck.size();
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		solo.clickOnCheckBox(0);
+
+		//UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		//solo.clickOnCheckBox(1);
 
 		/*
-		 * UiTestUtils.addNewBrick(solo, R.string.brick_wait);
-		 * solo.clickOnText(solo.getString(R.string.brick_when_started));
-		 * solo.sleep(100);
+		 * String expectedTitle = solo.getString(R.string.delete) + " " + Integer.toString(brickListToCheck.size() + 1)
+		 * + " " + solo.getString(R.string.brick_multiple);
 		 * 
-		 * assertTrue("Wait brick is not in List", solo.searchText(solo.getString(R.string.brick_wait)));
+		 * int timeToWaitForTitle = 300;
+		 * assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 		 * 
-		 * assertEquals("Brick count in list view not correct", brickCountInView + 1,
-		 * UiTestUtils.getScriptListView(solo)
-		 * .getCount());
-		 * assertEquals("Brick count in brick list not correct", brickCountInList + 1, ProjectManager.getInstance()
-		 * .getCurrentScript().getBrickList().size());
+		 * UiTestUtils.acceptAndCloseActionMode(solo);
+		 * assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
+		 * 
+		 * int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+		 * 
+		 * assertEquals("Not all Bricks have been deleted!", 0, numberOfBricks);
 		 */
 	}
 

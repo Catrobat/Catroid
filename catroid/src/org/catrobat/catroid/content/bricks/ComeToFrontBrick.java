@@ -87,13 +87,18 @@ public class ComeToFrontBrick extends BrickBaseType {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_go_to_front_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
-		this.alphaValue = (alphaValue);
 
-		TextView goFrontLabel = (TextView) view.findViewById(R.id.brick_go_to_front_label);
-		goFrontLabel.setTextColor(goFrontLabel.getTextColors().withAlpha(alphaValue));
+		if (view != null) {
+
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_go_to_front_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+			this.alphaValue = (alphaValue);
+
+			TextView goFrontLabel = (TextView) view.findViewById(R.id.brick_go_to_front_label);
+			goFrontLabel.setTextColor(goFrontLabel.getTextColors().withAlpha(alphaValue));
+
+		}
 
 		return view;
 	}

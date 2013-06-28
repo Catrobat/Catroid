@@ -123,21 +123,27 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_ghost_effect_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textGhostLabel = (TextView) view.findViewById(R.id.brick_set_ghost_effect_label);
-		TextView textGhostTo = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to);
-		TextView textPercent = (TextView) view.findViewById(R.id.brick_set_ghost_effect_percent);
-		EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
-		textGhostLabel.setTextColor(textGhostLabel.getTextColors().withAlpha(alphaValue));
-		textGhostTo.setTextColor(textGhostTo.getTextColors().withAlpha(alphaValue));
-		textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-		editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
-		editGhostEffect.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_ghost_effect_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textGhostLabel = (TextView) view.findViewById(R.id.brick_set_ghost_effect_label);
+			TextView textGhostTo = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to);
+			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_ghost_effect_percent);
+			EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
+			textGhostLabel.setTextColor(textGhostLabel.getTextColors().withAlpha(alphaValue));
+			textGhostTo.setTextColor(textGhostTo.getTextColors().withAlpha(alphaValue));
+			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
+			editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
+			editGhostEffect.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 
