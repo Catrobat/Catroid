@@ -65,6 +65,7 @@ public class ConnectionWrapper {
 			WebconnectionException {
 
 		String answer = "";
+		String fileName = postValues.get(TAG_PROJECT_TITLE);
 
 		if (filePath != null) {
 			String extension = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
@@ -72,15 +73,16 @@ public class ConnectionWrapper {
 
 			//out.writeFile(fileTag, mimeType, new File(filePath));
 			File file = new File(filePath);
-			HttpRequest uploadRequest = HttpRequest.post(urlString).acceptGzipEncoding().form(postValues).send(file);
+			HttpRequest uploadRequest = HttpRequest.post(urlString);//.part(fileTag, fileName, file).form(postValues);
 			//.contentType("multipart");
-			/*
-			 * for (String key : postValues.keySet()) {
-			 * uploadRequest.part(key, postValues.get(key));
-			 * }
-			 */
+
+			for (String key : postValues.keySet()) {
+				uploadRequest.part(key, postValues.get(key));
+			}
+			uploadRequest.part(fileTag, fileName, file);
+
 			String sdfsdf = uploadRequest.stream().toString();
-			String fileName = postValues.get(TAG_PROJECT_TITLE);
+
 			String rew = uploadRequest.message();
 
 			Log.v(fileTag, "UPLOAD REQUEST ************* = " + rew);
