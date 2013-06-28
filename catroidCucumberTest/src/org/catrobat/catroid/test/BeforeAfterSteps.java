@@ -27,7 +27,7 @@ public class BeforeAfterSteps extends ActivityInstrumentationTestCase2<MainMenuA
         mSolo = new Solo(getInstrumentation(), getActivity());
         String defaultBackgroundName = context.getString(R.string.background);
         String defaultProjectName = context.getString(R.string.default_project_name);
-        String defaultSpriteName = context.getString(R.string.default_project_sprites_pocketcode_name);
+        String defaultSpriteName = context.getString(R.string.default_project_sprites_mole_name);
         RunCukes.put(RunCukes.KEY_DEFAULT_BACKGROUND_NAME, defaultBackgroundName);
         RunCukes.put(RunCukes.KEY_DEFAULT_PROJECT_NAME, defaultProjectName);
         RunCukes.put(RunCukes.KEY_DEFAULT_SPRITE_NAME, defaultSpriteName);
@@ -37,7 +37,7 @@ public class BeforeAfterSteps extends ActivityInstrumentationTestCase2<MainMenuA
     @After
     public void after() {
 //        Log.d(CucumberInstrumentation.TAG, "after step");
-        ProjectManager.getInstance().deleteCurrentProject();
         mSolo.finishOpenedActivities();
+        ProjectManager.getInstance().deleteCurrentProject();
     }
 }

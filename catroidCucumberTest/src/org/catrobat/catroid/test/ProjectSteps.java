@@ -1,12 +1,16 @@
 package org.catrobat.catroid.test;
 
 import android.test.AndroidTestCase;
+import android.util.Log;
 import com.jayway.android.robotium.solo.Solo;
+import cucumber.api.android.CucumberInstrumentation;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -20,18 +24,10 @@ public class ProjectSteps extends AndroidTestCase {
     @Given("^I have a default program$")
     public void I_have_default_program() {
         ProjectManager pm = ProjectManager.getInstance();
-//        Project currentProject = pm.getCurrentProject();
-//        String defaultProjectName = (String) RunCukes.get(RunCukes.KEY_DEFAULT_PROJECT_NAME);
-//        if (currentProject != null && currentProject.getName().equals(defaultProjectName)) {
-//            pm.saveProject();
-//            mProject = currentProject;
-//            RunCukes.put(RunCukes.KEY_PROJECT, mProject);
-//        } else {
         pm.deleteCurrentProject();
         pm.initializeDefaultProject(getContext());
         mProject = pm.getCurrentProject();
         RunCukes.put(RunCukes.KEY_PROJECT, mProject);
-//        }
     }
 
     @Given("^I have a program with the name '(\\w+)'$")
@@ -43,6 +39,7 @@ public class ProjectSteps extends AndroidTestCase {
             mProject.getSpriteList().clear();
             RunCukes.put(RunCukes.KEY_PROJECT, mProject);
         } catch (IOException e) {
+            Log.e(CucumberInstrumentation.TAG, e.toString());
             fail(e.getMessage());
         }
     }
@@ -64,5 +61,18 @@ public class ProjectSteps extends AndroidTestCase {
     public void I_wait_d_milliseconds(int time) {
         Solo solo = (Solo) RunCukes.get(RunCukes.KEY_SOLO);
         solo.sleep(time);
+    }
+
+    @Then("^the default program is being executed$")
+    public void default_project_being_executed() {
+        Solo solo = (Solo) RunCukes.get(RunCukes.KEY_SOLO);
+        ProjectManager pm = ProjectManager.getInstance();
+        for (Sprite sprite : pm.getCurrentProject().getSpriteList()) {
+            assertFalse("Sprite shouldn't be paused.", sprite.isPaused);
+            for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
+                Script script = sprite.getScript(i);
+                assertFalse("Script shouldn't be paused.", script.isPaused());
+            }
+        }
     }
 }

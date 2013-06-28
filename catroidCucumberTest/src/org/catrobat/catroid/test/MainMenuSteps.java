@@ -35,7 +35,7 @@ public class MainMenuSteps extends AndroidTestCase {
     public void I_should_see_the_following_buttons(List<String> expectedButtons) {
         Solo solo = (Solo) RunCukes.get(RunCukes.KEY_SOLO);
         List<String> actualButtons = new ArrayList<String>();
-        for (Button button : solo.getCurrentButtons()) {
+        for (Button button : solo.getCurrentViews(Button.class)) {
             String text = button.getText().toString();
             if (!text.isEmpty()) {
                 // Only use the first paragraph of a button text.

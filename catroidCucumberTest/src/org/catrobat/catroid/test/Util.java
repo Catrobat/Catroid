@@ -35,4 +35,12 @@ public final class Util {
 //        Log.d(CucumberInstrumentation.TAG, String.format("coords: [%d/%d]", point.x, point.y));
         return point;
     }
+
+    public static Point getScreenDimensions(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point dimensions = new Point();
+        display.getSize(dimensions);
+        return dimensions;
+    }
 }

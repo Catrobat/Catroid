@@ -3,17 +3,16 @@ package org.catrobat.catroid.test;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.test.AndroidTestCase;
 import android.util.Log;
 import cucumber.api.DataTable;
 import cucumber.api.android.CucumberInstrumentation;
 import cucumber.api.java.en.And;
 import gherkin.formatter.model.DataTableRow;
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.*;
 import org.catrobat.catroid.content.bricks.*;
 import org.catrobat.catroid.io.StorageHandler;
@@ -49,8 +48,7 @@ public class ScriptSteps extends AndroidTestCase {
 
     @And("^a BroadcastScript for the (\\w+) message with these bricks:$")
     public void broadcast_script_with_bricks(String message, DataTable bricks) {
-        BroadcastScript script = new BroadcastScript(mCurrentSprite);
-        script.setBroadcastMessage(message);
+        BroadcastScript script = new BroadcastScript(mCurrentSprite, message);
         addBricks(script, bricks);
         mCurrentSprite.addScript(script);
     }
@@ -92,7 +90,7 @@ public class ScriptSteps extends AndroidTestCase {
                 lookData = newLookData("background", createBackgroundImage("background"));
             } else if ("default_image".equals(arg) || arg == null) {
                 // By default, use a default image for the look.
-                lookData = newLookData(mCurrentSprite.getName() + "-look", R.drawable.catroid);
+                lookData = newLookData(mCurrentSprite.getName() + "-look", R.drawable.default_project_mole_1);
             } else {
                 fail(String.format("No look for argument '%s'", arg));
             }
@@ -100,8 +98,7 @@ public class ScriptSteps extends AndroidTestCase {
             brick.setLook(lookData);
             return brick;
         } else if (className.equals(BroadcastBrick.class.getSimpleName())) {
-            BroadcastBrick brick = new BroadcastBrick(mCurrentSprite);
-            brick.setSelectedMessage(arg);
+            BroadcastBrick brick = new BroadcastBrick(mCurrentSprite, arg);
             return brick;
         } else if (className.equals(ChangeYByNBrick.class.getSimpleName())) {
             int dy = Integer.parseInt(arg);
@@ -145,7 +142,8 @@ public class ScriptSteps extends AndroidTestCase {
         int originalWidth = dimensions[0];
         int originalHeight = dimensions[1];
         double ratio = (double) originalHeight / (double) originalWidth;
-        Bitmap tempBitmap = ImageEditing.getScaledBitmapFromPath(tempImageFile.getAbsolutePath(), Values.SCREEN_WIDTH / 3, (int) (Values.SCREEN_WIDTH / 3 * ratio), false);
+        Point screen = Util.getScreenDimensions(getContext());
+        Bitmap tempBitmap = ImageEditing.getScaledBitmapFromPath(tempImageFile.getAbsolutePath(), screen.x / 3, (int) (screen.x / 3 * ratio), false);
         StorageHandler.saveBitmapToImageFile(tempImageFile, tempBitmap);
         String finalImageFileString = Utils.buildPath(directoryName, Utils.md5Checksum(tempImageFile) + "_" + tempImageFile.getName());
         File finalImageFile = new File(finalImageFileString);
@@ -175,7 +173,8 @@ public class ScriptSteps extends AndroidTestCase {
     private File createBackgroundImage(String name) {
         Project project = (Project) RunCukes.get(RunCukes.KEY_PROJECT);
         String directoryName = Utils.buildPath(Utils.buildProjectPath(project.getName()), Constants.IMAGE_DIRECTORY);
-        Bitmap backgroundBitmap = ImageEditing.createSingleColorBitmap(Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT, Color.BLUE);
+        Point screen = Util.getScreenDimensions(getContext());
+        Bitmap backgroundBitmap = ImageEditing.createSingleColorBitmap(screen.x, screen.y, Color.BLUE);
         try {
             File backgroundTemp = File.createTempFile(name, ".png", new File(directoryName));
             StorageHandler.saveBitmapToImageFile(backgroundTemp, backgroundBitmap);
