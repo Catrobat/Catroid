@@ -2,62 +2,38 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.common;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
+import android.content.Context;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.WhenScript;
-import org.catrobat.catroid.content.bricks.ForeverBrick;
-import org.catrobat.catroid.content.bricks.GlideToBrick;
-import org.catrobat.catroid.content.bricks.HideBrick;
-import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
-import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.content.bricks.PlaySoundBrick;
-import org.catrobat.catroid.content.bricks.SetLookBrick;
-import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.content.bricks.SetVariableBrick;
-import org.catrobat.catroid.content.bricks.ShowBrick;
-import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.content.*;
+import org.catrobat.catroid.content.bricks.*;
+import org.catrobat.catroid.formulaeditor.*;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
-import org.catrobat.catroid.formulaeditor.Functions;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.Utils;
 
-import android.content.Context;
+import java.io.*;
 
 public class StandardProjectHandler {
 
@@ -69,10 +45,10 @@ public class StandardProjectHandler {
 	}
 
 	public static Project createAndSaveStandardProject(String projectName, Context context) throws IOException {
-		String mole1Name = context.getString(R.string.default_project_sprites_mole_name) + " 1";
-		String mole2Name = context.getString(R.string.default_project_sprites_mole_name) + " 2";
-		String mole3Name = context.getString(R.string.default_project_sprites_mole_name) + " 3";
-		String mole4Name = context.getString(R.string.default_project_sprites_mole_name) + " 4";
+		String mole1Name = context.getString(R.string.default_project_sprites_mole_name) + "_1";
+		String mole2Name = context.getString(R.string.default_project_sprites_mole_name) + "_2";
+		String mole3Name = context.getString(R.string.default_project_sprites_mole_name) + "_3";
+		String mole4Name = context.getString(R.string.default_project_sprites_mole_name) + "_4";
 		String whackedMoleName = context.getString(R.string.default_project_sprites_mole_whacked);
 		String soundName = context.getString(R.string.default_project_sprites_mole_sound);
 		String backgroundName = context.getString(R.string.default_project_backgroundname);
@@ -209,7 +185,7 @@ public class StandardProjectHandler {
 		LoopEndlessBrick loopEndlessBrick = new LoopEndlessBrick(mole1Sprite, foreverBrick);
 		mole1StartScript.addBrick(loopEndlessBrick);
 
-		// when script		
+		// when script
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick(mole1Sprite);
 		playSoundBrick.setSoundInfo(soundInfo);
 		mole1WhenScript.addBrick(playSoundBrick);
@@ -287,22 +263,23 @@ public class StandardProjectHandler {
 
 	private static File copyFromResourceInProject(String projectName, String directoryName, String outputName,
 			int fileId, Context context, boolean prependMd5) throws IOException {
-		final String filePath = Utils.buildPath(Utils.buildProjectPath(projectName), directoryName, outputName);
-		File copiedFile = new File(filePath);
-		if (!copiedFile.exists()) {
-			copiedFile.createNewFile();
-		}
+		File directory = new File(Utils.buildPath(Utils.buildProjectPath(projectName), directoryName));
+		directory.mkdirs();
+		File copiedFile = File.createTempFile(outputName, "", directory);
+
 		InputStream in = context.getResources().openRawResource(fileId);
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(copiedFile), Constants.BUFFER_8K);
-		byte[] buffer = new byte[Constants.BUFFER_8K];
-		int length = 0;
-		while ((length = in.read(buffer)) > 0) {
-			out.write(buffer, 0, length);
+		try{
+			byte[] buffer = new byte[Constants.BUFFER_8K];
+			int length;
+			while ((length = in.read(buffer)) != -1) {
+				out.write(buffer, 0, length);
+			}
+		} finally {
+			in.close();
+			out.flush();
+			out.close();
 		}
-
-		in.close();
-		out.flush();
-		out.close();
 
 		if (!prependMd5) {
 			return copiedFile;
@@ -316,5 +293,4 @@ public class StandardProjectHandler {
 
 		return copiedFileWithMd5;
 	}
-
 }
