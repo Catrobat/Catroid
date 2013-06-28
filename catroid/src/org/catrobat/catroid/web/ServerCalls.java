@@ -63,7 +63,7 @@ public class ServerCalls {
 	public static final String BASE_URL_FTP = "pocketcode.org";
 	public static final int FTP_PORT = 8080;
 
-	private static final String FILE_UPLOAD_URL = BASE_URL_HTTPS;
+	private static final String FILE_UPLOAD_URL = BASE_URL_HTTPS + "api/upload/upload.json";
 	private static final String CHECK_TOKEN_URL = BASE_URL_HTTPS + "api/checkToken/check.json";
 	private static final String REGISTRATION_URL = BASE_URL_HTTPS + "api/loginOrRegister/loginOrRegister.json";
 
@@ -113,6 +113,7 @@ public class ServerCalls {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
 		}
+		userEmail = "user12345" + "@gmail.com";
 
 		try {
 			String md5Checksum = Utils.md5Checksum(new File(zipFileString));
@@ -133,7 +134,9 @@ public class ServerCalls {
 			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL : FILE_UPLOAD_URL;
 			String httpPostUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL_HTTPS;
 
+			//serverUrl = "pocketcode.org";
 			Log.v(TAG, "url to upload: " + serverUrl);
+
 			String answer = connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString,
 					receiver, httpPostUrl, notificationId);
 			if (answer != "") {
@@ -221,6 +224,7 @@ public class ServerCalls {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
 		}
+		userEmail = "user12345" + "@gmail.com";
 		try {
 			HashMap<String, String> postValues = new HashMap<String, String>();
 			postValues.put(REGISTRATION_USERNAME_KEY, username);
@@ -246,6 +250,7 @@ public class ServerCalls {
 			String tokenReceived = "";
 
 			Log.v(TAG, "result string: " + resultString);
+			Log.v(TAG, "token: " + token);
 
 			jsonObject = new JSONObject(resultString);
 			statusCode = jsonObject.getInt(JSON_STATUS_CODE);
@@ -257,6 +262,7 @@ public class ServerCalls {
 						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
 					throw new WebconnectionException(statusCode, serverAnswer);
 				}
+				Log.v(TAG, "token rec: " + tokenReceived);
 				if (context != null) {
 					SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 					sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
