@@ -26,6 +26,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 
 import android.app.PendingIntent;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 
 public class NotificationData {
 
@@ -33,15 +34,15 @@ public class NotificationData {
 	private Context context;
 	private String name;
 	private String notificationTitle;
-	private MainMenuActivity activity;
+	private FragmentActivity activity;
 
 	public NotificationData(PendingIntent pendingIntent, Context context, String name, String notificationTitle,
-			MainMenuActivity activity) {
+			MainMenuActivity context2) {
 		this.pendingIntent = pendingIntent;
 		this.context = context;
 		this.name = name;
 		this.notificationTitle = notificationTitle;
-		this.activity = activity;
+		this.activity = context2;
 	}
 
 	public PendingIntent getPendingIntent() {
@@ -76,11 +77,11 @@ public class NotificationData {
 		this.notificationTitle = notificationTitle;
 	}
 
-	public MainMenuActivity getActivity() {
+	public FragmentActivity getActivity() {
 		return activity;
 	}
 
-	public void setActivity(MainMenuActivity activity) {
+	public void setActivity(FragmentActivity activity) {
 		this.activity = activity;
 	}
 }
