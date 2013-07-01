@@ -148,6 +148,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	@Override
 	public void drag(int from, int to) {
+
 		if (to < 0 || to >= brickList.size()) {
 			to = brickList.size() - 1;
 		}
@@ -859,7 +860,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		copy = origin.clone();
 
-		brickList.add(copy);
+		addNewBrick((brickList.size() - 1), copy);
 
 		notifyDataSetChanged();
 
