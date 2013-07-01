@@ -199,7 +199,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this));
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), false);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		loadProjectTask.execute();
 	}

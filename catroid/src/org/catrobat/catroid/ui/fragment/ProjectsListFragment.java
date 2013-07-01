@@ -213,7 +213,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				LoadProjectTask loadProjectTask = new LoadProjectTask(getActivity(),
-						(adapter.getItem(position)).projectName);
+						(adapter.getItem(position)).projectName, true);
 				loadProjectTask.setOnLoadProjectCompleteListener(parentFragment);
 				loadProjectTask.execute();
 			}
