@@ -34,13 +34,16 @@ public class GlideToAction extends TemporalAction {
 	private Formula endX, endY;
 	private Sprite sprite;
 	private Formula duration;
+	private float durationOnRestart = 0.0f;
 	private float endXValue;
 	private float endYValue;
 
 	@Override
 	protected void begin() {
-		if (duration != null) {
+		if (duration != null && Float.compare(durationOnRestart, 0.0f) == 0) {
 			super.setDuration((float) duration.interpretDouble(sprite));
+		} else {
+			super.setDuration(durationOnRestart);
 		}
 
 		startX = actor.getX() + actor.getWidth() / 2f;
@@ -61,14 +64,18 @@ public class GlideToAction extends TemporalAction {
 		float deltaX = actor.getX() + actor.getWidth() / 2f - currentX;
 		float deltaY = actor.getY() + actor.getHeight() / 2f - currentY;
 		if ((-0.1f > deltaX || deltaX > 0.1f) || (-0.1f > deltaY || deltaY > 0.1f)) {
-			float currentDuration = getDuration() - getTime();
+			durationOnRestart = getDuration() - getTime();
 			restart();
-			setDuration(currentDuration);
 		} else {
 			currentX = startX + (endXValue - startX) * percent;
 			currentY = startY + (endYValue - startY) * percent;
 			actor.setPosition(currentX - actor.getWidth() / 2f, currentY - actor.getHeight() / 2f);
 		}
+	}
+
+	@Override
+	protected void end() {
+		durationOnRestart = 0.0f;
 	}
 
 	public void setDuration(Formula duration) {
