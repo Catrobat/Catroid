@@ -38,7 +38,10 @@ import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+//web status codes are on: https://github.com/Catrobat/Catroweb/blob/master/statusCodes.php
+
 public class ServerCalls {
+
 	private final static String TAG = "ServerCalls";
 
 	private static final String REGISTRATION_USERNAME_KEY = "registrationUsername";
@@ -54,26 +57,21 @@ public class ServerCalls {
 	private static final String PROJECT_CHECKSUM_TAG = "fileChecksum";
 	private static final String USER_EMAIL = "userEmail";
 	private static final String USER_LANGUAGE = "userLanguage";
-	private static final String CATROID_FILE_NAME = "catroidFileName";
 
 	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
 
 	public static final String BASE_URL_HTTPS = "https://www.pocketcode.org/";
-	public static final String BASE_URL_FTP = "pocketcode.org";
-	public static final int FTP_PORT = 8080;
 
-	private static final String FILE_UPLOAD_URL = BASE_URL_FTP;
+	private static final String FILE_UPLOAD_URL = BASE_URL_HTTPS + "api/upload/upload.json";
 	private static final String CHECK_TOKEN_URL = BASE_URL_HTTPS + "api/checkToken/check.json";
 	private static final String REGISTRATION_URL = BASE_URL_HTTPS + "api/loginOrRegister/loginOrRegister.json";
 
 	public static final String BASE_URL_TEST_HTTP = "http://catroidtest.ist.tugraz.at/";
-	public static final String BASE_URL_TEST_FTP = "catroidtest.ist.tugraz.at";
 
 	public static final String TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTP + "api/upload/upload.json";
 	public static final String FILE_UPLOAD_URL_HTTPS = BASE_URL_HTTPS + "api/upload/upload.json";
 
-	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST_FTP;
 	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTP + "api/checkToken/check.json";
 	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTP + "api/loginOrRegister/loginOrRegister.json";
 
@@ -124,19 +122,18 @@ public class ServerCalls {
 			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum);
 			postValues.put(Constants.TOKEN, token);
 			postValues.put(Constants.USERNAME, username);
-			postValues.put(CATROID_FILE_NAME, projectName + Constants.CATROBAT_EXTENTION);
 
 			if (language != null) {
 				postValues.put(USER_LANGUAGE, language);
 			}
 
-			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL : FILE_UPLOAD_URL;
-			String httpPostUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL_HTTPS;
+			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL;
 
 			Log.v(TAG, "url to upload: " + serverUrl);
-			String answer = connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString,
-					receiver, httpPostUrl, notificationId);
-			if (answer != "") {
+
+			String answer = connection.doHttpsPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString,
+					receiver, notificationId);
+			if (answer != null && !answer.isEmpty()) {
 				// check statusCode from Webserver
 				JSONObject jsonObject = null;
 				Log.v(TAG, "result string: " + answer);
