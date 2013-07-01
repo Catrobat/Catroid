@@ -49,7 +49,7 @@ public class ConnectionWrapper {
 	public static final String TAG_PROJECT_TITLE = "projectTitle";
 
 	public String doHttpsPostFileUpload(String urlString, HashMap<String, String> postValues, String fileTag,
-			String filePath, ResultReceiver receiver, String httpPostUrl, Integer notificationId) throws IOException,
+			String filePath, ResultReceiver receiver, Integer notificationId) throws IOException,
 			WebconnectionException {
 
 		String answer = "";
