@@ -216,10 +216,12 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		switch (item.getItemId()) {
 			case R.id.script_menu_delete: {
 				adapter.handleScriptDelete(sprite, scriptToEdit);
+				Log.d("TAG", "Call delete command on the brick!");
 				break;
 			}
 			case R.id.script_menu_copy: {
 				//currently not supported
+				Log.d("TAG", "Call copy command on the brick!");
 				break;
 			}
 		}
@@ -334,7 +336,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void startCopyActionMode() {
-		// TODO implement copy
 
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
@@ -383,6 +384,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void startDeleteActionMode() {
+
+		Log.d("TAG", "ScriptFragment-->startDeleteActionMode()");
+
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 
@@ -403,6 +407,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	protected void showDeleteDialog() {
+
+		Log.d("TAG", "ScriptFragment-->showDeleteDialog()");
+
 		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedBrickPosition);
 		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
 	}
@@ -464,7 +471,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 			List<Brick> checkedBricks = adapter.getReversedCheckedBrickList();
-
+			Log.d("TAG", "ScriptFragment-->onDestroyActionMode");
 			for (Brick brick : checkedBricks) {
 				deleteBrick(brick);
 			}
@@ -480,7 +487,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 	};
 
-	// TODO
 	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
 
 		@Override
@@ -538,8 +544,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			return;
 		}
 
-		// TODO add clone
-
 		Brick copy = brick.clone();
 
 		adapter.addNewBrick(brickId, copy);
@@ -566,6 +570,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onBrickChecked() {
+
+		Log.d("TAG", "ScriptFragment-->onBrickChecked()");
+
 		if (actionMode == null) {
 			return;
 		}

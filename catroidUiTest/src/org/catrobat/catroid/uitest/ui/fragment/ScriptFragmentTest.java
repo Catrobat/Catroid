@@ -106,9 +106,6 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		Log.d("TAG", "Number of Bricks before copy command: " + numberOfBricksBeforeCopy
 				+ "Number of Bricks after copy command" + numberOfBricks);
 
-		solo.sleep(1000);
-		// just 4 debugging
-		//Log.d("TAG", "Number of Bricks: " + numberOfBricks);
 		assertEquals("No brick has been copied!", 7, numberOfBricks);
 
 	}
