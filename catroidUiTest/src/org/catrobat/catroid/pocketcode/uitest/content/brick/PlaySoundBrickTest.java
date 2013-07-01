@@ -131,7 +131,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickLongOnText(soundName);
 		solo.waitForText(buttonDeleteText);
 		solo.clickOnText(buttonDeleteText);
-		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.clickOnButton(solo.getString(R.string.yes));
 
 		clickOnSpinnerItem(soundsSpinnerText, scriptsSpinnerText);
 
@@ -173,7 +173,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnText(newText);
 
 		// quickfix for Jenkins to get rid of Resources$NotFoundException: String resource
-//		String soundRecorderText = solo.getString(R.string.soundrecorder_name);
+		//		String soundRecorderText = solo.getString(R.string.soundrecorder_name);
 		String soundRecorderText = "Pocket Code Recorder";
 		solo.waitForText(soundRecorderText);
 		assertTrue("Catroid Sound Recorder is not present", solo.searchText(soundRecorderText));

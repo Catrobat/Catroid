@@ -180,6 +180,7 @@ public class BroadcastWaitBrick extends BrickBaseType implements BroadcastMessag
 		spinner.setSelection(position, true);
 	}
 
+	// TODO: BroadcastBrick, BroadcastReceiverBrick and BroadcastWaitBrick contain this identical method.
 	private void showNewMessageDialog(final Spinner spinner) {
 		final Context context = spinner.getContext();
 		BrickTextDialog editDialog = new BrickTextDialog() {

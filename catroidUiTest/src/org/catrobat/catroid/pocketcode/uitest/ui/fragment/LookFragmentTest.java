@@ -150,7 +150,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		rename = solo.getString(R.string.rename);
 		renameDialogTitle = solo.getString(R.string.rename_look_dialog);
 		delete = solo.getString(R.string.delete);
-		deleteDialogTitle = solo.getString(R.string.delete_look_dialog);
+		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_look_title);
 		editInPaintroid = solo.getString(R.string.edit_in_pocket_paint);
 
 		if (getLookAdapter().getShowDetails()) {
@@ -224,7 +224,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		clickOnContextMenuItem(testLookName, solo.getString(R.string.delete));
 		solo.waitForText(deleteDialogTitle);
-		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.sleep(50);
 
 		int newCount = adapter.getCount();
@@ -961,6 +961,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
@@ -1008,6 +1009,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.clickOnCheckBox(checkboxIndicesToCheck[2]);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);

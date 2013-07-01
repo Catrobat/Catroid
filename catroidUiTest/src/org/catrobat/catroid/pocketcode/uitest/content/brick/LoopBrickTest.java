@@ -368,6 +368,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 			fail("Text not shown in 5 secs!");
 		}
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		solo.clickOnText(solo.getString(R.string.yes));
 		if (!solo.waitForView(ListView.class, 0, 5000)) {
 			fail("Dialog does not close in 5 sec!");
 		}

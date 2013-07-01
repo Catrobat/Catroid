@@ -51,7 +51,7 @@
     <string name="main_menu_continue">Fortsetzen</string>
     <string name="main_menu_programs">Programme</string>
     <string name="main_menu_forum">Forum</string>
-    <string name="main_menu_web">Gemeinschaft</string>
+    <string name="main_menu_web">Community</string>
     <string name="main_menu_upload">Hochladen</string>
     <string name="main_menu_settings">Einstellungen</string>
     <string name="main_menu_about_pocketcode">Über Pocket Code</string>
@@ -113,6 +113,13 @@
     <!--  -->
 
 
+    <!-- Script fragment -->
+    <string name="dialog_confirm_delete_brick_title">Diesen Baustein löschen?</string>
+    <string name="dialog_confirm_delete_multiple_bricks_title">Diese Bausteine löschen?</string>
+    <string name="dialog_confirm_delete_brick_message">Kann nicht rückgängig gemacht werden!</string>
+    <!--  -->
+
+
     <!-- Look fragment -->
     <string name="rename_look_dialog">Aussehen umbenennen</string>
     <string name="lookname_invalid">Dieser Name ist nicht zulässig</string>
@@ -123,6 +130,9 @@
     <string name="select_look_from_gallery">Bild auswählen</string>
     <string name="select_look_from_camera">Photo auswählen</string>
     <string name="look_measure">Abmessung:</string>
+    <string name="dialog_confirm_delete_look_title">Dieses Aussehen löschen?</string>
+    <string name="dialog_confirm_delete_multiple_looks_title">Diese Aussehen löschen?</string>
+    <string name="dialog_confirm_delete_look_message">Kann nicht rückgängig gemacht werden!</string>
     <!--  -->
 
 
@@ -135,10 +145,13 @@
     <string name="sound_time_seperator">/</string>
     <string name="delete_sound_dialog">Klang löschen?</string>
     <string name="length">Länge:</string>
+    <string name="dialog_confirm_delete_sound_title">Diesen Klang löschen?</string>
+    <string name="dialog_confirm_delete_multiple_sounds_title">Diese Klänge löschen?</string>
+    <string name="dialog_confirm_delete_sound_message">Kann nicht rückgängig gemacht werden!</string>
     <!--  -->
-	
-	
-	<!-- My Projects activity -->
+
+
+    <!-- My Projects activity -->
     <string name="last_used">Letzter Zugriff:</string>
     <string name="description">Beschreibung:</string>
     <string name="set_description">Beschreibung</string>
@@ -153,6 +166,7 @@
     <string name="details_date_today">Heute</string>
     <string name="details_date_yesterday">Gestern</string>
     <!--  -->
+
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Pocket Code Recorder</string>
@@ -181,13 +195,15 @@
     <string name="brick_context_dialog_delete_brick">Lösche Baustein</string>
     <string name="brick_context_dialog_animate_bricks">Animiere Baustein-Teile</string>
     <!--  -->
-	
-	<!-- New look dialog -->
+
+
+    <!-- New look dialog -->
     <string name="new_look_dialog_title">Aussehen hinzufügen</string>
-    <string name="add_look_from_camera">Von Kamera</string> 
+    <string name="add_look_from_camera">Von Kamera</string>
     <string name="add_look_draw_new_image">Neues Bild erstellen</string>
     <string name="add_look_choose_image">Bild auswählen</string>
     <!--  -->
+
 
     <!-- New project dialog -->
     <string name="new_project_dialog_title">Neues Programm</string>
@@ -224,8 +240,8 @@
     <string name="overwrite_replace">Ersetze bestehendes Programm</string>
     <string name="overwrite_rename">Benenne heruntergeladenes Programm um</string>
     <!--  -->
-    
-    
+
+
     <!-- Stage menu dialog -->
     <string name="stage_dialog_back">Zurück</string>
     <string name="stage_dialog_resume">Fortsetzen</string>

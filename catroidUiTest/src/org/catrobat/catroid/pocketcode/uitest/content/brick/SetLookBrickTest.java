@@ -133,7 +133,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 
 		clickOnContextMenuItem(lookName, solo.getString(R.string.delete));
-		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.clickOnButton(solo.getString(R.string.yes));
 
 		clickOnSpinnerItem(solo.getString(R.string.category_looks), solo.getString(R.string.scripts));
 

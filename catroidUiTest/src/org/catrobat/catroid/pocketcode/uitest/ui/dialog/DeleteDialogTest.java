@@ -85,8 +85,8 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	public void testDeleteLooks() throws Exception {
 		addLooksToProject();
-		String buttonOkText = solo.getString(R.string.ok);
-		String buttonCancelText = solo.getString(R.string.cancel_button);
+		String buttonOkText = solo.getString(R.string.yes);
+		String buttonCancelText = solo.getString(R.string.no);
 		String deleteLookText = solo.getString(R.string.delete);
 		String scriptsSpinnerText = solo.getString(R.string.scripts);
 		String looksSpinnerText = solo.getString(R.string.category_looks);
@@ -120,8 +120,8 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	public void testDeleteSounds() throws Exception {
 		addSoundsToProject();
-		String buttonOkText = solo.getString(R.string.ok);
-		String buttonCancelText = solo.getString(R.string.cancel_button);
+		String buttonOkText = solo.getString(R.string.yes);
+		String buttonCancelText = solo.getString(R.string.no);
 		String deleteSoundText = solo.getString(R.string.delete);
 		String scriptsSpinnerText = solo.getString(R.string.scripts);
 		String soundsSpinnerText = solo.getString(R.string.sounds);

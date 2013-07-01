@@ -224,7 +224,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	}
 
 	@Override
-	public void onFinishNewVariableDialog(Spinner spinnerToUpdate) {
+	public void onFinishNewVariableDialog(Spinner spinnerToUpdate, UserVariable userVariable) {
 		adapter.notifyDataSetChanged();
 	}
 

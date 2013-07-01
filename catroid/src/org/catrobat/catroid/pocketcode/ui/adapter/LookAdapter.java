@@ -222,6 +222,10 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 		return checkedLooks;
 	}
 
+	public void addCheckedItem(int position) {
+		checkedLooks.add(position);
+	}
+
 	@Override
 	public void clearCheckedItems() {
 		checkedLooks.clear();

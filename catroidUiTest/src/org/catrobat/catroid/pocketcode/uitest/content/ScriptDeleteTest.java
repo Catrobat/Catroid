@@ -95,6 +95,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		solo.clickLongOnText(brickWhenStartedText);
 		solo.clickOnText(buttonDeleteText);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.sleep(200);
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
@@ -103,6 +104,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		solo.clickLongOnText(solo.getString(R.string.brick_broadcast_receive));
 		solo.clickOnText(buttonDeleteText);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.sleep(200);
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
