@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
@@ -33,49 +34,47 @@ public class GlideToAction extends TemporalAction {
 	private float currentX, currentY;
 	private Formula endX, endY;
 	private Sprite sprite;
+	private Look look;
 	private Formula duration;
-	private float durationOnRestart = 0.0f;
 	private float endXValue;
 	private float endYValue;
 
+	private boolean restart = false;
+
 	@Override
 	protected void begin() {
-		if (duration != null && Float.compare(durationOnRestart, 0.0f) == 0) {
-			super.setDuration((float) duration.interpretDouble(sprite));
-		} else {
-			super.setDuration(durationOnRestart);
+		if (!restart) {
+			if (duration != null) {
+				super.setDuration(duration.interpretFloat(sprite));
+			}
+			endXValue = endX.interpretFloat(sprite);
+			endYValue = endY.interpretFloat(sprite);
 		}
+		restart = false;
 
-		startX = actor.getX() + actor.getWidth() / 2f;
-		startY = actor.getY() + actor.getHeight() / 2f;
-		endXValue = endX.interpretFloat(sprite);
-		endYValue = endY.interpretFloat(sprite);
+		startX = look.getXInUserInterfaceDimensionUnit();
+		startY = look.getYInUserInterfaceDimensionUnit();
 		currentX = startX;
 		currentY = startY;
-		if (Float.compare(startX, endX.interpretFloat(sprite)) == 0
-				&& Float.compare(startY, endY.interpretFloat(sprite)) == 0) {
+		if (startX == endX.interpretFloat(sprite) && startY == endY.interpretFloat(sprite)) {
 			super.finish();
 		}
 	}
 
 	@Override
 	protected void update(float percent) {
-
-		float deltaX = actor.getX() + actor.getWidth() / 2f - currentX;
-		float deltaY = actor.getY() + actor.getHeight() / 2f - currentY;
+		float deltaX = look.getXInUserInterfaceDimensionUnit() - currentX;
+		float deltaY = look.getYInUserInterfaceDimensionUnit() - currentY;
 		if ((-0.1f > deltaX || deltaX > 0.1f) || (-0.1f > deltaY || deltaY > 0.1f)) {
-			durationOnRestart = getDuration() - getTime();
+			restart = true;
+			setDuration(getDuration() - getTime());
 			restart();
 		} else {
 			currentX = startX + (endXValue - startX) * percent;
 			currentY = startY + (endYValue - startY) * percent;
-			actor.setPosition(currentX - actor.getWidth() / 2f, currentY - actor.getHeight() / 2f);
+			look.setXInUserInterfaceDimensionUnit(currentX);
+			look.setYInUserInterfaceDimensionUnit(currentY);
 		}
-	}
-
-	@Override
-	protected void end() {
-		durationOnRestart = 0.0f;
 	}
 
 	public void setDuration(Formula duration) {
@@ -89,5 +88,6 @@ public class GlideToAction extends TemporalAction {
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
+		this.look = sprite.look;
 	}
 }
