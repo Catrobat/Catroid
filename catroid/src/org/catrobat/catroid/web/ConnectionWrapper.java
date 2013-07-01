@@ -22,16 +22,10 @@
  */
 package org.catrobat.catroid.web;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.SocketException;
 import java.util.HashMap;
-import java.util.Locale;
 
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPReply;
 import org.catrobat.catroid.common.Constants;
 
 import android.os.Bundle;
@@ -41,14 +35,11 @@ import android.util.Log;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
 
+//web status codes are on: https://github.com/Catrobat/Catroweb/blob/master/statusCodes.php
+
 public class ConnectionWrapper {
 
 	private final static String TAG = ConnectionWrapper.class.getSimpleName();
-
-	public static final String FTP_USERNAME = "ftp-uploader";
-	public static final String FTP_PASSWORD = "cat.ftp.loader";
-	public static final int FILE_TYPE = org.apache.commons.net.ftp.FTP.BINARY_FILE_TYPE;
-	public static final String FTP_ENCODING = "UTF-8";
 
 	public static final String TAG_PROGRESS = "currentDownloadProgress";
 	public static final String TAG_ENDOFFILE = "endOfFileReached";
@@ -57,81 +48,34 @@ public class ConnectionWrapper {
 	public static final String TAG_PROJECT_NAME = "projectName";
 	public static final String TAG_PROJECT_TITLE = "projectTitle";
 
-	private FTPClient ftpClient = new FTPClient();
-
-	public String doFtpPostFileUpload(String urlString, HashMap<String, String> postValues, String fileTag,
-			String filePath, ResultReceiver receiver, String httpPostUrl, Integer notificationId) throws IOException,
+	public String doHttpsPostFileUpload(String urlString, HashMap<String, String> postValues, String fileTag,
+			String filePath, ResultReceiver receiver, Integer notificationId) throws IOException,
 			WebconnectionException {
+
 		String answer = "";
-		try {
-			// important to call this before connect
-			ftpClient.setControlEncoding(FTP_ENCODING);
+		String fileName = postValues.get(TAG_PROJECT_TITLE);
 
-			ftpClient.connect(urlString, ServerCalls.FTP_PORT);
-			ftpClient.login(FTP_USERNAME, FTP_PASSWORD);
+		if (filePath != null) {
+			HttpRequest uploadRequest = HttpRequest.post(urlString);
 
-			int replyCode = ftpClient.getReplyCode();
+			for (String key : postValues.keySet()) {
+				uploadRequest.part(key, postValues.get(key));
+			}
+			File file = new File(filePath);
+			uploadRequest.part(fileTag, fileName, file);
 
-			if (!FTPReply.isPositiveCompletion(replyCode)) {
-				ftpClient.disconnect();
-				Log.e(TAG, "FTP server refused to connect");
-				throw new WebconnectionException(replyCode, "FTP server refused to connect!");
+			int responseCode = uploadRequest.code();
+			if (!(responseCode == 200 || responseCode == 201)) {
+				throw new WebconnectionException(responseCode, "Error response code should be 200 or 201!");
+			}
+			if (!uploadRequest.ok()) {
+				Log.v(TAG, "Upload not succesful");
 			}
 
-			ftpClient.setFileType(FILE_TYPE);
-			BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(filePath));
-			ftpClient.enterLocalPassiveMode();
-
-			String fileName = "";
-			if (filePath != null) {
-				fileName = postValues.get(TAG_PROJECT_TITLE);
-				String extension = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase(Locale.ENGLISH);
-				FtpProgressInputStream ftpProgressStream = new FtpProgressInputStream(inputStream, receiver,
-						notificationId, fileName);
-				boolean result = ftpClient.storeFile(fileName + "." + extension, ftpProgressStream);
-
-				if (!result) {
-					throw new IOException();
-				}
-			}
-
-			inputStream.close();
-			ftpClient.logout();
-			ftpClient.disconnect();
-
-			answer = sendUploadPost(httpPostUrl, postValues, fileTag, filePath);
-
-		} catch (SocketException e) {
-			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "FTP server refused to connect!");
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "FTP connection problem!");
-		} finally {
-			if (ftpClient.isConnected()) {
-				try {
-					ftpClient.disconnect();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+			answer = uploadRequest.body();
+			Log.v(TAG, "Upload response is: " + answer);
 		}
 		return answer;
-	}
-
-	private String sendUploadPost(String httpPostUrl, HashMap<String, String> postValues, String fileTag,
-			String filePath) throws IOException, WebconnectionException {
-		try {
-			HttpRequest request = HttpRequest.post(httpPostUrl).form(postValues);
-			if (!(request.code() == 200 || request.code() == 201)) {
-				throw new WebconnectionException(request.code(), "Error response code should be 200 or 201!");
-			}
-			return request.body();
-		} catch (HttpRequestException e) {
-			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
-					"Connection could not be established!");
-		}
 	}
 
 	void updateProgress(ResultReceiver receiver, long progress, boolean endOfFileReached, boolean unknown,
@@ -172,30 +116,4 @@ public class ConnectionWrapper {
 					"Connection could not be established!");
 		}
 	}
-
-	/*
-	 * public String doHttpPostFileUpload(String urlString, HashMap<String, String> postValues, String fileTag,
-	 * String filePath) throws IOException, WebconnectionException {
-	 * 
-	 * MultiPartFormOutputStream out = buildPost(urlString, postValues);
-	 * 
-	 * if (filePath != null) {
-	 * String extension = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
-	 * String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-	 * 
-	 * out.writeFile(fileTag, mimeType, new File(filePath));
-	 * }
-	 * out.close();
-	 * 
-	 * // response code != 2xx -> error
-	 * if (urlConnection.getResponseCode() / 100 != 2) {
-	 * throw new WebconnectionException(urlConnection.getResponseCode());
-	 * }
-	 * 
-	 * InputStream resultStream = urlConnection.getInputStream();
-	 * 
-	 * return getString(resultStream);
-	 * }
-	 */
-
 }

@@ -123,7 +123,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		rename = solo.getString(R.string.rename);
 		renameDialogTitle = solo.getString(R.string.rename_sound_dialog);
 		delete = solo.getString(R.string.delete);
-		deleteDialogTitle = solo.getString(R.string.delete_sound_dialog);
+		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_sound_title);
 
 		if (getSoundAdapter().getShowDetails()) {
 			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
@@ -153,7 +153,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		clickOnContextMenuItem(SECOND_TEST_SOUND_NAME, solo.getString(R.string.delete));
 		solo.waitForText(deleteDialogTitle);
-		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.sleep(50);
 
 		int newCount = adapter.getCount();
@@ -536,6 +536,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
 		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
@@ -579,6 +580,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.clickOnCheckBox(checkboxIndicesToCheck[2]);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
 		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
