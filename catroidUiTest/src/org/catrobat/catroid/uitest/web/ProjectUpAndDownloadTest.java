@@ -293,8 +293,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		String projectName = UiTestUtils.DEFAULT_TEST_PROJECT_NAME;
 		UiTestUtils.createTestProject();
 
-		//Adds a sufficient number of media files so that the project is big enough (16 files ~1MB) for download-testing
-		int numberMediaFiles = 10;
+		//Adds a sufficient number of media files so that the project is big enough (5 files ~0.4MB) for download-testing
+		int numberMediaFiles = 5;
 		String soundName = "testSound";
 
 		ArrayList<SoundInfo> soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();

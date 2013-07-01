@@ -69,11 +69,11 @@ public class ConnectionWrapper {
 				throw new WebconnectionException(responseCode, "Error response code should be 200 or 201!");
 			}
 			if (!uploadRequest.ok()) {
-				Log.v(fileTag, "Upload not succesful");
+				Log.v(TAG, "Upload not succesful");
 			}
 
 			answer = uploadRequest.body();
-			Log.v(fileTag, "Upload response is: " + answer);
+			Log.v(TAG, "Upload response is: " + answer);
 		}
 		return answer;
 	}
