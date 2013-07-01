@@ -25,8 +25,8 @@ package org.catrobat.catroid.pocketcode.ui.dialogs;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketcode.ProjectManager;
+import org.catrobat.catroid.pocketcode.R;
 import org.catrobat.catroid.pocketcode.formulaeditor.UserVariable;
 
 import android.app.AlertDialog;
@@ -46,6 +46,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.actionbarsherlock.app.SherlockDialogFragment;
 
 public class NewVariableDialog extends SherlockDialogFragment {
 
