@@ -38,7 +38,10 @@ import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+//web status codes are on: https://github.com/Catrobat/Catroweb/blob/master/statusCodes.php
+
 public class ServerCalls {
+
 	private final static String TAG = "ServerCalls";
 
 	private static final String REGISTRATION_USERNAME_KEY = "registrationUsername";
@@ -113,7 +116,6 @@ public class ServerCalls {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
 		}
-		userEmail = "user12345" + "@gmail.com";
 
 		try {
 			String md5Checksum = Utils.md5Checksum(new File(zipFileString));
@@ -125,7 +127,6 @@ public class ServerCalls {
 			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum);
 			postValues.put(Constants.TOKEN, token);
 			postValues.put(Constants.USERNAME, username);
-			//postValues.put(CATROID_FILE_NAME, projectName + Constants.CATROBAT_EXTENTION);
 
 			if (language != null) {
 				postValues.put(USER_LANGUAGE, language);
@@ -134,12 +135,11 @@ public class ServerCalls {
 			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL : FILE_UPLOAD_URL;
 			String httpPostUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL_HTTPS;
 
-			//serverUrl = "pocketcode.org";
 			Log.v(TAG, "url to upload: " + serverUrl);
 
-			String answer = connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString,
+			String answer = connection.doHttpsPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString,
 					receiver, httpPostUrl, notificationId);
-			if (answer != "") {
+			if (answer != null && !answer.isEmpty()) {
 				// check statusCode from Webserver
 				JSONObject jsonObject = null;
 				Log.v(TAG, "result string: " + answer);
@@ -224,7 +224,6 @@ public class ServerCalls {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
 		}
-		userEmail = "user12345" + "@gmail.com";
 		try {
 			HashMap<String, String> postValues = new HashMap<String, String>();
 			postValues.put(REGISTRATION_USERNAME_KEY, username);
