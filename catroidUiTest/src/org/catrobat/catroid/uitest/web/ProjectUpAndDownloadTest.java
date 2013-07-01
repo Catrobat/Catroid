@@ -388,7 +388,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_mole_whacked));
 		solo.waitForText(deleteLookText);
 		solo.clickOnText(deleteLookText);
-		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.clickOnButton(solo.getString(R.string.yes));
 
 		solo.goBack();
 		solo.goBack();
