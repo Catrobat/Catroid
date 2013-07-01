@@ -45,6 +45,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.Display;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -84,26 +85,32 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
+		int numberOfBricksBeforeCopy = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		solo.clickOnCheckBox(1);
 
-		//UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		//solo.clickOnCheckBox(1);
+		solo.clickOnText(solo.getString(R.string.brick_hide));
 
-		/*
-		 * String expectedTitle = solo.getString(R.string.delete) + " " + Integer.toString(brickListToCheck.size() + 1)
-		 * + " " + solo.getString(R.string.brick_multiple);
-		 * 
-		 * int timeToWaitForTitle = 300;
-		 * assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
-		 * 
-		 * UiTestUtils.acceptAndCloseActionMode(solo);
-		 * assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
-		 * 
-		 * int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
-		 * 
-		 * assertEquals("Not all Bricks have been deleted!", 0, numberOfBricks);
-		 */
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		//solo.sleep(1000);
+		solo.waitForText(solo.getString(R.string.brick_hide));
+
+		solo.clickOnText(solo.getString(R.string.brick_hide));
+		//solo.clickOnScreen(200, 200);
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		Log.d("TAG", "Number of Bricks before copy command: " + numberOfBricksBeforeCopy
+				+ "Number of Bricks after copy command" + numberOfBricks);
+
+		solo.sleep(1000);
+		// just 4 debugging
+		//Log.d("TAG", "Number of Bricks: " + numberOfBricks);
+		assertEquals("No brick has been copied!", 7, numberOfBricks);
+
 	}
 
 	public void testCreateNewBrickButton() {
