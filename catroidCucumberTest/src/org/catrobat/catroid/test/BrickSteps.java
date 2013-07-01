@@ -1,7 +1,6 @@
 package org.catrobat.catroid.test;
 
 import android.test.AndroidTestCase;
-import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import org.catrobat.catroid.content.Script;
@@ -13,7 +12,7 @@ import org.catrobat.catroid.content.bricks.RepeatBrick;
 
 public class BrickSteps extends AndroidTestCase {
     @Given("^a RepeatBrick with (\\d+) iterations?$")
-    public void repeat_brick_with_iterations(int iterations, DataTable bricks) {
+    public void repeat_brick_with_iterations(int iterations) {
         Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
         Script script = (Script) Cucumber.get(Cucumber.KEY_CURRENT_SCRIPT);
         Brick brick = new RepeatBrick(object, iterations);
@@ -38,7 +37,7 @@ public class BrickSteps extends AndroidTestCase {
 
     @Then("^the elapsed time is at least (\\d+) ms$")
     public void elapsed_time_is_at_least(int assumed) {
-        int startTime = (Integer) Cucumber.get(Cucumber.KEY_START_TIME);
+        long startTime = (Long) Cucumber.get(Cucumber.KEY_START_TIME);
         int elapsed = (int) (System.currentTimeMillis() - startTime);
         assertTrue("The elapsed time is too short!", elapsed >= assumed);
     }

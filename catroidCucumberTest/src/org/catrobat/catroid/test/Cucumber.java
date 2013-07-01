@@ -5,7 +5,7 @@ import cucumber.api.android.RunWithCucumber;
 import java.util.HashMap;
 import java.util.Map;
 
-@RunWithCucumber(features = "features/ui") // here you can configure which feature subfolder to use
+@RunWithCucumber(features = "features/bricks/RepeatBrick.feature") // here you can configure which feature subfolder to use
 public final class Cucumber {
     // The global state allows glue-class objects to share values with each other.
     private static final Map<String, Object> mGlobalState = new HashMap<String, Object>();

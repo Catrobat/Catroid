@@ -11,6 +11,7 @@ import cucumber.api.DataTable;
 import cucumber.api.android.CucumberInstrumentation;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
+import gherkin.formatter.model.DataTableRow;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
@@ -66,6 +67,7 @@ public class ScriptSteps extends AndroidTestCase {
         assertEquals(ProjectActivity.class, solo.getCurrentActivity().getClass());
         solo.clickOnView(solo.getView(org.catrobat.catroid.R.id.button_play));
         solo.waitForActivity(StageActivity.class.getSimpleName(), 3000);
+        Cucumber.put(Cucumber.KEY_START_TIME, System.currentTimeMillis());
         assertEquals(StageActivity.class, solo.getCurrentActivity().getClass());
         solo.sleep(4000);
     }
@@ -84,18 +86,17 @@ public class ScriptSteps extends AndroidTestCase {
     }
 
     private void addBricks(Script script, DataTable bricks) {
-        fail("Implementation issues.");
-//        for (DataTableRow row : bricks.getGherkinRows()) {
-//            String brickName = row.getCells().get(0);
-//            String argName = row.getCells().get(1);
-//            try {
-//                Brick brick = newBrick(brickName, argName);
-//                script.addBrick(brick);
-//            } catch (IOException e) {
-//                Log.e(CucumberInstrumentation.TAG, e.toString());
-//                fail(e.getMessage());
-//            }
-//        }
+        for (DataTableRow row : bricks.getGherkinRows()) {
+            String brickName = row.getCells().get(0);
+            String argName = row.getCells().get(1);
+            try {
+                Brick brick = newBrick(brickName, argName);
+                script.addBrick(brick);
+            } catch (IOException e) {
+                Log.e(CucumberInstrumentation.TAG, e.toString());
+                fail(e.getMessage());
+            }
+        }
     }
 
     private LoopBeginBrick mLoopBeginBrick;

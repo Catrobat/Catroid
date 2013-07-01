@@ -17,15 +17,13 @@ import java.io.IOException;
 
 
 public class ProjectSteps extends AndroidTestCase {
-    private Project mProject;
-
     @Given("^I have a default program$")
     public void I_have_default_program() {
         ProjectManager pm = ProjectManager.getInstance();
         pm.deleteCurrentProject();
         pm.initializeDefaultProject(getContext());
-        mProject = pm.getCurrentProject();
-        Cucumber.put(Cucumber.KEY_PROJECT, mProject);
+        Project project = pm.getCurrentProject();
+        Cucumber.put(Cucumber.KEY_PROJECT, project);
     }
 
     @Given("^I have a program with the name '(\\w+)'$")
@@ -33,9 +31,9 @@ public class ProjectSteps extends AndroidTestCase {
         try {
             ProjectManager pm = ProjectManager.getInstance();
             pm.initializeNewProject(name, getContext());
-            mProject = pm.getCurrentProject();
-            mProject.getSpriteList().clear();
-            Cucumber.put(Cucumber.KEY_PROJECT, mProject);
+            Project project = pm.getCurrentProject();
+            project.getSpriteList().clear();
+            Cucumber.put(Cucumber.KEY_PROJECT, project);
         } catch (IOException e) {
             fail(e.getMessage());
         }
@@ -47,9 +45,9 @@ public class ProjectSteps extends AndroidTestCase {
             String name = System.currentTimeMillis() + "_cucumber";
             ProjectManager pm = ProjectManager.getInstance();
             pm.initializeNewProject(name, getContext());
-            mProject = pm.getCurrentProject();
-            mProject.getSpriteList().clear();
-            Cucumber.put(Cucumber.KEY_PROJECT, mProject);
+            Project project = pm.getCurrentProject();
+            project.getSpriteList().clear();
+            Cucumber.put(Cucumber.KEY_PROJECT, project);
         } catch (IOException e) {
             fail(e.getMessage());
         }
@@ -76,7 +74,6 @@ public class ProjectSteps extends AndroidTestCase {
 
     @Then("^the default program is being executed$")
     public void default_project_being_executed() {
-        Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
         ProjectManager pm = ProjectManager.getInstance();
         for (Sprite sprite : pm.getCurrentProject().getSpriteList()) {
             assertFalse("Sprite shouldn't be paused.", sprite.isPaused);

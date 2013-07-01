@@ -18,9 +18,9 @@ public class ObjectSteps extends AndroidTestCase {
         Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
         Script script = null;
 
-        if ("StartScript".equals(name)) {
+        if ("Start".equals(name)) {
             script = new StartScript(object);
-        } else if ("WhenTappedScript".equals(name)) {
+        } else if ("WhenTapped".equals(name)) {
             WhenScript whenScript = new WhenScript(object);
             whenScript.setAction(0);
             script = whenScript;
