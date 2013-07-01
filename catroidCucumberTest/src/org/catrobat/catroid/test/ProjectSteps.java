@@ -1,9 +1,7 @@
 package org.catrobat.catroid.test;
 
 import android.test.AndroidTestCase;
-import android.util.Log;
 import com.jayway.android.robotium.solo.Solo;
-import cucumber.api.android.CucumberInstrumentation;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -27,7 +25,7 @@ public class ProjectSteps extends AndroidTestCase {
         pm.deleteCurrentProject();
         pm.initializeDefaultProject(getContext());
         mProject = pm.getCurrentProject();
-        RunCukes.put(RunCukes.KEY_PROJECT, mProject);
+        Cucumber.put(Cucumber.KEY_PROJECT, mProject);
     }
 
     @Given("^I have a program with the name '(\\w+)'$")
@@ -37,16 +35,29 @@ public class ProjectSteps extends AndroidTestCase {
             pm.initializeNewProject(name, getContext());
             mProject = pm.getCurrentProject();
             mProject.getSpriteList().clear();
-            RunCukes.put(RunCukes.KEY_PROJECT, mProject);
+            Cucumber.put(Cucumber.KEY_PROJECT, mProject);
         } catch (IOException e) {
-            Log.e(CucumberInstrumentation.TAG, e.toString());
+            fail(e.getMessage());
+        }
+    }
+
+    @Given("^an empty program$")
+    public void empty_program() {
+        try {
+            String name = System.currentTimeMillis() + "_cucumber";
+            ProjectManager pm = ProjectManager.getInstance();
+            pm.initializeNewProject(name, getContext());
+            mProject = pm.getCurrentProject();
+            mProject.getSpriteList().clear();
+            Cucumber.put(Cucumber.KEY_PROJECT, mProject);
+        } catch (IOException e) {
             fail(e.getMessage());
         }
     }
 
     @When("^I start the program$")
     public void I_start_the_program() {
-        Solo solo = (Solo) RunCukes.get(RunCukes.KEY_SOLO);
+        Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
         assertEquals(MainMenuActivity.class, solo.getCurrentActivity().getClass());
         solo.clickOnView(solo.getView(org.catrobat.catroid.R.id.main_menu_button_continue));
         solo.waitForActivity(ProjectActivity.class.getSimpleName(), 3000);
@@ -59,13 +70,13 @@ public class ProjectSteps extends AndroidTestCase {
 
     @Then("^I wait (\\d+) milliseconds$")
     public void I_wait_d_milliseconds(int time) {
-        Solo solo = (Solo) RunCukes.get(RunCukes.KEY_SOLO);
+        Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
         solo.sleep(time);
     }
 
     @Then("^the default program is being executed$")
     public void default_project_being_executed() {
-        Solo solo = (Solo) RunCukes.get(RunCukes.KEY_SOLO);
+        Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
         ProjectManager pm = ProjectManager.getInstance();
         for (Sprite sprite : pm.getCurrentProject().getSpriteList()) {
             assertFalse("Sprite shouldn't be paused.", sprite.isPaused);

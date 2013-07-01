@@ -16,14 +16,14 @@ import java.util.List;
 public class SpriteSteps extends AndroidTestCase {
     @And("^I (\\w+) the default object$")
     public void I_s_the_default_object(String action) {
-        String defaultSpriteName = (String) RunCukes.get(RunCukes.KEY_DEFAULT_SPRITE_NAME);
+        String defaultSpriteName = (String) Cucumber.get(Cucumber.KEY_DEFAULT_SPRITE_NAME);
         I_s_the_object_s(action, defaultSpriteName);
     }
 
     @And("^I (\\w+) the object '(\\w+)'$")
     public void I_s_the_object_s(String action, String name) {
-        Solo solo = (Solo) RunCukes.get(RunCukes.KEY_SOLO);
-        Project project = (Project) RunCukes.get(RunCukes.KEY_PROJECT);
+        Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
+        Project project = (Project) Cucumber.get(Cucumber.KEY_PROJECT);
         if ("tap".equals(action)) {
             Sprite sprite = Util.findSprite(project, name);
             if ("background".equals(name)) {
@@ -47,8 +47,8 @@ public class SpriteSteps extends AndroidTestCase {
 
     @Then("^the object '(\\w+)' is \\b(visible|invisible)$")
     public void object_is_visible_or_not(String name, String visibility) {
-        Solo solo = (Solo) RunCukes.get(RunCukes.KEY_SOLO);
-        Project project = (Project) RunCukes.get(RunCukes.KEY_PROJECT);
+        Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
+        Project project = (Project) Cucumber.get(Cucumber.KEY_PROJECT);
         Sprite sprite = Util.findSprite(project, name);
         while (!sprite.look.getAllActionsAreFinished()) {
             solo.sleep(1000);
@@ -62,8 +62,8 @@ public class SpriteSteps extends AndroidTestCase {
 
     @Then("^the default object is changing its costumes$")
     public void default_object_changing_costumes() {
-        Project project = (Project) RunCukes.get(RunCukes.KEY_PROJECT);
-        String defaultSpriteName = (String) RunCukes.get(RunCukes.KEY_DEFAULT_SPRITE_NAME);
+        Project project = (Project) Cucumber.get(Cucumber.KEY_PROJECT);
+        String defaultSpriteName = (String) Cucumber.get(Cucumber.KEY_DEFAULT_SPRITE_NAME);
         Sprite sprite = Util.findSprite(project, defaultSpriteName);
         List<String> names = new ArrayList<String>();
         Log.d(CucumberInstrumentation.TAG, "go!");
@@ -79,7 +79,7 @@ public class SpriteSteps extends AndroidTestCase {
 
     @Then("^the object '(\\w+)' has a \\b(x|y) position of (\\d+)$")
     public void object_has_position(String name, String axis, int position) {
-        Project project = (Project) RunCukes.get(RunCukes.KEY_PROJECT);
+        Project project = (Project) Cucumber.get(Cucumber.KEY_PROJECT);
         Sprite sprite = Util.findSprite(project, name);
         int actualPosition;
         if ("x".equals(axis)) {

@@ -6,16 +6,20 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.test.AndroidTestCase;
 import android.util.Log;
+import com.jayway.android.robotium.solo.Solo;
 import cucumber.api.DataTable;
 import cucumber.api.android.CucumberInstrumentation;
 import cucumber.api.java.en.And;
-import gherkin.formatter.model.DataTableRow;
+import cucumber.api.java.en.When;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.*;
 import org.catrobat.catroid.content.bricks.*;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
 
@@ -26,7 +30,7 @@ public class ScriptSteps extends AndroidTestCase {
 
     @And("^an? \\b(background|object) '(\\w+)' that has a (\\w+Script) with these bricks:$")
     public void object_that_has_script_with_bricks(String type, String name, String scriptName, DataTable bricks) {
-        Project project = (Project) RunCukes.get(RunCukes.KEY_PROJECT);
+        Project project = (Project) Cucumber.get(Cucumber.KEY_PROJECT);
         if ("background".equals(type)) {
             mCurrentSprite = new Sprite("background");
             mCurrentSprite.look.setZIndex(0);
@@ -53,6 +57,19 @@ public class ScriptSteps extends AndroidTestCase {
         mCurrentSprite.addScript(script);
     }
 
+    @When("^the script is executed$")
+    public void script_is_executed() {
+        Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
+        assertEquals(MainMenuActivity.class, solo.getCurrentActivity().getClass());
+        solo.clickOnView(solo.getView(org.catrobat.catroid.R.id.main_menu_button_continue));
+        solo.waitForActivity(ProjectActivity.class.getSimpleName(), 3000);
+        assertEquals(ProjectActivity.class, solo.getCurrentActivity().getClass());
+        solo.clickOnView(solo.getView(org.catrobat.catroid.R.id.button_play));
+        solo.waitForActivity(StageActivity.class.getSimpleName(), 3000);
+        assertEquals(StageActivity.class, solo.getCurrentActivity().getClass());
+        solo.sleep(4000);
+    }
+
     private Script newScript(String name) {
         if ("StartScript".equals(name)) {
             return new StartScript(mCurrentSprite);
@@ -67,17 +84,18 @@ public class ScriptSteps extends AndroidTestCase {
     }
 
     private void addBricks(Script script, DataTable bricks) {
-        for (DataTableRow row : bricks.getGherkinRows()) {
-            String brickName = row.getCells().get(0);
-            String argName = row.getCells().get(1);
-            try {
-                Brick brick = newBrick(brickName, argName);
-                script.addBrick(brick);
-            } catch (IOException e) {
-                Log.e(CucumberInstrumentation.TAG, e.toString());
-                fail(e.getMessage());
-            }
-        }
+        fail("Implementation issues.");
+//        for (DataTableRow row : bricks.getGherkinRows()) {
+//            String brickName = row.getCells().get(0);
+//            String argName = row.getCells().get(1);
+//            try {
+//                Brick brick = newBrick(brickName, argName);
+//                script.addBrick(brick);
+//            } catch (IOException e) {
+//                Log.e(CucumberInstrumentation.TAG, e.toString());
+//                fail(e.getMessage());
+//            }
+//        }
     }
 
     private LoopBeginBrick mLoopBeginBrick;
@@ -123,7 +141,7 @@ public class ScriptSteps extends AndroidTestCase {
     }
 
     private LookData newLookData(String name, int resourceId) throws IOException {
-        Project project = (Project) RunCukes.get(RunCukes.KEY_PROJECT);
+        Project project = (Project) Cucumber.get(Cucumber.KEY_PROJECT);
         File file = copyAndScaleImageToProject(project.getName(), getContext(), name, resourceId);
         return newLookData(name, file);
     }
@@ -171,7 +189,7 @@ public class ScriptSteps extends AndroidTestCase {
     }
 
     private File createBackgroundImage(String name) {
-        Project project = (Project) RunCukes.get(RunCukes.KEY_PROJECT);
+        Project project = (Project) Cucumber.get(Cucumber.KEY_PROJECT);
         String directoryName = Utils.buildPath(Utils.buildProjectPath(project.getName()), Constants.IMAGE_DIRECTORY);
         Point screen = Util.getScreenDimensions(getContext());
         Bitmap backgroundBitmap = ImageEditing.createSingleColorBitmap(screen.x, screen.y, Color.BLUE);

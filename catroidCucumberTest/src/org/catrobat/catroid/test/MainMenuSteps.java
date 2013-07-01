@@ -17,7 +17,7 @@ import java.util.List;
 public class MainMenuSteps extends AndroidTestCase {
     @Given("^I am in the main menu$")
     public void I_am_in_the_main_menu() {
-        Solo solo = (Solo) RunCukes.get(RunCukes.KEY_SOLO);
+        Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
         assertEquals(MainMenuActivity.class, solo.getCurrentActivity().getClass());
     }
 
@@ -27,13 +27,13 @@ public class MainMenuSteps extends AndroidTestCase {
         // partial matches, but clickOnButton(String) doesn't work
         // that way. Thus we must always use clickOnText(String) because
         // the features may not contain the full text of the button.
-        Solo solo = (Solo) RunCukes.get(RunCukes.KEY_SOLO);
+        Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
         solo.clickOnText(button);
     }
 
     @Then("^I should see the following buttons:$")
     public void I_should_see_the_following_buttons(List<String> expectedButtons) {
-        Solo solo = (Solo) RunCukes.get(RunCukes.KEY_SOLO);
+        Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
         List<String> actualButtons = new ArrayList<String>();
         for (Button button : solo.getCurrentViews(Button.class)) {
             String text = button.getText().toString();
@@ -56,7 +56,7 @@ public class MainMenuSteps extends AndroidTestCase {
         } else {
             fail(String.format("View '%s' does not exist.", view));
         }
-        Solo solo = (Solo) RunCukes.get(RunCukes.KEY_SOLO);
+        Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
         solo.waitForActivity(activityClass.getSimpleName(), 3000);
         assertEquals(activityClass, solo.getCurrentActivity().getClass());
         solo.sleep(2000); // give activity time to completely load
