@@ -125,7 +125,7 @@ public class ServerCalls {
 			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum);
 			postValues.put(Constants.TOKEN, token);
 			postValues.put(Constants.USERNAME, username);
-			postValues.put(CATROID_FILE_NAME, projectName + Constants.CATROBAT_EXTENTION);
+			//postValues.put(CATROID_FILE_NAME, projectName + Constants.CATROBAT_EXTENTION);
 
 			if (language != null) {
 				postValues.put(USER_LANGUAGE, language);

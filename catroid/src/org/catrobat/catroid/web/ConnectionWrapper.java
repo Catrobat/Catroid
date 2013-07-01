@@ -64,7 +64,17 @@ public class ConnectionWrapper {
 			String filePath, ResultReceiver receiver, String httpPostUrl, Integer notificationId) throws IOException,
 			WebconnectionException {
 
-		String answer = "";
+		File file = new File(filePath);
+		//HttpRequest req = HttpRequest.post(httpPostUrl); //.send(file);
+
+		String answer = "";//sendUploadPost(httpPostUrl, postValues, fileTag, filePath);
+		/*
+		 * if (answer != null) {
+		 * return answer;
+		 * }
+		 */
+
+		//String answer = "";
 		String fileName = postValues.get(TAG_PROJECT_TITLE);
 
 		if (filePath != null) {
@@ -72,7 +82,7 @@ public class ConnectionWrapper {
 			String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
 
 			//out.writeFile(fileTag, mimeType, new File(filePath));
-			File file = new File(filePath);
+			File file2 = new File(filePath);
 			HttpRequest uploadRequest = HttpRequest.post(urlString);//.part(fileTag, fileName, file).form(postValues);
 			//.contentType("multipart");
 
@@ -105,6 +115,7 @@ public class ConnectionWrapper {
 
 			//InputStream resultStream = urlConnection.getInputStream();
 			String uploadResponse = uploadRequest.body();
+			Log.v(fileTag, "************* RESPONSE: " + uploadResponse);
 			return uploadResponse;
 		}
 
