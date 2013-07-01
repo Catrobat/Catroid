@@ -249,7 +249,6 @@ public class ServerCalls {
 			String tokenReceived = "";
 
 			Log.v(TAG, "result string: " + resultString);
-			Log.v(TAG, "token: " + token);
 
 			jsonObject = new JSONObject(resultString);
 			statusCode = jsonObject.getInt(JSON_STATUS_CODE);
@@ -261,7 +260,6 @@ public class ServerCalls {
 						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
 					throw new WebconnectionException(statusCode, serverAnswer);
 				}
-				Log.v(TAG, "token rec: " + tokenReceived);
 				if (context != null) {
 					SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 					sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
