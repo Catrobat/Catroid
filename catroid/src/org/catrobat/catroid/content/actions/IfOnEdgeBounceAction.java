@@ -82,7 +82,7 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 		}
 
 		sprite.look.setRotation(-rotationResult + 90f);
-		sprite.look.setXYInUserInterfaceDimensionUnit(xPosition, yPosition);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, yPosition);
 	}
 
 	public void setSprite(Sprite sprite) {

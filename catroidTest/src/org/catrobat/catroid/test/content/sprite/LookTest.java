@@ -79,7 +79,7 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals("Wrong x position!", 66f, look.getXInUserInterfaceDimensionUnit());
 		look.setYInUserInterfaceDimensionUnit(42f);
 		assertEquals("Wrong y position!", 42f, look.getYInUserInterfaceDimensionUnit());
-		look.setXYInUserInterfaceDimensionUnit(123f, 456f);
+		look.setPositionInUserInterfaceDimensionUnit(123f, 456f);
 		assertEquals("Wrong x position!", 123f, look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong x position!", 456f, look.getYInUserInterfaceDimensionUnit());
 	}

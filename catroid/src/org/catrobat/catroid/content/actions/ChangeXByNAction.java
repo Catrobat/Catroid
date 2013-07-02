@@ -45,7 +45,7 @@ public class ChangeXByNAction extends TemporalAction {
 			xPosition += xMovementValue;
 		}
 
-		sprite.look.setXYInUserInterfaceDimensionUnit(xPosition, sprite.look.getYInUserInterfaceDimensionUnit());
+		sprite.look.setXInUserInterfaceDimensionUnit(xPosition);
 	}
 
 	public void setSprite(Sprite sprite) {

@@ -184,7 +184,7 @@ public class Look extends Image {
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		checkImageChanged();
-		if (Double.compare(alphaValue, 0.0f) == 0) {
+		if (alphaValue == 0.0f) {
 			setVisible(false);
 		} else {
 			setVisible(true);
@@ -218,19 +218,16 @@ public class Look extends Image {
 	protected void checkImageChanged() {
 		if (imageChanged) {
 			if (lookData == null) {
-				setBounds(getX() + getWidth() / 2f, getY() + getHeight() / 2f, 0f, 0f);
+				setBounds(getXInUserInterfaceDimensionUnit(), getYInUserInterfaceDimensionUnit(), 0f, 0f);
 				setDrawable(null);
 				imageChanged = false;
 				return;
 			}
 
 			pixmap = lookData.getPixmap();
-			setX(getX() + getWidth() / 2f);
-			setY(getY() + getHeight() / 2f);
-			setWidth(pixmap.getWidth());
-			setHeight(pixmap.getHeight());
-			setX(getX() - getWidth() / 2f);
-			setY(getY() - getHeight() / 2f);
+			setPosition(getXInUserInterfaceDimensionUnit(), getYInUserInterfaceDimensionUnit());
+			setSize(pixmap.getWidth(), pixmap.getHeight());
+			setPositionInUserInterfaceDimensionUnit(getX(), getY());
 			setOrigin(getWidth() / 2f, getHeight() / 2f);
 
 			if (brightnessChanged) {
@@ -292,21 +289,17 @@ public class Look extends Image {
 		setY(y - getHeight() / 2f);
 	}
 
-	public void setXYInUserInterfaceDimensionUnit(float x, float y) {
-		setX(x - getWidth() / 2f);
-		setY(y - getHeight() / 2f);
+	public void setPositionInUserInterfaceDimensionUnit(float x, float y) {
+		setXInUserInterfaceDimensionUnit(x);
+		setYInUserInterfaceDimensionUnit(y);
 	}
 
 	public float getXInUserInterfaceDimensionUnit() {
-		float xPosition = getX();
-		xPosition += getWidth() / 2f;
-		return xPosition;
+		return getX() + getWidth() / 2f;
 	}
 
 	public float getYInUserInterfaceDimensionUnit() {
-		float yPosition = getY();
-		yPosition += getHeight() / 2f;
-		return yPosition;
+		return getY() + getHeight() / 2f;
 	}
 
 	public float getRotationInUserInterfaceDimensionUnit() {
@@ -359,14 +352,7 @@ public class Look extends Image {
 	}
 
 	public void changeAlphaValueBy(float value) {
-		float newAlphaValue = this.alphaValue + value;
-		if (newAlphaValue < 0f) {
-			this.alphaValue = 0f;
-		} else if (newAlphaValue > 1f) {
-			this.alphaValue = 1f;
-		} else {
-			this.alphaValue = newAlphaValue;
-		}
+		setAlphaValue(alphaValue + value);
 	}
 
 	public float getAlphaValue() {
@@ -395,12 +381,7 @@ public class Look extends Image {
 	}
 
 	public void changeBrightnessValueBy(float percent) {
-		brightnessValue += percent;
-		if (brightnessValue < 0f) {
-			brightnessValue = 0f;
-		}
-		brightnessChanged = true;
-		imageChanged = true;
+		setBrightness(brightnessValue + percent);
 	}
 
 	public float getBrightness() {

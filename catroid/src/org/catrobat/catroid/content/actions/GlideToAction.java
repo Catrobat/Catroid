@@ -72,8 +72,7 @@ public class GlideToAction extends TemporalAction {
 		} else {
 			currentX = startX + (endXValue - startX) * percent;
 			currentY = startY + (endYValue - startY) * percent;
-			look.setXInUserInterfaceDimensionUnit(currentX);
-			look.setYInUserInterfaceDimensionUnit(currentY);
+			look.setPositionInUserInterfaceDimensionUnit(currentX, currentY);
 		}
 	}
 

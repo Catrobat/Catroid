@@ -45,7 +45,7 @@ public class ChangeYByNAction extends TemporalAction {
 			yPosition += yMovementValue;
 		}
 
-		sprite.look.setXYInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
+		sprite.look.setYInUserInterfaceDimensionUnit(yPosition);
 	}
 
 	public void setSprite(Sprite sprite) {
