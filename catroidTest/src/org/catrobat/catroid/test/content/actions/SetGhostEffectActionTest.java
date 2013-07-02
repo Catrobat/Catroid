@@ -35,11 +35,11 @@ public class SetGhostEffectActionTest extends InstrumentationTestCase {
 
 	public void testGhostEffect() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite scale value", 1f, sprite.look.getAlphaValue());
+		assertEquals("Unexpected initial sprite scale value", 1f, sprite.look.getAlpha());
 		SetGhostEffectAction action = ExtendedActions.setGhostEffect(sprite, effectValue);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed",
-				(100 - effectValue.interpretFloat(sprite)) / 100, sprite.look.getAlphaValue());
+				(100 - effectValue.interpretFloat(sprite)) / 100, sprite.look.getAlpha());
 	}
 
 	public void testNullSprite() {

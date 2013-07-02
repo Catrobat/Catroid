@@ -303,11 +303,11 @@ public class Look extends Image {
 	}
 
 	public float getRotationInUserInterfaceDimensionUnit() {
-		return modulo(-getRotation() + DEGREE_UI_OFFSET, DEGREES_IN_A_CIRCLE);
+		return modulo(getRotation() + DEGREE_UI_OFFSET, DEGREES_IN_A_CIRCLE);
 	}
 
 	public void setRotationInUserInterfaceDimensionUnit(float degrees) {
-		setRotation(-degrees + DEGREE_UI_OFFSET);
+		setRotation(degrees - DEGREE_UI_OFFSET);
 	}
 
 	public void setLookData(LookData lookData) {
@@ -342,7 +342,7 @@ public class Look extends Image {
 		return getSize() * 100f;
 	}
 
-	public void setAlphaValue(float alphaValue) {
+	public void setAlpha(float alphaValue) {
 		if (alphaValue < 0f) {
 			alphaValue = 0f;
 		} else if (alphaValue > 1f) {
@@ -351,19 +351,15 @@ public class Look extends Image {
 		this.alphaValue = alphaValue;
 	}
 
-	public void changeAlphaValueBy(float value) {
-		setAlphaValue(alphaValue + value);
-	}
-
-	public float getAlphaValue() {
+	public float getAlpha() {
 		return alphaValue;
 	}
 
-	public float getGhostEffectInUserInterfaceDimensionUnit() {
+	public float getAlphaInUserInterfaceDimensionUnit() {
 		return (1f - alphaValue) * 100f;
 	}
 
-	public void setGhostEffectInUserInterfaceDimensionUnit(float percentagePoints) {
+	public void setAlphaInUserInterfaceDimensionUnit(float percentagePoints) {
 		alphaValue = (100f - percentagePoints) / 100f;
 	}
 
@@ -378,10 +374,6 @@ public class Look extends Image {
 
 	public void setBrightnessInUserInterfaceDimensionUnit(float percentagePoints) {
 		setBrightness(percentagePoints / 100f);
-	}
-
-	public void changeBrightnessValueBy(float percent) {
-		setBrightness(brightnessValue + percent);
 	}
 
 	public float getBrightness() {

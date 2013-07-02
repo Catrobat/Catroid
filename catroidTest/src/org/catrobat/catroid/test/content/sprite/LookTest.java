@@ -58,7 +58,7 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals("Wrong initialization!", 0f, look.getRotation());
 		assertEquals("Wrong initialization!", 1f, look.getScaleX());
 		assertEquals("Wrong initialization!", 1f, look.getScaleY());
-		assertEquals("Wrong initialization!", 1f, look.getAlphaValue());
+		assertEquals("Wrong initialization!", 1f, look.getAlpha());
 		assertEquals("Wrong initialization!", 1f, look.getBrightness());
 		assertEquals("Wrong initialization!", 1f, look.getSize());
 		assertEquals("Wrong initialization!", 0, look.getZIndex());
@@ -103,17 +103,13 @@ public class LookTest extends InstrumentationTestCase {
 	}
 
 	public void testAlphaValue() {
-		look.setAlphaValue(0.5f);
-		assertEquals("Wrong alpha value!", 0.5f, look.getAlphaValue());
-		look.changeAlphaValueBy(0.2f);
-		assertEquals("Wrong alpha value!", 0.7f, look.getAlphaValue());
+		look.setAlpha(0.5f);
+		assertEquals("Wrong alpha value!", 0.5f, look.getAlpha());
 	}
 
 	public void testBrightnessValue() {
 		look.setBrightness(0.42f);
 		assertEquals("Wrong brightness value!", 0.42f, look.getBrightness());
-		look.changeBrightnessValueBy(0.2f);
-		assertEquals("Wrong brightness value!", 0.62f, look.getBrightness());
 	}
 
 }

@@ -33,7 +33,7 @@ public class ClearGraphicEffectAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		sprite.look.setBrightness(1f);
-		sprite.look.setAlphaValue(1f);
+		sprite.look.setAlpha(1f);
 	}
 
 	public void setSprite(Sprite sprite) {

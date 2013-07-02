@@ -50,7 +50,7 @@ public class ParserTest extends AndroidTestCase {
 		testSprite = new Sprite("sprite");
 		testSprite.look.setXInUserInterfaceDimensionUnit(LOOK_X_POSITION);
 		testSprite.look.setYInUserInterfaceDimensionUnit(LOOK_Y_POSITION);
-		testSprite.look.setAlphaValue(LOOK_ALPHA);
+		testSprite.look.setAlpha(LOOK_ALPHA);
 		testSprite.look.setBrightness(LOOK_BRIGHTNESS);
 		testSprite.look.setScaleX(LOOK_SCALE);
 		testSprite.look.setScaleY(LOOK_SCALE);

@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
@@ -34,7 +33,6 @@ public class GlideToAction extends TemporalAction {
 	private float currentX, currentY;
 	private Formula endX, endY;
 	private Sprite sprite;
-	private Look look;
 	private Formula duration;
 	private float endXValue;
 	private float endYValue;
@@ -52,8 +50,8 @@ public class GlideToAction extends TemporalAction {
 		}
 		restart = false;
 
-		startX = look.getXInUserInterfaceDimensionUnit();
-		startY = look.getYInUserInterfaceDimensionUnit();
+		startX = sprite.look.getXInUserInterfaceDimensionUnit();
+		startY = sprite.look.getYInUserInterfaceDimensionUnit();
 		currentX = startX;
 		currentY = startY;
 		if (startX == endX.interpretFloat(sprite) && startY == endY.interpretFloat(sprite)) {
@@ -63,8 +61,8 @@ public class GlideToAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		float deltaX = look.getXInUserInterfaceDimensionUnit() - currentX;
-		float deltaY = look.getYInUserInterfaceDimensionUnit() - currentY;
+		float deltaX = sprite.look.getXInUserInterfaceDimensionUnit() - currentX;
+		float deltaY = sprite.look.getYInUserInterfaceDimensionUnit() - currentY;
 		if ((-0.1f > deltaX || deltaX > 0.1f) || (-0.1f > deltaY || deltaY > 0.1f)) {
 			restart = true;
 			setDuration(getDuration() - getTime());
@@ -72,7 +70,7 @@ public class GlideToAction extends TemporalAction {
 		} else {
 			currentX = startX + (endXValue - startX) * percent;
 			currentY = startY + (endYValue - startY) * percent;
-			look.setPositionInUserInterfaceDimensionUnit(currentX, currentY);
+			sprite.look.setPositionInUserInterfaceDimensionUnit(currentX, currentY);
 		}
 	}
 
@@ -87,6 +85,5 @@ public class GlideToAction extends TemporalAction {
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-		this.look = sprite.look;
 	}
 }

@@ -83,13 +83,13 @@ public class SingleExecutionWhenBrickTest extends ActivityInstrumentationTestCas
 		solo.sleep(500);
 		for (int i = 1; i <= 10; ++i) {
 			solo.sleep(100);
-			assertEquals("Look has wrong AlphaValue.", (float) 1.0, yellowSprite.look.getAlphaValue());
+			assertEquals("Look has wrong AlphaValue.", (float) 1.0, yellowSprite.look.getAlpha());
 			solo.clickOnScreen((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2));
 		}
 		solo.sleep(100);
-		assertEquals("Look has wrong AlphaValue.", (float) 1.0, yellowSprite.look.getAlphaValue());
+		assertEquals("Look has wrong AlphaValue.", (float) 1.0, yellowSprite.look.getAlpha());
 		solo.sleep(2000);
-		assertEquals("Look has wrong AlphaValue.", (float) 0.5, yellowSprite.look.getAlphaValue());
+		assertEquals("Look has wrong AlphaValue.", (float) 0.5, yellowSprite.look.getAlpha());
 	}
 
 	public void testWaitBrickBroadcast() {
@@ -97,13 +97,13 @@ public class SingleExecutionWhenBrickTest extends ActivityInstrumentationTestCas
 		solo.sleep(500);
 		for (int i = 1; i <= 10; ++i) {
 			solo.sleep(1000);
-			assertEquals("Look has wrong AlphaValue.", (float) 1.0, greenSprite.look.getAlphaValue());
+			assertEquals("Look has wrong AlphaValue.", (float) 1.0, greenSprite.look.getAlpha());
 			solo.clickOnScreen((SCREEN_WIDTH / 2) + 100, (SCREEN_HEIGHT / 2));
 		}
 		solo.sleep(1000);
-		assertEquals("Look has wrong AlphaValue.", (float) 1.0, greenSprite.look.getAlphaValue());
+		assertEquals("Look has wrong AlphaValue.", (float) 1.0, greenSprite.look.getAlpha());
 		solo.sleep(2000);
-		assertEquals("Look has wrong AlphaValue.", (float) 0, greenSprite.look.getAlphaValue());
+		assertEquals("Look has wrong AlphaValue.", (float) 0, greenSprite.look.getAlpha());
 	}
 
 	private void createProjectWhenBrick() {

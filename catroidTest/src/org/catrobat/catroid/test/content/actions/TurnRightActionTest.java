@@ -157,7 +157,7 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		TurnRightAction action = ExtendedActions.turnRight(sprite, new Formula(370.0f));
 		action.act(1.0f);
 
-		assertEquals("Wrong direction", -370f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction", -10f, sprite.look.getRotation(), 1e-3);
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 

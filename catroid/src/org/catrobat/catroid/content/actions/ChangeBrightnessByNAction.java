@@ -34,9 +34,9 @@ public class ChangeBrightnessByNAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		float changeBrightnessValue = changeBrightness.interpretFloat(sprite) / 100.0f;
-		sprite.look.changeBrightnessValueBy(changeBrightnessValue);
-
+		float newBrightnessValue = sprite.look.getBrightnessInUserInterfaceDimensionUnit()
+				+ changeBrightness.interpretFloat(sprite);
+		sprite.look.setBrightnessInUserInterfaceDimensionUnit(newBrightnessValue);
 	}
 
 	public void setSprite(Sprite sprite) {

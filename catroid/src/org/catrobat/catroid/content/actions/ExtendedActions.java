@@ -127,6 +127,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	// XXX: Not needed anymore?
 	public static GlideToAction glideTo(Sprite sprite, Formula x, Formula y, Formula duration,
 			Interpolation interpolation) {
 		GlideToAction action = action(GlideToAction.class);

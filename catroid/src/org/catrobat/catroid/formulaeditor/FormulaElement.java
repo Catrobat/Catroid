@@ -338,7 +338,7 @@ public class FormulaElement implements Serializable {
 				returnValue = (double) sprite.look.getBrightnessInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_GHOSTEFFECT:
-				returnValue = (double) sprite.look.getGhostEffectInUserInterfaceDimensionUnit();
+				returnValue = (double) sprite.look.getAlphaInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_LAYER:
 				returnValue = (double) sprite.look.getZIndex();
