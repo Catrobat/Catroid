@@ -61,6 +61,7 @@ public class SensorLoudness {
 
 	private SensorLoudness() {
 		m_handler = new Handler();
+		mRecorder = new SoundRecorder("dev/null");
 	};
 
 	public static SensorLoudness getSensorLoudness() {
@@ -75,14 +76,13 @@ public class SensorLoudness {
 			return true;
 		}
 		listener_.add(listener);
-		if (mRecorder == null) {
+		if (!mRecorder.isRecording()) {
 			try {
-				mRecorder = new SoundRecorder("dev/null");
 				mRecorder.start();
 				m_statusChecker.run();
 			} catch (Exception e) {
 				listener_.remove(listener);
-				mRecorder = null;
+				//mRecorder = null;
 				return false;
 			}
 		}
@@ -92,7 +92,7 @@ public class SensorLoudness {
 	public synchronized void unregisterListener(SensorCustomEventListener listener) {
 		if (listener_.contains(listener)) {
 			listener_.remove(listener);
-			if (listener_.size() == 0 && mRecorder != null) {
+			if (listener_.size() == 0) {
 				m_handler.removeCallbacks(m_statusChecker);
 				if (mRecorder.isRecording()) {
 					try {
@@ -100,7 +100,6 @@ public class SensorLoudness {
 					} catch (IOException e) {
 					}
 				}
-				mRecorder = null;
 				current_value = 0f;
 			}
 		}
