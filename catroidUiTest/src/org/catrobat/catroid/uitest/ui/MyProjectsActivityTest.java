@@ -1640,7 +1640,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		UiTestUtils.clearAllUtilTestProjects();
-		UiTestUtils.createEmptyProject();
+		UiTestUtils.createProjectOnlyWithBackground(getActivity());
 
 		File imageFile1 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
 				StageListener.SCREENSHOT_MANUAL_FILE_NAME, IMAGE_RESOURCE_4, getInstrumentation().getContext(),
