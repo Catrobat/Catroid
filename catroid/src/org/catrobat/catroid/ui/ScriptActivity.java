@@ -267,6 +267,9 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+
+		Log.d("TAG", "ScriptActivity-->onOptionsItemSelected()");
+
 		if (isHoveringActive()) {
 			scriptFragment.getListView().animateHoveringBrick();
 			return super.onOptionsItemSelected(item);

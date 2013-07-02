@@ -337,6 +337,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void startCopyActionMode() {
 
+		Log.d("TAG", "ScriptFragment-->startCopyActionMode");
+		Log.d("TAG", "ScriptFragment:: BrickList Size: " + adapter.getBrickList().size());
+
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
 
@@ -518,6 +521,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			List<Brick> checkedBricks = adapter.getReversedCheckedBrickList();
 
 			for (Brick brick : checkedBricks) {
+				Log.d("TAG", "ScriptFragment-->onDestroyActionMode():: brick" + brick.hashCode());
 				copyBrick(brick);
 			}
 			setSelectMode(ListView.CHOICE_MODE_NONE);
@@ -534,6 +538,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	private void copyBrick(Brick brick) {
 
+		Log.d("TAG", "ScriptFragment-->copyBrick::BrickAlphaValue: " + brick.getAlphaValue());
+
 		if (brick instanceof ScriptBrick) {
 			scriptToEdit = ((ScriptBrick) brick).initScript(ProjectManager.INSTANCE.getCurrentSprite());
 			adapter.handleScriptDelete(sprite, scriptToEdit);
@@ -544,9 +550,17 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			return;
 		}
 
+		int newPosition = adapter.getCount();
+
 		Brick copy = brick.clone();
 
-		adapter.addNewBrick(brickId, copy);
+		Log.d("TAG", "ScriptFragment-->copyBrickl:: copy.toString()= " + copy.toString());
+		Log.d("TAG", "ScriptFragment-->copyBrick:: brickID= " + brickId);
+
+		Log.d("TAG", "There are " + adapter.getCount() + " Elements in this List, newPosition= " + newPosition);
+
+		//adapter.addNewBrick(brickId, copy);
+		adapter.addNewBrick(newPosition, copy);
 	}
 
 	private void deleteBrick(Brick brick) {
