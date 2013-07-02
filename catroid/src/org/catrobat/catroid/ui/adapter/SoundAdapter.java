@@ -292,6 +292,10 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 		return checkedSounds;
 	}
 
+	public void addCheckedItem(int position) {
+		checkedSounds.add(position);
+	}
+
 	@Override
 	public void clearCheckedItems() {
 		checkedSounds.clear();

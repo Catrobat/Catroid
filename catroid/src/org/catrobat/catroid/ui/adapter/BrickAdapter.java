@@ -99,6 +99,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	public int listItemCount = 0;
 
+	private int clickItemPosition = 0;
+
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
 		this.sprite = sprite;
@@ -820,7 +822,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_move_brick))) {
 					view.performLongClick();
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_brick))) {
-					removeFromBrickListAndProject(itemPosition, false);
+					showConfirmDeleteDialog(itemPosition);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_animate_bricks))) {
 					int itemPosition = calculateItemPositionAndTouchPointY(view);
 					Brick brick = brickList.get(itemPosition);
@@ -839,6 +841,33 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if ((selectMode == ListView.CHOICE_MODE_NONE)) {
 			alertDialog.show();
 		}
+	}
+
+	private void showConfirmDeleteDialog(int itemPosition) {
+		this.clickItemPosition = itemPosition;
+		String yes = context.getString(R.string.yes);
+		String no = context.getString(R.string.no);
+		String title = context.getString(R.string.dialog_confirm_delete_brick_title);
+		String message = context.getString(R.string.dialog_confirm_delete_brick_message);
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle(title);
+		builder.setMessage(message);
+		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				removeFromBrickListAndProject(clickItemPosition, false);
+			}
+		});
+		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog alertDialog = builder.create();
+		alertDialog.show();
 	}
 
 	private int calculateItemPositionAndTouchPointY(View view) {
