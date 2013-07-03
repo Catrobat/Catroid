@@ -26,7 +26,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.pocketcode.R;
 import org.catrobat.catroid.pocketcode.common.Constants;
 import org.catrobat.catroid.pocketcode.common.MessageContainer;
