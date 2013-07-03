@@ -49,7 +49,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickListener {
+public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -69,6 +69,11 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 			motorEnum = Motor.valueOf(motor);
 		}
 		return this;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return speed;
 	}
 
 	public LegoNxtMotorActionBrick(Sprite sprite, Motor motor, int speedValue) {

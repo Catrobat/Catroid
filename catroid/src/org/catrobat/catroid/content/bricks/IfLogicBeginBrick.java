@@ -49,7 +49,7 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
+public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicBeginBrick.class.getSimpleName();
 	public static final int EXECUTE_ELSE_PART = -1;
@@ -66,6 +66,11 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	public IfLogicBeginBrick(Sprite sprite, Formula condition) {
 		this.sprite = sprite;
 		ifCondition = condition;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return ifCondition;
 	}
 
 	@Override

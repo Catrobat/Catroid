@@ -195,6 +195,7 @@
     <string name="brick_context_dialog_move_brick">Verschiebe Baustein</string>
     <string name="brick_context_dialog_delete_brick">Lösche Baustein</string>
     <string name="brick_context_dialog_animate_bricks">Animiere Baustein-Teile</string>
+    <string name="brick_context_dialog_formula_edit_brick">Bearbeite Formel</string>
     <!--  -->
 
 

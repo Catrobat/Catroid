@@ -44,7 +44,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
+public class PlaceAtBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula xPosition;
 	private Formula yPosition;
@@ -67,6 +67,11 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
 
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return xPosition;
 	}
 
 	public void setXPosition(Formula xPosition) {

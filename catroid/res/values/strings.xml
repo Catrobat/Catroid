@@ -196,6 +196,7 @@
     <string name="brick_context_dialog_move_brick">Move Brick</string>
     <string name="brick_context_dialog_delete_brick">Delete Brick</string>
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
+    <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
     <!--  -->
 
 

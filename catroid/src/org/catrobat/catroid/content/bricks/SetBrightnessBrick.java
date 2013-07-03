@@ -44,7 +44,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class SetBrightnessBrick extends BrickBaseType implements OnClickListener {
+public class SetBrightnessBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula brightness;
 
@@ -62,6 +62,11 @@ public class SetBrightnessBrick extends BrickBaseType implements OnClickListener
 	public SetBrightnessBrick(Sprite sprite, Formula brightness) {
 		this.sprite = sprite;
 		this.brightness = brightness;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return brightness;
 	}
 
 	@Override

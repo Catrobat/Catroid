@@ -44,7 +44,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class ChangeYByNBrick extends BrickBaseType implements OnClickListener {
+public class ChangeYByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula yMovement;
 
@@ -64,6 +64,11 @@ public class ChangeYByNBrick extends BrickBaseType implements OnClickListener {
 		this.sprite = sprite;
 
 		this.yMovement = yMovement;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return yMovement;
 	}
 
 	@Override

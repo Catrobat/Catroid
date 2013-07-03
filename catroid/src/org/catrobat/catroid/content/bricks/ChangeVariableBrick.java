@@ -57,7 +57,9 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class ChangeVariableBrick extends BrickBaseType implements OnClickListener, NewVariableDialogListener {
+public class ChangeVariableBrick extends BrickBaseType implements OnClickListener, NewVariableDialogListener,
+		FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
 	private Formula variableFormula;
@@ -276,5 +278,10 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 				.getAdapter());
 		userVariableAdapterWrapper.notifyDataSetChanged();
 		setSpinnerSelection(spinnerToUpdate, newUserVariable);
+	}
+
+	@Override
+	public Formula getFormula() {
+		return variableFormula;
 	}
 }

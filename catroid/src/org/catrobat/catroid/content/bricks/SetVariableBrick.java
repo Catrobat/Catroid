@@ -57,7 +57,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class SetVariableBrick extends BrickBaseType implements OnClickListener, NewVariableDialogListener {
+public class SetVariableBrick extends BrickBaseType implements OnClickListener, NewVariableDialogListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
 	private Formula variableFormula;
@@ -73,6 +73,11 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		this.sprite = sprite;
 		this.variableFormula = new Formula(value);
 		this.userVariable = null;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return variableFormula;
 	}
 
 	@Override

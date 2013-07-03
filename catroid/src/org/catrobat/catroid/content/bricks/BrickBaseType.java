@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
@@ -138,6 +139,11 @@ public class BrickBaseType implements Brick {
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		return null;
+	}
+
+	@Override
+	public Formula getFormula() {
 		return null;
 	}
 }

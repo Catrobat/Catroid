@@ -49,7 +49,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClickListener {
+public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -85,6 +85,11 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 		this.motor = motorEnum.name();
 
 		this.degrees = degreesFormula;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return degrees;
 	}
 
 	@Override

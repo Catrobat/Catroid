@@ -35,11 +35,13 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -800,6 +802,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 		items.add(context.getText(R.string.brick_context_dialog_delete_brick));
 
+		//TODO add edit formula if ((brickList.get(itemPosition) instanceof FormulaBrick))
+		if (brickList.get(itemPosition) instanceof FormulaBrick) {
+			items.add(context.getText(R.string.brick_context_dialog_formula_edit_brick));
+			Log.d("FormulaEditor", "item added!!!");
+		}
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
@@ -833,6 +841,15 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 						}
 					}
 					notifyDataSetChanged();
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_formula_edit_brick))) {
+					//TODO open FormulaEditor
+					if (brickList.get(itemPosition).getFormula() == null) {
+						Log.e(TAG, "No Formula for Brick!");
+					} else {
+						FormulaEditorFragment.showFragment(view, brickList.get(itemPosition),
+								brickList.get(itemPosition).getFormula());
+						Log.d("FormulaEditor", "Item edit formula is clicked...now open it!!!");
+					}
 				}
 			}
 		});

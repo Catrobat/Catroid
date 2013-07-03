@@ -44,7 +44,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class SetVolumeToBrick extends BrickBaseType implements OnClickListener {
+public class SetVolumeToBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private Formula volume;
@@ -61,6 +61,11 @@ public class SetVolumeToBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	public SetVolumeToBrick() {
+	}
+
+	@Override
+	public Formula getFormula() {
+		return volume;
 	}
 
 	@Override
