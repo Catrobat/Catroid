@@ -24,8 +24,11 @@ package org.catrobat.catroid.pocketcode.test.content.project;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import org.catrobat.catroid.pocketcode.ProjectManager;
+import org.catrobat.catroid.pocketcode.R;
 import org.catrobat.catroid.pocketcode.common.Constants;
 import org.catrobat.catroid.pocketcode.common.LookData;
 import org.catrobat.catroid.pocketcode.content.Project;
@@ -38,7 +41,10 @@ import org.catrobat.catroid.pocketcode.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.pocketcode.content.bricks.SetLookBrick;
 import org.catrobat.catroid.pocketcode.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.pocketcode.content.bricks.ShowBrick;
+import org.catrobat.catroid.pocketcode.formulaeditor.UserVariable;
+import org.catrobat.catroid.pocketcode.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.pocketcode.io.StorageHandler;
+import org.catrobat.catroid.pocketcode.test.utils.Reflection;
 import org.catrobat.catroid.pocketcode.test.utils.TestUtils;
 import org.catrobat.catroid.pocketcode.utils.Utils;
 
@@ -71,7 +77,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 				Context.CONTEXT_IGNORE_SECURITY);
 
 		// initializeNewProject
-		projectManager.initializeNewProject(projectNameOne, context);
+		projectManager.initializeNewProject(projectNameOne, context, false);
 		assertNotNull("no current project set", projectManager.getCurrentProject());
 		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
 				.getName());
@@ -126,6 +132,38 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 				projectManager.getCurrentScript().getBrickList().contains(setLookBrick));
 	}
 
+	public void testEmptyProject() throws NameNotFoundException, IOException {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Context context = getInstrumentation().getContext().createPackageContext("org.catrobat.catroid",
+				Context.CONTEXT_IGNORE_SECURITY);
+
+		projectManager.initializeNewProject(projectNameOne, context, true);
+		Project currentProject = projectManager.getCurrentProject();
+		assertNotNull("no current project set", currentProject);
+
+		assertEquals("Wrong project name", projectNameOne, currentProject.getName());
+		assertEquals("Wrong number of sprites", 1, currentProject.getSpriteList().size());
+
+		UserVariablesContainer variablesContainer = currentProject.getUserVariables();
+
+		@SuppressWarnings("unchecked")
+		List<UserVariable> userVariableList = (List<UserVariable>) Reflection.getPrivateField(
+				UserVariablesContainer.class, variablesContainer, "projectVariables");
+		@SuppressWarnings("unchecked")
+		Map<Sprite, List<UserVariable>> spriteVariablesMap = (Map<Sprite, List<UserVariable>>) Reflection
+				.getPrivateField(UserVariablesContainer.class, variablesContainer, "spriteVariables");
+
+		assertEquals("Wrong number of variables", 0, userVariableList.size());
+		assertEquals("Wrong number of variables", 0, spriteVariablesMap.size());
+
+		Sprite background = currentProject.getSpriteList().get(0);
+		assertEquals("Wrong sprite name", context.getString(R.string.background), background.getName());
+		assertEquals("Script list not empty", 0, background.getNumberOfScripts());
+		assertEquals("Brick list not empty", 0, background.getNumberOfBricks());
+		assertEquals("Look data not empty", 0, background.getLookDataList().size());
+		assertEquals("Sound list not empty", 0, background.getSoundList().size());
+	}
+
 	public void testRenameProject() throws IOException {
 		String oldProjectName = "oldProject";
 		String newProjectName = "newProject";
@@ -174,8 +212,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
 		SetLookBrick lookBrick = new SetLookBrick(firstSprite);
-		File image = TestUtils.saveFileToProject(projectName, "image.png", org.catrobat.catroid.pocketcode.test.R.raw.icon,
-				getInstrumentation().getContext(), 0);
+		File image = TestUtils.saveFileToProject(projectName, "image.png",
+				org.catrobat.catroid.pocketcode.test.R.raw.icon, getInstrumentation().getContext(), 0);
 		LookData lookData = new LookData();
 		lookData.setLookFilename(image.getName());
 		lookData.setLookName("name");
