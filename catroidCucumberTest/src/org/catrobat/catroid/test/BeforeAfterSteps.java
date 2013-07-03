@@ -2,7 +2,9 @@ package org.catrobat.catroid.test;
 
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import com.jayway.android.robotium.solo.Solo;
+import cucumber.api.android.CucumberInstrumentation;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import org.catrobat.catroid.ProjectManager;

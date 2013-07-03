@@ -2,33 +2,37 @@ package org.catrobat.catroid.test;
 
 import android.test.AndroidTestCase;
 import cucumber.api.java.en.Given;
-import org.catrobat.catroid.content.*;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
+
+import java.io.File;
 
 public class ObjectSteps extends AndroidTestCase {
     @Given("^an object '(\\w+)'$")
     public void object(String name) {
         Project project = (Project) Cucumber.get(Cucumber.KEY_PROJECT);
-        Sprite object = new Sprite(name);
+        Sprite object = newObject(name);
         project.addSprite(object);
         Cucumber.put(Cucumber.KEY_CURRENT_OBJECT, object);
     }
 
-    @Given("^a (\\w+)Script$")
-    public void script(String name) {
-        Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
-        Script script = null;
+    private Sprite newObject(String name) {
+        Sprite object = new Sprite(name);
+        object.look.setZIndex(0);
 
-        if ("Start".equals(name)) {
-            script = new StartScript(object);
-        } else if ("WhenTapped".equals(name)) {
-            WhenScript whenScript = new WhenScript(object);
-            whenScript.setAction(0);
-            script = whenScript;
-        } else {
-            fail(String.format("No script for this name: '%s'", name));
-        }
+        StartScript startScript = new StartScript(object);
+        SetLookBrick setLookBrick = new SetLookBrick(object);
+        startScript.addBrick(setLookBrick);
+        object.addScript(startScript);
 
-        object.addScript(script);
-        Cucumber.put(Cucumber.KEY_CURRENT_SCRIPT, script);
+        File image = Util.createObjectImage(getContext(), name, R.drawable.default_project_mole_1);
+        LookData lookData = Util.newLookData(name, image);
+        object.getLookDataList().add(lookData);
+        setLookBrick.setLook(lookData);
+        return object;
     }
 }

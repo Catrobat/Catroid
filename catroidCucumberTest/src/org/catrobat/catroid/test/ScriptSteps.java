@@ -1,209 +1,200 @@
 package org.catrobat.catroid.test;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Point;
 import android.test.AndroidTestCase;
 import android.util.Log;
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.jayway.android.robotium.solo.Solo;
-import cucumber.api.DataTable;
 import cucumber.api.android.CucumberInstrumentation;
-import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
-import gherkin.formatter.model.DataTableRow;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.*;
-import org.catrobat.catroid.content.bricks.*;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.utils.ImageEditing;
-import org.catrobat.catroid.utils.Utils;
 
-import java.io.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 public class ScriptSteps extends AndroidTestCase {
-    private Sprite mCurrentSprite;
+    private final Semaphore mScriptEndWaitLock = new Semaphore(0);
 
-    @And("^an? \\b(background|object) '(\\w+)' that has a (\\w+Script) with these bricks:$")
-    public void object_that_has_script_with_bricks(String type, String name, String scriptName, DataTable bricks) {
-        Project project = (Project) Cucumber.get(Cucumber.KEY_PROJECT);
-        if ("background".equals(type)) {
-            mCurrentSprite = new Sprite("background");
-            mCurrentSprite.look.setZIndex(0);
-        } else {
-            mCurrentSprite = new Sprite(name);
+    @Given("^a StartScript$")
+    public void start_script() {
+        Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
+        StartScript script = new StartScript(object);
+        object.addScript(script);
+        Cucumber.put(Cucumber.KEY_CURRENT_SCRIPT, script);
+    }
+
+    @Given("^a WhenScript '(\\w+)'$")
+    public void when_script(String name) {
+        Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
+        WhenScript script = new WhenScript(object);
+        Map<String, Integer> actions = new HashMap<String, Integer>();
+        actions.put("tapped", 0);
+        actions.put("doubletapped", 1);
+        actions.put("longpressed", 2);
+        actions.put("swipeup", 3);
+        actions.put("swipedown", 4);
+        actions.put("swipeleft", 5);
+        actions.put("swiperight", 6);
+        script.setAction(actions.get(name));
+        object.addScript(script);
+        Cucumber.put(Cucumber.KEY_CURRENT_SCRIPT, script);
+    }
+
+    @Given("^a BroadcastScript '(\\w+)'$")
+    public void broadcast_script(String message) {
+        Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
+        BroadcastScript script = new BroadcastScript(object, message);
+        object.addScript(script);
+        Cucumber.put(Cucumber.KEY_CURRENT_SCRIPT, script);
+    }
+
+    @When("^the script terminates$")
+    public void script_terminates() {
+        try {
+            mScriptEndWaitLock.tryAcquire(1, 30, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            fail(e.getMessage());
         }
-        Script script = newScript(scriptName);
-        addBricks(script, bricks);
-        mCurrentSprite.addScript(script);
-        project.addSprite(mCurrentSprite);
-    }
-
-    @And("^a (\\w+Script) with these bricks:$")
-    public void script_with_bricks(String scriptName, DataTable bricks) {
-        Script script = newScript(scriptName);
-        addBricks(script, bricks);
-        mCurrentSprite.addScript(script);
-    }
-
-    @And("^a BroadcastScript for the (\\w+) message with these bricks:$")
-    public void broadcast_script_with_bricks(String message, DataTable bricks) {
-        BroadcastScript script = new BroadcastScript(mCurrentSprite, message);
-        addBricks(script, bricks);
-        mCurrentSprite.addScript(script);
     }
 
     @When("^the script is executed$")
     public void script_is_executed() {
         Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
         assertEquals(MainMenuActivity.class, solo.getCurrentActivity().getClass());
-        solo.clickOnView(solo.getView(org.catrobat.catroid.R.id.main_menu_button_continue));
-        solo.waitForActivity(ProjectActivity.class.getSimpleName(), 3000);
-        assertEquals(ProjectActivity.class, solo.getCurrentActivity().getClass());
-        solo.clickOnView(solo.getView(org.catrobat.catroid.R.id.button_play));
-        solo.waitForActivity(StageActivity.class.getSimpleName(), 3000);
-        Cucumber.put(Cucumber.KEY_START_TIME, System.currentTimeMillis());
-        assertEquals(StageActivity.class, solo.getCurrentActivity().getClass());
-        solo.sleep(4000);
-    }
 
-    private Script newScript(String name) {
-        if ("StartScript".equals(name)) {
-            return new StartScript(mCurrentSprite);
-        } else if ("WhenTappedScript".equals(name)) {
-            WhenScript script = new WhenScript(mCurrentSprite);
-            script.setAction(0);
-            return script;
+        Script script = (Script) Cucumber.get(Cucumber.KEY_CURRENT_SCRIPT);
+        Sprite object = script.getScriptBrick().getSprite();
+        script.addBrick(new ScriptEndBrick(object, new ScriptEndCallback() {
+            @Override
+            public void onScriptEnd() {
+                long time = System.nanoTime();
+                Log.d(CucumberInstrumentation.TAG, String.format("Stop time: %d", time));
+                Cucumber.put(Cucumber.KEY_STOP_TIME_NANO, time);
+                mScriptEndWaitLock.release();
+            }
+        }));
+
+        solo.clickOnView(solo.getView(org.catrobat.catroid.R.id.main_menu_button_continue));
+        solo.waitForActivity(ProjectActivity.class.getSimpleName(), 5000);
+        assertEquals(ProjectActivity.class, solo.getCurrentActivity().getClass());
+
+        solo.clickOnView(solo.getView(org.catrobat.catroid.R.id.button_play));
+        solo.waitForActivity(StageActivity.class.getSimpleName(), 5000);
+        GdxListener gdxListener = new GdxListener();
+        StageActivity.stageListener.setStageListenerDelegate(gdxListener);
+        gdxListener.waitForStageToRender(10000);
+        assertEquals(StageActivity.class, solo.getCurrentActivity().getClass());
+
+        if (script instanceof StartScript) {
+            executeStartScript((StartScript) script);
+        } else if (script instanceof WhenScript) {
+            executeWhenScript((WhenScript) script);
+        } else if (script instanceof BroadcastScript) {
+            executeBroadcastScript((BroadcastScript) script);
         } else {
-            fail(String.format("No script for name '%s'", name));
-            return null;
+            fail("Unsupported script class.");
         }
     }
 
-    private void addBricks(Script script, DataTable bricks) {
-        for (DataTableRow row : bricks.getGherkinRows()) {
-            String brickName = row.getCells().get(0);
-            String argName = row.getCells().get(1);
+    private void executeStartScript(StartScript script) {
+        // start scripts should start with the stage activity
+    }
+
+    private void executeWhenScript(WhenScript script) {
+        String action = script.getAction();
+        Sprite object = script.getScriptBrick().getSprite();
+        if ("Tapped".equals(action)) { // action names should be public in WhenScript
+            object.look.doTouchDown(0, 0, 0);
+        } else {
+            fail(String.format("Unsupported when script action: %s", action));
+        }
+        Cucumber.put(Cucumber.KEY_START_TIME_NANO, System.nanoTime());
+    }
+
+    private void executeBroadcastScript(BroadcastScript script) {
+        Cucumber.put(Cucumber.KEY_START_TIME_NANO, System.nanoTime());
+        fail("BroadcastScript is not yet supported.");
+    }
+
+    private static final class GdxListener implements ApplicationListener {
+        private final Semaphore mLock = new Semaphore(0);
+
+        public void waitForStageToRender(int timeout) {
             try {
-                Brick brick = newBrick(brickName, argName);
-                script.addBrick(brick);
-            } catch (IOException e) {
-                Log.e(CucumberInstrumentation.TAG, e.toString());
+                mLock.tryAcquire(1, timeout, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException e) {
                 fail(e.getMessage());
             }
+            long time = System.nanoTime();
+            Log.d(CucumberInstrumentation.TAG, String.format("Start time: %d", time));
+            Cucumber.put(Cucumber.KEY_START_TIME_NANO, time);
+        }
+
+        @Override
+        public void render() {
+            mLock.release();
+        }
+
+        @Override
+        public void create() {
+        }
+
+        @Override
+        public void resize(int i, int i2) {
+        }
+
+        @Override
+        public void pause() {
+        }
+
+        @Override
+        public void resume() {
+        }
+
+        @Override
+        public void dispose() {
         }
     }
 
-    private LoopBeginBrick mLoopBeginBrick;
+    public static interface ScriptEndCallback {
+        public void onScriptEnd();
+    }
 
-    private Brick newBrick(String className, String arg) throws IOException {
-        if (className.equals(SetLookBrick.class.getSimpleName())) {
-            SetLookBrick brick = new SetLookBrick(mCurrentSprite);
-            LookData lookData = null;
-            if ("background".equals(arg)) {
-                lookData = newLookData("background", createBackgroundImage("background"));
-            } else if ("default_image".equals(arg) || arg == null) {
-                // By default, use a default image for the look.
-                lookData = newLookData(mCurrentSprite.getName() + "-look", R.drawable.default_project_mole_1);
-            } else {
-                fail(String.format("No look for argument '%s'", arg));
-            }
-            mCurrentSprite.getLookDataList().add(lookData);
-            brick.setLook(lookData);
-            return brick;
-        } else if (className.equals(BroadcastBrick.class.getSimpleName())) {
-            BroadcastBrick brick = new BroadcastBrick(mCurrentSprite, arg);
-            return brick;
-        } else if (className.equals(ChangeYByNBrick.class.getSimpleName())) {
-            int dy = Integer.parseInt(arg);
-            ChangeYByNBrick brick = new ChangeYByNBrick(mCurrentSprite, dy);
-            return brick;
-        } else if (className.equals(HideBrick.class.getSimpleName())) {
-            return new HideBrick(mCurrentSprite);
-        } else if (className.equals(ShowBrick.class.getSimpleName())) {
-            return new ShowBrick(mCurrentSprite);
-        } else if (className.equals(RepeatBrick.class.getSimpleName())) {
-            int n = Integer.parseInt(arg);
-            mLoopBeginBrick = new RepeatBrick(mCurrentSprite, n);
-            return mLoopBeginBrick;
-        } else if (className.equals(LoopEndBrick.class.getSimpleName())) {
-            Brick brick = new LoopEndBrick(mCurrentSprite, mLoopBeginBrick);
-            mLoopBeginBrick = null;
-            return brick;
-        } else {
-            fail(String.format("Unsupported brick '%s'", className));
+    public static final class ScriptEndBrick extends ShowBrick {
+        private final transient ScriptEndCallback mCallback;
+
+        public ScriptEndBrick(Sprite sprite, ScriptEndCallback callback) {
+            this.sprite = sprite;
+            mCallback = callback;
+        }
+
+        @Override
+        public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+            sequence.addAction(new ScriptEndAction(mCallback));
             return null;
         }
     }
 
-    private LookData newLookData(String name, int resourceId) throws IOException {
-        Project project = (Project) Cucumber.get(Cucumber.KEY_PROJECT);
-        File file = copyAndScaleImageToProject(project.getName(), getContext(), name, resourceId);
-        return newLookData(name, file);
-    }
+    public static final class ScriptEndAction extends Action {
+        private final transient ScriptEndCallback mCallback;
 
-    private LookData newLookData(String name, File file) {
-        LookData look = new LookData();
-        look.setLookName(name);
-        look.setLookFilename(file.getName());
-        return look;
-    }
-
-    private File copyAndScaleImageToProject(String projectName, Context context, String imageName, int imageId) throws IOException {
-        String directoryName = Utils.buildPath(Utils.buildProjectPath(projectName), Constants.IMAGE_DIRECTORY);
-        File tempImageFile = savePictureFromResourceInProject(projectName, imageName, imageId, context);
-        int[] dimensions = ImageEditing.getImageDimensions(tempImageFile.getAbsolutePath());
-        int originalWidth = dimensions[0];
-        int originalHeight = dimensions[1];
-        double ratio = (double) originalHeight / (double) originalWidth;
-        Point screen = Util.getScreenDimensions(getContext());
-        Bitmap tempBitmap = ImageEditing.getScaledBitmapFromPath(tempImageFile.getAbsolutePath(), screen.x / 3, (int) (screen.x / 3 * ratio), false);
-        StorageHandler.saveBitmapToImageFile(tempImageFile, tempBitmap);
-        String finalImageFileString = Utils.buildPath(directoryName, Utils.md5Checksum(tempImageFile) + "_" + tempImageFile.getName());
-        File finalImageFile = new File(finalImageFileString);
-        tempImageFile.renameTo(finalImageFile);
-        return finalImageFile;
-    }
-
-    private File savePictureFromResourceInProject(String project, String outputName, int fileId, Context context) throws IOException {
-        final String imagePath = Utils.buildPath(Utils.buildProjectPath(project), Constants.IMAGE_DIRECTORY, outputName);
-        File testImage = new File(imagePath);
-        if (!testImage.exists()) {
-            testImage.createNewFile();
+        public ScriptEndAction(ScriptEndCallback callback) {
+            mCallback = callback;
         }
-        InputStream in = context.getResources().openRawResource(fileId);
-        OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Constants.BUFFER_8K);
-        byte[] buffer = new byte[Constants.BUFFER_8K];
-        int length;
-        while ((length = in.read(buffer)) > 0) {
-            out.write(buffer, 0, length);
-        }
-        in.close();
-        out.flush();
-        out.close();
-        return testImage;
-    }
 
-    private File createBackgroundImage(String name) {
-        Project project = (Project) Cucumber.get(Cucumber.KEY_PROJECT);
-        String directoryName = Utils.buildPath(Utils.buildProjectPath(project.getName()), Constants.IMAGE_DIRECTORY);
-        Point screen = Util.getScreenDimensions(getContext());
-        Bitmap backgroundBitmap = ImageEditing.createSingleColorBitmap(screen.x, screen.y, Color.BLUE);
-        try {
-            File backgroundTemp = File.createTempFile(name, ".png", new File(directoryName));
-            StorageHandler.saveBitmapToImageFile(backgroundTemp, backgroundBitmap);
-            File backgroundFile = new File(directoryName, Utils.md5Checksum(backgroundTemp) + "_" + backgroundTemp.getName());
-            backgroundTemp.renameTo(backgroundFile);
-            return backgroundFile;
-        } catch (IOException e) {
-            Log.e(CucumberInstrumentation.TAG, e.toString());
-            fail(e.getMessage());
-            return null;
+        @Override
+        public boolean act(float delta) {
+            mCallback.onScriptEnd();
+            return true;
         }
     }
 }

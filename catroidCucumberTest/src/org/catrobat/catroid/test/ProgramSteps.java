@@ -6,17 +6,19 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 
 import java.io.IOException;
 
-
-public class ProjectSteps extends AndroidTestCase {
+public class ProgramSteps extends AndroidTestCase {
     @Given("^I have a default program$")
     public void I_have_default_program() {
         ProjectManager pm = ProjectManager.getInstance();
@@ -46,11 +48,27 @@ public class ProjectSteps extends AndroidTestCase {
             ProjectManager pm = ProjectManager.getInstance();
             pm.initializeNewProject(name, getContext());
             Project project = pm.getCurrentProject();
-            project.getSpriteList().clear();
             Cucumber.put(Cucumber.KEY_PROJECT, project);
+            project.getSpriteList().clear();
+            project.addSprite(newBackgroundObject());
         } catch (IOException e) {
             fail(e.getMessage());
         }
+    }
+
+    private Sprite newBackgroundObject() {
+        Sprite background = new Sprite("background");
+        background.look.setZIndex(0);
+
+        StartScript startScript = new StartScript(background);
+        SetLookBrick setLookBrick = new SetLookBrick(background);
+        startScript.addBrick(setLookBrick);
+        background.addScript(startScript);
+
+        LookData lookData = Util.newLookData("background", Util.createBackgroundImage(getContext(), "background"));
+        background.getLookDataList().add(lookData);
+        setLookBrick.setLook(lookData);
+        return background;
     }
 
     @When("^I start the program$")
@@ -63,7 +81,6 @@ public class ProjectSteps extends AndroidTestCase {
         solo.clickOnView(solo.getView(org.catrobat.catroid.R.id.button_play));
         solo.waitForActivity(StageActivity.class.getSimpleName(), 3000);
         assertEquals(StageActivity.class, solo.getCurrentActivity().getClass());
-        solo.sleep(4000);
     }
 
     @Then("^I wait (\\d+) milliseconds$")
@@ -72,8 +89,8 @@ public class ProjectSteps extends AndroidTestCase {
         solo.sleep(time);
     }
 
-    @Then("^the default program is being executed$")
-    public void default_project_being_executed() {
+    @Then("^the program is being executed$")
+    public void program_being_executed() {
         ProjectManager pm = ProjectManager.getInstance();
         for (Sprite sprite : pm.getCurrentProject().getSpriteList()) {
             assertFalse("Sprite shouldn't be paused.", sprite.isPaused);
