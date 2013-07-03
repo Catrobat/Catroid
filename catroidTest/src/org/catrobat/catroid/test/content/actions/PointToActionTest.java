@@ -36,7 +36,6 @@ import android.test.AndroidTestCase;
 public class PointToActionTest extends AndroidTestCase {
 
 	public void testPointTo() {
-
 		Project project = new Project(null, "testProject");
 
 		Sprite sprite1 = new Sprite("cat1");
@@ -75,7 +74,7 @@ public class PointToActionTest extends AndroidTestCase {
 			sprite1.look.act(1.0f);
 		}
 
-		assertEquals("Wrong direction", -135.0, sprite1.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction", 315.0, sprite1.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 }

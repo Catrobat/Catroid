@@ -66,7 +66,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 		final float stepLength = 10.0f;
 		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(stepLength));
 
-		sprite.look.setRotation(90);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(180);
 
 		action.act(1.0f);
 		assertEquals("Wrong x-position", 0f, sprite.look.getXInUserInterfaceDimensionUnit(), delta);
@@ -82,7 +82,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("test");
 		final float stepLength = 10.0f;
 		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(stepLength));
-		sprite.look.setRotation(-90);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(0);
 
 		action.act(1.0f);
 		assertEquals("Wrong x-position", 0f, sprite.look.getXInUserInterfaceDimensionUnit(), delta);
@@ -97,7 +97,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 	public void testMoveDiagonalRightUp() {
 		Sprite sprite = new Sprite("test");
 		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
-		sprite.look.setRotation(45);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(135);
 
 		final float stepLength = 7.07106f;
 
@@ -114,7 +114,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 	public void testMoveDiagonalLeftUp() {
 		Sprite sprite = new Sprite("test");
 		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
-		sprite.look.setRotation(135);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(225);
 
 		final float stepLength = 7.07106f;
 
@@ -131,7 +131,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 	public void testMoveDiagonalRightDown() {
 		Sprite sprite = new Sprite("test");
 		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
-		sprite.look.setRotation(-45);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(45);
 
 		final float stepLength = 7.07106f;
 
@@ -148,7 +148,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 	public void testMoveDiagonalLeftDown() {
 		Sprite sprite = new Sprite("test");
 		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
-		sprite.look.setRotationInUserInterfaceDimensionUnit(-135);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(-45);
 
 		final float stepLength = 7.07106f;
 
@@ -165,7 +165,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 	public void testMoveOther() {
 		Sprite sprite = new Sprite("test");
 		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
-		sprite.look.setRotation(10);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(100);
 
 		float stepLengthX = 9.848f;
 		float stepLengthY = 1.736f;
@@ -174,7 +174,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 		assertEquals("Wrong x-position", stepLengthX, sprite.look.getXInUserInterfaceDimensionUnit(), delta);
 		assertEquals("Wrong y-position", stepLengthY, sprite.look.getYInUserInterfaceDimensionUnit(), delta);
 
-		sprite.look.setRotation(50);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(140);
 		stepLengthX = 16.275f;
 		stepLengthY = 9.396f;
 

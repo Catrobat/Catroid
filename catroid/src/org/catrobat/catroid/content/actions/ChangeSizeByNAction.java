@@ -34,8 +34,7 @@ public class ChangeSizeByNAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		float newSize = sprite.look.getSizeInUserInterfaceDimensionUnit() + size.interpretFloat(sprite);
-		sprite.look.setSizeInUserInterfaceDimensionUnit(newSize);
+		sprite.look.changeSizeInUserInterfaceDimensionUnit(size.interpretFloat(sprite));
 	}
 
 	public void setSprite(Sprite sprite) {

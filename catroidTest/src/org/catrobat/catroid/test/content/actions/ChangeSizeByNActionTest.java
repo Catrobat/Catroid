@@ -40,10 +40,9 @@ import android.test.InstrumentationTestCase;
 
 public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 
-	private static final int POSITIVE_SIZE = 20;
+	private static final float POSITIVE_SIZE = 50.0f;
 
 	private Formula positiveSize = new Formula(POSITIVE_SIZE);
-	//	private float negativeSize = -30;
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 
@@ -82,16 +81,14 @@ public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 
 	public void testSize() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite size value", 1f, sprite.look.getSize());
-
-		float initialSize = sprite.look.getSize();
+		float initialSize = sprite.look.getSizeInUserInterfaceDimensionUnit();
+		assertEquals("Unexpected initial sprite size value", 100f, initialSize);
 
 		ChangeSizeByNAction action = ExtendedActions.changeSizeByN(sprite, positiveSize);
 		sprite.look.addAction(action);
 		action.act(1.0f);
-		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize + POSITIVE_SIZE
-				/ 100f, sprite.look.getSize());
-
+		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize + POSITIVE_SIZE,
+				sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {

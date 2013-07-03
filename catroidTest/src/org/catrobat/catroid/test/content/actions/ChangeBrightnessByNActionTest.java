@@ -36,7 +36,8 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite brightness value", 1f, sprite.look.getBrightness());
+		assertEquals("Unexpected initial sprite brightness value", 100f,
+				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
 		float brightness = sprite.look.getBrightnessInUserInterfaceDimensionUnit();
 		brightness += brighter.interpretDouble(sprite);

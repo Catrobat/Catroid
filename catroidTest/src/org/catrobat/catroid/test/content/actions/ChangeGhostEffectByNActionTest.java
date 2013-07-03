@@ -36,9 +36,10 @@ public class ChangeGhostEffectByNActionTest extends AndroidTestCase {
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite ghost effect value", 1f, sprite.look.getAlpha());
+		assertEquals("Unexpected initial sprite ghost effect value", 0f,
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
-		float ghostEffect = sprite.look.getAlphaInUserInterfaceDimensionUnit();
+		float ghostEffect = sprite.look.getTransparencyInUserInterfaceDimensionUnit();
 		ghostEffect += increaseGhostEffect.interpretDouble(sprite);
 
 		ChangeGhostEffectByNAction action1 = ExtendedActions.changeGhostEffectByN(sprite, new Formula(
@@ -46,9 +47,9 @@ public class ChangeGhostEffectByNActionTest extends AndroidTestCase {
 		sprite.look.addAction(action1);
 		action1.act(1.0f);
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", ghostEffect,
-				sprite.look.getAlphaInUserInterfaceDimensionUnit());
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
-		ghostEffect = sprite.look.getAlphaInUserInterfaceDimensionUnit();
+		ghostEffect = sprite.look.getTransparencyInUserInterfaceDimensionUnit();
 		ghostEffect += decreaseGhostEffect.interpretDouble(sprite);
 
 		ChangeGhostEffectByNAction action2 = ExtendedActions.changeGhostEffectByN(sprite, new Formula(
@@ -56,7 +57,7 @@ public class ChangeGhostEffectByNActionTest extends AndroidTestCase {
 		sprite.look.addAction(action2);
 		action2.act(1.0f);
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", ghostEffect,
-				sprite.look.getAlphaInUserInterfaceDimensionUnit());
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {

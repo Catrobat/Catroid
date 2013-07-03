@@ -34,10 +34,7 @@ public class ChangeGhostEffectByNAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		float newGhostEffectValue = sprite.look.getAlphaInUserInterfaceDimensionUnit()
-				+ changeGhostEffect.interpretFloat(sprite);
-		sprite.look.setAlphaInUserInterfaceDimensionUnit(newGhostEffectValue);
-
+		sprite.look.changeTransparencyInUserInterfaceDimensionUnit(changeGhostEffect.interpretFloat(sprite));
 	}
 
 	public void setSprite(Sprite sprite) {

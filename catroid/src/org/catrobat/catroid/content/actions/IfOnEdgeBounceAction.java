@@ -33,55 +33,34 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		float size = sprite.look.getSize();
+		float size = sprite.look.getSizeInUserInterfaceDimensionUnit();
 
-		float width = sprite.look.getWidth() * size;
-		float height = sprite.look.getHeight() * size;
-		int xPosition = (int) sprite.look.getXInUserInterfaceDimensionUnit();
-		int yPosition = (int) sprite.look.getYInUserInterfaceDimensionUnit();
+		float width = sprite.look.getWidth() * size / 100f;
+		float height = sprite.look.getHeight() * size / 100f;
+		float xPosition = sprite.look.getXInUserInterfaceDimensionUnit();
+		float yPosition = sprite.look.getYInUserInterfaceDimensionUnit();
 
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight / 2;
-		float rotationResult = -sprite.look.getRotation() + 90f;
+		float rotationResult = sprite.look.getRotationInUserInterfaceDimensionUnit();
 
 		if (xPosition < -virtualScreenWidth + width / 2) {
-
-			rotationResult = Math.abs(rotationResult);
-			xPosition = -virtualScreenWidth + (int) (width / 2);
-
+			rotationResult = -rotationResult;
+			xPosition = -virtualScreenWidth + (width / 2);
 		} else if (xPosition > virtualScreenWidth - width / 2) {
-
-			rotationResult = -Math.abs(rotationResult);
-
-			xPosition = virtualScreenWidth - (int) (width / 2);
+			rotationResult = -rotationResult;
+			xPosition = virtualScreenWidth - (width / 2);
 		}
 
-		if (yPosition > virtualScreenHeight - height / 2) {
-
-			if (Math.abs(rotationResult) < 90f) {
-				if (rotationResult < 0f) {
-					rotationResult = -180f - rotationResult;
-				} else {
-					rotationResult = 180f - rotationResult;
-				}
-			}
-
-			yPosition = virtualScreenHeight - (int) (height / 2);
-
-		} else if (yPosition < -virtualScreenHeight + height / 2) {
-
-			if (Math.abs(rotationResult) > 90f) {
-				if (rotationResult < 0f) {
-					rotationResult = -180f - rotationResult;
-				} else {
-					rotationResult = 180f - rotationResult;
-				}
-			}
-
-			yPosition = -virtualScreenHeight + (int) (height / 2);
+		if (yPosition < -virtualScreenHeight + height / 2) {
+			rotationResult = 180f - rotationResult;
+			yPosition = -virtualScreenHeight + (height / 2);
+		} else if (yPosition > virtualScreenHeight - height / 2) {
+			rotationResult = 180f - rotationResult;
+			yPosition = virtualScreenHeight - (height / 2);
 		}
 
-		sprite.look.setRotation(-rotationResult + 90f);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(rotationResult);
 		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, yPosition);
 	}
 

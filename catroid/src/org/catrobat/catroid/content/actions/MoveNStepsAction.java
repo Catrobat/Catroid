@@ -35,12 +35,10 @@ public class MoveNStepsAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		float stepsValue = steps.interpretFloat(sprite);
-		float radians = (float) Math.toRadians(sprite.look.getRotation());
+		double radians = Math.toRadians(sprite.look.getRotation());
 
-		float newXPosition = (float) (sprite.look.getXInUserInterfaceDimensionUnit() + stepsValue * Math.cos(radians));
-		float newYPosition = (float) (sprite.look.getYInUserInterfaceDimensionUnit() + stepsValue * Math.sin(radians));
-
-		sprite.look.setPositionInUserInterfaceDimensionUnit(newXPosition, newYPosition);
+		sprite.look.changeXInUserInterfaceDimensionUnit((float) (stepsValue * Math.cos(radians)));
+		sprite.look.changeYInUserInterfaceDimensionUnit((float) (stepsValue * Math.sin(radians)));
 	}
 
 	public void setSprite(Sprite sprite) {

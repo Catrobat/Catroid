@@ -45,21 +45,20 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 
 	private int BOUNCE_LEFT_POS;
 	private int BOUNCE_RIGHT_POS;
-	private int BOUNCE_DOWN_POS;
-	private int BOUNCE_UP_POS;
-	private int SCREEN_HALF_HEIGHT;
-	private int SCREEN_HALF_WIDTH;
+	private int BOUNCE_BOTTOM_POS;
+	private int BOUNCE_TOP_POS;
+	private float SCREEN_HALF_HEIGHT;
+	private float SCREEN_HALF_WIDTH;
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 
 	private final String projectName = "testProject";
 	private File testImage;
 	private LookData lookData;
-	private int width;
-	private int height;
+	private float width;
+	private float height;
 
 	@Override
 	public void setUp() throws Exception {
-
 		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 
 		if (projectFile.exists()) {
@@ -73,8 +72,8 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 
 		BOUNCE_LEFT_POS = -(ScreenValues.SCREEN_WIDTH + 50);
 		BOUNCE_RIGHT_POS = ScreenValues.SCREEN_WIDTH + 50;
-		BOUNCE_DOWN_POS = -(ScreenValues.SCREEN_HEIGHT + 50);
-		BOUNCE_UP_POS = ScreenValues.SCREEN_HEIGHT + 50;
+		BOUNCE_BOTTOM_POS = -(ScreenValues.SCREEN_HEIGHT + 50);
+		BOUNCE_TOP_POS = ScreenValues.SCREEN_HEIGHT + 50;
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		project.getXmlHeader().virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
@@ -108,7 +107,6 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNoBounce() {
-
 		Sprite sprite = new Sprite("testSprite");
 		sprite.look.setLookData(lookData);
 		sprite.look.setWidth(width);
@@ -120,12 +118,11 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		action.act(1.0f);
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", 0f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction", 90f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 
 	}
 
-	public void testBounceNorth() {
-
+	public void testBounceTop() {
 		Sprite sprite = new Sprite("testSprite");
 		sprite.look.setLookData(lookData);
 		sprite.look.setWidth(width);
@@ -133,47 +130,50 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 
 		IfOnEdgeBounceAction action = ExtendedActions.ifOnEdgeBounce(sprite);
 
-		sprite.look.setRotation(90f);
-		sprite.look.setPositionInUserInterfaceDimensionUnit(0, BOUNCE_UP_POS);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(180f);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(0, BOUNCE_TOP_POS);
 
 		action.act(1.0f);
 
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", (float) (SCREEN_HALF_HEIGHT - (height / 2)), sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", 180f, -sprite.look.getRotation() + 90f, 1e-3);
+		assertEquals("Wrong Y-Position!", SCREEN_HALF_HEIGHT - (height / 2),
+				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals("Wrong direction", 0f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 		assertEquals("Width shouldn't change", width, sprite.look.getWidth(), 1e-3);
 		assertEquals("Height shouldn't change", height, sprite.look.getHeight(), 1e-3);
 
-		sprite.look.setRotation(-30f + 90f);
-		sprite.look.setPositionInUserInterfaceDimensionUnit(0, BOUNCE_UP_POS);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(150f);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(0, BOUNCE_TOP_POS);
 		action.restart();
 		action.act(1.0f);
 
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", (float) (SCREEN_HALF_HEIGHT - (height / 2)), sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", 150f, -sprite.look.getRotation() + 90f, 1e-3);
+		assertEquals("Wrong Y-Position!", SCREEN_HALF_HEIGHT - (height / 2),
+				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals("Wrong direction", 30f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 
-		sprite.look.setRotation(-150f + 90);
-		sprite.look.setPositionInUserInterfaceDimensionUnit(0, BOUNCE_UP_POS);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(150f);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(0, BOUNCE_TOP_POS);
 		action.restart();
 		action.act(1.0f);
 
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", (float) (SCREEN_HALF_HEIGHT - (height / 2)), sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", 150f, -sprite.look.getRotation() + 90f, 1e-3);
+		assertEquals("Wrong Y-Position!", SCREEN_HALF_HEIGHT - (height / 2),
+				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals("Wrong direction", 30f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 
-		sprite.look.setRotation(-42.42f + 90f);
-		sprite.look.setPositionInUserInterfaceDimensionUnit(0, BOUNCE_UP_POS);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(42.42f);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(0, BOUNCE_TOP_POS);
 		action.restart();
 		action.act(1.0f);
 
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", (float) (SCREEN_HALF_HEIGHT - (height / 2)), sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", 137.58, -sprite.look.getRotation() + 90f, 1e-3);
+		assertEquals("Wrong Y-Position!", SCREEN_HALF_HEIGHT - (height / 2),
+				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals("Wrong direction", 137.58, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
-	public void testBounceSouth() {
-
+	public void testBounceBottom() {
 		Sprite sprite = new Sprite("testSprite");
 		sprite.look.setLookData(lookData);
 		sprite.look.setWidth(width);
@@ -181,48 +181,51 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 
 		IfOnEdgeBounceAction action = ExtendedActions.ifOnEdgeBounce(sprite);
 
-		sprite.look.setRotation(-180f + 90f);
-		sprite.look.setPositionInUserInterfaceDimensionUnit(0, BOUNCE_DOWN_POS);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(180f);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(0, BOUNCE_BOTTOM_POS);
 
 		action.act(1.0f);
 
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", (float) (-SCREEN_HALF_HEIGHT + (height / 2)), sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", 0f, -sprite.look.getRotation() + 90f, 1e-3);
+		assertEquals("Wrong Y-Position!", -SCREEN_HALF_HEIGHT + (height / 2),
+				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals("Wrong direction", 0f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 		assertEquals("Width shouldn't change", width, sprite.look.getWidth(), 1e-3);
 		assertEquals("Height shouldn't change", height, sprite.look.getHeight(), 1e-3);
 
-		sprite.look.setRotation(-120f + 90f);
-		sprite.look.setPositionInUserInterfaceDimensionUnit(0, BOUNCE_DOWN_POS);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(120f);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(0, BOUNCE_BOTTOM_POS);
 		action.restart();
 		action.act(1.0f);
 
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", (float) (-SCREEN_HALF_HEIGHT + (height / 2)), sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", 60f, -sprite.look.getRotation() + 90f, 1e-3);
+		assertEquals("Wrong Y-Position!", -SCREEN_HALF_HEIGHT + (height / 2),
+				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals("Wrong direction", 60f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 
-		sprite.look.setRotation(-30f + 90f);
-		sprite.look.setPositionInUserInterfaceDimensionUnit(0, BOUNCE_DOWN_POS);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(30f);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(0, BOUNCE_BOTTOM_POS);
 		action.restart();
 		action.act(1.0f);
 
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", (float) (-SCREEN_HALF_HEIGHT + (height / 2)), sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", 30f, -sprite.look.getRotation() + 90f, 1e-3);
+		assertEquals("Wrong Y-Position!", -SCREEN_HALF_HEIGHT + (height / 2),
+				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals("Wrong direction", 150f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 
-		sprite.look.setRotation(-132.42f + 90f);
-		sprite.look.setPositionInUserInterfaceDimensionUnit(0, BOUNCE_DOWN_POS);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(132.42f);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(0, BOUNCE_BOTTOM_POS);
 		action.restart();
 		action.act(1.0f);
 
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", (float) (-SCREEN_HALF_HEIGHT + (height / 2)), sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", 47.58f, -sprite.look.getRotation() + 90f, 1e-3);
+		assertEquals("Wrong Y-Position!", -SCREEN_HALF_HEIGHT + (height / 2),
+				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals("Wrong direction", 47.58f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 
 	}
 
-	public void testBounceEast() {
-
+	public void testBounceRight() {
 		Sprite sprite = new Sprite("testSprite");
 		sprite.look.setLookData(lookData);
 		sprite.look.setWidth(width);
@@ -230,49 +233,52 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 
 		IfOnEdgeBounceAction action = ExtendedActions.ifOnEdgeBounce(sprite);
 
-		sprite.look.setRotation(0f);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(90f);
 		sprite.look.setPositionInUserInterfaceDimensionUnit(BOUNCE_RIGHT_POS, 0);
 
 		action.act(1.0f);
 		action.restart();
 		action.act(1.0f);
 
-		assertEquals("Wrong X-Position!", (float) (SCREEN_HALF_WIDTH - (width / 2)), sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong X-Position!", SCREEN_HALF_WIDTH - (width / 2),
+				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", -90f, -sprite.look.getRotation() + 90f, 1e-3);
+		assertEquals("Wrong direction", 270f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 		assertEquals("Width shouldn't change", width, sprite.look.getWidth(), 1e-3);
 		assertEquals("Height shouldn't change", height, sprite.look.getHeight(), 1e-3);
 
-		sprite.look.setRotation(-30f + 90f);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(30f);
 		sprite.look.setPositionInUserInterfaceDimensionUnit(BOUNCE_RIGHT_POS, 0);
 		action.restart();
 		action.act(1.0f);
 
-		assertEquals("Wrong X-Position!", (float) (SCREEN_HALF_WIDTH - (width / 2)), sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong X-Position!", SCREEN_HALF_WIDTH - (width / 2),
+				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", -30f, -sprite.look.getRotation() + 90f, 1e-3);
+		assertEquals("Wrong direction", 330f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 
-		sprite.look.setRotation(30f + 90f);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(30f);
 		sprite.look.setPositionInUserInterfaceDimensionUnit(BOUNCE_RIGHT_POS, 0);
 		action.restart();
 		action.act(1.0f);
 
-		assertEquals("Wrong X-Position!", (float) (SCREEN_HALF_WIDTH - (width / 2)), sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong X-Position!", SCREEN_HALF_WIDTH - (width / 2),
+				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", -30f, -sprite.look.getRotation() + 90f, 1e-3);
+		assertEquals("Wrong direction", 330f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 
-		sprite.look.setRotation(-42.42f + 90f);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(42.42f);
 		sprite.look.setPositionInUserInterfaceDimensionUnit(BOUNCE_RIGHT_POS, 0);
 		action.restart();
 		action.act(1.0f);
 
-		assertEquals("Wrong X-Position!", (float) (SCREEN_HALF_WIDTH - (width / 2)), sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong X-Position!", SCREEN_HALF_WIDTH - (width / 2),
+				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", -42.42f, -sprite.look.getRotation() + 90f, 1e-3);
+		assertEquals("Wrong direction", 317.58f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
-	public void testBounceWest() {
-
+	public void testBounceLeft() {
 		Sprite sprite = new Sprite("testSprite");
 		sprite.look.setLookData(lookData);
 		sprite.look.setWidth(width);
@@ -280,42 +286,46 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 
 		IfOnEdgeBounceAction action = ExtendedActions.ifOnEdgeBounce(sprite);
 
-		sprite.look.setRotation(90f + 90f);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(90f);
 		sprite.look.setPositionInUserInterfaceDimensionUnit(BOUNCE_LEFT_POS, 0);
 
 		action.act(1.0f);
 
-		assertEquals("Wrong X-Position!", (float) (-SCREEN_HALF_WIDTH + (width / 2)), sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong X-Position!", -SCREEN_HALF_WIDTH + (width / 2),
+				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", 90f, -sprite.look.getRotation() + 90f, 1e-3);
+		assertEquals("Wrong direction", 270f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 		assertEquals("Width shouldn't change", width, sprite.look.getWidth(), 1e-3);
 		assertEquals("Height shouldn't change", height, sprite.look.getHeight(), 1e-3);
 
-		sprite.look.setRotation(30f + 90f);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(30f);
 		sprite.look.setPositionInUserInterfaceDimensionUnit(BOUNCE_LEFT_POS, 0);
 		action.restart();
 		action.act(1.0f);
 
-		assertEquals("Wrong X-Position!", (float) (-SCREEN_HALF_WIDTH + (width / 2)), sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong X-Position!", -SCREEN_HALF_WIDTH + (width / 2),
+				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", 30f, -sprite.look.getRotation() + 90f, 1e-3);
+		assertEquals("Wrong direction", 330f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 
-		sprite.look.setRotation(-30f + 90f);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(30f);
 		sprite.look.setPositionInUserInterfaceDimensionUnit(BOUNCE_LEFT_POS, 0);
 		action.restart();
 		action.act(1.0f);
 
-		assertEquals("Wrong X-Position!", (float) (-SCREEN_HALF_WIDTH + (width / 2)), sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong X-Position!", -SCREEN_HALF_WIDTH + (width / 2),
+				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", 30f, -sprite.look.getRotation() + 90f, 1e-3);
+		assertEquals("Wrong direction", 330f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 
-		sprite.look.setRotation(42.42f + 90f);
+		sprite.look.setRotationInUserInterfaceDimensionUnit(42.42f);
 		sprite.look.setPositionInUserInterfaceDimensionUnit(BOUNCE_LEFT_POS, 0);
 		action.restart();
 		action.act(1.0f);
 
-		assertEquals("Wrong X-Position!", (float) (-SCREEN_HALF_WIDTH + (width / 2)), sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong X-Position!", -SCREEN_HALF_WIDTH + (width / 2),
+				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", 42.42f, -sprite.look.getRotation() + 90f, 1e-3);
+		assertEquals("Wrong direction", 317.58f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 	}
 }

@@ -37,7 +37,7 @@ public class PointInDirectionActionTest extends AndroidTestCase {
 		PointInDirectionAction action = ExtendedActions.pointInDirection(sprite,
 				new Formula(Direction.DIRECTION_RIGHT.getDegrees()));
 		action.act(1.0f);
-		assertEquals("Wrong direction", 0f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction", 90f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	public void testPointLeft() {
@@ -45,7 +45,7 @@ public class PointInDirectionActionTest extends AndroidTestCase {
 		PointInDirectionAction action = ExtendedActions.pointInDirection(sprite,
 				new Formula(Direction.DIRECTION_LEFT.getDegrees()));
 		action.act(1.0f);
-		assertEquals("Wrong direction", 180f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction", 270f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	public void testPointUp() {
@@ -53,7 +53,7 @@ public class PointInDirectionActionTest extends AndroidTestCase {
 		PointInDirectionAction action = ExtendedActions.pointInDirection(sprite,
 				new Formula(Direction.DIRECTION_UP.getDegrees()));
 		action.act(1.0f);
-		assertEquals("Wrong direction", 90f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction", 180f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	public void testPointDown() {
@@ -61,7 +61,7 @@ public class PointInDirectionActionTest extends AndroidTestCase {
 		PointInDirectionAction action = ExtendedActions.pointInDirection(sprite,
 				new Formula(Direction.DIRECTION_DOWN.getDegrees()));
 		action.act(1.0f);
-		assertEquals("Wrong direction", -90f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction", 0f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	public void testRotateAndPoint() {
@@ -70,7 +70,7 @@ public class PointInDirectionActionTest extends AndroidTestCase {
 		PointInDirectionAction action = ExtendedActions.pointInDirection(sprite,
 				new Formula(Direction.DIRECTION_RIGHT.getDegrees()));
 		action.act(1.0f);
-		assertEquals("Wrong direction", 0f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction", 90f, sprite.look.getRotationInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 }

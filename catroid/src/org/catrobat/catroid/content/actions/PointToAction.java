@@ -57,23 +57,23 @@ public class PointToAction extends TemporalAction {
 		} else if (spriteXPosition == pointedSpriteXPosition || spriteYPosition == pointedSpriteYPosition) {
 			if (spriteXPosition == pointedSpriteXPosition) {
 				if (spriteYPosition < pointedSpriteYPosition) {
+					rotationDegrees = 180;
+				} else {
+					rotationDegrees = 0;
+				}
+			} else {
+				if (spriteXPosition < pointedSpriteXPosition) {
 					rotationDegrees = 90;
 				} else {
 					rotationDegrees = 270;
 				}
-			} else {
-				if (spriteXPosition < pointedSpriteXPosition) {
-					rotationDegrees = 0;
-				} else {
-					rotationDegrees = 180;
-				}
 			}
 
 		} else {
-			rotationDegrees = (180.0 + Math.toDegrees(Math.atan2(spriteYPosition - pointedSpriteYPosition,
+			rotationDegrees = (270.0 + Math.toDegrees(Math.atan2(spriteYPosition - pointedSpriteYPosition,
 					spriteXPosition - pointedSpriteXPosition)));
 		}
-		sprite.look.setRotation((float) rotationDegrees);
+		sprite.look.setRotationInUserInterfaceDimensionUnit((float) rotationDegrees);
 	}
 
 	public void setSprite(Sprite sprite) {
