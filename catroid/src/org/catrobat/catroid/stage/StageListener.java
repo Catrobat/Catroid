@@ -130,6 +130,8 @@ public class StageListener implements ApplicationListener {
 
 	private byte[] thumbnail;
 
+	private ApplicationListener stageListenerDelegate;
+
 	StageListener() {
 	}
 
@@ -326,6 +328,9 @@ public class StageListener implements ApplicationListener {
 			firstStart = false;
 		}
 		if (!paused) {
+			if(stageListenerDelegate != null) {
+				stageListenerDelegate.render();
+			}
 			float deltaTime = Gdx.graphics.getDeltaTime();
 
 			/*
@@ -538,6 +543,10 @@ public class StageListener implements ApplicationListener {
 
 	public boolean isMakeAutomaticScreenshot() {
 		return this.makeAutomaticScreenshot;
+	}
+
+	public void setStageListenerDelegate(ApplicationListener listener) {
+		stageListenerDelegate = listener;
 	}
 
 	private void prepareAutomaticScreenshotAndNoMeadiaFile() {
