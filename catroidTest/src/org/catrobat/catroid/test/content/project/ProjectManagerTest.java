@@ -132,33 +132,37 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 				projectManager.getCurrentScript().getBrickList().contains(setLookBrick));
 	}
 
-    public void testEmptyProject() throws NameNotFoundException, IOException {
-        ProjectManager projectManager = ProjectManager.getInstance();
-        Context context = getInstrumentation().getContext().createPackageContext("org.catrobat.catroid",
-                Context.CONTEXT_IGNORE_SECURITY);
+	public void testEmptyProject() throws NameNotFoundException, IOException {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Context context = getInstrumentation().getContext().createPackageContext("org.catrobat.catroid",
+				Context.CONTEXT_IGNORE_SECURITY);
 
-        projectManager.initializeNewProject(projectNameOne, context, true);
-        Project currentProject = projectManager.getCurrentProject();
-        assertNotNull("no current project set", currentProject);
+		projectManager.initializeNewProject(projectNameOne, context, true);
+		Project currentProject = projectManager.getCurrentProject();
+		assertNotNull("no current project set", currentProject);
 
-        assertEquals("Wrong project name", projectNameOne, currentProject.getName());
-        assertEquals("Wrong number of sprites", 1, currentProject.getSpriteList().size());
+		assertEquals("Wrong project name", projectNameOne, currentProject.getName());
+		assertEquals("Wrong number of sprites", 1, currentProject.getSpriteList().size());
 
-        UserVariablesContainer variablesContainer = currentProject.getUserVariables();
+		UserVariablesContainer variablesContainer = currentProject.getUserVariables();
 
-        List<UserVariable> userVariableList = (List<UserVariable>) Reflection.getPrivateField(UserVariablesContainer.class, variablesContainer, "projectVariables");
-        Map<Sprite, List<UserVariable>> spriteVariablesMap = (Map<Sprite, List<UserVariable>>) Reflection.getPrivateField(UserVariablesContainer.class, variablesContainer, "spriteVariables");
+		@SuppressWarnings("unchecked")
+		List<UserVariable> userVariableList = (List<UserVariable>) Reflection.getPrivateField(
+				UserVariablesContainer.class, variablesContainer, "projectVariables");
+		@SuppressWarnings("unchecked")
+		Map<Sprite, List<UserVariable>> spriteVariablesMap = (Map<Sprite, List<UserVariable>>) Reflection
+				.getPrivateField(UserVariablesContainer.class, variablesContainer, "spriteVariables");
 
-        assertEquals("Wrong number of variables", 0, userVariableList.size());
-        assertEquals("Wrong number of variables", 0, spriteVariablesMap.size());
+		assertEquals("Wrong number of variables", 0, userVariableList.size());
+		assertEquals("Wrong number of variables", 0, spriteVariablesMap.size());
 
-        Sprite background = currentProject.getSpriteList().get(0);
-        assertEquals("Wrong sprite name", context.getString(R.string.background), background.getName());
-        assertEquals("Script list not empty", 0, background.getNumberOfScripts());
-        assertEquals("Brick list not empty", 0, background.getNumberOfBricks());
-        assertEquals("Look data not empty", 0, background.getLookDataList().size());
-        assertEquals("Sound list not empty", 0, background.getSoundList().size());
-    }
+		Sprite background = currentProject.getSpriteList().get(0);
+		assertEquals("Wrong sprite name", context.getString(R.string.background), background.getName());
+		assertEquals("Script list not empty", 0, background.getNumberOfScripts());
+		assertEquals("Brick list not empty", 0, background.getNumberOfBricks());
+		assertEquals("Look data not empty", 0, background.getLookDataList().size());
+		assertEquals("Sound list not empty", 0, background.getSoundList().size());
+	}
 
 	public void testRenameProject() throws IOException {
 		String oldProjectName = "oldProject";

@@ -24,14 +24,10 @@ package org.catrobat.catroid.ui.dialogs;
 
 import java.io.IOException;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.widget.CheckBox;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.Utils;
 
@@ -41,7 +37,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -51,19 +49,20 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 public class NewProjectDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_project";
-    public static final String SHARED_PREFERENCES_EMPTY_PROJECT = "shared_preferences_empty_project";
+	public static final String SHARED_PREFERENCES_EMPTY_PROJECT = "shared_preferences_empty_project";
 
 	private EditText newProjectEditText;
 	private Dialog newProjectDialog;
-    private CheckBox emptyProjectCheckBox;
-    private SharedPreferences sharedPreferences;
+	private CheckBox emptyProjectCheckBox;
+	private SharedPreferences sharedPreferences;
 
-    @Override
+	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_project, null);
 
@@ -125,18 +124,18 @@ public class NewProjectDialog extends DialogFragment {
 			}
 		});
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        boolean shouldBeEmpty = sharedPreferences.getBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, false);
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		boolean shouldBeEmpty = sharedPreferences.getBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, false);
 
-        emptyProjectCheckBox = (CheckBox) dialogView.findViewById(R.id.project_empty_checkbox);
-        emptyProjectCheckBox.setChecked(shouldBeEmpty);
+		emptyProjectCheckBox = (CheckBox) dialogView.findViewById(R.id.project_empty_checkbox);
+		emptyProjectCheckBox.setChecked(shouldBeEmpty);
 
 		return newProjectDialog;
 	}
 
 	protected void handleOkButtonClick() {
 		String projectName = newProjectEditText.getText().toString().trim();
-        boolean shouldBeEmpty = emptyProjectCheckBox.isChecked();
+		boolean shouldBeEmpty = emptyProjectCheckBox.isChecked();
 
 		if (projectName.length() == 0) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_no_name_entered));
@@ -157,7 +156,7 @@ public class NewProjectDialog extends DialogFragment {
 			return;
 		}
 
-        sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, shouldBeEmpty).commit();
+		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, shouldBeEmpty).commit();
 
 		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
 		Intent intent = new Intent(getActivity(), ProjectActivity.class);
