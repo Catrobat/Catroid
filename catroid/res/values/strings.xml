@@ -96,8 +96,9 @@
     <string name="dialog_confirm_delete_multiple_objects_title">Delete these objects?</string>
     <string name="dialog_confirm_delete_object_message">This can not be undone!</string>
     <!--  -->
-	
-	<!-- Sprite activity -->
+
+
+    <!-- Sprite activity -->
     <string name="copy_sprite_finished">copied.</string>
     <string name="copy_sprite_prefix">Object:</string>
     <string name="copy_sprite_name_suffix">_Copy</string>
@@ -114,6 +115,13 @@
     <!--  -->
 
 
+    <!-- Script fragment -->
+    <string name="dialog_confirm_delete_brick_title">Delete this brick?</string>
+    <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
+    <string name="dialog_confirm_delete_brick_message">This can not be undone!</string>
+    <!--  -->
+
+
     <!-- Look fragment -->
     <string name="rename_look_dialog">Rename Look</string>
     <string name="lookname_invalid">This look\'s name is invalid</string>
@@ -124,6 +132,11 @@
     <string name="select_look_from_gallery">Select image</string>
     <string name="select_look_from_camera">Select photo</string>
     <string name="look_measure">Measure:</string>
+    <string name="dialog_confirm_delete_look_title">Delete this look?</string>
+    <string name="dialog_confirm_delete_multiple_looks_title">Delete these looks?</string>
+    <string name="dialog_confirm_delete_look_message">This can not be undone!</string>
+    <!--  -->
+
 
     <!-- Sound fragment -->
     <string name="rename_sound_dialog">Rename Sound</string>
@@ -134,6 +147,9 @@
     <string name="sound_time_seperator">/</string>
     <string name="delete_sound_dialog">Delete sound?</string>
     <string name="length">Length:</string>
+    <string name="dialog_confirm_delete_sound_title">Delete this sound?</string>
+    <string name="dialog_confirm_delete_multiple_sounds_title">Delete these sounds?</string>
+    <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
     <!--  -->
 
 
@@ -152,6 +168,7 @@
     <string name="details_date_today">Today</string>
     <string name="details_date_yesterday">Yesterday</string>
     <!--  -->
+
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Pocket Code Recorder</string>
@@ -181,15 +198,15 @@
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
     <!--  -->
 
-	
-	<!-- New look dialog -->
+
+    <!-- New look dialog -->
     <string name="new_look_dialog_title">Add Look</string>
-    <string name="add_look_from_camera">From Camera</string> 
+    <string name="add_look_from_camera">From Camera</string>
     <string name="add_look_draw_new_image">Draw new image</string>
     <string name="add_look_choose_image">Choose image</string>
     <!--  -->
-    
-    
+
+
     <!-- New project dialog -->
     <string name="new_project_dialog_title">New program</string>
     <string name="new_project_dialog_hint">My Program</string>
