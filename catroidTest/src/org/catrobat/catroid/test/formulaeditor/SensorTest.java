@@ -119,6 +119,10 @@ public class SensorTest extends InstrumentationTestCase {
 
 		//For initialization
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+		}
 		SensorHandler.stopSensorListeners();
 
 		SensorHandler sensorHandler = (SensorHandler) Reflection.getPrivateField(SensorHandler.class, "instance");

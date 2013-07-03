@@ -146,6 +146,24 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 		return false;
 	}
 
+	public synchronized void unregisterListener(SensorCustomEventListener listener) {
+		customListeners.remove(listener);
+
+		Iterator<Pair<SensorCustomEventListener, Sensors>> iterator = customListeners.iterator();
+
+		while (iterator.hasNext()) {
+			Pair<SensorCustomEventListener, Sensors> pair = iterator.next();
+			if (pair.getL() == listener) {
+				iterator.remove();
+			}
+		}
+	}
+
+	public synchronized boolean registerListener(SensorCustomEventListener listener, Sensors sensor) {
+		customListeners.add(new Pair<SensorCustomEventListener, Sensors>(listener, sensor));
+		return false;
+	}
+
 	public synchronized void sendGeneratedSensorValues() {
 		for (Pair<SensorEventListener, Sensor> pair : listeners) {
 			SensorEventListener sensorEventListener = pair.getL();
@@ -260,23 +278,5 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 			}
 		}
 		return null;
-	}
-
-	public synchronized void unregisterListener(SensorCustomEventListener listener) {
-		customListeners.remove(listener);
-
-		Iterator<Pair<SensorCustomEventListener, Sensors>> iterator = customListeners.iterator();
-
-		while (iterator.hasNext()) {
-			Pair<SensorCustomEventListener, Sensors> pair = iterator.next();
-			if (pair.getL() == listener) {
-				iterator.remove();
-			}
-		}
-	}
-
-	public synchronized boolean registerListener(SensorCustomEventListener listener, Sensors sensor) {
-		customListeners.add(new Pair<SensorCustomEventListener, Sensors>(listener, sensor));
-		return false;
 	}
 }

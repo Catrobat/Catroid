@@ -22,11 +22,10 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import java.io.IOException;
-
 import org.catrobat.catroid.formulaeditor.SensorHandler;
-import org.catrobat.catroid.soundrecorder.SoundRecorder;
+import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
 
 import android.test.InstrumentationTestCase;
 
@@ -40,47 +39,26 @@ public class SensorLoudnessTest extends InstrumentationTestCase {
 	@Override
 	public void tearDown() throws Exception {
 		SensorHandler.stopSensorListeners();
-		Reflection.setPrivateField(SensorHandler.class, "instance", null);
+		Reflection.setPrivateField(SensorLoudness.class, "instance", null);
 		super.tearDown();
 	}
 
 	public void testMicRelease() {
-		SoundRecorder outside_recorder = new SoundRecorder("dev/null");
-		try {
-			outside_recorder.start();
-			//Wait till SoundRecorder actually started
-			Thread.sleep(100L);
-		} catch (Exception e) {
-			fail("Couldn't start Recorder Outside, some other app may use a MIC");
-		}
-		assertEquals("Outside Recorder is not recording after start", outside_recorder.isRecording(), true);
-		try {
-			outside_recorder.stop();
-		} catch (IOException e) {
-		}
-
+		//Initialize
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
-
-		outside_recorder = new SoundRecorder("dev/null");
 		try {
-			outside_recorder.start();
-			//Wait till SoundRecorder actually started
-			Thread.sleep(100L);
-		} catch (Exception e) {
-			//expected behavior
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
 		}
-		assertEquals("LoudnessSensor may not use Microphone-Input", outside_recorder.isRecording(), false);
-
 		SensorHandler.stopSensorListeners();
 
-		outside_recorder = new SoundRecorder("dev/null");
-		try {
-			outside_recorder.start();
-			//Wait till SoundRecorder actually started
-			Thread.sleep(100L);
-			outside_recorder.stop();
-		} catch (Exception e) {
-			fail("Couldn't start Recorder after stopping Sensors, LoudnessSensor may still holds MIC");
-		}
+		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
+		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("dev/null");
+		Reflection.setPrivateField(loudnessSensor, "mRecorder", simSoundRec);
+
+		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
+		assertEquals("LoudnessSensor not startet recording, isRecording()", simSoundRec.isRecording(), true);
+		SensorHandler.stopSensorListeners();
+		assertEquals("LoudnessSensor not stopped recording, isRecording()", simSoundRec.isRecording(), false);
 	}
 }

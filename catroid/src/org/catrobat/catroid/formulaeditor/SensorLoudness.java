@@ -31,11 +31,11 @@ import android.os.Handler;
 
 public class SensorLoudness {
 
-	private int m_interval = 50; // 100 milliseconds by default, can be changed later
+	private static SensorLoudness instance = null;
+	private int m_interval = 50; // 50 milliseconds by default, can be changed later
 	private double scale_range = 100d; //scale the give amplitude to scale_range
 
 	private final double MAX_AMP_VALUE = 32767d;
-	private static SensorLoudness instance = null;
 	private ArrayList<SensorCustomEventListener> listener_ = new ArrayList<SensorCustomEventListener>();
 
 	private SoundRecorder mRecorder = null;
@@ -82,7 +82,7 @@ public class SensorLoudness {
 				m_statusChecker.run();
 			} catch (Exception e) {
 				listener_.remove(listener);
-				//mRecorder = null;
+				mRecorder = new SoundRecorder("dev/null");
 				return false;
 			}
 		}
@@ -99,6 +99,7 @@ public class SensorLoudness {
 						mRecorder.stop();
 					} catch (IOException e) {
 					}
+					mRecorder = new SoundRecorder("dev/null");
 				}
 				current_value = 0f;
 			}
