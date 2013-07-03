@@ -45,4 +45,11 @@
         android:inputType="text"
         android:maxLines="1"
         android:selectAllOnFocus="true" />
+    <CheckBox
+            android:layout_width="226dp"
+            android:layout_height="wrap_content"
+            android:text="@string/new_project_empty"
+            android:id="@+id/project_empty_checkbox"
+            android:layout_alignLeft="@+id/project_name" android:layout_below="@+id/project_name_edittext"
+            android:checked="false"/>
 </RelativeLayout>

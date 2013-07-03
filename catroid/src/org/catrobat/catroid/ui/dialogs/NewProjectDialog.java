@@ -24,6 +24,9 @@ package org.catrobat.catroid.ui.dialogs;
 
 import java.io.IOException;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.widget.CheckBox;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -50,14 +53,17 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class NewProjectDialog extends DialogFragment implements OnRegistrationCompleteListener {
+public class NewProjectDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_project";
+    public static final String SHARED_PREFERENCES_EMPTY_PROJECT = "shared_preferences_empty_project";
 
 	private EditText newProjectEditText;
 	private Dialog newProjectDialog;
+    private CheckBox emptyProjectCheckBox;
+    private SharedPreferences sharedPreferences;
 
-	@Override
+    @Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_project, null);
 
@@ -119,19 +125,18 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 			}
 		});
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean shouldBeEmpty = sharedPreferences.getBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, false);
+
+        emptyProjectCheckBox = (CheckBox) dialogView.findViewById(R.id.project_empty_checkbox);
+        emptyProjectCheckBox.setChecked(shouldBeEmpty);
+
 		return newProjectDialog;
-	}
-
-	@Override
-	public void onRegistrationComplete() {
-		dismiss();
-
-		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	protected void handleOkButtonClick() {
 		String projectName = newProjectEditText.getText().toString().trim();
+        boolean shouldBeEmpty = emptyProjectCheckBox.isChecked();
 
 		if (projectName.length() == 0) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_no_name_entered));
@@ -144,7 +149,7 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 		}
 
 		try {
-			ProjectManager.INSTANCE.initializeNewProject(projectName, getActivity());
+			ProjectManager.INSTANCE.initializeNewProject(projectName, getActivity(), shouldBeEmpty);
 
 		} catch (IOException e) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_new_project));
@@ -152,18 +157,12 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 			return;
 		}
 
+        sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, shouldBeEmpty).commit();
+
 		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
 		Intent intent = new Intent(getActivity(), ProjectActivity.class);
 		getActivity().startActivity(intent);
 
 		dismiss();
-	}
-
-	protected String getTitle() {
-		return getString(R.string.new_project_dialog_title);
-	}
-
-	protected String getHint() {
-		return getString(R.string.new_project_dialog_hint);
 	}
 }
