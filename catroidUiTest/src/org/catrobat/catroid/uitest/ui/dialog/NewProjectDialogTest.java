@@ -137,6 +137,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
     public void testCreateEmptyProject() {
         solo.clickOnButton(solo.getString(R.string.main_menu_new));
         UiTestUtils.waitForText(solo, solo.getString(R.string.new_project_dialog_title));
+        solo.goBack(); // get rid of the keyboard since it is disturbing checkbox-click-event
         solo.clickOnCheckBox(0);
         solo.enterText(0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
         solo.clickOnButton(solo.getString(R.string.ok));
@@ -157,6 +158,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
         CheckBox emptyProjectCheckBox = (CheckBox) solo.getView(R.id.project_empty_checkbox);
         assertTrue("Checkbox should be checked", emptyProjectCheckBox.isChecked());
 
+        solo.goBack(); // get rid of the keyboard since it is disturbing checkbox-click-event
         solo.clickOnCheckBox(0);
         solo.clickOnButton(solo.getString(R.string.cancel_button));
         assertTrue("Checkbox state should not be saved when canceling dialog",
