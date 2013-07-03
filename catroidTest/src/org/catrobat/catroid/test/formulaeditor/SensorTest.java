@@ -38,9 +38,11 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.SimulatedSensorManager;
+import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -57,6 +59,11 @@ public class SensorTest extends InstrumentationTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		//For initialization
+		SensorLoudness.getSensorLoudness();
+		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
+		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("dev/null");
+		Reflection.setPrivateField(loudnessSensor, "mRecorder", simSoundRec);
 	}
 
 	@Override
@@ -119,10 +126,6 @@ public class SensorTest extends InstrumentationTestCase {
 
 		//For initialization
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-		}
 		SensorHandler.stopSensorListeners();
 
 		SensorHandler sensorHandler = (SensorHandler) Reflection.getPrivateField(SensorHandler.class, "instance");

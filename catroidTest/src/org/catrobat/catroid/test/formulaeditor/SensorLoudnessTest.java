@@ -45,13 +45,7 @@ public class SensorLoudnessTest extends InstrumentationTestCase {
 
 	public void testMicRelease() {
 		//Initialize
-		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-		}
-		SensorHandler.stopSensorListeners();
-
+		SensorLoudness.getSensorLoudness();
 		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
 		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("dev/null");
 		Reflection.setPrivateField(loudnessSensor, "mRecorder", simSoundRec);
