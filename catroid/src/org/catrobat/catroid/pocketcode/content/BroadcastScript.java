@@ -24,7 +24,6 @@ package org.catrobat.catroid.pocketcode.content;
 
 import java.util.ArrayList;
 
-import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.pocketcode.common.MessageContainer;
 import org.catrobat.catroid.pocketcode.content.bricks.Brick;
 import org.catrobat.catroid.pocketcode.content.bricks.BroadcastReceiverBrick;

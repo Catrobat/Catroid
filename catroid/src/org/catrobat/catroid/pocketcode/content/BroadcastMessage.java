@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content;
+package org.catrobat.catroid.pocketcode.content;
 
 public interface BroadcastMessage {
 	public String getBroadcastMessage();
