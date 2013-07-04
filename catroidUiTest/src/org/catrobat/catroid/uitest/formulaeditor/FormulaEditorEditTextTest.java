@@ -127,6 +127,50 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.clickOnScreen(30, globalVisibleRect.top + 10);
 	}
 
+	//TODO
+	public void testClickOnBrickItemEditFormula() {
+		UiTestUtils.addNewBrick(solo, R.string.brick_change_brightness);
+		solo.clickOnScreen(200, 200);
+		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
+			solo.goBack();
+		}
+
+		solo.clickOnText(solo.getString(R.string.brick_change_brightness));
+		solo.clickOnMenuItem(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_tan));
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_8));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_decimal_mark));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_7));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_6));
+
+		assertEquals("Function parameter modification failed", solo.getString(R.string.formula_editor_function_tan)
+				+ "( 98" + getActivity().getString(R.string.formula_editor_decimal_mark) + "76 ) ",
+				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().toString());
+
+		setAbsoluteCursorPosition(2);
+
+		solo.sleep(50);
+		solo.goBack();
+
+		solo.clickOnText(solo.getString(R.string.brick_change_size_by));
+		solo.clickOnMenuItem(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_5));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_2));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_decimal_mark));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_5));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_2));
+
+		assertEquals("Function parameter modification failed",
+				"52" + getActivity().getString(R.string.formula_editor_decimal_mark) + "52 ",
+				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().toString());
+
+	}
+
 	public void testSingleTapOnFunctionName() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
