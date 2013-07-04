@@ -87,7 +87,6 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
 		}
-
 		if (onLoadProjectCompleteListener != null) {
 			if (!success && showErrorMessage) {
 				Utils.showErrorDialog(activity, activity.getString(R.string.error_load_project));
@@ -100,8 +99,6 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	public interface OnLoadProjectCompleteListener {
 
 		public void onLoadProjectSuccess();
-
-		//		public void onLoadProjectFailed();
 
 	}
 }
