@@ -337,8 +337,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void startCopyActionMode() {
 
-		Log.d("TAG", "ScriptFragment-->startCopyActionMode");
-		Log.d("TAG", "ScriptFragment:: BrickList Size: " + adapter.getBrickList().size());
+		Log.d("TAG", "ScriptFragment-->startCopyActionMode()::BEGIN");
+		Log.d("TAG", "BrickList Size: " + adapter.getBrickList().size());
 
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
@@ -351,6 +351,12 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			BottomBar.disableButtons(getActivity());
 			adapter.setCheckboxVisibility(View.VISIBLE);
 			adapter.setActionMode(true);
+		}
+		Log.d("TAG", "ScriptFragment-->startCopyActionMode()::END, Size of BrickList:" + adapter.getBrickList().size());
+
+		for (int i = 0; i < adapter.getBrickList().size(); i++) {
+
+			Log.d("TAG", "at Location" + i + ", -->" + adapter.getBrickList().get(i));
 		}
 
 	}
@@ -518,10 +524,15 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
+
+			Log.d("TAG", "ScriptFragment-->onDestroyActionMode()::BEGIN");
+
 			List<Brick> checkedBricks = adapter.getReversedCheckedBrickList();
 
+			Log.d("TAG", "Size of checkedBricks= " + checkedBricks.size());
+
 			for (Brick brick : checkedBricks) {
-				Log.d("TAG", "ScriptFragment-->onDestroyActionMode():: brick" + brick.hashCode());
+				Log.d("TAG", "Brick Iteration:: Brick" + brick.hashCode());
 				copyBrick(brick);
 			}
 			setSelectMode(ListView.CHOICE_MODE_NONE);
@@ -533,6 +544,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			registerForContextMenu(listView);
 			BottomBar.enableButtons(getActivity());
 			adapter.setActionMode(false);
+
+			Log.d("TAG", "ScriptFragment-->onDestroyActionMode()::END");
 		}
 	};
 
@@ -560,6 +573,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		Log.d("TAG", "There are " + adapter.getCount() + " Elements in this List, newPosition= " + newPosition);
 
 		//adapter.addNewBrick(brickId, copy);
+		Log.d("TAG", "Content of BrickList: " + adapter.getBrickList().size());
+
+		Log.d("TAG", "Call addNewBrick with Position: " + newPosition + " and Brick: " + copy.toString());
 		adapter.addNewBrick(newPosition, copy);
 	}
 
