@@ -29,24 +29,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.catrobat.catroid.test.utils.Utils;
-
 import junit.framework.TestCase;
+
+import org.catrobat.catroid.test.utils.Utils;
 
 public class AssertionErrorMessageTest extends TestCase {
 	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };
 
-	// Bits of regular expressions to be used
 	private static final String OPENING_BRACKET = "\\(";
 	private static final String CLOSING_BRACKET = "\\)";
 	private static final String WHITESPACES = "(\\s)*";
 	private static final String ANYTHING = ".*";
 	private static final String STRING_LITERAL = "\"[^\"]*\"";
+	private static final String STRING_LITERAL_NOT_EMPTY = "\"[^\"]+\"";
 	private static final String COMMENT = "/\\*[^\\*/]\\*/";
 	private static final String NON_STRING_NON_COMMA = "[^\",]";
 	private static final String METHOD_CALL = "[a-zA-Z0-9_]+" + OPENING_BRACKET + ".*" + CLOSING_BRACKET;
-	private static final String PARAMETER = "(" + STRING_LITERAL + "|" + COMMENT + "|" + METHOD_CALL + "|"
-			+ NON_STRING_NON_COMMA + ")+";
+	private static final String PARAMETER = "(" + STRING_LITERAL + "|" + METHOD_CALL + "|" + NON_STRING_NON_COMMA
+			+ ")+";
+	private static final String ASSERT_MESSAGE = PARAMETER.replace(STRING_LITERAL, STRING_LITERAL_NOT_EMPTY);
+	private static final String NOT_A_NUMBER = "([^(\\d\\.\\-)])";
 	private static final String COMMA = ",";
 	private static final String LINE_COMMENT = "//.*";
 
@@ -71,6 +73,7 @@ public class AssertionErrorMessageTest extends TestCase {
 	private List<AssertMethod> assertMethods;
 	private String regexIsAssertMethod;
 	private String regexAssertContainsErrorMessage;
+	private String regexAssertDoesntStartWithNumber;
 	private String regexIsCompleteCommand;
 	private StringBuffer errorMessages;
 	private boolean errorFound;
@@ -103,17 +106,31 @@ public class AssertionErrorMessageTest extends TestCase {
 			}
 		}
 
-		//  Build regular expression to check if an assert method contains an error message
+		//  Build regular expression to check if an assert method contains an valid error message
 		regexAssertContainsErrorMessage = "";
 		for (int i = 0; i < assertMethods.size(); i++) {
 			regexAssertContainsErrorMessage += "(" + WHITESPACES + assertMethods.get(i).getCommandName()
 					+ OPENING_BRACKET;
-			for (int parameterCount = 0; parameterCount < assertMethods.get(i).getNumberOfParameters() - 1; parameterCount++) {
-				regexAssertContainsErrorMessage += PARAMETER + COMMA;
+
+			regexAssertContainsErrorMessage += ASSERT_MESSAGE;
+			for (int parameterCount = 1; parameterCount < assertMethods.get(i).getNumberOfParameters(); parameterCount++) {
+				regexAssertContainsErrorMessage += COMMA + PARAMETER;
 			}
-			regexAssertContainsErrorMessage += PARAMETER + CLOSING_BRACKET + ANYTHING + ")";
+			regexAssertContainsErrorMessage += CLOSING_BRACKET + ANYTHING + ")";
+
 			if (i < assertMethods.size() - 1) {
 				regexAssertContainsErrorMessage += "|";
+			}
+		}
+
+		//  Build regular expression to check if an assert message starts with a number
+		regexAssertDoesntStartWithNumber = "";
+		for (int i = 0; i < assertMethods.size(); i++) {
+			regexAssertDoesntStartWithNumber += "(" + WHITESPACES + assertMethods.get(i).getCommandName()
+					+ OPENING_BRACKET + NOT_A_NUMBER + ANYTHING + ")";
+
+			if (i < assertMethods.size() - 1) {
+				regexAssertDoesntStartWithNumber += "|";
 			}
 		}
 
@@ -132,12 +149,14 @@ public class AssertionErrorMessageTest extends TestCase {
 		matchingAsserts.add("assertTrue(\"message, with a comma\", value);");
 		matchingAsserts.add("assertTrue(name + \" has wrong value, but...\", value);");
 		matchingAsserts.add("fail(\"epic fail\");");
-		matchingAsserts.add("assertTrue(getErrorMessage(a, b, c), value)");
+		matchingAsserts.add("assertTrue(getErrorMessage(a, b, c), value);");
 		matchingAsserts.add("assertEquals(\"Foo!\", bar, baz(), 1e-3);");
 
 		for (String matchingAssert : matchingAsserts) {
-			assertTrue("Regex didn't match expression " + matchingAssert,
-					matchingAssert.matches(regexAssertContainsErrorMessage));
+			assertTrue(
+					"Regex didn't match expression " + matchingAssert,
+					matchingAssert.matches(regexAssertContainsErrorMessage)
+							&& matchingAssert.matches(regexAssertDoesntStartWithNumber));
 		}
 
 		List<String> notMatchingAsserts = new ArrayList<String>();
@@ -145,12 +164,17 @@ public class AssertionErrorMessageTest extends TestCase {
 		notMatchingAsserts.add("assertTrue((name + \"text\").equals(value));");
 		notMatchingAsserts.add("assertTrue(text.equals(\"a,b\"));");
 		notMatchingAsserts.add("assertTrue(/* Comment; evil */ value);");
+		notMatchingAsserts.add("assertTrue(\"\", true)");
+		notMatchingAsserts.add("assertEquals(\"a\", \"b\");");
 		notMatchingAsserts.add("assertEquals(a, b)");
+		notMatchingAsserts.add("assertEquals(1.0, 1.0, 1.0);");
 		notMatchingAsserts.add("fail();");
 
 		for (String notMatchingAssert : notMatchingAsserts) {
-			assertFalse("Expression was matched even though it shouldn't: " + notMatchingAssert,
-					notMatchingAssert.matches(regexAssertContainsErrorMessage));
+			assertFalse(
+					"Expression was matched even though it shouldn't: " + notMatchingAssert,
+					notMatchingAssert.matches(regexAssertContainsErrorMessage)
+							&& notMatchingAssert.matches(regexAssertDoesntStartWithNumber));
 		}
 
 		List<String> completeCommands = new ArrayList<String>();
@@ -187,11 +211,12 @@ public class AssertionErrorMessageTest extends TestCase {
 			if (currentLine.matches(regexIsAssertMethod)) {
 				while (!currentLine.matches(regexIsCompleteCommand)) {
 					currentLine += reader.readLine();
-					currentLine.replace("\n", "");
 					lineNumber++;
 				}
+				currentLine.replace("\n", "");
 
-				if (!currentLine.matches(regexAssertContainsErrorMessage)) {
+				if (!currentLine.matches(regexAssertContainsErrorMessage)
+						|| !currentLine.matches(regexAssertDoesntStartWithNumber)) {
 					errorFound = true;
 					errorMessages.append(file.getCanonicalPath() + " in line " + lineNumber + "\n");
 				}
