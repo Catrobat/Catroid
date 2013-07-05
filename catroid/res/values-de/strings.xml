@@ -211,6 +211,7 @@
     <string name="new_project_dialog_hint">Mein Programm</string>
     <string name="new_project_description_dialog_hint">Meine Beschreibung</string>
     <string name="new_project_name">Programmname:</string>
+    <string name="new_project_empty">Erstelle leeres Progamm</string>
     <!--  -->
 
 
