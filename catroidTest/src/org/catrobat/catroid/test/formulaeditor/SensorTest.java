@@ -63,7 +63,7 @@ public class SensorTest extends InstrumentationTestCase {
 		SensorLoudness.getSensorLoudness();
 		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
 		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("dev/null");
-		Reflection.setPrivateField(loudnessSensor, "mRecorder", simSoundRec);
+		Reflection.setPrivateField(loudnessSensor, "recorder", simSoundRec);
 	}
 
 	@Override

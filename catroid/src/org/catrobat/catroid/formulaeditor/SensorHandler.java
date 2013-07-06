@@ -26,8 +26,13 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.util.Log;
 
 public class SensorHandler implements SensorEventListener, SensorCustomEventListener {
+	/**
+	 * 
+	 */
+	private static final String TAG = SensorHandler.class.getSimpleName();
 	private static SensorHandler instance = null;
 	private SensorManagerInterface sensorManager = null;
 	private Sensor accelerometerSensor = null;
@@ -156,6 +161,8 @@ public class SensorHandler implements SensorEventListener, SensorCustomEventList
 				rotationVector[1] = event.values[1];
 				rotationVector[2] = event.values[2];
 				break;
+			default:
+				Log.v(TAG, "Unhandled sensor type: " + event.sensor.getType());
 		}
 
 	}
@@ -166,6 +173,8 @@ public class SensorHandler implements SensorEventListener, SensorCustomEventList
 			case LOUDNESS:
 				instance.loudness = event.values[0];
 				break;
+			default:
+				Log.v(TAG, "Unhandled sensor: " + event.sensor);
 		}
 	}
 

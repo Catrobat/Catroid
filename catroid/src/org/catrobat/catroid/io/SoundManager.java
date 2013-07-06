@@ -98,7 +98,7 @@ public class SoundManager {
 	}
 
 	public synchronized void pause() {
-		for (int i = 0; i < mediaPlayers.size(); i++) { //TODO: should we release non-playing Players like in constructor?
+		for (int i = 0; i < mediaPlayers.size(); i++) {
 			if (mediaPlayers.get(i).isPlaying()) {
 				mediaPlayers.get(i).pause();
 			} else {

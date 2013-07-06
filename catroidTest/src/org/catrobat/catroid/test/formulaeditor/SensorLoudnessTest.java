@@ -48,11 +48,11 @@ public class SensorLoudnessTest extends InstrumentationTestCase {
 		SensorLoudness.getSensorLoudness();
 		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
 		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("dev/null");
-		Reflection.setPrivateField(loudnessSensor, "mRecorder", simSoundRec);
+		Reflection.setPrivateField(loudnessSensor, "recorder", simSoundRec);
 
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
-		assertEquals("LoudnessSensor not startet recording, isRecording()", simSoundRec.isRecording(), true);
+		assertEquals("LoudnessSensor not startet recording, isRecording()", true, simSoundRec.isRecording());
 		SensorHandler.stopSensorListeners();
-		assertEquals("LoudnessSensor not stopped recording, isRecording()", simSoundRec.isRecording(), false);
+		assertEquals("LoudnessSensor not stopped recording, isRecording()", false, simSoundRec.isRecording());
 	}
 }

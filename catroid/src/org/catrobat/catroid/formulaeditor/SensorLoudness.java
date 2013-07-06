@@ -28,40 +28,41 @@ import java.util.ArrayList;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 
 import android.os.Handler;
+import android.util.Log;
 
 public class SensorLoudness {
 
 	private static SensorLoudness instance = null;
-	private int m_interval = 50; // 50 milliseconds by default, can be changed later
-	private double scale_range = 100d; //scale the give amplitude to scale_range
+	private int updateInterval = 50;
+	private double scaleRange = 100d; //scale the give amplitude to scale_range
 
 	private final double MAX_AMP_VALUE = 32767d;
-	private ArrayList<SensorCustomEventListener> listener_ = new ArrayList<SensorCustomEventListener>();
+	private ArrayList<SensorCustomEventListener> listenerList = new ArrayList<SensorCustomEventListener>();
 
-	private SoundRecorder mRecorder = null;
-	private Handler m_handler;
-	private float current_value = 0f;
+	private SoundRecorder recorder = null;
+	private Handler handler;
+	private float lastValue = 0f;
 
 	//Periodic update the loudness_value
-	Runnable m_statusChecker = new Runnable() {
+	Runnable statusChecker = new Runnable() {
 		@Override
 		public void run() {
 			float[] loudness = new float[1];
-			loudness[0] = (float) (scale_range / MAX_AMP_VALUE) * mRecorder.getMaxAmplitude();
-			if (current_value != loudness[0] && loudness[0] != 0f) {
-				current_value = loudness[0];
+			loudness[0] = (float) (scaleRange / MAX_AMP_VALUE) * recorder.getMaxAmplitude();
+			if (lastValue != loudness[0] && loudness[0] != 0f) {
+				lastValue = loudness[0];
 				SensorCustomEvent event = new SensorCustomEvent(Sensors.LOUDNESS, loudness);
-				for (SensorCustomEventListener el : listener_) {
+				for (SensorCustomEventListener el : listenerList) {
 					el.onCustomSensorChanged(event);
 				}
 			}
-			m_handler.postDelayed(m_statusChecker, m_interval);
+			handler.postDelayed(statusChecker, updateInterval);
 		}
 	};
 
 	private SensorLoudness() {
-		m_handler = new Handler();
-		mRecorder = new SoundRecorder("dev/null");
+		handler = new Handler();
+		recorder = new SoundRecorder("dev/null");
 	};
 
 	public static SensorLoudness getSensorLoudness() {
@@ -72,17 +73,18 @@ public class SensorLoudness {
 	}
 
 	public synchronized boolean registerListener(SensorCustomEventListener listener) {
-		if (listener_.contains(listener)) {
+		if (listenerList.contains(listener)) {
 			return true;
 		}
-		listener_.add(listener);
-		if (!mRecorder.isRecording()) {
+		listenerList.add(listener);
+		if (!recorder.isRecording()) {
 			try {
-				mRecorder.start();
-				m_statusChecker.run();
+				recorder.start();
+				statusChecker.run();
 			} catch (Exception e) {
-				listener_.remove(listener);
-				mRecorder = new SoundRecorder("dev/null");
+				Log.w(SensorLoudness.class.getSimpleName(), "Could not start recorder", e);
+				listenerList.remove(listener);
+				recorder = new SoundRecorder("dev/null");
 				return false;
 			}
 		}
@@ -90,18 +92,19 @@ public class SensorLoudness {
 	}
 
 	public synchronized void unregisterListener(SensorCustomEventListener listener) {
-		if (listener_.contains(listener)) {
-			listener_.remove(listener);
-			if (listener_.size() == 0) {
-				m_handler.removeCallbacks(m_statusChecker);
-				if (mRecorder.isRecording()) {
+		if (listenerList.contains(listener)) {
+			listenerList.remove(listener);
+			if (listenerList.size() == 0) {
+				handler.removeCallbacks(statusChecker);
+				if (recorder.isRecording()) {
 					try {
-						mRecorder.stop();
+						recorder.stop();
 					} catch (IOException e) {
+						// ignored, nothing we can do
 					}
-					mRecorder = new SoundRecorder("dev/null");
+					recorder = new SoundRecorder("dev/null");
 				}
-				current_value = 0f;
+				lastValue = 0f;
 			}
 		}
 	}

@@ -675,7 +675,7 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		SensorLoudness.getSensorLoudness();
 		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
 		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("dev/null");
-		Reflection.setPrivateField(loudnessSensor, "mRecorder", simSoundRec);
+		Reflection.setPrivateField(loudnessSensor, "recorder", simSoundRec);
 
 		SensorHandler.startSensorListener(solo.getCurrentActivity());
 		SensorHandler.stopSensorListeners();
