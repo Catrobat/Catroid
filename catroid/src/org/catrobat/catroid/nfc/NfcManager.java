@@ -28,7 +28,7 @@ public class NfcManager {
 	private int uid;
 
 	private NfcManager() {
-
+		uid = 0;
 	}
 
 	public static NfcManager getInstance() {
