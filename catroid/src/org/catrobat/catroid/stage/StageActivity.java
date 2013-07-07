@@ -34,7 +34,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.WindowManager;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -72,7 +71,6 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
-		Log.d("NFC", "new intent:" + intent.getAction());
 		NfcManager.getInstance().processIntent(intent);
 	}
 
@@ -89,15 +87,23 @@ public class StageActivity extends AndroidApplication {
 		PreStageActivity.shutdownResources();
 	}
 
+	@Override
+	protected void onPause() {
+		mNfcAdapter.disableForegroundDispatch(this);
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		mNfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+		super.onResume();
+	}
+
 	public void pause() {
 		stageListener.menuPause();
-		Log.d("NFC", "DISABLE FOREGROUND");
-		mNfcAdapter.disableForegroundDispatch(this);
 	}
 
 	public void resume() {
-		Log.d("NFC", "ENABLE FOREGROUND");
-		mNfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
 		stageListener.menuResume();
 		SensorHandler.startSensorListener(this);
 	}
