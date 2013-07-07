@@ -42,7 +42,7 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight / 2;
-		float rotationResult = sprite.look.getRotationInUserInterfaceDimensionUnit();
+		float rotationResult = sprite.look.getDirectionInUserInterfaceDimensionUnit();
 
 		if (xPosition < -virtualScreenWidth + width / 2) {
 			rotationResult = -rotationResult;
@@ -60,7 +60,7 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 			yPosition = virtualScreenHeight - (height / 2);
 		}
 
-		sprite.look.setRotationInUserInterfaceDimensionUnit(rotationResult);
+		sprite.look.setDirectionInUserInterfaceDimensionUnit(rotationResult);
 		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, yPosition);
 	}
 

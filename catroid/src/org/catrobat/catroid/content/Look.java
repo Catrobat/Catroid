@@ -46,7 +46,6 @@ import com.badlogic.gdx.utils.Array;
 
 public class Look extends Image {
 	private static final float DEGREE_UI_OFFSET = 90.0f;
-	private static final float DEGREES_IN_A_CIRCLE = 360.0f;
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
@@ -340,21 +339,22 @@ public class Look extends Image {
 		setY(getY() + changeY);
 	}
 
-	public float getRotationInUserInterfaceDimensionUnit() {
-		return modulo(getRotation() + DEGREE_UI_OFFSET, DEGREES_IN_A_CIRCLE);
+	public float getDirectionInUserInterfaceDimensionUnit() {
+		float direction = (getRotation() + DEGREE_UI_OFFSET) % 360;
+		if (direction < 0) {
+			direction += 360f;
+		}
+		direction = 180f - direction;
+
+		return direction;
 	}
 
-	private float modulo(float number, float modulo) {
-		float result = number % modulo;
-		return result < 0 ? result + modulo : result;
+	public void setDirectionInUserInterfaceDimensionUnit(float degrees) {
+		setRotation((-degrees + DEGREE_UI_OFFSET) % 360);
 	}
 
-	public void setRotationInUserInterfaceDimensionUnit(float degrees) {
-		setRotation((degrees - DEGREE_UI_OFFSET) % 360);
-	}
-
-	public void changeRotationInUserInterfaceDimensionUnit(float changeDegrees) {
-		setRotation((getRotation() + changeDegrees) % 360);
+	public void changeDirectionInUserInterfaceDimensionUnit(float changeDegrees) {
+		setRotation((getRotation() - changeDegrees) % 360);
 	}
 
 	public float getSizeInUserInterfaceDimensionUnit() {
@@ -398,6 +398,8 @@ public class Look extends Image {
 	public void setBrightnessInUserInterfaceDimensionUnit(float percent) {
 		if (percent < 0f) {
 			percent = 0f;
+		} else if (percent > 200f) {
+			percent = 200f;
 		}
 
 		brightness = percent / 100f;

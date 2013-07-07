@@ -54,7 +54,7 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 		testSprite.look.setTransparencyInUserInterfaceDimensionUnit(LOOK_ALPHA);
 		testSprite.look.setBrightnessInUserInterfaceDimensionUnit(LOOK_BRIGHTNESS);
 		testSprite.look.setSizeInUserInterfaceDimensionUnit(LOOK_SCALE);
-		testSprite.look.setRotationInUserInterfaceDimensionUnit(LOOK_ROTATION);
+		testSprite.look.setDirectionInUserInterfaceDimensionUnit(LOOK_ROTATION);
 	}
 
 	public Formula getFormulaBySensor(Sensors sensor) {

@@ -122,25 +122,25 @@ public class LookTest extends InstrumentationTestCase {
 
 	public void testRotation() {
 		float degrees = 32f;
-		look.setRotationInUserInterfaceDimensionUnit(degrees);
-		assertEquals("Wrong alpha value!", degrees, look.getRotationInUserInterfaceDimensionUnit());
+		look.setDirectionInUserInterfaceDimensionUnit(degrees);
+		assertEquals("Wrong alpha value!", degrees, look.getDirectionInUserInterfaceDimensionUnit());
 		assertEquals("Wrong alpha value!", degrees - 90, look.getRotation());
 
 		degrees = -30;
-		look.setRotationInUserInterfaceDimensionUnit(degrees);
-		assertEquals("Wrong alpha value!", 360 + degrees, look.getRotationInUserInterfaceDimensionUnit());
+		look.setDirectionInUserInterfaceDimensionUnit(degrees);
+		assertEquals("Wrong alpha value!", 360 + degrees, look.getDirectionInUserInterfaceDimensionUnit());
 		assertEquals("Wrong alpha value!", degrees - 90, look.getRotation());
 
 		degrees = 400f;
-		look.setRotationInUserInterfaceDimensionUnit(degrees);
-		assertEquals("Wrong alpha value!", 40f, look.getRotationInUserInterfaceDimensionUnit());
+		look.setDirectionInUserInterfaceDimensionUnit(degrees);
+		assertEquals("Wrong alpha value!", 40f, look.getDirectionInUserInterfaceDimensionUnit());
 		assertEquals("Wrong alpha value!", degrees - 90, look.getRotation());
 
 		degrees = 20f;
-		look.setRotationInUserInterfaceDimensionUnit(degrees);
+		look.setDirectionInUserInterfaceDimensionUnit(degrees);
 
-		look.changeRotationInUserInterfaceDimensionUnit(degrees);
-		assertEquals("Wrong alpha value!", 2 * degrees, look.getRotationInUserInterfaceDimensionUnit());
+		look.changeDirectionInUserInterfaceDimensionUnit(degrees);
+		assertEquals("Wrong alpha value!", 2 * degrees, look.getDirectionInUserInterfaceDimensionUnit());
 		assertEquals("Wrong alpha value!", 2 * degrees - 90, look.getRotation());
 	}
 

@@ -344,7 +344,7 @@ public class FormulaElement implements Serializable {
 				returnValue = (double) sprite.look.getZIndex();
 				break;
 			case OBJECT_ROTATION:
-				returnValue = (double) sprite.look.getRotationInUserInterfaceDimensionUnit();
+				returnValue = (double) sprite.look.getDirectionInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_SIZE:
 				returnValue = (double) sprite.look.getSizeInUserInterfaceDimensionUnit();

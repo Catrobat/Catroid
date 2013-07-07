@@ -73,7 +73,7 @@ public class PointToAction extends TemporalAction {
 			rotationDegrees = (270.0 + Math.toDegrees(Math.atan2(spriteYPosition - pointedSpriteYPosition,
 					spriteXPosition - pointedSpriteXPosition)));
 		}
-		sprite.look.setRotationInUserInterfaceDimensionUnit((float) rotationDegrees);
+		sprite.look.setDirectionInUserInterfaceDimensionUnit((float) rotationDegrees);
 	}
 
 	public void setSprite(Sprite sprite) {
