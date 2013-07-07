@@ -48,7 +48,9 @@ public class NfcManager {
 	}
 
 	public void processIntent(Intent intent) {
-		if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
+		if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())
+				|| NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())
+				|| NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction())) {
 			Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
 			byte[] byteId = tag.getId();

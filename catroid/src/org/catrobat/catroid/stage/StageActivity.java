@@ -31,7 +31,6 @@ import org.catrobat.catroid.ui.dialogs.StageDialog;
 
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
@@ -48,8 +47,6 @@ public class StageActivity extends AndroidApplication {
 	private StageDialog stageDialog;
 
 	private PendingIntent pendingIntent;
-
-	private IntentFilter[] intentFiltersArray;
 
 	private NfcAdapter mNfcAdapter;
 
@@ -68,8 +65,6 @@ public class StageActivity extends AndroidApplication {
 
 		pendingIntent = PendingIntent.getActivity(this, 0,
 				new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-
-		intentFiltersArray = new IntentFilter[] { new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED) };
 
 		mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 	}
@@ -96,13 +91,15 @@ public class StageActivity extends AndroidApplication {
 
 	public void pause() {
 		stageListener.menuPause();
+		Log.d("NFC", "DISABLE FOREGROUND");
 		mNfcAdapter.disableForegroundDispatch(this);
 	}
 
 	public void resume() {
+		Log.d("NFC", "ENABLE FOREGROUND");
+		mNfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
 		stageListener.menuResume();
 		SensorHandler.startSensorListener(this);
-		mNfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFiltersArray, null);
 	}
 
 	public boolean getResizePossible() {
