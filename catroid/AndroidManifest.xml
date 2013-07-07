@@ -45,6 +45,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.NFC" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -150,14 +151,6 @@
                 <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="org.catrobat.catroid.NFCActivity">
-            <intent-filter>
-                <action android:name="android.nfc.action.TAG_DISCOVERED" />
-            </intent-filter>
-        </activity>
-
-        <service android:name="org.catrobat.catroid.nfc.NfcReadIntentService" />
         <service android:name=".transfers.ProjectUploadService" />
         <service android:name=".transfers.ProjectDownloadService" />
     </application>

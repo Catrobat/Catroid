@@ -26,10 +26,16 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.nfc.NfcManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -40,6 +46,12 @@ public class StageActivity extends AndroidApplication {
 	public static StageListener stageListener;
 	private boolean resizePossible;
 	private StageDialog stageDialog;
+
+	private PendingIntent pendingIntent;
+
+	private IntentFilter[] intentFiltersArray;
+
+	private NfcAdapter mNfcAdapter;
 
 	public static final int STAGE_ACTIVITY_FINISH = 7777;
 
@@ -53,6 +65,20 @@ public class StageActivity extends AndroidApplication {
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 		initialize(stageListener, true);
+
+		pendingIntent = PendingIntent.getActivity(this, 0,
+				new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+
+		intentFiltersArray = new IntentFilter[] { new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED) };
+
+		mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		Log.d("NFC", "new intent:" + intent.getAction());
+		NfcManager.getInstance().processIntent(intent);
 	}
 
 	@Override
@@ -70,11 +96,13 @@ public class StageActivity extends AndroidApplication {
 
 	public void pause() {
 		stageListener.menuPause();
+		mNfcAdapter.disableForegroundDispatch(this);
 	}
 
 	public void resume() {
 		stageListener.menuResume();
 		SensorHandler.startSensorListener(this);
+		mNfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFiltersArray, null);
 	}
 
 	public boolean getResizePossible() {
