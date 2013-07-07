@@ -121,6 +121,9 @@ public class SensorHandler implements SensorEventListener {
 				sensorValue = Double.valueOf(orientations[1]);
 				return sensorValue * radianToDegreeConst * -1f;
 
+			case NFC_UID:
+				return 2.0;
+
 		}
 
 		return 0d;

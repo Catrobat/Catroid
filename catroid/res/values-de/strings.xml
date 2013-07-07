@@ -503,6 +503,7 @@
     <string name="formula_editor_sensor_y_inclination">Neigung_y</string>
     <string name="formula_editor_object_x">Position_x</string>
     <string name="formula_editor_object_y">Position_y</string>
+    <string name="formula_editor_sensor_nfc_uid">nfc_uid</string>
     <string name="formula_editor_object_ghosteffect">Transparenz</string>
     <string name="formula_editor_object_brightness">Helligkeit</string>
     <string name="formula_editor_object_size">Größe</string>
