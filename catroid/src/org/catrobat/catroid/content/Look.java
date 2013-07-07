@@ -339,6 +339,14 @@ public class Look extends Image {
 		setY(getY() + changeY);
 	}
 
+	public float getWidthInUserInterfaceDimensionUnit() {
+		return getWidth() * getSizeInUserInterfaceDimensionUnit() / 100f;
+	}
+
+	public float getHeightInUserInterfaceDimensionUnit() {
+		return getHeight() * getSizeInUserInterfaceDimensionUnit() / 100f;
+	}
+
 	public float getDirectionInUserInterfaceDimensionUnit() {
 		float direction = (getRotation() + DEGREE_UI_OFFSET) % 360;
 		if (direction < 0) {

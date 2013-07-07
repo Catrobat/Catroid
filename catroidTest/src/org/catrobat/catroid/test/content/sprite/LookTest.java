@@ -120,62 +120,63 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals("Wrong alpha value!", y - height / 2, look.getY());
 	}
 
-	public void testRotation() {
-		float degrees = 32f;
-		look.setDirectionInUserInterfaceDimensionUnit(degrees);
-		assertEquals("Wrong alpha value!", degrees, look.getDirectionInUserInterfaceDimensionUnit());
-		assertEquals("Wrong alpha value!", degrees - 90, look.getRotation());
+	public void testDirection() {
+		float[] degreesInUserInterfaceDimensionUnit = { 90f, 60f, 30f, 0f, -30f, -60f, -90f, -120f, -150f, 180f, 150f,
+				120f };
+		float[] degrees = { 0f, 30f, 60f, 90f, 120f, 150f, 180f, 210f, 240f, -90f, -60f, -30f };
 
-		degrees = -30;
-		look.setDirectionInUserInterfaceDimensionUnit(degrees);
-		assertEquals("Wrong alpha value!", 360 + degrees, look.getDirectionInUserInterfaceDimensionUnit());
-		assertEquals("Wrong alpha value!", degrees - 90, look.getRotation());
+		assertEquals("Wrong Array length", degrees.length, degreesInUserInterfaceDimensionUnit.length);
+		for (int index = 0; index < degrees.length; index++) {
+			look.setDirectionInUserInterfaceDimensionUnit(degreesInUserInterfaceDimensionUnit[index]);
+			assertEquals("Wrong degrees value!", degreesInUserInterfaceDimensionUnit[index],
+					look.getDirectionInUserInterfaceDimensionUnit());
+			assertEquals("Wrong degrees value!", degrees[index], look.getRotation());
+		}
 
-		degrees = 400f;
-		look.setDirectionInUserInterfaceDimensionUnit(degrees);
-		assertEquals("Wrong alpha value!", 40f, look.getDirectionInUserInterfaceDimensionUnit());
-		assertEquals("Wrong alpha value!", degrees - 90, look.getRotation());
+		look.setDirectionInUserInterfaceDimensionUnit(90f);
+		look.changeDirectionInUserInterfaceDimensionUnit(10f);
+		assertEquals("Wrong alpha value!", 100f, look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals("Wrong alpha value!", -10f, look.getRotation());
+	}
 
-		degrees = 20f;
-		look.setDirectionInUserInterfaceDimensionUnit(degrees);
-
-		look.changeDirectionInUserInterfaceDimensionUnit(degrees);
-		assertEquals("Wrong alpha value!", 2 * degrees, look.getDirectionInUserInterfaceDimensionUnit());
-		assertEquals("Wrong alpha value!", 2 * degrees - 90, look.getRotation());
+	public void testWidthAndHeight() {
+		// TODO
 	}
 
 	public void testSize() {
 		float size = 30f;
 		look.setSizeInUserInterfaceDimensionUnit(size);
 		assertEquals("Wrong size!", size, look.getSizeInUserInterfaceDimensionUnit(), 1e-5);
-		assertEquals("Wrong alpha value!", size / 100f, look.getScaleX());
-		assertEquals("Wrong alpha value!", size / 100f, look.getScaleY());
+		assertEquals("Wrong size value!", size / 100f, look.getScaleX());
+		assertEquals("Wrong size value!", size / 100f, look.getScaleY());
 
 		look.changeSizeInUserInterfaceDimensionUnit(size);
 		assertEquals("Wrong size!", 2 * size, look.getSizeInUserInterfaceDimensionUnit(), 1e-5);
-		assertEquals("Wrong alpha value!", 2 * size / 100f, look.getScaleX());
-		assertEquals("Wrong alpha value!", 2 * size / 100f, look.getScaleY());
+		assertEquals("Wrong size value!", 2 * size / 100f, look.getScaleX());
+		assertEquals("Wrong size value!", 2 * size / 100f, look.getScaleY());
 
 		look.setSizeInUserInterfaceDimensionUnit(-10f);
-		assertEquals("Wrong alpha value!", 0f, look.getSizeInUserInterfaceDimensionUnit());
+		assertEquals("Wrong size value!", 0f, look.getSizeInUserInterfaceDimensionUnit());
 	}
 
 	public void testTransparency() {
 		float transparency = 20f;
 		look.setTransparencyInUserInterfaceDimensionUnit(transparency);
-		assertEquals("Wrong alpha value!", transparency, look.getTransparencyInUserInterfaceDimensionUnit(), 1e-5);
+		assertEquals("Wrong transparency value!", transparency, look.getTransparencyInUserInterfaceDimensionUnit(),
+				1e-5);
 		assertEquals("Wrong alpha value!", 0.8f, Reflection.getPrivateField(look, "alpha"));
 
 		look.changeTransparencyInUserInterfaceDimensionUnit(transparency);
-		assertEquals("Wrong alpha value!", 2 * transparency, look.getTransparencyInUserInterfaceDimensionUnit(), 1e-5);
+		assertEquals("Wrong transparency value!", 2 * transparency, look.getTransparencyInUserInterfaceDimensionUnit(),
+				1e-5);
 		assertEquals("Wrong alpha value!", 0.6f, Reflection.getPrivateField(look, "alpha"));
 
 		look.setTransparencyInUserInterfaceDimensionUnit(-10f);
-		assertEquals("Wrong alpha value!", 0f, look.getTransparencyInUserInterfaceDimensionUnit());
+		assertEquals("Wrong transparency value!", 0f, look.getTransparencyInUserInterfaceDimensionUnit());
 		assertEquals("Wrong alpha value!", 1f, Reflection.getPrivateField(look, "alpha"));
 
 		look.setTransparencyInUserInterfaceDimensionUnit(200f);
-		assertEquals("Wrong alpha value!", 100f, look.getTransparencyInUserInterfaceDimensionUnit());
+		assertEquals("Wrong transparency value!", 100f, look.getTransparencyInUserInterfaceDimensionUnit());
 		assertEquals("Wrong alpha value!", 0f, Reflection.getPrivateField(look, "alpha"));
 	}
 
@@ -183,15 +184,15 @@ public class LookTest extends InstrumentationTestCase {
 		float brightness = 42f;
 		look.setBrightnessInUserInterfaceDimensionUnit(brightness);
 		assertEquals("Wrong brightness value!", brightness, look.getBrightnessInUserInterfaceDimensionUnit());
-		assertEquals("Wrong alpha value!", 0.42f, Reflection.getPrivateField(look, "brightness"));
+		assertEquals("Wrong brightness value!", 0.42f, Reflection.getPrivateField(look, "brightness"));
 
 		look.changeBrightnessInUserInterfaceDimensionUnit(brightness);
 		assertEquals("Wrong brightness value!", 2 * brightness, look.getBrightnessInUserInterfaceDimensionUnit());
-		assertEquals("Wrong alpha value!", 0.84f, Reflection.getPrivateField(look, "brightness"));
+		assertEquals("Wrong brightness value!", 0.84f, Reflection.getPrivateField(look, "brightness"));
 
 		look.setBrightnessInUserInterfaceDimensionUnit(-10);
 		assertEquals("Wrong brightness value!", 0f, look.getBrightnessInUserInterfaceDimensionUnit());
-		assertEquals("Wrong alpha value!", 0f, Reflection.getPrivateField(look, "brightness"));
+		assertEquals("Wrong brightness value!", 0f, Reflection.getPrivateField(look, "brightness"));
 	}
 
 }
