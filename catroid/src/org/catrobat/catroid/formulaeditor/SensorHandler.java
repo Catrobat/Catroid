@@ -120,6 +120,7 @@ public class SensorHandler implements SensorEventListener {
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
 				sensorValue = Double.valueOf(orientations[1]);
 				return sensorValue * radianToDegreeConst * -1f;
+
 		}
 
 		return 0d;
