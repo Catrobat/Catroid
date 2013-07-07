@@ -89,13 +89,17 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	protected void onPause() {
-		mNfcAdapter.disableForegroundDispatch(this);
+		if (mNfcAdapter != null) {
+			mNfcAdapter.disableForegroundDispatch(this);
+		}
 		super.onPause();
 	}
 
 	@Override
 	protected void onResume() {
-		mNfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+		if (mNfcAdapter != null) {
+			mNfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+		}
 		super.onResume();
 	}
 
