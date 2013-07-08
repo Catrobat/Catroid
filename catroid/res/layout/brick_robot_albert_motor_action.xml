@@ -37,9 +37,9 @@
 
     <LinearLayout
         android:id="@+id/brick_robot_albert_motor_action_layout"
+        style="@style/BrickContainer.Lego.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/brick_red"
         android:orientation="vertical" >
 
         <RelativeLayout

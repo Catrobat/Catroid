@@ -34,6 +34,6 @@
             android:key="setting_robot_albert_bricks"
             android:summary="@string/pref_descr_robot_albert_bricks"
             android:title="@string/pref_enable_robot_albert_bricks"
-            android:layout="@layout/checkbox_preference" />
+            />
 
 </PreferenceScreen>
