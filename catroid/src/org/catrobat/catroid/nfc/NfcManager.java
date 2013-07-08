@@ -27,10 +27,8 @@ import java.math.BigInteger;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
-import android.util.Log;
 
 public class NfcManager {
-	private static final String LOG_TAG_NFC = "NFC";
 	private static NfcManager INSTANCE = new NfcManager();
 	private long uid;
 
@@ -43,7 +41,6 @@ public class NfcManager {
 	}
 
 	public long getUid() {
-		Log.d(LOG_TAG_NFC, " getUid=" + uid);
 		return uid;
 	}
 
@@ -60,7 +57,6 @@ public class NfcManager {
 			byte[] byteId = tag.getId();
 
 			uid = byteArrayToInt(byteId);
-			Log.d(LOG_TAG_NFC, " read tag id=" + uid);
 		}
 	}
 
