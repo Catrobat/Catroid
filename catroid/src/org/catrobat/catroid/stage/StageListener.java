@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.nfc.NfcManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.Utils;
 
@@ -213,6 +214,7 @@ public class StageListener implements ApplicationListener {
 		this.stageDialog = stageDialog;
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
+		NfcManager.getInstance().resetUid();
 
 		reloadProject = true;
 	}
