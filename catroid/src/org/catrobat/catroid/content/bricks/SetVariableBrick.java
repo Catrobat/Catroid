@@ -131,7 +131,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 			variableSpinner.setFocusable(false);
 		}
 
-		setSpinnerSelection(variableSpinner);
+		setSpinnerSelection(variableSpinner, null);
 
 		variableSpinner.setOnTouchListener(new OnTouchListener() {
 
@@ -186,7 +186,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
-		setSpinnerSelection(variableSpinner);
+		setSpinnerSelection(variableSpinner, null);
 
 		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
 		textSetVariable.setText(String.valueOf(variableFormula.interpretDouble(sprite)));
@@ -250,7 +250,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		}
 	}
 
-	private void setSpinnerSelection(Spinner variableSpinner) {
+	private void setSpinnerSelection(Spinner variableSpinner, UserVariable newUserVariable) {
 		UserVariableAdapterWrapper userVariableAdapterWrapper = (UserVariableAdapterWrapper) variableSpinner
 				.getAdapter();
 
@@ -258,20 +258,21 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 
 		if (userVariable != null) {
 			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(userVariable), true);
+		} else if (newUserVariable != null) {
+			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(newUserVariable), true);
+			userVariable = newUserVariable;
 		} else {
-
 			variableSpinner.setSelection(userVariableAdapterWrapper.getCount() - 1, true);
 			userVariable = userVariableAdapterWrapper.getItem(userVariableAdapterWrapper.getCount() - 1);
-
 		}
 	}
 
 	@Override
-	public void onFinishNewVariableDialog(Spinner spinnerToUpdate) {
+	public void onFinishNewVariableDialog(Spinner spinnerToUpdate, UserVariable newUserVariable) {
 		UserVariableAdapterWrapper userVariableAdapterWrapper = ((UserVariableAdapterWrapper) spinnerToUpdate
 				.getAdapter());
 		userVariableAdapterWrapper.notifyDataSetChanged();
-		setSpinnerSelection(spinnerToUpdate);
+		setSpinnerSelection(spinnerToUpdate, newUserVariable);
 	}
 
 }

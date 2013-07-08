@@ -43,6 +43,7 @@ import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.utils.Utils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -76,6 +77,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -482,6 +484,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		}
 		selectedSoundInfo = adapter.getItem(selectedSoundPosition);
 		menu.setHeaderTitle(selectedSoundInfo.getTitle());
+		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_copy).setVisible(true);
@@ -509,7 +512,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				break;
 
 			case R.id.context_menu_delete:
-				showDeleteDialog();
+				showConfirmDeleteDialog();
 				break;
 		}
 		return super.onContextItemSelected(item);
@@ -685,14 +688,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				selectedSoundInfo = (SoundInfo) listView.getItemAtPosition(position);
 				showRenameDialog();
 			}
-			setSelectMode(ListView.CHOICE_MODE_NONE);
-			adapter.clearCheckedItems();
-
-			actionMode = null;
-			setActionModeActive(false);
-
-			registerForContextMenu(listView);
-			BottomBar.enableButtons(getActivity());
+			clearCheckedSoundsAndEnableButtons();
 		}
 	};
 
@@ -724,26 +720,11 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
-			Iterator<Integer> iterator = checkedSounds.iterator();
-
-			stopSoundAndUpdateList();
-
-			int numberDeleted = 0;
-
-			while (iterator.hasNext()) {
-				int position = iterator.next();
-				deleteSound(position - numberDeleted);
-				++numberDeleted;
+			if (adapter.getAmountOfCheckedItems() == 0) {
+				clearCheckedSoundsAndEnableButtons();
+			} else {
+				showConfirmDeleteDialog();
 			}
-			setSelectMode(ListView.CHOICE_MODE_NONE);
-			adapter.clearCheckedItems();
-
-			actionMode = null;
-			setActionModeActive(false);
-
-			registerForContextMenu(listView);
-			BottomBar.enableButtons(getActivity());
 		}
 	};
 
@@ -800,6 +781,63 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
+	}
+
+	private void deleteCheckedSounds() {
+		SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
+		Iterator<Integer> iterator = checkedSounds.iterator();
+		stopSoundAndUpdateList();
+		int numberDeleted = 0;
+		while (iterator.hasNext()) {
+			int position = iterator.next();
+			deleteSound(position - numberDeleted);
+			++numberDeleted;
+		}
+	}
+
+	private void showConfirmDeleteDialog() {
+		String yes = getActivity().getString(R.string.yes);
+		String no = getActivity().getString(R.string.no);
+		String title = "";
+		if (adapter.getAmountOfCheckedItems() == 1) {
+			title = getActivity().getString(R.string.dialog_confirm_delete_sound_title);
+		} else {
+			title = getActivity().getString(R.string.dialog_confirm_delete_multiple_sounds_title);
+		}
+
+		String message = getActivity().getString(R.string.dialog_confirm_delete_sound_message);
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setTitle(title);
+		builder.setMessage(message);
+		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				deleteCheckedSounds();
+				clearCheckedSoundsAndEnableButtons();
+			}
+		});
+		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+				clearCheckedSoundsAndEnableButtons();
+			}
+		});
+
+		AlertDialog alertDialog = builder.create();
+		alertDialog.show();
+	}
+
+	private void clearCheckedSoundsAndEnableButtons() {
+		setSelectMode(ListView.CHOICE_MODE_NONE);
+		adapter.clearCheckedItems();
+
+		actionMode = null;
+		setActionModeActive(false);
+
+		registerForContextMenu(listView);
+		BottomBar.enableButtons(getActivity());
 	}
 
 	private void handleAddButtonFromNew() {
