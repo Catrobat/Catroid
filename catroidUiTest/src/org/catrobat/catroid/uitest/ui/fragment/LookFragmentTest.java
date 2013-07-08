@@ -56,7 +56,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private static final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
-	private static final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
+	private static final int RESOURCE_IMAGE2 = org.catrobat.catroid.uitest.R.drawable.catroid_banzai;
 	private static final int RESOURCE_IMAGE3 = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses_jpg;
 	private static final int VISIBLE = View.VISIBLE;
 	private static final int GONE = View.GONE;
@@ -119,7 +119,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				RESOURCE_IMAGE3, getActivity(), UiTestUtils.FileTypes.IMAGE);
 
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testFile.png",
-				R.drawable.catroid_banzai, getActivity());
+				org.catrobat.catroid.uitest.R.drawable.catroid_banzai, getActivity());
 
 		lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
@@ -150,7 +150,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		rename = solo.getString(R.string.rename);
 		renameDialogTitle = solo.getString(R.string.rename_look_dialog);
 		delete = solo.getString(R.string.delete);
-		deleteDialogTitle = solo.getString(R.string.delete_look_dialog);
+		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_look_title);
 		editInPaintroid = solo.getString(R.string.edit_in_pocket_paint);
 
 		if (getLookAdapter().getShowDetails()) {
@@ -174,8 +174,8 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testAddNewLookDialog() {
-		String addLookFromCameraText = solo.getString(R.string.add_look_from_camera);
-		String addLookFromGalleryText = solo.getString(R.string.add_look_from_gallery);
+		String addLookFromCameraText = solo.getString(R.string.add_look_draw_new_image);
+		String addLookFromGalleryText = solo.getString(R.string.add_look_choose_image);
 
 		assertFalse("Entry to add look from camera should not be visible", solo.searchText(addLookFromCameraText));
 		assertFalse("Entry to add look from gallery should not be visible", solo.searchText(addLookFromGalleryText));
@@ -224,7 +224,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		clickOnContextMenuItem(testLookName, solo.getString(R.string.delete));
 		solo.waitForText(deleteDialogTitle);
-		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.sleep(50);
 
 		int newCount = adapter.getCount();
@@ -276,7 +276,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
 
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -307,7 +307,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
 
 		solo.sleep(2000);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName(), 2000);
@@ -327,7 +327,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
@@ -355,7 +355,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
@@ -382,7 +382,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				solo.searchText(solo.getString(R.string.pocket_paint_not_installed)));
 		solo.clickOnButton(solo.getString(R.string.no));
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.edit_in_pocket_paint), 0);
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.edit_in_pocket_paint), 0, getActivity());
 		solo.clickOnCheckBox(1);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		assertTrue("Paintroid not installed dialog missing after action mode selection",
@@ -392,7 +392,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	public void tesEditInPaintroidActionModeChecking() {
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
-		UiTestUtils.openActionMode(solo, editInPaintroid, 0);
+		UiTestUtils.openActionMode(solo, editInPaintroid, 0, getActivity());
 
 		// Check if checkboxes are visible
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, VISIBLE);
@@ -410,7 +410,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testEditInPaintroidActionModeIfNothingSelected() {
-		UiTestUtils.openActionMode(solo, editInPaintroid, 0);
+		UiTestUtils.openActionMode(solo, editInPaintroid, 0, getActivity());
 
 		// Check if rename ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
@@ -420,7 +420,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testEditInPaintroidActionModeIfSomethingSelectedAndPressingBack() {
-		UiTestUtils.openActionMode(solo, editInPaintroid, 0);
+		UiTestUtils.openActionMode(solo, editInPaintroid, 0, getActivity());
 
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
@@ -673,7 +673,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(5000);
@@ -700,7 +700,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(5000);
@@ -733,7 +733,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		checkIfContextMenuAppears(true, ACTION_MODE_RENAME);
 
 		// Test on rename ActionMode
-		UiTestUtils.openActionMode(solo, rename, 0);
+		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 		solo.waitForText(rename, 1, timeToWait, false, true);
 
 		checkIfContextMenuAppears(false, ACTION_MODE_RENAME);
@@ -758,7 +758,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("Resolution prefix not visible after ActionMode", solo.searchText(lookResoltionPrefixText, true));
 
 		// Test on delete ActionMode
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 		solo.waitForText(delete, 1, timeToWait, false, true);
 
 		checkIfContextMenuAppears(false, ACTION_MODE_DELETE);
@@ -783,7 +783,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("Resolution prefix not visible after ActionMode", solo.searchText(lookResoltionPrefixText, true));
 
 		// Test on copy ActionMode
-		UiTestUtils.openActionMode(solo, copy, R.id.copy);
+		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
 
 		solo.waitForText(copy, 1, timeToWait, false, true);
 
@@ -811,7 +811,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	public void testRenameActionModeChecking() {
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
-		UiTestUtils.openActionMode(solo, rename, 0);
+		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
 		// Check if checkboxes are visible
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, VISIBLE);
@@ -829,7 +829,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testRenameActionModeIfNothingSelected() {
-		UiTestUtils.openActionMode(solo, rename, 0);
+		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
 		// Check if rename ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
@@ -839,7 +839,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testRenameActionModeIfSomethingSelectedAndPressingBack() {
-		UiTestUtils.openActionMode(solo, rename, 0);
+		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
@@ -851,7 +851,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testRenameActionModeEqualLookNames() {
-		UiTestUtils.openActionMode(solo, rename, 0);
+		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
 		int checkboxIndex = 1;
 
@@ -862,6 +862,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
+		solo.waitForText(renameDialogTitle);
 		assertTrue("Rename dialog didn't show up", solo.searchText(renameDialogTitle, true));
 		assertTrue("No EditText with actual look name", solo.searchEditText(SECOND_TEST_LOOK_NAME));
 
@@ -870,6 +871,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		// If an already existing name was entered a counter should be appended
 		String expectedNewLookName = newLookName + "1";
+		solo.sleep(300);
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		assertEquals("Look is not correctly renamed in lookDataList (1 should be appended)", expectedNewLookName,
 				lookDataList.get(checkboxIndex).getLookName());
@@ -877,7 +879,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testDeleteActionModeCheckingAndTitle() {
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		int timeToWaitForTitle = 300;
 
@@ -923,7 +925,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void testDeleteActionModeIfNothingSelected() {
 		int expectedNumberOfLooks = lookDataList.size();
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		// Check if delete ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
@@ -937,7 +939,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void testDeleteActionModeIfSomethingSelectedAndPressingBack() {
 		int expectedNumberOfLooks = lookDataList.size();
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
@@ -954,11 +956,12 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		int currentNumberOfLooks = lookDataList.size();
 		int expectedNumberOfLooks = currentNumberOfLooks - 1;
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
@@ -972,7 +975,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testDeleteAndCopyActionMode() {
-		UiTestUtils.openActionMode(solo, copy, R.id.copy);
+		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
 
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, VISIBLE);
 
@@ -991,9 +994,9 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		int currentNumberOfLooks = lookDataList.size();
 		assertEquals("Wrong number of looks", 5, currentNumberOfLooks);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
-		int[] checkboxIndicesToCheck = { solo.getCurrentCheckBoxes().size() - 1, 0, 2 };
+		int[] checkboxIndicesToCheck = { solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2 };
 		int expectedNumberOfLooks = currentNumberOfLooks - checkboxIndicesToCheck.length;
 
 		solo.scrollDown();
@@ -1006,13 +1009,14 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.clickOnCheckBox(checkboxIndicesToCheck[2]);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
 	}
 
 	public void testCopyActionModeCheckingAndTitle() {
-		UiTestUtils.openActionMode(solo, copy, R.id.copy);
+		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
 
 		int timeToWaitForTitle = 300;
 
@@ -1058,7 +1062,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void testCopyActionModeIfNothingSelected() {
 		int expectedNumberOfLooks = lookDataList.size();
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy);
+		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
 
 		// Check if copy ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
@@ -1071,7 +1075,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void testCopyActionModeIfSomethingSelectedAndPressingBack() {
 		int expectedNumberOfLooks = lookDataList.size();
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy);
+		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
@@ -1088,8 +1092,9 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		int expectedNumberOfLooks = currentNumberOfLooks + 2;
 
 		String copiedLookAddition = "_" + solo.getString(R.string.copy_look_addition);
+		solo.sleep(500);
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy);
+		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
@@ -1274,8 +1279,8 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
 			boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
-		firstCheckBox = solo.getCurrentCheckBoxes().get(0);
-		secondCheckBox = solo.getCurrentCheckBoxes().get(1);
+		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(0);
+		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
 		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
 	}

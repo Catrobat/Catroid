@@ -102,9 +102,10 @@ public class SetVariableTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		solo.enterText(editText, userVariableName);
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		assertTrue("ScriptFragment not visible", solo.waitForText(solo.getString(R.string.brick_set_variable)));
-		assertTrue("Created Variable not set in spinner", solo.searchText(userVariableName));
+		assertTrue("Created ProjectVariable not set on first position in spinner", solo.searchText(userVariableName));
 
 		UserVariable userVariable = (UserVariable) Reflection.getPrivateField(setVariableBrick, "userVariable");
 		assertNotNull("UserVariable is null", userVariable);
@@ -119,9 +120,12 @@ public class SetVariableTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		solo.enterText(editText, secondUserVariableName);
+		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.dialog_formula_editor_variable_name_local_variable_radio_button));
 		solo.clickOnButton(solo.getString(R.string.ok));
 		assertTrue("ScriptFragment not visible", solo.waitForText(solo.getString(R.string.brick_set_variable)));
-		assertTrue("Created Variable not set in spinner", solo.searchText(secondUserVariableName));
+		assertTrue("Created SrpiteVariable not set on first position in spinner",
+				solo.searchText(secondUserVariableName));
 
 		userVariable = (UserVariable) Reflection.getPrivateField(setVariableBrick, "userVariable");
 		assertNotNull("UserVariable is null", userVariable);
@@ -168,6 +172,7 @@ public class SetVariableTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 
 		solo.enterText(editText, userVariableName);
+		solo.goBack();
 		finishUserVariableCreationSafeButSlow(userVariableName, true);
 
 		solo.goBack();

@@ -115,7 +115,7 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 		prototypeView = View.inflate(context, R.layout.brick_change_volume_by, null);
 		TextView textSetVolumenTo = (TextView) prototypeView
 				.findViewById(R.id.brick_change_volume_by_prototype_text_view);
-		textSetVolumenTo.setText(String.valueOf(volume.interpretFloat(sprite)));
+		textSetVolumenTo.setText(String.valueOf(volume.interpretDouble(sprite)));
 		return prototypeView;
 	}
 
@@ -129,6 +129,13 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_volume_by_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView changeVolume = (TextView) view.findViewById(R.id.brick_change_volume_by_label);
+		EditText editVolume = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
+		changeVolume.setTextColor(changeVolume.getTextColors().withAlpha(alphaValue));
+		editVolume.setTextColor(editVolume.getTextColors().withAlpha(alphaValue));
+		editVolume.getBackground().setAlpha(alphaValue);
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

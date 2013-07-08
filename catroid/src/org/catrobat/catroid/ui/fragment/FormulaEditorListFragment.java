@@ -55,23 +55,27 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 
 	public static final String[] TAGS = { OBJECT_TAG, MATH_TAG, LOGIC_TAG, SENSOR_TAG };
 
-	private static final int[] OBJECT_ITEMS = { R.string.formula_editor_look_x, R.string.formula_editor_look_y,
-			R.string.formula_editor_look_ghosteffect, R.string.formula_editor_look_brightness,
-			R.string.formula_editor_look_size, R.string.formula_editor_look_rotation,
-			R.string.formula_editor_look_layer };
+	private static final int[] OBJECT_ITEMS = { R.string.formula_editor_object_x, R.string.formula_editor_object_y,
+			R.string.formula_editor_object_ghosteffect, R.string.formula_editor_object_brightness,
+			R.string.formula_editor_object_size, R.string.formula_editor_object_rotation,
+			R.string.formula_editor_object_layer };
 
 	private static final int[] LOGIC_ITEMS = { R.string.formula_editor_logic_equal,
 			R.string.formula_editor_logic_notequal, R.string.formula_editor_logic_lesserthan,
 			R.string.formula_editor_logic_leserequal, R.string.formula_editor_logic_greaterthan,
 			R.string.formula_editor_logic_greaterequal, R.string.formula_editor_logic_and,
-			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not };
+			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not, R.string.formula_editor_function_true,
+			R.string.formula_editor_function_false };
 
 	private static final int[] MATH_ITEMS = { R.string.formula_editor_function_sin,
 			R.string.formula_editor_function_cos, R.string.formula_editor_function_tan,
 			R.string.formula_editor_function_ln, R.string.formula_editor_function_log,
 			R.string.formula_editor_function_pi, R.string.formula_editor_function_sqrt,
 			R.string.formula_editor_function_rand, R.string.formula_editor_function_abs,
-			R.string.formula_editor_function_round, R.string.formula_editor_function_mod };
+			R.string.formula_editor_function_round, R.string.formula_editor_function_mod,
+			R.string.formula_editor_function_arcsin, R.string.formula_editor_function_arccos,
+			R.string.formula_editor_function_arctan, R.string.formula_editor_function_exp,
+			R.string.formula_editor_function_max, R.string.formula_editor_function_min };
 
 	private final int[] SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
@@ -89,6 +93,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		if (formulaEditor != null) {
 			formulaEditor.addResourceToActiveFormula(itemsIds[position]);
+			formulaEditor.updateButtonViewOnKeyboard();
 		}
 		KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
 		onKey(null, keyEvent.getKeyCode(), keyEvent);

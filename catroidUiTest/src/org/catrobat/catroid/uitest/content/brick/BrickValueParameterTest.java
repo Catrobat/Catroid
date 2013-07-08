@@ -90,7 +90,8 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryMotionText);
 		solo.searchText(categoryMotionText);
-		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
 
 		TextView placeAtXTextView = (TextView) solo.getView(R.id.brick_place_at_prototype_text_view_x);
 		int xPositionPrototypeValue = Integer.parseInt(placeAtXTextView.getText().toString());
@@ -203,7 +204,8 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 
 		// Just to get focus
 		solo.searchText(categoryLooksText);
-		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
 
 		if (!solo.searchText(solo.getString(R.string.brick_set_look))) {
 			solo.scrollDownList(fragmentListView);
@@ -324,7 +326,8 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 
 		//Just to get focus
 		solo.searchText(categoryControlText);
-		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
 
 		TextView waitSecondsTextView = (TextView) solo.getView(R.id.brick_wait_prototype_text_view);
 		float waitPrototypeValue = Float.parseFloat(waitSecondsTextView.getText().toString());
@@ -392,7 +395,8 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		String categoryLegoNXTText = solo.getString(R.string.category_lego_nxt);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
 		solo.clickOnText(categoryLegoNXTText);
 
@@ -473,7 +477,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		sprite.addScript(script1);
 		project.addSprite(sprite);
 		project.addSprite(sprite1);
-		project.getUserVariables().addProjectUserVariable("BrickValueParameterTestUserVariable", 0.0);
+		project.getUserVariables().addProjectUserVariable("BrickValueParameterTestUserVariable");
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

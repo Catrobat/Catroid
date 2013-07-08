@@ -72,7 +72,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		UiTestUtils.clearAllUtilTestProjects();
 
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/" + testFile + ".png",
-				R.drawable.catroid_banzai, getActivity());
+				org.catrobat.catroid.uitest.R.drawable.catroid_banzai, getActivity());
 
 		createProject();
 
@@ -133,7 +133,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 
 		clickOnContextMenuItem(lookName, solo.getString(R.string.delete));
-		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.clickOnButton(solo.getString(R.string.yes));
 
 		clickOnSpinnerItem(solo.getString(R.string.category_looks), solo.getString(R.string.scripts));
 
@@ -161,6 +161,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		clickOnSpinnerItem(solo.getString(R.string.category_looks), solo.getString(R.string.scripts));
@@ -210,7 +211,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		ScriptActivity currentActivity = (ScriptActivity) solo.getCurrentActivity();
 		solo.sleep(200);
 		LookFragment lookFragment = (LookFragment) currentActivity.getFragment(ScriptActivity.FRAGMENT_LOOKS);
-		lookFragment.startActivityForResult(intent, LookFragment.REQUEST_SELECT_IMAGE);
+		lookFragment.startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
 
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());

@@ -52,6 +52,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/dialog_about_text_view_url"
         android:gravity="right"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
         android:textSize="8sp" />
 
 </RelativeLayout>

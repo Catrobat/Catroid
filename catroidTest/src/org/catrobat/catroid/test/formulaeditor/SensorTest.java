@@ -77,7 +77,7 @@ public class SensorTest extends InstrumentationTestCase {
 	public void testSensorHandlerWithLookSensorValue() {
 		SensorHandler.startSensorListener(getInstrumentation().getContext());
 		assertEquals("SensorHandler returned wrong value when Sensor is not found in List", 0d,
-				SensorHandler.getSensorValue(Sensors.LOOK_BRIGHTNESS));
+				SensorHandler.getSensorValue(Sensors.OBJECT_BRIGHTNESS));
 		SensorHandler.stopSensorListeners();
 	}
 
@@ -155,27 +155,27 @@ public class SensorTest extends InstrumentationTestCase {
 
 		assertEquals(
 				"Unexpected sensor value for acceleration in x direction(= in portrait mode, from left to right side of screen surface, in m/s^2)",
-				expectedXAcceleration, formula.interpretFloat(firstSprite), delta);
+				expectedXAcceleration, formula.interpretDouble(firstSprite), delta);
 
 		assertEquals(
 				"Unexpected sensor value for acceleration in y direction(= in portrait mode, from bottom to upper side of screen surface, in m/s^2)",
-				expectedYAcceleration, formula1.interpretFloat(firstSprite), delta);
+				expectedYAcceleration, formula1.interpretDouble(firstSprite), delta);
 
 		assertEquals(
 				"Unexpected sensor value for acceleration in z direction(= in portrait mode, from screen surface orthogonally upwards away from screen, in m/s^2)",
-				expectedZAcceleration, formula2.interpretFloat(firstSprite), delta);
+				expectedZAcceleration, formula2.interpretDouble(firstSprite), delta);
 
 		assertEquals(
 				"Unexpected sensor value for compass direction (= in portrait mode, deviation of screen-down-to-up-side (= positive y axis direction) from magnetic north in degrees, with z axis (pointing to sky) serving as rotation axis; positive direction = counter-clockwise turn seen from above; this is the angle between magnetic north and the device's y axis as it is displayed on a compass. For example, if the device's y axis points towards the magnetic north this value is 0, and if the device's y axis is pointing south this value is approaching 180 or -180. When the y axis is pointing west this value is 90 and when it is pointing east this value is -90)",
-				expectedCompassDirection, formula3.interpretFloat(firstSprite), delta);
+				expectedCompassDirection, formula3.interpretDouble(firstSprite), delta);
 
 		assertEquals(
 				"Unexpected sensor value for x inclination (= in portrait mode, deviation from screen-left-to-right-side (= x axis direction) horizontal inclination (range: -180 to +180 degrees; flat = 0); increasing values of x inclination = right border of screen pulled towards user, left border away = positive side of x axis gets lifted up)",
-				expectedXInclination, formula4.interpretFloat(firstSprite), delta);
+				expectedXInclination, formula4.interpretDouble(firstSprite), delta);
 
 		assertEquals(
 				"Unexpected sensor value for y inclination (= in portrait mode, deviation from screen-down-to-up-side (= y axis direction) horizontal inclination (range: -180 to +180 degrees; flat = 0); increasing values of y inclination = upper border of screen pulled towards user, lower border away = positive side of y axis gets lifted up)",
-				expectedYInclination, formula5.interpretFloat(firstSprite), delta);
+				expectedYInclination, formula5.interpretDouble(firstSprite), delta);
 
 		SensorHandler.stopSensorListeners();
 	}

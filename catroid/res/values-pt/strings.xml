@@ -95,8 +95,9 @@
     <string name="pocket_paint_not_installed">"Paintroid não instalado!\nVocê deseja instalá-lo?"</string>
     <string name="default_look_name">"traje"</string>
     <string name="delete_look_dialog">"Excluir traje?"</string>
-    <string name="add_look_from_camera">"Da Câmera"</string>
-    <string name="add_look_from_gallery">"Da Galeria"</string>
+    <string name="add_look_from_camera">"Da Câmera"</string> 
+    <string name="add_look_draw_new_image">"Da Câmera"</string>
+    <string name="add_look_choose_image">"Da Galeria"</string>
     <string name="select_look_from_gallery">"Selecione uma imagem"</string>
     <string name="select_look_from_camera">"Selecione uma foto"</string>
     <!-- Sound activity -->
@@ -179,6 +180,7 @@
     <string name="category_looks">"Aparência"</string>
     <string name="category_sound">"Som"</string>
     <string name="category_control">"Controle"</string>
+    <string name="category_variables">"Variaveis"</string>
     <string name="category_lego_nxt">"Lego NXT"</string>
     <!--  -->
 
@@ -252,12 +254,6 @@
     <string name="action_swipeDown">"arrastar para baixo"</string>
     <!-- defaultValues -->
     <string name="default_project_name">"Meu primeiro projeto"</string>
-    <string name="default_project_sprites_pocketcode_name">"Catroid"</string>
-    <string name="default_project_sprites_pocketcode_normalcat">"normalCat"</string>
-    <string name="default_project_sprites_pocketcode_banzaicat">"banzaiCat"</string>
-    <string name="default_project_sprites_pocketcode_cheshirecat">"cheshireCat"</string>
-    <string name="default_project_backgroundname">"Plano de fundo"</string>
-    <string name="default_project_backgroundcolor">"#604fff"</string>
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">"Insira um valor"</string>
     <string name="notification_screenshot_ok">"Foto da tela salvo"</string>
@@ -304,6 +300,9 @@
     <string name="no_paired_nxt">"Nenhum NXT pareado encontrado"</string>
     <string name="none_found">"Nenhum dispositivo encontrado"</string>
     <string name="none_paired">"Não há dispositivos pareados"</string>
+    <!--  -->
+
+
     <!-- Lego Mindstorms Strings -->
     <string name="brick_motor_action">"NXT mover motor"</string>
     <string name="motor_speed">"Velocidade"</string>
@@ -316,5 +315,11 @@
     <string name="nxt_tone_hundred_hz">"x100Hz"</string>
     <string name="number_to_small">"Valor muito pequeno!"</string>
     <string name="number_to_big">"Valor muito grande!"</string>
+    <string name="nxt_motor_a">A</string>
+    <string name="nxt_motor_b">B</string>
+    <string name="nxt_motor_c">C</string>
+    <string name="nxt_motor_a_and_c">A+C</string>
+    <string name="nxt_motor_all">"Todos"</string>
+    <!--  -->
 
 </resources>

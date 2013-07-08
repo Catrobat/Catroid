@@ -45,7 +45,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 	private File file2;
 
 	private String projectName = "project1";
-	private String catroidDirectory = "/sdcard/pocketcode";
+	private String catroidDirectory = "/sdcard/Pocket Code";
 
 	@Override
 	protected void setUp() throws Exception {

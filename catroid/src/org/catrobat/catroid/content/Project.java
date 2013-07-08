@@ -29,7 +29,8 @@ import java.util.List;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.utils.Utils;
 
@@ -59,8 +60,8 @@ public class Project implements Serializable {
 		xmlHeader.setApplicationBuildNumber(Constants.APPLICATION_BUILD_NUMBER);
 
 		ifLandscapeSwitchWidthAndHeight();
-		xmlHeader.virtualScreenWidth = Values.SCREEN_WIDTH;
-		xmlHeader.virtualScreenHeight = Values.SCREEN_HEIGHT;
+		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
+		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 		setDeviceData(context);
 
 		MessageContainer.clear();
@@ -78,10 +79,10 @@ public class Project implements Serializable {
 	}
 
 	private void ifLandscapeSwitchWidthAndHeight() {
-		if (Values.SCREEN_WIDTH > Values.SCREEN_HEIGHT) {
-			int tmp = Values.SCREEN_HEIGHT;
-			Values.SCREEN_HEIGHT = Values.SCREEN_WIDTH;
-			Values.SCREEN_WIDTH = tmp;
+		if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
+			int tmp = ScreenValues.SCREEN_HEIGHT;
+			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
+			ScreenValues.SCREEN_WIDTH = tmp;
 		}
 
 	}
@@ -133,14 +134,6 @@ public class Project implements Serializable {
 		xmlHeader.setCatrobatLanguageVersion(catrobatLanguageVersion);
 	}
 
-	public boolean isManualScreenshot() {
-		return xmlHeader.isProgramScreenshotManuallyTaken();
-	}
-
-	public void setManualScreenshot(boolean manualScreenshot) {
-		xmlHeader.setProgramScreenshotManuallyTaken(manualScreenshot);
-	}
-
 	public void setDeviceData(Context context) {
 		// TODO add other header values
 		xmlHeader.setDeviceName(Build.MODEL);
@@ -163,4 +156,30 @@ public class Project implements Serializable {
 		return userVariables;
 	}
 
+	public void removeUnusedBroadcastMessages() {
+		List<String> usedMessages = new ArrayList<String>();
+		for (Sprite currentSprite : spriteList) {
+			for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); scriptIndex++) {
+				Script currentScript = currentSprite.getScript(scriptIndex);
+				if (currentScript instanceof BroadcastMessage) {
+					addBroadcastMessage(((BroadcastMessage) currentScript).getBroadcastMessage(), usedMessages);
+				}
+
+				for (int brickIndex = 0; brickIndex < currentScript.getBrickList().size(); brickIndex++) {
+					Brick currentBrick = currentScript.getBrick(brickIndex);
+					if (currentBrick instanceof BroadcastMessage) {
+						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
+					}
+				}
+			}
+		}
+		MessageContainer.removeUnusedMessages(usedMessages);
+	}
+
+	private void addBroadcastMessage(String broadcastMessageToAdd, List<String> broadcastMessages) {
+		if (broadcastMessageToAdd != null && !broadcastMessageToAdd.isEmpty()
+				&& !broadcastMessages.contains(broadcastMessageToAdd)) {
+			broadcastMessages.add(broadcastMessageToAdd);
+		}
+	}
 }

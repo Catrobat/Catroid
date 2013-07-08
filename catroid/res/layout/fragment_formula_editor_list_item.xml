@@ -26,7 +26,7 @@
     style="@style/sound_fragment_main"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="@drawable/spritelist_item_background"
+    android:background="@drawable/button_background_selector"
     android:gravity="center_vertical"
     android:paddingLeft="10dp"
     android:paddingRight="6dp"

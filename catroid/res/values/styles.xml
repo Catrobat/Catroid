@@ -52,6 +52,7 @@
         <item name="android:paddingTop">4dp</item>
         <item name="android:paddingBottom">4dp</item>
         <item name="android:layout_gravity">bottom</item>
+        <item name="android:drawablePadding">10dp</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1.5</item>
@@ -75,13 +76,23 @@
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
+    
+    <style name="ListViewShadowed">
+        <item name="android:cacheColorHint">@color/solid_black</item>
+        <item name="android:drawSelectorOnTop">false</item>
+        <item name="android:drawingCacheQuality">high</item>
+        <item name="android:fadingEdgeLength">10dp</item>
+        <item name="android:fastScrollEnabled">true</item>
+        <item name="android:requiresFadingEdge">vertical</item>
+        <item name="android:scrollingCache">@string/scrolling_cache_enabled</item>
+        <item name="android:animationCache">@string/animation_cache_enabled</item>
+    </style>
 
     <style name="MainMenuButton">
-        <item name="android:layout_marginTop">3dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:background">@drawable/main_menu_button_background</item>
+        <item name="android:background">@drawable/button_background_selector</item>
         <item name="android:drawablePadding">28dp</item>
         <item name="android:drawableRight">@drawable/ic_main_menu_button_arrow</item>
         <item name="android:gravity">left|center_vertical</item>
@@ -121,7 +132,7 @@
     <style name="ProgramMenuButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/program_menu_button_height</item>
-        <item name="android:background">@drawable/program_menu_button_background</item>
+        <item name="android:background">@drawable/button_background_selector</item>
         <item name="android:drawablePadding">28dp</item>
         <item name="android:drawableRight">@drawable/ic_arrow_right_dark</item>
         <item name="android:gravity">left|center_vertical</item>
@@ -408,6 +419,11 @@
     <style name="BrickCategoryText.Variables">
         <item name="android:background">@drawable/brick_selection_background_variables</item>
         <item name="android:drawableRight">@drawable/main_menu_button_arrow_variables</item>
+    </style>
+    
+    <style name="BrickCategoryText.Lego">
+        <item name="android:background">@drawable/brick_selection_background_lego</item>
+        <item name="android:drawableRight">@drawable/main_menu_button_arrow_lego</item>
     </style>
 
     <style name="ScriptActivitySpinnerItemTextAppearance">

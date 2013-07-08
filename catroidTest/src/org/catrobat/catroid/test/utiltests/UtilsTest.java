@@ -29,12 +29,13 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.StandardProjectHandler;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -108,7 +109,8 @@ public class UtilsTest extends AndroidTestCase {
 
 		try {
 			md5TestFile.createNewFile();
-			assertEquals("MD5 sums are not the same for empty file", MD5_EMPTY, Utils.md5Checksum(md5TestFile));
+			assertEquals("MD5 sums are not the same for empty file", MD5_EMPTY.toLowerCase(Locale.US),
+					Utils.md5Checksum(md5TestFile));
 
 			printWriter = new PrintWriter(md5TestFile);
 			printWriter.print("catroid");
@@ -120,15 +122,17 @@ public class UtilsTest extends AndroidTestCase {
 			}
 		}
 
-		assertEquals("MD5 sums are not the same for catroid file", MD5_CATROID, Utils.md5Checksum(md5TestFile));
+		assertEquals("MD5 sums are not the same for catroid file", MD5_CATROID.toLowerCase(Locale.US),
+				Utils.md5Checksum(md5TestFile));
 
 		UtilFile.deleteDirectory(tempDir);
 	}
 
 	public void testMD5CheckSumOfString() {
-		assertEquals("MD5 sums do not match!", MD5_CATROID, Utils.md5Checksum("catroid"));
-		assertEquals("MD5 sums do not match!", MD5_EMPTY, Utils.md5Checksum(""));
-		assertEquals("MD5 sums do not match!", MD5_HELLO_WORLD, Utils.md5Checksum("Hello World!"));
+		assertEquals("MD5 sums do not match!", MD5_CATROID.toLowerCase(Locale.US), Utils.md5Checksum("catroid"));
+		assertEquals("MD5 sums do not match!", MD5_EMPTY.toLowerCase(Locale.US), Utils.md5Checksum(""));
+		assertEquals("MD5 sums do not match!", MD5_HELLO_WORLD.toLowerCase(Locale.US),
+				Utils.md5Checksum("Hello World!"));
 	}
 
 	public void testBuildPath() {
@@ -186,8 +190,8 @@ public class UtilsTest extends AndroidTestCase {
 
 	public void testProjectSameAsStandardProject() {
 		try {
-			Values.SCREEN_WIDTH = 480;
-			Values.SCREEN_HEIGHT = 800;
+			ScreenValues.SCREEN_WIDTH = 480;
+			ScreenValues.SCREEN_HEIGHT = 800;
 
 			standardProject = StandardProjectHandler.createAndSaveStandardProject(
 					getContext().getString(R.string.default_project_name), getContext());
@@ -213,7 +217,7 @@ public class UtilsTest extends AndroidTestCase {
 	}
 
 	private void addSpriteAndCompareToStandardProject() {
-		Sprite sprite = new Sprite();
+		Sprite sprite = new Sprite("TestSprite");
 		standardProject.addSprite(sprite);
 		assertFalse("Failed to recognize that the project is not standard after adding a new sprite",
 				Utils.isStandardProject(standardProject, getContext()));
@@ -312,7 +316,7 @@ public class UtilsTest extends AndroidTestCase {
 	}
 
 	private void removeSpriteAndCompareToStandardProject() {
-		Sprite catroidSprite = standardProject.getSpriteList().get(1);
+		Sprite catroidSprite = standardProject.getSpriteList().get(4);
 		int lastIndex = standardProject.getSpriteList().size() - 1;
 		List<Sprite> spriteList = standardProject.getSpriteList();
 		spriteList.remove(lastIndex);

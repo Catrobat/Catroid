@@ -46,6 +46,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
+import android.widget.CheckBox;
 import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -120,7 +121,8 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		assertTrue("A category was not visible after opening BrickCategoryDialog", solo.searchText(categorySoundLabel));
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(categoryControlLabel));
-		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(categoryUserVariablesLabel));
@@ -155,7 +157,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 				solo.waitForText(brickWhenStarted, 0, 2000));
 		solo.goBack();
 
-		fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
 		solo.clickOnText(categoryUserVariablesLabel);
 		assertTrue("AddBrickDialog was not opened after selecting a category",
@@ -211,7 +213,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 		solo.clickOnCheckBox(0);
 
 		String expectedTitle = solo.getString(R.string.delete) + " " + Integer.toString(brickListToCheck.size() + 1)
@@ -221,6 +223,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
 
 		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
@@ -232,7 +235,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 		solo.clickOnCheckBox(0);
 
 		solo.goBack();
@@ -248,7 +251,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		List<Brick> brickList = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getScript(0)
 				.getBrickList();
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 		solo.clickOnCheckBox(0);
 
 		for (int position = 1; position < brickList.size(); position++) {
@@ -257,6 +260,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		}
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
 
 		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
@@ -268,7 +272,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		UiTestUtils.createTestProjectForActionModeDelete();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(1);
 		solo.clickOnCheckBox(2);
@@ -277,6 +281,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnCheckBox(5);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
 
 		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
@@ -290,7 +295,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		UiTestUtils.createTestProjectNestedLoops();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(3);
 		String expectedTitle = solo.getString(R.string.delete) + " " + 3 + " "
@@ -299,7 +304,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
 		solo.clickOnCheckBox(4);
-		assertEquals("Fourth checkbox should be checked", true, solo.getCurrentCheckBoxes().get(4).isChecked());
+		assertEquals("Fourth checkbox should be checked", true, solo.getCurrentViews(CheckBox.class).get(4).isChecked());
 
 		solo.sleep(500);
 		solo.clickOnCheckBox(1);
@@ -310,13 +315,14 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnCheckBox(3);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
 
 		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
 		int numberOfForeverBricks = 0;
 		int numberOfEndBricks = 0;
 
-		ListView dragAndDropListView = solo.getCurrentListViews().get(1);
+		ListView dragAndDropListView = solo.getCurrentViews(ListView.class).get(1);
 		List<Brick> currentBrickList = new ArrayList<Brick>();
 
 		for (int position = 0; position < dragAndDropListView.getChildCount(); position++) {
@@ -342,7 +348,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		UiTestUtils.createTestProjectIfBricks();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(2);
 		solo.clickOnCheckBox(5);
@@ -362,11 +368,12 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
 
 		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
 
-		ListView dragAndDropListView = solo.getCurrentListViews().get(1);
+		ListView dragAndDropListView = solo.getCurrentViews(ListView.class).get(1);
 		List<Brick> currentBrickList = new ArrayList<Brick>();
 
 		for (int position = 0; position < dragAndDropListView.getChildCount(); position++) {
@@ -386,6 +393,11 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		@SuppressWarnings("deprecation")
 		int displayWidth = display.getWidth();
 
+		solo.clickLongOnText(solo.getString(R.string.brick_when_started));
+		solo.waitForText(solo.getString(R.string.delete));
+		solo.clickOnText(solo.getString(R.string.delete));
+		solo.clickOnButton(solo.getString(R.string.no));
+
 		UiTestUtils.longClickAndDrag(solo, 30, yPositionList.get(2), displayWidth, yPositionList.get(2), 40);
 		solo.sleep(1000);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
@@ -398,6 +410,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 			fail("Text not shown in 5 secs!");
 		}
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		solo.clickOnButton(solo.getString(R.string.yes));
 		if (!solo.waitForView(ListView.class, 0, 5000)) {
 			fail("Dialog does not close in 5 sec!");
 		}
@@ -505,7 +518,8 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.goBack();
 
 		solo.sleep(500);
-		ListView fragmentListView = solo.getCurrentListViews().get(solo.getCurrentListViews().size() - 1);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
 

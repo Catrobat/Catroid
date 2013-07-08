@@ -313,7 +313,6 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		@Override
 		public void setUp() throws Exception {
 			UiTestUtils.createTestProject();
-			ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
 			super.setUp();
 			activity = (ProgramMenuActivity) solo.getCurrentActivity();
 		}
@@ -373,7 +372,6 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		@Override
 		public void setUp() throws Exception {
 			UiTestUtils.createTestProject();
-			ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
 			super.setUp();
 			activity = (ProjectActivity) solo.getCurrentActivity();
 		}
@@ -415,7 +413,6 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		@Override
 		public void setUp() throws Exception {
 			UiTestUtils.createTestProject();
-			ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
 			super.setUp();
 			activity = (ScriptActivity) solo.getCurrentActivity();
 		}
@@ -457,7 +454,6 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		@Override
 		public void setUp() throws Exception {
 			UiTestUtils.createTestProject();
-			ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
 			super.setUp();
 			UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 			fragment = (ScriptFragment) Reflection.getPrivateField(solo.getCurrentActivity(), "currentFragment");
@@ -540,7 +536,6 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			lookData.setLookName(FIRST_TEST_LOOK_NAME);
 			lookDataList.add(lookData);
 
-			ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
 			super.setUp();
 			UiTestUtils.getIntoLooksFromMainMenu(solo, true);
 			fragment = (LookFragment) Reflection.getPrivateField(solo.getCurrentActivity(), "currentFragment");

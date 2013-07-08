@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.uitest.stage;
 
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -44,8 +44,8 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.createEmptyProject();
-		Values.SCREEN_HEIGHT = 20;
-		Values.SCREEN_WIDTH = 20;
+		ScreenValues.SCREEN_HEIGHT = 20;
+		ScreenValues.SCREEN_WIDTH = 20;
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 

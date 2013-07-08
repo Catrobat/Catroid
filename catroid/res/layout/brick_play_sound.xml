@@ -43,6 +43,7 @@
         android:orientation="vertical" >
 
         <TextView
+            android:id="@+id/brick_play_sound_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_play_sound" >
         </TextView>

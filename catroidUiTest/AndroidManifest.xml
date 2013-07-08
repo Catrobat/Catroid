@@ -23,11 +23,11 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.catrobat.catroid.uitest"
-    android:versionCode="2147483646"
-    android:versionName="0.7.2beta" >
+    android:versionCode="6"
+    android:versionName="0.8.5" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="9"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />

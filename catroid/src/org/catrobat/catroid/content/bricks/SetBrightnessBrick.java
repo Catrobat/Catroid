@@ -112,7 +112,7 @@ public class SetBrightnessBrick extends BrickBaseType implements OnClickListener
 		prototypeView = View.inflate(context, R.layout.brick_set_brightness, null);
 		TextView textSetBrightness = (TextView) prototypeView
 				.findViewById(R.id.brick_set_brightness_prototype_text_view);
-		textSetBrightness.setText(String.valueOf(brightness.interpretFloat(sprite)));
+		textSetBrightness.setText(String.valueOf(brightness.interpretDouble(sprite)));
 		return prototypeView;
 	}
 
@@ -126,6 +126,17 @@ public class SetBrightnessBrick extends BrickBaseType implements OnClickListener
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_brightness_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView textBrightness = (TextView) view.findViewById(R.id.brick_set_brightness_label);
+		TextView textTo = (TextView) view.findViewById(R.id.brick_set_brightness_to_textview);
+		TextView textPercent = (TextView) view.findViewById(R.id.brick_set_brightness_to_percent);
+		EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_set_brightness_edit_text);
+		textBrightness.setTextColor(textBrightness.getTextColors().withAlpha(alphaValue));
+		textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
+		textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
+		editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
+		editGhostEffect.getBackground().setAlpha(alphaValue);
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

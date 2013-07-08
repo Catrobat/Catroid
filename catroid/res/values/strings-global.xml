@@ -25,20 +25,32 @@
 <resources>
 
     <!-- Language independent -->
-    <string name="catroid_extension_pathPattern" translatable="false">.*\\.catrobat</string>
+    <string name="catroid_extension_pathPattern" translatable="false">.*\\.catrobat.*</string>
 
     <!-- Symbols -->
     <string name="degree_symbol" translatable="false">°</string>
     <string name="minus_symbol" translatable="false">-</string>
     <string name="percent_symbol" translatable="false">%</string>
     <string name="plus_symbol" translatable="false">+</string>
+    
+    <!-- Numbers -->
+    <string name="number_0" translatable="false">0</string>
+    <string name="number_1" translatable="false">1</string>
+    <string name="number_2" translatable="false">2</string>
+    <string name="number_3" translatable="false">3</string>
+    <string name="number_4" translatable="false">4</string>
+    <string name="number_5" translatable="false">5</string>
+    <string name="number_6" translatable="false">6</string>
+    <string name="number_7" translatable="false">7</string>
+    <string name="number_8" translatable="false">8</string>
+    <string name="number_9" translatable="false">9</string>
 
     <!-- Website URLs -->
     <string name="pocketcode_website" translatable="false">http://www.pocketcode.org</string>
     <string name="about_pocketcode_license_url" translatable="false">http://developer.catrobat.org/licenses</string>
     <string name="about_link_template" translatable="false">&lt;a href="%1$s">%2$s&lt;/a></string>
     <string name="catrobat_forum" translatable="false">http://catrob.at/PocketCodeUserForum</string>
-    <string name="catrobat_terms_of_use" translatable="false">http://www.pocketcode.org/catroid/termsofuse</string>
+    <string name="catrobat_terms_of_use" translatable="false">https://pocketcode.org/termsOfUse</string>
 
     <!-- Settings, some overridden in values-v14 -->
     <string name="scrolling_cache_enabled">false</string>

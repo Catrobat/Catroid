@@ -50,6 +50,10 @@ public class ControlCommands {
 		speed_motor_right = speed;
 	}
 
+	public void setBuzzer(int buzz) {
+		buzzer = buzz;
+	}
+
 	public byte[] getCommandMessage() {
 		buffer[8] = (byte) speed_motor_left;
 		buffer[9] = (byte) speed_motor_right;

@@ -41,6 +41,7 @@
         style="@style/BrickContainer.Motion.Small" >
 
         <TextView
+            android:id="@+id/brick_point_in_direction_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_point_in_direction" >
         </TextView>
@@ -57,6 +58,7 @@
         </EditText>
 
         <TextView
+            android:id="@+id/brick_point_in_direction_degree"
             style="@style/BrickText.SingleLine"
             android:text="@string/degree_symbol" >
         </TextView>

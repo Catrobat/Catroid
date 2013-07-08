@@ -26,7 +26,7 @@ import java.io.File;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -151,8 +151,8 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 	}
 
 	private void createProject() {
-		Values.SCREEN_HEIGHT = screenHeight;
-		Values.SCREEN_WIDTH = screenWidth;
+		ScreenValues.SCREEN_HEIGHT = screenHeight;
+		ScreenValues.SCREEN_WIDTH = screenWidth;
 
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 

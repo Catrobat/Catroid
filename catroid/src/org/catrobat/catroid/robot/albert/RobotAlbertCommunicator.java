@@ -94,6 +94,7 @@ public abstract class RobotAlbertCommunicator extends Thread {
 	//public static final int GENERAL_COMMAND = 100;
 	public static final int MOTOR_COMMAND = 102;
 	public static final int MOTOR_RESET_COMMAND = 103;
+	public static final int BUZZER_COMMAND = 104;
 	//public static final int TONE_COMMAND = 101;
 
 	protected boolean connected = false;
@@ -386,6 +387,7 @@ public abstract class RobotAlbertCommunicator extends Thread {
 			 * 
 			 * }
 			 */
+			byte[] command_message;
 			switch (message.what) {
 				case MOTOR_COMMAND:
 					Log.d("Albert", "create command-message");
@@ -408,7 +410,7 @@ public abstract class RobotAlbertCommunicator extends Thread {
 						default:
 							Log.d("Albert", "Handler: ERROR: default-Motor !!!!!!!!!!!!!!!");
 					}
-					byte[] command_message = commands.getCommandMessage();
+					command_message = commands.getCommandMessage();
 					Log.d("Albert", "buffer[2]=" + command_message[2]);
 					Log.d("Albert", "buffer[3]=" + command_message[3]);
 					Log.d("Albert", "buffer[7]=" + command_message[7]);
@@ -422,14 +424,31 @@ public abstract class RobotAlbertCommunicator extends Thread {
 					Log.d("RobotAlbertC.Handler", "MotorResetCommand received");
 					commands.setSpeedOfLeftMotor(0);
 					commands.setSpeedOfRightMotor(0);
-					byte[] commandmessage = commands.getCommandMessage();
-					Log.d("Albert", "buffer[2]=" + commandmessage[2]);
-					Log.d("Albert", "buffer[3]=" + commandmessage[3]);
-					Log.d("Albert", "buffer[7]=" + commandmessage[7]);
-					Log.d("Albert", "buffer[8]=" + commandmessage[8]);
-					Log.d("Albert", "buffer[9]=" + commandmessage[9]);
-					Log.d("Albert", "buffer[21]=" + commandmessage[21]);
-					sendCommandMessage(commandmessage);
+					commands.setBuzzer(0);
+					command_message = commands.getCommandMessage();
+					Log.d("Albert", "buffer[2]=" + command_message[2]);
+					Log.d("Albert", "buffer[3]=" + command_message[3]);
+					Log.d("Albert", "buffer[7]=" + command_message[7]);
+					Log.d("Albert", "buffer[8]=" + command_message[8]);
+					Log.d("Albert", "buffer[9]=" + command_message[9]);
+					Log.d("Albert", "buffer[10]=" + command_message[10]);
+					Log.d("Albert", "buffer[21]=" + command_message[21]);
+					sendCommandMessage(command_message);
+					break;
+				case BUZZER_COMMAND:
+					//int motor = MOTOR_BOTH;
+					Log.d("RobotAlbertC.Handler", "BuzzerCommand received");
+					int buzzer = message.getData().getInt("buzzer");
+					commands.setBuzzer(buzzer);
+					command_message = commands.getCommandMessage();
+					Log.d("Albert", "buffer[2]=" + command_message[2]);
+					Log.d("Albert", "buffer[3]=" + command_message[3]);
+					Log.d("Albert", "buffer[7]=" + command_message[7]);
+					Log.d("Albert", "buffer[8]=" + command_message[8]);
+					Log.d("Albert", "buffer[9]=" + command_message[9]);
+					Log.d("Albert", "buffer[10]=" + command_message[10]);
+					Log.d("Albert", "buffer[21]=" + command_message[21]);
+					sendCommandMessage(command_message);
 					break;
 				default:
 					Log.d("RobotAlbertCommunicator", "handleMessage: Default !!!!!!!!!!!!!!!");

@@ -26,13 +26,15 @@ import java.io.File;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
@@ -55,6 +57,7 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 	private Solo solo;
 	private Sprite cat;
 	private Sprite fish;
+	SetGhostEffectBrick setGhostEffectBrick;
 
 	public TransparentWhenBrickTest() {
 		super(StageActivity.class);
@@ -71,7 +74,7 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
+		//UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 		solo = null;
 	}
@@ -102,7 +105,8 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 	}
 
 	public void testTapOnHalfTransparentAreaOfForegroundSprite() {
-		fish.look.setAlphaValue(0.5f);
+		Formula ghostEffectValue = new Formula(50.0);
+		Reflection.setPrivateField(setGhostEffectBrick, "transparency", ghostEffectValue);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(2000);
@@ -128,7 +132,8 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 	}
 
 	public void testTapOnFullTransparentAreaOfForegroundSprite() {
-		fish.look.setAlphaValue(0.0f);
+		Formula ghostEffectValue = new Formula(100.0);
+		Reflection.setPrivateField(setGhostEffectBrick, "transparency", ghostEffectValue);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(2000);
@@ -139,15 +144,15 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 		assertTrue("Sprite fish is not the foreground sprite", fish.look.getZIndex() > cat.look.getZIndex());
 		UiTestUtils.clickOnStageCoordinates(solo, 0, 0, screenWidth, screenHeight);
 		solo.sleep(1000);
-		assertTrue("Sprite cat is at false position", cat.look.getXInUserInterfaceDimensionUnit() == catXPosition
-				&& cat.look.getYInUserInterfaceDimensionUnit() == catYPosition);
-		assertTrue("Sprite fish has moved",
-				fish.look.getXInUserInterfaceDimensionUnit() == 0 && fish.look.getYInUserInterfaceDimensionUnit() == 0);
+		assertEquals("Sprite cat is at false position", catXPosition, (int) cat.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Sprite cat is at false position", catYPosition, (int) cat.look.getYInUserInterfaceDimensionUnit());
+		assertEquals("Sprite fish has moved", 0, (int) fish.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Sprite fish has moved", 0, (int) fish.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	private void createProject() {
-		Values.SCREEN_WIDTH = screenWidth;
-		Values.SCREEN_HEIGHT = screenHeight;
+		ScreenValues.SCREEN_WIDTH = screenWidth;
+		ScreenValues.SCREEN_HEIGHT = screenHeight;
 
 		Project project = new Project(null, UiTestUtils.PROJECTNAME1);
 		cat = new Sprite("cat");
@@ -172,6 +177,7 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 		fish = new Sprite("fish");
 		StartScript startScriptFish = new StartScript(fish);
 		SetLookBrick setLookFish = new SetLookBrick(fish);
+		setGhostEffectBrick = new SetGhostEffectBrick(fish, 0.0);
 
 		LookData lookDataFish = new LookData();
 		lookDataFish.setLookName(fishFilename);
@@ -179,6 +185,7 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 		fish.getLookDataList().add(lookDataFish);
 		setLookFish.setLook(lookDataFish);
 		startScriptFish.addBrick(setLookFish);
+		startScriptFish.addBrick(setGhostEffectBrick);
 		fish.addScript(startScriptFish);
 
 		WhenScript whenScriptFish = new WhenScript(fish);

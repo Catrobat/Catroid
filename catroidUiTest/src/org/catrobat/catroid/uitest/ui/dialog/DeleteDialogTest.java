@@ -43,7 +43,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
-	private final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
+	private final int RESOURCE_IMAGE2 = org.catrobat.catroid.uitest.R.drawable.catroid_banzai;
 	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 	private final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
 	private Solo solo;
@@ -85,8 +85,8 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	public void testDeleteLooks() throws Exception {
 		addLooksToProject();
-		String buttonOkText = solo.getString(R.string.ok);
-		String buttonCancelText = solo.getString(R.string.cancel_button);
+		String buttonOkText = solo.getString(R.string.yes);
+		String buttonCancelText = solo.getString(R.string.no);
 		String deleteLookText = solo.getString(R.string.delete);
 		String scriptsSpinnerText = solo.getString(R.string.scripts);
 		String looksSpinnerText = solo.getString(R.string.category_looks);
@@ -120,8 +120,8 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	public void testDeleteSounds() throws Exception {
 		addSoundsToProject();
-		String buttonOkText = solo.getString(R.string.ok);
-		String buttonCancelText = solo.getString(R.string.cancel_button);
+		String buttonOkText = solo.getString(R.string.yes);
+		String buttonCancelText = solo.getString(R.string.no);
 		String deleteSoundText = solo.getString(R.string.delete);
 		String scriptsSpinnerText = solo.getString(R.string.scripts);
 		String soundsSpinnerText = solo.getString(R.string.sounds);

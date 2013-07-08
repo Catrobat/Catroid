@@ -99,7 +99,7 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 			legoSpinnerIndex = 0;
 		}
 
-		Spinner currentSpinner = solo.getCurrentSpinners().get(legoSpinnerIndex);
+		Spinner currentSpinner = solo.getCurrentViews(Spinner.class).get(legoSpinnerIndex);
 		solo.pressSpinnerItem(legoSpinnerIndex, 0);
 		assertEquals("Wrong item in spinner!", array[0], currentSpinner.getSelectedItem());
 		solo.pressSpinnerItem(legoSpinnerIndex, 1);

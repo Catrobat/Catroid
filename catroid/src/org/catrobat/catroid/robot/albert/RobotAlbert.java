@@ -72,6 +72,7 @@ public class RobotAlbert implements BTConnectable {
 
 	//private static int TONE_COMMAND = 101;
 	private static final int MOTOR_COMMAND = 102;
+	private static final int BUZZER_COMMAND = 104;
 
 	public RobotAlbert(Activity activity, Handler recieverHandler) {
 		this.activity = activity;
@@ -182,6 +183,20 @@ public class RobotAlbert implements BTConnectable {
 		 * 
 		 * }
 		 */
+	}
+
+	public static synchronized void sendRobotAlbertBuzzerMessage(int buzzer) {
+		Log.d("RobotAlbert", "sendRobotAlbert BuzzerMessage():Bundle");
+		Bundle myBundle = new Bundle();
+		myBundle.putInt("buzzer", buzzer);
+		Log.d("RobotAlbert", "1");
+		Message myMessage = btcHandler.obtainMessage();
+		Log.d("RobotAlbert", "2");
+		myMessage.setData(myBundle);
+		myMessage.what = BUZZER_COMMAND;
+		Log.d("RobotAlbert", "sendRobotAlbertBuzzerMessage():btcHandler.sendMessage(...)");
+		btcHandler.sendMessage(myMessage);
+		Log.d("RobotAlbert", "sendRobotAlbertBuzzerMessage finished!");
 	}
 
 	public static Handler getBTCHandler() {

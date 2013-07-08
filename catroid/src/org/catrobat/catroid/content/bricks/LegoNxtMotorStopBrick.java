@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,6 +41,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -52,6 +54,7 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 
 	private transient Motor motorEnum;
 	private String motor;
+	private transient AdapterView<?> adapterView;
 
 	protected Object readResolve() {
 		if (motor != null) {
@@ -144,6 +147,7 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 		motorEnum = Motor.values()[position];
 		motor = motorEnum.name();
+		adapterView = parent;
 	}
 
 	@Override
@@ -155,6 +159,16 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_nxt_motor_stop_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView textLegoMotorStopLabel = (TextView) view.findViewById(R.id.ValueTextView);
+		textLegoMotorStopLabel.setTextColor(textLegoMotorStopLabel.getTextColors().withAlpha(alphaValue));
+		Spinner motorSpinner = (Spinner) view.findViewById(R.id.stop_motor_spinner);
+		ColorStateList color = textLegoMotorStopLabel.getTextColors().withAlpha(alphaValue);
+		motorSpinner.getBackground().setAlpha(alphaValue);
+		if (adapterView != null) {
+			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+		}
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

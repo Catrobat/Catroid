@@ -88,7 +88,7 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 		UiTestUtils.insertValueViaFormulaEditor(solo, 0, SIZE_TO_CHANGE);
 
 		Formula currentSize = (Formula) Reflection.getPrivateField(changeSizeByNBrick, "size");
-		assertEquals("Wrong text in field", SIZE_TO_CHANGE, (double) currentSize.interpretFloat(null));
+		assertEquals("Wrong text in field", SIZE_TO_CHANGE, (double) currentSize.interpretDouble(null));
 		assertEquals("Text not updated", SIZE_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
 
 	}

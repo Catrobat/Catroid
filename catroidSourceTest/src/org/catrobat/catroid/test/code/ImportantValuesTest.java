@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.test.code;
 
-import org.catrobat.catroid.common.Constants;
-
 import junit.framework.TestCase;
+
+import org.catrobat.catroid.common.Constants;
 
 public class ImportantValuesTest extends TestCase {
 
 	public void testPaintroidDownloadLink() {
-		assertEquals("wrong paintroid download link", "https://github.com/Catrobat/Paintroid/downloads",
+		assertEquals("wrong paintroid download link", "market://details?id=org.catrobat.paintroid.pocketpaint",
 				Constants.POCKET_PAINT_DOWNLOAD_LINK);
 	}
 }

@@ -27,7 +27,7 @@ import java.io.File;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -66,19 +66,19 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 			UtilFile.deleteDirectory(projectFile);
 		}
 
-		Values.SCREEN_HEIGHT = 800;
-		Values.SCREEN_WIDTH = 480;
-		SCREEN_HALF_HEIGHT = Values.SCREEN_HEIGHT / 2;
-		SCREEN_HALF_WIDTH = Values.SCREEN_WIDTH / 2;
+		ScreenValues.SCREEN_HEIGHT = 800;
+		ScreenValues.SCREEN_WIDTH = 480;
+		SCREEN_HALF_HEIGHT = ScreenValues.SCREEN_HEIGHT / 2;
+		SCREEN_HALF_WIDTH = ScreenValues.SCREEN_WIDTH / 2;
 
-		BOUNCE_LEFT_POS = -(Values.SCREEN_WIDTH + 50);
-		BOUNCE_RIGHT_POS = Values.SCREEN_WIDTH + 50;
-		BOUNCE_DOWN_POS = -(Values.SCREEN_HEIGHT + 50);
-		BOUNCE_UP_POS = Values.SCREEN_HEIGHT + 50;
+		BOUNCE_LEFT_POS = -(ScreenValues.SCREEN_WIDTH + 50);
+		BOUNCE_RIGHT_POS = ScreenValues.SCREEN_WIDTH + 50;
+		BOUNCE_DOWN_POS = -(ScreenValues.SCREEN_HEIGHT + 50);
+		BOUNCE_UP_POS = ScreenValues.SCREEN_HEIGHT + 50;
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		project.getXmlHeader().virtualScreenHeight = Values.SCREEN_HEIGHT;
-		project.getXmlHeader().virtualScreenWidth = Values.SCREEN_WIDTH;
+		project.getXmlHeader().virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
+		project.getXmlHeader().virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 

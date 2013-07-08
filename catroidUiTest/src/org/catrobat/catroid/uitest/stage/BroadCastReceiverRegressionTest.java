@@ -70,12 +70,10 @@ public class BroadCastReceiverRegressionTest extends ActivityInstrumentationTest
 		Script script = sprite.getScript(0);
 
 		final String testMessage = "RegressionTest#105";
-		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);
-		broadcastBrick.setSelectedMessage(testMessage);
+		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite, testMessage);
 		script.addBrick(broadcastBrick);
 
-		BroadcastScript broadcastScript = new BroadcastScript(sprite);
-		broadcastScript.setBroadcastMessage(testMessage);
+		BroadcastScript broadcastScript = new BroadcastScript(sprite, testMessage);
 		final int xMovement = 100;
 		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(sprite, xMovement);
 		broadcastScript.addBrick(changeXByNBrick);
@@ -98,6 +96,7 @@ public class BroadCastReceiverRegressionTest extends ActivityInstrumentationTest
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 
-		assertEquals("Broadcast didn't work a second time!", xMovement, (int) sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Broadcast didn't work a second time!", xMovement,
+				(int) sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 }

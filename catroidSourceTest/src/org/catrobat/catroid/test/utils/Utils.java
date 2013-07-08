@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.test.utils;
 
+import org.junit.Ignore;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.junit.Ignore;
 
 // Ignored, so JUnit won't try to test this class.
 @Ignore

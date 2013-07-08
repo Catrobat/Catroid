@@ -369,4 +369,10 @@ public class ExtendedActions extends Actions {
 		action.setSpeed(speed);
 		return action;
 	}
+
+	public static RobotAlbertBuzzerAction RobotAlbertBuzzerAction(Sprite sprite, Formula value) {
+		RobotAlbertBuzzerAction action = action(RobotAlbertBuzzerAction.class);
+		action.setValue(value);
+		return action;
+	}
 }

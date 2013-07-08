@@ -113,7 +113,7 @@ public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener
 		prototypeView = View.inflate(context, R.layout.brick_change_size_by_n, null);
 		TextView textChangeSizeBy = (TextView) prototypeView
 				.findViewById(R.id.brick_change_size_by_prototype_text_view);
-		textChangeSizeBy.setText(String.valueOf(size.interpretFloat(sprite)));
+		textChangeSizeBy.setText(String.valueOf(size.interpretDouble(sprite)));
 		return prototypeView;
 	}
 
@@ -127,6 +127,15 @@ public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_size_by_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView changeSizeBy = (TextView) view.findViewById(R.id.brick_change_size_by_label);
+		TextView textPercent = (TextView) view.findViewById(R.id.brick_change_size_by_percent);
+		EditText editChangeSize = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
+		changeSizeBy.setTextColor(changeSizeBy.getTextColors().withAlpha(alphaValue));
+		textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
+		editChangeSize.setTextColor(editChangeSize.getTextColors().withAlpha(alphaValue));
+		editChangeSize.getBackground().setAlpha(alphaValue);
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}

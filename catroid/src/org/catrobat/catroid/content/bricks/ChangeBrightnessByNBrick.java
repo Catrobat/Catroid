@@ -112,7 +112,7 @@ public class ChangeBrightnessByNBrick extends BrickBaseType implements OnClickLi
 		prototypeView = View.inflate(context, R.layout.brick_change_brightness, null);
 		TextView textChangeBrightness = (TextView) prototypeView
 				.findViewById(R.id.brick_change_brightness_prototype_text_view);
-		textChangeBrightness.setText(String.valueOf(changeBrightness.interpretFloat(sprite)));
+		textChangeBrightness.setText(String.valueOf(changeBrightness.interpretDouble(sprite)));
 		return prototypeView;
 	}
 
@@ -126,6 +126,15 @@ public class ChangeBrightnessByNBrick extends BrickBaseType implements OnClickLi
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_brightness_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
+
+		TextView textBrightness = (TextView) view.findViewById(R.id.brick_change_brightness_label);
+		TextView textBy = (TextView) view.findViewById(R.id.brick_change_brightness_by_textview);
+		EditText editBrightness = (EditText) view.findViewById(R.id.brick_change_brightness_edit_text);
+		textBrightness.setTextColor(textBrightness.getTextColors().withAlpha(alphaValue));
+		textBy.setTextColor(textBy.getTextColors().withAlpha(alphaValue));
+		editBrightness.setTextColor(editBrightness.getTextColors().withAlpha(alphaValue));
+		editBrightness.getBackground().setAlpha(alphaValue);
+
 		this.alphaValue = (alphaValue);
 		return view;
 	}
