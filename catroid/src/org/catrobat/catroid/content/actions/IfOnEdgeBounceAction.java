@@ -28,11 +28,6 @@ import org.catrobat.catroid.content.Sprite;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class IfOnEdgeBounceAction extends TemporalAction {
-	private final static int UP = 0x1;
-	private final static int DOWN = 0x2;
-	private final static int LEFT = 0x4;
-	private final static int RIGHT = 0x8;
-
 	private Sprite sprite;
 
 	@Override
@@ -47,24 +42,24 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 		float newDirection = sprite.look.getDirectionInUserInterfaceDimensionUnit();
 
 		if (xPosition < -virtualScreenWidth + width / 2) {
-			if ((getDirection() & LEFT) > 0) {
+			if (isLookingLeft(newDirection)) {
 				newDirection = -newDirection;
 			}
 			xPosition = -virtualScreenWidth + (width / 2);
 		} else if (xPosition > virtualScreenWidth - width / 2) {
-			if ((getDirection() & RIGHT) > 0) {
+			if (isLookingRight(newDirection)) {
 				newDirection = -newDirection;
 			}
 			xPosition = virtualScreenWidth - (width / 2);
 		}
 
 		if (yPosition < -virtualScreenHeight + height / 2) {
-			if ((getDirection() & DOWN) > 0) {
+			if (isLookingDown(newDirection)) {
 				newDirection = 180f - newDirection;
 			}
 			yPosition = -virtualScreenHeight + (height / 2);
 		} else if (yPosition > virtualScreenHeight - height / 2) {
-			if ((getDirection() & UP) > 0) {
+			if (isLookingUp(newDirection)) {
 				newDirection = 180f - newDirection;
 			}
 			yPosition = virtualScreenHeight - (height / 2);
@@ -74,23 +69,20 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, yPosition);
 	}
 
-	private int getDirection() {
-		float direction = sprite.look.getDirectionInUserInterfaceDimensionUnit();
+	private boolean isLookingUp(float direction) {
+		return (direction > -90f && direction < 90f);
+	}
 
-		int returnValue = 0;
-		if (direction > -90f && direction < 90f) {
-			returnValue |= UP;
-		} else if (direction > 90f || direction < -90f) {
-			returnValue |= DOWN;
-		}
+	private boolean isLookingDown(float direction) {
+		return (direction > 90f || direction < -90f);
+	}
 
-		if (direction > 0f && direction < 180f) {
-			returnValue |= RIGHT;
-		} else if (direction > -180f && direction < 0f) {
-			returnValue |= LEFT;
-		}
+	private boolean isLookingLeft(float direction) {
+		return (direction > -180f && direction < 0f);
+	}
 
-		return returnValue;
+	private boolean isLookingRight(float direction) {
+		return (direction > 0f && direction < 180f);
 	}
 
 	public void setSprite(Sprite sprite) {

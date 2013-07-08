@@ -220,16 +220,18 @@ public class Look extends Image {
 	protected void checkImageChanged() {
 		if (imageChanged) {
 			if (lookData == null) {
-				setBounds(getXInUserInterfaceDimensionUnit(), getYInUserInterfaceDimensionUnit(), 0f, 0f);
+				setBounds(getX() + getWidth() / 2f, getY() + getHeight() / 2f, 0f, 0f);
 				setDrawable(null);
 				imageChanged = false;
 				return;
 			}
 
 			pixmap = lookData.getPixmap();
-			setPosition(getXInUserInterfaceDimensionUnit(), getYInUserInterfaceDimensionUnit());
+			float newX = getX() - (pixmap.getWidth() - getWidth()) / 2f;
+			float newY = getY() - (pixmap.getHeight() - getHeight()) / 2f;
+
+			setPosition(newX, newY);
 			setSize(pixmap.getWidth(), pixmap.getHeight());
-			setPositionInUserInterfaceDimensionUnit(getX(), getY());
 			setOrigin(getWidth() / 2f, getHeight() / 2f);
 
 			if (brightnessChanged) {
@@ -388,8 +390,13 @@ public class Look extends Image {
 	public void setTransparencyInUserInterfaceDimensionUnit(float percent) {
 		if (percent < 0f) {
 			percent = 0f;
-		} else if (percent > 100f) {
+		} else if (percent >= 100f) {
 			percent = 100f;
+			setVisible(false);
+		}
+
+		if (percent < 100.0f) {
+			setVisible(true);
 		}
 
 		alpha = (100f - percent) / 100f;

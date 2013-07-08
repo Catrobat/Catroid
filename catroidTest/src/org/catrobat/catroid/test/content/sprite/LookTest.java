@@ -178,6 +178,8 @@ public class LookTest extends InstrumentationTestCase {
 		look.setTransparencyInUserInterfaceDimensionUnit(200f);
 		assertEquals("Wrong transparency value!", 100f, look.getTransparencyInUserInterfaceDimensionUnit());
 		assertEquals("Wrong alpha value!", 0f, Reflection.getPrivateField(look, "alpha"));
+
+		// setVisible
 	}
 
 	public void testBrightness() {
