@@ -42,9 +42,14 @@ public class NfcManager {
 		return INSTANCE;
 	}
 
-	public long getUid() {
+	public long getUidAndReset() {
 		Log.d(LOG_TAG_NFC, " getUid=" + uid);
-		return uid;
+
+		long tmp = uid;
+
+		uid = 0;
+
+		return tmp;
 	}
 
 	public void processIntent(Intent intent) {

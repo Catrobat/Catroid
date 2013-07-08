@@ -124,7 +124,7 @@ public class SensorHandler implements SensorEventListener {
 				return sensorValue * radianToDegreeConst * -1f;
 
 			case NFC_UID:
-				return Double.valueOf(NfcManager.getInstance().getUid());
+				return Double.valueOf(NfcManager.getInstance().getUidAndReset());
 
 		}
 

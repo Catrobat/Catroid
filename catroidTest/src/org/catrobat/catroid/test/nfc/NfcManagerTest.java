@@ -36,19 +36,21 @@ import android.os.Bundle;
 public class NfcManagerTest extends TestCase {
 
 	public void testDefaultValueZero() throws Exception {
-		assertEquals("Default nfc_uid sensor value is not 0.", 0, NfcManager.getInstance().getUid());
+		assertEquals("Default nfc_uid sensor value is not 0.", 0, NfcManager.getInstance().getUidAndReset());
 	}
 
 	public void testNfcIntent() throws Exception {
 		byte[] byteId = new byte[] { 0, 0, 0, 0, 0, 0, 0, 1 };
 		simulateNfcTag(byteId);
 
-		assertEquals("nfc_uid sensor value is not 1.", 1, NfcManager.getInstance().getUid());
+		assertEquals("nfc_uid sensor value is not 1.", 1, NfcManager.getInstance().getUidAndReset());
+		assertEquals("nfc_uid sensor value is not 0.", 0, NfcManager.getInstance().getUidAndReset());
 
 		byteId = new byte[] { 0, 0, 0, 0, 0, 0, 0, 42 };
 		simulateNfcTag(byteId);
 
-		assertEquals("nfc_uid sensor value is not 42.", 42, NfcManager.getInstance().getUid());
+		assertEquals("nfc_uid sensor value is not 42.", 42, NfcManager.getInstance().getUidAndReset());
+		assertEquals("nfc_uid sensor value is not 0.", 0, NfcManager.getInstance().getUidAndReset());
 	}
 
 	private void simulateNfcTag(byte[] byteId) throws Exception {
