@@ -558,7 +558,28 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		if (brick instanceof ScriptBrick) {
 			scriptToEdit = ((ScriptBrick) brick).initScript(ProjectManager.INSTANCE.getCurrentSprite());
-			adapter.handleScriptDelete(sprite, scriptToEdit);
+			//adapter.handleScriptDelete(sprite, scriptToEdit);
+
+			//TODO implement Copy of Script
+
+			Script clonedScript = scriptToEdit.copyScriptForSprite(sprite);
+			/*
+			 * Brick firstBrick = scriptToEdit.getScriptBrick();
+			 * 
+			 * Brick cloneFirstBrick = firstBrick.clone();
+			 * scriptToEdit.addBrick(cloneFirstBrick);
+			 * 
+			 * for (Brick brickFromList : scriptToEdit.getBrickList()) {
+			 * Log.d("TAG", "Brick Iteration:: Brick" + brickFromList.hashCode());
+			 * Brick clone = brickFromList.clone();
+			 * scriptToEdit.addBrick(clone);
+			 * 
+			 * }
+			 */
+
+			sprite.addScript(clonedScript);
+			adapter.notifyDataSetChanged();
+
 			return;
 		}
 		int brickId = adapter.getBrickList().indexOf(brick);
