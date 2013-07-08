@@ -528,15 +528,13 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 
-			Log.d("TAG", "ScriptFragment-->onDestroyActionMode()::BEGIN");
-
-			List<Brick> checkedBricks = adapter.getReversedCheckedBrickList();
-
-			Log.d("TAG", "Size of checkedBricks= " + checkedBricks.size());
+			List<Brick> checkedBricks = adapter.getCheckedBricks();
 
 			for (Brick brick : checkedBricks) {
-				Log.d("TAG", "Brick Iteration:: Brick" + brick.hashCode());
 				copyBrick(brick);
+				if (brick instanceof ScriptBrick) {
+					break;
+				}
 			}
 			setSelectMode(ListView.CHOICE_MODE_NONE);
 			adapter.clearCheckedItems();
@@ -548,36 +546,18 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			BottomBar.enableButtons(getActivity());
 			adapter.setActionMode(false);
 
-			Log.d("TAG", "ScriptFragment-->onDestroyActionMode()::END");
 		}
 	};
 
 	private void copyBrick(Brick brick) {
 
-		Log.d("TAG", "ScriptFragment-->copyBrick::BrickAlphaValue: " + brick.getAlphaValue());
-
 		if (brick instanceof ScriptBrick) {
 			scriptToEdit = ((ScriptBrick) brick).initScript(ProjectManager.INSTANCE.getCurrentSprite());
-			//adapter.handleScriptDelete(sprite, scriptToEdit);
-
-			//TODO implement Copy of Script
 
 			Script clonedScript = scriptToEdit.copyScriptForSprite(sprite);
-			/*
-			 * Brick firstBrick = scriptToEdit.getScriptBrick();
-			 * 
-			 * Brick cloneFirstBrick = firstBrick.clone();
-			 * scriptToEdit.addBrick(cloneFirstBrick);
-			 * 
-			 * for (Brick brickFromList : scriptToEdit.getBrickList()) {
-			 * Log.d("TAG", "Brick Iteration:: Brick" + brickFromList.hashCode());
-			 * Brick clone = brickFromList.clone();
-			 * scriptToEdit.addBrick(clone);
-			 * 
-			 * }
-			 */
 
 			sprite.addScript(clonedScript);
+			adapter.initBrickList();
 			adapter.notifyDataSetChanged();
 
 			return;
@@ -590,15 +570,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		int newPosition = adapter.getCount();
 
 		Brick copy = brick.clone();
-
-		Log.d("TAG", "ScriptFragment-->copyBrickl:: copy.toString()= " + copy.toString());
-		Log.d("TAG", "ScriptFragment-->copyBrick:: brickID= " + brickId);
-
-		Log.d("TAG", "There are " + adapter.getCount() + " Elements in this List, newPosition= " + newPosition);
-
-		Log.d("TAG", "Content of BrickList: " + adapter.getBrickList().size());
-
-		Log.d("TAG", "Call addNewBrick with Position: " + newPosition + " and Brick: " + copy.toString());
 
 		Script scriptList;
 		scriptList = ProjectManager.getInstance().getCurrentScript();

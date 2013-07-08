@@ -56,6 +56,10 @@ public abstract class Script implements Serializable {
 
 		clonedScript.init();
 
+		Brick firstBrick = this.getScriptBrick();
+
+		clonedScript.addBrick(firstBrick);
+
 		for (Brick brick : this.brickList) {
 			clonedScript.addBrick(brick);
 		}

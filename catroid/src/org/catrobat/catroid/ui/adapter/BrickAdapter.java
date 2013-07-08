@@ -113,7 +113,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		initBrickList();
 	}
 
-	private void initBrickList() {
+	public void initBrickList() {
 		brickList = new ArrayList<Brick>();
 
 		Sprite sprite = ProjectManager.INSTANCE.getCurrentSprite();
@@ -513,8 +513,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	public void addNewBrick(int position, Brick brickToBeAdded) {
 
-		Log.d("TAG", "BrickAdapter-->addNewBrick()::BEGIN");
-
 		if (draggedBrick != null) {
 			Log.w(TAG, "Want to add Brick while there is another one currently dragged.");
 			return;
@@ -537,26 +535,19 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		if (brickToBeAdded instanceof ScriptBrick) {
 
-			Log.d("TAG", "BrickAdapter-->addNewBrick()-->brickToBeAdded()-->IF::BEGIN");
-
 			brickList.add(position, brickToBeAdded);
 			position = getNewPositionForScriptBrick(position, brickToBeAdded);
 			brickList.remove(brickToBeAdded);
 			brickList.add(position, brickToBeAdded);
 			scrollToPosition(position);
 
-			Log.d("TAG", "BrickAdapter-->addNewBrick()-->brickToBeAdded()-->IF::END");
-
 		} else {
-
-			Log.d("TAG", "BrickAdapter-->addNewBrick()-->brickToBeAdded()-->ELSE::BEGIN");
 
 			position = getNewPositionIfEndingBrickIsThere(position, brickToBeAdded);
 			position = position <= 0 ? 1 : position;
 			position = position > brickList.size() ? brickList.size() : position;
 			brickList.add(position, brickToBeAdded);
 
-			Log.d("TAG", "BrickAdapter-->addNewBrick()-->brickToBeAdded()-->ELSE::END");
 		}
 
 		initInsertedBrick = true;
@@ -571,12 +562,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		notifyDataSetChanged();
 
-		Log.d("TAG", "BrickAdapter-->addNewBrick()::FINISHED!!!");
 	}
 
 	public void addNewMultipleBricks(int position, Brick brickToBeAdded) {
-
-		Log.d("TAG", "BrickAdapter-->addNewBrick()::BEGIN");
 
 		if (draggedBrick != null) {
 			Log.w(TAG, "Want to add Brick while there is another one currently dragged.");
@@ -600,26 +588,19 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		if (brickToBeAdded instanceof ScriptBrick) {
 
-			Log.d("TAG", "BrickAdapter-->addNewBrick()-->brickToBeAdded()-->IF::BEGIN");
-
 			brickList.add(position, brickToBeAdded);
 			position = getNewPositionForScriptBrick(position, brickToBeAdded);
 			brickList.remove(brickToBeAdded);
 			brickList.add(position, brickToBeAdded);
 			scrollToPosition(position);
 
-			Log.d("TAG", "BrickAdapter-->addNewBrick()-->brickToBeAdded()-->IF::END");
-
 		} else {
-
-			Log.d("TAG", "BrickAdapter-->addNewBrick()-->brickToBeAdded()-->ELSE::BEGIN");
 
 			position = getNewPositionIfEndingBrickIsThere(position, brickToBeAdded);
 			position = position <= 0 ? 1 : position;
 			position = position > brickList.size() ? brickList.size() : position;
 			brickList.add(position, brickToBeAdded);
 
-			Log.d("TAG", "BrickAdapter-->addNewBrick()-->brickToBeAdded()-->ELSE::END");
 		}
 
 		//initInsertedBrick = true;
@@ -636,7 +617,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		ProjectManager.getInstance().saveProject();
 
-		Log.d("TAG", "BrickAdapter-->addNewBrick()::FINISHED!!!");
 	}
 
 	private int getNewPositionForScriptBrick(int position, Brick brick) {
