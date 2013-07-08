@@ -110,6 +110,10 @@ public class SensorTest extends InstrumentationTestCase {
 		ChangeSizeByNBrick yInclinationBrick = new ChangeSizeByNBrick(firstSprite, formula5);
 		startScript1.addBrick(yInclinationBrick);
 
+		Formula formula6 = createFormulaWithSensor(Sensors.NFC_UID);
+		ChangeSizeByNBrick nfcBrick = new ChangeSizeByNBrick(firstSprite, formula6);
+		startScript1.addBrick(nfcBrick);
+
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
@@ -152,6 +156,7 @@ public class SensorTest extends InstrumentationTestCase {
 		double expectedCompassDirection = Double.valueOf(orientations[0]) * SensorHandler.radianToDegreeConst * -1f;
 		double expectedXInclination = Double.valueOf(orientations[2]) * SensorHandler.radianToDegreeConst * -1f;
 		double expectedYInclination = Double.valueOf(orientations[1]) * SensorHandler.radianToDegreeConst * -1f;
+		double expectedNfc = Double.valueOf(0.0);
 
 		assertEquals(
 				"Unexpected sensor value for acceleration in x direction(= in portrait mode, from left to right side of screen surface, in m/s^2)",
@@ -176,6 +181,8 @@ public class SensorTest extends InstrumentationTestCase {
 		assertEquals(
 				"Unexpected sensor value for y inclination (= in portrait mode, deviation from screen-down-to-up-side (= y axis direction) horizontal inclination (range: -180 to +180 degrees; flat = 0); increasing values of y inclination = upper border of screen pulled towards user, lower border away = positive side of y axis gets lifted up)",
 				expectedYInclination, formula5.interpretDouble(firstSprite), delta);
+
+		assertEquals("Unexpected sensor value for nfc ", expectedNfc, formula6.interpretDouble(firstSprite), delta);
 
 		SensorHandler.stopSensorListeners();
 	}
