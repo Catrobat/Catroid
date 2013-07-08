@@ -75,6 +75,11 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 		this.degrees = new Formula(direction.getDegrees());
 	}
 
+	public PointInDirectionBrick(Sprite sprite, Formula direction) {
+		this.sprite = sprite;
+		this.degrees = direction;
+	}
+
 	public PointInDirectionBrick(Sprite sprite, double direction) {
 		this.sprite = sprite;
 		this.degrees = new Formula(direction);
@@ -134,7 +139,7 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 
 	@Override
 	public Brick clone() {
-		return new PointInDirectionBrick(getSprite(), degrees.interpretDouble(sprite));
+		return new PointInDirectionBrick(getSprite(), degrees.clone());
 	}
 
 	@Override
