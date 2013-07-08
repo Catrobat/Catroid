@@ -149,6 +149,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	@Override
 	public void drag(int from, int to) {
 
+		Log.d("TAG", "Drag called!");
+
 		if (to < 0 || to >= brickList.size()) {
 			to = brickList.size() - 1;
 		}
@@ -568,6 +570,71 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 
 		notifyDataSetChanged();
+
+		Log.d("TAG", "BrickAdapter-->addNewBrick()::FINISHED!!!");
+	}
+
+	public void addNewMultipleBricks(int position, Brick brickToBeAdded) {
+
+		Log.d("TAG", "BrickAdapter-->addNewBrick()::BEGIN");
+
+		if (draggedBrick != null) {
+			Log.w(TAG, "Want to add Brick while there is another one currently dragged.");
+			return;
+		}
+
+		Sprite currentSprite = ProjectManager.INSTANCE.getCurrentSprite();
+		int scriptCount = currentSprite.getNumberOfScripts();
+		if (scriptCount == 0 && brickToBeAdded instanceof ScriptBrick) {
+			currentSprite.addScript(((ScriptBrick) brickToBeAdded).initScript(currentSprite));
+			initBrickList();
+			notifyDataSetChanged();
+			return;
+		}
+
+		if (position < 0) {
+			position = 0;
+		} else if (position > brickList.size()) {
+			position = brickList.size();
+		}
+
+		if (brickToBeAdded instanceof ScriptBrick) {
+
+			Log.d("TAG", "BrickAdapter-->addNewBrick()-->brickToBeAdded()-->IF::BEGIN");
+
+			brickList.add(position, brickToBeAdded);
+			position = getNewPositionForScriptBrick(position, brickToBeAdded);
+			brickList.remove(brickToBeAdded);
+			brickList.add(position, brickToBeAdded);
+			scrollToPosition(position);
+
+			Log.d("TAG", "BrickAdapter-->addNewBrick()-->brickToBeAdded()-->IF::END");
+
+		} else {
+
+			Log.d("TAG", "BrickAdapter-->addNewBrick()-->brickToBeAdded()-->ELSE::BEGIN");
+
+			position = getNewPositionIfEndingBrickIsThere(position, brickToBeAdded);
+			position = position <= 0 ? 1 : position;
+			position = position > brickList.size() ? brickList.size() : position;
+			brickList.add(position, brickToBeAdded);
+
+			Log.d("TAG", "BrickAdapter-->addNewBrick()-->brickToBeAdded()-->ELSE::END");
+		}
+
+		//initInsertedBrick = true;
+		//positionOfInsertedBrick = position;
+
+		if (scriptCount == 0) {
+			Script script = new StartScript(currentSprite);
+			currentSprite.addScript(script);
+			brickList.add(0, script.getScriptBrick());
+			positionOfInsertedBrick = 1;
+		}
+
+		notifyDataSetChanged();
+
+		ProjectManager.getInstance().saveProject();
 
 		Log.d("TAG", "BrickAdapter-->addNewBrick()::FINISHED!!!");
 	}

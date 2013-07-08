@@ -505,6 +505,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+
+			Log.d("TAG", "onCreateActionMode");
+
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
@@ -572,11 +575,17 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		Log.d("TAG", "There are " + adapter.getCount() + " Elements in this List, newPosition= " + newPosition);
 
-		//adapter.addNewBrick(brickId, copy);
 		Log.d("TAG", "Content of BrickList: " + adapter.getBrickList().size());
 
 		Log.d("TAG", "Call addNewBrick with Position: " + newPosition + " and Brick: " + copy.toString());
-		adapter.addNewBrick(newPosition, copy);
+
+		Script scriptList;
+		scriptList = ProjectManager.getInstance().getCurrentScript();
+		scriptList.addBrick(copy);
+		adapter.addNewMultipleBricks(newPosition, copy);
+
+		ProjectManager.getInstance().saveProject();
+		adapter.notifyDataSetChanged();
 	}
 
 	private void deleteBrick(Brick brick) {
