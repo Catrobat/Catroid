@@ -31,6 +31,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -64,6 +65,8 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 	private Formula red;
 	private Formula green;
 	private Formula blue;
+
+	private Context context; //for updating color-TextView
 
 	protected Object readResolve() {
 		if (eye != null) {
@@ -106,7 +109,8 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 		textgreen.setText(String.valueOf(green.interpretInteger(sprite)));
 		TextView textblue = (TextView) prototypeView.findViewById(R.id.robot_albert_rgb_led_action_blue_text_view);
 		textblue.setText(String.valueOf(blue.interpretInteger(sprite)));
-		//TODO set the spinner Value to A
+		TextView textColor = (TextView) prototypeView.findViewById(R.id.robot_albert_rgb_led_action_color_text_view);
+		textblue.setText(String.valueOf(111));
 		return prototypeView;
 	}
 
@@ -163,6 +167,14 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 
 		editBlueValue.setOnClickListener(this);
 
+		TextView colorView = (TextView) view.findViewById(R.id.robot_albert_rgb_led_action_color_text_view);
+		colorView.setVisibility(View.VISIBLE);
+		//update color of the current rgb-selection
+		int r = red.interpretInteger(sprite);
+		int g = green.interpretInteger(sprite);
+		int b = blue.interpretInteger(sprite);
+		colorView.setBackgroundColor(Color.rgb(r, g, b));
+
 		ArrayAdapter<CharSequence> eyeAdapter = ArrayAdapter.createFromResource(context,
 				R.array.robot_albert_eye_chooser, android.R.layout.simple_spinner_item);
 		eyeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -194,12 +206,21 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 	@Override
 	public void onClick(View view) {
 
+		//setContentView(R.layout.brick_robot_albert_rgb_eye_action);
+
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
 		switch (view.getId()) {
 			case R.id.robot_albert_rgb_led_action_red_edit_text:
 				FormulaEditorFragment.showFragment(view, this, red);
+				view = this.view;
+				TextView colorView = (TextView) view.findViewById(R.id.robot_albert_rgb_led_action_color_text_view);
+				//colorView.setVisibility(View.GONE);
+				colorView.setBackgroundColor(Color.BLUE);
+
+				//EditText colorView = (EditText) view.findViewById(R.id.robot_albert_rgb_led_action_green_edit_text);
+				//colorView.setText("1", TextView.BufferType.EDITABLE);
 				break;
 
 			case R.id.robot_albert_rgb_led_action_green_edit_text:
@@ -210,6 +231,12 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 				FormulaEditorFragment.showFragment(view, this, blue);
 				break;
 		}
+
+		//colorView.setBackgroundResource(255);
+		//colorView.setBackgroundColor(Color.rgb(0, 0, 0));
+		//colorView.setBackgroundColor(Color.rgb(red.interpretInteger(sprite), green.interpretInteger(sprite),
+		//		blue.interpretInteger(sprite)));
+
 	}
 
 	@Override

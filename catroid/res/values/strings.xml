@@ -472,9 +472,10 @@
     <string name="brick_robot_albert_buzzer_action">Albert use buzzer</string>
     <string name="robot_albert_buzzer_frequency">Frequency</string>
     <string name="brick_robot_albert_rgb_led_action">Albert illuminate eye</string>
-    <string name="robot_albert_rgb_led_red">Red value</string>
-    <string name="robot_albert_rgb_led_green">Green value</string>
-    <string name="robot_albert_rgb_led_blue">Blue value</string>
+    <string name="robot_albert_rgb_led_red">Red</string>
+    <string name="robot_albert_rgb_led_green">Green</string>
+    <string name="robot_albert_rgb_led_blue">Blue</string>
+    <string name="robot_albert_rgb_led_color">Color</string>
     <!--  -->
 
 

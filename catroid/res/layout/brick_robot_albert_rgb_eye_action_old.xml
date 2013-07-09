@@ -39,7 +39,7 @@
         android:id="@+id/brick_robot_albert_rgb_led_action_layout"
         style="@style/BrickContainer.Lego.Big"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="120dp"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -62,8 +62,8 @@
 
                 <Spinner
                     android:id="@+id/robot_albert_eye_spinner"
-                    android:layout_width="70dp"
-                    android:layout_height="35dp"
+                    android:layout_width="80dp"
+                    android:layout_height="34dp"
                     android:clickable="false"
                     android:focusable="false" >
 
@@ -77,20 +77,18 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true" >
 
+            <TextView
+                style="@style/BrickText"
+                android:layout_centerVertical="true"
+                android:paddingRight="10dip"
+                android:text="@string/robot_albert_rgb_led_red" >
+            </TextView>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" 
-                android:layout_marginRight="145dip">
-                
-                <TextView
-                		style="@style/BrickText"
-                		android:layout_centerVertical="true"
-                		android:paddingRight="10dip"
-                		android:text="@string/robot_albert_rgb_led_red" >
-            		</TextView>
-                
+                android:layout_centerVertical="true" >
 
                 <TextView
                     android:id="@+id/robot_albert_rgb_led_action_red_text_view"
@@ -100,64 +98,17 @@
                     android:layout_marginLeft="5dip"
                     android:background="@color/white"
                     android:gravity="right"
-                    android:minHeight="27dip"
-                    android:minWidth="70dip"
+                    android:minHeight="30dip"
+                    android:minWidth="60dip"
                     android:paddingRight="5dip"
                     android:text="0"
                     android:textSize="20dip" 
-                    >
+                    android:layout_marginRight="145dip" >
                 </TextView>
 
                 <EditText
                     android:id="@+id/robot_albert_rgb_led_action_red_edit_text"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:gravity="right"
-                    android:inputType="number|numberDecimal|numberSigned"
-                    android:maxLength="4"
-                    android:maxLines="1"
-                    android:text="0"
-                    android:visibility="gone" 
-                    android:layout_marginRight="145dip">
-                </EditText>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" 
-                android:layout_marginLeft="130dip">
-                
-                <TextView
-                		style="@style/BrickText"
-                		android:layout_centerVertical="true"
-                		android:paddingRight="10dip"
-                		android:text="@string/robot_albert_rgb_led_green" 
-                		>
-            		</TextView>
-
-                <TextView
-                    android:id="@+id/robot_albert_rgb_led_action_green_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dip"
-                    android:background="@color/white"
-                    android:gravity="right"
-                    android:minHeight="27dip"
-                    android:minWidth="70dip"
-                    android:paddingRight="5dip"
-                    android:text="0"
-                    android:textSize="20dip" >
-                </TextView>
-
-                <EditText
-                    android:id="@+id/robot_albert_rgb_led_action_green_edit_text"
-                    android:layout_width="70dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:clickable="false"
                     android:focusable="false"
@@ -168,51 +119,42 @@
                     android:maxLines="1"
                     android:text="0"
                     android:visibility="gone" >
-                </EditText> 
+                </EditText>
+
             </LinearLayout>
-        </RelativeLayout>
-        
-
-        
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dip"
-            android:layout_centerVertical="true" >
-
+            
+            <TextView
+                style="@style/BrickText"
+                android:layout_centerVertical="true"
+                android:paddingRight="10dip"
+                android:text="@string/robot_albert_rgb_led_green" 
+                android:layout_marginLeft="130dip">
+            </TextView>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" 
-                android:layout_marginRight="145dip">
-                
-                <TextView
-                		style="@style/BrickText"
-                		android:layout_centerVertical="true"
-                		android:paddingRight="10dip"
-                		android:text="@string/robot_albert_rgb_led_blue" >
-            		</TextView>
+                android:layout_centerVertical="true" >
 
                 <TextView
-                    android:id="@+id/robot_albert_rgb_led_action_blue_text_view"
+                    android:id="@+id/robot_albert_rgb_led_action_green_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dip"
                     android:background="@color/white"
                     android:gravity="right"
-                    android:minHeight="27dip"
-                    android:minWidth="70dip"
+                    android:minHeight="30dip"
+                    android:minWidth="60dip"
                     android:paddingRight="5dip"
                     android:text="0"
                     android:textSize="20dip" >
                 </TextView>
 
                 <EditText
-                    android:id="@+id/robot_albert_rgb_led_action_blue_edit_text"
-                    android:layout_width="70dp"
+                    android:id="@+id/robot_albert_rgb_led_action_green_edit_text"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:clickable="false"
                     android:focusable="false"
@@ -222,39 +164,93 @@
                     android:maxLength="4"
                     android:maxLines="1"
                     android:text="0"
-                    android:visibility="gone" 
-                    android:layout_marginRight="145dip">
+                    android:visibility="gone" >
                 </EditText>
-            </LinearLayout>
+            </LinearLayout>     
+        </RelativeLayout>
+        
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"
+            android:layout_centerVertical="true" >
+
+            <TextView
+                style="@style/BrickText"
+                android:layout_centerVertical="true"
+                android:paddingRight="10dip"
+                android:text="@string/robot_albert_rgb_led_blue" >
+            </TextView>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="130dip">
-                
-                <TextView
-                    style="@style/BrickText"
-                    android:layout_centerVertical="true"
-                    android:paddingRight="10dip"
-                    android:text="@string/robot_albert_rgb_led_color" >
-                </TextView>
+                android:layout_centerVertical="true" >
 
                 <TextView
-                    android:id="@+id/robot_albert_rgb_led_action_color_text_view"
+                    android:id="@+id/robot_albert_rgb_led_action_blue_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dip"
                     android:background="@color/white"
                     android:gravity="right"
-                    android:minHeight="27dip"
-                    android:minWidth="70dip"
+                    android:minHeight="30dip"
+                    android:minWidth="60dip"
                     android:paddingRight="5dip"
+                    android:text="0"
+                    android:textSize="20dip" 
+                    android:layout_marginRight="145dip">
+                </TextView>
+
+                <EditText
+                    android:id="@+id/robot_albert_rgb_led_action_blue_edit_text"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="right"
+                    android:inputType="number|numberDecimal|numberSigned"
+                    android:maxLength="4"
+                    android:maxLines="1"
+                    android:text="0"
+                    android:visibility="gone" >
+                </EditText>
+            </LinearLayout>
+            
+            
+            <TextView
+                style="@style/BrickText"
+                android:layout_centerVertical="true"
+                android:paddingRight="10dip"
+                android:text="@string/robot_albert_rgb_led_color" 
+                android:layout_marginLeft="130dip">
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" >
+
+                <TextView
+                    android:id="@+id/robot_albert_rgb_led_action_color_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dip"
+                    android:background="@color/white"
+                    android:gravity="right"
+                    android:minHeight="30dip"
+                    android:minWidth="60dip"
+                    android:paddingRight="5dip"
+                    android:text=""
                     android:textSize="20dip" >
                 </TextView>
-            </LinearLayout>
+            </LinearLayout>     
         </RelativeLayout>
     </LinearLayout>
 
