@@ -27,8 +27,8 @@ import java.util.HashMap;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MainMenuActivityFragment_Shruti;
+import org.catrobat.catroid.ui.MainMenuActivity_Shruti;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
 
@@ -110,7 +110,7 @@ public class StatusBarNotificationManager {
 		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 		NotificationData data = new NotificationData(pendingIntent, context, name, notificationTitle,
-				(MainMenuActivity) context);
+				(MainMenuActivity_Shruti) context);
 		uploadNotificationDataMap.put(uploadId, data);
 
 		if (newUploadNotification) {
@@ -171,7 +171,7 @@ public class StatusBarNotificationManager {
 		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 		NotificationData data = new NotificationData(pendingIntent, context, name, notificationTitle,
-				(MainMenuActivity) context);
+				(MainMenuActivity_Shruti) context);
 		downloadNotificationDataMap.put(downloadId, data);
 
 		if (newDownloadNotification) {
