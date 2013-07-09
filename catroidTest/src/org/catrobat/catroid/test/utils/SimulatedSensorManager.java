@@ -29,7 +29,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
+import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
 import org.catrobat.catroid.formulaeditor.SensorManagerInterface;
+import org.catrobat.catroid.formulaeditor.Sensors;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -56,6 +59,7 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 	};
 
 	List<Pair<SensorEventListener, Sensor>> listeners;
+	List<Pair<SensorCustomEventListener, Sensors>> customListeners;
 	Thread simulationThread;
 	boolean simulationThreadRunning;
 	int timeOutInMilliSeconds = 100;
@@ -83,12 +87,15 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 	float rotationAngleMaximum = (float) (2 * Math.PI);
 
 	private List<SensorEvent> sentSensorEvents;
+	private List<SensorCustomEvent> sentSensorCustomEvents;
 
 	private long lastExecution = 0;
 
 	public SimulatedSensorManager() {
 		sentSensorEvents = new ArrayList<SensorEvent>();
+		sentSensorCustomEvents = new ArrayList<SensorCustomEvent>();
 		listeners = new ArrayList<Pair<SensorEventListener, Sensor>>();
+		customListeners = new ArrayList<Pair<SensorCustomEventListener, Sensors>>();
 		createSimulationThread();
 	}
 
@@ -136,6 +143,24 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 
 	public synchronized boolean registerListener(SensorEventListener listener, Sensor sensor, int rate) {
 		listeners.add(new Pair<SensorEventListener, Sensor>(listener, sensor));
+		return false;
+	}
+
+	public synchronized void unregisterListener(SensorCustomEventListener listener) {
+		customListeners.remove(listener);
+
+		Iterator<Pair<SensorCustomEventListener, Sensors>> iterator = customListeners.iterator();
+
+		while (iterator.hasNext()) {
+			Pair<SensorCustomEventListener, Sensors> pair = iterator.next();
+			if (pair.getL() == listener) {
+				iterator.remove();
+			}
+		}
+	}
+
+	public synchronized boolean registerListener(SensorCustomEventListener listener, Sensors sensor) {
+		customListeners.add(new Pair<SensorCustomEventListener, Sensors>(listener, sensor));
 		return false;
 	}
 
@@ -205,6 +230,26 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 			}
 
 		}
+		for (Pair<SensorCustomEventListener, Sensors> pair : customListeners) {
+			SensorCustomEventListener sensorEventListener = pair.getL();
+			Sensors sensor = pair.getR();
+			float[] values = new float[1];
+
+			switch (sensor) {
+				case LOUDNESS:
+					values[0] = (float) Math.random() * 100;
+					break;
+				default:
+					break;
+			}
+
+			SensorCustomEvent sensorEvent = new SensorCustomEvent(sensor, values);
+
+			sentSensorCustomEvents.add(0, sensorEvent);
+			sentSensorCustomEvents = sentSensorCustomEvents.subList(0,
+					sentSensorCustomEvents.size() < 50 ? sentSensorCustomEvents.size() : 50);
+			sensorEventListener.onCustomSensorChanged(sensorEvent);
+		}
 	}
 
 	public Sensor getDefaultSensor(int typeLinearAcceleration) {
@@ -220,7 +265,18 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 				return sensorEvent;
 			}
 		}
+		return null;
+	}
 
+	public synchronized SensorCustomEvent getLatestCustomSensorEvent(Sensors sensor) {
+		Iterator<SensorCustomEvent> iterator = sentSensorCustomEvents.iterator();
+
+		while (iterator.hasNext()) {
+			SensorCustomEvent sensorEvent = iterator.next();
+			if (sensorEvent.sensor == sensor) {
+				return sensorEvent;
+			}
+		}
 		return null;
 	}
 }
