@@ -54,6 +54,18 @@ public class ControlCommands {
 		buzzer = buzz;
 	}
 
+	public void setLeftEye(int red, int green, int blue) {
+		left_led_red = red;
+		left_led_green = green;
+		left_led_blue = blue;
+	}
+
+	public void setRightEye(int red, int green, int blue) {
+		right_led_red = red;
+		right_led_green = green;
+		right_led_blue = blue;
+	}
+
 	public byte[] getCommandMessage() {
 		buffer[8] = (byte) speed_motor_left;
 		buffer[9] = (byte) speed_motor_right;

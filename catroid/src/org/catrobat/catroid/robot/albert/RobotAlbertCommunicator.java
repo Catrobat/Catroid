@@ -61,6 +61,10 @@ public abstract class RobotAlbertCommunicator extends Thread {
 	public static final int MOTOR_LEFT = 0;
 	public static final int MOTOR_RIGHT = 1;
 	public static final int MOTOR_BOTH = 2;
+
+	public static final int EYE_LEFT = 0;
+	public static final int EYE_RIGHT = 1;
+	public static final int EYE_BOTH = 2;
 	/*
 	 * public static final int MOTOR_B_ACTION = 40;
 	 * public static final int MOTOR_RESET = 10;
@@ -95,6 +99,7 @@ public abstract class RobotAlbertCommunicator extends Thread {
 	public static final int MOTOR_COMMAND = 102;
 	public static final int MOTOR_RESET_COMMAND = 103;
 	public static final int BUZZER_COMMAND = 104;
+	private static final int RGB_EYE_COMMAND = 105;
 	//public static final int TONE_COMMAND = 101;
 
 	protected boolean connected = false;
@@ -425,6 +430,8 @@ public abstract class RobotAlbertCommunicator extends Thread {
 					commands.setSpeedOfLeftMotor(0);
 					commands.setSpeedOfRightMotor(0);
 					commands.setBuzzer(0);
+					commands.setLeftEye(255, 255, 255);
+					commands.setRightEye(255, 255, 255);
 					command_message = commands.getCommandMessage();
 					Log.d("Albert", "buffer[2]=" + command_message[2]);
 					Log.d("Albert", "buffer[3]=" + command_message[3]);
@@ -436,7 +443,6 @@ public abstract class RobotAlbertCommunicator extends Thread {
 					sendCommandMessage(command_message);
 					break;
 				case BUZZER_COMMAND:
-					//int motor = MOTOR_BOTH;
 					Log.d("RobotAlbertC.Handler", "BuzzerCommand received");
 					int buzzer = message.getData().getInt("buzzer");
 					commands.setBuzzer(buzzer);
@@ -448,6 +454,38 @@ public abstract class RobotAlbertCommunicator extends Thread {
 					Log.d("Albert", "buffer[9]=" + command_message[9]);
 					Log.d("Albert", "buffer[10]=" + command_message[10]);
 					Log.d("Albert", "buffer[21]=" + command_message[21]);
+					sendCommandMessage(command_message);
+					break;
+				case RGB_EYE_COMMAND:
+					Log.d("Albert", "create command-message");
+					int eye = message.getData().getInt("eye");
+					int red = message.getData().getInt("red");
+					int green = message.getData().getInt("green");
+					int blue = message.getData().getInt("blue");
+					switch (eye) {
+						case EYE_LEFT:
+							Log.d("Albert", "set left-eye:");
+							commands.setLeftEye(red, green, blue);
+							break;
+						case EYE_RIGHT:
+							Log.d("Albert", "set right-eye:");
+							commands.setRightEye(red, green, blue);
+							break;
+						case EYE_BOTH:
+							Log.d("Albert", "set both-eyes:");
+							commands.setLeftEye(red, green, blue);
+							commands.setRightEye(red, green, blue);
+							break;
+						default:
+							Log.d("Albert", "Handler: ERROR: default-Motor !!!!!!!!!!!!!!!");
+					}
+					command_message = commands.getCommandMessage();
+					Log.d("Albert", "buffer[11]=" + command_message[11]);
+					Log.d("Albert", "buffer[12]=" + command_message[12]);
+					Log.d("Albert", "buffer[13]=" + command_message[13]);
+					Log.d("Albert", "buffer[14]=" + command_message[14]);
+					Log.d("Albert", "buffer[15]=" + command_message[15]);
+					Log.d("Albert", "buffer[16]=" + command_message[16]);
 					sendCommandMessage(command_message);
 					break;
 				default:

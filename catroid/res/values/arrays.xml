@@ -44,6 +44,13 @@
         <item>Right</item>
         <item>Both</item>
     </string-array>
+    
+    <!-- Robot Albert eye spinner -->
+    <string-array name="robot_albert_eye_chooser">
+        <item>Left</item>
+        <item>Right</item>
+        <item>Both</item>
+    </string-array>
 
     <!-- Script Activity Spinner -->
     <string-array name="script_activity_spinner_items">

@@ -64,6 +64,7 @@ import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RobotAlbertBuzzerBrick;
 import org.catrobat.catroid.content.bricks.RobotAlbertMotorActionBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertRgbLedEyeActionBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -215,6 +216,9 @@ public class CategoryBricksFactory {
 		robotAlbertBrickList.add(new RobotAlbertMotorActionBrick(sprite, RobotAlbertMotorActionBrick.Motor.Left,
 				BrickValues.ROBOT_ALBERT_SPEED));
 		robotAlbertBrickList.add(new RobotAlbertBuzzerBrick(sprite, BrickValues.ROBOT_ALBERT_FREQUENCY));
+		robotAlbertBrickList.add(new RobotAlbertRgbLedEyeActionBrick(sprite, RobotAlbertRgbLedEyeActionBrick.Eye.Both,
+				BrickValues.ROBOT_ALBERT_RGB_LED_EYE_RED, BrickValues.ROBOT_ALBERT_RGB_LED_EYE_GREEN,
+				BrickValues.ROBOT_ALBERT_RGB_LED_EYE_BLUE));
 		return robotAlbertBrickList;
 	}
 
