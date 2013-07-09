@@ -81,6 +81,51 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo = null;
 	}
 
+	public void testCopyScript() {
+		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		int numberOfBricksBeforeCopy = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(0);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		Log.d("TAG", "Number of Bricks before copy command: " + numberOfBricksBeforeCopy
+				+ "Number of Bricks after copy command" + numberOfBricks);
+
+		assertEquals("No brick has been copied!", 12, numberOfBricks);
+
+	}
+
+	public void testCopyMultipleBricks() {
+		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		int numberOfBricksBeforeCopy = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(2);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		solo.waitForText(solo.getString(R.string.brick_hide));
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		Log.d("TAG", "Number of Bricks before copy command: " + numberOfBricksBeforeCopy
+				+ "Number of Bricks after copy command" + numberOfBricks);
+
+		assertEquals("No brick has been copied!", 8, numberOfBricks);
+
+	}
+
 	public void testCopyActionMode() {
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -91,14 +136,14 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		solo.clickOnCheckBox(1);
 
-		solo.clickOnText(solo.getString(R.string.brick_hide));
+		//solo.clickOnText(solo.getString(R.string.brick_hide));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
 		//solo.sleep(1000);
 		solo.waitForText(solo.getString(R.string.brick_hide));
 
-		solo.clickOnText(solo.getString(R.string.brick_hide));
+		//solo.clickOnText(solo.getString(R.string.brick_hide));
 		//solo.clickOnScreen(200, 200);
 
 		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
