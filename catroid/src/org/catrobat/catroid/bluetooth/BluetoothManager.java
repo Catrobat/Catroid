@@ -96,7 +96,7 @@ public class BluetoothManager {
 		} else {
 			//Log.d("TAG", "LOOP!!!!!");
 			//connectLegoNXT();
-			Log.d("error", "error");
+			Log.d("BluetoothManager", "activateBluetooth:BLUETOOTH_ALREADY_ON");
 			return BLUETOOTH_ALREADY_ON;
 		}
 	}

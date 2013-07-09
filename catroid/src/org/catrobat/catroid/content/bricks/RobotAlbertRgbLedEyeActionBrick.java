@@ -66,8 +66,6 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 	private Formula green;
 	private Formula blue;
 
-	private Context context; //for updating color-TextView
-
 	protected Object readResolve() {
 		if (eye != null) {
 			eyeEnum = Eye.valueOf(eye);
@@ -109,8 +107,7 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 		textgreen.setText(String.valueOf(green.interpretInteger(sprite)));
 		TextView textblue = (TextView) prototypeView.findViewById(R.id.robot_albert_rgb_led_action_blue_text_view);
 		textblue.setText(String.valueOf(blue.interpretInteger(sprite)));
-		TextView textColor = (TextView) prototypeView.findViewById(R.id.robot_albert_rgb_led_action_color_text_view);
-		textblue.setText(String.valueOf(111));
+		//TextView textColor = (TextView) prototypeView.findViewById(R.id.robot_albert_rgb_led_action_color_text_view);
 		return prototypeView;
 	}
 
@@ -214,13 +211,6 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 		switch (view.getId()) {
 			case R.id.robot_albert_rgb_led_action_red_edit_text:
 				FormulaEditorFragment.showFragment(view, this, red);
-				view = this.view;
-				TextView colorView = (TextView) view.findViewById(R.id.robot_albert_rgb_led_action_color_text_view);
-				//colorView.setVisibility(View.GONE);
-				colorView.setBackgroundColor(Color.BLUE);
-
-				//EditText colorView = (EditText) view.findViewById(R.id.robot_albert_rgb_led_action_green_edit_text);
-				//colorView.setText("1", TextView.BufferType.EDITABLE);
 				break;
 
 			case R.id.robot_albert_rgb_led_action_green_edit_text:
@@ -231,12 +221,6 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 				FormulaEditorFragment.showFragment(view, this, blue);
 				break;
 		}
-
-		//colorView.setBackgroundResource(255);
-		//colorView.setBackgroundColor(Color.rgb(0, 0, 0));
-		//colorView.setBackgroundColor(Color.rgb(red.interpretInteger(sprite), green.interpretInteger(sprite),
-		//		blue.interpretInteger(sprite)));
-
 	}
 
 	@Override
