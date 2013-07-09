@@ -52,8 +52,8 @@ public class SensorLoudness {
 			if (lastValue != loudness[0] && loudness[0] != 0f) {
 				lastValue = loudness[0];
 				SensorCustomEvent event = new SensorCustomEvent(Sensors.LOUDNESS, loudness);
-				for (SensorCustomEventListener el : listenerList) {
-					el.onCustomSensorChanged(event);
+				for (SensorCustomEventListener listener : listenerList) {
+					listener.onCustomSensorChanged(event);
 				}
 			}
 			handler.postDelayed(statusChecker, updateInterval);
@@ -62,7 +62,7 @@ public class SensorLoudness {
 
 	private SensorLoudness() {
 		handler = new Handler();
-		recorder = new SoundRecorder("dev/null");
+		recorder = new SoundRecorder("/dev/null");
 	};
 
 	public static SensorLoudness getSensorLoudness() {
@@ -84,7 +84,7 @@ public class SensorLoudness {
 			} catch (Exception e) {
 				Log.w(SensorLoudness.class.getSimpleName(), "Could not start recorder", e);
 				listenerList.remove(listener);
-				recorder = new SoundRecorder("dev/null");
+				recorder = new SoundRecorder("/dev/null");
 				return false;
 			}
 		}
@@ -102,7 +102,7 @@ public class SensorLoudness {
 					} catch (IOException e) {
 						// ignored, nothing we can do
 					}
-					recorder = new SoundRecorder("dev/null");
+					recorder = new SoundRecorder("/dev/null");
 				}
 				lastValue = 0f;
 			}

@@ -22,15 +22,15 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-public class SensorCustomEvent extends Object {
-	public int accurency;
+public class SensorCustomEvent {
+	public int accuracy;
 	public Sensors sensor;
 	public long timestamp;
 	public final float[] values;
 
-	public SensorCustomEvent(Sensors SourceSensor, float[] val) {
+	public SensorCustomEvent(Sensors SourceSensor, float[] values) {
 		sensor = SourceSensor;
-		values = val;
+		this.values = values;
 		timestamp = System.currentTimeMillis();
 	}
 }
