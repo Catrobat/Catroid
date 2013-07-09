@@ -38,9 +38,11 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.SimulatedSensorManager;
+import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -57,6 +59,11 @@ public class SensorTest extends InstrumentationTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		//For initialization
+		SensorLoudness.getSensorLoudness();
+		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
+		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("/dev/null");
+		Reflection.setPrivateField(loudnessSensor, "recorder", simSoundRec);
 	}
 
 	@Override
@@ -110,6 +117,10 @@ public class SensorTest extends InstrumentationTestCase {
 		ChangeSizeByNBrick yInclinationBrick = new ChangeSizeByNBrick(firstSprite, formula5);
 		startScript1.addBrick(yInclinationBrick);
 
+		Formula formula6 = createFormulaWithSensor(Sensors.LOUDNESS);
+		ChangeSizeByNBrick loudnessBrick = new ChangeSizeByNBrick(firstSprite, formula6);
+		startScript1.addBrick(loudnessBrick);
+
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
@@ -129,7 +140,8 @@ public class SensorTest extends InstrumentationTestCase {
 
 		while (sensorManager.getLatestSensorEvent(accelerometerSensor) == null
 				|| sensorManager.getLatestSensorEvent(rotationVectorSensor) == null
-				|| checkValidRotationValues(sensorManager.getLatestSensorEvent(rotationVectorSensor)) == false) {
+				|| checkValidRotationValues(sensorManager.getLatestSensorEvent(rotationVectorSensor)) == false
+				|| sensorManager.getLatestCustomSensorEvent(Sensors.LOUDNESS) == null) {
 
 			sensorManager.sendGeneratedSensorValues();
 
@@ -137,6 +149,8 @@ public class SensorTest extends InstrumentationTestCase {
 				fail("SensorEvent generation Timeout. Check Sensor Simulation!");
 			}
 		}
+
+		float expectedLoudness = (Float) Reflection.getPrivateField(sensorHandler, "loudness");
 
 		float expectedXAcceleration = (Float) Reflection.getPrivateField(sensorHandler, "linearAcceleartionX");
 		float expectedYAcceleration = (Float) Reflection.getPrivateField(sensorHandler, "linearAcceleartionY");
@@ -176,6 +190,9 @@ public class SensorTest extends InstrumentationTestCase {
 		assertEquals(
 				"Unexpected sensor value for y inclination (= in portrait mode, deviation from screen-down-to-up-side (= y axis direction) horizontal inclination (range: -180 to +180 degrees; flat = 0); increasing values of y inclination = upper border of screen pulled towards user, lower border away = positive side of y axis gets lifted up)",
 				expectedYInclination, formula5.interpretDouble(firstSprite), delta);
+
+		assertEquals("Unexpected sensor value for loudness", expectedLoudness, formula6.interpretDouble(firstSprite),
+				delta);
 
 		SensorHandler.stopSensorListeners();
 	}

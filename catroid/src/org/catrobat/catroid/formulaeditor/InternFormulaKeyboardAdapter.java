@@ -115,6 +115,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.X_INCLINATION);
 			case R.string.formula_editor_sensor_y_inclination:
 				return buildSensor(Sensors.Y_INCLINATION);
+			case R.string.formula_editor_sensor_loudness:
+				return buildSensor(Sensors.LOUDNESS);
 
 				//PERIOD
 			case R.id.formula_editor_keyboard_decimal_mark:

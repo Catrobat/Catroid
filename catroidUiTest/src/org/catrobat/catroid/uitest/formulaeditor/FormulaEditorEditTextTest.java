@@ -41,9 +41,11 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.SimulatedSensorManager;
+import org.catrobat.catroid.uitest.util.SimulatedSoundRecorder;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.graphics.Rect;
@@ -626,6 +628,10 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_x_inclination));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_x_inclination));
 
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_loudness));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_loudness));
+
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
 		solo.waitForText(getActivity().getString(R.string.formula_editor_object_x));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_object_x));
@@ -666,6 +672,11 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 	public void testComputeDialog() {
 
 		//For initialization
+		SensorLoudness.getSensorLoudness();
+		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
+		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("/dev/null");
+		Reflection.setPrivateField(loudnessSensor, "recorder", simSoundRec);
+
 		SensorHandler.startSensorListener(solo.getCurrentActivity());
 		SensorHandler.stopSensorListeners();
 

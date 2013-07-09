@@ -20,36 +20,39 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
 
-public enum Sensors {
-	X_ACCELERATION, Y_ACCELERATION, Z_ACCELERATION, COMPASS_DIRECTION, X_INCLINATION, Y_INCLINATION, LOUDNESS, OBJECT_X(
-			true), OBJECT_Y(true), OBJECT_GHOSTEFFECT(true), OBJECT_BRIGHTNESS(true), OBJECT_SIZE(true), OBJECT_ROTATION(
-			true), OBJECT_LAYER(true);
-	public final boolean isObjectSensor;
+package org.catrobat.catroid.test.utils;
 
-	Sensors(boolean isObjectSensor) {
-		this.isObjectSensor = true;
+import org.catrobat.catroid.soundrecorder.SoundRecorder;
+
+public class SimulatedSoundRecorder extends SoundRecorder {
+	private boolean recording = false;
+
+	public SimulatedSoundRecorder(String path) {
+		super(path);
 	}
 
-	Sensors() {
-		this.isObjectSensor = false;
+	@Override
+	public void start() {
+		recording = true;
 	}
 
-	public static boolean isSensor(String value) {
-		if (getSensorByValue(value) == null) {
-			return false;
+	@Override
+	public boolean isRecording() {
+		return recording;
+	}
+
+	@Override
+	public void stop() {
+		if (!recording) {
+			throw new IllegalStateException();
 		}
-		return true;
+		recording = false;
 	}
 
-	public static Sensors getSensorByValue(String value) {
-		try {
-			return valueOf(value);
-		} catch (IllegalArgumentException exception) {
-
-		}
-		return null;
+	@Override
+	public int getMaxAmplitude() {
+		return (int) (Math.random() * 32000 + 767);
 	}
 
 }

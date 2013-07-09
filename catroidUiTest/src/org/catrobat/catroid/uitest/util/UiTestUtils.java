@@ -1273,6 +1273,7 @@ public class UiTestUtils {
 		while (more) {
 			try {
 				instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+				instrumentation.waitForIdleSync();
 			} catch (SecurityException e) { // Done, at Home.
 				more = false;
 			}

@@ -67,8 +67,21 @@ public class StageActivity extends AndroidApplication {
 
 		PreStageActivity.shutdownResources();
 	}
+	
+	public void onPause()
+	{
+		SensorHandler.stopSensorListeners();
+		super.onPause();
+	}
+	
+	public void onResume()
+	{
+		SensorHandler.startSensorListener(this);
+		super.onResume();
+	}
 
 	public void pause() {
+		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
 	}
 

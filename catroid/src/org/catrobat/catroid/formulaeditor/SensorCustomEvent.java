@@ -22,34 +22,15 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-public enum Sensors {
-	X_ACCELERATION, Y_ACCELERATION, Z_ACCELERATION, COMPASS_DIRECTION, X_INCLINATION, Y_INCLINATION, LOUDNESS, OBJECT_X(
-			true), OBJECT_Y(true), OBJECT_GHOSTEFFECT(true), OBJECT_BRIGHTNESS(true), OBJECT_SIZE(true), OBJECT_ROTATION(
-			true), OBJECT_LAYER(true);
-	public final boolean isObjectSensor;
+public class SensorCustomEvent {
+	public int accuracy;
+	public Sensors sensor;
+	public long timestamp;
+	public final float[] values;
 
-	Sensors(boolean isObjectSensor) {
-		this.isObjectSensor = true;
+	public SensorCustomEvent(Sensors SourceSensor, float[] values) {
+		sensor = SourceSensor;
+		this.values = values;
+		timestamp = System.currentTimeMillis();
 	}
-
-	Sensors() {
-		this.isObjectSensor = false;
-	}
-
-	public static boolean isSensor(String value) {
-		if (getSensorByValue(value) == null) {
-			return false;
-		}
-		return true;
-	}
-
-	public static Sensors getSensorByValue(String value) {
-		try {
-			return valueOf(value);
-		} catch (IllegalArgumentException exception) {
-
-		}
-		return null;
-	}
-
 }

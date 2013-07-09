@@ -26,8 +26,10 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.util.Log;
 
-public class SensorHandler implements SensorEventListener {
+public class SensorHandler implements SensorEventListener, SensorCustomEventListener {
+	private static final String TAG = SensorHandler.class.getSimpleName();
 	private static SensorHandler instance = null;
 	private SensorManagerInterface sensorManager = null;
 	private Sensor accelerometerSensor = null;
@@ -39,6 +41,8 @@ public class SensorHandler implements SensorEventListener {
 	private float linearAcceleartionX = 0f;
 	private float linearAcceleartionY = 0f;
 	private float linearAcceleartionZ = 0f;
+
+	private float loudness = 0f;
 
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
@@ -52,11 +56,13 @@ public class SensorHandler implements SensorEventListener {
 		if (instance == null) {
 			instance = new SensorHandler(context);
 		}
-		instance.sensorManager.unregisterListener(instance);
+		instance.sensorManager.unregisterListener((SensorEventListener) instance);
+		instance.sensorManager.unregisterListener((SensorCustomEventListener) instance);
 		instance.sensorManager.registerListener(instance, instance.accelerometerSensor,
 				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
 		instance.sensorManager.registerListener(instance, instance.rotationVectorSensor,
 				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
+		instance.sensorManager.registerListener(instance, Sensors.LOUDNESS);
 	}
 
 	public static void registerListener(SensorEventListener listener) {
@@ -80,7 +86,8 @@ public class SensorHandler implements SensorEventListener {
 		if (instance == null) {
 			return;
 		}
-		instance.sensorManager.unregisterListener(instance);
+		instance.sensorManager.unregisterListener((SensorEventListener) instance);
+		instance.sensorManager.unregisterListener((SensorCustomEventListener) instance);
 	}
 
 	public static Double getSensorValue(Sensors sensor) {
@@ -120,6 +127,9 @@ public class SensorHandler implements SensorEventListener {
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
 				sensorValue = Double.valueOf(orientations[1]);
 				return sensorValue * radianToDegreeConst * -1f;
+
+			case LOUDNESS:
+				return Double.valueOf(instance.loudness);
 		}
 
 		return 0d;
@@ -127,6 +137,11 @@ public class SensorHandler implements SensorEventListener {
 
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
+
+	}
+
+	@Override
+	public void onCustomAccuracyChanged(Sensors sensor, int accuracy) {
 
 	}
 
@@ -143,8 +158,21 @@ public class SensorHandler implements SensorEventListener {
 				rotationVector[1] = event.values[1];
 				rotationVector[2] = event.values[2];
 				break;
+			default:
+				Log.v(TAG, "Unhandled sensor type: " + event.sensor.getType());
 		}
 
+	}
+
+	@Override
+	public void onCustomSensorChanged(SensorCustomEvent event) {
+		switch (event.sensor) {
+			case LOUDNESS:
+				instance.loudness = event.values[0];
+				break;
+			default:
+				Log.v(TAG, "Unhandled sensor: " + event.sensor);
+		}
 	}
 
 	//For API Level < 9

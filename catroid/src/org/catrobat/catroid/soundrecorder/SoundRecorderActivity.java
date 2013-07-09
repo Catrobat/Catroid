@@ -46,6 +46,10 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class SoundRecorderActivity extends SherlockFragmentActivity implements OnClickListener {
 
+	/**
+	 * 
+	 */
+	private static final String TAG = SoundRecorderActivity.class.getSimpleName();
 	private SoundRecorder soundRecorder;
 	private Chronometer timeRecorderChronometer;
 	private ImageButton recordButton;
@@ -118,7 +122,11 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 			soundRecorder.start();
 			setViewsToRecordingState();
 		} catch (IOException e) {
-			Log.e("CATROID", "Error recording sound.", e);
+			Log.e(TAG, "Error recording sound.", e);
+			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
+		} catch (IllegalStateException e) {
+			// app would crash if other app uses mic, catch IllegalStateException and display Toast
+			Log.e(TAG, "Error recording sound (Other recorder running?).", e);
 			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
 		}
 	}

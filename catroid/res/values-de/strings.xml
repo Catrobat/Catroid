@@ -501,6 +501,7 @@
     <string name="formula_editor_sensor_compass_direction">Kompass_Richtung</string>
     <string name="formula_editor_sensor_x_inclination">Neigung_x</string>
     <string name="formula_editor_sensor_y_inclination">Neigung_y</string>
+    <string name="formula_editor_sensor_loudness">Umgebungslautstärke</string>
     <string name="formula_editor_object_x">Position_x</string>
     <string name="formula_editor_object_y">Position_y</string>
     <string name="formula_editor_object_ghosteffect">Transparenz</string>
