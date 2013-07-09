@@ -31,6 +31,7 @@ import org.catrobat.catroid.ui.MainMenuActivityFragment_Shruti;
 import org.catrobat.catroid.ui.MainMenuActivity_Shruti;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
+import org.catrobat.catroid.ui.fragment.WebViewFragment_Shruti;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -105,7 +106,7 @@ public class StatusBarNotificationManager {
 		String notificationTitle = context.getString(R.string.notification_upload_title);
 		boolean newUploadNotification = uploadNotificationDataMap.isEmpty();
 
-		Intent intent = new Intent(context, MainMenuActivityFragment_Shruti.class);
+		Intent intent = new Intent(context, WebViewFragment_Shruti.class);
 		intent.setAction(Intent.ACTION_MAIN);
 		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);

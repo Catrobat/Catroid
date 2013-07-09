@@ -104,6 +104,7 @@
            
             android:theme="@style/Theme.Catroid" />
         
+        
         <activity
             android:name=".stage.StageActivity"
             android:configChanges="orientation"
@@ -118,6 +119,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.fragment.ProjectsListFragment"
+            android:screenOrientation="portrait" />
+         <activity
+            android:name=".ui.fragment.WebViewFragment_Shruti"
             android:screenOrientation="portrait" />
        <activity
             android:name=".ui.dialog.OrientationDialogFragment"

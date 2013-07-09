@@ -16,23 +16,22 @@ public class TestWebViewFragmentActivity_Shruti extends SherlockFragmentActivity
 
 		setContentView(R.layout.web_view_fragment_test);
 
-		if (findViewById(R.id.testweb) != null) {
+		WebViewFragment_Shruti webFragment = (WebViewFragment_Shruti) getSupportFragmentManager().findFragmentById(
+				R.id.testweb);
+		Bundle xyz = new Bundle();
 
-			getFragmentManager().popBackStack();
+		xyz.putString("webSite", "https://pocketcode.org");
+		//set Fragmentclass Arguments
 
-			WebViewFragment_Shruti webFragment = (WebViewFragment_Shruti) getFragmentManager().findFragmentById(
-					R.id.testweb);
-			if (webFragment == null) {
-				FragmentTransaction ft = getFragmentManager().beginTransaction();
-				webFragment = new WebViewFragment_Shruti();
-				ft.replace(R.id.testweb, webFragment, "Detail_Fragment1");
-				ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-				ft.commit();
-				Log.v("shruti", "maybe");
-				webFragment.setURLContent("https://pocketcode.org");
-				Log.v("shruti", "yes");
-			}
-		}
+		android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		webFragment = new WebViewFragment_Shruti();
+		webFragment.setArguments(xyz);
+		ft.replace(R.id.testweb, webFragment, "Detail_Fragment1");
+		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+		ft.commit();
+		Log.v("shruti", "maybe");
+		webFragment.setURLContent("https://pocketcode.org");
+		Log.v("shruti", "yes");
 
 	}
 }
