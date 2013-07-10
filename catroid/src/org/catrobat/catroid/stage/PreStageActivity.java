@@ -119,17 +119,30 @@ public class PreStageActivity extends Activity {
 			bluetoothDeviceWaitingText = waiting_text;
 			int bluetoothState = bluetoothManager.activateBluetooth(title, waiting_text);
 			if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
-
+				Log.d("PreStageActivity", "Bluetooth not supported");
 				Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
 				resourceFailed();
 			} else if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
+				Log.d("PrestageActivity", "Bluetooth already on");
 				robot_albert_active = true;
 				if (robotAlbert == null) {
 					startBluetoothCommunication(true, title, waiting_text);
 				} else {
 					resourceInitialized();
 				}
-			}
+			} /*
+			 * else if (bluetoothState == BluetoothManager.BLUETOOTH_ACTIVATING) {
+			 * 
+			 * Log.d("PrestageActivity", "Bluetooth activating");
+			 * 
+			 * robot_albert_active = true;
+			 * if (robotAlbert == null) {
+			 * startBluetoothCommunication(true, title, waiting_text);
+			 * } else {
+			 * resourceInitialized();
+			 * }
+			 * }
+			 */
 		}
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
 			startStage();
@@ -233,6 +246,7 @@ public class PreStageActivity extends Activity {
 			case REQUEST_ENABLE_BLUETOOTH:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
+						nxt_active = true;
 						startBluetoothCommunication(true);
 						break;
 					case Activity.RESULT_CANCELED:
@@ -247,6 +261,7 @@ public class PreStageActivity extends Activity {
 				switch (resultCode) {
 					case Activity.RESULT_OK:
 						Log.d("test", "test data=" + data);
+						robot_albert_active = true;
 						startBluetoothCommunication(true, bluetoothDeviceName, bluetoothDeviceWaitingText);
 						break;
 					case Activity.RESULT_CANCELED:
