@@ -129,47 +129,10 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setHomeButtonEnabled(true);
-		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		actionBar.setDisplayShowTitleEnabled(true);
+        String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
+        actionBar.setTitle(currentSprite);
 
-		final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,
-				R.layout.activity_script_spinner_item, getResources().getStringArray(
-						R.array.script_activity_spinner_items));
-
-		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
-			@Override
-			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-				if (isHoveringActive()) {
-					scriptFragment.getListView().animateHoveringBrick();
-					return true;
-				}
-				if (itemPosition != currentFragmentPosition) {
-
-					if (currentFragmentPosition == FRAGMENT_SOUNDS && soundFragment.isSoundPlaying()) {
-						soundFragment.stopSoundAndUpdateList();
-					}
-
-					if (currentFragmentPosition == FRAGMENT_SOUNDS && isSoundFragmentFromPlaySoundBrickNew) {
-						isSoundFragmentFromPlaySoundBrickNew = false;
-						isSoundFragmentHandleAddButtonHandled = false;
-					}
-
-					if (currentFragmentPosition == FRAGMENT_LOOKS && isLookFragmentFromSetLookBrickNew) {
-						isLookFragmentFromSetLookBrickNew = false;
-						isSoundFragmentHandleAddButtonHandled = false;
-					}
-
-					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-					fragmentTransaction.hide(getFragment(currentFragmentPosition));
-					updateCurrentFragment(itemPosition, fragmentTransaction);
-
-					fragmentTransaction.commit();
-				}
-				return true;
-			}
-		});
-		actionBar.setSelectedNavigationItem(currentFragmentPosition);
 		btn_add = (LinearLayout) findViewById(R.id.button_add);
 		updateHandleAddButtonClickListener();
 	}
