@@ -368,7 +368,7 @@ public class Look extends Image {
 	}
 
 	public float getSizeInUserInterfaceDimensionUnit() {
-		return (getScaleX() + getScaleY()) * 50f;
+		return getScaleX() * 100f;
 	}
 
 	public void setSizeInUserInterfaceDimensionUnit(float percent) {

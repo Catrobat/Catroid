@@ -22,7 +22,12 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -56,6 +61,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		sprite = new Sprite("Test");
 		sprite.look.setWidth(width);
 		sprite.look.setHeight(height);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
 
 		ifOnEdgeBounceAction = ExtendedActions.ifOnEdgeBounce(sprite);
 
@@ -67,21 +73,155 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNoBounce() {
-		ifOnEdgeBounceAction.act(1.0f);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction", 90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
+		setPositionAndDirection(0f, 0f, 90f);
+		executeIfOnEdgeBounceAction();
+		checkPositionAndDirection(0f, 0f, 90f);
 	}
 
 	public void testTopBounce() {
+		// < 90 && > -90
+
+		Map<Float, Float> expectedDirections = new HashMap<Float, Float>();
+		expectedDirections.put(90f, 90f);
+		expectedDirections.put(120f, 120f);
+		expectedDirections.put(150f, 150f);
+		expectedDirections.put(180f, 180f);
+		expectedDirections.put(-150f, -150f);
+		expectedDirections.put(-120f, -120f);
+		expectedDirections.put(-90f, -90f);
+		expectedDirections.put(-60f, -120f);
+		expectedDirections.put(-30f, -150f);
+		expectedDirections.put(0f, 180f);
+		expectedDirections.put(30f, 150f);
+		expectedDirections.put(60f, 120f);
+
+		checkIfExpectedDirectionsContainsAllKeys(expectedDirections);
+		for (Entry<Float, Float> entry : expectedDirections.entrySet()) {
+			float direction = entry.getKey();
+			float directionAfterBounce = entry.getValue();
+
+			setPositionAndDirection(0, TOP_BORDER_POSITION, direction);
+			executeIfOnEdgeBounceAction();
+			checkPositionAndDirection(0, BOUNCE_TOP_POSITION, directionAfterBounce);
+		}
 	}
 
 	public void testBottomBounce() {
+		// > 90 || < -90
+
+		Map<Float, Float> expectedDirections = new HashMap<Float, Float>();
+		expectedDirections.put(90f, 90f);
+		expectedDirections.put(120f, 60f);
+		expectedDirections.put(150f, 30f);
+		expectedDirections.put(180f, 0f);
+		expectedDirections.put(-150f, -30f);
+		expectedDirections.put(-120f, -60f);
+		expectedDirections.put(-90f, -90f);
+		expectedDirections.put(-60f, -60f);
+		expectedDirections.put(-30f, -30f);
+		expectedDirections.put(0f, 0f);
+		expectedDirections.put(30f, 30f);
+		expectedDirections.put(60f, 60f);
+
+		checkIfExpectedDirectionsContainsAllKeys(expectedDirections);
+		for (Entry<Float, Float> entry : expectedDirections.entrySet()) {
+			float direction = entry.getKey();
+			float directionAfterBounce = entry.getValue();
+
+			setPositionAndDirection(0, BOTTOM_BORDER_POSITION, direction);
+			executeIfOnEdgeBounceAction();
+			checkPositionAndDirection(0, BOUNCE_BOTTOM_POSITION, directionAfterBounce);
+		}
 	}
 
 	public void testLeftBounce() {
+		//  < 0 && > -180
+
+		Map<Float, Float> expectedDirections = new HashMap<Float, Float>();
+		expectedDirections.put(90f, 90f);
+		expectedDirections.put(120f, 120f);
+		expectedDirections.put(150f, 150f);
+		expectedDirections.put(180f, 180f);
+		expectedDirections.put(-150f, 150f);
+		expectedDirections.put(-120f, 120f);
+		expectedDirections.put(-90f, 90f);
+		expectedDirections.put(-60f, 60f);
+		expectedDirections.put(-30f, 30f);
+		expectedDirections.put(0f, 0f);
+		expectedDirections.put(30f, 30f);
+		expectedDirections.put(60f, 60f);
+
+		checkIfExpectedDirectionsContainsAllKeys(expectedDirections);
+		for (Entry<Float, Float> entry : expectedDirections.entrySet()) {
+			float direction = entry.getKey();
+			float directionAfterBounce = entry.getValue();
+
+			setPositionAndDirection(LEFT_BORDER_POSITION, 0, direction);
+			executeIfOnEdgeBounceAction();
+			checkPositionAndDirection(BOUNCE_LEFT_POSITION, 0, directionAfterBounce);
+		}
 	}
 
 	public void testRightBounce() {
+		// > 0 && < 180
+
+		Map<Float, Float> expectedDirections = new HashMap<Float, Float>();
+		expectedDirections.put(90f, -90f);
+		expectedDirections.put(120f, -120f);
+		expectedDirections.put(150f, -150f);
+		expectedDirections.put(180f, 180f);
+		expectedDirections.put(-150f, -150f);
+		expectedDirections.put(-120f, -120f);
+		expectedDirections.put(-90f, -90f);
+		expectedDirections.put(-60f, -60f);
+		expectedDirections.put(-30f, -30f);
+		expectedDirections.put(0f, 0f);
+		expectedDirections.put(30f, -30f);
+		expectedDirections.put(60f, -60f);
+
+		checkIfExpectedDirectionsContainsAllKeys(expectedDirections);
+		for (Entry<Float, Float> entry : expectedDirections.entrySet()) {
+			float direction = entry.getKey();
+			float directionAfterBounce = entry.getValue();
+
+			setPositionAndDirection(RIGHT_BORDER_POSITION, 0, direction);
+			executeIfOnEdgeBounceAction();
+			checkPositionAndDirection(BOUNCE_RIGHT_POSITION, 0, directionAfterBounce);
+		}
+	}
+
+	private void checkIfExpectedDirectionsContainsAllKeys(Map<Float, Float> expectedDirections) {
+		assertEquals(12, expectedDirections.size());
+
+		assertTrue(expectedDirections.containsKey(90f));
+		assertTrue(expectedDirections.containsKey(120f));
+		assertTrue(expectedDirections.containsKey(150f));
+		assertTrue(expectedDirections.containsKey(180f));
+		assertTrue(expectedDirections.containsKey(-150f));
+		assertTrue(expectedDirections.containsKey(-120f));
+		assertTrue(expectedDirections.containsKey(-90f));
+		assertTrue(expectedDirections.containsKey(-60f));
+		assertTrue(expectedDirections.containsKey(-30f));
+		assertTrue(expectedDirections.containsKey(0f));
+		assertTrue(expectedDirections.containsKey(30f));
+		assertTrue(expectedDirections.containsKey(60f));
+	}
+
+	private void setPositionAndDirection(float x, float y, float direction) {
+		Look look = sprite.look;
+		look.setPositionInUserInterfaceDimensionUnit(x, y);
+		look.setDirectionInUserInterfaceDimensionUnit(direction);
+	}
+
+	private void executeIfOnEdgeBounceAction() {
+		ifOnEdgeBounceAction.restart();
+		ifOnEdgeBounceAction.act(1.0f);
+	}
+
+	private void checkPositionAndDirection(float expectedX, float expectedY, float expectedDirection) {
+		Look look = sprite.look;
+		assertEquals("Wrong x after bounce", expectedX, look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong y after bounce", expectedY, look.getYInUserInterfaceDimensionUnit());
+		assertEquals("Wrong direction after bounce", expectedDirection, look.getDirectionInUserInterfaceDimensionUnit());
 	}
 }
