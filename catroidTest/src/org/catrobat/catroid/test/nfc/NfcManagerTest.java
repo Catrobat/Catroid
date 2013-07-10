@@ -55,13 +55,13 @@ public class NfcManagerTest extends TestCase {
 		Intent intent = new Intent(NfcAdapter.ACTION_TAG_DISCOVERED);
 
 		@SuppressWarnings("rawtypes")
-		Class c = Class.forName("android.nfc.Tag");
+		Class nfcClass = Class.forName("android.nfc.Tag");
 		@SuppressWarnings("unchecked")
-		Method m = c.getMethod("createMockTag", new Class[] { byte[].class, int[].class, Bundle[].class });
+		Method nfcMethod = nfcClass.getMethod("createMockTag", new Class[] { byte[].class, int[].class, Bundle[].class });
 
 		int[] techList = new int[] { 1 };
 		Bundle[] techListExtra = new Bundle[] { new Bundle(1) };
-		Tag tag = (Tag) m.invoke(c, new Object[] { byteId, techList, techListExtra });
+		Tag tag = (Tag) nfcMethod.invoke(nfcClass, new Object[] { byteId, techList, techListExtra });
 
 		intent.putExtra(NfcAdapter.EXTRA_TAG, tag);
 		NfcManager.getInstance().processIntent(intent);
