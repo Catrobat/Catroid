@@ -55,7 +55,6 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -92,7 +91,8 @@ public class StageListener implements ApplicationListener {
 	private Project project;
 
 	private OrthographicCamera camera;
-	private SpriteBatch batch;
+	//	private SpriteBatch batch;
+	private ShaderBatch batch;
 	private BitmapFont font;
 
 	private List<Sprite> sprites;
@@ -151,8 +151,9 @@ public class StageListener implements ApplicationListener {
 
 		screenMode = ScreenModes.STRETCH;
 
-		stage = new Stage(virtualWidth, virtualHeight, true);
-		batch = stage.getSpriteBatch();
+		//		stage = new Stage(virtualWidth, virtualHeight, true);
+		batch = new ShaderBatch(1000);
+		stage = new Stage(virtualWidth, virtualHeight, true, batch);
 
 		camera = (OrthographicCamera) stage.getCamera();
 		camera.position.set(0, 0, 0);

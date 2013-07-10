@@ -29,6 +29,7 @@ import java.util.Iterator;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.stage.ShaderBatch;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -183,7 +184,9 @@ public class Look extends Image {
 
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
+		ShaderBatch shaderBatch = (ShaderBatch) batch;
 		checkImageChanged();
+		shaderBatch.brightness = brightnessValue - 1;
 		if (Double.compare(alphaValue, 0.0f) == 0) {
 			setVisible(false);
 		} else {
@@ -233,11 +236,11 @@ public class Look extends Image {
 			setY(getY() - getHeight() / 2f);
 			setOrigin(getWidth() / 2f, getHeight() / 2f);
 
-			if (brightnessChanged) {
-				lookData.setPixmap(adjustBrightness(lookData.getOriginalPixmap()));
-				lookData.setTextureRegion();
-				brightnessChanged = false;
-			}
+			//			if (brightnessChanged) {
+			//				lookData.setPixmap(adjustBrightness(lookData.getOriginalPixmap()));
+			//				lookData.setTextureRegion();
+			//				brightnessChanged = false;
+			//			}
 
 			TextureRegion region = lookData.getTextureRegion();
 			TextureRegionDrawable drawable = new TextureRegionDrawable(region);
