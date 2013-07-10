@@ -416,6 +416,7 @@ public abstract class RobotAlbertCommunicator extends Thread {
 							Log.d("Albert", "Handler: ERROR: default-Motor !!!!!!!!!!!!!!!");
 					}
 					command_message = commands.getCommandMessage();
+					Log.d("Albert", "buffer[5]=" + command_message[5] + " (sendFrameNo)");
 					Log.d("Albert", "buffer[2]=" + command_message[2]);
 					Log.d("Albert", "buffer[3]=" + command_message[3]);
 					Log.d("Albert", "buffer[7]=" + command_message[7]);
@@ -433,6 +434,7 @@ public abstract class RobotAlbertCommunicator extends Thread {
 					commands.setLeftEye(255, 255, 255);
 					commands.setRightEye(255, 255, 255);
 					command_message = commands.getCommandMessage();
+					Log.d("Albert", "buffer[5]=" + command_message[5] + " (sendFrameNo)");
 					Log.d("Albert", "buffer[2]=" + command_message[2]);
 					Log.d("Albert", "buffer[3]=" + command_message[3]);
 					Log.d("Albert", "buffer[7]=" + command_message[7]);
@@ -447,6 +449,7 @@ public abstract class RobotAlbertCommunicator extends Thread {
 					int buzzer = message.getData().getInt("buzzer");
 					commands.setBuzzer(buzzer);
 					command_message = commands.getCommandMessage();
+					Log.d("Albert", "buffer[5]=" + command_message[5] + " (sendFrameNo)");
 					Log.d("Albert", "buffer[2]=" + command_message[2]);
 					Log.d("Albert", "buffer[3]=" + command_message[3]);
 					Log.d("Albert", "buffer[7]=" + command_message[7]);
@@ -480,6 +483,7 @@ public abstract class RobotAlbertCommunicator extends Thread {
 							Log.d("Albert", "Handler: ERROR: default-Motor !!!!!!!!!!!!!!!");
 					}
 					command_message = commands.getCommandMessage();
+					Log.d("Albert", "buffer[5]=" + command_message[5] + " (sendFrameNo)");
 					Log.d("Albert", "buffer[11]=" + command_message[11]);
 					Log.d("Albert", "buffer[12]=" + command_message[12]);
 					Log.d("Albert", "buffer[13]=" + command_message[13]);

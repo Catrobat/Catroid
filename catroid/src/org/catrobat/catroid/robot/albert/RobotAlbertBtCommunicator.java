@@ -64,6 +64,7 @@ import android.util.Log;
  * Objects of this class can either be run as standalone thread or controlled
  * by the owners, i.e. calling the send/recive methods by themselves.
  */
+//@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) just needed for debug output: nxtBTsocket.isConnected()
 public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 
 	private static final UUID SERIAL_PORT_SERVICE_CLASS_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -76,6 +77,8 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 
 	private String mMACaddress;
 	private BTConnectable myOwner;
+
+	private boolean createThread = true; //just for testing
 
 	public RobotAlbertBtCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter,
 			Resources resources) {
@@ -206,6 +209,8 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 	@Override
 	public void destroyNXTconnection() throws IOException {
 
+		Log.d("RobotAlbertBtComm", "destroyRobotAlbertConnection");
+
 		if (connected) {
 			stopAllNXTMovement();
 		}
@@ -253,16 +258,47 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 	@Override
 	public void sendMessage(byte[] message) throws IOException {
 
-		if (nxtOutputStream == null) {
-			throw new IOException();
-		}
+		try {
 
-		// send message length
-		int messageLength = message.length;
-		nxtOutputStream.write(messageLength);
-		nxtOutputStream.write(messageLength >> 8);
-		nxtOutputStream.write(message, 0, message.length);
-		nxtOutputStream.flush();
+			Log.d("RobotAlbertBTComm", "sendMessage: nxtOutputstream=" + nxtOutputStream);
+			Log.d("RobotAlbertBTComm", "sendMessage: nxtBtSocket=" + nxtBTsocket);
+			//Log.d("RobotAlbertBTComm", "sendMessage: nxtBtSocketisConnected=" + nxtBTsocket.isConnected());
+
+			if (nxtOutputStream == null) {
+				throw new IOException();
+			}
+
+			// send message length
+			//int messageLength = message.length;
+			//nxtOutputStream.write(messageLength);
+			//nxtOutputStream.write(messageLength >> 8);
+			nxtOutputStream.write(message, 0, message.length);
+			nxtOutputStream.flush();
+
+			//Log.d("test", "Text=" + receiveMessage());
+			if (createThread == true) {
+				createThread = false;
+				Log.d("test", "Thread created");
+				Thread thread1 = new Thread() {
+					@Override
+					public void run() {
+						try {
+							while (true) {
+								Log.d("test", "Thread starts from the beginning");
+								receiveMessage();
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+							Log.d("Error in Thread:", " " + e);
+						}
+					}
+				};
+				thread1.start();
+			}
+
+		} catch (Exception e) {
+			Log.d("RobotAlbertBtComm", "ERROR: Exception occured in sendMessage " + e.getMessage());
+		}
 	}
 
 	/**
@@ -272,19 +308,24 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 	 */
 	@Override
 	public byte[] receiveMessage() throws IOException {
-		/*
-		 * if (nxtInputStream == null) {
-		 * throw new IOException();
-		 * }
-		 * 
-		 * int length = nxtInputStream.read();
-		 * length = (nxtInputStream.read() << 8) + length;
-		 * byte[] returnMessage = new byte[length];
-		 * nxtInputStream.read(returnMessage);
-		 * //Log.i("bt", returnMessage.toString());
-		 */
-		Log.d("RobotAlbertBtCommunicator", "something received");
-		return returnMessage;
+
+		Log.d("RobotAlbertBtComm", "receiveMessage InputStream=" + nxtInputStream);
+		if (nxtInputStream == null) {
+			throw new IOException();
+		}
+
+		//		int length = nxtInputStream.read();
+		//		length = (nxtInputStream.read() << 8) + length;
+		//		byte[] returnMessage = new byte[length];
+		//		nxtInputStream.read(returnMessage);
+		//		Log.i("bt", returnMessage.toString());
+		byte[] buffer = new byte[100];
+
+		while (nxtInputStream.read(buffer) != -1) {
+		}
+
+		Log.d("RobotAlbertBtCommunicator", "something received:" + buffer.toString());
+		return buffer;
 	}
 
 }

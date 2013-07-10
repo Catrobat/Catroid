@@ -16,6 +16,7 @@ public class ControlCommands {
 	private int right_led_red = 0; // 0...255
 	private int front_led = 0; //Front-LED 0...1
 	private int body_led = 0; //Body-LED 0...255
+	private byte sendFrameNumber = 0;
 
 	public ControlCommands() {
 		buffer[0] = (byte) 0xAA;
@@ -23,7 +24,7 @@ public class ControlCommands {
 		buffer[2] = (byte) 20;
 		buffer[3] = (byte) 6;
 		buffer[4] = (byte) 0x11;
-		buffer[5] = (byte) 0;
+		buffer[5] = sendFrameNumber;
 		buffer[6] = (byte) 0;
 		buffer[7] = (byte) 0xFF;
 		buffer[8] = (byte) 0; //Left motor
@@ -67,6 +68,8 @@ public class ControlCommands {
 	}
 
 	public byte[] getCommandMessage() {
+		buffer[5] = (byte) (sendFrameNumber + 1);
+		sendFrameNumber = (byte) (sendFrameNumber + 2);
 		buffer[8] = (byte) speed_motor_left;
 		buffer[9] = (byte) speed_motor_right;
 		buffer[10] = (byte) buzzer;
