@@ -112,8 +112,13 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				Log.d("RobotAlbertBtComm", "Exception in run:receiveMessage occured: " + e.toString());
-				sendState(STATE_CONNECTERROR);
-				connected = false;
+				//Log.d("Test", e.getMessage());
+				//This error occurs if robot albert is suddenly switched of
+				if (e.getMessage().equalsIgnoreCase("Software caused connection abort")) {
+					sendState(STATE_CONNECTERROR);
+					connected = false;
+				}
+
 			}
 
 			/*

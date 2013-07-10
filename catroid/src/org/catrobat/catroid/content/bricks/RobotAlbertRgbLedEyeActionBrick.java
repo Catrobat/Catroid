@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -96,6 +97,13 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 	@Override
 	public int getRequiredResources() {
 		return BLUETOOTH_ROBOT_ALBERT;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		RobotAlbertRgbLedEyeActionBrick copyBrick = (RobotAlbertRgbLedEyeActionBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override
