@@ -22,9 +22,11 @@
  */
 package org.catrobat.catroid.uitest.ui;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -173,23 +175,24 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 	public void testOverflowMenuItemSettings() {
 		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
 
-		String scripts = solo.getString(R.string.scripts);
-		String looks = solo.getString(R.string.category_looks);
-		String sounds = solo.getString(R.string.sounds);
-
-		assertTrue("Spinner item '" + scripts + "' not shown", solo.waitForText(scripts, 0, 300, false, true));
+		String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
+		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
 		checkSettingsAndGoBack();
 
-		UiTestUtils.changeToFragmentViaActionbar(solo, scripts, looks);
+		solo.goBack();
+		solo.waitForActivity(ProgramMenuActivity.class);
+		solo.clickOnText(solo.getString(R.string.background));
 		UiTestUtils.waitForFragment(solo, R.id.fragment_look_relative_layout);
-		assertTrue("Spinner item '" + looks + "' not shown", solo.waitForText(looks, 0, 300, false, true));
+		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
 		checkSettingsAndGoBack();
 
-		UiTestUtils.changeToFragmentViaActionbar(solo, looks, sounds);
+		solo.goBack();
+		solo.waitForActivity(ProgramMenuActivity.class);
+		solo.clickOnText(solo.getString(R.string.sounds));
 		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
-		assertTrue("Spinner item '" + sounds + "' not shown", solo.waitForText(sounds, 0, 300, false, true));
+		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
 		checkSettingsAndGoBack();
 	}
