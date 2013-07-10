@@ -24,8 +24,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.catrobat.catroid"
     android:installLocation="auto"
-    android:versionCode="2"
-    android:versionName="0.8.1">
+    android:versionCode="6"
+    android:versionName="0.8.5">
 	
     <supports-screens 
         android:smallScreens="true"
