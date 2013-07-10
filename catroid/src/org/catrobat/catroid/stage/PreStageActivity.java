@@ -130,19 +130,7 @@ public class PreStageActivity extends Activity {
 				} else {
 					resourceInitialized();
 				}
-			} /*
-			 * else if (bluetoothState == BluetoothManager.BLUETOOTH_ACTIVATING) {
-			 * 
-			 * Log.d("PrestageActivity", "Bluetooth activating");
-			 * 
-			 * robot_albert_active = true;
-			 * if (robotAlbert == null) {
-			 * startBluetoothCommunication(true, title, waiting_text);
-			 * } else {
-			 * resourceInitialized();
-			 * }
-			 * }
-			 */
+			}
 		}
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
 			startStage();

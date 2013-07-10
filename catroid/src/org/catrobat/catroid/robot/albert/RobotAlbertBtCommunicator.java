@@ -105,6 +105,26 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		}
 
 		while (connected) {
+
+			Log.d("test","loop");
+			try {
+				receiveMessage();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				Log.d("test","aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!!!!!!!!!");
+				e.printStackTrace();
+			}
+			/*
+			 * Log.d("RobotAlbertBtComm", "run");
+			 * try {
+			 * receiveMessage();
+			 * } catch (IOException e) {
+			 * // TODO Auto-generated catch block
+			 * Log.d("RobotAlbertBtComm", "Exception catched for receiveMessage");
+			 * e.printStackTrace();
+			 * }
+			 */
+
 			/*
 			 * try {
 			 * returnMessage = receiveMessage();
@@ -277,23 +297,28 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 
 			//Log.d("test", "Text=" + receiveMessage());
 			if (createThread == true) {
-				createThread = false;
+				//createThread = false;
 				Log.d("test", "Thread created");
-				Thread thread1 = new Thread() {
-					@Override
-					public void run() {
-						try {
-							while (true) {
-								Log.d("test", "Thread starts from the beginning");
-								receiveMessage();
-							}
-						} catch (Exception e) {
-							e.printStackTrace();
-							Log.d("Error in Thread:", " " + e);
-						}
-					}
-				};
-				thread1.start();
+				/*
+				 * Thread thread1 = new Thread() {
+				 * 
+				 * @Override
+				 * public void run() {
+				 * try {
+				 * while (true) {
+				 * Log.d("test", "Thread starts from the beginning");
+				 * receiveMessage();
+				 * }
+				 * } catch (Exception e) {
+				 * e.printStackTrace();
+				 * Log.d("Error in Thread:", " " + e);
+				 * }
+				 * }
+				 * };
+				 * thread1.start();
+				 */
+				//receiveMessage();
+				Log.d("test", "after receive message");
 			}
 
 		} catch (Exception e) {
@@ -321,11 +346,141 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		//		Log.i("bt", returnMessage.toString());
 		byte[] buffer = new byte[100];
 
-		while (nxtInputStream.read(buffer) != -1) {
-		}
+		/*
+		 * while (nxtInputStream.available() ) {
+		 * }
+		 */
 
-		Log.d("RobotAlbertBtCommunicator", "something received:" + buffer.toString());
+		int read = 0;
+
+		/*read = nxtInputStream.read(buffer);
+		Log.d("RobotAlbertBtComm", "receiveMessage: read=" + read);
+		Log.d("RobotAlbertBtComm", "receiveMessage: buffer[0]=" + buffer[0]);
+		Log.d("RobotAlbertBtComm", "receiveMessage: buffer[1]=" + buffer[1]);
+		if (read > 2) {
+			Log.d("RobotAlbertBtComm", "receiveMessage: buffer[" + (read - 2) + "]=" + buffer[read - 2]);
+			Log.d("RobotAlbertBtComm", "receiveMessage: buffer[" + (read - 1) + "]=" + buffer[read - 1]);
+			int e = buffer[0];
+			Log.d("test","test="+e);
+		}*/
+
+		byte[] buf = new byte[1];
+		byte[] buf0 = new byte[2];
+		int count2=0;
+		
+		do
+		{
+			//Log.d("test","checking 0xAA");
+			read = nxtInputStream.read(buf0);
+			count2++;
+			
+			if(count2 > 200)
+				return null;
+			
+		}while((buf0[0] != -86) || (buf0[1] != 85));
+		
+		int count = 2;
+		buffer[0] = buf0[0];
+		buffer[1] = buf0[1];
+		
+		do
+		{
+			read = nxtInputStream.read(buf);
+			buffer[count] = buf[0];
+			count++;
+			//Log.d("test", "waiting for 0x0A (count="+count+")");
+		}while( (buffer[count] != 13) && (buffer[count-1] != 10) );
+		
+		Log.d("RobotAlbertBtComm", "receiveMessage: buffer[13]=" + buffer[13]);
+		Log.d("RobotAlbertBtComm", "receiveMessage: buffer[14]=" + buffer[14]);
+		Log.d("RobotAlbertBtComm", "receiveMessage: buffer[15]=" + buffer[15]);
+		Log.d("RobotAlbertBtComm", "receiveMessage: buffer[16]=" + buffer[16]);
+		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[17]=" + buffer[17]);
+		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[18]=" + buffer[18]);
+		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[19]=" + buffer[19]);
+		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[20]=" + buffer[20]);
+		
+		
+		/*read = nxtInputStream.read(buffer);
+		Log.d("RobotAlbertBtComm", "receiveMessage: read=" + read);
+		Log.d("RobotAlbertBtComm", "receiveMessage: buffer[0]=" + buffer[0]);
+		Log.d("RobotAlbertBtComm", "receiveMessage: buffer[1]=" + buffer[1]);
+		if (read > 2) {
+			Log.d("RobotAlbertBtComm", "receiveMessage: buffer[" + (read - 2) + "]=" + buffer[read - 2]);
+			Log.d("RobotAlbertBtComm", "receiveMessage: buffer[" + (read - 1) + "]=" + buffer[read - 1]);
+			int e = buffer[0];
+			Log.d("test","test="+e);
+		}*/
+		
+		
+		/*
+		 * boolean loop = true;
+		 * boolean loop2 = true;
+		 * int count = 2;
+		 * int temp = 0;
+		 * while (loop == true) {
+		 * int byte0 = nxtInputStream.read();
+		 * int byte1 = 0;
+		 * if ((byte0 == -86)) {
+		 * Log.d("test", "byte0 = -86");
+		 * byte1 = nxtInputStream.read();
+		 * if (((byte) byte1 == 85)) {
+		 * Log.d("test", "byte1 = 85");
+		 * count = 2;
+		 * buffer[0] = (byte) byte0;
+		 * buffer[1] = (byte) byte1;
+		 * do {
+		 * Log.d("test", "loop2 (count=" + count + ")");
+		 * temp = (byte) nxtInputStream.read();
+		 * if (temp != -1) {
+		 * buffer[count] = (byte) temp;
+		 * count++;
+		 * } else {
+		 * Log.d("RobotAlbertBtComm", "read returned -1");
+		 * }
+		 * 
+		 * if ((buffer[count - 2] == 13) && (buffer[count - 1] == 10)) {
+		 * Log.d("RobotAlbertBtComm", "End of sensor-packet reached");
+		 * loop2 = false;
+		 * loop = false;
+		 * }
+		 * 
+		 * if (count > 60) {
+		 * Log.d("RobotAlbertBtComm", "Error: sensor-packet bigger than 60 bytes!!!!!");
+		 * }
+		 * 
+		 * } while (loop2 == true);
+		 * }
+		 * } else {
+		 * Log.d("test", "byte0 != -86 (" + byte0 + ") -> loop");
+		 * continue;
+		 * }
+		 * 
+		 * }
+		 */
+
+		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[read]=" + buffer[read]);
+
+		/*
+		 * if (nxtInputStream.available() > 0) {
+		 * byte a = 0x00;
+		 * do {
+		 * int first = nxtInputStream.read();
+		 * if (first != -1) {
+		 * a = (byte) first;
+		 * Log.d("RobotAlbertBtComm", "receiveMessage: a=" + a);
+		 * }
+		 * } while (a != 0xAA);
+		 * int second = nxtInputStream.read();
+		 * if (second != -1) {
+		 * byte b = (byte) second;
+		 * Log.d("RobotAlbertBtComm", "receiveMessage: b=" + b);
+		 * }
+		 * 
+		 * }
+		 */
+
+		//Log.d("RobotAlbertBtCommunicator", "something received:" + buffer.toString());
 		return buffer;
 	}
-
 }
