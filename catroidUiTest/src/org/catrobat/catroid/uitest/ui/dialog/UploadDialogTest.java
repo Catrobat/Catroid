@@ -91,6 +91,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		setServerURLToTestURL();
 		createTestProject();
 		solo.sleep(200);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 3000);
 		UiTestUtils.createValidUser(getActivity());
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.waitForText(uploadDialogTitle);
