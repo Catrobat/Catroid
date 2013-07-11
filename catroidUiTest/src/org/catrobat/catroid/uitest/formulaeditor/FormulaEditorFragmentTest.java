@@ -32,19 +32,17 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaEditorHistory;
-import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseUiTestClass;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.graphics.Rect;
-import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.widget.ImageButton;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private Solo solo;
+public class FormulaEditorFragmentTest extends BaseUiTestClass {
 	private Project project;
 	private PlaceAtBrick placeAtBrick;
 	private static final int INITIAL_X = 8;
@@ -56,23 +54,14 @@ public class FormulaEditorFragmentTest extends ActivityInstrumentationTestCase2<
 	private Sprite sprite;
 
 	public FormulaEditorFragmentTest() {
-		super(MainMenuActivity.class);
+		super();
 	}
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = null;
-		super.tearDown();
 	}
 
 	private void createProject() {
