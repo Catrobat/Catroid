@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.uitest.util;
 
+import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.MainMenuActivity;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -45,6 +46,8 @@ public abstract class BaseUiTestClass extends ActivityInstrumentationTestCase2<M
 		UiTestUtils.clearAllUtilTestProjects();
 		Log.v("BaseUiTestClass", "Setup #3");
 		solo = new Solo(getInstrumentation(), getActivity());
+		Log.v("BaseUiTestClass", "Setup #4");
+		Reflection.setPrivateField(StageListener.class, "makeAutomaticScreenshot", false);
 	}
 
 	@Override
