@@ -36,40 +36,30 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.uitest.util.BaseUiTestClass;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class MoveNStepsBrickTest extends BaseUiTestClass {
 	private static final double STEPS_TO_MOVE = 23.0;
 
-	private Solo solo;
 	private Project project;
 	private MoveNStepsBrick moveNStepsBrick;
 
 	public MoveNStepsBrickTest() {
-		super(ScriptActivity.class);
+		super();
 	}
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	private void createProject() {

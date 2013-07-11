@@ -32,42 +32,31 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseUiTestClass;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
-
-import com.jayway.android.robotium.solo.Solo;
 
 /**
  * 
  * @author Daniel Burtscher
  * 
  */
-public class ComeToFrontTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class ComeToFrontTest extends BaseUiTestClass {
 
-	private Solo solo;
 	private Project project;
 
 	public ComeToFrontTest() {
-		super(ScriptActivity.class);
+		super();
 	}
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Smoke

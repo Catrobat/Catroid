@@ -33,22 +33,18 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseUiTestClass;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.util.SparseArray;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.jayway.android.robotium.solo.Solo;
+public class BroadcastBricksTest extends BaseUiTestClass {
 
-public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
-
-	private Solo solo;
 	private Project project;
 	private Sprite sprite;
 
@@ -60,25 +56,18 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 	private final int broadcastWaitSpinnerId = R.id.brick_broadcast_wait_spinner;
 
 	public BroadcastBricksTest() {
-		super(ScriptActivity.class);
+		super();
 	}
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
 
 		expected.put(broadcastReceiverSpinnerId, defaultBroadcastMessage);
 		expected.put(broadcastSpinnerId, defaultBroadcastMessage);
 		expected.put(broadcastWaitSpinnerId, defaultBroadcastMessage);
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Smoke

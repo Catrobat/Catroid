@@ -36,22 +36,20 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.uitest.util.BaseUiTestClass;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.media.MediaPlayer;
-import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class PlaySoundBrickTest extends BaseUiTestClass {
 	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 	private final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
 
-	private Solo solo;
 	private String soundName = "testSound1";
 	private String soundName2 = "testSound2";
 	private File soundFile;
@@ -59,24 +57,19 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 	private ArrayList<SoundInfo> soundInfoList;
 
 	public PlaySoundBrickTest() {
-		super(MainMenuActivity.class);
+		super();
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		UiTestUtils.prepareStageForTest();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		if (soundFile.exists()) {
 			soundFile.delete();
 		}
@@ -84,7 +77,6 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 			soundFile2.delete();
 		}
 		super.tearDown();
-		solo = null;
 	}
 
 	public void testSelectAndPlaySoundFile() {
