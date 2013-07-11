@@ -37,37 +37,40 @@ public class GlideToAction extends TemporalAction {
 	private float endXValue;
 	private float endYValue;
 
+	private boolean restart = false;
+
 	@Override
 	protected void begin() {
-		if (duration != null) {
-			super.setDuration((float) duration.interpretDouble(sprite));
+		if (!restart) {
+			if (duration != null) {
+				super.setDuration(duration.interpretFloat(sprite));
+			}
+			endXValue = endX.interpretFloat(sprite);
+			endYValue = endY.interpretFloat(sprite);
 		}
+		restart = false;
 
-		startX = actor.getX() + actor.getWidth() / 2f;
-		startY = actor.getY() + actor.getHeight() / 2f;
-		endXValue = endX.interpretFloat(sprite);
-		endYValue = endY.interpretFloat(sprite);
+		startX = sprite.look.getXInUserInterfaceDimensionUnit();
+		startY = sprite.look.getYInUserInterfaceDimensionUnit();
 		currentX = startX;
 		currentY = startY;
-		if (Float.compare(startX, endX.interpretFloat(sprite)) == 0
-				&& Float.compare(startY, endY.interpretFloat(sprite)) == 0) {
+		if (startX == endX.interpretFloat(sprite) && startY == endY.interpretFloat(sprite)) {
 			super.finish();
 		}
 	}
 
 	@Override
 	protected void update(float percent) {
-
-		float deltaX = actor.getX() + actor.getWidth() / 2f - currentX;
-		float deltaY = actor.getY() + actor.getHeight() / 2f - currentY;
+		float deltaX = sprite.look.getXInUserInterfaceDimensionUnit() - currentX;
+		float deltaY = sprite.look.getYInUserInterfaceDimensionUnit() - currentY;
 		if ((-0.1f > deltaX || deltaX > 0.1f) || (-0.1f > deltaY || deltaY > 0.1f)) {
-			float currentDuration = getDuration() - getTime();
+			restart = true;
+			setDuration(getDuration() - getTime());
 			restart();
-			setDuration(currentDuration);
 		} else {
 			currentX = startX + (endXValue - startX) * percent;
 			currentY = startY + (endYValue - startY) * percent;
-			actor.setPosition(currentX - actor.getWidth() / 2f, currentY - actor.getHeight() / 2f);
+			sprite.look.setPositionInUserInterfaceDimensionUnit(currentX, currentY);
 		}
 	}
 
