@@ -71,6 +71,9 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class MyProjectsActivityTest extends BaseUiTestClass {
 	private final String INVALID_PROJECT_MODIFIER = "invalidProject";
+	private final String whitelistedCharacterString = "[Hey+, =lo_ok. I'm; -special! too!]";
+	private final String blacklistedCharacterString = "<H/ey,\", :I'\\m s*pe?ci>al! ?äö|üß<>";
+	private final String blacklistedOnlyCharacterString = "<>?*|";
 	private final int IMAGE_RESOURCE_1 = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
 	private final int IMAGE_RESOURCE_2 = org.catrobat.catroid.uitest.R.drawable.background_white;
 	private final int IMAGE_RESOURCE_3 = org.catrobat.catroid.uitest.R.drawable.background_black;
@@ -102,8 +105,16 @@ public class MyProjectsActivityTest extends BaseUiTestClass {
 
 	@Override
 	public void tearDown() throws Exception {
+		// super.tearDown() not called on purpose
+		// tests seem to fail randomly if activities are finished
+		// and solo is set to null in superclass
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(whitelistedCharacterString)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(blacklistedCharacterString)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(blacklistedOnlyCharacterString)));
 		ProjectManager.getInstance().deleteCurrentProject();
-		super.tearDown();
+
 		if (renameDirectory != null && renameDirectory.isDirectory()) {
 			UtilFile.deleteDirectory(renameDirectory);
 			renameDirectory = null;
@@ -119,7 +130,7 @@ public class MyProjectsActivityTest extends BaseUiTestClass {
 		if (unzip) {
 			unzipProjects();
 		}
-
+		solo = null;
 	}
 
 	public void saveProjectsToZip() {
@@ -1009,7 +1020,6 @@ public class MyProjectsActivityTest extends BaseUiTestClass {
 	public void testRenameProjectWithWhitelistedCharacters() {
 		createProjects();
 		solo.sleep(200);
-		final String renameString = "[Hey+, =lo_ok. I'm; -special! too!]";
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1018,18 +1028,18 @@ public class MyProjectsActivityTest extends BaseUiTestClass {
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
-		solo.enterText(0, renameString);
+		solo.enterText(0, whitelistedCharacterString);
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
-		renameDirectory = new File(Utils.buildProjectPath(renameString));
+		renameDirectory = new File(Utils.buildProjectPath(whitelistedCharacterString));
 		assertTrue("Rename with whitelisted characters was not successfull", renameDirectory.isDirectory());
 	}
 
 	public void testRenameProjectWithBlacklistedCharacters() {
 		createProjects();
 		solo.sleep(200);
-		final String renameString = "<H/ey,\", :I'\\m s*pe?ci>al! ?äö|üß<>";
+
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1038,18 +1048,17 @@ public class MyProjectsActivityTest extends BaseUiTestClass {
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
-		solo.enterText(0, renameString);
+		solo.enterText(0, blacklistedCharacterString);
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
-		renameDirectory = new File(Utils.buildProjectPath(renameString));
+		renameDirectory = new File(Utils.buildProjectPath(blacklistedCharacterString));
 		assertTrue("Rename with blacklisted characters was not successfull", renameDirectory.isDirectory());
 	}
 
 	public void testRenameProjectWithOnlyBlacklistedCharacters() {
 		createProjects();
 		solo.sleep(200);
-		final String renameString = "<>?*|";
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1058,7 +1067,7 @@ public class MyProjectsActivityTest extends BaseUiTestClass {
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
-		solo.enterText(0, renameString);
+		solo.enterText(0, blacklistedOnlyCharacterString);
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
@@ -1471,7 +1480,6 @@ public class MyProjectsActivityTest extends BaseUiTestClass {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(200);
-		final String copyProjectString = "<>?*|";
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1480,7 +1488,7 @@ public class MyProjectsActivityTest extends BaseUiTestClass {
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.copy));
 		solo.clearEditText(0);
-		solo.enterText(0, copyProjectString);
+		solo.enterText(0, blacklistedOnlyCharacterString);
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.sleep(200);
