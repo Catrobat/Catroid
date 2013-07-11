@@ -50,24 +50,6 @@ public abstract class Script implements Serializable {
 	public Script() {
 	}
 
-	public Script cloneScript() {
-
-		Script clonedScript = null;
-
-		clonedScript.init();
-
-		Brick firstBrick = this.getScriptBrick();
-
-		clonedScript.addBrick(firstBrick);
-
-		for (Brick brick : this.brickList) {
-			clonedScript.addBrick(brick);
-		}
-
-		return clonedScript;
-
-	}
-
 	public abstract Script copyScriptForSprite(Sprite copySprite);
 
 	protected Object readResolve() {
