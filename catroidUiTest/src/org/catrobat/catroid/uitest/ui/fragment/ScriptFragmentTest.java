@@ -80,6 +80,56 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo = null;
 	}
 
+	public void testCopyScript() {
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(0);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		assertEquals("No brick has been copied!", 12, numberOfBricks);
+
+	}
+
+	public void testCopyMultipleBricks() {
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(2);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		solo.waitForText(solo.getString(R.string.brick_hide));
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		assertEquals("No brick has been copied!", 8, numberOfBricks);
+
+	}
+
+	public void testCopyActionMode() {
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(1);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		solo.waitForText(solo.getString(R.string.brick_hide));
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		assertEquals("No brick has been copied!", 7, numberOfBricks);
+
+	}
+
 	public void testCreateNewBrickButton() {
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);

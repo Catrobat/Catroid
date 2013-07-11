@@ -22,80 +22,38 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import java.io.File;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ChangeSizeByNAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilFile;
 
 import android.test.InstrumentationTestCase;
 
 public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 
-	private static final int POSITIVE_SIZE = 20;
-
-	private Formula positiveSize = new Formula(POSITIVE_SIZE);
-	//	private float negativeSize = -30;
-
-	private static final int IMAGE_FILE_ID = R.raw.icon;
-
-	private File testImage;
-	private final String projectName = "testProject";
-
-	@Override
-	protected void setUp() throws Exception {
-
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
-
-		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_IMAGE_FILE);
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-		if (testImage != null && testImage.exists()) {
-			testImage.delete();
-		}
-		super.tearDown();
-	}
+	private static final float CHANGE_SIZE = 20f;
+	private static final float delta = 0.0001f;
 
 	public void testSize() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite size value", 1f, sprite.look.getSize());
+		float initialSize = sprite.look.getSizeInUserInterfaceDimensionUnit();
+		assertEquals("Unexpected initial sprite size value", 100f, initialSize);
 
-		float initialSize = sprite.look.getSize();
-
-		ChangeSizeByNAction action = ExtendedActions.changeSizeByN(sprite, positiveSize);
+		ChangeSizeByNAction action = ExtendedActions.changeSizeByN(sprite, new Formula(CHANGE_SIZE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
-		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize + POSITIVE_SIZE
-				/ 100f, sprite.look.getSize());
+		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize + CHANGE_SIZE,
+				sprite.look.getSizeInUserInterfaceDimensionUnit(), delta);
 
+		action = ExtendedActions.changeSizeByN(sprite, new Formula(-CHANGE_SIZE));
+		sprite.look.addAction(action);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize,
+				sprite.look.getSizeInUserInterfaceDimensionUnit(), delta);
 	}
 
 	public void testNullSprite() {
-		ChangeSizeByNAction action = ExtendedActions.changeSizeByN(null, positiveSize);
+		ChangeSizeByNAction action = ExtendedActions.changeSizeByN(null, new Formula(CHANGE_SIZE));
 		try {
 			action.act(1.0f);
 			fail("Execution of ChangeSizeByNBrick with null Sprite did not cause a NullPointerException to be thrown");

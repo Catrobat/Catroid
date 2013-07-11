@@ -130,18 +130,24 @@ public class SpeakBrick extends BrickBaseType {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_speak_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textSpeak = (TextView) view.findViewById(R.id.brick_speak_label);
-		EditText editDegrees = (EditText) view.findViewById(R.id.brick_speak_edit_text);
+		if (view != null) {
 
-		textSpeak.setTextColor(textSpeak.getTextColors().withAlpha(alphaValue));
-		editDegrees.setTextColor(editDegrees.getTextColors().withAlpha(alphaValue));
-		editDegrees.getBackground().setAlpha(alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_speak_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
 
-		this.alphaValue = (alphaValue);
+			TextView textSpeak = (TextView) view.findViewById(R.id.brick_speak_label);
+			EditText editDegrees = (EditText) view.findViewById(R.id.brick_speak_edit_text);
+
+			textSpeak.setTextColor(textSpeak.getTextColors().withAlpha(alphaValue));
+			editDegrees.setTextColor(editDegrees.getTextColors().withAlpha(alphaValue));
+			editDegrees.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

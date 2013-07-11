@@ -116,10 +116,16 @@ public class WhenStartedBrick extends ScriptBrick {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_when_started_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
-		this.alphaValue = (alphaValue);
+
+		if (view != null) {
+
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_when_started_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

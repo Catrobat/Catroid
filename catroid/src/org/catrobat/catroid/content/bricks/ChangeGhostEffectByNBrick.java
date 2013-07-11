@@ -124,19 +124,25 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_ghost_effect_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textGhost = (TextView) view.findViewById(R.id.brick_change_ghost_effect_label);
-		TextView textGhostBy = (TextView) view.findViewById(R.id.brick_change_ghost_effect_by);
-		EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
-		textGhost.setTextColor(textGhost.getTextColors().withAlpha(alphaValue));
-		textGhostBy.setTextColor(textGhostBy.getTextColors().withAlpha(alphaValue));
-		editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
-		editGhostEffect.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_ghost_effect_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textGhost = (TextView) view.findViewById(R.id.brick_change_ghost_effect_label);
+			TextView textGhostBy = (TextView) view.findViewById(R.id.brick_change_ghost_effect_by);
+			EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
+			textGhost.setTextColor(textGhost.getTextColors().withAlpha(alphaValue));
+			textGhostBy.setTextColor(textGhostBy.getTextColors().withAlpha(alphaValue));
+			editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
+			editGhostEffect.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

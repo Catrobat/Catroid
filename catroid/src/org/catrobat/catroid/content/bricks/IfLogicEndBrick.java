@@ -109,14 +109,20 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_if_end_if_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView ifEndLabel = (TextView) view.findViewById(R.id.brick_if_end_if_label);
-		ifEndLabel.setTextColor(ifEndLabel.getTextColors().withAlpha(alphaValue));
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_if_end_if_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView ifEndLabel = (TextView) view.findViewById(R.id.brick_if_end_if_label);
+			ifEndLabel.setTextColor(ifEndLabel.getTextColors().withAlpha(alphaValue));
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 
