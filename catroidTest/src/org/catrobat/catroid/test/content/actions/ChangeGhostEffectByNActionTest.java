@@ -31,32 +31,33 @@ import android.test.AndroidTestCase;
 
 public class ChangeGhostEffectByNActionTest extends AndroidTestCase {
 
-	private final Formula increaseGhostEffect = new Formula(1f);
-	private final Formula decreaseGhostEffect = new Formula(-0.1f);
+	private final Formula increaseGhostEffect = new Formula(100f);
+	private final Formula decreaseGhostEffect = new Formula(-10f);
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite ghost effect value", 1f, sprite.look.getAlphaValue());
+		assertEquals("Unexpected initial sprite ghost effect value", 0f,
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
-		float ghostEffect = sprite.look.getAlphaValue();
-		ghostEffect -= increaseGhostEffect.interpretDouble(sprite);
+		float ghostEffect = sprite.look.getTransparencyInUserInterfaceDimensionUnit();
+		ghostEffect += increaseGhostEffect.interpretDouble(sprite);
 
 		ChangeGhostEffectByNAction action1 = ExtendedActions.changeGhostEffectByN(sprite, new Formula(
-				increaseGhostEffect.interpretDouble(sprite) * 100.0f));
+				increaseGhostEffect.interpretDouble(sprite)));
 		sprite.look.addAction(action1);
 		action1.act(1.0f);
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", ghostEffect,
-				sprite.look.getAlphaValue());
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
-		ghostEffect = sprite.look.getAlphaValue();
-		ghostEffect -= decreaseGhostEffect.interpretDouble(sprite);
+		ghostEffect = sprite.look.getTransparencyInUserInterfaceDimensionUnit();
+		ghostEffect += decreaseGhostEffect.interpretDouble(sprite);
 
 		ChangeGhostEffectByNAction action2 = ExtendedActions.changeGhostEffectByN(sprite, new Formula(
-				decreaseGhostEffect.interpretDouble(sprite) * 100.0f));
+				decreaseGhostEffect.interpretDouble(sprite)));
 		sprite.look.addAction(action2);
 		action2.act(1.0f);
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", ghostEffect,
-				sprite.look.getAlphaValue());
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {

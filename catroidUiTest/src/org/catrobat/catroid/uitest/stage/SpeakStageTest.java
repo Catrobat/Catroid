@@ -24,7 +24,6 @@ package org.catrobat.catroid.uitest.stage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -71,7 +70,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		createProjectToInitializeTextToSpeech();
 		solo = new Solo(getInstrumentation(), getActivity());
 		textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext());
-		Reflection.setPrivateField(SpeakAction.class, "utteranceIdPool", new AtomicInteger());
+		Reflection.setPrivateField(SpeakAction.class, "utteranceIdPool", 0);
 	}
 
 	@Override
