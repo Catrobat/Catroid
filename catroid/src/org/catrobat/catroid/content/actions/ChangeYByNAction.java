@@ -34,18 +34,7 @@ public class ChangeYByNAction extends TemporalAction {
 
 	@Override
 	protected void update(float arg0) {
-		int yPosition = (int) sprite.look.getYInUserInterfaceDimensionUnit();
-		int yMovementValue = yMovement.interpretInteger(sprite);
-
-		if (yPosition > 0 && yMovementValue > 0 && yPosition + yMovementValue < 0) {
-			yPosition = Integer.MAX_VALUE;
-		} else if (yPosition < 0 && yMovementValue < 0 && yPosition + yMovementValue > 0) {
-			yPosition = Integer.MIN_VALUE;
-		} else {
-			yPosition += yMovementValue;
-		}
-
-		sprite.look.setXYInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
+		sprite.look.changeYInUserInterfaceDimensionUnit(yMovement.interpretFloat(sprite));
 	}
 
 	public void setSprite(Sprite sprite) {

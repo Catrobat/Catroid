@@ -28,61 +28,61 @@ import org.catrobat.catroid.content.Sprite;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class IfOnEdgeBounceAction extends TemporalAction {
-
 	private Sprite sprite;
 
 	@Override
 	protected void update(float percent) {
-		float size = sprite.look.getSize();
-
-		float width = sprite.look.getWidth() * size;
-		float height = sprite.look.getHeight() * size;
-		int xPosition = (int) sprite.look.getXInUserInterfaceDimensionUnit();
-		int yPosition = (int) sprite.look.getYInUserInterfaceDimensionUnit();
+		float width = sprite.look.getWidthInUserInterfaceDimensionUnit();
+		float height = sprite.look.getHeightInUserInterfaceDimensionUnit();
+		float xPosition = sprite.look.getXInUserInterfaceDimensionUnit();
+		float yPosition = sprite.look.getYInUserInterfaceDimensionUnit();
 
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight / 2;
-		float rotationResult = -sprite.look.getRotation() + 90f;
+		float newDirection = sprite.look.getDirectionInUserInterfaceDimensionUnit();
 
 		if (xPosition < -virtualScreenWidth + width / 2) {
-
-			rotationResult = Math.abs(rotationResult);
-			xPosition = -virtualScreenWidth + (int) (width / 2);
-
+			if (isLookingLeft(newDirection)) {
+				newDirection = -newDirection;
+			}
+			xPosition = -virtualScreenWidth + (width / 2);
 		} else if (xPosition > virtualScreenWidth - width / 2) {
-
-			rotationResult = -Math.abs(rotationResult);
-
-			xPosition = virtualScreenWidth - (int) (width / 2);
+			if (isLookingRight(newDirection)) {
+				newDirection = -newDirection;
+			}
+			xPosition = virtualScreenWidth - (width / 2);
 		}
 
-		if (yPosition > virtualScreenHeight - height / 2) {
-
-			if (Math.abs(rotationResult) < 90f) {
-				if (rotationResult < 0f) {
-					rotationResult = -180f - rotationResult;
-				} else {
-					rotationResult = 180f - rotationResult;
-				}
+		if (yPosition < -virtualScreenHeight + height / 2) {
+			if (isLookingDown(newDirection)) {
+				newDirection = 180f - newDirection;
 			}
-
-			yPosition = virtualScreenHeight - (int) (height / 2);
-
-		} else if (yPosition < -virtualScreenHeight + height / 2) {
-
-			if (Math.abs(rotationResult) > 90f) {
-				if (rotationResult < 0f) {
-					rotationResult = -180f - rotationResult;
-				} else {
-					rotationResult = 180f - rotationResult;
-				}
+			yPosition = -virtualScreenHeight + (height / 2);
+		} else if (yPosition > virtualScreenHeight - height / 2) {
+			if (isLookingUp(newDirection)) {
+				newDirection = 180f - newDirection;
 			}
-
-			yPosition = -virtualScreenHeight + (int) (height / 2);
+			yPosition = virtualScreenHeight - (height / 2);
 		}
 
-		sprite.look.setRotation(-rotationResult + 90f);
-		sprite.look.setXYInUserInterfaceDimensionUnit(xPosition, yPosition);
+		sprite.look.setDirectionInUserInterfaceDimensionUnit(newDirection);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, yPosition);
+	}
+
+	private boolean isLookingUp(float direction) {
+		return (direction > -90f && direction < 90f);
+	}
+
+	private boolean isLookingDown(float direction) {
+		return (direction > 90f || direction < -90f);
+	}
+
+	private boolean isLookingLeft(float direction) {
+		return (direction > -180f && direction < 0f);
+	}
+
+	private boolean isLookingRight(float direction) {
+		return (direction > 0f && direction < 180f);
 	}
 
 	public void setSprite(Sprite sprite) {

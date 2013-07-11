@@ -53,7 +53,7 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 	private transient View prototypeView;
 
 	public static enum Direction {
-		DIRECTION_RIGHT(90), DIRECTION_LEFT(-90), DIRECTION_UP(0), DIRECTION_DOWN(180);
+		RIGHT(90), LEFT(-90), UP(0), DOWN(180);
 
 		private double directionDegrees;
 
