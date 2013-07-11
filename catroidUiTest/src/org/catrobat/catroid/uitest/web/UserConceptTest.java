@@ -27,7 +27,7 @@ import java.util.Locale;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseUiTestClass;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -35,30 +35,25 @@ import org.catrobat.catroid.web.ServerCalls;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.jayway.android.robotium.solo.Solo;
+public class UserConceptTest extends BaseUiTestClass {
 
-public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-
-	private Solo solo;
 	private String saveToken;
 	private String loginDialogTitle;
 	private String uploadDialogTitle;
 
 	public UserConceptTest() {
-		super(MainMenuActivity.class);
-		UiTestUtils.clearAllUtilTestProjects();
+		super();
 	}
 
 	@Override
 	@UiThreadTest
 	public void setUp() throws Exception {
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		saveToken = prefs.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		loginDialogTitle = solo.getString(R.string.login_register_dialog_title);
@@ -70,11 +65,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
 		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", null);
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-		solo = null;
 	}
 
 	public void testLicenceLinkPresent() throws Throwable {

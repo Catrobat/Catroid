@@ -22,21 +22,18 @@
  */
 package org.catrobat.catroid.uitest.stage;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.uitest.util.BaseUiTestClass;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActivity> {
-
-	private Solo solo;
+public class SimpleStageTest extends BaseUiTestClass {
 
 	public SimpleStageTest() {
-		super(StageActivity.class);
+		super();
 	}
 
 	@Override
@@ -46,15 +43,9 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 		UiTestUtils.createEmptyProject();
 		ScreenValues.SCREEN_HEIGHT = 20;
 		ScreenValues.SCREEN_WIDTH = 20;
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
 
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 	}
 
 	public void testSimple() {

@@ -38,32 +38,22 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.uitest.util.BaseUiTestClass;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.widget.CheckBox;
 import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
+public class ScriptFragmentTest extends BaseUiTestClass {
 
-public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-
-	private Solo solo;
 	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
 
 	public ScriptFragmentTest() {
-		super(MainMenuActivity.class);
-	}
-
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		solo = new Solo(getInstrumentation(), getActivity());
+		super();
 	}
 
 	@Override
@@ -74,10 +64,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
 		}
 
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-		solo = null;
 	}
 
 	public void testCreateNewBrickButton() {

@@ -38,13 +38,13 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.uitest.util.BaseUiTestClass;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -54,7 +54,7 @@ import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class LookFragmentTest extends BaseUiTestClass {
 	private static final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
 	private static final int RESOURCE_IMAGE2 = org.catrobat.catroid.uitest.R.drawable.catroid_banzai;
 	private static final int RESOURCE_IMAGE3 = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses_jpg;
@@ -93,10 +93,8 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	private ProjectManager projectManager;
 
-	private Solo solo;
-
 	public LookFragmentTest() {
-		super(MainMenuActivity.class);
+		super();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -105,7 +103,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
 
-		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
 
 		projectManager = ProjectManager.getInstance();
@@ -143,7 +140,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		projectManager.getCurrentProject().getXmlHeader().virtualScreenWidth = display.getWidth();
 		projectManager.getCurrentProject().getXmlHeader().virtualScreenHeight = display.getHeight();
 
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoLooksFromMainMenu(solo, true);
 
 		copy = solo.getString(R.string.copy);
@@ -161,11 +157,8 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		paintroidImageFile.delete();
 		super.tearDown();
-		solo = null;
 	}
 
 	public void testInitialLayout() {

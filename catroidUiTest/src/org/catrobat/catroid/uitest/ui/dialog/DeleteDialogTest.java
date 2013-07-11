@@ -29,24 +29,20 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.uitest.util.BaseUiTestClass;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.widget.ListAdapter;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class DeleteDialogTest extends BaseUiTestClass {
 	private final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
 	private final int RESOURCE_IMAGE2 = org.catrobat.catroid.uitest.R.drawable.catroid_banzai;
 	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 	private final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
-	private Solo solo;
 
 	private String lookName = "lookNametest";
 	private File imageFile;
@@ -60,27 +56,21 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	private ArrayList<SoundInfo> soundInfoList;
 
 	public DeleteDialogTest() {
-		super(MainMenuActivity.class);
+		super();
 	}
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
-		solo = new Solo(getInstrumentation(), getActivity());
 		soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
 		lookDataList = ProjectManager.INSTANCE.getCurrentSprite().getLookDataList();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		ProjectManager.getInstance().deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-		solo = null;
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	public void testDeleteLooks() throws Exception {

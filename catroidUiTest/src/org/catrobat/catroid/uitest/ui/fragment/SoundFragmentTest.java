@@ -31,12 +31,12 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.mockups.MockSoundActivity;
+import org.catrobat.catroid.uitest.util.BaseUiTestClass;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
@@ -44,7 +44,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
@@ -52,7 +51,7 @@ import android.widget.LinearLayout;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class SoundFragmentTest extends BaseUiTestClass {
 	private static final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 	private static final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
 	private static final int VISIBLE = View.VISIBLE;
@@ -62,8 +61,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	private static final String FIRST_TEST_SOUND_NAME = "testSound1";
 	private static final String SECOND_TEST_SOUND_NAME = "testSound2";
-
-	private Solo solo;
 
 	private String rename;
 	private String renameDialogTitle;
@@ -83,14 +80,13 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	private ProjectManager projectManager;
 
 	public SoundFragmentTest() {
-		super(MainMenuActivity.class);
+		super();
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 
-		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
 
 		projectManager = ProjectManager.getInstance();
@@ -116,8 +112,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		externalSoundFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/externalSoundFile.mp3",
 				RESOURCE_SOUND, getActivity());
 
-		solo = new Solo(getInstrumentation(), getActivity());
-
 		UiTestUtils.getIntoSoundsFromMainMenu(solo);
 
 		rename = solo.getString(R.string.rename);
@@ -133,11 +127,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		externalSoundFile.delete();
 		super.tearDown();
-		solo = null;
 	}
 
 	public void testInitialLayout() {

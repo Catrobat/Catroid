@@ -29,44 +29,31 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uitest.util.BaseUiTestClass;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class NewSpriteDialogTest extends BaseUiTestClass {
 
-	private Solo solo;
 	private String testingproject = UiTestUtils.PROJECTNAME1;
 	private String testingsprite = "testingsprite";
 
 	public NewSpriteDialogTest() {
-		super(MainMenuActivity.class);
-	}
-
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = new Solo(getInstrumentation(), getActivity());
+		super();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		ProjectManager.INSTANCE.deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-		solo = null;
+		ProjectManager.INSTANCE.deleteCurrentProject();
 	}
 
 	public void testNewSpriteDialog() throws NameNotFoundException, IOException {

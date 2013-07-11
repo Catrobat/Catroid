@@ -41,18 +41,15 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uitest.util.BaseUiTestClass;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private Solo solo;
+public class SpeakStageTest extends BaseUiTestClass {
 	private TextToSpeechMock textToSpeechMock;
 	private Sprite spriteNormal, spriteNull, spriteInterrupt;
 	private String textMessageTest = "This is a test text.";
@@ -61,7 +58,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 	private String textMessageLong = "This is very very long long test text.";
 
 	public SpeakStageTest() throws InterruptedException {
-		super(MainMenuActivity.class);
+		super();
 	}
 
 	@Override
@@ -69,17 +66,13 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<MainMenuAct
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
 		createProjectToInitializeTextToSpeech();
-		solo = new Solo(getInstrumentation(), getActivity());
 		textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext());
 		Reflection.setPrivateField(SpeakAction.class, "utteranceIdPool", new AtomicInteger());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-		solo = null;
 		textToSpeechMock = null;
 	}
 

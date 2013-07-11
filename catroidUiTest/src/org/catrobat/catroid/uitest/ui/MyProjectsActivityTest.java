@@ -47,6 +47,7 @@ import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
+import org.catrobat.catroid.uitest.util.BaseUiTestClass;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
@@ -57,7 +58,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.test.ActivityInstrumentationTestCase2;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
@@ -68,7 +68,7 @@ import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class MyProjectsActivityTest extends BaseUiTestClass {
 	private final String INVALID_PROJECT_MODIFIER = "invalidProject";
 	private final int IMAGE_RESOURCE_1 = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
 	private final int IMAGE_RESOURCE_2 = org.catrobat.catroid.uitest.R.drawable.background_white;
@@ -78,7 +78,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	private final static String MY_PROJECTS_ACTIVITY_TEST_TAG = MyProjectsActivityTest.class.getSimpleName();
 	private final String ZIPFILE_NAME = "testzip";
 
-	private Solo solo;
 	private File renameDirectory = null;
 	private boolean unzip;
 	private boolean deleteCacheProjects = false;
@@ -90,7 +89,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	private final String lorem = "Lorem ipsum dolor sit amet";
 
 	public MyProjectsActivityTest() {
-		super(MainMenuActivity.class);
+		super();
 	}
 
 	@Override
@@ -98,16 +97,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
 		unzip = false;
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
 		ProjectManager.getInstance().deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
+		super.tearDown();
 		if (renameDirectory != null && renameDirectory.isDirectory()) {
 			UtilFile.deleteDirectory(renameDirectory);
 			renameDirectory = null;
@@ -123,8 +118,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		if (unzip) {
 			unzipProjects();
 		}
-		super.tearDown();
-		solo = null;
+
 	}
 
 	public void saveProjectsToZip() {

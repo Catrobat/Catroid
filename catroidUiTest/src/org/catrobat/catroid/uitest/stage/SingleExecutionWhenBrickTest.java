@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.stage;
 import java.io.File;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.BroadcastScript;
@@ -40,17 +41,13 @@ import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.uitest.util.BaseUiTestClass;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-
-import com.jayway.android.robotium.solo.Solo;
-
-public class SingleExecutionWhenBrickTest extends ActivityInstrumentationTestCase2<StageActivity> {
+public class SingleExecutionWhenBrickTest extends BaseUiTestClass {
 	private static final int SCREEN_WIDTH = 480;
 	private static final int SCREEN_HEIGHT = 800;
 
-	private Solo solo;
 	private Project projectWhenBrick;
 	Sprite yellowSprite;
 	Sprite greenSprite;
@@ -59,7 +56,7 @@ public class SingleExecutionWhenBrickTest extends ActivityInstrumentationTestCas
 	String broadcastMessage = "broadcastMessage";
 
 	public SingleExecutionWhenBrickTest() {
-		super(StageActivity.class);
+		super();
 	}
 
 	@Override
@@ -67,15 +64,8 @@ public class SingleExecutionWhenBrickTest extends ActivityInstrumentationTestCas
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
 		createProjectWhenBrick();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 	}
 
 	public void testWaitBrickWhenTapped() {
