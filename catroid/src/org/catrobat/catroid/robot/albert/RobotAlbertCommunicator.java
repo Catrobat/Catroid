@@ -100,6 +100,7 @@ public abstract class RobotAlbertCommunicator extends Thread {
 	public static final int MOTOR_RESET_COMMAND = 103;
 	public static final int BUZZER_COMMAND = 104;
 	private static final int RGB_EYE_COMMAND = 105;
+	private static final int FRONT_LED_COMMAND = 106;
 	//public static final int TONE_COMMAND = 101;
 
 	protected boolean connected = false;
@@ -157,13 +158,13 @@ public abstract class RobotAlbertCommunicator extends Thread {
 	 *      On error the method either sends a message to it's owner or creates an exception in the
 	 *      case of no message handler.
 	 */
-	public abstract void createNXTconnection() throws IOException;
+	public abstract void createConnection() throws IOException;
 
 	/**
 	 * Closes the bluetooth connection. On error the method either sends a message
 	 * to it's owner or creates an exception in the case of no message handler.
 	 */
-	public abstract void destroyNXTconnection() throws IOException;
+	public abstract void destroyConnection() throws IOException;
 
 	/**
 	 * Sends a message on the opened OutputStream
@@ -181,7 +182,7 @@ public abstract class RobotAlbertCommunicator extends Thread {
 
 	public abstract byte[] receiveMessage() throws IOException;
 
-	public abstract void stopAllNXTMovement();
+	public abstract void stopAllMovement();
 
 	/**
 	 * Sends a message on the opened OutputStream. In case of
@@ -457,6 +458,15 @@ public abstract class RobotAlbertCommunicator extends Thread {
 					Log.d("Albert", "buffer[9]=" + command_message[9]);
 					Log.d("Albert", "buffer[10]=" + command_message[10]);
 					Log.d("Albert", "buffer[21]=" + command_message[21]);
+					sendCommandMessage(command_message);
+					break;
+				case FRONT_LED_COMMAND:
+					Log.d("RobotAlbertC.Handler", "FrontLEDCommand received");
+					int status = message.getData().getInt("frontLED");
+					commands.setFrontLed(status);
+					command_message = commands.getCommandMessage();
+					Log.d("Albert", "buffer[5]=" + command_message[5] + " (sendFrameNo)");
+					Log.d("Albert", "buffer[17]=" + command_message[17]);
 					sendCommandMessage(command_message);
 					break;
 				case RGB_EYE_COMMAND:

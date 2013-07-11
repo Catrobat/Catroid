@@ -64,16 +64,16 @@ import android.util.Log;
  * Objects of this class can either be run as standalone thread or controlled
  * by the owners, i.e. calling the send/recive methods by themselves.
  */
-//@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) just needed for debug output: nxtBTsocket.isConnected()
+//@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) just needed for debug output: btSocket.isConnected()
 public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 
 	private static final UUID SERIAL_PORT_SERVICE_CLASS_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	// this is the only OUI registered by LEGO, see http://standards.ieee.org/regauth/oui/index.shtml
 
 	private BluetoothAdapter btAdapter;
-	private BluetoothSocket nxtBTsocket = null;
-	private OutputStream nxtOutputStream = null;
-	private InputStream nxtInputStream = null;
+	private BluetoothSocket btSocket = null;
+	private OutputStream outputStream = null;
+	private InputStream inputStream = null;
 
 	private String mMACaddress;
 	private BTConnectable myOwner;
@@ -100,7 +100,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 	public void run() {
 
 		try {
-			createNXTconnection();
+			createConnection();
 		} catch (IOException e) {
 		}
 
@@ -151,12 +151,12 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 	 *      case of no message handler.
 	 */
 	@Override
-	public void createNXTconnection() throws IOException {
+	public void createConnection() throws IOException {
 		try {
-			BluetoothSocket nxtBTSocketTemporary;
-			BluetoothDevice nxtDevice = null;
-			nxtDevice = btAdapter.getRemoteDevice(mMACaddress);
-			if (nxtDevice == null) {
+			BluetoothSocket btSocketTemporary;
+			BluetoothDevice btDevice = null;
+			btDevice = btAdapter.getRemoteDevice(mMACaddress);
+			if (btDevice == null) {
 				if (uiHandler == null) {
 					throw new IOException();
 				} else {
@@ -166,10 +166,10 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 				}
 			}
 
-			nxtBTSocketTemporary = nxtDevice.createRfcommSocketToServiceRecord(SERIAL_PORT_SERVICE_CLASS_UUID);
+			btSocketTemporary = btDevice.createRfcommSocketToServiceRecord(SERIAL_PORT_SERVICE_CLASS_UUID);
 			try {
 
-				nxtBTSocketTemporary.connect();
+				btSocketTemporary.connect();
 
 			} catch (IOException e) {
 				if (myOwner.isPairing()) {
@@ -185,9 +185,9 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 				// try another method for connection, this should work on the HTC desire, credits to Michael Biermann
 				try {
 
-					Method mMethod = nxtDevice.getClass().getMethod("createRfcommSocket", new Class[] { int.class });
-					nxtBTSocketTemporary = (BluetoothSocket) mMethod.invoke(nxtDevice, Integer.valueOf(1));
-					nxtBTSocketTemporary.connect();
+					Method mMethod = btDevice.getClass().getMethod("createRfcommSocket", new Class[] { int.class });
+					btSocketTemporary = (BluetoothSocket) mMethod.invoke(btDevice, Integer.valueOf(1));
+					btSocketTemporary.connect();
 				} catch (Exception e1) {
 					if (uiHandler == null) {
 						throw new IOException();
@@ -197,9 +197,9 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 					return;
 				}
 			}
-			nxtBTsocket = nxtBTSocketTemporary;
-			nxtInputStream = nxtBTsocket.getInputStream();
-			nxtOutputStream = nxtBTsocket.getOutputStream();
+			btSocket = btSocketTemporary;
+			inputStream = btSocket.getInputStream();
+			outputStream = btSocket.getOutputStream();
 			connected = true;
 		} catch (IOException e) {
 			if (uiHandler == null) {
@@ -223,23 +223,23 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 	 * to it's owner or creates an exception in the case of no message handler.
 	 */
 	@Override
-	public void destroyNXTconnection() throws IOException {
+	public void destroyConnection() throws IOException {
 
 		Log.d("RobotAlbertBtComm", "destroyRobotAlbertConnection");
 
 		if (connected) {
-			stopAllNXTMovement();
+			stopAllMovement();
 		}
 
 		try {
-			if (nxtBTsocket != null) {
+			if (btSocket != null) {
 				connected = false;
-				nxtBTsocket.close();
-				nxtBTsocket = null;
+				btSocket.close();
+				btSocket = null;
 			}
 
-			nxtInputStream = null;
-			nxtOutputStream = null;
+			inputStream = null;
+			outputStream = null;
 
 		} catch (IOException e) {
 			if (uiHandler == null) {
@@ -251,7 +251,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 	}
 
 	@Override
-	public void stopAllNXTMovement() {
+	public void stopAllMovement() {
 		myHandler.removeMessages(0);
 		myHandler.removeMessages(1);
 		myHandler.removeMessages(2);
@@ -275,11 +275,11 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 	public void sendMessage(byte[] message) throws IOException {
 
 		try {
-			if (nxtOutputStream == null) {
+			if (outputStream == null) {
 				throw new IOException();
 			}
-			nxtOutputStream.write(message, 0, message.length);
-			nxtOutputStream.flush();
+			outputStream.write(message, 0, message.length);
+			outputStream.flush();
 		} catch (Exception e) {
 			Log.d("RobotAlbertBtComm", "ERROR: Exception occured in sendMessage " + e.getMessage());
 		}
@@ -294,7 +294,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 	public byte[] receiveMessage() throws IOException {
 
 		//Log.d("RobotAlbertBtComm", "receiveMessage");
-		if (nxtInputStream == null) {
+		if (inputStream == null) {
 			throw new IOException();
 		}
 
@@ -306,7 +306,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 
 		do {
 			//Log.d("test","checking 0xAA");
-			read = nxtInputStream.read(buf0);
+			read = inputStream.read(buf0);
 			count2++;
 			if (count2 > 200) {
 				return null;
@@ -318,7 +318,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		buffer[1] = buf0[1];
 
 		do {
-			read = nxtInputStream.read(buf);
+			read = inputStream.read(buf);
 			buffer[count] = buf[0];
 			count++;
 			//Log.d("test", "waiting for 0x0A (count="+count+")");

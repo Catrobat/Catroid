@@ -35,54 +35,40 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClickListener {
+public class RobotAlbertFrontLedBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
 
-	public static enum Motor {
-		Left, Right, Both
-	}
-
-	private String motor;
-	private transient Motor motorEnum;
-	private transient EditText editSpeed;
-	private Formula speed;
+	private transient EditText editValue;
+	private Formula value;
 
 	protected Object readResolve() {
-		if (motor != null) {
-			motorEnum = Motor.valueOf(motor);
-		}
+		/*
+		 * if (motor != null) {
+		 * motorEnum = Motor.valueOf(motor);
+		 * }
+		 */
 		return this;
 	}
 
-	public RobotAlbertMotorActionBrick(Sprite sprite, Motor motor, int speedValue) {
+	public RobotAlbertFrontLedBrick(Sprite sprite, int value) {
 		this.sprite = sprite;
-		this.motorEnum = motor;
-		this.motor = motorEnum.name();
-
-		this.speed = new Formula(speedValue);
+		this.value = new Formula(value);
 	}
 
-	public RobotAlbertMotorActionBrick(Sprite sprite, Motor motor, Formula speedFormula) {
+	public RobotAlbertFrontLedBrick(Sprite sprite, Formula value) {
 		this.sprite = sprite;
-		this.motorEnum = motor;
-		this.motor = motorEnum.name();
-
-		this.speed = speedFormula;
+		this.value = value;
 	}
 
 	@Override
@@ -92,23 +78,22 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		RobotAlbertMotorActionBrick copyBrick = (RobotAlbertMotorActionBrick) clone();
+		RobotAlbertFrontLedBrick copyBrick = (RobotAlbertFrontLedBrick) clone();
 		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_robot_albert_motor_action, null);
-		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.robot_albert_motor_action_speed_text_view);
-		textSpeed.setText(String.valueOf(speed.interpretInteger(sprite)));
-		//TODO set the spinner Value to A
+		prototypeView = View.inflate(context, R.layout.brick_robot_albert_front_led_action, null);
+		TextView textValue = (TextView) prototypeView.findViewById(R.id.robot_albert_front_led_action_status_text_view);
+		textValue.setText(String.valueOf(value.interpretInteger(sprite)));
 		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new RobotAlbertMotorActionBrick(getSprite(), motorEnum, speed.clone());
+		return new RobotAlbertFrontLedBrick(getSprite(), value.clone());
 	}
 
 	@Override
@@ -117,8 +102,8 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 			return view;
 		}
 
-		view = View.inflate(context, R.layout.brick_robot_albert_motor_action, null);
-		setCheckboxView(R.id.brick_robot_albert_motor_action_checkbox);
+		view = View.inflate(context, R.layout.brick_robot_albert_front_led_action, null);
+		setCheckboxView(R.id.brick_robot_albert_front_led_action_checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -129,46 +114,21 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 			}
 		});
 
-		TextView textSpeed = (TextView) view.findViewById(R.id.robot_albert_motor_action_speed_text_view);
-		editSpeed = (EditText) view.findViewById(R.id.robot_albert_motor_action_speed_edit_text);
-		speed.setTextFieldId(R.id.robot_albert_motor_action_speed_edit_text);
-		speed.refreshTextField(view);
+		TextView textValue = (TextView) view.findViewById(R.id.robot_albert_front_led_action_status_text_view);
+		editValue = (EditText) view.findViewById(R.id.robot_albert_front_led_action_status_edit_text);
+		value.setTextFieldId(R.id.robot_albert_front_led_action_status_edit_text);
+		value.refreshTextField(view);
 
-		textSpeed.setVisibility(View.GONE);
-		editSpeed.setVisibility(View.VISIBLE);
+		textValue.setVisibility(View.GONE);
+		editValue.setVisibility(View.VISIBLE);
 
-		editSpeed.setOnClickListener(this);
+		editValue.setOnClickListener(this);
 
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
-				R.array.robot_albert_motor_chooser, android.R.layout.simple_spinner_item);
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner motorSpinner = (Spinner) view.findViewById(R.id.robot_albert_motor_spinner);
-		motorSpinner.setClickable(true);
-		motorSpinner.setEnabled(true);
-		motorSpinner.setAdapter(motorAdapter);
-		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				motorEnum = Motor.values()[position];
-				motor = motorEnum.name();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
-		motorSpinner.setSelection(motorEnum.ordinal());
-
-		int val = speed.interpretInteger(sprite);
-		if (val > 100) {
-			editSpeed.setText("" + 100);
-		} else if (val < -100) {
-			editSpeed.setText("" + -100);
+		int val = value.interpretInteger(sprite);
+		if (val > 1) {
+			editValue.setText("" + 1);
+		} else if (val < 0) {
+			editValue.setText("" + 0);
 		}
 
 		return view;
@@ -176,12 +136,12 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 
 	@Override
 	public void onClick(View view) {
-		FormulaEditorFragment.showFragment(view, this, speed);
+		FormulaEditorFragment.showFragment(view, this, value);
 	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_robot_albert_motor_action_layout);
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_robot_albert_front_led_action_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 		this.alphaValue = (alphaValue);
@@ -190,7 +150,7 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.RobotAlbertMotorAction(sprite, motor, motorEnum, speed));
+		sequence.addAction(ExtendedActions.robotAlbertFrontLedAction(sprite, value));
 		return null;
 	}
 }

@@ -74,6 +74,7 @@ public class RobotAlbert implements BTConnectable {
 	private static final int MOTOR_COMMAND = 102;
 	private static final int BUZZER_COMMAND = 104;
 	private static final int RGB_EYE_COMMAND = 105;
+	private static final int FRONT_LED_COMMAND = 106;
 
 	public RobotAlbert(Activity activity, Handler recieverHandler) {
 		this.activity = activity;
@@ -84,7 +85,7 @@ public class RobotAlbert implements BTConnectable {
 
 		if (myCommunicator != null) {
 			try {
-				myCommunicator.destroyNXTconnection();
+				myCommunicator.destroyConnection();
 			} catch (IOException e) {
 			}
 		}
@@ -106,8 +107,8 @@ public class RobotAlbert implements BTConnectable {
 		if (myCommunicator != null) {
 			//sendBTCMotorMessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.DISCONNECT, 0, 0);
 			try {
-				myCommunicator.stopAllNXTMovement();
-				myCommunicator.destroyNXTconnection();
+				myCommunicator.stopAllMovement();
+				myCommunicator.destroyConnection();
 			} catch (IOException e) { // TODO Auto-generated method stub
 
 				// TODO Auto-generated catch block
@@ -118,7 +119,7 @@ public class RobotAlbert implements BTConnectable {
 	}
 
 	public void pauseCommunicator() {
-		myCommunicator.stopAllNXTMovement();
+		myCommunicator.stopAllMovement();
 	}
 
 	public static synchronized void sendBTCPlayToneMessage(int frequency, int duration) {
@@ -198,6 +199,16 @@ public class RobotAlbert implements BTConnectable {
 		Log.d("RobotAlbert", "sendRobotAlbertBuzzerMessage():btcHandler.sendMessage(...)");
 		btcHandler.sendMessage(myMessage);
 		Log.d("RobotAlbert", "sendRobotAlbertBuzzerMessage finished!");
+	}
+
+	public static synchronized void sendRobotAlbertFrontLedMessage(int status) {
+		Log.d("RobotAlbert", "sendRobotAlbert FrontLedMessage():Bundle");
+		Bundle myBundle = new Bundle();
+		myBundle.putInt("frontLED", status);
+		Message myMessage = btcHandler.obtainMessage();
+		myMessage.setData(myBundle);
+		myMessage.what = FRONT_LED_COMMAND;
+		btcHandler.sendMessage(myMessage);
 	}
 
 	public static synchronized void sendRobotAlbertRgbLedEyeMessage(int eye, int red, int green, int blue) {

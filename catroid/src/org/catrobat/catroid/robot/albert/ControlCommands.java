@@ -55,6 +55,10 @@ public class ControlCommands {
 		buzzer = buzz;
 	}
 
+	public void setFrontLed(int status) {
+		front_led = status;
+	}
+
 	public void setLeftEye(int red, int green, int blue) {
 		left_led_red = red;
 		left_led_green = green;

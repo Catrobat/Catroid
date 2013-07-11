@@ -125,6 +125,13 @@ public class RobotAlbertBuzzerBrick extends BrickBaseType implements OnClickList
 
 		editValue.setOnClickListener(this);
 
+		int val = value.interpretInteger(sprite);
+		if (val > 255) {
+			editValue.setText("" + 255);
+		} else if (val < 0) {
+			editValue.setText("" + 0);
+		}
+
 		return view;
 	}
 

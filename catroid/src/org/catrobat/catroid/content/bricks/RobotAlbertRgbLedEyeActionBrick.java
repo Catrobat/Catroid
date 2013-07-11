@@ -180,6 +180,22 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 		int b = blue.interpretInteger(sprite);
 		colorView.setBackgroundColor(Color.rgb(r, g, b));
 
+		if (r > 255) {
+			editRedValue.setText("" + 255);
+		} else if (r < 0) {
+			editRedValue.setText("" + 0);
+		}
+		if (g > 255) {
+			editGreenValue.setText("" + 255);
+		} else if (g < 0) {
+			editGreenValue.setText("" + 0);
+		}
+		if (b > 255) {
+			editBlueValue.setText("" + 255);
+		} else if (b < 0) {
+			editBlueValue.setText("" + 0);
+		}
+
 		ArrayAdapter<CharSequence> eyeAdapter = ArrayAdapter.createFromResource(context,
 				R.array.robot_albert_eye_chooser, android.R.layout.simple_spinner_item);
 		eyeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
