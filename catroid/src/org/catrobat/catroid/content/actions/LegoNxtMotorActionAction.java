@@ -40,7 +40,12 @@ public class LegoNxtMotorActionAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		int speedValue = speed.interpretInteger(MIN_SPEED, MAX_SPEED, sprite);
+		int speedValue = speed.interpretInteger(sprite);
+		if (speedValue < MIN_SPEED) {
+			speedValue = MIN_SPEED;
+		} else if (speedValue > MAX_SPEED) {
+			speedValue = MAX_SPEED;
+		}
 
 		if (motorEnum.equals(Motor.MOTOR_A_C)) {
 			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), speedValue, 0);

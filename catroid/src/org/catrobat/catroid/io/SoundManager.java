@@ -79,6 +79,12 @@ public class SoundManager {
 	}
 
 	public synchronized void setVolume(float volume) {
+		if (volume > 100.0f) {
+			volume = 100.0f;
+		} else if (volume < 0.0f) {
+			volume = 0.0f;
+		}
+
 		this.volume = volume;
 		float volumeScalar = volume * 0.01f;
 		for (int i = 0; i < mediaPlayers.size(); i++) {
