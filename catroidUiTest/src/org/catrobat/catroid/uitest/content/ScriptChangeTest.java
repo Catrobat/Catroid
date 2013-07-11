@@ -34,42 +34,29 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uitest.util.BaseUiTestClass;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.jayway.android.robotium.solo.Solo;
+public class ScriptChangeTest extends BaseUiTestClass {
 
-public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
-
-	private Solo solo;
 	private ArrayList<Brick> brickListToCheck;
 	private Script testScript;
 	private Script testScript2;
 	private Script testScript3;
 
 	public ScriptChangeTest() {
-		super(ScriptActivity.class);
+		super();
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		createTestProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		createTestProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	public void testChangeScript() {
