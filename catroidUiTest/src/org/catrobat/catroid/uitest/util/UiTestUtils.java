@@ -534,7 +534,7 @@ public class UiTestUtils {
 		brickList.add(new NoteBrick(firstSprite));
 		brickList.add(new PlaceAtBrick(firstSprite, 0, 0));
 		brickList.add(new PlaySoundBrick(firstSprite));
-		brickList.add(new PointInDirectionBrick(firstSprite, Direction.DIRECTION_DOWN));
+		brickList.add(new PointInDirectionBrick(firstSprite, Direction.DOWN));
 		brickList.add(new PointToBrick(firstSprite, firstSprite));
 		brickList.add(new SetBrightnessBrick(firstSprite, 0));
 		brickList.add(new SetGhostEffectBrick(firstSprite, 0));
