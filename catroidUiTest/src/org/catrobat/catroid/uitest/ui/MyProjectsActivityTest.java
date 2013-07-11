@@ -48,6 +48,7 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
 import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
@@ -1541,6 +1542,7 @@ public class MyProjectsActivityTest extends BaseUiTestClass {
 			solo.clickOnText("backgroundGreen");
 		}
 
+		Reflection.setPrivateField(StageListener.class, "makeAutomaticScreenshot", true);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
