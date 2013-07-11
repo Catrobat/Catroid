@@ -79,7 +79,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 	}
 
 	public void testTopBounce() {
-		// < 90 && > -90
+		// Bounce if -90 < direction < 90
 
 		Map<Float, Float> expectedDirections = new HashMap<Float, Float>();
 		expectedDirections.put(90f, 90f);
@@ -107,7 +107,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 	}
 
 	public void testBottomBounce() {
-		// > 90 || < -90
+		// Bounce if direction < -90 or direction > 90
 
 		Map<Float, Float> expectedDirections = new HashMap<Float, Float>();
 		expectedDirections.put(90f, 90f);
@@ -135,7 +135,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 	}
 
 	public void testLeftBounce() {
-		//  < 0 && > -180
+		// Bounce if -180 < direction < 0
 
 		Map<Float, Float> expectedDirections = new HashMap<Float, Float>();
 		expectedDirections.put(90f, 90f);
@@ -163,7 +163,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 	}
 
 	public void testRightBounce() {
-		// > 0 && < 180
+		// Bounce if 0 < direction < 180
 
 		Map<Float, Float> expectedDirections = new HashMap<Float, Float>();
 		expectedDirections.put(90f, -90f);
@@ -190,21 +190,61 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		}
 	}
 
-	private void checkIfExpectedDirectionsContainsAllKeys(Map<Float, Float> expectedDirections) {
-		assertEquals(12, expectedDirections.size());
+	public void testUpLeftBounce() {
+		setPositionAndDirection(LEFT_BORDER_POSITION, TOP_BORDER_POSITION, 135f);
+		executeIfOnEdgeBounceAction();
+		checkPositionAndDirection(BOUNCE_LEFT_POSITION, BOUNCE_TOP_POSITION, 135f);
 
-		assertTrue(expectedDirections.containsKey(90f));
-		assertTrue(expectedDirections.containsKey(120f));
-		assertTrue(expectedDirections.containsKey(150f));
-		assertTrue(expectedDirections.containsKey(180f));
-		assertTrue(expectedDirections.containsKey(-150f));
-		assertTrue(expectedDirections.containsKey(-120f));
-		assertTrue(expectedDirections.containsKey(-90f));
-		assertTrue(expectedDirections.containsKey(-60f));
-		assertTrue(expectedDirections.containsKey(-30f));
-		assertTrue(expectedDirections.containsKey(0f));
-		assertTrue(expectedDirections.containsKey(30f));
-		assertTrue(expectedDirections.containsKey(60f));
+		setPositionAndDirection(LEFT_BORDER_POSITION, TOP_BORDER_POSITION, -45f);
+		executeIfOnEdgeBounceAction();
+		checkPositionAndDirection(BOUNCE_LEFT_POSITION, BOUNCE_TOP_POSITION, 135f);
+	}
+
+	public void testUpRightBounce() {
+		setPositionAndDirection(RIGHT_BORDER_POSITION, TOP_BORDER_POSITION, -135f);
+		executeIfOnEdgeBounceAction();
+		checkPositionAndDirection(BOUNCE_RIGHT_POSITION, BOUNCE_TOP_POSITION, -135f);
+
+		setPositionAndDirection(RIGHT_BORDER_POSITION, TOP_BORDER_POSITION, 45);
+		executeIfOnEdgeBounceAction();
+		checkPositionAndDirection(BOUNCE_RIGHT_POSITION, BOUNCE_TOP_POSITION, -135f);
+	}
+
+	public void testBottomLeftBounce() {
+		setPositionAndDirection(LEFT_BORDER_POSITION, BOTTOM_BORDER_POSITION, 45f);
+		executeIfOnEdgeBounceAction();
+		checkPositionAndDirection(BOUNCE_LEFT_POSITION, BOUNCE_BOTTOM_POSITION, 45f);
+
+		setPositionAndDirection(LEFT_BORDER_POSITION, BOTTOM_BORDER_POSITION, -135f);
+		executeIfOnEdgeBounceAction();
+		checkPositionAndDirection(BOUNCE_LEFT_POSITION, BOUNCE_BOTTOM_POSITION, 45f);
+	}
+
+	public void testBottomRightBounce() {
+		setPositionAndDirection(RIGHT_BORDER_POSITION, BOTTOM_BORDER_POSITION, -45f);
+		executeIfOnEdgeBounceAction();
+		checkPositionAndDirection(BOUNCE_RIGHT_POSITION, BOUNCE_BOTTOM_POSITION, -45f);
+
+		setPositionAndDirection(RIGHT_BORDER_POSITION, BOTTOM_BORDER_POSITION, 135f);
+		executeIfOnEdgeBounceAction();
+		checkPositionAndDirection(BOUNCE_RIGHT_POSITION, BOUNCE_BOTTOM_POSITION, -45f);
+	}
+
+	private void checkIfExpectedDirectionsContainsAllKeys(Map<Float, Float> expectedDirections) {
+		assertEquals("The expected directions count is wrong", 12, expectedDirections.size());
+
+		assertTrue("A 90° direction is missing", expectedDirections.containsKey(90f));
+		assertTrue("A 120° direction is missing", expectedDirections.containsKey(120f));
+		assertTrue("A 150° direction is missing", expectedDirections.containsKey(150f));
+		assertTrue("A 180° direction is missing", expectedDirections.containsKey(180f));
+		assertTrue("A -150° direction is missing", expectedDirections.containsKey(-150f));
+		assertTrue("A -120° direction is missing", expectedDirections.containsKey(-120f));
+		assertTrue("A -90° direction is missing", expectedDirections.containsKey(-90f));
+		assertTrue("A -60° direction is missing", expectedDirections.containsKey(-60f));
+		assertTrue("A -30° direction is missing", expectedDirections.containsKey(-30f));
+		assertTrue("A 0° direction is missing", expectedDirections.containsKey(0f));
+		assertTrue("A 30° direction is missing", expectedDirections.containsKey(30f));
+		assertTrue("A 60° direction is missing", expectedDirections.containsKey(60f));
 	}
 
 	private void setPositionAndDirection(float x, float y, float direction) {
