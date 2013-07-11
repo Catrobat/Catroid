@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.actions;
 
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.catrobat.catroid.stage.PreStageActivity;
 
@@ -35,7 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 public class SpeakAction extends Action {
 
 	private String text;
-	private static AtomicInteger utteranceIdPool = new AtomicInteger();
+	private static int utteranceIdPool;
 	private boolean executeOnce = true;
 	private boolean speakFinished = false;
 
@@ -50,8 +49,7 @@ public class SpeakAction extends Action {
 				}
 			};
 			HashMap<String, String> speakParameter = new HashMap<String, String>();
-			speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
-					String.valueOf(utteranceIdPool.getAndIncrement()));
+			speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, String.valueOf(utteranceIdPool++));
 			PreStageActivity.textToSpeech(text, listener, speakParameter);
 			executeOnce = false;
 		}

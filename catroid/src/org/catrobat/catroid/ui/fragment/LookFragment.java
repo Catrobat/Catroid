@@ -298,6 +298,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+
 		switch (item.getItemId()) {
 			case R.id.context_menu_copy: {
 				copyLook(selectedLookPosition);

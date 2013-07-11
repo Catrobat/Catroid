@@ -112,6 +112,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	private SoundDeletedReceiver soundDeletedReceiver;
 	private SoundRenamedReceiver soundRenamedReceiver;
+	private SoundCopiedReceiver soundCopiedReceiver;
 
 	private ActionMode actionMode;
 
@@ -208,11 +209,18 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			soundDeletedReceiver = new SoundDeletedReceiver();
 		}
 
+		if (soundCopiedReceiver == null) {
+			soundCopiedReceiver = new SoundCopiedReceiver();
+		}
+
 		IntentFilter intentFilterRenameSound = new IntentFilter(ScriptActivity.ACTION_SOUND_RENAMED);
 		getActivity().registerReceiver(soundRenamedReceiver, intentFilterRenameSound);
 
 		IntentFilter intentFilterDeleteSound = new IntentFilter(ScriptActivity.ACTION_SOUND_DELETED);
 		getActivity().registerReceiver(soundDeletedReceiver, intentFilterDeleteSound);
+
+		IntentFilter intentFilterCopySound = new IntentFilter(ScriptActivity.ACTION_SOUND_COPIED);
+		getActivity().registerReceiver(soundCopiedReceiver, intentFilterCopySound);
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
@@ -479,12 +487,17 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
-		menu.findItem(R.id.context_menu_copy).setVisible(false);
+		menu.findItem(R.id.context_menu_copy).setVisible(true);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+
+			case R.id.context_menu_copy:
+				copySound();
+				break;
+
 			case R.id.context_menu_cut:
 				break;
 
@@ -503,6 +516,23 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				break;
 		}
 		return super.onContextItemSelected(item);
+	}
+
+	/**
+	 * 
+	 */
+	private void copySound() {
+
+		// TODO implement that!
+
+		try {
+			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		updateSoundAdapter(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName());
+
 	}
 
 	@Override
@@ -609,6 +639,16 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptActivity.ACTION_SOUND_DELETED)) {
+				adapter.notifyDataSetChanged();
+				getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+			}
+		}
+	}
+
+	private class SoundCopiedReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_SOUND_COPIED)) {
 				adapter.notifyDataSetChanged();
 				getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 			}

@@ -50,6 +50,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.test.FlakyTest;
 import android.test.UiThreadTest;
 import android.util.Log;
 import android.widget.EditText;
@@ -96,6 +97,7 @@ public class ProjectUpAndDownloadTest extends BaseUiTestClass {
 		});
 	}
 
+	@FlakyTest(tolerance = 4)
 	public void testUploadProjectSuccessAndTokenReplacementAfterUpload() throws Throwable {
 		setServerURLToTestUrl();
 		createTestProject(testProject);
@@ -122,6 +124,7 @@ public class ProjectUpAndDownloadTest extends BaseUiTestClass {
 		//downloadProject();
 	}
 
+	@FlakyTest(tolerance = 4)
 	public void testUploadProjectOldCatrobatLanguageVersion() throws Throwable {
 		setServerURLToTestUrl();
 
@@ -167,6 +170,7 @@ public class ProjectUpAndDownloadTest extends BaseUiTestClass {
 		UiTestUtils.clearAllUtilTestProjects();
 	}
 
+	@FlakyTest(tolerance = 4)
 	public void testRenameProjectNameAndDescriptionWhenUploading() throws Throwable {
 		setServerURLToTestUrl();
 
@@ -211,6 +215,7 @@ public class ProjectUpAndDownloadTest extends BaseUiTestClass {
 				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
 	}
 
+	@FlakyTest(tolerance = 4)
 	public void testRenameProjectDescriptionWhenUploading() throws Throwable {
 		setServerURLToTestUrl();
 
@@ -252,6 +257,7 @@ public class ProjectUpAndDownloadTest extends BaseUiTestClass {
 				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
 	}
 
+	@FlakyTest(tolerance = 4)
 	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {
 		setServerURLToTestUrl();
 
@@ -279,6 +285,7 @@ public class ProjectUpAndDownloadTest extends BaseUiTestClass {
 		assertTrue("Project name on server was changed", serverProjectName.equalsIgnoreCase(testProject));
 	}
 
+	@FlakyTest(tolerance = 4)
 	public void testDownload() throws Throwable {
 		setServerURLToTestUrl();
 
@@ -319,6 +326,7 @@ public class ProjectUpAndDownloadTest extends BaseUiTestClass {
 		assertTrue("Project was successfully downloaded", serverProjectName.equalsIgnoreCase(projectName));
 	}
 
+	@FlakyTest(tolerance = 4)
 	public void testUploadStandardProject() throws Throwable {
 		if (!createAndSaveStandardProject() || this.standardProject == null) {
 			fail("Standard project not created");
@@ -359,6 +367,7 @@ public class ProjectUpAndDownloadTest extends BaseUiTestClass {
 
 	}
 
+	@FlakyTest(tolerance = 4)
 	public void testUploadModifiedStandardProject() throws Throwable {
 		if (!createAndSaveStandardProject() || this.standardProject == null) {
 			fail("Standard project not created");

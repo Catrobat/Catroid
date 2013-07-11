@@ -32,10 +32,10 @@ public class HideActionTest extends AndroidTestCase {
 
 	public void testHide() {
 		Sprite sprite = new Sprite("new sprite");
-		assertTrue("Unexpected default visibility", sprite.look.show);
+		assertTrue("Unexpected default visibility", sprite.look.visible);
 		HideAction action = ExtendedActions.hide(sprite);
 		action.act(1.0f);
-		assertFalse("Sprite is still visible after HideBrick executed", sprite.look.show);
+		assertFalse("Sprite is still visible after HideBrick executed", sprite.look.visible);
 	}
 
 	public void testNullSprite() {

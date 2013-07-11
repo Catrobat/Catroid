@@ -25,153 +25,103 @@ package org.catrobat.catroid.test.content.actions;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.MoveNStepsAction;
+import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 public class MoveNStepsActionTest extends AndroidTestCase {
+	private final float delta = 0.0001f;
+
+	private Sprite sprite;
+	private final float steps = 10f;
+	private final float diagonalStepLength = 7.07106f;
+
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("Test");
+	}
 
 	public void testMoveHorizontalForward() {
-		Sprite sprite = new Sprite("test");
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
-
-		action.act(1.0f);
-		assertEquals("Wrong x-position", 10f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
-
-		action.restart();
-		action.act(1.0f);
-		assertEquals("Wrong x-position", 20f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		Action moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(steps));
+		executeTest(moveNStepsAction, steps, 0);
 	}
 
 	public void testMoveHorizontalBackward() {
-		Sprite sprite = new Sprite("test");
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(-10));
-
-		action.act(1.0f);
-		assertEquals("Wrong x-position", -10f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
-
-		action.restart();
-		action.act(1.0f);
-		assertEquals("Wrong x-position", -20f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		Action moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(-steps));
+		executeTest(moveNStepsAction, -steps, 0);
 	}
 
 	public void testMoveVerticalUp() {
-		Sprite sprite = new Sprite("test");
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
+		sprite.look.setDirectionInUserInterfaceDimensionUnit((float) Direction.UP.getDegrees());
+		Action moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(steps));
 
-		sprite.look.setRotation(90);
-
-		action.act(1.0f);
-		assertEquals("Wrong x-position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", 10f, sprite.look.getYInUserInterfaceDimensionUnit());
-
-		action.restart();
-		action.act(1.0f);
-		assertEquals("Wrong x-position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", 20f, sprite.look.getYInUserInterfaceDimensionUnit());
+		executeTest(moveNStepsAction, 0, steps);
 	}
 
 	public void testMoveVerticalDown() {
-		Sprite sprite = new Sprite("test");
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
+		sprite.look.setDirectionInUserInterfaceDimensionUnit((float) Direction.DOWN.getDegrees());
+		Action moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(steps));
 
-		sprite.look.setRotation(-90);
-
-		action.act(1.0f);
-		assertEquals("Wrong x-position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", -10f, sprite.look.getYInUserInterfaceDimensionUnit());
-
-		action.restart();
-		action.act(1.0f);
-		assertEquals("Wrong x-position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", -20f, sprite.look.getYInUserInterfaceDimensionUnit());
+		executeTest(moveNStepsAction, 0, -steps);
 	}
 
 	public void testMoveDiagonalRightUp() {
-		Sprite sprite = new Sprite("test");
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
+		sprite.look.setDirectionInUserInterfaceDimensionUnit(45);
+		MoveNStepsAction moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(steps));
 
-		sprite.look.setRotation(45);
-
-		action.act(1.0f);
-		assertEquals("Wrong x-position", 7f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", 7f, sprite.look.getYInUserInterfaceDimensionUnit());
-
-		action.restart();
-		action.act(1.0f);
-		assertEquals("Wrong x-position", 14f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", 14f, sprite.look.getYInUserInterfaceDimensionUnit());
+		executeTest(moveNStepsAction, diagonalStepLength, diagonalStepLength);
 	}
 
 	public void testMoveDiagonalLeftUp() {
-		Sprite sprite = new Sprite("test");
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
+		sprite.look.setDirectionInUserInterfaceDimensionUnit(-45);
+		MoveNStepsAction moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(steps));
 
-		sprite.look.setRotation(135);
-
-		action.act(1.0f);
-		assertEquals("Wrong x-position", -7f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", 7f, sprite.look.getYInUserInterfaceDimensionUnit());
-
-		action.restart();
-		action.act(1.0f);
-		assertEquals("Wrong x-position", -14f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", 14f, sprite.look.getYInUserInterfaceDimensionUnit());
+		executeTest(moveNStepsAction, -diagonalStepLength, diagonalStepLength);
 	}
 
 	public void testMoveDiagonalRightDown() {
-		Sprite sprite = new Sprite("test");
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
+		sprite.look.setDirectionInUserInterfaceDimensionUnit(135);
+		MoveNStepsAction moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(steps));
 
-		sprite.look.setRotation(-45);
-
-		action.act(1.0f);
-		assertEquals("Wrong x-position", 7f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", -7f, sprite.look.getYInUserInterfaceDimensionUnit());
-
-		action.restart();
-		action.act(1.0f);
-		assertEquals("Wrong x-position", 14f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", -14f, sprite.look.getYInUserInterfaceDimensionUnit());
+		executeTest(moveNStepsAction, diagonalStepLength, -diagonalStepLength);
 	}
 
 	public void testMoveDiagonalLeftDown() {
-		Sprite sprite = new Sprite("test");
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
+		sprite.look.setDirectionInUserInterfaceDimensionUnit(-135);
+		MoveNStepsAction moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(steps));
 
-		sprite.look.setRotation(-135);
-
-		action.act(1.0f);
-		assertEquals("Wrong x-position", -7f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", -7f, sprite.look.getYInUserInterfaceDimensionUnit());
-
-		action.restart();
-		action.act(1.0f);
-		assertEquals("Wrong x-position", -14f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", -14f, sprite.look.getYInUserInterfaceDimensionUnit());
+		executeTest(moveNStepsAction, -diagonalStepLength, -diagonalStepLength);
 	}
 
 	public void testMoveOther() {
-		Sprite sprite = new Sprite("test");
+		sprite.look.setDirectionInUserInterfaceDimensionUnit(100);
 		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
 
-		sprite.look.setRotation(10);
-
 		action.act(1.0f);
-		assertEquals("Wrong x-position", 10f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", 2f, sprite.look.getYInUserInterfaceDimensionUnit());
+		checkPosition(9.848078f, -1.7364818f);
 
-		sprite.look.setRotation(50);
+		sprite.look.setDirectionInUserInterfaceDimensionUnit(-30);
 
 		action.restart();
 		action.act(1.0f);
-		assertEquals("Wrong x-position", 16f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y-position", 10f, sprite.look.getYInUserInterfaceDimensionUnit());
+		checkPosition(4.848078f, 6.923773f);
+	}
+
+	private void executeTest(Action moveNStepsAction, float expectedX, float expectedY) {
+		moveNStepsAction.act(1.0f);
+		checkPosition(expectedX, expectedY);
+
+		moveNStepsAction.restart();
+		moveNStepsAction.act(1.0f);
+		checkPosition(2 * expectedX, 2 * expectedY);
 
 	}
 
+	private void checkPosition(float expectedX, float expectedY) {
+		assertEquals("Wrong x-position", expectedX, sprite.look.getXInUserInterfaceDimensionUnit(), delta);
+		assertEquals("Wrong y-position", expectedY, sprite.look.getYInUserInterfaceDimensionUnit(), delta);
+	}
 }
