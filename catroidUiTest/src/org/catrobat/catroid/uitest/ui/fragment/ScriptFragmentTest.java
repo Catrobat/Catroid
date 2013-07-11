@@ -81,11 +81,8 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testCopyScript() {
-		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
+		UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-
-		int numberOfBricksBeforeCopy = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0)
-				.getNumberOfBricks();
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		solo.clickOnCheckBox(0);
@@ -99,11 +96,8 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testCopyMultipleBricks() {
-		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
+		UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-
-		int numberOfBricksBeforeCopy = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0)
-				.getNumberOfBricks();
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		solo.clickOnCheckBox(1);
@@ -120,24 +114,15 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testCopyActionMode() {
-		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
+		UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-
-		int numberOfBricksBeforeCopy = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0)
-				.getNumberOfBricks();
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		solo.clickOnCheckBox(1);
 
-		//solo.clickOnText(solo.getString(R.string.brick_hide));
-
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		//solo.sleep(1000);
 		solo.waitForText(solo.getString(R.string.brick_hide));
-
-		//solo.clickOnText(solo.getString(R.string.brick_hide));
-		//solo.clickOnScreen(200, 200);
 
 		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
 
