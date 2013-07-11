@@ -46,10 +46,10 @@ public class SimpleStageTest extends BaseUiTestClass {
 
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
 	}
 
 	public void testSimple() {
-		solo.waitForActivity(StageActivity.class.getSimpleName());
 		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
 
 		byte[] result = StageActivity.stageListener.getPixels(0, 0, 1, 1);
@@ -63,8 +63,7 @@ public class SimpleStageTest extends BaseUiTestClass {
 	}
 
 	public void testScreenAlwaysOn() {
-		solo.waitForActivity(StageActivity.class.getSimpleName());
-		final int windowFlags = getActivity().getWindow().getAttributes().flags;
+		final int windowFlags = solo.getCurrentActivity().getWindow().getAttributes().flags;
 
 		assertTrue("Window flags do not contain FLAG_KEEP_SCREEN_ON!",
 				(windowFlags & WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) != 0);
