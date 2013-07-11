@@ -45,7 +45,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.view.Display;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -95,9 +94,6 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
 
-		Log.d("TAG", "Number of Bricks before copy command: " + numberOfBricksBeforeCopy
-				+ "Number of Bricks after copy command" + numberOfBricks);
-
 		assertEquals("No brick has been copied!", 12, numberOfBricks);
 
 	}
@@ -118,9 +114,6 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.waitForText(solo.getString(R.string.brick_hide));
 
 		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
-
-		Log.d("TAG", "Number of Bricks before copy command: " + numberOfBricksBeforeCopy
-				+ "Number of Bricks after copy command" + numberOfBricks);
 
 		assertEquals("No brick has been copied!", 8, numberOfBricks);
 
@@ -147,9 +140,6 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		//solo.clickOnScreen(200, 200);
 
 		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
-
-		Log.d("TAG", "Number of Bricks before copy command: " + numberOfBricksBeforeCopy
-				+ "Number of Bricks after copy command" + numberOfBricks);
 
 		assertEquals("No brick has been copied!", 7, numberOfBricks);
 

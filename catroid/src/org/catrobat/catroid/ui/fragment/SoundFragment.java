@@ -523,7 +523,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	 */
 	private void copySound() {
 
-		Log.d("TAG", "@copySound");
 		// TODO implement that!
 
 		try {

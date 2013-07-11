@@ -151,8 +151,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	@Override
 	public void drag(int from, int to) {
 
-		Log.d("TAG", "Drag called!");
-
 		if (to < 0 || to >= brickList.size()) {
 			to = brickList.size() - 1;
 		}
@@ -605,9 +603,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		}
 
-		//initInsertedBrick = true;
-		//positionOfInsertedBrick = position;
-
 		if (scriptCount == 0) {
 			Script script = new StartScript(currentSprite);
 			currentSprite.addScript(script);
@@ -911,13 +906,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 	}
 
-	/**
-	 * @param itemPosition
-	 * @param b
-	 */
 	protected void copyBrickListAndProject(int itemPosition, boolean b) {
-		// TODO Auto-generated method stub
-		Log.d("TAG", "BrickAdapter-->copyBrickListAndProject");
 
 		Brick copy;
 
