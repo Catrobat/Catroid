@@ -32,7 +32,6 @@ import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uitest.util.BaseUiTestClass;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class MultipleBroadcastsTest extends BaseUiTestClass {
@@ -62,7 +61,6 @@ public class MultipleBroadcastsTest extends BaseUiTestClass {
 
 	public void testSendMultipleBroadcastsWhenProjectStart() {
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(2000);
 		assertEquals("Sprite1 is at the false x position", sprite1PosX,
 				(int) sprite1.look.getXInUserInterfaceDimensionUnit());

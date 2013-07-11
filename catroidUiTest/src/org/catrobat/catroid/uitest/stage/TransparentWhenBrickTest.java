@@ -72,7 +72,6 @@ public class TransparentWhenBrickTest extends BaseUiTestClass {
 
 	public void testTapOnSideAreaOfForegroundSprite() {
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(2000);
 		assertTrue("Sprite cat is not at x=0 and y=0",
 				cat.look.getXInUserInterfaceDimensionUnit() == 0 && cat.look.getYInUserInterfaceDimensionUnit() == 0);
@@ -99,7 +98,6 @@ public class TransparentWhenBrickTest extends BaseUiTestClass {
 		Formula ghostEffectValue = new Formula(50.0);
 		Reflection.setPrivateField(setGhostEffectBrick, "transparency", ghostEffectValue);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(2000);
 		assertTrue("Sprite cat is not at x=0 and y=0",
 				cat.look.getXInUserInterfaceDimensionUnit() == 0 && cat.look.getYInUserInterfaceDimensionUnit() == 0);
@@ -126,7 +124,6 @@ public class TransparentWhenBrickTest extends BaseUiTestClass {
 		Formula ghostEffectValue = new Formula(100.0);
 		Reflection.setPrivateField(setGhostEffectBrick, "transparency", ghostEffectValue);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(2000);
 		assertTrue("Sprite cat is not at x=0 and y=0",
 				cat.look.getXInUserInterfaceDimensionUnit() == 0 && cat.look.getYInUserInterfaceDimensionUnit() == 0);

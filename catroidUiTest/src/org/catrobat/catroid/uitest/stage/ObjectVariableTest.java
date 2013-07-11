@@ -46,7 +46,6 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uitest.util.BaseUiTestClass;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.widget.ListView;
@@ -105,7 +104,6 @@ public class ObjectVariableTest extends BaseUiTestClass {
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
-		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(1000);
 
 		Formula lookXPositionFormula = getFormulaBySensor(Sensors.OBJECT_X);
@@ -176,7 +174,6 @@ public class ObjectVariableTest extends BaseUiTestClass {
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
-		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(1000);
 
 		solo.goBack();
