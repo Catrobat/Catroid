@@ -29,8 +29,9 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -38,7 +39,7 @@ import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class RenameSpriteDialogTest extends BaseUiTestClass {
+public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String cat = "cat";
@@ -46,11 +47,13 @@ public class RenameSpriteDialogTest extends BaseUiTestClass {
 	private String catMixedCase = "CaT";
 
 	public RenameSpriteDialogTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
 		ProjectManager.getInstance().deleteCurrentProject();
 	}

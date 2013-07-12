@@ -41,10 +41,11 @@ import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-public class SingleExecutionWhenBrickTest extends BaseUiTestClass {
+public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int SCREEN_WIDTH = 480;
 	private static final int SCREEN_HEIGHT = 800;
 
@@ -56,21 +57,22 @@ public class SingleExecutionWhenBrickTest extends BaseUiTestClass {
 	String broadcastMessage = "broadcastMessage";
 
 	public SingleExecutionWhenBrickTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.prepareStageForTest();
 		createProjectWhenBrick();
+		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(500);
 	}
 
 	public void testWaitBrickWhenTapped() {
-		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(500);
+
 		for (int i = 1; i <= 10; ++i) {
 			solo.sleep(100);
 			assertEquals("Look has wrong AlphaValue.", 0f,
@@ -84,8 +86,6 @@ public class SingleExecutionWhenBrickTest extends BaseUiTestClass {
 	}
 
 	public void testWaitBrickBroadcast() {
-		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(500);
 		for (int i = 1; i <= 10; ++i) {
 			solo.sleep(1000);
 			assertEquals("Look has wrong AlphaValue.", 0f,

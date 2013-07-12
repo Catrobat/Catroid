@@ -23,42 +23,43 @@
 package org.catrobat.catroid.uitest.util;
 
 import org.catrobat.catroid.stage.StageListener;
-import org.catrobat.catroid.ui.MainMenuActivity;
 
+import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public abstract class BaseUiTestClass extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public abstract class BaseActivityInstrumentationTestCase<T extends Activity> extends
+		ActivityInstrumentationTestCase2<T> {
 
 	protected Solo solo;
 
-	public BaseUiTestClass() {
-		super(MainMenuActivity.class);
+	public BaseActivityInstrumentationTestCase(Class<T> clazz) {
+		super(clazz);
 	}
 
 	@Override
 	protected void setUp() throws Exception {
-		Log.v("BaseUiTestClass", "Setup #1");
+		Log.v("BaseActivityInstrumentationTestCase", "Setup #1");
 		super.setUp();
-		Log.v("BaseUiTestClass", "Setup #2");
+		Log.v("BaseActivityInstrumentationTestCase", "Setup #2");
 		UiTestUtils.clearAllUtilTestProjects();
-		Log.v("BaseUiTestClass", "Setup #3");
+		Log.v("BaseActivityInstrumentationTestCase", "Setup #3");
 		solo = new Solo(getInstrumentation(), getActivity());
-		Log.v("BaseUiTestClass", "Setup #4");
+		Log.v("BaseActivityInstrumentationTestCase", "Setup #4");
 		Reflection.setPrivateField(StageListener.class, "makeAutomaticScreenshot", false);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		Log.v("BaseUiTestClass", "Teardown #1");
+		Log.v("BaseActivityInstrumentationTestCase", "Teardown #1");
 		solo.finishOpenedActivities();
-		Log.v("BaseUiTestClass", "Setup #2");
+		Log.v("BaseActivityInstrumentationTestCase", "Teardown #2");
 		UiTestUtils.clearAllUtilTestProjects();
-		Log.v("BaseUiTestClass", "Setup #3");
+		Log.v("BaseActivityInstrumentationTestCase", "Teardown #3");
 		super.tearDown();
-		Log.v("BaseUiTestClass", "Setup #4");
+		Log.v("BaseActivityInstrumentationTestCase", "Teardown #4");
 		solo = null;
 	}
 

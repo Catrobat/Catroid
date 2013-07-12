@@ -33,30 +33,35 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.widget.ListView;
 
-public class WhenBrickTest extends BaseUiTestClass {
+public class WhenBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
 	private Project project;
 
 	public WhenBrickTest() {
-		super();
+		super(ScriptActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		super.setUp();
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		super.setUp();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
 		ProjectManager.getInstance().deleteCurrentProject();
 	}

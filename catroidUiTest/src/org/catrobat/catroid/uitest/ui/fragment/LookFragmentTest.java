@@ -38,7 +38,7 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
 import org.catrobat.catroid.ui.fragment.LookFragment;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
@@ -54,7 +54,7 @@ import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class LookFragmentTest extends BaseUiTestClass {
+public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
 	private static final int RESOURCE_IMAGE2 = org.catrobat.catroid.uitest.R.drawable.catroid_banzai;
 	private static final int RESOURCE_IMAGE3 = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses_jpg;
@@ -94,16 +94,15 @@ public class LookFragmentTest extends BaseUiTestClass {
 	private ProjectManager projectManager;
 
 	public LookFragmentTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.prepareStageForTest();
-
 		UiTestUtils.createTestProject();
+		UiTestUtils.prepareStageForTest();
 
 		projectManager = ProjectManager.getInstance();
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();

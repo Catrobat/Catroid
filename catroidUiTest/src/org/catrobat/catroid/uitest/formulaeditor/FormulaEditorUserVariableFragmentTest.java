@@ -43,7 +43,7 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.util.Log;
@@ -52,7 +52,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-public class FormulaEditorUserVariableFragmentTest extends BaseUiTestClass {
+public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private static final double SET_USERVARIABLE_TO_BRICK_VALUE = 10d;
 	private static final String USER_VARIABLE_NAME_UNDERLINE_PREFIX = "_userVar1";
@@ -68,7 +68,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseUiTestClass {
 	private static final int MAX_ITERATIONS = 10;
 
 	public FormulaEditorUserVariableFragmentTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -79,9 +79,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseUiTestClass {
 	}
 
 	private void createProject(String projectName) throws InterruptedException {
-
 		project = new Project(null, projectName);
-
 		firstSprite = new Sprite("firstSprite");
 		secondSprite = new Sprite("secondSprite");
 

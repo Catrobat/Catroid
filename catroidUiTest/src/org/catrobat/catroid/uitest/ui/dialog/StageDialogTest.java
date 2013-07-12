@@ -38,9 +38,10 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
@@ -48,13 +49,13 @@ import org.catrobat.catroid.utils.Utils;
 import android.app.Activity;
 import android.media.MediaPlayer;
 
-public class StageDialogTest extends BaseUiTestClass {
+public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private StorageHandler storageHandler;
 
 	public StageDialogTest() {
-		super();
+		super(MainMenuActivity.class);
 		storageHandler = StorageHandler.getInstance();
 	}
 
@@ -66,6 +67,8 @@ public class StageDialogTest extends BaseUiTestClass {
 
 	@Override
 	protected void tearDown() throws Exception {
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
 		ProjectManager.getInstance().deleteCurrentProject();
 	}

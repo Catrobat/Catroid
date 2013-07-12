@@ -29,16 +29,17 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.view.Display;
 import android.widget.ListAdapter;
 
-public class DeleteDialogTest extends BaseUiTestClass {
+public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
 	private final int RESOURCE_IMAGE2 = org.catrobat.catroid.uitest.R.drawable.catroid_banzai;
 	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
@@ -56,7 +57,7 @@ public class DeleteDialogTest extends BaseUiTestClass {
 	private ArrayList<SoundInfo> soundInfoList;
 
 	public DeleteDialogTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -69,6 +70,8 @@ public class DeleteDialogTest extends BaseUiTestClass {
 
 	@Override
 	protected void tearDown() throws Exception {
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
 		ProjectManager.getInstance().deleteCurrentProject();
 	}

@@ -32,28 +32,31 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
 
-public class SetYBrickTest extends BaseUiTestClass {
+public class SetYBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final int SET_Y = 17;
 
 	private Project project;
 	private SetYBrick setYBrick;
 
 	public SetYBrickTest() {
-		super();
+		super(ScriptActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		super.setUp();
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		super.setUp();
 	}
 
 	@Smoke

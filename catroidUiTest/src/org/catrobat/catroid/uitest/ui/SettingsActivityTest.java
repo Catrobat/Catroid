@@ -25,7 +25,7 @@ package org.catrobat.catroid.uitest.ui;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.SharedPreferences;
@@ -38,10 +38,10 @@ import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SettingsActivityTest extends BaseUiTestClass {
+public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	public SettingsActivityTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	public void testToggleMindstormBricks() {

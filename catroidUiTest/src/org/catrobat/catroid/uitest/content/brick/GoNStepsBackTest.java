@@ -33,8 +33,9 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -47,21 +48,23 @@ import android.widget.TextView;
  * @author Daniel Burtscher
  * 
  */
-public class GoNStepsBackTest extends BaseUiTestClass {
+public class GoNStepsBackTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final int STEPS_TO_GO_BACK = 17;
 
 	private Project project;
 	private GoNStepsBackBrick goNStepsBackBrick;
 
 	public GoNStepsBackTest() {
-		super();
+		super(ScriptActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		super.setUp();
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		super.setUp();
 	}
 
 	@Smoke

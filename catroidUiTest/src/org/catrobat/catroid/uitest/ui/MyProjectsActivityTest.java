@@ -47,7 +47,7 @@ import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -69,7 +69,7 @@ import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class MyProjectsActivityTest extends BaseUiTestClass {
+public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private final String INVALID_PROJECT_MODIFIER = "invalidProject";
 	private final String whitelistedCharacterString = "[Hey+, =lo_ok. I'm; -special! too!]";
 	private final String blacklistedCharacterString = "<H/ey,\", :I'\\m s*pe?ci>al! ?äö|üß<>";
@@ -93,7 +93,7 @@ public class MyProjectsActivityTest extends BaseUiTestClass {
 	private final String lorem = "Lorem ipsum dolor sit amet";
 
 	public MyProjectsActivityTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -1642,7 +1642,6 @@ public class MyProjectsActivityTest extends BaseUiTestClass {
 		LookData backgroundRed;
 		ProjectManager projectManager = ProjectManager.getInstance();
 
-		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createEmptyProject();
 
 		File imageFile1 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,

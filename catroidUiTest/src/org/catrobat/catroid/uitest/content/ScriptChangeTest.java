@@ -34,14 +34,15 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ScriptChangeTest extends BaseUiTestClass {
+public class ScriptChangeTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
 	private ArrayList<Brick> brickListToCheck;
 	private Script testScript;
@@ -49,14 +50,16 @@ public class ScriptChangeTest extends BaseUiTestClass {
 	private Script testScript3;
 
 	public ScriptChangeTest() {
-		super();
+		super(ScriptActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		super.setUp();
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createTestProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		super.setUp();
 	}
 
 	public void testChangeScript() {

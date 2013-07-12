@@ -33,13 +33,14 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.EditText;
 
-public class FormulaEditorKeyboardTest extends BaseUiTestClass {
+public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private Project project;
 	private Sprite firstSprite;
@@ -51,7 +52,7 @@ public class FormulaEditorKeyboardTest extends BaseUiTestClass {
 	private static final int Y_POS_EDIT_TEXT_ID = 1;
 
 	public FormulaEditorKeyboardTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -62,9 +63,7 @@ public class FormulaEditorKeyboardTest extends BaseUiTestClass {
 	}
 
 	private void createProject(String projectName) throws InterruptedException {
-
 		project = new Project(null, projectName);
-
 		firstSprite = new Sprite("firstSprite");
 		secondSprite = new Sprite("secondSprite");
 		Script startScript1 = new StartScript(firstSprite);

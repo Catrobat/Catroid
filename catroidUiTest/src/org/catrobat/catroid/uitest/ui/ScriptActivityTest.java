@@ -27,7 +27,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.app.Activity;
@@ -38,18 +38,17 @@ import android.content.res.Configuration;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ScriptActivityTest extends BaseUiTestClass {
+public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	public ScriptActivityTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.prepareStageForTest();
 		UiTestUtils.createTestProject();
-
+		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 

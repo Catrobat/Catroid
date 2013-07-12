@@ -35,20 +35,21 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.suitebuilder.annotation.Smoke;
 import android.util.Log;
 import android.widget.ListView;
 
-public class IfBrickTest extends BaseUiTestClass {
+public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private Project project;
 	private IfLogicBeginBrick ifBrick;
 
 	public IfBrickTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@Override

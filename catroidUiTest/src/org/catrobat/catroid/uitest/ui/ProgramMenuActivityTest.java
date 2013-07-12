@@ -43,7 +43,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.pm.ActivityInfo;
@@ -54,21 +54,23 @@ import android.widget.EditText;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ProgramMenuActivityTest extends BaseUiTestClass {
+public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	public ProgramMenuActivityTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.prepareStageForTest();
 		createProject();
+		UiTestUtils.prepareStageForTest();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
 		ProjectManager.getInstance().deleteCurrentProject();
 	}

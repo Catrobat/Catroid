@@ -34,26 +34,22 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.util.Log;
-
-public class ScriptDeleteTest extends BaseUiTestClass {
+public class ScriptDeleteTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private ArrayList<Brick> brickListToCheck;
 
 	public ScriptDeleteTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		Log.v("ScriptDeleteTest", "Setup #1");
 		super.setUp();
-		Log.v("ScriptDeleteTest", "Setup #2");
 		createTestProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Log.v("ScriptDeleteTest", "Setup #3");
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 

@@ -32,15 +32,16 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
 
-public class SpeakBrickTest extends BaseUiTestClass {
+public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
 	private Project project;
 	private SpeakBrick speakBrick;
@@ -54,14 +55,16 @@ public class SpeakBrickTest extends BaseUiTestClass {
 	private String testTrailingWhitespaces = trailing + " \t\n";
 
 	public SpeakBrickTest() {
-		super();
+		super(ScriptActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		super.setUp();
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		super.setUp();
 	}
 
 	@Smoke
@@ -72,7 +75,7 @@ public class SpeakBrickTest extends BaseUiTestClass {
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();

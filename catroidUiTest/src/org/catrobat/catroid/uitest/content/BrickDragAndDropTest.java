@@ -32,17 +32,18 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.view.Display;
 import android.widget.ListView;
 
-public class BrickDragAndDropTest extends BaseUiTestClass {
+public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	public BrickDragAndDropTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@Override

@@ -25,21 +25,21 @@ package org.catrobat.catroid.uitest.stage;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.view.WindowManager;
 
-public class SimpleStageTest extends BaseUiTestClass {
+public class SimpleStageTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	public SimpleStageTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.prepareStageForTest();
 		UiTestUtils.createEmptyProject();
 		ScreenValues.SCREEN_HEIGHT = 20;
 		ScreenValues.SCREEN_WIDTH = 20;

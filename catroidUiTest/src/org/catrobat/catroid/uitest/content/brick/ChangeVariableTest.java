@@ -33,11 +33,12 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -47,14 +48,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-public class ChangeVariableTest extends BaseUiTestClass {
+public class ChangeVariableTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private static final int MAX_ITERATIONS = 10;
 	private Project project;
 	private ChangeVariableBrick changeVariableBrick;
 
 	public ChangeVariableTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@Override

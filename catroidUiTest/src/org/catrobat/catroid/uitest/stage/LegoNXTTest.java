@@ -44,15 +44,16 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.bluetooth.BluetoothAdapter;
 import android.widget.ListView;
 
-public class LegoNXTTest extends BaseUiTestClass {
+public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int IMAGE_FILE_ID = org.catrobat.catroid.uitest.R.raw.icon;
 	private static final int MOTOR_ACTION = 0;
 	private static final int MOTOR_STOP = 1;
@@ -76,7 +77,7 @@ public class LegoNXTTest extends BaseUiTestClass {
 	ArrayList<int[]> commands = new ArrayList<int[]>();
 
 	public LegoNXTTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@Override

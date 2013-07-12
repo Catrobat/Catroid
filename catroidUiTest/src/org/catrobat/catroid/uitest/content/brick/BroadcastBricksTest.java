@@ -33,8 +33,9 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.suitebuilder.annotation.Smoke;
@@ -43,7 +44,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-public class BroadcastBricksTest extends BaseUiTestClass {
+public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
 	private Project project;
 	private Sprite sprite;
@@ -56,18 +57,20 @@ public class BroadcastBricksTest extends BaseUiTestClass {
 	private final int broadcastWaitSpinnerId = R.id.brick_broadcast_wait_spinner;
 
 	public BroadcastBricksTest() {
-		super();
+		super(ScriptActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		super.setUp();
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
+		super.setUp();
 
 		expected.put(broadcastReceiverSpinnerId, defaultBroadcastMessage);
 		expected.put(broadcastSpinnerId, defaultBroadcastMessage);
 		expected.put(broadcastWaitSpinnerId, defaultBroadcastMessage);
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Smoke

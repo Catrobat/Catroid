@@ -45,12 +45,12 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.widget.ListView;
 
-public class ObjectVariableTest extends BaseUiTestClass {
+public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private Sprite sprite;
 	private static final double DELTA = 0.01d;
@@ -73,15 +73,14 @@ public class ObjectVariableTest extends BaseUiTestClass {
 	private static final int NUMBER_OF_SPRITES = 5;
 
 	public ObjectVariableTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.prepareStageForTest();
 		createProject();
-
+		UiTestUtils.prepareStageForTest();
 	}
 
 	public Formula getFormulaBySensor(Sensors sensor) {

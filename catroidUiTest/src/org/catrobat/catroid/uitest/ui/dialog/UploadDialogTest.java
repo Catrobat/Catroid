@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.web.ServerCalls;
@@ -44,7 +44,7 @@ import android.widget.EditText;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class UploadDialogTest extends BaseUiTestClass {
+public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String newTestProject = UiTestUtils.PROJECTNAME2;
 
@@ -52,7 +52,7 @@ public class UploadDialogTest extends BaseUiTestClass {
 	private String uploadDialogTitle;
 
 	public UploadDialogTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -68,6 +68,8 @@ public class UploadDialogTest extends BaseUiTestClass {
 	public void tearDown() throws Exception {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
 		ProjectManager.getInstance().deleteCurrentProject();
 	}

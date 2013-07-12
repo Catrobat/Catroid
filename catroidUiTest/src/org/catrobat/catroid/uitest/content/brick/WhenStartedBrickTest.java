@@ -33,17 +33,16 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
-import org.catrobat.catroid.uitest.util.BaseUiTestClass;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-public class WhenStartedBrickTest extends BaseUiTestClass {
+public class WhenStartedBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private Project project;
 
-	//private static final String TAG = WhenBrickTest.class.getSimpleName();
-
 	public WhenStartedBrickTest() {
-		super();
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -55,6 +54,8 @@ public class WhenStartedBrickTest extends BaseUiTestClass {
 
 	@Override
 	public void tearDown() throws Exception {
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
 		ProjectManager.getInstance().deleteCurrentProject();
 	}
