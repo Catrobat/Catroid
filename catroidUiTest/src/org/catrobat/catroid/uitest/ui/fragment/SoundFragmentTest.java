@@ -153,12 +153,12 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.copy));
 
-		solo.sleep(50);
+		solo.waitForDialogToClose(1000);
 
 		int newCount = adapter.getCount();
 
 		assertEquals("Old count was not correct", 2, oldCount);
-		assertEquals("New count is not correct - one sound should be deleted", 3, newCount);
+		assertEquals("New count is not correct - one sound should be copied", 3, newCount);
 		assertEquals("Count of the soundList is not correct", newCount, getCurrentNumberOfSounds());
 	}
 
