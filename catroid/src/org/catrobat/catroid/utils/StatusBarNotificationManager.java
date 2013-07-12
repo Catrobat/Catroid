@@ -27,9 +27,11 @@ import java.util.HashMap;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.MainMenuActivityFragment_Shruti;
+import org.catrobat.catroid.ui.MainMenuActivity_Shruti;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
+import org.catrobat.catroid.ui.fragment.WebViewFragment_Shruti;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -38,6 +40,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 
 public class StatusBarNotificationManager {
 
@@ -76,8 +79,8 @@ public class StatusBarNotificationManager {
 		return INSTANCE;
 	}
 
-	public MainMenuActivity getActivity(int id) {
-		MainMenuActivity activity = downloadNotificationDataMap.get(id).getActivity();
+	public FragmentActivity getActivity(int id) {
+		FragmentActivity activity = downloadNotificationDataMap.get(id).getActivity();
 		return activity;
 	}
 
@@ -103,12 +106,12 @@ public class StatusBarNotificationManager {
 		String notificationTitle = context.getString(R.string.notification_upload_title);
 		boolean newUploadNotification = uploadNotificationDataMap.isEmpty();
 
-		Intent intent = new Intent(context, MainMenuActivity.class);
+		Intent intent = new Intent(context, WebViewFragment_Shruti.class);
 		intent.setAction(Intent.ACTION_MAIN);
 		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 		NotificationData data = new NotificationData(pendingIntent, context, name, notificationTitle,
-				(MainMenuActivity) context);
+				(MainMenuActivity_Shruti) context);
 		uploadNotificationDataMap.put(uploadId, data);
 
 		if (newUploadNotification) {
@@ -164,12 +167,12 @@ public class StatusBarNotificationManager {
 		String notificationTitle = context.getString(R.string.notification_download_title);
 		boolean newDownloadNotification = downloadNotificationDataMap.isEmpty();
 
-		Intent intent = new Intent(context, MainMenuActivity.class);
+		Intent intent = new Intent(context, MainMenuActivityFragment_Shruti.class);
 		intent.setAction(Intent.ACTION_MAIN);
 		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 		NotificationData data = new NotificationData(pendingIntent, context, name, notificationTitle,
-				(MainMenuActivity) context);
+				(MainMenuActivity_Shruti) context);
 		downloadNotificationDataMap.put(downloadId, data);
 
 		if (newDownloadNotification) {
@@ -227,11 +230,11 @@ public class StatusBarNotificationManager {
 		downloadNotificationManager.notify(notificationCode, downloadNotification);
 	}
 
-	public void displayDialogs(MainMenuActivity activity) {
+	public void displayDialogs(FragmentActivity fragmentActivity) {
 		for (int i = 0; i < downloadProjectName.size() && i < downloadProjectZipFileString.size(); i++) {
-			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, downloadProjectName.get(i),
-					downloadProjectZipFileString.get(i));
-			renameDialog.show(activity.getSupportFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
+			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(fragmentActivity,
+					downloadProjectName.get(i), downloadProjectZipFileString.get(i));
+			renameDialog.show(fragmentActivity.getSupportFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
 		}
 		downloadProjectName.clear();
 		downloadProjectZipFileString.clear();

@@ -99,7 +99,7 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home: {
-				Intent intent = new Intent(this, MainMenuActivity.class);
+				Intent intent = new Intent(this, MainMenuActivityFragment_Shruti.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				return true;
