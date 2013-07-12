@@ -153,7 +153,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.copy));
 
-		solo.sleep(50);
+		solo.sleep(500);
 
 		int newCount = adapter.getCount();
 

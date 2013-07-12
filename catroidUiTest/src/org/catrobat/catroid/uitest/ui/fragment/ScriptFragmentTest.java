@@ -525,13 +525,11 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		int timeToWait = 200;
 
 		String rename = solo.getString(R.string.rename);
-		String delete = solo.getString(R.string.delete);
 		String showDetails = solo.getString(R.string.show_details);
 
 		UiTestUtils.openOptionsMenu(solo);
 
 		assertFalse("Found menu item '" + rename + "'", solo.waitForText(rename, 1, timeToWait, false, true));
-		assertFalse("Found menu item '" + delete + "'", solo.waitForText(delete, 1, timeToWait, false, true));
 		assertFalse("Found menu item '" + showDetails + "'", solo.waitForText(showDetails, 1, timeToWait, false, true));
 	}
 
