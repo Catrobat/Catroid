@@ -194,6 +194,7 @@
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Verschiebe Baustein</string>
     <string name="brick_context_dialog_delete_brick">Lösche Baustein</string>
+    <string name="brick_context_dialog_copy_brick">Kopiere Baustein</string>
     <string name="brick_context_dialog_animate_bricks">Animiere Baustein-Teile</string>
     <string name="brick_context_dialog_formula_edit_brick">Bearbeite Formel</string>
     <!--  -->
@@ -212,6 +213,7 @@
     <string name="new_project_dialog_hint">Mein Programm</string>
     <string name="new_project_description_dialog_hint">Meine Beschreibung</string>
     <string name="new_project_name">Programmname:</string>
+    <string name="new_project_empty">Erstelle leeres Programm</string>
     <!--  -->
 
 

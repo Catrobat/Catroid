@@ -63,7 +63,7 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("testSprite");
 
 		int xPosition = 10;
-		sprite.look.setXYInUserInterfaceDimensionUnit(xPosition, sprite.look.getYInUserInterfaceDimensionUnit());
+		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		ChangeXByNAction action = ExtendedActions.changeXByN(sprite, new Formula(Integer.MAX_VALUE));
 		sprite.look.addAction(action);
@@ -73,7 +73,7 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 				(int) sprite.look.getXInUserInterfaceDimensionUnit());
 
 		xPosition = -10;
-		sprite.look.setXYInUserInterfaceDimensionUnit(xPosition, sprite.look.getYInUserInterfaceDimensionUnit());
+		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		action = ExtendedActions.changeXByN(sprite, new Formula(Integer.MIN_VALUE));
 		sprite.look.addAction(action);

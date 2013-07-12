@@ -145,6 +145,23 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 	}
 
+	public void testCopySoundContextMenu() {
+		SoundAdapter adapter = getSoundAdapter();
+		assertNotNull("Could not get Adapter", adapter);
+
+		int oldCount = adapter.getCount();
+
+		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.copy));
+
+		solo.waitForDialogToClose(1000);
+
+		int newCount = adapter.getCount();
+
+		assertEquals("Old count was not correct", 2, oldCount);
+		assertEquals("New count is not correct - one sound should be copied", 3, newCount);
+		assertEquals("Count of the soundList is not correct", newCount, getCurrentNumberOfSounds());
+	}
+
 	public void testDeleteSoundContextMenu() {
 		SoundAdapter adapter = getSoundAdapter();
 		assertNotNull("Could not get Adapter", adapter);

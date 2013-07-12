@@ -28,6 +28,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.InstrumentationTestCase;
 
@@ -39,6 +40,9 @@ public class LookTest extends InstrumentationTestCase {
 	private Sprite sprite;
 	private Group parentGroup;
 	private Project project;
+
+	private float width = 32;
+	private float height = 16;
 
 	@Override
 	protected void setUp() {
@@ -58,30 +62,14 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals("Wrong initialization!", 0f, look.getRotation());
 		assertEquals("Wrong initialization!", 1f, look.getScaleX());
 		assertEquals("Wrong initialization!", 1f, look.getScaleY());
-		assertEquals("Wrong initialization!", 1f, look.getAlphaValue());
-		assertEquals("Wrong initialization!", 1f, look.getBrightness());
-		assertEquals("Wrong initialization!", 1f, look.getSize());
+		assertEquals("Wrong initialization!", 0f, look.getTransparencyInUserInterfaceDimensionUnit());
+		assertEquals("Wrong initialization!", 100f, look.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals("Wrong initialization!", 100f, look.getSizeInUserInterfaceDimensionUnit());
 		assertEquals("Wrong initialization!", 0, look.getZIndex());
-		assertEquals("Wrong initialization!", true, look.show);
+		assertEquals("Wrong initialization!", true, look.visible);
 		assertEquals("Wrong initialization!", Touchable.enabled, look.getTouchable());
 		assertEquals("Wrong initialization!", "", look.getImagePath());
 
-	}
-
-	public void testXYPositions() {
-		look.setXInUserInterfaceDimensionUnit(50f);
-		assertEquals("Wrong x position!", 50f, look.getXInUserInterfaceDimensionUnit());
-		look.setYInUserInterfaceDimensionUnit(120f);
-		assertEquals("Wrong y position!", 120f, look.getYInUserInterfaceDimensionUnit());
-		look.setWidth(120f);
-		look.setHeight(200f);
-		look.setXInUserInterfaceDimensionUnit(66f);
-		assertEquals("Wrong x position!", 66f, look.getXInUserInterfaceDimensionUnit());
-		look.setYInUserInterfaceDimensionUnit(42f);
-		assertEquals("Wrong y position!", 42f, look.getYInUserInterfaceDimensionUnit());
-		look.setXYInUserInterfaceDimensionUnit(123f, 456f);
-		assertEquals("Wrong x position!", 123f, look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong x position!", 456f, look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testImagePath() {
@@ -97,23 +85,116 @@ public class LookTest extends InstrumentationTestCase {
 				+ "/" + fileName, look.getImagePath());
 	}
 
+	public void testPositions() {
+		float x = 3f;
+		float y = 10f;
+		look.setWidth(width);
+		look.setHeight(height);
+
+		look.setXInUserInterfaceDimensionUnit(x);
+		checkX(x);
+
+		look.setYInUserInterfaceDimensionUnit(y);
+		checkY(y);
+
+		look.changeXInUserInterfaceDimensionUnit(x);
+		checkX(2 * x);
+
+		look.changeYInUserInterfaceDimensionUnit(y);
+		checkY(2 * y);
+
+		x = 5f;
+		y = -3f;
+		look.setPositionInUserInterfaceDimensionUnit(x, y);
+		checkX(x);
+		checkY(y);
+	}
+
+	private void checkX(float x) {
+		assertEquals("Wrong alpha value!", x, look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong alpha value!", x - width / 2, look.getX());
+	}
+
+	private void checkY(float y) {
+		assertEquals("Wrong alpha value!", y, look.getYInUserInterfaceDimensionUnit());
+		assertEquals("Wrong alpha value!", y - height / 2, look.getY());
+	}
+
+	public void testDirection() {
+		float[] degreesInUserInterfaceDimensionUnit = { 90f, 60f, 30f, 0f, -30f, -60f, -90f, -120f, -150f, 180f, 150f,
+				120f };
+		float[] degrees = { 0f, 30f, 60f, 90f, 120f, 150f, 180f, 210f, 240f, -90f, -60f, -30f };
+
+		assertEquals("Wrong Array length", degrees.length, degreesInUserInterfaceDimensionUnit.length);
+		for (int index = 0; index < degrees.length; index++) {
+			look.setDirectionInUserInterfaceDimensionUnit(degreesInUserInterfaceDimensionUnit[index]);
+			assertEquals("Wrong degrees value!", degreesInUserInterfaceDimensionUnit[index],
+					look.getDirectionInUserInterfaceDimensionUnit());
+			assertEquals("Wrong degrees value!", degrees[index], look.getRotation());
+		}
+
+		look.setDirectionInUserInterfaceDimensionUnit(90f);
+		look.changeDirectionInUserInterfaceDimensionUnit(10f);
+		assertEquals("Wrong alpha value!", 100f, look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals("Wrong alpha value!", -10f, look.getRotation());
+	}
+
+	public void testWidthAndHeight() {
+		// TODO
+	}
+
 	public void testSize() {
-		look.setSize(2f);
-		assertEquals("Wrong size!", 2f, look.getSize());
+		float size = 30f;
+		look.setSizeInUserInterfaceDimensionUnit(size);
+		assertEquals("Wrong size!", size, look.getSizeInUserInterfaceDimensionUnit(), 1e-5);
+		assertEquals("Wrong size value!", size / 100f, look.getScaleX());
+		assertEquals("Wrong size value!", size / 100f, look.getScaleY());
+
+		look.changeSizeInUserInterfaceDimensionUnit(size);
+		assertEquals("Wrong size!", 2 * size, look.getSizeInUserInterfaceDimensionUnit(), 1e-5);
+		assertEquals("Wrong size value!", 2 * size / 100f, look.getScaleX());
+		assertEquals("Wrong size value!", 2 * size / 100f, look.getScaleY());
+
+		look.setSizeInUserInterfaceDimensionUnit(-10f);
+		assertEquals("Wrong size value!", 0f, look.getSizeInUserInterfaceDimensionUnit());
 	}
 
-	public void testAlphaValue() {
-		look.setAlphaValue(0.5f);
-		assertEquals("Wrong alpha value!", 0.5f, look.getAlphaValue());
-		look.changeAlphaValueBy(0.2f);
-		assertEquals("Wrong alpha value!", 0.7f, look.getAlphaValue());
+	public void testTransparency() {
+		float transparency = 20f;
+		look.setTransparencyInUserInterfaceDimensionUnit(transparency);
+		assertEquals("Wrong transparency value!", transparency, look.getTransparencyInUserInterfaceDimensionUnit(),
+				1e-5);
+		assertEquals("Wrong alpha value!", 0.8f, Reflection.getPrivateField(look, "alpha"));
+
+		look.changeTransparencyInUserInterfaceDimensionUnit(transparency);
+		assertEquals("Wrong transparency value!", 2 * transparency, look.getTransparencyInUserInterfaceDimensionUnit(),
+				1e-5);
+		assertEquals("Wrong alpha value!", 0.6f, Reflection.getPrivateField(look, "alpha"));
+
+		look.setTransparencyInUserInterfaceDimensionUnit(-10f);
+		assertEquals("Wrong transparency value!", 0f, look.getTransparencyInUserInterfaceDimensionUnit());
+		assertEquals("Wrong alpha value!", 1f, Reflection.getPrivateField(look, "alpha"));
+
+		look.setTransparencyInUserInterfaceDimensionUnit(200f);
+		assertEquals("Wrong transparency value!", 100f, look.getTransparencyInUserInterfaceDimensionUnit());
+		assertEquals("Wrong alpha value!", 0f, Reflection.getPrivateField(look, "alpha"));
+
+		// setVisible
 	}
 
-	public void testBrightnessValue() {
-		look.setBrightness(0.42f);
-		assertEquals("Wrong brightness value!", 0.42f, look.getBrightness());
-		look.changeBrightnessValueBy(0.2f);
-		assertEquals("Wrong brightness value!", 0.62f, look.getBrightness());
+	public void testBrightness() {
+		float brightness = 42f;
+		look.setBrightnessInUserInterfaceDimensionUnit(brightness);
+		assertEquals("Wrong brightness value!", brightness, look.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals("Wrong brightness value!", 0.42f, Reflection.getPrivateField(look, "brightness"));
+
+		look.changeBrightnessInUserInterfaceDimensionUnit(brightness);
+		assertEquals("Wrong brightness value!", 2 * brightness, look.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals("Wrong brightness value!", 0.84f, Reflection.getPrivateField(look, "brightness"));
+
+		look.setBrightnessInUserInterfaceDimensionUnit(-10);
+		assertEquals("Wrong brightness value!", 0f, look.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals("Wrong brightness value!", 0f, Reflection.getPrivateField(look, "brightness"));
 	}
 
 }
