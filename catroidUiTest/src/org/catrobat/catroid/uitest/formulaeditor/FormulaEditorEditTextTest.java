@@ -130,7 +130,7 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 	//TODO
 	public void testClickOnBrickItemEditFormula() {
 		UiTestUtils.addNewBrick(solo, R.string.brick_change_brightness);
-		solo.clickOnScreen(200, 200);
+		solo.clickOnScreen(300, 300);
 		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
 			solo.goBack();
 		}

@@ -83,9 +83,8 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.sleep(200);
-
 		assertFalse("Categories shouldn't be shown", solo.searchText(solo.getString(R.string.categories)));
-		solo.clickOnScreen(300, 300);
+		solo.clickOnScreen(200, 200);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_stop_all_sounds);
 		// just to get focus and get the correct list
@@ -110,7 +109,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 				brickListToCheck.get(1) instanceof StopAllSoundsBrick);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
-		solo.clickOnScreen(300, 300);
+		solo.clickOnScreen(200, 200);
 
 		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
 			solo.goBack();

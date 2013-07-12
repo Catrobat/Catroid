@@ -22,6 +22,9 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.formulaeditor.Formula;
+
 public interface FormulaBrick {
 
+	public Formula getFormula();
 }

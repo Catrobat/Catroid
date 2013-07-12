@@ -843,13 +843,19 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					notifyDataSetChanged();
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_formula_edit_brick))) {
 					//TODO open FormulaEditor
-					if (brickList.get(itemPosition).getFormula() == null) {
-						Log.e(TAG, "No Formula for Brick!");
-					} else {
+
+					if (brickList.get(itemPosition) instanceof FormulaBrick) {
 						FormulaEditorFragment.showFragment(view, brickList.get(itemPosition),
-								brickList.get(itemPosition).getFormula());
+								((FormulaBrick) brickList.get(itemPosition)).getFormula());
 						Log.d("FormulaEditor", "Item edit formula is clicked...now open it!!!");
 					}
+					//					if (brickList.get(itemPosition).getFormula() == null) {
+					//						Log.e(TAG, "No Formula for Brick!");
+					//					} else {
+					//						FormulaEditorFragment.showFragment(view, brickList.get(itemPosition),
+					//								brickList.get(itemPosition).getFormula());
+					//						Log.d("FormulaEditor", "Item edit formula is clicked...now open it!!!");
+					//					}
 				}
 			}
 		});

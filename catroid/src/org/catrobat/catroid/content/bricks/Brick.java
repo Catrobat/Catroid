@@ -27,7 +27,6 @@ import java.util.List;
 
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import android.content.Context;
@@ -79,6 +78,4 @@ public interface Brick extends Serializable {
 	public View getViewWithAlpha(int alphaValue);
 
 	void setAnimationState(boolean animationState);
-
-	public Formula getFormula();
 }
