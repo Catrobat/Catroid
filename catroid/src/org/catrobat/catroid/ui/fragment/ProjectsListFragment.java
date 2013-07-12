@@ -125,27 +125,10 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.v("reached", "till here");
-		View rootView = inflater.inflate(R.layout.fragment_projects_list, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_projects_list, null);
 		return rootView;
 	}
 
-	OnURLSelectedListener mListener;
-
-	public interface OnURLSelectedListener {
-		public void onURLSelected(String URL);
-	}
-
-	/*
-	 * public void onAttach(Activity activity) {
-	 * super.onAttach(activity);
-	 * try {
-	 * mListener = (OnURLSelectedListener) activity;
-	 * } catch (ClassCastException e) {
-	 * throw new ClassCastException(activity.toString() + " must implement OnURLSelectedListener");
-	 * }
-	 * }
-	 */
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
