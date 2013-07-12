@@ -1,0 +1,3 @@
+NewProjectDialog dialog = new NewProjectDialog();
+		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
+	
