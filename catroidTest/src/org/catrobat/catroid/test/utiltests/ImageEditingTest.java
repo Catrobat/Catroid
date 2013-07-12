@@ -35,6 +35,7 @@ import org.catrobat.catroid.utils.ImageEditing;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 public class ImageEditingTest extends TestCase {
@@ -144,12 +145,13 @@ public class ImageEditingTest extends TestCase {
 		int bitmapHeight = 900;
 
 		File sdImageMainDirectory = Environment.getExternalStorageDirectory().getAbsoluteFile();
+		File testImageFile = new File(sdImageMainDirectory, "tmp.jpg");
 		FileOutputStream fileOutputStream = null;
 
 		Bitmap bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.RGB_565);
 
 		try {
-			fileOutputStream = new FileOutputStream(sdImageMainDirectory.toString() + "/" + "tmp" + ".jpg");
+			fileOutputStream = new FileOutputStream(testImageFile);
 			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Constants.BUFFER_8K);
 			bitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
@@ -159,12 +161,27 @@ public class ImageEditingTest extends TestCase {
 			e.printStackTrace();
 		}
 
-		Bitmap loadedBitmap = ImageEditing.getScaledBitmapFromPath(sdImageMainDirectory.toString() + "/tmp.jpg",
-				targetBitmapWidth, targetBitmapHeight, false);
+		Bitmap loadedBitmap = ImageEditing.getScaledBitmapFromPath(testImageFile.getAbsolutePath(), targetBitmapWidth,
+				targetBitmapHeight, false);
+
+		double sampleSizeReturnValue = 0d;
+		int[] imageFileDimensions;
+		try {
+			sampleSizeReturnValue = ImageEditing.scaleImageFileAndReturnSampleSize(testImageFile, targetBitmapWidth,
+					targetBitmapHeight);
+		} catch (FileNotFoundException e) {
+			assertFalse("Testfile not found", true);
+			e.printStackTrace();
+		}
+		imageFileDimensions = ImageEditing.getImageDimensions(testImageFile.getAbsolutePath());
+		assertEquals("Width should be the same", targetBitmapWidth, imageFileDimensions[0]);
+		assertEquals("Height should be according to aspect ratio", bitmapHeight * targetBitmapWidth / bitmapWidth,
+				imageFileDimensions[1]);
 
 		double sampleSizeWidth = (bitmapWidth / (double) targetBitmapWidth);
 		double sampleSizeHeight = bitmapHeight / (double) targetBitmapHeight;
 		double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
+		assertEquals("Scale should be the same", 1d / sampleSize, sampleSizeReturnValue);
 
 		int newWidth = (int) Math.ceil(bitmapWidth / sampleSize);
 		int newHeight = (int) Math.ceil(bitmapHeight / sampleSize);
@@ -172,6 +189,17 @@ public class ImageEditingTest extends TestCase {
 
 		assertEquals("Loaded and scaled bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
 		assertEquals("Loaded and scaled bitmap has incorrect width", bitmap.getWidth(), loadedBitmap.getWidth());
+
+		try {
+			ImageEditing.scaleImageFile(testImageFile, 1 / sampleSizeReturnValue);
+		} catch (FileNotFoundException e) {
+			assertFalse("Testfile not found", true);
+			e.printStackTrace();
+		}
+		imageFileDimensions = ImageEditing.getImageDimensions(testImageFile.getAbsolutePath());
+		assertEquals("Width should be initial value again", bitmapWidth, imageFileDimensions[0]);
+		assertEquals("Height should be initial value again", bitmapHeight, imageFileDimensions[1]);
+
 	}
 
 	public void testRotatePicture() {

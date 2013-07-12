@@ -44,8 +44,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -113,12 +113,12 @@ public class Utils {
 		return true;
 	}
 
-	@SuppressWarnings("deprecation")
 	public static void updateScreenWidthAndHeight(Context context) {
 		WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		Display display = windowManager.getDefaultDisplay();
-		ScreenValues.SCREEN_WIDTH = display.getWidth();
-		ScreenValues.SCREEN_HEIGHT = display.getHeight();
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+		ScreenValues.SCREEN_WIDTH = displayMetrics.widthPixels;
+		ScreenValues.SCREEN_HEIGHT = displayMetrics.heightPixels;
 	}
 
 	public static boolean isNetworkAvailable(Context context) {

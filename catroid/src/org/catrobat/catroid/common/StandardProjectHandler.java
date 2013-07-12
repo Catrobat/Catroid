@@ -50,6 +50,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.BufferedOutputStream;
@@ -62,6 +63,7 @@ import java.io.OutputStream;
 public class StandardProjectHandler {
 
 	private static final String FILENAME_SEPARATOR = "_";
+	private static double backgroundImageScaleFactor = 1;
 
 	public static Project createAndSaveStandardProject(Context context) throws IOException {
 		String projectName = context.getString(R.string.default_project_name);
@@ -89,12 +91,20 @@ public class StandardProjectHandler {
 
 		Sprite backgroundSprite = defaultProject.getSpriteList().get(0);
 
+		File backgroundFile = copyFromResourceInProject(projectName, Constants.IMAGE_DIRECTORY, backgroundName,
+				R.drawable.default_project_background, context);
+		backgroundImageScaleFactor = ImageEditing.scaleImageFileAndReturnSampleSize(backgroundFile.getAbsoluteFile(),
+				ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+
 		File mole1File = copyFromResourceInProject(projectName, Constants.IMAGE_DIRECTORY, mole1Name,
 				R.drawable.default_project_mole_1, context);
+		ImageEditing.scaleImageFile(mole1File, backgroundImageScaleFactor);
 		File mole2File = copyFromResourceInProject(projectName, Constants.IMAGE_DIRECTORY, mole2Name,
 				R.drawable.default_project_mole_2, context);
+		ImageEditing.scaleImageFile(mole2File, backgroundImageScaleFactor);
 		File whackedMoleFile = copyFromResourceInProject(projectName, Constants.IMAGE_DIRECTORY, whackedMoleName,
 				R.drawable.default_project_mole_whacked, context);
+		ImageEditing.scaleImageFile(whackedMoleFile, backgroundImageScaleFactor);
 		File soundFile1 = copyFromResourceInProject(projectName, Constants.SOUND_DIRECTORY, soundName,
 				R.raw.default_project_sound_mole_1, context);
 		File soundFile2 = copyFromResourceInProject(projectName, Constants.SOUND_DIRECTORY, soundName,
@@ -103,8 +113,6 @@ public class StandardProjectHandler {
 				R.raw.default_project_sound_mole_3, context);
 		File soundFile4 = copyFromResourceInProject(projectName, Constants.SOUND_DIRECTORY, soundName,
 				R.raw.default_project_sound_mole_4, context);
-		File backgroundFile = copyFromResourceInProject(projectName, Constants.IMAGE_DIRECTORY, backgroundName,
-				R.drawable.default_project_background, context);
 
 		copyFromResourceInProject(projectName, ".", StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME,
 				R.drawable.default_project_screenshot, context, false);
@@ -177,7 +185,8 @@ public class StandardProjectHandler {
 		ForeverBrick foreverBrick = new ForeverBrick(mole1Sprite);
 		mole1StartScript.addBrick(foreverBrick);
 
-		PlaceAtBrick placeAtBrick = new PlaceAtBrick(mole1Sprite, -160, -110);
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(mole1Sprite, calculateValueRelativeToScaledBackground(-160),
+				calculateValueRelativeToScaledBackground(-110));
 		mole1StartScript.addBrick(placeAtBrick);
 
 		WaitBrick waitBrick = new WaitBrick(mole1Sprite, new Formula(waitOneOrTwoSeconds));
@@ -190,7 +199,8 @@ public class StandardProjectHandler {
 		setLookBrick.setLook(moleLookData1);
 		mole1StartScript.addBrick(setLookBrick);
 
-		GlideToBrick glideToBrick = new GlideToBrick(mole1Sprite, -160, -95, 100);
+		GlideToBrick glideToBrick = new GlideToBrick(mole1Sprite, calculateValueRelativeToScaledBackground(-160),
+				calculateValueRelativeToScaledBackground(-95), 100);
 		mole1StartScript.addBrick(glideToBrick);
 
 		setLookBrick = new SetLookBrick(mole1Sprite);
@@ -238,12 +248,12 @@ public class StandardProjectHandler {
 
 		Script tempScript = mole2Sprite.getScript(0);
 		placeAtBrick = (PlaceAtBrick) tempScript.getBrick(2);
-		placeAtBrick.setXPosition(new Formula(160));
-		placeAtBrick.setYPosition(new Formula(-110));
+		placeAtBrick.setXPosition(new Formula(calculateValueRelativeToScaledBackground(160)));
+		placeAtBrick.setYPosition(new Formula(calculateValueRelativeToScaledBackground(-110)));
 
 		glideToBrick = (GlideToBrick) tempScript.getBrick(6);
-		glideToBrick.setXDestination(new Formula(160));
-		glideToBrick.setYDestination(new Formula(-95));
+		glideToBrick.setXDestination(new Formula(calculateValueRelativeToScaledBackground(160)));
+		glideToBrick.setYDestination(new Formula(calculateValueRelativeToScaledBackground(-95)));
 
 		// Mole 3 sprite
 		Sprite mole3Sprite = mole1Sprite.clone();
@@ -253,12 +263,12 @@ public class StandardProjectHandler {
 
 		tempScript = mole3Sprite.getScript(0);
 		placeAtBrick = (PlaceAtBrick) tempScript.getBrick(2);
-		placeAtBrick.setXPosition(new Formula(-160));
-		placeAtBrick.setYPosition(new Formula(-290));
+		placeAtBrick.setXPosition(new Formula(calculateValueRelativeToScaledBackground(-160)));
+		placeAtBrick.setYPosition(new Formula(calculateValueRelativeToScaledBackground(-290)));
 
 		glideToBrick = (GlideToBrick) tempScript.getBrick(6);
-		glideToBrick.setXDestination(new Formula(-160));
-		glideToBrick.setYDestination(new Formula(-275));
+		glideToBrick.setXDestination(new Formula(calculateValueRelativeToScaledBackground(-160)));
+		glideToBrick.setYDestination(new Formula(calculateValueRelativeToScaledBackground(-275)));
 
 		// Mole 4 sprite
 		Sprite mole4Sprite = mole1Sprite.clone();
@@ -268,26 +278,26 @@ public class StandardProjectHandler {
 
 		tempScript = mole4Sprite.getScript(0);
 		placeAtBrick = (PlaceAtBrick) tempScript.getBrick(2);
-		placeAtBrick.setXPosition(new Formula(160));
-		placeAtBrick.setYPosition(new Formula(-290));
+		placeAtBrick.setXPosition(new Formula(calculateValueRelativeToScaledBackground(160)));
+		placeAtBrick.setYPosition(new Formula(calculateValueRelativeToScaledBackground(-290)));
 
 		glideToBrick = (GlideToBrick) tempScript.getBrick(6);
-		glideToBrick.setXDestination(new Formula(160));
-		glideToBrick.setYDestination(new Formula(-275));
+		glideToBrick.setXDestination(new Formula(calculateValueRelativeToScaledBackground(160)));
+		glideToBrick.setYDestination(new Formula(calculateValueRelativeToScaledBackground(-275)));
 
 		StorageHandler.getInstance().saveProject(defaultProject);
 
 		return defaultProject;
 	}
 
-    public static Project createAndSaveEmptyProject(String projectName, Context context) {
-        Project emptyProject = new Project(context, projectName);
-        emptyProject.setDeviceData(context);
-        StorageHandler.getInstance().saveProject(emptyProject);
-        ProjectManager.getInstance().setProject(emptyProject);
+	public static Project createAndSaveEmptyProject(String projectName, Context context) {
+		Project emptyProject = new Project(context, projectName);
+		emptyProject.setDeviceData(context);
+		StorageHandler.getInstance().saveProject(emptyProject);
+		ProjectManager.getInstance().setProject(emptyProject);
 
-        return emptyProject;
-    }
+		return emptyProject;
+	}
 
 	private static File copyFromResourceInProject(String projectName, String directoryName, String outputName,
 			int fileId, Context context) throws IOException {
@@ -324,5 +334,11 @@ public class StandardProjectHandler {
 		copiedFile.renameTo(copiedFileWithMd5);
 
 		return copiedFileWithMd5;
+	}
+
+	private static int calculateValueRelativeToScaledBackground(int value) {
+		int returnValue = (int) (value * backgroundImageScaleFactor);
+		int differenceToNextFive = returnValue % 5;
+		return returnValue - differenceToNextFive;
 	}
 }

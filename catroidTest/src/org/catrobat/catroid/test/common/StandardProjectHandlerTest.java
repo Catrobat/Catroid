@@ -40,6 +40,8 @@ import java.io.IOException;
 public class StandardProjectHandlerTest extends AndroidTestCase {
 
 	private String testProjectName = "testStandardProjectBuilding";
+	private int BACKGROUNDIMAGE_WIDTH = 720;
+	private int BACKGROUNDIMAGE_HEIGHT = 1134;
 
 	public StandardProjectHandlerTest() throws IOException {
 	}
@@ -56,8 +58,8 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 	}
 
 	public void testCreateStandardProject() throws IOException {
-		ScreenValues.SCREEN_WIDTH = 720;
-		ScreenValues.SCREEN_HEIGHT = 1134;
+		ScreenValues.SCREEN_WIDTH = BACKGROUNDIMAGE_WIDTH;
+		ScreenValues.SCREEN_HEIGHT = BACKGROUNDIMAGE_HEIGHT;
 
 		Project testProject = StandardProjectHandler.createAndSaveStandardProject(testProjectName, getContext());
 
@@ -85,6 +87,33 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 						.get(moleNumber);
 				assertEquals("wrong size of mole image", 720, catLookData.getMeasure()[0]);
 				assertEquals("wrong size of mole image", 542, catLookData.getMeasure()[1]);
+			}
+		}
+	}
+
+	public void testCreateScaledStandardProject() throws IOException {
+		ScreenValues.SCREEN_WIDTH = 800;
+		ScreenValues.SCREEN_HEIGHT = 1280;
+		double scale = ((double) ScreenValues.SCREEN_WIDTH) / (double) BACKGROUNDIMAGE_WIDTH;
+
+		Project testProject = StandardProjectHandler.createAndSaveStandardProject(testProjectName, getContext());
+
+		int backgroundSpriteIndex = 0;
+		int backgroundLookDataIndex = 0;
+		int catroidSpriteIndex = 1;
+		LookData backgroundLookData = testProject.getSpriteList().get(backgroundSpriteIndex).getLookDataList()
+				.get(backgroundLookDataIndex);
+		assertEquals("wrong size of background image", ScreenValues.SCREEN_WIDTH, backgroundLookData.getMeasure()[0]);
+		//note: the expected value is not ScreenValues.SCREEN_HEIGHT
+		assertEquals("wrong size of background image", (int) (BACKGROUNDIMAGE_HEIGHT * scale),
+				backgroundLookData.getMeasure()[1]);
+
+		for (catroidSpriteIndex = 1; catroidSpriteIndex <= 4; catroidSpriteIndex++) {
+			for (int moleNumber = 0; moleNumber < 3; ++moleNumber) {
+				LookData catLookData = testProject.getSpriteList().get(catroidSpriteIndex).getLookDataList()
+						.get(moleNumber);
+				assertEquals("wrong size of mole image", (int) (720d * scale), catLookData.getMeasure()[0]);
+				assertEquals("wrong size of mole image", (int) (542d * scale), catLookData.getMeasure()[1]);
 			}
 		}
 	}

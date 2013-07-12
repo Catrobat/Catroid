@@ -66,14 +66,13 @@ public class ImageEditing {
 			return null;
 		}
 
-		int[] imageDimensions = new int[2];
-		imageDimensions = getImageDimensions(imagePath);
+		int[] imageDimensions = getImageDimensions(imagePath);
 
 		int originalWidth = imageDimensions[0];
 		int originalHeight = imageDimensions[1];
 
-		double sampleSizeWidth = (originalWidth / (double) outputWidth);
-		double sampleSizeHeight = originalHeight / (double) outputHeight;
+		double sampleSizeWidth = ((double) originalWidth) / (double) outputWidth;
+		double sampleSizeHeight = ((double) originalHeight) / (double) outputHeight;
 		double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
 		int sampleSizeRounded = (int) Math.floor(sampleSize);
 
@@ -123,5 +122,26 @@ public class ImageEditing {
 		Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), rotateMatrix,
 				true);
 		return rotatedBitmap;
+	}
+
+	public static double scaleImageFileAndReturnSampleSize(File file, int newWidth, int newHeight)
+			throws FileNotFoundException {
+		String path = file.getAbsolutePath();
+		int[] originalBackgroundImageDimensions = getImageDimensions(path);
+		Bitmap scaledBitmap = ImageEditing.getScaledBitmapFromPath(path, newWidth, newHeight, false);
+		StorageHandler.saveBitmapToImageFile(file, scaledBitmap);
+
+		double sampleSizeWidth = ((double) originalBackgroundImageDimensions[0]) / ((double) newWidth);
+		double sampleSizeHeight = ((double) originalBackgroundImageDimensions[1]) / ((double) newHeight);
+		return (1d / Math.max(sampleSizeWidth, sampleSizeHeight));
+	}
+
+	public static void scaleImageFile(File file, double scaleFactor) throws FileNotFoundException {
+		String path = file.getAbsolutePath();
+		int[] originalBackgroundImageDimensions = getImageDimensions(path);
+		Bitmap scaledBitmap = ImageEditing.getScaledBitmapFromPath(path,
+				(int) (originalBackgroundImageDimensions[0] * scaleFactor),
+				(int) (originalBackgroundImageDimensions[1] * scaleFactor), false);
+		StorageHandler.saveBitmapToImageFile(file, scaledBitmap);
 	}
 }
