@@ -526,11 +526,14 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 		String rename = solo.getString(R.string.rename);
 		String showDetails = solo.getString(R.string.show_details);
+		//String delete = solo.getString(R.string.delete);
 
 		UiTestUtils.openOptionsMenu(solo);
 
-		//this works only on the current Jenkins devices. On other devices with a different screen
+		//TODO: refactor this assertion
+		//this works with the current Jenkins devices. On other devices with a different screen
 		//size "delete" can also be an options menu item and should be asserted.
+		//assertFalse("Found menu item '" + delete + "'", solo.waitForText(delete, 1, timeToWait, false, true));
 		assertFalse("Found menu item '" + rename + "'", solo.waitForText(rename, 1, timeToWait, false, true));
 		assertFalse("Found menu item '" + showDetails + "'", solo.waitForText(showDetails, 1, timeToWait, false, true));
 	}
