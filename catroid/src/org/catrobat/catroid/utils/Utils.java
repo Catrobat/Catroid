@@ -94,16 +94,16 @@ public class Utils {
 				&& !externalStorageState.equals(Environment.MEDIA_MOUNTED_READ_ONLY);
 	}
 
-	public static boolean checkForExternalStorageAvailableAndDisplayErrorIfNot(final Context mainMenuActivity) {
+	public static boolean checkForExternalStorageAvailableAndDisplayErrorIfNot(final Context context) {
 		if (!externalStorageAvailable()) {
-			Builder builder = new AlertDialog.Builder(mainMenuActivity);
+			Builder builder = new AlertDialog.Builder(context);
 
-			builder.setTitle(mainMenuActivity.getString(R.string.error));
-			builder.setMessage(mainMenuActivity.getString(R.string.error_no_writiable_external_storage_available));
-			builder.setNeutralButton(mainMenuActivity.getString(R.string.close), new OnClickListener() {
+			builder.setTitle(context.getString(R.string.error));
+			builder.setMessage(context.getString(R.string.error_no_writiable_external_storage_available));
+			builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					((Activity) mainMenuActivity).moveTaskToBack(true);
+					((Activity) context).moveTaskToBack(true);
 				}
 			});
 			builder.show();

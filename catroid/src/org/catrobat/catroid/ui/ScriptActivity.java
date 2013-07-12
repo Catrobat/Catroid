@@ -284,7 +284,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				Intent mainMenuIntent = new Intent(this, MainMenuActivityFragment_Shruti.class);
+				Intent mainMenuIntent = new Intent(this, MainMenuActivity.class);
 				mainMenuIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(mainMenuIntent);
 				break;

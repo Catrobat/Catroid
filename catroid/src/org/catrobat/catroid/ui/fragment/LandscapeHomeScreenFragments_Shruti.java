@@ -1,7 +1,6 @@
-package org.catrobat.catroid.ui;
+package org.catrobat.catroid.ui.fragment;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.fragment.LandscapeHomeScreenWebFragment_Shruti;
 
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -9,40 +8,26 @@ import android.util.Log;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
-public class MainMenuActivity_Shruti extends SherlockFragmentActivity {
+public class LandscapeHomeScreenFragments_Shruti extends SherlockFragmentActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.fragment_landscape_home_screen_shruti);
-		MainMenuActivityFragment_Shruti listFragment = (MainMenuActivityFragment_Shruti) getSupportFragmentManager()
-				.findFragmentById(R.id.projectList);
+		setContentView(R.layout.landscape_home_screen);
+
+		ProjectsListFragment listFragment = (ProjectsListFragment) getSupportFragmentManager().findFragmentById(
+				R.id.projectList);
 
 		if (savedInstanceState == null) {
 			android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			listFragment = new MainMenuActivityFragment_Shruti();
+			listFragment = new ProjectsListFragment();
 			Log.v("reached111111", "till here");
 			ft.replace(R.id.projectList, listFragment, "List_Fragment");
 
 			ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 			ft.commit();
 			Log.v("reached", "till here");
-
-			/*
-			 * ProjectsListFragment listFragment = (ProjectsListFragment) getSupportFragmentManager().findFragmentById(
-			 * R.id.projectList);
-			 * 
-			 * if (savedInstanceState == null) {
-			 * android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			 * listFragment = new ProjectsListFragment();
-			 * Log.v("reached111111", "till here");
-			 * ft.replace(R.id.projectList, listFragment, "List_Fragment");
-			 * 
-			 * ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-			 * ft.commit();
-			 * Log.v("reached", "till here");
-			 */
 
 		}
 
@@ -65,4 +50,5 @@ public class MainMenuActivity_Shruti extends SherlockFragmentActivity {
 		}
 
 	}
+
 }
