@@ -178,30 +178,36 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_glide_to_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView glideToLabel = (TextView) view.findViewById(R.id.brick_glide_to_label);
-		TextView glideToSeconds = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
-		TextView glideToXTextView = (TextView) view.findViewById(R.id.brick_glide_to_x);
-		TextView glideToYTextView = (TextView) view.findViewById(R.id.brick_glide_to_y);
-		EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_duration);
-		EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_x);
-		EditText editY = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_y);
+		if (view != null) {
 
-		glideToLabel.setTextColor(glideToLabel.getTextColors().withAlpha(alphaValue));
-		glideToSeconds.setTextColor(glideToSeconds.getTextColors().withAlpha(alphaValue));
-		glideToXTextView.setTextColor(glideToXTextView.getTextColors().withAlpha(alphaValue));
-		glideToYTextView.setTextColor(glideToYTextView.getTextColors().withAlpha(alphaValue));
-		editDuration.setTextColor(editDuration.getTextColors().withAlpha(alphaValue));
-		editDuration.getBackground().setAlpha(alphaValue);
-		editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-		editX.getBackground().setAlpha(alphaValue);
-		editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
-		editY.getBackground().setAlpha(alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_glide_to_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
 
-		this.alphaValue = (alphaValue);
+			TextView glideToLabel = (TextView) view.findViewById(R.id.brick_glide_to_label);
+			TextView glideToSeconds = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
+			TextView glideToXTextView = (TextView) view.findViewById(R.id.brick_glide_to_x);
+			TextView glideToYTextView = (TextView) view.findViewById(R.id.brick_glide_to_y);
+			EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_duration);
+			EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_x);
+			EditText editY = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_y);
+
+			glideToLabel.setTextColor(glideToLabel.getTextColors().withAlpha(alphaValue));
+			glideToSeconds.setTextColor(glideToSeconds.getTextColors().withAlpha(alphaValue));
+			glideToXTextView.setTextColor(glideToXTextView.getTextColors().withAlpha(alphaValue));
+			glideToYTextView.setTextColor(glideToYTextView.getTextColors().withAlpha(alphaValue));
+			editDuration.setTextColor(editDuration.getTextColors().withAlpha(alphaValue));
+			editDuration.getBackground().setAlpha(alphaValue);
+			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
+			editX.getBackground().setAlpha(alphaValue);
+			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
+			editY.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

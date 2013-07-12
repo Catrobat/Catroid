@@ -534,7 +534,7 @@ public class UiTestUtils {
 		brickList.add(new NoteBrick(firstSprite));
 		brickList.add(new PlaceAtBrick(firstSprite, 0, 0));
 		brickList.add(new PlaySoundBrick(firstSprite));
-		brickList.add(new PointInDirectionBrick(firstSprite, Direction.DIRECTION_DOWN));
+		brickList.add(new PointInDirectionBrick(firstSprite, Direction.DOWN));
 		brickList.add(new PointToBrick(firstSprite, firstSprite));
 		brickList.add(new SetBrightnessBrick(firstSprite, 0));
 		brickList.add(new SetGhostEffectBrick(firstSprite, 0));
@@ -1234,8 +1234,8 @@ public class UiTestUtils {
 	public static boolean clickOnTextInList(Solo solo, String text) {
 		solo.sleep(300);
 		ArrayList<TextView> textViews = solo.getCurrentViews(TextView.class, solo.getView(android.R.id.list));
-		for (int i = 0; i < textViews.size(); i++) {
-			TextView view = textViews.get(i);
+		for (int textView = 0; textView < textViews.size(); textView++) {
+			TextView view = textViews.get(textView);
 			if (view.getText().toString().equalsIgnoreCase(text)) {
 				solo.clickOnView(view);
 				return true;

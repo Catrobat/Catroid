@@ -64,7 +64,7 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("testSprite");
 
 		int yPosition = 10;
-		sprite.look.setXYInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
 
 		ChangeYByNAction action = ExtendedActions.changeYByN(sprite, new Formula(Integer.MAX_VALUE));
 		sprite.look.addAction(action);
@@ -74,7 +74,7 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 
 		yPosition = -10;
-		sprite.look.setXYInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
 
 		action = ExtendedActions.changeYByN(sprite, new Formula(Integer.MIN_VALUE));
 		sprite.look.addAction(action);

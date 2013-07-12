@@ -81,6 +81,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
@@ -289,6 +290,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		selectedLookData = adapter.getItem(selectedLookPosition);
 		menu.setHeaderTitle(selectedLookData.getLookName());
+		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_edit_in_pocket_paint).setVisible(true);
@@ -296,6 +298,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+
 		switch (item.getItemId()) {
 			case R.id.context_menu_copy: {
 				copyLook(selectedLookPosition);
@@ -317,7 +320,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			}
 
 			case R.id.context_menu_delete: {
-				showDeleteDialog();
+				showConfirmDeleteDialog();
 				break;
 			}
 			case R.id.context_edit_in_pocket_paint: {
@@ -814,14 +817,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				int position = iterator.next();
 				copyLook(position);
 			}
-			setSelectMode(ListView.CHOICE_MODE_NONE);
-			adapter.clearCheckedItems();
-
-			actionMode = null;
-			setActionModeActive(false);
-
-			registerForContextMenu(listView);
-			BottomBar.enableButtons(getActivity());
+			clearCheckedLooksAndEnableButtons();
 		}
 	};
 
@@ -857,14 +853,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				selectedLookData = (LookData) listView.getItemAtPosition(position);
 				showRenameDialog();
 			}
-			setSelectMode(ListView.CHOICE_MODE_NONE);
-			adapter.clearCheckedItems();
-
-			actionMode = null;
-			setActionModeActive(false);
-
-			registerForContextMenu(listView);
-			BottomBar.enableButtons(getActivity());
+			clearCheckedLooksAndEnableButtons();
 		}
 	};
 
@@ -896,24 +885,11 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			SortedSet<Integer> checkedLooks = adapter.getCheckedItems();
-			Iterator<Integer> iterator = checkedLooks.iterator();
-
-			int numberDeleted = 0;
-
-			while (iterator.hasNext()) {
-				int position = iterator.next();
-				deleteLook(position - numberDeleted);
-				++numberDeleted;
+			if (adapter.getAmountOfCheckedItems() == 0) {
+				clearCheckedLooksAndEnableButtons();
+			} else {
+				showConfirmDeleteDialog();
 			}
-			setSelectMode(ListView.CHOICE_MODE_NONE);
-			adapter.clearCheckedItems();
-
-			actionMode = null;
-			setActionModeActive(false);
-
-			registerForContextMenu(listView);
-			BottomBar.enableButtons(getActivity());
 		}
 	};
 
@@ -948,14 +924,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				int position = iterator.next();
 				sendPocketPaintIntent(position);
 			}
-			setSelectMode(ListView.CHOICE_MODE_NONE);
-			adapter.clearCheckedItems();
-
-			actionMode = null;
-			setActionModeActive(false);
-
-			registerForContextMenu(listView);
-			BottomBar.enableButtons(getActivity());
+			clearCheckedLooksAndEnableButtons();
 		}
 	};
 
@@ -966,6 +935,62 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		ProjectManager.getInstance().getCurrentSprite().setLookDataList(lookDataList);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
+	}
+
+	private void deleteCheckedLooks() {
+		SortedSet<Integer> checkedLooks = adapter.getCheckedItems();
+		Iterator<Integer> iterator = checkedLooks.iterator();
+		int numberDeleted = 0;
+		while (iterator.hasNext()) {
+			int position = iterator.next();
+			deleteLook(position - numberDeleted);
+			++numberDeleted;
+		}
+	}
+
+	private void showConfirmDeleteDialog() {
+		String yes = getActivity().getString(R.string.yes);
+		String no = getActivity().getString(R.string.no);
+		String title = "";
+		if (adapter.getAmountOfCheckedItems() == 1) {
+			title = getActivity().getString(R.string.dialog_confirm_delete_look_title);
+		} else {
+			title = getActivity().getString(R.string.dialog_confirm_delete_multiple_looks_title);
+		}
+
+		String message = getActivity().getString(R.string.dialog_confirm_delete_look_message);
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setTitle(title);
+		builder.setMessage(message);
+		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				deleteCheckedLooks();
+				clearCheckedLooksAndEnableButtons();
+			}
+		});
+		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+				clearCheckedLooksAndEnableButtons();
+			}
+		});
+
+		AlertDialog alertDialog = builder.create();
+		alertDialog.show();
+	}
+
+	private void clearCheckedLooksAndEnableButtons() {
+		setSelectMode(ListView.CHOICE_MODE_NONE);
+		adapter.clearCheckedItems();
+
+		actionMode = null;
+		setActionModeActive(false);
+
+		registerForContextMenu(listView);
+		BottomBar.enableButtons(getActivity());
 	}
 
 	private void copyLook(int position) {

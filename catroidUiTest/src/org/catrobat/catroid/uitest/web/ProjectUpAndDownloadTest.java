@@ -50,6 +50,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.FlakyTest;
 import android.test.UiThreadTest;
 import android.util.Log;
 import android.widget.EditText;
@@ -104,6 +105,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		});
 	}
 
+	@FlakyTest(tolerance = 4)
 	public void testUploadProjectSuccessAndTokenReplacementAfterUpload() throws Throwable {
 		setServerURLToTestUrl();
 		createTestProject(testProject);
@@ -130,6 +132,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		//downloadProject();
 	}
 
+	@FlakyTest(tolerance = 4)
 	public void testUploadProjectOldCatrobatLanguageVersion() throws Throwable {
 		setServerURLToTestUrl();
 
@@ -175,6 +178,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		UiTestUtils.clearAllUtilTestProjects();
 	}
 
+	@FlakyTest(tolerance = 4)
 	public void testRenameProjectNameAndDescriptionWhenUploading() throws Throwable {
 		setServerURLToTestUrl();
 
@@ -219,6 +223,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
 	}
 
+	@FlakyTest(tolerance = 4)
 	public void testRenameProjectDescriptionWhenUploading() throws Throwable {
 		setServerURLToTestUrl();
 
@@ -260,6 +265,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
 	}
 
+	@FlakyTest(tolerance = 4)
 	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {
 		setServerURLToTestUrl();
 
@@ -287,14 +293,15 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		assertTrue("Project name on server was changed", serverProjectName.equalsIgnoreCase(testProject));
 	}
 
+	@FlakyTest(tolerance = 4)
 	public void testDownload() throws Throwable {
 		setServerURLToTestUrl();
 
 		String projectName = UiTestUtils.DEFAULT_TEST_PROJECT_NAME;
 		UiTestUtils.createTestProject();
 
-		//Adds a sufficient number of media files so that the project is big enough (16 files ~1MB) for download-testing
-		int numberMediaFiles = 10;
+		//Adds a sufficient number of media files so that the project is big enough (5 files ~0.4MB) for download-testing
+		int numberMediaFiles = 5;
 		String soundName = "testSound";
 
 		ArrayList<SoundInfo> soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
@@ -327,6 +334,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		assertTrue("Project was successfully downloaded", serverProjectName.equalsIgnoreCase(projectName));
 	}
 
+	@FlakyTest(tolerance = 4)
 	public void testUploadStandardProject() throws Throwable {
 		if (!createAndSaveStandardProject() || this.standardProject == null) {
 			fail("Standard project not created");
@@ -367,6 +375,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 	}
 
+	@FlakyTest(tolerance = 4)
 	public void testUploadModifiedStandardProject() throws Throwable {
 		if (!createAndSaveStandardProject() || this.standardProject == null) {
 			fail("Standard project not created");
@@ -388,7 +397,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_mole_whacked));
 		solo.waitForText(deleteLookText);
 		solo.clickOnText(deleteLookText);
-		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.clickOnButton(solo.getString(R.string.yes));
 
 		solo.goBack();
 		solo.goBack();

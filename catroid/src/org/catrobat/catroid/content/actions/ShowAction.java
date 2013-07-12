@@ -32,7 +32,7 @@ public class ShowAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		sprite.look.show = true;
+		sprite.look.visible = true;
 	}
 
 	public void setSprite(Sprite sprite) {

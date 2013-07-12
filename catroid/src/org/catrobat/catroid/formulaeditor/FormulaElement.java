@@ -236,8 +236,24 @@ public class FormulaElement implements Serializable {
 				return java.lang.Math.PI;
 
 			case MOD:
-				Double divisor = rightChild.interpretRecursive(sprite);
-				return java.lang.Math.IEEEremainder(left, divisor);
+				double dividend = left;
+				double divisor = rightChild.interpretRecursive(sprite);
+
+				if (dividend == 0 || divisor == 0) {
+					return dividend;
+				}
+
+				if (divisor > 0) {
+					while (dividend < 0) {
+						dividend += java.lang.Math.abs(divisor);
+					}
+				} else {
+					if (dividend > 0) {
+						return (dividend % divisor) + divisor;
+					}
+				}
+
+				return dividend % divisor;
 
 			case ARCSIN:
 				return java.lang.Math.toDegrees(Math.asin(left));
@@ -322,13 +338,13 @@ public class FormulaElement implements Serializable {
 				returnValue = (double) sprite.look.getBrightnessInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_GHOSTEFFECT:
-				returnValue = (double) sprite.look.getGhostEffectInUserInterfaceDimensionUnit();
+				returnValue = (double) sprite.look.getTransparencyInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_LAYER:
 				returnValue = (double) sprite.look.getZIndex();
 				break;
 			case OBJECT_ROTATION:
-				returnValue = (double) sprite.look.getRotationInUserInterfaceDimensionUnit();
+				returnValue = (double) sprite.look.getDirectionInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_SIZE:
 				returnValue = (double) sprite.look.getSizeInUserInterfaceDimensionUnit();

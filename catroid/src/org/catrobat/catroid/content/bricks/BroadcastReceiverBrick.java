@@ -168,10 +168,15 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_broadcast_receive_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
-		this.alphaValue = (alphaValue);
+
+		if (view != null) {
+
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_broadcast_receive_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+			this.alphaValue = (alphaValue);
+
+		}
 		return view;
 	}
 
@@ -185,6 +190,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 		spinner.setSelection(position, true);
 	}
 
+	// TODO: BroadcastBrick, BroadcastReceiverBrick and BroadcastWaitBrick contain this identical method.
 	private void showNewMessageDialog(final Spinner spinner) {
 		final Context context = spinner.getContext();
 		BrickTextDialog editDialog = new BrickTextDialog() {
