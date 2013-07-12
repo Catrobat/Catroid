@@ -82,6 +82,8 @@ public class ProjectDownloadService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		receiver = (ResultReceiver) intent.getParcelableExtra("receiver");
+		Toast.makeText(this, receiver.toString(), Toast.LENGTH_SHORT).show();
+
 		showOverwriteDialog = false;
 		try {
 			ServerCalls.getInstance().downloadProject(url, zipFileString, receiver, notificationId, projectName);
