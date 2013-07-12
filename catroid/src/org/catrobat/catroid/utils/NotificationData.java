@@ -34,7 +34,7 @@ public class NotificationData {
 	private Context context;
 	private String name;
 	private String notificationTitle;
-	private MainMenuActivity_Shruti activity;
+	private FragmentActivity activity;
 
 	public NotificationData(PendingIntent pendingIntent, Context context, String name, String notificationTitle,
 			MainMenuActivity_Shruti context2) {
@@ -81,7 +81,7 @@ public class NotificationData {
 		return activity;
 	}
 
-	public void setActivity(MainMenuActivity_Shruti activity) {
+	public void setActivity(FragmentActivity activity) {
 		this.activity = activity;
 	}
 }
