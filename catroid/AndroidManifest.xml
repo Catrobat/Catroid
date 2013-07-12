@@ -114,12 +114,6 @@
         <activity
             android:name=".stage.PreStageActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.fragment.WebViewForCommunityActivity_Shruti"
-            android:screenOrientation="portrait" />
-         <activity
-            android:name=".ui.fragment.WebViewForCommunityFragment"
-            android:screenOrientation="portrait" />
           <activity
             android:name=".ui.MainMenuActivityFragment_Shruti"
             android:screenOrientation="portrait" />
