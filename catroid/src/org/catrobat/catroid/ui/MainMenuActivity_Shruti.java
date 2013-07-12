@@ -5,10 +5,6 @@ import org.catrobat.catroid.ui.fragment.ProjectsListFragment;
 import org.catrobat.catroid.ui.fragment.WebViewFragment_Shruti;
 
 import android.app.FragmentTransaction;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -63,13 +59,11 @@ public class MainMenuActivity_Shruti extends SherlockFragmentActivity implements
 			ft1.replace(R.id.webSite, webFragment, "Detail_Fragment1");
 			ft1.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 			ft1.commit();
-
+			Log.v("shruti", "maybe");
 			webFragment.setURLContent("https://pocketcode.org");
-
+			Log.v("shruti", "yes");
 		}
 	}
-
-	String yourData;
 
 	/*
 	 * (non-Javadoc)
@@ -80,31 +74,21 @@ public class MainMenuActivity_Shruti extends SherlockFragmentActivity implements
 	public void onArticleSelected(int position) {
 		// TODO Auto-generated method stub
 
-		BroadcastReceiver receiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				yourData = intent.getStringExtra("tag");
-			}
-		};
-
-		IntentFilter filter = new IntentFilter();
-		filter.addAction("com.your.app.DATA_BROADCAST");
-		registerReceiver(receiver, filter);
 		flag = position;
 		Toast.makeText(this, "flag = " + flag + "and " + "position = " + position, Toast.LENGTH_LONG).show();
+
 		try {
 			if (flag == 1) {
-				String flag1 = yourData;
-				if (flag1.equals("1")) {
-					//getFragmentManager().popBackStack();
-					ProjectsListFragment f4 = new ProjectsListFragment();
-					android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-					ft.replace(R.id.projectList, f4); // f2_container is your FrameLayout container
-					ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-					ft.addToBackStack(null);
-					ft.commit();
+				getFragmentManager().popBackStack();
+				android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+				ProjectsListFragment projectListFragment = (ProjectsListFragment) getSupportFragmentManager()
+						.findFragmentById(R.id.projectList);
 
-				}
+				projectListFragment = new ProjectsListFragment();
+				ft.replace(R.id.projectList, projectListFragment, "Detail_Fragment1");
+				ft.addToBackStack(null);
+				ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+				ft.commit();
 			}
 		} catch (Exception e) {
 			Toast.makeText(this, "Error!!!!!!", Toast.LENGTH_LONG).show();
