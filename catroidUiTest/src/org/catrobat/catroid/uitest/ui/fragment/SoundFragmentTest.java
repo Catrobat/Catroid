@@ -67,8 +67,6 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	private String renameDialogTitle;
 	private String delete;
 	private String deleteDialogTitle;
-	private String copyDialogTitle;
-	private String copy;
 
 	private SoundInfo soundInfo;
 	private SoundInfo soundInfo2;
