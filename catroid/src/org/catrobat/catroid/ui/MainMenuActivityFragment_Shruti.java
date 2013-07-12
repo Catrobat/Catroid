@@ -265,11 +265,18 @@ public class MainMenuActivityFragment_Shruti extends SherlockFragment implements
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
 		if (!Utils.externalStorageAvailable()) {
 			return;
 		}
-		unbindDrawables(getView().findViewById(R.id.main_menu));
+		unbindDrawables(getActivity().findViewById(R.id.main_menu));
 		System.gc();
+
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {

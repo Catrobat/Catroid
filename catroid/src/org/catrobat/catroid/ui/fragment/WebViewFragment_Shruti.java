@@ -37,7 +37,7 @@ public class WebViewFragment_Shruti extends SherlockFragment {
 
 	// Container Activity must implement this interface
 	public interface OnHeadlineSelectedListener {
-		public void onArticleSelected(int position);
+		public void onArticleSelected(int i);
 	}
 
 	private class DownloadReceiver extends ResultReceiver {
@@ -85,6 +85,7 @@ public class WebViewFragment_Shruti extends SherlockFragment {
 		if (!mURL.trim().equalsIgnoreCase("")) {
 			myWebView = (WebView) getView().findViewById(R.id.pageInfo);
 			myWebView.getSettings().setJavaScriptEnabled(true);
+			myWebView.loadUrl(mURL.trim());
 			myWebView.setWebViewClient(new MyWebViewClient() {
 				@Override
 				public void onPageFinished(WebView view, String url) {
@@ -96,13 +97,11 @@ public class WebViewFragment_Shruti extends SherlockFragment {
 						if (theUrl.contains("download")) {
 							loadProgramFromExternalSource(loadExternalProjectUri);
 							mCallback.onArticleSelected(1);
-
 						}
 					}
 
 				}
 			});
-			myWebView.loadUrl(mURL.trim());
 
 		}
 		//String strtext = getArguments().getString("webSite");
