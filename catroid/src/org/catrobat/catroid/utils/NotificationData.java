@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.utils;
 
-import org.catrobat.catroid.ui.MainMenuActivity_Shruti;
+import org.catrobat.catroid.ui.MainMenuActivity;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -37,7 +37,7 @@ public class NotificationData {
 	private FragmentActivity activity;
 
 	public NotificationData(PendingIntent pendingIntent, Context context, String name, String notificationTitle,
-			MainMenuActivity_Shruti context2) {
+			MainMenuActivity context2) {
 		this.pendingIntent = pendingIntent;
 		this.context = context;
 		this.name = name;
