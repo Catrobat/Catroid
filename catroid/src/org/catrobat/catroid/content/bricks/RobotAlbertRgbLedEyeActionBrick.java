@@ -258,7 +258,7 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.RobotAlbertRgbLedEyeAction(sprite, eye, eyeEnum, red, green, blue));
+		sequence.addAction(ExtendedActions.robotAlbertRgbLedEye(sprite, eye, eyeEnum, red, green, blue));
 		return null;
 	}
 }

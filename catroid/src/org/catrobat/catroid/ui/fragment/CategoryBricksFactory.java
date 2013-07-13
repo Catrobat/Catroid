@@ -63,6 +63,7 @@ import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RobotAlbertBuzzerBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertDistanceSensorLeftBrick;
 import org.catrobat.catroid.content.bricks.RobotAlbertFrontLedBrick;
 import org.catrobat.catroid.content.bricks.RobotAlbertMotorActionBrick;
 import org.catrobat.catroid.content.bricks.RobotAlbertRgbLedEyeActionBrick;
@@ -221,6 +222,7 @@ public class CategoryBricksFactory {
 				BrickValues.ROBOT_ALBERT_RGB_LED_EYE_RED, BrickValues.ROBOT_ALBERT_RGB_LED_EYE_GREEN,
 				BrickValues.ROBOT_ALBERT_RGB_LED_EYE_BLUE));
 		robotAlbertBrickList.add(new RobotAlbertFrontLedBrick(sprite, BrickValues.ROBOT_ALBERT_FRONT_LED));
+		robotAlbertBrickList.add(new RobotAlbertDistanceSensorLeftBrick(sprite, 0));
 		return robotAlbertBrickList;
 	}
 

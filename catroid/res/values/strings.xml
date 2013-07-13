@@ -479,6 +479,8 @@
     <string name="brick_robot_albert_front_led_action">Albert use front LED</string>
     <string name="robot_albert_front_led_status">Status</string>
     <string name="robot_albert_front_led_status_info">value: 0=off else=on</string>
+    <string name="brick_robot_albert_distance_sensor_left">Set left distance sensor to</string>
+    
     <!--  -->
 
 

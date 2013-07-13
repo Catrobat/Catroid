@@ -151,7 +151,7 @@ public class RobotAlbertBuzzerBrick extends BrickBaseType implements OnClickList
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.RobotAlbertBuzzerAction(sprite, value));
+		sequence.addAction(ExtendedActions.robotAlbertBuzzer(sprite, value));
 		return null;
 	}
 }

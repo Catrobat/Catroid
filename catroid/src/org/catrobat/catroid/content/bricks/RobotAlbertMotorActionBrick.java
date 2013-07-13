@@ -190,7 +190,7 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.RobotAlbertMotorAction(sprite, motor, motorEnum, speed));
+		sequence.addAction(ExtendedActions.robotAlbertMotor(sprite, motor, motorEnum, speed));
 		return null;
 	}
 }
