@@ -59,6 +59,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		saveToken = prefs.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		loginDialogTitle = solo.getString(R.string.login_register_dialog_title);
 		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
+		solo.waitForActivity(MainMenuActivity.class);
 	}
 
 	@Override
@@ -135,6 +136,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		fillLoginDialog(true);
 
 		assertNotNull("Upload Dialog is not shown.", uploadDialogTitle);
+		UiTestUtils.goBackToHome(getInstrumentation());
 	}
 
 	public void testRegisterWithShortPassword() throws Throwable {
