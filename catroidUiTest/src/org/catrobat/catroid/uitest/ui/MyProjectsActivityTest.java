@@ -77,7 +77,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	// TODO
 	// commented - used for currently disabled testScreenshotUpdate
 	//	private final int IMAGE_RESOURCE_4 = org.catrobat.catroid.uitest.R.drawable.background_green;
-//	private final int IMAGE_RESOURCE_5 = org.catrobat.catroid.uitest.R.drawable.background_red;
+	//	private final int IMAGE_RESOURCE_5 = org.catrobat.catroid.uitest.R.drawable.background_red;
 	private final static String MY_PROJECTS_ACTIVITY_TEST_TAG = MyProjectsActivityTest.class.getSimpleName();
 	private final String ZIPFILE_NAME = "testzip";
 
@@ -104,15 +104,10 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	@Override
 	public void tearDown() throws Exception {
-		// super.tearDown() not called on purpose
-		// tests seem to fail randomly if activities are finished
-		// and solo is set to null in superclass
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
+		UiTestUtils.goBackToHome(getInstrumentation());
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(whitelistedCharacterString)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(blacklistedCharacterString)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(blacklistedOnlyCharacterString)));
-		ProjectManager.getInstance().deleteCurrentProject();
 
 		if (renameDirectory != null && renameDirectory.isDirectory()) {
 			UtilFile.deleteDirectory(renameDirectory);
@@ -126,10 +121,13 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			deleteCacheProjects = false;
 		}
 
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
+		super.tearDown();
+		ProjectManager.getInstance().deleteCurrentProject();
 		if (unzip) {
 			unzipProjects();
 		}
-		solo = null;
 	}
 
 	public void saveProjectsToZip() {
