@@ -45,10 +45,10 @@ import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
@@ -1537,9 +1537,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	private void playTheProject(boolean switchGreenToRed, boolean switchRedToGreen, boolean makeScreenshot) {
-
+		String scriptsText = solo.getString(R.string.scripts);
 		solo.clickOnText(solo.getString(R.string.background));
-		solo.clickOnText(solo.getString(R.string.scripts));
+		solo.clickOnText(scriptsText);
 		if (switchGreenToRed) {
 			solo.clickOnText("backgroundGreen");
 			solo.clickOnText("backgroundRed");
@@ -1550,7 +1550,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			solo.clickOnText("backgroundGreen");
 		}
 
-		Reflection.setPrivateField(StageListener.class, "makeAutomaticScreenshot", true);
+		//Reflection.setPrivateField(StageListener.class, "makeAutomaticScreenshot", true);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
@@ -1564,7 +1564,18 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			solo.goBack();
 		}
 
+		// on Nexus S 2.3.6 solo.currentActivity was StageActivity sometimes
+		// which lead to an Exception in UiTestUtils.clickOnHomeActionBarButton
+		// workaround to get focus
+		solo.waitForActivity(ScriptActivity.class);
+		solo.sleep(200);
+		solo.clickOnText(scriptsText);
+		solo.sleep(200);
+		solo.clickOnText(scriptsText);
+		solo.sleep(200);
+		Log.v("MyProjectsActivityTest", "current activity - " + solo.getCurrentActivity().getClass().getSimpleName());
 		UiTestUtils.clickOnHomeActionBarButton(solo);
+
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.sleep(500);
