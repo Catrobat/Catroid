@@ -52,11 +52,9 @@ import android.media.MediaPlayer;
 public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private String testProject = UiTestUtils.PROJECTNAME1;
-	private StorageHandler storageHandler;
 
 	public StageDialogTest() {
 		super(MainMenuActivity.class);
-		storageHandler = StorageHandler.getInstance();
 	}
 
 	@Override
@@ -164,12 +162,16 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	public void testRestartButtonScriptPosition() {
+		createAndSaveTestProject(testProject);
 		ArrayList<Script> scriptStart = new ArrayList<Script>();
 		ArrayList<Script> scriptRestart = new ArrayList<Script>();
 		scriptStart.clear();
 		scriptRestart.clear();
 
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
@@ -246,7 +248,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		firstSprite.getSoundList().add(soundInfo);
 
-		storageHandler.saveProject(project);
+		StorageHandler.getInstance().saveProject(project);
 
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
@@ -322,7 +324,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		project.getXmlHeader().virtualScreenWidth = 480;
 		project.getXmlHeader().virtualScreenHeight = 700;
 		project.setDeviceData(getActivity());
-		storageHandler.saveProject(project);
+		StorageHandler.getInstance().saveProject(project);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
