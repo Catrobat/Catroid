@@ -35,19 +35,16 @@ import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class ChangeSizeByNBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final double SIZE_TO_CHANGE = 25;
 
-	private Solo solo;
 	private Project project;
 	private ChangeSizeByNBrick changeSizeByNBrick;
 
@@ -57,16 +54,11 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		super.setUp();
 	}
 
 	@Smoke
@@ -88,7 +80,7 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 		UiTestUtils.insertValueViaFormulaEditor(solo, 0, SIZE_TO_CHANGE);
 
 		Formula currentSize = (Formula) Reflection.getPrivateField(changeSizeByNBrick, "size");
-		assertEquals("Wrong text in field", SIZE_TO_CHANGE, (double) currentSize.interpretDouble(null));
+		assertEquals("Wrong text in field", SIZE_TO_CHANGE, currentSize.interpretDouble(null));
 		assertEquals("Text not updated", SIZE_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
 
 	}

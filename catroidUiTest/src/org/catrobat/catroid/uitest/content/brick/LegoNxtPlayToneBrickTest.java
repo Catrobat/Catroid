@@ -34,21 +34,18 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class LegoNxtPlayToneBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class LegoNxtPlayToneBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
 	private static final double SET_DURATION = 3.0;
 	private static final int SET_FREQUENCY = 70;
 	private static final int SET_FREQUENCY_INITIALLY = 20;
 
-	private Solo solo;
 	private Project project;
 	private LegoNxtPlayToneBrick playToneBrick;
 
@@ -58,16 +55,11 @@ public class LegoNxtPlayToneBrickTest extends ActivityInstrumentationTestCase2<S
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		super.setUp();
 	}
 
 	@Smoke

@@ -43,6 +43,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -55,16 +56,14 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private Solo solo;
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String testProject2 = UiTestUtils.PROJECTNAME2;
 	private String testProject3 = UiTestUtils.PROJECTNAME3;
@@ -78,20 +77,10 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithBlacklistedCharacters)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithWhitelistedCharacters)));
 		super.tearDown();
-		solo = null;
 	}
 
 	public void testCreateNewProject() {

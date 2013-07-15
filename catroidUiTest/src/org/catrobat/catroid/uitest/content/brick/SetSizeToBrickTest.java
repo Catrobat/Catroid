@@ -39,27 +39,24 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int SCREEN_WIDTH = 480;
 	private static final int SCREEN_HEIGHT = 800;
 
 	private static final String TAG = SetSizeToBrickTest.class.getSimpleName();
 
 	private String projectName = "SetSizeToBrickTestProject";
-	private Solo solo;
 	private Project project;
 	private SetSizeToBrick setSizeToBrick;
 	private SetLookBrick setLookBrick;
@@ -73,22 +70,17 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<MainMen
 	public void setUp() throws Exception {
 		super.setUp();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
-		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-		solo = null;
 	}
 
 	@Smoke

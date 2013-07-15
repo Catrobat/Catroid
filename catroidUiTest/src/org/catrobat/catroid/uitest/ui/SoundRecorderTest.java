@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
@@ -39,13 +40,10 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
-import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-
-	private Solo solo;
+public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	public SoundRecorderTest() {
 		super(MainMenuActivity.class);
@@ -54,23 +52,12 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenu
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
 
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		String scriptsSpinnerText = solo.getString(R.string.scripts);
 		String soundsSpinnerText = solo.getString(R.string.sounds);
 		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, soundsSpinnerText);
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
 	}
 
 	public void testOrientation() throws NameNotFoundException {

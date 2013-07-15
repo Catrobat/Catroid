@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -49,19 +50,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.FlakyTest;
 import android.test.UiThreadTest;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final String TEST_FILE_DOWNLOAD_URL = "http://catroidtest.ist.tugraz.at/catroid/download/";
 	private static final int LONG_TEST_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 
-	private Solo solo;
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String newTestProject = UiTestUtils.PROJECTNAME2;
 	private String testDescription = UiTestUtils.PROJECTDESCRIPTION1;
@@ -74,13 +71,12 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 	public ProjectUpAndDownloadTest() {
 		super(MainMenuActivity.class);
-		UiTestUtils.clearAllUtilTestProjects();
 	}
 
 	@Override
 	@UiThreadTest
 	public void setUp() throws Exception {
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		saveToken = prefs.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
@@ -90,11 +86,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	public void tearDown() throws Exception {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-		solo = null;
 	}
 
 	private void setServerURLToTestUrl() throws Throwable {
