@@ -403,4 +403,14 @@ public class ExtendedActions extends Actions {
 		action.setUserVariable(userVariable);
 		return action;
 	}
+
+	public static RobotAlbertDistanceSensorRightAction robotAlbertDistanceSensorRight(Sprite sprite,
+			Formula variableFormula, UserVariable userVariable) {
+
+		RobotAlbertDistanceSensorRightAction action = action(RobotAlbertDistanceSensorRightAction.class);
+		action.setSprite(sprite);
+		action.setChangeVariable(variableFormula);
+		action.setUserVariable(userVariable);
+		return action;
+	}
 }

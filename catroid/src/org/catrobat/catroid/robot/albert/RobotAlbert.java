@@ -230,9 +230,12 @@ public class RobotAlbert implements BTConnectable {
 	}
 
 	public static int getRobotAlbertDistanceSensorLeftMessage() {
-		Log.d("RobotAlbert", "sendRobotAlbert BuzzerMessage():Bundle");
 		int value = myCommunicator.sensors.getValueOfLeftDistanceSensor();
-		Log.d("RobotAlbert", "sendRobotAlbertBuzzerMessage finished!");
+		return value;
+	}
+
+	public static int getRobotAlbertDistanceSensorRightMessage() {
+		int value = myCommunicator.sensors.getValueOfRightDistanceSensor();
 		return value;
 	}
 
@@ -252,20 +255,4 @@ public class RobotAlbert implements BTConnectable {
 		activity.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
 
 	}
-
-	final Handler myReturnHandler1 = new Handler() {
-
-		@Override
-		public void handleMessage(Message message) {
-			// TODO Auto-generated method stub
-			switch (message.what) {
-				case GET_DISTANCE_COMMAND:
-					Log.d("tteeessstttt", "myReturnHandler1: GET_DISTANCE_COMMAND!!!!!!!!!!!!!!!");
-					break;
-				default:
-					Log.d("tteeessstttt", "myReturnHandler1: default!!!!!!!!!!!!!!!");
-			}
-		}
-
-	};
 }
