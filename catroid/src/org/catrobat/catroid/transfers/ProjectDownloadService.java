@@ -25,7 +25,7 @@ package org.catrobat.catroid.transfers;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.MainMenuActivity_Shruti;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilZip;
@@ -109,8 +109,7 @@ public class ProjectDownloadService extends IntentService {
 			StatusBarNotificationManager.INSTANCE.downloadProjectZipFileString.add(zipFileString);
 			try {
 				//The context of the calling activity is needed, otherwise an exception occurs
-				MainMenuActivity_Shruti activity = (MainMenuActivity_Shruti) StatusBarNotificationManager.INSTANCE
-						.getActivity(notificationId);
+				MainMenuActivity activity = StatusBarNotificationManager.INSTANCE.getActivity(notificationId);
 				OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, projectName, zipFileString);
 				renameDialog.show(activity.getSupportFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
 			} catch (RuntimeException e) {
@@ -125,12 +124,7 @@ public class ProjectDownloadService extends IntentService {
 		}
 
 		Toast.makeText(this, R.string.success_project_download, Toast.LENGTH_SHORT).show();
-		Intent dataIntent = new Intent();
-		dataIntent.setAction("com.your.app.DATA_BROADCAST");
-		dataIntent.putExtra("tag", "1");
-		sendBroadcast(dataIntent);
 		super.onDestroy();
-
 	}
 
 	private void showDialog(int messageId) {

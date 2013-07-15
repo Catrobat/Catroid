@@ -22,14 +22,17 @@
  */
 package org.catrobat.catroid.test.common;
 
+import java.io.File;
 import java.io.IOException;
 
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import android.test.AndroidTestCase;
@@ -84,7 +87,17 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 				assertEquals("wrong size of mole image", 542, catLookData.getMeasure()[1]);
 			}
 		}
+	}
 
+	public void testDefaultProjectScreenshot() throws IOException {
+		StandardProjectHandler.createAndSaveStandardProject(testProjectName, getContext());
+		String projectPath = Constants.DEFAULT_ROOT + "/" + testProjectName;
+
+		File file = new File(projectPath + "/" + StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+		assertFalse("Manual screenshot shouldn't exist in default project", file.exists());
+
+		file = new File(projectPath + "/" + StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+		assertTrue("Automatic screenshot should exist in default project", file.exists());
 	}
 
 }

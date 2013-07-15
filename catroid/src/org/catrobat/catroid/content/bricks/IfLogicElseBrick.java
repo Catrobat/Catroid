@@ -96,14 +96,20 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_if_else_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView ifElseLabel = (TextView) view.findViewById(R.id.brick_if_else_label);
-		ifElseLabel.setTextColor(ifElseLabel.getTextColors().withAlpha(alphaValue));
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_if_else_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView ifElseLabel = (TextView) view.findViewById(R.id.brick_if_else_label);
+			ifElseLabel.setTextColor(ifElseLabel.getTextColors().withAlpha(alphaValue));
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

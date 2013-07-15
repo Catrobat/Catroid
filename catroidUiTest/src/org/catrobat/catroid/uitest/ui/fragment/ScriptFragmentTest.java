@@ -80,6 +80,56 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo = null;
 	}
 
+	public void testCopyScript() {
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(0);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		assertEquals("No brick has been copied!", 12, numberOfBricks);
+
+	}
+
+	public void testCopyMultipleBricks() {
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(2);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		solo.waitForText(solo.getString(R.string.brick_hide));
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		assertEquals("No brick has been copied!", 8, numberOfBricks);
+
+	}
+
+	public void testCopyActionMode() {
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(1);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		solo.waitForText(solo.getString(R.string.brick_hide));
+
+		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		assertEquals("No brick has been copied!", 7, numberOfBricks);
+
+	}
+
 	public void testCreateNewBrickButton() {
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -223,6 +273,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
 
 		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
@@ -259,6 +310,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		}
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
 
 		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
@@ -279,6 +331,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnCheckBox(5);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
 
 		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
@@ -312,6 +365,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnCheckBox(3);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
 
 		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
@@ -364,6 +418,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
 
 		int numberOfBricks = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
@@ -388,6 +443,11 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		@SuppressWarnings("deprecation")
 		int displayWidth = display.getWidth();
 
+		solo.clickLongOnText(solo.getString(R.string.brick_when_started));
+		solo.waitForText(solo.getString(R.string.delete));
+		solo.clickOnText(solo.getString(R.string.delete));
+		solo.clickOnButton(solo.getString(R.string.no));
+
 		UiTestUtils.longClickAndDrag(solo, 30, yPositionList.get(2), displayWidth, yPositionList.get(2), 40);
 		solo.sleep(1000);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
@@ -400,6 +460,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 			fail("Text not shown in 5 secs!");
 		}
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		solo.clickOnButton(solo.getString(R.string.yes));
 		if (!solo.waitForView(ListView.class, 0, 5000)) {
 			fail("Dialog does not close in 5 sec!");
 		}
@@ -464,13 +525,16 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		int timeToWait = 200;
 
 		String rename = solo.getString(R.string.rename);
-		String delete = solo.getString(R.string.delete);
 		String showDetails = solo.getString(R.string.show_details);
+		//String delete = solo.getString(R.string.delete);
 
 		UiTestUtils.openOptionsMenu(solo);
 
+		//TODO: refactor this assertion
+		//this works with the current Jenkins devices. On other devices with a different screen
+		//size "delete" can also be an options menu item and should be asserted.
+		//assertFalse("Found menu item '" + delete + "'", solo.waitForText(delete, 1, timeToWait, false, true));
 		assertFalse("Found menu item '" + rename + "'", solo.waitForText(rename, 1, timeToWait, false, true));
-		assertFalse("Found menu item '" + delete + "'", solo.waitForText(delete, 1, timeToWait, false, true));
 		assertFalse("Found menu item '" + showDetails + "'", solo.waitForText(showDetails, 1, timeToWait, false, true));
 	}
 

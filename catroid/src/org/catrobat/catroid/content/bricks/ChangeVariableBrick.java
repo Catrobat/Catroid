@@ -131,7 +131,7 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 			variableSpinner.setFocusable(false);
 		}
 
-		setSpinnerSelection(variableSpinner);
+		setSpinnerSelection(variableSpinner, null);
 
 		variableSpinner.setOnTouchListener(new OnTouchListener() {
 
@@ -186,7 +186,7 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 				changeVariableSpinnerAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
-		setSpinnerSelection(variableSpinner);
+		setSpinnerSelection(variableSpinner, null);
 
 		TextView textChangeVariable = (TextView) prototypeView.findViewById(R.id.brick_change_variable_prototype_view);
 		textChangeVariable.setText(String.valueOf(variableFormula.interpretDouble(sprite)));
@@ -195,26 +195,31 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_variable_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textSetVariable = (TextView) view.findViewById(R.id.brick_change_variable_label);
-		TextView textTo = (TextView) view.findViewById(R.id.brick_change_variable_by);
-		EditText editVariable = (EditText) view.findViewById(R.id.brick_change_variable_edit_text);
-		Spinner variablebrickSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
+		if (view != null) {
 
-		ColorStateList color = textSetVariable.getTextColors().withAlpha(alphaValue);
-		variablebrickSpinner.getBackground().setAlpha(alphaValue);
-		if (adapterView != null) {
-			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_variable_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textSetVariable = (TextView) view.findViewById(R.id.brick_change_variable_label);
+			TextView textTo = (TextView) view.findViewById(R.id.brick_change_variable_by);
+			EditText editVariable = (EditText) view.findViewById(R.id.brick_change_variable_edit_text);
+			Spinner variablebrickSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
+
+			ColorStateList color = textSetVariable.getTextColors().withAlpha(alphaValue);
+			variablebrickSpinner.getBackground().setAlpha(alphaValue);
+			if (adapterView != null) {
+				((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			}
+			textSetVariable.setTextColor(textSetVariable.getTextColors().withAlpha(alphaValue));
+			textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
+			editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
+			editVariable.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
 		}
-		textSetVariable.setTextColor(textSetVariable.getTextColors().withAlpha(alphaValue));
-		textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
-		editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
-		editVariable.getBackground().setAlpha(alphaValue);
-
-		this.alphaValue = (alphaValue);
 		return view;
 	}
 
@@ -253,7 +258,7 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		}
 	}
 
-	private void setSpinnerSelection(Spinner variableSpinner) {
+	private void setSpinnerSelection(Spinner variableSpinner, UserVariable newUserVariable) {
 		UserVariableAdapterWrapper userVariableAdapterWrapper = (UserVariableAdapterWrapper) variableSpinner
 				.getAdapter();
 
@@ -261,19 +266,20 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 
 		if (userVariable != null) {
 			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(userVariable), true);
+		} else if (newUserVariable != null) {
+			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(newUserVariable), true);
+			userVariable = newUserVariable;
 		} else {
-
 			variableSpinner.setSelection(userVariableAdapterWrapper.getCount() - 1, true);
 			userVariable = userVariableAdapterWrapper.getItem(userVariableAdapterWrapper.getCount() - 1);
-
 		}
 	}
 
 	@Override
-	public void onFinishNewVariableDialog(Spinner spinnerToUpdate) {
+	public void onFinishNewVariableDialog(Spinner spinnerToUpdate, UserVariable newUserVariable) {
 		UserVariableAdapterWrapper userVariableAdapterWrapper = ((UserVariableAdapterWrapper) spinnerToUpdate
 				.getAdapter());
 		userVariableAdapterWrapper.notifyDataSetChanged();
-		setSpinnerSelection(spinnerToUpdate);
+		setSpinnerSelection(spinnerToUpdate, newUserVariable);
 	}
 }

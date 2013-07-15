@@ -120,19 +120,25 @@ public class SetSizeToBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_size_to_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textSize = (TextView) view.findViewById(R.id.brick_set_size_to_label);
-		TextView textPercent = (TextView) view.findViewById(R.id.brick_set_size_to_percent);
-		EditText editSize = (EditText) view.findViewById(R.id.brick_set_size_to_edit_text);
-		textSize.setTextColor(textSize.getTextColors().withAlpha(alphaValue));
-		textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-		editSize.setTextColor(editSize.getTextColors().withAlpha(alphaValue));
-		editSize.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_size_to_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textSize = (TextView) view.findViewById(R.id.brick_set_size_to_label);
+			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_size_to_percent);
+			EditText editSize = (EditText) view.findViewById(R.id.brick_set_size_to_edit_text);
+			textSize.setTextColor(textSize.getTextColors().withAlpha(alphaValue));
+			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
+			editSize.setTextColor(editSize.getTextColors().withAlpha(alphaValue));
+			editSize.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 
