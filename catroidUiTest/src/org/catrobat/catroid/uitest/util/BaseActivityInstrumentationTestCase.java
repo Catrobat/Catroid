@@ -35,31 +35,33 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 
 	protected Solo solo;
 
+	private static final String TAG = "BaseActivityInstrumentationTestCase";
+
 	public BaseActivityInstrumentationTestCase(Class<T> clazz) {
 		super(clazz);
 	}
 
 	@Override
 	protected void setUp() throws Exception {
-		Log.v("BaseActivityInstrumentationTestCase", "Setup #1");
+		Log.v(TAG, "Setup #1");
 		super.setUp();
-		Log.v("BaseActivityInstrumentationTestCase", "Setup #2");
+		Log.v(TAG, "Setup #2");
 		UiTestUtils.clearAllUtilTestProjects();
-		Log.v("BaseActivityInstrumentationTestCase", "Setup #3");
+		Log.v(TAG, "Setup #3");
 		solo = new Solo(getInstrumentation(), getActivity());
-		Log.v("BaseActivityInstrumentationTestCase", "Setup #4");
+		Log.v(TAG, "Setup #4");
 		Reflection.setPrivateField(StageListener.class, "makeAutomaticScreenshot", false);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		Log.v("BaseActivityInstrumentationTestCase", "Teardown #1");
+		Log.v(TAG, "Teardown #1");
 		solo.finishOpenedActivities();
-		Log.v("BaseActivityInstrumentationTestCase", "Teardown #2");
+		Log.v(TAG, "Teardown #2");
 		UiTestUtils.clearAllUtilTestProjects();
-		Log.v("BaseActivityInstrumentationTestCase", "Teardown #3");
+		Log.v(TAG, "Teardown #3");
 		super.tearDown();
-		Log.v("BaseActivityInstrumentationTestCase", "Teardown #4");
+		Log.v(TAG, "Teardown #4");
 		solo = null;
 	}
 
