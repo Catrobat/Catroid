@@ -5,6 +5,7 @@ public class ControlCommands {
 	//for Albert-Robot-Test
 	private byte[] buffer = new byte[22];
 
+	//Actor variables
 	private int speed_motor_left = 0; // -100...+100
 	private int speed_motor_right = 0; // -100...+100
 	private int buzzer = 0;

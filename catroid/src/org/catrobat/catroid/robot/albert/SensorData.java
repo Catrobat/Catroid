@@ -20,42 +20,31 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.robot.albert;
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.robot.albert.RobotAlbert;
+public class SensorData {
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+	//Sensor variables
+	private int left_distance_sensor = 0; //0=infinity 100=0mm
+	private int right_distance_sensor = 0;
 
-public class RobotAlbertDistanceSensorLeftAction extends TemporalAction {
-
-	private Sprite sprite;
-	private Formula changeVariable;
-	private UserVariable userVariable;
-
-	@Override
-	protected void update(float percent) {
-		if (userVariable == null) {
-			return;
-		}
-		//double value = changeVariable.interpretDouble(sprite);
-		int value = RobotAlbert.getRobotAlbertDistanceSensorLeftMessage();
-		userVariable.setValue(value);
-
+	public SensorData() {
 	}
 
-	public void setUserVariable(UserVariable userVariable) {
-		this.userVariable = userVariable;
+	public void setValueOfLeftDistanceSensor(int value) {
+		left_distance_sensor = value;
 	}
 
-	public void setChangeVariable(Formula changeVariable) {
-		this.changeVariable = changeVariable;
+	public int getValueOfLeftDistanceSensor() {
+		return left_distance_sensor;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setValueOfRightDistanceSensor(int value) {
+		right_distance_sensor = value;
+	}
+
+	public int getValueOfRightDistanceSensor() {
+		return right_distance_sensor;
 	}
 
 }

@@ -101,6 +101,7 @@ public abstract class RobotAlbertCommunicator extends Thread {
 	public static final int BUZZER_COMMAND = 104;
 	private static final int RGB_EYE_COMMAND = 105;
 	private static final int FRONT_LED_COMMAND = 106;
+	private static final int GET_DISTANCE_COMMAND = 107;
 	//public static final int TONE_COMMAND = 101;
 
 	protected boolean connected = false;
@@ -112,7 +113,8 @@ public abstract class RobotAlbertCommunicator extends Thread {
 
 	protected Resources mResources;
 
-	private ControlCommands commands = new ControlCommands();
+	protected ControlCommands commands = new ControlCommands();
+	protected SensorData sensors = new SensorData();
 
 	public RobotAlbertCommunicator(Handler uiHandler, Resources resources) {
 		this.uiHandler = uiHandler;
@@ -502,6 +504,24 @@ public abstract class RobotAlbertCommunicator extends Thread {
 					Log.d("Albert", "buffer[16]=" + command_message[16]);
 					sendCommandMessage(command_message);
 					break;
+				/*
+				 * case GET_DISTANCE_COMMAND:
+				 * Log.d("RobotAlbertC.Handler", "GetDistanceCommand received");
+				 * //int status = message.getData().getInt("frontLED");
+				 * int leftDistance = commands.getValueOfLeftDistanceSensor();
+				 * 
+				 * Bundle myBundle = new Bundle();
+				 * myBundle.putInt("left", 21);
+				 * message.setData(myBundle);
+				 * try {
+				 * message.replyTo.send(message);
+				 * } catch (RemoteException e) {
+				 * // TODO Auto-generated catch block
+				 * Log.d("teeesssttt", "error with replyTo!!!!!!!!!!!");
+				 * e.printStackTrace();
+				 * }
+				 * break;
+				 */
 				default:
 					Log.d("RobotAlbertCommunicator", "handleMessage: Default !!!!!!!!!!!!!!!");
 					break;

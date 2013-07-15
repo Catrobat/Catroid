@@ -49,7 +49,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -70,7 +69,6 @@ public class RobotAlbertDistanceSensorLeftBrick extends BrickBaseType implements
 		this.userVariable = userVariable;
 	}
 
-	// TODO: Ersetzen mit distance value
 	public RobotAlbertDistanceSensorLeftBrick(Sprite sprite, double value) {
 		this.sprite = sprite;
 		this.variableFormula = new Formula(value);
@@ -110,14 +108,14 @@ public class RobotAlbertDistanceSensorLeftBrick extends BrickBaseType implements
 			}
 		});
 
-		TextView prototype_text = (TextView) view
-				.findViewById(R.id.brick_robot_albert_distance_sensor_left_prototype_view);
-		EditText edit_text = (EditText) view.findViewById(R.id.brick_robot_albert_distance_sensor_left_edit_text);
-		prototype_text.setVisibility(View.GONE);
-		variableFormula.setTextFieldId(R.id.brick_robot_albert_distance_sensor_left_edit_text);
-		variableFormula.refreshTextField(view);
-		edit_text.setVisibility(View.VISIBLE);
-		edit_text.setOnClickListener(this);
+		//TextView prototype_text = (TextView) view
+		//		.findViewById(R.id.brick_robot_albert_distance_sensor_left_prototype_view);
+		//EditText edit_text = (EditText) view.findViewById(R.id.brick_robot_albert_distance_sensor_left_edit_text);
+		//prototype_text.setVisibility(View.GONE);
+		//variableFormula.setTextFieldId(R.id.brick_robot_albert_distance_sensor_left_edit_text);
+		//variableFormula.refreshTextField(view);
+		//edit_text.setVisibility(View.VISIBLE);
+		//edit_text.setOnClickListener(this);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.robot_albert_distance_sensor_left_spinner);
 		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
@@ -193,9 +191,9 @@ public class RobotAlbertDistanceSensorLeftBrick extends BrickBaseType implements
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
 		setSpinnerSelection(variableSpinner, null);
 
-		TextView textSetVariable = (TextView) prototypeView
-				.findViewById(R.id.brick_robot_albert_distance_sensor_left_prototype_view);
-		textSetVariable.setText(String.valueOf(variableFormula.interpretDouble(sprite)));
+		//TextView textSetVariable = (TextView) prototypeView
+		//	.findViewById(R.id.brick_robot_albert_distance_sensor_left_prototype_view);
+		//textSetVariable.setText(String.valueOf(variableFormula.interpretDouble(sprite)));
 
 		return prototypeView;
 	}
@@ -207,8 +205,8 @@ public class RobotAlbertDistanceSensorLeftBrick extends BrickBaseType implements
 		background.setAlpha(alphaValue);
 
 		TextView textSetVariable = (TextView) view.findViewById(R.id.brick_robot_albert_distance_sensor_left_label);
-		TextView textTo = (TextView) view.findViewById(R.id.brick_robot_albert_distance_sensor_left_to_textview);
-		EditText editVariable = (EditText) view.findViewById(R.id.brick_robot_albert_distance_sensor_left_edit_text);
+		//TextView textTo = (TextView) view.findViewById(R.id.brick_robot_albert_distance_sensor_left_to_textview);
+		//EditText editVariable = (EditText) view.findViewById(R.id.brick_robot_albert_distance_sensor_left_edit_text);
 		Spinner variablebrickSpinner = (Spinner) view.findViewById(R.id.robot_albert_distance_sensor_left_spinner);
 
 		ColorStateList color = textSetVariable.getTextColors().withAlpha(alphaValue);
@@ -217,9 +215,9 @@ public class RobotAlbertDistanceSensorLeftBrick extends BrickBaseType implements
 			((TextView) adapterView.getChildAt(0)).setTextColor(color);
 		}
 		textSetVariable.setTextColor(textSetVariable.getTextColors().withAlpha(alphaValue));
-		textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
-		editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
-		editVariable.getBackground().setAlpha(alphaValue);
+		//textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
+		//editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
+		//editVariable.getBackground().setAlpha(alphaValue);
 
 		this.alphaValue = (alphaValue);
 		return view;

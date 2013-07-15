@@ -324,10 +324,18 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 			//Log.d("test", "waiting for 0x0A (count="+count+")");
 		} while ((buffer[count] != 13) && (buffer[count - 1] != 10));
 
-		Log.d("RobotAlbertBtComm", "receiveMessage: buffer[13]=" + buffer[13]);
-		Log.d("RobotAlbertBtComm", "receiveMessage: buffer[14]=" + buffer[14]);
-		Log.d("RobotAlbertBtComm", "receiveMessage: buffer[15]=" + buffer[15]);
-		Log.d("RobotAlbertBtComm", "receiveMessage: buffer[16]=" + buffer[16]);
+		int leftDistance = (buffer[14] + buffer[16] + buffer[18] + buffer[20]) / 4;
+		int rightDistance = (buffer[13] + buffer[15] + buffer[17] + buffer[19]) / 4;
+
+		sensors.setValueOfLeftDistanceSensor(leftDistance);
+		sensors.setValueOfRightDistanceSensor(rightDistance);
+
+		Log.d("RobotAlbertBtComm", "receiveMessage:  leftDistance=" + leftDistance);
+		Log.d("RobotAlbertBtComm", "receiveMessage: rightDistance=" + rightDistance);
+		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[13]=" + buffer[13]);
+		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[14]=" + buffer[14]);
+		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[15]=" + buffer[15]);
+		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[16]=" + buffer[16]);
 		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[17]=" + buffer[17]);
 		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[18]=" + buffer[18]);
 		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[19]=" + buffer[19]);

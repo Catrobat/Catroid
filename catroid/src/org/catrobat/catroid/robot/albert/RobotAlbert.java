@@ -63,7 +63,7 @@ public class RobotAlbert implements BTConnectable {
 
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 
-	private RobotAlbertCommunicator myCommunicator;
+	private static RobotAlbertCommunicator myCommunicator;
 
 	private boolean pairing;
 	private static Handler btcHandler;
@@ -75,6 +75,7 @@ public class RobotAlbert implements BTConnectable {
 	private static final int BUZZER_COMMAND = 104;
 	private static final int RGB_EYE_COMMAND = 105;
 	private static final int FRONT_LED_COMMAND = 106;
+	private static final int GET_DISTANCE_COMMAND = 107;
 
 	public RobotAlbert(Activity activity, Handler recieverHandler) {
 		this.activity = activity;
@@ -228,6 +229,13 @@ public class RobotAlbert implements BTConnectable {
 		Log.d("RobotAlbert", "sendRobotAlbertRgbLedEyeMessage finished!");
 	}
 
+	public static int getRobotAlbertDistanceSensorLeftMessage() {
+		Log.d("RobotAlbert", "sendRobotAlbert BuzzerMessage():Bundle");
+		int value = myCommunicator.sensors.getValueOfLeftDistanceSensor();
+		Log.d("RobotAlbert", "sendRobotAlbertBuzzerMessage finished!");
+		return value;
+	}
+
 	public static Handler getBTCHandler() {
 		return btcHandler;
 	}
@@ -244,4 +252,20 @@ public class RobotAlbert implements BTConnectable {
 		activity.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
 
 	}
+
+	final Handler myReturnHandler1 = new Handler() {
+
+		@Override
+		public void handleMessage(Message message) {
+			// TODO Auto-generated method stub
+			switch (message.what) {
+				case GET_DISTANCE_COMMAND:
+					Log.d("tteeessstttt", "myReturnHandler1: GET_DISTANCE_COMMAND!!!!!!!!!!!!!!!");
+					break;
+				default:
+					Log.d("tteeessstttt", "myReturnHandler1: default!!!!!!!!!!!!!!!");
+			}
+		}
+
+	};
 }
