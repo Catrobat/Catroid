@@ -34,17 +34,15 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.EditText;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private Project project;
-	private Solo solo;
 	private Sprite firstSprite;
 	private Sprite secondSprite;
 	private Brick changeBrick;
@@ -61,22 +59,11 @@ public class FormulaEditorKeyboardTest extends android.test.ActivityInstrumentat
 	public void setUp() throws Exception {
 		super.setUp();
 		createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		this.solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = null;
-		super.tearDown();
-	}
-
 	private void createProject(String projectName) throws InterruptedException {
-
 		project = new Project(null, projectName);
-
 		firstSprite = new Sprite("firstSprite");
 		secondSprite = new Sprite("secondSprite");
 		Script startScript1 = new StartScript(firstSprite);
