@@ -161,21 +161,27 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_look_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
-		TextView lookbrickTextView = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
+		if (view != null) {
 
-		ColorStateList color = lookbrickTextView.getTextColors().withAlpha(alphaValue);
-		lookbrickTextView.setTextColor(color);
-		lookbrickSpinner.getBackground().setAlpha(alphaValue);
-		if (adapterView != null) {
-			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_look_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
+			TextView lookbrickTextView = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
+
+			ColorStateList color = lookbrickTextView.getTextColors().withAlpha(alphaValue);
+			lookbrickTextView.setTextColor(color);
+			lookbrickSpinner.getBackground().setAlpha(alphaValue);
+			if (adapterView != null) {
+				((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			}
+
+			this.alphaValue = (alphaValue);
+
 		}
 
-		this.alphaValue = (alphaValue);
 		return view;
 	}
 

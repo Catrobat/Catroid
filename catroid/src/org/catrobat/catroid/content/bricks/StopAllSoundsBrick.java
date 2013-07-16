@@ -85,13 +85,18 @@ public class StopAllSoundsBrick extends BrickBaseType {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_stop_all_sounds_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
-		this.alphaValue = (alphaValue);
 
-		TextView textStop = (TextView) view.findViewById(R.id.brick_stop_all_sounds_label);
-		textStop.setTextColor(textStop.getTextColors().withAlpha(alphaValue));
+		if (view != null) {
+
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_stop_all_sounds_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+			this.alphaValue = (alphaValue);
+
+			TextView textStop = (TextView) view.findViewById(R.id.brick_stop_all_sounds_label);
+			textStop.setTextColor(textStop.getTextColors().withAlpha(alphaValue));
+
+		}
 
 		return view;
 	}

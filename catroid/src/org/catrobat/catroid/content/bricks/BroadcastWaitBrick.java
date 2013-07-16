@@ -158,20 +158,26 @@ public class BroadcastWaitBrick extends BrickBaseType implements BroadcastMessag
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_broadcast_wait_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textBroadcastWaitLabel = (TextView) view.findViewById(R.id.brick_broadcast_wait_label);
-		textBroadcastWaitLabel.setTextColor(textBroadcastWaitLabel.getTextColors().withAlpha(alphaValue));
-		Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_wait_spinner);
-		ColorStateList color = textBroadcastWaitLabel.getTextColors().withAlpha(alphaValue);
-		broadcastSpinner.getBackground().setAlpha(alphaValue);
-		if (adapterView != null) {
-			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+		if (view != null) {
+
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_broadcast_wait_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textBroadcastWaitLabel = (TextView) view.findViewById(R.id.brick_broadcast_wait_label);
+			textBroadcastWaitLabel.setTextColor(textBroadcastWaitLabel.getTextColors().withAlpha(alphaValue));
+			Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_wait_spinner);
+			ColorStateList color = textBroadcastWaitLabel.getTextColors().withAlpha(alphaValue);
+			broadcastSpinner.getBackground().setAlpha(alphaValue);
+			if (adapterView != null) {
+				((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			}
+
+			this.alphaValue = (alphaValue);
+
 		}
 
-		this.alphaValue = (alphaValue);
 		return view;
 	}
 

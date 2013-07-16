@@ -157,20 +157,26 @@ public class PointToBrick extends BrickBaseType {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_point_to_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textPointToLabel = (TextView) view.findViewById(R.id.brick_point_to_label);
-		textPointToLabel.setTextColor(textPointToLabel.getTextColors().withAlpha(alphaValue));
-		Spinner pointToSpinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
-		ColorStateList color = textPointToLabel.getTextColors().withAlpha(alphaValue);
-		pointToSpinner.getBackground().setAlpha(alphaValue);
-		if (adapterView != null) {
-			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+		if (view != null) {
+
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_point_to_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textPointToLabel = (TextView) view.findViewById(R.id.brick_point_to_label);
+			textPointToLabel.setTextColor(textPointToLabel.getTextColors().withAlpha(alphaValue));
+			Spinner pointToSpinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
+			ColorStateList color = textPointToLabel.getTextColors().withAlpha(alphaValue);
+			pointToSpinner.getBackground().setAlpha(alphaValue);
+			if (adapterView != null) {
+				((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			}
+
+			this.alphaValue = (alphaValue);
+
 		}
 
-		this.alphaValue = (alphaValue);
 		return view;
 	}
 

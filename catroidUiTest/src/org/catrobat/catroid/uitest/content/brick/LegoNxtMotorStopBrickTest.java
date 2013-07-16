@@ -34,19 +34,16 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.os.Build;
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.jayway.android.robotium.solo.Solo;
+public class LegoNxtMotorStopBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
-public class LegoNxtMotorStopBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
-
-	private Solo solo;
 	private Project project;
 	private LegoNxtMotorStopBrick motorStopBrick;
 
@@ -56,16 +53,11 @@ public class LegoNxtMotorStopBrickTest extends ActivityInstrumentationTestCase2<
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		super.setUp();
 	}
 
 	@Smoke

@@ -145,24 +145,30 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_place_at_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView placeAtLabel = (TextView) view.findViewById(R.id.brick_place_at_label);
-		TextView placeAtX = (TextView) view.findViewById(R.id.brick_place_at_x_textview);
-		TextView placeAtY = (TextView) view.findViewById(R.id.brick_place_at_y_textview);
-		EditText editX = (EditText) view.findViewById(R.id.brick_place_at_edit_text_x);
-		EditText editY = (EditText) view.findViewById(R.id.brick_place_at_edit_text_y);
-		placeAtLabel.setTextColor(placeAtLabel.getTextColors().withAlpha(alphaValue));
-		placeAtX.setTextColor(placeAtX.getTextColors().withAlpha(alphaValue));
-		placeAtY.setTextColor(placeAtY.getTextColors().withAlpha(alphaValue));
-		editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-		editX.getBackground().setAlpha(alphaValue);
-		editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
-		editY.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_place_at_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView placeAtLabel = (TextView) view.findViewById(R.id.brick_place_at_label);
+			TextView placeAtX = (TextView) view.findViewById(R.id.brick_place_at_x_textview);
+			TextView placeAtY = (TextView) view.findViewById(R.id.brick_place_at_y_textview);
+			EditText editX = (EditText) view.findViewById(R.id.brick_place_at_edit_text_x);
+			EditText editY = (EditText) view.findViewById(R.id.brick_place_at_edit_text_y);
+			placeAtLabel.setTextColor(placeAtLabel.getTextColors().withAlpha(alphaValue));
+			placeAtX.setTextColor(placeAtX.getTextColors().withAlpha(alphaValue));
+			placeAtY.setTextColor(placeAtY.getTextColors().withAlpha(alphaValue));
+			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
+			editX.getBackground().setAlpha(alphaValue);
+			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
+			editY.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

@@ -46,16 +46,14 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.bluetooth.BluetoothAdapter;
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int IMAGE_FILE_ID = org.catrobat.catroid.uitest.R.raw.icon;
 	private static final int MOTOR_ACTION = 0;
 	private static final int MOTOR_STOP = 1;
@@ -73,7 +71,6 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	//  private static final String PAIRED_UNAVAILABLE_DEVICE_NAME = "SWEET";
 	//  private static final String PAIRED_UNAVAILABLE_DEVICE_MAC = "00:23:4D:F5:A6:18";
 
-	private Solo solo;
 	private final String projectName = UiTestUtils.PROJECTNAME1;
 	private final String spriteName = "testSprite";
 
@@ -86,18 +83,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.goBackToHome(getInstrumentation());
 		UiTestUtils.prepareStageForTest();
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
 	}
 
 	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!

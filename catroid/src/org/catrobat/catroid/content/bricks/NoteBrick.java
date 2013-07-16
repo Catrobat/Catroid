@@ -158,17 +158,23 @@ public class NoteBrick extends BrickBaseType {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_note_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView noteLabel = (TextView) view.findViewById(R.id.brick_note_text_view);
-		EditText noteEditText = (EditText) view.findViewById(R.id.brick_note_edit_text);
-		noteLabel.setTextColor(noteLabel.getTextColors().withAlpha(alphaValue));
-		noteEditText.setTextColor(noteEditText.getTextColors().withAlpha(alphaValue));
-		noteEditText.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_note_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView noteLabel = (TextView) view.findViewById(R.id.brick_note_text_view);
+			EditText noteEditText = (EditText) view.findViewById(R.id.brick_note_edit_text);
+			noteLabel.setTextColor(noteLabel.getTextColors().withAlpha(alphaValue));
+			noteEditText.setTextColor(noteEditText.getTextColors().withAlpha(alphaValue));
+			noteEditText.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 
