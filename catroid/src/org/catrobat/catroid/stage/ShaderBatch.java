@@ -66,6 +66,7 @@ public class ShaderBatch extends SpriteBatch {
 	protected int brightnessLoc = -1, contrastLoc = -1;
 	//ideally use getters/setters here...
 	public float brightness = 0f;
+	private float lastBrightness = 0f;
 	public float contrast = 1f;
 
 	public ShaderBatch(int size) {
@@ -99,10 +100,24 @@ public class ShaderBatch extends SpriteBatch {
 		}
 	}
 
-	//	@Override
-	//	public void end() {
-	//		super.end();
-	//		brightness = 0f;
-	//		contrast = 1f;
-	//	}
+	public void refreshShader() {
+		if (brightnessLoc != -1 && shader != null) {
+			shader.setUniformf(brightnessLoc, brightness);
+		}
+		if (contrastLoc != -1 && shader != null) {
+			shader.setUniformf(contrastLoc, contrast);
+		}
+	}
+
+	public void resetShader() {
+		brightness = 0f;
+		contrast = 1f;
+	}
+
+	@Override
+	public void end() {
+		super.end();
+		brightness = 0f;
+		contrast = 1f;
+	}
 }

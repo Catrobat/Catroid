@@ -187,15 +187,19 @@ public class Look extends Image {
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		ShaderBatch shaderBatch = (ShaderBatch) batch;
+		shaderBatch.resetShader();
 		checkImageChanged();
-		shaderBatch.brightness = brightness - 1;
+		if (brightness != 1.0f) {
+			shaderBatch.brightness = brightness - 1;
+		}
+		shaderBatch.refreshShader();
 		if (alpha == 0.0f) {
 			setVisible(false);
 		} else {
 			setVisible(true);
 		}
 		if (this.visible && this.getDrawable() != null) {
-			super.draw(batch, this.alpha);
+			super.draw(shaderBatch, this.alpha);
 		}
 	}
 
