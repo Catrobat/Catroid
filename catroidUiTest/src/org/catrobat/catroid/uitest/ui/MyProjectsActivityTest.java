@@ -131,6 +131,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	public void saveProjectsToZip() {
+		ProjectManager.getInstance().initializeDefaultProject(getActivity());
 		File directory;
 		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		String[] paths = rootDirectory.list();
