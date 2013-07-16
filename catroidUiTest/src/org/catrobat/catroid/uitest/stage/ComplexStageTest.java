@@ -42,6 +42,7 @@ import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -64,6 +65,7 @@ public class ComplexStageTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 	}
 
+	@Emulator
 	public void testShowTexture() {
 		byte[] redPixel = { (byte) 237, 28, 36, (byte) 255 };
 		byte[] redBrightnessPixel = { (byte) 109, 0, 0, (byte) 255 };

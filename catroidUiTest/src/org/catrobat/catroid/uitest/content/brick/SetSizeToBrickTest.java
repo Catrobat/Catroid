@@ -39,6 +39,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -84,6 +85,7 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	@Smoke
+	@Emulator
 	public void testSetSizeToBrick() {
 		double newSize = 200;
 

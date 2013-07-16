@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -60,6 +61,7 @@ public class MultipleBroadcastsTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 	}
 
+	@Emulator
 	public void testSendMultipleBroadcastsWhenProjectStart() {
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);

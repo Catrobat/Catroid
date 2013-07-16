@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -50,6 +51,7 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 	/*
 	 * Regression test for https://github.com/Catrobat/Catroid/pull/105
 	 */
+	@Emulator
 	public void testReceiversWorkMoreThanOnce() {
 		UiTestUtils.createEmptyProject();
 		Sprite sprite = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0);

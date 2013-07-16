@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -60,6 +61,7 @@ public class ChangeXByNBrickTest extends BaseActivityInstrumentationTestCase<Scr
 	}
 
 	@Smoke
+	@Emulator
 	public void testChangeXByNBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

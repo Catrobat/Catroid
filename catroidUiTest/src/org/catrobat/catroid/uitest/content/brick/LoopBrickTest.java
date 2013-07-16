@@ -43,6 +43,8 @@ import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -70,6 +72,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
+	@Emulator
 	public void testRepeatBrick() {
 		ArrayList<Integer> yPosition;
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -153,6 +156,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof LoopEndBrick);
 	}
 
+	@Device
 	public void testForeverBrick() {
 		ArrayList<Integer> yPosition;
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -226,6 +230,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 				projectBrickList.get(5) instanceof BroadcastBrick);
 	}
 
+	@Emulator
 	public void testNestedForeverBricks() {
 		ArrayList<Integer> yPosition;
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();

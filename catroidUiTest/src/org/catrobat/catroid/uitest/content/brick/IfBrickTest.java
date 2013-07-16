@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -60,6 +61,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 	}
 
 	@Smoke
+	@Emulator
 	public void testIfBrick() {
 		ListView view = UiTestUtils.getScriptListView(solo);
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
@@ -79,6 +81,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_if_begin)));
 	}
 
+	@Emulator
 	public void testStrings() {
 
 		solo.clickOnEditText(0);
@@ -94,6 +97,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		solo.goBack();
 	}
 
+	@Emulator
 	public void testIfBrickParts() {
 		ArrayList<Integer> yPosition;
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();

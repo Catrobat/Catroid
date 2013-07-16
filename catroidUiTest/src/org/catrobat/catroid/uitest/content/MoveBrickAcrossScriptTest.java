@@ -40,6 +40,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -62,6 +63,7 @@ public class MoveBrickAcrossScriptTest extends BaseActivityInstrumentationTestCa
 	}
 
 	@Smoke
+	@Emulator
 	public void testMoveBrickAcrossScript() {
 		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
 		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);

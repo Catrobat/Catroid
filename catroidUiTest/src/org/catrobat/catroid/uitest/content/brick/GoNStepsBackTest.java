@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -68,6 +69,7 @@ public class GoNStepsBackTest extends BaseActivityInstrumentationTestCase<Script
 	}
 
 	@Smoke
+	@Emulator
 	public void testGoNStepsBackBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

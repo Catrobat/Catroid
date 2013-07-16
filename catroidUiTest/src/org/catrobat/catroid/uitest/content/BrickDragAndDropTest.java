@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -53,12 +54,14 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
+	@Emulator
 	public void testClickOnEmptySpace() {
 		solo.clickOnScreen(20, ScreenValues.SCREEN_HEIGHT - 150);
 		solo.sleep(200);
 		assertFalse("Brickcategories should not be shown", solo.searchText(solo.getString(R.string.categories)));
 	}
 
+	@Emulator
 	public void testPutHoveringBrickDown() {
 		// clicks on spriteName needed to get focus on listview for solo without adding hovering brick
 		String scriptsName = solo.getString(R.string.scripts);
@@ -126,6 +129,7 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Last Brick should now be WaitBrick", adapter.getItem(3) instanceof WaitBrick);
 	}
 
+	@Emulator
 	public void testAddNewBrickFromAnotherCategory() {
 		int categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
 

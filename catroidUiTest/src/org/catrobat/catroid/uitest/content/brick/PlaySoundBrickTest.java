@@ -40,6 +40,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -80,6 +81,7 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		super.tearDown();
 	}
 
+	@Emulator
 	public void testSelectAndPlaySoundFile() {
 		solo.clickOnText(soundName);
 		solo.sleep(1000);
@@ -109,6 +111,7 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("wrong file playing", 4875, mediaPlayer.getDuration());
 	}
 
+	@Emulator
 	public void testSpinnerUpdatesDelete() {
 		String buttonDeleteText = solo.getString(R.string.delete);
 		String scriptsSpinnerText = solo.getString(R.string.scripts);
@@ -133,6 +136,7 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 	}
 
+	@Emulator
 	public void testSpinnerUpdatesRename() {
 		String newName = "nameRenamed";
 		String scriptsSpinnerText = solo.getString(R.string.scripts);
@@ -158,6 +162,7 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 	}
 
+	@Emulator
 	public void testAddNewSound() {
 		String newText = solo.getString(R.string.new_broadcast_message);
 		String recordedFilename = solo.getString(R.string.soundrecorder_recorded_filename);
