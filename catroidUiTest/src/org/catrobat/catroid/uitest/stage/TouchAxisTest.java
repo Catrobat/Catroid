@@ -26,6 +26,7 @@ import java.io.File;
 import java.util.Arrays;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
@@ -37,34 +38,23 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-
-import com.jayway.android.robotium.solo.Solo;
-
-public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivity> {
-	private Solo solo;
+public class TouchAxisTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	public TouchAxisTest() {
-		super(StageActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.prepareStageForTest();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
-
+		UiTestUtils.prepareStageForTest();
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 	}
 
 	// This prevents regression of https://github.com/Catrobat/Catroid/issues/3

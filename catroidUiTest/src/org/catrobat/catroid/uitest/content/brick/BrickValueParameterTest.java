@@ -31,22 +31,19 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.jayway.android.robotium.solo.Solo;
+public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-
-	private Solo solo;
 	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
 
 	public BrickValueParameterTest() {
@@ -57,7 +54,6 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
 
 		// enable mindstorm bricks, if disabled at start
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -65,22 +61,17 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
 		}
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		// disable mindstorm bricks, if enabled
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
 			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
 		}
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-		solo = null;
 	}
 
 	@Smoke

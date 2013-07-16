@@ -76,6 +76,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	public static final String ACTION_LOOK_DELETED = "org.catrobat.catroid.LOOK_DELETED";
 	public static final String ACTION_LOOK_RENAMED = "org.catrobat.catroid.LOOK_RENAMED";
 	public static final String ACTION_SOUND_DELETED = "org.catrobat.catroid.SOUND_DELETED";
+	public static final String ACTION_SOUND_COPIED = "org.catrobat.catroid.SOUND_COPIED";
 	public static final String ACTION_SOUND_RENAMED = "org.catrobat.catroid.SOUND_RENAMED";
 	public static final String ACTION_VARIABLE_DELETED = "org.catrobat.catroid.VARIABLE_DELETED";
 
@@ -266,6 +267,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+
 		if (isHoveringActive()) {
 			scriptFragment.getListView().animateHoveringBrick();
 			return super.onOptionsItemSelected(item);

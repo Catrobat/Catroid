@@ -147,20 +147,26 @@ public class WaitBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_wait_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textWaitLabel = (TextView) view.findViewById(R.id.brick_wait_label);
-		TextView textWaitSeconds = (TextView) view.findViewById(R.id.brick_wait_second_text_view);
-		EditText editWait = (EditText) view.findViewById(R.id.brick_wait_edit_text);
+		if (view != null) {
 
-		textWaitLabel.setTextColor(textWaitLabel.getTextColors().withAlpha(alphaValue));
-		textWaitSeconds.setTextColor(textWaitSeconds.getTextColors().withAlpha(alphaValue));
-		editWait.setTextColor(editWait.getTextColors().withAlpha(alphaValue));
-		editWait.getBackground().setAlpha(alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_wait_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
 
-		this.alphaValue = (alphaValue);
+			TextView textWaitLabel = (TextView) view.findViewById(R.id.brick_wait_label);
+			TextView textWaitSeconds = (TextView) view.findViewById(R.id.brick_wait_second_text_view);
+			EditText editWait = (EditText) view.findViewById(R.id.brick_wait_edit_text);
+
+			textWaitLabel.setTextColor(textWaitLabel.getTextColors().withAlpha(alphaValue));
+			textWaitSeconds.setTextColor(textWaitSeconds.getTextColors().withAlpha(alphaValue));
+			editWait.setTextColor(editWait.getTextColors().withAlpha(alphaValue));
+			editWait.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

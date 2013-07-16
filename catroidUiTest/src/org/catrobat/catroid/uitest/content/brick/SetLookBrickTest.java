@@ -40,19 +40,16 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.test.ActivityInstrumentationTestCase2;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private final int RESOURCE_LOOK = org.catrobat.catroid.uitest.R.raw.icon;
 	private final int RESOURCE_LOOK2 = org.catrobat.catroid.uitest.R.raw.icon2;
 
-	private Solo solo;
 	private String lookName = "testLook1";
 	private String lookName2 = "testLook2";
 	private File lookFile;
@@ -69,23 +66,18 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
 
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/" + testFile + ".png",
 				org.catrobat.catroid.uitest.R.drawable.catroid_banzai, getActivity());
 
 		createProject();
 
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		if (lookFile.exists()) {
 			lookFile.delete();
 		}
@@ -94,7 +86,6 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		}
 		paintroidImageFile.delete();
 		super.tearDown();
-		solo = null;
 	}
 
 	public void testSelectLookAndPlay() {

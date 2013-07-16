@@ -59,6 +59,7 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -67,7 +68,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.os.Build;
-import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -79,14 +79,12 @@ import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final String TEST_SPRITE_NAME = "cat";
 	private static final String FIRST_TEST_SPRITE_NAME = "test1";
 	private static final String SECOND_TEST_SPRITE_NAME = "test2";
 	private static final String THIRD_TEST_SPRITE_NAME = "test3";
 	private static final String FOURTH_TEST_SPRITE_NAME = "test4";
-
-	private Solo solo;
 
 	private String rename;
 	private String renameDialogTitle;
@@ -106,11 +104,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-
-		UiTestUtils.prepareStageForTest();
-
-		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
+		UiTestUtils.prepareStageForTest();
 
 		projectManager = ProjectManager.getInstance();
 		spriteList = projectManager.getCurrentProject().getSpriteList();
@@ -120,20 +115,10 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		spriteList.add(new Sprite(THIRD_TEST_SPRITE_NAME));
 		spriteList.add(new Sprite(FOURTH_TEST_SPRITE_NAME));
 
-		solo = new Solo(getInstrumentation(), getActivity());
-
 		rename = solo.getString(R.string.rename);
 		renameDialogTitle = solo.getString(R.string.rename_sprite_dialog);
 		delete = solo.getString(R.string.delete);
 		defaultSpriteName = solo.getString(R.string.default_project_sprites_mole_name) + " 1";
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
 	}
 
 	public void testCopySpriteWithUserVariables() {
@@ -302,7 +287,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
-		UiTestUtils.clickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
+		solo.clickOnText(UiTestUtils.PROJECTNAME1);
 		solo.sleep(200);
 		solo.clickLongOnText(defaultSpriteName);
 		solo.sleep(200);
