@@ -100,6 +100,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
 
 	private static String deleteActionModeTitle;
+	private static String copyActionModeTitle;
 	private static String singleItemAppendixDeleteActionMode;
 	private static String multipleItemAppendixDeleteActionMode;
 
@@ -117,6 +118,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private ActionMode actionMode;
 
 	private boolean isRenameActionMode;
+	private boolean isCopyActionMode;
 	private boolean isResultHandled = false;
 
 	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
@@ -173,7 +175,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		menu.findItem(R.id.copy).setVisible(false);
+		menu.findItem(R.id.copy).setVisible(true);
 		menu.findItem(R.id.edit_in_pocket_paint).setVisible(false);
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -276,6 +278,16 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	@Override
 	public void startCopyActionMode() {
 		// TODO Auto-generated method stub
+		Log.d("TAG", "SoundFragment::startCopyActionMode()");
+
+		if (actionMode == null) {
+			stopSoundAndUpdateList();
+			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
+			unregisterForContextMenu(listView);
+			BottomBar.disableButtons(getActivity());
+			isRenameActionMode = false;
+		}
+
 	}
 
 	@Override
@@ -291,6 +303,9 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public void startDeleteActionMode() {
+
+		Log.d("TAG", "SoundFragment::startDeleteActionMode()");
+
 		if (actionMode == null) {
 			stopSoundAndUpdateList();
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
@@ -523,6 +538,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	 */
 	private void copySound() {
 
+		Log.d("TAG", "copySound()");
 		// TODO implement that!
 
 		try {
@@ -691,6 +707,80 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		}
 	};
 
+	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+
+			Log.d("TAG", "-->copyModeCallBack-->onCreateActionMode BEGIN");
+
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
+			setActionModeActive(true);
+
+			copyActionModeTitle = getString(R.string.copy);
+			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
+			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
+
+			mode.setTitle(copyActionModeTitle);
+
+			Log.d("TAG", "-->copyModeCallBack-->onCreateActionMode END");
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+
+			//			Set<Integer> checkedSounds = adapter.getCheckedItems();
+			//			Iterator<Integer> iterator = checkedSounds.iterator();
+			//
+			//			while (iterator.hasNext()) {
+			//				int position = iterator.next();
+			//
+			//				Log.d("TAG", "Iterator: " + iterator.hashCode());
+			//				//copySound(position);
+			//			}
+
+		}
+
+	};
+
+	private void copySound(int position) {
+		// TODO Auto-generated method stub
+
+		Log.d("TAG", "copySound()");
+
+		//SoundInfo soundinfo = 
+
+		//		LookData lookData = lookDataList.get(position);
+		//
+		//		try {
+		//			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+		//
+		//			StorageHandler.getInstance().copyImage(projectName, lookData.getAbsolutePath(), null);
+		//
+		//			String imageName = lookData.getLookName() + "_" + getString(R.string.copy_look_addition);
+		//			String imageFileName = lookData.getLookFileName();
+		//
+		//			updateLookAdapter(imageName, imageFileName);
+		//		} catch (IOException e) {
+		//			Utils.showErrorDialog(getActivity(), getString(R.string.error_load_image));
+		//			e.printStackTrace();
+		//		}
+		//		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+
+	}
+
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
 
 		@Override
@@ -706,6 +796,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			mode.setTitle(R.string.delete);
 
 			deleteActionModeTitle = getString(R.string.delete);
+			copyActionModeTitle = getString(R.id.copy);
 			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
 			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
 
