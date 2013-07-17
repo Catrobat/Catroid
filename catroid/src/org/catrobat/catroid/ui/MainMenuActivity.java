@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.concurrent.locks.Lock;
@@ -40,6 +41,7 @@ import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
+import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -137,6 +139,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		}
 
 		PreStageActivity.shutdownPersistentResources();
+		UtilFile.createStandardProjectIfRootDirectoryIsEmpty(this);
 		setMainMenuButtonContinueText();
 		findViewById(R.id.main_menu_button_continue).setEnabled(true);
 		StatusBarNotificationManager.INSTANCE.displayDialogs(this);
@@ -340,7 +343,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		spannableStringBuilder.append("\n");
 		String currentProjectName = Utils.getCurrentProjectName(this);
 		if (currentProjectName == null) {
-			currentProjectName = getString(R.string.default_project_name);
+			currentProjectName = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).get(0);
 		}
 		spannableStringBuilder.append(currentProjectName);
 
