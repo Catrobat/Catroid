@@ -340,8 +340,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 		spannableStringBuilder.append(mainMenuContinue);
 		spannableStringBuilder.append("\n");
-		String currentProjectName = Utils.getCurrentProjectName(this);
-		spannableStringBuilder.append(currentProjectName);
+		spannableStringBuilder.append(Utils.getCurrentProjectName(this));
 
 		spannableStringBuilder.setSpan(textAppearanceSpan, mainMenuContinue.length() + 1,
 				spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);

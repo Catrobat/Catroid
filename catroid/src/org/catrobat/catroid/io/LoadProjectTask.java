@@ -61,23 +61,7 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
-		if (projectName == null) {
-			if (ProjectManager.INSTANCE.canLoadProject(activity.getString(R.string.default_project_name))) {
-				return ProjectManager.getInstance().loadProject(activity.getString(R.string.default_project_name),
-						activity, false);
-			} else {
-				return ProjectManager.getInstance().initializeDefaultProject(activity);
-			}
-		} else {
-			String currentProjectName = "";
-			if (ProjectManager.getInstance().getCurrentProject() != null) {
-				currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
-			}
-			if (!projectName.equals(currentProjectName)) {
-				return ProjectManager.getInstance().loadProject(projectName, activity, false);
-			}
-			return true;
-		}
+		return ProjectManager.INSTANCE.loadProject(projectName, activity, false);
 	}
 
 	@Override
