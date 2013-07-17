@@ -43,7 +43,7 @@ import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
-import org.catrobat.catroid.uitest.annotation.Emulator;
+import org.catrobat.catroid.uitest.annotation.Emulator2;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.SimulatedSensorManager;
@@ -119,7 +119,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnScreen(30, globalVisibleRect.top + 10);
 	}
 
-	@Emulator
+	@Emulator2
 	public void testSingleTapOnFunctionName() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -144,7 +144,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	}
 
 	@Smoke
-	@Emulator
+	@Emulator2
 	public void testDoubleTapSelection() {
 		BackgroundColorSpan COLOR_HIGHLIGHT = (BackgroundColorSpan) Reflection.getPrivateField(
 				new FormulaEditorEditText(getActivity()), "COLOR_HIGHLIGHT");
@@ -204,7 +204,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	}
 
 	@Smoke
-	@Emulator
+	@Emulator2
 	public void testFunctionFirstParameterSelectionAndModification() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -252,7 +252,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	}
 
 	@Smoke
-	@Emulator
+	@Emulator2
 	public void testBracketValueSelectionAndModification() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -287,7 +287,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	}
 
 	@Smoke
-	@Emulator
+	@Emulator2
 	public void testFunctionDeletion() {
 
 		int functionRandomLength = solo.getCurrentActivity().getText(R.string.formula_editor_function_rand).length();
@@ -328,7 +328,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	}
 
 	@Smoke
-	@Emulator
+	@Emulator2
 	public void testNumberInsertion() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -381,7 +381,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	}
 
 	@Smoke
-	@Emulator
+	@Emulator2
 	public void testGoBackToDiscardChanges() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -401,7 +401,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	}
 
 	@Smoke
-	@Emulator
+	@Emulator2
 	public void testErrorInFirstAndLastCharactersAndEmptyFormula() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -428,7 +428,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	}
 
 	@Smoke
-	@Emulator
+	@Emulator2
 	public void testTextCursorAndScrolling() {
 
 		solo.clickOnEditText(1);
@@ -466,7 +466,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	}
 
 	@Smoke
-	@Emulator
+	@Emulator2
 	public void testTextPreviewWithCursorPositions() {
 		solo.clickOnEditText(1);
 
@@ -487,7 +487,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	}
 
 	@Smoke
-	@Emulator
+	@Emulator2
 	public void testParseErrorsAndDeletion() {
 
 		String editTextString = "";
@@ -558,7 +558,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	@Emulator
+	@Emulator2
 	public void testStrings() {
 
 		solo.clickOnEditText(0);

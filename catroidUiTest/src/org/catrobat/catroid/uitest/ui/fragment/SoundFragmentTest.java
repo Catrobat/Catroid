@@ -36,7 +36,7 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
-import org.catrobat.catroid.uitest.annotation.Emulator;
+import org.catrobat.catroid.uitest.annotation.Emulator3;
 import org.catrobat.catroid.uitest.mockups.MockSoundActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -132,13 +132,13 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		super.tearDown();
 	}
 
-	@Emulator
+	@Emulator3
 	public void testInitialLayout() {
 		assertFalse("Initially showing details", getSoundAdapter().getShowDetails());
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 	}
 
-	@Emulator
+	@Emulator3
 	public void testCopySoundContextMenu() {
 		SoundAdapter adapter = getSoundAdapter();
 		assertNotNull("Could not get Adapter", adapter);
@@ -156,7 +156,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertEquals("Count of the soundList is not correct", newCount, getCurrentNumberOfSounds());
 	}
 
-	@Emulator
+	@Emulator3
 	public void testDeleteSoundContextMenu() {
 		SoundAdapter adapter = getSoundAdapter();
 		assertNotNull("Could not get Adapter", adapter);
@@ -175,7 +175,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertEquals("Count of the soundList is not correct", newCount, getCurrentNumberOfSounds());
 	}
 
-	@Emulator
+	@Emulator3
 	public void testRenameSoundContextMenu() {
 		String newSoundName = "TeStSoUNd1";
 
@@ -186,7 +186,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertTrue("Sound not renamed in actual view", solo.searchText(newSoundName));
 	}
 
-	@Emulator
+	@Emulator3
 	public void testEqualSoundNames() {
 		final String assertMessageText = "Sound not renamed correctly";
 
@@ -215,7 +215,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertEquals(assertMessageText, expectedSoundName, getSoundTitle(1));
 	}
 
-	@Emulator
+	@Emulator3
 	public void testShowAndHideDetails() {
 		int timeToWait = 300;
 
@@ -237,7 +237,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 	}
 
-	@Emulator
+	@Emulator3
 	public void testPlayAndStopSound() {
 		// Mute before playing sound
 		AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
@@ -268,7 +268,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
 	}
 
-	@Emulator
+	@Emulator3
 	public void testStopSoundOnSpinnerPress() {
 		// Mute before playing sound
 		AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
@@ -302,7 +302,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
 	}
 
-	@Emulator
+	@Emulator3
 	public void testAddSound() {
 		int expectedNumberOfSounds = getCurrentNumberOfSounds() + 1;
 
@@ -313,7 +313,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertTrue("Sound not added in actual view", solo.searchText(newSoundName));
 	}
 
-	@Emulator
+	@Emulator3
 	public void testGetSoundFromExternalSource() {
 		int expectedNumberOfSounds = getCurrentNumberOfSounds() + 1;
 		String checksumExternalSoundFile = Utils.md5Checksum(externalSoundFile);
@@ -346,7 +346,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
 	}
 
-	@Emulator
+	@Emulator3
 	public void testRenameActionModeChecking() {
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
@@ -366,7 +366,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 	}
 
-	@Emulator
+	@Emulator3
 	public void testRenameActionModeIfNothingSelected() {
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
@@ -377,7 +377,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, TIME_TO_WAIT));
 	}
 
-	@Emulator
+	@Emulator3
 	public void testRenameActionModeIfSomethingSelectedAndPressingBack() {
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
@@ -390,7 +390,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, TIME_TO_WAIT));
 	}
 
-	@Emulator
+	@Emulator3
 	public void testRenameActionModeEqualSoundNames() {
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
@@ -417,7 +417,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertTrue("Sound not renamed in actual view", solo.searchText(expectedNewSoundName, true));
 	}
 
-	@Emulator
+	@Emulator3
 	public void testBottomBarAndContextMenuOnActionModes() {
 		LinearLayout bottomBarLayout = (LinearLayout) solo.getView(R.id.bottom_bar);
 		LinearLayout addButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_add);
@@ -478,7 +478,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		checkIfContextMenuAppears(true, true);
 	}
 
-	@Emulator
+	@Emulator3
 	public void testDeleteActionModeCheckingAndTitle() {
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
@@ -523,7 +523,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 	}
 
-	@Emulator
+	@Emulator3
 	public void testDeleteActionModeIfNothingSelected() {
 		int expectedNumberOfSounds = getCurrentNumberOfSounds();
 
@@ -538,7 +538,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
 	}
 
-	@Emulator
+	@Emulator3
 	public void testDeleteActionModeIfSelectedAndPressingBack() {
 		int expectedNumberOfSounds = getCurrentNumberOfSounds();
 
@@ -555,7 +555,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
 	}
 
-	@Emulator
+	@Emulator3
 	public void testDeleteActionMode() {
 		int expectedNumberOfSounds = getCurrentNumberOfSounds() - 1;
 
@@ -579,7 +579,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 				solo.waitForText(SECOND_TEST_SOUND_NAME, 0, 200, false, false));
 	}
 
-	@Emulator
+	@Emulator3
 	public void testAddLookAndDeleteActionMode() {
 		String testSoundName = "testSound";
 
@@ -615,7 +615,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
 	}
 
-	@Emulator
+	@Emulator3
 	public void testStopSoundOnContextAndActionMenu() {
 		// Mute before playing sound
 		AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);

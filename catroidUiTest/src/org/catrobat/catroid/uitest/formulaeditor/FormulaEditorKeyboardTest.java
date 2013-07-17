@@ -34,7 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator;
+import org.catrobat.catroid.uitest.annotation.Emulator2;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -84,7 +84,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 	}
 
 	@Smoke
-	@Emulator
+	@Emulator2
 	public void testNormalKeysKeyboard() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -172,7 +172,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 	}
 
-	@Emulator
+	@Emulator2
 	public void testObjectFragment() {
 
 		String itemString = "";
@@ -238,7 +238,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 	}
 
-	@Emulator
+	@Emulator2
 	public void testMathFragment() {
 
 		String itemString = "";
@@ -335,7 +335,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 	}
 
-	@Emulator
+	@Emulator2
 	public void testLogicFragment() {
 
 		String itemString = "";
@@ -414,7 +414,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 	}
 
-	@Emulator
+	@Emulator2
 	public void testSensorsFragment() {
 
 		String itemString = "";
