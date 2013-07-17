@@ -117,7 +117,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private ActionMode actionMode;
 
 	private boolean isRenameActionMode;
-	private boolean isCopyActionMode;
 	private boolean isResultHandled = false;
 
 	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
@@ -772,7 +771,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			mode.setTitle(R.string.delete);
 
 			actionModeTitle = getString(R.string.delete);
-			actionModeTitle = getString(R.id.copy);
 			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
 			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
 
