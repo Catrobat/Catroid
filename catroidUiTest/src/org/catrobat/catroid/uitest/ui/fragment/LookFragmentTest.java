@@ -258,7 +258,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		solo.clickOnMenuItem(solo.getString(R.string.hide_details));
 		solo.sleep(timeToWait);
-		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 	}
 
 	public void testGetImageFromGallery() {
