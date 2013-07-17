@@ -80,6 +80,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.ActionMode;
@@ -117,7 +118,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private ActionMode actionMode;
 
 	private boolean isRenameActionMode;
-	private boolean isCopyActionMode;
 	private boolean isResultHandled = false;
 
 	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
@@ -504,6 +504,10 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 
+			case R.id.context_menu_backpack:
+				backPackSound();
+				break;
+
 			case R.id.context_menu_copy:
 				copySound();
 				break;
@@ -528,9 +532,28 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		return super.onContextItemSelected(item);
 	}
 
-	/**
-	 * 
-	 */
+	private void backPackSound() {
+		// TODO Auto-generated method stub
+
+		String soundTitle = selectedSoundInfo.getTitle();
+
+		Toast.makeText(getActivity(), "Sound " + soundTitle + " copied into backpack", Toast.LENGTH_SHORT).show();
+
+		copySoundBackPack();
+	}
+
+	private void copySoundBackPack() {
+
+		try {
+			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		updateSoundAdapter(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName());
+
+	}
+
 	private void copySound() {
 
 		try {

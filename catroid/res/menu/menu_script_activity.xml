@@ -22,6 +22,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+   <item
+        android:id="@+id/backpack"
+        android:showAsAction="always"
+        android:title="@string/backpack"
+        android:icon="@drawable/backpack" />
     <item
         android:id="@+id/copy"
         android:showAsAction="ifRoom"
@@ -34,9 +39,9 @@
         android:icon="@drawable/ic_menu_delete" />
     <item
         android:id="@+id/cut"
-        android:showAsAction="never"
-        android:visible="false"
-        android:title="@string/cut" />
+        android:showAsAction="ifRoom"
+        android:title="@string/cut"
+        android:icon="@drawable/backpack" />
     <item
         android:id="@+id/insert_below"
         android:showAsAction="never"

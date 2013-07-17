@@ -23,13 +23,14 @@
 
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
+	<item
+        android:id="@+id/context_menu_backpack"
+        android:title="@string/backpack" />
     <item
         android:id="@+id/context_menu_copy"
         android:title="@string/copy" />
     <item
         android:id="@+id/context_menu_cut"
-        android:visible="false"
         android:title="@string/cut" />
     <item
         android:id="@+id/context_menu_insert_below"

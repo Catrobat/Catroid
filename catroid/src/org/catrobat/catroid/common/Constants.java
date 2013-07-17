@@ -39,6 +39,8 @@ public final class Constants {
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
 	public static final String IMAGE_DIRECTORY = "images";
 	public static final String SOUND_DIRECTORY = "sounds";
+	public static final String BRICK_DIRECTORY = "bricks";
+	public static final String BACKPACK_DIRECTORY = "backpack";
 
 	public static final String NO_MEDIA_FILE = ".nomedia";
 
@@ -60,8 +62,7 @@ public final class Constants {
 
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
-	public static final String POCKET_PAINT_DOWNLOAD_LINK = "market://details?id="
-			+ POCKET_PAINT_PACKAGE_NAME;
+	public static final String POCKET_PAINT_DOWNLOAD_LINK = "market://details?id=" + POCKET_PAINT_PACKAGE_NAME;
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
 
 	//Services + Notifications
