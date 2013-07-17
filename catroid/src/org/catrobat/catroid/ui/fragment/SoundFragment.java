@@ -26,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.SortedSet;
 
 import org.catrobat.catroid.ProjectManager;
@@ -99,8 +98,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
 
-	private static String deleteActionModeTitle;
-	private static String copyActionModeTitle;
+	private static String actionModeTitle;
+
 	private static String singleItemAppendixDeleteActionMode;
 	private static String multipleItemAppendixDeleteActionMode;
 
@@ -277,8 +276,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public void startCopyActionMode() {
-		// TODO Auto-generated method stub
-		Log.d("TAG", "SoundFragment::startCopyActionMode()");
 
 		if (actionMode == null) {
 			stopSoundAndUpdateList();
@@ -303,8 +300,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public void startDeleteActionMode() {
-
-		Log.d("TAG", "SoundFragment::startDeleteActionMode()");
 
 		if (actionMode == null) {
 			stopSoundAndUpdateList();
@@ -362,7 +357,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
 
 		if (numberOfSelectedItems == 0) {
-			actionMode.setTitle(deleteActionModeTitle);
+			actionMode.setTitle(actionModeTitle);
 		} else {
 			String appendix = multipleItemAppendixDeleteActionMode;
 
@@ -371,9 +366,9 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			}
 
 			String numberOfItems = Integer.toString(numberOfSelectedItems);
-			String completeTitle = deleteActionModeTitle + " " + numberOfItems + " " + appendix;
+			String completeTitle = actionModeTitle + " " + numberOfItems + " " + appendix;
 
-			int titleLength = deleteActionModeTitle.length();
+			int titleLength = actionModeTitle.length();
 
 			Spannable completeSpannedTitle = new SpannableString(completeTitle);
 			completeSpannedTitle.setSpan(
@@ -538,9 +533,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	 */
 	private void copySound() {
 
-		Log.d("TAG", "copySound()");
-		// TODO implement that!
-
 		try {
 			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
 		} catch (IOException e) {
@@ -695,7 +687,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			Set<Integer> checkedSounds = adapter.getCheckedItems();
+			SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
 			Iterator<Integer> iterator = checkedSounds.iterator();
 
 			if (iterator.hasNext()) {
@@ -717,18 +709,14 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 
-			Log.d("TAG", "-->copyModeCallBack-->onCreateActionMode BEGIN");
-
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
-			copyActionModeTitle = getString(R.string.copy);
+			actionModeTitle = getString(R.string.copy);
 			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
 			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
 
-			mode.setTitle(copyActionModeTitle);
-
-			Log.d("TAG", "-->copyModeCallBack-->onCreateActionMode END");
+			mode.setTitle(actionModeTitle);
 
 			return true;
 		}
@@ -741,43 +729,31 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 
-			//			Set<Integer> checkedSounds = adapter.getCheckedItems();
-			//			Iterator<Integer> iterator = checkedSounds.iterator();
-			//
-			//			while (iterator.hasNext()) {
-			//				int position = iterator.next();
-			//
-			//				Log.d("TAG", "Iterator: " + iterator.hashCode());
-			//				//copySound(position);
-			//			}
+			SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
+			Iterator<Integer> iterator = checkedSounds.iterator();
+
+			while (iterator.hasNext()) {
+				int position = iterator.next();
+				copySound(position);
+			}
+
+			clearCheckedSoundsAndEnableButtons();
 
 		}
 
 	};
 
 	private void copySound(int position) {
-		// TODO Auto-generated method stub
 
-		Log.d("TAG", "copySound()");
+		SoundInfo soundInfo = soundInfoList.get(position);
 
-		//SoundInfo soundinfo = 
+		try {
+			StorageHandler.getInstance().copySoundFile(soundInfo.getAbsolutePath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-		//		LookData lookData = lookDataList.get(position);
-		//
-		//		try {
-		//			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-		//
-		//			StorageHandler.getInstance().copyImage(projectName, lookData.getAbsolutePath(), null);
-		//
-		//			String imageName = lookData.getLookName() + "_" + getString(R.string.copy_look_addition);
-		//			String imageFileName = lookData.getLookFileName();
-		//
-		//			updateLookAdapter(imageName, imageFileName);
-		//		} catch (IOException e) {
-		//			Utils.showErrorDialog(getActivity(), getString(R.string.error_load_image));
-		//			e.printStackTrace();
-		//		}
-		//		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+		updateSoundAdapter(soundInfo.getTitle(), soundInfo.getSoundFileName());
 
 	}
 
@@ -795,8 +771,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 			mode.setTitle(R.string.delete);
 
-			deleteActionModeTitle = getString(R.string.delete);
-			copyActionModeTitle = getString(R.id.copy);
+			actionModeTitle = getString(R.string.delete);
+			actionModeTitle = getString(R.id.copy);
 			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
 			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
 
