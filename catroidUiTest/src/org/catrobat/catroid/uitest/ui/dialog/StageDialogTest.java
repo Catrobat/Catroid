@@ -41,6 +41,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -71,6 +72,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
+	@Emulator
 	public void testBackButtonPressedTwice() {
 		Project project = createTestProject(testProject);
 		ProjectManager.getInstance().setProject(project);
@@ -87,6 +89,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.assertCurrentActivity("Program is not in stage activity", ProjectActivity.class);
 	}
 
+	@Emulator
 	public void testBackToPreviousActivity() {
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -135,6 +138,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 	//		assertEquals("Unexpected sprite size", scale, sprite.getSize());
 	//	}
 
+	@Emulator
 	public void testRestartButtonActivityChain() {
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -161,6 +165,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertEquals("Returned to wrong Activity", currentActivity, solo.getCurrentActivity());
 	}
 
+	@Emulator
 	public void testRestartButtonScriptPosition() {
 		createAndSaveTestProject(testProject);
 		ArrayList<Script> scriptStart = new ArrayList<Script>();
@@ -221,6 +226,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		}
 	}
 
+	@Emulator
 	public void testRestartProjectWithSound() {
 		String projectName = UiTestUtils.PROJECTNAME1;
 		//creating sprites for project:
@@ -272,6 +278,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertTrue("Sound did not play from start!", positionBeforeRestart > positionAfterRestart);
 	}
 
+	@Emulator
 	public void testAxesOnOff() {
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -319,6 +326,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
 	}
 
+	@Emulator
 	public void testMaximizeStretch() {
 		Project project = createTestProject(testProject);
 		project.getXmlHeader().virtualScreenWidth = 480;

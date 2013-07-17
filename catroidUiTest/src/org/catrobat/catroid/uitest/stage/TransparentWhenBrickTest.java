@@ -39,6 +39,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -70,6 +71,7 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 	}
 
+	@Emulator
 	public void testTapOnSideAreaOfForegroundSprite() {
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
@@ -94,6 +96,7 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 						&& fish.look.getYInUserInterfaceDimensionUnit() == fishYPosition);
 	}
 
+	@Emulator
 	public void testTapOnHalfTransparentAreaOfForegroundSprite() {
 		Formula ghostEffectValue = new Formula(50.0);
 		Reflection.setPrivateField(setGhostEffectBrick, "transparency", ghostEffectValue);
@@ -120,6 +123,7 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 						&& fish.look.getYInUserInterfaceDimensionUnit() == fishYPosition);
 	}
 
+	@Emulator
 	public void testTapOnFullTransparentAreaOfForegroundSprite() {
 		Formula ghostEffectValue = new Formula(100.0);
 		Reflection.setPrivateField(setGhostEffectBrick, "transparency", ghostEffectValue);

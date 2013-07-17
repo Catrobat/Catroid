@@ -24,6 +24,7 @@ package org.catrobat.catroid.uitest.ui.fragment;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -49,6 +50,7 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 		super.tearDown();
 	}
 
+	@Emulator
 	public void testBrickCategories() {
 		goToAddBrickFromMainMenu();
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
@@ -66,6 +68,7 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 		checkActionBarInACategory(solo.getString(R.string.category_lego_nxt), "lego nxt");
 	}
 
+	@Emulator
 	public void testCorrectReturnToScriptFragment() {
 		goToAddBrickFromMainMenu();
 		assertTrue("Script text in action bar not found before adding a brick",
@@ -80,6 +83,7 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 
 	}
 
+	@Emulator
 	public void testCorrectReturnToCategoriesFragment() {
 		goToAddBrickFromMainMenu();
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);

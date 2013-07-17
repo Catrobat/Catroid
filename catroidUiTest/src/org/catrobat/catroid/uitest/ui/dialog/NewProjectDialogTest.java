@@ -28,6 +28,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -62,6 +63,7 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
+	@Emulator
 	public void testNewProjectDialog() {
 		String buttonOkText = solo.getString(R.string.ok);
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
@@ -76,6 +78,7 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 				.equals(UiTestUtils.PROJECTNAME1));
 	}
 
+	@Emulator
 	public void testPositiveButtonDisabledOnCreate() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.sleep(500);
@@ -84,6 +87,7 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		assertFalse("New project ok button is enabled!", okButton.isEnabled());
 	}
 
+	@Emulator
 	public void testPositiveButtonChangesState() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.sleep(1000);
@@ -106,6 +110,7 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		assertFalse("New project ok button not disabled!", okButton.isEnabled());
 	}
 
+	@Emulator
 	public void testNewProjectDialogHeight() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.sleep(2000);
@@ -127,6 +132,7 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 
 	}
 
+	@Emulator
 	public void testCreateEmptyProject() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		UiTestUtils.waitForText(solo, solo.getString(R.string.new_project_dialog_title));

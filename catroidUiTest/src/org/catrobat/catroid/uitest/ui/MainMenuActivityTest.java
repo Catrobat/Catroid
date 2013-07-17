@@ -43,6 +43,8 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -83,6 +85,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		super.tearDown();
 	}
 
+	@Emulator
 	public void testCreateNewProject() {
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject);
 		UtilFile.deleteDirectory(directory);
@@ -112,6 +115,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 				solo.searchText(solo.getString(R.string.new_project_dialog_title)));
 	}
 
+	@Emulator
 	public void testCreateNewProjectErrors() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.clearEditText(0);
@@ -147,6 +151,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		UtilFile.deleteDirectory(directory);
 	}
 
+	@Device
 	public void testCreateNewProjectWithBlacklistedCharacters() {
 		String directoryPath = Utils.buildProjectPath(projectNameWithBlacklistedCharacters);
 		File directory = new File(directoryPath);
@@ -165,6 +170,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Project with blacklisted characters was not created!", file.exists());
 	}
 
+	@Device
 	public void testCreateNewProjectWithWhitelistedCharacters() {
 		String directoryPath = Utils.buildProjectPath(projectNameWithWhitelistedCharacters);
 		File directory = new File(directoryPath);
@@ -183,6 +189,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Project file with whitelisted characters was not created!", file.exists());
 	}
 
+	@Emulator
 	public void testOrientation() throws NameNotFoundException {
 		/// Method 1: Assert it is currently in portrait mode.
 		assertEquals("MainMenuActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, getActivity()
@@ -203,6 +210,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
 
+	@Emulator
 	public void testLoadProject() {
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject2);
 		UtilFile.deleteDirectory(directory);
@@ -226,6 +234,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
 	}
 
+	@Emulator
 	public void testResume() {
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject3);
 		UtilFile.deleteDirectory(directory);
@@ -254,6 +263,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
 	}
 
+	@Emulator
 	public void testShouldDisplayDialogIfVersionNumberTooHigh() throws Throwable {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		// Prevent Utils from returning true in isApplicationDebuggable
@@ -315,6 +325,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		storageHandler.saveProject(project);
 	}
 
+	@Emulator
 	public void testOverrideMyFirstProject() {
 		String standardProjectName = solo.getString(R.string.default_project_name);
 		Project standardProject = null;
@@ -370,6 +381,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 				ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
 	}
 
+	@Emulator
 	public void testProjectNameVisible() {
 		createTestProject(testProject);
 		createTestProject(testProject2);

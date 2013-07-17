@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
@@ -60,6 +61,7 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, soundsSpinnerText);
 	}
 
+	@Emulator
 	public void testOrientation() throws NameNotFoundException {
 		prepareRecording();
 		solo.waitForActivity(SoundRecorderActivity.class.getSimpleName());
@@ -83,6 +85,7 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 				activityInfo.screenOrientation);
 	}
 
+	@Emulator
 	public void testRecordMultipleSounds() throws InterruptedException {
 		prepareRecording();
 		recordSound();
