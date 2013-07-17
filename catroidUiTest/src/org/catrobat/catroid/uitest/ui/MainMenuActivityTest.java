@@ -85,7 +85,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		super.tearDown();
 	}
 
-	@Emulator2
+	@Device
 	public void testCreateNewProject() {
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject);
 		UtilFile.deleteDirectory(directory);
@@ -115,7 +115,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 				solo.searchText(solo.getString(R.string.new_project_dialog_title)));
 	}
 
-	@Emulator2
+	@Device
 	public void testCreateNewProjectErrors() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.clearEditText(0);
