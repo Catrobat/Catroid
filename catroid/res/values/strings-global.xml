@@ -51,6 +51,7 @@
     <string name="about_link_template" translatable="false">&lt;a href="%1$s">%2$s&lt;/a></string>
     <string name="catrobat_forum" translatable="false">http://catrob.at/PocketCodeUserForum</string>
     <string name="catrobat_terms_of_use" translatable="false">https://pocketcode.org/termsOfUse</string>
+    <string name="about_catrobat_url" translatable="false">http://developer.catrobat.org</string>
 
     <!-- Settings, some overridden in values-v14 -->
     <string name="scrolling_cache_enabled">false</string>
