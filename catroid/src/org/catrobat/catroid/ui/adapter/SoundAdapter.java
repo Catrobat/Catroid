@@ -60,6 +60,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 	private static long elapsedMilliSeconds;
 	private static long currentPlayingBase;
 	private boolean showDetails;
+
 	private SortedSet<Integer> checkedSounds = new TreeSet<Integer>();
 
 	private int currentPlayingPosition = Constants.NO_POSITION;
