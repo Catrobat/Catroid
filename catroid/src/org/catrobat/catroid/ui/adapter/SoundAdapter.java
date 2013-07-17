@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.controller.SoundController;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -69,29 +70,15 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 		this.showDetails = showDetails;
 		this.soundInfoItems = items;
 		this.selectMode = ListView.CHOICE_MODE_NONE;
+		SoundController.getInstance().setUpSoundController(this);
 	}
 
 	public void setOnSoundEditListener(OnSoundEditListener listener) {
 		onSoundEditListener = listener;
 	}
 
-	private static class ViewHolder {
-		private ImageButton playButton;
-		private ImageButton pauseButton;
-		private LinearLayout soundFragmentButtonLayout;
-		private CheckBox checkbox;
-		private TextView titleTextView;
-		private TextView timeSeperatorTextView;
-		private TextView timeDurationTextView;
-		private TextView soundFileSizePrefixTextView;
-		private TextView soundFileSizeTextView;
-		private Chronometer timePlayedChronometer;
-
-	}
-
 	@Override
-	public View getView(final int position, View convertView, ViewGroup parent) {
-
+	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 
 		if (convertView == null) {
@@ -123,162 +110,12 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		SoundController.getInstance().updateSoundLogic(position);
+		SoundController controller = SoundController.getInstance();
+		Log.v("Adapter *********", controller.toString());
+		controller.updateSoundLogic(position, holder);
 
-		//		final SoundInfo soundInfo = soundInfoItems.get(position);
-		//
-		//		if (soundInfo != null) {
-		//			holder.playButton.setTag(position);
-		//			holder.pauseButton.setTag(position);
-		//			holder.titleTextView.setText(soundInfo.getTitle());
-		//
-		//			holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		//				@Override
-		//				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		//					if (isChecked) {
-		//						if (selectMode == ListView.CHOICE_MODE_SINGLE) {
-		//							clearCheckedItems();
-		//						}
-		//						checkedSounds.add(position);
-		//					} else {
-		//						checkedSounds.remove(position);
-		//					}
-		//					notifyDataSetChanged();
-		//
-		//					if (onSoundEditListener != null) {
-		//						onSoundEditListener.onSoundChecked();
-		//					}
-		//				}
-		//			});
-		//
-		//			if (selectMode != ListView.CHOICE_MODE_NONE) {
-		//				holder.checkbox.setVisibility(View.VISIBLE);
-		//				holder.checkbox.setVisibility(View.VISIBLE);
-		//				holder.soundFragmentButtonLayout.setBackgroundResource(R.drawable.button_background_shadowed);
-		//			} else {
-		//				holder.checkbox.setVisibility(View.GONE);
-		//				holder.checkbox.setVisibility(View.GONE);
-		//				holder.soundFragmentButtonLayout.setBackgroundResource(R.drawable.button_background_selector);
-		//				holder.checkbox.setChecked(false);
-		//				clearCheckedItems();
-		//			}
-		//
-		//			if (checkedSounds.contains(position)) {
-		//				holder.checkbox.setChecked(true);
-		//			} else {
-		//				holder.checkbox.setChecked(false);
-		//			}
-		//
-		//			try {
-		//				MediaPlayer tempPlayer = new MediaPlayer();
-		//				tempPlayer.setDataSource(soundInfo.getAbsolutePath());
-		//				tempPlayer.prepare();
-		//
-		//				long milliseconds = tempPlayer.getDuration();
-		//				int seconds = (int) ((milliseconds / 1000) % 60);
-		//				int minutes = (int) ((milliseconds / 1000) / 60);
-		//				int hours = (int) ((milliseconds / 1000) / 3600);
-		//
-		//				if (hours == 0) {
-		//					holder.timeDurationTextView.setText(String.format("%02d:%02d", minutes, seconds));
-		//				} else {
-		//					holder.timeDurationTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
-		//				}
-		//
-		//				if (currentPlayingPosition == Constants.NO_POSITION) {
-		//					elapsedMilliSeconds = 0;
-		//				} else {
-		//					elapsedMilliSeconds = SystemClock.elapsedRealtime() - currentPlayingBase;
-		//				}
-		//
-		//				if (soundInfo.isPlaying) {
-		//					holder.playButton.setVisibility(Button.GONE);
-		//					holder.pauseButton.setVisibility(Button.VISIBLE);
-		//
-		//					holder.timeSeperatorTextView.setVisibility(TextView.VISIBLE);
-		//					holder.timePlayedChronometer.setVisibility(Chronometer.VISIBLE);
-		//
-		//					if (currentPlayingPosition == Constants.NO_POSITION) {
-		//						startPlayingSound(holder.timePlayedChronometer, position);
-		//					} else if ((position == currentPlayingPosition) && (elapsedMilliSeconds > (milliseconds - 1000))) {
-		//						stopPlayingSound(soundInfo, holder.timePlayedChronometer);
-		//					} else {
-		//						continuePlayingSound(holder.timePlayedChronometer, SystemClock.elapsedRealtime());
-		//					}
-		//				} else {
-		//					holder.playButton.setVisibility(Button.VISIBLE);
-		//					holder.pauseButton.setVisibility(Button.GONE);
-		//
-		//					holder.timeSeperatorTextView.setVisibility(TextView.GONE);
-		//					holder.timePlayedChronometer.setVisibility(Chronometer.GONE);
-		//
-		//					if (position == currentPlayingPosition) {
-		//						stopPlayingSound(soundInfo, holder.timePlayedChronometer);
-		//					}
-		//				}
-		//
-		//				if (showDetails) {
-		//					holder.soundFileSizeTextView
-		//							.setText(UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
-		//					holder.soundFileSizeTextView.setVisibility(TextView.VISIBLE);
-		//					holder.soundFileSizePrefixTextView.setVisibility(TextView.VISIBLE);
-		//				} else {
-		//					holder.soundFileSizeTextView.setVisibility(TextView.GONE);
-		//					holder.soundFileSizePrefixTextView.setVisibility(TextView.GONE);
-		//				}
-		//
-		//				tempPlayer.reset();
-		//				tempPlayer.release();
-		//			} catch (IOException e) {
-		//				Log.e("CATROID", "Cannot get view.", e);
-		//			}
-		//
-		//			if (selectMode != ListView.CHOICE_MODE_NONE) {
-		//				holder.playButton.setOnClickListener(null);
-		//				holder.pauseButton.setOnClickListener(null);
-		//			} else {
-		//				holder.playButton.setOnClickListener(new OnClickListener() {
-		//					@Override
-		//					public void onClick(View view) {
-		//						if (onSoundEditListener != null) {
-		//							onSoundEditListener.onSoundPlay(view);
-		//						}
-		//					}
-		//				});
-		//
-		//				holder.pauseButton.setOnClickListener(new OnClickListener() {
-		//					@Override
-		//					public void onClick(View view) {
-		//						if (onSoundEditListener != null) {
-		//							onSoundEditListener.onSoundPause(view);
-		//						}
-		//					}
-		//				});
-		//			}
-		//		}
 		return convertView;
 	}
-
-	//	private void startPlayingSound(Chronometer chronometer, int position) {
-	//		currentPlayingPosition = position;
-	//		currentPlayingBase = SystemClock.elapsedRealtime();
-	//
-	//		continuePlayingSound(chronometer, currentPlayingBase);
-	//	}
-	//
-	//	private void continuePlayingSound(Chronometer chronometer, long base) {
-	//		chronometer.setBase(base);
-	//		chronometer.start();
-	//	}
-	//
-	//	private void stopPlayingSound(SoundInfo soundInfo, Chronometer chronometer) {
-	//		chronometer.stop();
-	//		chronometer.setBase(SystemClock.elapsedRealtime());
-	//
-	//		currentPlayingPosition = Constants.NO_POSITION;
-	//
-	//		soundInfo.isPlaying = false;
-	//	}
 
 	@Override
 	public int getAmountOfCheckedItems() {
@@ -376,4 +213,59 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 
 		public void onSoundChecked();
 	}
+
+	public static class ViewHolder {
+		private ImageButton playButton;
+		private ImageButton pauseButton;
+		private LinearLayout soundFragmentButtonLayout;
+		private CheckBox checkbox;
+		private TextView titleTextView;
+		private TextView timeSeperatorTextView;
+		private TextView timeDurationTextView;
+		private TextView soundFileSizePrefixTextView;
+		private TextView soundFileSizeTextView;
+		private Chronometer timePlayedChronometer;
+
+		public ImageButton getPlayButton() {
+			return playButton;
+		}
+
+		public ImageButton getPauseButton() {
+			return pauseButton;
+		}
+
+		public LinearLayout getSoundFragmentButtonLayout() {
+			return soundFragmentButtonLayout;
+		}
+
+		public CheckBox getCheckbox() {
+			return checkbox;
+		}
+
+		public TextView getTitleTextView() {
+			return titleTextView;
+		}
+
+		public TextView getTimeSeperatorTextView() {
+			return timeSeperatorTextView;
+		}
+
+		public TextView getTimeDurationTextView() {
+			return timeDurationTextView;
+		}
+
+		public TextView getSoundFileSizePrefixTextView() {
+			return soundFileSizePrefixTextView;
+		}
+
+		public TextView getSoundFileSizeTextView() {
+			return soundFileSizeTextView;
+		}
+
+		public Chronometer getTimePlayedChronometer() {
+			return timePlayedChronometer;
+		}
+
+	}
+
 }
