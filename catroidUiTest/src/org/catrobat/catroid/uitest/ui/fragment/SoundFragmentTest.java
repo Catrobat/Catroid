@@ -153,6 +153,21 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertEquals("Count of the soundList is not correct", newCount, getCurrentNumberOfSounds());
 	}
 
+	public void testCopySoundActionBar() {
+
+		int numberOfSoundsBeforeCopy = getCurrentNumberOfSounds();
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(0);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		int numberOfSoundsAfterCopy = getCurrentNumberOfSounds();
+
+		assertEquals("No sound has been copied!", ++numberOfSoundsBeforeCopy, numberOfSoundsAfterCopy);
+
+	}
+
 	public void testDeleteSoundContextMenu() {
 		SoundAdapter adapter = getSoundAdapter();
 		assertNotNull("Could not get Adapter", adapter);
