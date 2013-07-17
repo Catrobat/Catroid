@@ -861,14 +861,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 		items.add(context.getText(R.string.brick_context_dialog_delete_brick));
 
-<<<<<<< HEAD
+		items.add(context.getText(R.string.brick_context_dialog_copy_brick));
+
 		if (brickList.get(itemPosition) instanceof FormulaBrick) {
 			items.add(context.getText(R.string.brick_context_dialog_formula_edit_brick));
 			Log.d("FormulaEditor", "item added!!!");
 		}
-=======
-		items.add(context.getText(R.string.brick_context_dialog_copy_brick));
->>>>>>> master
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
