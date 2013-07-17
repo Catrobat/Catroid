@@ -74,6 +74,7 @@
         Pocket Code is mainly licensed under the GNU AGPL v3 License. 
         For the precise details of the license see the link below.\n</string>
     <string name="dialog_about_pocketcode_license_link_text">Pocket Code License</string>
+    <string name="dialog_about_catrobat_link_text">About Catrobat</string>
     <!--  -->
 
 
