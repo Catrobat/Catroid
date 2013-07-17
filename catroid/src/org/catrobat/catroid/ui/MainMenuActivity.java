@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui;
 
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.concurrent.locks.Lock;
@@ -342,9 +341,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		spannableStringBuilder.append(mainMenuContinue);
 		spannableStringBuilder.append("\n");
 		String currentProjectName = Utils.getCurrentProjectName(this);
-		if (currentProjectName == null) {
-			currentProjectName = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).get(0);
-		}
 		spannableStringBuilder.append(currentProjectName);
 
 		spannableStringBuilder.setSpan(textAppearanceSpan, mainMenuContinue.length() + 1,
