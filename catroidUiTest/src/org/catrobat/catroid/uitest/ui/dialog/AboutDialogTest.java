@@ -44,6 +44,8 @@ public class AboutDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertTrue("AboutDialog text not found", solo.searchText(solo.getString(R.string.dialog_about_license_info)));
 		assertTrue("AboutDialog linktext not found",
 				solo.searchText(solo.getString(R.string.dialog_about_pocketcode_license_link_text)));
+		assertTrue("AboutDialog linktext not found",
+				solo.searchText(solo.getString(R.string.dialog_about_catrobat_link_text)));
 		assertTrue("AboutDialog version not found", solo.searchText(Utils.getVersionName(solo.getCurrentActivity())));
 
 		Button aboutDialogButton = (Button) solo.getView(android.R.id.button3);
