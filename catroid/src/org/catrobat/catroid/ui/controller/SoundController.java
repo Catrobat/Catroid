@@ -29,7 +29,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
-import org.catrobat.catroid.ui.adapter.SoundAdapter.ViewHolder;
+import org.catrobat.catroid.ui.fragment.SoundFragment.ViewHolder;
 import org.catrobat.catroid.utils.UtilFile;
 
 import android.media.MediaPlayer;

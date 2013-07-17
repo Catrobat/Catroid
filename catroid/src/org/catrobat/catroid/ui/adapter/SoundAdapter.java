@@ -26,23 +26,16 @@ import java.util.ArrayList;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.controller.SoundController;
+import org.catrobat.catroid.ui.fragment.SoundFragment;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.Chronometer;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActivityAdapterInterface {
 
@@ -53,6 +46,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 	}
 
 	protected Context context;
+	private SoundFragment soundFragment;
 
 	private OnSoundEditListener onSoundEditListener;
 
@@ -80,42 +74,14 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
-
-		if (convertView == null) {
-			convertView = View.inflate(context, R.layout.fragment_sound_soundlist_item, null);
-
-			holder = new ViewHolder();
-			holder.playButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_play_image_button);
-			holder.pauseButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_pause_image_button);
-
-			holder.playButton.setVisibility(Button.VISIBLE);
-			holder.pauseButton.setVisibility(Button.GONE);
-
-			holder.soundFragmentButtonLayout = (LinearLayout) convertView
-					.findViewById(R.id.fragment_sound_item_main_linear_layout);
-			holder.checkbox = (CheckBox) convertView.findViewById(R.id.fragment_sound_item_checkbox);
-			holder.titleTextView = (TextView) convertView.findViewById(R.id.fragment_sound_item_title_text_view);
-			holder.timeSeperatorTextView = (TextView) convertView
-					.findViewById(R.id.fragment_sound_item_time_seperator_text_view);
-			holder.timeDurationTextView = (TextView) convertView
-					.findViewById(R.id.fragment_sound_item_duration_text_view);
-			holder.soundFileSizePrefixTextView = (TextView) convertView
-					.findViewById(R.id.fragment_sound_item_size_prefix_text_view);
-			holder.soundFileSizeTextView = (TextView) convertView.findViewById(R.id.fragment_sound_item_size_text_view);
-
-			holder.timePlayedChronometer = (Chronometer) convertView
-					.findViewById(R.id.fragment_sound_item_time_played_chronometer);
-
-			convertView.setTag(holder);
-		} else {
-			holder = (ViewHolder) convertView.getTag();
+		if (soundFragment == null) {
+			return convertView;
 		}
-		SoundController controller = SoundController.getInstance();
-		Log.v("Adapter *********", controller.toString());
-		controller.updateSoundLogic(position, holder);
+		return soundFragment.getView(position, convertView);
+	}
 
-		return convertView;
+	public void setSoundFragment(SoundFragment soundFragment) {
+		this.soundFragment = soundFragment;
 	}
 
 	@Override
@@ -213,60 +179,6 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 		public void onSoundPause(View view);
 
 		public void onSoundChecked();
-	}
-
-	public static class ViewHolder {
-		private ImageButton playButton;
-		private ImageButton pauseButton;
-		private LinearLayout soundFragmentButtonLayout;
-		private CheckBox checkbox;
-		private TextView titleTextView;
-		private TextView timeSeperatorTextView;
-		private TextView timeDurationTextView;
-		private TextView soundFileSizePrefixTextView;
-		private TextView soundFileSizeTextView;
-		private Chronometer timePlayedChronometer;
-
-		public ImageButton getPlayButton() {
-			return playButton;
-		}
-
-		public ImageButton getPauseButton() {
-			return pauseButton;
-		}
-
-		public LinearLayout getSoundFragmentButtonLayout() {
-			return soundFragmentButtonLayout;
-		}
-
-		public CheckBox getCheckbox() {
-			return checkbox;
-		}
-
-		public TextView getTitleTextView() {
-			return titleTextView;
-		}
-
-		public TextView getTimeSeperatorTextView() {
-			return timeSeperatorTextView;
-		}
-
-		public TextView getTimeDurationTextView() {
-			return timeDurationTextView;
-		}
-
-		public TextView getSoundFileSizePrefixTextView() {
-			return soundFileSizePrefixTextView;
-		}
-
-		public TextView getSoundFileSizeTextView() {
-			return soundFileSizeTextView;
-		}
-
-		public Chronometer getTimePlayedChronometer() {
-			return timePlayedChronometer;
-		}
-
 	}
 
 }

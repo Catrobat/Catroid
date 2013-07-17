@@ -37,6 +37,7 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
+import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.utils.Utils;
@@ -78,8 +79,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Chronometer;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -166,6 +172,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList, false);
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
+		adapter.setSoundFragment(this);
 
 		Utils.loadProjectIfNeeded(getActivity());
 		setHandleAddbutton();
@@ -967,6 +974,99 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		scriptActivity.setIsSoundFragmentFromPlaySoundBrickNewFalse();
 		scriptActivity.setIsSoundFragmentHandleAddButtonHandled(false);
+	}
+
+	public View getView(int position, View convertView) {
+		ViewHolder holder;
+
+		if (convertView == null) {
+			convertView = View.inflate(getActivity(), R.layout.fragment_sound_soundlist_item, null);
+
+			holder = new ViewHolder();
+			holder.playButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_play_image_button);
+			holder.pauseButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_pause_image_button);
+
+			holder.playButton.setVisibility(Button.VISIBLE);
+			holder.pauseButton.setVisibility(Button.GONE);
+
+			holder.soundFragmentButtonLayout = (LinearLayout) convertView
+					.findViewById(R.id.fragment_sound_item_main_linear_layout);
+			holder.checkbox = (CheckBox) convertView.findViewById(R.id.fragment_sound_item_checkbox);
+			holder.titleTextView = (TextView) convertView.findViewById(R.id.fragment_sound_item_title_text_view);
+			holder.timeSeperatorTextView = (TextView) convertView
+					.findViewById(R.id.fragment_sound_item_time_seperator_text_view);
+			holder.timeDurationTextView = (TextView) convertView
+					.findViewById(R.id.fragment_sound_item_duration_text_view);
+			holder.soundFileSizePrefixTextView = (TextView) convertView
+					.findViewById(R.id.fragment_sound_item_size_prefix_text_view);
+			holder.soundFileSizeTextView = (TextView) convertView.findViewById(R.id.fragment_sound_item_size_text_view);
+
+			holder.timePlayedChronometer = (Chronometer) convertView
+					.findViewById(R.id.fragment_sound_item_time_played_chronometer);
+
+			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();
+		}
+		SoundController controller = SoundController.getInstance();
+		Log.v("Adapter *********", controller.toString());
+		controller.updateSoundLogic(position, holder);
+
+		return convertView;
+	}
+
+	public static class ViewHolder {
+		private ImageButton playButton;
+		private ImageButton pauseButton;
+		private LinearLayout soundFragmentButtonLayout;
+		private CheckBox checkbox;
+		private TextView titleTextView;
+		private TextView timeSeperatorTextView;
+		private TextView timeDurationTextView;
+		private TextView soundFileSizePrefixTextView;
+		private TextView soundFileSizeTextView;
+		private Chronometer timePlayedChronometer;
+
+		public ImageButton getPlayButton() {
+			return playButton;
+		}
+
+		public ImageButton getPauseButton() {
+			return pauseButton;
+		}
+
+		public LinearLayout getSoundFragmentButtonLayout() {
+			return soundFragmentButtonLayout;
+		}
+
+		public CheckBox getCheckbox() {
+			return checkbox;
+		}
+
+		public TextView getTitleTextView() {
+			return titleTextView;
+		}
+
+		public TextView getTimeSeperatorTextView() {
+			return timeSeperatorTextView;
+		}
+
+		public TextView getTimeDurationTextView() {
+			return timeDurationTextView;
+		}
+
+		public TextView getSoundFileSizePrefixTextView() {
+			return soundFileSizePrefixTextView;
+		}
+
+		public TextView getSoundFileSizeTextView() {
+			return soundFileSizeTextView;
+		}
+
+		public Chronometer getTimePlayedChronometer() {
+			return timePlayedChronometer;
+		}
+
 	}
 
 	public interface OnSoundInfoListChangedAfterNewListener {
