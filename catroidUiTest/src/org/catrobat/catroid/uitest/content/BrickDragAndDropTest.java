@@ -79,7 +79,7 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnText(scriptsName);
 		solo.clickOnText(scriptsName);
 
-		List<Brick> brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
+		List<Brick> brickListToCheck = ProjectManager.INSTANCE.getCurrentScript().getBrickList();
 		assertEquals("One Brick should be in bricklist, one hovering and therefore not in project yet", 1,
 				brickListToCheck.size());
 		assertEquals("Both bricks (plus ScriptBrick) should be present in the adapter", 3, adapter.getCount());

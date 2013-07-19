@@ -224,7 +224,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		//set project description:
 
 		// temporarily removed - because of upcoming release, and bad performance of projectdescription
-		//		ProjectManager projectManager = ProjectManager.getInstance();
+		//		ProjectManager projectManager = ProjectManager.INSTANCE;
 		//		String currentProjectName = projectManager.getCurrentProject().getName();
 
 		//		if (projectName.equalsIgnoreCase(currentProjectName)) {

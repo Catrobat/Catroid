@@ -140,7 +140,7 @@ import com.actionbarsherlock.internal.widget.IcsSpinner;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
-	private static ProjectManager projectManager = ProjectManager.getInstance();
+	private static ProjectManager projectManager = ProjectManager.INSTANCE;
 	private static SparseIntArray brickCategoryMap;
 	private static List<InternToken> internTokenList = new ArrayList<InternToken>();
 
@@ -701,10 +701,10 @@ public class UiTestUtils {
 	public static Project createProject(String projectName, ArrayList<Sprite> spriteList, Context context) {
 		Project project = new Project(context, projectName);
 		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.INSTANCE.setProject(project);
 
 		for (Sprite sprite : spriteList) {
-			ProjectManager.getInstance().addSprite(sprite);
+			ProjectManager.INSTANCE.addSprite(sprite);
 		}
 
 		StorageHandler.getInstance().saveProject(project);
@@ -825,9 +825,9 @@ public class UiTestUtils {
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);
 
-		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentScript(firstSpriteScript);
+		ProjectManager.INSTANCE.setFileChecksumContainer(new FileChecksumContainer());
+		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
+		ProjectManager.INSTANCE.setCurrentScript(firstSpriteScript);
 
 		storageHandler.saveProject(project);
 	}

@@ -59,7 +59,7 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		// normally super.teardown should be called last
 		// but tests crashed with Nullpointer
 		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
+		ProjectManager.INSTANCE.deleteCurrentProject();
 	}
 
 	public void testNewProjectDialog() {
@@ -72,7 +72,7 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.goBack();
 		solo.clickOnButton(buttonOkText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		assertTrue("New Project is not testingproject!", ProjectManager.getInstance().getCurrentProject().getName()
+		assertTrue("New Project is not testingproject!", ProjectManager.INSTANCE.getCurrentProject().getName()
 				.equals(UiTestUtils.PROJECTNAME1));
 	}
 
@@ -136,7 +136,7 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		UiTestUtils.waitForText(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Project project = ProjectManager.getInstance().getCurrentProject();
+		Project project = ProjectManager.INSTANCE.getCurrentProject();
 
 		assertNotNull("Empty project shouldn't be null", project);
 		assertEquals("Just background object should exist", 1, project.getSpriteList().size());

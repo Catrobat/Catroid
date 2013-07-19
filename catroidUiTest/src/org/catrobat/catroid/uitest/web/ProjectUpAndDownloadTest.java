@@ -308,7 +308,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 			ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(),
 					soundInfo.getAbsolutePath());
 		}
-		StorageHandler.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
+		StorageHandler.getInstance().saveProject(ProjectManager.INSTANCE.getCurrentProject());
 		Project newProject = StorageHandler.getInstance().loadProject(projectName);
 		ProjectManager.INSTANCE.setProject(newProject);
 
@@ -456,7 +456,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 	private void uploadProject(String uploadProjectName, String uploadProjectDescription) {
 		// change project to a non default state
-		Sprite firstSprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
+		Sprite firstSprite = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0);
 		Script firstScript = firstSprite.getScript(0);
 		firstScript.addBrick(new WaitBrick(firstSprite, 1000));
 
@@ -508,7 +508,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
 		assertTrue("Download takes too long.", waitResult);
 		assertTrue("Download not successful.", solo.searchText(solo.getString(R.string.success_project_download)));
-		assertEquals("Testproject not loaded.", projectName, ProjectManager.getInstance().getCurrentProject().getName());
+		assertEquals("Testproject not loaded.", projectName, ProjectManager.INSTANCE.getCurrentProject().getName());
 
 		String projectPath = Constants.DEFAULT_ROOT + "/" + projectName;
 		File downloadedDirectory = new File(projectPath);
