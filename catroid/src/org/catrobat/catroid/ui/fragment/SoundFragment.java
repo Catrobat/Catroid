@@ -160,7 +160,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		if (savedInstanceState != null) {
 			selectedSoundInfo = (SoundInfo) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_SELECTED_SOUND);
 		}
-		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
 
 		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList, false);
 		adapter.setOnSoundEditListener(this);
@@ -242,7 +242,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	public void onPause() {
 		super.onPause();
 
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
 		}
@@ -842,7 +842,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
 
 		soundInfoList.remove(position);
-		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
+		ProjectManager.INSTANCE.getCurrentSprite().setSoundList(soundInfoList);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
 	}

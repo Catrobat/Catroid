@@ -335,7 +335,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	private void addScriptToProject(int position, ScriptBrick scriptBrick) {
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite currentSprite = ProjectManager.INSTANCE.getCurrentSprite();
 
 		int[] temp = getScriptAndBrickIndexFromProject(position);
 
@@ -360,11 +360,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				newScript.addBrick(brick);
 			}
 		}
-		ProjectManager.getInstance().setCurrentScript(newScript);
+		ProjectManager.INSTANCE.setCurrentScript(newScript);
 	}
 
 	private void moveExistingProjectBrick(int from, int to) {
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite currentSprite = ProjectManager.INSTANCE.getCurrentSprite();
 
 		int[] tempFrom = getScriptAndBrickIndexFromProject(from);
 		int scriptPositionFrom = tempFrom[0];
@@ -389,7 +389,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	private void addBrickToPosition(int position, Brick brick) {
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite currentSprite = ProjectManager.INSTANCE.getCurrentSprite();
 
 		int[] temp = getScriptAndBrickIndexFromProject(position);
 
@@ -612,7 +612,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		notifyDataSetChanged();
 
-		ProjectManager.getInstance().saveProject();
+		ProjectManager.INSTANCE.saveProject();
 
 	}
 
@@ -810,7 +810,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if (index >= 0 && index < brickList.size() && brickList.get(index) instanceof ScriptBrick
 				&& draggedBrick == null) {
 			int scriptIndex = getScriptIndexFromProject(index);
-			ProjectManager.getInstance().setCurrentScript(sprite.getScript(scriptIndex));
+			ProjectManager.INSTANCE.setCurrentScript(sprite.getScript(scriptIndex));
 		}
 	}
 
@@ -828,17 +828,17 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	public int getChildCountFromLastGroup() {
-		return ProjectManager.getInstance().getCurrentSprite().getScript(getScriptCount() - 1).getBrickList().size();
+		return ProjectManager.INSTANCE.getCurrentSprite().getScript(getScriptCount() - 1).getBrickList().size();
 	}
 
 	public Brick getChild(int scriptPosition, int brickPosition) {
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite sprite = ProjectManager.INSTANCE.getCurrentSprite();
 
 		return sprite.getScript(scriptPosition).getBrick(brickPosition);
 	}
 
 	public int getScriptCount() {
-		return ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
+		return ProjectManager.INSTANCE.getCurrentSprite().getNumberOfScripts();
 	}
 
 	@Override

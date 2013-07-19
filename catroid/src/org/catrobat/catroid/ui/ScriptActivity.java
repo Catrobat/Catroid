@@ -436,7 +436,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 			if (!viewSwitchLock.tryLock()) {
 				return;
 			}
-			ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
+			ProjectManager.INSTANCE.getCurrentProject().getUserVariables().resetAllUserVariables();
 			Intent intent = new Intent(this, PreStageActivity.class);
 			startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 		}

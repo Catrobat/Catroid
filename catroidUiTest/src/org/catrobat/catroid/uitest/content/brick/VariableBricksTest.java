@@ -101,9 +101,9 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(sprite);
+		ProjectManager.INSTANCE.setCurrentScript(script);
 
 		userVariablesContainer = project.getUserVariables();
 		userVariablesContainer.addProjectUserVariable("p1");

@@ -61,7 +61,7 @@ public class ProjectActivity extends SherlockFragmentActivity {
 		super.onStart();
 
 		final ActionBar actionBar = getSupportActionBar();
-		String title = ProjectManager.getInstance().getCurrentProject().getName();
+		String title = ProjectManager.INSTANCE.getCurrentProject().getName();
 		actionBar.setTitle(title);
 		actionBar.setHomeButtonEnabled(true);
 
@@ -190,7 +190,7 @@ public class ProjectActivity extends SherlockFragmentActivity {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().resetAllUserVariables();
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}

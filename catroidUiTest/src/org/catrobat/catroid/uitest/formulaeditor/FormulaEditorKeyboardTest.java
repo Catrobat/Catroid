@@ -78,8 +78,8 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);
 
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
 	}
 
 	@Smoke

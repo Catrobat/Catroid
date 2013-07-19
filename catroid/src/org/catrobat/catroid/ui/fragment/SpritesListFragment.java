@@ -179,7 +179,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	@Override
 	public void onPause() {
 		super.onPause();
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
 		}
@@ -213,7 +213,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		spriteToEdit = spriteAdapter.getItem(info.position);
 		spriteAdapter.addCheckedSprite(info.position);
 
-		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
+		if (ProjectManager.INSTANCE.getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
 			return;
 		}
 
@@ -321,7 +321,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		copiedSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)),
 				0));
 
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 
 		copyUserVariables(copiedSprite);
 
@@ -339,7 +339,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	}
 
 	private void copyUserVariables(Sprite copiedSprite) {
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 		UserVariablesContainer userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
 
 		List<UserVariable> userVariablesList = userVariablesContainer.getOrCreateVariableListForSprite(spriteToEdit);
@@ -355,7 +355,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	private static String getSpriteName(String name, int nextNumber) {
 		String newName;
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.INSTANCE.getCurrentProject().getSpriteList();
 		if (nextNumber == 0) {
 			newName = name;
 		} else {
@@ -409,7 +409,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	}
 
 	public void deleteSprite() {
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 		UserVariablesContainer userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
 
 		deleteSpriteFiles();
@@ -611,7 +611,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	};
 
 	private void initListeners() {
-		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		spriteList = (ArrayList<Sprite>) ProjectManager.INSTANCE.getCurrentProject().getSpriteList();
 		spriteAdapter = new SpriteAdapter(getActivity(), R.layout.activity_project_spritelist_item,
 				R.id.project_activity_sprite_title, spriteList);
 
@@ -625,7 +625,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				if (!actionModeActive) {
-					ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
+					ProjectManager.INSTANCE.setCurrentSprite(spriteAdapter.getItem(position));
 					Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
 					startActivity(intent);
 				}
@@ -639,7 +639,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 					spriteToEdit = spriteList.get(position);
 				}
 				// as long as background sprite is always the first one, we're fine
-				if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
+				if (ProjectManager.INSTANCE.getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
 					return true;
 				} else {
 					return false;

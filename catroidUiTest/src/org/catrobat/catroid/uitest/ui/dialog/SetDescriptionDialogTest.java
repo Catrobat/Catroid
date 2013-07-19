@@ -46,7 +46,7 @@ public class SetDescriptionDialogTest extends BaseActivityInstrumentationTestCas
 		// normally super.teardown should be called last
 		// but tests crashed with Nullpointer
 		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
+		ProjectManager.INSTANCE.deleteCurrentProject();
 	}
 
 	public void testMultiLineProjectDescription() {
