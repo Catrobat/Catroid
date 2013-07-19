@@ -53,7 +53,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 
 		Project project = new Project(getContext(), "testProject");
 		project.addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.INSTANCE.setProject(project);
 
 		sprite.createStartScriptActionSequence();
 
@@ -85,7 +85,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 
 		Project project = new Project(getContext(), "testProject");
 		project.addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.INSTANCE.setProject(project);
 
 		sprite.createStartScriptActionSequence();
 

@@ -76,7 +76,7 @@ public class ScriptDeleteTest extends BaseActivityInstrumentationTestCase<MainMe
 		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
 			solo.goBack();
 		}
-		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
+		int numberOfScripts = ProjectManager.INSTANCE.getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in list", 2, numberOfScripts);
 
 		solo.clickLongOnText(brickWhenStartedText);
@@ -84,7 +84,7 @@ public class ScriptDeleteTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.sleep(200);
 
-		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
+		numberOfScripts = ProjectManager.INSTANCE.getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 3, UiTestUtils.getScriptListView(solo).getChildCount());
 
@@ -93,14 +93,14 @@ public class ScriptDeleteTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.sleep(200);
 
-		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
+		numberOfScripts = ProjectManager.INSTANCE.getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in list", 0, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 0, UiTestUtils.getScriptListView(solo).getChildCount());
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_hide);
 		solo.clickOnText(brickWhenStartedText);
 
-		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
+		numberOfScripts = ProjectManager.INSTANCE.getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 2, UiTestUtils.getScriptListView(solo).getChildCount());
 	}
@@ -126,8 +126,8 @@ public class ScriptDeleteTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		project.addSprite(firstSprite);
 
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
+		ProjectManager.INSTANCE.setCurrentScript(testScript);
 	}
 }

@@ -89,7 +89,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		super.setUp();
 		UiTestUtils.createTestProject();
 
-		projectManager = ProjectManager.getInstance();
+		projectManager = ProjectManager.INSTANCE;
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
 		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",

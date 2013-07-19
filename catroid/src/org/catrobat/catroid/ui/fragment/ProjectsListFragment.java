@@ -210,7 +210,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				try {
-					if (!ProjectManager.getInstance().loadProject((adapter.getItem(position)).projectName,
+					if (!ProjectManager.INSTANCE.loadProject((adapter.getItem(position)).projectName,
 							getActivity(), true)) {
 						return; // error message already in ProjectManager
 								// loadProject
@@ -236,7 +236,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 		adapter.addCheckedProject(info.position);
 
-		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(projectToEdit) == 0) {
+		if (ProjectManager.INSTANCE.getCurrentProject().getSpriteList().indexOf(projectToEdit) == 0) {
 			return;
 		}
 
@@ -375,7 +375,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	}
 
 	private void deleteProject() {
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 		Project currentProject = projectManager.getCurrentProject();
 
 		if (currentProject != null && currentProject.getName().equalsIgnoreCase(projectToEdit.projectName)) {

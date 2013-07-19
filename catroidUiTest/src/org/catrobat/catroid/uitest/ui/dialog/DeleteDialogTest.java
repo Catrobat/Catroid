@@ -73,7 +73,7 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		// normally super.teardown should be called last
 		// but tests crashed with Nullpointer
 		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
+		ProjectManager.INSTANCE.deleteCurrentProject();
 	}
 
 	public void testDeleteLooks() throws Exception {

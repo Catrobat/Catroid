@@ -176,7 +176,7 @@ public class UploadProjectDialog extends DialogFragment {
 		projectUploadName.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
+				currentProjectName = ProjectManager.INSTANCE.getCurrentProject().getName();
 
 				if (!projectUploadName.getText().toString().equals(currentProjectName)) {
 					projectRename.setVisibility(View.VISIBLE);

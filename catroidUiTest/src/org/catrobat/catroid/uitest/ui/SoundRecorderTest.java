@@ -135,7 +135,7 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 		}
 
 		solo.sleep(500);
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		ArrayList<SoundInfo> soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
 		assertEquals("wrong number of items in the list ", recordNumber, soundInfoList.size());
 		SoundInfo lastAddedSoundInfo = soundInfoList.get(soundInfoList.size() - 1);
 		assertEquals("recorded sound not found in project", recordTitle, lastAddedSoundInfo.getTitle());
