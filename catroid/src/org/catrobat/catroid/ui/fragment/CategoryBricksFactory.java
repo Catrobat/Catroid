@@ -207,7 +207,7 @@ public class CategoryBricksFactory {
 	}
 
 	private boolean isBackground(Sprite sprite) {
-		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(sprite) == 0) {
+		if (ProjectManager.INSTANCE.getCurrentProject().getSpriteList().indexOf(sprite) == 0) {
 			return true;
 		}
 		return false;

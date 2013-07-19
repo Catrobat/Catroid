@@ -131,7 +131,7 @@ public class PointToBrick extends BrickBaseType {
 				if (itemSelected.equals(context.getString(R.string.new_broadcast_message))) {
 					pointedObject = null;
 				} else {
-					final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance()
+					final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.INSTANCE
 							.getCurrentProject().getSpriteList();
 
 					for (Sprite sprite : spriteList) {
@@ -205,7 +205,7 @@ public class PointToBrick extends BrickBaseType {
 	}
 
 	private void setSpinnerSelection(Spinner spinner) {
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
+		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.INSTANCE.getCurrentProject()
 				.getSpriteList();
 
 		if (spriteList.contains(pointedObject)) {
@@ -234,7 +234,7 @@ public class PointToBrick extends BrickBaseType {
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		arrayAdapter.add(context.getString(R.string.new_broadcast_message));
 
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
+		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.INSTANCE.getCurrentProject()
 				.getSpriteList();
 
 		for (Sprite sprite : spriteList) {

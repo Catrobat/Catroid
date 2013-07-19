@@ -69,7 +69,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		project.getXmlHeader().virtualScreenWidth = screenWidth;
 		project.getXmlHeader().virtualScreenHeight = screenHeight;
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.INSTANCE.setProject(project);
 	}
 
 	public void testNoBounce() {

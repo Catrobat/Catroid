@@ -124,7 +124,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		// normally super.teardown should be called last
 		// but tests crashed with Nullpointer
 		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
+		ProjectManager.INSTANCE.deleteCurrentProject();
 		if (unzip) {
 			unzipProjects();
 		}
@@ -298,7 +298,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(0);
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.INSTANCE.getCurrentProject().getSpriteList();
 		assertTrue("Default Project should not be overwritten", spriteList.size() == 6);
 	}
 
@@ -363,7 +363,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("click on project '" + standardProjectName + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, standardProjectName));
 
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.INSTANCE.getCurrentProject().getSpriteList();
 		assertTrue("Standard Project should be restored", spriteList.size() == 5);
 	}
 
@@ -429,7 +429,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		StorageHandler.getInstance().saveProject(firstCacheTestProject);
 		UiTestUtils.saveFileToProject(cacheProjectName + 0, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
 				IMAGE_RESOURCE_2, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
-		ProjectManager.getInstance().setProject(firstCacheTestProject);
+		ProjectManager.INSTANCE.setProject(firstCacheTestProject);
 
 		for (int i = 1; i < numberOfCacheProjects; i++) {
 			solo.sleep(500);
@@ -486,7 +486,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.saveFileToProject(firstCacheProjectName, "screenshot.png", IMAGE_RESOURCE_2, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.ROOT);
 		StorageHandler.getInstance().saveProject(firstCacheTestProject);
-		ProjectManager.getInstance().setProject(firstCacheTestProject);
+		ProjectManager.INSTANCE.setProject(firstCacheTestProject);
 
 		//leave and reenter MyProjectsActivity 
 		solo.goBack();
@@ -676,7 +676,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForText(yes);
 		solo.clickOnText(yes);
 		assertTrue("delete dialog not closed in time", solo.waitForText(UiTestUtils.PROJECTNAME1));
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 		assertFalse("project " + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " is still visible",
 				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1));
 		assertTrue("project " + UiTestUtils.PROJECTNAME1 + " is not visible anymore",
@@ -826,7 +826,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	public void testRenameProject() {
 		createProjects();
-		String currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
+		String currentProjectName = ProjectManager.INSTANCE.getCurrentProject().getName();
 		solo.sleep(200);
 		String buttonPositiveText = solo.getString(R.string.ok);
 		String actionRenameText = solo.getString(R.string.rename);
@@ -848,8 +848,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertEquals("the renamed project is not first in list", ((ProjectData) (solo.getCurrentViews(ListView.class)
 				.get(0).getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME3);
 
-		assertEquals("Current project is not the same as at the beginning!", currentProjectName, ProjectManager
-				.getInstance().getCurrentProject().getName());
+		assertEquals("Current project is not the same as at the beginning!", currentProjectName,
+				ProjectManager.INSTANCE.getCurrentProject().getName());
 
 		solo.scrollToTop();
 		solo.sleep(300);
@@ -868,8 +868,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertEquals("the renamed project is not first in list", ((ProjectData) (solo.getCurrentViews(ListView.class)
 				.get(0).getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME1);
 
-		assertEquals("Current project is not the same after renaming!", UiTestUtils.PROJECTNAME1, ProjectManager
-				.getInstance().getCurrentProject().getName());
+		assertEquals("Current project is not the same after renaming!", UiTestUtils.PROJECTNAME1,
+				ProjectManager.INSTANCE.getCurrentProject().getName());
 
 	}
 
@@ -891,7 +891,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
 		solo.goBack();
 		solo.sleep(2000);
-		assertEquals("current project not updated", UiTestUtils.PROJECTNAME3, ProjectManager.getInstance()
+		assertEquals("current project not updated", UiTestUtils.PROJECTNAME3, ProjectManager.INSTANCE
 				.getCurrentProject().getName());
 	}
 
@@ -930,7 +930,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		solo.goBack();
 		solo.sleep(500);
-		assertEquals("Current project not updated!", UiTestUtils.PROJECTNAME3, ProjectManager.getInstance()
+		assertEquals("Current project not updated!", UiTestUtils.PROJECTNAME3, ProjectManager.INSTANCE
 				.getCurrentProject().getName());
 	}
 
@@ -973,8 +973,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE, 1, true));
 		solo.sleep(200);
 		solo.goBack();
-		assertEquals("current project not updated", UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE, ProjectManager
-				.getInstance().getCurrentProject().getName());
+		assertEquals("current project not updated", UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE,
+				ProjectManager.INSTANCE.getCurrentProject().getName());
 	}
 
 	public void testRenameToSameName() {
@@ -992,7 +992,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
 		solo.assertCurrentActivity("Should be My Projects Activity", MyProjectsActivity.class);
-		assertEquals("Should not be renamed", UiTestUtils.DEFAULT_TEST_PROJECT_NAME, ProjectManager.getInstance()
+		assertEquals("Should not be renamed", UiTestUtils.DEFAULT_TEST_PROJECT_NAME, ProjectManager.INSTANCE
 				.getCurrentProject().getName());
 	}
 
@@ -1211,7 +1211,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(buttonOkText);
 
 		solo.assertCurrentActivity("not in projectactivity", ProjectActivity.class);
-		assertEquals("current project not updated", UiTestUtils.PROJECTNAME2, ProjectManager.getInstance()
+		assertEquals("current project not updated", UiTestUtils.PROJECTNAME2, ProjectManager.INSTANCE
 				.getCurrentProject().getName());
 		UiTestUtils.waitForText(solo, UiTestUtils.PROJECTNAME2);
 		solo.goBack();
@@ -1358,7 +1358,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sendKey(Solo.ENTER);
 		solo.waitForText(UiTestUtils.COPIED_PROJECT_NAME);
 
-		Project oldProject = ProjectManager.getInstance().getCurrentProject();
+		Project oldProject = ProjectManager.INSTANCE.getCurrentProject();
 		ArrayList<LookData> lookDataListOldProject = oldProject.getSpriteList().get(1).getLookDataList();
 		LookData lookDataOldProject = lookDataListOldProject.get(0);
 		String oldChecksum = lookDataOldProject.getChecksum();
@@ -1372,11 +1372,11 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		assertTrue("project " + UiTestUtils.COPIED_PROJECT_NAME + " was not added",
 				solo.searchText(UiTestUtils.COPIED_PROJECT_NAME, 1, true));
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.INSTANCE.getCurrentProject().getSpriteList();
 		assertTrue("The copied project should have all sprites from the source", spriteList.size() == 3);
 		assertTrue("The sprite name should be: 'testSprite'", solo.searchText("testSprite", 1, false));
 
-		Project copiedProject = ProjectManager.getInstance().getCurrentProject();
+		Project copiedProject = ProjectManager.INSTANCE.getCurrentProject();
 		ArrayList<LookData> lookDataListCopiedProject = copiedProject.getSpriteList().get(1).getLookDataList();
 		LookData lookDataCopiedProject = lookDataListCopiedProject.get(0);
 		String copiedLookChecksum = lookDataCopiedProject.getChecksum();
@@ -1503,8 +1503,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		Project project1 = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		StorageHandler.getInstance().saveProject(project1);
-		ProjectManager.getInstance().setProject(project1);
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager.INSTANCE.setProject(project1);
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 
 		Sprite testSprite = new Sprite("sprite1");
 		projectManager.addSprite(testSprite);
@@ -1652,7 +1652,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	//
 	//		LookData backgroundGreen;
 	//		LookData backgroundRed;
-	//		ProjectManager projectManager = ProjectManager.getInstance();
+	//		ProjectManager projectManager = ProjectManager.INSTANCE;
 	//
 	//		UiTestUtils.createEmptyProject();
 	//

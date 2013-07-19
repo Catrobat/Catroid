@@ -232,7 +232,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	public void onPause() {
 		super.onPause();
 
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
 		}
@@ -575,7 +575,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				throw new IOException();
 			}
 
-			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+			String projectName = ProjectManager.INSTANCE.getCurrentProject().getName();
 			File imageFile = StorageHandler.getInstance().copyImage(projectName, originalImagePath, null);
 
 			String imageName;
@@ -658,7 +658,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				newFileName = newFileName + ".png";
 			}
 
-			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+			String projectName = ProjectManager.INSTANCE.getCurrentProject().getName();
 
 			try {
 				File newLookFile = StorageHandler.getInstance().copyImage(projectName, pathOfPocketPaintImage,
@@ -932,7 +932,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath());
 
 		lookDataList.remove(position);
-		ProjectManager.getInstance().getCurrentSprite().setLookDataList(lookDataList);
+		ProjectManager.INSTANCE.getCurrentSprite().setLookDataList(lookDataList);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
 	}
@@ -997,7 +997,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		LookData lookData = lookDataList.get(position);
 
 		try {
-			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+			String projectName = ProjectManager.INSTANCE.getCurrentProject().getName();
 
 			StorageHandler.getInstance().copyImage(projectName, lookData.getAbsolutePath(), null);
 

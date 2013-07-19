@@ -78,7 +78,7 @@ public class BrickClickOnEditTextTest extends BaseActivityInstrumentationTestCas
 		solo.drag(20, 20, addedYPosition, yPosition.get(0), 20);
 		solo.sleep(200);
 
-		List<Brick> brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
+		List<Brick> brickListToCheck = ProjectManager.INSTANCE.getCurrentScript().getBrickList();
 		assertEquals("One Brick should be in bricklist", 1, brickListToCheck.size());
 		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(0) instanceof SetXBrick);
 
@@ -90,7 +90,7 @@ public class BrickClickOnEditTextTest extends BaseActivityInstrumentationTestCas
 		solo.drag(20, 20, addedYPosition, yPosition.get(1), 20);
 		solo.sleep(200);
 
-		brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
+		brickListToCheck = ProjectManager.INSTANCE.getCurrentScript().getBrickList();
 		assertEquals("Two Bricks should be in bricklist", 2, brickListToCheck.size());
 		assertTrue("Set brick should be instance of SetYBrick", brickListToCheck.get(0) instanceof SetYBrick);
 		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(1) instanceof SetXBrick);

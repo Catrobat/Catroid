@@ -159,8 +159,8 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<Script
 		sprite1.addScript(startScript1);
 		project.addSprite(sprite1);
 
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite1);
-		ProjectManager.getInstance().setCurrentScript(startScript1);
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(sprite1);
+		ProjectManager.INSTANCE.setCurrentScript(startScript1);
 	}
 }

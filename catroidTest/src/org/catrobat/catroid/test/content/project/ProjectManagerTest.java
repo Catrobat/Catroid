@@ -70,7 +70,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testBasicFunctions() throws NameNotFoundException, IOException {
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 		assertNull("there is a current sprite set", projectManager.getCurrentSprite());
 		assertNull("there is a current script set", projectManager.getCurrentScript());
 		Context context = getInstrumentation().getContext().createPackageContext("org.catrobat.catroid",
@@ -133,7 +133,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testEmptyProject() throws NameNotFoundException, IOException {
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 		Context context = getInstrumentation().getContext().createPackageContext("org.catrobat.catroid",
 				Context.CONTEXT_IGNORE_SECURITY);
 
@@ -167,7 +167,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 	public void testRenameProject() throws IOException {
 		String oldProjectName = "oldProject";
 		String newProjectName = "newProject";
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 
 		Project project = createTestProject(oldProjectName);
 		if (!projectManager.renameProject(newProjectName, getInstrumentation().getContext())) {
@@ -202,7 +202,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		storageHandler.saveProject(project);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.INSTANCE.setProject(project);
 		Sprite firstSprite = new Sprite("cat");
 		Sprite secondSprite = new Sprite("dog");
 		Sprite thirdSprite = new Sprite("horse");
@@ -240,7 +240,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		ProjectManager.getInstance().getFileChecksumContainer()
+		ProjectManager.INSTANCE.getFileChecksumContainer()
 				.addChecksum(Utils.md5Checksum(image), image.getAbsolutePath());
 
 		storageHandler.saveProject(project);

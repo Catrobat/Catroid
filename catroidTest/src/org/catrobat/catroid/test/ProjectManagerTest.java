@@ -45,7 +45,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		Utils.updateScreenWidthAndHeight(getContext());
-		projectManager = ProjectManager.getInstance();
+		projectManager = ProjectManager.INSTANCE;
 		// Prevent Utils from returning true in isApplicationDebuggable
 		Reflection.setPrivateField(Utils.class, "isUnderTest", true);
 	}

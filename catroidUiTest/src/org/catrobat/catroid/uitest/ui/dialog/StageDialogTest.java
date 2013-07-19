@@ -68,12 +68,12 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		// normally super.teardown should be called last
 		// but tests crashed with Nullpointer
 		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
+		ProjectManager.INSTANCE.deleteCurrentProject();
 	}
 
 	public void testBackButtonPressedTwice() {
 		Project project = createTestProject(testProject);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.INSTANCE.setProject(project);
 
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -122,7 +122,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 	//		project.addSprite(sprite);
 	//
 	//		storageHandler.saveProject(project);
-	//		ProjectManager.getInstance().setProject(project);
+	//		ProjectManager.INSTANCE.setProject(project);
 	//
 	//		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
 
@@ -177,7 +177,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
 
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 		Project projectStart = projectManager.getCurrentProject();
 
 		String projectNameStart = projectStart.getName();
@@ -201,7 +201,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.sleep(300);
 
 		//scriptPositions in between
-		Project projectRestart = ProjectManager.getInstance().getCurrentProject();
+		Project projectRestart = ProjectManager.INSTANCE.getCurrentProject();
 		String projectNameRestart = projectRestart.getName();
 
 		assertEquals("Wrong project after restart", projectNameStart, projectNameRestart);

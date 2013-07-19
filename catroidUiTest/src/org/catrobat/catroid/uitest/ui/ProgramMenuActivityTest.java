@@ -72,7 +72,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		// normally super.teardown should be called last
 		// but tests crashed with Nullpointer
 		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
+		ProjectManager.INSTANCE.deleteCurrentProject();
 	}
 
 	public void testOrientation() throws NameNotFoundException {
@@ -190,14 +190,14 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		spriteCat.addScript(scriptTappedCat);
 		project.addSprite(spriteCat);
 
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(spriteCat);
-		ProjectManager.getInstance().setCurrentScript(startScriptCat);
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(spriteCat);
+		ProjectManager.INSTANCE.setCurrentScript(startScriptCat);
 
 		File imageFile = UiTestUtils.saveFileToProject(project.getName(), "catroid_sunglasses.png",
 				org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses, getActivity(), UiTestUtils.FileTypes.IMAGE);
 
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		LookData lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
@@ -212,9 +212,9 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		soundInfo.setSoundFileName(soundFile.getName());
 		soundInfo.setTitle("longsound");
 
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		ArrayList<SoundInfo> soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
 		soundInfoList.add(soundInfo);
-		ProjectManager.getInstance().getFileChecksumContainer()
+		ProjectManager.INSTANCE.getFileChecksumContainer()
 				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 	}
 

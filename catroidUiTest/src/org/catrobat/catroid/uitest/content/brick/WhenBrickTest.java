@@ -63,7 +63,7 @@ public class WhenBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 		// normally super.teardown should be called last
 		// but tests crashed with Nullpointer
 		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
+		ProjectManager.INSTANCE.deleteCurrentProject();
 	}
 
 	public void testWhenBrick() {
@@ -100,11 +100,11 @@ public class WhenBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(yPosition.size() - 1) + 20, 100);
 		solo.sleep(200);
-		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(0).getBrickList();
+		projectBrickList = ProjectManager.INSTANCE.getCurrentSprite().getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		solo.searchText(solo.getString(R.string.brick_when_started));
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof WhenScript));
+				(ProjectManager.INSTANCE.getCurrentSprite().getScript(1) instanceof WhenScript));
 
 		solo.sleep(200);
 
@@ -119,20 +119,20 @@ public class WhenBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(3) + 20, 100);
 		solo.sleep(200);
-		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(0).getBrickList();
+		projectBrickList = ProjectManager.INSTANCE.getCurrentSprite().getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(0) instanceof StartScript));
+				(ProjectManager.INSTANCE.getCurrentSprite().getScript(0) instanceof StartScript));
 
-		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(1).getBrickList();
+		projectBrickList = ProjectManager.INSTANCE.getCurrentSprite().getScript(1).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof WhenScript));
+				(ProjectManager.INSTANCE.getCurrentSprite().getScript(1) instanceof WhenScript));
 
-		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(2).getBrickList();
+		projectBrickList = ProjectManager.INSTANCE.getCurrentSprite().getScript(2).getBrickList();
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(2) instanceof WhenScript));
+				(ProjectManager.INSTANCE.getCurrentSprite().getScript(2) instanceof WhenScript));
 
 		solo.sleep(200);
 
@@ -144,20 +144,20 @@ public class WhenBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 		solo.goBack();
 
 		solo.sleep(200);
-		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(0).getBrickList();
+		projectBrickList = ProjectManager.INSTANCE.getCurrentSprite().getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(0) instanceof StartScript));
+				(ProjectManager.INSTANCE.getCurrentSprite().getScript(0) instanceof StartScript));
 
-		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(1).getBrickList();
+		projectBrickList = ProjectManager.INSTANCE.getCurrentSprite().getScript(1).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof WhenScript));
+				(ProjectManager.INSTANCE.getCurrentSprite().getScript(1) instanceof WhenScript));
 
-		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(2).getBrickList();
+		projectBrickList = ProjectManager.INSTANCE.getCurrentSprite().getScript(2).getBrickList();
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(2) instanceof WhenScript));
+				(ProjectManager.INSTANCE.getCurrentSprite().getScript(2) instanceof WhenScript));
 	}
 
 	private void createProject() {
@@ -172,8 +172,8 @@ public class WhenBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 
 		project.addSprite(sprite);
 
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(sprite);
+		ProjectManager.INSTANCE.setCurrentScript(script);
 	}
 }

@@ -67,7 +67,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		// normally super.teardown should be called last
 		// but tests crashed with Nullpointer
 		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
+		ProjectManager.INSTANCE.deleteCurrentProject();
 	}
 
 	public void testRepeatBrick() {
@@ -109,7 +109,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		int addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite sprite = ProjectManager.INSTANCE.getCurrentSprite();
 		assertEquals("Incorrect number of Scripts.", 2, sprite.getNumberOfScripts());
 
 		solo.goBack();
@@ -352,9 +352,9 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		sprite.addScript(new StartScript(sprite));
 		project.addSprite(sprite);
 
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(sprite);
+		ProjectManager.INSTANCE.setCurrentScript(script);
 	}
 
 	private void clickOnDeleteInDialog() {

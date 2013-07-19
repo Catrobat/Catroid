@@ -60,14 +60,14 @@ public class SetVariableActionTest extends AndroidTestCase {
 	public void testChangeVariable() throws InterruptedException {
 		testSprite.removeAllScripts();
 
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(new Sprite("testSprite1"));
 
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
-		ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables()
 				.addProjectUserVariable(TEST_USERVARIABLE);
 
-		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		UserVariable userVariable = ProjectManager.INSTANCE.getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
 		SetVariableBrick setBrick = new SetVariableBrick(testSprite, new Formula(CHANGE_VARIABLE_VALUE), userVariable);
@@ -90,32 +90,32 @@ public class SetVariableActionTest extends AndroidTestCase {
 		testSprite.addScript(testScript);
 		project.addSprite(testSprite);
 
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
+		ProjectManager.INSTANCE.setCurrentSprite(testSprite);
+		ProjectManager.INSTANCE.setCurrentScript(testScript);
 
 		testSprite.createStartScriptActionSequence();
 
 		testSprite.look.act(100f);
 
-		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		userVariable = ProjectManager.INSTANCE.getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
 		assertEquals("Variable not changed", CHANGE_VARIABLE_VALUE, userVariable.getValue().intValue());
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
 
 	}
 
 	public void testInvalidUserVariable() throws InterruptedException {
 		testSprite.removeAllScripts();
 
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(new Sprite("testSprite1"));
 
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
-		ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables()
 				.addProjectUserVariable(TEST_USERVARIABLE);
 
-		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		UserVariable userVariable = ProjectManager.INSTANCE.getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
 		ChangeVariableBrick changeBrick = new ChangeVariableBrick(testSprite, new Formula(CHANGE_VARIABLE_VALUE));
@@ -131,18 +131,18 @@ public class SetVariableActionTest extends AndroidTestCase {
 		testSprite.addScript(testScript);
 		project.addSprite(testSprite);
 
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
+		ProjectManager.INSTANCE.setCurrentSprite(testSprite);
+		ProjectManager.INSTANCE.setCurrentScript(testScript);
 
 		testSprite.createStartScriptActionSequence();
 
 		testSprite.look.act(100f);
 
-		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		userVariable = ProjectManager.INSTANCE.getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
 		assertEquals("Variable changed, but should not!", 0, userVariable.getValue().intValue());
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
 
 	}
 }

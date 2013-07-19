@@ -115,7 +115,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		edit_text.setOnClickListener(this);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.set_variable_spinner);
-		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		UserVariableAdapter userVariableAdapter = ProjectManager.INSTANCE.getCurrentProject().getUserVariables()
 				.createUserVariableAdapter(context, sprite);
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				userVariableAdapter);
@@ -178,7 +178,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.set_variable_spinner);
 		variableSpinner.setFocusableInTouchMode(false);
 		variableSpinner.setFocusable(false);
-		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		UserVariableAdapter userVariableAdapter = ProjectManager.INSTANCE.getCurrentProject().getUserVariables()
 				.createUserVariableAdapter(context, sprite);
 
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
