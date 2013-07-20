@@ -265,7 +265,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 		runTestOnUiThread(new Runnable() {
 			public void run() {
-				ProjectManager.INSTANCE.loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getActivity(), true);
+				ProjectManager.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getActivity(), true);
 			}
 		});
 
@@ -330,7 +330,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		if (standardProject == null) {
 			fail("Could not create standard project");
 		}
-		ProjectManager.INSTANCE.setProject(standardProject);
+		ProjectManager.getInstance().setProject(standardProject);
 		StorageHandler.getInstance().saveProject(standardProject);
 
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -345,8 +345,8 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		startingScript.addBrick(new SetLookBrick(backgroundSprite));
 		startingScript.addBrick(new SetLookBrick(backgroundSprite));
 		assertEquals("Number of bricks in background sprite was wrong", 6, backgroundSprite.getNumberOfBricks());
-		ProjectManager.INSTANCE.setCurrentSprite(backgroundSprite);
-		ProjectManager.INSTANCE.setCurrentScript(startingScript);
+		ProjectManager.getInstance().setCurrentSprite(backgroundSprite);
+		ProjectManager.getInstance().setCurrentScript(startingScript);
 		StorageHandler.getInstance().saveProject(standardProject);
 
 		UiTestUtils.goBackToHome(getInstrumentation());
@@ -362,12 +362,12 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 				defaultSharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null));
 
 		Intent intent = new Intent(solo.getCurrentActivity(), ProjectActivity.class);
-		ProjectManager.INSTANCE.setProject(null);
+		ProjectManager.getInstance().setProject(null);
 		solo.getCurrentActivity().startActivity(intent);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.waitForText(solo, solo.getString(R.string.default_project_backgroundname));
 		assertEquals("Number of bricks in background sprite was wrong - standard project was overwritten", 6,
-				ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
+				ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
 	}
 
 	public void testProjectNameVisible() {
