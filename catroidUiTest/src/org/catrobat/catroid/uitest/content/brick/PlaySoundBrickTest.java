@@ -194,7 +194,7 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	private void createProject() {
-		ProjectManager projectManager = ProjectManager.INSTANCE;
+		ProjectManager projectManager = ProjectManager.getInstance();
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript(firstSprite);
@@ -224,9 +224,9 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
-		ProjectManager.INSTANCE.getFileChecksumContainer()
+		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
-		ProjectManager.INSTANCE.getFileChecksumContainer()
+		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
 	}
 }

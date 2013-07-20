@@ -140,7 +140,7 @@ public class PlaySoundActionTest extends InstrumentationTestCase {
 	private void createTestProject() throws IOException {
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.getInstance().setProject(project);
 
 		setUpSoundFile();
 	}

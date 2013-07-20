@@ -42,7 +42,7 @@ import android.widget.Toast;
 
 public class ProjectUploadService extends IntentService {
 
-	private final static String TAG = ProjectUploadService.class.getSimpleName();
+	private static final String TAG = ProjectUploadService.class.getSimpleName();
 	private static final String UPLOAD_FILE_NAME = "upload" + Constants.CATROBAT_EXTENTION;
 
 	private String projectPath;

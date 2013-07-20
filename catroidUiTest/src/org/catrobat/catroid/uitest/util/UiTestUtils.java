@@ -140,7 +140,7 @@ import com.actionbarsherlock.internal.widget.IcsSpinner;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
-	private static ProjectManager projectManager = ProjectManager.INSTANCE;
+	private static ProjectManager projectManager = ProjectManager.getInstance();
 	private static SparseIntArray brickCategoryMap;
 	private static List<InternToken> internTokenList = new ArrayList<InternToken>();
 
@@ -701,10 +701,10 @@ public class UiTestUtils {
 	public static Project createProject(String projectName, ArrayList<Sprite> spriteList, Context context) {
 		Project project = new Project(context, projectName);
 		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.getInstance().setProject(project);
 
 		for (Sprite sprite : spriteList) {
-			ProjectManager.INSTANCE.addSprite(sprite);
+			ProjectManager.getInstance().addSprite(sprite);
 		}
 
 		StorageHandler.getInstance().saveProject(project);
@@ -825,9 +825,9 @@ public class UiTestUtils {
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);
 
-		ProjectManager.INSTANCE.setFileChecksumContainer(new FileChecksumContainer());
-		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
-		ProjectManager.INSTANCE.setCurrentScript(firstSpriteScript);
+		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setCurrentScript(firstSpriteScript);
 
 		storageHandler.saveProject(project);
 	}
@@ -1135,10 +1135,10 @@ public class UiTestUtils {
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		ProjectManager.INSTANCE.setFileChecksumContainer(new FileChecksumContainer());
-		ProjectManager.INSTANCE.setProject(project);
-		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
-		ProjectManager.INSTANCE.setCurrentScript(testScript);
+		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setCurrentScript(testScript);
 		return StorageHandler.getInstance().saveProject(project);
 	}
 

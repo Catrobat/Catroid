@@ -62,7 +62,7 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 					.getInstance()
 					.copySoundFile(
 							Utils.buildPath(
-									Utils.buildProjectPath(ProjectManager.INSTANCE.getCurrentProject().getName()),
+									Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
 									Constants.SOUND_DIRECTORY, fileName)).getName();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -103,7 +103,7 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 	}
 
 	private String getPathToSoundDirectory() {
-		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.INSTANCE.getCurrentProject().getName()),
+		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
 				Constants.SOUND_DIRECTORY);
 	}
 

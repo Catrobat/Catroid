@@ -40,8 +40,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 public class ProjectManager {
+	private static final ProjectManager INSTANCE = new ProjectManager();
 
-	public static final ProjectManager INSTANCE = new ProjectManager();
 	private Project project;
 	private Script currentScript;
 	private Sprite currentSprite;
@@ -49,6 +49,10 @@ public class ProjectManager {
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
 	private ProjectManager() {
+	}
+
+	public static ProjectManager getInstance() {
+		return INSTANCE;
 	}
 
 	public boolean loadProject(String projectName, Context context, boolean errorMessage) {

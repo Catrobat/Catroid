@@ -72,7 +72,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		// normally super.teardown should be called last
 		// but tests crashed with Nullpointer
 		super.tearDown();
-		ProjectManager.INSTANCE.deleteCurrentProject();
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	public void testOrientation() throws NameNotFoundException {
@@ -111,7 +111,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(backgroundString);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 
-		String currentSpriteName = ProjectManager.INSTANCE.getCurrentSprite().getName();
+		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
 
 		assertEquals("Current sprite is not " + backgroundString, backgroundString, currentSpriteName);
 		assertTrue("Title doesn't match " + backgroundString, solo.waitForText(currentSpriteName, 0, 200, false, true));
@@ -122,7 +122,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(spriteName);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 
-		currentSpriteName = ProjectManager.INSTANCE.getCurrentSprite().getName();
+		currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
 
 		assertEquals("Current sprite is not " + spriteName, spriteName, currentSpriteName);
 		assertTrue("Title doesn't match " + spriteName, solo.waitForText(currentSpriteName, 0, 200, false, true));
@@ -190,14 +190,14 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		spriteCat.addScript(scriptTappedCat);
 		project.addSprite(spriteCat);
 
-		ProjectManager.INSTANCE.setProject(project);
-		ProjectManager.INSTANCE.setCurrentSprite(spriteCat);
-		ProjectManager.INSTANCE.setCurrentScript(startScriptCat);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(spriteCat);
+		ProjectManager.getInstance().setCurrentScript(startScriptCat);
 
 		File imageFile = UiTestUtils.saveFileToProject(project.getName(), "catroid_sunglasses.png",
 				org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses, getActivity(), UiTestUtils.FileTypes.IMAGE);
 
-		ProjectManager projectManager = ProjectManager.INSTANCE;
+		ProjectManager projectManager = ProjectManager.getInstance();
 		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		LookData lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
@@ -212,9 +212,9 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		soundInfo.setSoundFileName(soundFile.getName());
 		soundInfo.setTitle("longsound");
 
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
+		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		soundInfoList.add(soundInfo);
-		ProjectManager.INSTANCE.getFileChecksumContainer()
+		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 	}
 
