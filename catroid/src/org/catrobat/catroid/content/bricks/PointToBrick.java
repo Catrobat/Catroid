@@ -131,7 +131,7 @@ public class PointToBrick extends BrickBaseType {
 				if (itemSelected.equals(context.getString(R.string.new_broadcast_message))) {
 					pointedObject = null;
 				} else {
-					final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance()
+					final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.INSTANCE
 							.getCurrentProject().getSpriteList();
 
 					for (Sprite sprite : spriteList) {
@@ -157,20 +157,26 @@ public class PointToBrick extends BrickBaseType {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_point_to_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textPointToLabel = (TextView) view.findViewById(R.id.brick_point_to_label);
-		textPointToLabel.setTextColor(textPointToLabel.getTextColors().withAlpha(alphaValue));
-		Spinner pointToSpinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
-		ColorStateList color = textPointToLabel.getTextColors().withAlpha(alphaValue);
-		pointToSpinner.getBackground().setAlpha(alphaValue);
-		if (adapterView != null) {
-			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+		if (view != null) {
+
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_point_to_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textPointToLabel = (TextView) view.findViewById(R.id.brick_point_to_label);
+			textPointToLabel.setTextColor(textPointToLabel.getTextColors().withAlpha(alphaValue));
+			Spinner pointToSpinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
+			ColorStateList color = textPointToLabel.getTextColors().withAlpha(alphaValue);
+			pointToSpinner.getBackground().setAlpha(alphaValue);
+			if (adapterView != null) {
+				((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			}
+
+			this.alphaValue = (alphaValue);
+
 		}
 
-		this.alphaValue = (alphaValue);
 		return view;
 	}
 
@@ -199,7 +205,7 @@ public class PointToBrick extends BrickBaseType {
 	}
 
 	private void setSpinnerSelection(Spinner spinner) {
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
+		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.INSTANCE.getCurrentProject()
 				.getSpriteList();
 
 		if (spriteList.contains(pointedObject)) {
@@ -228,7 +234,7 @@ public class PointToBrick extends BrickBaseType {
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		arrayAdapter.add(context.getString(R.string.new_broadcast_message));
 
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
+		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.INSTANCE.getCurrentProject()
 				.getSpriteList();
 
 		for (Sprite sprite : spriteList) {

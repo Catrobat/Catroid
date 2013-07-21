@@ -38,15 +38,14 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
@@ -57,7 +56,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.test.ActivityInstrumentationTestCase2;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
@@ -68,17 +66,21 @@ import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private final String INVALID_PROJECT_MODIFIER = "invalidProject";
+	private final String whitelistedCharacterString = "[Hey+, =lo_ok. I'm; -special! too!]";
+	private final String blacklistedCharacterString = "<H/ey,\", :I'\\m s*pe?ci>al! ?äö|üß<>";
+	private final String blacklistedOnlyCharacterString = "<>?*|";
 	private final int IMAGE_RESOURCE_1 = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
 	private final int IMAGE_RESOURCE_2 = org.catrobat.catroid.uitest.R.drawable.background_white;
 	private final int IMAGE_RESOURCE_3 = org.catrobat.catroid.uitest.R.drawable.background_black;
-	private final int IMAGE_RESOURCE_4 = org.catrobat.catroid.uitest.R.drawable.background_green;
-	private final int IMAGE_RESOURCE_5 = org.catrobat.catroid.uitest.R.drawable.background_red;
+	// TODO
+	// commented - used for currently disabled testScreenshotUpdate
+	//	private final int IMAGE_RESOURCE_4 = org.catrobat.catroid.uitest.R.drawable.background_green;
+	//	private final int IMAGE_RESOURCE_5 = org.catrobat.catroid.uitest.R.drawable.background_red;
 	private final static String MY_PROJECTS_ACTIVITY_TEST_TAG = MyProjectsActivityTest.class.getSimpleName();
 	private final String ZIPFILE_NAME = "testzip";
 
-	private Solo solo;
 	private File renameDirectory = null;
 	private boolean unzip;
 	private boolean deleteCacheProjects = false;
@@ -98,16 +100,15 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
 		unzip = false;
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
 		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		ProjectManager.getInstance().deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(whitelistedCharacterString)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(blacklistedCharacterString)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(blacklistedOnlyCharacterString)));
+
 		if (renameDirectory != null && renameDirectory.isDirectory()) {
 			UtilFile.deleteDirectory(renameDirectory);
 			renameDirectory = null;
@@ -120,11 +121,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			deleteCacheProjects = false;
 		}
 
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
+		super.tearDown();
+		ProjectManager.INSTANCE.deleteCurrentProject();
 		if (unzip) {
 			unzipProjects();
 		}
-		super.tearDown();
-		solo = null;
 	}
 
 	public void saveProjectsToZip() {
@@ -295,7 +298,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(0);
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.INSTANCE.getCurrentProject().getSpriteList();
 		assertTrue("Default Project should not be overwritten", spriteList.size() == 6);
 	}
 
@@ -360,7 +363,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("click on project '" + standardProjectName + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, standardProjectName));
 
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.INSTANCE.getCurrentProject().getSpriteList();
 		assertTrue("Standard Project should be restored", spriteList.size() == 5);
 	}
 
@@ -426,7 +429,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		StorageHandler.getInstance().saveProject(firstCacheTestProject);
 		UiTestUtils.saveFileToProject(cacheProjectName + 0, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
 				IMAGE_RESOURCE_2, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
-		ProjectManager.getInstance().setProject(firstCacheTestProject);
+		ProjectManager.INSTANCE.setProject(firstCacheTestProject);
 
 		for (int i = 1; i < numberOfCacheProjects; i++) {
 			solo.sleep(500);
@@ -483,7 +486,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		UiTestUtils.saveFileToProject(firstCacheProjectName, "screenshot.png", IMAGE_RESOURCE_2, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.ROOT);
 		StorageHandler.getInstance().saveProject(firstCacheTestProject);
-		ProjectManager.getInstance().setProject(firstCacheTestProject);
+		ProjectManager.INSTANCE.setProject(firstCacheTestProject);
 
 		//leave and reenter MyProjectsActivity 
 		solo.goBack();
@@ -673,7 +676,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForText(yes);
 		solo.clickOnText(yes);
 		assertTrue("delete dialog not closed in time", solo.waitForText(UiTestUtils.PROJECTNAME1));
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 		assertFalse("project " + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " is still visible",
 				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1));
 		assertTrue("project " + UiTestUtils.PROJECTNAME1 + " is not visible anymore",
@@ -823,7 +826,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	public void testRenameProject() {
 		createProjects();
-		String currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
+		String currentProjectName = ProjectManager.INSTANCE.getCurrentProject().getName();
 		solo.sleep(200);
 		String buttonPositiveText = solo.getString(R.string.ok);
 		String actionRenameText = solo.getString(R.string.rename);
@@ -845,8 +848,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertEquals("the renamed project is not first in list", ((ProjectData) (solo.getCurrentViews(ListView.class)
 				.get(0).getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME3);
 
-		assertEquals("Current project is not the same as at the beginning!", currentProjectName, ProjectManager
-				.getInstance().getCurrentProject().getName());
+		assertEquals("Current project is not the same as at the beginning!", currentProjectName,
+				ProjectManager.INSTANCE.getCurrentProject().getName());
 
 		solo.scrollToTop();
 		solo.sleep(300);
@@ -865,8 +868,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertEquals("the renamed project is not first in list", ((ProjectData) (solo.getCurrentViews(ListView.class)
 				.get(0).getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME1);
 
-		assertEquals("Current project is not the same after renaming!", UiTestUtils.PROJECTNAME1, ProjectManager
-				.getInstance().getCurrentProject().getName());
+		assertEquals("Current project is not the same after renaming!", UiTestUtils.PROJECTNAME1,
+				ProjectManager.INSTANCE.getCurrentProject().getName());
 
 	}
 
@@ -888,7 +891,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
 		solo.goBack();
 		solo.sleep(2000);
-		assertEquals("current project not updated", UiTestUtils.PROJECTNAME3, ProjectManager.getInstance()
+		assertEquals("current project not updated", UiTestUtils.PROJECTNAME3, ProjectManager.INSTANCE
 				.getCurrentProject().getName());
 	}
 
@@ -927,7 +930,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		solo.goBack();
 		solo.sleep(500);
-		assertEquals("Current project not updated!", UiTestUtils.PROJECTNAME3, ProjectManager.getInstance()
+		assertEquals("Current project not updated!", UiTestUtils.PROJECTNAME3, ProjectManager.INSTANCE
 				.getCurrentProject().getName());
 	}
 
@@ -970,8 +973,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE, 1, true));
 		solo.sleep(200);
 		solo.goBack();
-		assertEquals("current project not updated", UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE, ProjectManager
-				.getInstance().getCurrentProject().getName());
+		assertEquals("current project not updated", UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE,
+				ProjectManager.INSTANCE.getCurrentProject().getName());
 	}
 
 	public void testRenameToSameName() {
@@ -989,7 +992,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
 		solo.assertCurrentActivity("Should be My Projects Activity", MyProjectsActivity.class);
-		assertEquals("Should not be renamed", UiTestUtils.DEFAULT_TEST_PROJECT_NAME, ProjectManager.getInstance()
+		assertEquals("Should not be renamed", UiTestUtils.DEFAULT_TEST_PROJECT_NAME, ProjectManager.INSTANCE
 				.getCurrentProject().getName());
 	}
 
@@ -1014,7 +1017,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	public void testRenameProjectWithWhitelistedCharacters() {
 		createProjects();
 		solo.sleep(200);
-		final String renameString = "[Hey+, =lo_ok. I'm; -special! too!]";
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1023,18 +1025,18 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
-		solo.enterText(0, renameString);
+		solo.enterText(0, whitelistedCharacterString);
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
-		renameDirectory = new File(Utils.buildProjectPath(renameString));
+		renameDirectory = new File(Utils.buildProjectPath(whitelistedCharacterString));
 		assertTrue("Rename with whitelisted characters was not successfull", renameDirectory.isDirectory());
 	}
 
 	public void testRenameProjectWithBlacklistedCharacters() {
 		createProjects();
 		solo.sleep(200);
-		final String renameString = "<H/ey,\", :I'\\m s*pe?ci>al! ?äö|üß<>";
+
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1043,18 +1045,17 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
-		solo.enterText(0, renameString);
+		solo.enterText(0, blacklistedCharacterString);
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
-		renameDirectory = new File(Utils.buildProjectPath(renameString));
+		renameDirectory = new File(Utils.buildProjectPath(blacklistedCharacterString));
 		assertTrue("Rename with blacklisted characters was not successfull", renameDirectory.isDirectory());
 	}
 
 	public void testRenameProjectWithOnlyBlacklistedCharacters() {
 		createProjects();
 		solo.sleep(200);
-		final String renameString = "<>?*|";
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1063,7 +1064,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
-		solo.enterText(0, renameString);
+		solo.enterText(0, blacklistedOnlyCharacterString);
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
@@ -1210,7 +1211,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(buttonOkText);
 
 		solo.assertCurrentActivity("not in projectactivity", ProjectActivity.class);
-		assertEquals("current project not updated", UiTestUtils.PROJECTNAME2, ProjectManager.getInstance()
+		assertEquals("current project not updated", UiTestUtils.PROJECTNAME2, ProjectManager.INSTANCE
 				.getCurrentProject().getName());
 		UiTestUtils.waitForText(solo, UiTestUtils.PROJECTNAME2);
 		solo.goBack();
@@ -1357,7 +1358,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sendKey(Solo.ENTER);
 		solo.waitForText(UiTestUtils.COPIED_PROJECT_NAME);
 
-		Project oldProject = ProjectManager.getInstance().getCurrentProject();
+		Project oldProject = ProjectManager.INSTANCE.getCurrentProject();
 		ArrayList<LookData> lookDataListOldProject = oldProject.getSpriteList().get(1).getLookDataList();
 		LookData lookDataOldProject = lookDataListOldProject.get(0);
 		String oldChecksum = lookDataOldProject.getChecksum();
@@ -1371,11 +1372,11 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		assertTrue("project " + UiTestUtils.COPIED_PROJECT_NAME + " was not added",
 				solo.searchText(UiTestUtils.COPIED_PROJECT_NAME, 1, true));
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.INSTANCE.getCurrentProject().getSpriteList();
 		assertTrue("The copied project should have all sprites from the source", spriteList.size() == 3);
 		assertTrue("The sprite name should be: 'testSprite'", solo.searchText("testSprite", 1, false));
 
-		Project copiedProject = ProjectManager.getInstance().getCurrentProject();
+		Project copiedProject = ProjectManager.INSTANCE.getCurrentProject();
 		ArrayList<LookData> lookDataListCopiedProject = copiedProject.getSpriteList().get(1).getLookDataList();
 		LookData lookDataCopiedProject = lookDataListCopiedProject.get(0);
 		String copiedLookChecksum = lookDataCopiedProject.getChecksum();
@@ -1476,7 +1477,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(200);
-		final String copyProjectString = "<>?*|";
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1485,7 +1485,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.copy));
 		solo.clearEditText(0);
-		solo.enterText(0, copyProjectString);
+		solo.enterText(0, blacklistedOnlyCharacterString);
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.sleep(200);
@@ -1503,8 +1503,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		Project project1 = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		StorageHandler.getInstance().saveProject(project1);
-		ProjectManager.getInstance().setProject(project1);
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager.INSTANCE.setProject(project1);
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 
 		Sprite testSprite = new Sprite("sprite1");
 		projectManager.addSprite(testSprite);
@@ -1533,144 +1533,159 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(600);
 	}
 
-	private void playTheProject(boolean switchGreenToRed, boolean switchRedToGreen, boolean makeScreenshot) {
+	// TODO
+	// commented due to causing Screenlock on SlaveDevice
+	// sounds weird, but must be fixed
 
-		solo.clickOnText(solo.getString(R.string.background));
-		solo.clickOnText(solo.getString(R.string.scripts));
-		if (switchGreenToRed) {
-			solo.clickOnText("backgroundGreen");
-			solo.clickOnText("backgroundRed");
-		}
+	//	private void playTheProject(boolean switchGreenToRed, boolean switchRedToGreen, boolean makeScreenshot) {
+	//		String scriptsText = solo.getString(R.string.scripts);
+	//		solo.clickOnText(solo.getString(R.string.background));
+	//		solo.clickOnText(scriptsText);
+	//		if (switchGreenToRed) {
+	//			solo.clickOnText("backgroundGreen");
+	//			solo.clickOnText("backgroundRed");
+	//		}
+	//
+	//		if (switchRedToGreen) {
+	//			solo.clickOnText("backgroundRed");
+	//			solo.clickOnText("backgroundGreen");
+	//		}
+	//
+	//		//Reflection.setPrivateField(StageListener.class, "makeAutomaticScreenshot", true);
+	//		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+	//		solo.waitForActivity(StageActivity.class.getSimpleName());
+	//		solo.sleep(2000);
+	//
+	//		if (makeScreenshot) {
+	//			solo.goBack();
+	//			solo.clickOnText(solo.getString(R.string.stage_dialog_screenshot));
+	//			solo.goBack();
+	//		} else {
+	//			solo.goBack();
+	//			solo.goBack();
+	//		}
+	//
+	//		// on Nexus S 2.3.6 solo.currentActivity was StageActivity sometimes
+	//		// which lead to an Exception in UiTestUtils.clickOnHomeActionBarButton
+	//		// workaround to get focus
+	//		solo.waitForActivity(ScriptActivity.class);
+	//		solo.sleep(200);
+	//		solo.clickOnText(scriptsText);
+	//		solo.sleep(200);
+	//		solo.clickOnText(scriptsText);
+	//		solo.sleep(200);
+	//		Log.v("MyProjectsActivityTest", "current activity - " + solo.getCurrentActivity().getClass().getSimpleName());
+	//		UiTestUtils.clickOnHomeActionBarButton(solo);
+	//
+	//		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+	//		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+	//		solo.sleep(500);
+	//	}
 
-		if (switchRedToGreen) {
-			solo.clickOnText("backgroundRed");
-			solo.clickOnText("backgroundGreen");
-		}
+	//	private int createScreenshotBitmap() {
+	//
+	//		Bitmap viewBitmap;
+	//		int currentViewID;
+	//		int imageViewID = R.id.my_projects_activity_project_image;
+	//		int pixel = -1;
+	//
+	//		ArrayList<View> currentViews = solo.getCurrentViews();
+	//		int viewSize = currentViews.size();
+	//
+	//		for (int i = 0; i < viewSize; i++) {
+	//			View viewToTest = currentViews.get(i);
+	//			currentViewID = viewToTest.getId();
+	//			if (currentViewID == imageViewID) { // Only stop at Image View...
+	//				TextView textView = (TextView) currentViews.get(i + 2);
+	//				if (textView.getText().equals(UiTestUtils.DEFAULT_TEST_PROJECT_NAME)) { // ...and check if it belongs to the test project
+	//					viewToTest.buildDrawingCache();
+	//					viewBitmap = viewToTest.getDrawingCache();
+	//					pixel = viewBitmap.getPixel(viewBitmap.getWidth() / 2, viewBitmap.getHeight() / 2);
+	//					viewToTest.destroyDrawingCache();
+	//				}
+	//			}
+	//		}
+	//		return pixel;
+	//	}
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(2000);
+	//	public void testScreenshotUpdate() {
+	//		createProjectWithBackgrounds();
+	//
+	//		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+	//		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+	//		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+	//		solo.waitForFragmentById(R.id.fragment_projects_list);
+	//		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+	//
+	//		playTheProject(false, false, false); // green to green
+	//		int greenPixel1 = createScreenshotBitmap();
+	//
+	//		//The color values below are those we get on our test devices
+	//		String greenHexValue = "ff00fc00";
+	//		String redHexValue = "fff80000";
+	//		String pixelHexValue = Integer.toHexString(greenPixel1);
+	//		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
+	//		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+	//
+	//		playTheProject(true, false, false); // green to red
+	//		int redPixel1 = createScreenshotBitmap();
+	//		pixelHexValue = Integer.toHexString(redPixel1);
+	//		assertEquals("The extracted pixel was not red", redHexValue, pixelHexValue);
+	//		assertFalse("The screenshot has not been changed", greenPixel1 == redPixel1);
+	//		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+	//
+	//		playTheProject(false, true, true);// red to green + screenshot
+	//		int greenPixel2 = createScreenshotBitmap();
+	//		pixelHexValue = Integer.toHexString(greenPixel2);
+	//		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
+	//		assertFalse("The screenshot has not been changed", redPixel1 == greenPixel2);
+	//		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+	//
+	//		playTheProject(true, false, false); // green to red, screenshot must stay green
+	//		int greenPixel3 = createScreenshotBitmap();
+	//		pixelHexValue = Integer.toHexString(greenPixel3);
+	//		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
+	//		assertTrue("The screenshot has not been changed", greenPixel2 == greenPixel3);
+	//	}
 
-		if (makeScreenshot) {
-			solo.goBack();
-			solo.clickOnText(solo.getString(R.string.stage_dialog_screenshot));
-			solo.goBack();
-		} else {
-			solo.goBack();
-			solo.goBack();
-		}
-
-		UiTestUtils.clickOnHomeActionBarButton(solo);
-		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.sleep(500);
-	}
-
-	private int createScreenshotBitmap() {
-
-		Bitmap viewBitmap;
-		int currentViewID;
-		int imageViewID = R.id.my_projects_activity_project_image;
-		int pixel = -1;
-
-		ArrayList<View> currentViews = solo.getCurrentViews();
-		int viewSize = currentViews.size();
-
-		for (int i = 0; i < viewSize; i++) {
-			View viewToTest = currentViews.get(i);
-			currentViewID = viewToTest.getId();
-			if (currentViewID == imageViewID) { // Only stop at Image View...
-				TextView textView = (TextView) currentViews.get(i + 2);
-				if (textView.getText().equals(UiTestUtils.DEFAULT_TEST_PROJECT_NAME)) { // ...and check if it belongs to the test project
-					viewToTest.buildDrawingCache();
-					viewBitmap = viewToTest.getDrawingCache();
-					pixel = viewBitmap.getPixel(viewBitmap.getWidth() / 2, viewBitmap.getHeight() / 2);
-					viewToTest.destroyDrawingCache();
-				}
-			}
-		}
-		return pixel;
-	}
-
-	public void testScreenshotUpdate() {
-		createProjectWithBackgrounds();
-
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
-		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-
-		playTheProject(false, false, false); // green to green
-		int greenPixel1 = createScreenshotBitmap();
-
-		//The color values below are those we get on our test devices
-		String greenHexValue = "ff00fc00";
-		String redHexValue = "fff80000";
-		String pixelHexValue = Integer.toHexString(greenPixel1);
-		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
-		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-
-		playTheProject(true, false, false); // green to red
-		int redPixel1 = createScreenshotBitmap();
-		pixelHexValue = Integer.toHexString(redPixel1);
-		assertEquals("The extracted pixel was not red", redHexValue, pixelHexValue);
-		assertFalse("The screenshot has not been changed", greenPixel1 == redPixel1);
-		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-
-		playTheProject(false, true, true);// red to green + screenshot
-		int greenPixel2 = createScreenshotBitmap();
-		pixelHexValue = Integer.toHexString(greenPixel2);
-		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
-		assertFalse("The screenshot has not been changed", redPixel1 == greenPixel2);
-		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-
-		playTheProject(true, false, false); // green to red, screenshot must stay green
-		int greenPixel3 = createScreenshotBitmap();
-		pixelHexValue = Integer.toHexString(greenPixel3);
-		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
-		assertTrue("The screenshot has not been changed", greenPixel2 == greenPixel3);
-	}
-
-	private void createProjectWithBackgrounds() {
-
-		LookData backgroundGreen;
-		LookData backgroundRed;
-		ProjectManager projectManager = ProjectManager.getInstance();
-
-		UiTestUtils.clearAllUtilTestProjects();
-		UiTestUtils.createEmptyProject();
-
-		File imageFile1 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-				StageListener.SCREENSHOT_MANUAL_FILE_NAME, IMAGE_RESOURCE_4, getInstrumentation().getContext(),
-				UiTestUtils.FileTypes.IMAGE);
-		File imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-				StageListener.SCREENSHOT_MANUAL_FILE_NAME, IMAGE_RESOURCE_5, getInstrumentation().getContext(),
-				UiTestUtils.FileTypes.IMAGE);
-
-		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
-
-		backgroundGreen = new LookData();
-		backgroundGreen.setLookFilename(imageFile1.getName());
-		backgroundGreen.setLookName("backgroundGreen");
-		lookDataList.add(backgroundGreen);
-
-		projectManager.getFileChecksumContainer().addChecksum(backgroundGreen.getChecksum(),
-				backgroundGreen.getAbsolutePath());
-
-		backgroundRed = new LookData();
-		backgroundRed.setLookFilename(imageFile2.getName());
-		backgroundRed.setLookName("backgroundRed");
-		lookDataList.add(backgroundRed);
-
-		projectManager.getFileChecksumContainer().addChecksum(backgroundRed.getChecksum(),
-				backgroundRed.getAbsolutePath());
-
-		SetLookBrick setBackgroundBrick = new SetLookBrick(projectManager.getCurrentSprite());
-		projectManager.getCurrentScript().addBrick(setBackgroundBrick);
-		setBackgroundBrick.setLook(backgroundGreen);
-		StorageHandler.getInstance().saveProject(projectManager.getCurrentProject());
-	}
+	//	private void createProjectWithBackgrounds() {
+	//
+	//		LookData backgroundGreen;
+	//		LookData backgroundRed;
+	//		ProjectManager projectManager = ProjectManager.INSTANCE;
+	//
+	//		UiTestUtils.createEmptyProject();
+	//
+	//		File imageFile1 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+	//				StageListener.SCREENSHOT_MANUAL_FILE_NAME, IMAGE_RESOURCE_4, getInstrumentation().getContext(),
+	//				UiTestUtils.FileTypes.IMAGE);
+	//		File imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+	//				StageListener.SCREENSHOT_MANUAL_FILE_NAME, IMAGE_RESOURCE_5, getInstrumentation().getContext(),
+	//				UiTestUtils.FileTypes.IMAGE);
+	//
+	//		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
+	//
+	//		backgroundGreen = new LookData();
+	//		backgroundGreen.setLookFilename(imageFile1.getName());
+	//		backgroundGreen.setLookName("backgroundGreen");
+	//		lookDataList.add(backgroundGreen);
+	//
+	//		projectManager.getFileChecksumContainer().addChecksum(backgroundGreen.getChecksum(),
+	//				backgroundGreen.getAbsolutePath());
+	//
+	//		backgroundRed = new LookData();
+	//		backgroundRed.setLookFilename(imageFile2.getName());
+	//		backgroundRed.setLookName("backgroundRed");
+	//		lookDataList.add(backgroundRed);
+	//
+	//		projectManager.getFileChecksumContainer().addChecksum(backgroundRed.getChecksum(),
+	//				backgroundRed.getAbsolutePath());
+	//
+	//		SetLookBrick setBackgroundBrick = new SetLookBrick(projectManager.getCurrentSprite());
+	//		projectManager.getCurrentScript().addBrick(setBackgroundBrick);
+	//		setBackgroundBrick.setLook(backgroundGreen);
+	//		StorageHandler.getInstance().saveProject(projectManager.getCurrentProject());
+	//	}
 
 	private void corruptProjectXML(String projectName) {
 		String projectPath = Utils.buildPath(Constants.DEFAULT_ROOT, projectName, Constants.PROJECTCODE_NAME);

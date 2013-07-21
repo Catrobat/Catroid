@@ -35,17 +35,14 @@ import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class PointInDirectionBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final double SET_DEGREE = 90.0;
-	private Solo solo;
 	private Project project;
 	private PointInDirectionBrick pointInDirectionBrick;
 
@@ -55,16 +52,11 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		super.setUp();
 	}
 
 	@Smoke
@@ -91,7 +83,7 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		pointInDirectionBrick = new PointInDirectionBrick(sprite, Direction.DIRECTION_RIGHT);
+		pointInDirectionBrick = new PointInDirectionBrick(sprite, Direction.RIGHT);
 		script.addBrick(pointInDirectionBrick);
 
 		sprite.addScript(script);

@@ -45,17 +45,13 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.uitest.util.Reflection;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
+public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-public class ObjectVariableTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-
-	private Solo solo;
 	private Sprite sprite;
 	private static final double DELTA = 0.01d;
 
@@ -83,18 +79,8 @@ public class ObjectVariableTest extends ActivityInstrumentationTestCase2<MainMen
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.prepareStageForTest();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		UiTestUtils.prepareStageForTest();
 	}
 
 	public Formula getFormulaBySensor(Sensors sensor) {
@@ -117,7 +103,6 @@ public class ObjectVariableTest extends ActivityInstrumentationTestCase2<MainMen
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
-		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(1000);
 
 		Formula lookXPositionFormula = getFormulaBySensor(Sensors.OBJECT_X);
@@ -188,7 +173,6 @@ public class ObjectVariableTest extends ActivityInstrumentationTestCase2<MainMen
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
-		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(1000);
 
 		solo.goBack();

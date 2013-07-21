@@ -61,7 +61,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.INSTANCE.setProject(project);
 
 		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
@@ -154,7 +154,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		TurnLeftAction action = ExtendedActions.turnLeft(sprite, new Formula(370.0f));
 		action.act(1.0f);
 
-		assertEquals("Wrong direction!", 370f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction!", 80f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}

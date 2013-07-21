@@ -56,7 +56,7 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.INSTANCE.setProject(project);
 
 		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
@@ -86,6 +86,18 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 				sprite.look.getScaleX());
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", size.interpretFloat(sprite) / 100,
 				sprite.look.getScaleY());
+	}
+
+	public void testNegativeSize() {
+		Sprite sprite = new Sprite("testSprite");
+		float initialSize = sprite.look.getSizeInUserInterfaceDimensionUnit();
+		assertEquals("Unexpected initial sprite size value", 100f, initialSize);
+
+		SetSizeToAction action = ExtendedActions.setSizeTo(sprite, new Formula(-10));
+		sprite.look.addAction(action);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", 0f,
+				sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {

@@ -78,7 +78,7 @@ public class RenameProjectDialog extends TextDialog {
 		}
 
 		if (newProjectName != null && !newProjectName.equalsIgnoreCase("")) {
-			ProjectManager projectManager = ProjectManager.getInstance();
+			ProjectManager projectManager = ProjectManager.INSTANCE;
 			String currentProjectName = projectManager.getCurrentProject().getName();
 
 			// check if is current project

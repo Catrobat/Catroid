@@ -159,7 +159,7 @@ public class FormulaElement implements Serializable {
 				}
 				break;
 			case USER_VARIABLE:
-				UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject()
+				UserVariablesContainer userVariables = ProjectManager.INSTANCE.getCurrentProject()
 						.getUserVariables();
 				UserVariable userVariable = userVariables.getUserVariable(value, sprite);
 				if (userVariable == null) {
@@ -338,13 +338,13 @@ public class FormulaElement implements Serializable {
 				returnValue = (double) sprite.look.getBrightnessInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_GHOSTEFFECT:
-				returnValue = (double) sprite.look.getGhostEffectInUserInterfaceDimensionUnit();
+				returnValue = (double) sprite.look.getTransparencyInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_LAYER:
 				returnValue = (double) sprite.look.getZIndex();
 				break;
 			case OBJECT_ROTATION:
-				returnValue = (double) sprite.look.getRotationInUserInterfaceDimensionUnit();
+				returnValue = (double) sprite.look.getDirectionInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_SIZE:
 				returnValue = (double) sprite.look.getSizeInUserInterfaceDimensionUnit();

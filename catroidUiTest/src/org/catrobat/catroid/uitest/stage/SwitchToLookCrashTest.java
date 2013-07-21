@@ -42,17 +42,14 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.test.ActivityInstrumentationTestCase2;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private Solo solo;
+public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	public SwitchToLookCrashTest() {
 		super(MainMenuActivity.class);
@@ -62,21 +59,10 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 	protected void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		prepareTest();
 	}
 
 	public void testSwitchToLookCrashPNG() throws IOException {
-		prepareTest();
-
 		String nyanCatPath = "";
 		String nyanCat = "nyancat_crash";
 		String nyanCatPng = "nyancat_crash.png";
@@ -131,8 +117,6 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 	}
 
 	public void testSwitchToLookCrashJPG() throws IOException {
-		prepareTest();
-
 		String manImagePath = "";
 		String manImage = "man_crash";
 		String manImageJpg = "man_crash.jpg";

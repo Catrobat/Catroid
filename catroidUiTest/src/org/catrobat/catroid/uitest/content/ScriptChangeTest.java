@@ -35,18 +35,15 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.jayway.android.robotium.solo.Solo;
+public class ScriptChangeTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
-public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
-
-	private Solo solo;
 	private ArrayList<Brick> brickListToCheck;
 	private Script testScript;
 	private Script testScript2;
@@ -58,18 +55,11 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createTestProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
 	}
 
 	public void testChangeScript() {
@@ -79,19 +69,19 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnView(testScriptBrick);
 		solo.sleep(100);
 
-		assertEquals("Current Script in List is not testScript", testScript, ProjectManager.getInstance()
+		assertEquals("Current Script in List is not testScript", testScript, ProjectManager.INSTANCE
 				.getCurrentScript());
 
 		View startBrick = parent.getChildAt(4);
 		solo.clickOnView(startBrick);
 		solo.sleep(100);
-		assertEquals("Current Script in List is not testScript", testScript3, ProjectManager.getInstance()
+		assertEquals("Current Script in List is not testScript", testScript3, ProjectManager.INSTANCE
 				.getCurrentScript());
 
 		startBrick = parent.getChildAt(5);
 		solo.clickOnView(startBrick);
 		solo.sleep(100);
-		assertEquals("Current Script in List is not testScript", testScript2, ProjectManager.getInstance()
+		assertEquals("Current Script in List is not testScript", testScript2, ProjectManager.INSTANCE
 				.getCurrentScript());
 
 		startBrick = parent.getChildAt(2);
@@ -127,8 +117,8 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 		project.addSprite(firstSprite);
 
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
+		ProjectManager.INSTANCE.setCurrentScript(testScript);
 	}
 }

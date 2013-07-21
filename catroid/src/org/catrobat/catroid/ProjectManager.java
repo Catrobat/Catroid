@@ -51,10 +51,6 @@ public class ProjectManager {
 	private ProjectManager() {
 	}
 
-	public static ProjectManager getInstance() {
-		return INSTANCE;
-	}
-
 	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
 		fileChecksumContainer = new FileChecksumContainer();
 		Project oldProject = project;
@@ -144,11 +140,11 @@ public class ProjectManager {
 	public void initializeNewProject(String projectName, Context context, boolean empty) throws IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
-        if(empty) {
-            project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
-        } else {
-		    project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
-        }
+		if (empty) {
+			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
+		} else {
+			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
+		}
 
 		currentSprite = null;
 		currentScript = null;

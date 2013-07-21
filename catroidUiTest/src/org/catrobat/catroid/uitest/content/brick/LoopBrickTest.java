@@ -43,15 +43,12 @@ import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private Solo solo;
+public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private Project project;
 
 	public LoopBrickTest() {
@@ -60,20 +57,17 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-
-		ProjectManager.getInstance().deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
-
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
-		solo = null;
+		ProjectManager.INSTANCE.deleteCurrentProject();
 	}
 
 	public void testRepeatBrick() {
@@ -115,7 +109,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		int addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite sprite = ProjectManager.INSTANCE.getCurrentSprite();
 		assertEquals("Incorrect number of Scripts.", 2, sprite.getNumberOfScripts());
 
 		solo.goBack();
@@ -358,9 +352,9 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		sprite.addScript(new StartScript(sprite));
 		project.addSprite(sprite);
 
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(sprite);
+		ProjectManager.INSTANCE.setCurrentScript(script);
 	}
 
 	private void clickOnDeleteInDialog() {

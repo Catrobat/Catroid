@@ -40,19 +40,16 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.test.ActivityInstrumentationTestCase2;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private final int RESOURCE_LOOK = org.catrobat.catroid.uitest.R.raw.icon;
 	private final int RESOURCE_LOOK2 = org.catrobat.catroid.uitest.R.raw.icon2;
 
-	private Solo solo;
 	private String lookName = "testLook1";
 	private String lookName2 = "testLook2";
 	private File lookFile;
@@ -69,23 +66,18 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
 
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/" + testFile + ".png",
 				org.catrobat.catroid.uitest.R.drawable.catroid_banzai, getActivity());
 
 		createProject();
 
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		if (lookFile.exists()) {
 			lookFile.delete();
 		}
@@ -94,7 +86,6 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		}
 		paintroidImageFile.delete();
 		super.tearDown();
-		solo = null;
 	}
 
 	public void testSelectLookAndPlay() {
@@ -104,7 +95,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
-		Look look = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).look;
+		Look look = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).look;
 		assertEquals("look not set", look.getImagePath(), lookDataList.get(0).getAbsolutePath());
 		solo.goBack();
 		solo.goBack();
@@ -118,7 +109,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
-		look = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).look;
+		look = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).look;
 		assertEquals("look not set", look.getImagePath(), lookDataList.get(1).getAbsolutePath());
 	}
 
@@ -180,7 +171,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		String lookPath = ProjectManager.getInstance().getCurrentSprite().getLookDataList().get(0).getAbsolutePath();
+		String lookPath = ProjectManager.INSTANCE.getCurrentSprite().getLookDataList().get(0).getAbsolutePath();
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", look1ImagePath, lookPath);
 		solo.goBack();
 		solo.goBack();
@@ -234,7 +225,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.sleep(5000);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
-		String lookPath = ProjectManager.getInstance().getCurrentSprite().look.getImagePath();
+		String lookPath = ProjectManager.INSTANCE.getCurrentSprite().look.getImagePath();
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", lookImagePath, lookPath);
 		solo.goBack();
 		solo.goBack();
@@ -246,7 +237,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	private void createProject() {
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript(firstSprite);
@@ -276,9 +267,9 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		lookDataList.add(lookData);
 		lookDataList.add(lookData2);
-		ProjectManager.getInstance().getFileChecksumContainer()
+		ProjectManager.INSTANCE.getFileChecksumContainer()
 				.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
-		ProjectManager.getInstance().getFileChecksumContainer()
+		ProjectManager.INSTANCE.getFileChecksumContainer()
 				.addChecksum(lookData2.getChecksum(), lookData2.getAbsolutePath());
 	}
 

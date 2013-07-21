@@ -34,18 +34,15 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.os.Build;
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.TextView;
 
-import com.jayway.android.robotium.solo.Solo;
+public class GlideToBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-
-	private Solo solo;
 	private Project project;
 	private Sprite sprite;
 
@@ -57,17 +54,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void setUp() throws Exception {
 		super.setUp();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
 	}
 
 	public void testNumberInput() {
@@ -93,7 +80,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertEquals("Text not updated within FormulaEditor", yPosition,
 				Integer.parseInt(solo.getEditText(2).getText().toString().substring(0, 3)));
 
-		ProjectManager manager = ProjectManager.getInstance();
+		ProjectManager manager = ProjectManager.INSTANCE;
 		List<Brick> brickList = manager.getCurrentSprite().getScript(0).getBrickList();
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(0);
 
@@ -133,9 +120,9 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		sprite.addScript(script);
 		project.addSprite(sprite);
 
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(sprite);
+		ProjectManager.INSTANCE.setCurrentScript(script);
 
 	}
 }

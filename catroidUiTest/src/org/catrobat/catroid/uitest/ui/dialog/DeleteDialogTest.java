@@ -33,20 +33,17 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.widget.ListAdapter;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
 	private final int RESOURCE_IMAGE2 = org.catrobat.catroid.uitest.R.drawable.catroid_banzai;
 	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 	private final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
-	private Solo solo;
 
 	private String lookName = "lookNametest";
 	private File imageFile;
@@ -66,21 +63,17 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
-		solo = new Solo(getInstrumentation(), getActivity());
 		soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
 		lookDataList = ProjectManager.INSTANCE.getCurrentSprite().getLookDataList();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		ProjectManager.getInstance().deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
-		solo = null;
+		ProjectManager.INSTANCE.deleteCurrentProject();
 	}
 
 	public void testDeleteLooks() throws Exception {

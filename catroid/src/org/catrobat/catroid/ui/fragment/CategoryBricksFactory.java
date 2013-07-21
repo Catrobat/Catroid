@@ -139,7 +139,7 @@ public class CategoryBricksFactory {
 		motionBrickList.add(new MoveNStepsBrick(sprite, BrickValues.MOVE_STEPS));
 		motionBrickList.add(new TurnLeftBrick(sprite, BrickValues.TURN_DEGREES));
 		motionBrickList.add(new TurnRightBrick(sprite, BrickValues.TURN_DEGREES));
-		motionBrickList.add(new PointInDirectionBrick(sprite, Direction.DIRECTION_RIGHT));
+		motionBrickList.add(new PointInDirectionBrick(sprite, Direction.RIGHT));
 		motionBrickList.add(new PointToBrick(sprite, null));
 		motionBrickList.add(new GlideToBrick(sprite, BrickValues.X_POSITION, BrickValues.Y_POSITION,
 				BrickValues.GLIDE_SECONDS));
@@ -207,7 +207,7 @@ public class CategoryBricksFactory {
 	}
 
 	private boolean isBackground(Sprite sprite) {
-		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(sprite) == 0) {
+		if (ProjectManager.INSTANCE.getCurrentProject().getSpriteList().indexOf(sprite) == 0) {
 			return true;
 		}
 		return false;
