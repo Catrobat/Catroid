@@ -51,12 +51,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -131,8 +129,8 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
-        String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
-        actionBar.setTitle(currentSprite);
+		String currentSprite = ProjectManager.INSTANCE.getCurrentSprite().getName();
+		actionBar.setTitle(currentSprite);
 
 		btn_add = (LinearLayout) findViewById(R.id.button_add);
 		updateHandleAddButtonClickListener();

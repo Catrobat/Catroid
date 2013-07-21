@@ -158,14 +158,28 @@ public class UiTestUtils {
 	private static final int ACTION_BAR_SPINNER_INDEX = 0;
 	private static final int ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX = 0;
 
+	public static final int SCRIPTS_INDEX = 0;
+	public static final int LOOKS_INDEX = 1;
+	public static final int SOUNDS_INDEX = 2;
+
+	private static final List<Integer> fragmentIndexList = new ArrayList<Integer>();
+
+	static {
+		fragmentIndexList.add(R.id.fragment_script_relative_layout);
+		fragmentIndexList.add(R.id.fragment_look_relative_layout);
+		fragmentIndexList.add(R.id.fragment_sound_relative_layout);
+	}
+
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
 	};
 
 	private UiTestUtils() {
+
 	};
 
 	public static void enterText(Solo solo, int editTextIndex, String text) {
+		solo.waitForActivity(MainMenuActivity.class);
 		solo.sleep(50);
 		final EditText editText = solo.getEditText(editTextIndex);
 		solo.getCurrentActivity().runOnUiThread(new Runnable() {
@@ -1408,5 +1422,14 @@ public class UiTestUtils {
 
 	public static void waitForText(Solo solo, String text) {
 		assertEquals("Text not found!", true, solo.waitForText(text, 0, 2000));
+	}
+
+	public static void switchToFragmentInScriptActivity(Solo solo, int fragmentIndex) {
+		solo.goBack();
+		solo.waitForActivity(ProgramMenuActivity.class);
+		solo.clickOnButton(fragmentIndex);
+		solo.waitForActivity(ScriptActivity.class);
+		int id = fragmentIndexList.get(fragmentIndex);
+		solo.waitForFragmentById(id);
 	}
 }

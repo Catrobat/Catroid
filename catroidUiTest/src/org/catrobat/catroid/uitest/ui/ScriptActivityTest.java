@@ -163,7 +163,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 	public void testOverflowMenuItemSettings() {
 		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
 
-		String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
+		String currentSprite = ProjectManager.INSTANCE.getCurrentSprite().getName();
 		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
 		checkSettingsAndGoBack();
