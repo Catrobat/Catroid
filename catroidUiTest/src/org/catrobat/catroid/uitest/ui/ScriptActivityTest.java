@@ -95,69 +95,20 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 	public void testPlayProgramButton() {
 		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
 
-		String scripts = solo.getString(R.string.scripts);
-		String looks = solo.getString(R.string.category_looks);
-		String sounds = solo.getString(R.string.sounds);
-
-		assertTrue("Spinner item '" + scripts + "' not shown", solo.waitForText(scripts, 0, 300, false, true));
+		String currentSprite = ProjectManager.INSTANCE.getCurrentSprite().getName();
+		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
 		checkplayProgramButton();
 
-		UiTestUtils.changeToFragmentViaActionbar(solo, scripts, looks);
-		UiTestUtils.waitForFragment(solo, R.id.fragment_look_relative_layout);
-		assertTrue("Spinner item '" + looks + "' not shown", solo.waitForText(looks, 0, 300, false, true));
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.LOOKS_INDEX);
+		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
 		checkplayProgramButton();
 
-		UiTestUtils.changeToFragmentViaActionbar(solo, looks, sounds);
-		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
-		assertTrue("Spinner item '" + sounds + "' not shown", solo.waitForText(sounds, 0, 300, false, true));
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SOUNDS_INDEX);
+		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
 		checkplayProgramButton();
-	}
-
-	public void testChangeViaSpinner() {
-		int scriptsSpinnerIndexRelativeToCurrentSelected = 0;
-		int looksSpinnerIndexRelativeToCurrentSelected = 1;
-		int soundsSpinnerIndexRelativeToCurrentSelected = 2;
-
-		int expectedNumberOfSpinnerItems = 3;
-		int currentNumberOfSpinnerItems = UiTestUtils.getActionBarSpinnerItemCount(solo);
-		assertEquals("There should be " + expectedNumberOfSpinnerItems + " spinner items",
-				expectedNumberOfSpinnerItems, currentNumberOfSpinnerItems);
-
-		String scripts = solo.getString(R.string.scripts);
-		String looks = solo.getString(R.string.category_looks);
-		String sounds = solo.getString(R.string.sounds);
-
-		final int timeToWait = 300;
-
-		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, timeToWait, false, true));
-		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
-
-		UiTestUtils.clickOnActionBarSpinnerItem(solo, scriptsSpinnerIndexRelativeToCurrentSelected);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
-		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, timeToWait, false, true));
-
-		UiTestUtils.clickOnActionBarSpinnerItem(solo, looksSpinnerIndexRelativeToCurrentSelected);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		UiTestUtils.waitForFragment(solo, R.id.fragment_look_relative_layout);
-		assertTrue("Spinner item '" + looks + "' not selected", solo.waitForText(looks, 0, timeToWait, false, true));
-
-		soundsSpinnerIndexRelativeToCurrentSelected = 1;
-
-		UiTestUtils.clickOnActionBarSpinnerItem(solo, soundsSpinnerIndexRelativeToCurrentSelected);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
-		assertTrue("Spinner item '" + sounds + "' not selected", solo.waitForText(sounds, 0, timeToWait, false, true));
-
-		scriptsSpinnerIndexRelativeToCurrentSelected = -2;
-
-		UiTestUtils.clickOnActionBarSpinnerItem(solo, scriptsSpinnerIndexRelativeToCurrentSelected);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
-		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, timeToWait, false, true));
 	}
 
 	public void testOverflowMenuItemSettings() {

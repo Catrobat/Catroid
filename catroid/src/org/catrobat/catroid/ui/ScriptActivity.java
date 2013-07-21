@@ -96,13 +96,11 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	private boolean isLookFragmentFromSetLookBrickNew = false;
 	private boolean isLookFragmentHandleAddButtonHandled = false;
 
-	private LinearLayout btn_add = null;
+	private LinearLayout buttonAdd = null;
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
-		Log.d("ScriptActivity", "ScriptActivityOnResume");
 	}
 
 	@Override
@@ -132,15 +130,15 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		String currentSprite = ProjectManager.INSTANCE.getCurrentSprite().getName();
 		actionBar.setTitle(currentSprite);
 
-		btn_add = (LinearLayout) findViewById(R.id.button_add);
+		buttonAdd = (LinearLayout) findViewById(R.id.button_add);
 		updateHandleAddButtonClickListener();
 	}
 
 	public void updateHandleAddButtonClickListener() {
-		if (btn_add == null) {
-			btn_add = (LinearLayout) findViewById(R.id.button_add);
+		if (buttonAdd == null) {
+			buttonAdd = (LinearLayout) findViewById(R.id.button_add);
 		}
-		btn_add.setOnClickListener(new OnClickListener() {
+		buttonAdd.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				handleAddButton(v);
@@ -152,7 +150,6 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		boolean fragmentExists = true;
 		currentFragmentPosition = fragmentPosition;
 
-		Log.d("CatroidFragmentTag", "ScriptActivity updateCurrentFragment");
 		switch (currentFragmentPosition) {
 			case FRAGMENT_SCRIPTS:
 				if (scriptFragment == null) {

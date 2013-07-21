@@ -126,10 +126,9 @@ public class BrickCategoryFragment extends SherlockListFragment {
 
 	private void resetActionBar() {
 		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(this.previousActionBarTitle);
-		actionBar.setNavigationMode(this.previousActionBarNavigationMode);
-		actionBar.setSelectedNavigationItem(0);
+		actionBar.setNavigationMode(previousActionBarNavigationMode);
 	}
 
 	private void setupBrickCategories() {

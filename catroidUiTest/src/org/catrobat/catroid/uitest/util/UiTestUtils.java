@@ -1316,13 +1316,6 @@ public class UiTestUtils {
 		}
 	}
 
-	public static void changeToFragmentViaActionbar(Solo solo, String currentSpinnerItem, String itemToSwitchTo) {
-		solo.clickOnText(currentSpinnerItem);
-		solo.sleep(50);
-		solo.clickOnText(itemToSwitchTo);
-		solo.sleep(50);
-	}
-
 	public static IcsSpinner getActionbarSpinnerOnPreHoneyComb(Solo solo) {
 		ArrayList<View> activityViews = solo.getViews();
 		IcsSpinner spinner = null;
@@ -1336,18 +1329,6 @@ public class UiTestUtils {
 			fail("no spinner found");
 		}
 		return spinner;
-	}
-
-	public static void clickOnActionBarSpinnerItem(Solo solo, int itemIndex) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			IcsSpinner spinner = UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo);
-			int activeSpinnerItemIndex = spinner.getSelectedItemPosition();
-			String itemToClickOnText = spinner.getAdapter().getItem(activeSpinnerItemIndex + itemIndex).toString();
-			UiTestUtils.changeToFragmentViaActionbar(solo,
-					spinner.getItemAtPosition(activeSpinnerItemIndex).toString(), itemToClickOnText);
-		} else {
-			solo.pressSpinnerItem(ACTION_BAR_SPINNER_INDEX, itemIndex);
-		}
 	}
 
 	public static int getActionBarSpinnerItemCount(Solo solo) {

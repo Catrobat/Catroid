@@ -81,11 +81,9 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		String buttonOkText = solo.getString(R.string.yes);
 		String buttonCancelText = solo.getString(R.string.no);
 		String deleteLookText = solo.getString(R.string.delete);
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String looksSpinnerText = solo.getString(R.string.category_looks);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, looksSpinnerText);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.LOOKS_INDEX);
 		UiTestUtils.waitForFragment(solo, R.id.fragment_look_relative_layout);
 
 		clickOnContextMenuItem(lookName, deleteLookText);
@@ -116,12 +114,9 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		String buttonOkText = solo.getString(R.string.yes);
 		String buttonCancelText = solo.getString(R.string.no);
 		String deleteSoundText = solo.getString(R.string.delete);
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String soundsSpinnerText = solo.getString(R.string.sounds);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, soundsSpinnerText);
-		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SOUNDS_INDEX);
 		solo.clickLongOnText(soundName);
 		solo.clickOnText(deleteSoundText);
 
