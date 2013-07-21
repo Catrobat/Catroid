@@ -851,8 +851,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		animatedBricks.clear();
 		final int itemPosition = calculateItemPositionAndTouchPointY(view);
-
 		final List<CharSequence> items = new ArrayList<CharSequence>();
+
 		if (!(brickList.get(itemPosition) instanceof DeadEndBrick)) {
 			items.add(context.getText(R.string.brick_context_dialog_move_brick));
 		}
@@ -860,12 +860,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			items.add(context.getText(R.string.brick_context_dialog_animate_bricks));
 		}
 		items.add(context.getText(R.string.brick_context_dialog_delete_brick));
-
 		items.add(context.getText(R.string.brick_context_dialog_copy_brick));
-
 		if (brickList.get(itemPosition) instanceof FormulaBrick) {
 			items.add(context.getText(R.string.brick_context_dialog_formula_edit_brick));
-			Log.d("FormulaEditor", "item added!!!");
 		}
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -908,7 +905,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					if (brickList.get(itemPosition) instanceof FormulaBrick) {
 						FormulaEditorFragment.showFragment(view, brickList.get(itemPosition),
 								((FormulaBrick) brickList.get(itemPosition)).getFormula());
-						Log.d("FormulaEditor", "Item edit formula is clicked...now open it!!!");
 					}
 				}
 			}

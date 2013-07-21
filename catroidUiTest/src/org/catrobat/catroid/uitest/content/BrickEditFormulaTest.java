@@ -1,3 +1,25 @@
+/**
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2013 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://developer.catrobat.org/license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
+ *  
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.catrobat.catroid.uitest.content;
 
 import java.util.List;
@@ -26,7 +48,6 @@ public class BrickEditFormulaTest extends ActivityInstrumentationTestCase2<MainM
 		super.setUp();
 		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-
 	}
 
 	@Override
@@ -42,7 +63,6 @@ public class BrickEditFormulaTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnMenuItem(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
 		assertTrue("Formula Editor don't opened!", solo.waitForView(solo.getView(R.id.formula_editor_brick_space)));
 		solo.goBack();
-
 	}
 
 	public void testClickOnBrickItemEditFormula() {
@@ -67,6 +87,5 @@ public class BrickEditFormulaTest extends ActivityInstrumentationTestCase2<MainM
 		checkBrick(R.string.brick_set_y);
 		checkBrick(R.string.brick_turn_left);
 		checkBrick(R.string.brick_turn_right);
-
 	}
 }
