@@ -51,7 +51,7 @@ public class UtilCamera {
 		int rotate = getPhotoRotationDegree(lookFromCameraUri, lookFromCameraUri.getPath());
 
 		if (rotate != 0) {
-			Project project = ProjectManager.getInstance().getCurrentProject();
+			Project project = ProjectManager.INSTANCE.getCurrentProject();
 			File fullSizeImage = new File(lookFromCameraUri.getPath());
 
 			// Height and Width switched for proper scaling for portrait format photos from camera

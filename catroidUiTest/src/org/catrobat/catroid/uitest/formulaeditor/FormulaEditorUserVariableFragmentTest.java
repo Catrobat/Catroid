@@ -87,8 +87,8 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);
 
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
 
 		Script startScript1 = new StartScript(firstSprite);
 		Script startScript2 = new StartScript(secondSprite);
@@ -107,16 +107,16 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 
 		firstSprite = new Sprite("firstSprite");
 		project.addSprite(firstSprite);
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
 
-		ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables()
 				.addProjectUserVariable(USER_VARIABLE_NAME_UNDERLINE_PREFIX);
 
 		Double setVariableToValue = Double.valueOf(SET_USERVARIABLE_TO_BRICK_VALUE);
 
 		SetVariableBrick setVariableBrick = new SetVariableBrick(firstSprite, new Formula(setVariableToValue),
-				ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				ProjectManager.INSTANCE.getCurrentProject().getUserVariables()
 						.getUserVariable(USER_VARIABLE_NAME_UNDERLINE_PREFIX, firstSprite));
 
 		Script startScript1 = new StartScript(firstSprite);
@@ -329,7 +329,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("zzz");
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName("zzz");
 	}
 
 	@Emulator2
@@ -375,7 +375,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 
 		assertEquals("Wrong number of UserVariables deleted", 0, userVariableListView.getAdapter().getCount());
 
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("del");
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName("del");
 	}
 
 	@Emulator2
@@ -431,9 +431,9 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		assertFalse(itemString + "not deleted", solo.searchText(itemString, true));
 		assertFalse(itemString3rd + "not deleted", solo.searchText(itemString3rd, true));
 
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString);
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString2nd);
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString3rd);
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName(itemString);
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName(itemString2nd);
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName(itemString3rd);
 	}
 
 	@Emulator2
@@ -534,8 +534,8 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		assertFalse(itemString + "  should not be found:", solo.searchText(itemString, true));
 		assertTrue(itemString2nd + " not found:", solo.searchText(itemString2nd, true));
 
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("local");
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("global");
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName("local");
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName("global");
 	}
 
 	@Emulator2
@@ -576,8 +576,8 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 
 		finishUserVariableCreationSafeButSlow("var2", true);
 
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var1");
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var2");
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName("var1");
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName("var2");
 	}
 
 	@Emulator2

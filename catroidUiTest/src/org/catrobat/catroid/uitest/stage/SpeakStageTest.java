@@ -78,7 +78,7 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 
 	@Emulator
 	public void testNullText() throws InterruptedException {
-		ProjectManager.getInstance()
+		ProjectManager.INSTANCE
 				.loadProject(UiTestUtils.PROJECTNAME2, getActivity().getApplicationContext(), false);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		String programString = solo.getString(R.string.main_menu_programs);
@@ -104,7 +104,7 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 
 	@Emulator
 	public void testSuccessiveBehaviour() throws InterruptedException {
-		ProjectManager.getInstance()
+		ProjectManager.INSTANCE
 				.loadProject(UiTestUtils.PROJECTNAME1, getActivity().getApplicationContext(), false);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		String programString = solo.getString(R.string.main_menu_programs);
@@ -135,7 +135,7 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 
 	@Emulator
 	public void testSimultaneousTextToSpeech() throws InterruptedException {
-		ProjectManager.getInstance()
+		ProjectManager.INSTANCE
 				.loadProject(UiTestUtils.PROJECTNAME3, getActivity().getApplicationContext(), false);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		String programString = solo.getString(R.string.main_menu_programs);

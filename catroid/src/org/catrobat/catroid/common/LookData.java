@@ -131,7 +131,7 @@ public class LookData implements Serializable, Cloneable {
 	}
 
 	private String getPathToImageDirectory() {
-		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
+		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.INSTANCE.getCurrentProject().getName()),
 				Constants.IMAGE_DIRECTORY);
 	}
 

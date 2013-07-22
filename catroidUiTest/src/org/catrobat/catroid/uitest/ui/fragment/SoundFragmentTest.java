@@ -90,7 +90,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		super.setUp();
 		UiTestUtils.createTestProject();
 
-		projectManager = ProjectManager.getInstance();
+		projectManager = ProjectManager.INSTANCE;
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
 		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
@@ -154,6 +154,22 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertEquals("Old count was not correct", 2, oldCount);
 		assertEquals("New count is not correct - one sound should be copied", 3, newCount);
 		assertEquals("Count of the soundList is not correct", newCount, getCurrentNumberOfSounds());
+	}
+
+	@Emulator3
+	public void testCopySoundActionBar() {
+
+		int numberOfSoundsBeforeCopy = getCurrentNumberOfSounds();
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(0);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		int numberOfSoundsAfterCopy = getCurrentNumberOfSounds();
+
+		assertEquals("No sound has been copied!", ++numberOfSoundsBeforeCopy, numberOfSoundsAfterCopy);
+
 	}
 
 	@Emulator3

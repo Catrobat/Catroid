@@ -53,7 +53,7 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 
 	@Override
 	protected void initialize() {
-		projectManager = ProjectManager.getInstance();
+		projectManager = ProjectManager.INSTANCE;
 		projectToChangeName = getArguments().getString(BUNDLE_ARGUMENTS_OLD_PROJECT_DESCRIPTION);
 		String currentProjectName = projectManager.getCurrentProject().getName();
 
