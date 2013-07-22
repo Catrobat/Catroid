@@ -124,7 +124,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		String actionSetDescriptionText = solo.getString(R.string.set_description);
 		String setDescriptionDialogTitle = solo.getString(R.string.description);
 		Project uploadProject = new Project(getActivity(), testProject);
-		ProjectManager.INSTANCE.setProject(uploadProject);
+		ProjectManager.getInstance().setProject(uploadProject);
 		StorageHandler.getInstance().saveProject(uploadProject);
 		setServerURLToTestURL();
 		UiTestUtils.createValidUser(getActivity());
@@ -162,7 +162,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testProjectDescriptionUploadProject() throws Throwable {
 		Project uploadProject = new Project(getActivity(), testProject);
-		ProjectManager.INSTANCE.setProject(uploadProject);
+		ProjectManager.getInstance().setProject(uploadProject);
 		StorageHandler.getInstance().saveProject(uploadProject);
 
 		solo.sleep(300);

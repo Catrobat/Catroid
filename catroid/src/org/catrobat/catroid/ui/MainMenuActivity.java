@@ -90,7 +90,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				String notificationMessage = "Download " + progress + "% "
 						+ getString(R.string.notification_percent_completed) + ":" + projectName;
 
-				StatusBarNotificationManager.INSTANCE.updateNotification(notificationId, notificationMessage,
+				StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage,
 						Constants.DOWNLOAD_NOTIFICATION, endOfFileReached);
 			}
 		}
@@ -139,7 +139,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		Utils.loadProjectIfNeeded(this);
 		setMainMenuButtonContinueText();
 		findViewById(R.id.main_menu_button_continue).setEnabled(true);
-		StatusBarNotificationManager.INSTANCE.displayDialogs(this);
+		StatusBarNotificationManager.getInstance().displayDialogs(this);
 	}
 
 	@Override
@@ -152,9 +152,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		// onPause is sufficient --> gets called before "process_killed",
 		// onStop(), onDestroy(), onRestart()
 		// also when you switch activities
-		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
-			ProjectManager.INSTANCE.saveProject();
-			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.INSTANCE.getCurrentProject()
+		if (ProjectManager.getInstance().getCurrentProject() != null) {
+			ProjectManager.getInstance().saveProject();
+			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.getInstance().getCurrentProject()
 					.getName());
 		}
 	}
@@ -199,7 +199,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
+		if (ProjectManager.getInstance().getCurrentProject() != null) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
@@ -288,7 +288,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	}
 
 	public int createNotification(String downloadName) {
-		StatusBarNotificationManager manager = StatusBarNotificationManager.INSTANCE;
+		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
 		int notificationId = manager.createNotification(downloadName, this, Constants.DOWNLOAD_NOTIFICATION);
 		return notificationId;
 	}
@@ -350,7 +350,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 		spannableStringBuilder.append(mainMenuContinue);
 		spannableStringBuilder.append("\n");
-		spannableStringBuilder.append(ProjectManager.INSTANCE.getCurrentProject().getName());
+		spannableStringBuilder.append(ProjectManager.getInstance().getCurrentProject().getName());
 
 		spannableStringBuilder.setSpan(textAppearanceSpan, mainMenuContinue.length() + 1,
 				spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);

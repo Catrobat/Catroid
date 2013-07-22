@@ -81,7 +81,7 @@ public class UploadProjectDialog extends DialogFragment {
 
 				String notificationMessage = "Upload " + progressPercent + "% "
 						+ activity.getString(R.string.notification_percent_completed) + ":" + projectName;
-				StatusBarNotificationManager.INSTANCE.updateNotification(notificationId, notificationMessage,
+				StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage,
 						Constants.UPLOAD_NOTIFICATION, endOfFileReached);
 			}
 		}
@@ -142,8 +142,8 @@ public class UploadProjectDialog extends DialogFragment {
 	}
 
 	private void initControls() {
-		currentProjectName = ProjectManager.INSTANCE.getCurrentProject().getName();
-		currentProjectDescription = ProjectManager.INSTANCE.getCurrentProject().getDescription();
+		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
+		currentProjectDescription = ProjectManager.getInstance().getCurrentProject().getDescription();
 		sizeOfProject.setText(UtilFile.getSizeAsString(new File(Constants.DEFAULT_ROOT + "/" + currentProjectName)));
 		projectRename.setVisibility(View.GONE);
 		projectUploadName.setText(currentProjectName);
@@ -204,7 +204,7 @@ public class UploadProjectDialog extends DialogFragment {
 	}
 
 	private void handleUploadButtonClick() {
-		ProjectManager projectManager = ProjectManager.INSTANCE;
+		ProjectManager projectManager = ProjectManager.getInstance();
 
 		String uploadName = projectUploadName.getText().toString();
 		String projectDescription = projectDescriptionField.getText().toString();
@@ -262,7 +262,7 @@ public class UploadProjectDialog extends DialogFragment {
 	}
 
 	public int createNotification(String uploadName) {
-		StatusBarNotificationManager manager = StatusBarNotificationManager.INSTANCE;
+		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
 		int notificationId = manager.createNotification(uploadName, getActivity(), Constants.UPLOAD_NOTIFICATION);
 		return notificationId;
 	}

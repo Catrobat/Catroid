@@ -138,7 +138,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		// change catrobatLanguage to a version that is not supported by web
 		// should lead to an errormessage after upload
-		Project testProject = ProjectManager.INSTANCE.getCurrentProject();
+		Project testProject = ProjectManager.getInstance().getCurrentProject();
 		testProject.setCatrobatLanguageVersion(0.3f);
 		StorageHandler.getInstance().saveProject(testProject);
 
@@ -177,7 +177,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		String originalProjectName = testProject;
 		String originalProjectDescription = testDescription;
 		createTestProject(originalProjectName);
-		ProjectManager.INSTANCE.getCurrentProject().setDescription(originalProjectDescription);
+		ProjectManager.getInstance().getCurrentProject().setDescription(originalProjectDescription);
 
 		//intent to the main activity is sent since changing activity orientation is not working
 		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
@@ -222,7 +222,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		String projectName = testProject;
 		String originalProjectDescription = testDescription;
 		createTestProject(projectName);
-		ProjectManager.INSTANCE.getCurrentProject().setDescription(originalProjectDescription);
+		ProjectManager.getInstance().getCurrentProject().setDescription(originalProjectDescription);
 
 		//intent to the main activity is sent since changing activity orientation is not working
 		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
@@ -296,7 +296,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		int numberMediaFiles = 5;
 		String soundName = "testSound";
 
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
+		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		for (int number = 0; number < numberMediaFiles; number++) {
 			File soundFile = UiTestUtils.saveFileToProject(projectName,
 					"longsound" + Integer.toString(number) + ".mp3", LONG_TEST_SOUND,
@@ -305,12 +305,12 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 			soundInfo.setSoundFileName(soundFile.getName());
 			soundInfo.setTitle(soundName + Integer.toString(number));
 			soundInfoList.add(soundInfo);
-			ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(),
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo.getChecksum(),
 					soundInfo.getAbsolutePath());
 		}
 		StorageHandler.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
 		Project newProject = StorageHandler.getInstance().loadProject(projectName);
-		ProjectManager.INSTANCE.setProject(newProject);
+		ProjectManager.getInstance().setProject(newProject);
 
 		UiTestUtils.createValidUser(getActivity());
 		uploadProject(projectName, "");
@@ -417,7 +417,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 			e.printStackTrace();
 			return false;
 		}
-		ProjectManager.INSTANCE.setProject(standardProject);
+		ProjectManager.getInstance().setProject(standardProject);
 		StorageHandler.getInstance().saveProject(standardProject);
 		return true;
 	}

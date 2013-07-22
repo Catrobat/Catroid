@@ -148,7 +148,7 @@ public class NewProjectDialog extends DialogFragment {
 		}
 
 		try {
-			ProjectManager.INSTANCE.initializeNewProject(projectName, getActivity(), shouldBeEmpty);
+			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty);
 
 		} catch (IOException e) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_new_project));

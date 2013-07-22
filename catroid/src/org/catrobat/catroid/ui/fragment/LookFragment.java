@@ -157,7 +157,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				lookFromCameraUri = UtilCamera.getDefaultLookFromCameraUri(defLookName);
 			}
 		}
-		lookDataList = ProjectManager.INSTANCE.getCurrentSprite().getLookDataList();
+		lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
 
 		adapter = new LookAdapter(getActivity(), R.layout.fragment_look_looklist_item, lookDataList, false);
 		adapter.setOnLookEditListener(this);
