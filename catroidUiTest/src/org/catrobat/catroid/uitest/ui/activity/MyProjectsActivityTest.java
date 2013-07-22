@@ -46,7 +46,7 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
 import org.catrobat.catroid.uitest.annotation.Device;
-import org.catrobat.catroid.uitest.annotation.Emulator2;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -174,7 +174,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		zipFile.delete();
 	}
 
-	@Emulator2
+	@Emulator
 	public void testOrientation() throws NameNotFoundException {
 		/// Method 1: Assert it is currently in portrait mode.
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 1000);
@@ -200,7 +200,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				activityInfo.screenOrientation);
 	}
 
-	@Emulator2
+	@Emulator
 	public void testOverFlowMenuSettings() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -209,7 +209,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
 	}
 
-	@Emulator2
+	@Emulator
 	public void testDeleteSprite() {
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
@@ -257,7 +257,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		}
 	}
 
-	@Emulator2
+	@Emulator
 	public void testInvalidProject() {
 		unzip = true;
 		saveProjectsToZip();
@@ -308,7 +308,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Default Project should not be overwritten", spriteList.size() == 6);
 	}
 
-	@Emulator2
+	@Emulator
 	public void testDeleteStandardProject() {
 		unzip = true;
 		saveProjectsToZip();
@@ -547,7 +547,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		}
 	}
 
-	@Emulator2
+	@Emulator
 	public void testDeleteProject() {
 		createProjects();
 		solo.sleep(200);
@@ -580,7 +580,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("project " + UiTestUtils.PROJECTNAME1 + " not deleted", projectDeleted);
 	}
 
-	@Emulator2
+	@Emulator
 	public void testChooseNoOnDeleteQuestion() {
 		createProjects();
 		solo.sleep(200);
@@ -634,7 +634,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				solo.searchText(solo.getString(R.string.new_project_dialog_title)));
 	}
 
-	@Emulator2
+	@Emulator
 	public void testDeleteCurrentProject() {
 		createProjects();
 		solo.sleep(200);
@@ -659,7 +659,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				ProjectManager.INSTANCE.getCurrentProject().getName());
 	}
 
-	@Emulator2
+	@Emulator
 	public void testDeleteAllProjects() {
 		unzip = true;
 		saveProjectsToZip();
@@ -842,7 +842,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Second project has been deleted!", solo.searchText(UiTestUtils.PROJECTNAME1));
 	}
 
-	@Emulator2
+	@Emulator
 	public void testRenameProject() {
 		createProjects();
 		String currentProjectName = ProjectManager.INSTANCE.getCurrentProject().getName();
@@ -892,7 +892,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	}
 
-	@Emulator2
+	@Emulator
 	public void testRenameCurrentProject() {
 		createProjects();
 		solo.sleep(200);
@@ -915,7 +915,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				.getCurrentProject().getName());
 	}
 
-	@Emulator2
+	@Emulator
 	public void testRenameCurrentProjectViaActionBar() {
 		String rename = solo.getString(R.string.rename);
 		createProjects();
@@ -955,7 +955,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				.getCurrentProject().getName());
 	}
 
-	@Emulator2
+	@Emulator
 	public void testCancelRenameActionMode() {
 		String rename = solo.getString(R.string.rename);
 		String cancel = solo.getString(R.string.cancel_button);
@@ -976,7 +976,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertFalse("Rename dialog is showing!", (solo.searchText(cancel) && solo.searchText(ok)));
 	}
 
-	@Emulator2
+	@Emulator
 	public void testRenameCurrentProjectMixedCase() {
 		createProjects();
 		solo.sleep(200);
@@ -1000,7 +1000,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				ProjectManager.INSTANCE.getCurrentProject().getName());
 	}
 
-	@Emulator2
+	@Emulator
 	public void testRenameToSameName() {
 		createProjects();
 		solo.sleep(200);
@@ -1020,7 +1020,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				.getCurrentProject().getName());
 	}
 
-	@Emulator2
+	@Emulator
 	public void testRenameWithNoInput() {
 		createProjects();
 		solo.sleep(200);
@@ -1039,7 +1039,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
-	@Emulator2
+	@Emulator
 	public void testRenameProjectWithWhitelistedCharacters() {
 		createProjects();
 		solo.sleep(200);
@@ -1059,7 +1059,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Rename with whitelisted characters was not successfull", renameDirectory.isDirectory());
 	}
 
-	@Emulator2
+	@Emulator
 	public void testRenameProjectWithBlacklistedCharacters() {
 		createProjects();
 		solo.sleep(200);
@@ -1080,7 +1080,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Rename with blacklisted characters was not successfull", renameDirectory.isDirectory());
 	}
 
-	@Emulator2
+	@Emulator
 	public void testRenameProjectWithOnlyBlacklistedCharacters() {
 		createProjects();
 		solo.sleep(200);
@@ -1101,7 +1101,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
-	@Emulator2
+	@Emulator
 	public void testRenameToExistingProjectMixedCase() {
 		createProjects();
 		solo.sleep(200);
@@ -1122,7 +1122,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.goBack();
 	}
 
-	@Emulator2
+	@Emulator
 	public void testProjectDetails() {
 		String showDetailsText = solo.getString(R.string.show_details);
 		String hideDetailsText = solo.getString(R.string.hide_details);
@@ -1211,7 +1211,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Last access is not correct!", solo.searchText(mediumDateFormat.format(date)));
 	}
 
-	@Emulator2
+	@Emulator
 	public void testAddNewProject() {
 		createProjects();
 		String buttonMyProjectsText = solo.getString(R.string.main_menu_programs);
@@ -1254,7 +1254,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				solo.searchText(UiTestUtils.PROJECTNAME2, 1, true));
 	}
 
-	@Emulator2
+	@Emulator
 	public void testAddNewProjectMixedCase() {
 		createProjects();
 		solo.sleep(200);
@@ -1355,7 +1355,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				.equalsIgnoreCase(lorem));
 	}
 
-	@Emulator2
+	@Emulator
 	public void testCopyCurrentProject() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -1420,7 +1420,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Checksum should be the same", oldChecksum.equals(copiedLookChecksum));
 	}
 
-	@Emulator2
+	@Emulator
 	public void testCopyProject() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -1440,7 +1440,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Did not copy the selected project", solo.searchText(UiTestUtils.COPIED_PROJECT_NAME, true));
 	}
 
-	@Emulator2
+	@Emulator
 	public void testCopyProjectViaActionBar() {
 		String copy = solo.getString(R.string.copy);
 		createProjects();
@@ -1469,7 +1469,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Did not copy the selected project", solo.searchText(UiTestUtils.COPIED_PROJECT_NAME, true));
 	}
 
-	@Emulator2
+	@Emulator
 	public void testCopyProjectMixedCase() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -1491,7 +1491,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
-	@Emulator2
+	@Emulator
 	public void testCopyProjectNoName() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -1513,7 +1513,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
-	@Emulator2
+	@Emulator
 	public void testCopyProjectWithOnlyBlacklistedCharacters() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());

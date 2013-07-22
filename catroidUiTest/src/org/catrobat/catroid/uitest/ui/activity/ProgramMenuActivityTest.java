@@ -43,7 +43,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator2;
+import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -76,7 +76,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		ProjectManager.INSTANCE.deleteCurrentProject();
 	}
 
-	@Emulator2
+	@Emulator
 	public void testOrientation() throws NameNotFoundException {
 		/// Method 1: Assert it is currently in portrait mode.
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
@@ -101,7 +101,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 				activityInfo.screenOrientation);
 	}
 
-	@Emulator2
+	@Emulator
 	public void testTitle() {
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -131,7 +131,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		assertTrue("Title doesn't match " + spriteName, solo.waitForText(currentSpriteName, 0, 200, false, true));
 	}
 
-	@Emulator2
+	@Emulator
 	public void testLookButtonTextChange() {
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -145,7 +145,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		assertTrue("Text on look button is not 'Backgrounds'", solo.searchText(solo.getString(R.string.backgrounds)));
 	}
 
-	@Emulator2
+	@Emulator
 	public void testPlayButton() {
 		solo.assertMemoryNotLow();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -159,7 +159,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		solo.assertCurrentActivity("Not in ProgramMenuActivity", ProgramMenuActivity.class);
 	}
 
-	@Emulator2
+	@Emulator
 	public void testMenuItemSettings() {
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -168,7 +168,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
 	}
 
-	@Emulator2
+	@Emulator
 	public void testMainMenuButton() {
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
