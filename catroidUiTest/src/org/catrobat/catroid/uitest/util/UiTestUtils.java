@@ -615,7 +615,7 @@ public class UiTestUtils {
 		projectManager.setCurrentScript(testScript);
 	}
 
-	public static void createProjectOnlyWithBackground(Context context) {
+	public static Project createProjectOnlyWithBackground(Context context) {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite(context.getString(R.string.background));
 		Script testScript = new StartScript(firstSprite);
@@ -627,6 +627,8 @@ public class UiTestUtils {
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
+
+		return project;
 	}
 
 	/**
