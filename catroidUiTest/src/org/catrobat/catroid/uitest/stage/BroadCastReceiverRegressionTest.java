@@ -52,7 +52,7 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 	 */
 	public void testReceiversWorkMoreThanOnce() {
 		UiTestUtils.createEmptyProject();
-		Sprite sprite = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0);
+		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
 		Script script = sprite.getScript(0);
 
 		final String testMessage = "RegressionTest#105";

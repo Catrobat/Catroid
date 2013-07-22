@@ -135,30 +135,30 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 	private boolean handleOkButton() {
 		if (replaceButton.isChecked()) {
 			UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
-			ProjectManager.INSTANCE.loadProject(projectName, context, false);
+			ProjectManager.getInstance().loadProject(projectName, context, false);
 		} else if (renameButton.isChecked()) {
 			String newProjectName = projectName + UUID.randomUUID();
-			ProjectManager.INSTANCE.loadProject(projectName, context, false);
-			ProjectManager.INSTANCE.renameProject(newProjectName, context);
+			ProjectManager.getInstance().loadProject(projectName, context, false);
+			ProjectManager.getInstance().renameProject(newProjectName, context);
 			UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
-			ProjectManager.INSTANCE.loadProject(projectName, context, false);
-			boolean error = !ProjectManager.INSTANCE.renameProject(projectText.getText().toString(), context);
+			ProjectManager.getInstance().loadProject(projectName, context, false);
+			boolean error = !ProjectManager.getInstance().renameProject(projectText.getText().toString(), context);
 
 			if (error) {
-				ProjectManager.INSTANCE.deleteCurrentProject();
+				ProjectManager.getInstance().deleteCurrentProject();
 			}
-			ProjectManager.INSTANCE.loadProject(newProjectName, context, false);
-			ProjectManager.INSTANCE.renameProject(projectName, context);
+			ProjectManager.getInstance().loadProject(newProjectName, context, false);
+			ProjectManager.getInstance().renameProject(projectName, context);
 			if (error) {
 				return false;
 			}
-			ProjectManager.INSTANCE.loadProject(projectText.getText().toString(), context, false);
+			ProjectManager.getInstance().loadProject(projectText.getText().toString(), context, false);
 		}
 		Toast.makeText(context, R.string.success_project_download, Toast.LENGTH_SHORT).show();
 		dismiss();
 
-		StatusBarNotificationManager.INSTANCE.downloadProjectName.remove(projectName);
-		StatusBarNotificationManager.INSTANCE.downloadProjectZipFileString.remove(zipFileString);
+		StatusBarNotificationManager.getInstance().downloadProjectName.remove(projectName);
+		StatusBarNotificationManager.getInstance().downloadProjectZipFileString.remove(zipFileString);
 
 		return true;
 	}

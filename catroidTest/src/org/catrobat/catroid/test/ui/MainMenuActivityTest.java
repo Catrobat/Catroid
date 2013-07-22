@@ -47,7 +47,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	@UiThreadTest
 	public void testShouldNotCrashIfProjectIsNull() {
-		ProjectManager.INSTANCE.setProject(null);
+		ProjectManager.getInstance().setProject(null);
 		getInstrumentation().callActivityOnPostCreate(getActivity(), null);
 		assertTrue("Test failed!", true);
 	}

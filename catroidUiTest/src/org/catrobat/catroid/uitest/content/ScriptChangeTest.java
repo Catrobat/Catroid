@@ -69,19 +69,19 @@ public class ScriptChangeTest extends BaseActivityInstrumentationTestCase<Script
 		solo.clickOnView(testScriptBrick);
 		solo.sleep(100);
 
-		assertEquals("Current Script in List is not testScript", testScript, ProjectManager.INSTANCE
+		assertEquals("Current Script in List is not testScript", testScript, ProjectManager.getInstance()
 				.getCurrentScript());
 
 		View startBrick = parent.getChildAt(4);
 		solo.clickOnView(startBrick);
 		solo.sleep(100);
-		assertEquals("Current Script in List is not testScript", testScript3, ProjectManager.INSTANCE
+		assertEquals("Current Script in List is not testScript", testScript3, ProjectManager.getInstance()
 				.getCurrentScript());
 
 		startBrick = parent.getChildAt(5);
 		solo.clickOnView(startBrick);
 		solo.sleep(100);
-		assertEquals("Current Script in List is not testScript", testScript2, ProjectManager.INSTANCE
+		assertEquals("Current Script in List is not testScript", testScript2, ProjectManager.getInstance()
 				.getCurrentScript());
 
 		startBrick = parent.getChildAt(2);
@@ -117,8 +117,8 @@ public class ScriptChangeTest extends BaseActivityInstrumentationTestCase<Script
 
 		project.addSprite(firstSprite);
 
-		ProjectManager.INSTANCE.setProject(project);
-		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
-		ProjectManager.INSTANCE.setCurrentScript(testScript);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setCurrentScript(testScript);
 	}
 }

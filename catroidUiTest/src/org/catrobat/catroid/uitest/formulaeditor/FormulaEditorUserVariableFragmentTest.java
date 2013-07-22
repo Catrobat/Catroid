@@ -86,8 +86,8 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);
 
-		ProjectManager.INSTANCE.setProject(project);
-		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 		Script startScript1 = new StartScript(firstSprite);
 		Script startScript2 = new StartScript(secondSprite);
@@ -106,16 +106,16 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 
 		firstSprite = new Sprite("firstSprite");
 		project.addSprite(firstSprite);
-		ProjectManager.INSTANCE.setProject(project);
-		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
-		ProjectManager.INSTANCE.getCurrentProject().getUserVariables()
+		ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.addProjectUserVariable(USER_VARIABLE_NAME_UNDERLINE_PREFIX);
 
 		Double setVariableToValue = Double.valueOf(SET_USERVARIABLE_TO_BRICK_VALUE);
 
 		SetVariableBrick setVariableBrick = new SetVariableBrick(firstSprite, new Formula(setVariableToValue),
-				ProjectManager.INSTANCE.getCurrentProject().getUserVariables()
+				ProjectManager.getInstance().getCurrentProject().getUserVariables()
 						.getUserVariable(USER_VARIABLE_NAME_UNDERLINE_PREFIX, firstSprite));
 
 		Script startScript1 = new StartScript(firstSprite);
@@ -325,7 +325,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
-		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName("zzz");
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("zzz");
 	}
 
 	public void testDeleteUserVariableWithLongPress() {
@@ -370,7 +370,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 
 		assertEquals("Wrong number of UserVariables deleted", 0, userVariableListView.getAdapter().getCount());
 
-		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName("del");
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("del");
 	}
 
 	public void testDeleteUserVariableWithMultipleChoice() {
@@ -425,9 +425,9 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		assertFalse(itemString + "not deleted", solo.searchText(itemString, true));
 		assertFalse(itemString3rd + "not deleted", solo.searchText(itemString3rd, true));
 
-		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName(itemString);
-		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName(itemString2nd);
-		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName(itemString3rd);
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString);
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString2nd);
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString3rd);
 	}
 
 	public void testKeyCodeBackOnContextMode() {
@@ -526,8 +526,8 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		assertFalse(itemString + "  should not be found:", solo.searchText(itemString, true));
 		assertTrue(itemString2nd + " not found:", solo.searchText(itemString2nd, true));
 
-		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName("local");
-		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName("global");
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("local");
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("global");
 	}
 
 	public void testCreateUserVariableDoubleName() {
@@ -567,8 +567,8 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 
 		finishUserVariableCreationSafeButSlow("var2", true);
 
-		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName("var1");
-		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName("var2");
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var1");
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var2");
 	}
 
 	public void testVisibilityOfMenuItems() {
