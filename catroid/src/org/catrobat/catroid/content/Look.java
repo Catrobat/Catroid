@@ -29,11 +29,14 @@ import java.util.Iterator;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.stage.ShaderBatch;
 
+import android.util.Log;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -60,6 +63,7 @@ public class Look extends Image {
 	private ParallelAction whenParallelAction;
 	private ArrayList<Action> actionsToRestart = new ArrayList<Action>();
 	private boolean allActionAreFinished = false;
+	private BrightnessContrastShader shader;
 
 	public Look(Sprite sprite) {
 		this.sprite = sprite;
@@ -184,23 +188,24 @@ public class Look extends Image {
 		}
 	}
 
+	public void createBrightnessContrastShader() {
+		shader = new BrightnessContrastShader();
+		shader.setBrightness(brightness);
+	}
+
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
-		ShaderBatch shaderBatch = (ShaderBatch) batch;
-		shaderBatch.resetShader();
 		checkImageChanged();
-		if (brightness != 1.0f) {
-			shaderBatch.brightness = brightness - 1;
-		}
-		shaderBatch.refreshShader();
+		batch.setShader(shader);
 		if (alpha == 0.0f) {
 			setVisible(false);
 		} else {
 			setVisible(true);
 		}
 		if (this.visible && this.getDrawable() != null) {
-			super.draw(shaderBatch, this.alpha);
+			super.draw(batch, this.alpha);
 		}
+		batch.setShader(null);
 	}
 
 	@Override
@@ -241,11 +246,10 @@ public class Look extends Image {
 			setSize(pixmap.getWidth(), pixmap.getHeight());
 			setOrigin(getWidth() / 2f, getHeight() / 2f);
 
-			//			if (brightnessChanged) {
-			//				lookData.setPixmap(adjustBrightness(lookData.getOriginalPixmap()));
-			//				lookData.setTextureRegion();
-			//				brightnessChanged = false;
-			//			}
+			if (brightnessChanged) {
+				shader.setBrightness(brightness);
+				brightnessChanged = false;
+			}
 
 			TextureRegion region = lookData.getTextureRegion();
 			TextureRegionDrawable drawable = new TextureRegionDrawable(region);
@@ -431,5 +435,49 @@ public class Look extends Image {
 
 	public void changeBrightnessInUserInterfaceDimensionUnit(float changePercent) {
 		setBrightnessInUserInterfaceDimensionUnit(getBrightnessInUserInterfaceDimensionUnit() + changePercent);
+	}
+
+	private class BrightnessContrastShader extends ShaderProgram {
+
+		static final String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+				+ "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" + "attribute vec2 "
+				+ ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" + "uniform mat4 u_projTrans;\n" + "varying vec4 v_color;\n"
+				+ "varying vec2 v_texCoords;\n" + "\n" + "void main()\n" + "{\n" + " v_color = "
+				+ ShaderProgram.COLOR_ATTRIBUTE + ";\n" + " v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+				+ " gl_Position = u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" + "}\n";
+		static final String fragmentShader = "#ifdef GL_ES\n" + "#define LOWP lowp\n" + "precision mediump float;\n"
+				+ "#else\n" + "#define LOWP \n" + "#endif\n" + "varying LOWP vec4 v_color;\n"
+				+ "varying vec2 v_texCoords;\n" + "uniform sampler2D u_texture;\n" + "uniform float brightness;\n"
+				+ "uniform float contrast;\n" + "void main()\n" + "{\n"
+				+ " vec4 color = v_color * texture2D(u_texture, v_texCoords);\n" + " color.rgb /= color.a;\n"
+				+ " color.rgb = ((color.rgb - 0.5) * max(contrast, 0.0)) + 0.5;\n" //apply contrast
+				+ " color.rgb += brightness;\n" //apply brightness
+				+ " color.rgb *= color.a;\n" + " gl_FragColor = color;\n" + "}";
+
+		private int brightnessLoc = -1;
+
+		public BrightnessContrastShader() {
+			super(vertexShader, fragmentShader);
+			if (Gdx.graphics.isGL20Available()) {
+				ShaderProgram.pedantic = false;
+				if (isCompiled()) {
+					begin();
+					brightnessLoc = getUniformLocation("brightness");
+					setUniformf("contrast", 1.0f);
+					end();
+
+				}
+			} else {
+				Log.e("CATROID", "Shaders are not supported in OpenGL 1.1!");
+			}
+		}
+
+		public void setBrightness(float brightness) {
+			begin();
+			if (brightnessLoc != -1) {
+				setUniformf(brightnessLoc, brightness - 1.0f);
+			}
+			end();
+		}
 	}
 }
