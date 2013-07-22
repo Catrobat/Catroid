@@ -236,9 +236,9 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 		adapter.addCheckedProject(info.position);
 
-		Project currentProject = ProjectManager.INSTANCE.getCurrentProject();
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject == null) {
-			ProjectManager.INSTANCE.loadProject(projectToEdit.projectName, getActivity(), true);
+			ProjectManager.getInstance().loadProject(projectToEdit.projectName, getActivity(), true);
 		} else if (currentProject.getSpriteList().indexOf(projectToEdit) == 0) {
 			return;
 		}
@@ -378,7 +378,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	}
 
 	private void deleteProject() {
-		ProjectManager projectManager = ProjectManager.INSTANCE;
+		ProjectManager projectManager = ProjectManager.getInstance();
 		Project currentProject = projectManager.getCurrentProject();
 
 		if (currentProject != null && currentProject.getName().equalsIgnoreCase(projectToEdit.projectName)) {

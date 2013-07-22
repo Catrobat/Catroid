@@ -277,22 +277,23 @@ public class Utils {
 	}
 
 	public static void loadProjectIfNeeded(Context context) {
-		if (ProjectManager.INSTANCE.getCurrentProject() == null) {
+		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 
 			if (projectName != null) {
-				ProjectManager.INSTANCE.loadProject(projectName, context, false);
-			} else if (ProjectManager.INSTANCE.canLoadProject(context.getString(R.string.default_project_name))) {
-				ProjectManager.INSTANCE.loadProject(context.getString(R.string.default_project_name), context, false);
+				ProjectManager.getInstance().loadProject(projectName, context, false);
+			} else if (ProjectManager.getInstance().canLoadProject(context.getString(R.string.default_project_name))) {
+				ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name), context,
+						false);
 			} else {
-				ProjectManager.INSTANCE.initializeDefaultProject(context);
+				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
 		}
 	}
 
 	public static String getCurrentProjectName(Context context) {
-		if (ProjectManager.INSTANCE.getCurrentProject() == null) {
+		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 			if (currentProjectName == null) {
@@ -300,7 +301,7 @@ public class Utils {
 			}
 			return currentProjectName;
 		}
-		return ProjectManager.INSTANCE.getCurrentProject().getName();
+		return ProjectManager.getInstance().getCurrentProject().getName();
 	}
 
 	public static String deleteSpecialCharactersInString(String stringToAdapt) {
@@ -313,7 +314,7 @@ public class Utils {
 
 	private static String searchForNonExistingLookName(String name, int nextNumber) {
 		String newName;
-		ArrayList<LookData> lookDataList = ProjectManager.INSTANCE.getCurrentSprite().getLookDataList();
+		ArrayList<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
 		if (nextNumber == 0) {
 			newName = name;
 		} else {
@@ -336,7 +337,7 @@ public class Utils {
 
 		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
 		for (String projectName : projectNameList) {
-			if (ProjectManager.INSTANCE.canLoadProject(projectName)) {
+			if (ProjectManager.getInstance().canLoadProject(projectName)) {
 				loadableProject = StorageHandler.getInstance().loadProject(projectName);
 				break;
 			}
@@ -347,7 +348,7 @@ public class Utils {
 	private static String searchForNonExistingSoundTitle(String title, int nextNumber) {
 		// search for sounds with the same title
 		String newTitle;
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
+		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		if (nextNumber == 0) {
 			newTitle = title;
 		} else {
@@ -399,8 +400,8 @@ public class Utils {
 						context.getString(R.string.default_project_name), context);
 			}
 
-			ProjectManager.INSTANCE.setProject(projectToCheck);
-			ProjectManager.INSTANCE.saveProject();
+			ProjectManager.getInstance().setProject(projectToCheck);
+			ProjectManager.getInstance().saveProject();
 
 			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
 			int start = standardProjectXMLString.indexOf("<objectList>");

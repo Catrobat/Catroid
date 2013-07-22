@@ -154,7 +154,7 @@ public class UtilFile {
 	public static void createStandardProjectIfRootDirectoryIsEmpty(Context context) {
 		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		if (rootDirectory == null || rootDirectory.listFiles() == null || rootDirectory.listFiles().length == 0) {
-			ProjectManager.INSTANCE.initializeDefaultProject(context);
+			ProjectManager.getInstance().initializeDefaultProject(context);
 		}
 	}
 

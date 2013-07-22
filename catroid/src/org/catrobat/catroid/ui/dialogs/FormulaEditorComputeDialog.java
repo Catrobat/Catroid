@@ -87,7 +87,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 			return;
 		}
 
-		Sprite sprite = ProjectManager.INSTANCE.getCurrentSprite();
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 
 		if (formulaToCompute.isLogicalFormula()) {
 			boolean result = formulaToCompute.interpretBoolean(sprite);

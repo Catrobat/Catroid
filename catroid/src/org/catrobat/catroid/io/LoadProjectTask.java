@@ -61,7 +61,7 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
-		return ProjectManager.INSTANCE.loadProject(projectName, activity, false);
+		return ProjectManager.getInstance().loadProject(projectName, activity, false);
 	}
 
 	@Override

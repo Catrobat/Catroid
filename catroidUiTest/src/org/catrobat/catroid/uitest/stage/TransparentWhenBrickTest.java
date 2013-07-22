@@ -194,7 +194,7 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 		lookDataCat.setLookFilename(catImageFile.getName());
 		lookDataFish.setLookFilename(fishImageFile.getName());
 
-		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.getInstance().setProject(project);
 		StorageHandler.getInstance().saveProject(project);
 	}
 }

@@ -55,7 +55,7 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 
 		actionBar = getSupportActionBar();
 
-		String title = ProjectManager.INSTANCE.getCurrentSprite().getName();
+		String title = ProjectManager.getInstance().getCurrentSprite().getName();
 		actionBar.setTitle(title);
 		actionBar.setHomeButtonEnabled(true);
 	}
@@ -63,7 +63,7 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (ProjectManager.INSTANCE.getCurrentSpritePosition() == 0) {
+		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
 			((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.backgrounds);
 		} else {
 			((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.looks);
@@ -130,7 +130,7 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().resetAllUserVariables();
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}
