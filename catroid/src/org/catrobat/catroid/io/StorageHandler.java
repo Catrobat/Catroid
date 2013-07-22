@@ -113,17 +113,26 @@ import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
 public class StorageHandler {
-
+	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final int JPG_COMPRESSION_SETTING = 95;
 
-	private static final String TAG = StorageHandler.class.getSimpleName();
-	private static StorageHandler instance;
+	private static final StorageHandler INSTANCE;
+
 	private XStream xstream;
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private ReentrantLock saveLoadLock = new ReentrantLock();
 
-	private StorageHandler() throws IOException {
+	// TODO: Since the StorageHandler constructor throws an exception, the member INSTANCE couldn't be assigned
+	// directly and therefore we need this static block. Should be refactored and removed in the future.
+	static {
+		try {
+			INSTANCE = new StorageHandler();
+		} catch (IOException ioException) {
+			throw new RuntimeException("Initialize StorageHandler failed");
+		}
+	}
 
+	private StorageHandler() throws IOException {
 		xstream = new XStream(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
 		xstream.processAnnotations(XmlHeader.class);
@@ -209,16 +218,8 @@ public class StorageHandler {
 		}
 	}
 
-	public synchronized static StorageHandler getInstance() {
-		if (instance == null) {
-			try {
-				instance = new StorageHandler();
-			} catch (IOException e) {
-				e.printStackTrace();
-				Log.e(TAG, "Exception in Storagehandler, please refer to the StackTrace");
-			}
-		}
-		return instance;
+	public static StorageHandler getInstance() {
+		return INSTANCE;
 	}
 
 	public Project loadProject(String projectName) {
@@ -325,7 +326,7 @@ public class StorageHandler {
 	}
 
 	public File copySoundFile(String path) throws IOException {
-		String currentProject = ProjectManager.INSTANCE.getCurrentProject().getName();
+		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
 		File soundDirectory = new File(Utils.buildPath(Utils.buildProjectPath(currentProject),
 				Constants.SOUND_DIRECTORY));
 
@@ -335,7 +336,7 @@ public class StorageHandler {
 		}
 		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
-		FileChecksumContainer fileChecksumContainer = ProjectManager.INSTANCE.getFileChecksumContainer();
+		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
 		if (fileChecksumContainer.containsChecksum(inputFileChecksum)) {
 			fileChecksumContainer.addChecksum(inputFileChecksum, null);
 			return new File(fileChecksumContainer.getPath(inputFileChecksum));
@@ -358,9 +359,9 @@ public class StorageHandler {
 
 		int[] imageDimensions = new int[2];
 		imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
-		FileChecksumContainer checksumCont = ProjectManager.INSTANCE.getFileChecksumContainer();
+		FileChecksumContainer checksumCont = ProjectManager.getInstance().getFileChecksumContainer();
 
-		Project project = ProjectManager.INSTANCE.getCurrentProject();
+		Project project = ProjectManager.getInstance().getCurrentProject();
 		if ((imageDimensions[0] <= project.getXmlHeader().virtualScreenWidth)
 				&& (imageDimensions[1] <= project.getXmlHeader().virtualScreenHeight)) {
 			String checksumSource = Utils.md5Checksum(inputFile);
@@ -384,7 +385,7 @@ public class StorageHandler {
 	}
 
 	private File copyAndResizeImage(File outputFile, File inputFile, File imageDirectory) throws IOException {
-		Project project = ProjectManager.INSTANCE.getCurrentProject();
+		Project project = ProjectManager.getInstance().getCurrentProject();
 		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(inputFile.getAbsolutePath(),
 				project.getXmlHeader().virtualScreenWidth, project.getXmlHeader().virtualScreenHeight, true);
 
@@ -392,7 +393,7 @@ public class StorageHandler {
 
 		String checksumCompressedFile = Utils.md5Checksum(outputFile);
 
-		FileChecksumContainer fileChecksumContainer = ProjectManager.INSTANCE.getFileChecksumContainer();
+		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
 		String newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(),
 				checksumCompressedFile + "_" + inputFile.getName());
 
@@ -424,7 +425,7 @@ public class StorageHandler {
 	}
 
 	public void deleteFile(String filepath) {
-		FileChecksumContainer container = ProjectManager.INSTANCE.getFileChecksumContainer();
+		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 		try {
 			if (container.decrementUsage(filepath)) {
 				File toDelete = new File(filepath);
@@ -437,13 +438,13 @@ public class StorageHandler {
 	}
 
 	public void fillChecksumContainer() {
-		//FileChecksumContainer container = ProjectManager.INSTANCE.getFileChecksumContainer();
+		//FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 		//if (container == null) {
-		ProjectManager.INSTANCE.setFileChecksumContainer(new FileChecksumContainer());
+		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
 		//}
-		FileChecksumContainer container = ProjectManager.INSTANCE.getFileChecksumContainer();
+		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 
-		Project newProject = ProjectManager.INSTANCE.getCurrentProject();
+		Project newProject = ProjectManager.getInstance().getCurrentProject();
 		List<Sprite> currentSpriteList = newProject.getSpriteList();
 
 		for (Sprite currentSprite : currentSpriteList) {
@@ -470,7 +471,7 @@ public class StorageHandler {
 
 	private void addChecksum(File destinationFile, File sourceFile) {
 		String checksumSource = Utils.md5Checksum(sourceFile);
-		FileChecksumContainer fileChecksumContainer = ProjectManager.INSTANCE.getFileChecksumContainer();
+		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
 		fileChecksumContainer.addChecksum(checksumSource, destinationFile.getAbsolutePath());
 	}
 

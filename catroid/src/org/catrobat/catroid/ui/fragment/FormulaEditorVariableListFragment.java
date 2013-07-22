@@ -211,7 +211,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		switch (item.getItemId()) {
 			case R.id.menu_delete:
 				if (!adapter.isEmpty()) {
-					ProjectManager.INSTANCE.getCurrentProject().getUserVariables()
+					ProjectManager.getInstance().getCurrentProject().getUserVariables()
 							.deleteUserVariableByName(adapter.getItem(deleteIndex).getName());
 					adapter.notifyDataSetChanged();
 					getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_VARIABLE_DELETED));
@@ -251,8 +251,8 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	}
 
 	private void initializeUserVariableAdapter() {
-		Sprite currentSprite = ProjectManager.INSTANCE.getCurrentSprite();
-		Project currentProject = ProjectManager.INSTANCE.getCurrentProject();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		UserVariablesContainer userVariableContainer = currentProject.getUserVariables();
 		adapter = userVariableContainer.createUserVariableAdapter(getSherlockActivity(), currentSprite);
 		setListAdapter(adapter);
@@ -308,7 +308,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			UserVariablesContainer userVariablesContainer = ProjectManager.INSTANCE.getCurrentProject()
+			UserVariablesContainer userVariablesContainer = ProjectManager.getInstance().getCurrentProject()
 					.getUserVariables();
 			if (!adapter.isEmpty()) {
 				for (UserVariable var : adapter.getCheckedUserVariables()) {
