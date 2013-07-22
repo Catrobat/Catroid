@@ -544,9 +544,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.sleep(300);
 		solo.goBack();
-		assertEquals("Action bar navigation spinner doesn't show \'" + solo.getString(R.string.scripts) + "\'",
-				solo.getString(R.string.scripts), UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo).getSelectedItem()
-						.toString());
+		String currentSprite = ProjectManager.INSTANCE.getCurrentSprite().getName();
+		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 
