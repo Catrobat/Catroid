@@ -62,7 +62,7 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 		project.addSprite(bottomSprite);
 		project.addSprite(middleSprite);
 		project.addSprite(topSprite);
-		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.getInstance().setProject(project);
 
 		ComeToFrontAction action = ExtendedActions.comeToFront(bottomSprite);
 		bottomSprite.look.addAction(action);
@@ -97,7 +97,7 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 			project.addSprite(sprite);
 		}
 
-		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.getInstance().setProject(project);
 
 		ComeToFrontAction action = ExtendedActions.comeToFront(firstSprite);
 		firstSprite.look.addAction(action);

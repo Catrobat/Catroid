@@ -39,7 +39,7 @@ import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
 
 public class ConnectionWrapper {
 
-	private final static String TAG = ConnectionWrapper.class.getSimpleName();
+	private static final String TAG = ConnectionWrapper.class.getSimpleName();
 
 	public static final String TAG_PROGRESS = "currentDownloadProgress";
 	public static final String TAG_ENDOFFILE = "endOfFileReached";

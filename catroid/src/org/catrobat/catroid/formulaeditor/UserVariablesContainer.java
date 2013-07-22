@@ -64,7 +64,7 @@ public class UserVariablesContainer implements Serializable {
 	}
 
 	public UserVariable addSpriteUserVariable(String userVariableName) {
-		Sprite currentSprite = ProjectManager.INSTANCE.getCurrentSprite();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		return addSpriteUserVariableToSprite(currentSprite, userVariableName);
 	}
 
@@ -82,7 +82,7 @@ public class UserVariablesContainer implements Serializable {
 	}
 
 	public void deleteUserVariableByName(String userVariableName) {
-		Sprite currentSprite = ProjectManager.INSTANCE.getCurrentSprite();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		UserVariable variableToDelete;
 		List<UserVariable> spriteVariables = getOrCreateVariableListForSprite(currentSprite);
 		variableToDelete = findUserVariable(userVariableName, spriteVariables);
