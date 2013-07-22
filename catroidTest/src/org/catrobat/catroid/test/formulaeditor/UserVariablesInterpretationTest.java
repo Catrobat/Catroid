@@ -62,10 +62,10 @@ public class UserVariablesInterpretationTest extends AndroidTestCase {
 		firstSprite.addScript(startScript);
 		startScript.addBrick(changeBrick);
 		project.addSprite(firstSprite);
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
 
-		UserVariablesContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
+		UserVariablesContainer userVariableContainer = ProjectManager.INSTANCE.getCurrentProject()
 				.getUserVariables();
 		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE).setValue(USER_VARIABLE_VALUE);
 		userVariableContainer.addSpriteUserVariableToSprite(firstSprite, SPRITE_USER_VARIABLE).setValue(
@@ -83,7 +83,7 @@ public class UserVariablesInterpretationTest extends AndroidTestCase {
 	}
 
 	public void testUserVariableReseting() {
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
+		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().resetAllUserVariables();
 		Formula userVariable = getUservariableByName(PROJECT_USER_VARIABLE);
 		assertEquals("ProjectUserVariable didnt reset", USER_VARIABLE_RESET, userVariable.interpretDouble(testSprite));
 

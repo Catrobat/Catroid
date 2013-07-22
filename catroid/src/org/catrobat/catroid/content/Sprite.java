@@ -50,10 +50,10 @@ public class Sprite implements Serializable, Cloneable {
 
 	private Object readResolve() {
 		//filling FileChecksumContainer:
-		if (soundList != null && lookList != null && ProjectManager.getInstance().getCurrentProject() != null) {
-			FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
+		if (soundList != null && lookList != null && ProjectManager.INSTANCE.getCurrentProject() != null) {
+			FileChecksumContainer container = ProjectManager.INSTANCE.getFileChecksumContainer();
 			if (container == null) {
-				ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
+				ProjectManager.INSTANCE.setFileChecksumContainer(new FileChecksumContainer());
 			}
 			for (SoundInfo soundInfo : soundList) {
 				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());

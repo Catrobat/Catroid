@@ -159,7 +159,7 @@ public class PreStageActivity extends Activity {
 	}
 
 	private int getRequiredRessources() {
-		ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
+		ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.INSTANCE.getCurrentProject()
 				.getSpriteList();
 
 		int ressources = Brick.NO_RESOURCES;

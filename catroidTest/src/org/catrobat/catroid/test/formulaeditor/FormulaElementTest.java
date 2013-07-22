@@ -74,7 +74,7 @@ public class FormulaElementTest extends InstrumentationTestCase {
 	public void testInterpretNonExistingUserVariable() {
 
 		Project project = new Project(getInstrumentation().getTargetContext(), "testProject");
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.INSTANCE.setProject(project);
 		FormulaElement formulaElement = new FormulaElement(ElementType.USER_VARIABLE, "notExistingUserVariable", null);
 		assertEquals("Not existing UserVariable misinterpretation",
 				FormulaElement.NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE, formulaElement.interpretRecursive(null));

@@ -55,7 +55,7 @@ public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<
 		// normally super.teardown should be called last
 		// but tests crashed with Nullpointer
 		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
+		ProjectManager.INSTANCE.deleteCurrentProject();
 	}
 
 	public void testRenameSpriteDialog() throws NameNotFoundException, IOException {

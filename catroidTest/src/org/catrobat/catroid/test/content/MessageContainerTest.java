@@ -60,7 +60,7 @@ public class MessageContainerTest extends AndroidTestCase {
 	}
 
 	public void testLoadProject() {
-		boolean loaded = ProjectManager.getInstance().loadProject(projectName1, getContext(), false);
+		boolean loaded = ProjectManager.INSTANCE.loadProject(projectName1, getContext(), false);
 		assertTrue("Project was not loaded successfully", loaded);
 		if (loaded) {
 			Set<String> keySet = getMessages();
@@ -69,13 +69,13 @@ public class MessageContainerTest extends AndroidTestCase {
 	}
 
 	public void testLoadTwoProjects() {
-		boolean loaded = ProjectManager.getInstance().loadProject(projectName1, getContext(), false);
+		boolean loaded = ProjectManager.INSTANCE.loadProject(projectName1, getContext(), false);
 		assertTrue("Project1 was not loaded successfully", loaded);
 
 		Set<String> keySet = getMessages();
 		assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
 
-		loaded = ProjectManager.getInstance().loadProject(projectName2, getContext(), false);
+		loaded = ProjectManager.INSTANCE.loadProject(projectName2, getContext(), false);
 		assertTrue("Project2 was not loaded successfully", loaded);
 		keySet = getMessages();
 		assertEquals("Broadcast message is in the message container", false, keySet.contains(broadcastMessage1));
@@ -83,13 +83,13 @@ public class MessageContainerTest extends AndroidTestCase {
 	}
 
 	public void testLoadCorruptedProjectAndCheckForBackup() {
-		boolean loaded = ProjectManager.getInstance().loadProject(projectName1, getContext(), false);
+		boolean loaded = ProjectManager.INSTANCE.loadProject(projectName1, getContext(), false);
 		assertTrue("Project1 was not loaded successfully", loaded);
 
 		Set<String> keySet = getMessages();
 		assertEquals("Broadcast message has the false position", true, keySet.contains(broadcastMessage1));
 
-		loaded = ProjectManager.getInstance().loadProject(projectName3, getContext(), false);
+		loaded = ProjectManager.INSTANCE.loadProject(projectName3, getContext(), false);
 		assertFalse("Corrupted project was loaded", loaded);
 		keySet = getMessages();
 		assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));

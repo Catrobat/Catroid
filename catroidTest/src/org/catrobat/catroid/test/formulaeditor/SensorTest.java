@@ -110,8 +110,8 @@ public class SensorTest extends InstrumentationTestCase {
 		ChangeSizeByNBrick yInclinationBrick = new ChangeSizeByNBrick(firstSprite, formula5);
 		startScript1.addBrick(yInclinationBrick);
 
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
 
 		//For initialization
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());

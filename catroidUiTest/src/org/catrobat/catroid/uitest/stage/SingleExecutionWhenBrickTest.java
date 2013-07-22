@@ -203,6 +203,6 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 
 		greenLookData.setLookFilename(greenImageFile.getName());
 		StorageHandler.getInstance().saveProject(projectWhenBrick);
-		ProjectManager.getInstance().setProject(projectWhenBrick);
+		ProjectManager.INSTANCE.setProject(projectWhenBrick);
 	}
 }

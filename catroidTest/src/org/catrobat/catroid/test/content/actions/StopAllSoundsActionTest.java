@@ -128,7 +128,7 @@ public class StopAllSoundsActionTest extends InstrumentationTestCase {
 	private void createTestProject() throws IOException {
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.INSTANCE.setProject(project);
 
 		setUpSoundFile();
 	}

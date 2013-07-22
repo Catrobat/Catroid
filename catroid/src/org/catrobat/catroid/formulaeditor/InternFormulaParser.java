@@ -245,9 +245,9 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement userVariable() throws InternFormulaParserException {
-		UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject().getUserVariables();
+		UserVariablesContainer userVariables = ProjectManager.INSTANCE.getCurrentProject().getUserVariables();
 
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite currentSprite = ProjectManager.INSTANCE.getCurrentSprite();
 
 		if (userVariables.getUserVariable(currentToken.getTokenStringValue(), currentSprite) == null) {
 			throw new InternFormulaParserException("Parse Error");

@@ -61,7 +61,7 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.INSTANCE.setProject(project);
 
 		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
