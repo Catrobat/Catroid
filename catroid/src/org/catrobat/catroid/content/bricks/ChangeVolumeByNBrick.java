@@ -73,7 +73,7 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return volume.getRequiredResources();
 	}
 
 	@Override

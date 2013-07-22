@@ -99,6 +99,7 @@ public class StageActivity extends AndroidApplication {
 		stageAudioFocus.releaseAudioFocus();
 		LedUtil.pauseLed();
 		VibratorUtil.pauseVibrator();
+		stageListener.activityPause();
 		super.onPause();
 
 		if (droneConnection != null) {
@@ -112,6 +113,7 @@ public class StageActivity extends AndroidApplication {
 		stageAudioFocus.requestAudioFocus();
 		LedUtil.resumeLed();
 		VibratorUtil.resumeVibrator();
+		stageListener.activityResume();
 		super.onResume();
 
 		if (droneConnection != null) {

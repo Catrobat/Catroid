@@ -70,7 +70,7 @@ public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener,
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return steps.getRequiredResources();
 	}
 
 	@Override

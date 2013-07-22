@@ -85,7 +85,7 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return variableFormula.getRequiredResources();
 	}
 
 	@Override

@@ -69,7 +69,7 @@ public class SetBrightnessBrick extends BrickBaseType implements OnClickListener
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return brightness.getRequiredResources();
 	}
 
 	@Override

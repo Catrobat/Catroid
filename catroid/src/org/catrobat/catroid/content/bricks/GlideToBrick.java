@@ -87,7 +87,8 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener, Form
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return xDestination.getRequiredResources() | yDestination.getRequiredResources()
+				| durationInSeconds.getRequiredResources();
 	}
 
 	@Override
