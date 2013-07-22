@@ -32,6 +32,11 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.facedetection.FaceDetectionHandler;
+import org.catrobat.catroid.facedetection.OnFaceDetectedListener;
+
+import android.graphics.Point;
+import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -109,6 +114,17 @@ public class Sprite implements Serializable, Cloneable {
 				SequenceAction action = createBroadcastScriptActionSequence(script);
 				look.putBroadcastSequenceAction(script.getBroadcastMessage(), action);
 
+			}
+			if (s instanceof WhenFaceDetectedScript) {
+				final SequenceAction action = createActionSequence(s);
+				FaceDetectionHandler.registerOnFaceDetectedListener(new OnFaceDetectedListener() {
+
+					@Override
+					public void onFaceDetected(Point position, int size) {
+						action.act(1.0f);
+						Log.d("Blah", "" + position.toString() + " with " + size);
+					}
+				});
 			}
 		}
 	}

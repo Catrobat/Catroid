@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,29 +19,13 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.catrobat.catroid.test"
-    android:versionCode="6"
-    android:versionName="0.8.5" >
+ */
+package org.catrobat.catroid.facedetection;
 
-    <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="17" />
+import android.graphics.Point;
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
+public interface OnFaceDetectedListener {
 
-    <application android:label="@string/app_name" >
-        <uses-library android:name="android.test.runner" />
-    </application>
+	public void onFaceDetected(Point position, int size);
 
-    <instrumentation
-        android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage="org.catrobat.catroid" />
-    <!-- this instrumentation is needed to run the tests from jenkins -->
-    <instrumentation
-        android:name="pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
-        android:targetPackage="org.catrobat.catroid" />
-
-</manifest>
+}

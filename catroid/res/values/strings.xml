@@ -547,5 +547,6 @@
         <item quantity="other">Variables selected!</item>
     </plurals>
     <!--  -->
+    <string name="brick_when_face_detected">When face detected</string>
 
 </resources>

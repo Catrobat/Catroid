@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,29 +19,45 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.catrobat.catroid.test"
-    android:versionCode="6"
-    android:versionName="0.8.5" >
+ */
+package org.catrobat.catroid.facedetection;
 
-    <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="17" />
+import android.util.Log;
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
+public class FaceDetectionHandler {
 
-    <application android:label="@string/app_name" >
-        <uses-library android:name="android.test.runner" />
-    </application>
+	private static FaceDetector faceDetector;
 
-    <instrumentation
-        android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage="org.catrobat.catroid" />
-    <!-- this instrumentation is needed to run the tests from jenkins -->
-    <instrumentation
-        android:name="pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
-        android:targetPackage="org.catrobat.catroid" />
+	private static void createFaceDetector() {
+		if (IcsFaceDetector.isSupported()) {
+			faceDetector = new IcsFaceDetector();
+			Log.d("Blah", "created ICS");//TODO
+		} else {
+			faceDetector = new SlowFaceDetector();
+			Log.d("Blah", "created slow fd");//TODO
+		}
+	}
 
-</manifest>
+	public static void registerOnFaceDetectedListener(OnFaceDetectedListener listener) {
+		if (faceDetector == null) {
+			createFaceDetector();
+		}
+		faceDetector.addOnFaceDetectedListener(listener);
+	}
+
+	public static void unregisterOnFaceDetectedListener(OnFaceDetectedListener listener) {
+		if (faceDetector == null) {
+			return;
+		}
+		faceDetector.removeOnFaceDetectedListener(listener);
+	}
+
+	public static void stopFaceDetection() {
+		if (faceDetector == null) {
+			return;
+		}
+		faceDetector.stopFaceDetection();
+		faceDetector.removeAllListeners();
+	}
+
+}
