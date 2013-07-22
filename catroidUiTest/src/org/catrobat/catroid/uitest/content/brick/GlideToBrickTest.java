@@ -80,7 +80,7 @@ public class GlideToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Text not updated within FormulaEditor", yPosition,
 				Integer.parseInt(solo.getEditText(2).getText().toString().substring(0, 3)));
 
-		ProjectManager manager = ProjectManager.getInstance();
+		ProjectManager manager = ProjectManager.INSTANCE;
 		List<Brick> brickList = manager.getCurrentSprite().getScript(0).getBrickList();
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(0);
 
@@ -120,9 +120,9 @@ public class GlideToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		sprite.addScript(script);
 		project.addSprite(sprite);
 
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(sprite);
+		ProjectManager.INSTANCE.setCurrentScript(script);
 
 	}
 }

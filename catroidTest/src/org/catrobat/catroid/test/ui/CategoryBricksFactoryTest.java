@@ -49,7 +49,7 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 		Project project = new Project(context, "Project");
 		background = project.getSpriteList().get(0);
 		project.addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.INSTANCE.setProject(project);
 	}
 
 	public void testControlBricks() {

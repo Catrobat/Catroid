@@ -86,8 +86,8 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 		project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setFileChecksumContainer(new FileChecksumContainer());
 
 		Project mockProject = new Project(getInstrumentation().getTargetContext(), "mockProject");
 		StorageHandler.getInstance().saveProject(mockProject);
@@ -183,7 +183,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 	public void testDecrementUsage() {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 		storageHandler.deleteFile(testImageCopy.getAbsolutePath());
-		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
+		FileChecksumContainer container = ProjectManager.INSTANCE.getFileChecksumContainer();
 		assertTrue("checksum not in project although file should exist",
 				container.containsChecksum(Utils.md5Checksum(testImageCopy)));
 		storageHandler.deleteFile(testImageCopy2.getAbsolutePath());
@@ -201,7 +201,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	public void testContainerOnLoadProject() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 		String checksumImage = Utils.md5Checksum(testImage);
 		String checksumSound = Utils.md5Checksum(testSound);
 
@@ -226,7 +226,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		fillProjectWithAllBricksAndMediaFiles();
 		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
-		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
+		ProjectManager.INSTANCE.loadProject(projectName, getInstrumentation().getTargetContext(), false);
 		projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
 	}
@@ -236,7 +236,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertTrue("LookDataList not in project", projectString.contains("lookList"));
 		assertTrue("SoundList not in project", projectString.contains("soundList"));
-		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
+		ProjectManager.INSTANCE.loadProject(projectName, getInstrumentation().getTargetContext(), false);
 		projectString = TestUtils.getProjectfileAsString(projectName);
 		assertTrue("LookDataList not in project", projectString.contains("lookList"));
 		assertTrue("SoundList not in project", projectString.contains("soundList"));

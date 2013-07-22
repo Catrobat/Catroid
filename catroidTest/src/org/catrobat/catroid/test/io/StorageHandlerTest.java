@@ -160,7 +160,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 	}
 
 	public void testDefaultProject() throws IOException {
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 		projectManager.setProject(StandardProjectHandler.createAndSaveStandardProject(getContext()));
 
 		// Test background
@@ -172,7 +172,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 				.getCurrentProject().getSpriteList().get(0).getScript(0).getBrickList().size());
 
 		//test if images are existing:
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = ProjectManager.INSTANCE.getCurrentProject();
 		ArrayList<LookData> backgroundLookList = currentProject.getSpriteList().get(0).getLookDataList();
 		assertEquals("no background picture or too many pictures in background sprite", 1, backgroundLookList.size());
 

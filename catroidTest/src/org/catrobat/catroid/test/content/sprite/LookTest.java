@@ -76,7 +76,7 @@ public class LookTest extends InstrumentationTestCase {
 		String projectName = "myProject";
 		String fileName = "blubb";
 		project = new Project(null, projectName);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.INSTANCE.setProject(project);
 
 		LookData lookData = new LookData();
 		lookData.setLookFilename(fileName);

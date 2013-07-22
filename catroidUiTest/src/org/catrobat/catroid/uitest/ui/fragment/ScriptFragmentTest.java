@@ -131,7 +131,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		assertEquals("Brick count in list view not correct", brickCountInView + 1, UiTestUtils.getScriptListView(solo)
 				.getCount());
-		assertEquals("Brick count in brick list not correct", brickCountInList + 1, ProjectManager.getInstance()
+		assertEquals("Brick count in brick list not correct", brickCountInList + 1, ProjectManager.INSTANCE
 				.getCurrentScript().getBrickList().size());
 	}
 
@@ -212,7 +212,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	public void testOnlyAddControlBricks() {
 		UiTestUtils.createEmptyProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite sprite = ProjectManager.INSTANCE.getCurrentSprite();
 		assertEquals("Project should contain only one script.", 1, sprite.getNumberOfScripts());
 
 		Script script = sprite.getScript(0);
@@ -235,7 +235,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(4), 10, yPositionList.get(2) - 3, 20);
-		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+		ArrayList<Brick> brickList = ProjectManager.INSTANCE.getCurrentScript().getBrickList();
 
 		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(),
 				brickList.size());
@@ -285,7 +285,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.createTestProjectWithEveryBrick();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		List<Brick> brickList = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getScript(0)
+		List<Brick> brickList = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getScript(0)
 				.getBrickList();
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
@@ -437,7 +437,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		UiTestUtils.longClickAndDrag(solo, 30, yPositionList.get(2), displayWidth, yPositionList.get(2), 40);
 		solo.sleep(1000);
-		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+		ArrayList<Brick> brickList = ProjectManager.INSTANCE.getCurrentScript().getBrickList();
 
 		assertEquals("This brick shouldn't be deleted due TrashView does not exist", brickListToCheck.size(),
 				brickList.size());
@@ -451,7 +451,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		if (!solo.waitForView(ListView.class, 0, 5000)) {
 			fail("Dialog does not close in 5 sec!");
 		}
-		brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+		brickList = ProjectManager.INSTANCE.getCurrentScript().getBrickList();
 
 		assertEquals("Wrong size of BrickList - one item should be removed", brickListToCheck.size() - 1,
 				brickList.size());

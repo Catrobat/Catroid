@@ -158,7 +158,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		//		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		//		int addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 		//
-		//		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		//		Sprite sprite = ProjectManager.INSTANCE.getCurrentSprite();
 		//		assertEquals("Incorrect number of Scripts.", 2, sprite.getNumberOfScripts());
 		//
 		//		solo.goBack();
@@ -224,9 +224,9 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		sprite.addScript(new StartScript(sprite));
 		project.addSprite(sprite);
 
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(sprite);
+		ProjectManager.INSTANCE.setCurrentScript(script);
 	}
 
 	//	private void clickOnDeleteInDialog() {

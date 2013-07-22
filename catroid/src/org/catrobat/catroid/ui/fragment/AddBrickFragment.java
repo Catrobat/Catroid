@@ -78,7 +78,7 @@ public class AddBrickFragment extends SherlockListFragment {
 
 	private void setupSelectedBrickCategory() {
 		Context context = getActivity();
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite sprite = ProjectManager.INSTANCE.getCurrentSprite();
 		String selectedCategory = getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY);
 
 		List<Brick> brickList = categoryBricksFactory.getBricks(selectedCategory, sprite, context);
@@ -142,9 +142,9 @@ public class AddBrickFragment extends SherlockListFragment {
 				scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
 
 				if (brickToBeAdded instanceof ScriptBrick) {
-					Script script = ((ScriptBrick) brickToBeAdded).initScript(ProjectManager.getInstance()
+					Script script = ((ScriptBrick) brickToBeAdded).initScript(ProjectManager.INSTANCE
 							.getCurrentSprite());
-					ProjectManager.getInstance().setCurrentScript(script);
+					ProjectManager.INSTANCE.setCurrentScript(script);
 				}
 
 				FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();

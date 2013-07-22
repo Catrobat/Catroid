@@ -51,6 +51,14 @@ public class AboutDialogFragment extends DialogFragment {
 
 		aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
 
+		TextView aboutUrlCatrobatView = (TextView) view.findViewById(R.id.dialog_about_text_catrobat_url);
+		aboutUrlCatrobatView.setMovementMethod(LinkMovementMethod.getInstance());
+
+		String aboutCatrobatUrl = getString(R.string.about_link_template, getString(R.string.about_catrobat_url),
+				getString(R.string.dialog_about_catrobat_link_text));
+
+		aboutUrlCatrobatView.setText(Html.fromHtml(aboutCatrobatUrl));
+
 		TextView aboutVersionNameTextView = (TextView) view.findViewById(R.id.dialog_about_text_view_version_name);
 		String versionName = Utils.getVersionName(getActivity());
 		aboutVersionNameTextView.setText(versionName);

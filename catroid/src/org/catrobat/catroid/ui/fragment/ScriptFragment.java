@@ -546,11 +546,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		Brick copy = brick.clone();
 
 		Script scriptList;
-		scriptList = ProjectManager.getInstance().getCurrentScript();
+		scriptList = ProjectManager.INSTANCE.getCurrentScript();
 		scriptList.addBrick(copy);
 		adapter.addNewMultipleBricks(newPosition, copy);
 
-		ProjectManager.getInstance().saveProject();
+		ProjectManager.INSTANCE.saveProject();
 		adapter.notifyDataSetChanged();
 	}
 

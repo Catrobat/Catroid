@@ -26,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.SortedSet;
 
 import org.catrobat.catroid.ProjectManager;
@@ -99,7 +98,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
 
-	private static String deleteActionModeTitle;
+	private static String actionModeTitle;
+
 	private static String singleItemAppendixDeleteActionMode;
 	private static String multipleItemAppendixDeleteActionMode;
 
@@ -160,7 +160,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		if (savedInstanceState != null) {
 			selectedSoundInfo = (SoundInfo) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_SELECTED_SOUND);
 		}
-		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
 
 		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList, false);
 		adapter.setOnSoundEditListener(this);
@@ -173,7 +173,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		menu.findItem(R.id.copy).setVisible(false);
+		menu.findItem(R.id.copy).setVisible(true);
 		menu.findItem(R.id.edit_in_pocket_paint).setVisible(false);
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -242,7 +242,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	public void onPause() {
 		super.onPause();
 
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
 		}
@@ -275,7 +275,15 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public void startCopyActionMode() {
-		// TODO Auto-generated method stub
+
+		if (actionMode == null) {
+			stopSoundAndUpdateList();
+			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
+			unregisterForContextMenu(listView);
+			BottomBar.disableButtons(getActivity());
+			isRenameActionMode = false;
+		}
+
 	}
 
 	@Override
@@ -291,6 +299,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public void startDeleteActionMode() {
+
 		if (actionMode == null) {
 			stopSoundAndUpdateList();
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
@@ -347,7 +356,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
 
 		if (numberOfSelectedItems == 0) {
-			actionMode.setTitle(deleteActionModeTitle);
+			actionMode.setTitle(actionModeTitle);
 		} else {
 			String appendix = multipleItemAppendixDeleteActionMode;
 
@@ -356,9 +365,9 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			}
 
 			String numberOfItems = Integer.toString(numberOfSelectedItems);
-			String completeTitle = deleteActionModeTitle + " " + numberOfItems + " " + appendix;
+			String completeTitle = actionModeTitle + " " + numberOfItems + " " + appendix;
 
-			int titleLength = deleteActionModeTitle.length();
+			int titleLength = actionModeTitle.length();
 
 			Spannable completeSpannedTitle = new SpannableString(completeTitle);
 			completeSpannedTitle.setSpan(
@@ -523,8 +532,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	 */
 	private void copySound() {
 
-		// TODO implement that!
-
 		try {
 			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
 		} catch (IOException e) {
@@ -679,7 +686,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			Set<Integer> checkedSounds = adapter.getCheckedItems();
+			SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
 			Iterator<Integer> iterator = checkedSounds.iterator();
 
 			if (iterator.hasNext()) {
@@ -690,6 +697,64 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			clearCheckedSoundsAndEnableButtons();
 		}
 	};
+
+	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
+			setActionModeActive(true);
+
+			actionModeTitle = getString(R.string.copy);
+			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
+			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
+
+			mode.setTitle(actionModeTitle);
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+
+			SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
+			Iterator<Integer> iterator = checkedSounds.iterator();
+
+			while (iterator.hasNext()) {
+				int position = iterator.next();
+				copySound(position);
+			}
+
+			clearCheckedSoundsAndEnableButtons();
+
+		}
+
+	};
+
+	private void copySound(int position) {
+
+		SoundInfo soundInfo = soundInfoList.get(position);
+
+		try {
+			StorageHandler.getInstance().copySoundFile(soundInfo.getAbsolutePath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		updateSoundAdapter(soundInfo.getTitle(), soundInfo.getSoundFileName());
+
+	}
 
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
 
@@ -705,7 +770,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 			mode.setTitle(R.string.delete);
 
-			deleteActionModeTitle = getString(R.string.delete);
+			actionModeTitle = getString(R.string.delete);
 			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
 			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
 
@@ -777,7 +842,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
 
 		soundInfoList.remove(position);
-		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
+		ProjectManager.INSTANCE.getCurrentSprite().setSoundList(soundInfoList);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
 	}
