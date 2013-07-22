@@ -93,7 +93,6 @@ public class StageListener implements ApplicationListener {
 
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
-	//	private ShaderBatch batch;
 	private BitmapFont font;
 
 	private List<Sprite> sprites;
@@ -154,8 +153,6 @@ public class StageListener implements ApplicationListener {
 
 		stage = new Stage(virtualWidth, virtualHeight, true);
 		batch = stage.getSpriteBatch();
-		//		batch = new ShaderBatch(1000);
-		//		stage = new Stage(virtualWidth, virtualHeight, true, batch);
 
 		camera = (OrthographicCamera) stage.getCamera();
 		camera.position.set(0, 0, 0);
@@ -282,6 +279,7 @@ public class StageListener implements ApplicationListener {
 			for (int i = 0; i < spriteSize; i++) {
 				Sprite sprite = sprites.get(i);
 				sprite.resetSprite();
+				sprite.look.createBrightnessContrastShader();
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}

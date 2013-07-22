@@ -205,7 +205,6 @@ public class Look extends Image {
 		if (this.visible && this.getDrawable() != null) {
 			super.draw(batch, this.alpha);
 		}
-		batch.setShader(null);
 	}
 
 	@Override
@@ -454,7 +453,8 @@ public class Look extends Image {
 				+ " color.rgb += brightness;\n" //apply brightness
 				+ " color.rgb *= color.a;\n" + " gl_FragColor = color;\n" + "}";
 
-		private int brightnessLoc = -1;
+		private String brightnessStringInShader = "brightness";
+		private String contrastStringInShader = "contrast";
 
 		public BrightnessContrastShader() {
 			super(vertexShader, fragmentShader);
@@ -462,10 +462,9 @@ public class Look extends Image {
 				ShaderProgram.pedantic = false;
 				if (isCompiled()) {
 					begin();
-					brightnessLoc = getUniformLocation("brightness");
-					setUniformf("contrast", 1.0f);
+					setUniformf(brightnessStringInShader, 0.0f);
+					setUniformf(contrastStringInShader, 1.0f);
 					end();
-
 				}
 			} else {
 				Log.e("CATROID", "Shaders are not supported in OpenGL 1.1!");
@@ -474,9 +473,7 @@ public class Look extends Image {
 
 		public void setBrightness(float brightness) {
 			begin();
-			if (brightnessLoc != -1) {
-				setUniformf(brightnessLoc, brightness - 1.0f);
-			}
+			setUniformf(brightnessStringInShader, brightness - 1f);
 			end();
 		}
 	}
