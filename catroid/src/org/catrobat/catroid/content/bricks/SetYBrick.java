@@ -68,7 +68,7 @@ public class SetYBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return yPosition.getRequiredResources();
 	}
 
 	@Override

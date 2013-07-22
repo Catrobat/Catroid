@@ -62,8 +62,11 @@ public class SoundRecorder {
 	}
 
 	public void stop() throws IOException {
-
-		recorder.stop();
+		try {
+			recorder.stop();
+		} catch (Exception e) {
+			// ignore
+		}
 		recorder.reset();
 		recorder.release();
 		isRecording = false;

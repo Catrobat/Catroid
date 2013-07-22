@@ -92,7 +92,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 
 	@Override
 	public int getRequiredResources() {
-		return BLUETOOTH_LEGO_NXT;
+		return BLUETOOTH_LEGO_NXT | degrees.getRequiredResources();
 	}
 
 	@Override

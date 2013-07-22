@@ -53,6 +53,7 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.LedUtil;
@@ -164,9 +165,13 @@ public class StageListener implements ApplicationListener {
 		initScreenMode();
 
 		sprites = project.getSpriteList();
+
+		//VideoDisplayHandler.registerSprite(sprites.get(0));// TODO REMOVE
 		for (Sprite sprite : sprites) {
 			sprite.resetSprite();
 			sprite.look.createBrightnessContrastShader();
+			//VideoDisplayHandler.registerSprite(sprite);// TODO REMOVE
+			//sprite.look.setLookData(VideoDisplayHandler.getVideoLookData());// TODO REMOVE
 			stage.addActor(sprite.look);
 			sprite.resume();
 		}
@@ -194,11 +199,23 @@ public class StageListener implements ApplicationListener {
 
 	}
 
+	void activityResume() {
+		if (!paused) {
+			FaceDetectionHandler.resumeFaceDetection();
+		}
+
+	}
+
+	void activityPause() {
+		FaceDetectionHandler.pauseFaceDetection();
+	}
+
 	void menuResume() {
 		if (reloadProject) {
 			return;
 		}
 		paused = false;
+		FaceDetectionHandler.resumeFaceDetection();
 		SoundManager.getInstance().resume();
 		for (Sprite sprite : sprites) {
 			sprite.resume();
@@ -210,6 +227,7 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		paused = true;
+		FaceDetectionHandler.pauseFaceDetection();
 		SoundManager.getInstance().pause();
 		for (Sprite sprite : sprites) {
 			sprite.pause();
@@ -232,6 +250,7 @@ public class StageListener implements ApplicationListener {
 	@Override
 	public void resume() {
 		if (!paused) {
+			FaceDetectionHandler.resumeFaceDetection();
 			SoundManager.getInstance().resume();
 			for (Sprite sprite : sprites) {
 				sprite.resume();
@@ -250,6 +269,7 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		if (!paused) {
+			FaceDetectionHandler.pauseFaceDetection();
 			SoundManager.getInstance().pause();
 			for (Sprite sprite : sprites) {
 				sprite.pause();
@@ -285,6 +305,7 @@ public class StageListener implements ApplicationListener {
 				sprite = sprites.get(i);
 				sprite.resetSprite();
 				sprite.look.createBrightnessContrastShader();
+				//VideoDisplayHandler.registerSprite(sprite);// TODO REMOVE
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}
@@ -368,7 +389,6 @@ public class StageListener implements ApplicationListener {
 				makeAutomaticScreenshot = false;
 			}
 		}
-
 		if (makeScreenshot) {
 			screenshot = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight,
 					true);
@@ -607,9 +627,27 @@ public class StageListener implements ApplicationListener {
 			int dataSize = data.size();
 			for (int j = 0; j < dataSize; j++) {
 				LookData lookData = data.get(j);
-				lookData.getPixmap().dispose();
-				lookData.getTextureRegion().getTexture().dispose();
+				lookData.dispose();
 			}
 		}
 	}
+
+	private void prepareAutomaticScreenshotAndNoMeadiaFile() {
+		File noMediaFile = new File(pathForScreenshot + Constants.NO_MEDIA_FILE);
+		File screenshotAutomaticFile = new File(pathForScreenshot + SCREENSHOT_AUTOMATIC_FILE_NAME);
+		try {
+			if (screenshotAutomaticFile.exists()) {
+				screenshotAutomaticFile.delete();
+				screenshotAutomaticFile = new File(pathForScreenshot + SCREENSHOT_AUTOMATIC_FILE_NAME);
+			}
+			screenshotAutomaticFile.createNewFile();
+
+			if (!noMediaFile.exists()) {
+				noMediaFile.createNewFile();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

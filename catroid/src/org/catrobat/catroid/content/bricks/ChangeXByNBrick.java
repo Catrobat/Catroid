@@ -68,7 +68,7 @@ public class ChangeXByNBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return xMovement.getRequiredResources();
 	}
 
 	@Override
