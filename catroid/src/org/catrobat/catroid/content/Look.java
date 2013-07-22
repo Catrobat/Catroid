@@ -258,39 +258,6 @@ public class Look extends Image {
 		}
 	}
 
-	protected Pixmap adjustBrightness(Pixmap currentPixmap) {
-		Pixmap newPixmap = new Pixmap(currentPixmap.getWidth(), currentPixmap.getHeight(), currentPixmap.getFormat());
-		for (int y = 0; y < currentPixmap.getHeight(); y++) {
-			for (int x = 0; x < currentPixmap.getWidth(); x++) {
-				int pixel = currentPixmap.getPixel(x, y);
-				int r = (int) (((pixel >> 24) & 0xff) + (255 * (brightness - 1)));
-				int g = (int) (((pixel >> 16) & 0xff) + (255 * (brightness - 1)));
-				int b = (int) (((pixel >> 8) & 0xff) + (255 * (brightness - 1)));
-				int a = pixel & 0xff;
-
-				if (r > 255) {
-					r = 255;
-				} else if (r < 0) {
-					r = 0;
-				}
-				if (g > 255) {
-					g = 255;
-				} else if (g < 0) {
-					g = 0;
-				}
-				if (b > 255) {
-					b = 255;
-				} else if (b < 0) {
-					b = 0;
-				}
-
-				newPixmap.setColor(r / 255f, g / 255f, b / 255f, a / 255f);
-				newPixmap.drawPixel(x, y);
-			}
-		}
-		return newPixmap;
-	}
-
 	public void refreshTextures() {
 		this.imageChanged = true;
 	}
