@@ -99,11 +99,6 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	private LinearLayout buttonAdd = null;
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-	}
-
-	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
