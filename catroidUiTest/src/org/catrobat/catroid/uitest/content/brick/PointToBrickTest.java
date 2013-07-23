@@ -141,8 +141,7 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<Script
 	}
 
 	private void createProject() {
-		//		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		project = UiTestUtils.createProjectOnlyWithBackground(null);
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		Sprite sprite2 = new Sprite(spriteName2);
 		Script startScript2 = new StartScript(sprite2);

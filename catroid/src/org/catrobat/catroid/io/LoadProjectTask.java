@@ -24,6 +24,7 @@ package org.catrobat.catroid.io;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.utils.Utils;
 
 import android.app.Activity;
@@ -61,7 +62,11 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
-		return ProjectManager.getInstance().loadProject(projectName, activity, false);
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		if (currentProject != null && !currentProject.getName().equals(projectName)) {
+			return ProjectManager.getInstance().loadProject(projectName, activity, false);
+		}
+		return true;
 	}
 
 	@Override
