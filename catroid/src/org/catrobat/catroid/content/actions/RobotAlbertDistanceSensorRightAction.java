@@ -41,7 +41,7 @@ public class RobotAlbertDistanceSensorRightAction extends TemporalAction {
 			return;
 		}
 		//double value = changeVariable.interpretDouble(sprite);
-		int value = RobotAlbert.getRobotAlbertDistanceSensorLeftMessage();
+		int value = RobotAlbert.getRobotAlbertDistanceSensorRightMessage();
 		userVariable.setValue(value);
 
 	}

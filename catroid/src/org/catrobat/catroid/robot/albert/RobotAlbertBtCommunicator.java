@@ -106,7 +106,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 
 		while (connected) {
 
-			Log.d("test", "loop");
+			//TODO: Test it on more devices. If everything works use this else use Version in branch albert_robot_presentation_V2 
 			try {
 				receiveMessage();
 			} catch (IOException e) {

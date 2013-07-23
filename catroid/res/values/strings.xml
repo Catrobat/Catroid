@@ -444,6 +444,8 @@
     <string name="no_paired_nxt">No paired NXT found</string>
     <string name="none_found">No unpaired devices found</string>
     <string name="none_paired">No paired devices found</string>
+     <string name="select_device_robot_albert">Choose Robot Albert</string>
+    <string name="connecting_please_wait_robot_albert">Connect to Robot Albert.\nPlease wait…</string>
     <!--  -->
 
 
