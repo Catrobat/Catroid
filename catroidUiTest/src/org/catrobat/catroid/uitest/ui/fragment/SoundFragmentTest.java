@@ -420,7 +420,6 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		int timeToWait = 300;
 		String addDialogTitle = solo.getString(R.string.sound_select_source);
-		String soundSpinnerItemText = solo.getString(R.string.sounds);
 
 		assertTrue("Add button not clickable", addButton.isClickable());
 		assertTrue("Play button not clickable", playButton.isClickable());
@@ -444,7 +443,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
-		solo.waitForText(soundSpinnerItemText, 1, timeToWait, false, true);
+		solo.sleep(500);
 
 		checkIfContextMenuAppears(true, false);
 
@@ -468,7 +467,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
-		solo.waitForText(soundSpinnerItemText, 1, timeToWait, false, true);
+		solo.sleep(500);
 
 		checkIfContextMenuAppears(true, true);
 	}
