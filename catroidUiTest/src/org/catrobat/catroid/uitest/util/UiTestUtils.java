@@ -179,7 +179,7 @@ public class UiTestUtils {
 	};
 
 	public static void enterText(Solo solo, int editTextIndex, String text) {
-		solo.waitForActivity(MainMenuActivity.class);
+		
 		solo.sleep(50);
 		final EditText editText = solo.getEditText(editTextIndex);
 		solo.getCurrentActivity().runOnUiThread(new Runnable() {
