@@ -118,8 +118,6 @@ public class BrickCategoryFragment extends SherlockListFragment {
 
 		this.previousActionBarTitle = actionBar.getTitle();
 		actionBar.setTitle(R.string.categories);
-
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 	}
 
 	private void resetActionBar() {

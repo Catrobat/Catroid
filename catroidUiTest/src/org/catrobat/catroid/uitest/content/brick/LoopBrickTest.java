@@ -86,9 +86,9 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		// just to get focus
 		// seems to be a bug just with the Nexus S 2.3.6
-		String spinnerScripts = solo.getString(R.string.scripts);
-		solo.clickOnText(spinnerScripts);
-		solo.clickOnText(spinnerScripts);
+		String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
+		solo.clickOnText(currentSprite);
+
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, yPosition.get(0), 20);
 

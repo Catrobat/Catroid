@@ -115,9 +115,8 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 		// just to get focus
 		// seems to be a bug just with the Nexus S 2.3.6
-		String spinnerScripts = solo.getString(R.string.scripts);
-		solo.clickOnText(spinnerScripts);
-		solo.clickOnText(spinnerScripts);
+		String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
+		solo.clickOnText(currentSprite);
 
 		Log.e("info", "Befor drag item 3 to item 0");
 		logBrickListForJenkins(projectBrickList);

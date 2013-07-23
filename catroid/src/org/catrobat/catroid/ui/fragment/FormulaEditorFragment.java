@@ -303,8 +303,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			menu.getItem(index).setVisible(false);
 		}
 
-		getSherlockActivity().getSupportActionBar().setNavigationMode(
-				com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_STANDARD);
 		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
 		getSherlockActivity().getSupportActionBar().setTitle(getString(R.string.formula_editor_title));
 
