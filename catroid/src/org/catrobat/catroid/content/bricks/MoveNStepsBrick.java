@@ -143,19 +143,25 @@ public class MoveNStepsBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_move_n_steps_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView moveNStepsLabel = (TextView) view.findViewById(R.id.brick_move_n_steps_label);
-		TextView times = (TextView) view.findViewById(R.id.brick_move_n_steps_step_text_view);
-		EditText moveNStepsEdit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
-		moveNStepsLabel.setTextColor(moveNStepsLabel.getTextColors().withAlpha(alphaValue));
-		times.setTextColor(times.getTextColors().withAlpha(alphaValue));
-		moveNStepsEdit.setTextColor(moveNStepsEdit.getTextColors().withAlpha(alphaValue));
-		moveNStepsEdit.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_move_n_steps_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView moveNStepsLabel = (TextView) view.findViewById(R.id.brick_move_n_steps_label);
+			TextView times = (TextView) view.findViewById(R.id.brick_move_n_steps_step_text_view);
+			EditText moveNStepsEdit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
+			moveNStepsLabel.setTextColor(moveNStepsLabel.getTextColors().withAlpha(alphaValue));
+			times.setTextColor(times.getTextColors().withAlpha(alphaValue));
+			moveNStepsEdit.setTextColor(moveNStepsEdit.getTextColors().withAlpha(alphaValue));
+			moveNStepsEdit.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

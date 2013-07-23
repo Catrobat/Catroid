@@ -28,16 +28,13 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 
-import com.jayway.android.robotium.solo.Solo;
+public class SetDescriptionDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-public class SetDescriptionDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-
-	private Solo solo;
 	private String testProject = UiTestUtils.PROJECTNAME1;
 
 	public SetDescriptionDialogTest() {
@@ -45,20 +42,11 @@ public class SetDescriptionDialogTest extends ActivityInstrumentationTestCase2<M
 	}
 
 	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
 	protected void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		ProjectManager.getInstance().deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
-		solo = null;
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	public void testMultiLineProjectDescription() {

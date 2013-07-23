@@ -56,6 +56,8 @@
     <string name="main_menu_upload">Hochladen</string>
     <string name="main_menu_settings">Einstellungen</string>
     <string name="main_menu_about_pocketcode">Über Pocket Code</string>
+    <string name="main_menu_web_dialog_title">Achtung!</string>
+    <string name="main_menu_web_dialog_message">Derzeit werden keine alternativen Browser wie Firefox oder Dolphin unterstützt</string>
     <!--  -->
 
 
@@ -73,6 +75,7 @@
         Pocket Code steht großteils unter der GNU AGPL v3 Lizenz.
         Für nähere Informationen zur Lizenz siehe untenstehenden Link.\n</string>
     <string name="dialog_about_pocketcode_license_link_text">Pocket Code Lizenz</string>
+    <string name="dialog_about_catrobat_link_text">Über Catrobat</string>
     <!--  -->
 
 
@@ -194,6 +197,7 @@
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Verschiebe Baustein</string>
     <string name="brick_context_dialog_delete_brick">Lösche Baustein</string>
+    <string name="brick_context_dialog_copy_brick">Kopiere Baustein</string>
     <string name="brick_context_dialog_animate_bricks">Animiere Baustein-Teile</string>
     <!--  -->
 
@@ -211,7 +215,7 @@
     <string name="new_project_dialog_hint">Mein Programm</string>
     <string name="new_project_description_dialog_hint">Meine Beschreibung</string>
     <string name="new_project_name">Programmname:</string>
-    <string name="new_project_empty">Erstelle leeres Progamm</string>
+    <string name="new_project_empty">Erstelle leeres Programm</string>
     <!--  -->
 
 

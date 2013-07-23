@@ -122,22 +122,28 @@ public class TurnLeftBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_turn_left_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView turnLeftLabel = (TextView) view.findViewById(R.id.brick_turn_left_label);
-		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_left_prototype_text_view);
-		TextView times = (TextView) view.findViewById(R.id.brick_turn_left_degree_text_view);
-		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_left_edit_text);
+		if (view != null) {
 
-		textDegrees.setTextColor(textDegrees.getTextColors().withAlpha(alphaValue));
-		turnLeftLabel.setTextColor(turnLeftLabel.getTextColors().withAlpha(alphaValue));
-		times.setTextColor(times.getTextColors().withAlpha(alphaValue));
-		editDegrees.setTextColor(editDegrees.getTextColors().withAlpha(alphaValue));
-		editDegrees.getBackground().setAlpha(alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_turn_left_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
 
-		this.alphaValue = (alphaValue);
+			TextView turnLeftLabel = (TextView) view.findViewById(R.id.brick_turn_left_label);
+			TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_left_prototype_text_view);
+			TextView times = (TextView) view.findViewById(R.id.brick_turn_left_degree_text_view);
+			EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_left_edit_text);
+
+			textDegrees.setTextColor(textDegrees.getTextColors().withAlpha(alphaValue));
+			turnLeftLabel.setTextColor(turnLeftLabel.getTextColors().withAlpha(alphaValue));
+			times.setTextColor(times.getTextColors().withAlpha(alphaValue));
+			editDegrees.setTextColor(editDegrees.getTextColors().withAlpha(alphaValue));
+			editDegrees.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

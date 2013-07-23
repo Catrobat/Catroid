@@ -135,22 +135,28 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_play_sound_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView playSoundLabel = (TextView) view.findViewById(R.id.brick_play_sound_label);
-		playSoundLabel.setTextColor(playSoundLabel.getTextColors().withAlpha(alphaValue));
+		if (view != null) {
 
-		Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_play_sound_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
 
-		ColorStateList color = playSoundLabel.getTextColors().withAlpha(alphaValue);
-		lookbrickSpinner.getBackground().setAlpha(alphaValue);
-		if (adapterView != null) {
-			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			TextView playSoundLabel = (TextView) view.findViewById(R.id.brick_play_sound_label);
+			playSoundLabel.setTextColor(playSoundLabel.getTextColors().withAlpha(alphaValue));
+
+			Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
+
+			ColorStateList color = playSoundLabel.getTextColors().withAlpha(alphaValue);
+			lookbrickSpinner.getBackground().setAlpha(alphaValue);
+			if (adapterView != null) {
+				((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			}
+
+			this.alphaValue = (alphaValue);
+
 		}
 
-		this.alphaValue = (alphaValue);
 		return view;
 	}
 

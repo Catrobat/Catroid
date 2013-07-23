@@ -140,18 +140,23 @@ public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener 
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_go_back_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
-		this.alphaValue = (alphaValue);
 
-		TextView hideLabel = (TextView) view.findViewById(R.id.brick_go_back_label);
-		TextView hideLayers = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
-		EditText editGoBack = (EditText) view.findViewById(R.id.brick_go_back_edit_text);
-		hideLabel.setTextColor(hideLabel.getTextColors().withAlpha(alphaValue));
-		hideLayers.setTextColor(hideLayers.getTextColors().withAlpha(alphaValue));
-		editGoBack.setTextColor(editGoBack.getTextColors().withAlpha(alphaValue));
-		editGoBack.getBackground().setAlpha(alphaValue);
+		if (view != null) {
+
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_go_back_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+			this.alphaValue = (alphaValue);
+
+			TextView hideLabel = (TextView) view.findViewById(R.id.brick_go_back_label);
+			TextView hideLayers = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
+			EditText editGoBack = (EditText) view.findViewById(R.id.brick_go_back_edit_text);
+			hideLabel.setTextColor(hideLabel.getTextColors().withAlpha(alphaValue));
+			hideLayers.setTextColor(hideLayers.getTextColors().withAlpha(alphaValue));
+			editGoBack.setTextColor(editGoBack.getTextColors().withAlpha(alphaValue));
+			editGoBack.getBackground().setAlpha(alphaValue);
+
+		}
 
 		return view;
 	}

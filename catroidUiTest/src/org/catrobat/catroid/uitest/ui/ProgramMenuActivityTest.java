@@ -43,20 +43,18 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-
-	private Solo solo;
+public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	public ProgramMenuActivityTest() {
 		super(MainMenuActivity.class);
@@ -65,18 +63,15 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.prepareStageForTest();
-		solo = new Solo(getInstrumentation(), getActivity());
 		createProject();
+		UiTestUtils.prepareStageForTest();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		UiTestUtils.clearAllUtilTestProjects();
-		solo.finishOpenedActivities();
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
-		solo = null;
 		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
@@ -116,7 +111,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 		solo.clickOnText(backgroundString);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 
-		String currentSpriteName = ProjectManager.INSTANCE.getCurrentSprite().getName();
+		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
 
 		assertEquals("Current sprite is not " + backgroundString, backgroundString, currentSpriteName);
 		assertTrue("Title doesn't match " + backgroundString, solo.waitForText(currentSpriteName, 0, 200, false, true));
@@ -127,7 +122,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 		solo.clickOnText(spriteName);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 
-		currentSpriteName = ProjectManager.INSTANCE.getCurrentSprite().getName();
+		currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
 
 		assertEquals("Current sprite is not " + spriteName, spriteName, currentSpriteName);
 		assertTrue("Title doesn't match " + spriteName, solo.waitForText(currentSpriteName, 0, 200, false, true));

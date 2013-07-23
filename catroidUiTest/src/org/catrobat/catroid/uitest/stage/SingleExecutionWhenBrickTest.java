@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.stage;
 import java.io.File;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.BroadcastScript;
@@ -40,17 +41,14 @@ import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-
-import com.jayway.android.robotium.solo.Solo;
-
-public class SingleExecutionWhenBrickTest extends ActivityInstrumentationTestCase2<StageActivity> {
+public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int SCREEN_WIDTH = 480;
 	private static final int SCREEN_HEIGHT = 800;
 
-	private Solo solo;
 	private Project projectWhenBrick;
 	Sprite yellowSprite;
 	Sprite greenSprite;
@@ -59,51 +57,45 @@ public class SingleExecutionWhenBrickTest extends ActivityInstrumentationTestCas
 	String broadcastMessage = "broadcastMessage";
 
 	public SingleExecutionWhenBrickTest() {
-		super(StageActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.prepareStageForTest();
 		createProjectWhenBrick();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		UiTestUtils.prepareStageForTest();
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(500);
 	}
 
 	public void testWaitBrickWhenTapped() {
-		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(500);
+
 		for (int i = 1; i <= 10; ++i) {
 			solo.sleep(100);
-			assertEquals("Look has wrong AlphaValue.", (float) 1.0, yellowSprite.look.getAlphaValue());
+			assertEquals("Look has wrong AlphaValue.", 0f,
+					yellowSprite.look.getTransparencyInUserInterfaceDimensionUnit());
 			solo.clickOnScreen((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2));
 		}
 		solo.sleep(100);
-		assertEquals("Look has wrong AlphaValue.", (float) 1.0, yellowSprite.look.getAlphaValue());
+		assertEquals("Look has wrong AlphaValue.", 0f, yellowSprite.look.getTransparencyInUserInterfaceDimensionUnit());
 		solo.sleep(2000);
-		assertEquals("Look has wrong AlphaValue.", (float) 0.5, yellowSprite.look.getAlphaValue());
+		assertEquals("Look has wrong AlphaValue.", 50f, yellowSprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
 	public void testWaitBrickBroadcast() {
-		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(500);
 		for (int i = 1; i <= 10; ++i) {
 			solo.sleep(1000);
-			assertEquals("Look has wrong AlphaValue.", (float) 1.0, greenSprite.look.getAlphaValue());
+			assertEquals("Look has wrong AlphaValue.", 0f,
+					greenSprite.look.getTransparencyInUserInterfaceDimensionUnit());
 			solo.clickOnScreen((SCREEN_WIDTH / 2) + 100, (SCREEN_HEIGHT / 2));
 		}
 		solo.sleep(1000);
-		assertEquals("Look has wrong AlphaValue.", (float) 1.0, greenSprite.look.getAlphaValue());
+		assertEquals("Look has wrong AlphaValue.", 0f, greenSprite.look.getTransparencyInUserInterfaceDimensionUnit());
 		solo.sleep(2000);
-		assertEquals("Look has wrong AlphaValue.", (float) 0, greenSprite.look.getAlphaValue());
+		assertEquals("Look has wrong AlphaValue.", 100f, greenSprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
 	private void createProjectWhenBrick() {

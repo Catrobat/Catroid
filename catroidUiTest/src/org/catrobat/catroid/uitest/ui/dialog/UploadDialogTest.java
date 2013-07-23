@@ -31,24 +31,23 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.web.ServerCalls;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.view.View;
 import android.widget.EditText;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String newTestProject = UiTestUtils.PROJECTNAME2;
 
-	private Solo solo;
 	private String saveToken;
 	private String uploadDialogTitle;
 
@@ -59,8 +58,6 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	@Override
 	@UiThreadTest
 	public void setUp() throws Exception {
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		saveToken = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
@@ -71,12 +68,10 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void tearDown() throws Exception {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		ProjectManager.getInstance().deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
-		solo = null;
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	private void setServerURLToTestURL() throws Throwable {
@@ -91,6 +86,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		setServerURLToTestURL();
 		createTestProject();
 		solo.sleep(200);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 3000);
 		UiTestUtils.createValidUser(getActivity());
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.waitForText(uploadDialogTitle);
@@ -128,7 +124,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		String actionSetDescriptionText = solo.getString(R.string.set_description);
 		String setDescriptionDialogTitle = solo.getString(R.string.description);
 		Project uploadProject = new Project(getActivity(), testProject);
-		ProjectManager.INSTANCE.setProject(uploadProject);
+		ProjectManager.getInstance().setProject(uploadProject);
 		StorageHandler.getInstance().saveProject(uploadProject);
 		setServerURLToTestURL();
 		UiTestUtils.createValidUser(getActivity());
@@ -166,7 +162,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	public void testProjectDescriptionUploadProject() throws Throwable {
 		Project uploadProject = new Project(getActivity(), testProject);
-		ProjectManager.INSTANCE.setProject(uploadProject);
+		ProjectManager.getInstance().setProject(uploadProject);
 		StorageHandler.getInstance().saveProject(uploadProject);
 
 		solo.sleep(300);

@@ -88,6 +88,18 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 				sprite.look.getScaleY());
 	}
 
+	public void testNegativeSize() {
+		Sprite sprite = new Sprite("testSprite");
+		float initialSize = sprite.look.getSizeInUserInterfaceDimensionUnit();
+		assertEquals("Unexpected initial sprite size value", 100f, initialSize);
+
+		SetSizeToAction action = ExtendedActions.setSizeTo(sprite, new Formula(-10));
+		sprite.look.addAction(action);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", 0f,
+				sprite.look.getSizeInUserInterfaceDimensionUnit());
+	}
+
 	public void testNullSprite() {
 		SetSizeToAction action = ExtendedActions.setSizeTo(null, size);
 		try {

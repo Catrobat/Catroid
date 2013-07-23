@@ -30,6 +30,6 @@
     <item
         android:id="@+id/script_menu_copy"
         android:title="@string/copy"
-        android:visible="false"/>
+        android:visible="true"/>
     
 </menu>

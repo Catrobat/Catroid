@@ -33,17 +33,14 @@ public class SoundManager {
 	private transient float volume = 70.0f;
 
 	public static final int MAX_MEDIA_PLAYERS = 7;
-	private static SoundManager soundManager;
+	private static final SoundManager INSTANCE = new SoundManager();
 
 	private SoundManager() {
 		mediaPlayers = new ArrayList<MediaPlayer>(MAX_MEDIA_PLAYERS);
 	}
 
 	public synchronized static SoundManager getInstance() {
-		if (soundManager == null) {
-			soundManager = new SoundManager();
-		}
-		return soundManager;
+		return INSTANCE;
 	}
 
 	public MediaPlayer getMediaPlayer() {
@@ -79,6 +76,12 @@ public class SoundManager {
 	}
 
 	public synchronized void setVolume(float volume) {
+		if (volume > 100.0f) {
+			volume = 100.0f;
+		} else if (volume < 0.0f) {
+			volume = 0.0f;
+		}
+
 		this.volume = volume;
 		float volumeScalar = volume * 0.01f;
 		for (int i = 0; i < mediaPlayers.size(); i++) {

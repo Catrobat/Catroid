@@ -34,17 +34,16 @@ import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class NewSpriteDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private Solo solo;
 	private String testingproject = UiTestUtils.PROJECTNAME1;
 	private String testingsprite = "testingsprite";
 
@@ -53,20 +52,11 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
 	protected void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		ProjectManager.INSTANCE.deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
-		solo = null;
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
@@ -83,7 +73,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForView(EditText.class);
 		enterTextAndCloseDialog(spriteName);
-		assertTrue("Sprite not successfully added", ProjectManager.INSTANCE.spriteExists(spriteName));
+		assertTrue("Sprite not successfully added", ProjectManager.getInstance().spriteExists(spriteName));
 
 		//Add sprite which already exists
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);

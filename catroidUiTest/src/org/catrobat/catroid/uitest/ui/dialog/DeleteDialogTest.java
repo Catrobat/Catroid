@@ -33,20 +33,17 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.widget.ListAdapter;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
 	private final int RESOURCE_IMAGE2 = org.catrobat.catroid.uitest.R.drawable.catroid_banzai;
 	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 	private final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
-	private Solo solo;
 
 	private String lookName = "lookNametest";
 	private File imageFile;
@@ -66,21 +63,17 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-		soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
-		lookDataList = ProjectManager.INSTANCE.getCurrentSprite().getLookDataList();
+		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		ProjectManager.getInstance().deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
-		solo = null;
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	public void testDeleteLooks() throws Exception {
@@ -160,26 +153,26 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_banzai.png",
 				RESOURCE_IMAGE2, getActivity(), UiTestUtils.FileTypes.IMAGE);
 
-		lookDataList = ProjectManager.INSTANCE.getCurrentSprite().getLookDataList();
+		lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
 		LookData lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
 		lookData.setLookName(lookName);
 		lookDataList.add(lookData);
-		ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(lookData.getChecksum(),
+		ProjectManager.getInstance().getFileChecksumContainer().addChecksum(lookData.getChecksum(),
 				lookData.getAbsolutePath());
 		lookData = new LookData();
 		lookData.setLookFilename(imageFile2.getName());
 		lookData.setLookName("lookNameTest2");
 		lookDataList.add(lookData);
-		ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(lookData.getChecksum(),
+		ProjectManager.getInstance().getFileChecksumContainer().addChecksum(lookData.getChecksum(),
 				lookData.getAbsolutePath());
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
-		ProjectManager.INSTANCE.getCurrentProject().getXmlHeader().virtualScreenWidth = display.getWidth();
-		ProjectManager.INSTANCE.getCurrentProject().getXmlHeader().virtualScreenHeight = display.getHeight();
+		ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth = display.getWidth();
+		ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight = display.getHeight();
 	}
 
 	private void addSoundsToProject() throws Exception {
-		soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
+		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
 		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
 				RESOURCE_SOUND, getActivity(), UiTestUtils.FileTypes.SOUND);
@@ -195,9 +188,9 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
-		ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(),
+		ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo.getChecksum(),
 				soundInfo.getAbsolutePath());
-		ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(soundInfo2.getChecksum(),
+		ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo2.getChecksum(),
 				soundInfo2.getAbsolutePath());
 	}
 

@@ -115,10 +115,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		initBrickList();
 	}
 
-	private void initBrickList() {
+	public void initBrickList() {
 		brickList = new ArrayList<Brick>();
 
-		Sprite sprite = ProjectManager.INSTANCE.getCurrentSprite();
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 
 		int numberOfScripts = sprite.getNumberOfScripts();
 		for (int scriptPosition = 0; scriptPosition < numberOfScripts; scriptPosition++) {
@@ -150,6 +150,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	@Override
 	public void drag(int from, int to) {
+
 		if (to < 0 || to >= brickList.size()) {
 			to = brickList.size() - 1;
 		}
@@ -511,12 +512,13 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	public void addNewBrick(int position, Brick brickToBeAdded) {
+
 		if (draggedBrick != null) {
 			Log.w(TAG, "Want to add Brick while there is another one currently dragged.");
 			return;
 		}
 
-		Sprite currentSprite = ProjectManager.INSTANCE.getCurrentSprite();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		int scriptCount = currentSprite.getNumberOfScripts();
 		if (scriptCount == 0 && brickToBeAdded instanceof ScriptBrick) {
 			currentSprite.addScript(((ScriptBrick) brickToBeAdded).initScript(currentSprite));
@@ -532,16 +534,20 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 
 		if (brickToBeAdded instanceof ScriptBrick) {
+
 			brickList.add(position, brickToBeAdded);
 			position = getNewPositionForScriptBrick(position, brickToBeAdded);
 			brickList.remove(brickToBeAdded);
 			brickList.add(position, brickToBeAdded);
 			scrollToPosition(position);
+
 		} else {
+
 			position = getNewPositionIfEndingBrickIsThere(position, brickToBeAdded);
 			position = position <= 0 ? 1 : position;
 			position = position > brickList.size() ? brickList.size() : position;
 			brickList.add(position, brickToBeAdded);
+
 		}
 
 		initInsertedBrick = true;
@@ -555,6 +561,59 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 
 		notifyDataSetChanged();
+
+	}
+
+	public void addNewMultipleBricks(int position, Brick brickToBeAdded) {
+
+		if (draggedBrick != null) {
+			Log.w(TAG, "Want to add Brick while there is another one currently dragged.");
+			return;
+		}
+
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		int scriptCount = currentSprite.getNumberOfScripts();
+		if (scriptCount == 0 && brickToBeAdded instanceof ScriptBrick) {
+			currentSprite.addScript(((ScriptBrick) brickToBeAdded).initScript(currentSprite));
+			initBrickList();
+			notifyDataSetChanged();
+			return;
+		}
+
+		if (position < 0) {
+			position = 0;
+		} else if (position > brickList.size()) {
+			position = brickList.size();
+		}
+
+		if (brickToBeAdded instanceof ScriptBrick) {
+
+			brickList.add(position, brickToBeAdded);
+			position = getNewPositionForScriptBrick(position, brickToBeAdded);
+			brickList.remove(brickToBeAdded);
+			brickList.add(position, brickToBeAdded);
+			scrollToPosition(position);
+
+		} else {
+
+			position = getNewPositionIfEndingBrickIsThere(position, brickToBeAdded);
+			position = position <= 0 ? 1 : position;
+			position = position > brickList.size() ? brickList.size() : position;
+			brickList.add(position, brickToBeAdded);
+
+		}
+
+		if (scriptCount == 0) {
+			Script script = new StartScript(currentSprite);
+			currentSprite.addScript(script);
+			brickList.add(0, script.getScriptBrick());
+			positionOfInsertedBrick = 1;
+		}
+
+		notifyDataSetChanged();
+
+		ProjectManager.getInstance().saveProject();
+
 	}
 
 	private int getNewPositionForScriptBrick(int position, Brick brick) {
@@ -605,7 +664,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			brickList.remove(draggedBrick);
 		} else {
 			int temp[] = getScriptAndBrickIndexFromProject(index);
-			Script script = ProjectManager.INSTANCE.getCurrentSprite().getScript(temp[0]);
+			Script script = ProjectManager.getInstance().getCurrentSprite().getScript(temp[0]);
 			if (script != null) {
 
 				Brick brick = script.getBrick(temp[1]);
@@ -800,6 +859,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 		items.add(context.getText(R.string.brick_context_dialog_delete_brick));
 
+		items.add(context.getText(R.string.brick_context_dialog_copy_brick));
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
@@ -821,6 +882,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				CharSequence clickedItemText = items.get(item);
 				if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_move_brick))) {
 					view.performLongClick();
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_copy_brick))) {
+					copyBrickListAndProject(itemPosition, false);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_brick))) {
 					showConfirmDeleteDialog(itemPosition);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_animate_bricks))) {
@@ -841,6 +904,19 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if ((selectMode == ListView.CHOICE_MODE_NONE)) {
 			alertDialog.show();
 		}
+	}
+
+	protected void copyBrickListAndProject(int itemPosition, boolean b) {
+
+		Brick copy;
+
+		Brick origin = (Brick) (dragAndDropListView.getItemAtPosition(itemPosition));
+
+		copy = origin.clone();
+
+		addNewBrick((brickList.size() - 1), copy);
+
+		notifyDataSetChanged();
 	}
 
 	private void showConfirmDeleteDialog(int itemPosition) {
@@ -1124,12 +1200,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	public void handleScriptDelete(Sprite spriteToEdit, Script scriptToDelete) {
 		spriteToEdit.removeScript(scriptToDelete);
 		if (spriteToEdit.getNumberOfScripts() == 0) {
-			ProjectManager.INSTANCE.setCurrentScript(null);
+			ProjectManager.getInstance().setCurrentScript(null);
 			updateProjectBrickList();
 		} else {
 			int lastScriptIndex = spriteToEdit.getNumberOfScripts() - 1;
 			Script lastScript = spriteToEdit.getScript(lastScriptIndex);
-			ProjectManager.INSTANCE.setCurrentScript(lastScript);
+			ProjectManager.getInstance().setCurrentScript(lastScript);
 			updateProjectBrickList();
 		}
 	}

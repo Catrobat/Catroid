@@ -82,7 +82,7 @@ public class StageListener implements ApplicationListener {
 	private boolean firstStart = true;
 	private boolean reloadProject = false;
 
-	private boolean makeAutomaticScreenshot = true;
+	private static boolean makeAutomaticScreenshot = true;
 	private boolean makeScreenshot = false;
 	private String pathForScreenshot;
 	private int screenshotWidth;
@@ -549,14 +549,6 @@ public class StageListener implements ApplicationListener {
 				lookData.getTextureRegion().getTexture().dispose();
 			}
 		}
-	}
-
-	public void setMakeAutomaticScreenshot(boolean makeAutomaticScreenshot) {
-		this.makeAutomaticScreenshot = makeAutomaticScreenshot;
-	}
-
-	public boolean isMakeAutomaticScreenshot() {
-		return this.makeAutomaticScreenshot;
 	}
 
 	private void prepareAutomaticScreenshotAndNoMeadiaFile() {

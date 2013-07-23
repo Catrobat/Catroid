@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.stage;
 import java.io.File;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
@@ -37,14 +38,12 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-
-import com.jayway.android.robotium.solo.Solo;
-
-public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<StageActivity> {
+public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private final int screenWidth = 480;
 	private final int screenHeight = 800;
@@ -54,34 +53,25 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 	private int catYPosition = 150;
 	private int fishXPosition = -60;
 	private int fishYPosition = -150;
-	private Solo solo;
 	private Sprite cat;
 	private Sprite fish;
 	SetGhostEffectBrick setGhostEffectBrick;
 
 	public TransparentWhenBrickTest() {
-		super(StageActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.prepareStageForTest();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		//UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		UiTestUtils.prepareStageForTest();
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 	}
 
 	public void testTapOnSideAreaOfForegroundSprite() {
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(2000);
 		assertTrue("Sprite cat is not at x=0 and y=0",
 				cat.look.getXInUserInterfaceDimensionUnit() == 0 && cat.look.getYInUserInterfaceDimensionUnit() == 0);
@@ -108,7 +98,6 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 		Formula ghostEffectValue = new Formula(50.0);
 		Reflection.setPrivateField(setGhostEffectBrick, "transparency", ghostEffectValue);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(2000);
 		assertTrue("Sprite cat is not at x=0 and y=0",
 				cat.look.getXInUserInterfaceDimensionUnit() == 0 && cat.look.getYInUserInterfaceDimensionUnit() == 0);
@@ -135,7 +124,6 @@ public class TransparentWhenBrickTest extends ActivityInstrumentationTestCase2<S
 		Formula ghostEffectValue = new Formula(100.0);
 		Reflection.setPrivateField(setGhostEffectBrick, "transparency", ghostEffectValue);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(2000);
 		assertTrue("Sprite cat is not at x=0 and y=0",
 				cat.look.getXInUserInterfaceDimensionUnit() == 0 && cat.look.getYInUserInterfaceDimensionUnit() == 0);

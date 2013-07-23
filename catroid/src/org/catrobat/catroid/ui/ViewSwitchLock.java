@@ -27,7 +27,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
 public class ViewSwitchLock implements Lock {
-	private final static long UNLOCK_TIMEOUT = 200;
+	private static final long UNLOCK_TIMEOUT = 200;
 	private boolean locked = false;
 
 	@Override

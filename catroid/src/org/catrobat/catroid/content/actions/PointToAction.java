@@ -46,53 +46,34 @@ public class PointToAction extends TemporalAction {
 			pointedSprite = this.sprite;
 		}
 
-		int spriteXPosition = 0, spriteYPosition = 0;
-		int pointedSpriteXPosition = 0, pointedSpriteYPosition = 0;
-		double base = 0.0, height = 0.0, value = 0.0;
-
-		spriteXPosition = (int) sprite.look.getXInUserInterfaceDimensionUnit();
-		spriteYPosition = (int) sprite.look.getYInUserInterfaceDimensionUnit();
-		pointedSpriteXPosition = (int) pointedSprite.look.getXInUserInterfaceDimensionUnit();
-		pointedSpriteYPosition = (int) pointedSprite.look.getYInUserInterfaceDimensionUnit();
+		float spriteXPosition = sprite.look.getXInUserInterfaceDimensionUnit();
+		float spriteYPosition = sprite.look.getYInUserInterfaceDimensionUnit();
+		float pointedSpriteXPosition = pointedSprite.look.getXInUserInterfaceDimensionUnit();
+		float pointedSpriteYPosition = pointedSprite.look.getYInUserInterfaceDimensionUnit();
 
 		double rotationDegrees;
 		if (spriteXPosition == pointedSpriteXPosition && spriteYPosition == pointedSpriteYPosition) {
-			rotationDegrees = 90;
+			rotationDegrees = 0;
 		} else if (spriteXPosition == pointedSpriteXPosition || spriteYPosition == pointedSpriteYPosition) {
 			if (spriteXPosition == pointedSpriteXPosition) {
-				if (spriteYPosition > pointedSpriteYPosition) {
-					rotationDegrees = 180;
-				} else {
+				if (spriteYPosition < pointedSpriteYPosition) {
 					rotationDegrees = 0;
+				} else {
+					rotationDegrees = 180;
 				}
 			} else {
-				if (spriteXPosition > pointedSpriteXPosition) {
-					rotationDegrees = 270;
-				} else {
+				if (spriteXPosition < pointedSpriteXPosition) {
 					rotationDegrees = 90;
+				} else {
+					rotationDegrees = -90;
 				}
 			}
 
 		} else {
-			base = Math.abs(spriteYPosition - pointedSpriteYPosition);
-			height = Math.abs(spriteXPosition - pointedSpriteXPosition);
-			value = Math.toDegrees(Math.atan(base / height));
-
-			if (spriteXPosition < pointedSpriteXPosition) {
-				if (spriteYPosition > pointedSpriteYPosition) {
-					rotationDegrees = 90 + value;
-				} else {
-					rotationDegrees = 90 - value;
-				}
-			} else {
-				if (spriteYPosition > pointedSpriteYPosition) {
-					rotationDegrees = 270 - value;
-				} else {
-					rotationDegrees = 270 + value;
-				}
-			}
+			rotationDegrees = (90f - Math.toDegrees(Math.atan2(pointedSpriteYPosition - spriteYPosition,
+					pointedSpriteXPosition - spriteXPosition)));
 		}
-		sprite.look.setRotation((-(float) rotationDegrees) + 90f);
+		sprite.look.setDirectionInUserInterfaceDimensionUnit((float) rotationDegrees);
 	}
 
 	public void setSprite(Sprite sprite) {
