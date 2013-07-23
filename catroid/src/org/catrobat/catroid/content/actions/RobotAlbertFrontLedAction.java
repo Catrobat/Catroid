@@ -38,7 +38,12 @@ public class RobotAlbertFrontLedAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 
-		int status = value.interpretInteger(MIN, MAX, sprite);
+		int status = value.interpretInteger(sprite);
+		if (status < MIN) {
+			status = MIN;
+		} else if (status > MAX) {
+			status = MAX;
+		}
 		RobotAlbert.sendRobotAlbertFrontLedMessage(status);
 	}
 

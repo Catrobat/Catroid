@@ -32,8 +32,8 @@ import android.util.Log;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class RobotAlbertMotorActionAction extends TemporalAction {
-	private static final int MIN_SPEED = -100;
-	private static final int MAX_SPEED = 100;
+	private static final int MIN = -100;
+	private static final int MAX = 100;
 
 	private Motor motorEnum;
 	private Formula speed;
@@ -42,19 +42,13 @@ public class RobotAlbertMotorActionAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 
-		int speedValue = speed.interpretInteger(MIN_SPEED, MAX_SPEED, sprite);
+		int speedValue = speed.interpretInteger(sprite);
+		if (speedValue < MIN) {
+			speedValue = MIN;
+		} else if (speedValue > MAX) {
+			speedValue = MAX;
+		}
 
-		/*
-		 * if (motorEnum.equals(Motor.MOTOR_A_C)) {
-		 * LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), speedValue, 0);
-		 * LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), speedValue, 0);
-		 * } else {
-		 * LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), speedValue, 0);
-		 * }
-		 */
-
-		//LegoNXT.sendBTCMotorMessage((int) (duration * 1000), motor, 0, 0);
-		//RobotAlbert.sendRobotAlbertMotorMessage();
 		int motor = 2;
 		if (motorEnum.equals(Motor.Left)) {
 			motor = Motor.Left.ordinal();
@@ -66,9 +60,9 @@ public class RobotAlbertMotorActionAction extends TemporalAction {
 			Log.d("Albert", "Error: motorEnum:" + motorEnum);
 		}
 
-		Log.d("RobotAlbert", "RobotAlbertMotorActionAction before send: speed=" + speedValue);
+		//Log.d("RobotAlbert", "RobotAlbertMotorActionAction before send: speed=" + speedValue);
 		RobotAlbert.sendRobotAlbertMotorMessage(motor, speedValue);
-		Log.d("RobotAlbert", "RobotAlbertMotorActionAction after sended");
+		//Log.d("RobotAlbert", "RobotAlbertMotorActionAction after sended");
 	}
 
 	public void setMotorEnum(Motor motorEnum) {

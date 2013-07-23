@@ -45,21 +45,25 @@ public class RobotAlbertRgbLedEyeAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 
-		int redValue = red.interpretInteger(MIN_VALUE, MAX_VALUE, sprite);
-		int greenValue = green.interpretInteger(MIN_VALUE, MAX_VALUE, sprite);
-		int blueValue = blue.interpretInteger(MIN_VALUE, MAX_VALUE, sprite);
+		int redValue = red.interpretInteger(sprite);
+		if (redValue < MIN_VALUE) {
+			redValue = MIN_VALUE;
+		} else if (redValue > MAX_VALUE) {
+			redValue = MAX_VALUE;
+		}
+		int greenValue = green.interpretInteger(sprite);
+		if (greenValue < MIN_VALUE) {
+			greenValue = MIN_VALUE;
+		} else if (greenValue > MAX_VALUE) {
+			greenValue = MAX_VALUE;
+		}
+		int blueValue = blue.interpretInteger(sprite);
+		if (blueValue < MIN_VALUE) {
+			blueValue = MIN_VALUE;
+		} else if (blueValue > MAX_VALUE) {
+			blueValue = MAX_VALUE;
+		}
 
-		/*
-		 * if (motorEnum.equals(Motor.MOTOR_A_C)) {
-		 * LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), speedValue, 0);
-		 * LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), speedValue, 0);
-		 * } else {
-		 * LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), speedValue, 0);
-		 * }
-		 */
-
-		//LegoNXT.sendBTCMotorMessage((int) (duration * 1000), motor, 0, 0);
-		//RobotAlbert.sendRobotAlbertMotorMessage();
 		int eye = 2;
 		if (eyeEnum.equals(Eye.Left)) {
 			eye = Eye.Left.ordinal();
@@ -71,9 +75,9 @@ public class RobotAlbertRgbLedEyeAction extends TemporalAction {
 			Log.d("Albert", "Error: EyeEnum:" + eyeEnum);
 		}
 
-		Log.d("RobotAlbert", "RobotAlbertRgbLedEyeAction before send: rbg=" + red + "|" + green + "|" + blue);
+		//Log.d("RobotAlbert", "RobotAlbertRgbLedEyeAction before send: rbg=" + red + "|" + green + "|" + blue);
 		RobotAlbert.sendRobotAlbertRgbLedEyeMessage(eye, redValue, greenValue, blueValue);
-		Log.d("RobotAlbert", "RobotAlbertRgbLedEyeAction after sended");
+		//Log.d("RobotAlbert", "RobotAlbertRgbLedEyeAction after sended");
 	}
 
 	public void setEyeEnum(Eye eyeEnum) {

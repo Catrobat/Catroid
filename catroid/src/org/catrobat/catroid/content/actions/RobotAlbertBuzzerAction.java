@@ -26,13 +26,11 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.robot.albert.RobotAlbert;
 
-import android.util.Log;
-
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class RobotAlbertBuzzerAction extends TemporalAction {
-	private static final int MIN_SPEED = 0;
-	private static final int MAX_SPEED = 255;
+	private static final int MIN = 0;
+	private static final int MAX = 255;
 
 	private Formula value;
 	private Sprite sprite;
@@ -40,11 +38,16 @@ public class RobotAlbertBuzzerAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 
-		int loudness = value.interpretInteger(MIN_SPEED, MAX_SPEED, sprite);
+		int loudness = value.interpretInteger(sprite);
+		if (loudness < MIN) {
+			loudness = MIN;
+		} else if (loudness > MAX) {
+			loudness = MAX;
+		}
 
-		Log.d("RobotAlbert", "RobotAlbertBuzzerAction before send: value=" + value);
+		//Log.d("RobotAlbert", "RobotAlbertBuzzerAction before send: value=" + value);
 		RobotAlbert.sendRobotAlbertBuzzerMessage(loudness);
-		Log.d("RobotAlbert", "RobotAlbertBuzzerAction after sended");
+		//Log.d("RobotAlbert", "RobotAlbertBuzzerAction after sended");
 	}
 
 	public void setValue(Formula value) {
