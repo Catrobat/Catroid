@@ -76,8 +76,8 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_stop_all_sounds);
 		// just to get focus and get the correct list
-		solo.clickOnText(scriptsName);
-		solo.clickOnText(scriptsName);
+		String currentSprite = ProjectManager.INSTANCE.getCurrentSprite().getName();
+		solo.clickOnText(currentSprite);
 
 		List<Brick> brickListToCheck = ProjectManager.INSTANCE.getCurrentScript().getBrickList();
 		assertEquals("One Brick should be in bricklist, one hovering and therefore not in project yet", 1,
