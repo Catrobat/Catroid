@@ -275,7 +275,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
 	}
 
-	public void testStopSoundOnSpinnerPress() {
+	public void testStopSoundOnFragmentChange() {
 		// Mute before playing sound
 		AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
 		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
@@ -294,15 +294,11 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertTrue("Mediaplayer is not playing although play button was touched", soundInfo.isPlaying);
 		checkVisibilityOfViews(GONE, VISIBLE, VISIBLE, VISIBLE, VISIBLE, GONE, GONE);
 
-		String soundsString = solo.getString(R.string.sounds);
-		String looksString = solo.getString(R.string.looks);
-
 		solo.sleep(timeToWait);
-		UiTestUtils.changeToFragmentViaActionbar(solo, soundsString, looksString);
-		solo.waitForFragmentById(R.id.fragment_look_relative_layout, 500);
-		UiTestUtils.changeToFragmentViaActionbar(solo, looksString, soundsString);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.LOOKS_INDEX);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SOUNDS_INDEX);
 
-		assertFalse("Mediaplayer is playing after switching fragment via spinner", soundInfo.isPlaying);
+		assertFalse("Mediaplayer is playing after switching fragments", soundInfo.isPlaying);
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 
 		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
@@ -424,7 +420,6 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		int timeToWait = 300;
 		String addDialogTitle = solo.getString(R.string.sound_select_source);
-		String soundSpinnerItemText = solo.getString(R.string.sounds);
 
 		assertTrue("Add button not clickable", addButton.isClickable());
 		assertTrue("Play button not clickable", playButton.isClickable());
@@ -448,7 +443,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
-		solo.waitForText(soundSpinnerItemText, 1, timeToWait, false, true);
+		solo.sleep(500);
 
 		checkIfContextMenuAppears(true, false);
 
@@ -472,7 +467,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
-		solo.waitForText(soundSpinnerItemText, 1, timeToWait, false, true);
+		solo.sleep(500);
 
 		checkIfContextMenuAppears(true, true);
 	}

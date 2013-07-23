@@ -105,9 +105,7 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 			fail("File not added in LookDataList");
 		}
 
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String looksSpinnerText = solo.getString(R.string.category_looks);
-		UiTestUtils.changeToFragmentViaActionbar(solo, looksSpinnerText, scriptsSpinnerText);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
 		assertTrue(nyanCat + " is not selected in Spinner", solo.isSpinnerTextSelected(nyanCat));
 
@@ -159,9 +157,7 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 			fail("File not added in LookDataList");
 		}
 
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String looksSpinnerText = solo.getString(R.string.category_looks);
-		UiTestUtils.changeToFragmentViaActionbar(solo, looksSpinnerText, scriptsSpinnerText);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
 		assertTrue(manImage + " is not selected in Spinner", solo.isSpinnerTextSelected(manImage));
 
@@ -183,10 +179,7 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 	private void prepareTest() {
 		createProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String looksSpinnerText = solo.getString(R.string.category_looks);
-		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, looksSpinnerText);
-		UiTestUtils.waitForFragment(solo, R.id.fragment_look_relative_layout);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.LOOKS_INDEX);
 	}
 
 	private void createProject() {
