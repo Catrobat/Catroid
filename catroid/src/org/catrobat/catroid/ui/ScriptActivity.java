@@ -519,7 +519,6 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	}
 
 	public void switchToFragmentFromScriptFragment(int fragmentPosition) {
-		ActionBar actionBar = getSupportActionBar();
 
 		ScriptActivityFragment scriptFragment = getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -529,7 +528,6 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 		switch (fragmentPosition) {
 			case FRAGMENT_LOOKS:
-				actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_LOOKS);
 				isLookFragmentFromSetLookBrickNew = true;
 
 				fragmentTransaction.addToBackStack(LookFragment.TAG);
@@ -543,7 +541,6 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				break;
 
 			case FRAGMENT_SOUNDS:
-				actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_SOUNDS);
 				isSoundFragmentFromPlaySoundBrickNew = true;
 
 				fragmentTransaction.addToBackStack(SoundFragment.TAG);

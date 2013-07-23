@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -53,6 +52,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -83,6 +83,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	private long[] confirmSwitchEditTextTimeStamp = { 0, 0 };
 	private int confirmBackCounter = 0;
 	private int confirmSwitchEditTextCounter = 0;
+	private CharSequence previousActionBarTitle;
 
 	public boolean restoreInstance = false;
 	private View fragmentView;
@@ -95,11 +96,21 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-
-		getSherlockActivity().getSupportActionBar().setTitle(getString(R.string.formula_editor_title));
-
+		setUpActionBar();
 		currentBrick = (Brick) getArguments().getSerializable(BRICK_BUNDLE_ARGUMENT);
 		currentFormula = (Formula) getArguments().getSerializable(FORMULA_BUNDLE_ARGUMENT);
+	}
+
+	private void setUpActionBar() {
+		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		actionBar.setDisplayShowTitleEnabled(true);
+		previousActionBarTitle = actionBar.getTitle();
+		actionBar.setTitle(getString(R.string.formula_editor_title));
+	}
+
+	private void resetActionBar() {
+		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		actionBar.setTitle(previousActionBarTitle);
 	}
 
 	public static void showFragment(View view, Brick brick, Formula formula) {
@@ -168,11 +179,8 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		fragTransaction.hide(this);
 		fragTransaction.show(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
 		fragTransaction.commit();
-		activity.getSupportActionBar().setTitle(ProjectManager.INSTANCE.getCurrentSprite().getName());
 
-		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(false);
-		getSherlockActivity().getSupportActionBar().setNavigationMode(
-				com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_LIST);
+		resetActionBar();
 
 		activity.findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
 		activity.findViewById(R.id.bottom_bar_separator).setVisibility(View.VISIBLE);

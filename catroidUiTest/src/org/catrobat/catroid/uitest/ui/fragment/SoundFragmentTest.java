@@ -298,7 +298,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.LOOKS_INDEX);
 		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SOUNDS_INDEX);
 
-		assertFalse("Mediaplayer is playing after switching fragment via spinner", soundInfo.isPlaying);
+		assertFalse("Mediaplayer is playing after switching fragments", soundInfo.isPlaying);
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 
 		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
