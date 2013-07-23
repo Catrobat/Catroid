@@ -130,13 +130,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
-import com.actionbarsherlock.internal.widget.IcsSpinner;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
@@ -155,7 +153,6 @@ public class UiTestUtils {
 	public static final String COPIED_PROJECT_NAME = "copiedProject";
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
 
-	private static final int ACTION_BAR_SPINNER_INDEX = 0;
 	private static final int ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX = 0;
 
 	public static final int SCRIPTS_INDEX = 0;
@@ -179,7 +176,7 @@ public class UiTestUtils {
 	};
 
 	public static void enterText(Solo solo, int editTextIndex, String text) {
-		
+
 		solo.sleep(50);
 		final EditText editText = solo.getEditText(editTextIndex);
 		solo.getCurrentActivity().runOnUiThread(new Runnable() {
@@ -1313,29 +1310,6 @@ public class UiTestUtils {
 		boolean fragmentFoundInTime = solo.waitForView(solo.getView(fragmentRootLayoutId), timeout, true);
 		if (!fragmentFoundInTime) {
 			fail("Fragment was not loaded");
-		}
-	}
-
-	public static IcsSpinner getActionbarSpinnerOnPreHoneyComb(Solo solo) {
-		ArrayList<View> activityViews = solo.getViews();
-		IcsSpinner spinner = null;
-		for (View viewToCheck : activityViews) {
-			if (viewToCheck instanceof IcsSpinner) {
-				spinner = (IcsSpinner) viewToCheck;
-				break;
-			}
-		}
-		if (spinner == null) {
-			fail("no spinner found");
-		}
-		return spinner;
-	}
-
-	public static int getActionBarSpinnerItemCount(Solo solo) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			return UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo).getAdapter().getCount();
-		} else {
-			return solo.getCurrentViews(Spinner.class).get(ACTION_BAR_SPINNER_INDEX).getAdapter().getCount();
 		}
 	}
 

@@ -48,7 +48,6 @@ public class BrickCategoryFragment extends SherlockListFragment {
 
 	public static final String BRICK_CATEGORY_FRAGMENT_TAG = "brick_category_fragment";
 
-	private int previousActionBarNavigationMode;
 	private CharSequence previousActionBarTitle;
 	private OnCategorySelectedListener onCategorySelectedListener;
 	BrickCategoryAdapter adapter;
@@ -120,7 +119,6 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		this.previousActionBarTitle = actionBar.getTitle();
 		actionBar.setTitle(R.string.categories);
 
-		this.previousActionBarNavigationMode = actionBar.getNavigationMode();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 	}
 
@@ -128,7 +126,6 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(this.previousActionBarTitle);
-		actionBar.setNavigationMode(previousActionBarNavigationMode);
 	}
 
 	private void setupBrickCategories() {
