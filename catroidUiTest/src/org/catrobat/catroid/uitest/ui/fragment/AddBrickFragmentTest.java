@@ -71,7 +71,7 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 	public void testCorrectReturnToScriptFragment() {
 		goToAddBrickFromMainMenu();
 
-		String currentSprite = ProjectManager.INSTANCE.getCurrentSprite().getName();
+		String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
 		assertEquals("Current sprite name is not shown as actionbar title or is wrong before adding a brick", "cat",
 				currentSprite);
 

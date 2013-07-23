@@ -107,6 +107,6 @@ public class TouchAxisTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		touchLookData.setLookFilename(alphaTestImage.getName());
 
 		StorageHandler.getInstance().saveProject(testProject);
-		ProjectManager.INSTANCE.setProject(testProject);
+		ProjectManager.getInstance().setProject(testProject);
 	}
 }

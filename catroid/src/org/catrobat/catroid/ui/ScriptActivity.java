@@ -127,7 +127,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
-		String currentSprite = ProjectManager.INSTANCE.getCurrentSprite().getName();
+		String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
 		actionBar.setTitle(currentSprite);
 
 		buttonAdd = (LinearLayout) findViewById(R.id.button_add);
@@ -394,7 +394,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 			if (!viewSwitchLock.tryLock()) {
 				return;
 			}
-			ProjectManager.INSTANCE.getCurrentProject().getUserVariables().resetAllUserVariables();
+			ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
 			Intent intent = new Intent(this, PreStageActivity.class);
 			startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 		}

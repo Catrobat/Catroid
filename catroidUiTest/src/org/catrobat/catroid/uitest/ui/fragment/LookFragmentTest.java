@@ -104,7 +104,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.createTestProject();
 		UiTestUtils.prepareStageForTest();
 
-		projectManager = ProjectManager.INSTANCE;
+		projectManager = ProjectManager.getInstance();
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 
 		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",

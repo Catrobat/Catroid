@@ -127,17 +127,17 @@ public class NewVariableDialog extends SherlockDialogFragment {
 		String variableName = variableNameEditText.getText().toString();
 		UserVariable newUserVariable = null;
 		if (globalVariable.isChecked()) {
-			if (ProjectManager.INSTANCE.getCurrentProject().getUserVariables()
-					.getUserVariable(variableName, ProjectManager.INSTANCE.getCurrentSprite()) != null) {
+			if (ProjectManager.getInstance().getCurrentProject().getUserVariables()
+					.getUserVariable(variableName, ProjectManager.getInstance().getCurrentSprite()) != null) {
 
 				Toast.makeText(getActivity(), R.string.formula_editor_existing_variable, Toast.LENGTH_LONG).show();
 
 			} else {
-				newUserVariable = ProjectManager.INSTANCE.getCurrentProject().getUserVariables()
+				newUserVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 						.addProjectUserVariable(variableName);
 			}
 		} else if (localVariable.isChecked()) {
-			newUserVariable = ProjectManager.INSTANCE.getCurrentProject().getUserVariables()
+			newUserVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 					.addSpriteUserVariable(variableName);
 		}
 		variableDialogListenerListFinishNewVariableDialog(newUserVariable);
@@ -168,8 +168,8 @@ public class NewVariableDialog extends SherlockDialogFragment {
 			public void afterTextChanged(Editable editable) {
 
 				String variableName = editable.toString();
-				if (ProjectManager.INSTANCE.getCurrentProject().getUserVariables()
-						.getUserVariable(variableName, ProjectManager.INSTANCE.getCurrentSprite()) != null) {
+				if (ProjectManager.getInstance().getCurrentProject().getUserVariables()
+						.getUserVariable(variableName, ProjectManager.getInstance().getCurrentSprite()) != null) {
 
 					Toast.makeText(getActivity(), R.string.formula_editor_existing_variable, Toast.LENGTH_SHORT).show();
 

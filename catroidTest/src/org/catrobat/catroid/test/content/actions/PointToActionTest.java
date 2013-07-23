@@ -39,7 +39,7 @@ public class PointToActionTest extends AndroidTestCase {
 		Project project = new Project();
 		project.addSprite(sprite);
 		project.addSprite(pointedSprite);
-		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.getInstance().setProject(project);
 
 		PointToAction pointToAction = new PointToAction();
 		pointToAction.setSprite(sprite);

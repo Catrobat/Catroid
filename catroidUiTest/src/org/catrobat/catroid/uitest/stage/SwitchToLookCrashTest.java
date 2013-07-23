@@ -92,11 +92,11 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 		assertTrue("Testfile not added from mockActivity", solo.searchText(nyanCat));
 
 		String checksumNyanCatImageFile = Utils.md5Checksum(nyanCatPngFile);
-		assertTrue("Checksum not in checksumcontainer", ProjectManager.INSTANCE.getFileChecksumContainer()
+		assertTrue("Checksum not in checksumcontainer", ProjectManager.getInstance().getFileChecksumContainer()
 				.containsChecksum(checksumNyanCatImageFile));
 
 		boolean isInLookDataList = false;
-		for (LookData lookData : ProjectManager.INSTANCE.getCurrentSprite().getLookDataList()) {
+		for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
 			if (lookData.getChecksum().equalsIgnoreCase(checksumNyanCatImageFile)) {
 				isInLookDataList = true;
 			}
@@ -144,11 +144,11 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 		assertTrue("Testfile not added from mockActivity", solo.searchText(manImage));
 
 		String checksumNyanCatImageFile = Utils.md5Checksum(nyanCatPngFile);
-		assertTrue("Checksum not in checksumcontainer", ProjectManager.INSTANCE.getFileChecksumContainer()
+		assertTrue("Checksum not in checksumcontainer", ProjectManager.getInstance().getFileChecksumContainer()
 				.containsChecksum(checksumNyanCatImageFile));
 
 		boolean isInLookDataList = false;
-		for (LookData lookData : ProjectManager.INSTANCE.getCurrentSprite().getLookDataList()) {
+		for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
 			if (lookData.getChecksum().equalsIgnoreCase(checksumNyanCatImageFile)) {
 				isInLookDataList = true;
 			}
@@ -194,10 +194,10 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 		backgroundSprite.addScript(startScript);
 		project.addSprite(backgroundSprite);
 
-		ProjectManager.INSTANCE.setFileChecksumContainer(new FileChecksumContainer());
-		ProjectManager.INSTANCE.setProject(project);
-		ProjectManager.INSTANCE.setCurrentSprite(backgroundSprite);
-		ProjectManager.INSTANCE.setCurrentScript(startScript);
+		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(backgroundSprite);
+		ProjectManager.getInstance().setCurrentScript(startScript);
 		storageHandler.saveProject(project);
 	}
 

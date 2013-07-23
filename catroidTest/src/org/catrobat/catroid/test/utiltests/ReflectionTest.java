@@ -38,7 +38,7 @@ public class ReflectionTest extends AndroidTestCase {
 	}
 
 	private class SubClass extends SuperClass {
-		private final static char SECRET_STATIC_CHAR = 'c';
+		private static final char SECRET_STATIC_CHAR = 'c';
 		private final int SECRET_INTEGER = 42;
 		private String SECRET_STRING = "This is a secret string!";
 	}

@@ -54,7 +54,7 @@ public class BluetoothManager {
 	public static final int BLUETOOTH_ACTIVATING = 0;
 	private BluetoothAdapter bluetoothAdapter;
 
-	Activity activity;
+	private final Activity activity;
 
 	public BluetoothManager(Activity activity) {
 		this.activity = activity;
@@ -64,7 +64,7 @@ public class BluetoothManager {
 
 		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (bluetoothAdapter == null) {
-			return BLUETOOTH_NOT_SUPPORTED;// Device does not support Bluetooth
+			return BLUETOOTH_NOT_SUPPORTED;
 		}
 		if (!bluetoothAdapter.isEnabled()) {
 			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
