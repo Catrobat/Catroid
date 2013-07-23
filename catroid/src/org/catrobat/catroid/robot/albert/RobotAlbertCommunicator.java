@@ -101,8 +101,6 @@ public abstract class RobotAlbertCommunicator extends Thread {
 	public static final int BUZZER_COMMAND = 104;
 	private static final int RGB_EYE_COMMAND = 105;
 	private static final int FRONT_LED_COMMAND = 106;
-	private static final int GET_DISTANCE_COMMAND = 107;
-	//public static final int TONE_COMMAND = 101;
 
 	protected boolean connected = false;
 	protected Handler uiHandler;

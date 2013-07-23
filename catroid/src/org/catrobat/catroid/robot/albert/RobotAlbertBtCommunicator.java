@@ -78,8 +78,6 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 	private String mMACaddress;
 	private BTConnectable myOwner;
 
-	private boolean createThread = true; //just for testing
-
 	public RobotAlbertBtCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter,
 			Resources resources) {
 		super(uiHandler, resources);
