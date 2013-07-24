@@ -32,6 +32,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Layout;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 
 public class Formula implements Serializable {
@@ -39,7 +40,6 @@ public class Formula implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private FormulaElement formulaTree;
 	private transient Integer formulaTextFieldId = null;
-	private transient Drawable originalEditTextDrawable = null;
 	private transient InternFormula internFormula = null;
 
 	public Object readResolve() {
@@ -157,15 +157,6 @@ public class Formula implements Serializable {
 		}
 	}
 
-	public void removeTextFieldHighlighting(View brickView, int orientation) {
-		EditText formulaTextField = (EditText) brickView.findViewById(formulaTextFieldId);
-
-		int width = formulaTextField.getWidth();
-		formulaTextField.setBackgroundDrawable(originalEditTextDrawable);
-		formulaTextField.setWidth(width);
-		originalEditTextDrawable = null;
-	}
-
 	public void highlightTextField(View brickView, int orientation) {
 		Drawable highlightBackground = null;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -176,17 +167,41 @@ public class Formula implements Serializable {
 
 		EditText formulaTextField = (EditText) brickView.findViewById(formulaTextFieldId);
 
-		if (originalEditTextDrawable == null) {
-			originalEditTextDrawable = formulaTextField.getBackground();
-		}
 		int width = formulaTextField.getWidth();
 		width = Math.max(width, 130);
 		formulaTextField.setBackgroundDrawable(highlightBackground);
 		formulaTextField.setWidth(width);
 	}
 
+	public void removeTextFieldHighlighting(View brickView, int orientation) {
+		EditText formulaTextField = (EditText) brickView.findViewById(formulaTextFieldId);
+
+		int width = formulaTextField.getWidth();
+		formulaTextField.setBackgroundDrawable(getDefaultBackgroundRecursively(brickView, formulaTextField));
+		formulaTextField.setWidth(width);
+	}
+
+	private Drawable getDefaultBackgroundRecursively(View brickView, EditText formulaTextField) {
+		if (brickView instanceof ViewGroup) {
+			ViewGroup brickViewIterable = ((ViewGroup) brickView);
+			for (int i = 0; i < brickViewIterable.getChildCount(); ++i) {
+				View nextChild = brickViewIterable.getChildAt(i);
+				Drawable recursiveCandidate = getDefaultBackgroundRecursively(nextChild, formulaTextField);
+				if (recursiveCandidate != null) {
+					return recursiveCandidate;
+				}
+			}
+		} else if (brickView instanceof EditText && brickView != formulaTextField) {
+			Drawable candidate = brickView.getBackground();
+			if (candidate != null) {
+				return candidate;
+			}
+		}
+
+		return null;
+	}
+
 	public void prepareToRemove() {
-		originalEditTextDrawable = null;
 		formulaTextFieldId = null;
 	}
 
