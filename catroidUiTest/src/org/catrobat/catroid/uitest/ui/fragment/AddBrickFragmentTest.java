@@ -89,17 +89,32 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 	
 	public void testCorrectReturnToCategoriesFragment() {
 		goToAddBrickFromMainMenu();
+		String categoriesString = solo.getString(R.string.categories);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 
 		assertTrue("Categories text in action bar not found before selecting a category",
-				solo.waitForText(solo.getString(R.string.categories), 0, 2000));
+				solo.waitForText(categoriesString, 0, 2000));
 
 		solo.clickOnText(solo.getString(R.string.category_control));
 		solo.goBack();
 
 		assertTrue("Categories text in action bar not found after selecting a category",
-				solo.waitForText(solo.getString(R.string.categories), 0, 2000));
+				solo.waitForText(categoriesString, 0, 2000));
 
+		String selectSoundCatogory = solo.getString(R.string.category_sound);
+		solo.clickOnText(selectSoundCatogory);
+		String selectPlaySound = solo.getString(R.string.brick_play_sound);
+		solo.clickOnText(selectPlaySound);
+		solo.clickOnScreen(400, 200);
+		String selectNewSound = solo.getString(R.string.new_broadcast_message);
+		solo.clickOnText(selectNewSound);
+		solo.clickOnText(selectNewSound);
+		solo.clickOnText(solo.getString(R.string.soundrecorder_name));
+		solo.clickOnImageButton(0);
+		solo.clickOnImageButton(0);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		assertTrue("Categories text in action bar not found after selecting a category",
+				solo.waitForText(categoriesString, 0, 2000));
 	}
 
 	private void checkActionBarInACategory(String categoryID, String category) {
