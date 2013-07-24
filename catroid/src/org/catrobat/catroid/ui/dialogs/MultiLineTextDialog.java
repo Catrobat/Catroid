@@ -135,7 +135,7 @@ public abstract class MultiLineTextDialog extends DialogFragment {
 	}
 
 	protected boolean getPositiveButtonEnabled() {
-		if (input.getText().length() == 0) {
+		if (input.length() == 0) {
 			return false;
 		}
 
