@@ -259,6 +259,12 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
 	}
 
+	public void testRateAppMenuExists() {
+		solo.sendKey(Solo.MENU);
+		assertTrue("App rating menu not found in overflow menu!",
+				solo.searchText(solo.getString(R.string.main_menu_rate_app)));
+	}
+
 	public void testShouldDisplayDialogIfVersionNumberTooHigh() throws Throwable {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		// Prevent Utils from returning true in isApplicationDebuggable
