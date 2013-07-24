@@ -118,15 +118,24 @@ public class Sprite implements Serializable, Cloneable {
 		final Sprite cloneSprite = new Sprite();
 		cloneSprite.setName(this.getName());
 
+		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
+		if (container == null) {
+			ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
+		}
+
 		ArrayList<LookData> cloneLookList = new ArrayList<LookData>();
 		for (LookData element : this.lookList) {
+			LookData copyElement = element.clone();
+			container.addChecksum(copyElement.getChecksum(), copyElement.getAbsolutePath());
 			cloneLookList.add(element.clone());
 		}
 		cloneSprite.lookList = cloneLookList;
 
 		ArrayList<SoundInfo> cloneSoundList = new ArrayList<SoundInfo>();
 		for (SoundInfo element : this.soundList) {
-			cloneSoundList.add(element.copySoundInfoForSprite(cloneSprite));
+			SoundInfo copyElement = element.copySoundInfoForSprite(cloneSprite);
+			container.addChecksum(copyElement.getChecksum(), copyElement.getAbsolutePath());
+			cloneSoundList.add(copyElement);
 		}
 		cloneSprite.soundList = cloneSoundList;
 
