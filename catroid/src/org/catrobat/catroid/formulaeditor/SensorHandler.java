@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import org.catrobat.catroid.nfc.NfcManager;
+
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -120,6 +122,10 @@ public class SensorHandler implements SensorEventListener {
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
 				sensorValue = Double.valueOf(orientations[1]);
 				return sensorValue * radianToDegreeConst * -1f;
+
+			case NFC_UID:
+				return Double.valueOf(NfcManager.getInstance().getUid());
+
 		}
 
 		return 0d;

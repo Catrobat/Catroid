@@ -26,9 +26,13 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.nfc.NfcManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.view.WindowManager;
 
@@ -40,6 +44,10 @@ public class StageActivity extends AndroidApplication {
 	public static StageListener stageListener;
 	private boolean resizePossible;
 	private StageDialog stageDialog;
+
+	private PendingIntent pendingIntent;
+
+	private NfcAdapter mNfcAdapter;
 
 	public static final int STAGE_ACTIVITY_FINISH = 7777;
 
@@ -53,6 +61,17 @@ public class StageActivity extends AndroidApplication {
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 		initialize(stageListener, true);
+
+		pendingIntent = PendingIntent.getActivity(this, 0,
+				new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+
+		mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		NfcManager.getInstance().processIntent(intent);
 	}
 
 	@Override
@@ -66,6 +85,22 @@ public class StageActivity extends AndroidApplication {
 		stageListener.finish();
 
 		PreStageActivity.shutdownResources();
+	}
+
+	@Override
+	protected void onPause() {
+		if (mNfcAdapter != null) {
+			mNfcAdapter.disableForegroundDispatch(this);
+		}
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		if (mNfcAdapter != null) {
+			mNfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+		}
+		super.onResume();
 	}
 
 	public void pause() {

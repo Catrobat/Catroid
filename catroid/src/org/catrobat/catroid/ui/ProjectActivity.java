@@ -27,6 +27,7 @@ import java.util.concurrent.locks.Lock;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.nfc.NfcManager;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
@@ -191,6 +192,7 @@ public class ProjectActivity extends SherlockFragmentActivity {
 			return;
 		}
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
+		NfcManager.getInstance().resetUid();
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}

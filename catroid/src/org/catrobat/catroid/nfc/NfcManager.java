@@ -20,36 +20,48 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
+package org.catrobat.catroid.nfc;
 
-public enum Sensors {
-	X_ACCELERATION, Y_ACCELERATION, Z_ACCELERATION, COMPASS_DIRECTION, X_INCLINATION, Y_INCLINATION, NFC_UID, OBJECT_X(
-			true), OBJECT_Y(true), OBJECT_GHOSTEFFECT(true), OBJECT_BRIGHTNESS(true), OBJECT_SIZE(true), OBJECT_ROTATION(
-			true), OBJECT_LAYER(true);
-	public final boolean isObjectSensor;
+import java.math.BigInteger;
 
-	Sensors(boolean isObjectSensor) {
-		this.isObjectSensor = true;
+import android.content.Intent;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+
+public class NfcManager {
+	private static NfcManager INSTANCE = new NfcManager();
+	private long uid;
+
+	private NfcManager() {
+		resetUid();
 	}
 
-	Sensors() {
-		this.isObjectSensor = false;
+	public static NfcManager getInstance() {
+		return INSTANCE;
 	}
 
-	public static boolean isSensor(String value) {
-		if (getSensorByValue(value) == null) {
-			return false;
+	public long getUid() {
+		return uid;
+	}
+
+	public void resetUid() {
+		uid = 0;
+	}
+
+	public void processIntent(Intent intent) {
+		if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())
+				|| NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())
+				|| NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction())) {
+			Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+
+			byte[] byteId = tag.getId();
+
+			uid = byteArrayToInt(byteId);
 		}
-		return true;
 	}
 
-	public static Sensors getSensorByValue(String value) {
-		try {
-			return valueOf(value);
-		} catch (IllegalArgumentException exception) {
-
-		}
-		return null;
+	private long byteArrayToInt(byte[] byteId) {
+		BigInteger n = new BigInteger(byteId);
+		return n.longValue();
 	}
-
 }
