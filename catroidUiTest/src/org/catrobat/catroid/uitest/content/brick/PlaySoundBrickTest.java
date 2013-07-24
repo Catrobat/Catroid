@@ -111,22 +111,20 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 
 	public void testSpinnerUpdatesDelete() {
 		String buttonDeleteText = solo.getString(R.string.delete);
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String soundsSpinnerText = solo.getString(R.string.sounds);
 
 		solo.clickOnText(soundName);
 		assertTrue(soundName + " is not in Spinner", solo.searchText(soundName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 		solo.goBack();
 
-		clickOnSpinnerItem(scriptsSpinnerText, soundsSpinnerText);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SOUNDS_INDEX);
 
 		solo.clickLongOnText(soundName);
 		solo.waitForText(buttonDeleteText);
 		solo.clickOnText(buttonDeleteText);
 		solo.clickOnButton(solo.getString(R.string.yes));
 
-		clickOnSpinnerItem(soundsSpinnerText, scriptsSpinnerText);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
 		solo.clickOnText(soundName2);
 		assertFalse(soundName + " is still in Spinner", solo.searchText(soundName));
@@ -135,14 +133,12 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 
 	public void testSpinnerUpdatesRename() {
 		String newName = "nameRenamed";
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String soundsSpinnerText = solo.getString(R.string.sounds);
 
 		solo.clickOnText(soundName);
 		assertTrue(soundName + " is not in Spinner", solo.searchText(soundName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 		solo.goBack();
-		clickOnSpinnerItem(scriptsSpinnerText, soundsSpinnerText);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SOUNDS_INDEX);
 		solo.sleep(200);
 		solo.clickLongOnText(soundName);
 		solo.clickOnText(solo.getString(R.string.rename));
@@ -151,9 +147,9 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		solo.sendKey(Solo.ENTER);
 		solo.waitForDialogToClose(500);
 		solo.sleep(500);
-		clickOnSpinnerItem(soundsSpinnerText, scriptsSpinnerText);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 		solo.sleep(200);
-		solo.clickOnText(soundName);
+		solo.clickOnText(newName);
 		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 	}
@@ -186,11 +182,6 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		String programMenuActivityClass = ProgramMenuActivity.class.getSimpleName().toString();
 		assertTrue("Should be in " + programMenuActivityClass, solo.getCurrentActivity().getClass().getSimpleName()
 				.toString().equals(programMenuActivityClass));
-	}
-
-	private void clickOnSpinnerItem(String selectedSpinnerItem, String itemName) {
-		solo.clickOnText(selectedSpinnerItem);
-		solo.clickOnText(itemName);
 	}
 
 	private void createProject() {

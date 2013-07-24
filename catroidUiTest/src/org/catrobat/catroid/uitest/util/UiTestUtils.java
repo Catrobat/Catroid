@@ -130,13 +130,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
-import com.actionbarsherlock.internal.widget.IcsSpinner;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
@@ -155,17 +153,30 @@ public class UiTestUtils {
 	public static final String COPIED_PROJECT_NAME = "copiedProject";
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
 
-	private static final int ACTION_BAR_SPINNER_INDEX = 0;
 	private static final int ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX = 0;
+
+	public static final int SCRIPTS_INDEX = 0;
+	public static final int LOOKS_INDEX = 1;
+	public static final int SOUNDS_INDEX = 2;
+
+	private static final List<Integer> fragmentIndexList = new ArrayList<Integer>();
+
+	static {
+		fragmentIndexList.add(R.id.fragment_script_relative_layout);
+		fragmentIndexList.add(R.id.fragment_look_relative_layout);
+		fragmentIndexList.add(R.id.fragment_sound_relative_layout);
+	}
 
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
 	};
 
 	private UiTestUtils() {
+
 	};
 
 	public static void enterText(Solo solo, int editTextIndex, String text) {
+
 		solo.sleep(50);
 		final EditText editText = solo.getEditText(editTextIndex);
 		solo.getCurrentActivity().runOnUiThread(new Runnable() {
@@ -1302,48 +1313,6 @@ public class UiTestUtils {
 		}
 	}
 
-	public static void changeToFragmentViaActionbar(Solo solo, String currentSpinnerItem, String itemToSwitchTo) {
-		solo.clickOnText(currentSpinnerItem);
-		solo.sleep(50);
-		solo.clickOnText(itemToSwitchTo);
-		solo.sleep(50);
-	}
-
-	public static IcsSpinner getActionbarSpinnerOnPreHoneyComb(Solo solo) {
-		ArrayList<View> activityViews = solo.getViews();
-		IcsSpinner spinner = null;
-		for (View viewToCheck : activityViews) {
-			if (viewToCheck instanceof IcsSpinner) {
-				spinner = (IcsSpinner) viewToCheck;
-				break;
-			}
-		}
-		if (spinner == null) {
-			fail("no spinner found");
-		}
-		return spinner;
-	}
-
-	public static void clickOnActionBarSpinnerItem(Solo solo, int itemIndex) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			IcsSpinner spinner = UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo);
-			int activeSpinnerItemIndex = spinner.getSelectedItemPosition();
-			String itemToClickOnText = spinner.getAdapter().getItem(activeSpinnerItemIndex + itemIndex).toString();
-			UiTestUtils.changeToFragmentViaActionbar(solo,
-					spinner.getItemAtPosition(activeSpinnerItemIndex).toString(), itemToClickOnText);
-		} else {
-			solo.pressSpinnerItem(ACTION_BAR_SPINNER_INDEX, itemIndex);
-		}
-	}
-
-	public static int getActionBarSpinnerItemCount(Solo solo) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			return UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo).getAdapter().getCount();
-		} else {
-			return solo.getCurrentViews(Spinner.class).get(ACTION_BAR_SPINNER_INDEX).getAdapter().getCount();
-		}
-	}
-
 	public static View getViewContainerByIds(Solo solo, int id, int container_id) {
 		View parent = solo.getView(container_id);
 		List<View> views = solo.getViews(parent);
@@ -1408,5 +1377,14 @@ public class UiTestUtils {
 
 	public static void waitForText(Solo solo, String text) {
 		assertEquals("Text not found!", true, solo.waitForText(text, 0, 2000));
+	}
+
+	public static void switchToFragmentInScriptActivity(Solo solo, int fragmentIndex) {
+		solo.goBack();
+		solo.waitForActivity(ProgramMenuActivity.class);
+		solo.clickOnButton(fragmentIndex);
+		solo.waitForActivity(ScriptActivity.class);
+		int id = fragmentIndexList.get(fragmentIndex);
+		solo.waitForFragmentById(id);
 	}
 }

@@ -81,7 +81,6 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
@@ -931,8 +930,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	private void switchToScriptFragment() {
 		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-		ActionBar actionBar = scriptActivity.getSupportActionBar();
-		actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_SCRIPTS);
 		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 
 		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();
