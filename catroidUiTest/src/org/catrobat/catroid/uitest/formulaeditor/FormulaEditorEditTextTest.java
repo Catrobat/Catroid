@@ -42,6 +42,7 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.SimulatedSensorManager;
@@ -653,6 +654,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 	}
 
+	@Device
 	public void testComputeDialog() {
 
 		//For initialization
