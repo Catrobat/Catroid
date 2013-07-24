@@ -126,7 +126,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		clickOnContextMenuItem(lookName, solo.getString(R.string.delete));
 		solo.clickOnButton(solo.getString(R.string.yes));
 
-		clickOnSpinnerItem(solo.getString(R.string.category_looks), solo.getString(R.string.scripts));
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
 		solo.clickOnText(lookName2);
 
@@ -155,7 +155,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		clickOnSpinnerItem(solo.getString(R.string.category_looks), solo.getString(R.string.scripts));
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
 		solo.clickOnText(newName);
 
@@ -184,8 +184,6 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testAddNewLook() {
 		String newText = solo.getString(R.string.new_broadcast_message);
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String looksSpinnerText = solo.getString(R.string.looks);
 
 		Bundle bundleForGallery = new Bundle();
 		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
@@ -193,8 +191,8 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		clickOnSpinnerItem(scriptsSpinnerText, looksSpinnerText);
-		clickOnSpinnerItem(looksSpinnerText, scriptsSpinnerText);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.LOOKS_INDEX);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
 		solo.clickOnText(lookName);
 		solo.clickOnText(newText);
@@ -229,11 +227,6 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", lookImagePath, lookPath);
 		solo.goBack();
 		solo.goBack();
-	}
-
-	private void clickOnSpinnerItem(String selectedSpinnerItem, String itemName) {
-		solo.clickOnText(selectedSpinnerItem);
-		solo.clickOnText(itemName);
 	}
 
 	private void createProject() {

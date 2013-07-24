@@ -85,7 +85,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -1051,8 +1050,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	private void switchToScriptFragment() {
 		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-		ActionBar actionBar = scriptActivity.getSupportActionBar();
-		actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_SCRIPTS);
 		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 
 		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();
