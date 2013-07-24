@@ -312,8 +312,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 			soundInfo.setSoundFileName(soundFile.getName());
 			soundInfo.setTitle(soundName + Integer.toString(number));
 			soundInfoList.add(soundInfo);
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo.getChecksum(),
-					soundInfo.getAbsolutePath());
+			ProjectManager.getInstance().getFileChecksumContainer()
+					.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 		}
 		StorageHandler.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
 		Project newProject = StorageHandler.getInstance().loadProject(projectName);

@@ -58,7 +58,6 @@ public class StopAllSoundsTest extends BaseActivityInstrumentationTestCase<Scrip
 	}
 
 	@Smoke
-	
 	public void testStopAllSoundsBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

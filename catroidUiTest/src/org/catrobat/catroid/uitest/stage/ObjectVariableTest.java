@@ -92,7 +92,6 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 		return new Formula(parseTree);
 	}
 
-	
 	public void testLookSensorValueInStage() {
 
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -135,7 +134,6 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 
 	}
 
-	
 	public void testLookSensorValueBeforeAndAfterStage() {
 
 		Formula lookXPositionFormula = getFormulaBySensor(Sensors.OBJECT_X);

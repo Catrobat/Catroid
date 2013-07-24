@@ -71,7 +71,6 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
-	
 	public void testBackButtonPressedTwice() {
 		Project project = createTestProject(testProject);
 		ProjectManager.getInstance().setProject(project);
@@ -88,7 +87,6 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.assertCurrentActivity("Program is not in stage activity", ProjectActivity.class);
 	}
 
-	
 	public void testBackToPreviousActivity() {
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -137,7 +135,6 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 	//		assertEquals("Unexpected sprite size", scale, sprite.getSize());
 	//	}
 
-	
 	public void testRestartButtonActivityChain() {
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -164,7 +161,6 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertEquals("Returned to wrong Activity", currentActivity, solo.getCurrentActivity());
 	}
 
-	
 	public void testRestartButtonScriptPosition() {
 		createAndSaveTestProject(testProject);
 		ArrayList<Script> scriptStart = new ArrayList<Script>();
@@ -225,7 +221,6 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		}
 	}
 
-	
 	public void testRestartProjectWithSound() {
 		String projectName = UiTestUtils.PROJECTNAME1;
 		//creating sprites for project:
@@ -277,7 +272,6 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertTrue("Sound did not play from start!", positionBeforeRestart > positionAfterRestart);
 	}
 
-	
 	public void testAxesOnOff() {
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -325,7 +319,6 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
 	}
 
-	
 	public void testMaximizeStretch() {
 		Project project = createTestProject(testProject);
 		project.getXmlHeader().virtualScreenWidth = 480;

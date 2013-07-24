@@ -49,7 +49,6 @@ public class SimpleStageTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 	}
 
-	
 	public void testSimple() {
 		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
 
@@ -63,7 +62,6 @@ public class SimpleStageTest extends BaseActivityInstrumentationTestCase<MainMen
 		UiTestUtils.compareByteArrays(whitePixel, result);
 	}
 
-	
 	public void testScreenAlwaysOn() {
 		final int windowFlags = solo.getCurrentActivity().getWindow().getAttributes().flags;
 

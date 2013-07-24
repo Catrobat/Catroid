@@ -65,7 +65,6 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<Script
 	}
 
 	@Smoke
-	
 	public void testPointToBrickTest() throws InterruptedException {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

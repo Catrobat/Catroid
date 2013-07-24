@@ -58,7 +58,6 @@ public class ComeToFrontTest extends BaseActivityInstrumentationTestCase<ScriptA
 	}
 
 	@Smoke
-	
 	public void testComeToFrontBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

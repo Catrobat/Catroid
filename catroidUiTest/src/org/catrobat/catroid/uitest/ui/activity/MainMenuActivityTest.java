@@ -188,7 +188,6 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Project file with whitelisted characters was not created!", file.exists());
 	}
 
-	
 	public void testOrientation() throws NameNotFoundException {
 		/// Method 1: Assert it is currently in portrait mode.
 		assertEquals("MainMenuActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, getActivity()
@@ -209,7 +208,6 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
 
-	
 	public void testLoadProject() {
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject2);
 		UtilFile.deleteDirectory(directory);
@@ -233,7 +231,6 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
 	}
 
-	
 	public void testResume() {
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject3);
 		UtilFile.deleteDirectory(directory);
@@ -262,7 +259,6 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
 	}
 
-	
 	public void testShouldDisplayDialogIfVersionNumberTooHigh() throws Throwable {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		// Prevent Utils from returning true in isApplicationDebuggable
@@ -324,7 +320,6 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		storageHandler.saveProject(project);
 	}
 
-	
 	public void testOverrideMyFirstProject() {
 		String standardProjectName = solo.getString(R.string.default_project_name);
 		Project standardProject = null;
@@ -380,7 +375,6 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 				ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
 	}
 
-	
 	public void testProjectNameVisible() {
 		createTestProject(testProject);
 		createTestProject(testProject2);

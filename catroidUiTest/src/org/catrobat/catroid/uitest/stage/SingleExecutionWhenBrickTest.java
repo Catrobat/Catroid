@@ -71,7 +71,6 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		solo.sleep(500);
 	}
 
-	
 	public void testWaitBrickWhenTapped() {
 
 		for (int i = 1; i <= 10; ++i) {
@@ -86,7 +85,6 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		assertEquals("Look has wrong AlphaValue.", 50f, yellowSprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
-	
 	public void testWaitBrickBroadcast() {
 		for (int i = 1; i <= 10; ++i) {
 			solo.sleep(1000);

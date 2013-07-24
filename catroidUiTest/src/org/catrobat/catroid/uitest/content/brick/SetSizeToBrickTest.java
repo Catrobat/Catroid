@@ -84,7 +84,6 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	@Smoke
-	
 	public void testSetSizeToBrick() {
 		double newSize = 200;
 

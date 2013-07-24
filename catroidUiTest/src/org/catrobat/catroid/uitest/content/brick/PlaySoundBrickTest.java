@@ -80,7 +80,6 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		super.tearDown();
 	}
 
-	
 	public void testSelectAndPlaySoundFile() {
 		solo.clickOnText(soundName);
 		solo.sleep(1000);
@@ -110,7 +109,6 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("wrong file playing", 4875, mediaPlayer.getDuration());
 	}
 
-	
 	public void testSpinnerUpdatesDelete() {
 		String buttonDeleteText = solo.getString(R.string.delete);
 
@@ -133,7 +131,6 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 	}
 
-	
 	public void testSpinnerUpdatesRename() {
 		String newName = "nameRenamed";
 
@@ -157,7 +154,6 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 	}
 
-	
 	public void testAddNewSound() {
 		String newText = solo.getString(R.string.new_broadcast_message);
 		String recordedFilename = solo.getString(R.string.soundrecorder_recorded_filename);

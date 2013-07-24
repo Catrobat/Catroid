@@ -62,7 +62,6 @@ public class LegoNxtMotorTurnAngleBrickTest extends BaseActivityInstrumentationT
 	}
 
 	@Smoke
-	
 	public void testMotorTurnAngleBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

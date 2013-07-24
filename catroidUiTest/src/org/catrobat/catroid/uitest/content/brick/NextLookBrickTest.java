@@ -58,7 +58,6 @@ public class NextLookBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 	}
 
 	@Smoke
-	
 	public void testNextLookBrick() {
 		ListView view = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) view.getAdapter();

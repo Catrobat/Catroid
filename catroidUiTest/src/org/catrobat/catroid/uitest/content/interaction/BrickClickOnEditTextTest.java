@@ -66,7 +66,6 @@ public class BrickClickOnEditTextTest extends BaseActivityInstrumentationTestCas
 		super.tearDown();
 	}
 
-	
 	public void testIfEditTextAreVisibleAndClickOnTextSetXandYInAddBrickDialog() {
 		ArrayList<Integer> yPosition;
 		int addedYPosition;

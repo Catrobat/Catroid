@@ -62,7 +62,6 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 		prepareTest();
 	}
 
-	
 	public void testSwitchToLookCrashPNG() throws IOException {
 		String nyanCatPath = "";
 		String nyanCat = "nyancat_crash";
@@ -115,7 +114,6 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 		solo.sleep(5000);
 	}
 
-	
 	public void testSwitchToLookCrashJPG() throws IOException {
 		String manImagePath = "";
 		String manImage = "man_crash";

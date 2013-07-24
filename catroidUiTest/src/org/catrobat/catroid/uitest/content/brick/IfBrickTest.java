@@ -60,7 +60,6 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 	}
 
 	@Smoke
-	
 	public void testIfBrick() {
 		ListView view = UiTestUtils.getScriptListView(solo);
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
@@ -80,7 +79,6 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_if_begin)));
 	}
 
-	
 	public void testStrings() {
 
 		solo.clickOnEditText(0);
@@ -96,7 +94,6 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		solo.goBack();
 	}
 
-	
 	public void testIfBrickParts() {
 		ArrayList<Integer> yPosition;
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();

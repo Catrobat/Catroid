@@ -58,7 +58,6 @@ public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<
 		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
-	
 	public void testRenameSpriteDialog() throws NameNotFoundException, IOException {
 		createTestProject(testProject);
 		solo.sleep(200);
@@ -80,7 +79,6 @@ public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<
 		assertEquals("The first sprite is NOT rename!", first, kat);
 	}
 
-	
 	public void testRenameSpriteDialogMixedCase() throws NameNotFoundException, IOException {
 		createTestProject(testProject);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));

@@ -60,7 +60,6 @@ public class PointInDirectionBrickTest extends BaseActivityInstrumentationTestCa
 	}
 
 	@Smoke
-	
 	public void testPointInDirectionBrickTest() throws InterruptedException {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

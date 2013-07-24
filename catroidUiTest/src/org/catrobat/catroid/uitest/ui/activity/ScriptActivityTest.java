@@ -54,7 +54,6 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	
 	public void testOrientation() throws NameNotFoundException {
 		Activity currentActivity = solo.getCurrentActivity();
 
@@ -77,7 +76,6 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
 
-	
 	public void testMainMenuButton() {
 		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
 
@@ -113,8 +111,6 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		checkplayProgramButton();
 	}
 
-	
-	
 	public void testOverflowMenuItemSettings() {
 		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
 

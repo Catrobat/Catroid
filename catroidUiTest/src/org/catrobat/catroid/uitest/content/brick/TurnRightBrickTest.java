@@ -62,7 +62,6 @@ public class TurnRightBrickTest extends BaseActivityInstrumentationTestCase<Scri
 	}
 
 	@Smoke
-	
 	public void testTurnRightBrickTest() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

@@ -57,7 +57,6 @@ public class GlideToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	
 	public void testNumberInput() {
 		double duration = 1.5;
 		int xPosition = 123;

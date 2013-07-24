@@ -149,7 +149,6 @@ public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertTrue("UserVariable Name not as expected", userVariable.getName().equals(userVariableName));
 	}
 
-	
 	public void testCreateUserVariableInFormulaEditor() {
 		String userVariableName = "testVariable1";
 

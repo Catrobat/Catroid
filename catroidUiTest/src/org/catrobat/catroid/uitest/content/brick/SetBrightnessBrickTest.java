@@ -59,7 +59,6 @@ public class SetBrightnessBrickTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	@Smoke
-	
 	public void testSetBrightnessBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

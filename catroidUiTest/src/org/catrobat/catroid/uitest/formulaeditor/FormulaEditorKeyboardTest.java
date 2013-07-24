@@ -83,7 +83,6 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 	}
 
 	@Smoke
-	
 	public void testNormalKeysKeyboard() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -171,7 +170,6 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 	}
 
-	
 	public void testObjectFragment() {
 
 		String itemString = "";
@@ -237,7 +235,6 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 	}
 
-	
 	public void testMathFragment() {
 
 		String itemString = "";
@@ -334,7 +331,6 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 	}
 
-	
 	public void testLogicFragment() {
 
 		String itemString = "";
@@ -413,7 +409,6 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 	}
 
-	
 	public void testSensorsFragment() {
 
 		String itemString = "";

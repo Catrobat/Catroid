@@ -68,7 +68,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		super.tearDown();
 	}
 
-	
 	public void testCopyScript() {
 		UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -85,7 +84,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 	}
 
-	
 	public void testCopyMultipleBricks() {
 		UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -105,7 +103,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 	}
 
-	
 	public void testCopyActionMode() {
 		UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -124,7 +121,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 	}
 
-	
 	public void testCreateNewBrickButton() {
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -143,7 +139,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 				.getCurrentScript().getBrickList().size());
 	}
 
-	
 	public void testBrickCategoryDialog() {
 		UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -218,7 +213,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	/**
 	 * Tests issue#54. https://github.com/Catrobat/Catroid/issues/54
 	 */
-	
+
 	public void testOnlyAddControlBricks() {
 		UiTestUtils.createEmptyProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -238,7 +233,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("Second script isn't a broadcast script.", sprite.getScript(1) instanceof BroadcastScript);
 	}
 
-	
 	public void testSimpleDragNDrop() {
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -257,7 +251,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(4), brickList.get(4));
 	}
 
-	
 	public void testDeleteActionMode() {
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -281,7 +274,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Not all Bricks have been deleted!", 0, numberOfBricks);
 	}
 
-	
 	public void testDeleteActionModeBack() {
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -296,7 +288,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("No Brick should have been deleted!", brickListToCheck.size(), numberOfBricks);
 	}
 
-	
 	public void testDeleteActionModeAllBricks() {
 		UiTestUtils.createTestProjectWithEveryBrick();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -322,7 +313,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Not all Bricks have been deleted!", 0, numberOfBricks);
 	}
 
-	
 	public void testDeleteActionModeTwoScripts() {
 		UiTestUtils.createTestProjectForActionModeDelete();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -348,7 +338,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Expected two ScriptBricks", 2, numberOfScripts);
 	}
 
-	
 	public void testDeleteActionModeNestedLoops() {
 		UiTestUtils.createTestProjectNestedLoops();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -403,7 +392,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Wrong number of bricks left", 3, numberOfBricks);
 	}
 
-	
 	public void testDeleteActionModeIfBricks() {
 		UiTestUtils.createTestProjectIfBricks();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -444,7 +432,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Wrong number of bricks left", 0, numberOfBricks);
 	}
 
-	
 	public void testDeleteItem() {
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -487,7 +474,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Incorrect brick order after deleting a brick", brickListToCheck.get(4), brickList.get(3));
 	}
 
-	
 	public void testBackgroundBricks() {
 		Project standardProject = null;
 		try {
@@ -531,7 +517,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertFalse("IfOnEdgeBounceBrick is in the brick list!", solo.searchText(ifOnEdgeBounce));
 	}
 
-	
 	public void testOptionsMenuItems() {
 		UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);

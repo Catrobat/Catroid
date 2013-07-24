@@ -62,7 +62,6 @@ public class ScriptChangeTest extends BaseActivityInstrumentationTestCase<Script
 		super.setUp();
 	}
 
-	
 	public void testChangeScript() {
 		ListView parent = UiTestUtils.getScriptListView(solo);
 		View testScriptBrick = parent.getChildAt(0);

@@ -58,7 +58,6 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SOUNDS_INDEX);
 	}
 
-	
 	public void testOrientation() throws NameNotFoundException {
 		prepareRecording();
 		solo.waitForActivity(SoundRecorderActivity.class.getSimpleName());
@@ -82,7 +81,6 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 				activityInfo.screenOrientation);
 	}
 
-	
 	public void testRecordMultipleSounds() throws InterruptedException {
 		prepareRecording();
 		recordSound();

@@ -68,7 +68,6 @@ public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<ScriptAc
 	}
 
 	@Smoke
-	
 	public void testSpeakBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

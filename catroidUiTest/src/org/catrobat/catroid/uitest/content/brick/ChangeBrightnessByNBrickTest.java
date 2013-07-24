@@ -60,7 +60,6 @@ public class ChangeBrightnessByNBrickTest extends BaseActivityInstrumentationTes
 	}
 
 	@Smoke
-	
 	public void testChangeBrightnessByNBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

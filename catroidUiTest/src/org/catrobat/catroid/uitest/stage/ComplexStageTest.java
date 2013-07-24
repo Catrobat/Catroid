@@ -64,7 +64,6 @@ public class ComplexStageTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 	}
 
-	
 	public void testShowTexture() {
 		byte[] redPixel = { (byte) 237, 28, 36, (byte) 255 };
 		byte[] redBrightnessPixel = { (byte) 109, 0, 0, (byte) 255 };

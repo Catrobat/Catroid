@@ -83,7 +83,6 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		});
 	}
 
-	
 	public void testUploadDialog() throws Throwable {
 		setServerURLToTestURL();
 		createTestProject();
@@ -163,7 +162,6 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Project description was not set or is wrong", testDescription, uploadDescription);
 	}
 
-	
 	public void testProjectDescriptionUploadProject() throws Throwable {
 		Project uploadProject = new Project(getActivity(), testProject);
 		ProjectManager.getInstance().setProject(uploadProject);

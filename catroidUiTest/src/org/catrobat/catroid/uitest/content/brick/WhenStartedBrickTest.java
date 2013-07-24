@@ -60,7 +60,6 @@ public class WhenStartedBrickTest extends BaseActivityInstrumentationTestCase<Ma
 		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
-	
 	public void testWhenStartedBrick() {
 		if (!solo.waitForView(DragAndDropListView.class, 0, 5000, false)) {
 			fail("DragAndDropListView not shown in 5 secs!");

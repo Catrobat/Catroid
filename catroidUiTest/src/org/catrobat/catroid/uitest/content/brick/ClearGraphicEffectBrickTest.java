@@ -58,7 +58,6 @@ public class ClearGraphicEffectBrickTest extends BaseActivityInstrumentationTest
 	}
 
 	@Smoke
-	
 	public void testClearGraphicEffectBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

@@ -75,7 +75,6 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 		super.tearDown();
 	}
 
-	
 	public void testNullText() throws InterruptedException {
 		ProjectManager.getInstance()
 				.loadProject(UiTestUtils.PROJECTNAME2, getActivity().getApplicationContext(), false);
@@ -101,7 +100,6 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 		assertEquals("TextToSpeech executed with wrong text", "", textToSpeechMock.text);
 	}
 
-	
 	public void testSuccessiveBehaviour() throws InterruptedException {
 		ProjectManager.getInstance()
 				.loadProject(UiTestUtils.PROJECTNAME1, getActivity().getApplicationContext(), false);
@@ -132,7 +130,6 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 		assertEquals("TextToSpeech executed with wrong text", textMessageHello, textToSpeechMock.text);
 	}
 
-	
 	public void testSimultaneousTextToSpeech() throws InterruptedException {
 		ProjectManager.getInstance()
 				.loadProject(UiTestUtils.PROJECTNAME3, getActivity().getApplicationContext(), false);

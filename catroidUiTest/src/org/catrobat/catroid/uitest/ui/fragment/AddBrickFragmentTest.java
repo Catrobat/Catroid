@@ -51,7 +51,6 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 		super.tearDown();
 	}
 
-	
 	public void testBrickCategories() {
 		goToAddBrickFromMainMenu();
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
@@ -69,7 +68,6 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 		checkActionBarInACategory(solo.getString(R.string.category_lego_nxt), "lego nxt");
 	}
 
-	
 	public void testCorrectReturnToScriptFragment() {
 		goToAddBrickFromMainMenu();
 
@@ -86,7 +84,6 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.goBack();
 	}
 
-	
 	public void testCorrectReturnToCategoriesFragment() {
 		goToAddBrickFromMainMenu();
 		String categoriesString = solo.getString(R.string.categories);

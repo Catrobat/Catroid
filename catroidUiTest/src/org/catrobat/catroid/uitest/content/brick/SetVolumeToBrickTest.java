@@ -60,7 +60,6 @@ public class SetVolumeToBrickTest extends BaseActivityInstrumentationTestCase<Sc
 	}
 
 	@Smoke
-	
 	public void testSetVolumeToBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

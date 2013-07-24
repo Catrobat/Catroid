@@ -80,7 +80,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
 
-	
 	public void testChangeFormula() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -111,7 +110,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	
 	public void testOnTheFlyUpdateOfBrickEditText() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -133,7 +131,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		assertEquals("Wrong text in X EditText", "12 ", solo.getEditText(X_POS_EDIT_TEXT_ID).getText().toString());
 	}
 
-	
 	public void testUndo() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -181,7 +178,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	
 	public void testUndoRedo() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -225,7 +221,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	
 	public void testUndoLimit() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -262,7 +257,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	
 	public void testSimpleInterpretation() {
 		String newXFormula = "10 + 12 - 2 × 3 - 4 ";
 		int newXValue = 10 + 12 - 2 * 3 - 4;
@@ -326,7 +320,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	
 	public void testRandomInterpretationWithFloatParameters() {
 
 		String newXFormula = "random(9.9,1)";
@@ -373,7 +366,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	
 	public void testRandomInterpretationWithIntegerParameters() {
 
 		String newXFormula = "rand(rand(3),1)";
@@ -419,7 +411,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	
 	public void testIfLandscapeOrientationIsDeactivated() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -430,7 +421,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	
 	public void testGoBackAndEditTextSwitches() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -465,7 +455,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	
 	public void testRedoAndUndoButtonViewOfKeyboard() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -496,7 +485,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	
 	public void testDeleteButtonViewOfKeyboard() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);

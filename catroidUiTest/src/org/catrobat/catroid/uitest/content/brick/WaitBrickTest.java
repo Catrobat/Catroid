@@ -63,7 +63,6 @@ public class WaitBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 	}
 
 	@Smoke
-	
 	public void testWaitBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

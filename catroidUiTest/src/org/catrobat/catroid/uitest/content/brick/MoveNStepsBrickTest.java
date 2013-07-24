@@ -81,7 +81,6 @@ public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<Scr
 	}
 
 	@Smoke
-	
 	public void testGoNStepsBackBrick() {
 		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
 		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);

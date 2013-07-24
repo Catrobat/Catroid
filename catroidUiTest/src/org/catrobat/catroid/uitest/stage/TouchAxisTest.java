@@ -58,7 +58,7 @@ public class TouchAxisTest extends BaseActivityInstrumentationTestCase<MainMenuA
 	}
 
 	// This prevents regression of https://github.com/Catrobat/Catroid/issues/3
-	
+
 	public void testYAxis() {
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);

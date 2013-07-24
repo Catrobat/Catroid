@@ -58,7 +58,6 @@ public class ForeverBrickTest extends BaseActivityInstrumentationTestCase<Script
 	}
 
 	@Smoke
-	
 	public void testForeverBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

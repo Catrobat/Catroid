@@ -78,7 +78,6 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 				.equals(UiTestUtils.PROJECTNAME1));
 	}
 
-	
 	public void testPositiveButtonDisabledOnCreate() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.sleep(500);
@@ -87,7 +86,6 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		assertFalse("New project ok button is enabled!", okButton.isEnabled());
 	}
 
-	
 	public void testPositiveButtonChangesState() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.sleep(1000);
@@ -110,7 +108,6 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		assertFalse("New project ok button not disabled!", okButton.isEnabled());
 	}
 
-	
 	public void testNewProjectDialogHeight() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.sleep(2000);

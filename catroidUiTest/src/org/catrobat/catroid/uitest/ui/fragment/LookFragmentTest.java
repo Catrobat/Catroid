@@ -160,13 +160,11 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		super.tearDown();
 	}
 
-	
 	public void testInitialLayout() {
 		assertFalse("Initially showing details", getLookAdapter().getShowDetails());
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 	}
 
-	
 	public void testAddNewLookDialog() {
 		String addLookFromCameraText = solo.getString(R.string.add_look_draw_new_image);
 		String addLookFromGalleryText = solo.getString(R.string.add_look_choose_image);
@@ -180,7 +178,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Entry to add look from gallery not visible", solo.searchText(addLookFromGalleryText));
 	}
 
-	
 	public void testCopyLookContextMenu() {
 		String testLookName = SECOND_TEST_LOOK_NAME;
 
@@ -203,7 +200,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		}
 	}
 
-	
 	public void testDeleteLookContextMenu() {
 		Sprite firstSprite = projectManager.getCurrentProject().getSpriteList().get(0);
 		LookData lookToDelete = firstSprite.getLookDataList().get(1);
@@ -233,7 +229,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertFalse("File should be deleted", deletedFile.exists());
 	}
 
-	
 	public void testRenameLookContextMenu() {
 		String newLookName = "loOKNamEtESt1";
 
@@ -244,7 +239,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Look not renamed in actual view", solo.searchText(newLookName));
 	}
 
-	
 	public void testShowAndHideDetails() {
 		int timeToWait = 300;
 
@@ -267,7 +261,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 	}
 
-	
 	public void testGetImageFromGallery() {
 		Bundle bundleForGallery = new Bundle();
 		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
@@ -296,7 +289,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("File not added in LookDataList", isInLookDataList);
 	}
 
-	
 	public void testGetImageFromGalleryNullData() {
 		int numberOfLookDatasBeforeIntent = lookDataList.size();
 
@@ -318,7 +310,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Wrong size of lookDataList", numberOfLookDatasBeforeIntent, numberOfLookDatasAfterReturning);
 	}
 
-	
 	public void testGetImageFromPaintroid() {
 		String md5ChecksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 
@@ -347,7 +338,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("File not added in LookDataList", isInLookDataList);
 	}
 
-	
 	public void testGetImageFromPaintroidNoPath() {
 		String md5ChecksumImageFileBeforeIntent = Utils.md5Checksum(imageFile);
 
@@ -369,7 +359,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Picture changed", md5ChecksumImageFileBeforeIntent, md5ChecksumImageFileAfterIntent);
 	}
 
-	
 	public void testEditImageInPaintroidThreeWorkflows() {
 
 		Reflection.setPrivateField(Constants.class, "POCKET_PAINT_PACKAGE_NAME", "destroy.intent");
@@ -393,7 +382,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnButton(solo.getString(R.string.no));
 	}
 
-	
 	public void tesEditInPaintroidActionModeChecking() {
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		UiTestUtils.openActionMode(solo, editInPaintroid, 0, getActivity());
@@ -413,7 +401,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 	}
 
-	
 	public void testEditInPaintroidActionModeIfNothingSelected() {
 		UiTestUtils.openActionMode(solo, editInPaintroid, 0, getActivity());
 
@@ -424,7 +411,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, TIME_TO_WAIT));
 	}
 
-	
 	public void testEditInPaintroidActionModeIfSomethingSelectedAndPressingBack() {
 		UiTestUtils.openActionMode(solo, editInPaintroid, 0, getActivity());
 
@@ -437,7 +423,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, TIME_TO_WAIT));
 	}
 
-	
 	public void testEditImageWithPaintroid() {
 		LookData lookData = lookDataList.get(0);
 		getLookFragment().setSelectedLookData(lookData);
@@ -477,7 +462,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertFalse("File not deleted from LookDataList", isInLookDataListSunnglasses);
 	}
 
-	
 	public void testPaintroidImagefileExtension() {
 		String lookDataModifiedHash = lookData3.getLookFileName();
 		lookDataModifiedHash = "THIS_IS_A_MODIFIED_HASH_AND_HERE_ARE_SOME_DUMMIE_CHARS";
@@ -499,7 +483,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Copied file does not have correct fileextension", lookData3.getLookFileName().endsWith(".png"));
 	}
 
-	
 	public void testEditImageWithPaintroidNoChanges() {
 		int oldNumberOfLookDatas = lookDataList.size();
 
@@ -530,7 +513,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				projectManager.getFileChecksumContainer().getUsage(md5ChecksumImageFile));
 	}
 
-	
 	public void testEditImageWithPaintroidNoPath() {
 		int oldNumberOfLookDatas = lookDataList.size();
 
@@ -561,7 +543,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				projectManager.getFileChecksumContainer().getUsage(md5ChecksumImageFile));
 	}
 
-	
 	public void testEditImageWithPaintroidToSomethingAlreadyUsed() throws IOException {
 		int oldNumberOfLookDatas = lookDataList.size();
 
@@ -598,7 +579,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				projectManager.getFileChecksumContainer().getUsage(md5ChecksumPaintroidImageFile));
 	}
 
-	
 	public void testEditImageWhichIsAlreadyUsed() {
 		File tempImageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
 				"catroid_sunglasses2.png", RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
@@ -635,7 +615,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				.getFileChecksumContainer().getUsage(md5ChecksumImageFile));
 	}
 
-	
 	public void testEqualLookNames() {
 		final String assertMessageText = "Look not renamed correctly";
 
@@ -724,7 +703,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				projectManager.getFileChecksumContainer().containsChecksum(md5ChecksumImageFile));
 	}
 
-	
 	public void testBottomBarAndContextMenuOnActionModes() {
 		if (!getLookAdapter().getShowDetails()) {
 			solo.clickOnMenuItem(solo.getString(R.string.show_details), true);
@@ -822,7 +800,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Resolution prefix not visible after ActionMode", solo.searchText(lookResoltionPrefixText, true));
 	}
 
-	
 	public void testRenameActionModeChecking() {
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
@@ -842,7 +819,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 	}
 
-	
 	public void testRenameActionModeIfNothingSelected() {
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
@@ -853,7 +829,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, TIME_TO_WAIT));
 	}
 
-	
 	public void testRenameActionModeIfSomethingSelectedAndPressingBack() {
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
@@ -866,7 +841,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, TIME_TO_WAIT));
 	}
 
-	
 	public void testRenameActionModeEqualLookNames() {
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
@@ -895,7 +869,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Look not renamed in actual view", solo.searchText(expectedNewLookName, true));
 	}
 
-	
 	public void testDeleteActionModeCheckingAndTitle() {
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
@@ -940,7 +913,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 	}
 
-	
 	public void testDeleteActionModeIfNothingSelected() {
 		int expectedNumberOfLooks = lookDataList.size();
 
@@ -955,7 +927,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
 	}
 
-	
 	public void testDeleteActionModeIfSomethingSelectedAndPressingBack() {
 		int expectedNumberOfLooks = lookDataList.size();
 
@@ -972,7 +943,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
 	}
 
-	
 	public void testDeleteActionMode() {
 		int currentNumberOfLooks = lookDataList.size();
 		int expectedNumberOfLooks = currentNumberOfLooks - 1;
@@ -995,7 +965,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				solo.waitForText(SECOND_TEST_LOOK_NAME, 0, 200, false, false));
 	}
 
-	
 	public void testDeleteAndCopyActionMode() {
 		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
 
@@ -1037,7 +1006,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
 	}
 
-	
 	public void testCopyActionModeCheckingAndTitle() {
 		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
 
@@ -1082,7 +1050,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 	}
 
-	
 	public void testCopyActionModeIfNothingSelected() {
 		int expectedNumberOfLooks = lookDataList.size();
 
@@ -1096,7 +1063,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
 	}
 
-	
 	public void testCopyActionModeIfSomethingSelectedAndPressingBack() {
 		int expectedNumberOfLooks = lookDataList.size();
 
@@ -1112,7 +1078,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
 	}
 
-	
 	public void testCopyActionMode() {
 		int currentNumberOfLooks = lookDataList.size();
 		int expectedNumberOfLooks = currentNumberOfLooks + 2;
@@ -1141,7 +1106,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 						&& solo.searchText(SECOND_TEST_LOOK_NAME + copiedLookAddition));
 	}
 
-	
 	public void testResolutionWhenCroppedWithPaintroid() {
 		solo.clickOnMenuItem(solo.getString(R.string.show_details));
 		solo.sleep(200);

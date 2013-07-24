@@ -60,7 +60,6 @@ public class ChangeYByNBrickTest extends BaseActivityInstrumentationTestCase<Scr
 	}
 
 	@Smoke
-	
 	public void testChangeYByNBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

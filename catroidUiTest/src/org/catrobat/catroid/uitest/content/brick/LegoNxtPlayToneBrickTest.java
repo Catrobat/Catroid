@@ -63,7 +63,6 @@ public class LegoNxtPlayToneBrickTest extends BaseActivityInstrumentationTestCas
 	}
 
 	@Smoke
-	
 	public void testNXTPlayToneBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

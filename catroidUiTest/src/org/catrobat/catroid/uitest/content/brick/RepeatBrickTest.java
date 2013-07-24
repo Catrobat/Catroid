@@ -59,7 +59,6 @@ public class RepeatBrickTest extends BaseActivityInstrumentationTestCase<ScriptA
 	}
 
 	@Smoke
-	
 	public void testRepeatBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

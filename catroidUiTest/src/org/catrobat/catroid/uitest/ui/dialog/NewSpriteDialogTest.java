@@ -59,7 +59,6 @@ public class NewSpriteDialogTest extends BaseActivityInstrumentationTestCase<Mai
 		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
-	
 	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
 		createTestProject(testingproject);
 		solo.sleep(300);

@@ -60,7 +60,6 @@ public class MultipleBroadcastsTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 	}
 
-	
 	public void testSendMultipleBroadcastsWhenProjectStart() {
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);

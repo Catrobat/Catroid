@@ -49,7 +49,6 @@ public class SetDescriptionDialogTest extends BaseActivityInstrumentationTestCas
 		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
-	
 	public void testMultiLineProjectDescription() {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 		Project uploadProject = new Project(getActivity(), testProject);

@@ -60,7 +60,6 @@ public class SetYBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 	}
 
 	@Smoke
-	
 	public void testSetYBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

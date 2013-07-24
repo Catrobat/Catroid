@@ -62,7 +62,6 @@ public class ChangeSizeByNBrickTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	@Smoke
-	
 	public void testChangeSizeByNBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

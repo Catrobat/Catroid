@@ -159,7 +159,6 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		}
 	}
 
-	
 	public void testAddUserVariableAfterStage() throws InterruptedException {
 		String userVariableString = "userVar1";
 
@@ -205,7 +204,6 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		assertTrue("UserVariable not added!", listView.getCount() == 2);
 	}
 
-	
 	public void testModifyUserVariableValuesInStage() throws InterruptedException {
 
 		solo.goBack();
@@ -298,7 +296,6 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 				.compareTo(setVariableToValue) == 0);
 	}
 
-	
 	public void testCreateUserVariable() {
 
 		String itemString = "zzz";
@@ -331,7 +328,6 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("zzz");
 	}
 
-	
 	public void testDeleteUserVariableWithLongPress() {
 
 		String itemString = "del";
@@ -377,7 +373,6 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("del");
 	}
 
-	
 	public void testDeleteUserVariableWithMultipleChoice() {
 
 		String itemString = "1stdel";
@@ -435,7 +430,6 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(itemString3rd);
 	}
 
-	
 	public void testKeyCodeBackOnContextMode() {
 		String itemString = "myvar1";
 		String itemString2nd = "myvar2";
@@ -481,7 +475,6 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		assertTrue("KeyCode Back deleted checked item: " + itemString3rd, solo.searchText(itemString3rd, true));
 	}
 
-	
 	public void testScopeOfUserVariable() {
 
 		String itemString = "local";
@@ -537,7 +530,6 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("global");
 	}
 
-	
 	public void testCreateUserVariableDoubleName() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -579,7 +571,6 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("var2");
 	}
 
-	
 	public void testVisibilityOfMenuItems() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -604,7 +595,6 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		assertFalse("MenuItem should not be found!", ids.contains(R.id.settings));
 	}
 
-	
 	public void testEmptyUserVariableCreation() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);

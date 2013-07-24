@@ -53,7 +53,6 @@ public class ScriptDeleteTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	
 	public void testAddLooksCategoryBrick() {
 		String brickSetLookText = solo.getString(R.string.brick_set_look);
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_look);
@@ -69,7 +68,6 @@ public class ScriptDeleteTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Set size to brick was not added", solo.searchText(solo.getString(R.string.brick_set_size_to)));
 	}
 
-	
 	public void testDeleteScript() {
 		String brickWhenStartedText = solo.getString(R.string.brick_when_started);
 		String buttonDeleteText = solo.getString(R.string.delete);

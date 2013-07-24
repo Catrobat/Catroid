@@ -59,7 +59,6 @@ public class SetGhostEffectBrickTest extends BaseActivityInstrumentationTestCase
 	}
 
 	@Smoke
-	
 	public void testSetGhostEffectBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

@@ -38,7 +38,6 @@ public class AboutDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		super(MainMenuActivity.class);
 	}
 
-	
 	public void testAboutDialog() {
 		solo.clickOnMenuItem(solo.getString(R.string.main_menu_about_pocketcode));
 		assertTrue("AboutDialog title not found", solo.searchText(solo.getString(R.string.dialog_about_title)));

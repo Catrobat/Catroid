@@ -71,7 +71,6 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
-	
 	public void testRepeatBrick() {
 		ArrayList<Integer> yPosition;
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -228,7 +227,6 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 				projectBrickList.get(5) instanceof BroadcastBrick);
 	}
 
-	
 	public void testNestedForeverBricks() {
 		ArrayList<Integer> yPosition;
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();

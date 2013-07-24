@@ -63,7 +63,6 @@ public class HideTest extends BaseActivityInstrumentationTestCase<ScriptActivity
 	}
 
 	@Smoke
-	
 	public void testHideBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

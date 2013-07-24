@@ -89,7 +89,6 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		super.tearDown();
 	}
 
-	
 	public void testSelectLookAndPlay() {
 		assertTrue(lookName + " is not selected in Spinner", solo.isSpinnerTextSelected(lookName));
 
@@ -115,7 +114,6 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("look not set", look.getImagePath(), lookDataList.get(1).getAbsolutePath());
 	}
 
-	
 	public void testSpinnerUpdatesDelete() {
 		solo.clickOnText(lookName);
 
@@ -138,7 +136,6 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	}
 
-	
 	public void testSpinnerUpdatesRename() {
 		String newName = "nameRenamed";
 
@@ -168,7 +165,6 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	}
 
-	
 	public void testAdapterUpdateInScriptActivity() {
 		String look1ImagePath = lookDataList.get(0).getAbsolutePath();
 		String look2ImagePath = lookDataList.get(1).getAbsolutePath();

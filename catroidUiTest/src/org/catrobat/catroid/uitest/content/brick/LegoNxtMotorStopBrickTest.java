@@ -61,7 +61,6 @@ public class LegoNxtMotorStopBrickTest extends BaseActivityInstrumentationTestCa
 	}
 
 	@Smoke
-	
 	public void testMotorActionBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

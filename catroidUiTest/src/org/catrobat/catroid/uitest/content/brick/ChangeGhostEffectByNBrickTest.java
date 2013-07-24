@@ -60,7 +60,6 @@ public class ChangeGhostEffectByNBrickTest extends BaseActivityInstrumentationTe
 	}
 
 	@Smoke
-	
 	public void testChangeGhostEffectByNBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

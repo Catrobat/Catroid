@@ -53,14 +53,12 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	
 	public void testClickOnEmptySpace() {
 		solo.clickOnScreen(20, ScreenValues.SCREEN_HEIGHT - 150);
 		solo.sleep(200);
 		assertFalse("Brickcategories should not be shown", solo.searchText(solo.getString(R.string.categories)));
 	}
 
-	
 	public void testPutHoveringBrickDown() {
 		// clicks on spriteName needed to get focus on listview for solo without adding hovering brick
 
@@ -128,7 +126,6 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Last Brick should now be WaitBrick", adapter.getItem(3) instanceof WaitBrick);
 	}
 
-	
 	public void testAddNewBrickFromAnotherCategory() {
 		int categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
 

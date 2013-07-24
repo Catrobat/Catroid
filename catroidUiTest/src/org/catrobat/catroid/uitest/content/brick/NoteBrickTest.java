@@ -61,7 +61,6 @@ public class NoteBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 	}
 
 	@Smoke
-	
 	public void testNoteBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
