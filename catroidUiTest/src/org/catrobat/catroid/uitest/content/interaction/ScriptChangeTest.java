@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -63,7 +62,7 @@ public class ScriptChangeTest extends BaseActivityInstrumentationTestCase<Script
 		super.setUp();
 	}
 
-	@Emulator
+	
 	public void testChangeScript() {
 		ListView parent = UiTestUtils.getScriptListView(solo);
 		View testScriptBrick = parent.getChildAt(0);

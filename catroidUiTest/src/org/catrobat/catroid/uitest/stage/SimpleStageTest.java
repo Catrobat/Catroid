@@ -26,7 +26,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -50,7 +49,7 @@ public class SimpleStageTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 	}
 
-	@Emulator
+	
 	public void testSimple() {
 		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
 
@@ -64,7 +63,7 @@ public class SimpleStageTest extends BaseActivityInstrumentationTestCase<MainMen
 		UiTestUtils.compareByteArrays(whitePixel, result);
 	}
 
-	@Emulator
+	
 	public void testScreenAlwaysOn() {
 		final int windowFlags = solo.getCurrentActivity().getWindow().getAttributes().flags;
 

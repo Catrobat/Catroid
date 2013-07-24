@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -54,7 +53,7 @@ public class ScriptDeleteTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	@Emulator
+	
 	public void testAddLooksCategoryBrick() {
 		String brickSetLookText = solo.getString(R.string.brick_set_look);
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_look);
@@ -70,7 +69,7 @@ public class ScriptDeleteTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Set size to brick was not added", solo.searchText(solo.getString(R.string.brick_set_size_to)));
 	}
 
-	@Emulator
+	
 	public void testDeleteScript() {
 		String brickWhenStartedText = solo.getString(R.string.brick_when_started);
 		String buttonDeleteText = solo.getString(R.string.delete);

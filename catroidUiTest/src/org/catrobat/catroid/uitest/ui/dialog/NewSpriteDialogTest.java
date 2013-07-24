@@ -34,7 +34,6 @@ import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -60,7 +59,7 @@ public class NewSpriteDialogTest extends BaseActivityInstrumentationTestCase<Mai
 		ProjectManager.INSTANCE.deleteCurrentProject();
 	}
 
-	@Emulator
+	
 	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
 		createTestProject(testingproject);
 		solo.sleep(300);

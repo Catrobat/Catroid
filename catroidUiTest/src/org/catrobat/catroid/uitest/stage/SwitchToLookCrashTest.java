@@ -42,7 +42,6 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.LookFragment;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
@@ -63,7 +62,7 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 		prepareTest();
 	}
 
-	@Emulator
+	
 	public void testSwitchToLookCrashPNG() throws IOException {
 		String nyanCatPath = "";
 		String nyanCat = "nyancat_crash";
@@ -118,7 +117,7 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 		solo.sleep(5000);
 	}
 
-	@Emulator
+	
 	public void testSwitchToLookCrashJPG() throws IOException {
 		String manImagePath = "";
 		String manImage = "man_crash";

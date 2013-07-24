@@ -31,7 +31,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -67,7 +66,7 @@ public class BrickClickOnEditTextTest extends BaseActivityInstrumentationTestCas
 		super.tearDown();
 	}
 
-	@Emulator
+	
 	public void testIfEditTextAreVisibleAndClickOnTextSetXandYInAddBrickDialog() {
 		ArrayList<Integer> yPosition;
 		int addedYPosition;

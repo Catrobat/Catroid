@@ -39,7 +39,6 @@ import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.annotation.Device;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -148,7 +147,7 @@ public class ChangeVariableTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("UserVariable Name not as expected", userVariable.getName().equals(userVariableName));
 	}
 
-	@Emulator
+	
 	public void testCreateUserVariableInFormulaEditor() {
 		String userVariableName = "testVariable1";
 

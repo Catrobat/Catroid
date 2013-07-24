@@ -28,7 +28,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -50,7 +49,7 @@ public class SetDescriptionDialogTest extends BaseActivityInstrumentationTestCas
 		ProjectManager.INSTANCE.deleteCurrentProject();
 	}
 
-	@Emulator
+	
 	public void testMultiLineProjectDescription() {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 		Project uploadProject = new Project(getActivity(), testProject);

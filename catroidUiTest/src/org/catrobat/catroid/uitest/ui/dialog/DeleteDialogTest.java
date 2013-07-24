@@ -33,7 +33,6 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -77,7 +76,7 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		ProjectManager.INSTANCE.deleteCurrentProject();
 	}
 
-	@Emulator
+	
 	public void testDeleteLooks() throws Exception {
 		addLooksToProject();
 		String buttonOkText = solo.getString(R.string.yes);
@@ -113,7 +112,7 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("The look was not deleted from lookDataList", newCount, lookDataList.size());
 	}
 
-	@Emulator
+	
 	public void testDeleteSounds() throws Exception {
 		addSoundsToProject();
 		String buttonOkText = solo.getString(R.string.yes);

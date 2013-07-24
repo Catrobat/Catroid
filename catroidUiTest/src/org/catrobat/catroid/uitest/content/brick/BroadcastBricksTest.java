@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -75,7 +74,6 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 	}
 
 	@Smoke
-	@Emulator
 	public void testBroadcastBricks() {
 		checkSetupBricks();
 
@@ -110,7 +108,6 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 		assertEquals("Wrong selection", defaultBroadcastMessage, broadcastSpinner.getSelectedItem().toString());
 	}
 
-	@Emulator
 	public void testRemoveUnusedMessages() {
 		checkSetupBricks();
 

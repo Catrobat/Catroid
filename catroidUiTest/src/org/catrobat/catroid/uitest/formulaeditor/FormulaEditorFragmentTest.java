@@ -33,7 +33,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaEditorHistory;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -81,7 +80,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		ProjectManager.INSTANCE.setCurrentScript(script);
 	}
 
-	@Emulator
+	
 	public void testChangeFormula() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -112,7 +111,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	@Emulator
+	
 	public void testOnTheFlyUpdateOfBrickEditText() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -134,7 +133,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		assertEquals("Wrong text in X EditText", "12 ", solo.getEditText(X_POS_EDIT_TEXT_ID).getText().toString());
 	}
 
-	@Emulator
+	
 	public void testUndo() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -182,7 +181,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	@Emulator
+	
 	public void testUndoRedo() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -226,7 +225,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	@Emulator
+	
 	public void testUndoLimit() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -263,7 +262,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	@Emulator
+	
 	public void testSimpleInterpretation() {
 		String newXFormula = "10 + 12 - 2 × 3 - 4 ";
 		int newXValue = 10 + 12 - 2 * 3 - 4;
@@ -327,7 +326,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	@Emulator
+	
 	public void testRandomInterpretationWithFloatParameters() {
 
 		String newXFormula = "random(9.9,1)";
@@ -374,7 +373,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	@Emulator
+	
 	public void testRandomInterpretationWithIntegerParameters() {
 
 		String newXFormula = "rand(rand(3),1)";
@@ -420,7 +419,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	@Emulator
+	
 	public void testIfLandscapeOrientationIsDeactivated() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -431,7 +430,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	@Emulator
+	
 	public void testGoBackAndEditTextSwitches() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -466,7 +465,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	@Emulator
+	
 	public void testRedoAndUndoButtonViewOfKeyboard() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -497,7 +496,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	@Emulator
+	
 	public void testDeleteButtonViewOfKeyboard() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);

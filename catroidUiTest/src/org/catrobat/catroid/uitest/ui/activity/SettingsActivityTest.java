@@ -25,7 +25,6 @@ package org.catrobat.catroid.uitest.ui.activity;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -45,7 +44,7 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		super(MainMenuActivity.class);
 	}
 
-	@Emulator
+	
 	public void testToggleMindstormBricks() {
 		String settings = solo.getString(R.string.main_menu_settings);
 		String mindstormsPreferenceString = solo.getString(R.string.preference_title_enable_mindstorm_bricks);
@@ -84,7 +83,7 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
 	}
 
-	@Emulator
+	
 	public void testOrientation() throws NameNotFoundException {
 		/// Method 1: Assert it is currently in portrait mode.
 		assertEquals("SettingsActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, getActivity()

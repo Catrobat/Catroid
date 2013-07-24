@@ -27,7 +27,6 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -53,7 +52,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	@Emulator
+	
 	public void testOrientation() throws NameNotFoundException {
 		Activity currentActivity = solo.getCurrentActivity();
 
@@ -76,7 +75,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
 
-	@Emulator
+	
 	public void testMainMenuButton() {
 		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
 
@@ -93,7 +92,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		checkMainMenuButton();
 	}
 
-	@Emulator
+	
 	public void testPlayProgramButton() {
 		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
 
@@ -118,7 +117,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		checkplayProgramButton();
 	}
 
-	@Emulator
+	
 	public void testChangeViaSpinner() {
 		int scriptsSpinnerIndexRelativeToCurrentSelected = 0;
 		int looksSpinnerIndexRelativeToCurrentSelected = 1;
@@ -163,7 +162,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, timeToWait, false, true));
 	}
 
-	@Emulator
+	
 	public void testOverflowMenuItemSettings() {
 		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
 

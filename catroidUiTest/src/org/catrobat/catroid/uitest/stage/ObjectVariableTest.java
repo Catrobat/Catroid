@@ -45,7 +45,6 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -93,7 +92,7 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 		return new Formula(parseTree);
 	}
 
-	@Emulator
+	
 	public void testLookSensorValueInStage() {
 
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -136,7 +135,7 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 
 	}
 
-	@Emulator
+	
 	public void testLookSensorValueBeforeAndAfterStage() {
 
 		Formula lookXPositionFormula = getFormulaBySensor(Sensors.OBJECT_X);

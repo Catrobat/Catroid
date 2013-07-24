@@ -42,7 +42,6 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -72,7 +71,7 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		solo.sleep(500);
 	}
 
-	@Emulator
+	
 	public void testWaitBrickWhenTapped() {
 
 		for (int i = 1; i <= 10; ++i) {
@@ -87,7 +86,7 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		assertEquals("Look has wrong AlphaValue.", 50f, yellowSprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
-	@Emulator
+	
 	public void testWaitBrickBroadcast() {
 		for (int i = 1; i <= 10; ++i) {
 			solo.sleep(1000);

@@ -43,7 +43,6 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -160,7 +159,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		}
 	}
 
-	@Emulator
+	
 	public void testAddUserVariableAfterStage() throws InterruptedException {
 		String userVariableString = "userVar1";
 
@@ -206,7 +205,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		assertTrue("UserVariable not added!", listView.getCount() == 2);
 	}
 
-	@Emulator
+	
 	public void testModifyUserVariableValuesInStage() throws InterruptedException {
 
 		solo.goBack();
@@ -299,7 +298,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 				.compareTo(setVariableToValue) == 0);
 	}
 
-	@Emulator
+	
 	public void testCreateUserVariable() {
 
 		String itemString = "zzz";
@@ -332,7 +331,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName("zzz");
 	}
 
-	@Emulator
+	
 	public void testDeleteUserVariableWithLongPress() {
 
 		String itemString = "del";
@@ -378,7 +377,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName("del");
 	}
 
-	@Emulator
+	
 	public void testDeleteUserVariableWithMultipleChoice() {
 
 		String itemString = "1stdel";
@@ -436,7 +435,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName(itemString3rd);
 	}
 
-	@Emulator
+	
 	public void testKeyCodeBackOnContextMode() {
 		String itemString = "myvar1";
 		String itemString2nd = "myvar2";
@@ -482,7 +481,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		assertTrue("KeyCode Back deleted checked item: " + itemString3rd, solo.searchText(itemString3rd, true));
 	}
 
-	@Emulator
+	
 	public void testScopeOfUserVariable() {
 
 		String itemString = "local";
@@ -538,7 +537,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName("global");
 	}
 
-	@Emulator
+	
 	public void testCreateUserVariableDoubleName() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -580,7 +579,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		ProjectManager.INSTANCE.getCurrentProject().getUserVariables().deleteUserVariableByName("var2");
 	}
 
-	@Emulator
+	
 	public void testVisibilityOfMenuItems() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
@@ -605,7 +604,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		assertFalse("MenuItem should not be found!", ids.contains(R.id.settings));
 	}
 
-	@Emulator
+	
 	public void testEmptyUserVariableCreation() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);

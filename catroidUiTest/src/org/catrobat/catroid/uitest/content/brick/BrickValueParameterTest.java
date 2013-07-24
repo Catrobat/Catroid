@@ -31,7 +31,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -76,7 +75,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 	}
 
 	@Smoke
-	@Emulator
 	public void testMotionBricksDefaultValues() {
 		String categoryMotionText = solo.getString(R.string.category_motion);
 
@@ -189,7 +187,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 	}
 
 	@Smoke
-	@Emulator
 	public void testLookBricksDefaultValues() {
 		String categoryLooksText = solo.getString(R.string.category_looks);
 
@@ -261,7 +258,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 	}
 
 	@Smoke
-	@Emulator
 	public void testSoundBricksDefaultValues() {
 		String categorySoundText = solo.getString(R.string.category_sound);
 
@@ -313,7 +309,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 	}
 
 	@Smoke
-	@Emulator
 	public void testControlBricksDefaultValues() {
 		String categoryControlText = solo.getString(R.string.category_control);
 
@@ -387,7 +382,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 	}
 
 	@Smoke
-	@Emulator
 	public void testLegoBricksDefaultValues() {
 		String categoryLegoNXTText = solo.getString(R.string.category_lego_nxt);
 
@@ -441,7 +435,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 	}
 
 	@Smoke
-	@Emulator
 	public void testUserVariablesBricksDefaultValues() {
 		String categoryUserVariablesText = solo.getString(R.string.category_variables);
 

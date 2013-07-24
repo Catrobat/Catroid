@@ -59,7 +59,6 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -122,7 +121,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		defaultSpriteName = solo.getString(R.string.default_project_sprites_mole_name) + " 1";
 	}
 
-	@Emulator
+	
 	public void testCopySpriteWithUserVariables() {
 		Project project = new Project(null, "testProject");
 
@@ -174,7 +173,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertEquals("The local uservariable p does not exist after copying the sprite!", 0.0, p);
 	}
 
-	@Emulator
+	
 	public void testUserVariableSelectionAfterCopySprite() {
 		Project project = new Project(null, "testProject");
 
@@ -256,7 +255,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				((UserVariable) changeVariableBrick2Spinner.getSelectedItem()).getName());
 	}
 
-	@Emulator
+	
 	public void testCopySpriteWithNameTaken() {
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
@@ -284,7 +283,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				solo.searchText((defaultSpriteName + solo.getString(R.string.copy_sprite_name_suffix) + "1")));
 	}
 
-	@Emulator
+	
 	public void testCopySprite() {
 		defaultSpriteName = solo.getString(R.string.default_project_sprites_mole_name);
 		UiTestUtils.createProjectForCopySprite(UiTestUtils.PROJECTNAME1, getActivity());
@@ -326,7 +325,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				.getBrickList().size(), brickCounter);
 	}
 
-	@Emulator
+	
 	public void testBackgroundSprite() {
 		String sometext = "something" + System.currentTimeMillis();
 
@@ -344,7 +343,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertFalse("Found delete option for background sprite", solo.searchText(solo.getString(R.string.delete)));
 	}
 
-	@Emulator
+	
 	public void testAddNewSprite() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -371,7 +370,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertTrue("Sprite not shown in List", solo.searchText(spriteToCheckName));
 	}
 
-	@Emulator
+	
 	public void testAddedSpriteVisibleOnLongList() {
 		addSprite("dog");
 		addSprite("mouse");
@@ -393,7 +392,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				solo.searchText(addedSpriteName, 0, false));
 	}
 
-	@Emulator
+	
 	public void testOrientation() throws NameNotFoundException {
 		/// Method 1: Assert it is currently in portrait mode.
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
@@ -417,7 +416,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
 
-	@Emulator
+	
 	public void testRenameSpriteContextMenu() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -439,7 +438,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				renamedSprite.getName());
 	}
 
-	@Emulator
+	
 	public void testDeleteSpriteContextMenu() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -467,7 +466,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				notDeletedSprite.getName());
 	}
 
-	@Emulator
+	
 	public void testChooseNoOnDeleteQuestion() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -490,7 +489,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertTrue("Sprite is no in Project!", projectManager.spriteExists(spriteToDelete));
 	}
 
-	@Emulator
+	
 	public void testMainMenuButton() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -499,7 +498,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.assertCurrentActivity("Main menu is not displayed", MainMenuActivity.class);
 	}
 
-	@Emulator
+	
 	public void testCheckMaxTextLines() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -512,7 +511,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertEquals("linecount is wrong - ellipsize failed", expectedLineCount, textView.getLineCount());
 	}
 
-	@Emulator
+	
 	public void testNewSpriteDialog() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -525,7 +524,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertTrue("Sprite not successfully added", projectManager.spriteExists(addedTestSpriteName));
 	}
 
-	@Emulator
+	
 	public void testNewSpriteDialogErrorMessages() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -574,7 +573,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertTrue("not in NewSpriteDialog", solo.searchText(solo.getString(R.string.new_sprite_dialog_title)));
 	}
 
-	@Emulator
+	
 	public void testRenameSpriteDialog() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -620,7 +619,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertTrue("not in NewSpriteDialog", solo.searchText(dialogRenameSpriteText));
 	}
 
-	@Emulator
+	
 	public void testHeadlinesInList() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		ListView listView = solo.getCurrentViews(ListView.class).get(0);
@@ -650,7 +649,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				objectsHeadline.getVisibility(), View.GONE);
 	}
 
-	@Emulator
+	
 	public void testClickOnHeadlines() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -663,7 +662,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.assertCurrentActivity("Click on objects headline switched activity!", ProjectActivity.class);
 	}
 
-	@Emulator
+	
 	public void testSpriteListDetails() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -747,7 +746,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertEquals("Displayed wrong number of sound", soundCount, soundCountActual);
 	}
 
-	@Emulator
+	
 	public void testBottomBarAndContextMenuOnActionModes() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -809,7 +808,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		checkIfContextMenuAppears(true, true);
 	}
 
-	@Emulator
+	
 	public void testDeleteActionModeCheckingAndTitle() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -854,7 +853,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 	}
 
-	@Emulator
+	
 	public void testDeleteActionModeIfNothingSelected() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -873,7 +872,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		checkIfNumberOfSpritesIsEqual(expectedNumberOfSprites);
 	}
 
-	@Emulator
+	
 	public void testDeleteActionModeIfSelectedAndPressingBack() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -893,7 +892,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		checkIfNumberOfSpritesIsEqual(expectedNumberOfSprites);
 	}
 
-	@Emulator
+	
 	public void testDeleteActionMode() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -930,7 +929,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				solo.waitForText(deletedSpriteName, 0, 200, false, false));
 	}
 
-	@Emulator
+	
 	public void testConfirmDeleteObjectDialogTitleChange() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		String delete = solo.getString(R.string.delete);
@@ -961,7 +960,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnText(no);
 	}
 
-	@Emulator
+	
 	public void testChooseNoOnDeleteQuestionInActionMode() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -991,7 +990,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				solo.searchText(solo.getString(R.string.new_sprite_dialog_title)));
 	}
 
-	@Emulator
+	
 	public void testDeleteMultipleSprites() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		solo.scrollListToBottom(0);
@@ -1016,7 +1015,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 	}
 
-	@Emulator
+	
 	public void testRenameActionModeChecking() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
@@ -1034,7 +1033,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 	}
 
-	@Emulator
+	
 	public void testRenameActionModeIfNothingSelected() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
@@ -1049,7 +1048,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, timeToWait));
 	}
 
-	@Emulator
+	
 	public void testRenameActionModeIfSelectedAndPressingBack() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
@@ -1065,7 +1064,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, timeToWait));
 	}
 
-	@Emulator
+	
 	public void testRenameActionMode() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -1088,7 +1087,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				.getName().equalsIgnoreCase(renamedSpriteName));
 	}
 
-	@Emulator
+	
 	public void testOverFlowMenuSettings() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -1096,7 +1095,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
 	}
 
-	@Emulator
+	
 	public void testConvertVisibleSpriteStringsToObject() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 

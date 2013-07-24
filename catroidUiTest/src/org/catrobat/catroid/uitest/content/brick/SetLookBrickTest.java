@@ -41,7 +41,6 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.uitest.annotation.Device;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -90,7 +89,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		super.tearDown();
 	}
 
-	@Emulator
+	
 	public void testSelectLookAndPlay() {
 		assertTrue(lookName + " is not selected in Spinner", solo.isSpinnerTextSelected(lookName));
 
@@ -116,7 +115,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("look not set", look.getImagePath(), lookDataList.get(1).getAbsolutePath());
 	}
 
-	@Emulator
+	
 	public void testSpinnerUpdatesDelete() {
 		solo.clickOnText(lookName);
 
@@ -139,7 +138,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	}
 
-	@Emulator
+	
 	public void testSpinnerUpdatesRename() {
 		String newName = "nameRenamed";
 
@@ -169,7 +168,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	}
 
-	@Emulator
+	
 	public void testAdapterUpdateInScriptActivity() {
 		String look1ImagePath = lookDataList.get(0).getAbsolutePath();
 		String look2ImagePath = lookDataList.get(1).getAbsolutePath();

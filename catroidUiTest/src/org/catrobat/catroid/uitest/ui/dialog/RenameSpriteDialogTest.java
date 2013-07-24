@@ -31,7 +31,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -59,7 +58,7 @@ public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<
 		ProjectManager.INSTANCE.deleteCurrentProject();
 	}
 
-	@Emulator
+	
 	public void testRenameSpriteDialog() throws NameNotFoundException, IOException {
 		createTestProject(testProject);
 		solo.sleep(200);
@@ -81,7 +80,7 @@ public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<
 		assertEquals("The first sprite is NOT rename!", first, kat);
 	}
 
-	@Emulator
+	
 	public void testRenameSpriteDialogMixedCase() throws NameNotFoundException, IOException {
 		createTestProject(testProject);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));

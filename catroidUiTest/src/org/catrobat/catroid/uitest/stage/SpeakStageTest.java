@@ -40,7 +40,6 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -76,7 +75,7 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 		super.tearDown();
 	}
 
-	@Emulator
+	
 	public void testNullText() throws InterruptedException {
 		ProjectManager.INSTANCE
 				.loadProject(UiTestUtils.PROJECTNAME2, getActivity().getApplicationContext(), false);
@@ -102,7 +101,7 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 		assertEquals("TextToSpeech executed with wrong text", "", textToSpeechMock.text);
 	}
 
-	@Emulator
+	
 	public void testSuccessiveBehaviour() throws InterruptedException {
 		ProjectManager.INSTANCE
 				.loadProject(UiTestUtils.PROJECTNAME1, getActivity().getApplicationContext(), false);
@@ -133,7 +132,7 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 		assertEquals("TextToSpeech executed with wrong text", textMessageHello, textToSpeechMock.text);
 	}
 
-	@Emulator
+	
 	public void testSimultaneousTextToSpeech() throws InterruptedException {
 		ProjectManager.INSTANCE
 				.loadProject(UiTestUtils.PROJECTNAME3, getActivity().getApplicationContext(), false);

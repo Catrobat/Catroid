@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uitest.annotation.Emulator;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -58,7 +57,7 @@ public class GlideToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	@Emulator
+	
 	public void testNumberInput() {
 		double duration = 1.5;
 		int xPosition = 123;
