@@ -151,12 +151,12 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_bracket_open));
 		assertEquals("Wrong button clicked", getActivity().getString(R.string.formula_editor_bracket_open), text
-				.getText().toString().substring(0, text.getText().toString().length() - 1));
+				.getText().toString().substring(0, text.length() - 1));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_bracket_close));
 		assertEquals("Wrong button clicked", getActivity().getString(R.string.formula_editor_bracket_close), text
-				.getText().toString().substring(0, text.getText().toString().length() - 1));
+				.getText().toString().substring(0, text.length() - 1));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));

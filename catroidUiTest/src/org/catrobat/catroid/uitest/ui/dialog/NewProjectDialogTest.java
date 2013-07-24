@@ -91,7 +91,7 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		Button okButton = solo.getButton(getActivity().getString(R.string.ok));
 		EditText editText = (EditText) solo.getView(R.id.project_name_edittext);
 
-		assertTrue("EditText was not empty", editText.getText().length() == 0);
+		assertTrue("EditText was not empty", editText.length() == 0);
 
 		final String projectName = "MyTestProject";
 		UiTestUtils.enterText(solo, 0, projectName);
