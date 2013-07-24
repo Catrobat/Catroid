@@ -153,7 +153,7 @@ public abstract class TextDialog extends DialogFragment {
 	}
 
 	protected boolean getPositiveButtonEnabled() {
-		if (input.getText().toString().length() == 0) {
+		if (input.length() == 0) {
 			return false;
 		}
 
