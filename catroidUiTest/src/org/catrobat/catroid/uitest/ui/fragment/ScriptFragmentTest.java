@@ -40,6 +40,7 @@ import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -212,6 +213,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	/**
 	 * Tests issue#54. https://github.com/Catrobat/Catroid/issues/54
 	 */
+
 	public void testOnlyAddControlBricks() {
 		UiTestUtils.createEmptyProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -535,6 +537,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertFalse("Found menu item '" + showDetails + "'", solo.waitForText(showDetails, 1, timeToWait, false, true));
 	}
 
+	@Device
 	public void testOptionsEnableLegoMindstormBricks() {
 		UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
