@@ -93,18 +93,13 @@ public class StandardProjectHandler {
 
 		File backgroundFile = copyFromResourceInProject(projectName, Constants.IMAGE_DIRECTORY, backgroundName,
 				R.drawable.default_project_background, context);
-		backgroundImageScaleFactor = ImageEditing.scaleImageFileAndReturnSampleSize(backgroundFile.getAbsoluteFile(),
-				ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
 
 		File mole1File = copyFromResourceInProject(projectName, Constants.IMAGE_DIRECTORY, mole1Name,
 				R.drawable.default_project_mole_1, context);
-		ImageEditing.scaleImageFile(mole1File, backgroundImageScaleFactor);
 		File mole2File = copyFromResourceInProject(projectName, Constants.IMAGE_DIRECTORY, mole2Name,
 				R.drawable.default_project_mole_2, context);
-		ImageEditing.scaleImageFile(mole2File, backgroundImageScaleFactor);
 		File whackedMoleFile = copyFromResourceInProject(projectName, Constants.IMAGE_DIRECTORY, whackedMoleName,
 				R.drawable.default_project_mole_whacked, context);
-		ImageEditing.scaleImageFile(whackedMoleFile, backgroundImageScaleFactor);
 		File soundFile1 = copyFromResourceInProject(projectName, Constants.SOUND_DIRECTORY, soundName,
 				R.raw.default_project_sound_mole_1, context);
 		File soundFile2 = copyFromResourceInProject(projectName, Constants.SOUND_DIRECTORY, soundName,
@@ -322,6 +317,15 @@ public class StandardProjectHandler {
 		in.close();
 		out.flush();
 		out.close();
+
+		if (context.getResources().getResourceTypeName(fileId).compareTo("drawable") == 0) {
+			if (fileId == R.drawable.default_project_background) {
+				backgroundImageScaleFactor = ImageEditing.scaleImageFileAndReturnSampleSize(
+						copiedFile.getAbsoluteFile(), ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+			} else {
+				ImageEditing.scaleImageFile(copiedFile, backgroundImageScaleFactor);
+			}
+		}
 
 		if (!prependMd5) {
 			return copiedFile;
