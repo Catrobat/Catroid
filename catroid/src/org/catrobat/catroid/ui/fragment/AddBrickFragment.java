@@ -53,7 +53,6 @@ public class AddBrickFragment extends SherlockListFragment {
 	public static final String ADD_BRICK_FRAGMENT_TAG = "add_brick_fragment";
 	private ScriptFragment scriptFragment;
 	private CharSequence previousActionBarTitle;
-	private int previousActionBarNavigationMode;
 	private PrototypeBrickAdapter adapter;
 	private CategoryBricksFactory categoryBricksFactory = new CategoryBricksFactory();
 
@@ -78,7 +77,7 @@ public class AddBrickFragment extends SherlockListFragment {
 
 	private void setupSelectedBrickCategory() {
 		Context context = getActivity();
-		Sprite sprite = ProjectManager.INSTANCE.getCurrentSprite();
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		String selectedCategory = getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY);
 
 		List<Brick> brickList = categoryBricksFactory.getBricks(selectedCategory, sprite, context);
@@ -103,14 +102,11 @@ public class AddBrickFragment extends SherlockListFragment {
 		actionBar.setDisplayShowTitleEnabled(true);
 		previousActionBarTitle = actionBar.getTitle();
 		actionBar.setTitle(this.getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY));
-		previousActionBarNavigationMode = actionBar.getNavigationMode();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 	}
 
 	private void resetActionBar() {
 		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 		actionBar.setTitle(previousActionBarTitle);
-		actionBar.setNavigationMode(previousActionBarNavigationMode);
 	}
 
 	@Override
@@ -142,9 +138,9 @@ public class AddBrickFragment extends SherlockListFragment {
 				scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
 
 				if (brickToBeAdded instanceof ScriptBrick) {
-					Script script = ((ScriptBrick) brickToBeAdded).initScript(ProjectManager.INSTANCE
+					Script script = ((ScriptBrick) brickToBeAdded).initScript(ProjectManager.getInstance()
 							.getCurrentSprite());
-					ProjectManager.INSTANCE.setCurrentScript(script);
+					ProjectManager.getInstance().setCurrentScript(script);
 				}
 
 				FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();

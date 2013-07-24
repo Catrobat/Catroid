@@ -93,11 +93,11 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 		assertTrue("Testfile not added from mockActivity", solo.searchText(nyanCat));
 
 		String checksumNyanCatImageFile = Utils.md5Checksum(nyanCatPngFile);
-		assertTrue("Checksum not in checksumcontainer", ProjectManager.INSTANCE.getFileChecksumContainer()
+		assertTrue("Checksum not in checksumcontainer", ProjectManager.getInstance().getFileChecksumContainer()
 				.containsChecksum(checksumNyanCatImageFile));
 
 		boolean isInLookDataList = false;
-		for (LookData lookData : ProjectManager.INSTANCE.getCurrentSprite().getLookDataList()) {
+		for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
 			if (lookData.getChecksum().equalsIgnoreCase(checksumNyanCatImageFile)) {
 				isInLookDataList = true;
 			}
@@ -106,9 +106,7 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 			fail("File not added in LookDataList");
 		}
 
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String looksSpinnerText = solo.getString(R.string.category_looks);
-		UiTestUtils.changeToFragmentViaActionbar(solo, looksSpinnerText, scriptsSpinnerText);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
 		assertTrue(nyanCat + " is not selected in Spinner", solo.isSpinnerTextSelected(nyanCat));
 
@@ -148,11 +146,11 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 		assertTrue("Testfile not added from mockActivity", solo.searchText(manImage));
 
 		String checksumNyanCatImageFile = Utils.md5Checksum(nyanCatPngFile);
-		assertTrue("Checksum not in checksumcontainer", ProjectManager.INSTANCE.getFileChecksumContainer()
+		assertTrue("Checksum not in checksumcontainer", ProjectManager.getInstance().getFileChecksumContainer()
 				.containsChecksum(checksumNyanCatImageFile));
 
 		boolean isInLookDataList = false;
-		for (LookData lookData : ProjectManager.INSTANCE.getCurrentSprite().getLookDataList()) {
+		for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
 			if (lookData.getChecksum().equalsIgnoreCase(checksumNyanCatImageFile)) {
 				isInLookDataList = true;
 			}
@@ -161,9 +159,7 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 			fail("File not added in LookDataList");
 		}
 
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String looksSpinnerText = solo.getString(R.string.category_looks);
-		UiTestUtils.changeToFragmentViaActionbar(solo, looksSpinnerText, scriptsSpinnerText);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
 		assertTrue(manImage + " is not selected in Spinner", solo.isSpinnerTextSelected(manImage));
 
@@ -185,10 +181,7 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 	private void prepareTest() {
 		createProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String looksSpinnerText = solo.getString(R.string.category_looks);
-		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, looksSpinnerText);
-		UiTestUtils.waitForFragment(solo, R.id.fragment_look_relative_layout);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.LOOKS_INDEX);
 	}
 
 	private void createProject() {
@@ -203,10 +196,10 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 		backgroundSprite.addScript(startScript);
 		project.addSprite(backgroundSprite);
 
-		ProjectManager.INSTANCE.setFileChecksumContainer(new FileChecksumContainer());
-		ProjectManager.INSTANCE.setProject(project);
-		ProjectManager.INSTANCE.setCurrentSprite(backgroundSprite);
-		ProjectManager.INSTANCE.setCurrentScript(startScript);
+		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(backgroundSprite);
+		ProjectManager.getInstance().setCurrentScript(startScript);
 		storageHandler.saveProject(project);
 	}
 

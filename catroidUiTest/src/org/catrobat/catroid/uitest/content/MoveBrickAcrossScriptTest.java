@@ -71,9 +71,9 @@ public class MoveBrickAcrossScriptTest extends BaseActivityInstrumentationTestCa
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 4);
 
-		int numberOfBricks = ProjectManager.INSTANCE.getCurrentScript().getBrickList().size();
+		int numberOfBricks = ProjectManager.getInstance().getCurrentScript().getBrickList().size();
 		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(2), 10, yPositionList.get(5), 10);
-		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks - 1) == ProjectManager.INSTANCE
+		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks - 1) == ProjectManager.getInstance()
 				.getCurrentScript().getBrickList().size());
 		assertEquals("Incorrect Brick after dragging over Script", (Brick) adapter.getItem(4) instanceof WaitBrick,
 				true);
@@ -119,8 +119,8 @@ public class MoveBrickAcrossScriptTest extends BaseActivityInstrumentationTestCa
 
 		project.addSprite(firstSprite);
 
-		ProjectManager.INSTANCE.setProject(project);
-		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 	}
 
 }

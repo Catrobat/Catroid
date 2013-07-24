@@ -104,7 +104,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.createTestProject();
 		UiTestUtils.prepareStageForTest();
 
-		projectManager = ProjectManager.INSTANCE;
+		projectManager = ProjectManager.getInstance();
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 
 		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
@@ -737,7 +737,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		int timeToWait = 300;
 		String addDialogTitle = solo.getString(R.string.new_look_dialog_title);
-		String lookSpinnerItemText = solo.getString(R.string.looks);
 		String lookResoltionPrefixText = solo.getString(R.string.look_measure);
 
 		assertTrue("Add button not clickable", addButton.isClickable());
@@ -763,7 +762,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
-		solo.waitForText(lookSpinnerItemText, 1, timeToWait, false, true);
+		solo.sleep(500);
 
 		checkIfContextMenuAppears(true, ACTION_MODE_RENAME);
 
@@ -788,7 +787,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
-		solo.waitForText(lookSpinnerItemText, 1, timeToWait, false, true);
+		solo.sleep(500);
 
 		checkIfContextMenuAppears(true, ACTION_MODE_DELETE);
 
@@ -814,7 +813,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
-		solo.waitForText(lookSpinnerItemText, 1, timeToWait, false, true);
+		solo.sleep(500);
 
 		checkIfContextMenuAppears(true, ACTION_MODE_COPY);
 

@@ -63,7 +63,6 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 	
 	public void testPutHoveringBrickDown() {
 		// clicks on spriteName needed to get focus on listview for solo without adding hovering brick
-		String scriptsName = solo.getString(R.string.scripts);
 
 		ListView view = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
@@ -78,10 +77,10 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_stop_all_sounds);
 		// just to get focus and get the correct list
-		solo.clickOnText(scriptsName);
-		solo.clickOnText(scriptsName);
+		String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
+		solo.clickOnText(currentSprite);
 
-		List<Brick> brickListToCheck = ProjectManager.INSTANCE.getCurrentScript().getBrickList();
+		List<Brick> brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		assertEquals("One Brick should be in bricklist, one hovering and therefore not in project yet", 1,
 				brickListToCheck.size());
 		assertEquals("Both bricks (plus ScriptBrick) should be present in the adapter", 3, adapter.getCount());
@@ -105,8 +104,9 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 			solo.goBack();
 		}
 		// just to get focus and get the correct list
-		solo.clickOnText(scriptsName);
-		solo.clickOnText(scriptsName);
+		currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
+		solo.clickOnText(currentSprite);
+
 		yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 
 		solo.clickOnScreen(20, yPositionList.get(0));
@@ -121,8 +121,8 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.sleep(200);
 		solo.drag(20, 20, 300, height - 20, 100);
 		// just to get focus and get the correct list
-		solo.clickOnText(scriptsName);
-		solo.clickOnText(scriptsName);
+		currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
+		solo.clickOnText(currentSprite);
 		solo.sleep(400);
 
 		assertTrue("Last Brick should now be WaitBrick", adapter.getItem(3) instanceof WaitBrick);

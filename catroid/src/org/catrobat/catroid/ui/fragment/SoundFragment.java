@@ -81,7 +81,6 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
@@ -160,7 +159,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		if (savedInstanceState != null) {
 			selectedSoundInfo = (SoundInfo) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_SELECTED_SOUND);
 		}
-		soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
+		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
 		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList, false);
 		adapter.setOnSoundEditListener(this);
@@ -242,7 +241,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	public void onPause() {
 		super.onPause();
 
-		ProjectManager projectManager = ProjectManager.INSTANCE;
+		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
 		}
@@ -842,7 +841,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
 
 		soundInfoList.remove(position);
-		ProjectManager.INSTANCE.getCurrentSprite().setSoundList(soundInfoList);
+		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
 	}
@@ -931,8 +930,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	private void switchToScriptFragment() {
 		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-		ActionBar actionBar = scriptActivity.getSupportActionBar();
-		actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_SCRIPTS);
 		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 
 		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();

@@ -85,7 +85,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -157,7 +156,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				lookFromCameraUri = UtilCamera.getDefaultLookFromCameraUri(defLookName);
 			}
 		}
-		lookDataList = ProjectManager.INSTANCE.getCurrentSprite().getLookDataList();
+		lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
 
 		adapter = new LookAdapter(getActivity(), R.layout.fragment_look_looklist_item, lookDataList, false);
 		adapter.setOnLookEditListener(this);
@@ -232,7 +231,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	public void onPause() {
 		super.onPause();
 
-		ProjectManager projectManager = ProjectManager.INSTANCE;
+		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
 		}
@@ -575,7 +574,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				throw new IOException();
 			}
 
-			String projectName = ProjectManager.INSTANCE.getCurrentProject().getName();
+			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
 			File imageFile = StorageHandler.getInstance().copyImage(projectName, originalImagePath, null);
 
 			String imageName;
@@ -658,7 +657,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				newFileName = newFileName + ".png";
 			}
 
-			String projectName = ProjectManager.INSTANCE.getCurrentProject().getName();
+			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
 
 			try {
 				File newLookFile = StorageHandler.getInstance().copyImage(projectName, pathOfPocketPaintImage,
@@ -932,7 +931,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath());
 
 		lookDataList.remove(position);
-		ProjectManager.INSTANCE.getCurrentSprite().setLookDataList(lookDataList);
+		ProjectManager.getInstance().getCurrentSprite().setLookDataList(lookDataList);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
 	}
@@ -997,7 +996,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		LookData lookData = lookDataList.get(position);
 
 		try {
-			String projectName = ProjectManager.INSTANCE.getCurrentProject().getName();
+			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
 
 			StorageHandler.getInstance().copyImage(projectName, lookData.getAbsolutePath(), null);
 
@@ -1051,8 +1050,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	private void switchToScriptFragment() {
 		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-		ActionBar actionBar = scriptActivity.getSupportActionBar();
-		actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_SCRIPTS);
 		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 
 		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();

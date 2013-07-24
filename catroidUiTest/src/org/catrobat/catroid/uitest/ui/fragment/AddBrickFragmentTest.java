@@ -22,8 +22,10 @@
  */
 package org.catrobat.catroid.uitest.ui.fragment;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -70,16 +72,18 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 	
 	public void testCorrectReturnToScriptFragment() {
 		goToAddBrickFromMainMenu();
-		assertTrue("Script text in action bar not found before adding a brick",
-				solo.waitForText(solo.getString(R.string.scripts), 0, 2000));
+
+		String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
+		assertEquals("Current sprite name is not shown as actionbar title or is wrong before adding a brick", "cat",
+				currentSprite);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
-		solo.sleep(2000);
+		solo.waitForActivity(ScriptActivity.class);
+		solo.waitForFragmentById(R.id.fragment_script_relative_layout);
 
-		assertTrue("Script text in action bar not found after adding a brick",
-				solo.waitForText(solo.getString(R.string.scripts), 0, 2000));
+		assertEquals("Current sprite name is not shown as actionbar title or is wrong before adding a brick", "cat",
+				currentSprite);
 		solo.goBack();
-
 	}
 
 	

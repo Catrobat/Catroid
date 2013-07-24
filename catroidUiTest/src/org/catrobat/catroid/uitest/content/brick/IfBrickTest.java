@@ -118,11 +118,9 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 		// just to get focus
 		// seems to be a bug just with the Nexus S 2.3.6
-		String spinnerScripts = solo.getString(R.string.scripts);
-		solo.clickOnText(spinnerScripts);
-		solo.clickOnText(spinnerScripts);
+		solo.clickOnText(solo.getString(R.string.brick_when_started));
 
-		Log.e("info", "Befor drag item 3 to item 0");
+		Log.e("info", "Before drag item 3 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
@@ -161,7 +159,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		//		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		//		int addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 		//
-		//		Sprite sprite = ProjectManager.INSTANCE.getCurrentSprite();
+		//		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		//		assertEquals("Incorrect number of Scripts.", 2, sprite.getNumberOfScripts());
 		//
 		//		solo.goBack();
@@ -227,9 +225,9 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		sprite.addScript(new StartScript(sprite));
 		project.addSprite(sprite);
 
-		ProjectManager.INSTANCE.setProject(project);
-		ProjectManager.INSTANCE.setCurrentSprite(sprite);
-		ProjectManager.INSTANCE.setCurrentScript(script);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(script);
 	}
 
 	//	private void clickOnDeleteInDialog() {

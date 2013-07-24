@@ -299,6 +299,6 @@ public class ComplexStageTest extends BaseActivityInstrumentationTestCase<MainMe
 		blackLookData.setLookFilename(blackImageFile.getName());
 
 		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.getInstance().setProject(project);
 	}
 }

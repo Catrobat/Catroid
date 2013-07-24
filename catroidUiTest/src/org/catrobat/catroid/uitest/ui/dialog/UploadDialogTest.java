@@ -72,7 +72,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		// normally super.teardown should be called last
 		// but tests crashed with Nullpointer
 		super.tearDown();
-		ProjectManager.INSTANCE.deleteCurrentProject();
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	private void setServerURLToTestURL() throws Throwable {
@@ -127,7 +127,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		String actionSetDescriptionText = solo.getString(R.string.set_description);
 		String setDescriptionDialogTitle = solo.getString(R.string.description);
 		Project uploadProject = new Project(getActivity(), testProject);
-		ProjectManager.INSTANCE.setProject(uploadProject);
+		ProjectManager.getInstance().setProject(uploadProject);
 		StorageHandler.getInstance().saveProject(uploadProject);
 		setServerURLToTestURL();
 		UiTestUtils.createValidUser(getActivity());
@@ -166,7 +166,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 	
 	public void testProjectDescriptionUploadProject() throws Throwable {
 		Project uploadProject = new Project(getActivity(), testProject);
-		ProjectManager.INSTANCE.setProject(uploadProject);
+		ProjectManager.getInstance().setProject(uploadProject);
 		StorageHandler.getInstance().saveProject(uploadProject);
 
 		solo.sleep(300);

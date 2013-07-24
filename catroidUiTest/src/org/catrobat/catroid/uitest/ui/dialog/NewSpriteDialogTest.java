@@ -56,7 +56,7 @@ public class NewSpriteDialogTest extends BaseActivityInstrumentationTestCase<Mai
 		// normally super.teardown should be called last
 		// but tests crashed with Nullpointer
 		super.tearDown();
-		ProjectManager.INSTANCE.deleteCurrentProject();
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	
@@ -74,7 +74,7 @@ public class NewSpriteDialogTest extends BaseActivityInstrumentationTestCase<Mai
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForView(EditText.class);
 		enterTextAndCloseDialog(spriteName);
-		assertTrue("Sprite not successfully added", ProjectManager.INSTANCE.spriteExists(spriteName));
+		assertTrue("Sprite not successfully added", ProjectManager.getInstance().spriteExists(spriteName));
 
 		//Add sprite which already exists
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);

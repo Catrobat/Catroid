@@ -55,9 +55,7 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 		UiTestUtils.createTestProject();
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String soundsSpinnerText = solo.getString(R.string.sounds);
-		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, soundsSpinnerText);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SOUNDS_INDEX);
 	}
 
 	
@@ -137,7 +135,7 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 		}
 
 		solo.sleep(500);
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
+		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		assertEquals("wrong number of items in the list ", recordNumber, soundInfoList.size());
 		SoundInfo lastAddedSoundInfo = soundInfoList.get(soundInfoList.size() - 1);
 		assertEquals("recorded sound not found in project", recordTitle, lastAddedSoundInfo.getTitle());
