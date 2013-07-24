@@ -626,22 +626,6 @@ public class UiTestUtils {
 		projectManager.setCurrentScript(testScript);
 	}
 
-	public static Project createProjectOnlyWithBackground(Context context) {
-		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite(context.getString(R.string.background));
-		Script testScript = new StartScript(firstSprite);
-
-		firstSprite.addScript(testScript);
-		project.addSprite(firstSprite);
-
-		projectManager.setFileChecksumContainer(new FileChecksumContainer());
-		projectManager.setProject(project);
-		projectManager.setCurrentSprite(firstSprite);
-		projectManager.setCurrentScript(testScript);
-
-		return project;
-	}
-
 	/**
 	 * saves a file into the project folder
 	 * if project == null or "" file will be saved into Catroid folder
