@@ -46,6 +46,7 @@ import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -62,6 +63,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -190,6 +192,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				startActivity(intent);
 				return true;
 			}
+			case R.id.menu_rate_app:
+				launchMarket();
+				return true;
 			case R.id.menu_about: {
 				AboutDialogFragment aboutDialog = new AboutDialogFragment();
 				aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
@@ -197,6 +202,17 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			}
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	// Taken from http://stackoverflow.com/a/11270668
+	private void launchMarket() {
+		Uri uri = Uri.parse("market://details?id=" + getPackageName());
+		Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+		try {
+			startActivity(myAppLinkToMarket);
+		} catch (ActivityNotFoundException e) {
+			Toast.makeText(this, R.string.main_menu_play_store_not_installed, Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	public void handleContinueButton(View v) {

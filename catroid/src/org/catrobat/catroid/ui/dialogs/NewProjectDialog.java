@@ -137,7 +137,7 @@ public class NewProjectDialog extends DialogFragment {
 		String projectName = newProjectEditText.getText().toString().trim();
 		boolean shouldBeEmpty = emptyProjectCheckBox.isChecked();
 
-		if (projectName.length() == 0) {
+		if (projectName.isEmpty()) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_no_name_entered));
 			return;
 		}

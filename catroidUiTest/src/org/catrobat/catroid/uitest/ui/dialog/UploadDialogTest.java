@@ -31,6 +31,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -119,6 +120,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnButton(solo.getString(R.string.cancel_button));
 	}
 
+	@Device
 	public void testUploadingProjectDescriptionDefaultValue() throws Throwable {
 		String testDescription = "Test description";
 		String actionSetDescriptionText = solo.getString(R.string.set_description);

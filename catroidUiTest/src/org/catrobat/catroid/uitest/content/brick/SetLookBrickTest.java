@@ -40,6 +40,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -182,6 +183,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		}
 	}
 
+	@Device
 	public void testAddNewLook() {
 		String newText = solo.getString(R.string.new_broadcast_message);
 
