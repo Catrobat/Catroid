@@ -30,9 +30,6 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
-import android.util.Log;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -405,13 +402,13 @@ public class Look extends Image {
 
 	private class BrightnessContrastShader extends ShaderProgram {
 
-		static final String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+		final static String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
 				+ "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" + "attribute vec2 "
 				+ ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" + "uniform mat4 u_projTrans;\n" + "varying vec4 v_color;\n"
 				+ "varying vec2 v_texCoords;\n" + "\n" + "void main()\n" + "{\n" + " v_color = "
 				+ ShaderProgram.COLOR_ATTRIBUTE + ";\n" + " v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
 				+ " gl_Position = u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" + "}\n";
-		static final String fragmentShader = "#ifdef GL_ES\n" + "#define LOWP lowp\n" + "precision mediump float;\n"
+		final static String fragmentShader = "#ifdef GL_ES\n" + "#define LOWP lowp\n" + "precision mediump float;\n"
 				+ "#else\n" + "#define LOWP \n" + "#endif\n" + "varying LOWP vec4 v_color;\n"
 				+ "varying vec2 v_texCoords;\n" + "uniform sampler2D u_texture;\n" + "uniform float brightness;\n"
 				+ "uniform float contrast;\n" + "void main()\n" + "{\n"
@@ -420,21 +417,17 @@ public class Look extends Image {
 				+ " color.rgb += brightness;\n" //apply brightness
 				+ " color.rgb *= color.a;\n" + " gl_FragColor = color;\n" + "}";
 
-		private String brightnessStringInShader = "brightness";
-		private String contrastStringInShader = "contrast";
+		final static private String brightnessStringInShader = "brightness";
+		final static private String contrastStringInShader = "contrast";
 
 		public BrightnessContrastShader() {
 			super(vertexShader, fragmentShader);
-			if (Gdx.graphics.isGL20Available()) {
-				ShaderProgram.pedantic = false;
-				if (isCompiled()) {
-					begin();
-					setUniformf(brightnessStringInShader, 0.0f);
-					setUniformf(contrastStringInShader, 1.0f);
-					end();
-				}
-			} else {
-				Log.e("CATROID", "Shaders are not supported in OpenGL 1.1!");
+			ShaderProgram.pedantic = false;
+			if (isCompiled()) {
+				begin();
+				setUniformf(brightnessStringInShader, 0.0f);
+				setUniformf(contrastStringInShader, 1.0f);
+				end();
 			}
 		}
 
