@@ -153,14 +153,14 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		lookData.setLookFilename(imageFile.getName());
 		lookData.setLookName(lookName);
 		lookDataList.add(lookData);
-		ProjectManager.getInstance().getFileChecksumContainer().addChecksum(lookData.getChecksum(),
-				lookData.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 		lookData = new LookData();
 		lookData.setLookFilename(imageFile2.getName());
 		lookData.setLookName("lookNameTest2");
 		lookDataList.add(lookData);
-		ProjectManager.getInstance().getFileChecksumContainer().addChecksum(lookData.getChecksum(),
-				lookData.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
 		ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth = display.getWidth();
 		ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight = display.getHeight();
@@ -183,10 +183,10 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
-		ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo.getChecksum(),
-				soundInfo.getAbsolutePath());
-		ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo2.getChecksum(),
-				soundInfo2.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
 	}
 
 	private void clickOnContextMenuItem(String lookName, String menuItemName) {

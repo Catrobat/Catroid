@@ -487,6 +487,8 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 	public void setIsSoundFragmentFromPlaySoundBrickNewFalse() {
 		this.isSoundFragmentFromPlaySoundBrickNew = false;
+		// TODO quickfix for issue #521 - refactor design (activity and fragment interaction)
+		updateHandleAddButtonClickListener();
 	}
 
 	public boolean getIsSoundFragmentHandleAddButtonHandled() {
@@ -503,6 +505,8 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 	public void setIsLookFragmentFromSetLookBrickNewFalse() {
 		this.isLookFragmentFromSetLookBrickNew = false;
+		// TODO quickfix for issue #521 - refactor design (activity and fragment interaction)
+		updateHandleAddButtonClickListener();
 	}
 
 	public boolean getIsLookFragmentHandleAddButtonHandled() {

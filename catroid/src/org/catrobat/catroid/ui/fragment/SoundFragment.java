@@ -317,7 +317,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		Log.d("SoundFragment", "onActivityReuslt");
+		Log.d("SoundFragment", "onActivityResult");
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_MUSIC && data != null) {
 			Bundle arguments = new Bundle();
