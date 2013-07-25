@@ -22,21 +22,13 @@
  */
 package org.catrobat.catroid.uitest.content.interaction;
 
-import java.util.List;
-
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-
-import com.jayway.android.robotium.solo.Solo;
-
-public class BrickEditFormulaTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-
-	private Solo solo;
-	private List<Brick> brickList;
+public class BrickEditFormulaTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	public BrickEditFormulaTest() {
 		super(MainMenuActivity.class);
@@ -44,27 +36,19 @@ public class BrickEditFormulaTest extends ActivityInstrumentationTestCase2<MainM
 
 	@Override
 	protected void setUp() throws Exception {
-		brickList = UiTestUtils.createTestProjectWithEveryBrick();
 		super.setUp();
-		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.createTestProjectWithEveryBrick();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
 	}
 
 	private void checkBrick(int brickName) {
 		solo.clickOnText(solo.getString(brickName));
 		solo.clickOnMenuItem(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
-		assertTrue("Formula Editor don't opened!", solo.waitForView(solo.getView(R.id.formula_editor_brick_space)));
+		assertTrue("Formula Editor did not open!", solo.waitForView(solo.getView(R.id.formula_editor_brick_space)));
 		solo.goBack();
 	}
 
+	@Device
 	public void testClickOnBrickItemEditFormula() {
 		checkBrick(R.string.brick_change_brightness);
 		checkBrick(R.string.brick_change_ghost_effect);
