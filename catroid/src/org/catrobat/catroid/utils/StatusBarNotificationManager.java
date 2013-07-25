@@ -23,6 +23,7 @@
 package org.catrobat.catroid.utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -30,7 +31,6 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -43,35 +43,23 @@ public class StatusBarNotificationManager {
 
 	private static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
 
-	private Integer uploadId;
-	private Integer downloadId;
-	private Integer copyId;
+	private int uploadId;
+	private int downloadId;
+	private int copyId;
 
-	private SparseArray<NotificationData> uploadNotificationDataArray;
-	private SparseArray<NotificationData> downloadNotificationDataArray;
-	private SparseArray<NotificationData> copyNotificationDataArray;
+	private SparseArray<NotificationData> uploadNotificationDataArray = new SparseArray<NotificationData>();
+	private SparseArray<NotificationData> downloadNotificationDataArray = new SparseArray<NotificationData>();
+	private SparseArray<NotificationData> copyNotificationDataArray = new SparseArray<NotificationData>();
 
 	private Notification copyNotification;
 	private Notification uploadNotification;
 	private Notification downloadNotification;
 
 	//needed when download service is running in background
-	public ArrayList<String> downloadProjectName;
-	public ArrayList<String> downloadProjectZipFileString;
+	public List<String> downloadProjectName = new ArrayList<String>();
+	public List<String> downloadProjectZipFileString = new ArrayList<String>();
 
-	@SuppressLint("UseSparseArrays")
 	private StatusBarNotificationManager() {
-		this.uploadId = 0;
-		this.downloadId = 0;
-		this.copyId = 0;
-		this.uploadNotification = null;
-		this.downloadNotification = null;
-		this.copyNotification = null;
-		this.copyNotificationDataArray = new SparseArray<NotificationData>();
-		this.uploadNotificationDataArray = new SparseArray<NotificationData>();
-		this.downloadNotificationDataArray = new SparseArray<NotificationData>();
-		this.downloadProjectName = new ArrayList<String>();
-		this.downloadProjectZipFileString = new ArrayList<String>();
 	}
 
 	public static StatusBarNotificationManager getInstance() {
@@ -83,7 +71,7 @@ public class StatusBarNotificationManager {
 		return activity;
 	}
 
-	public Integer createNotification(String name, Context context, int notificationCode) {
+	public int createNotification(String name, Context context, int notificationCode) {
 		int id = 0;
 		if (notificationCode == Constants.UPLOAD_NOTIFICATION) {
 			id = createUploadNotification(name, context, notificationCode);
@@ -99,11 +87,11 @@ public class StatusBarNotificationManager {
 	}
 
 	@SuppressWarnings("deprecation")
-	private Integer createUploadNotification(String name, Context context, int notificationCode) {
+	private int createUploadNotification(String name, Context context, int notificationCode) {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
 		String notificationTitle = context.getString(R.string.notification_upload_title);
-		boolean newUploadNotification = checkIfArrayIsEmpty(uploadNotificationDataArray);
+		boolean newUploadNotification = isArrayEmpty(uploadNotificationDataArray);
 
 		Intent intent = new Intent(context, MainMenuActivity.class);
 		intent.setAction(Intent.ACTION_MAIN);
@@ -129,11 +117,11 @@ public class StatusBarNotificationManager {
 	}
 
 	@SuppressWarnings("deprecation")
-	private Integer createCopyNotification(String name, Context context, int notificationCode) {
+	private int createCopyNotification(String name, Context context, int notificationCode) {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
 		String notificationTitle = context.getString(R.string.notification_title_copy_project);
-		boolean newCopyNotification = checkIfArrayIsEmpty(copyNotificationDataArray);
+		boolean newCopyNotification = isArrayEmpty(copyNotificationDataArray);
 
 		Intent intent = new Intent(context, MyProjectsActivity.class);
 
@@ -160,11 +148,11 @@ public class StatusBarNotificationManager {
 	}
 
 	@SuppressWarnings("deprecation")
-	private Integer createDownloadNotification(String name, Context context, int notificationCode) {
+	private int createDownloadNotification(String name, Context context, int notificationCode) {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
 		String notificationTitle = context.getString(R.string.notification_download_title);
-		boolean newDownloadNotification = checkIfArrayIsEmpty(downloadNotificationDataArray);
+		boolean newDownloadNotification = isArrayEmpty(downloadNotificationDataArray);
 
 		Intent intent = new Intent(context, MainMenuActivity.class);
 		intent.setAction(Intent.ACTION_MAIN);
@@ -189,7 +177,7 @@ public class StatusBarNotificationManager {
 		return downloadId;
 	}
 
-	public void updateNotification(Integer id, String message, int notificationCode, boolean finished) {
+	public void updateNotification(int id, String message, int notificationCode, boolean finished) {
 		if (notificationCode == Constants.UPLOAD_NOTIFICATION) {
 			updateUploadNotification(id, message, notificationCode, finished);
 		} else if (notificationCode == Constants.DOWNLOAD_NOTIFICATION) {
@@ -198,7 +186,7 @@ public class StatusBarNotificationManager {
 	}
 
 	@SuppressWarnings("deprecation")
-	private void updateUploadNotification(Integer id, String message, int notificationCode, boolean finished) {
+	private void updateUploadNotification(int id, String message, int notificationCode, boolean finished) {
 		Context context = uploadNotificationDataArray.get(id).getContext();
 		String notificationTitle = uploadNotificationDataArray.get(id).getNotificationTitle();
 		PendingIntent pendingIntent = uploadNotificationDataArray.get(id).getPendingIntent();
@@ -214,7 +202,7 @@ public class StatusBarNotificationManager {
 	}
 
 	@SuppressWarnings("deprecation")
-	private void updateDownloadNotification(Integer id, String message, int notificationCode, boolean finished) {
+	private void updateDownloadNotification(int id, String message, int notificationCode, boolean finished) {
 		Context context = downloadNotificationDataArray.get(id).getContext();
 		String notificationTitle = downloadNotificationDataArray.get(id).getNotificationTitle();
 		PendingIntent pendingIntent = downloadNotificationDataArray.get(id).getPendingIntent();
@@ -239,12 +227,8 @@ public class StatusBarNotificationManager {
 		downloadProjectZipFileString.clear();
 	}
 
-	private boolean checkIfArrayIsEmpty(SparseArray<NotificationData> array) {
-		if (array.size() == 0) {
-			return true;
-		} else {
-			return false;
-		}
+	private boolean isArrayEmpty(SparseArray<NotificationData> array) {
+		return array.size() == 0;
 	}
 
 }
