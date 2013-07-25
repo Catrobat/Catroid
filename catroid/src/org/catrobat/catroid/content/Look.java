@@ -402,13 +402,13 @@ public class Look extends Image {
 
 	private class BrightnessContrastShader extends ShaderProgram {
 
-		final static private String VERTEX_SHADER = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+		private static final String VERTEX_SHADER = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
 				+ "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" + "attribute vec2 "
 				+ ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" + "uniform mat4 u_projTrans;\n" + "varying vec4 v_color;\n"
 				+ "varying vec2 v_texCoords;\n" + "\n" + "void main()\n" + "{\n" + " v_color = "
 				+ ShaderProgram.COLOR_ATTRIBUTE + ";\n" + " v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
 				+ " gl_Position = u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" + "}\n";
-		final static private String FRAGMENT_SHADER = "#ifdef GL_ES\n" + "#define LOWP lowp\n"
+		private static final String FRAGMENT_SHADER = "#ifdef GL_ES\n" + "#define LOWP lowp\n"
 				+ "precision mediump float;\n" + "#else\n" + "#define LOWP \n" + "#endif\n"
 				+ "varying LOWP vec4 v_color;\n" + "varying vec2 v_texCoords;\n" + "uniform sampler2D u_texture;\n"
 				+ "uniform float brightness;\n" + "uniform float contrast;\n" + "void main()\n" + "{\n"
@@ -417,8 +417,8 @@ public class Look extends Image {
 				+ " color.rgb += brightness;\n" //apply brightness
 				+ " color.rgb *= color.a;\n" + " gl_FragColor = color;\n" + "}";
 
-		final static private String BRIGHTNESS_STRING_IN_SHADER = "brightness";
-		final static private String CONTRAST_STRING_IN_SHADER = "contrast";
+		private static final String BRIGHTNESS_STRING_IN_SHADER = "brightness";
+		private static final String CONTRAST_STRING_IN_SHADER = "contrast";
 
 		public BrightnessContrastShader() {
 			super(VERTEX_SHADER, FRAGMENT_SHADER);
