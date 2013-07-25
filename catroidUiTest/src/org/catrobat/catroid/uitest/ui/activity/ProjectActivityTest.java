@@ -67,7 +67,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -232,11 +231,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		solo.sleep(500);
 
-		int spinnerIndex = 1;
-
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			spinnerIndex = 0;
-		}
+		int spinnerIndex = 0;
 
 		Spinner setVariableBrick1Spinner = solo.getView(Spinner.class, spinnerIndex);
 		Spinner setVariableBrick2Spinner = solo.getView(Spinner.class, spinnerIndex + 1);
