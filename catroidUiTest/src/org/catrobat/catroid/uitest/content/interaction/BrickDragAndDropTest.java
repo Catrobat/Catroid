@@ -37,6 +37,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.os.Build;
 import android.view.Display;
 import android.widget.ListView;
 
@@ -101,9 +102,12 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
 			solo.goBack();
 		}
-		// just to get focus and get the correct list
-		currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
-		solo.clickOnText(currentSprite);
+
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+			// just to get focus and get the correct list
+			currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
+			solo.clickOnText(currentSprite);
+		}
 
 		yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 
