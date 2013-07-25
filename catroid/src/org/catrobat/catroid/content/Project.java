@@ -56,6 +56,9 @@ public class Project implements Serializable {
 		xmlHeader.setDescription("");
 
 		ifLandscapeSwitchWidthAndHeight();
+		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
+			Utils.updateScreenWidthAndHeight(context);
+		}
 		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
 		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 		setDeviceData(context);

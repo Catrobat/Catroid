@@ -120,6 +120,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -356,13 +357,13 @@ public class StorageHandler {
 		return false;
 	}
 
-	public File copySoundFile(String path) throws IOException {
+	public File copySoundFile(String path) throws IOException, IllegalArgumentException {
 		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
 		File soundDirectory = new File(buildPath(buildProjectPath(currentProject), SOUND_DIRECTORY));
 
 		File inputFile = new File(path);
 		if (!inputFile.exists() || !inputFile.canRead()) {
-			return null;
+			throw new IllegalArgumentException("file " + path + " doesn`t exist or can`t be read");
 		}
 		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
@@ -377,7 +378,7 @@ public class StorageHandler {
 		return copyFileAddCheckSum(outputFile, inputFile, soundDirectory);
 	}
 
-	public File copySoundFileBackPack(SoundInfo selectedSoundInfo) throws IOException {
+	public File copySoundFileBackPack(SoundInfo selectedSoundInfo) throws IOException, IllegalArgumentException {
 
 		String path = selectedSoundInfo.getAbsolutePath();
 
@@ -385,7 +386,7 @@ public class StorageHandler {
 
 		File inputFile = new File(path);
 		if (!inputFile.exists() || !inputFile.canRead()) {
-			return null;
+			throw new IllegalArgumentException("file " + path + " doesn`t exist or can`t be read");
 		}
 		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
@@ -435,7 +436,8 @@ public class StorageHandler {
 	private File copyAndResizeImage(File outputFile, File inputFile, File imageDirectory) throws IOException {
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(inputFile.getAbsolutePath(),
-				project.getXmlHeader().virtualScreenWidth, project.getXmlHeader().virtualScreenHeight, true);
+				project.getXmlHeader().virtualScreenWidth, project.getXmlHeader().virtualScreenHeight,
+				ImageEditing.ResizeType.FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
 
 		saveBitmapToImageFile(outputFile, bitmap);
 
@@ -459,8 +461,8 @@ public class StorageHandler {
 	public static void saveBitmapToImageFile(File outputFile, Bitmap bitmap) throws FileNotFoundException {
 		FileOutputStream outputStream = new FileOutputStream(outputFile);
 		try {
-			if (outputFile.getName().endsWith(".jpg") || outputFile.getName().endsWith(".jpeg")
-					|| outputFile.getName().endsWith(".JPG") || outputFile.getName().endsWith(".JPEG")) {
+			if (outputFile.getName().toLowerCase(Locale.US).endsWith(".jpg")
+					|| outputFile.getName().toLowerCase(Locale.US).endsWith(".jpeg")) {
 				bitmap.compress(CompressFormat.JPEG, JPG_COMPRESSION_SETTING, outputStream);
 			} else {
 				bitmap.compress(CompressFormat.PNG, 0, outputStream);

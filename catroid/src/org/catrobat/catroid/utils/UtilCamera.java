@@ -56,7 +56,8 @@ public class UtilCamera {
 
 			// Height and Width switched for proper scaling for portrait format photos from camera
 			Bitmap fullSizeBitmap = ImageEditing.getScaledBitmapFromPath(fullSizeImage.getAbsolutePath(),
-					project.getXmlHeader().virtualScreenHeight, project.getXmlHeader().virtualScreenWidth, true);
+					project.getXmlHeader().virtualScreenHeight, project.getXmlHeader().virtualScreenWidth,
+					ImageEditing.ResizeType.FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
 			Bitmap rotatedBitmap = ImageEditing.rotateBitmap(fullSizeBitmap, rotate);
 			File downScaledCameraPicture = new File(Constants.DEFAULT_ROOT, defLookName + ".jpg");
 			rotatedPictureUri = Uri.fromFile(downScaledCameraPicture);

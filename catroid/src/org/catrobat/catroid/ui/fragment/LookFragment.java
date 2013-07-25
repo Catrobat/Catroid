@@ -858,5 +858,4 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			}
 		}
 	}
-
 }

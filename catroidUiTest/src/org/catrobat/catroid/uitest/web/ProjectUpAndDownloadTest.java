@@ -287,9 +287,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	}
 
 	public void testUploadStandardProject() throws Throwable {
-		if (!createAndSaveStandardProject() || this.standardProject == null) {
-			fail("Standard project not created");
-		}
+		createAndSaveStandardProject();
 
 		setServerURLToTestUrl();
 		UiTestUtils.createValidUser(getActivity());
@@ -311,9 +309,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		solo.waitForText(uploadButtonText);
 		solo.sleep(500);
 
-		while (solo.scrollUp()) {
+		solo.scrollToTop();
 
-		}
 		solo.clearEditText(0);
 		solo.enterText(0, testProject);
 		solo.clickOnButton(uploadButtonText);
@@ -325,9 +322,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	}
 
 	public void testUploadModifiedStandardProject() throws Throwable {
-		if (!createAndSaveStandardProject() || this.standardProject == null) {
-			fail("Standard project not created");
-		}
+		createAndSaveStandardProject();
 
 		setServerURLToTestUrl();
 		UiTestUtils.createValidUser(getActivity());
@@ -362,17 +357,19 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 				solo.waitForText(solo.getString(R.string.notification_upload_finished), 0, 10000));
 	}
 
-	private boolean createAndSaveStandardProject() {
+	private void createAndSaveStandardProject() {
+		String standardProjectName = getActivity().getString(R.string.default_project_name);
 		try {
-			standardProject = StandardProjectHandler.createAndSaveStandardProject(
-					solo.getString(R.string.default_project_name), getInstrumentation().getTargetContext());
+			ProjectManager.getInstance().loadProject(standardProjectName, getActivity(), false);
+			ProjectManager.getInstance().deleteCurrentProject();
+			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
+					getInstrumentation().getTargetContext());
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false;
+			fail("Standard project not created");
 		}
 		ProjectManager.getInstance().setProject(standardProject);
 		StorageHandler.getInstance().saveProject(standardProject);
-		return true;
 	}
 
 	private void uploadProject(String uploadProjectName, String uploadProjectDescription) {

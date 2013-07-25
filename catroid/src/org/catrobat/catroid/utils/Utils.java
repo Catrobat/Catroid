@@ -87,8 +87,6 @@ public class Utils {
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
 	private static boolean isUnderTest;
 
-	private static Project standardProject;
-
 	public static boolean externalStorageAvailable() {
 		String externalStorageState = Environment.getExternalStorageState();
 		return externalStorageState.equals(Environment.MEDIA_MOUNTED)
@@ -399,21 +397,26 @@ public class Utils {
 		}
 	}
 
+	public static String getUniqueProjectName() {
+		String projectName = "project_" + String.valueOf(System.currentTimeMillis());
+		while (StorageHandler.getInstance().projectExists(projectName)) {
+			projectName = "project_" + String.valueOf(System.currentTimeMillis());
+		}
+		return projectName;
+	}
+
 	public static boolean isStandardProject(Project projectToCheck, Context context) {
-
 		try {
-			if (standardProject == null) {
-				standardProject = StandardProjectHandler.createAndSaveStandardProject(
-						context.getString(R.string.default_project_name), context);
-			}
-
-			ProjectManager.getInstance().setProject(projectToCheck);
-			ProjectManager.getInstance().saveProject();
-
+			Project standardProject = StandardProjectHandler.createAndSaveStandardProject(getUniqueProjectName(),
+					context);
 			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
 			int start = standardProjectXMLString.indexOf("<objectList>");
 			int end = standardProjectXMLString.indexOf("</objectList>");
 			String standardProjectSpriteList = standardProjectXMLString.substring(start, end);
+			ProjectManager.getInstance().deleteCurrentProject();
+
+			ProjectManager.getInstance().setProject(projectToCheck);
+			ProjectManager.getInstance().saveProject();
 
 			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
 			start = projectToCheckXMLString.indexOf("<objectList>");
@@ -421,11 +424,12 @@ public class Utils {
 			String projectToCheckStringList = projectToCheckXMLString.substring(start, end);
 
 			return standardProjectSpriteList.contentEquals(projectToCheckStringList);
-		} catch (IOException e) {
+		} catch (IllegalArgumentException illegalArgumentException) {
+			illegalArgumentException.printStackTrace();
+		} catch (IOException exception) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			exception.printStackTrace();
 		}
-
 		return true;
 
 	}

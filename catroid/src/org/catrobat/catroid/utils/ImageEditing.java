@@ -22,16 +22,22 @@
  */
 package org.catrobat.catroid.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.io.StorageHandler;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
 public class ImageEditing {
+
+	public enum ResizeType {
+		STRETCH_TO_RECTANGLE, STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO
+	}
 
 	public ImageEditing() {
 
@@ -48,7 +54,7 @@ public class ImageEditing {
 	 *            desired y size
 	 * @return a new, scaled bitmap
 	 */
-	public static Bitmap scaleBitmap(Bitmap bitmap, int xSize, int ySize) {
+	private static Bitmap scaleBitmap(Bitmap bitmap, int xSize, int ySize) {
 		if (bitmap == null) {
 			return null;
 		}
@@ -60,8 +66,8 @@ public class ImageEditing {
 		return newBitmap;
 	}
 
-	public static Bitmap getScaledBitmapFromPath(String imagePath, int outputWidth, int outputHeight,
-			boolean justScaleDown) {
+	public static Bitmap getScaledBitmapFromPath(String imagePath, int outputRectangleWidth, int outputRectangleHeight,
+			ResizeType resizeType, boolean justScaleDown) {
 		if (imagePath == null) {
 			return null;
 		}
@@ -70,23 +76,36 @@ public class ImageEditing {
 
 		int originalWidth = imageDimensions[0];
 		int originalHeight = imageDimensions[1];
+		int newWidth = originalHeight;
+		int newHeight = originalWidth;
+		int loadingSampleSize = 1;
 
-		double sampleSizeWidth = ((double) originalWidth) / (double) outputWidth;
-		double sampleSizeHeight = ((double) originalHeight) / (double) outputHeight;
-		double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
-		int sampleSizeRounded = (int) Math.floor(sampleSize);
+		double sampleSizeWidth = ((double) originalWidth) / (double) outputRectangleWidth;
+		double sampleSizeHeight = ((double) originalHeight) / (double) outputRectangleHeight;
+		double sampleSizeMinimum = Math.min(sampleSizeWidth, sampleSizeHeight);
+		double sampleSizeMaximum = Math.max(sampleSizeWidth, sampleSizeHeight);
 
-		if (justScaleDown && sampleSize <= 1) {
+		if (resizeType == ResizeType.STRETCH_TO_RECTANGLE) {
+			newWidth = outputRectangleWidth;
+			newHeight = outputRectangleHeight;
+			loadingSampleSize = (int) Math.floor(sampleSizeMinimum);
+		} else if (resizeType == ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO) {
+			newWidth = (int) Math.floor(originalWidth / sampleSizeMaximum);
+			newHeight = (int) Math.floor(originalHeight / sampleSizeMaximum);
+		} else if (resizeType == ResizeType.FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO) {
+			newWidth = (int) Math.floor(originalWidth / sampleSizeMinimum);
+			newHeight = (int) Math.floor(originalHeight / sampleSizeMinimum);
+		}
+
+		if (justScaleDown && originalWidth <= newWidth && originalHeight <= newHeight) {
 			return BitmapFactory.decodeFile(imagePath);
 		}
 
-		int newHeight = (int) Math.ceil(originalHeight / sampleSize);
-		int newWidth = (int) Math.ceil(originalWidth / sampleSize);
-
 		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-		bitmapOptions.inSampleSize = sampleSizeRounded;
+		bitmapOptions.inSampleSize = loadingSampleSize;
 
 		Bitmap tempBitmap = BitmapFactory.decodeFile(imagePath, bitmapOptions);
+
 		return scaleBitmap(tempBitmap, newWidth, newHeight);
 	}
 
@@ -124,24 +143,42 @@ public class ImageEditing {
 		return rotatedBitmap;
 	}
 
-	public static double scaleImageFileAndReturnSampleSize(File file, int newWidth, int newHeight)
-			throws FileNotFoundException {
-		String path = file.getAbsolutePath();
-		int[] originalBackgroundImageDimensions = getImageDimensions(path);
-		Bitmap scaledBitmap = ImageEditing.getScaledBitmapFromPath(path, newWidth, newHeight, false);
-		StorageHandler.saveBitmapToImageFile(file, scaledBitmap);
-
-		double sampleSizeWidth = ((double) originalBackgroundImageDimensions[0]) / ((double) newWidth);
-		double sampleSizeHeight = ((double) originalBackgroundImageDimensions[1]) / ((double) newHeight);
-		return (1d / Math.max(sampleSizeWidth, sampleSizeHeight));
-	}
-
 	public static void scaleImageFile(File file, double scaleFactor) throws FileNotFoundException {
 		String path = file.getAbsolutePath();
 		int[] originalBackgroundImageDimensions = getImageDimensions(path);
 		Bitmap scaledBitmap = ImageEditing.getScaledBitmapFromPath(path,
 				(int) (originalBackgroundImageDimensions[0] * scaleFactor),
-				(int) (originalBackgroundImageDimensions[1] * scaleFactor), false);
+				(int) (originalBackgroundImageDimensions[1] * scaleFactor),
+				ImageEditing.ResizeType.FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO, false);
 		StorageHandler.saveBitmapToImageFile(file, scaledBitmap);
+	}
+
+	public static double calculateScaleFactorToScreenSize(int resourceId, Context context) {
+		if (context.getResources().getResourceTypeName(resourceId).compareTo("drawable") == 0) {
+			//AssetFileDescriptor file = context.getResources().openRawResourceFd(resourceId);
+			//getImageDimensions(file);
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inJustDecodeBounds = true;
+			BitmapFactory.decodeResource(context.getResources(), resourceId, options);
+			return calculateScaleFactor(options.outWidth, options.outHeight, ScreenValues.SCREEN_WIDTH,
+					ScreenValues.SCREEN_HEIGHT, true);
+		} else {
+			throw new IllegalArgumentException("resource is not an image");
+		}
+	}
+
+	private static double calculateScaleFactor(int originalWidth, int originalHeight, int newWidth, int newHeight,
+			boolean fillOutWholeNewArea) {
+		if (originalHeight == 0 || originalWidth == 0 || newHeight == 0 || newWidth == 0) {
+			throw new IllegalArgumentException("One or more values are 0");
+		}
+		double widthScaleFactor = ((double) newWidth) / ((double) originalWidth);
+		double heightScaleFactor = ((double) newHeight) / ((double) originalHeight);
+
+		if (fillOutWholeNewArea) {
+			return Math.max(widthScaleFactor, heightScaleFactor);
+		} else {
+			return Math.min(widthScaleFactor, heightScaleFactor);
+		}
 	}
 }

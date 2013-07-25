@@ -51,18 +51,13 @@ import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.ImageEditing;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.UtilFile;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 public class StandardProjectHandler {
 
-	private static final String FILENAME_SEPARATOR = "_";
 	private static double backgroundImageScaleFactor = 1;
 
 	public static Project createAndSaveStandardProject(Context context) throws IOException {
@@ -70,12 +65,18 @@ public class StandardProjectHandler {
 		return createAndSaveStandardProject(projectName, context);
 	}
 
-	public static Project createAndSaveStandardProject(String projectName, Context context) throws IOException {
-		String mole1Name = context.getString(R.string.default_project_sprites_mole_name) + " 1";
-		String mole2Name = context.getString(R.string.default_project_sprites_mole_name) + " 2";
-		String mole3Name = context.getString(R.string.default_project_sprites_mole_name) + " 3";
-		String mole4Name = context.getString(R.string.default_project_sprites_mole_name) + " 4";
-		String whackedMoleName = context.getString(R.string.default_project_sprites_mole_whacked);
+	public static Project createAndSaveStandardProject(String projectName, Context context) throws IOException,
+			IllegalArgumentException {
+		if (StorageHandler.getInstance().projectExists(projectName)) {
+			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
+		}
+		String moleLookName = context.getString(R.string.default_project_sprites_mole_name);
+		String mole1Name = moleLookName + " 1";
+		String mole2Name = moleLookName + " 2";
+		String mole3Name = moleLookName + " 3";
+		String mole4Name = moleLookName + " 4";
+		String whackedMoleLookName = context.getString(R.string.default_project_sprites_mole_whacked);
+		String movingMoleLookName = context.getString(R.string.default_project_sprites_mole_moving);
 		String soundName = context.getString(R.string.default_project_sprites_mole_sound);
 		String backgroundName = context.getString(R.string.default_project_backgroundname);
 
@@ -87,42 +88,43 @@ public class StandardProjectHandler {
 		StorageHandler.getInstance().saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
 
-		UserVariablesContainer userVariables = defaultProject.getUserVariables();
-
-		Sprite backgroundSprite = defaultProject.getSpriteList().get(0);
-
-		File backgroundFile = copyFromResourceInProject(projectName, Constants.IMAGE_DIRECTORY, backgroundName,
+		backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 				R.drawable.default_project_background, context);
 
-		File mole1File = copyFromResourceInProject(projectName, Constants.IMAGE_DIRECTORY, mole1Name,
-				R.drawable.default_project_mole_1, context);
-		File mole2File = copyFromResourceInProject(projectName, Constants.IMAGE_DIRECTORY, mole2Name,
-				R.drawable.default_project_mole_2, context);
-		File whackedMoleFile = copyFromResourceInProject(projectName, Constants.IMAGE_DIRECTORY, whackedMoleName,
-				R.drawable.default_project_mole_whacked, context);
-		File soundFile1 = copyFromResourceInProject(projectName, Constants.SOUND_DIRECTORY, soundName,
-				R.raw.default_project_sound_mole_1, context);
-		File soundFile2 = copyFromResourceInProject(projectName, Constants.SOUND_DIRECTORY, soundName,
-				R.raw.default_project_sound_mole_2, context);
-		File soundFile3 = copyFromResourceInProject(projectName, Constants.SOUND_DIRECTORY, soundName,
-				R.raw.default_project_sound_mole_3, context);
-		File soundFile4 = copyFromResourceInProject(projectName, Constants.SOUND_DIRECTORY, soundName,
-				R.raw.default_project_sound_mole_4, context);
-
-		copyFromResourceInProject(projectName, ".", StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME,
+		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background, context, true,
+				backgroundImageScaleFactor);
+		File movingMoleFile = UtilFile.copyImageFromResourceIntoProject(projectName, movingMoleLookName
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_moving, context, true,
+				backgroundImageScaleFactor);
+		File diggedOutMoleFile = UtilFile.copyImageFromResourceIntoProject(projectName, moleLookName
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_digged_out, context, true,
+				backgroundImageScaleFactor);
+		File whackedMoleFile = UtilFile.copyImageFromResourceIntoProject(projectName, whackedMoleLookName
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_whacked, context, true,
+				backgroundImageScaleFactor);
+		File soundFile1 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "1"
+				+ Constants.RECORDING_EXTENSION, R.raw.default_project_sound_mole_1, context, true);
+		File soundFile2 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "2"
+				+ Constants.RECORDING_EXTENSION, R.raw.default_project_sound_mole_2, context, true);
+		File soundFile3 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "3"
+				+ Constants.RECORDING_EXTENSION, R.raw.default_project_sound_mole_3, context, true);
+		File soundFile4 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "4"
+				+ Constants.RECORDING_EXTENSION, R.raw.default_project_sound_mole_4, context, true);
+		UtilFile.copyFromResourceIntoProject(projectName, ".", StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME,
 				R.drawable.default_project_screenshot, context, false);
 
-		LookData moleLookData1 = new LookData();
-		moleLookData1.setLookName(mole1Name);
-		moleLookData1.setLookFilename(mole1File.getName());
+		LookData movingMoleLookData = new LookData();
+		movingMoleLookData.setLookName(movingMoleLookName);
+		movingMoleLookData.setLookFilename(movingMoleFile.getName());
 
-		LookData moleLookData2 = new LookData();
-		moleLookData2.setLookName(mole2Name);
-		moleLookData2.setLookFilename(mole2File.getName());
+		LookData diggedOutMoleLookData = new LookData();
+		diggedOutMoleLookData.setLookName(moleLookName);
+		diggedOutMoleLookData.setLookFilename(diggedOutMoleFile.getName());
 
-		LookData moleLookDataWhacked = new LookData();
-		moleLookDataWhacked.setLookName(whackedMoleName);
-		moleLookDataWhacked.setLookFilename(whackedMoleFile.getName());
+		LookData whackedMoleLookData = new LookData();
+		whackedMoleLookData.setLookName(whackedMoleLookName);
+		whackedMoleLookData.setLookFilename(whackedMoleFile.getName());
 
 		LookData backgroundLookData = new LookData();
 		backgroundLookData.setLookName(backgroundName);
@@ -131,6 +133,9 @@ public class StandardProjectHandler {
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setTitle(soundName);
 		soundInfo.setSoundFileName(soundFile1.getName());
+
+		UserVariablesContainer userVariables = defaultProject.getUserVariables();
+		Sprite backgroundSprite = defaultProject.getSpriteList().get(0);
 
 		userVariables.addProjectUserVariable(varRandomFrom);
 		UserVariable randomFrom = userVariables.getUserVariable(varRandomFrom, backgroundSprite);
@@ -164,10 +169,10 @@ public class StandardProjectHandler {
 		waitOneOrTwoSeconds.setRightChild(new FormulaElement(ElementType.NUMBER, "2", waitOneOrTwoSeconds));
 
 		// Mole 1 sprite
-		Sprite mole1Sprite = new Sprite(context.getString(R.string.default_project_sprites_mole_name) + " 1");
-		mole1Sprite.getLookDataList().add(moleLookData1);
-		mole1Sprite.getLookDataList().add(moleLookData2);
-		mole1Sprite.getLookDataList().add(moleLookDataWhacked);
+		Sprite mole1Sprite = new Sprite(mole1Name);
+		mole1Sprite.getLookDataList().add(movingMoleLookData);
+		mole1Sprite.getLookDataList().add(diggedOutMoleLookData);
+		mole1Sprite.getLookDataList().add(whackedMoleLookData);
 		mole1Sprite.getSoundList().add(soundInfo);
 
 		Script mole1StartScript = new StartScript(mole1Sprite);
@@ -191,7 +196,7 @@ public class StandardProjectHandler {
 		mole1StartScript.addBrick(showBrick);
 
 		setLookBrick = new SetLookBrick(mole1Sprite);
-		setLookBrick.setLook(moleLookData1);
+		setLookBrick.setLook(movingMoleLookData);
 		mole1StartScript.addBrick(setLookBrick);
 
 		GlideToBrick glideToBrick = new GlideToBrick(mole1Sprite, calculateValueRelativeToScaledBackground(-160),
@@ -199,7 +204,7 @@ public class StandardProjectHandler {
 		mole1StartScript.addBrick(glideToBrick);
 
 		setLookBrick = new SetLookBrick(mole1Sprite);
-		setLookBrick.setLook(moleLookData2);
+		setLookBrick.setLook(diggedOutMoleLookData);
 		mole1StartScript.addBrick(setLookBrick);
 
 		waitBrick = new WaitBrick(mole1Sprite, randomWait.clone());
@@ -220,7 +225,7 @@ public class StandardProjectHandler {
 		mole1WhenScript.addBrick(playSoundBrick);
 
 		setLookBrick = new SetLookBrick(mole1Sprite);
-		setLookBrick.setLook(moleLookDataWhacked);
+		setLookBrick.setLook(whackedMoleLookData);
 		mole1WhenScript.addBrick(setLookBrick);
 
 		waitBrick = new WaitBrick(mole1Sprite, 1500);
@@ -286,58 +291,15 @@ public class StandardProjectHandler {
 	}
 
 	public static Project createAndSaveEmptyProject(String projectName, Context context) {
+		if (StorageHandler.getInstance().projectExists(projectName)) {
+			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
+		}
 		Project emptyProject = new Project(context, projectName);
 		emptyProject.setDeviceData(context);
 		StorageHandler.getInstance().saveProject(emptyProject);
 		ProjectManager.getInstance().setProject(emptyProject);
 
 		return emptyProject;
-	}
-
-	private static File copyFromResourceInProject(String projectName, String directoryName, String outputName,
-			int fileId, Context context) throws IOException {
-		return copyFromResourceInProject(projectName, directoryName, outputName, fileId, context, true);
-	}
-
-	private static File copyFromResourceInProject(String projectName, String directoryName, String outputName,
-			int fileId, Context context, boolean prependMd5) throws IOException {
-		final String filePath = Utils.buildPath(Utils.buildProjectPath(projectName), directoryName, outputName);
-		File copiedFile = new File(filePath);
-		if (!copiedFile.exists()) {
-			copiedFile.createNewFile();
-		}
-		InputStream in = context.getResources().openRawResource(fileId);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(copiedFile), Constants.BUFFER_8K);
-		byte[] buffer = new byte[Constants.BUFFER_8K];
-		int length = 0;
-		while ((length = in.read(buffer)) > 0) {
-			out.write(buffer, 0, length);
-		}
-
-		in.close();
-		out.flush();
-		out.close();
-
-		if (context.getResources().getResourceTypeName(fileId).compareTo("drawable") == 0) {
-			if (fileId == R.drawable.default_project_background) {
-				backgroundImageScaleFactor = ImageEditing.scaleImageFileAndReturnSampleSize(
-						copiedFile.getAbsoluteFile(), ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
-			} else {
-				ImageEditing.scaleImageFile(copiedFile, backgroundImageScaleFactor);
-			}
-		}
-
-		if (!prependMd5) {
-			return copiedFile;
-		}
-
-		String directoryPath = Utils.buildPath(Utils.buildProjectPath(projectName), directoryName);
-		String finalImageFileString = Utils.buildPath(directoryPath, Utils.md5Checksum(copiedFile) + FILENAME_SEPARATOR
-				+ copiedFile.getName());
-		File copiedFileWithMd5 = new File(finalImageFileString);
-		copiedFile.renameTo(copiedFileWithMd5);
-
-		return copiedFileWithMd5;
 	}
 
 	private static int calculateValueRelativeToScaledBackground(int value) {
