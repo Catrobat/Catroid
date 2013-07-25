@@ -402,38 +402,38 @@ public class Look extends Image {
 
 	private class BrightnessContrastShader extends ShaderProgram {
 
-		final static String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+		final static private String VERTEX_SHADER = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
 				+ "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" + "attribute vec2 "
 				+ ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" + "uniform mat4 u_projTrans;\n" + "varying vec4 v_color;\n"
 				+ "varying vec2 v_texCoords;\n" + "\n" + "void main()\n" + "{\n" + " v_color = "
 				+ ShaderProgram.COLOR_ATTRIBUTE + ";\n" + " v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
 				+ " gl_Position = u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" + "}\n";
-		final static String fragmentShader = "#ifdef GL_ES\n" + "#define LOWP lowp\n" + "precision mediump float;\n"
-				+ "#else\n" + "#define LOWP \n" + "#endif\n" + "varying LOWP vec4 v_color;\n"
-				+ "varying vec2 v_texCoords;\n" + "uniform sampler2D u_texture;\n" + "uniform float brightness;\n"
-				+ "uniform float contrast;\n" + "void main()\n" + "{\n"
+		final static private String FRAGMENT_SHADER = "#ifdef GL_ES\n" + "#define LOWP lowp\n"
+				+ "precision mediump float;\n" + "#else\n" + "#define LOWP \n" + "#endif\n"
+				+ "varying LOWP vec4 v_color;\n" + "varying vec2 v_texCoords;\n" + "uniform sampler2D u_texture;\n"
+				+ "uniform float brightness;\n" + "uniform float contrast;\n" + "void main()\n" + "{\n"
 				+ " vec4 color = v_color * texture2D(u_texture, v_texCoords);\n" + " color.rgb /= color.a;\n"
 				+ " color.rgb = ((color.rgb - 0.5) * max(contrast, 0.0)) + 0.5;\n" //apply contrast
 				+ " color.rgb += brightness;\n" //apply brightness
 				+ " color.rgb *= color.a;\n" + " gl_FragColor = color;\n" + "}";
 
-		final static private String brightnessStringInShader = "brightness";
-		final static private String contrastStringInShader = "contrast";
+		final static private String BRIGHTNESS_STRING_IN_SHADER = "brightness";
+		final static private String CONTRAST_STRING_IN_SHADER = "contrast";
 
 		public BrightnessContrastShader() {
-			super(vertexShader, fragmentShader);
+			super(VERTEX_SHADER, FRAGMENT_SHADER);
 			ShaderProgram.pedantic = false;
 			if (isCompiled()) {
 				begin();
-				setUniformf(brightnessStringInShader, 0.0f);
-				setUniformf(contrastStringInShader, 1.0f);
+				setUniformf(BRIGHTNESS_STRING_IN_SHADER, 0.0f);
+				setUniformf(CONTRAST_STRING_IN_SHADER, 1.0f);
 				end();
 			}
 		}
 
 		public void setBrightness(float brightness) {
 			begin();
-			setUniformf(brightnessStringInShader, brightness - 1f);
+			setUniformf(BRIGHTNESS_STRING_IN_SHADER, brightness - 1f);
 			end();
 		}
 	}
