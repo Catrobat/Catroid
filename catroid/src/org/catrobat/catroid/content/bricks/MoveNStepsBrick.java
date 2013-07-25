@@ -46,7 +46,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class MoveNStepsBrick extends BrickBaseType implements OnClickListener {
+public class MoveNStepsBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 	private Formula steps;
@@ -66,6 +66,11 @@ public class MoveNStepsBrick extends BrickBaseType implements OnClickListener {
 		this.sprite = sprite;
 
 		this.steps = steps;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return steps;
 	}
 
 	@Override

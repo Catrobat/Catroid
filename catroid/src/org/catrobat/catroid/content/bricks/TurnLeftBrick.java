@@ -44,7 +44,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class TurnLeftBrick extends BrickBaseType implements OnClickListener {
+public class TurnLeftBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 	private Formula degrees;
@@ -63,6 +63,11 @@ public class TurnLeftBrick extends BrickBaseType implements OnClickListener {
 
 	public TurnLeftBrick() {
 
+	}
+
+	@Override
+	public Formula getFormula() {
+		return degrees;
 	}
 
 	@Override

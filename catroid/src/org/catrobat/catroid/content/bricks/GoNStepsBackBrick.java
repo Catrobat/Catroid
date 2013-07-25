@@ -45,7 +45,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener {
+public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula steps;
 
@@ -63,6 +63,11 @@ public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener 
 
 	public GoNStepsBackBrick() {
 
+	}
+
+	@Override
+	public Formula getFormula() {
+		return steps;
 	}
 
 	@Override

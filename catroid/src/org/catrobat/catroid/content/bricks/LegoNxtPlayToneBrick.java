@@ -44,7 +44,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListener {
+public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -66,6 +66,11 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 
 		this.frequency = frequencyFormula;
 		this.durationInSeconds = durationFormula;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return durationInSeconds;
 	}
 
 	@Override
