@@ -52,11 +52,13 @@ import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
@@ -80,6 +82,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	//	private final int IMAGE_RESOURCE_4 = org.catrobat.catroid.uitest.R.drawable.background_green;
 	//	private final int IMAGE_RESOURCE_5 = org.catrobat.catroid.uitest.R.drawable.background_red;
 	private static final String MY_PROJECTS_ACTIVITY_TEST_TAG = MyProjectsActivityTest.class.getSimpleName();
+	private static final String KEY_SHOW_DETAILS = "showDetailsMyProjects";
 	private final String ZIPFILE_NAME = "testzip";
 
 	private File renameDirectory = null;
@@ -100,6 +103,13 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
+
+		// disable show details when activated
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		if (sharedPreferences.getBoolean(KEY_SHOW_DETAILS, true)) {
+			sharedPreferences.edit().putBoolean(KEY_SHOW_DETAILS, false).commit();
+		}
+
 		unzip = false;
 	}
 
@@ -812,6 +822,14 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	@Device
 	public void testCancelDeleteActionMode() {
+		unzip = true;
+		saveProjectsToZip();
+		try {
+			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("Standard Project not created");
+		}
 		String delete = solo.getString(R.string.delete);
 		createProjects();
 		solo.sleep(200);
@@ -1102,6 +1120,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.goBack();
 	}
 
+	@Device
 	public void testProjectDetails() {
 		String showDetailsText = solo.getString(R.string.show_details);
 		String hideDetailsText = solo.getString(R.string.hide_details);
@@ -1114,6 +1133,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		View projectDetails = solo.getView(R.id.my_projects_activity_list_item_details);
 		solo.waitForView(projectDetails);
 		UiTestUtils.openOptionsMenu(solo);
+
 		solo.waitForText(showDetailsText);
 		solo.clickOnText(showDetailsText);
 		solo.sleep(500);
@@ -1152,7 +1172,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	@Device
 	public void testProjectDetailsLastAccess() {
 		String showDetailsText = solo.getString(R.string.show_details);
-		String hideDetailsText = solo.getString(R.string.hide_details);
+
 		Date date = new Date(1357038000000l);
 		DateFormat mediumDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
 		createProjects();
@@ -1175,14 +1195,12 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForView(projectDetails);
 		UiTestUtils.openOptionsMenu(solo);
 
-		if (solo.searchText(hideDetailsText)) {
-			solo.clickOnText(hideDetailsText);
-			UiTestUtils.openOptionsMenu(solo);
-		}
-
 		solo.waitForText(showDetailsText);
 		solo.clickOnText(showDetailsText);
-		solo.sleep(200);
+		solo.sleep(400);
+
+		//get details view again, otherwise assert will fail
+		projectDetails = solo.getView(R.id.my_projects_activity_list_item_details);
 		assertEquals("Project details are not showing!", View.VISIBLE, projectDetails.getVisibility());
 
 		assertTrue("Last access is not correct!", solo.searchText(solo.getString(R.string.details_date_today)));
