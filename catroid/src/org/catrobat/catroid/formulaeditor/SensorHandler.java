@@ -22,12 +22,16 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import org.catrobat.catroid.facedetection.FaceDetectionHandler;
+import org.catrobat.catroid.facedetection.OnFaceDetectedListener;
+
 import android.content.Context;
+import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 
-public class SensorHandler implements SensorEventListener {
+public class SensorHandler implements SensorEventListener, OnFaceDetectedListener {
 	private static SensorHandler instance = null;
 	private SensorManagerInterface sensorManager = null;
 	private Sensor accelerometerSensor = null;
@@ -39,6 +43,10 @@ public class SensorHandler implements SensorEventListener {
 	private float linearAcceleartionX = 0f;
 	private float linearAcceleartionY = 0f;
 	private float linearAcceleartionZ = 0f;
+
+	private int faceSize = 0;
+	private int facePositionX = 0;
+	private int facePositionY = 0;
 
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
@@ -57,6 +65,7 @@ public class SensorHandler implements SensorEventListener {
 				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
 		instance.sensorManager.registerListener(instance, instance.rotationVectorSensor,
 				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
+		FaceDetectionHandler.registerOnFaceDetectedListener(instance);
 	}
 
 	public static void registerListener(SensorEventListener listener) {
@@ -81,6 +90,7 @@ public class SensorHandler implements SensorEventListener {
 			return;
 		}
 		instance.sensorManager.unregisterListener(instance);
+		FaceDetectionHandler.unregisterOnFaceDetectedListener(instance);
 	}
 
 	public static Double getSensorValue(Sensors sensor) {
@@ -120,6 +130,12 @@ public class SensorHandler implements SensorEventListener {
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
 				sensorValue = Double.valueOf(orientations[1]);
 				return sensorValue * radianToDegreeConst * -1f;
+			case FACE_SIZE:
+				return Double.valueOf(instance.faceSize);
+			case FACE_X_POSITION:
+				return Double.valueOf(instance.facePositionX);
+			case FACE_Y_POSITION:
+				return Double.valueOf(instance.facePositionY);
 		}
 
 		return 0d;
@@ -145,6 +161,16 @@ public class SensorHandler implements SensorEventListener {
 				break;
 		}
 
+	}
+
+	@Override
+	public void onFaceDetected(Point position, int size) {
+		if (instance == null) {
+			return;
+		}
+		instance.facePositionX = position.x;
+		instance.facePositionY = position.y;
+		instance.faceSize = size;
 	}
 
 	//For API Level < 9
@@ -188,4 +214,5 @@ public class SensorHandler implements SensorEventListener {
 		R[15] = 1.0f;
 
 	}
+
 }

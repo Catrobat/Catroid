@@ -1,8 +1,11 @@
 package org.catrobat.catroid.test.facedetection;
 
+import java.util.Random;
+
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.facedetection.IcsFaceDetector;
 import org.catrobat.catroid.facedetection.OnFaceDetectedListener;
+import org.catrobat.catroid.test.utils.Reflection;
 
 import android.annotation.TargetApi;
 import android.graphics.Point;
@@ -23,8 +26,15 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 
 	private static final int FACE_LEFT = -20;
 	private static final int FACE_RIGHT = 200;
-	private static final int FACE_TOP = 100;
+	private static final int FACE_TOP = -100;
 	private static final int FACE_BOTTOM = 300;
+
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		ScreenValues.SCREEN_WIDTH = 720;
+		ScreenValues.SCREEN_HEIGHT = 1080;
+	}
 
 	public void testStartAndStop() {
 
@@ -66,6 +76,29 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		}
 	}
 
+	public void testAutoStartAndAutoStop() {
+		IcsFaceDetector detector = new IcsFaceDetector();
+
+		OnFaceDetectedListener detectionListener = new OnFaceDetectedListener() {
+
+			public void onFaceDetected(Point position, int size) {
+			}
+		};
+
+		assertNull("Face Detector started unnesesarily", Reflection.getPrivateField(detector, "camera"));
+
+		detector.addOnFaceDetectedListener(detectionListener);
+
+		assertNotNull("Face Detector did not start when listener was added",
+				Reflection.getPrivateField(detector, "camera"));
+
+		detector.removeOnFaceDetectedListener(detectionListener);
+
+		assertNull("Face Detector did not stop afer all listeners were removed",
+				Reflection.getPrivateField(detector, "camera"));
+
+	}
+
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testOnFaceDetectedListener() {
 		IcsFaceDetector detector = new IcsFaceDetector();
@@ -94,15 +127,55 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		int expectedSize = (FACE_RIGHT - FACE_LEFT) * 100 * 2 / FACE_RECT_SIZE;
 		assertEquals("Unexpected size of face", expectedSize, detectedFaces[SIZE_INDEX]);
 
-		int expectedXPosition = (FACE_LEFT + (FACE_RIGHT - FACE_LEFT)) * ScreenValues.SCREEN_WIDTH / FACE_RECT_SIZE;
+		int expectedXPosition = (FACE_TOP + (FACE_BOTTOM - FACE_TOP) / 2) * ScreenValues.SCREEN_WIDTH * (-1)
+				/ FACE_RECT_SIZE;
 		assertEquals("Unexpected x position of face", expectedXPosition, detectedFaces[X_POSITION_INDEX]);
 
-		int expectedYPosition = (FACE_TOP + (FACE_BOTTOM - FACE_TOP)) * ScreenValues.SCREEN_HEIGHT / FACE_RECT_SIZE;
+		int expectedYPosition = (FACE_LEFT + (FACE_RIGHT - FACE_LEFT) / 2) * ScreenValues.SCREEN_HEIGHT * (-1)
+				/ FACE_RECT_SIZE;
 		assertEquals("Unexpected y position of face", expectedYPosition, detectedFaces[Y_POSITION_INDEX]);
 
 		detector.onFaceDetection(faces, null);
 		assertEquals("Face Detection Listener does not receive calls", 2, detectedFaces[COUNTER_INDEX]);
 
+		detector.removeOnFaceDetectedListener(detectionListener);
 	}
 
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void testFaceSizeBounds() {
+		IcsFaceDetector detector = new IcsFaceDetector();
+
+		final int[] faceSize = new int[1];
+		OnFaceDetectedListener detectionListener = new OnFaceDetectedListener() {
+
+			public void onFaceDetected(Point position, int size) {
+				faceSize[0] = size;
+			}
+		};
+		detector.addOnFaceDetectedListener(detectionListener);
+
+		Rect faceBounds = new Rect(FACE_LEFT, FACE_TOP, FACE_RIGHT, FACE_BOTTOM);
+		Face[] faces = new Face[1];
+		faces[0] = new Face();
+		faces[0].rect = faceBounds;
+
+		detector.onFaceDetection(faces, null);
+		assertTrue("Face size must not be negative", faceSize[0] >= 0);
+		assertTrue("Illegal face size, range is [0,100]", faceSize[0] <= 100);
+
+		Random random = new Random();
+		int left = random.nextInt(FACE_RECT_SIZE - 1);
+		int top = random.nextInt(FACE_RECT_SIZE - 1);
+		int right = left + random.nextInt(FACE_RECT_SIZE - left);
+		int bottom = top + random.nextInt(FACE_RECT_SIZE - top);
+		faceBounds = new Rect(left - FACE_RECT_SIZE / 2, top - FACE_RECT_SIZE / 2, right - FACE_RECT_SIZE / 2, bottom
+				- FACE_RECT_SIZE / 2);
+
+		faces[0].rect = faceBounds;
+		detector.onFaceDetection(faces, null);
+		assertTrue("Face size must not be negative", faceSize[0] >= 0);
+		assertTrue("Illegal face size, range is [0,100]", faceSize[0] <= 100);
+
+		detector.removeOnFaceDetectedListener(detectionListener);
+	}
 }

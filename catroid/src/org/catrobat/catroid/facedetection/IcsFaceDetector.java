@@ -29,6 +29,7 @@ import android.hardware.Camera;
 import android.hardware.Camera.Face;
 import android.hardware.Camera.FaceDetectionListener;
 import android.os.Build;
+import android.util.Log;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class IcsFaceDetector extends FaceDetector implements FaceDetectionListener {
@@ -37,6 +38,7 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 
 	@Override
 	public void startFaceDetection() {
+		Log.d("Blah", "ICS Start");
 		if (camera != null) {
 			return;
 		}
@@ -51,6 +53,7 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 
 	@Override
 	public void stopFaceDetection() {
+		Log.d("Blah", "ICS Stop");
 		if (camera == null) {
 			return;
 		}
@@ -73,8 +76,9 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 			Face bestFace = faces[bestFaceIndex];
 			Rect faceBounds = bestFace.rect;
 			Point centerPoint = new Point(faceBounds.centerX(), faceBounds.centerY());
+			Point portraitCenterPoint = new Point(centerPoint.y, centerPoint.x);
 			Point relationSize = getRelationForFacePosition();
-			Point relativePoint = new Point((centerPoint.x + 1000) * relationSize.x / 2000, (centerPoint.y + 1000)
+			Point relativePoint = new Point(portraitCenterPoint.x * relationSize.x / 2000, portraitCenterPoint.y
 					* relationSize.y / 2000);
 			int faceSize = (faceBounds.right - faceBounds.left) / 10;
 			faceSize = faceSize > 100 ? 100 : faceSize;
@@ -83,6 +87,9 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 	}
 
 	public static boolean isSupported() {
+		//		if (true) {
+		//			return false;
+		//		}
 		int currentApi = android.os.Build.VERSION.SDK_INT;
 		if (currentApi < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			return false;

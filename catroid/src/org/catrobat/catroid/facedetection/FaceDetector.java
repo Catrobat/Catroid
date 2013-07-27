@@ -65,6 +65,6 @@ public abstract class FaceDetector {
 	}
 
 	protected Point getRelationForFacePosition() {
-		return new Point(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+		return new Point(-ScreenValues.SCREEN_WIDTH, -ScreenValues.SCREEN_HEIGHT);
 	}
 }

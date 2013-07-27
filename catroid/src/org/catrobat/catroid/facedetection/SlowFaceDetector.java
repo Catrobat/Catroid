@@ -29,6 +29,7 @@ import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
@@ -38,6 +39,7 @@ import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
+import android.util.Log;
 
 public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDetector implements Camera.PreviewCallback {
 
@@ -63,6 +65,7 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 		if (camera == null) {
 			return;
 		}
+		camera.setPreviewCallback(null);
 		camera.stopPreview();
 		camera.release();
 		camera = null;
@@ -70,6 +73,10 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 
 	@Override
 	public void onPreviewFrame(byte[] data, Camera camera) {
+		if (this.camera == null) {
+			return;
+		}
+		Log.d("Blah", "frame");
 		Bitmap preview;
 		Parameters parameters = camera.getParameters();
 		int imageFormat = parameters.getPreviewFormat();
@@ -91,16 +98,21 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 		if (bitmap == null) {
 			return;
 		}
-		int width = bitmap.getWidth();
-		int height = bitmap.getHeight();
+		int height = bitmap.getWidth();
+		int width = bitmap.getHeight();
 
+		Matrix rotateAndInvertX = new Matrix();
+		rotateAndInvertX.postRotate(90);
+		rotateAndInvertX.postScale(-1, 1);
+		Bitmap portraitBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), rotateAndInvertX,
+				true);
 		Bitmap rgb565_bitmap = Bitmap.createBitmap(width, height, Config.RGB_565);
 		Paint paint = new Paint();
 		paint.setDither(true);
 
 		Canvas canvas = new Canvas();
 		canvas.setBitmap(rgb565_bitmap);
-		canvas.drawBitmap(bitmap, 0, 0, paint);
+		canvas.drawBitmap(portraitBitmap, 0, 0, paint);
 
 		FaceDetector detector = new FaceDetector(width, height, NUMBER_OF_FACES);
 		Face[] faces = new Face[NUMBER_OF_FACES];
@@ -118,8 +130,8 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 	private void onFaceFound(PointF centerPoint, float eyeDistance, int detectionWidth, int detectionHeight) {
 		Point intPoint = new Point((int) centerPoint.x, (int) centerPoint.y);
 		Point relationSize = getRelationForFacePosition();
-		Point relativePoint = new Point(intPoint.x * relationSize.x / detectionWidth, intPoint.y * relationSize.y
-				/ detectionHeight);
+		Point relativePoint = new Point((intPoint.x - detectionWidth / 2) * relationSize.x / detectionWidth,
+				(intPoint.y - detectionHeight / 2) * relationSize.y / detectionHeight);
 		int estimatedFaceWidth = (int) (eyeDistance * 2);
 		int relativeFaceSize = 200 * estimatedFaceWidth / detectionWidth;
 		relativeFaceSize = relativeFaceSize > 100 ? 100 : relativeFaceSize;

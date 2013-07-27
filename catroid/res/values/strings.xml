@@ -506,6 +506,9 @@
     <string name="formula_editor_sensor_compass_direction">compass_direction</string>
     <string name="formula_editor_sensor_x_inclination">inclination_x</string>
     <string name="formula_editor_sensor_y_inclination">inclination_y</string>
+    <string name="formula_editor_sensor_face_size">face_size</string>
+    <string name="formula_editor_sensor_face_x_position">face_x_position</string>
+    <string name="formula_editor_sensor_face_y_position">face_y_position</string>
     <string name="formula_editor_object_x">position_x</string>
     <string name="formula_editor_object_y">position_y</string>
     <string name="formula_editor_object_ghosteffect">transparency</string>
