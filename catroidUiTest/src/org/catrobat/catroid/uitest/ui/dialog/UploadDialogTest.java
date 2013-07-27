@@ -83,6 +83,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		});
 	}
 
+	@Device
 	public void testUploadDialog() throws Throwable {
 		setServerURLToTestURL();
 		createTestProject();
