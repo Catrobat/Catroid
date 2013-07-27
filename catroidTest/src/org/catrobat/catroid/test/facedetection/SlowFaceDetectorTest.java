@@ -1,5 +1,7 @@
 package org.catrobat.catroid.test.facedetection;
 
+import java.util.Random;
+
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.facedetection.OnFaceDetectedListener;
 import org.catrobat.catroid.facedetection.SlowFaceDetector;
@@ -21,6 +23,13 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 	private static final int SIZE_INDEX = 1;
 	private static final int X_POSITION_INDEX = 2;
 	private static final int Y_POSITION_INDEX = 3;
+
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		ScreenValues.SCREEN_WIDTH = 720;
+		ScreenValues.SCREEN_HEIGHT = 1080;
+	}
 
 	public void testStartAndStop() {
 
@@ -79,8 +88,8 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 		assertEquals("Face Detection Listener receives unexpected calls", 0, detectedFaces[COUNTER_INDEX]);
 
 		PointF centerPoint = new PointF(DETECTION_WIDTH / 2, DETECTION_HEIGHT / 2);
-		ParameterList parameters = new ParameterList(centerPoint, new Float(EYE_DISTANCE),
-				new Integer(DETECTION_WIDTH), new Integer(DETECTION_HEIGHT));
+		ParameterList parameters = new ParameterList(centerPoint, Float.valueOf(EYE_DISTANCE),
+				Integer.valueOf(DETECTION_WIDTH), Integer.valueOf(DETECTION_HEIGHT));
 		Reflection.invokeMethod(detector, "onFaceFound", parameters);
 		//detector.onFaceFound(centerPoint, EYE_DISTANCE, DETECTION_WIDTH, DETECTION_HEIGHT);
 		assertEquals("Face Detection Listener does not receive call", 1, detectedFaces[COUNTER_INDEX]);
@@ -88,15 +97,45 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 		int expectedSize = (int) (EYE_DISTANCE * 400 / DETECTION_WIDTH);
 		assertEquals("Unexpected size of face", expectedSize, detectedFaces[SIZE_INDEX]);
 
-		int expectedXPosition = (int) (centerPoint.x / DETECTION_WIDTH * ScreenValues.SCREEN_WIDTH);
+		int expectedXPosition = (int) (centerPoint.x / DETECTION_WIDTH * (-1) * ScreenValues.SCREEN_WIDTH)
+				+ ScreenValues.SCREEN_WIDTH / 2;
 		assertEquals("Unexpected x position of face", expectedXPosition, detectedFaces[X_POSITION_INDEX]);
 
-		int expectedYPosition = (int) (centerPoint.y / DETECTION_HEIGHT * ScreenValues.SCREEN_HEIGHT);
+		int expectedYPosition = (int) (centerPoint.y / DETECTION_HEIGHT * (-1) * ScreenValues.SCREEN_HEIGHT)
+				+ ScreenValues.SCREEN_HEIGHT / 2;
 		assertEquals("Unexpected y position of face", expectedYPosition, detectedFaces[Y_POSITION_INDEX]);
 
 		Reflection.invokeMethod(detector, "onFaceFound", parameters);
 		assertEquals("Face Detection Listener does not receive calls", 2, detectedFaces[COUNTER_INDEX]);
 
+	}
+
+	public void testFaceSizeBounds() {
+		SlowFaceDetector detector = new SlowFaceDetector();
+
+		final int[] faceSize = new int[1];
+		OnFaceDetectedListener detectionListener = new OnFaceDetectedListener() {
+
+			public void onFaceDetected(Point position, int size) {
+				faceSize[0] = size;
+			}
+		};
+		detector.addOnFaceDetectedListener(detectionListener);
+
+		ParameterList parameters = new ParameterList(new PointF(), Float.valueOf(EYE_DISTANCE),
+				Integer.valueOf(DETECTION_WIDTH), Integer.valueOf(DETECTION_HEIGHT));
+		Reflection.invokeMethod(detector, "onFaceFound", parameters);
+		assertTrue("Face size must not be negative", faceSize[0] >= 0);
+		assertTrue("Illegal face size, range is [0,100]", faceSize[0] <= 100);
+
+		Random random = new Random();
+		parameters = new ParameterList(new PointF(), Float.valueOf(random.nextInt(DETECTION_WIDTH)),
+				Integer.valueOf(DETECTION_WIDTH), Integer.valueOf(DETECTION_HEIGHT));
+		Reflection.invokeMethod(detector, "onFaceFound", parameters);
+		assertTrue("Face size must not be negative", faceSize[0] >= 0);
+		assertTrue("Illegal face size, range is [0,100]", faceSize[0] <= 100);
+
+		detector.removeOnFaceDetectedListener(detectionListener);
 	}
 
 }

@@ -72,6 +72,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		if (formula.containsElement(ElementType.SENSOR)) {
 			SensorHandler.startSensorListener(context);
 			SensorHandler.registerListener(this);
+			// TODO Face detection staring here?
 		}
 
 	}

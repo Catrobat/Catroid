@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.Utils;
@@ -238,6 +239,7 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		if (!paused) {
+			FaceDetectionHandler.stopFaceDetection();
 			SoundManager.getInstance().pause();
 			for (Sprite sprite : sprites) {
 				sprite.pause();
