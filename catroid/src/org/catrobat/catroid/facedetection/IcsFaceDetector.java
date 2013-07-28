@@ -64,7 +64,9 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 
 	@Override
 	public void onFaceDetection(Face[] faces, Camera camera) {
-		if (faces.length > 0) {
+		boolean detected = faces.length > 0;
+		onFaceDetected(detected);
+		if (detected) {
 			int maxConfidence = faces[0].score;
 			int bestFaceIndex = 0;
 			for (int i = 1; i < faces.length; i++) {

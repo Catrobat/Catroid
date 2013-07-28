@@ -5,6 +5,7 @@ import java.util.Random;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.facedetection.IcsFaceDetector;
 import org.catrobat.catroid.facedetection.OnFaceDetectedListener;
+import org.catrobat.catroid.facedetection.OnFaceDetectionStatusChangedListener;
 import org.catrobat.catroid.test.utils.Reflection;
 
 import android.annotation.TargetApi;
@@ -28,6 +29,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 	private static final int FACE_RIGHT = 200;
 	private static final int FACE_TOP = -100;
 	private static final int FACE_BOTTOM = 300;
+	private static final int LOW_SCORE_FACE_WIDTH = 10;
 
 	@Override
 	public void setUp() throws Exception {
@@ -100,6 +102,30 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 	}
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void testOnFaceDetectionStatusListener() {
+		IcsFaceDetector detector = new IcsFaceDetector();
+		final boolean[] detected = new boolean[1];
+		OnFaceDetectionStatusChangedListener listener = new OnFaceDetectionStatusChangedListener() {
+
+			public void onFaceDetectionStatusChanged(boolean faceDetected) {
+				detected[0] = faceDetected;
+			}
+		};
+		detector.addOnFaceDetectionStatusListener(listener);
+		assertFalse("unexpected detection of a face", detected[0]);
+
+		detector.onFaceDetection(new Face[0], null);
+		assertFalse("ICS Face Detector posted wrong status", detected[0]);
+		Face[] faces = new Face[1];
+		faces[0] = new Face();
+		faces[0].rect = new Rect();
+		detector.onFaceDetection(faces, null);
+		assertTrue("ICS Face Detector posted wrong status", detected[0]);
+		detector.onFaceDetection(new Face[0], null);
+		assertFalse("ICS Face Detector did not post status change", detected[0]);
+	}
+
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testOnFaceDetectedListener() {
 		IcsFaceDetector detector = new IcsFaceDetector();
 
@@ -117,12 +143,21 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		assertEquals("Face Detection Listener receives unexpected calls", 0, detectedFaces[COUNTER_INDEX]);
 
 		Rect faceBounds = new Rect(FACE_LEFT, FACE_TOP, FACE_RIGHT, FACE_BOTTOM);
-		Face[] faces = new Face[1];
+		Face[] faces = new Face[2];
 		faces[0] = new Face();
-		faces[0].rect = faceBounds;
+		faces[0].rect = new Rect(0, 0, LOW_SCORE_FACE_WIDTH, 0);
+		faces[0].score = 60;
+		faces[1] = new Face();
+		faces[1].rect = faceBounds;
+		faces[1].score = 80;
 
 		detector.onFaceDetection(faces, null);
 		assertEquals("Face Detection Listener does not receive call", 1, detectedFaces[COUNTER_INDEX]);
+
+		int lowScoreFaceSize = LOW_SCORE_FACE_WIDTH * 100 * 2 / FACE_RECT_SIZE;
+		if (detectedFaces[SIZE_INDEX] == lowScoreFaceSize) {
+			fail("Wrong face used for face detection");
+		}
 
 		int expectedSize = (FACE_RIGHT - FACE_LEFT) * 100 * 2 / FACE_RECT_SIZE;
 		assertEquals("Unexpected size of face", expectedSize, detectedFaces[SIZE_INDEX]);

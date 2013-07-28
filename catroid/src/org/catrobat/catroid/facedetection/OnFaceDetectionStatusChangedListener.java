@@ -20,36 +20,10 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
+package org.catrobat.catroid.facedetection;
 
-public enum Sensors {
-	X_ACCELERATION, Y_ACCELERATION, Z_ACCELERATION, COMPASS_DIRECTION, X_INCLINATION, Y_INCLINATION, FACE_DETECTED, FACE_SIZE, FACE_X_POSITION, FACE_Y_POSITION, OBJECT_X(
-			true), OBJECT_Y(true), OBJECT_GHOSTEFFECT(true), OBJECT_BRIGHTNESS(true), OBJECT_SIZE(true), OBJECT_ROTATION(
-			true), OBJECT_LAYER(true);
-	public final boolean isObjectSensor;
+public interface OnFaceDetectionStatusChangedListener {
 
-	Sensors(boolean isObjectSensor) {
-		this.isObjectSensor = true;
-	}
-
-	Sensors() {
-		this.isObjectSensor = false;
-	}
-
-	public static boolean isSensor(String value) {
-		if (getSensorByValue(value) == null) {
-			return false;
-		}
-		return true;
-	}
-
-	public static Sensors getSensorByValue(String value) {
-		try {
-			return valueOf(value);
-		} catch (IllegalArgumentException exception) {
-
-		}
-		return null;
-	}
+	public void onFaceDetectionStatusChanged(boolean faceDetected);
 
 }

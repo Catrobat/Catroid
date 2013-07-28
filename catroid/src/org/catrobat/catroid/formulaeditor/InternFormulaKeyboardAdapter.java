@@ -115,6 +115,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.X_INCLINATION);
 			case R.string.formula_editor_sensor_y_inclination:
 				return buildSensor(Sensors.Y_INCLINATION);
+			case R.string.formula_editor_sensor_face_detected:
+				return buildSensor(Sensors.FACE_DETECTED);
 			case R.string.formula_editor_sensor_face_size:
 				return buildSensor(Sensors.FACE_SIZE);
 			case R.string.formula_editor_sensor_face_x_position:

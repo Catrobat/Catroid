@@ -76,6 +76,8 @@ public class InternToExternGenerator {
 				.put(Sensors.X_INCLINATION.name(), R.string.formula_editor_sensor_x_inclination);
 		internExternLanguageConverterMap
 				.put(Sensors.Y_INCLINATION.name(), R.string.formula_editor_sensor_y_inclination);
+		internExternLanguageConverterMap
+				.put(Sensors.FACE_DETECTED.name(), R.string.formula_editor_sensor_face_detected);
 		internExternLanguageConverterMap.put(Sensors.FACE_SIZE.name(), R.string.formula_editor_sensor_face_size);
 		internExternLanguageConverterMap.put(Sensors.FACE_X_POSITION.name(),
 				R.string.formula_editor_sensor_face_x_position);

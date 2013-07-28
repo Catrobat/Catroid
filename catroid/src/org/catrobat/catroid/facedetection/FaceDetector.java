@@ -32,6 +32,9 @@ import android.graphics.Point;
 public abstract class FaceDetector {
 
 	private List<OnFaceDetectedListener> faceDetectedListeners = new LinkedList<OnFaceDetectedListener>();
+	private List<OnFaceDetectionStatusChangedListener> faceDetectionStatusListeners = new LinkedList<OnFaceDetectionStatusChangedListener>();
+
+	private boolean faceDetected = false;
 
 	public abstract void startFaceDetection();
 
@@ -39,9 +42,14 @@ public abstract class FaceDetector {
 
 	public void removeAllListeners() {
 		faceDetectedListeners.clear();
+		faceDetectionStatusListeners.clear();
+		stopFaceDetection();
 	}
 
 	public void addOnFaceDetectedListener(OnFaceDetectedListener listener) {
+		if (listener == null) {
+			return;
+		}
 		faceDetectedListeners.add(listener);
 		startFaceDetection();
 	}
@@ -51,14 +59,39 @@ public abstract class FaceDetector {
 		contitionalStop();
 	}
 
+	public void addOnFaceDetectionStatusListener(OnFaceDetectionStatusChangedListener listener) {
+		if (listener == null) {
+			return;
+		}
+		faceDetectionStatusListeners.add(listener);
+		startFaceDetection();
+	}
+
+	public void removeOnFaceDetectionStatusListener(OnFaceDetectionStatusChangedListener listener) {
+		faceDetectionStatusListeners.remove(listener);
+		contitionalStop();
+	}
+
 	protected void onFaceDetected(Point position, int size) {
 		for (OnFaceDetectedListener faceDetectedListener : faceDetectedListeners) {
 			faceDetectedListener.onFaceDetected(position, size);
 		}
 	}
 
+	protected void onFaceDetected(boolean faceDetected) {
+		if (this.faceDetected != faceDetected) {
+			this.faceDetected = faceDetected;
+			for (OnFaceDetectionStatusChangedListener listener : faceDetectionStatusListeners) {
+				listener.onFaceDetectionStatusChanged(faceDetected);
+			}
+		}
+	}
+
 	private void contitionalStop() {
 		if (faceDetectedListeners.size() > 0) {
+			return;
+		}
+		if (faceDetectionStatusListeners.size() > 0) {
 			return;
 		}
 		stopFaceDetection();
