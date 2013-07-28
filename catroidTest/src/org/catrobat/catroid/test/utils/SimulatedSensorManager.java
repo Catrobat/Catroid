@@ -137,7 +137,6 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 
 	public synchronized boolean registerListener(SensorEventListener listener, Sensor sensor, int rate) {
 		listeners.add(new Pair<SensorEventListener, Sensor>(listener, sensor));
-		Log.d("Blah", "Registered " + sensor.toString());
 		return false;
 	}
 

@@ -87,27 +87,4 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 			onFaceDetected(relativePoint, faceSize);
 		}
 	}
-
-	public static boolean isSupported() {
-		//		if (true) {
-		//			return false;
-		//		}
-		int currentApi = android.os.Build.VERSION.SDK_INT;
-		if (currentApi < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			return false;
-		}
-		int possibleFaces = 0;
-		Camera camera = null;
-		try {
-			camera = Camera.open();
-			possibleFaces = camera.getParameters().getMaxNumDetectedFaces();
-			camera.release();
-		} catch (Exception exc) {
-		} finally {
-			if (camera != null) {
-				camera.release();
-			}
-		}
-		return possibleFaces > 0;
-	}
 }
