@@ -33,6 +33,7 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 
 import android.content.Context;
@@ -147,6 +148,13 @@ public class UtilFile {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	public static void createStandardProjectIfRootDirectoryIsEmpty(Context context) {
+		File rootDirectory = new File(Constants.DEFAULT_ROOT);
+		if (rootDirectory == null || rootDirectory.listFiles() == null || rootDirectory.listFiles().length == 0) {
+			ProjectManager.getInstance().initializeDefaultProject(context);
 		}
 	}
 
