@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.facedetection;
 
+import android.hardware.Camera;
 import android.util.Log;
 
 public class FaceDetectionHandler {
@@ -29,7 +30,7 @@ public class FaceDetectionHandler {
 	private static FaceDetector faceDetector;
 
 	private static void createFaceDetector() {
-		if (IcsFaceDetector.isSupported()) {
+		if (isIcsFaceDetectionSupported()) {
 			faceDetector = new IcsFaceDetector();
 			Log.d("SOR", "created ICS");//TODO
 		} else {
@@ -74,4 +75,26 @@ public class FaceDetectionHandler {
 		faceDetector.removeAllListeners();
 	}
 
+	public static boolean isIcsFaceDetectionSupported() {
+		//		if (true) {
+		//			return false; // FIXME just for testing
+		//		}
+		int currentApi = android.os.Build.VERSION.SDK_INT;
+		if (currentApi < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			return false;
+		}
+		int possibleFaces = 0;
+		Camera camera = null;
+		try {
+			camera = Camera.open();
+			possibleFaces = camera.getParameters().getMaxNumDetectedFaces();
+			camera.release();
+		} catch (Exception exc) {
+		} finally {
+			if (camera != null) {
+				camera.release();
+			}
+		}
+		return possibleFaces > 0;
+	}
 }
