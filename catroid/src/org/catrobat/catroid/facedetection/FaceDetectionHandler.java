@@ -31,10 +31,10 @@ public class FaceDetectionHandler {
 	private static void createFaceDetector() {
 		if (IcsFaceDetector.isSupported()) {
 			faceDetector = new IcsFaceDetector();
-			Log.d("Blah", "created ICS");//TODO
+			Log.d("SOR", "created ICS");//TODO
 		} else {
 			faceDetector = new SlowFaceDetector();
-			Log.d("Blah", "created slow fd");//TODO
+			Log.d("SOR", "created slow fd");//TODO
 		}
 	}
 
@@ -50,6 +50,20 @@ public class FaceDetectionHandler {
 			return;
 		}
 		faceDetector.removeOnFaceDetectedListener(listener);
+	}
+
+	public static void registerOnFaceDetectionStatusListener(OnFaceDetectionStatusChangedListener listener) {
+		if (faceDetector == null) {
+			createFaceDetector();
+		}
+		faceDetector.addOnFaceDetectionStatusListener(listener);
+	}
+
+	public static void unregisterOnFaceDetectionStatusListener(OnFaceDetectionStatusChangedListener listener) {
+		if (faceDetector == null) {
+			return;
+		}
+		faceDetector.removeOnFaceDetectionStatusListener(listener);
 	}
 
 	public static void stopFaceDetection() {

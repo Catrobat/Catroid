@@ -104,8 +104,8 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 		Matrix rotateAndInvertX = new Matrix();
 		rotateAndInvertX.postRotate(90);
 		rotateAndInvertX.postScale(-1, 1);
-		Bitmap portraitBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), rotateAndInvertX,
-				true);
+		Bitmap portraitBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
+				rotateAndInvertX, true);
 		Bitmap rgb565_bitmap = Bitmap.createBitmap(width, height, Config.RGB_565);
 		Paint paint = new Paint();
 		paint.setDither(true);
@@ -118,7 +118,9 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 		Face[] faces = new Face[NUMBER_OF_FACES];
 		int numberOfFaces = detector.findFaces(rgb565_bitmap, faces);
 
-		if (numberOfFaces > 0) {
+		boolean detected = numberOfFaces > 0;
+		onFaceDetected(detected);
+		if (detected) {
 			PointF centerPoint = new PointF();
 			faces[0].getMidPoint(centerPoint);
 			float eyeDistance = faces[0].eyesDistance();
