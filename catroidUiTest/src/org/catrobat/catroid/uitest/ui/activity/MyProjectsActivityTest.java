@@ -366,6 +366,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		assertTrue("Standard Project should be restored", spriteList.size() == 5);
+		solo.sleep(3000);
 	}
 
 	@Device
@@ -800,10 +801,10 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
-		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(0);
 		assertTrue("Actionbar title is not displayed correctly!",
 				solo.searchText(deleteActionModeTitle + " 1 " + singleItemAppendixDeleteActionMode));
-		solo.clickOnCheckBox(2);
+		solo.clickOnCheckBox(1);
 		assertTrue("Actionbar title is not displayed correctly!",
 				solo.searchText(deleteActionModeTitle + " 2 " + multipleItemAppendixDeleteActionMode));
 
