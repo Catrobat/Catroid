@@ -101,7 +101,8 @@ public class SensorHandler implements SensorEventListener {
 
 			case COMPASS_DIRECTION:
 				float[] orientations = new float[3];
-				getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
+				android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
+						instance.rotationVector);
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
 				sensorValue = Double.valueOf(orientations[0]);
 				return sensorValue * radianToDegreeConst * -1f;
@@ -109,25 +110,39 @@ public class SensorHandler implements SensorEventListener {
 			case X_INCLINATION:
 
 				orientations = new float[3];
-				getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
+				android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
+						instance.rotationVector);
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
 				sensorValue = Double.valueOf(orientations[2]);
 				return sensorValue * radianToDegreeConst * -1f;
 
 			case Y_INCLINATION:
 				orientations = new float[3];
-				getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
+				android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
+						instance.rotationVector);
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
-				sensorValue = Double.valueOf(orientations[1]);
-				return sensorValue * radianToDegreeConst * -1f;
-		}
 
+				float xInclinationUsedToExtendRangeOfRoll = orientations[2] * radianToDegreeConst * -1f;
+
+				sensorValue = Double.valueOf(orientations[1]);
+
+				if (Math.abs(xInclinationUsedToExtendRangeOfRoll) <= 90f) {
+					return sensorValue * radianToDegreeConst * -1f;
+				} else {
+					float uncorrectedXInclination = sensorValue.floatValue() * radianToDegreeConst * -1f;
+
+					if (uncorrectedXInclination > 0f) {
+						return (double) 180f - uncorrectedXInclination;
+					} else {
+						return (double) -180f - uncorrectedXInclination;
+					}
+				}
+		}
 		return 0d;
 	}
 
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
-
 	}
 
 	@Override
@@ -144,48 +159,5 @@ public class SensorHandler implements SensorEventListener {
 				rotationVector[2] = event.values[2];
 				break;
 		}
-
-	}
-
-	//For API Level < 9
-	//Taken from: https://android.googlesource.com/platform/frameworks/base/+/fa33565714e4192dbab446ee1fbccb87dd414bed/core/java/android/hardware/SensorManager.java
-	public static void getRotationMatrixFromVector(float[] R, float[] rotationVector) {
-
-		float q0;
-		float q1 = rotationVector[0];
-		float q2 = rotationVector[1];
-		float q3 = rotationVector[2];
-
-		q0 = 1 - q1 * q1 - q2 * q2 - q3 * q3;
-		q0 = (q0 > 0) ? (float) java.lang.Math.sqrt(q0) : 0;
-
-		float sq_q1 = 2 * q1 * q1;
-		float sq_q2 = 2 * q2 * q2;
-		float sq_q3 = 2 * q3 * q3;
-		float q1_q2 = 2 * q1 * q2;
-		float q3_q0 = 2 * q3 * q0;
-		float q1_q3 = 2 * q1 * q3;
-		float q2_q0 = 2 * q2 * q0;
-		float q2_q3 = 2 * q2 * q3;
-		float q1_q0 = 2 * q1 * q0;
-
-		R[0] = 1 - sq_q2 - sq_q3;
-		R[1] = q1_q2 - q3_q0;
-		R[2] = q1_q3 + q2_q0;
-		R[3] = 0.0f;
-
-		R[4] = q1_q2 + q3_q0;
-		R[5] = 1 - sq_q1 - sq_q3;
-		R[6] = q2_q3 - q1_q0;
-		R[7] = 0.0f;
-
-		R[8] = q1_q3 - q2_q0;
-		R[9] = q2_q3 + q1_q0;
-		R[10] = 1 - sq_q1 - sq_q2;
-		R[11] = 0.0f;
-
-		R[12] = R[13] = R[14] = 0.0f;
-		R[15] = 1.0f;
-
 	}
 }
