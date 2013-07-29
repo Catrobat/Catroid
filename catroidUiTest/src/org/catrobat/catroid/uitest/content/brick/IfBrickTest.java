@@ -40,7 +40,6 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
 import android.util.Log;
 import android.widget.ListView;
 
@@ -59,7 +58,6 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	@Smoke
 	public void testIfBrick() {
 		ListView view = UiTestUtils.getScriptListView(solo);
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
