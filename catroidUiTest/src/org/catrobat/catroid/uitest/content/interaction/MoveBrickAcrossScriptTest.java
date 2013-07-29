@@ -43,8 +43,6 @@ import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
-
 public class MoveBrickAcrossScriptTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private ArrayList<Brick> brickListToCheck;
 	private ArrayList<Brick> secondBrickListForMoving;
@@ -61,7 +59,6 @@ public class MoveBrickAcrossScriptTest extends BaseActivityInstrumentationTestCa
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	@Smoke
 	public void testMoveBrickAcrossScript() {
 		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
 		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);

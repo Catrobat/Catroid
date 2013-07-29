@@ -36,7 +36,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.test.suitebuilder.annotation.Smoke;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -74,7 +73,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		super.tearDown();
 	}
 
-	@Smoke
 	public void testMotionBricksDefaultValues() {
 		String categoryMotionText = solo.getString(R.string.category_motion);
 
@@ -186,7 +184,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		assertEquals("Value in Selected Brick GoBack is not correct", BrickValues.GO_BACK, goBackEditTextValue);
 	}
 
-	@Smoke
 	public void testLookBricksDefaultValues() {
 		String categoryLooksText = solo.getString(R.string.category_looks);
 
@@ -257,7 +254,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 				(float) BrickValues.CHANGE_BRITHNESS_BY, changeBrightnessEditTextValue);
 	}
 
-	@Smoke
 	public void testSoundBricksDefaultValues() {
 		String categorySoundText = solo.getString(R.string.category_sound);
 
@@ -308,7 +304,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 				changeVolumeByEditTextValue);
 	}
 
-	@Smoke
 	public void testControlBricksDefaultValues() {
 		String categoryControlText = solo.getString(R.string.category_control);
 
@@ -381,7 +376,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		assertEquals("Value in Selected Brick Repeat is not correct", BrickValues.REPEAT, repeatEditTextValue);
 	}
 
-	@Smoke
 	public void testLegoBricksDefaultValues() {
 		String categoryLegoNXTText = solo.getString(R.string.category_lego_nxt);
 
@@ -434,7 +428,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 				nxtPlayToneEditTextValue);
 	}
 
-	@Smoke
 	public void testUserVariablesBricksDefaultValues() {
 		String categoryUserVariablesText = solo.getString(R.string.category_variables);
 

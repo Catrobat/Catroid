@@ -81,7 +81,10 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 	public void tearDown() throws Exception {
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithBlacklistedCharacters)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithWhitelistedCharacters)));
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	@Device
