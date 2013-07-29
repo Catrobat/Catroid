@@ -87,11 +87,18 @@ public abstract class FaceDetector {
 		}
 	}
 
-	private void contitionalStop() {
+	public boolean isRunning() {
 		if (faceDetectedListeners.size() > 0) {
-			return;
+			return true;
 		}
 		if (faceDetectionStatusListeners.size() > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	private void contitionalStop() {
+		if (isRunning()) {
 			return;
 		}
 		stopFaceDetection();
