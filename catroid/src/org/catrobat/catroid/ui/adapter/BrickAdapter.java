@@ -43,6 +43,7 @@ import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -57,6 +58,7 @@ import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -971,6 +973,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					scriptToDelete = null;
 				} else {
 					removeFromBrickListAndProject(clickItemPosition, false);
+					deleteSpeechFiles();
 				}
 			}
 		});
@@ -989,6 +992,14 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		AlertDialog alertDialog = builder.create();
 		alertDialog.show();
+	}
+
+	private void deleteSpeechFiles() {
+		File pathToSpeechFiles = new File(Constants.TEXT_TO_SPEECH_TMP_PATH);
+		pathToSpeechFiles.mkdirs();
+		for (File file : pathToSpeechFiles.listFiles()) {
+			file.delete();
+		}
 	}
 
 	private int calculateItemPositionAndTouchPointY(View view) {
@@ -1080,6 +1091,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				return;
 			}
 			checkedBricks.remove(brick);
+			deleteSpeechFiles();
 		}
 		notifyDataSetChanged();
 
@@ -1247,6 +1259,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if (spriteToEdit.getNumberOfScripts() == 0) {
 			ProjectManager.getInstance().setCurrentScript(null);
 			updateProjectBrickList();
+			deleteSpeechFiles();
 		} else {
 			int lastScriptIndex = spriteToEdit.getNumberOfScripts() - 1;
 			Script lastScript = spriteToEdit.getScript(lastScriptIndex);
