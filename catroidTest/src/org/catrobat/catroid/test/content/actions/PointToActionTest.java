@@ -24,58 +24,65 @@ package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.content.bricks.PointToBrick;
-import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.actions.PointToAction;
 
 import android.test.AndroidTestCase;
 
 public class PointToActionTest extends AndroidTestCase {
 
+	private final float delta = 1e-7f;
+
 	public void testPointTo() {
-
-		Project project = new Project(null, "testProject");
-
-		Sprite sprite1 = new Sprite("cat1");
-		Script startScript1 = new StartScript(sprite1);
-		PlaceAtBrick placeAt1 = new PlaceAtBrick(sprite1, 300, 400);
-		SetSizeToBrick size1 = new SetSizeToBrick(sprite1, 20.0);
-		startScript1.addBrick(placeAt1);
-		startScript1.addBrick(size1);
-
-		Sprite sprite2 = new Sprite("cat2");
-		Script startScript2 = new StartScript(sprite2);
-		PlaceAtBrick placeAt2 = new PlaceAtBrick(sprite2, -400, -300);
-		SetSizeToBrick size2 = new SetSizeToBrick(sprite2, 20.0);
-		startScript2.addBrick(placeAt2);
-		startScript2.addBrick(size2);
-		sprite2.addScript(startScript2);
-
-		PointToBrick pointToBrick = new PointToBrick(sprite1, sprite2);
-		startScript1.addBrick(pointToBrick);
-		sprite1.addScript(startScript1);
-
-		project.addSprite(sprite1);
-		project.addSprite(sprite2);
+		Sprite sprite = new Sprite("sprite");
+		Sprite pointedSprite = new Sprite("pointedSprite");
+		Project project = new Project();
+		project.addSprite(sprite);
+		project.addSprite(pointedSprite);
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite1);
-		ProjectManager.getInstance().setCurrentScript(startScript1);
 
-		sprite2.createStartScriptActionSequence();
-		sprite1.createStartScriptActionSequence();
+		PointToAction pointToAction = new PointToAction();
+		pointToAction.setSprite(sprite);
+		pointToAction.setPointedSprite(pointedSprite);
 
-		while (!sprite2.look.getAllActionsAreFinished()) {
-			sprite2.look.act(1.0f);
-		}
+		pointedSprite.look.setPosition(200f, 0f);
+		pointToAction.act(1.0f);
+		assertEquals("Wrong direction", 90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), delta);
 
-		while (!sprite1.look.getAllActionsAreFinished()) {
-			sprite1.look.act(1.0f);
-		}
+		pointedSprite.look.setPosition(200f, 200f);
+		pointToAction.restart();
+		pointToAction.act(1.0f);
+		assertEquals("Wrong direction", 45f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), delta);
 
-		assertEquals("Wrong direction", -135.0, sprite1.look.getRotation(), 1e-3);
+		pointedSprite.look.setPosition(0f, 200f);
+		pointToAction.restart();
+		pointToAction.act(1.0f);
+		assertEquals("Wrong direction", 0f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), delta);
+
+		pointedSprite.look.setPosition(-200f, 200f);
+		pointToAction.restart();
+		pointToAction.act(1.0f);
+		assertEquals("Wrong direction", -45f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), delta);
+
+		pointedSprite.look.setPosition(-200f, 0f);
+		pointToAction.restart();
+		pointToAction.act(1.0f);
+		assertEquals("Wrong direction", -90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), delta);
+
+		pointedSprite.look.setPosition(-200f, -200f);
+		pointToAction.restart();
+		pointToAction.act(1.0f);
+		assertEquals("Wrong direction", -135f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), delta);
+
+		pointedSprite.look.setPosition(0f, -200f);
+		pointToAction.restart();
+		pointToAction.act(1.0f);
+		assertEquals("Wrong direction", 180f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), delta);
+
+		pointedSprite.look.setPosition(200f, -200f);
+		pointToAction.restart();
+		pointToAction.act(1.0f);
+		assertEquals("Wrong direction", 135f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), delta);
 	}
 
 }

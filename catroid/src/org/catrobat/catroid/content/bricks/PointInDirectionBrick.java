@@ -43,7 +43,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class PointInDirectionBrick extends BrickBaseType implements View.OnClickListener {
+public class PointInDirectionBrick extends BrickBaseType implements View.OnClickListener, FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,7 +53,7 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 	private transient View prototypeView;
 
 	public static enum Direction {
-		DIRECTION_RIGHT(90), DIRECTION_LEFT(-90), DIRECTION_UP(0), DIRECTION_DOWN(180);
+		RIGHT(90), LEFT(-90), UP(0), DOWN(180);
 
 		private double directionDegrees;
 
@@ -75,9 +75,19 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 		this.degrees = new Formula(direction.getDegrees());
 	}
 
+	public PointInDirectionBrick(Sprite sprite, Formula direction) {
+		this.sprite = sprite;
+		this.degrees = direction;
+	}
+
 	public PointInDirectionBrick(Sprite sprite, double direction) {
 		this.sprite = sprite;
 		this.degrees = new Formula(direction);
+	}
+
+	@Override
+	public Formula getFormula() {
+		return degrees;
 	}
 
 	@Override
@@ -134,24 +144,30 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 
 	@Override
 	public Brick clone() {
-		return new PointInDirectionBrick(getSprite(), degrees.interpretDouble(sprite));
+		return new PointInDirectionBrick(getSprite(), degrees.clone());
 	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_point_in_direction_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView pointInDirectionLabel = (TextView) view.findViewById(R.id.brick_point_in_direction_label);
-		TextView pointInDirectionDegree = (TextView) view.findViewById(R.id.brick_point_in_direction_degree);
-		EditText setAngleEditText = (EditText) view.findViewById(R.id.brick_point_in_direction_edit_text);
-		pointInDirectionLabel.setTextColor(pointInDirectionLabel.getTextColors().withAlpha(alphaValue));
-		pointInDirectionDegree.setTextColor(pointInDirectionDegree.getTextColors().withAlpha(alphaValue));
-		setAngleEditText.setTextColor(setAngleEditText.getTextColors().withAlpha(alphaValue));
-		setAngleEditText.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_point_in_direction_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView pointInDirectionLabel = (TextView) view.findViewById(R.id.brick_point_in_direction_label);
+			TextView pointInDirectionDegree = (TextView) view.findViewById(R.id.brick_point_in_direction_degree);
+			EditText setAngleEditText = (EditText) view.findViewById(R.id.brick_point_in_direction_edit_text);
+			pointInDirectionLabel.setTextColor(pointInDirectionLabel.getTextColors().withAlpha(alphaValue));
+			pointInDirectionDegree.setTextColor(pointInDirectionDegree.getTextColors().withAlpha(alphaValue));
+			setAngleEditText.setTextColor(setAngleEditText.getTextColors().withAlpha(alphaValue));
+			setAngleEditText.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

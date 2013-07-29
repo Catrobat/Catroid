@@ -38,13 +38,6 @@
         <item>@string/nxt_motor_all</item>
     </string-array>
 
-    <!-- Script Activity Spinner -->
-    <string-array name="script_activity_spinner_items">
-        <item>@string/scripts</item>
-        <item>@string/category_looks</item>
-        <item>@string/sounds</item>
-    </string-array>
-
     <!-- New Look Dialog -->
     <string-array name="new_look_chooser">
         <item>@string/add_look_from_camera</item>

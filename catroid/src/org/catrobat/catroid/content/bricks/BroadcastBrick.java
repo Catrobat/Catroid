@@ -158,20 +158,26 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_broadcast_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textBroadcastLabel = (TextView) view.findViewById(R.id.brick_broadcast_label);
-		textBroadcastLabel.setTextColor(textBroadcastLabel.getTextColors().withAlpha(alphaValue));
-		Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);
-		ColorStateList color = textBroadcastLabel.getTextColors().withAlpha(alphaValue);
-		broadcastSpinner.getBackground().setAlpha(alphaValue);
-		if (adapterView != null) {
-			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+		if (view != null) {
+
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_broadcast_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textBroadcastLabel = (TextView) view.findViewById(R.id.brick_broadcast_label);
+			textBroadcastLabel.setTextColor(textBroadcastLabel.getTextColors().withAlpha(alphaValue));
+			Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);
+			ColorStateList color = textBroadcastLabel.getTextColors().withAlpha(alphaValue);
+			broadcastSpinner.getBackground().setAlpha(alphaValue);
+			if (adapterView != null) {
+				((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			}
+
+			this.alphaValue = (alphaValue);
+
 		}
 
-		this.alphaValue = (alphaValue);
 		return view;
 	}
 

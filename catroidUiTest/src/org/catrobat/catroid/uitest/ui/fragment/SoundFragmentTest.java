@@ -37,6 +37,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.mockups.MockSoundActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
@@ -44,7 +45,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
@@ -52,7 +52,7 @@ import android.widget.LinearLayout;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 	private static final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
 	private static final int VISIBLE = View.VISIBLE;
@@ -62,8 +62,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	private static final String FIRST_TEST_SOUND_NAME = "testSound1";
 	private static final String SECOND_TEST_SOUND_NAME = "testSound2";
-
-	private Solo solo;
 
 	private String rename;
 	private String renameDialogTitle;
@@ -89,8 +87,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-
-		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
 
 		projectManager = ProjectManager.getInstance();
@@ -116,8 +112,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		externalSoundFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/externalSoundFile.mp3",
 				RESOURCE_SOUND, getActivity());
 
-		solo = new Solo(getInstrumentation(), getActivity());
-
 		UiTestUtils.getIntoSoundsFromMainMenu(solo);
 
 		rename = solo.getString(R.string.rename);
@@ -133,16 +127,45 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		externalSoundFile.delete();
 		super.tearDown();
-		solo = null;
 	}
 
 	public void testInitialLayout() {
 		assertFalse("Initially showing details", getSoundAdapter().getShowDetails());
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
+	}
+
+	public void testCopySoundContextMenu() {
+		SoundAdapter adapter = getSoundAdapter();
+		assertNotNull("Could not get Adapter", adapter);
+
+		int oldCount = adapter.getCount();
+
+		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.copy));
+
+		solo.waitForDialogToClose(1000);
+
+		int newCount = adapter.getCount();
+
+		assertEquals("Old count was not correct", 2, oldCount);
+		assertEquals("New count is not correct - one sound should be copied", 3, newCount);
+		assertEquals("Count of the soundList is not correct", newCount, getCurrentNumberOfSounds());
+	}
+
+	public void testCopySoundActionBar() {
+
+		int numberOfSoundsBeforeCopy = getCurrentNumberOfSounds();
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(0);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		int numberOfSoundsAfterCopy = getCurrentNumberOfSounds();
+
+		assertEquals("No sound has been copied!", ++numberOfSoundsBeforeCopy, numberOfSoundsAfterCopy);
+
 	}
 
 	public void testDeleteSoundContextMenu() {
@@ -252,7 +275,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
 	}
 
-	public void testStopSoundOnSpinnerPress() {
+	public void testStopSoundOnFragmentChange() {
 		// Mute before playing sound
 		AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
 		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
@@ -271,15 +294,11 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertTrue("Mediaplayer is not playing although play button was touched", soundInfo.isPlaying);
 		checkVisibilityOfViews(GONE, VISIBLE, VISIBLE, VISIBLE, VISIBLE, GONE, GONE);
 
-		String soundsString = solo.getString(R.string.sounds);
-		String looksString = solo.getString(R.string.looks);
-
 		solo.sleep(timeToWait);
-		UiTestUtils.changeToFragmentViaActionbar(solo, soundsString, looksString);
-		solo.waitForFragmentById(R.id.fragment_look_relative_layout, 500);
-		UiTestUtils.changeToFragmentViaActionbar(solo, looksString, soundsString);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.LOOKS_INDEX);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SOUNDS_INDEX);
 
-		assertFalse("Mediaplayer is playing after switching fragment via spinner", soundInfo.isPlaying);
+		assertFalse("Mediaplayer is playing after switching fragments", soundInfo.isPlaying);
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 
 		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
@@ -401,7 +420,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		int timeToWait = 300;
 		String addDialogTitle = solo.getString(R.string.sound_select_source);
-		String soundSpinnerItemText = solo.getString(R.string.sounds);
 
 		assertTrue("Add button not clickable", addButton.isClickable());
 		assertTrue("Play button not clickable", playButton.isClickable());
@@ -425,7 +443,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
-		solo.waitForText(soundSpinnerItemText, 1, timeToWait, false, true);
+		solo.sleep(500);
 
 		checkIfContextMenuAppears(true, false);
 
@@ -449,7 +467,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
-		solo.waitForText(soundSpinnerItemText, 1, timeToWait, false, true);
+		solo.sleep(500);
 
 		checkIfContextMenuAppears(true, true);
 	}

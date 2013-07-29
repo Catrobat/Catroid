@@ -27,7 +27,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 
 public class SensorManager implements SensorManagerInterface {
-	android.hardware.SensorManager sensorManager;
+	private final android.hardware.SensorManager sensorManager;
 
 	public SensorManager(android.hardware.SensorManager sensorManager) {
 		this.sensorManager = sensorManager;

@@ -42,6 +42,8 @@ import android.content.Intent;
 
 public class StatusBarNotificationManager {
 
+	private static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
+
 	private Integer uploadId;
 	private Integer downloadId;
 	private Integer copyId;
@@ -56,7 +58,6 @@ public class StatusBarNotificationManager {
 	public ArrayList<String> downloadProjectName;
 	public ArrayList<String> downloadProjectZipFileString;
 
-	public static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
 	public static final String EXTRA_PROJECT_NAME = "projectName";
 
 	@SuppressLint("UseSparseArrays")

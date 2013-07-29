@@ -53,7 +53,6 @@ public class AddBrickFragment extends SherlockListFragment {
 	public static final String ADD_BRICK_FRAGMENT_TAG = "add_brick_fragment";
 	private ScriptFragment scriptFragment;
 	private CharSequence previousActionBarTitle;
-	private int previousActionBarNavigationMode;
 	private PrototypeBrickAdapter adapter;
 	private CategoryBricksFactory categoryBricksFactory = new CategoryBricksFactory();
 
@@ -103,14 +102,11 @@ public class AddBrickFragment extends SherlockListFragment {
 		actionBar.setDisplayShowTitleEnabled(true);
 		previousActionBarTitle = actionBar.getTitle();
 		actionBar.setTitle(this.getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY));
-		previousActionBarNavigationMode = actionBar.getNavigationMode();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 	}
 
 	private void resetActionBar() {
 		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 		actionBar.setTitle(previousActionBarTitle);
-		actionBar.setNavigationMode(previousActionBarNavigationMode);
 	}
 
 	@Override

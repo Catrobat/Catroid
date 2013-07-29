@@ -43,15 +43,13 @@ import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private Solo solo;
+public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private Project project;
 
 	public LoopBrickTest() {
@@ -60,20 +58,17 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-
-		ProjectManager.getInstance().deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
-
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
-		solo = null;
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	public void testRepeatBrick() {
@@ -92,9 +87,8 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 
 		// just to get focus
 		// seems to be a bug just with the Nexus S 2.3.6
-		String spinnerScripts = solo.getString(R.string.scripts);
-		solo.clickOnText(spinnerScripts);
-		solo.clickOnText(spinnerScripts);
+		solo.clickOnText(solo.getString(R.string.brick_when_started));
+
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, yPosition.get(0), 20);
 
@@ -159,6 +153,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof LoopEndBrick);
 	}
 
+	@Device
 	public void testForeverBrick() {
 		ArrayList<Integer> yPosition;
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();

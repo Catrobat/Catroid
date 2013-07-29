@@ -77,7 +77,7 @@ public class StageListener implements ApplicationListener {
 	private boolean firstStart = true;
 	private boolean reloadProject = false;
 
-	private boolean makeAutomaticScreenshot = true;
+	private static boolean makeAutomaticScreenshot = true;
 	private boolean makeScreenshot = false;
 	private String pathForScreenshot;
 	private int screenshotWidth;
@@ -161,6 +161,7 @@ public class StageListener implements ApplicationListener {
 
 		for (Sprite sprite : sprites) {
 			sprite.resetSprite();
+			sprite.look.createBrightnessContrastShader();
 			stage.addActor(sprite.look);
 			sprite.resume();
 		}
@@ -278,6 +279,7 @@ public class StageListener implements ApplicationListener {
 			for (int i = 0; i < spriteSize; i++) {
 				Sprite sprite = sprites.get(i);
 				sprite.resetSprite();
+				sprite.look.createBrightnessContrastShader();
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}
@@ -530,14 +532,6 @@ public class StageListener implements ApplicationListener {
 				lookData.getTextureRegion().getTexture().dispose();
 			}
 		}
-	}
-
-	public void setMakeAutomaticScreenshot(boolean makeAutomaticScreenshot) {
-		this.makeAutomaticScreenshot = makeAutomaticScreenshot;
-	}
-
-	public boolean isMakeAutomaticScreenshot() {
-		return this.makeAutomaticScreenshot;
 	}
 
 	private void prepareAutomaticScreenshotAndNoMeadiaFile() {

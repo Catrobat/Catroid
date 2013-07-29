@@ -22,30 +22,23 @@
  */
 package org.catrobat.catroid.uitest.ui.fragment;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
+public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-public class AddBrickFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-
-	private Solo solo;
 	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
 
 	public AddBrickFragmentTest() {
 		super(MainMenuActivity.class);
-	}
-
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
@@ -55,11 +48,7 @@ public class AddBrickFragmentTest extends ActivityInstrumentationTestCase2<MainM
 		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
 			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
 		}
-
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-		solo = null;
 	}
 
 	public void testBrickCategories() {
@@ -81,31 +70,48 @@ public class AddBrickFragmentTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testCorrectReturnToScriptFragment() {
 		goToAddBrickFromMainMenu();
-		assertTrue("Script text in action bar not found before adding a brick",
-				solo.waitForText(solo.getString(R.string.scripts), 0, 2000));
+
+		String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
+		assertEquals("Current sprite name is not shown as actionbar title or is wrong before adding a brick", "cat",
+				currentSprite);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
-		solo.sleep(2000);
+		solo.waitForActivity(ScriptActivity.class);
+		solo.waitForFragmentById(R.id.fragment_script_relative_layout);
 
-		assertTrue("Script text in action bar not found after adding a brick",
-				solo.waitForText(solo.getString(R.string.scripts), 0, 2000));
+		assertEquals("Current sprite name is not shown as actionbar title or is wrong before adding a brick", "cat",
+				currentSprite);
 		solo.goBack();
-
 	}
 
 	public void testCorrectReturnToCategoriesFragment() {
 		goToAddBrickFromMainMenu();
+		String categoriesString = solo.getString(R.string.categories);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 
 		assertTrue("Categories text in action bar not found before selecting a category",
-				solo.waitForText(solo.getString(R.string.categories), 0, 2000));
+				solo.waitForText(categoriesString, 0, 2000));
 
 		solo.clickOnText(solo.getString(R.string.category_control));
 		solo.goBack();
 
 		assertTrue("Categories text in action bar not found after selecting a category",
-				solo.waitForText(solo.getString(R.string.categories), 0, 2000));
+				solo.waitForText(categoriesString, 0, 2000));
 
+		String selectSoundCatogory = solo.getString(R.string.category_sound);
+		solo.clickOnText(selectSoundCatogory);
+		String selectPlaySound = solo.getString(R.string.brick_play_sound);
+		solo.clickOnText(selectPlaySound);
+		solo.clickOnScreen(400, 200);
+		String selectNewSound = solo.getString(R.string.new_broadcast_message);
+		solo.clickOnText(selectNewSound);
+		solo.clickOnText(selectNewSound);
+		solo.clickOnText(solo.getString(R.string.soundrecorder_name));
+		solo.clickOnImageButton(0);
+		solo.clickOnImageButton(0);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		assertTrue("Categories text in action bar not found after selecting a category",
+				solo.waitForText(categoriesString, 0, 2000));
 	}
 
 	private void checkActionBarInACategory(String categoryID, String category) {

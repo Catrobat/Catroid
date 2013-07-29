@@ -24,22 +24,19 @@ package org.catrobat.catroid.uitest.stage;
 
 import java.util.ArrayList;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.uitest.util.Reflection;
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
+public class MultipleBroadcastsTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class MultipleBroadcastsTest extends ActivityInstrumentationTestCase2<StageActivity> {
-
-	private Solo solo;
 	private Sprite sprite1;
 	private int sprite1PosX = 30;
 	private Sprite sprite2;
@@ -51,28 +48,20 @@ public class MultipleBroadcastsTest extends ActivityInstrumentationTestCase2<Sta
 	private final String broadcastMessage = "run";
 
 	public MultipleBroadcastsTest() {
-		super(StageActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.prepareStageForTest();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		UiTestUtils.prepareStageForTest();
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 	}
 
 	public void testSendMultipleBroadcastsWhenProjectStart() {
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		Reflection.setPrivateField(StageActivity.stageListener, "makeAutomaticScreenshot", false);
 		solo.sleep(2000);
 		assertEquals("Sprite1 is at the false x position", sprite1PosX,
 				(int) sprite1.look.getXInUserInterfaceDimensionUnit());

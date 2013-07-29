@@ -87,14 +87,20 @@ public class ClearGraphicEffectBrick extends BrickBaseType {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_clear_graphic_effect_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView clearGraphicEffectLabel = (TextView) view.findViewById(R.id.brick_clear_graphic_effect_label);
-		clearGraphicEffectLabel.setTextColor(clearGraphicEffectLabel.getTextColors().withAlpha(alphaValue));
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_clear_graphic_effect_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView clearGraphicEffectLabel = (TextView) view.findViewById(R.id.brick_clear_graphic_effect_label);
+			clearGraphicEffectLabel.setTextColor(clearGraphicEffectLabel.getTextColors().withAlpha(alphaValue));
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

@@ -39,7 +39,6 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,14 +49,13 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class SetVariableBrick extends BrickBaseType implements OnClickListener, NewVariableDialogListener {
+public class SetVariableBrick extends BrickBaseType implements OnClickListener, NewVariableDialogListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
 	private Formula variableFormula;
@@ -73,6 +71,11 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		this.sprite = sprite;
 		this.variableFormula = new Formula(value);
 		this.userVariable = null;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return variableFormula;
 	}
 
 	@Override
@@ -198,26 +201,28 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_variable_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textSetVariable = (TextView) view.findViewById(R.id.brick_set_variable_label);
-		TextView textTo = (TextView) view.findViewById(R.id.brick_set_variable_to_textview);
-		EditText editVariable = (EditText) view.findViewById(R.id.brick_set_variable_edit_text);
-		Spinner variablebrickSpinner = (Spinner) view.findViewById(R.id.set_variable_spinner);
+		if (view != null) {
 
-		ColorStateList color = textSetVariable.getTextColors().withAlpha(alphaValue);
-		variablebrickSpinner.getBackground().setAlpha(alphaValue);
-		if (adapterView != null) {
-			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			TextView textSetVariable = (TextView) view.findViewById(R.id.brick_set_variable_label);
+			TextView textTo = (TextView) view.findViewById(R.id.brick_set_variable_to_textview);
+			EditText editVariable = (EditText) view.findViewById(R.id.brick_set_variable_edit_text);
+			Spinner variablebrickSpinner = (Spinner) view.findViewById(R.id.set_variable_spinner);
+
+			ColorStateList color = textSetVariable.getTextColors().withAlpha(alphaValue);
+			variablebrickSpinner.getBackground().setAlpha(alphaValue);
+			if (adapterView != null) {
+				((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			}
+			textSetVariable.setTextColor(textSetVariable.getTextColors().withAlpha(alphaValue));
+			textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
+			editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
+			editVariable.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
 		}
-		textSetVariable.setTextColor(textSetVariable.getTextColors().withAlpha(alphaValue));
-		textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
-		editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
-		editVariable.getBackground().setAlpha(alphaValue);
 
-		this.alphaValue = (alphaValue);
 		return view;
 	}
 

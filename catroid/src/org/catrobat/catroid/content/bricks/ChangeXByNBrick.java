@@ -44,7 +44,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class ChangeXByNBrick extends BrickBaseType implements OnClickListener {
+public class ChangeXByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula xMovement;
 
@@ -64,6 +64,11 @@ public class ChangeXByNBrick extends BrickBaseType implements OnClickListener {
 		this.sprite = sprite;
 
 		this.xMovement = xMovement;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return xMovement;
 	}
 
 	@Override
@@ -123,17 +128,23 @@ public class ChangeXByNBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_x_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView changeXByLabel = (TextView) view.findViewById(R.id.brick_change_x_label);
-		EditText editChangeSize = (EditText) view.findViewById(R.id.brick_change_x_edit_text);
-		changeXByLabel.setTextColor(changeXByLabel.getTextColors().withAlpha(alphaValue));
-		editChangeSize.setTextColor(editChangeSize.getTextColors().withAlpha(alphaValue));
-		editChangeSize.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_x_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView changeXByLabel = (TextView) view.findViewById(R.id.brick_change_x_label);
+			EditText editChangeSize = (EditText) view.findViewById(R.id.brick_change_x_edit_text);
+			changeXByLabel.setTextColor(changeXByLabel.getTextColors().withAlpha(alphaValue));
+			editChangeSize.setTextColor(editChangeSize.getTextColors().withAlpha(alphaValue));
+			editChangeSize.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

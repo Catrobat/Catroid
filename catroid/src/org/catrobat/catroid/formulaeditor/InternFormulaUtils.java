@@ -566,7 +566,7 @@ public class InternFormulaUtils {
 
 		cursorPositionInternToken.setTokenStringValue(leftPart + rightPart);
 
-		if (cursorPositionInternToken.getTokenStringValue().length() == 0) {
+		if (cursorPositionInternToken.getTokenStringValue().isEmpty()) {
 			return null;
 		}
 

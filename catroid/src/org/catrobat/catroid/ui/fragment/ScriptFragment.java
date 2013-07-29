@@ -125,10 +125,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
+
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.rename).setVisible(false);
 		menu.findItem(R.id.edit_in_pocket_paint).setVisible(false);
-		menu.findItem(R.id.copy).setVisible(false);
+		menu.findItem(R.id.copy).setVisible(true);
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -142,7 +143,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onStart() {
 		super.onStart();
-		sprite = ProjectManager.INSTANCE.getCurrentSprite();
+		sprite = ProjectManager.getInstance().getCurrentSprite();
 		if (sprite == null) {
 			return;
 		}
@@ -178,7 +179,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onPause() {
 		super.onPause();
-		ProjectManager projectManager = ProjectManager.INSTANCE;
+		ProjectManager projectManager = ProjectManager.getInstance();
 		if (brickAddedReceiver != null) {
 			getActivity().unregisterReceiver(brickAddedReceiver);
 		}
@@ -194,12 +195,13 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+
 		if (view.getId() == R.id.brick_list_view) {
 			menu.setHeaderTitle(R.string.script_context_menu_title);
 
 			if (adapter.getItem(listView.getTouchedListPosition()) instanceof ScriptBrick) {
 				scriptToEdit = ((ScriptBrick) adapter.getItem(listView.getTouchedListPosition()))
-						.initScript(ProjectManager.INSTANCE.getCurrentSprite());
+						.initScript(ProjectManager.getInstance().getCurrentSprite());
 				MenuInflater inflater = getActivity().getMenuInflater();
 				inflater.inflate(R.menu.menu_script, menu);
 			}
@@ -211,6 +213,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		switch (item.getItemId()) {
 			case R.id.script_menu_delete: {
+
 				showConfirmDeleteDialog(true);
 				break;
 			}
@@ -265,7 +268,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void initListeners() {
-		sprite = ProjectManager.INSTANCE.getCurrentSprite();
+		sprite = ProjectManager.getInstance().getCurrentSprite();
 		if (sprite == null) {
 			return;
 		}
@@ -281,8 +284,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		adapter = new BrickAdapter(getActivity(), sprite, listView);
 		adapter.setOnBrickEditListener(this);
 
-		if (ProjectManager.INSTANCE.getCurrentSprite().getNumberOfScripts() > 0) {
-			ProjectManager.INSTANCE.setCurrentScript(((ScriptBrick) adapter.getItem(0)).initScript(sprite));
+		if (ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() > 0) {
+			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).initScript(sprite));
 		}
 
 		listView.setOnCreateContextMenuListener(this);
@@ -330,7 +333,20 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void startCopyActionMode() {
-		// TODO implement copy
+
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
+
+			for (int i = adapter.listItemCount; i < adapter.getBrickList().size(); i++) {
+				adapter.getView(i, null, getListView());
+			}
+
+			unregisterForContextMenu(listView);
+			BottomBar.disableButtons(getActivity());
+			adapter.setCheckboxVisibility(View.VISIBLE);
+			adapter.setActionMode(true);
+		}
+
 	}
 
 	@Override
@@ -365,6 +381,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void startDeleteActionMode() {
+
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 
@@ -385,6 +402,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	protected void showDeleteDialog() {
+
 		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedBrickPosition);
 		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
 	}
@@ -445,6 +463,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
+
 			if (adapter.getAmountOfCheckedItems() == 0) {
 				clearCheckedBricksAndEnableButtons();
 			} else {
@@ -453,10 +472,92 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 	};
 
+	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
+			setActionModeActive(true);
+
+			actionModeTitle = getString(R.string.copy);
+			singleItemAppendixActionMode = getString(R.string.brick_single);
+			multipleItemAppendixActionMode = getString(R.string.brick_multiple);
+
+			mode.setTitle(actionModeTitle);
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+
+			List<Brick> checkedBricks = adapter.getCheckedBricks();
+
+			for (Brick brick : checkedBricks) {
+				copyBrick(brick);
+				if (brick instanceof ScriptBrick) {
+					break;
+				}
+			}
+			setSelectMode(ListView.CHOICE_MODE_NONE);
+			adapter.clearCheckedItems();
+
+			actionMode = null;
+			setActionModeActive(false);
+
+			registerForContextMenu(listView);
+			BottomBar.enableButtons(getActivity());
+			adapter.setActionMode(false);
+
+		}
+	};
+
+	private void copyBrick(Brick brick) {
+
+		if (brick instanceof ScriptBrick) {
+			scriptToEdit = ((ScriptBrick) brick).initScript(ProjectManager.getInstance().getCurrentSprite());
+
+			Script clonedScript = scriptToEdit.copyScriptForSprite(sprite);
+
+			sprite.addScript(clonedScript);
+			adapter.initBrickList();
+			adapter.notifyDataSetChanged();
+
+			return;
+		}
+		int brickId = adapter.getBrickList().indexOf(brick);
+		if (brickId == -1) {
+			return;
+		}
+
+		int newPosition = adapter.getCount();
+
+		Brick copy = brick.clone();
+
+		Script scriptList;
+		scriptList = ProjectManager.getInstance().getCurrentScript();
+		scriptList.addBrick(copy);
+		adapter.addNewMultipleBricks(newPosition, copy);
+
+		ProjectManager.getInstance().saveProject();
+		adapter.notifyDataSetChanged();
+	}
+
 	private void deleteBrick(Brick brick) {
 
 		if (brick instanceof ScriptBrick) {
-			scriptToEdit = ((ScriptBrick) brick).initScript(ProjectManager.INSTANCE.getCurrentSprite());
+			scriptToEdit = ((ScriptBrick) brick).initScript(ProjectManager.getInstance().getCurrentSprite());
 			adapter.handleScriptDelete(sprite, scriptToEdit);
 			return;
 		}
@@ -536,6 +637,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onBrickChecked() {
+
 		if (actionMode == null) {
 			return;
 		}

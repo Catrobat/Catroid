@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -46,20 +47,20 @@ import com.badlogic.gdx.utils.Array;
 
 public class Look extends Image {
 	private static final float DEGREE_UI_OFFSET = 90.0f;
-	private static final float DEGREES_IN_A_CIRCLE = 360.0f;
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
 	protected Sprite sprite;
-	protected float alphaValue;
-	protected float brightnessValue;
-	public boolean show;
+	protected float alpha = 1f;
+	protected float brightness = 1f;
+	public boolean visible = true;
 	protected Pixmap pixmap;
-	private HashMap<String, ArrayList<SequenceAction>> broadcastSequenceMap;
-	private HashMap<String, ArrayList<SequenceAction>> broadcastWaitSequenceMap;
+	private HashMap<String, ArrayList<SequenceAction>> broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
+	private HashMap<String, ArrayList<SequenceAction>> broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
 	private ParallelAction whenParallelAction;
-	private ArrayList<Action> actionsToRestart;
+	private ArrayList<Action> actionsToRestart = new ArrayList<Action>();
 	private boolean allActionAreFinished = false;
+	private BrightnessContrastShader shader;
 
 	public Look(Sprite sprite) {
 		this.sprite = sprite;
@@ -68,13 +69,6 @@ public class Look extends Image {
 		setScale(1f, 1f);
 		setRotation(0f);
 		setTouchable(Touchable.enabled);
-		this.alphaValue = 1f;
-		this.brightnessValue = 1f;
-		this.show = true;
-		this.whenParallelAction = null;
-		this.broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
-		this.broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
-		this.actionsToRestart = new ArrayList<Action>();
 		this.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -107,9 +101,9 @@ public class Look extends Image {
 	public Look copyLookForSprite(final Sprite cloneSprite) {
 		Look cloneLook = cloneSprite.look;
 
-		cloneLook.alphaValue = this.alphaValue;
-		cloneLook.brightnessValue = this.brightnessValue;
-		cloneLook.show = this.show;
+		cloneLook.alpha = this.alpha;
+		cloneLook.brightness = this.brightness;
+		cloneLook.visible = this.visible;
 		cloneLook.broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>(this.broadcastSequenceMap);
 		cloneLook.broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>(
 				this.broadcastWaitSequenceMap);
@@ -124,7 +118,7 @@ public class Look extends Image {
 		if (sprite.isPaused) {
 			return true;
 		}
-		if (!show) {
+		if (!visible) {
 			return false;
 		}
 
@@ -142,6 +136,16 @@ public class Look extends Image {
 			}
 		}
 		return false;
+	}
+
+	public void putBroadcastSequenceAction(String broadcastMessage, SequenceAction action) {
+		if (broadcastSequenceMap.containsKey(broadcastMessage)) {
+			broadcastSequenceMap.get(broadcastMessage).add(action);
+		} else {
+			ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
+			actionList.add(action);
+			broadcastSequenceMap.put(broadcastMessage, actionList);
+		}
 	}
 
 	public void doHandleBroadcastEvent(String broadcastMessage) {
@@ -181,16 +185,22 @@ public class Look extends Image {
 		}
 	}
 
+	public void createBrightnessContrastShader() {
+		shader = new BrightnessContrastShader();
+		shader.setBrightness(brightness);
+	}
+
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		checkImageChanged();
-		if (Double.compare(alphaValue, 0.0f) == 0) {
+		batch.setShader(shader);
+		if (alpha == 0.0f) {
 			setVisible(false);
 		} else {
 			setVisible(true);
 		}
-		if (this.show && this.getDrawable() != null) {
-			super.draw(batch, this.alphaValue);
+		if (this.visible && this.getDrawable() != null) {
+			super.draw(batch, this.alpha);
 		}
 	}
 
@@ -225,17 +235,15 @@ public class Look extends Image {
 			}
 
 			pixmap = lookData.getPixmap();
-			setX(getX() + getWidth() / 2f);
-			setY(getY() + getHeight() / 2f);
-			setWidth(pixmap.getWidth());
-			setHeight(pixmap.getHeight());
-			setX(getX() - getWidth() / 2f);
-			setY(getY() - getHeight() / 2f);
+			float newX = getX() - (pixmap.getWidth() - getWidth()) / 2f;
+			float newY = getY() - (pixmap.getHeight() - getHeight()) / 2f;
+
+			setPosition(newX, newY);
+			setSize(pixmap.getWidth(), pixmap.getHeight());
 			setOrigin(getWidth() / 2f, getHeight() / 2f);
 
 			if (brightnessChanged) {
-				lookData.setPixmap(adjustBrightness(lookData.getOriginalPixmap()));
-				lookData.setTextureRegion();
+				shader.setBrightness(brightness);
 				brightnessChanged = false;
 			}
 
@@ -247,79 +255,21 @@ public class Look extends Image {
 		}
 	}
 
-	protected Pixmap adjustBrightness(Pixmap currentPixmap) {
-		Pixmap newPixmap = new Pixmap(currentPixmap.getWidth(), currentPixmap.getHeight(), currentPixmap.getFormat());
-		for (int y = 0; y < currentPixmap.getHeight(); y++) {
-			for (int x = 0; x < currentPixmap.getWidth(); x++) {
-				int pixel = currentPixmap.getPixel(x, y);
-				int r = (int) (((pixel >> 24) & 0xff) + (255 * (brightnessValue - 1)));
-				int g = (int) (((pixel >> 16) & 0xff) + (255 * (brightnessValue - 1)));
-				int b = (int) (((pixel >> 8) & 0xff) + (255 * (brightnessValue - 1)));
-				int a = pixel & 0xff;
-
-				if (r > 255) {
-					r = 255;
-				} else if (r < 0) {
-					r = 0;
-				}
-				if (g > 255) {
-					g = 255;
-				} else if (g < 0) {
-					g = 0;
-				}
-				if (b > 255) {
-					b = 255;
-				} else if (b < 0) {
-					b = 0;
-				}
-
-				newPixmap.setColor(r / 255f, g / 255f, b / 255f, a / 255f);
-				newPixmap.drawPixel(x, y);
-			}
-		}
-		return newPixmap;
-	}
-
 	public void refreshTextures() {
 		this.imageChanged = true;
-	}
-
-	public void setXInUserInterfaceDimensionUnit(float x) {
-		setX(x - getWidth() / 2f);
-	}
-
-	public void setYInUserInterfaceDimensionUnit(float y) {
-		setY(y - getHeight() / 2f);
-	}
-
-	public void setXYInUserInterfaceDimensionUnit(float x, float y) {
-		setX(x - getWidth() / 2f);
-		setY(y - getHeight() / 2f);
-	}
-
-	public float getXInUserInterfaceDimensionUnit() {
-		float xPosition = getX();
-		xPosition += getWidth() / 2f;
-		return xPosition;
-	}
-
-	public float getYInUserInterfaceDimensionUnit() {
-		float yPosition = getY();
-		yPosition += getHeight() / 2f;
-		return yPosition;
-	}
-
-	public float getRotationInUserInterfaceDimensionUnit() {
-		return modulo(-getRotation() + DEGREE_UI_OFFSET, DEGREES_IN_A_CIRCLE);
-	}
-
-	public void setRotationInUserInterfaceDimensionUnit(float degrees) {
-		setRotation(-degrees + DEGREE_UI_OFFSET);
 	}
 
 	public void setLookData(LookData lookData) {
 		this.lookData = lookData;
 		imageChanged = true;
+	}
+
+	public LookData getLookData() {
+		return lookData;
+	}
+
+	public boolean getAllActionsAreFinished() {
+		return allActionAreFinished;
 	}
 
 	public String getImagePath() {
@@ -332,109 +282,159 @@ public class Look extends Image {
 		return path;
 	}
 
-	public void setSize(float size) {
-		setScale(size, size);
-	}
-
-	public void setSizeInUserInterfaceDimensionUnit(float percentagePoints) {
-		setScale(percentagePoints / 100f, percentagePoints / 100f);
-	}
-
-	public float getSize() {
-		float size = (getScaleX() + getScaleY()) / 2f;
-		return size;
-	}
-
-	public float getSizeInUserInterfaceDimensionUnit() {
-		return getSize() * 100f;
-	}
-
-	public void setAlphaValue(float alphaValue) {
-		if (alphaValue < 0f) {
-			alphaValue = 0f;
-		} else if (alphaValue > 1f) {
-			alphaValue = 1f;
-		}
-		this.alphaValue = alphaValue;
-	}
-
-	public void changeAlphaValueBy(float value) {
-		float newAlphaValue = this.alphaValue + value;
-		if (newAlphaValue < 0f) {
-			this.alphaValue = 0f;
-		} else if (newAlphaValue > 1f) {
-			this.alphaValue = 1f;
-		} else {
-			this.alphaValue = newAlphaValue;
-		}
-	}
-
-	public float getAlphaValue() {
-		return alphaValue;
-	}
-
-	public float getGhostEffectInUserInterfaceDimensionUnit() {
-		return (1f - alphaValue) * 100f;
-	}
-
-	public void setGhostEffectInUserInterfaceDimensionUnit(float percentagePoints) {
-		alphaValue = (100f - percentagePoints) / 100f;
-	}
-
-	public void setBrightness(float percent) {
-		if (percent < 0f) {
-			percent = 0f;
-		}
-		brightnessValue = percent;
-		brightnessChanged = true;
-		imageChanged = true;
-	}
-
-	public void setBrightnessInUserInterfaceDimensionUnit(float percentagePoints) {
-		setBrightness(percentagePoints / 100f);
-	}
-
-	public void changeBrightnessValueBy(float percent) {
-		brightnessValue += percent;
-		if (brightnessValue < 0f) {
-			brightnessValue = 0f;
-		}
-		brightnessChanged = true;
-		imageChanged = true;
-	}
-
-	public float getBrightness() {
-		return brightnessValue;
-	}
-
-	public float getBrightnessInUserInterfaceDimensionUnit() {
-		return brightnessValue * 100f;
-	}
-
-	public LookData getLookData() {
-		return lookData;
-	}
-
-	public boolean getAllActionsAreFinished() {
-		return allActionAreFinished;
-	}
-
-	public void putBroadcastSequenceAction(String broadcastMessage, SequenceAction action) {
-		if (broadcastSequenceMap.containsKey(broadcastMessage)) {
-			broadcastSequenceMap.get(broadcastMessage).add(action);
-		} else {
-			ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
-			actionList.add(action);
-			broadcastSequenceMap.put(broadcastMessage, actionList);
-		}
-	}
-
 	public void setWhenParallelAction(ParallelAction action) {
 		whenParallelAction = action;
 	}
 
-	private float modulo(float number, float modulo) {
-		float result = number % modulo;
-		return result < 0 ? result + modulo : result;
+	public float getXInUserInterfaceDimensionUnit() {
+		return getX() + getWidth() / 2f;
+	}
+
+	public float getYInUserInterfaceDimensionUnit() {
+		return getY() + getHeight() / 2f;
+	}
+
+	public void setXInUserInterfaceDimensionUnit(float x) {
+		setX(x - getWidth() / 2f);
+	}
+
+	public void setYInUserInterfaceDimensionUnit(float y) {
+		setY(y - getHeight() / 2f);
+	}
+
+	public void setPositionInUserInterfaceDimensionUnit(float x, float y) {
+		setXInUserInterfaceDimensionUnit(x);
+		setYInUserInterfaceDimensionUnit(y);
+	}
+
+	public void changeXInUserInterfaceDimensionUnit(float changeX) {
+		setX(getX() + changeX);
+	}
+
+	public void changeYInUserInterfaceDimensionUnit(float changeY) {
+		setY(getY() + changeY);
+	}
+
+	public float getWidthInUserInterfaceDimensionUnit() {
+		return getWidth() * getSizeInUserInterfaceDimensionUnit() / 100f;
+	}
+
+	public float getHeightInUserInterfaceDimensionUnit() {
+		return getHeight() * getSizeInUserInterfaceDimensionUnit() / 100f;
+	}
+
+	public float getDirectionInUserInterfaceDimensionUnit() {
+		float direction = (getRotation() + DEGREE_UI_OFFSET) % 360;
+		if (direction < 0) {
+			direction += 360f;
+		}
+		direction = 180f - direction;
+
+		return direction;
+	}
+
+	public void setDirectionInUserInterfaceDimensionUnit(float degrees) {
+		setRotation((-degrees + DEGREE_UI_OFFSET) % 360);
+	}
+
+	public void changeDirectionInUserInterfaceDimensionUnit(float changeDegrees) {
+		setRotation((getRotation() - changeDegrees) % 360);
+	}
+
+	public float getSizeInUserInterfaceDimensionUnit() {
+		return getScaleX() * 100f;
+	}
+
+	public void setSizeInUserInterfaceDimensionUnit(float percent) {
+		if (percent < 0) {
+			percent = 0;
+		}
+
+		setScale(percent / 100f, percent / 100f);
+	}
+
+	public void changeSizeInUserInterfaceDimensionUnit(float changePercent) {
+		setSizeInUserInterfaceDimensionUnit(getSizeInUserInterfaceDimensionUnit() + changePercent);
+	}
+
+	public float getTransparencyInUserInterfaceDimensionUnit() {
+		return (1f - alpha) * 100f;
+	}
+
+	public void setTransparencyInUserInterfaceDimensionUnit(float percent) {
+		if (percent < 0f) {
+			percent = 0f;
+		} else if (percent >= 100f) {
+			percent = 100f;
+			setVisible(false);
+		}
+
+		if (percent < 100.0f) {
+			setVisible(true);
+		}
+
+		alpha = (100f - percent) / 100f;
+	}
+
+	public void changeTransparencyInUserInterfaceDimensionUnit(float changePercent) {
+		setTransparencyInUserInterfaceDimensionUnit(getTransparencyInUserInterfaceDimensionUnit() + changePercent);
+	}
+
+	public float getBrightnessInUserInterfaceDimensionUnit() {
+		return brightness * 100f;
+	}
+
+	public void setBrightnessInUserInterfaceDimensionUnit(float percent) {
+		if (percent < 0f) {
+			percent = 0f;
+		} else if (percent > 200f) {
+			percent = 200f;
+		}
+
+		brightness = percent / 100f;
+		brightnessChanged = true;
+		imageChanged = true;
+	}
+
+	public void changeBrightnessInUserInterfaceDimensionUnit(float changePercent) {
+		setBrightnessInUserInterfaceDimensionUnit(getBrightnessInUserInterfaceDimensionUnit() + changePercent);
+	}
+
+	private class BrightnessContrastShader extends ShaderProgram {
+
+		private static final String VERTEX_SHADER = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+				+ "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" + "attribute vec2 "
+				+ ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" + "uniform mat4 u_projTrans;\n" + "varying vec4 v_color;\n"
+				+ "varying vec2 v_texCoords;\n" + "\n" + "void main()\n" + "{\n" + " v_color = "
+				+ ShaderProgram.COLOR_ATTRIBUTE + ";\n" + " v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+				+ " gl_Position = u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" + "}\n";
+		private static final String FRAGMENT_SHADER = "#ifdef GL_ES\n" + "#define LOWP lowp\n"
+				+ "precision mediump float;\n" + "#else\n" + "#define LOWP \n" + "#endif\n"
+				+ "varying LOWP vec4 v_color;\n" + "varying vec2 v_texCoords;\n" + "uniform sampler2D u_texture;\n"
+				+ "uniform float brightness;\n" + "uniform float contrast;\n" + "void main()\n" + "{\n"
+				+ " vec4 color = v_color * texture2D(u_texture, v_texCoords);\n" + " color.rgb /= color.a;\n"
+				+ " color.rgb = ((color.rgb - 0.5) * max(contrast, 0.0)) + 0.5;\n" //apply contrast
+				+ " color.rgb += brightness;\n" //apply brightness
+				+ " color.rgb *= color.a;\n" + " gl_FragColor = color;\n" + "}";
+
+		private static final String BRIGHTNESS_STRING_IN_SHADER = "brightness";
+		private static final String CONTRAST_STRING_IN_SHADER = "contrast";
+
+		public BrightnessContrastShader() {
+			super(VERTEX_SHADER, FRAGMENT_SHADER);
+			ShaderProgram.pedantic = false;
+			if (isCompiled()) {
+				begin();
+				setUniformf(BRIGHTNESS_STRING_IN_SHADER, 0.0f);
+				setUniformf(CONTRAST_STRING_IN_SHADER, 1.0f);
+				end();
+			}
+		}
+
+		public void setBrightness(float brightness) {
+			begin();
+			setUniformf(BRIGHTNESS_STRING_IN_SHADER, brightness - 1f);
+			end();
+		}
 	}
 }

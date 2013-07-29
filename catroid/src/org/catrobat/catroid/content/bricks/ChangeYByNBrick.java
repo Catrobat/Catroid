@@ -44,7 +44,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class ChangeYByNBrick extends BrickBaseType implements OnClickListener {
+public class ChangeYByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula yMovement;
 
@@ -64,6 +64,11 @@ public class ChangeYByNBrick extends BrickBaseType implements OnClickListener {
 		this.sprite = sprite;
 
 		this.yMovement = yMovement;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return yMovement;
 	}
 
 	@Override
@@ -123,17 +128,23 @@ public class ChangeYByNBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_y_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView changeYLabel = (TextView) view.findViewById(R.id.brick_change_y_label);
-		EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
-		changeYLabel.setTextColor(changeYLabel.getTextColors().withAlpha(alphaValue));
-		editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
-		editY.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_y_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView changeYLabel = (TextView) view.findViewById(R.id.brick_change_y_label);
+			EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
+			changeYLabel.setTextColor(changeYLabel.getTextColors().withAlpha(alphaValue));
+			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
+			editY.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

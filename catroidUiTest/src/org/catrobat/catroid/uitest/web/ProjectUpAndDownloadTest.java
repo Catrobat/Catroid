@@ -41,6 +41,8 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.NotificationData;
@@ -57,18 +59,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.test.ActivityInstrumentationTestCase2;
+import android.test.FlakyTest;
 import android.test.UiThreadTest;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final String TEST_FILE_DOWNLOAD_URL = "http://catroidtest.ist.tugraz.at/catroid/download/";
 	private static final int LONG_TEST_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 
-	private Solo solo;
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String newTestProject = UiTestUtils.PROJECTNAME2;
 	private String testDescription = UiTestUtils.PROJECTDESCRIPTION1;
@@ -81,13 +80,12 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 	public ProjectUpAndDownloadTest() {
 		super(MainMenuActivity.class);
-		UiTestUtils.clearAllUtilTestProjects();
 	}
 
 	@Override
 	@UiThreadTest
 	public void setUp() throws Exception {
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		saveToken = prefs.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
@@ -97,11 +95,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	public void tearDown() throws Exception {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-		solo = null;
 	}
 
 	private void setServerURLToTestUrl() throws Throwable {
@@ -112,6 +106,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		});
 	}
 
+	@FlakyTest(tolerance = 4)
+	@Device
 	public void testUploadProjectSuccessAndTokenReplacementAfterUpload() throws Throwable {
 		setServerURLToTestUrl();
 		createTestProject(testProject);
@@ -138,6 +134,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		//downloadProject();
 	}
 
+	@FlakyTest(tolerance = 4)
+	@Device
 	public void testUploadProjectOldCatrobatLanguageVersion() throws Throwable {
 		setServerURLToTestUrl();
 
@@ -151,7 +149,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		// change catrobatLanguage to a version that is not supported by web
 		// should lead to an errormessage after upload
-		Project testProject = ProjectManager.INSTANCE.getCurrentProject();
+		Project testProject = ProjectManager.getInstance().getCurrentProject();
 		testProject.setCatrobatLanguageVersion(0.3f);
 		StorageHandler.getInstance().saveProject(testProject);
 
@@ -183,13 +181,15 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		UiTestUtils.clearAllUtilTestProjects();
 	}
 
+	@FlakyTest(tolerance = 4)
+	@Device
 	public void testRenameProjectNameAndDescriptionWhenUploading() throws Throwable {
 		setServerURLToTestUrl();
 
 		String originalProjectName = testProject;
 		String originalProjectDescription = testDescription;
 		createTestProject(originalProjectName);
-		ProjectManager.INSTANCE.getCurrentProject().setDescription(originalProjectDescription);
+		ProjectManager.getInstance().getCurrentProject().setDescription(originalProjectDescription);
 
 		//intent to the main activity is sent since changing activity orientation is not working
 		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
@@ -227,13 +227,15 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
 	}
 
+	@FlakyTest(tolerance = 4)
+	@Device
 	public void testRenameProjectDescriptionWhenUploading() throws Throwable {
 		setServerURLToTestUrl();
 
 		String projectName = testProject;
 		String originalProjectDescription = testDescription;
 		createTestProject(projectName);
-		ProjectManager.INSTANCE.getCurrentProject().setDescription(originalProjectDescription);
+		ProjectManager.getInstance().getCurrentProject().setDescription(originalProjectDescription);
 
 		//intent to the main activity is sent since changing activity orientation is not working
 		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
@@ -268,6 +270,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
 	}
 
+	@FlakyTest(tolerance = 4)
+	@Device
 	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {
 		setServerURLToTestUrl();
 
@@ -308,8 +312,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		solo.goBack();
 
-		StatusBarNotificationManager.INSTANCE.downloadProjectName.add(UiTestUtils.PROJECTNAME1);
-		StatusBarNotificationManager.INSTANCE.downloadProjectZipFileString.add(Utils.buildPath(Constants.TMP_PATH,
+		StatusBarNotificationManager.getInstance().downloadProjectName.add(UiTestUtils.PROJECTNAME1);
+		StatusBarNotificationManager.getInstance().downloadProjectZipFileString.add(Utils.buildPath(Constants.TMP_PATH,
 				"down" + Constants.CATROBAT_EXTENTION));
 
 		sendIntent(UiTestUtils.PROJECTNAME1);
@@ -341,7 +345,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		@SuppressWarnings("unchecked")
 		HashMap<Integer, NotificationData> downloadNotificationDataMap = (HashMap<Integer, NotificationData>) Reflection
-				.getPrivateField(StatusBarNotificationManager.class, StatusBarNotificationManager.INSTANCE,
+				.getPrivateField(StatusBarNotificationManager.class, StatusBarNotificationManager.getInstance(),
 						"downloadNotificationDataMap");
 		for (Map.Entry<Integer, NotificationData> entry : downloadNotificationDataMap.entrySet()) {
 			if (entry.getValue().getName().compareTo(newProjectName) == 0) {
@@ -351,6 +355,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		fail("Renamed Projectname was not changed in StatusBarNotificationManager.");
 	}
 
+	@FlakyTest(tolerance = 4)
+	@Device
 	public void testDownload() throws Throwable {
 		setServerURLToTestUrl();
 
@@ -361,7 +367,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		int numberMediaFiles = 5;
 		String soundName = "testSound";
 
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
+		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		for (int number = 0; number < numberMediaFiles; number++) {
 			File soundFile = UiTestUtils.saveFileToProject(projectName,
 					"longsound" + Integer.toString(number) + ".mp3", LONG_TEST_SOUND,
@@ -370,12 +376,12 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 			soundInfo.setSoundFileName(soundFile.getName());
 			soundInfo.setTitle(soundName + Integer.toString(number));
 			soundInfoList.add(soundInfo);
-			ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(),
-					soundInfo.getAbsolutePath());
+			ProjectManager.getInstance().getFileChecksumContainer()
+					.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 		}
 		StorageHandler.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
 		Project newProject = StorageHandler.getInstance().loadProject(projectName);
-		ProjectManager.INSTANCE.setProject(newProject);
+		ProjectManager.getInstance().setProject(newProject);
 
 		UiTestUtils.createValidUser(getActivity());
 		uploadProject(projectName, "");
@@ -391,6 +397,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		assertTrue("Project was successfully downloaded", serverProjectName.equalsIgnoreCase(projectName));
 	}
 
+	@FlakyTest(tolerance = 4)
+	@Device
 	public void testUploadStandardProject() throws Throwable {
 		if (!createAndSaveStandardProject() || this.standardProject == null) {
 			fail("Standard project not created");
@@ -431,6 +439,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 	}
 
+	@FlakyTest(tolerance = 4)
+	@Device
 	public void testUploadModifiedStandardProject() throws Throwable {
 		if (!createAndSaveStandardProject() || this.standardProject == null) {
 			fail("Standard project not created");
@@ -480,7 +490,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 			e.printStackTrace();
 			return false;
 		}
-		ProjectManager.INSTANCE.setProject(standardProject);
+		ProjectManager.getInstance().setProject(standardProject);
 		StorageHandler.getInstance().saveProject(standardProject);
 		return true;
 	}

@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uitest.content;
+package org.catrobat.catroid.uitest.content.interaction;
 
 import java.util.ArrayList;
 
@@ -35,15 +35,11 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
+public class ScriptDeleteTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-
-	private Solo solo;
 	private ArrayList<Brick> brickListToCheck;
 
 	public ScriptDeleteTest() {
@@ -52,19 +48,9 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	@Override
 	public void setUp() throws Exception {
-		UiTestUtils.clearAllUtilTestProjects();
-		createTestProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		solo = new Solo(getInstrumentation(), getActivity());
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		super.setUp();
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		createTestProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	public void testAddLooksCategoryBrick() {

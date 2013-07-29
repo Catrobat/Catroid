@@ -35,20 +35,17 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.jayway.android.robotium.solo.Solo;
+public class WaitBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
-public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
-
-	private Solo solo;
 	private Project project;
 	private WaitBrick waitBrick;
 
@@ -58,16 +55,11 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		super.setUp();
 	}
 
 	@Smoke
@@ -90,7 +82,7 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		UiTestUtils.insertValueViaFormulaEditor(solo, 0, waitTime);
 
 		Formula actualWaitTime = (Formula) Reflection.getPrivateField(waitBrick, "timeToWaitInSeconds");
-		assertEquals("Wrong text in field", waitTime, (double) actualWaitTime.interpretDouble(null));
+		assertEquals("Wrong text in field", waitTime, actualWaitTime.interpretDouble(null));
 		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);

@@ -40,19 +40,17 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.uitest.annotation.Device;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.test.ActivityInstrumentationTestCase2;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private final int RESOURCE_LOOK = org.catrobat.catroid.uitest.R.raw.icon;
 	private final int RESOURCE_LOOK2 = org.catrobat.catroid.uitest.R.raw.icon2;
 
-	private Solo solo;
 	private String lookName = "testLook1";
 	private String lookName2 = "testLook2";
 	private File lookFile;
@@ -69,23 +67,18 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
 
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/" + testFile + ".png",
 				org.catrobat.catroid.uitest.R.drawable.catroid_banzai, getActivity());
 
 		createProject();
 
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		if (lookFile.exists()) {
 			lookFile.delete();
 		}
@@ -94,7 +87,6 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		}
 		paintroidImageFile.delete();
 		super.tearDown();
-		solo = null;
 	}
 
 	public void testSelectLookAndPlay() {
@@ -135,7 +127,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		clickOnContextMenuItem(lookName, solo.getString(R.string.delete));
 		solo.clickOnButton(solo.getString(R.string.yes));
 
-		clickOnSpinnerItem(solo.getString(R.string.category_looks), solo.getString(R.string.scripts));
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
 		solo.clickOnText(lookName2);
 
@@ -164,7 +156,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		clickOnSpinnerItem(solo.getString(R.string.category_looks), solo.getString(R.string.scripts));
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
 		solo.clickOnText(newName);
 
@@ -191,10 +183,9 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		}
 	}
 
+	@Device
 	public void testAddNewLook() {
 		String newText = solo.getString(R.string.new_broadcast_message);
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String looksSpinnerText = solo.getString(R.string.looks);
 
 		Bundle bundleForGallery = new Bundle();
 		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
@@ -202,8 +193,8 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		clickOnSpinnerItem(scriptsSpinnerText, looksSpinnerText);
-		clickOnSpinnerItem(looksSpinnerText, scriptsSpinnerText);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.LOOKS_INDEX);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
 		solo.clickOnText(lookName);
 		solo.clickOnText(newText);
@@ -238,11 +229,6 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", lookImagePath, lookPath);
 		solo.goBack();
 		solo.goBack();
-	}
-
-	private void clickOnSpinnerItem(String selectedSpinnerItem, String itemName) {
-		solo.clickOnText(selectedSpinnerItem);
-		solo.clickOnText(itemName);
 	}
 
 	private void createProject() {

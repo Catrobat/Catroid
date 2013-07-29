@@ -37,17 +37,14 @@ import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.util.Log;
 import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private Solo solo;
+public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private Project project;
 	private IfLogicBeginBrick ifBrick;
 
@@ -57,17 +54,9 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
 	}
 
 	@Smoke
@@ -126,11 +115,9 @@ public class IfBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		// just to get focus
 		// seems to be a bug just with the Nexus S 2.3.6
-		String spinnerScripts = solo.getString(R.string.scripts);
-		solo.clickOnText(spinnerScripts);
-		solo.clickOnText(spinnerScripts);
+		solo.clickOnText(solo.getString(R.string.brick_when_started));
 
-		Log.e("info", "Befor drag item 3 to item 0");
+		Log.e("info", "Before drag item 3 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);

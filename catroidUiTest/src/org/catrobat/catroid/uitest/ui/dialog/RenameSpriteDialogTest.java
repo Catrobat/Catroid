@@ -25,23 +25,22 @@ package org.catrobat.catroid.uitest.ui.dialog;
 import java.io.IOException;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private Solo solo;
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String cat = "cat";
 	private String kat = "kat";
@@ -52,20 +51,11 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		ProjectManager.getInstance().deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
-		solo = null;
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	public void testRenameSpriteDialog() throws NameNotFoundException, IOException {

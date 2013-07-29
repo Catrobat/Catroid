@@ -44,7 +44,8 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListener {
+public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	private Formula volume;
@@ -65,6 +66,11 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 		this.sprite = sprite;
 
 		this.volume = volume;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return volume;
 	}
 
 	@Override
@@ -126,17 +132,22 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_volume_by_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView changeVolume = (TextView) view.findViewById(R.id.brick_change_volume_by_label);
-		EditText editVolume = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
-		changeVolume.setTextColor(changeVolume.getTextColors().withAlpha(alphaValue));
-		editVolume.setTextColor(editVolume.getTextColors().withAlpha(alphaValue));
-		editVolume.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_volume_by_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView changeVolume = (TextView) view.findViewById(R.id.brick_change_volume_by_label);
+			EditText editVolume = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
+			changeVolume.setTextColor(changeVolume.getTextColors().withAlpha(alphaValue));
+			editVolume.setTextColor(editVolume.getTextColors().withAlpha(alphaValue));
+			editVolume.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
 		return view;
 	}
 

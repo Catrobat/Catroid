@@ -38,22 +38,20 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.uitest.annotation.Device;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class SetVariableTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private static final int MAX_ITERATIONS = 10;
-	private Solo solo;
 	private Project project;
 	private SetVariableBrick setVariableBrick;
 
@@ -63,20 +61,13 @@ public class SetVariableTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
-	}
-
 	@Smoke
+	@Device
 	public void testCreateNewUserVariableAndDeletion() {
 		String userVariableName = "testVariable1";
 		String secondUserVariableName = "testVariable2";

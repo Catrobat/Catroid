@@ -44,7 +44,8 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickListener {
+public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 	private Formula changeGhostEffect;
 
@@ -124,19 +125,25 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_ghost_effect_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textGhost = (TextView) view.findViewById(R.id.brick_change_ghost_effect_label);
-		TextView textGhostBy = (TextView) view.findViewById(R.id.brick_change_ghost_effect_by);
-		EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
-		textGhost.setTextColor(textGhost.getTextColors().withAlpha(alphaValue));
-		textGhostBy.setTextColor(textGhostBy.getTextColors().withAlpha(alphaValue));
-		editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
-		editGhostEffect.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_ghost_effect_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textGhost = (TextView) view.findViewById(R.id.brick_change_ghost_effect_label);
+			TextView textGhostBy = (TextView) view.findViewById(R.id.brick_change_ghost_effect_by);
+			EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
+			textGhost.setTextColor(textGhost.getTextColors().withAlpha(alphaValue));
+			textGhostBy.setTextColor(textGhostBy.getTextColors().withAlpha(alphaValue));
+			editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
+			editGhostEffect.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 
@@ -153,5 +160,10 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 
 		sequence.addAction(ExtendedActions.changeGhostEffectByN(sprite, changeGhostEffect));
 		return null;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return changeGhostEffect;
 	}
 }

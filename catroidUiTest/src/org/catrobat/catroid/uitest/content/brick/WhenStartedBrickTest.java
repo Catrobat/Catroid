@@ -35,17 +35,11 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-
-import com.jayway.android.robotium.solo.Solo;
-
-public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private Solo solo;
+public class WhenStartedBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private Project project;
-
-	//private static final String TAG = WhenBrickTest.class.getSimpleName();
 
 	public WhenStartedBrickTest() {
 		super(MainMenuActivity.class);
@@ -53,20 +47,17 @@ public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<MainM
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-
-		ProjectManager.getInstance().deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
-
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
-		solo = null;
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	public void testWhenStartedBrick() {

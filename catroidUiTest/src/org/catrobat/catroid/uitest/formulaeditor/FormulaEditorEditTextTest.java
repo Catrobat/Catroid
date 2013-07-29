@@ -42,6 +42,8 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.SimulatedSensorManager;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -54,12 +56,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private Project project;
-	private Solo solo;
 	private Sprite firstSprite;
 	private Brick changeBrick;
 	Script startScript1;
@@ -77,17 +76,9 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		this.solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
 	}
 
 	private void createProject(String projectName) throws InterruptedException {
@@ -663,6 +654,7 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 
 	}
 
+	@Device
 	public void testComputeDialog() {
 
 		//For initialization

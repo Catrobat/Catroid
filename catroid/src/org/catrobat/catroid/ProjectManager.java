@@ -40,8 +40,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 public class ProjectManager {
+	private static final ProjectManager INSTANCE = new ProjectManager();
 
-	public static final ProjectManager INSTANCE = new ProjectManager();
 	private Project project;
 	private Script currentScript;
 	private Sprite currentSprite;
@@ -141,9 +141,14 @@ public class ProjectManager {
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context) throws IOException {
+	public void initializeNewProject(String projectName, Context context, boolean empty) throws IOException {
 		fileChecksumContainer = new FileChecksumContainer();
-		project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
+
+		if (empty) {
+			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
+		} else {
+			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
+		}
 
 		currentSprite = null;
 		currentScript = null;

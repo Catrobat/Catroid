@@ -111,11 +111,11 @@ public class ProjectDownloadService extends IntentService {
 
 		if (result && showOverwriteDialog) {
 			//project name and zip file string are temporariliy saved in the StatusBarNotificationManager to create it later on in the right context  
-			StatusBarNotificationManager.INSTANCE.downloadProjectName.add(projectName);
-			StatusBarNotificationManager.INSTANCE.downloadProjectZipFileString.add(zipFileString);
+			StatusBarNotificationManager.getInstance().downloadProjectName.add(projectName);
+			StatusBarNotificationManager.getInstance().downloadProjectZipFileString.add(zipFileString);
 			try {
 				//The context of the calling activity is needed, otherwise an exception occurs
-				MainMenuActivity activity = StatusBarNotificationManager.INSTANCE.getActivity(notificationId);
+				MainMenuActivity activity = StatusBarNotificationManager.getInstance().getActivity(notificationId);
 				OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, projectName, zipFileString);
 				renameDialog.show(activity.getSupportFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
 
@@ -134,7 +134,7 @@ public class ProjectDownloadService extends IntentService {
 		Toast.makeText(this, R.string.success_project_download, Toast.LENGTH_SHORT).show();
 
 		try {
-			MainMenuActivity activity = StatusBarNotificationManager.INSTANCE.getActivity(notificationId);
+			MainMenuActivity activity = StatusBarNotificationManager.getInstance().getActivity(notificationId);
 			Log.e("blah", "running? " + activity.getCurrentFocus());
 		} catch (RuntimeException e) {
 			e.printStackTrace();

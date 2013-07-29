@@ -32,14 +32,10 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-
-import com.jayway.android.robotium.solo.Solo;
-
-public class BroadCastReceiverRegressionTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private Solo solo;
+public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	public BroadCastReceiverRegressionTest() {
 		super(MainMenuActivity.class);
@@ -49,24 +45,15 @@ public class BroadCastReceiverRegressionTest extends ActivityInstrumentationTest
 	protected void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
 	}
 
 	/*
 	 * Regression test for https://github.com/Catrobat/Catroid/pull/105
 	 */
+
 	public void testReceiversWorkMoreThanOnce() {
 		UiTestUtils.createEmptyProject();
-		Sprite sprite = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0);
+		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
 		Script script = sprite.getScript(0);
 
 		final String testMessage = "RegressionTest#105";

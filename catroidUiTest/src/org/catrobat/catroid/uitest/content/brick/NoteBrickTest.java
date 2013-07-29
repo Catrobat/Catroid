@@ -34,19 +34,16 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class NoteBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final String TEST_STRING = "test";
 
-	private Solo solo;
 	private Project project;
 	private NoteBrick noteBrick;
 
@@ -56,16 +53,11 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		super.setUp();
 	}
 
 	@Smoke

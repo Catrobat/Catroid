@@ -44,7 +44,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class SetBrightnessBrick extends BrickBaseType implements OnClickListener {
+public class SetBrightnessBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula brightness;
 
@@ -62,6 +62,11 @@ public class SetBrightnessBrick extends BrickBaseType implements OnClickListener
 	public SetBrightnessBrick(Sprite sprite, Formula brightness) {
 		this.sprite = sprite;
 		this.brightness = brightness;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return brightness;
 	}
 
 	@Override
@@ -123,21 +128,27 @@ public class SetBrightnessBrick extends BrickBaseType implements OnClickListener
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_brightness_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textBrightness = (TextView) view.findViewById(R.id.brick_set_brightness_label);
-		TextView textTo = (TextView) view.findViewById(R.id.brick_set_brightness_to_textview);
-		TextView textPercent = (TextView) view.findViewById(R.id.brick_set_brightness_to_percent);
-		EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_set_brightness_edit_text);
-		textBrightness.setTextColor(textBrightness.getTextColors().withAlpha(alphaValue));
-		textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
-		textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-		editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
-		editGhostEffect.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_brightness_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textBrightness = (TextView) view.findViewById(R.id.brick_set_brightness_label);
+			TextView textTo = (TextView) view.findViewById(R.id.brick_set_brightness_to_textview);
+			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_brightness_to_percent);
+			EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_set_brightness_edit_text);
+			textBrightness.setTextColor(textBrightness.getTextColors().withAlpha(alphaValue));
+			textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
+			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
+			editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
+			editGhostEffect.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

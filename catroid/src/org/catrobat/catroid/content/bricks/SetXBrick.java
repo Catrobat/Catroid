@@ -44,7 +44,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class SetXBrick extends BrickBaseType implements OnClickListener {
+public class SetXBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula xPosition;
 
@@ -62,6 +62,11 @@ public class SetXBrick extends BrickBaseType implements OnClickListener {
 
 	public SetXBrick() {
 
+	}
+
+	@Override
+	public Formula getFormula() {
+		return xPosition;
 	}
 
 	@Override
@@ -110,17 +115,23 @@ public class SetXBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_x_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_set_x_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_set_x_edit_text);
-		textX.setTextColor(textX.getTextColors().withAlpha(alphaValue));
-		editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-		editX.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_x_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textX = (TextView) view.findViewById(R.id.brick_set_x_text_view);
+			EditText editX = (EditText) view.findViewById(R.id.brick_set_x_edit_text);
+			textX.setTextColor(textX.getTextColors().withAlpha(alphaValue));
+			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
+			editX.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

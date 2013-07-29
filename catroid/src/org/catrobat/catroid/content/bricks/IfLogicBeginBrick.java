@@ -49,7 +49,7 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
+public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicBeginBrick.class.getSimpleName();
 	public static final int EXECUTE_ELSE_PART = -1;
@@ -66,6 +66,11 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 	public IfLogicBeginBrick(Sprite sprite, Formula condition) {
 		this.sprite = sprite;
 		ifCondition = condition;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return ifCondition;
 	}
 
 	@Override
@@ -137,19 +142,25 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_if_begin_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView ifLabel = (TextView) view.findViewById(R.id.if_label);
-		TextView ifLabelEnd = (TextView) view.findViewById(R.id.if_label_second_part);
-		EditText editX = (EditText) view.findViewById(R.id.brick_if_begin_edit_text);
-		ifLabel.setTextColor(ifLabel.getTextColors().withAlpha(alphaValue));
-		ifLabelEnd.setTextColor(ifLabelEnd.getTextColors().withAlpha(alphaValue));
-		editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-		editX.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_if_begin_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView ifLabel = (TextView) view.findViewById(R.id.if_label);
+			TextView ifLabelEnd = (TextView) view.findViewById(R.id.if_label_second_part);
+			EditText editX = (EditText) view.findViewById(R.id.brick_if_begin_edit_text);
+			ifLabel.setTextColor(ifLabel.getTextColors().withAlpha(alphaValue));
+			ifLabelEnd.setTextColor(ifLabelEnd.getTextColors().withAlpha(alphaValue));
+			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
+			editX.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

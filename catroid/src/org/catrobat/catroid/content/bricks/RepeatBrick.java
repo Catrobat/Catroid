@@ -44,7 +44,7 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
+public class RepeatBrick extends LoopBeginBrick implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula timesToRepeat;
 
@@ -67,6 +67,11 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	public RepeatBrick() {
 
+	}
+
+	@Override
+	public Formula getFormula() {
+		return timesToRepeat;
 	}
 
 	@Override
@@ -137,19 +142,25 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_repeat_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView repeatLabel = (TextView) view.findViewById(R.id.brick_repeat_label);
-		EditText editRepeat = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
-		TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
-		repeatLabel.setTextColor(repeatLabel.getTextColors().withAlpha(alphaValue));
-		times.setTextColor(times.getTextColors().withAlpha(alphaValue));
-		editRepeat.setTextColor(editRepeat.getTextColors().withAlpha(alphaValue));
-		editRepeat.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_repeat_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView repeatLabel = (TextView) view.findViewById(R.id.brick_repeat_label);
+			EditText editRepeat = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
+			TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
+			repeatLabel.setTextColor(repeatLabel.getTextColors().withAlpha(alphaValue));
+			times.setTextColor(times.getTextColors().withAlpha(alphaValue));
+			editRepeat.setTextColor(editRepeat.getTextColors().withAlpha(alphaValue));
+			editRepeat.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

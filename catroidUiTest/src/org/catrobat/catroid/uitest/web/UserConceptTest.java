@@ -28,6 +28,8 @@ import java.util.Locale;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -35,34 +37,30 @@ import org.catrobat.catroid.web.ServerCalls;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.jayway.android.robotium.solo.Solo;
+public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-
-	private Solo solo;
 	private String saveToken;
 	private String loginDialogTitle;
 	private String uploadDialogTitle;
 
 	public UserConceptTest() {
 		super(MainMenuActivity.class);
-		UiTestUtils.clearAllUtilTestProjects();
 	}
 
 	@Override
 	@UiThreadTest
 	public void setUp() throws Exception {
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		saveToken = prefs.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		loginDialogTitle = solo.getString(R.string.login_register_dialog_title);
 		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
+		solo.waitForActivity(MainMenuActivity.class);
 	}
 
 	@Override
@@ -70,13 +68,10 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
 		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", null);
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-		solo = null;
 	}
 
+	@Device
 	public void testLicenceLinkPresent() throws Throwable {
 		setTestUrl();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -90,6 +85,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 				solo.searchText(solo.getString(R.string.register_pocketcode_terms_of_use_text)));
 	}
 
+	@Device
 	public void testRegisterNewUser() throws Throwable {
 		setTestUrl();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -103,6 +99,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
+	@Device
 	public void testRegisterWithValidTokenSaved() throws Throwable {
 		setTestUrl();
 		UiTestUtils.createValidUser(getActivity());
@@ -113,6 +110,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
+	@Device
 	public void testTokenPersistance() throws Throwable {
 		setTestUrl();
 
@@ -132,6 +130,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
+	@Device
 	public void testRegisterWithWrongToken() throws Throwable {
 		setTestUrl();
 
@@ -143,8 +142,10 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		fillLoginDialog(true);
 
 		assertNotNull("Upload Dialog is not shown.", uploadDialogTitle);
+		UiTestUtils.goBackToHome(getInstrumentation());
 	}
 
+	@Device
 	public void testRegisterWithShortPassword() throws Throwable {
 		setTestUrl();
 
@@ -160,6 +161,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
 	}
 
+	@Device
 	public void testRegisterUsernameDifferentCases() throws Throwable {
 		setTestUrl();
 		clearSharedPreferences();
