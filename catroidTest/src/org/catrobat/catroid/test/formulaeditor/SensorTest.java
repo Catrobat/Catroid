@@ -32,6 +32,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.facedetection.FaceDetectionHandler;
+import org.catrobat.catroid.facedetection.FaceDetector;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
@@ -40,8 +42,10 @@ import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.test.utils.SimulatedSensorManager;
 
+import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.test.InstrumentationTestCase;
@@ -57,6 +61,9 @@ public class SensorTest extends InstrumentationTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		createProject();
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 	}
 
 	@Override
@@ -81,10 +88,67 @@ public class SensorTest extends InstrumentationTestCase {
 		SensorHandler.stopSensorListeners();
 	}
 
+	public void testFaceDetection() {
+		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
+		FaceDetector faceDetector = (FaceDetector) Reflection.getPrivateField(FaceDetectionHandler.class,
+				"faceDetector");
+
+		assertNotNull("SensorHandler was not registered as a listener at FaceDetectionHandler", faceDetector);
+
+		assertEquals("Face detection status initial value error", 0d,
+				SensorHandler.getSensorValue(Sensors.FACE_DETECTED));
+		assertEquals("Face detection size initial value error", 0d, SensorHandler.getSensorValue(Sensors.FACE_SIZE));
+
+		ParameterList parameters = new ParameterList(Boolean.valueOf(true));
+		Reflection.invokeMethod(faceDetector, "onFaceDetected", parameters);
+
+		int expectedFaceDetectedStatus = 1;
+		int expectedFaceSize = (int) (Math.random() * 100);
+		int exampleScreenWidth = 320;
+		int exampleScreenHeight = 480;
+		int expectedFaceXPosition = (int) (-exampleScreenWidth / 2 + (Math.random() * exampleScreenWidth));
+		int expectedFaceYPosition = (int) (-exampleScreenHeight / 2 + (Math.random() * exampleScreenHeight));
+
+		parameters = new ParameterList(new Point(expectedFaceXPosition, expectedFaceYPosition),
+				Integer.valueOf(expectedFaceSize));
+		Reflection.invokeMethod(faceDetector, "onFaceDetected", parameters);
+
+		Formula formula6 = createFormulaWithSensor(Sensors.FACE_DETECTED);
+		ChangeSizeByNBrick faceDetectionStatusBrick = new ChangeSizeByNBrick(firstSprite, formula6);
+		startScript1.addBrick(faceDetectionStatusBrick);
+
+		Formula formula7 = createFormulaWithSensor(Sensors.FACE_SIZE);
+		ChangeSizeByNBrick faceSizeBrick = new ChangeSizeByNBrick(firstSprite, formula7);
+		startScript1.addBrick(faceSizeBrick);
+
+		Formula formula8 = createFormulaWithSensor(Sensors.FACE_X_POSITION);
+		ChangeSizeByNBrick faceXPositionBrick = new ChangeSizeByNBrick(firstSprite, formula8);
+		startScript1.addBrick(faceXPositionBrick);
+
+		Formula formula9 = createFormulaWithSensor(Sensors.FACE_Y_POSITION);
+		ChangeSizeByNBrick faceYPositionBrick = new ChangeSizeByNBrick(firstSprite, formula9);
+		startScript1.addBrick(faceYPositionBrick);
+
+		assertEquals("Unexpected sensor value for face detection status (= 1 if face detected, 0 otherwise)",
+				expectedFaceDetectedStatus, formula6.interpretDouble(firstSprite));
+
+		assertEquals(
+				"Unexpected sensor value for face size (= width of the face (range: 0 to 100, where at 100 the face fills half the width of the cameras view)",
+				expectedFaceSize, formula7.interpretDouble(firstSprite), delta);
+
+		assertEquals(
+				"Unexpected sensor value for face x position (= in portrait mode, the central x coordinate of the face if the camera input is projected fullscreen to the display (range: 0 to screen width) )",
+				expectedFaceXPosition, formula8.interpretDouble(firstSprite), delta);
+
+		assertEquals(
+				"Unexpected sensor value for face y position (= in portrait mode, the central y coordinate of the face if the camera input is projected fullscreen to the display (range: 0 to screen height) )",
+				expectedFaceYPosition, formula9.interpretDouble(firstSprite), delta);
+
+		SensorHandler.stopSensorListeners();
+	}
+
 	public void testSensors() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
-
-		createProject();
 
 		Formula formula = createFormulaWithSensor(Sensors.X_ACCELERATION);
 		ChangeSizeByNBrick xAccelerationBrick = new ChangeSizeByNBrick(firstSprite, formula);
@@ -109,25 +173,6 @@ public class SensorTest extends InstrumentationTestCase {
 		Formula formula5 = createFormulaWithSensor(Sensors.Y_INCLINATION);
 		ChangeSizeByNBrick yInclinationBrick = new ChangeSizeByNBrick(firstSprite, formula5);
 		startScript1.addBrick(yInclinationBrick);
-
-		Formula formula6 = createFormulaWithSensor(Sensors.FACE_DETECTED);
-		ChangeSizeByNBrick faceDetectionStatusBrick = new ChangeSizeByNBrick(firstSprite, formula6);
-		startScript1.addBrick(faceDetectionStatusBrick);
-
-		Formula formula7 = createFormulaWithSensor(Sensors.FACE_SIZE);
-		ChangeSizeByNBrick faceSizeBrick = new ChangeSizeByNBrick(firstSprite, formula7);
-		startScript1.addBrick(faceSizeBrick);
-
-		Formula formula8 = createFormulaWithSensor(Sensors.FACE_X_POSITION);
-		ChangeSizeByNBrick faceXPositionBrick = new ChangeSizeByNBrick(firstSprite, formula8);
-		startScript1.addBrick(faceXPositionBrick);
-
-		Formula formula9 = createFormulaWithSensor(Sensors.FACE_Y_POSITION);
-		ChangeSizeByNBrick faceYPositionBrick = new ChangeSizeByNBrick(firstSprite, formula9);
-		startScript1.addBrick(faceYPositionBrick);
-
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 		//For initialization
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
@@ -169,11 +214,6 @@ public class SensorTest extends InstrumentationTestCase {
 		double expectedXInclination = Double.valueOf(orientations[2]) * SensorHandler.radianToDegreeConst * -1f;
 		double expectedYInclination = Double.valueOf(orientations[1]) * SensorHandler.radianToDegreeConst * -1f;
 
-		int expectedFaceDetectedStatus = (Integer) Reflection.getPrivateField(sensorHandler, "faceDetected");
-		int expectedFaceSize = (Integer) Reflection.getPrivateField(sensorHandler, "faceSize");
-		int expectedFaceXPosition = (Integer) Reflection.getPrivateField(sensorHandler, "facePositionX");
-		int expectedFaceYPosition = (Integer) Reflection.getPrivateField(sensorHandler, "facePositionY");
-
 		assertEquals(
 				"Unexpected sensor value for acceleration in x direction(= in portrait mode, from left to right side of screen surface, in m/s^2)",
 				expectedXAcceleration, formula.interpretDouble(firstSprite), delta);
@@ -197,21 +237,6 @@ public class SensorTest extends InstrumentationTestCase {
 		assertEquals(
 				"Unexpected sensor value for y inclination (= in portrait mode, deviation from screen-down-to-up-side (= y axis direction) horizontal inclination (range: -180 to +180 degrees; flat = 0); increasing values of y inclination = upper border of screen pulled towards user, lower border away = positive side of y axis gets lifted up)",
 				expectedYInclination, formula5.interpretDouble(firstSprite), delta);
-
-		assertEquals("Unexpected sensor value for face detection status (= 1 if face detected, 0 otherwise)",
-				expectedFaceDetectedStatus, formula6.interpretDouble(firstSprite), delta);
-
-		assertEquals(
-				"Unexpected sensor value for face size (= width of the face (range: 0 to 100, where at 100 the face fills half the width of the cameras view)",
-				expectedFaceSize, formula7.interpretDouble(firstSprite), delta);
-
-		assertEquals(
-				"Unexpected sensor value for face x position (= in portrait mode, the central x coordinate of the face if the camera input is projected fullscreen to the display (range: 0 to screen width) )",
-				expectedFaceXPosition, formula8.interpretDouble(firstSprite), delta);
-
-		assertEquals(
-				"Unexpected sensor value for face y position (= in portrait mode, the central y coordinate of the face if the camera input is projected fullscreen to the display (range: 0 to screen height) )",
-				expectedFaceYPosition, formula9.interpretDouble(firstSprite), delta);
 
 		SensorHandler.stopSensorListeners();
 	}

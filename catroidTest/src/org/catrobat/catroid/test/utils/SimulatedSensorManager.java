@@ -34,7 +34,6 @@ import org.catrobat.catroid.formulaeditor.SensorManagerInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.util.Log;
 
 public class SimulatedSensorManager implements SensorManagerInterface {
 
@@ -144,7 +143,6 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 		for (Pair<SensorEventListener, Sensor> pair : listeners) {
 			SensorEventListener sensorEventListener = pair.getL();
 			Sensor sensor = pair.getR();
-			Log.d("Blah", "Sensor " + sensor);
 
 			SensorEvent sensorEvent = null;
 			try {
