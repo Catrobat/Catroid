@@ -108,8 +108,8 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 			return;
 		}
 
-		PreStageActivity.shutdownPersistentResources();
 		UtilFile.createStandardProjectIfRootDirectoryIsEmpty(this);
+		PreStageActivity.shutdownPersistentResources();
 		setMainMenuButtonContinueText();
 		findViewById(R.id.main_menu_button_continue).setEnabled(true);
 		String projectName = getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);

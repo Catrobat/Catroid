@@ -41,22 +41,25 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.BluetoothManager;
 import org.catrobat.catroid.bluetooth.DeviceListActivity;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.legonxt.LegoNXT;
 import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
 @SuppressWarnings("deprecation")
 public class PreStageActivity extends Activity {
+	private static final String TAG = PreStageActivity.class.getSimpleName();
 
 	private static final int REQUEST_ENABLE_BLUETOOTH = 2000;
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
-	public static final int REQUEST_RESOURCES_INIT = 0101;
-	public static final int REQUEST_TEXT_TO_SPEECH = 0;
+	public static final int REQUEST_RESOURCES_INIT = 101;
+	public static final int REQUEST_TEXT_TO_SPEECH = 10;
 
 	private int requiredResourceCounter;
 	private static LegoNXT legoNXT;
@@ -124,6 +127,16 @@ public class PreStageActivity extends Activity {
 		if (legoNXT != null) {
 			legoNXT.destroyCommunicator();
 			legoNXT = null;
+		}
+		deleteSpeechFiles();
+	}
+
+	private static void deleteSpeechFiles() {
+		File pathToSpeechFiles = new File(Constants.TEXT_TO_SPEECH_TMP_PATH);
+		if (pathToSpeechFiles.isDirectory()) {
+			for (File file : pathToSpeechFiles.listFiles()) {
+				file.delete();
+			}
 		}
 	}
 
@@ -250,15 +263,19 @@ public class PreStageActivity extends Activity {
 		}
 	}
 
-	public static void textToSpeech(String text, OnUtteranceCompletedListener listener,
+	public static void textToSpeech(String text, File speechFile, OnUtteranceCompletedListener listener,
 			HashMap<String, String> speakParameter) {
 		if (text == null) {
 			text = "";
 		}
 
-		onUtteranceCompletedListenerContainer.addOnUtteranceCompletedListener(listener,
-				speakParameter.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
-		textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, speakParameter);
+		if (onUtteranceCompletedListenerContainer.addOnUtteranceCompletedListener(speechFile, listener,
+				speakParameter.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID))) {
+			int status = textToSpeech.synthesizeToFile(text, speakParameter, speechFile.getAbsolutePath());
+			if (status == TextToSpeech.ERROR) {
+				Log.e(TAG, "File synthesizing failed");
+			}
+		}
 	}
 
 	//messages from Lego NXT device can be handled here

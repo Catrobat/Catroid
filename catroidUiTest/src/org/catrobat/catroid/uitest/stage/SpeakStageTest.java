@@ -22,158 +22,177 @@
  */
 package org.catrobat.catroid.uitest.stage;
 
-import android.content.Context;
-import android.speech.tts.TextToSpeech;
-import android.widget.ListView;
+import android.media.MediaPlayer;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.actions.SpeakAction;
-import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.stage.PreStageActivity;
+import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Utils;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
-public class SpeakStageTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-	private TextToSpeechMock textToSpeechMock;
-	private Sprite spriteNormal, spriteNull, spriteInterrupt;
-	private String textMessageTest = "This is a test text.";
-	private String textMessageHello = "Hello World!";
-	private String textMessageInterrupt = "Interrupt!";
-	private String textMessageLong = "This is very very long long test text.";
+public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectActivity> {
+
+	private final String testText = "Test test.";
+	private final long byteLengthOfTestText = 44076L;
+	private final File speechFileTestText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH, Utils.md5Checksum(testText)
+			+ Constants.TEXT_TO_SPEECH_EXTENSION);
+
+	private final String helloWorldText = "Hello World!";
+	private final long byteLengthOfHelloWorldText = 47532L;
+	private final File speechFileHelloWorlText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH,
+			Utils.md5Checksum(helloWorldText) + Constants.TEXT_TO_SPEECH_EXTENSION);
+
+	private final String nullText = "";
+	private final long byteLengthOfNullText = 44L;
+	private final File speechFileNullText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH, Utils.md5Checksum(nullText)
+			+ Constants.TEXT_TO_SPEECH_EXTENSION);
+
+	private final String simultaneousText = "Speaking simultaneously";
+	private final long byteLengthOfSimultaneousText = 65196L;
+	private final File speechFileSimultaneousText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH,
+			Utils.md5Checksum(simultaneousText) + Constants.TEXT_TO_SPEECH_EXTENSION);
+
+	private final String longText = "This is very very long long test text.";
+	private final long byteLengthOfLongText = 99628L;
+	private final File speechFileLongText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH, Utils.md5Checksum(longText)
+			+ Constants.TEXT_TO_SPEECH_EXTENSION);
+
+	private SoundManagerMock soundManagerMock;
 
 	public SpeakStageTest() throws InterruptedException {
-		super(MainMenuActivity.class);
+		super(ProjectActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		createProjectToInitializeTextToSpeech();
 		UiTestUtils.prepareStageForTest();
-		textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext());
-		Reflection.setPrivateField(SpeakAction.class, "utteranceIdPool", 0);
+		deleteSpeechFiles();
+		soundManagerMock = new SoundManagerMock();
+		Reflection.setPrivateField(SoundManager.class, "INSTANCE", soundManagerMock);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		textToSpeechMock = null;
 		super.tearDown();
+		deleteSpeechFiles();
 	}
 
-	public void testNullText() throws InterruptedException {
-		ProjectManager.getInstance()
-				.loadProject(UiTestUtils.PROJECTNAME2, getActivity().getApplicationContext(), false);
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		String programString = solo.getString(R.string.main_menu_programs);
-		solo.waitForText(programString);
-		solo.clickOnButton(programString);
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForView(ListView.class);
-		UiTestUtils.clickOnTextInList(solo, UiTestUtils.PROJECTNAME2);
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForView(ListView.class);
+	private void deleteSpeechFiles() {
+		File pathToSpeechFiles = new File(Constants.TEXT_TO_SPEECH_TMP_PATH);
+		pathToSpeechFiles.mkdirs();
+		for (File file : pathToSpeechFiles.listFiles()) {
+			file.delete();
+		}
+	}
+
+	private void prepareStageForTesting(String projectName) {
+		ProjectManager.getInstance().loadProject(projectName, getActivity().getApplicationContext(), false);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.sleep(1000);
-		TextToSpeech textToSpeech = (TextToSpeech) Reflection.getPrivateField(PreStageActivity.class, "textToSpeech");
-		textToSpeechMock.setTextToSpeech(textToSpeech);
-		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
-		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(3000);
-		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
-		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
-				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
-		assertEquals("TextToSpeech executed with wrong text", "", textToSpeechMock.text);
+		solo.waitForActivity(StageActivity.class);
+		solo.sleep(1500);
 	}
 
-	public void testSuccessiveBehaviour() throws InterruptedException {
-		ProjectManager.getInstance()
-				.loadProject(UiTestUtils.PROJECTNAME1, getActivity().getApplicationContext(), false);
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		String programString = solo.getString(R.string.main_menu_programs);
-		solo.waitForText(programString);
-		solo.clickOnButton(programString);
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForView(ListView.class);
-		UiTestUtils.clickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForView(ListView.class);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.sleep(1000);
-		TextToSpeech textToSpeech = (TextToSpeech) Reflection.getPrivateField(PreStageActivity.class, "textToSpeech");
-		textToSpeechMock.setTextToSpeech(textToSpeech);
-		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
-		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(2000);
-		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
-		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
-				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
-		assertEquals("TextToSpeech executed with wrong text", textMessageTest, textToSpeechMock.text);
-		solo.sleep(2000);
-		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
-		assertEquals("TextToSpeech exectuted with wrong utterance id", "1",
-				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
-		assertEquals("TextToSpeech executed with wrong text", textMessageHello, textToSpeechMock.text);
+	@Device
+	public void testNormalBehaviour() {
+		createNormalBehaviourProject();
+		prepareStageForTesting(UiTestUtils.PROJECTNAME1);
+
+		assertTrue("speechFileTestText does not exist", speechFileTestText.exists());
+		assertFalse("speechFileHelloWorlText already created", speechFileHelloWorlText.exists());
+		assertEquals("Length of speechFileTestText is different from original", byteLengthOfTestText,
+				speechFileTestText.length());
+
+		assertEquals("Wrong amount of soundfiles played", 1, soundManagerMock.playedSoundFiles.size());
+		assertTrue("Wrong soundfile played",
+				soundManagerMock.playedSoundFiles.contains(speechFileTestText.getAbsolutePath()));
+
+		solo.sleep(1200);
+
+		assertTrue("speechFileHelloWorlText does not exist", speechFileHelloWorlText.exists());
+		assertEquals("Length of speechFileHelloWorlText is different from original", byteLengthOfHelloWorldText,
+				speechFileHelloWorlText.length());
+
+		assertEquals("Wrong amount of soundfiles played", 2, soundManagerMock.playedSoundFiles.size());
+		assertTrue("Wrong soundfile played",
+				soundManagerMock.playedSoundFiles.contains(speechFileHelloWorlText.getAbsolutePath()));
 	}
 
-	public void testSimultaneousTextToSpeech() throws InterruptedException {
-		ProjectManager.getInstance()
-				.loadProject(UiTestUtils.PROJECTNAME3, getActivity().getApplicationContext(), false);
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		String programString = solo.getString(R.string.main_menu_programs);
-		solo.waitForText(programString);
-		solo.clickOnButton(programString);
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForView(ListView.class);
-		UiTestUtils.clickOnTextInList(solo, UiTestUtils.PROJECTNAME3);
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForView(ListView.class);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.sleep(1000);
-		TextToSpeech textToSpeech = (TextToSpeech) Reflection.getPrivateField(PreStageActivity.class, "textToSpeech");
-		textToSpeechMock.setTextToSpeech(textToSpeech);
-		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
-		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(2000);
-		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
-		assertEquals("TextToSpeech exectuted with wrong utterance id", "0",
-				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
-		assertEquals("TextToSpeech executed with wrong text", textMessageLong, textToSpeechMock.text);
-		solo.sleep(2000);
-		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
-		assertEquals("TextToSpeech exectuted with wrong utterance id", "1",
-				textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
-		assertEquals("TextToSpeech executed with wrong text", textMessageInterrupt, textToSpeechMock.text);
+	@Device
+	public void testNullText() {
+		createNullTextProject();
+		prepareStageForTesting(UiTestUtils.PROJECTNAME2);
+
+		assertTrue("speechFileNullText does not exist", speechFileNullText.exists());
+		assertEquals("Length of speechFileNullText is different from original", byteLengthOfNullText,
+				speechFileNullText.length());
+
+		assertEquals("Wrong amount of soundfiles played", 1, soundManagerMock.playedSoundFiles.size());
+		assertTrue("Wrong soundfile played",
+				soundManagerMock.playedSoundFiles.contains(speechFileNullText.getAbsolutePath()));
 	}
 
-	private void createProjectToInitializeTextToSpeech() {
-		spriteNormal = new Sprite("testNormalBehaviour");
+	@Device
+	public void testMultiSpeech() {
+		createMultiSpeechesProject();
+		prepareStageForTesting(UiTestUtils.PROJECTNAME3);
+		solo.sleep(1000);
+
+		assertTrue("speechFileLongText does not exist", speechFileLongText.exists());
+		assertTrue("speechFileSimultaneousText does not exist", speechFileSimultaneousText.exists());
+
+		assertEquals("Length of speechFileLongText is different from original", byteLengthOfLongText,
+				speechFileLongText.length());
+		assertEquals("Length of speechFileSimultaneousText is different from original", byteLengthOfSimultaneousText,
+				speechFileSimultaneousText.length());
+
+		assertEquals("Wrong amount of soundfiles played", 2, soundManagerMock.playedSoundFiles.size());
+		assertTrue("Wrong soundfile played",
+				soundManagerMock.playedSoundFiles.contains(speechFileLongText.getAbsolutePath()));
+		assertTrue("Wrong soundfile played",
+				soundManagerMock.playedSoundFiles.contains(speechFileSimultaneousText.getAbsolutePath()));
+	}
+
+	@Device
+	public void testDeleteSpeechFiles() {
+		createMultiSpeechesProject();
+		prepareStageForTesting(UiTestUtils.PROJECTNAME3);
+		solo.sleep(2000);
+
+		assertTrue("speechFileLongText does not exist", speechFileLongText.exists());
+		assertTrue("speechFileSimultaneousText does not exist", speechFileSimultaneousText.exists());
+
+		UiTestUtils.goToHomeActivity(getActivity());
+		solo.waitForActivity(MainMenuActivity.class);
+
+		assertEquals("TextToSpeech folder is not empty", 0,
+				new File(Constants.TEXT_TO_SPEECH_TMP_PATH).listFiles().length);
+	}
+
+	private void createNormalBehaviourProject() {
+		Sprite spriteNormal = new Sprite("testNormalBehaviour");
 
 		Script startScriptNormal = new StartScript(spriteNormal);
-		WaitBrick waitBrickNormal = new WaitBrick(spriteNormal, 1000);
-		SpeakBrick speakBrickNormal = new SpeakBrick(spriteNormal, textMessageTest);
-		BroadcastBrick broadcastBrickNormal = new BroadcastBrick(spriteNormal, "normal");
-		startScriptNormal.addBrick(waitBrickNormal);
-		startScriptNormal.addBrick(speakBrickNormal);
-		startScriptNormal.addBrick(broadcastBrickNormal);
-		WaitBrick waitBrickNormal2 = new WaitBrick(spriteNormal, 1000);
-		startScriptNormal.addBrick(waitBrickNormal2);
-		SpeakBrick speakBrickNormal2 = new SpeakBrick(spriteNormal, textMessageHello);
-		startScriptNormal.addBrick(speakBrickNormal2);
+		startScriptNormal.addBrick(new SpeakBrick(spriteNormal, testText));
+		startScriptNormal.addBrick(new WaitBrick(spriteNormal, 1500));
+		startScriptNormal.addBrick(new SpeakBrick(spriteNormal, helloWorldText));
 
 		spriteNormal.addScript(startScriptNormal);
 
@@ -181,13 +200,12 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 		spriteListNormal.add(spriteNormal);
 
 		UiTestUtils.createProject(UiTestUtils.PROJECTNAME1, spriteListNormal, getActivity().getApplicationContext());
+	}
 
-		spriteNull = new Sprite("testNullText");
+	private void createNullTextProject() {
+		Sprite spriteNull = new Sprite("testNullText");
 		Script startScriptNull = new StartScript(spriteNull);
-		WaitBrick waitBrickNull = new WaitBrick(spriteNull, 1000);
-		SpeakBrick speakBrickNull = new SpeakBrick(spriteNull, null);
-		startScriptNull.addBrick(waitBrickNull);
-		startScriptNull.addBrick(speakBrickNull);
+		startScriptNull.addBrick(new SpeakBrick(spriteNull, null));
 
 		spriteNull.addScript(startScriptNull);
 
@@ -195,61 +213,31 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 		spriteListNull.add(spriteNull);
 
 		UiTestUtils.createProject(UiTestUtils.PROJECTNAME2, spriteListNull, getActivity().getApplicationContext());
-
-		spriteInterrupt = new Sprite("testInterrupt");
-
-		Script startScriptInterrupt = new StartScript(spriteInterrupt);
-		WaitBrick waitBrickInterrupt = new WaitBrick(spriteNull, 1000);
-		BroadcastBrick broadcastBrick = new BroadcastBrick(spriteInterrupt, "double");
-		SpeakBrick speakBrickInterrupt = new SpeakBrick(spriteInterrupt, textMessageLong);
-		startScriptInterrupt.addBrick(waitBrickInterrupt);
-		startScriptInterrupt.addBrick(broadcastBrick);
-		startScriptInterrupt.addBrick(speakBrickInterrupt);
-
-		spriteInterrupt.addScript(startScriptInterrupt);
-
-		BroadcastScript broadcastScriptInterrupt = new BroadcastScript(spriteInterrupt, "double");
-		WaitBrick waitBrickInterrupt2 = new WaitBrick(spriteInterrupt, 2000);
-		broadcastScriptInterrupt.addBrick(waitBrickInterrupt2);
-		SpeakBrick speakBrickInterrupt2 = new SpeakBrick(spriteInterrupt, textMessageInterrupt);
-		broadcastScriptInterrupt.addBrick(speakBrickInterrupt2);
-
-		spriteInterrupt.addScript(broadcastScriptInterrupt);
-
-		ArrayList<Sprite> spriteListInterrupt = new ArrayList<Sprite>();
-		spriteListInterrupt.add(spriteInterrupt);
-
-		UiTestUtils.createProject(UiTestUtils.PROJECTNAME3, spriteListInterrupt, getActivity().getApplicationContext());
 	}
 
-	private class TextToSpeechMock extends TextToSpeech {
-		private TextToSpeech textToSpeech = null;
+	private void createMultiSpeechesProject() {
+		Sprite spriteMultiSpeech = new Sprite("testMultiSpeech");
+		Script startScriptMultiSpeech = new StartScript(spriteMultiSpeech);
+		startScriptMultiSpeech.addBrick(new SpeakBrick(spriteMultiSpeech, longText));
+		startScriptMultiSpeech.addBrick(new SpeakBrick(spriteMultiSpeech, simultaneousText));
 
-		protected String text;
-		protected int queueMode = -1;
-		protected HashMap<String, String> parameters;
+		spriteMultiSpeech.addScript(startScriptMultiSpeech);
 
-		public TextToSpeechMock(Context context) {
-			super(context, new OnInitListener() {
-				public void onInit(int status) {
-					if (status != SUCCESS) {
-						fail("TextToSpeech couldn't be initialized");
-					}
-				}
-			});
-		}
+		ArrayList<Sprite> spriteListMultiSpeech = new ArrayList<Sprite>();
+		spriteListMultiSpeech.add(spriteMultiSpeech);
 
-		public void setTextToSpeech(TextToSpeech textToSpeech) {
-			this.textToSpeech = textToSpeech;
-		}
+		UiTestUtils.createProject(UiTestUtils.PROJECTNAME3, spriteListMultiSpeech, getActivity()
+				.getApplicationContext());
+	}
+
+	private class SoundManagerMock extends SoundManager {
+
+		private final Set<String> playedSoundFiles = new HashSet<String>();
 
 		@Override
-		public int speak(String text, int queueMode, HashMap<String, String> parameters) {
-			this.text = text;
-			this.queueMode = queueMode;
-			this.parameters = parameters;
-			int returnValue = textToSpeech.speak(text, queueMode, parameters);
-			return returnValue;
+		public synchronized MediaPlayer playSoundFile(String pathToSoundfile) {
+			playedSoundFiles.add(pathToSoundfile);
+			return null;
 		}
 	}
 }
