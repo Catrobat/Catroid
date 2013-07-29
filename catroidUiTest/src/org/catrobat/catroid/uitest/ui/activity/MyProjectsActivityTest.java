@@ -822,6 +822,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	@Device
 	public void testCancelDeleteActionMode() {
+		// zipping of programs needed for jenkins
+		// test does not work without removing all programs
 		unzip = true;
 		saveProjectsToZip();
 		try {
@@ -1120,6 +1122,10 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.goBack();
 	}
 
+	// this test MUST run on Device
+	// otherwise testProjectDetailsLastAccess fails
+	// TODO
+	// tests should run without dependencies - should be fixed
 	@Device
 	public void testProjectDetails() {
 		String showDetailsText = solo.getString(R.string.show_details);
