@@ -37,8 +37,6 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.os.Build;
-import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -61,7 +59,6 @@ public class LegoNxtMotorTurnAngleBrickTest extends BaseActivityInstrumentationT
 		super.setUp();
 	}
 
-	@Smoke
 	public void testMotorTurnAngleBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -85,11 +82,7 @@ public class LegoNxtMotorTurnAngleBrickTest extends BaseActivityInstrumentationT
 		String[] array = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
 		assertTrue("Spinner items list too short!", array.length == 4);
 
-		int legoSpinnerIndex = 1;
-
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			legoSpinnerIndex = 0;
-		}
+		int legoSpinnerIndex = 0;
 
 		Spinner currentSpinner = solo.getCurrentViews(Spinner.class).get(legoSpinnerIndex);
 		solo.pressSpinnerItem(legoSpinnerIndex, 0);

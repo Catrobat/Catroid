@@ -46,7 +46,6 @@ import org.catrobat.catroid.utils.UtilFile;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.test.suitebuilder.annotation.Smoke;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -83,7 +82,6 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 		super.tearDown();
 	}
 
-	@Smoke
 	public void testSetSizeToBrick() {
 		double newSize = 200;
 

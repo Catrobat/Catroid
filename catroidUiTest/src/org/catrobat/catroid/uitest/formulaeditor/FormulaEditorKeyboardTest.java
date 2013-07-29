@@ -37,7 +37,6 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
 import android.widget.EditText;
 
 public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
@@ -82,7 +81,6 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 	}
 
-	@Smoke
 	public void testNormalKeysKeyboard() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);

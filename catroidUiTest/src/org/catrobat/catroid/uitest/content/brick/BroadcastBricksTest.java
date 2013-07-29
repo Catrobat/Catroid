@@ -38,7 +38,6 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
 import android.util.SparseArray;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -73,7 +72,6 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 		expectedSpinnterText.put(broadcastWaitSpinnerId, defaultBroadcastMessage);
 	}
 
-	@Smoke
 	public void testBroadcastBricks() {
 		checkSetupBricks();
 

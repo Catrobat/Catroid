@@ -34,8 +34,8 @@ import java.util.Locale;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -50,7 +50,6 @@ import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
 import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.Smoke;
 
 public class UtilsTest extends AndroidTestCase {
 	private final String testFileContent = "Hello, this is a Test-String";
@@ -181,7 +180,6 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals("Paths are different!", expectedPath, Utils.buildProjectPath(projectName));
 	}
 
-	@Smoke
 	public void testDebuggableFlagShouldBeSet() throws Exception {
 		// Ensure Utils  returns true in isApplicationDebuggable
 		Reflection.setPrivateField(Utils.class, "isUnderTest", false);
