@@ -51,7 +51,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.test.FlakyTest;
 import android.test.UiThreadTest;
 import android.util.Log;
 import android.widget.EditText;
@@ -98,7 +97,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		});
 	}
 
-	@FlakyTest(tolerance = 4)
 	@Device
 	public void testUploadProjectSuccessAndTokenReplacementAfterUpload() throws Throwable {
 		setServerURLToTestUrl();
@@ -126,7 +124,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		//downloadProject();
 	}
 
-	@FlakyTest(tolerance = 4)
 	@Device
 	public void testUploadProjectOldCatrobatLanguageVersion() throws Throwable {
 		setServerURLToTestUrl();
@@ -173,7 +170,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		UiTestUtils.clearAllUtilTestProjects();
 	}
 
-	@FlakyTest(tolerance = 4)
 	@Device
 	public void testRenameProjectNameAndDescriptionWhenUploading() throws Throwable {
 		setServerURLToTestUrl();
@@ -219,7 +215,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
 	}
 
-	@FlakyTest(tolerance = 4)
 	@Device
 	public void testRenameProjectDescriptionWhenUploading() throws Throwable {
 		setServerURLToTestUrl();
@@ -262,7 +257,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
 	}
 
-	@FlakyTest(tolerance = 4)
 	@Device
 	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {
 		setServerURLToTestUrl();
@@ -291,7 +285,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		assertTrue("Project name on server was changed", serverProjectName.equalsIgnoreCase(testProject));
 	}
 
-	@FlakyTest(tolerance = 4)
 	@Device
 	public void testDownload() throws Throwable {
 		setServerURLToTestUrl();
@@ -333,7 +326,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		assertTrue("Project was successfully downloaded", serverProjectName.equalsIgnoreCase(projectName));
 	}
 
-	@FlakyTest(tolerance = 4)
 	@Device
 	public void testUploadStandardProject() throws Throwable {
 		if (!createAndSaveStandardProject() || this.standardProject == null) {
@@ -375,7 +367,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 	}
 
-	@FlakyTest(tolerance = 4)
 	@Device
 	public void testUploadModifiedStandardProject() throws Throwable {
 		if (!createAndSaveStandardProject() || this.standardProject == null) {
