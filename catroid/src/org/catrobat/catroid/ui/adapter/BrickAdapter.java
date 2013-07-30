@@ -82,6 +82,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	private boolean initInsertedBrick;
 	private boolean addingNewBrick;
 	private int positionOfInsertedBrick;
+	private Script scriptToDelete;
 
 	private boolean firstDrag;
 	private int fromBeginDrag, toEndDrag;
@@ -742,7 +743,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		Object item = getItem(position);
 
 		if (item instanceof ScriptBrick && (!initInsertedBrick || position != positionOfInsertedBrick)) {
-			return ((Brick) item).getView(context, position, this);
+			View scriptBrickView = ((Brick) item).getView(context, position, this);
+			if (draggedBrick == null) {
+				scriptBrickView.setOnClickListener(this);
+			}
+			return scriptBrickView;
 		}
 
 		View currentBrickView;
@@ -853,14 +858,22 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		final int itemPosition = calculateItemPositionAndTouchPointY(view);
 		final List<CharSequence> items = new ArrayList<CharSequence>();
 
-		if (!(brickList.get(itemPosition) instanceof DeadEndBrick)) {
+		if (brickList.get(itemPosition) instanceof ScriptBrick) {
+			int scriptIndex = getScriptIndexFromProject(itemPosition);
+			ProjectManager.getInstance().setCurrentScript(sprite.getScript(scriptIndex));
+		}
+
+		if (!(brickList.get(itemPosition) instanceof DeadEndBrick)
+				&& !(brickList.get(itemPosition) instanceof ScriptBrick)) {
 			items.add(context.getText(R.string.brick_context_dialog_move_brick));
 		}
 		if (brickList.get(itemPosition) instanceof NestingBrick) {
 			items.add(context.getText(R.string.brick_context_dialog_animate_bricks));
 		}
 		items.add(context.getText(R.string.brick_context_dialog_delete_brick));
-		items.add(context.getText(R.string.brick_context_dialog_copy_brick));
+		if (!(brickList.get(itemPosition) instanceof ScriptBrick)) {
+			items.add(context.getText(R.string.brick_context_dialog_copy_brick));
+		}
 		if (brickList.get(itemPosition) instanceof FormulaBrick) {
 			items.add(context.getText(R.string.brick_context_dialog_formula_edit_brick));
 		}
@@ -942,13 +955,26 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				removeFromBrickListAndProject(clickItemPosition, false);
+				if (getItem(clickItemPosition) instanceof ScriptBrick) {
+					scriptToDelete = ((ScriptBrick) getItem(clickItemPosition)).initScript(ProjectManager.getInstance()
+							.getCurrentSprite());
+					handleScriptDelete(sprite, scriptToDelete);
+					scriptToDelete = null;
+				} else {
+					removeFromBrickListAndProject(clickItemPosition, false);
+				}
 			}
 		});
 		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
+			}
+		});
+		builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				scriptToDelete = null;
 			}
 		});
 
