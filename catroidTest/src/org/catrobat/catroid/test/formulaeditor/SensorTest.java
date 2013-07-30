@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
+import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -49,6 +50,7 @@ import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.test.InstrumentationTestCase;
+import android.util.Log;
 
 public class SensorTest extends InstrumentationTestCase {
 
@@ -99,10 +101,14 @@ public class SensorTest extends InstrumentationTestCase {
 				SensorHandler.getSensorValue(Sensors.FACE_DETECTED));
 		assertEquals("Face detection size initial value error", 0d, SensorHandler.getSensorValue(Sensors.FACE_SIZE));
 
-		ParameterList parameters = new ParameterList(Boolean.valueOf(true));
-		Reflection.invokeMethod(faceDetector, "onFaceDetected", parameters);
+		Method[] ms = faceDetector.getClass().getSuperclass().getDeclaredMethods();
+		for (Method m : ms) {
+			Log.e("Blah", m.getName());
+		}
 
-		int expectedFaceDetectedStatus = 1;
+		ParameterList parameters = new ParameterList(Boolean.valueOf(true));
+		Reflection.invokeMethod(faceDetector.getClass().getSuperclass(), faceDetector, "onFaceDetected", parameters);
+
 		int expectedFaceSize = (int) (Math.random() * 100);
 		int exampleScreenWidth = 320;
 		int exampleScreenHeight = 480;
@@ -111,7 +117,7 @@ public class SensorTest extends InstrumentationTestCase {
 
 		parameters = new ParameterList(new Point(expectedFaceXPosition, expectedFaceYPosition),
 				Integer.valueOf(expectedFaceSize));
-		Reflection.invokeMethod(faceDetector, "onFaceDetected", parameters);
+		Reflection.invokeMethod(faceDetector.getClass().getSuperclass(), faceDetector, "onFaceDetected", parameters);
 
 		Formula formula6 = createFormulaWithSensor(Sensors.FACE_DETECTED);
 		ChangeSizeByNBrick faceDetectionStatusBrick = new ChangeSizeByNBrick(firstSprite, formula6);
@@ -129,8 +135,8 @@ public class SensorTest extends InstrumentationTestCase {
 		ChangeSizeByNBrick faceYPositionBrick = new ChangeSizeByNBrick(firstSprite, formula9);
 		startScript1.addBrick(faceYPositionBrick);
 
-		assertEquals("Unexpected sensor value for face detection status (= 1 if face detected, 0 otherwise)",
-				expectedFaceDetectedStatus, formula6.interpretDouble(firstSprite));
+		assertEquals("Unexpected sensor value for face detection status (= 1 if face detected, 0 otherwise)", 1d,
+				formula6.interpretDouble(firstSprite));
 
 		assertEquals(
 				"Unexpected sensor value for face size (= width of the face (range: 0 to 100, where at 100 the face fills half the width of the cameras view)",

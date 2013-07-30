@@ -10,7 +10,6 @@ public class FaceDetectionStartStopTest extends InstrumentationTestCase {
 	}
 
 	public void testTest() {
-		//		Instrumentation.
-		//		Instrumentation.newApplication(StageActivity.class, context)
+				Instrumentation.newApplication(StageActivity.class, context)
 	}
 }
