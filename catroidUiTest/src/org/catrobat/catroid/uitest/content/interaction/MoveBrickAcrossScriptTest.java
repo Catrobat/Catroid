@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uitest.content;
+package org.catrobat.catroid.uitest.content.interaction;
 
 import java.util.ArrayList;
 
@@ -43,8 +43,6 @@ import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
-
 public class MoveBrickAcrossScriptTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private ArrayList<Brick> brickListToCheck;
 	private ArrayList<Brick> secondBrickListForMoving;
@@ -61,7 +59,6 @@ public class MoveBrickAcrossScriptTest extends BaseActivityInstrumentationTestCa
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	@Smoke
 	public void testMoveBrickAcrossScript() {
 		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
 		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
@@ -72,8 +69,8 @@ public class MoveBrickAcrossScriptTest extends BaseActivityInstrumentationTestCa
 
 		int numberOfBricks = ProjectManager.getInstance().getCurrentScript().getBrickList().size();
 		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(2), 10, yPositionList.get(5), 10);
-		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks - 1) == ProjectManager.getInstance()
-				.getCurrentScript().getBrickList().size());
+		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks - 1) == ProjectManager
+				.getInstance().getCurrentScript().getBrickList().size());
 		assertEquals("Incorrect Brick after dragging over Script", (Brick) adapter.getItem(4) instanceof WaitBrick,
 				true);
 	}

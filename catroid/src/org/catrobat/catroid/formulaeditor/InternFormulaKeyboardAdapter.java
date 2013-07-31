@@ -32,7 +32,7 @@ public class InternFormulaKeyboardAdapter {
 	public List<InternToken> createInternTokenListByResourceId(int resource, String userVariableName) {
 
 		//USER VARIABLES
-		if ((resource == 0) && (!(userVariableName.length() == 0))) {
+		if ((resource == 0) && !userVariableName.isEmpty()) {
 			return buildUserVariable(userVariableName);
 		}
 

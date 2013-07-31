@@ -292,6 +292,18 @@ public class Utils {
 		}
 	}
 
+	public static String getCurrentProjectName(Context context) {
+		if (ProjectManager.getInstance().getCurrentProject() == null) {
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
+			if (currentProjectName == null) {
+				currentProjectName = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).get(0);
+			}
+			return currentProjectName;
+		}
+		return ProjectManager.getInstance().getCurrentProject().getName();
+	}
+
 	public static String deleteSpecialCharactersInString(String stringToAdapt) {
 		return stringToAdapt.replaceAll("[\"*/:<>?\\\\|]", "");
 	}

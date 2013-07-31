@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,27 +19,12 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/actionbar_height"
-    android:background="@color/actionbar_background" >
+ */
+package org.catrobat.catroid.content.bricks;
 
-    <TextView
-        android:id="@+id/dialog_brick_title_text_view_title"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textColor="@color/actionbar_title_color"
-        android:textSize="@dimen/text_size_medium"
-        android:textStyle="bold" />
+import org.catrobat.catroid.formulaeditor.Formula;
 
-    <ImageButton
-        android:id="@+id/dialog_brick_title_button_close"
-        android:layout_width="@dimen/actionbar_height"
-        android:layout_height="match_parent"
-        android:background="@color/actionbar_background"
-        android:src="@drawable/ic_close_black" />
+public interface FormulaBrick {
 
-</LinearLayout>
+	public Formula getFormula();
+}

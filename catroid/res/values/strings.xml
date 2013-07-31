@@ -56,6 +56,8 @@
     <string name="main_menu_upload">Upload</string>
     <string name="main_menu_settings">Settings</string>
     <string name="main_menu_about_pocketcode">About Pocket Code</string>
+    <string name="main_menu_rate_app">Rate us!</string>
+    <string name="main_menu_play_store_not_installed">Play Store app not found</string>
     <string name="main_menu_web_dialog_title">Caution!</string>
     <string name="main_menu_web_dialog_message">Currently alternative browsers like Firefox or Dolphin are not supported</string>
     <!--  -->
@@ -200,6 +202,7 @@
     <string name="brick_context_dialog_delete_brick">Delete Brick</string>
     <string name="brick_context_dialog_copy_brick">Copy Brick</string>
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
+    <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
     <!--  -->
 
 

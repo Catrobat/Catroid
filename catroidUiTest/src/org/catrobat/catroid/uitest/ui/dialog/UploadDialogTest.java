@@ -31,6 +31,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -38,7 +39,6 @@ import org.catrobat.catroid.web.ServerCalls;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.test.UiThreadTest;
 import android.view.View;
 import android.widget.EditText;
 
@@ -46,22 +46,32 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private String testProject = UiTestUtils.PROJECTNAME1;
-	private String newTestProject = UiTestUtils.PROJECTNAME2;
 
 	private String saveToken;
 	private String uploadDialogTitle;
+	private Project uploadProject;
 
 	public UploadDialogTest() {
 		super(MainMenuActivity.class);
 	}
 
 	@Override
-	@UiThreadTest
 	public void setUp() throws Exception {
 		super.setUp();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		saveToken = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
+		createTestProject();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 3000);
+		solo.sleep(300);
+		try {
+			setServerURLToTestURL();
+		} catch (Throwable e) {
+			throw new Exception();
+		}
+		solo.sleep(200);
+		UiTestUtils.createValidUser(getActivity());
+		solo.sleep(200);
 	}
 
 	@Override
@@ -72,6 +82,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		// but tests crashed with Nullpointer
 		super.tearDown();
 		ProjectManager.getInstance().deleteCurrentProject();
+		uploadProject = null;
 	}
 
 	private void setServerURLToTestURL() throws Throwable {
@@ -82,12 +93,8 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		});
 	}
 
+	@Device
 	public void testUploadDialog() throws Throwable {
-		setServerURLToTestURL();
-		createTestProject();
-		solo.sleep(200);
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 3000);
-		UiTestUtils.createValidUser(getActivity());
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.waitForText(uploadDialogTitle);
 
@@ -112,28 +119,23 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		// enter a new title
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, newTestProject);
+		solo.enterText(0, UiTestUtils.PROJECTNAME2);
 		assertEquals("rename View is hidden.", renameView.getVisibility(), View.VISIBLE);
 		solo.goBack();
 
 		solo.clickOnButton(solo.getString(R.string.cancel_button));
 	}
 
+	@Device
 	public void testUploadingProjectDescriptionDefaultValue() throws Throwable {
 		String testDescription = "Test description";
 		String actionSetDescriptionText = solo.getString(R.string.set_description);
 		String setDescriptionDialogTitle = solo.getString(R.string.description);
-		Project uploadProject = new Project(getActivity(), testProject);
-		ProjectManager.getInstance().setProject(uploadProject);
-		StorageHandler.getInstance().saveProject(uploadProject);
-		setServerURLToTestURL();
-		UiTestUtils.createValidUser(getActivity());
 
-		solo.sleep(300);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
-		UiTestUtils.longClickOnTextInList(solo, uploadProject.getName());
+		solo.clickLongOnText(uploadProject.getName().toString());
 		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clickOnText(actionSetDescriptionText);
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
@@ -161,14 +163,6 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testProjectDescriptionUploadProject() throws Throwable {
-		Project uploadProject = new Project(getActivity(), testProject);
-		ProjectManager.getInstance().setProject(uploadProject);
-		StorageHandler.getInstance().saveProject(uploadProject);
-
-		solo.sleep(300);
-		setServerURLToTestURL();
-		UiTestUtils.createValidUser(getActivity());
-		solo.sleep(200);
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		boolean uploadDialogShown = solo.waitForText(uploadDialogTitle);
 
@@ -203,14 +197,11 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		}
 		assertFalse("testProject was not deleted!", directory.exists());
 
-		solo.clickOnButton(solo.getString(R.string.main_menu_new));
-		solo.enterText(0, testProject);
-		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.ok));
-		solo.sleep(2000);
+		uploadProject = new Project(getActivity(), testProject);
+		ProjectManager.getInstance().setProject(uploadProject);
+		StorageHandler.getInstance().saveProject(uploadProject);
 
 		File file = new File(Constants.DEFAULT_ROOT + "/" + testProject + "/" + Constants.PROJECTCODE_NAME);
 		assertTrue(testProject + " was not created!", file.exists());
-		UiTestUtils.goToHomeActivity(getActivity());
 	}
 }

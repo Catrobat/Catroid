@@ -38,11 +38,11 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -65,7 +65,7 @@ public class ChangeVariableTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	@Smoke
+	@Device
 	public void testCreateNewUserVariableAndDeletion() {
 		String userVariableName = "testVariable1";
 		String secondUserVariableName = "testVariable2";

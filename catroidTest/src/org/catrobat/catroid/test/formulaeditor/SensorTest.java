@@ -185,8 +185,8 @@ public class SensorTest extends InstrumentationTestCase {
 		SensorHandler.stopSensorListeners();
 
 		SensorHandler sensorHandler = (SensorHandler) Reflection.getPrivateField(SensorHandler.class, "instance");
-		SimulatedSensorManager sensorManager = new SimulatedSensorManager();
-		Reflection.setPrivateField(sensorHandler, "sensorManager", sensorManager);
+		SimulatedSensorManager simulatedSensorManager = new SimulatedSensorManager();
+		Reflection.setPrivateField(sensorHandler, "sensorManager", simulatedSensorManager);
 
 		Sensor accelerometerSensor = (Sensor) Reflection.getPrivateField(sensorHandler, "accelerometerSensor");
 		Sensor rotationVectorSensor = (Sensor) Reflection.getPrivateField(sensorHandler, "rotationVectorSensor");
@@ -194,11 +194,11 @@ public class SensorTest extends InstrumentationTestCase {
 
 		long startTime = System.currentTimeMillis();
 
-		while (sensorManager.getLatestSensorEvent(accelerometerSensor) == null
-				|| sensorManager.getLatestSensorEvent(rotationVectorSensor) == null
-				|| checkValidRotationValues(sensorManager.getLatestSensorEvent(rotationVectorSensor)) == false) {
+		while (simulatedSensorManager.getLatestSensorEvent(accelerometerSensor) == null
+				|| simulatedSensorManager.getLatestSensorEvent(rotationVectorSensor) == null
+				|| checkValidRotationValues(simulatedSensorManager.getLatestSensorEvent(rotationVectorSensor)) == false) {
 
-			sensorManager.sendGeneratedSensorValues();
+			simulatedSensorManager.sendGeneratedSensorValues();
 
 			if (startTime < System.currentTimeMillis() - 10000) {
 				fail("SensorEvent generation Timeout. Check Sensor Simulation!");
@@ -213,12 +213,28 @@ public class SensorTest extends InstrumentationTestCase {
 		float[] rotationVector = (float[]) Reflection.getPrivateField(sensorHandler, "rotationVector");
 		float[] orientations = new float[3];
 
-		SensorHandler.getRotationMatrixFromVector(rotationMatrix, rotationVector);
+		android.hardware.SensorManager.getRotationMatrixFromVector(rotationMatrix, rotationVector);
 		android.hardware.SensorManager.getOrientation(rotationMatrix, orientations);
 
 		double expectedCompassDirection = Double.valueOf(orientations[0]) * SensorHandler.radianToDegreeConst * -1f;
 		double expectedXInclination = Double.valueOf(orientations[2]) * SensorHandler.radianToDegreeConst * -1f;
-		double expectedYInclination = Double.valueOf(orientations[1]) * SensorHandler.radianToDegreeConst * -1f;
+		double expectedYInclination;
+
+		float xInclinationUsedToExtendRangeOfRoll = orientations[2] * SensorHandler.radianToDegreeConst * -1f;
+
+		Double sensorValue = Double.valueOf(orientations[1]);
+
+		if (Math.abs(xInclinationUsedToExtendRangeOfRoll) <= 90f) {
+			expectedYInclination = sensorValue * SensorHandler.radianToDegreeConst * -1f;
+		} else {
+			float uncorrectedXInclination = sensorValue.floatValue() * SensorHandler.radianToDegreeConst * -1f;
+
+			if (uncorrectedXInclination > 0f) {
+				expectedYInclination = 180f - uncorrectedXInclination;
+			} else {
+				expectedYInclination = -180f - uncorrectedXInclination;
+			}
+		}
 
 		assertEquals(
 				"Unexpected sensor value for acceleration in x direction(= in portrait mode, from left to right side of screen surface, in m/s^2)",
@@ -256,7 +272,7 @@ public class SensorTest extends InstrumentationTestCase {
 		rotationVector[1] = sensorEvent.values[1];
 		rotationVector[2] = sensorEvent.values[2];
 
-		SensorHandler.getRotationMatrixFromVector(rotationMatrix, rotationVector);
+		android.hardware.SensorManager.getRotationMatrixFromVector(rotationMatrix, rotationVector);
 		android.hardware.SensorManager.getOrientation(rotationMatrix, orientations);
 
 		for (float orientation : orientations) {

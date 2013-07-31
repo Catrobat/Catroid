@@ -140,4 +140,5 @@ public class BrickBaseType implements Brick {
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		return null;
 	}
+
 }

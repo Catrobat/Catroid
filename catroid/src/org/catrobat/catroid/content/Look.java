@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -59,6 +60,7 @@ public class Look extends Image {
 	private ParallelAction whenParallelAction;
 	private ArrayList<Action> actionsToRestart = new ArrayList<Action>();
 	private boolean allActionAreFinished = false;
+	private BrightnessContrastShader shader;
 
 	public Look(Sprite sprite) {
 		this.sprite = sprite;
@@ -183,9 +185,15 @@ public class Look extends Image {
 		}
 	}
 
+	public void createBrightnessContrastShader() {
+		shader = new BrightnessContrastShader();
+		shader.setBrightness(brightness);
+	}
+
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		checkImageChanged();
+		batch.setShader(shader);
 		if (alpha == 0.0f) {
 			setVisible(false);
 		} else {
@@ -235,8 +243,7 @@ public class Look extends Image {
 			setOrigin(getWidth() / 2f, getHeight() / 2f);
 
 			if (brightnessChanged) {
-				lookData.setPixmap(adjustBrightness(lookData.getOriginalPixmap()));
-				lookData.setTextureRegion();
+				shader.setBrightness(brightness);
 				brightnessChanged = false;
 			}
 
@@ -246,39 +253,6 @@ public class Look extends Image {
 
 			imageChanged = false;
 		}
-	}
-
-	protected Pixmap adjustBrightness(Pixmap currentPixmap) {
-		Pixmap newPixmap = new Pixmap(currentPixmap.getWidth(), currentPixmap.getHeight(), currentPixmap.getFormat());
-		for (int y = 0; y < currentPixmap.getHeight(); y++) {
-			for (int x = 0; x < currentPixmap.getWidth(); x++) {
-				int pixel = currentPixmap.getPixel(x, y);
-				int r = (int) (((pixel >> 24) & 0xff) + (255 * (brightness - 1)));
-				int g = (int) (((pixel >> 16) & 0xff) + (255 * (brightness - 1)));
-				int b = (int) (((pixel >> 8) & 0xff) + (255 * (brightness - 1)));
-				int a = pixel & 0xff;
-
-				if (r > 255) {
-					r = 255;
-				} else if (r < 0) {
-					r = 0;
-				}
-				if (g > 255) {
-					g = 255;
-				} else if (g < 0) {
-					g = 0;
-				}
-				if (b > 255) {
-					b = 255;
-				} else if (b < 0) {
-					b = 0;
-				}
-
-				newPixmap.setColor(r / 255f, g / 255f, b / 255f, a / 255f);
-				newPixmap.drawPixel(x, y);
-			}
-		}
-		return newPixmap;
 	}
 
 	public void refreshTextures() {
@@ -424,5 +398,43 @@ public class Look extends Image {
 
 	public void changeBrightnessInUserInterfaceDimensionUnit(float changePercent) {
 		setBrightnessInUserInterfaceDimensionUnit(getBrightnessInUserInterfaceDimensionUnit() + changePercent);
+	}
+
+	private class BrightnessContrastShader extends ShaderProgram {
+
+		private static final String VERTEX_SHADER = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+				+ "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" + "attribute vec2 "
+				+ ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" + "uniform mat4 u_projTrans;\n" + "varying vec4 v_color;\n"
+				+ "varying vec2 v_texCoords;\n" + "\n" + "void main()\n" + "{\n" + " v_color = "
+				+ ShaderProgram.COLOR_ATTRIBUTE + ";\n" + " v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+				+ " gl_Position = u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" + "}\n";
+		private static final String FRAGMENT_SHADER = "#ifdef GL_ES\n" + "#define LOWP lowp\n"
+				+ "precision mediump float;\n" + "#else\n" + "#define LOWP \n" + "#endif\n"
+				+ "varying LOWP vec4 v_color;\n" + "varying vec2 v_texCoords;\n" + "uniform sampler2D u_texture;\n"
+				+ "uniform float brightness;\n" + "uniform float contrast;\n" + "void main()\n" + "{\n"
+				+ " vec4 color = v_color * texture2D(u_texture, v_texCoords);\n" + " color.rgb /= color.a;\n"
+				+ " color.rgb = ((color.rgb - 0.5) * max(contrast, 0.0)) + 0.5;\n" //apply contrast
+				+ " color.rgb += brightness;\n" //apply brightness
+				+ " color.rgb *= color.a;\n" + " gl_FragColor = color;\n" + "}";
+
+		private static final String BRIGHTNESS_STRING_IN_SHADER = "brightness";
+		private static final String CONTRAST_STRING_IN_SHADER = "contrast";
+
+		public BrightnessContrastShader() {
+			super(VERTEX_SHADER, FRAGMENT_SHADER);
+			ShaderProgram.pedantic = false;
+			if (isCompiled()) {
+				begin();
+				setUniformf(BRIGHTNESS_STRING_IN_SHADER, 0.0f);
+				setUniformf(CONTRAST_STRING_IN_SHADER, 1.0f);
+				end();
+			}
+		}
+
+		public void setBrightness(float brightness) {
+			begin();
+			setUniformf(BRIGHTNESS_STRING_IN_SHADER, brightness - 1f);
+			end();
+		}
 	}
 }

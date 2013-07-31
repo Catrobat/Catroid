@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uitest.ui;
+package org.catrobat.catroid.uitest.ui.activity;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,6 +43,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -80,9 +81,13 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 	public void tearDown() throws Exception {
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithBlacklistedCharacters)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithWhitelistedCharacters)));
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
+	@Device
 	public void testCreateNewProject() {
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject);
 		UtilFile.deleteDirectory(directory);
@@ -112,6 +117,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 				solo.searchText(solo.getString(R.string.new_project_dialog_title)));
 	}
 
+	@Device
 	public void testCreateNewProjectErrors() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.clearEditText(0);
@@ -147,6 +153,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		UtilFile.deleteDirectory(directory);
 	}
 
+	@Device
 	public void testCreateNewProjectWithBlacklistedCharacters() {
 		String directoryPath = Utils.buildProjectPath(projectNameWithBlacklistedCharacters);
 		File directory = new File(directoryPath);
@@ -165,6 +172,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Project with blacklisted characters was not created!", file.exists());
 	}
 
+	@Device
 	public void testCreateNewProjectWithWhitelistedCharacters() {
 		String directoryPath = Utils.buildProjectPath(projectNameWithWhitelistedCharacters);
 		File directory = new File(directoryPath);
@@ -252,6 +260,12 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertEquals("Sprite at index 3 is not \"horse\"!", "horse", third.getName());
 		Sprite fourth = (Sprite) spritesList.getItemAtPosition(4);
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
+	}
+
+	public void testRateAppMenuExists() {
+		solo.sendKey(Solo.MENU);
+		assertTrue("App rating menu not found in overflow menu!",
+				solo.searchText(solo.getString(R.string.main_menu_rate_app)));
 	}
 
 	public void testShouldDisplayDialogIfVersionNumberTooHigh() throws Throwable {

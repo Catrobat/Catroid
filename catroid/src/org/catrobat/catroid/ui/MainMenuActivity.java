@@ -29,6 +29,8 @@ import java.util.concurrent.locks.Lock;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.io.LoadProjectTask;
+import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
@@ -38,11 +40,13 @@ import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
+import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -59,13 +63,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener {
+public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener,
+		OnLoadProjectCompleteListener {
 
 	private String TYPE_FILE = "file";
 	private String TYPE_HTTP = "http";
@@ -136,7 +142,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		}
 
 		PreStageActivity.shutdownPersistentResources();
-		Utils.loadProjectIfNeeded(this);
+		UtilFile.createStandardProjectIfRootDirectoryIsEmpty(this);
 		setMainMenuButtonContinueText();
 		findViewById(R.id.main_menu_button_continue).setEnabled(true);
 		StatusBarNotificationManager.getInstance().displayDialogs(this);
@@ -154,8 +160,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		// also when you switch activities
 		if (ProjectManager.getInstance().getCurrentProject() != null) {
 			ProjectManager.getInstance().saveProject();
-			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.getInstance().getCurrentProject()
-					.getName());
+			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.getInstance()
+					.getCurrentProject().getName());
 		}
 	}
 
@@ -186,6 +192,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				startActivity(intent);
 				return true;
 			}
+			case R.id.menu_rate_app:
+				launchMarket();
+				return true;
 			case R.id.menu_about: {
 				AboutDialogFragment aboutDialog = new AboutDialogFragment();
 				aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
@@ -195,10 +204,28 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		return super.onOptionsItemSelected(item);
 	}
 
+	// Taken from http://stackoverflow.com/a/11270668
+	private void launchMarket() {
+		Uri uri = Uri.parse("market://details?id=" + getPackageName());
+		Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+		try {
+			startActivity(myAppLinkToMarket);
+		} catch (ActivityNotFoundException e) {
+			Toast.makeText(this, R.string.main_menu_play_store_not_installed, Toast.LENGTH_SHORT).show();
+		}
+	}
+
 	public void handleContinueButton(View v) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), false);
+		loadProjectTask.setOnLoadProjectCompleteListener(this);
+		loadProjectTask.execute();
+	}
+
+	@Override
+	public void onLoadProjectSuccess() {
 		if (ProjectManager.getInstance().getCurrentProject() != null) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
@@ -350,7 +377,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 		spannableStringBuilder.append(mainMenuContinue);
 		spannableStringBuilder.append("\n");
-		spannableStringBuilder.append(ProjectManager.getInstance().getCurrentProject().getName());
+		spannableStringBuilder.append(Utils.getCurrentProjectName(this));
 
 		spannableStringBuilder.setSpan(textAppearanceSpan, mainMenuContinue.length() + 1,
 				spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);

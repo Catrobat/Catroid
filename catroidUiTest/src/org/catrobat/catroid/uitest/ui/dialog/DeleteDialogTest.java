@@ -81,11 +81,9 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		String buttonOkText = solo.getString(R.string.yes);
 		String buttonCancelText = solo.getString(R.string.no);
 		String deleteLookText = solo.getString(R.string.delete);
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String looksSpinnerText = solo.getString(R.string.category_looks);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, looksSpinnerText);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.LOOKS_INDEX);
 		UiTestUtils.waitForFragment(solo, R.id.fragment_look_relative_layout);
 
 		clickOnContextMenuItem(lookName, deleteLookText);
@@ -116,12 +114,9 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		String buttonOkText = solo.getString(R.string.yes);
 		String buttonCancelText = solo.getString(R.string.no);
 		String deleteSoundText = solo.getString(R.string.delete);
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String soundsSpinnerText = solo.getString(R.string.sounds);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, soundsSpinnerText);
-		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SOUNDS_INDEX);
 		solo.clickLongOnText(soundName);
 		solo.clickOnText(deleteSoundText);
 
@@ -158,14 +153,14 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		lookData.setLookFilename(imageFile.getName());
 		lookData.setLookName(lookName);
 		lookDataList.add(lookData);
-		ProjectManager.getInstance().getFileChecksumContainer().addChecksum(lookData.getChecksum(),
-				lookData.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 		lookData = new LookData();
 		lookData.setLookFilename(imageFile2.getName());
 		lookData.setLookName("lookNameTest2");
 		lookDataList.add(lookData);
-		ProjectManager.getInstance().getFileChecksumContainer().addChecksum(lookData.getChecksum(),
-				lookData.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
 		ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth = display.getWidth();
 		ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight = display.getHeight();
@@ -188,10 +183,10 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
-		ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo.getChecksum(),
-				soundInfo.getAbsolutePath());
-		ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo2.getChecksum(),
-				soundInfo2.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
 	}
 
 	private void clickOnContextMenuItem(String lookName, String menuItemName) {

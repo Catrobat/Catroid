@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uitest.ui;
+package org.catrobat.catroid.uitest.ui.activity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,6 +59,7 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -67,7 +68,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -232,11 +232,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		solo.sleep(500);
 
-		int spinnerIndex = 1;
-
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			spinnerIndex = 0;
-		}
+		int spinnerIndex = 0;
 
 		Spinner setVariableBrick1Spinner = solo.getView(Spinner.class, spinnerIndex);
 		Spinner setVariableBrick2Spinner = solo.getView(Spinner.class, spinnerIndex + 1);
@@ -321,6 +317,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				.getBrickList().size(), brickCounter);
 	}
 
+	@Device
 	public void testBackgroundSprite() {
 		String sometext = "something" + System.currentTimeMillis();
 

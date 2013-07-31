@@ -44,7 +44,7 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
+public class RepeatBrick extends LoopBeginBrick implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula timesToRepeat;
 
@@ -67,6 +67,11 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	public RepeatBrick() {
 
+	}
+
+	@Override
+	public Formula getFormula() {
+		return timesToRepeat;
 	}
 
 	@Override

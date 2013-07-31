@@ -33,10 +33,10 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
 import android.widget.Spinner;
 
 public class VariableBricksTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
@@ -67,7 +67,7 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 		super.tearDown();
 	}
 
-	@Smoke
+	@Device
 	public void testVariableBricks() {
 		Spinner setVariableSpinner = solo.getCurrentViews(Spinner.class).get(0);
 		Spinner changeVariableSpinner = solo.getCurrentViews(Spinner.class).get(1);
