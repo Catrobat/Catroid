@@ -42,7 +42,7 @@ import android.util.Log;
 
 public class ServerCalls {
 
-	private final static String TAG = "ServerCalls";
+	private static final String TAG = "ServerCalls";
 
 	private static final String REGISTRATION_USERNAME_KEY = "registrationUsername";
 	private static final String REGISTRATION_PASSWORD_KEY = "registrationPassword";
@@ -82,7 +82,8 @@ public class ServerCalls {
 	private static final String JSON_ANSWER = "answer";
 	private static final String JSON_TOKEN = "token";
 
-	private static ServerCalls instance;
+	private static final ServerCalls INSTANCE = new ServerCalls();
+
 	public static boolean useTestUrl = false;
 	private String resultString;
 	private ConnectionWrapper connection;
@@ -94,10 +95,7 @@ public class ServerCalls {
 	}
 
 	public static ServerCalls getInstance() {
-		if (instance == null) {
-			instance = new ServerCalls();
-		}
-		return instance;
+		return INSTANCE;
 	}
 
 	// used for mock object testing

@@ -56,6 +56,10 @@
     <string name="main_menu_upload">Hochladen</string>
     <string name="main_menu_settings">Einstellungen</string>
     <string name="main_menu_about_pocketcode">Über Pocket Code</string>
+    <string name="main_menu_rate_app">Bewerte uns!</string>
+    <string name="main_menu_play_store_not_installed">Play Store App nicht gefunden</string>
+    <string name="main_menu_web_dialog_title">Achtung!</string>
+    <string name="main_menu_web_dialog_message">Derzeit werden keine alternativen Browser wie Firefox oder Dolphin unterstützt</string>
     <!--  -->
 
 
@@ -197,6 +201,7 @@
     <string name="brick_context_dialog_delete_brick">Lösche Baustein</string>
     <string name="brick_context_dialog_copy_brick">Kopiere Baustein</string>
     <string name="brick_context_dialog_animate_bricks">Animiere Baustein-Teile</string>
+    <string name="brick_context_dialog_formula_edit_brick">Bearbeite Formel</string>
     <!--  -->
 
 
@@ -503,6 +508,7 @@
     <string name="formula_editor_sensor_compass_direction">Kompass_Richtung</string>
     <string name="formula_editor_sensor_x_inclination">Neigung_x</string>
     <string name="formula_editor_sensor_y_inclination">Neigung_y</string>
+    <string name="formula_editor_sensor_loudness">Umgebungslautstärke</string>
     <string name="formula_editor_object_x">Position_x</string>
     <string name="formula_editor_object_y">Position_y</string>
     <string name="formula_editor_object_ghosteffect">Transparenz</string>

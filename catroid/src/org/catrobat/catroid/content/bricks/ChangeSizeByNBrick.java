@@ -44,7 +44,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener {
+public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula size;
 
@@ -158,5 +158,10 @@ public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.changeSizeByN(sprite, size));
 		return null;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return size;
 	}
 }

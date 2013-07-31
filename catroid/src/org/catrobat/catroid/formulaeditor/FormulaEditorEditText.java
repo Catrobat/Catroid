@@ -95,8 +95,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
-		absoluteCursorPosition = absoluteCursorPosition > getText().length() ? getText().length()
-				: absoluteCursorPosition;
+		absoluteCursorPosition = absoluteCursorPosition > length() ? length() : absoluteCursorPosition;
 
 		Layout layout = getLayout();
 		if (layout != null) {
@@ -223,8 +222,8 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		String newExternFormulaString = internFormula.getExternFormulaString();
 		setText(newExternFormulaString);
 		absoluteCursorPosition = internFormula.getExternCursorPosition();
-		if (absoluteCursorPosition > getText().length()) {
-			absoluteCursorPosition = getText().length();
+		if (absoluteCursorPosition > length()) {
+			absoluteCursorPosition = length();
 		}
 
 		highlightSelection();
@@ -291,15 +290,14 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 				int tempCursorPosition = layout.getOffsetForHorizontal(cursorY + linesDown, cursorXOffset);
 
-				if (tempCursorPosition > getText().length()) {
-					tempCursorPosition = getText().length();
+				if (tempCursorPosition > length()) {
+					tempCursorPosition = length();
 				}
 
 				if (isDoNotMoveCursorOnTab() == false) {
 					absoluteCursorPosition = tempCursorPosition;
 				}
-				absoluteCursorPosition = absoluteCursorPosition > getText().length() ? getText().length()
-						: absoluteCursorPosition;
+				absoluteCursorPosition = absoluteCursorPosition > length() ? length() : absoluteCursorPosition;
 				setSelection(absoluteCursorPosition);
 				postInvalidate();
 

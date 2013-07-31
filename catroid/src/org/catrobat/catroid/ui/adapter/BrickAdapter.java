@@ -35,11 +35,13 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -118,7 +120,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	public void initBrickList() {
 		brickList = new ArrayList<Brick>();
 
-		Sprite sprite = ProjectManager.INSTANCE.getCurrentSprite();
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 
 		int numberOfScripts = sprite.getNumberOfScripts();
 		for (int scriptPosition = 0; scriptPosition < numberOfScripts; scriptPosition++) {
@@ -518,7 +520,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			return;
 		}
 
-		Sprite currentSprite = ProjectManager.INSTANCE.getCurrentSprite();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		int scriptCount = currentSprite.getNumberOfScripts();
 		if (scriptCount == 0 && brickToBeAdded instanceof ScriptBrick) {
 			currentSprite.addScript(((ScriptBrick) brickToBeAdded).initScript(currentSprite));
@@ -571,7 +573,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			return;
 		}
 
-		Sprite currentSprite = ProjectManager.INSTANCE.getCurrentSprite();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		int scriptCount = currentSprite.getNumberOfScripts();
 		if (scriptCount == 0 && brickToBeAdded instanceof ScriptBrick) {
 			currentSprite.addScript(((ScriptBrick) brickToBeAdded).initScript(currentSprite));
@@ -664,7 +666,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			brickList.remove(draggedBrick);
 		} else {
 			int temp[] = getScriptAndBrickIndexFromProject(index);
-			Script script = ProjectManager.INSTANCE.getCurrentSprite().getScript(temp[0]);
+			Script script = ProjectManager.getInstance().getCurrentSprite().getScript(temp[0]);
 			if (script != null) {
 
 				Brick brick = script.getBrick(temp[1]);
@@ -849,8 +851,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		animatedBricks.clear();
 		final int itemPosition = calculateItemPositionAndTouchPointY(view);
-
 		final List<CharSequence> items = new ArrayList<CharSequence>();
+
 		if (!(brickList.get(itemPosition) instanceof DeadEndBrick)) {
 			items.add(context.getText(R.string.brick_context_dialog_move_brick));
 		}
@@ -858,8 +860,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			items.add(context.getText(R.string.brick_context_dialog_animate_bricks));
 		}
 		items.add(context.getText(R.string.brick_context_dialog_delete_brick));
-
 		items.add(context.getText(R.string.brick_context_dialog_copy_brick));
+		if (brickList.get(itemPosition) instanceof FormulaBrick) {
+			items.add(context.getText(R.string.brick_context_dialog_formula_edit_brick));
+		}
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -896,6 +900,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 						}
 					}
 					notifyDataSetChanged();
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_formula_edit_brick))) {
+
+					if (brickList.get(itemPosition) instanceof FormulaBrick) {
+						FormulaEditorFragment.showFragment(view, brickList.get(itemPosition),
+								((FormulaBrick) brickList.get(itemPosition)).getFormula());
+					}
 				}
 			}
 		});
@@ -1200,12 +1210,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	public void handleScriptDelete(Sprite spriteToEdit, Script scriptToDelete) {
 		spriteToEdit.removeScript(scriptToDelete);
 		if (spriteToEdit.getNumberOfScripts() == 0) {
-			ProjectManager.INSTANCE.setCurrentScript(null);
+			ProjectManager.getInstance().setCurrentScript(null);
 			updateProjectBrickList();
 		} else {
 			int lastScriptIndex = spriteToEdit.getNumberOfScripts() - 1;
 			Script lastScript = spriteToEdit.getScript(lastScriptIndex);
-			ProjectManager.INSTANCE.setCurrentScript(lastScript);
+			ProjectManager.getInstance().setCurrentScript(lastScript);
 			updateProjectBrickList();
 		}
 	}

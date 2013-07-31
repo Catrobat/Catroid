@@ -43,7 +43,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class PointInDirectionBrick extends BrickBaseType implements View.OnClickListener {
+public class PointInDirectionBrick extends BrickBaseType implements View.OnClickListener, FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -83,6 +83,11 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 	public PointInDirectionBrick(Sprite sprite, double direction) {
 		this.sprite = sprite;
 		this.degrees = new Formula(direction);
+	}
+
+	@Override
+	public Formula getFormula() {
+		return degrees;
 	}
 
 	@Override

@@ -44,7 +44,8 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickListener {
+public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 	private Formula changeGhostEffect;
 
@@ -159,5 +160,10 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 
 		sequence.addAction(ExtendedActions.changeGhostEffectByN(sprite, changeGhostEffect));
 		return null;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return changeGhostEffect;
 	}
 }

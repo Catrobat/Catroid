@@ -26,8 +26,10 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.util.Log;
 
-public class SensorHandler implements SensorEventListener {
+public class SensorHandler implements SensorEventListener, SensorCustomEventListener {
+	private static final String TAG = SensorHandler.class.getSimpleName();
 	private static SensorHandler instance = null;
 	private SensorManagerInterface sensorManager = null;
 	private Sensor accelerometerSensor = null;
@@ -39,6 +41,8 @@ public class SensorHandler implements SensorEventListener {
 	private float linearAcceleartionX = 0f;
 	private float linearAcceleartionY = 0f;
 	private float linearAcceleartionZ = 0f;
+
+	private float loudness = 0f;
 
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
@@ -52,11 +56,13 @@ public class SensorHandler implements SensorEventListener {
 		if (instance == null) {
 			instance = new SensorHandler(context);
 		}
-		instance.sensorManager.unregisterListener(instance);
+		instance.sensorManager.unregisterListener((SensorEventListener) instance);
+		instance.sensorManager.unregisterListener((SensorCustomEventListener) instance);
 		instance.sensorManager.registerListener(instance, instance.accelerometerSensor,
 				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
 		instance.sensorManager.registerListener(instance, instance.rotationVectorSensor,
 				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
+		instance.sensorManager.registerListener(instance, Sensors.LOUDNESS);
 	}
 
 	public static void registerListener(SensorEventListener listener) {
@@ -80,7 +86,8 @@ public class SensorHandler implements SensorEventListener {
 		if (instance == null) {
 			return;
 		}
-		instance.sensorManager.unregisterListener(instance);
+		instance.sensorManager.unregisterListener((SensorEventListener) instance);
+		instance.sensorManager.unregisterListener((SensorCustomEventListener) instance);
 	}
 
 	public static Double getSensorValue(Sensors sensor) {
@@ -101,7 +108,8 @@ public class SensorHandler implements SensorEventListener {
 
 			case COMPASS_DIRECTION:
 				float[] orientations = new float[3];
-				getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
+				android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
+						instance.rotationVector);
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
 				sensorValue = Double.valueOf(orientations[0]);
 				return sensorValue * radianToDegreeConst * -1f;
@@ -109,25 +117,42 @@ public class SensorHandler implements SensorEventListener {
 			case X_INCLINATION:
 
 				orientations = new float[3];
-				getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
+				android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
+						instance.rotationVector);
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
 				sensorValue = Double.valueOf(orientations[2]);
 				return sensorValue * radianToDegreeConst * -1f;
 
 			case Y_INCLINATION:
 				orientations = new float[3];
-				getRotationMatrixFromVector(instance.rotationMatrix, instance.rotationVector);
+				android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
+						instance.rotationVector);
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
-				sensorValue = Double.valueOf(orientations[1]);
-				return sensorValue * radianToDegreeConst * -1f;
-		}
 
+				float xInclinationUsedToExtendRangeOfRoll = orientations[2] * radianToDegreeConst * -1f;
+
+				sensorValue = Double.valueOf(orientations[1]);
+
+				if (Math.abs(xInclinationUsedToExtendRangeOfRoll) <= 90f) {
+					return sensorValue * radianToDegreeConst * -1f;
+				} else {
+					float uncorrectedXInclination = sensorValue.floatValue() * radianToDegreeConst * -1f;
+
+					if (uncorrectedXInclination > 0f) {
+						return (double) 180f - uncorrectedXInclination;
+					} else {
+						return (double) -180f - uncorrectedXInclination;
+					}
+				}
+
+			case LOUDNESS:
+				return Double.valueOf(instance.loudness);
+		}
 		return 0d;
 	}
 
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
-
 	}
 
 	@Override
@@ -143,49 +168,19 @@ public class SensorHandler implements SensorEventListener {
 				rotationVector[1] = event.values[1];
 				rotationVector[2] = event.values[2];
 				break;
+			default:
+				Log.v(TAG, "Unhandled sensor type: " + event.sensor.getType());
 		}
-
 	}
 
-	//For API Level < 9
-	//Taken from: https://android.googlesource.com/platform/frameworks/base/+/fa33565714e4192dbab446ee1fbccb87dd414bed/core/java/android/hardware/SensorManager.java
-	public static void getRotationMatrixFromVector(float[] R, float[] rotationVector) {
-
-		float q0;
-		float q1 = rotationVector[0];
-		float q2 = rotationVector[1];
-		float q3 = rotationVector[2];
-
-		q0 = 1 - q1 * q1 - q2 * q2 - q3 * q3;
-		q0 = (q0 > 0) ? (float) java.lang.Math.sqrt(q0) : 0;
-
-		float sq_q1 = 2 * q1 * q1;
-		float sq_q2 = 2 * q2 * q2;
-		float sq_q3 = 2 * q3 * q3;
-		float q1_q2 = 2 * q1 * q2;
-		float q3_q0 = 2 * q3 * q0;
-		float q1_q3 = 2 * q1 * q3;
-		float q2_q0 = 2 * q2 * q0;
-		float q2_q3 = 2 * q2 * q3;
-		float q1_q0 = 2 * q1 * q0;
-
-		R[0] = 1 - sq_q2 - sq_q3;
-		R[1] = q1_q2 - q3_q0;
-		R[2] = q1_q3 + q2_q0;
-		R[3] = 0.0f;
-
-		R[4] = q1_q2 + q3_q0;
-		R[5] = 1 - sq_q1 - sq_q3;
-		R[6] = q2_q3 - q1_q0;
-		R[7] = 0.0f;
-
-		R[8] = q1_q3 - q2_q0;
-		R[9] = q2_q3 + q1_q0;
-		R[10] = 1 - sq_q1 - sq_q2;
-		R[11] = 0.0f;
-
-		R[12] = R[13] = R[14] = 0.0f;
-		R[15] = 1.0f;
-
+	@Override
+	public void onCustomSensorChanged(SensorCustomEvent event) {
+		switch (event.sensor) {
+			case LOUDNESS:
+				instance.loudness = event.values[0];
+				break;
+			default:
+				Log.v(TAG, "Unhandled sensor: " + event.sensor);
+		}
 	}
 }

@@ -50,9 +50,10 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 	/*
 	 * Regression test for https://github.com/Catrobat/Catroid/pull/105
 	 */
+
 	public void testReceiversWorkMoreThanOnce() {
 		UiTestUtils.createEmptyProject();
-		Sprite sprite = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0);
+		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
 		Script script = sprite.getScript(0);
 
 		final String testMessage = "RegressionTest#105";

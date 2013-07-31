@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,18 +19,12 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+ */
+package org.catrobat.catroid.content.bricks;
 
-    <TextView
-        android:id="@+id/SoundSpinnerTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SoundSpinnerTextView"
-        android:textColor="@color/solid_black"
-        android:textSize="15dip" >
-    </TextView>
+import org.catrobat.catroid.formulaeditor.Formula;
 
-</LinearLayout>
+public interface FormulaBrick {
+
+	public Formula getFormula();
+}

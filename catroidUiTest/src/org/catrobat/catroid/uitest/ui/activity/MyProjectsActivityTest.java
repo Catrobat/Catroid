@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uitest.ui;
+package org.catrobat.catroid.uitest.ui.activity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -45,17 +45,20 @@ import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
@@ -78,7 +81,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	// commented - used for currently disabled testScreenshotUpdate
 	//	private final int IMAGE_RESOURCE_4 = org.catrobat.catroid.uitest.R.drawable.background_green;
 	//	private final int IMAGE_RESOURCE_5 = org.catrobat.catroid.uitest.R.drawable.background_red;
-	private final static String MY_PROJECTS_ACTIVITY_TEST_TAG = MyProjectsActivityTest.class.getSimpleName();
+	private static final String MY_PROJECTS_ACTIVITY_TEST_TAG = MyProjectsActivityTest.class.getSimpleName();
+	private static final String KEY_SHOW_DETAILS = "showDetailsMyProjects";
 	private final String ZIPFILE_NAME = "testzip";
 
 	private File renameDirectory = null;
@@ -99,6 +103,13 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
+
+		// disable show details when activated
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		if (sharedPreferences.getBoolean(KEY_SHOW_DETAILS, true)) {
+			sharedPreferences.edit().putBoolean(KEY_SHOW_DETAILS, false).commit();
+		}
+
 		unzip = false;
 	}
 
@@ -213,7 +224,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			fail("Standard Project not created");
 		}
 
-		Project activeProject = ProjectManager.INSTANCE.getCurrentProject();
+		Project activeProject = ProjectManager.getInstance().getCurrentProject();
 		ArrayList<LookData> catroidLookList = activeProject.getSpriteList().get(1).getLookDataList();
 
 		String defaultSpriteName = solo.getString(R.string.default_project_sprites_mole_name);
@@ -365,8 +376,10 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		assertTrue("Standard Project should be restored", spriteList.size() == 5);
+		solo.sleep(3000);
 	}
 
+	@Device
 	public void testProjectsAndImagesVisible() {
 		createProjects();
 		solo.sleep(200);
@@ -421,6 +434,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		}
 	}
 
+	@Device
 	public void testImageCache() {
 		deleteCacheProjects = true;
 
@@ -587,6 +601,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Project was deleted!", solo.searchText(UiTestUtils.PROJECTNAME1));
 	}
 
+	@Device
 	public void testChooseNoOnDeleteQuestionInActionMode() {
 		createProjects();
 		solo.sleep(200);
@@ -643,7 +658,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("project " + UiTestUtils.PROJECTNAME1 + " is not visible anymore",
 				solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
 		assertNotSame("the deleted project is still the current project", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-				ProjectManager.INSTANCE.getCurrentProject().getName());
+				ProjectManager.getInstance().getCurrentProject().getName());
 	}
 
 	public void testDeleteAllProjects() {
@@ -704,6 +719,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				.getCurrentProject().getName());
 	}
 
+	@Device
 	public void testDeleteProjectViaActionBar() {
 		String delete = solo.getString(R.string.delete);
 		createProjects();
@@ -727,7 +743,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(yes);
 
 		solo.sleep(1500);
-		ProjectManager projectManager = ProjectManager.INSTANCE;
+		ProjectManager projectManager = ProjectManager.getInstance();
 		String currentProjectName = projectManager.getCurrentProject().getName();
 
 		assertEquals("Current project is not " + UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
@@ -746,6 +762,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	}
 
+	@Device
 	public void testConfirmDeleteProgramDialogTitleChange() {
 		String delete = solo.getString(R.string.delete);
 		createProjects();
@@ -780,6 +797,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(no);
 	}
 
+	@Device
 	public void testDeleteActionModeTitleChange() {
 		String deleteActionModeTitle = solo.getString(R.string.delete);
 		String singleItemAppendixDeleteActionMode = solo.getString(R.string.program);
@@ -793,16 +811,27 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
-		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(0);
 		assertTrue("Actionbar title is not displayed correctly!",
 				solo.searchText(deleteActionModeTitle + " 1 " + singleItemAppendixDeleteActionMode));
-		solo.clickOnCheckBox(2);
+		solo.clickOnCheckBox(1);
 		assertTrue("Actionbar title is not displayed correctly!",
 				solo.searchText(deleteActionModeTitle + " 2 " + multipleItemAppendixDeleteActionMode));
 
 	}
 
+	@Device
 	public void testCancelDeleteActionMode() {
+		// zipping of programs needed for jenkins
+		// test does not work without removing all programs
+		unzip = true;
+		saveProjectsToZip();
+		try {
+			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("Standard Project not created");
+		}
 		String delete = solo.getString(R.string.delete);
 		createProjects();
 		solo.sleep(200);
@@ -1093,6 +1122,11 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.goBack();
 	}
 
+	// this test MUST run on Device
+	// otherwise testProjectDetailsLastAccess fails
+	// TODO
+	// tests should run without dependencies - should be fixed
+	@Device
 	public void testProjectDetails() {
 		String showDetailsText = solo.getString(R.string.show_details);
 		String hideDetailsText = solo.getString(R.string.hide_details);
@@ -1105,6 +1139,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		View projectDetails = solo.getView(R.id.my_projects_activity_list_item_details);
 		solo.waitForView(projectDetails);
 		UiTestUtils.openOptionsMenu(solo);
+
 		solo.waitForText(showDetailsText);
 		solo.clickOnText(showDetailsText);
 		solo.sleep(500);
@@ -1140,9 +1175,10 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Menu item still says \"Hide Details\"!", solo.searchText(showDetailsText));
 	}
 
+	@Device
 	public void testProjectDetailsLastAccess() {
 		String showDetailsText = solo.getString(R.string.show_details);
-		String hideDetailsText = solo.getString(R.string.hide_details);
+
 		Date date = new Date(1357038000000l);
 		DateFormat mediumDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
 		createProjects();
@@ -1165,14 +1201,12 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForView(projectDetails);
 		UiTestUtils.openOptionsMenu(solo);
 
-		if (solo.searchText(hideDetailsText)) {
-			solo.clickOnText(hideDetailsText);
-			UiTestUtils.openOptionsMenu(solo);
-		}
-
 		solo.waitForText(showDetailsText);
 		solo.clickOnText(showDetailsText);
-		solo.sleep(200);
+		solo.sleep(400);
+
+		//get details view again, otherwise assert will fail
+		projectDetails = solo.getView(R.id.my_projects_activity_list_item_details);
 		assertEquals("Project details are not showing!", View.VISIBLE, projectDetails.getVisibility());
 
 		assertTrue("Last access is not correct!", solo.searchText(solo.getString(R.string.details_date_today)));
@@ -1246,6 +1280,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(buttonCloseText);
 	}
 
+	@Device
 	public void testSetDescriptionCurrentProject() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -1277,10 +1312,11 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(actionSetDescriptionText);
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
 		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
-		assertTrue("description is not set in project", ProjectManager.INSTANCE.getCurrentProject().getDescription()
-				.equalsIgnoreCase(lorem));
+		assertTrue("description is not set in project", ProjectManager.getInstance().getCurrentProject()
+				.getDescription().equalsIgnoreCase(lorem));
 	}
 
+	@Device
 	public void testSetDescription() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -1315,9 +1351,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(actionSetDescriptionText);
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
 		assertTrue("description is not shown in edittext", solo.searchText("Lorem ipsum"));
-		ProjectManager.INSTANCE.loadProject(UiTestUtils.PROJECTNAME1, getActivity(), true);
-		assertTrue("description is not set in project", ProjectManager.INSTANCE.getCurrentProject().getDescription()
-				.equalsIgnoreCase(lorem));
+		ProjectManager.getInstance().loadProject(UiTestUtils.PROJECTNAME1, getActivity(), true);
+		assertTrue("description is not set in project", ProjectManager.getInstance().getCurrentProject()
+				.getDescription().equalsIgnoreCase(lorem));
 	}
 
 	public void testCopyCurrentProject() {

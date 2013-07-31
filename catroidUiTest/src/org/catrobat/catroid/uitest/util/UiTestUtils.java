@@ -55,6 +55,7 @@ import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
@@ -83,6 +84,7 @@ import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
@@ -130,13 +132,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
-import com.actionbarsherlock.internal.widget.IcsSpinner;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
@@ -155,17 +155,30 @@ public class UiTestUtils {
 	public static final String COPIED_PROJECT_NAME = "copiedProject";
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
 
-	private static final int ACTION_BAR_SPINNER_INDEX = 0;
 	private static final int ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX = 0;
+
+	public static final int SCRIPTS_INDEX = 0;
+	public static final int LOOKS_INDEX = 1;
+	public static final int SOUNDS_INDEX = 2;
+
+	private static final List<Integer> fragmentIndexList = new ArrayList<Integer>();
+
+	static {
+		fragmentIndexList.add(R.id.fragment_script_relative_layout);
+		fragmentIndexList.add(R.id.fragment_look_relative_layout);
+		fragmentIndexList.add(R.id.fragment_sound_relative_layout);
+	}
 
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
 	};
 
 	private UiTestUtils() {
+
 	};
 
 	public static void enterText(Solo solo, int editTextIndex, String text) {
+
 		solo.sleep(50);
 		final EditText editText = solo.getEditText(editTextIndex);
 		solo.getCurrentActivity().runOnUiThread(new Runnable() {
@@ -519,6 +532,7 @@ public class UiTestUtils {
 		brickList.add(new ChangeGhostEffectByNBrick(firstSprite, 0));
 		brickList.add(new ChangeSizeByNBrick(firstSprite, 0));
 		brickList.add(new ChangeVolumeByNBrick(firstSprite, 0));
+		brickList.add(new ChangeVariableBrick(firstSprite, 0));
 		brickList.add(new ChangeXByNBrick(firstSprite, 0));
 		brickList.add(new ChangeYByNBrick(firstSprite, 0));
 		brickList.add(new ClearGraphicEffectBrick(firstSprite));
@@ -541,6 +555,7 @@ public class UiTestUtils {
 		brickList.add(new SetLookBrick(firstSprite));
 		brickList.add(new SetSizeToBrick(firstSprite, 0));
 		brickList.add(new SetVolumeToBrick(firstSprite, 0));
+		brickList.add(new SetVariableBrick(firstSprite, 0));
 		brickList.add(new SetXBrick(firstSprite, 0));
 		brickList.add(new SetYBrick(firstSprite, 0));
 		brickList.add(new ShowBrick(firstSprite));
@@ -1135,10 +1150,10 @@ public class UiTestUtils {
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		ProjectManager.INSTANCE.setFileChecksumContainer(new FileChecksumContainer());
-		ProjectManager.INSTANCE.setProject(project);
-		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
-		ProjectManager.INSTANCE.setCurrentScript(testScript);
+		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setCurrentScript(testScript);
 		return StorageHandler.getInstance().saveProject(project);
 	}
 
@@ -1273,6 +1288,7 @@ public class UiTestUtils {
 		while (more) {
 			try {
 				instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+				instrumentation.waitForIdleSync();
 			} catch (SecurityException e) { // Done, at Home.
 				more = false;
 			}
@@ -1299,48 +1315,6 @@ public class UiTestUtils {
 		boolean fragmentFoundInTime = solo.waitForView(solo.getView(fragmentRootLayoutId), timeout, true);
 		if (!fragmentFoundInTime) {
 			fail("Fragment was not loaded");
-		}
-	}
-
-	public static void changeToFragmentViaActionbar(Solo solo, String currentSpinnerItem, String itemToSwitchTo) {
-		solo.clickOnText(currentSpinnerItem);
-		solo.sleep(50);
-		solo.clickOnText(itemToSwitchTo);
-		solo.sleep(50);
-	}
-
-	public static IcsSpinner getActionbarSpinnerOnPreHoneyComb(Solo solo) {
-		ArrayList<View> activityViews = solo.getViews();
-		IcsSpinner spinner = null;
-		for (View viewToCheck : activityViews) {
-			if (viewToCheck instanceof IcsSpinner) {
-				spinner = (IcsSpinner) viewToCheck;
-				break;
-			}
-		}
-		if (spinner == null) {
-			fail("no spinner found");
-		}
-		return spinner;
-	}
-
-	public static void clickOnActionBarSpinnerItem(Solo solo, int itemIndex) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			IcsSpinner spinner = UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo);
-			int activeSpinnerItemIndex = spinner.getSelectedItemPosition();
-			String itemToClickOnText = spinner.getAdapter().getItem(activeSpinnerItemIndex + itemIndex).toString();
-			UiTestUtils.changeToFragmentViaActionbar(solo,
-					spinner.getItemAtPosition(activeSpinnerItemIndex).toString(), itemToClickOnText);
-		} else {
-			solo.pressSpinnerItem(ACTION_BAR_SPINNER_INDEX, itemIndex);
-		}
-	}
-
-	public static int getActionBarSpinnerItemCount(Solo solo) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			return UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo).getAdapter().getCount();
-		} else {
-			return solo.getCurrentViews(Spinner.class).get(ACTION_BAR_SPINNER_INDEX).getAdapter().getCount();
 		}
 	}
 
@@ -1408,5 +1382,14 @@ public class UiTestUtils {
 
 	public static void waitForText(Solo solo, String text) {
 		assertEquals("Text not found!", true, solo.waitForText(text, 0, 2000));
+	}
+
+	public static void switchToFragmentInScriptActivity(Solo solo, int fragmentIndex) {
+		solo.goBack();
+		solo.waitForActivity(ProgramMenuActivity.class);
+		solo.clickOnButton(fragmentIndex);
+		solo.waitForActivity(ScriptActivity.class);
+		int id = fragmentIndexList.get(fragmentIndex);
+		solo.waitForFragmentById(id);
 	}
 }

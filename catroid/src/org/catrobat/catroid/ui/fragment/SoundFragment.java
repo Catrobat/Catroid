@@ -88,7 +88,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
@@ -329,7 +328,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		Log.d("SoundFragment", "onActivityReuslt");
+		Log.d("SoundFragment", "onActivityResult");
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_MUSIC && data != null) {
 			Bundle arguments = new Bundle();
@@ -783,7 +782,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			mode.setTitle(R.string.delete);
 
 			actionModeTitle = getString(R.string.delete);
-			actionModeTitle = getString(R.id.copy);
 			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
 			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
 
@@ -944,8 +942,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	private void switchToScriptFragment() {
 		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-		ActionBar actionBar = scriptActivity.getSupportActionBar();
-		actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_SCRIPTS);
 		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 
 		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();

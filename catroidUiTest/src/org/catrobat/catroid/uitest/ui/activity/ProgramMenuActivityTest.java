@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uitest.ui;
+package org.catrobat.catroid.uitest.ui.activity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -111,7 +111,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(backgroundString);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 
-		String currentSpriteName = ProjectManager.INSTANCE.getCurrentSprite().getName();
+		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
 
 		assertEquals("Current sprite is not " + backgroundString, backgroundString, currentSpriteName);
 		assertTrue("Title doesn't match " + backgroundString, solo.waitForText(currentSpriteName, 0, 200, false, true));
@@ -122,7 +122,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(spriteName);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 
-		currentSpriteName = ProjectManager.INSTANCE.getCurrentSprite().getName();
+		currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
 
 		assertEquals("Current sprite is not " + spriteName, spriteName, currentSpriteName);
 		assertTrue("Title doesn't match " + spriteName, solo.waitForText(currentSpriteName, 0, 200, false, true));
