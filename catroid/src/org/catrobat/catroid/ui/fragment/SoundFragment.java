@@ -35,6 +35,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SoundViewHolder;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
 import org.catrobat.catroid.ui.controller.SoundController;
@@ -86,7 +87,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.ActionMode;
@@ -515,7 +515,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		switch (item.getItemId()) {
 
 			case R.id.context_menu_backpack:
-				backPackSound();
+				SoundController.getInstance().backPackSound(selectedSoundInfo, getActivity());
 				break;
 
 			case R.id.context_menu_copy:
@@ -540,28 +540,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				break;
 		}
 		return super.onContextItemSelected(item);
-	}
-
-	private void backPackSound() {
-		// TODO Auto-generated method stub
-
-		String soundTitle = selectedSoundInfo.getTitle();
-
-		Toast.makeText(getActivity(), "Sound " + soundTitle + " copied into backpack", Toast.LENGTH_SHORT).show();
-
-		copySoundBackPack();
-	}
-
-	private void copySoundBackPack() {
-
-		try {
-			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		updateSoundAdapter(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName());
-
 	}
 
 	private void copySound() {
@@ -980,12 +958,12 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	}
 
 	public View getView(int position, View convertView) {
-		ViewHolder holder;
+		SoundViewHolder holder;
 
 		if (convertView == null) {
 			convertView = View.inflate(getActivity(), R.layout.fragment_sound_soundlist_item, null);
 
-			holder = new ViewHolder();
+			holder = new SoundViewHolder();
 			holder.playButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_play_image_button);
 			holder.pauseButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_pause_image_button);
 
@@ -1009,67 +987,13 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 			convertView.setTag(holder);
 		} else {
-			holder = (ViewHolder) convertView.getTag();
+			holder = (SoundViewHolder) convertView.getTag();
 		}
 		SoundController controller = SoundController.getInstance();
 		Log.v("Adapter *********", controller.toString());
 		controller.updateSoundLogic(position, holder);
 
 		return convertView;
-	}
-
-	public static class ViewHolder {
-		private ImageButton playButton;
-		private ImageButton pauseButton;
-		private LinearLayout soundFragmentButtonLayout;
-		private CheckBox checkbox;
-		private TextView titleTextView;
-		private TextView timeSeperatorTextView;
-		private TextView timeDurationTextView;
-		private TextView soundFileSizePrefixTextView;
-		private TextView soundFileSizeTextView;
-		private Chronometer timePlayedChronometer;
-
-		public ImageButton getPlayButton() {
-			return playButton;
-		}
-
-		public ImageButton getPauseButton() {
-			return pauseButton;
-		}
-
-		public LinearLayout getSoundFragmentButtonLayout() {
-			return soundFragmentButtonLayout;
-		}
-
-		public CheckBox getCheckbox() {
-			return checkbox;
-		}
-
-		public TextView getTitleTextView() {
-			return titleTextView;
-		}
-
-		public TextView getTimeSeperatorTextView() {
-			return timeSeperatorTextView;
-		}
-
-		public TextView getTimeDurationTextView() {
-			return timeDurationTextView;
-		}
-
-		public TextView getSoundFileSizePrefixTextView() {
-			return soundFileSizePrefixTextView;
-		}
-
-		public TextView getSoundFileSizeTextView() {
-			return soundFileSizeTextView;
-		}
-
-		public Chronometer getTimePlayedChronometer() {
-			return timePlayedChronometer;
-		}
-
 	}
 
 	public interface OnSoundInfoListChangedAfterNewListener {

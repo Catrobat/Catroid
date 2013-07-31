@@ -28,12 +28,16 @@ import java.io.IOException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BackPackSoundActivity;
+import org.catrobat.catroid.ui.SoundViewHolder;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
-import org.catrobat.catroid.ui.fragment.SoundFragment.ViewHolder;
 import org.catrobat.catroid.utils.UtilFile;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.SystemClock;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,6 +47,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * @author patrick, stefan
@@ -67,7 +72,7 @@ public class SoundController {
 		return instance;
 	}
 
-	public void updateSoundLogic(final int position, ViewHolder holder) {
+	public void updateSoundLogic(final int position, SoundViewHolder holder) {
 		Log.v("Adapter *********", ".........");
 		final SoundInfo soundInfo = soundAdapter.getSoundInfoItems().get(position);
 
@@ -226,6 +231,31 @@ public class SoundController {
 		soundAdapter.setCurrentPlayingPosition(Constants.NO_POSITION);
 
 		soundInfo.isPlaying = false;
+	}
+
+	public void backPackSound(SoundInfo selectedSoundInfo, FragmentActivity fragmentActivity) {
+
+		Toast.makeText(fragmentActivity, "Sound " + selectedSoundInfo.getTitle() + " copied into backpack",
+				Toast.LENGTH_SHORT).show();
+
+		Intent intentBackPack = new Intent(fragmentActivity, BackPackSoundActivity.class);
+
+		fragmentActivity.startActivity(intentBackPack);
+
+		copySoundBackPack(selectedSoundInfo);
+
+	}
+
+	private void copySoundBackPack(SoundInfo selectedSoundInfo) {
+
+		try {
+			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		//updateSoundAdapter(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName());
+
 	}
 
 }
