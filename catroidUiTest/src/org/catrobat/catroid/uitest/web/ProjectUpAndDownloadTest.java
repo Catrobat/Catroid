@@ -348,7 +348,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 				.getPrivateField(StatusBarNotificationManager.class, StatusBarNotificationManager.getInstance(),
 						"downloadNotificationDataMap");
 		for (Map.Entry<Integer, NotificationData> entry : downloadNotificationDataMap.entrySet()) {
-			if (entry.getValue().getName().compareTo(newProjectName) == 0) {
+			if (entry.getValue().getProgramName().compareTo(newProjectName) == 0) {
 				return;
 			}
 		}

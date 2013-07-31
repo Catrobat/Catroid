@@ -90,15 +90,12 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				long progress = resultData.getLong(ProgressBufferedOutputStream.TAG_PROGRESS);
 				boolean endOfFileReached = resultData.getBoolean(ProgressBufferedOutputStream.TAG_ENDOFFILE);
 				Integer notificationId = resultData.getInt(ProgressBufferedOutputStream.TAG_NOTIFICATION_ID);
-				String projectName = resultData.getString(ProgressBufferedOutputStream.TAG_PROJECT_NAME);
 				if (endOfFileReached) {
 					progress = 100;
 				}
-				String notificationMessage = getString(R.string.notification_percent_download) + progress
-						+ getString(R.string.notification_percent_completed) + projectName;
 
-				StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage,
-						Constants.DOWNLOAD_NOTIFICATION, endOfFileReached);
+				StatusBarNotificationManager.getInstance().updateDownloadNotification(notificationId,
+						Long.valueOf(progress).intValue(), "", 0, endOfFileReached);
 			}
 		}
 	}
@@ -130,6 +127,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		getIntent().setData(null);
 
 		if (loadExternalProjectUri != null) {
+			Log.e("blah", "main blub");
 			loadProgramFromExternalSource(loadExternalProjectUri);
 		}
 	}
@@ -150,11 +148,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 		String projectName = getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
 		if (projectName != null && !dialogsAreShown) {
-			ProjectManager.getInstance().loadProject(projectName, this, true);
-			if (ProjectManager.getInstance().getCurrentProject().getName().compareTo(projectName) == 0) {
-				Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
-				startActivity(intent);
-			}
+			loadProjectInBackground(projectName);
 		}
 		getIntent().removeExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
 	}
@@ -226,11 +220,15 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		}
 	}
 
-	public void handleContinueButton(View v) {
+	public void handleContinueButton() {
+		loadProjectInBackground(Utils.getCurrentProjectName(this));
+	}
+
+	private void loadProjectInBackground(String projectName) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), false);
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, false);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		loadProjectTask.execute();
 	}
@@ -281,6 +279,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			public void onClick(DialogInterface dialog, int id) {
 				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.pocketcode_website)
 						.toString()));
+				browserIntent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 				startActivity(browserIntent);
 			}
 		});
@@ -327,7 +326,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 	public int createNotification(String downloadName) {
 		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
-		int notificationId = manager.createNotification(downloadName, this, Constants.DOWNLOAD_NOTIFICATION);
+		int notificationId = manager.createDownloadNotification(downloadName, this);
 		return notificationId;
 	}
 

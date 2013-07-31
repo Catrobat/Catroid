@@ -239,7 +239,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			checkDoubleClickOpensViewOnce(new OnClickCommand() {
 				@Override
 				public void execute() {
-					activity.handleContinueButton(null);
+					activity.handleContinueButton();
 				}
 			}, R.id.main_menu_button_continue, R.id.fragment_sprites_list);
 		}

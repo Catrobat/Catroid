@@ -24,63 +24,91 @@ package org.catrobat.catroid.utils;
 
 import org.catrobat.catroid.ui.MainMenuActivity;
 
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.support.v4.app.NotificationCompat;
 
 public class NotificationData {
 
 	private PendingIntent pendingIntent;
 	private Context context;
-	private String name;
-	private String notificationTitle;
+	private String programName;
+	private String notificationTitlePrefix;
 	private MainMenuActivity activity;
+	private Notification notification;
+	private NotificationCompat.Builder notificationBuilder;
 
-	public NotificationData(PendingIntent pendingIntent, Context context, String name, String notificationTitle,
-			MainMenuActivity activity) {
+	public NotificationData(PendingIntent pendingIntent, Context context, String programName,
+			String notificationTitlePrefix, MainMenuActivity activity, Notification notification) {
 		this.pendingIntent = pendingIntent;
 		this.context = context;
-		this.name = name;
-		this.notificationTitle = notificationTitle;
+		this.programName = programName;
+		this.notificationTitlePrefix = notificationTitlePrefix;
 		this.activity = activity;
+		this.notification = notification;
 	}
 
 	public PendingIntent getPendingIntent() {
 		return pendingIntent;
 	}
 
-	public void setPendingIntent(PendingIntent pendingIntent) {
+	public NotificationData setPendingIntent(PendingIntent pendingIntent) {
 		this.pendingIntent = pendingIntent;
+		return this;
 	}
 
 	public Context getContext() {
 		return context;
 	}
 
-	public void setContext(Context context) {
+	public NotificationData setContext(Context context) {
 		this.context = context;
+		return this;
 	}
 
-	public String getName() {
-		return name;
+	public String getProgramName() {
+		return programName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public NotificationData setProgramName(String programName) {
+		this.programName = programName;
+		return this;
 	}
 
 	public String getNotificationTitle() {
-		return notificationTitle;
+		return notificationTitlePrefix + programName;
 	}
 
-	public void setNotificationTitle(String notificationTitle) {
-		this.notificationTitle = notificationTitle;
+	public NotificationData setNotificationTitlePrefix(String notificationTitlePrefix) {
+		this.notificationTitlePrefix = notificationTitlePrefix;
+		return this;
 	}
 
 	public MainMenuActivity getActivity() {
 		return activity;
 	}
 
-	public void setActivity(MainMenuActivity activity) {
+	public NotificationData setActivity(MainMenuActivity activity) {
 		this.activity = activity;
+		return this;
+	}
+
+	public Notification getNotification() {
+		return notification;
+	}
+
+	public NotificationData setNotification(Notification notification) {
+		this.notification = notification;
+		return this;
+	}
+
+	public NotificationCompat.Builder getNotificationBuilder() {
+		return notificationBuilder;
+	}
+
+	public NotificationData setNotificationBuilder(NotificationCompat.Builder notificationBuilder) {
+		this.notificationBuilder = notificationBuilder;
+		return this;
 	}
 }

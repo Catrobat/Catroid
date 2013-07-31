@@ -87,6 +87,7 @@ public class ProjectDownloadService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
+
 		receiver = (ResultReceiver) intent.getParcelableExtra(RECEIVER_TAG);
 		showOverwriteDialog = false;
 		try {
