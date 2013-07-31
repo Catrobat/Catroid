@@ -23,8 +23,10 @@
 package org.catrobat.catroid.formulaeditor;
 
 import java.util.Collections;
+import java.util.EmptyStackException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 public class InternFormulaUtils {
 
@@ -571,6 +573,60 @@ public class InternFormulaUtils {
 		}
 
 		return cursorPositionInternToken;
+	}
+
+	public static boolean applyBracketCorrection(List<InternToken> internFormula) throws EmptyStackException {
+
+		Stack<InternTokenType> stack = new Stack<InternTokenType>();
+
+		for (int index = 0; index < internFormula.size(); index++) {
+
+			if (internFormula.get(index).getInternTokenType() == InternTokenType.BRACKET_OPEN) {
+				stack.push(InternTokenType.BRACKET_OPEN);
+			}
+
+			if (internFormula.get(index).getInternTokenType() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN) {
+				stack.push(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN);
+			}
+
+			if (internFormula.get(index).getInternTokenType() == InternTokenType.BRACKET_CLOSE) {
+				if (stack.peek() == InternTokenType.BRACKET_OPEN) {
+					stack.pop();
+				} else {
+					if (swapBrackets(internFormula, index, InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE)) {
+						stack.pop();
+						continue;
+					}
+					return false;
+				}
+			}
+
+			if (internFormula.get(index).getInternTokenType() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE) {
+				if (stack.peek() == InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN) {
+					stack.pop();
+				} else {
+					if (swapBrackets(internFormula, index, InternTokenType.BRACKET_CLOSE)) {
+						stack.pop();
+						continue;
+					}
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	private static boolean swapBrackets(List<InternToken> internFormula, int firstBracketIndex,
+			InternTokenType secondBracket) {
+		for (int index = firstBracketIndex + 1; index < internFormula.size(); index++) {
+			if (internFormula.get(index).getInternTokenType() == secondBracket) {
+				InternToken firstBracket = internFormula.get(firstBracketIndex);
+				internFormula.set(firstBracketIndex, internFormula.get(index));
+				internFormula.set(index, firstBracket);
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
