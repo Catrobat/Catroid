@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.adapter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -38,6 +39,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.actionbarsherlock.view.ActionMode;
+
 public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActivityAdapterInterface {
 
 	protected ArrayList<SoundInfo> soundInfoItems;
@@ -48,7 +51,6 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 
 	protected Context context;
 	private SoundFragment soundFragment;
-
 	private BackPackSoundActivity backPackSoundActivity;
 
 	private OnSoundEditListener onSoundEditListener;
@@ -81,6 +83,30 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 			return convertView;
 		}
 		return soundFragment.getView(position, convertView);
+	}
+
+	public void onDestroyActionModeRename(ActionMode mode, ListView listView) {
+		Iterator<Integer> iterator = checkedSounds.iterator();
+
+		if (iterator.hasNext()) {
+			int position = iterator.next();
+			soundFragment.setSelectedSoundInfo((SoundInfo) listView.getItemAtPosition(position));
+			soundFragment.showRenameDialog();
+		}
+		soundFragment.clearCheckedSoundsAndEnableButtons();
+
+	}
+
+	public void onDestroyActionModeCopy(ActionMode mode) {
+		Iterator<Integer> iterator = checkedSounds.iterator();
+
+		while (iterator.hasNext()) {
+			int position = iterator.next();
+			SoundController.getInstance().copySound(position, soundFragment.getSoundInfoList(), this);
+		}
+
+		soundFragment.clearCheckedSoundsAndEnableButtons();
+
 	}
 
 	public void setSoundFragment(SoundFragment soundFragment) {
@@ -175,17 +201,10 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 		return onSoundEditListener;
 	}
 
-	/**
-	 * @return the backPackSoundActivity
-	 */
 	public BackPackSoundActivity getBackPackSoundActivity() {
 		return this.backPackSoundActivity;
 	}
 
-	/**
-	 * @param backPackSoundActivity
-	 *            the backPackSoundActivity to set
-	 */
 	public void setBackPackSoundActivity(BackPackSoundActivity backPackSoundActivity) {
 		this.backPackSoundActivity = backPackSoundActivity;
 	}

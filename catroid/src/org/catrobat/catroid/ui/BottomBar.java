@@ -58,4 +58,16 @@ public class BottomBar {
 			bottomBarLayout.findViewById(R.id.button_play).setVisibility(View.VISIBLE);
 		}
 	}
+
+	public static void setButtonInvisible(Activity activity) {
+		LinearLayout bottomBarLayout = (LinearLayout) activity.findViewById(R.id.bottom_bar);
+
+		if (bottomBarLayout != null) {
+			bottomBarLayout.findViewById(R.id.button_add).setVisibility(LinearLayout.INVISIBLE);
+			bottomBarLayout.findViewById(R.id.button_play).setVisibility(LinearLayout.INVISIBLE);
+			bottomBarLayout.findViewById(R.id.bottom_bar).setVisibility(View.INVISIBLE);
+			bottomBarLayout.findViewById(R.id.bottom_bar_separator).setVisibility(View.INVISIBLE);
+			bottomBarLayout.findViewById(R.id.button_play).setVisibility(View.INVISIBLE);
+		}
+	}
 }

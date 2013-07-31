@@ -25,8 +25,6 @@ package org.catrobat.catroid.ui.fragment;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.SortedSet;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -55,15 +53,10 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -95,14 +88,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
 
 	public static final String TAG = SoundFragment.class.getSimpleName();
-	public static final int REQUEST_SELECT_MUSIC = 0;
-
-	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 
 	private static int selectedSoundPosition = Constants.NO_POSITION;
-
-	private static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
-	private static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
 
 	private static String actionModeTitle;
 
@@ -133,7 +120,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		soundInfoListChangedAfterNewListener = listener;
 	}
 
-	private void setHandleAddbutton() {
+	public void setHandleAddbutton() {
 		btnAdd = (LinearLayout) getSherlockActivity().findViewById(R.id.button_add);
 		btnAdd.setOnClickListener(new OnClickListener() {
 			@Override
@@ -155,7 +142,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_sound, null);
+		View rootView = inflater.inflate(R.layout.sound_list, null);
 		return rootView;
 	}
 
@@ -167,7 +154,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		registerForContextMenu(listView);
 
 		if (savedInstanceState != null) {
-			selectedSoundInfo = (SoundInfo) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_SELECTED_SOUND);
+			selectedSoundInfo = (SoundInfo) savedInstanceState
+					.getSerializable(SoundController.BUNDLE_ARGUMENTS_SELECTED_SOUND);
 		}
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
@@ -190,7 +178,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable(BUNDLE_ARGUMENTS_SELECTED_SOUND, selectedSoundInfo);
+		outState.putSerializable(SoundController.BUNDLE_ARGUMENTS_SELECTED_SOUND, selectedSoundInfo);
 		super.onSaveInstanceState(outState);
 	}
 
@@ -235,16 +223,16 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
 
-		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
+		setShowDetails(settings.getBoolean(SoundController.SHARED_PREFERENCE_NAME, false));
 
-		handleAddButtonFromNew();
+		SoundController.getInstance().handleAddButtonFromNew(this);
 	}
 
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
 		if (!hidden) {
-			handleAddButtonFromNew();
+			SoundController.getInstance().handleAddButtonFromNew(this);
 		}
 	}
 
@@ -256,7 +244,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
 		}
-		stopSound();
+		SoundController.getInstance().stopSound(mediaPlayer, soundInfoList);
 		adapter.notifyDataSetChanged();
 
 		if (soundRenamedReceiver != null) {
@@ -271,8 +259,9 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				.getApplicationContext());
 		SharedPreferences.Editor editor = settings.edit();
 
-		editor.putBoolean(SHARED_PREFERENCE_NAME, getShowDetails());
+		editor.putBoolean(SoundController.SHARED_PREFERENCE_NAME, getShowDetails());
 		editor.commit();
+
 	}
 
 	@Override
@@ -287,7 +276,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	public void startCopyActionMode() {
 
 		if (actionMode == null) {
-			stopSoundAndUpdateList();
+			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
 			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.disableButtons(getActivity());
@@ -299,7 +288,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	@Override
 	public void startRenameActionMode() {
 		if (actionMode == null) {
-			stopSoundAndUpdateList();
+			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.disableButtons(getActivity());
@@ -311,7 +300,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	public void startDeleteActionMode() {
 
 		if (actionMode == null) {
-			stopSoundAndUpdateList();
+			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.disableButtons(getActivity());
@@ -328,28 +317,28 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		Log.d("SoundFragment", "onActivityResult");
 		//when new sound title is selected and ready to be added to the catroid project
-		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_MUSIC && data != null) {
+		if (resultCode == Activity.RESULT_OK && requestCode == SoundController.REQUEST_SELECT_MUSIC && data != null) {
 			Bundle arguments = new Bundle();
-			arguments.putParcelable(BUNDLE_ARGUMENTS_SELECTED_SOUND, data.getData());
+			arguments.putParcelable(SoundController.BUNDLE_ARGUMENTS_SELECTED_SOUND, data.getData());
 
-			if (getLoaderManager().getLoader(ID_LOADER_MEDIA_IMAGE) == null) {
-				getLoaderManager().initLoader(ID_LOADER_MEDIA_IMAGE, arguments, this);
+			if (getLoaderManager().getLoader(SoundController.ID_LOADER_MEDIA_IMAGE) == null) {
+				getLoaderManager().initLoader(SoundController.ID_LOADER_MEDIA_IMAGE, arguments, this);
 			} else {
-				getLoaderManager().restartLoader(ID_LOADER_MEDIA_IMAGE, arguments, this);
+				getLoaderManager().restartLoader(SoundController.ID_LOADER_MEDIA_IMAGE, arguments, this);
 			}
 		}
-		if (requestCode == SoundFragment.REQUEST_SELECT_MUSIC) {
+		if (requestCode == SoundController.REQUEST_SELECT_MUSIC) {
 			Log.d("SoundFragment", "onActivityResult RequestMusic");
 			setHandleAddbutton();
 
 		}
+
 	}
 
 	@Override
 	public void onSoundPlay(View view) {
-		handlePlaySoundButton(view);
+		SoundController.getInstance().handlePlaySoundButton(view, soundInfoList, mediaPlayer, adapter);
 	}
 
 	@Override
@@ -359,6 +348,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public void onSoundChecked() {
+
 		if (isRenameActionMode || actionMode == null) {
 			return;
 		}
@@ -390,34 +380,18 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle arguments) {
-		Uri audioUri = null;
-
-		if (arguments != null) {
-			audioUri = (Uri) arguments.get(BUNDLE_ARGUMENTS_SELECTED_SOUND);
-		}
-		String[] projection = { MediaStore.Audio.Media.DATA };
-		return new CursorLoader(getActivity(), audioUri, projection, null, null, null);
+		return SoundController.getInstance().onCreateLoader(id, arguments, getActivity());
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		String audioPath = "";
-		CursorLoader cursorLoader = (CursorLoader) loader;
-
-		if (data == null) {
-			audioPath = cursorLoader.getUri().getPath();
-		} else {
-			data.moveToFirst();
-			audioPath = data.getString(data.getColumnIndex(MediaStore.Audio.Media.DATA));
+		CopyAudioFilesTask task = new CopyAudioFilesTask();
+		String audioPath = SoundController.getInstance().onLoadFinished(loader, data, getActivity());
+		if (!audioPath.isEmpty()) {
+			task.execute(audioPath);
+			getLoaderManager().destroyLoader(SoundController.ID_LOADER_MEDIA_IMAGE);
 		}
 
-		if (audioPath.equalsIgnoreCase("")) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.error_load_sound));
-		} else {
-			new CopyAudioFilesTask().execute(audioPath);
-		}
-
-		getLoaderManager().destroyLoader(ID_LOADER_MEDIA_IMAGE);
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 
 		isResultHandled = true;
@@ -425,29 +399,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-	}
-
-	public void handlePlaySoundButton(View view) {
-		final int position = (Integer) view.getTag();
-		final SoundInfo soundInfo = soundInfoList.get(position);
-
-		stopSound();
-		if (!soundInfo.isPlaying) {
-			startSound(soundInfo);
-			adapter.notifyDataSetChanged();
-		}
-
-		mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
-			@Override
-			public void onCompletion(MediaPlayer mp) {
-				soundInfo.isPlaying = false;
-				adapter.notifyDataSetChanged();
-			}
-		});
-	}
-
-	public boolean isSoundPlaying() {
-		return mediaPlayer.isPlaying();
 	}
 
 	public void handlePauseSoundButton(View view) {
@@ -461,45 +412,12 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		soundInfo.isPlaying = false;
 	}
 
-	public void stopSound() {
-		if (isSoundPlaying()) {
-			mediaPlayer.stop();
-		}
-
-		for (int i = 0; i < soundInfoList.size(); i++) {
-			soundInfoList.get(i).isPlaying = false;
-		}
-	}
-
-	public void stopSoundAndUpdateList() {
-		if (!isSoundPlaying()) {
-			return;
-		}
-		stopSound();
-		adapter.notifyDataSetChanged();
-	}
-
-	public void startSound(SoundInfo soundInfo) {
-		if (!soundInfo.isPlaying) {
-			try {
-				mediaPlayer.reset();
-				mediaPlayer.setDataSource(soundInfo.getAbsolutePath());
-				mediaPlayer.prepare();
-				mediaPlayer.start();
-
-				soundInfo.isPlaying = true;
-			} catch (IOException e) {
-				Log.e("CATROID", "Cannot start sound.", e);
-			}
-		}
-	}
-
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 
-		if (isSoundPlaying()) {
-			stopSoundAndUpdateList();
+		if (SoundController.getInstance().isSoundPlaying(mediaPlayer)) {
+			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
 		}
 		selectedSoundInfo = adapter.getItem(selectedSoundPosition);
 		menu.setHeaderTitle(selectedSoundInfo.getTitle());
@@ -514,11 +432,13 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		switch (item.getItemId()) {
 
 			case R.id.context_menu_backpack:
-				SoundController.getInstance().backPackSound(selectedSoundInfo, getActivity());
+				SoundController.getInstance().backPackSound(selectedSoundInfo, getActivity(), soundInfoList, adapter);
 				break;
 
 			case R.id.context_menu_copy:
-				copySound();
+				SoundInfo newSoundInfo = SoundController.getInstance().copySound(selectedSoundInfo, soundInfoList,
+						adapter);
+				updateSoundAdapter(newSoundInfo);
 				break;
 
 			case R.id.context_menu_cut:
@@ -541,16 +461,31 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		return super.onContextItemSelected(item);
 	}
 
-	private void copySound() {
+	private void updateSoundAdapter(SoundInfo newSoundInfo) {
 
-		try {
-			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (soundInfoListChangedAfterNewListener != null) {
+			soundInfoListChangedAfterNewListener.onSoundInfoListChangedAfterNew(newSoundInfo);
+		}
+		//scroll down the list to the new item:
+		{
+			final ListView listView = getListView();
+			listView.post(new Runnable() {
+				@Override
+				public void run() {
+					listView.setSelection(listView.getCount() - 1);
+				}
+			});
 		}
 
-		updateSoundAdapter(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName());
+		if (isResultHandled) {
+			isResultHandled = false;
 
+			ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+			if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
+					&& scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
+				SoundController.getInstance().switchToScriptFragment(this);
+			}
+		}
 	}
 
 	@Override
@@ -589,11 +524,11 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		intent.setType("audio/*");
 
 		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
-				REQUEST_SELECT_MUSIC);
+				SoundController.REQUEST_SELECT_MUSIC);
 	}
 
 	@Override
-	protected void showRenameDialog() {
+	public void showRenameDialog() {
 		RenameSoundDialog renameSoundDialog = RenameSoundDialog.newInstance(selectedSoundInfo.getTitle());
 		renameSoundDialog.show(getFragmentManager(), RenameSoundDialog.DIALOG_FRAGMENT_TAG);
 	}
@@ -602,41 +537,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	protected void showDeleteDialog() {
 		DeleteSoundDialog deleteSoundDialog = DeleteSoundDialog.newInstance(selectedSoundPosition);
 		deleteSoundDialog.show(getFragmentManager(), DeleteSoundDialog.DIALOG_FRAGMENT_TAG);
-	}
-
-	private class CopyAudioFilesTask extends AsyncTask<String, Void, File> {
-		private ProgressDialog progressDialog = new ProgressDialog(getActivity());
-
-		@Override
-		protected void onPreExecute() {
-			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			progressDialog.setTitle(getString(R.string.loading));
-			progressDialog.show();
-		}
-
-		@Override
-		protected File doInBackground(String... path) {
-			File file = null;
-			try {
-				file = StorageHandler.getInstance().copySoundFile(path[0]);
-			} catch (IOException e) {
-				Log.e("CATROID", "Cannot load sound.", e);
-			}
-			return file;
-		}
-
-		@Override
-		protected void onPostExecute(File file) {
-			progressDialog.dismiss();
-
-			if (file != null) {
-				String fileName = file.getName();
-				String soundTitle = fileName.substring(fileName.indexOf('_') + 1, fileName.lastIndexOf('.'));
-				updateSoundAdapter(soundTitle, fileName);
-			} else {
-				Utils.showErrorDialog(getActivity(), getString(R.string.error_load_sound));
-			}
-		}
 	}
 
 	private class SoundRenamedReceiver extends BroadcastReceiver {
@@ -697,15 +597,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
-			Iterator<Integer> iterator = checkedSounds.iterator();
-
-			if (iterator.hasNext()) {
-				int position = iterator.next();
-				selectedSoundInfo = (SoundInfo) listView.getItemAtPosition(position);
-				showRenameDialog();
-			}
-			clearCheckedSoundsAndEnableButtons();
+			adapter.onDestroyActionModeRename(mode, listView);
 		}
 	};
 
@@ -739,33 +631,11 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 
-			SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
-			Iterator<Integer> iterator = checkedSounds.iterator();
-
-			while (iterator.hasNext()) {
-				int position = iterator.next();
-				copySound(position);
-			}
-
-			clearCheckedSoundsAndEnableButtons();
+			adapter.onDestroyActionModeCopy(mode);
 
 		}
 
 	};
-
-	private void copySound(int position) {
-
-		SoundInfo soundInfo = soundInfoList.get(position);
-
-		try {
-			StorageHandler.getInstance().copySoundFile(soundInfo.getAbsolutePath());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		updateSoundAdapter(soundInfo.getTitle(), soundInfo.getSoundFileName());
-
-	}
 
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
 
@@ -803,42 +673,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		}
 	};
 
-	private void updateSoundAdapter(String title, String fileName) {
-		title = Utils.getUniqueSoundName(title);
-
-		SoundInfo newSoundInfo = new SoundInfo();
-		newSoundInfo.setTitle(title);
-		newSoundInfo.setSoundFileName(fileName);
-		soundInfoList.add(newSoundInfo);
-
-		adapter.notifyDataSetChanged();
-
-		if (soundInfoListChangedAfterNewListener != null) {
-			soundInfoListChangedAfterNewListener.onSoundInfoListChangedAfterNew(newSoundInfo);
-		}
-
-		//scroll down the list to the new item:
-		{
-			final ListView listView = getListView();
-			listView.post(new Runnable() {
-				@Override
-				public void run() {
-					listView.setSelection(listView.getCount() - 1);
-				}
-			});
-		}
-
-		if (isResultHandled) {
-			isResultHandled = false;
-
-			ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-			if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
-					&& scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
-				switchToScriptFragment();
-			}
-		}
-	}
-
 	private void initClickListener() {
 		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
@@ -847,27 +681,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				return false;
 			}
 		});
-	}
-
-	private void deleteSound(int position) {
-		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
-
-		soundInfoList.remove(position);
-		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
-
-		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
-	}
-
-	private void deleteCheckedSounds() {
-		SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
-		Iterator<Integer> iterator = checkedSounds.iterator();
-		stopSoundAndUpdateList();
-		int numberDeleted = 0;
-		while (iterator.hasNext()) {
-			int position = iterator.next();
-			deleteSound(position - numberDeleted);
-			++numberDeleted;
-		}
 	}
 
 	private void showConfirmDeleteDialog() {
@@ -888,7 +701,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				deleteCheckedSounds();
+				SoundController.getInstance().deleteCheckedSounds(getActivity(), adapter, soundInfoList, mediaPlayer);
 				clearCheckedSoundsAndEnableButtons();
 			}
 		});
@@ -904,7 +717,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		alertDialog.show();
 	}
 
-	private void clearCheckedSoundsAndEnableButtons() {
+	public void clearCheckedSoundsAndEnableButtons() {
 		setSelectMode(ListView.CHOICE_MODE_NONE);
 		adapter.clearCheckedItems();
 
@@ -915,22 +728,13 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		BottomBar.enableButtons(getActivity());
 	}
 
-	private void handleAddButtonFromNew() {
-		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-		if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
-				&& !scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
-			scriptActivity.setIsSoundFragmentHandleAddButtonHandled(true);
-			handleAddButton();
-		}
-	}
-
 	@Override
 	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
 				ScriptActivity scriptActivity = (ScriptActivity) getActivity();
 				if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()) {
-					switchToScriptFragment();
+					SoundController.getInstance().switchToScriptFragment(this);
 
 					return true;
 				}
@@ -938,19 +742,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				break;
 		}
 		return false;
-	}
-
-	private void switchToScriptFragment() {
-		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
-
-		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();
-		fragmentTransaction.hide(this);
-		fragmentTransaction.show(scriptActivity.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
-		fragmentTransaction.commit();
-
-		scriptActivity.setIsSoundFragmentFromPlaySoundBrickNewFalse();
-		scriptActivity.setIsSoundFragmentHandleAddButtonHandled(false);
 	}
 
 	public View getView(int position, View convertView) {
@@ -997,4 +788,73 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		public void onSoundInfoListChangedAfterNew(SoundInfo soundInfo);
 
 	}
+
+	public SoundDeletedReceiver getSoundDeletedReceiver() {
+		return soundDeletedReceiver;
+	}
+
+	public void setSoundDeletedReceiver(SoundDeletedReceiver soundDeletedReceiver) {
+		this.soundDeletedReceiver = soundDeletedReceiver;
+	}
+
+	public SoundRenamedReceiver getSoundRenamedReceiver() {
+		return soundRenamedReceiver;
+	}
+
+	public void setSoundRenamedReceiver(SoundRenamedReceiver soundRenamedReceiver) {
+		this.soundRenamedReceiver = soundRenamedReceiver;
+	}
+
+	public SoundCopiedReceiver getSoundCopiedReceiver() {
+		return soundCopiedReceiver;
+	}
+
+	public void setSoundCopiedReceiver(SoundCopiedReceiver soundCopiedReceiver) {
+		this.soundCopiedReceiver = soundCopiedReceiver;
+	}
+
+	public class CopyAudioFilesTask extends AsyncTask<String, Void, File> {
+		private ProgressDialog progressDialog = new ProgressDialog(getActivity());
+
+		@Override
+		protected void onPreExecute() {
+			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			progressDialog.setTitle(getString(R.string.loading));
+			progressDialog.show();
+		}
+
+		@Override
+		protected File doInBackground(String... path) {
+			File file = null;
+			try {
+				file = StorageHandler.getInstance().copySoundFile(path[0]);
+			} catch (IOException e) {
+				Log.e("CATROID", "Cannot load sound.", e);
+			}
+			return file;
+		}
+
+		@Override
+		protected void onPostExecute(File file) {
+			progressDialog.dismiss();
+
+			if (file != null) {
+				String fileName = file.getName();
+				String soundTitle = fileName.substring(fileName.indexOf('_') + 1, fileName.lastIndexOf('.'));
+				SoundController.getInstance().updateSoundAdapter(soundTitle, fileName, soundInfoList, adapter);
+			} else {
+				Utils.showErrorDialog(getActivity(), getString(R.string.error_load_sound));
+			}
+		}
+
+	}
+
+	public void setSelectedSoundInfo(SoundInfo selectedSoundInfo) {
+		this.selectedSoundInfo = selectedSoundInfo;
+	}
+
+	public ArrayList<SoundInfo> getSoundInfoList() {
+		return soundInfoList;
+	}
+
 }

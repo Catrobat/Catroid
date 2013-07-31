@@ -24,20 +24,37 @@ package org.catrobat.catroid.ui.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.SortedSet;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackSoundActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SoundViewHolder;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
+import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.Utils;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.net.Uri;
+import android.os.Bundle;
 import android.os.SystemClock;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -49,11 +66,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * @author patrick, stefan
- * 
- */
 public class SoundController {
+
+	public static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
+	public static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
+	public static final int ID_LOADER_MEDIA_IMAGE = 1;
+	public static final int REQUEST_SELECT_MUSIC = 0;
 
 	private static SoundAdapter soundAdapter;
 
@@ -233,7 +251,8 @@ public class SoundController {
 		soundInfo.isPlaying = false;
 	}
 
-	public void backPackSound(SoundInfo selectedSoundInfo, FragmentActivity fragmentActivity) {
+	public void backPackSound(SoundInfo selectedSoundInfo, FragmentActivity fragmentActivity,
+			ArrayList<SoundInfo> soundInfoList, SoundAdapter adapter) {
 
 		Toast.makeText(fragmentActivity, "Sound " + selectedSoundInfo.getTitle() + " copied into backpack",
 				Toast.LENGTH_SHORT).show();
@@ -242,11 +261,11 @@ public class SoundController {
 
 		fragmentActivity.startActivity(intentBackPack);
 
-		copySoundBackPack(selectedSoundInfo);
+		copySoundBackPack(selectedSoundInfo, soundInfoList, adapter);
 
 	}
 
-	private void copySoundBackPack(SoundInfo selectedSoundInfo) {
+	private void copySoundBackPack(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList, SoundAdapter adapter) {
 
 		try {
 			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
@@ -254,8 +273,180 @@ public class SoundController {
 			e.printStackTrace();
 		}
 
-		//updateSoundAdapter(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName());
+		updateSoundAdapter(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName(), soundInfoList, adapter);
 
+	}
+
+	public SoundInfo copySound(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList, SoundAdapter adapter) {
+
+		try {
+			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return updateSoundAdapter(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName(), soundInfoList,
+				adapter);
+	}
+
+	public void copySound(int position, ArrayList<SoundInfo> soundInfoList, SoundAdapter adapter) {
+
+		SoundInfo soundInfo = soundInfoList.get(position);
+
+		try {
+			StorageHandler.getInstance().copySoundFile(soundInfo.getAbsolutePath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		SoundController.getInstance().updateSoundAdapter(soundInfo.getTitle(), soundInfo.getSoundFileName(),
+				soundInfoList, adapter);
+
+	}
+
+	private void deleteSound(int position, ArrayList<SoundInfo> soundInfoList, Activity activity) {
+		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
+
+		soundInfoList.remove(position);
+		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
+
+		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
+	}
+
+	public void deleteCheckedSounds(Activity activity, SoundAdapter adapter, ArrayList<SoundInfo> soundInfoList,
+			MediaPlayer mediaPlayer) {
+		SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
+		Iterator<Integer> iterator = checkedSounds.iterator();
+		SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
+		int numberDeleted = 0;
+		while (iterator.hasNext()) {
+			int position = iterator.next();
+			deleteSound(position - numberDeleted, soundInfoList, activity);
+			++numberDeleted;
+		}
+	}
+
+	public SoundInfo updateSoundAdapter(String title, String fileName, ArrayList<SoundInfo> soundInfoList,
+			SoundAdapter adapter) {
+		title = Utils.getUniqueSoundName(title);
+
+		SoundInfo newSoundInfo = new SoundInfo();
+		newSoundInfo.setTitle(title);
+		newSoundInfo.setSoundFileName(fileName);
+		soundInfoList.add(newSoundInfo);
+
+		adapter.notifyDataSetChanged();
+		return newSoundInfo;
+	}
+
+	public boolean isSoundPlaying(MediaPlayer mediaPlayer) {
+		return mediaPlayer.isPlaying();
+	}
+
+	public void stopSound(MediaPlayer mediaPlayer, ArrayList<SoundInfo> soundInfoList) {
+		if (isSoundPlaying(mediaPlayer)) {
+			mediaPlayer.stop();
+		}
+
+		for (int i = 0; i < soundInfoList.size(); i++) {
+			soundInfoList.get(i).isPlaying = false;
+		}
+	}
+
+	public void handlePlaySoundButton(View view, ArrayList<SoundInfo> soundInfoList, MediaPlayer mediaPlayer,
+			final SoundAdapter adapter) {
+		final int position = (Integer) view.getTag();
+		final SoundInfo soundInfo = soundInfoList.get(position);
+
+		stopSound(mediaPlayer, soundInfoList);
+		if (!soundInfo.isPlaying) {
+			startSound(soundInfo, mediaPlayer);
+			adapter.notifyDataSetChanged();
+		}
+
+		mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
+			@Override
+			public void onCompletion(MediaPlayer mp) {
+				soundInfo.isPlaying = false;
+				adapter.notifyDataSetChanged();
+			}
+		});
+	}
+
+	public void stopSoundAndUpdateList(MediaPlayer mediaPlayer, ArrayList<SoundInfo> soundInfoList, SoundAdapter adapter) {
+		if (!isSoundPlaying(mediaPlayer)) {
+			return;
+		}
+		stopSound(mediaPlayer, soundInfoList);
+		adapter.notifyDataSetChanged();
+	}
+
+	public void startSound(SoundInfo soundInfo, MediaPlayer mediaPlayer) {
+		if (!soundInfo.isPlaying) {
+			try {
+				mediaPlayer.reset();
+				mediaPlayer.setDataSource(soundInfo.getAbsolutePath());
+				mediaPlayer.prepare();
+				mediaPlayer.start();
+
+				soundInfo.isPlaying = true;
+			} catch (IOException e) {
+				Log.e("CATROID", "Cannot start sound.", e);
+			}
+		}
+	}
+
+	public Loader<Cursor> onCreateLoader(int id, Bundle arguments, Activity activity) {
+		Uri audioUri = null;
+
+		if (arguments != null) {
+			audioUri = (Uri) arguments.get(BUNDLE_ARGUMENTS_SELECTED_SOUND);
+		}
+		String[] projection = { MediaStore.Audio.Media.DATA };
+		return new CursorLoader(activity, audioUri, projection, null, null, null);
+	}
+
+	public String onLoadFinished(Loader<Cursor> loader, Cursor data, Activity activity) {
+		String audioPath = "";
+		CursorLoader cursorLoader = (CursorLoader) loader;
+
+		if (data == null) {
+			audioPath = cursorLoader.getUri().getPath();
+		} else {
+			data.moveToFirst();
+			audioPath = data.getString(data.getColumnIndex(MediaStore.Audio.Media.DATA));
+		}
+
+		if (audioPath.equalsIgnoreCase("")) {
+			Utils.showErrorDialog(activity, activity.getString(R.string.error_load_sound));
+			audioPath = "";
+			return audioPath;
+		} else {
+			return audioPath;
+		}
+
+	}
+
+	public void handleAddButtonFromNew(SoundFragment soundFragment) {
+		ScriptActivity scriptActivity = (ScriptActivity) soundFragment.getActivity();
+		if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
+				&& !scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
+			scriptActivity.setIsSoundFragmentHandleAddButtonHandled(true);
+			soundFragment.handleAddButton();
+		}
+	}
+
+	public void switchToScriptFragment(SoundFragment soundFragment) {
+		ScriptActivity scriptActivity = (ScriptActivity) soundFragment.getActivity();
+		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
+
+		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.hide(soundFragment);
+		fragmentTransaction.show(scriptActivity.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
+		fragmentTransaction.commit();
+
+		scriptActivity.setIsSoundFragmentFromPlaySoundBrickNewFalse();
+		scriptActivity.setIsSoundFragmentHandleAddButtonHandled(false);
 	}
 
 }
