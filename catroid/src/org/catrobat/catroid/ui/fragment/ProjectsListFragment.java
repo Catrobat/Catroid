@@ -23,8 +23,11 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -55,6 +58,7 @@ import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter.OnProjectCheckedListener;
@@ -86,6 +90,8 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	private static String singleItemAppendixDeleteActionMode;
 	private static String multipleItemAppendixDeleteActionMode;
 
+	private ProjectListInitReceiver projectListInitReceiver;
+
 	private List<ProjectData> projectList;
 	private ProjectData projectToEdit;
 	private ProjectAdapter adapter;
@@ -104,6 +110,11 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	@Override
 	public void onPause() {
 		super.onPause();
+
+		if (projectListInitReceiver != null) {
+			getActivity().unregisterReceiver(projectListInitReceiver);
+		}
+
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
 		SharedPreferences.Editor editor = settings.edit();
@@ -120,10 +131,19 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			actionMode.finish();
 			actionMode = null;
 		}
+
+		if (projectListInitReceiver == null) {
+			projectListInitReceiver = new ProjectListInitReceiver();
+		}
+
+		IntentFilter intentFilterSpriteListInit = new IntentFilter(MyProjectsActivity.ACTION_PROJECT_LIST_INIT);
+		getActivity().registerReceiver(projectListInitReceiver, intentFilterSpriteListInit);
+
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
 
 		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
+
 	}
 
 	@Override
@@ -529,5 +549,14 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			clearCheckedProjectsAndEnableButtons();
 		}
 	};
+
+	private class ProjectListInitReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(MyProjectsActivity.ACTION_PROJECT_LIST_INIT)) {
+				adapter.notifyDataSetChanged();
+			}
+		}
+	}
 
 }

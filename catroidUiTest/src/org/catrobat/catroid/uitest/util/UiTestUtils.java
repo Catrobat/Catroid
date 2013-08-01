@@ -47,6 +47,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -1417,5 +1418,21 @@ public class UiTestUtils {
 		}
 
 		notificationMap.clear();
+	}
+
+	public static boolean getContextMenuAndGoBackToCheckIfSelected(Solo solo, Activity activity, int buttonId,
+			String buttonText, String listElementName) {
+		longClickOnTextInList(solo, listElementName);
+		solo.waitForText(buttonText);
+		solo.goBack();
+
+		openActionMode(solo, buttonText, buttonId, activity);
+		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
+		for (CheckBox checkBox : checkBoxList) {
+			if (checkBox.isChecked()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

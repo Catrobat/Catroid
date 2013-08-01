@@ -113,6 +113,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private SoundRenamedReceiver soundRenamedReceiver;
 	private SoundCopiedReceiver soundCopiedReceiver;
 
+	private SoundsListInitReceiver soundsListInitReceiver;
+
 	private ActionMode actionMode;
 
 	private boolean isRenameActionMode;
@@ -212,6 +214,10 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			soundCopiedReceiver = new SoundCopiedReceiver();
 		}
 
+		if (soundsListInitReceiver == null) {
+			soundsListInitReceiver = new SoundsListInitReceiver();
+		}
+
 		IntentFilter intentFilterRenameSound = new IntentFilter(ScriptActivity.ACTION_SOUND_RENAMED);
 		getActivity().registerReceiver(soundRenamedReceiver, intentFilterRenameSound);
 
@@ -220,6 +226,9 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		IntentFilter intentFilterCopySound = new IntentFilter(ScriptActivity.ACTION_SOUND_COPIED);
 		getActivity().registerReceiver(soundCopiedReceiver, intentFilterCopySound);
+
+		IntentFilter intentFilterSoundsListInit = new IntentFilter(ScriptActivity.ACTION_SOUNDS_LIST_INIT);
+		getActivity().registerReceiver(soundsListInitReceiver, intentFilterSoundsListInit);
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
@@ -254,6 +263,10 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		if (soundDeletedReceiver != null) {
 			getActivity().unregisterReceiver(soundDeletedReceiver);
+		}
+
+		if (soundsListInitReceiver != null) {
+			getActivity().unregisterReceiver(soundsListInitReceiver);
 		}
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
@@ -945,5 +958,14 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		public void onSoundInfoListChangedAfterNew(SoundInfo soundInfo);
 
+	}
+
+	private class SoundsListInitReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_SOUNDS_LIST_INIT)) {
+				adapter.notifyDataSetChanged();
+			}
+		}
 	}
 }
