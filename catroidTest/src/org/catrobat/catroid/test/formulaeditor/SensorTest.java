@@ -174,12 +174,12 @@ public class SensorTest extends InstrumentationTestCase {
 		if (Math.abs(xInclinationUsedToExtendRangeOfRoll) <= 90f) {
 			expectedYInclination = sensorValue * SensorHandler.radianToDegreeConst * -1f;
 		} else {
-			float uncorrectedXInclination = sensorValue.floatValue() * SensorHandler.radianToDegreeConst * -1f;
+			float uncorrectedYInclination = sensorValue.floatValue() * SensorHandler.radianToDegreeConst * -1f;
 
-			if (uncorrectedXInclination > 0f) {
-				expectedYInclination = 180f - uncorrectedXInclination;
+			if (uncorrectedYInclination > 0f) {
+				expectedYInclination = 180f - uncorrectedYInclination;
 			} else {
-				expectedYInclination = -180f - uncorrectedXInclination;
+				expectedYInclination = -180f - uncorrectedYInclination;
 			}
 		}
 
