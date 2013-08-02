@@ -136,12 +136,12 @@ public class SensorHandler implements SensorEventListener, SensorCustomEventList
 				if (Math.abs(xInclinationUsedToExtendRangeOfRoll) <= 90f) {
 					return sensorValue * radianToDegreeConst * -1f;
 				} else {
-					float uncorrectedXInclination = sensorValue.floatValue() * radianToDegreeConst * -1f;
+					float uncorrectedYInclination = sensorValue.floatValue() * radianToDegreeConst * -1f;
 
-					if (uncorrectedXInclination > 0f) {
-						return (double) 180f - uncorrectedXInclination;
+					if (uncorrectedYInclination > 0f) {
+						return (double) 180f - uncorrectedYInclination;
 					} else {
-						return (double) -180f - uncorrectedXInclination;
+						return (double) -180f - uncorrectedYInclination;
 					}
 				}
 
