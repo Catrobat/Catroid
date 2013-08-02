@@ -45,6 +45,7 @@ public interface Brick extends Serializable {
 	public static final int BLUETOOTH_LEGO_NXT = 0x4;
 
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
+	public static final int FACE_DETECTION = 0x10;
 
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence);
 
