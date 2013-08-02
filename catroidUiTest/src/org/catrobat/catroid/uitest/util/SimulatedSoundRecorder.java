@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,30 +19,40 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
--->
+package org.catrobat.catroid.uitest.util;
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal" >
+import org.catrobat.catroid.soundrecorder.SoundRecorder;
 
-    <CheckBox
-        android:id="@+id/brick_when_face_detected_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:visibility="gone" />
+public class SimulatedSoundRecorder extends SoundRecorder {
+	private boolean recording = false;
 
-    <LinearLayout
-        android:id="@+id/brick_when_face_detected_layout"
-        style="@style/BrickContainer.Script.Small">
+	public SimulatedSoundRecorder(String path) {
+		super(path);
+	}
 
-        <TextView
-            style="@style/BrickText.SingleLine"
-            android:text="@string/brick_when_face_detected" >
-        </TextView>
-    </LinearLayout>
+	@Override
+	public void start() {
+		recording = true;
+	}
 
-</LinearLayout>
+	@Override
+	public boolean isRecording() {
+		return recording;
+	}
+
+	@Override
+	public void stop() {
+		if (!recording) {
+			throw new IllegalStateException();
+		}
+		recording = false;
+	}
+
+	@Override
+	public int getMaxAmplitude() {
+		return (int) (Math.random() * 32000 + 767);
+	}
+
+}

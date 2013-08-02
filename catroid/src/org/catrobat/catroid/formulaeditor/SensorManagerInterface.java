@@ -29,7 +29,11 @@ public interface SensorManagerInterface {
 
 	public void unregisterListener(SensorEventListener listener);
 
+	public void unregisterListener(SensorCustomEventListener listener);
+
 	public boolean registerListener(SensorEventListener listener, Sensor sensor, int rate);
+
+	public boolean registerListener(SensorCustomEventListener listener, Sensors sensor);
 
 	public Sensor getDefaultSensor(int typeLinearAcceleration);
 }

@@ -31,8 +31,11 @@ import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.util.Log;
 
-public class SensorHandler implements SensorEventListener, OnFaceDetectedListener, OnFaceDetectionStatusChangedListener {
+public class SensorHandler implements SensorEventListener, OnFaceDetectedListener,
+		OnFaceDetectionStatusChangedListener, SensorCustomEventListener {
+	private static final String TAG = SensorHandler.class.getSimpleName();
 	private static SensorHandler instance = null;
 	private SensorManagerInterface sensorManager = null;
 	private Sensor accelerometerSensor = null;
@@ -45,6 +48,7 @@ public class SensorHandler implements SensorEventListener, OnFaceDetectedListene
 	private float linearAcceleartionY = 0f;
 	private float linearAcceleartionZ = 0f;
 
+	private float loudness = 0f;
 	private int faceDetected = 0;
 	private int faceSize = 0;
 	private int facePositionX = 0;
@@ -62,11 +66,13 @@ public class SensorHandler implements SensorEventListener, OnFaceDetectedListene
 		if (instance == null) {
 			instance = new SensorHandler(context);
 		}
-		instance.sensorManager.unregisterListener(instance);
+		instance.sensorManager.unregisterListener((SensorEventListener) instance);
+		instance.sensorManager.unregisterListener((SensorCustomEventListener) instance);
 		instance.sensorManager.registerListener(instance, instance.accelerometerSensor,
 				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
 		instance.sensorManager.registerListener(instance, instance.rotationVectorSensor,
 				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
+		instance.sensorManager.registerListener(instance, Sensors.LOUDNESS);
 		FaceDetectionHandler.registerOnFaceDetectedListener(instance);
 		FaceDetectionHandler.registerOnFaceDetectionStatusListener(instance);
 	}
@@ -92,7 +98,8 @@ public class SensorHandler implements SensorEventListener, OnFaceDetectedListene
 		if (instance == null) {
 			return;
 		}
-		instance.sensorManager.unregisterListener(instance);
+		instance.sensorManager.unregisterListener((SensorEventListener) instance);
+		instance.sensorManager.unregisterListener((SensorCustomEventListener) instance);
 		FaceDetectionHandler.unregisterOnFaceDetectedListener(instance);
 		FaceDetectionHandler.unregisterOnFaceDetectionStatusListener(instance);
 	}
@@ -143,12 +150,12 @@ public class SensorHandler implements SensorEventListener, OnFaceDetectedListene
 				if (Math.abs(xInclinationUsedToExtendRangeOfRoll) <= 90f) {
 					return sensorValue * radianToDegreeConst * -1f;
 				} else {
-					float uncorrectedXInclination = sensorValue.floatValue() * radianToDegreeConst * -1f;
+					float uncorrectedYInclination = sensorValue.floatValue() * radianToDegreeConst * -1f;
 
-					if (uncorrectedXInclination > 0f) {
-						return (double) 180f - uncorrectedXInclination;
+					if (uncorrectedYInclination > 0f) {
+						return (double) 180f - uncorrectedYInclination;
 					} else {
-						return (double) -180f - uncorrectedXInclination;
+						return (double) -180f - uncorrectedYInclination;
 					}
 				}
 			case FACE_DETECTED:
@@ -159,14 +166,15 @@ public class SensorHandler implements SensorEventListener, OnFaceDetectedListene
 				return Double.valueOf(instance.facePositionX);
 			case FACE_Y_POSITION:
 				return Double.valueOf(instance.facePositionY);
-		}
 
+			case LOUDNESS:
+				return Double.valueOf(instance.loudness);
+		}
 		return 0d;
 	}
 
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
-
 	}
 
 	@Override
@@ -182,8 +190,20 @@ public class SensorHandler implements SensorEventListener, OnFaceDetectedListene
 				rotationVector[1] = event.values[1];
 				rotationVector[2] = event.values[2];
 				break;
+			default:
+				Log.v(TAG, "Unhandled sensor type: " + event.sensor.getType());
 		}
+	}
 
+	@Override
+	public void onCustomSensorChanged(SensorCustomEvent event) {
+		switch (event.sensor) {
+			case LOUDNESS:
+				instance.loudness = event.values[0];
+				break;
+			default:
+				Log.v(TAG, "Unhandled sensor: " + event.sensor);
+		}
 	}
 
 	@Override
@@ -203,5 +223,4 @@ public class SensorHandler implements SensorEventListener, OnFaceDetectedListene
 		}
 		instance.faceDetected = faceDetected ? 1 : 0;
 	}
-
 }

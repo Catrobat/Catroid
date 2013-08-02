@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,20 +19,40 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/fragment_background_color"
-    android:orientation="vertical" >
+ */
 
-    <!-- Brick category list -->
+package org.catrobat.catroid.test.utils;
 
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:cacheColorHint="#00000000"
-        android:divider="@android:color/transparent" />
+import org.catrobat.catroid.soundrecorder.SoundRecorder;
 
-</LinearLayout>
+public class SimulatedSoundRecorder extends SoundRecorder {
+	private boolean recording = false;
+
+	public SimulatedSoundRecorder(String path) {
+		super(path);
+	}
+
+	@Override
+	public void start() {
+		recording = true;
+	}
+
+	@Override
+	public boolean isRecording() {
+		return recording;
+	}
+
+	@Override
+	public void stop() {
+		if (!recording) {
+			throw new IllegalStateException();
+		}
+		recording = false;
+	}
+
+	@Override
+	public int getMaxAmplitude() {
+		return (int) (Math.random() * 32000 + 767);
+	}
+
+}

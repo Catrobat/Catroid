@@ -509,6 +509,7 @@
     <string name="formula_editor_sensor_compass_direction">compass_direction</string>
     <string name="formula_editor_sensor_x_inclination">inclination_x</string>
     <string name="formula_editor_sensor_y_inclination">inclination_y</string>
+    <string name="formula_editor_sensor_loudness">loudness</string>
     <string name="formula_editor_sensor_face_detected">is_face_detected</string>
     <string name="formula_editor_sensor_face_size">face_size</string>
     <string name="formula_editor_sensor_face_x_position">face_x_position</string>
@@ -554,6 +555,5 @@
         <item quantity="other">Variables selected!</item>
     </plurals>
     <!--  -->
-    <string name="brick_when_face_detected">When face detected</string>
 
 </resources>
