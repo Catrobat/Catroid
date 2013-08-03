@@ -1089,6 +1089,7 @@ public class UiTestUtils {
 				MotionEvent downEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
 						MotionEvent.ACTION_DOWN, xFrom, yFrom, 0);
 				activity.dispatchTouchEvent(downEvent);
+				downEvent.recycle();
 			}
 		});
 
@@ -1108,6 +1109,7 @@ public class UiTestUtils {
 					activity.dispatchTouchEvent(moveEvent);
 
 					solo.sleep(20);
+					moveEvent.recycle();
 				}
 			}
 		});
@@ -1120,6 +1122,7 @@ public class UiTestUtils {
 				MotionEvent upEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
 						MotionEvent.ACTION_UP, xTo, yTo, 0);
 				activity.dispatchTouchEvent(upEvent);
+				upEvent.recycle();
 			}
 		});
 
