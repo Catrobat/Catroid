@@ -734,7 +734,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		return true;
 	}
 
-	private void sendPocketPaintIntent(int selected_position) {
+	private void sendPocketPaintIntent(int selectedPosition) {
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
 				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
@@ -743,7 +743,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			return;
 		}
 
-		int position = selected_position;
+		int position = selectedPosition;
 		selectedLookData = lookDataList.get(position);
 
 		Bundle bundleForPocketPaint = new Bundle();

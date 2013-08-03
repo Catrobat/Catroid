@@ -48,8 +48,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-	private final int RESOURCE_LOOK = org.catrobat.catroid.uitest.R.raw.icon;
-	private final int RESOURCE_LOOK2 = org.catrobat.catroid.uitest.R.raw.icon2;
+	private static final int RESOURCE_LOOK = org.catrobat.catroid.uitest.R.raw.icon;
+	private static final int RESOURCE_LOOK2 = org.catrobat.catroid.uitest.R.raw.icon2;
 
 	private String lookName = "testLook1";
 	private String lookName2 = "testLook2";

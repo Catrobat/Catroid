@@ -68,10 +68,10 @@ public class UtilFile {
 	}
 
 	static public String getSizeAsString(File fileOrDirectory) {
-		final int UNIT = 1024;
+		final int unit = 1024;
 		long bytes = UtilFile.getSizeOfFileOrDirectoryInByte(fileOrDirectory);
 
-		if (bytes < UNIT) {
+		if (bytes < unit) {
 			return bytes + " Byte";
 		}
 
@@ -79,10 +79,10 @@ public class UtilFile {
 		 * Logarithm of "bytes" to base "unit"
 		 * log(a) / log(b) == logarithm of a to the base of b
 		 */
-		int exponent = (int) (Math.log(bytes) / Math.log(UNIT));
+		int exponent = (int) (Math.log(bytes) / Math.log(unit));
 		char prefix = ("KMGTPE").charAt(exponent - 1);
 
-		return String.format("%.1f %sB", bytes / Math.pow(UNIT, exponent), prefix);
+		return String.format("%.1f %sB", bytes / Math.pow(unit, exponent), prefix);
 	}
 
 	static public boolean clearDirectory(File path) {

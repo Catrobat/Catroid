@@ -242,11 +242,11 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		Project uploadProject = StorageHandler.getInstance().loadProject(projectName);
 
-		String DeserializedProjectName = uploadProject.getName();
-		String DeserializedProjectDescription = uploadProject.getDescription();
-		assertTrue("Deserialized project name was changed", DeserializedProjectName.equalsIgnoreCase(projectName));
+		String deserializedProjectName = uploadProject.getName();
+		String deserializedProjectDescription = uploadProject.getDescription();
+		assertTrue("Deserialized project name was changed", deserializedProjectName.equalsIgnoreCase(projectName));
 		assertTrue("Deserialized project description was not renamed correctly",
-				DeserializedProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
+				deserializedProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
 
 		UiTestUtils.clearAllUtilTestProjects();
 
@@ -279,8 +279,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		solo.sleep(5000);
 
 		Project uploadProject = StorageHandler.getInstance().loadProject(testProject);
-		String DeserializedProjectName = uploadProject.getName();
-		assertTrue("Deserialized project name was changed", DeserializedProjectName.equalsIgnoreCase(testProject));
+		String deserializedProjectName = uploadProject.getName();
+		assertTrue("Deserialized project name was changed", deserializedProjectName.equalsIgnoreCase(testProject));
 
 		downloadProjectAndReplace(testProject);
 		Project downloadedProject = StorageHandler.getInstance().loadProject(testProject);

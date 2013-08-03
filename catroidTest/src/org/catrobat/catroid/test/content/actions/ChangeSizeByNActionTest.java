@@ -32,7 +32,7 @@ import android.test.InstrumentationTestCase;
 public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 
 	private static final float CHANGE_SIZE = 20f;
-	private static final float delta = 0.0001f;
+	private static final float DELTA = 0.0001f;
 
 	public void testSize() {
 		Sprite sprite = new Sprite("testSprite");
@@ -43,13 +43,13 @@ public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize + CHANGE_SIZE,
-				sprite.look.getSizeInUserInterfaceDimensionUnit(), delta);
+				sprite.look.getSizeInUserInterfaceDimensionUnit(), DELTA);
 
 		action = ExtendedActions.changeSizeByN(sprite, new Formula(-CHANGE_SIZE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize,
-				sprite.look.getSizeInUserInterfaceDimensionUnit(), delta);
+				sprite.look.getSizeInUserInterfaceDimensionUnit(), DELTA);
 	}
 
 	public void testNullSprite() {
