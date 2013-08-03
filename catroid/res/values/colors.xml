@@ -82,4 +82,7 @@
     <color name="stage_dialog_background_color">#CC00475E</color>
     <color name="stage_dialog_text_color">#A8DFF4</color>
 
+    <!-- Device List Colors -->
+    <color name="bluetooth_device_list_divider_color">#505050</color>
+
 </resources>
