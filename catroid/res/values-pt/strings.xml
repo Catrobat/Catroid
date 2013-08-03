@@ -124,8 +124,6 @@
     <string name="soundrecorder_recorded_filename">"gravar"</string>
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">"TTS não instalado!\nVocê deseja instalá-lo?"</string>
-    <!-- Script context menu -->
-    <string name="script_context_menu_title">"Menu"</string>
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">"Mover Bloco"</string>
     <string name="brick_context_dialog_delete_brick">"Excluir Bloco"</string>
