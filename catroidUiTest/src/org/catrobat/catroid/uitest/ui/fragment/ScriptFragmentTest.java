@@ -442,9 +442,11 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		@SuppressWarnings("deprecation")
 		int displayWidth = display.getWidth();
 
-		solo.clickLongOnText(solo.getString(R.string.brick_when_started));
-		solo.waitForText(solo.getString(R.string.delete));
-		solo.clickOnText(solo.getString(R.string.delete));
+		solo.waitForText(solo.getString(R.string.brick_when_started));
+		solo.clickOnText(solo.getString(R.string.brick_when_started));
+		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		solo.waitForText(solo.getString(R.string.no));
 		solo.clickOnButton(solo.getString(R.string.no));
 
 		UiTestUtils.longClickAndDrag(solo, 30, yPositionList.get(2), displayWidth, yPositionList.get(2), 40);
@@ -458,7 +460,9 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		if (!solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick), 0, 5000)) {
 			fail("Text not shown in 5 secs!");
 		}
+		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick));
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		solo.waitForText(solo.getString(R.string.yes));
 		solo.clickOnButton(solo.getString(R.string.yes));
 		if (!solo.waitForView(ListView.class, 0, 5000)) {
 			fail("Dialog does not close in 5 sec!");
