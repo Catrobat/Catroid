@@ -72,7 +72,7 @@ public class WaitBrick extends BrickBaseType implements OnClickListener, Formula
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return timeToWaitInSeconds.getRequiredResources();
 	}
 
 	public Formula getTimeToWait() {

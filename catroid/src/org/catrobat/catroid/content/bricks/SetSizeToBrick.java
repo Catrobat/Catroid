@@ -71,7 +71,7 @@ public class SetSizeToBrick extends BrickBaseType implements OnClickListener, Fo
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return size.getRequiredResources();
 	}
 
 	@Override

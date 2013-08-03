@@ -71,7 +71,7 @@ public class TurnRightBrick extends BrickBaseType implements OnClickListener, Fo
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return degrees.getRequiredResources();
 	}
 
 	@Override

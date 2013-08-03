@@ -71,7 +71,7 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return transparency.getRequiredResources();
 	}
 
 	@Override

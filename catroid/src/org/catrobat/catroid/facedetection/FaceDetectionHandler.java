@@ -23,7 +23,6 @@
 package org.catrobat.catroid.facedetection;
 
 import android.hardware.Camera;
-import android.util.Log;
 
 public class FaceDetectionHandler {
 
@@ -32,10 +31,8 @@ public class FaceDetectionHandler {
 	private static void createFaceDetector() {
 		if (isIcsFaceDetectionSupported()) {
 			faceDetector = new IcsFaceDetector();
-			Log.d("SOR", "created ICS");//TODO
 		} else {
 			faceDetector = new SlowFaceDetector();
-			Log.d("SOR", "created slow fd");//TODO
 		}
 	}
 

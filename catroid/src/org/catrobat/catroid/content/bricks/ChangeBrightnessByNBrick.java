@@ -66,7 +66,7 @@ public class ChangeBrightnessByNBrick extends BrickBaseType implements OnClickLi
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return changeBrightness.getRequiredResources();
 	}
 
 	@Override

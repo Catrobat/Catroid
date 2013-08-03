@@ -234,4 +234,8 @@ public class Formula implements Serializable {
 		return new Formula(0);
 	}
 
+	public int getRequiredResources() {
+		return formulaTree.getRequiredResources();
+	}
+
 }
