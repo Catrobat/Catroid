@@ -43,7 +43,7 @@ public class FaceDetectorTest extends TestCase {
 		detector.addOnFaceDetectedListener(onFaceDetectedListener);
 		detector.addOnFaceDetectionStatusListener(onFaceDetectionStatusListener);
 		assertTrue("FaceDetector was not started when listeners were added", detector.started);
-		detector.removeAllListeners();
+		//detector.removeAllListeners();
 		assertFalse("FaceDetector was not stoped when all listeners were removed", detector.started);
 	}
 

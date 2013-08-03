@@ -27,6 +27,8 @@ import android.hardware.Camera;
 public class FaceDetectionHandler {
 
 	private static FaceDetector faceDetector;
+	private static boolean running = false;
+	private static boolean paused = false;
 
 	private static void createFaceDetector() {
 		if (isIcsFaceDetectionSupported()) {
@@ -34,6 +36,52 @@ public class FaceDetectionHandler {
 		} else {
 			faceDetector = new SlowFaceDetector();
 		}
+	}
+
+	public boolean isFaceDetectionRunning() {
+		return running;
+	}
+
+	public static boolean startFaceDetection() {
+		if (faceDetector == null) {
+			createFaceDetector();
+			if (faceDetector == null) {
+				return false;
+			}
+		}
+		running = true;
+		faceDetector.startFaceDetection();
+		return true;
+	}
+
+	public static void stopFaceDetection() {
+		if (!running) {
+			return;
+		}
+		if (faceDetector == null) {
+			return;
+		}
+		faceDetector.stopFaceDetection();
+		running = false;
+	}
+
+	public static void pauseFaceDetection() {
+		if (!running) {
+			return;
+		}
+		if (faceDetector == null) {
+			return;
+		}
+		paused = true;
+		stopFaceDetection();
+	}
+
+	public static void resumeFaceDetection() {
+		if (!paused) {
+			return;
+		}
+		startFaceDetection();
+		paused = false;
 	}
 
 	public static void registerOnFaceDetectedListener(OnFaceDetectedListener listener) {
@@ -62,14 +110,6 @@ public class FaceDetectionHandler {
 			return;
 		}
 		faceDetector.removeOnFaceDetectionStatusListener(listener);
-	}
-
-	public static void stopFaceDetection() {
-		if (faceDetector == null) {
-			return;
-		}
-		faceDetector.stopFaceDetection();
-		faceDetector.removeAllListeners();
 	}
 
 	public static boolean isIcsFaceDetectionSupported() {

@@ -40,23 +40,15 @@ public abstract class FaceDetector {
 
 	public abstract void stopFaceDetection();
 
-	public void removeAllListeners() {
-		faceDetectedListeners.clear();
-		faceDetectionStatusListeners.clear();
-		stopFaceDetection();
-	}
-
 	public void addOnFaceDetectedListener(OnFaceDetectedListener listener) {
 		if (listener == null) {
 			return;
 		}
 		faceDetectedListeners.add(listener);
-		startFaceDetection();
 	}
 
 	public void removeOnFaceDetectedListener(OnFaceDetectedListener listener) {
 		faceDetectedListeners.remove(listener);
-		contitionalStop();
 	}
 
 	public void addOnFaceDetectionStatusListener(OnFaceDetectionStatusChangedListener listener) {
@@ -64,12 +56,10 @@ public abstract class FaceDetector {
 			return;
 		}
 		faceDetectionStatusListeners.add(listener);
-		startFaceDetection();
 	}
 
 	public void removeOnFaceDetectionStatusListener(OnFaceDetectionStatusChangedListener listener) {
 		faceDetectionStatusListeners.remove(listener);
-		contitionalStop();
 	}
 
 	protected void onFaceDetected(Point position, int size) {
@@ -85,23 +75,6 @@ public abstract class FaceDetector {
 				listener.onFaceDetectionStatusChanged(faceDetected);
 			}
 		}
-	}
-
-	public boolean isRunning() {
-		if (faceDetectedListeners.size() > 0) {
-			return true;
-		}
-		if (faceDetectionStatusListeners.size() > 0) {
-			return true;
-		}
-		return false;
-	}
-
-	private void contitionalStop() {
-		if (isRunning()) {
-			return;
-		}
-		stopFaceDetection();
 	}
 
 	protected Point getRelationForFacePosition() {

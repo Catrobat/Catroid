@@ -34,6 +34,7 @@ import org.catrobat.catroid.bluetooth.BluetoothManager;
 import org.catrobat.catroid.bluetooth.DeviceListActivity;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -93,6 +94,14 @@ public class PreStageActivity extends Activity {
 
 			}
 		}
+		if ((required_resources & Brick.FACE_DETECTION) > 0) {
+			boolean success = FaceDetectionHandler.startFaceDetection();
+			if (success) {
+				resourceInitialized();
+			} else {
+				resourceFailed();
+			}
+		}
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
 			startStage();
 		}
@@ -121,6 +130,7 @@ public class PreStageActivity extends Activity {
 		if (legoNXT != null) {
 			legoNXT.pauseCommunicator();
 		}
+		FaceDetectionHandler.stopFaceDetection();
 	}
 
 	//all resources that should not have to be reinitialized every stage start
