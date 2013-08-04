@@ -93,8 +93,7 @@
     <string name="edit_in_pocket_paint">Edit in Pocket Paint</string>
     <string name="sprite">Object</string>
     <string name="sprites">Objects</string>
-    <string name="spritelist_background_headline">BACKGROUND</string>
-    <string name="spritelist_objects_headline">OBJECTS</string>
+    <string name="spritelist_background_headline">Background</string>
     <string name="dialog_confirm_delete_object_title">Delete this object?</string>
     <string name="dialog_confirm_delete_multiple_objects_title">Delete these objects?</string>
     <string name="dialog_confirm_delete_object_message">This can not be undone!</string>
@@ -540,7 +539,7 @@
     <string name="formula_editor_variable_dialog_for_all_sprites">For all objects</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">For this object only</string>
     <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
-
+    
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable selected!</item>
         <item quantity="other">Variables selected!</item>

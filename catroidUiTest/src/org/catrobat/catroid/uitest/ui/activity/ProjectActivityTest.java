@@ -636,7 +636,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnText(backgroundHeadline);
 		solo.assertCurrentActivity("Click on background headline switched activity!", ProjectActivity.class);
 
-		String objectsHeadline = solo.getString(R.string.spritelist_objects_headline);
+		String objectsHeadline = solo.getString(R.string.sprites);
 		solo.clickOnText(objectsHeadline);
 		solo.assertCurrentActivity("Click on objects headline switched activity!", ProjectActivity.class);
 	}

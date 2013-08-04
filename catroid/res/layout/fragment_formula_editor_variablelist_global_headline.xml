@@ -20,14 +20,14 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/spritelist_background_headline"
+    android:id="@+id/variablelist_global_headline"
     style="@style/headlineLinearLayout">
 
     <TextView
         style="@style/headlineTextView"
-        android:text="@string/spritelist_background_headline"/>
+        android:text="@string/formula_editor_variable_dialog_for_all_sprites"/>
 
     <View
         style="@style/headlineView"/>
