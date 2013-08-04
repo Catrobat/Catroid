@@ -6,7 +6,6 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.facedetection.IcsFaceDetector;
 import org.catrobat.catroid.facedetection.OnFaceDetectedListener;
 import org.catrobat.catroid.facedetection.OnFaceDetectionStatusChangedListener;
-import org.catrobat.catroid.test.utils.Reflection;
 
 import android.annotation.TargetApi;
 import android.graphics.Point;
@@ -76,29 +75,6 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 				camera.release();
 			}
 		}
-	}
-
-	public void testAutoStartAndAutoStop() {
-		IcsFaceDetector detector = new IcsFaceDetector();
-
-		OnFaceDetectedListener detectionListener = new OnFaceDetectedListener() {
-
-			public void onFaceDetected(Point position, int size) {
-			}
-		};
-
-		assertNull("Face Detector started unnesesarily", Reflection.getPrivateField(detector, "camera"));
-
-		detector.addOnFaceDetectedListener(detectionListener);
-
-		assertNotNull("Face Detector did not start when listener was added",
-				Reflection.getPrivateField(detector, "camera"));
-
-		detector.removeOnFaceDetectedListener(detectionListener);
-
-		assertNull("Face Detector did not stop afer all listeners were removed",
-				Reflection.getPrivateField(detector, "camera"));
-
 	}
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
