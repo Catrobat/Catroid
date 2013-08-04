@@ -29,9 +29,7 @@
 
     <!-- Symbols -->
     <string name="degree_symbol" translatable="false">°</string>
-    <string name="minus_symbol" translatable="false">-</string>
     <string name="percent_symbol" translatable="false">%</string>
-    <string name="plus_symbol" translatable="false">+</string>
     
     <!-- Numbers -->
     <string name="number_0" translatable="false">0</string>
