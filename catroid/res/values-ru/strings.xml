@@ -131,8 +131,6 @@
     <!-- Sprite dialog -->
     <!-- <string name="sprite_button_text">Создать</string> -->
     <!-- <string name="newsprite">Новый объект</string> -->
-    <!-- Script context menu -->
-    <string name="script_context_menu_title">Меню скрипта</string>
     <!-- New project dialog -->
     <string name="new_project_dialog_title">Название нового проекта</string>
     <string name="new_project_dialog_hint">Мой проект</string>

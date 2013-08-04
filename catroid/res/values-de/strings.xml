@@ -186,11 +186,6 @@
     <!--  -->
 
 
-    <!-- Script context menu -->
-    <string name="script_context_menu_title">Skript Menü</string>
-    <!--  -->
-
-
     <!-- Look context menu -->
     <string name="look_context_menu_edit_in_pocket_paint">Bearbeite In Pocket Paint</string>
     <!--  -->
