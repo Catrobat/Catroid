@@ -39,7 +39,7 @@ public class SoundManager {
 		mediaPlayers = new ArrayList<MediaPlayer>(MAX_MEDIA_PLAYERS);
 	}
 
-	public synchronized static SoundManager getInstance() {
+	public static synchronized SoundManager getInstance() {
 		return INSTANCE;
 	}
 

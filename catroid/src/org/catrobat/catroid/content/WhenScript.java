@@ -40,7 +40,7 @@ public class WhenScript extends Script {
 	private static final String SWIPERIGHT = "Swipe Right";
 	private static final String SWIPEUP = "Swipe Up";
 	private static final String SWIPEDOWN = "Swipe Down";
-	private static final String[] actions = { TAPPED, DOUBLETAPPED, LONGPRESSED, SWIPEUP, SWIPEDOWN, SWIPELEFT,
+	private static final String[] ACTIONS = { TAPPED, DOUBLETAPPED, LONGPRESSED, SWIPEUP, SWIPEDOWN, SWIPELEFT,
 			SWIPERIGHT };
 	private String action;
 	private transient int position;
@@ -68,7 +68,7 @@ public class WhenScript extends Script {
 
 	public void setAction(int position) {
 		this.position = position;
-		this.action = actions[position];
+		this.action = ACTIONS[position];
 	}
 
 	public String getAction() {

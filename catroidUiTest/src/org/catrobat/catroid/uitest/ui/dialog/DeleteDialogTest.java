@@ -40,10 +40,10 @@ import android.view.Display;
 import android.widget.ListAdapter;
 
 public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-	private final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
-	private final int RESOURCE_IMAGE2 = org.catrobat.catroid.uitest.R.drawable.catroid_banzai;
-	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
-	private final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
+	private static final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
+	private static final int RESOURCE_IMAGE2 = org.catrobat.catroid.uitest.R.drawable.catroid_banzai;
+	private static final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
+	private static final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
 
 	private String lookName = "lookNametest";
 	private File imageFile;
