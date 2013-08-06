@@ -432,6 +432,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		switch (item.getItemId()) {
 
 			case R.id.context_menu_backpack:
+				Log.d("TAG", "Context Menu BackPack!");
 				SoundController.getInstance().backPackSound(selectedSoundInfo, getActivity(), soundInfoList, adapter);
 				break;
 

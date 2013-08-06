@@ -79,6 +79,14 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 		}
 	}
 
+	public String getAbsolutePathBackPack() {
+		if (fileName != null) {
+			return Utils.buildPath(getPathToBackPackDirectory(), fileName);
+		} else {
+			return null;
+		}
+	}
+
 	public String getTitle() {
 		return name;
 	}
@@ -105,6 +113,11 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 	private String getPathToSoundDirectory() {
 		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
 				Constants.SOUND_DIRECTORY);
+	}
+
+	private String getPathToBackPackDirectory() {
+		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
+				Constants.BACKPACK_DIRECTORY);
 	}
 
 	@Override

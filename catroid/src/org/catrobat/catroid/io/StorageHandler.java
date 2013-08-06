@@ -347,6 +347,28 @@ public class StorageHandler {
 		return copyFileAddCheckSum(outputFile, inputFile, soundDirectory);
 	}
 
+	public File copySoundFileBackPack(String path) throws IOException {
+		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
+		File soundDirectory = new File(Utils.buildPath(Utils.buildProjectPath(currentProject),
+				Constants.BACKPACK_DIRECTORY));
+
+		File inputFile = new File(path);
+		if (!inputFile.exists() || !inputFile.canRead()) {
+			return null;
+		}
+		String inputFileChecksum = Utils.md5Checksum(inputFile);
+
+		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
+		if (fileChecksumContainer.containsChecksum(inputFileChecksum)) {
+			fileChecksumContainer.addChecksum(inputFileChecksum, null);
+			return new File(fileChecksumContainer.getPath(inputFileChecksum));
+		}
+		File outputFile = new File(Utils.buildPath(soundDirectory.getAbsolutePath(), inputFileChecksum + "_"
+				+ inputFile.getName()));
+
+		return copyFileAddCheckSum(outputFile, inputFile, soundDirectory);
+	}
+
 	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {
 		String newFilePath;
 		File imageDirectory = new File(Utils.buildPath(Utils.buildProjectPath(currentProjectName),
