@@ -40,7 +40,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ProjectManager {
-	private final static ProjectManager INSTANCE = new ProjectManager();
+	private static final ProjectManager INSTANCE = new ProjectManager();
 
 	private Project project;
 	private Script currentScript;
