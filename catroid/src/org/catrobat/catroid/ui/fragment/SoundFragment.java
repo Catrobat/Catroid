@@ -566,6 +566,9 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private class SoundCopiedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+
+			Log.d("TAG", "SoundCopiedReceiver!");
+
 			if (intent.getAction().equals(ScriptActivity.ACTION_SOUND_COPIED)) {
 				adapter.notifyDataSetChanged();
 				getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
@@ -610,6 +613,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+
+			Log.d("TAG", "CopyModeCallBack, Type ActionMode.Callback");
 
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
