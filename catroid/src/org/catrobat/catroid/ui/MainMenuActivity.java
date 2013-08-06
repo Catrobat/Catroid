@@ -73,8 +73,8 @@ import com.actionbarsherlock.view.MenuItem;
 public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener,
 		OnLoadProjectCompleteListener {
 
-	private String TYPE_FILE = "file";
-	private String TYPE_HTTP = "http";
+	private static final String TYPE_FILE = "file";
+	private static final String TYPE_HTTP = "http";
 
 	private class DownloadReceiver extends ResultReceiver {
 

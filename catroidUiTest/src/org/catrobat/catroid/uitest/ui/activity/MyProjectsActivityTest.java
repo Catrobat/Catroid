@@ -70,20 +70,20 @@ import android.widget.TextView;
 import com.jayway.android.robotium.solo.Solo;
 
 public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-	private final String INVALID_PROJECT_MODIFIER = "invalidProject";
-	private final String whitelistedCharacterString = "[Hey+, =lo_ok. I'm; -special! too!]";
-	private final String blacklistedCharacterString = "<H/ey,\", :I'\\m s*pe?ci>al! ?äö|üß<>";
-	private final String blacklistedOnlyCharacterString = "<>?*|";
-	private final int IMAGE_RESOURCE_1 = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
-	private final int IMAGE_RESOURCE_2 = org.catrobat.catroid.uitest.R.drawable.background_white;
-	private final int IMAGE_RESOURCE_3 = org.catrobat.catroid.uitest.R.drawable.background_black;
+	private static final String INVALID_PROJECT_MODIFIER = "invalidProject";
+	private static final String WHITELISTED_CHARACTER_STRING = "[Hey+, =lo_ok. I'm; -special! too!]";
+	private static final String BLACKLISTED_CHARACTER_STRING = "<H/ey,\", :I'\\m s*pe?ci>al! ?äö|üß<>";
+	private static final String BLACKLISTED_ONLY_CHARACTER_STRING = "<>?*|";
+	private static final int IMAGE_RESOURCE_1 = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
+	private static final int IMAGE_RESOURCE_2 = org.catrobat.catroid.uitest.R.drawable.background_white;
+	private static final int IMAGE_RESOURCE_3 = org.catrobat.catroid.uitest.R.drawable.background_black;
 	// TODO
 	// commented - used for currently disabled testScreenshotUpdate
 	//	private final int IMAGE_RESOURCE_4 = org.catrobat.catroid.uitest.R.drawable.background_green;
 	//	private final int IMAGE_RESOURCE_5 = org.catrobat.catroid.uitest.R.drawable.background_red;
 	private static final String MY_PROJECTS_ACTIVITY_TEST_TAG = MyProjectsActivityTest.class.getSimpleName();
 	private static final String KEY_SHOW_DETAILS = "showDetailsMyProjects";
-	private final String ZIPFILE_NAME = "testzip";
+	private static final String ZIPFILE_NAME = "testzip";
 
 	private File renameDirectory = null;
 	private boolean unzip;
@@ -116,9 +116,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	@Override
 	public void tearDown() throws Exception {
 		UiTestUtils.goBackToHome(getInstrumentation());
-		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(whitelistedCharacterString)));
-		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(blacklistedCharacterString)));
-		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(blacklistedOnlyCharacterString)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(WHITELISTED_CHARACTER_STRING)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(BLACKLISTED_CHARACTER_STRING)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(BLACKLISTED_ONLY_CHARACTER_STRING)));
 
 		if (renameDirectory != null && renameDirectory.isDirectory()) {
 			UtilFile.deleteDirectory(renameDirectory);
@@ -1054,11 +1054,11 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
-		solo.enterText(0, whitelistedCharacterString);
+		solo.enterText(0, WHITELISTED_CHARACTER_STRING);
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
-		renameDirectory = new File(Utils.buildProjectPath(whitelistedCharacterString));
+		renameDirectory = new File(Utils.buildProjectPath(WHITELISTED_CHARACTER_STRING));
 		assertTrue("Rename with whitelisted characters was not successfull", renameDirectory.isDirectory());
 	}
 
@@ -1074,11 +1074,11 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
-		solo.enterText(0, blacklistedCharacterString);
+		solo.enterText(0, BLACKLISTED_CHARACTER_STRING);
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
-		renameDirectory = new File(Utils.buildProjectPath(blacklistedCharacterString));
+		renameDirectory = new File(Utils.buildProjectPath(BLACKLISTED_CHARACTER_STRING));
 		assertTrue("Rename with blacklisted characters was not successfull", renameDirectory.isDirectory());
 	}
 
@@ -1093,7 +1093,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
-		solo.enterText(0, blacklistedOnlyCharacterString);
+		solo.enterText(0, BLACKLISTED_ONLY_CHARACTER_STRING);
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
@@ -1521,7 +1521,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.copy));
 		solo.clearEditText(0);
-		solo.enterText(0, blacklistedOnlyCharacterString);
+		solo.enterText(0, BLACKLISTED_ONLY_CHARACTER_STRING);
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.sleep(200);

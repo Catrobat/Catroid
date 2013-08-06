@@ -68,7 +68,7 @@ public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 	// needed for testdevices
 	// Bluetooth server is running with a name that starts with 'kitty'
 	// e.g. kittyroid-0, kittyslave-0
-	private static final String PAIRED_BlUETOOTH_SERVER_DEVICE_NAME = "kitty";
+	private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "kitty";
 
 	// needed for testdevices
 	// unavailable device is paired with a name that starts with 'SWEET'
@@ -119,7 +119,7 @@ public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		String connectedDeviceName = null;
 		for (int i = 0; i < deviceList.getCount(); i++) {
 			String deviceName = (String) deviceList.getItemAtPosition(i);
-			if (deviceName.startsWith(PAIRED_BlUETOOTH_SERVER_DEVICE_NAME)) {
+			if (deviceName.startsWith(PAIRED_BLUETOOTH_SERVER_DEVICE_NAME)) {
 				connectedDeviceName = deviceName;
 				break;
 			}
@@ -187,7 +187,7 @@ public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		String connectedDeviceMacAdress = null;
 		while (iterator.hasNext()) {
 			BluetoothDevice device = iterator.next();
-			if (device.getName().startsWith(PAIRED_BlUETOOTH_SERVER_DEVICE_NAME)) {
+			if (device.getName().startsWith(PAIRED_BLUETOOTH_SERVER_DEVICE_NAME)) {
 				connectedDeviceMacAdress = device.getAddress();
 			}
 		}

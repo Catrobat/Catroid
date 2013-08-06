@@ -41,20 +41,20 @@ import android.hardware.SensorEventListener;
 public class SimulatedSensorManager implements SensorManagerInterface {
 
 	public class Pair<L, R> {
-		private L l;
-		private R r;
+		private L firstEntry;
+		private R secondEntry;
 
 		public Pair(L l, R r) {
-			this.l = l;
-			this.r = r;
+			this.firstEntry = l;
+			this.secondEntry = r;
 		}
 
 		public L getL() {
-			return l;
+			return firstEntry;
 		}
 
 		public R getR() {
-			return r;
+			return secondEntry;
 		}
 	};
 

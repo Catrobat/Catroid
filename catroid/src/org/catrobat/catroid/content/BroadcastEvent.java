@@ -90,7 +90,7 @@ public class BroadcastEvent extends Event {
 		return numberOfReceivers == numberOfFinishedReceivers;
 	}
 
-	static public enum BroadcastType {
+	public static enum BroadcastType {
 		broadcast, broadcastWait
 	}
 }
