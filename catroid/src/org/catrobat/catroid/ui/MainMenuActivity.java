@@ -195,7 +195,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				return true;
 			case R.id.menu_about: {
 				AboutDialogFragment aboutDialog = new AboutDialogFragment();
-				aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
+				aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DiALOG_FRAGMENT_TAG);
 				return true;
 			}
 		}

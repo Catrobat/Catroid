@@ -35,7 +35,7 @@ import javax.microedition.io.StreamConnection;
 
 public class BTClientHandler extends Thread
 {
-  public static final byte DIRECT_COMMAND_REPLY = 0;
+  public static byte DIRECT_COMMAND_REPLY = 0;
   public static final byte SYSTEM_COMMAND_REPLY = 1;
   public static final byte REPLY_COMMAND = 2;
   public static final byte DIRECT_COMMAND_NOREPLY = -128;

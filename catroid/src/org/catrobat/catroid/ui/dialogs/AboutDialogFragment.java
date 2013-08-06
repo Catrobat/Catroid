@@ -38,7 +38,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.Utils;
 
 public class AboutDialogFragment extends DialogFragment {
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_about_pocketcode";
+	public static final String DiALOG_FRAGMENT_TAG = "dialog_about_pocketcode";
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
