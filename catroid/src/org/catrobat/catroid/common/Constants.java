@@ -42,6 +42,10 @@ public final class Constants {
 	public static final String BRICK_DIRECTORY = "bricks";
 	public static final String BACKPACK_DIRECTORY = "backpack";
 
+	public static final String BACKPACK_SOUND_DIRECTORY = "backpack_sound";
+	public static final String BACKPACK_IMAGE_DIRECTORY = "backpack_image";
+	public static final String BACKPACK_BRICK_DIRECTORY = "backpack_brick";
+
 	public static final String NO_MEDIA_FILE = ".nomedia";
 
 	public static final int NO_POSITION = -1;

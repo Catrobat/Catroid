@@ -276,6 +276,38 @@ public class StorageHandler {
 				noMediaFile = new File(Utils.buildPath(projectDirectoryName, Constants.SOUND_DIRECTORY,
 						Constants.NO_MEDIA_FILE));
 				noMediaFile.createNewFile();
+
+				File backPackDirectory = new File(Constants.DEFAULT_ROOT + "/" + Constants.BACKPACK_DIRECTORY);
+				backPackDirectory.mkdir();
+
+				noMediaFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+						Constants.NO_MEDIA_FILE));
+				noMediaFile.createNewFile();
+
+				File backPackSoundDirectory = new File(Constants.DEFAULT_ROOT + "/" + Constants.BACKPACK_DIRECTORY
+						+ "/" + Constants.BACKPACK_SOUND_DIRECTORY);
+				backPackSoundDirectory.mkdir();
+
+				noMediaFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+						Constants.BACKPACK_SOUND_DIRECTORY, Constants.NO_MEDIA_FILE));
+				noMediaFile.createNewFile();
+
+				File backPackBrickDirectory = new File(Constants.DEFAULT_ROOT + "/" + Constants.BACKPACK_DIRECTORY
+						+ "/" + Constants.BACKPACK_BRICK_DIRECTORY);
+				backPackBrickDirectory.mkdir();
+
+				noMediaFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+						Constants.BACKPACK_BRICK_DIRECTORY, Constants.NO_MEDIA_FILE));
+				noMediaFile.createNewFile();
+
+				File backPackImageDirectory = new File(Constants.DEFAULT_ROOT + "/" + Constants.BACKPACK_DIRECTORY
+						+ "/" + Constants.BACKPACK_IMAGE_DIRECTORY);
+				backPackImageDirectory.mkdir();
+
+				noMediaFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+						Constants.BACKPACK_IMAGE_DIRECTORY, Constants.NO_MEDIA_FILE));
+				noMediaFile.createNewFile();
+
 			}
 
 			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
@@ -348,12 +380,18 @@ public class StorageHandler {
 	}
 
 	public File copySoundFileBackPack(String path) throws IOException {
+
+		Log.d("TAG", "StorageHandler --> copySoundFileBackPack:: path = " + path);
+
 		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
-		File soundDirectory = new File(Utils.buildPath(Utils.buildProjectPath(currentProject),
-				Constants.BACKPACK_DIRECTORY));
+
+		File backPackDirectory = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+				Constants.BACKPACK_SOUND_DIRECTORY));
 
 		File inputFile = new File(path);
 		if (!inputFile.exists() || !inputFile.canRead()) {
+			Log.d("TAG", "storageHandler --> File does not exist!, Exists():" + inputFile.exists() + ", canRead(): "
+					+ inputFile.canRead());
 			return null;
 		}
 		String inputFileChecksum = Utils.md5Checksum(inputFile);
@@ -363,10 +401,10 @@ public class StorageHandler {
 			fileChecksumContainer.addChecksum(inputFileChecksum, null);
 			return new File(fileChecksumContainer.getPath(inputFileChecksum));
 		}
-		File outputFile = new File(Utils.buildPath(soundDirectory.getAbsolutePath(), inputFileChecksum + "_"
-				+ inputFile.getName()));
+		File outputFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+				Constants.BACKPACK_SOUND_DIRECTORY, inputFileChecksum + "_" + inputFile.getName()));
 
-		return copyFileAddCheckSum(outputFile, inputFile, soundDirectory);
+		return copyFileAddCheckSum(outputFile, inputFile, backPackDirectory);
 	}
 
 	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {

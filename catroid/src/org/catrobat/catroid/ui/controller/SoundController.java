@@ -270,6 +270,8 @@ public class SoundController {
 	private void copySoundBackPack(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList, SoundAdapter adapter) {
 
 		try {
+			Log.d("TAG", "SoundController --> copySoundBackPack:: selectedSoundInfo.getAbsolutePathBackPackSound()="
+					+ selectedSoundInfo.getAbsolutePathBackPackSound());
 			StorageHandler.getInstance().copySoundFileBackPack(selectedSoundInfo.getAbsolutePath());
 		} catch (IOException e) {
 			e.printStackTrace();
