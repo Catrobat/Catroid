@@ -23,20 +23,20 @@
 package org.catrobat.catroid.test;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.test.utils.TestErrorListenerInterface;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import android.test.AndroidTestCase;
-import org.catrobat.catroid.R;
 
 public class ProjectManagerTest extends AndroidTestCase {
 	private static final String OLD_PROJECT = "OLD_PROJECT";
 	private static final String NEW_PROJECT = "NEW_PROJECT";
 	private static final String DOES_NOT_EXIST = "DOES_NOT_EXIST";
 
-	private static final float CATROBAT_LANGUAGE_VERSION_SUPPORTED = 0.3f;
 	private static final float CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED = 0.0f;
 
 	private ProjectManager projectManager;
@@ -47,7 +47,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		Utils.updateScreenWidthAndHeight(getContext());
 		projectManager = ProjectManager.getInstance();
 		// Prevent Utils from returning true in isApplicationDebuggable
-		TestUtils.setPrivateField(Utils.class, null, "isUnderTest", true);
+		Reflection.setPrivateField(Utils.class, "isUnderTest", true);
 	}
 
 	@Override
@@ -60,27 +60,28 @@ public class ProjectManagerTest extends AndroidTestCase {
 	public void testShouldReturnFalseIfCatrobatLanguageVersionNotSupported() {
 		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED);
 
-		boolean result = projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), null, false);
+		boolean result = projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), false);
 		assertFalse("Load project didn't return false", result);
 
 		TestUtils.deleteTestProjects();
 
-		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_SUPPORTED);
+		TestUtils
+				.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION);
 
-		result = projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), null, false);
+		result = projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), false);
 		assertTrue("Load project didn't return true", result);
 	}
 
 	public void testShouldKeepExistingProjectIfCannotLoadNewProject() {
 		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
-				CATROBAT_LANGUAGE_VERSION_SUPPORTED, OLD_PROJECT);
+				Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION, OLD_PROJECT);
 
-		boolean result = projectManager.loadProject(OLD_PROJECT, getContext(), null, false);
+		boolean result = projectManager.loadProject(OLD_PROJECT, getContext(), false);
 		assertTrue("Could not load project.", result);
 
 		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED);
 
-		result = projectManager.loadProject(NEW_PROJECT, getContext(), null, false);
+		result = projectManager.loadProject(NEW_PROJECT, getContext(), false);
 		assertFalse("Load project didn't return false", result);
 
 		Project currentProject = projectManager.getCurrentProject();
@@ -94,7 +95,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 	public void testShouldLoadDefaultProjectIfCannotLoadAnotherProject() throws Exception {
 		assertNull("Current project not null.", projectManager.getCurrentProject());
 
-		boolean result = projectManager.loadProject(DOES_NOT_EXIST, getContext(), null, false);
+		boolean result = projectManager.loadProject(DOES_NOT_EXIST, getContext(), false);
 		assertFalse("Load project didn't return false", result);
 
 		Project currentProject = projectManager.getCurrentProject();
@@ -102,12 +103,5 @@ public class ProjectManagerTest extends AndroidTestCase {
 		assertNotNull("Didn't create default project.", currentProject);
 		assertEquals("Didn't create default project.", getContext().getString(R.string.default_project_name),
 				currentProject.getName());
-	}
-
-	public void testErrorListenerInterface() {
-		TestErrorListenerInterface testErrorListener = new TestErrorListenerInterface();
-		String errorMessage = getContext().getString(R.string.error_load_project);
-		projectManager.loadProject(DOES_NOT_EXIST, getContext(), testErrorListener, true);
-		assertTrue("Wrong error message in ErrorListener", testErrorListener.errorMessage.equals(errorMessage));
 	}
 }

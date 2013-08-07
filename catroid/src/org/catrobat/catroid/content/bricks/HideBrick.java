@@ -22,18 +22,27 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-public class HideBrick implements Brick {
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+public class HideBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
-
-	private transient View view;
 
 	public HideBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -49,19 +58,44 @@ public class HideBrick implements Brick {
 	}
 
 	@Override
-	public void execute() {
-		sprite.costume.show = false;
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
+		view = View.inflate(context, R.layout.brick_hide, null);
+		view = getViewWithAlpha(alphaValue);
+
+		setCheckboxView(R.id.brick_hide_checkbox);
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
+
+		return view;
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		HideBrick copyBrick = (HideBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_hide, null);
+	public View getViewWithAlpha(int alphaValue) {
+		if (view != null) {
+			Log.d("TAG", "VIEW != NULL");
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_hide_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+			this.alphaValue = (alphaValue);
+
+			TextView hideLabel = (TextView) view.findViewById(R.id.brick_hide_label);
+			hideLabel.setTextColor(hideLabel.getTextColors().withAlpha(alphaValue));
 		}
 
 		return view;
@@ -75,5 +109,11 @@ public class HideBrick implements Brick {
 	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_hide, null);
+	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.hide(sprite));
+		return null;
 	}
 }

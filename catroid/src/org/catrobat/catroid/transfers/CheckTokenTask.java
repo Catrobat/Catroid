@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.transfers;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -30,26 +31,27 @@ import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import org.catrobat.catroid.R;
 
 public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 	private Activity activity;
 	private ProgressDialog progressDialog;
 	private String token;
+	private String username;
 
 	private WebconnectionException exception;
 
 	private OnCheckTokenCompleteListener onCheckTokenCompleteListener;
-	
-	public CheckTokenTask(Activity activity, String token) {
+
+	public CheckTokenTask(Activity activity, String token, String username) {
 		this.activity = activity;
 		this.token = token;
+		this.username = username;
 	}
 
 	public void setOnCheckTokenCompleteListener(OnCheckTokenCompleteListener listener) {
 		onCheckTokenCompleteListener = listener;
 	}
-	
+
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
@@ -65,11 +67,11 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 	protected Boolean doInBackground(Void... arg0) {
 		try {
 			if (!Utils.isNetworkAvailable(activity)) {
-				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK);
+				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
 
-			return ServerCalls.getInstance().checkToken(token);
+			return ServerCalls.getInstance().checkToken(token, username);
 
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
@@ -96,10 +98,10 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 			if (onCheckTokenCompleteListener != null) {
 				onCheckTokenCompleteListener.onTokenNotValid();
 			}
-			
+
 			return;
 		}
-		
+
 		if (onCheckTokenCompleteListener != null) {
 			onCheckTokenCompleteListener.onCheckTokenSuccess();
 		}
@@ -110,16 +112,17 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 		if (exception.getMessage() == null) {
-			new Builder(activity).setMessage(messageId).setPositiveButton("OK", null).show();
+			new Builder(activity).setMessage(messageId).setPositiveButton(R.string.ok, null).show();
 		} else {
-			new Builder(activity).setMessage(exception.getMessage()).setPositiveButton("OK", null).show();
+			new Builder(activity).setMessage(exception.getMessage()).setPositiveButton(R.string.ok, null).show();
 		}
 	}
 
 	public interface OnCheckTokenCompleteListener {
-		
+
 		public void onTokenNotValid();
+
 		public void onCheckTokenSuccess();
-		
+
 	}
 }

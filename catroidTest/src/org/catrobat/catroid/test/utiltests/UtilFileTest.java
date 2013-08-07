@@ -31,13 +31,18 @@ import java.util.List;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
+import android.os.Environment;
 import android.test.InstrumentationTestCase;
 
 public class UtilFileTest extends InstrumentationTestCase {
+	private static final String CATROID_DIRECTORY = Environment.getExternalStorageDirectory().getAbsolutePath()
+			+ "/Pocket Code";
+
 	private File testDirectory;
 	private File subDirectory;
 	private File file1;
@@ -47,11 +52,11 @@ public class UtilFileTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		final String catroidDirectory = "/sdcard/catroid";
-		UtilFile.deleteDirectory(new File(catroidDirectory + "/testDirectory"));
+
+		UtilFile.deleteDirectory(new File(CATROID_DIRECTORY + "/testDirectory"));
 		TestUtils.clearProject(projectName);
 
-		testDirectory = new File(catroidDirectory + "/testDirectory");
+		testDirectory = new File(CATROID_DIRECTORY + "/testDirectory");
 		testDirectory.mkdir();
 		file1 = new File(testDirectory.getAbsolutePath() + "/file1");
 		file1.createNewFile();
@@ -59,7 +64,6 @@ public class UtilFileTest extends InstrumentationTestCase {
 		subDirectory.mkdir();
 		file2 = new File(subDirectory.getAbsolutePath() + "/file2");
 		file2.createNewFile();
-
 		super.setUp();
 	}
 
@@ -133,13 +137,12 @@ public class UtilFileTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setProject(project);
 		Sprite sprite = new Sprite("new sprite");
 		project.addSprite(sprite);
-		ProjectManager.getInstance().saveProject();
+		StorageHandler.getInstance().saveProject(project);
 
-		String catroidDirectoryPath = "/sdcard/catroid";
-		File catroidDirectory = new File(catroidDirectoryPath);
-		File project1Directory = new File(catroidDirectory + "/" + projectName);
+		File catroidDirectoryFile = new File(CATROID_DIRECTORY);
+		File project1Directory = new File(catroidDirectoryFile + "/" + projectName);
 
-		List<File> projectList = UtilFile.getProjectFiles(catroidDirectory);
+		List<File> projectList = UtilFile.getProjectFiles(catroidDirectoryFile);
 
 		assertTrue("project1 should be in Projectlist - is a valid Catroid project",
 				projectList.contains(project1Directory));

@@ -24,10 +24,18 @@ package org.catrobat.catroid.content;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.LoopBeginBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public abstract class Script implements Serializable {
 
@@ -36,15 +44,13 @@ public abstract class Script implements Serializable {
 
 	protected transient ScriptBrick brick;
 
-	protected transient boolean isFinished;
 	private transient volatile boolean paused;
-	private transient volatile boolean finish;
-	private transient int executingBrickIndex;
-	protected Sprite sprite;
+	protected Sprite object;
 
 	public Script() {
-
 	}
+
+	public abstract Script copyScriptForSprite(Sprite copySprite);
 
 	protected Object readResolve() {
 		init();
@@ -55,33 +61,30 @@ public abstract class Script implements Serializable {
 
 	public Script(Sprite sprite) {
 		brickList = new ArrayList<Brick>();
-		this.sprite = sprite;
+		this.object = sprite;
 		init();
 	}
 
 	private void init() {
 		paused = false;
-		finish = false;
 	}
 
-	public void run() {
-		isFinished = false;
+	public void run(SequenceAction sequence) {
+		ArrayList<SequenceAction> sequenceList = new ArrayList<SequenceAction>();
+		sequenceList.add(sequence);
 		for (int i = 0; i < brickList.size(); i++) {
-			if (!sprite.isAlive(Thread.currentThread())) {
-				break;
-			}
-			while (paused) {
-				if (finish) {
-					isFinished = true;
-					return;
+			List<SequenceAction> actions = brickList.get(i).addActionToSequence(
+					sequenceList.get(sequenceList.size() - 1));
+			if (actions != null) {
+				for (SequenceAction action : actions) {
+					if (sequenceList.contains(action)) {
+						sequenceList.remove(action);
+					} else {
+						sequenceList.add(action);
+					}
 				}
-				Thread.yield();
 			}
-			executingBrickIndex = i;
-			brickList.get(i).execute();
-			i = executingBrickIndex;
 		}
-		isFinished = true;
 	}
 
 	public void addBrick(Brick brick) {
@@ -104,28 +107,12 @@ public abstract class Script implements Serializable {
 		return brickList;
 	}
 
-	public synchronized void setPaused(boolean paused) {
+	public void setPaused(boolean paused) {
 		this.paused = paused;
-	}
-
-	public synchronized void setFinish(boolean finish) {
-		this.finish = finish;
 	}
 
 	public boolean isPaused() {
 		return paused;
-	}
-
-	public boolean isFinished() {
-		return isFinished;
-	}
-
-	public int getExecutingBrickIndex() {
-		return executingBrickIndex;
-	}
-
-	public void setExecutingBrickIndex(int executingBrickIndex) {
-		this.executingBrickIndex = executingBrickIndex;
 	}
 
 	public int getRequiredResources() {
@@ -176,5 +163,26 @@ public abstract class Script implements Serializable {
 		}
 
 		return brickList.get(index);
+	}
+
+	protected void setIfBrickReferences(IfLogicEndBrick copiedIfEndBrick, IfLogicEndBrick originalIfEndBrick) {
+		List<NestingBrick> ifBrickList = originalIfEndBrick.getAllNestingBrickParts(true);
+		IfLogicBeginBrick copiedIfBeginBrick = ((IfLogicBeginBrick) ifBrickList.get(0)).getCopy();
+		IfLogicElseBrick copiedIfElseBrick = ((IfLogicElseBrick) ifBrickList.get(1)).getCopy();
+
+		copiedIfBeginBrick.setIfElseBrick(copiedIfElseBrick);
+		copiedIfBeginBrick.setIfEndBrick(copiedIfEndBrick);
+		copiedIfElseBrick.setIfBeginBrick(copiedIfBeginBrick);
+		copiedIfElseBrick.setIfEndBrick(copiedIfEndBrick);
+		copiedIfEndBrick.setIfBeginBrick(copiedIfBeginBrick);
+		copiedIfEndBrick.setIfElseBrick(copiedIfElseBrick);
+	}
+
+	protected void setLoopBrickReferences(LoopEndBrick copiedBrick, LoopEndBrick originalBrick) {
+		List<NestingBrick> loopBrickList = originalBrick.getAllNestingBrickParts(true);
+		LoopBeginBrick copiedLoopBeginBrick = ((LoopBeginBrick) loopBrickList.get(0)).getCopy();
+
+		copiedLoopBeginBrick.setLoopEndBrick(copiedBrick);
+		copiedBrick.setLoopBeginBrick(copiedLoopBeginBrick);
 	}
 }

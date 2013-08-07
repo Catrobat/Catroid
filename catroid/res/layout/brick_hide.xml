@@ -20,15 +20,29 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/brick_violet"
+    android:gravity="center_vertical"
     android:orientation="horizontal" >
 
-    <TextView
-        style="@style/BrickText"
-        android:text="@string/brick_hide" />
+    <CheckBox
+        android:id="@+id/brick_hide_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/brick_hide_layout"
+        style="@style/BrickContainer.Look.Small" >
+
+        <TextView
+            android:id="@+id/brick_hide_label"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_hide" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -42,9 +42,8 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 		ActionBar actionBar = getSupportActionBar();
 
-		actionBar.setTitle(R.string.pref_title);
+		actionBar.setTitle(R.string.preference_title);
 		actionBar.setHomeButtonEnabled(true);
-		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override

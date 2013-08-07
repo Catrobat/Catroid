@@ -24,6 +24,7 @@ package org.catrobat.catroid.soundrecorder;
 
 import java.io.IOException;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.Utils;
 
@@ -31,27 +32,24 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Chronometer;
+import android.widget.ImageButton;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class SoundRecorderActivity extends SherlockFragmentActivity implements OnClickListener {
 
+	private static final String TAG = SoundRecorderActivity.class.getSimpleName();
 	private SoundRecorder soundRecorder;
-	private ImageView recordButton;
-	private TextView recordText;
-	private LinearLayout recordLayout;
-
-	private TextView recordingIndicationText;
+	private Chronometer timeRecorderChronometer;
+	private ImageButton recordButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,18 +57,9 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 
 		setContentView(R.layout.activity_soundrecorder);
 
-		recordLayout = (LinearLayout) findViewById(R.id.recordLayout);
-		recordButton = (ImageView) findViewById(R.id.recordButton);
-		recordText = (TextView) findViewById(R.id.recordText);
-		recordingIndicationText = (TextView) findViewById(R.id.recording);
-
-		recordLayout.setOnClickListener(this);
-
-		soundRecorder = (SoundRecorder) getLastCustomNonConfigurationInstance();
-		if (soundRecorder != null && soundRecorder.isRecording()) {
-			setViewsToRecordingState();
-		}
-
+		recordButton = (ImageButton) findViewById(R.id.soundrecorder_record_button);
+		timeRecorderChronometer = (Chronometer) findViewById(R.id.soundrecorder_chronometer_time_recorded);
+		recordButton.setOnClickListener(this);
 		Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this);
 	}
 
@@ -81,7 +70,7 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 	protected void onDestroy() {
 		super.onDestroy();
 
-		unbindDrawables(findViewById(R.id.SoundrecorderActivityRoot));
+		unbindDrawables(findViewById(R.id.soundrecorder));
 		System.gc();
 	}
 
@@ -98,13 +87,17 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 	}
 
 	@Override
-	public void onClick(View v) {
-		if (v.getId() == R.id.recordLayout) {
+	public void onClick(View view) {
+		if (view.getId() == R.id.soundrecorder_record_button) {
 			if (soundRecorder != null && soundRecorder.isRecording()) {
 				stopRecording();
+				timeRecorderChronometer.stop();
 				finish();
 			} else {
 				startRecording();
+				long currentPlayingBase = SystemClock.elapsedRealtime();
+				timeRecorderChronometer.setBase(currentPlayingBase);
+				timeRecorderChronometer.start();
 			}
 		}
 	}
@@ -115,31 +108,28 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 		super.onBackPressed();
 	}
 
-	@Override
-	public Object onRetainCustomNonConfigurationInstance() {
-		return soundRecorder;
-	}
-
 	private synchronized void startRecording() {
 		if (soundRecorder != null && soundRecorder.isRecording()) {
 			return;
 		}
 		try {
 			String recordPath = Utils.buildPath(Constants.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
-					+ Constants.RECORDING_EXTENTION);
+					+ Constants.RECORDING_EXTENSION);
 			soundRecorder = new SoundRecorder(recordPath);
 			soundRecorder.start();
 			setViewsToRecordingState();
 		} catch (IOException e) {
-			Log.e("CATROID", "Error recording sound.", e);
+			Log.e(TAG, "Error recording sound.", e);
+			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
+		} catch (IllegalStateException e) {
+			// app would crash if other app uses mic, catch IllegalStateException and display Toast
+			Log.e(TAG, "Error recording sound (Other recorder running?).", e);
 			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	private void setViewsToRecordingState() {
-		recordButton.setImageResource(R.drawable.ic_record);
-		recordText.setText(R.string.soundrecorder_record_stop);
-		recordingIndicationText.setVisibility(View.VISIBLE);
+		recordButton.setImageResource(R.drawable.microphone_icon_active);
 	}
 
 	private synchronized void stopRecording() {
@@ -159,9 +149,7 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 	}
 
 	private void setViewsToNotRecordingState() {
-		recordButton.setImageResource(R.drawable.ic_record_inactive);
-		recordText.setText(R.string.soundrecorder_record_start);
-		recordingIndicationText.setVisibility(View.INVISIBLE);
+		recordButton.setImageResource(R.drawable.microphone_icon);
 	}
 
 }

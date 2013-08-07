@@ -43,7 +43,7 @@ import android.widget.Toast;
 
 public class ProjectDownloadService extends IntentService {
 
-	private static final String DOWNLOAD_FILE_NAME = "down" + Constants.CATROID_EXTENTION;
+	private static final String DOWNLOAD_FILE_NAME = "down" + Constants.CATROBAT_EXTENSION;
 
 	private String projectName;
 	private String zipFileString;
@@ -102,18 +102,16 @@ public class ProjectDownloadService extends IntentService {
 
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
 
 		if (result && showOverwriteDialog) {
 			//project name and zip file string are temporariliy saved in the StatusBarNotificationManager to create it later on in the right context  
-			StatusBarNotificationManager.INSTANCE.downloadProjectName.add(projectName);
-			StatusBarNotificationManager.INSTANCE.downloadProjectZipFileString.add(zipFileString);
+			StatusBarNotificationManager.getInstance().downloadProjectName.add(projectName);
+			StatusBarNotificationManager.getInstance().downloadProjectZipFileString.add(zipFileString);
 			try {
 				//The context of the calling activity is needed, otherwise an exception occurs
-				MainMenuActivity activity = StatusBarNotificationManager.INSTANCE.getActivity(notificationId);
-				OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, projectName, zipFileString,
-						activity);
-				renameDialog.show();
+				MainMenuActivity activity = StatusBarNotificationManager.getInstance().getActivity(notificationId);
+				OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, projectName, zipFileString);
+				renameDialog.show(activity.getSupportFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
 			} catch (RuntimeException e) {
 				e.printStackTrace();
 			}
@@ -126,6 +124,7 @@ public class ProjectDownloadService extends IntentService {
 		}
 
 		Toast.makeText(this, R.string.success_project_download, Toast.LENGTH_SHORT).show();
+		super.onDestroy();
 	}
 
 	private void showDialog(int messageId) {

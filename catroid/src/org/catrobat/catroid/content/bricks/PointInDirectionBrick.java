@@ -22,27 +22,38 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Spinner;
-import org.catrobat.catroid.R;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+public class PointInDirectionBrick extends BrickBaseType implements View.OnClickListener, FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public PointInDirectionBrick() {
+	private Formula degrees;
 
-	}
+	private transient EditText setAngleEditText;
+	private transient View prototypeView;
 
 	public static enum Direction {
-		DIRECTION_RIGHT(90), DIRECTION_LEFT(-90), DIRECTION_UP(0), DIRECTION_DOWN(180);
+		RIGHT(90), LEFT(-90), UP(0), DOWN(180);
 
 		private double directionDegrees;
 
@@ -55,25 +66,28 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 		}
 	}
 
-	private Sprite sprite;
-	private double degrees;
+	public PointInDirectionBrick() {
 
-	private transient Direction direction;
-
-	protected Object readResolve() {
-		for (Direction direction : Direction.values()) {
-			if (Math.abs(direction.getDegrees() - degrees) < 0.1) {
-				this.direction = direction;
-				break;
-			}
-		}
-		return this;
 	}
 
 	public PointInDirectionBrick(Sprite sprite, Direction direction) {
 		this.sprite = sprite;
-		this.direction = direction;
-		this.degrees = direction.getDegrees();
+		this.degrees = new Formula(direction.getDegrees());
+	}
+
+	public PointInDirectionBrick(Sprite sprite, Formula direction) {
+		this.sprite = sprite;
+		this.degrees = direction;
+	}
+
+	public PointInDirectionBrick(Sprite sprite, double direction) {
+		this.sprite = sprite;
+		this.degrees = new Formula(direction);
+	}
+
+	@Override
+	public Formula getFormula() {
+		return degrees;
 	}
 
 	@Override
@@ -82,54 +96,92 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 	}
 
 	@Override
-	public void execute() {
-		double degreeOffset = 90f;
-		sprite.costume.rotation = (float) (-degrees + degreeOffset);
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		PointInDirectionBrick copyBrick = (PointInDirectionBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
+	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
+		view = View.inflate(context, R.layout.brick_point_in_direction, null);
+		view = getViewWithAlpha(alphaValue);
+		setCheckboxView(R.id.brick_point_in_direction_checkbox);
 
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 
-		View view = View.inflate(context, R.layout.brick_point_in_direction, null);
-		ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
-				R.array.point_in_direction_strings, android.R.layout.simple_spinner_item);
-		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		TextView setAngleTextView = (TextView) view.findViewById(R.id.brick_point_in_direction_prototype_text_view);
+		setAngleEditText = (EditText) view.findViewById(R.id.brick_point_in_direction_edit_text);
 
-		Spinner spinner = (Spinner) view.findViewById(R.id.point_in_direction_spinner);
-		spinner.setAdapter(arrayAdapter);
+		degrees.setTextFieldId(R.id.brick_point_in_direction_edit_text);
+		degrees.refreshTextField(view);
 
-		spinner.setClickable(true);
-		spinner.setFocusable(true);
+		setAngleTextView.setVisibility(View.GONE);
+		setAngleEditText.setVisibility(View.VISIBLE);
 
-		spinner.setOnItemSelectedListener(this);
-
-		spinner.setSelection(direction.ordinal());
-
+		setAngleEditText.setOnClickListener(this);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_point_in_direction, null);
+		prototypeView = View.inflate(context, R.layout.brick_point_in_direction, null);
+		TextView setAngleTextView = (TextView) prototypeView
+				.findViewById(R.id.brick_point_in_direction_prototype_text_view);
+		setAngleTextView.setText(String.valueOf(degrees.interpretDouble(sprite)));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new PointInDirectionBrick(getSprite(), direction);
+		return new PointInDirectionBrick(getSprite(), degrees.clone());
 	}
 
 	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		direction = Direction.values()[position];
-		degrees = direction.getDegrees();
+	public View getViewWithAlpha(int alphaValue) {
+
+		if (view != null) {
+
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_point_in_direction_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView pointInDirectionLabel = (TextView) view.findViewById(R.id.brick_point_in_direction_label);
+			TextView pointInDirectionDegree = (TextView) view.findViewById(R.id.brick_point_in_direction_degree);
+			EditText setAngleEditText = (EditText) view.findViewById(R.id.brick_point_in_direction_edit_text);
+			pointInDirectionLabel.setTextColor(pointInDirectionLabel.getTextColors().withAlpha(alphaValue));
+			pointInDirectionDegree.setTextColor(pointInDirectionDegree.getTextColors().withAlpha(alphaValue));
+			setAngleEditText.setTextColor(setAngleEditText.getTextColors().withAlpha(alphaValue));
+			setAngleEditText.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
+		return view;
 	}
 
 	@Override
-	public void onNothingSelected(AdapterView<?> arg0) {
+	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
+		FormulaEditorFragment.showFragment(view, this, degrees);
+	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.pointInDirection(sprite, degrees));
+		return null;
 	}
 }

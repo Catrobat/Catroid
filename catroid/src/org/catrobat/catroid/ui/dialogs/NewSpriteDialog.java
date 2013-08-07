@@ -23,12 +23,12 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
-import org.catrobat.catroid.R;
 
 public class NewSpriteDialog extends TextDialog {
 
@@ -44,24 +44,24 @@ public class NewSpriteDialog extends TextDialog {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		if (projectManager.spriteExists(newSpriteName)) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.spritename_already_exists));
+			Utils.showErrorDialog(getActivity(), getString(R.string.spritename_already_exists));
 			return false;
 		}
 
 		if (newSpriteName == null || newSpriteName.equalsIgnoreCase("")) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.spritename_invalid));
+			Utils.showErrorDialog(getActivity(), getString(R.string.spritename_invalid));
 			return false;
 		}
 
 		if (projectManager.spriteExists(newSpriteName)) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.spritename_already_exists));
+			Utils.showErrorDialog(getActivity(), getString(R.string.spritename_already_exists));
 			return false;
 		}
 
 		Sprite sprite = new Sprite(newSpriteName);
 		projectManager.addSprite(sprite);
 
-		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED));
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
 
 		return true;
 	}

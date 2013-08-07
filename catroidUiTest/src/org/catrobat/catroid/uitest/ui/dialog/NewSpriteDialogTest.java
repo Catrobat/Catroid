@@ -33,18 +33,17 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class NewSpriteDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private Solo solo;
 	private String testingproject = UiTestUtils.PROJECTNAME1;
 	private String testingsprite = "testingsprite";
 
@@ -53,20 +52,11 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
 	protected void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		ProjectManager.getInstance().deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
-		solo = null;
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
@@ -74,42 +64,60 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(300);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fr_projects_list);
+		solo.waitForFragmentById(R.id.fragment_projects_list);
 		assertTrue("Cannot click on project.", UiTestUtils.clickOnTextInList(solo, testingproject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fr_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
+		String spriteName = "spriteError";
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForView(EditText.class);
-		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
-		UiTestUtils.enterText(solo, spriteEditTextId, testingsprite);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(300);
-		solo.clickOnText(testingsprite);
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
-		solo.clickOnText(solo.getString(R.string.scripts));
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-		solo.assertCurrentActivity("Current Activity is not ScriptActivity", ScriptTabActivity.class);
-	}
+		enterTextAndCloseDialog(spriteName);
+		assertTrue("Sprite not successfully added", ProjectManager.getInstance().spriteExists(spriteName));
 
-	public void testAddSpriteDialogNoName() {
-		createTestProject(testingproject);
-		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fr_projects_list);
-		UiTestUtils.clickOnTextInList(solo, testingproject);
-		solo.sleep(500);
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fr_sprites_list);
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
-		solo.waitForView(EditText.class);
-		solo.clearEditText(0);
-		UiTestUtils.enterText(solo, 0, " ");
+		//Add sprite which already exists
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		enterTextAndCloseDialog(spriteName);
+		String errorMessageText = solo.getString(R.string.spritename_already_exists);
+		String buttonCloseText = solo.getString(R.string.close);
+		solo.sleep(200);
+		assertTrue("ErrorMessage not visible", solo.searchText(errorMessageText));
+		solo.clickOnButton(buttonCloseText);
+		solo.sleep(200);
+
+		//Check if button is deactivated when adding a sprite without a name
+		UiTestUtils.enterText(solo, 0, "");
+		solo.sleep(200);
+		String okButtonText = solo.getString(R.string.ok);
+		boolean okButtonEnabled = solo.getButton(okButtonText).isEnabled();
+		assertFalse("'" + okButtonText + "' button not deactivated", okButtonEnabled);
+
+		int spriteEditTextId = solo.getCurrentViews(EditText.class).size() - 1;
+		UiTestUtils.enterText(solo, spriteEditTextId, " ");
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
 		String errorMessageInvalidInput = solo.getString(R.string.spritename_invalid);
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageInvalidInput));
 		solo.clickOnButton(solo.getString(R.string.close));
+		solo.sleep(200);
+
+		//Test to add sprite without name ("") with ENTER key
+		solo.clickOnEditText(0);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		assertTrue("ErrorMessage not visible", solo.searchText(solo.getString(R.string.spritename_invalid)));
+		solo.clickOnButton(buttonCloseText);
+		solo.sleep(200);
+		assertTrue("Not in NewSpriteDialog", solo.searchText(solo.getString(R.string.new_sprite_dialog_title)));
+
+		UiTestUtils.enterText(solo, spriteEditTextId, testingsprite);
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sleep(300);
+		solo.clickOnText(testingsprite);
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.clickOnText(solo.getString(R.string.scripts));
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.assertCurrentActivity("Current Activity is not ScriptActivity", ScriptActivity.class);
 	}
 
 	public void createTestProject(String projectName) {
@@ -118,5 +126,13 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		Sprite firstSprite = new Sprite("cat");
 		project.addSprite(firstSprite);
 		storageHandler.saveProject(project);
+	}
+
+	private void enterTextAndCloseDialog(String text) {
+		solo.clearEditText(0);
+		solo.enterText(0, text);
+		solo.goBack();
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sleep(200);
 	}
 }

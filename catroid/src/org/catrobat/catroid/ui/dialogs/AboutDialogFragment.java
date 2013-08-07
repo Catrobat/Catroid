@@ -22,17 +22,56 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.Utils;
+
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 public class AboutDialogFragment extends DialogFragment {
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_about_catroid";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_about_pocketcode";
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
+		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_about, null);
 
-		Dialog aboutDialog = new AboutDialog(getActivity());
+		TextView aboutUrlTextView = (TextView) view.findViewById(R.id.dialog_about_text_view_url);
+		aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+		String aboutUrl = getString(R.string.about_link_template, getString(R.string.about_pocketcode_license_url),
+				getString(R.string.dialog_about_pocketcode_license_link_text));
+
+		aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
+
+		TextView aboutUrlCatrobatView = (TextView) view.findViewById(R.id.dialog_about_text_catrobat_url);
+		aboutUrlCatrobatView.setMovementMethod(LinkMovementMethod.getInstance());
+
+		String aboutCatrobatUrl = getString(R.string.about_link_template, getString(R.string.about_catrobat_url),
+				getString(R.string.dialog_about_catrobat_link_text));
+
+		aboutUrlCatrobatView.setText(Html.fromHtml(aboutCatrobatUrl));
+
+		TextView aboutVersionNameTextView = (TextView) view.findViewById(R.id.dialog_about_text_view_version_name);
+		String versionName = Utils.getVersionName(getActivity());
+		aboutVersionNameTextView.setText(versionName);
+
+		Dialog aboutDialog = new AlertDialog.Builder(getActivity()).setView(view)
+				.setTitle(getString(R.string.dialog_about_title))
+				.setNeutralButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				}).create();
+		aboutDialog.setCanceledOnTouchOutside(true);
 
 		return aboutDialog;
 	}

@@ -27,75 +27,57 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/actionbar_height"
     android:layout_alignParentBottom="true"
+    android:background="@drawable/bottom_bar_background"
     android:orientation="horizontal" >
 
     <LinearLayout
-        android:id="@+id/btn_add"
+        android:id="@+id/button_add"
         android:layout_width="0dip"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="#B3B3B3"
+        android:background="@drawable/bottom_bar_background_selector"
         android:clickable="true"
         android:onClick="handleAddButton"
         android:orientation="horizontal" >
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="2"
             android:background="@null"
             android:clickable="false"
-            android:src="@drawable/ic_plus_black" />
-
-        <TextView
-            android:id="@+id/add_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:clickable="false"
-            android:text="@string/add"
-            android:visibility="gone"
-            android:textColor="#000000" />
+            android:src="@drawable/ic_plus" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/bottom_bar_separator"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@drawable/bottombar_separator" />
+        android:layout_height="@dimen/actionbar_height"
+        android:scaleType="fitXY"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:src="@drawable/bottombar_separator" />
 
     <LinearLayout
-        android:id="@+id/btn_play"
+        android:id="@+id/button_play"
         android:layout_width="0dip"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="#B3B3B3"
+        android:background="@drawable/bottom_bar_background_selector"
         android:clickable="true"
         android:onClick="handlePlayButton"
         android:orientation="horizontal" >
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="2"
             android:background="@null"
             android:clickable="false"
             android:focusable="false"
-            android:src="@drawable/ic_play_black" />
-
-        <TextView
-            android:id="@+id/play_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:text="@string/play"
-            android:visibility="gone"
-            android:clickable="false"
-            android:textColor="#000000" />
+            android:src="@drawable/ic_media_play" />
     </LinearLayout>
 
 </LinearLayout>

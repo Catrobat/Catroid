@@ -22,9 +22,10 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -32,125 +33,187 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
-import org.catrobat.catroid.R;
+import android.util.SparseArray;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
 
-import com.jayway.android.robotium.solo.Solo;
+public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
-public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
-
-	private Solo solo;
 	private Project project;
+	private Sprite sprite;
+
+	private final SparseArray<String> expectedSpinnterText = new SparseArray<String>();
+	private final String defaultBroadcastMessage = "message 1";
+
+	private final int broadcastReceiverSpinnerId = R.id.brick_broadcast_receive_spinner;
+	private final int broadcastSpinnerId = R.id.brick_broadcast_spinner;
+	private final int broadcastWaitSpinnerId = R.id.brick_broadcast_wait_spinner;
 
 	public BroadcastBricksTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
+		expectedSpinnterText.put(broadcastReceiverSpinnerId, defaultBroadcastMessage);
+		expectedSpinnterText.put(broadcastSpinnerId, defaultBroadcastMessage);
+		expectedSpinnterText.put(broadcastWaitSpinnerId, defaultBroadcastMessage);
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
-	}
-
-	@Smoke
 	public void testBroadcastBricks() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		checkSetupBricks();
 
-		int childrenCount = ProjectManager.getInstance().getCurrentSprite().getScript(adapter.getScriptCount() - 1)
-				.getBrickList().size();
-		assertEquals("Incorrect number of bricks.", 3 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
-		assertEquals("Incorrect number of bricks.", 2, childrenCount);
+		final String firstBroadcastMessage = "First";
+		final String secondBroadcastMessage = "Second";
+		final String thirdBroadcastMessage = "Third";
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		enterNewTextIntoSpinner(broadcastReceiverSpinnerId, firstBroadcastMessage);
+		pressSpinnerItem(broadcastSpinnerId, firstBroadcastMessage);
+		pressSpinnerItem(broadcastWaitSpinnerId, firstBroadcastMessage);
+
+		enterNewTextIntoSpinner(broadcastSpinnerId, secondBroadcastMessage);
+		enterNewTextIntoSpinner(broadcastWaitSpinnerId, thirdBroadcastMessage);
+
+		pressSpinnerItem(broadcastSpinnerId, thirdBroadcastMessage);
+
+		dismissEnterNewTextIntoSpinner(broadcastReceiverSpinnerId);
+		dismissEnterNewTextIntoSpinner(broadcastSpinnerId);
+		dismissEnterNewTextIntoSpinner(broadcastWaitSpinnerId);
+
+		solo.waitForText(solo.getString(R.string.brick_broadcast_receive));
+		solo.clickOnText(solo.getString(R.string.brick_broadcast_receive));
+		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		solo.waitForText(solo.getString(R.string.yes));
+		solo.clickOnButton(solo.getString(R.string.yes));
+
+		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
+
+		//to gain focus
+		solo.clickOnScreen(200, 200);
+		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
+			solo.goBack();
+		}
+		Spinner broadcastSpinner = (Spinner) solo.getView(R.id.brick_broadcast_spinner);
+
+		assertEquals("Wrong selection", defaultBroadcastMessage, broadcastSpinner.getSelectedItem().toString());
+	}
+
+	public void testRemoveUnusedMessages() {
+		checkSetupBricks();
+
+		final String broadcastMessage = "Broadcast message";
+		enterNewTextIntoSpinner(broadcastReceiverSpinnerId, broadcastMessage);
+		pressSpinnerItem(broadcastSpinnerId, broadcastMessage);
+		pressSpinnerItem(broadcastWaitSpinnerId, broadcastMessage);
+		solo.sleep(500);
+
+		UiTestUtils.clickOnHomeActionBarButton(solo);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		checkCorrectSpinnerSelections();
+		checkIfUnusedBroadcastMessagesHaveBeenRemoved(broadcastReceiverSpinnerId, broadcastMessage);
+		checkIfUnusedBroadcastMessagesHaveBeenRemoved(broadcastSpinnerId, broadcastMessage);
+		checkIfUnusedBroadcastMessagesHaveBeenRemoved(broadcastWaitSpinnerId, broadcastMessage);
+	}
+
+	private void checkIfUnusedBroadcastMessagesHaveBeenRemoved(int spinnerId, String broadcastMessage) {
+		Spinner spinner = (Spinner) solo.getView(spinnerId);
+		assertEquals("broadcastWaitSpinner has not the correct number of elements", 2, spinner.getCount());
+		assertEquals("First spinner element isn't " + solo.getString(R.string.new_broadcast_message),
+				solo.getString(R.string.new_broadcast_message), spinner.getItemAtPosition(0));
+		assertEquals("First broadcast message isn't" + broadcastMessage, broadcastMessage, spinner.getItemAtPosition(1));
+	}
+
+	private void checkCorrectSpinnerSelections() {
+		assertEquals("Wrong broadcast message in broadcast receiver.",
+				expectedSpinnterText.get(broadcastReceiverSpinnerId),
+				((Spinner) solo.getView(broadcastReceiverSpinnerId)).getSelectedItem().toString());
+		assertEquals("Wrong broadcast message in broadcast.", expectedSpinnterText.get(broadcastSpinnerId),
+				((Spinner) solo.getView(broadcastSpinnerId)).getSelectedItem().toString());
+		assertEquals("Wrong broadcast message in broadcastWait.", expectedSpinnterText.get(broadcastWaitSpinnerId),
+				((Spinner) solo.getView(broadcastWaitSpinnerId)).getSelectedItem().toString());
+	}
+
+	private void enterNewTextIntoSpinner(int spinnerId, String text) {
+		solo.clickOnView(solo.getView(spinnerId));
+		solo.waitForText(solo.getString(R.string.new_broadcast_message));
+		solo.clickInList(0);
+		solo.waitForView(EditText.class);
+		solo.enterText(0, text);
+		solo.goBack();
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.waitForView(solo.getView(spinnerId));
+		gainFocus();
+		expectedSpinnterText.put(spinnerId, text);
+		checkCorrectSpinnerSelections();
+	}
+
+	private void pressSpinnerItem(int spinnerId, String text) {
+		solo.clickOnView(solo.getView(spinnerId));
+		solo.clickOnText(text);
+		solo.waitForView(solo.getView(spinnerId));
+		gainFocus();
+		expectedSpinnterText.put(spinnerId, text);
+		checkCorrectSpinnerSelections();
+	}
+
+	private void dismissEnterNewTextIntoSpinner(int spinnerId) {
+		solo.clickOnView(solo.getView(spinnerId));
+		solo.waitForText(solo.getString(R.string.new_broadcast_message));
+		solo.clickInList(0);
+		solo.waitForView(EditText.class);
+		solo.goBack();
+		solo.goBack();
+		solo.waitForView(solo.getView(spinnerId));
+		checkCorrectSpinnerSelections();
+	}
+
+	private void checkSetupBricks() {
+		ListView view = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
+
+		assertEquals("String has changed", solo.getString(R.string.brick_broadcast_default_value),
+				defaultBroadcastMessage);
+
+		assertEquals("Wrong number of scripts.", 1, sprite.getNumberOfScripts());
+		assertTrue("Wrong script instance.", sprite.getScript(0) instanceof BroadcastScript);
+
+		int childrenCount = sprite.getScript(adapter.getScriptCount() - 1).getBrickList().size();
+		assertEquals("Incorrect number of bricks in sprite.", 3, UiTestUtils.getScriptListView(solo).getChildCount());
+		assertEquals("Incorrect number of bricks in broadcast script.", 2, childrenCount);
+
+		List<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getItem(1));
+		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof BroadcastBrick);
+		assertTrue("Wrong Brick instance.", adapter.getItem(1) instanceof BroadcastBrick);
+	}
 
-		String testString = "test";
-		String testString2 = "test2";
-		String testString3 = "test3";
-
-		String buttonNewBroadcastText = solo.getString(R.string.new_broadcast_message);
-		solo.clickOnText(buttonNewBroadcastText, 1);
-		solo.clearEditText(0);
-		solo.enterText(0, testString);
-		solo.sleep(200);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(400);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(600);
-		solo.clickOnText(solo.getString(R.string.brick_broadcast_receive)); //just to get focus for solo
-
-		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());
-		assertNotSame("Wrong selection", testString, solo.getCurrentSpinners().get(1).getSelectedItem());
-
-		solo.pressSpinnerItem(1, 2);
-		solo.sleep(200);
-		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(1).getSelectedItem());
-
-		solo.pressSpinnerItem(2, 2);
-		solo.sleep(200);
-		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(2).getSelectedItem());
-
-		solo.clickOnText(buttonNewBroadcastText, 2);
-		solo.clearEditText(0);
-		solo.enterText(0, testString2);
-		solo.sleep(200);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(400);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(600);
-
-		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());
-		assertEquals("Wrong selection", testString2, (String) solo.getCurrentSpinners().get(1).getSelectedItem());
-		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(2).getSelectedItem());
-
-		solo.clickOnText(buttonNewBroadcastText, 3);
-		solo.clearEditText(0);
-		solo.enterText(0, testString3);
-		solo.sleep(200);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(400);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(600);
-
-		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());
-		assertEquals("Wrong selection", testString2, (String) solo.getCurrentSpinners().get(1).getSelectedItem());
-		assertEquals("Wrong selection", testString3, (String) solo.getCurrentSpinners().get(2).getSelectedItem());
-
-		solo.pressSpinnerItem(1, 4);
-		solo.sleep(200);
-		assertEquals("Wrong selection", testString3, (String) solo.getCurrentSpinners().get(1).getSelectedItem());
+	private void gainFocus() {
+		solo.clickOnText(solo.getString(R.string.brick_broadcast_receive));
+		if (solo.searchText(solo.getString(R.string.brick_context_dialog_delete_brick), true)) {
+			solo.goBack();
+		}
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite sprite = new Sprite("cat");
-		Script script = new BroadcastScript(sprite);
-		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);
-		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite);
+		sprite = new Sprite("cat");
+		Script script = new BroadcastScript(sprite, defaultBroadcastMessage);
+		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite, defaultBroadcastMessage);
+		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite, defaultBroadcastMessage);
 		script.addBrick(broadcastBrick);
 		script.addBrick(broadcastWaitBrick);
 

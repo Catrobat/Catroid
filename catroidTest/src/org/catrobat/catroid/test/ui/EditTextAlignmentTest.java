@@ -24,6 +24,8 @@ package org.catrobat.catroid.test.ui;
 
 import java.lang.reflect.Field;
 
+import org.catrobat.catroid.R;
+
 import android.content.Context;
 import android.test.AndroidTestCase;
 import android.text.InputType;
@@ -31,11 +33,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import org.catrobat.catroid.R;
 
 public class EditTextAlignmentTest extends AndroidTestCase {
 
-	static private LayoutInflater inflater;
+	private static LayoutInflater inflater;
 	private Context context;
 
 	@Override
@@ -57,7 +58,7 @@ public class EditTextAlignmentTest extends AndroidTestCase {
 		for (Field layoutField : layoutFields) {
 			String layoutName = layoutField.getName();
 
-			if (layoutName.contains("_brick_")) {
+			if (layoutName.startsWith("brick_")) {
 				for (Field idField : idFields) {
 					String idName = idField.getName();
 

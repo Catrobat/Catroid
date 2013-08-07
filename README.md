@@ -1,26 +1,30 @@
 Catroid
 =======
 
-**Catroid** is an on-device visual programming system for Android devices that is inspired by the [Scratch programming language developed by the Lifelong Kindergarten Group at the MIT Media Lab](http://scratch.mit.edu/).
+**Catroid** is an on-device visual programming system for Android devices.
 
 **Catrobat** is a visual programming language and set of creativity tools for smartphones, tablets, and mobile browsers. 
-Catrobat is the name of the visual programming language. Catrobat programs can be written by using the Catroid 
-programming system on Android phones and tablets.
+Catrobat programs can be written by using the Catroid programming system on Android phones and tablets.
 
-For a download of the most recent public beta, please go to the [Downloads](https://github.com/Catrobat/Catroid/downloads) Section or check out the latest revision of the [master](https://github.com/Catrobat/Catroid/commits/master) branch and build it yourself.
+For more information oriented towards developers including, e.g., downloads of nightly builds, please visit http://developer.catrobat.org/
 
-More info
-=========
+First Steps
+=======
 
-The [Catrobat](https://github.com/Catrobat/) umbrella project was a mentoring organization for [Google Summer of Code 2012](https://www.google-melange.com/gsoc/org/google/gsoc2012/catroidproject) and [2011](https://www.google-melange.com/gsoc/org/google/gsoc2011/catroid)!
+The Project is hosted at [GitHub](https://github.com/Catrobat/Catroid).
 
-[Paintroid](https://github.com/Catrobat/Paintroid) is an associated graphical paint editor program for the Android platform that, among others, allows setting parts of pictures to transparent.
+1. Get the repo via shell: `git clone git@github.com:Catrobat/Catroid.git`
+2. Drink some coffee - the repo size is about 62 MBs (2013-06-10)
+3. Open Eclipse and select a workspace of your choice
+4. Import every project from the cloned repo (File > Import... > General > Existing Projects into Workspace > Next > Select root directory (browse to it, confirm and wait until Eclipse shows you all projects below) > Finish
+5. Wait until Eclipse reads/compiles everything
+6. Maybe some cleanups will help to clear any compile errors - if any (Project > Clean... > Clean all projects > OK)
+7. Also take care that a Project Build Target is chosen (Project > Properties > Android > choose any Build Target of your choice > OK)
 
-[The Catroid community website](http://www.catroid.org/) features Catrobat projects (also called Catrobat programs) uploaded directly from Catroid. These projects can be downloaded and opened in Catroid, for execution on one's Android device and also for remixing. Further functionality such as commenting, forums, a wiki and many others are planned.
-
-Please **note** that Catroid, Paintroid, as well as the Catroid community website are currently in beta development stage. You are welcome to download and use them, including to upload your own projects to the community website.
-
-Please note that Catroid is under heavy development and that we may still change things, including the project format. We will try as hard as possible to not change it and/or to convert uploaded projects to any new formats, but some semantic changes may be unavoidable and may change the behavior of projects in unpredictable ways. Please also note that we consider Catroid, Paintroid, as well as the Catroid community website not yet as ready for unsupervised usage by children and teenagers as there are still many usability, design, and safety issues, the latter concerning the quadcopter. We work hard to get to that stage. In the mean time you can submit and/or discuss [issues with all parts of the Catroid system](https://github.com/Catrobat/Catroid/issues), or post and/or join discussions on [Catrobat's Google group](https://groups.google.com/forum/?fromgroups#!forum/catrobat).
+Warning
+---------
+ 
+egit (Eclipse extension for git) will ignore some git settings and will make trouble with line endings!
 
 Resources and links
 =========

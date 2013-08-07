@@ -33,6 +33,7 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 
 import android.content.Context;
@@ -41,7 +42,7 @@ public class UtilFile {
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 
-	static private long getSizeOfFileOrDirectoryInByte(File fileOrDirectory) {
+	private static long getSizeOfFileOrDirectoryInByte(File fileOrDirectory) {
 		if (!fileOrDirectory.exists()) {
 			return 0;
 		}
@@ -57,7 +58,7 @@ public class UtilFile {
 		return size;
 	}
 
-	static public Long getProgressFromBytes(String projectName, Long progress) {
+	public static Long getProgressFromBytes(String projectName, Long progress) {
 		Long fileByteSize = getSizeOfFileOrDirectoryInByte(new File(Utils.buildProjectPath(projectName)));
 		if (fileByteSize == 0) {
 			return (long) 0;
@@ -66,11 +67,11 @@ public class UtilFile {
 		return progressValue;
 	}
 
-	static public String getSizeAsString(File fileOrDirectory) {
-		final int UNIT = 1024;
+	public static String getSizeAsString(File fileOrDirectory) {
+		final int unit = 1024;
 		long bytes = UtilFile.getSizeOfFileOrDirectoryInByte(fileOrDirectory);
 
-		if (bytes < UNIT) {
+		if (bytes < unit) {
 			return bytes + " Byte";
 		}
 
@@ -78,15 +79,18 @@ public class UtilFile {
 		 * Logarithm of "bytes" to base "unit"
 		 * log(a) / log(b) == logarithm of a to the base of b
 		 */
-		int exponent = (int) (Math.log(bytes) / Math.log(UNIT));
+		int exponent = (int) (Math.log(bytes) / Math.log(unit));
 		char prefix = ("KMGTPE").charAt(exponent - 1);
 
-		return String.format("%.1f %sB", bytes / Math.pow(UNIT, exponent), prefix);
+		return String.format("%.1f %sB", bytes / Math.pow(unit, exponent), prefix);
 	}
 
-	static public boolean clearDirectory(File path) {
+	public static boolean clearDirectory(File path) {
 		if (path.exists()) {
 			File[] filesInDirectory = path.listFiles();
+			if (filesInDirectory == null) {
+				return false;
+			}
 			for (File file : filesInDirectory) {
 				if (file.isDirectory()) {
 					deleteDirectory(file);
@@ -98,7 +102,7 @@ public class UtilFile {
 		return true;
 	}
 
-	static public boolean deleteDirectory(File path) {
+	public static boolean deleteDirectory(File path) {
 		clearDirectory(path);
 		return (path.delete());
 	}
@@ -144,6 +148,13 @@ public class UtilFile {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	public static void createStandardProjectIfRootDirectoryIsEmpty(Context context) {
+		File rootDirectory = new File(Constants.DEFAULT_ROOT);
+		if (rootDirectory == null || rootDirectory.listFiles() == null || rootDirectory.listFiles().length == 0) {
+			ProjectManager.getInstance().initializeDefaultProject(context);
 		}
 	}
 

@@ -22,36 +22,55 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.ui.ScriptTabActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import org.catrobat.catroid.R;
 
-public class ChangeVolumeByNBrick implements Brick, OnClickListener {
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 
-	private Sprite sprite;
-	private double volume;
+	private Formula volume;
 
-	private transient View view;
+	private transient View prototypeView;
 
 	public ChangeVolumeByNBrick() {
 
 	}
 
-	public ChangeVolumeByNBrick(Sprite sprite, double changeVolume) {
+	public ChangeVolumeByNBrick(Sprite sprite, double changeVolumeValue) {
 		this.sprite = sprite;
-		this.volume = changeVolume;
+
+		volume = new Formula(changeVolumeValue);
+	}
+
+	public ChangeVolumeByNBrick(Sprite sprite, Formula volume) {
+		this.sprite = sprite;
+
+		this.volume = volume;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return volume;
 	}
 
 	@Override
@@ -60,78 +79,89 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void execute() {
-		float currentVolume = SoundManager.getInstance().getVolume();
-		currentVolume += volume;
-		if (currentVolume < 0.0f) {
-			currentVolume = 0.0f;
-		} else if (currentVolume > 100.0f) {
-			currentVolume = 100.0f;
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		ChangeVolumeByNBrick copyBrick = (ChangeVolumeByNBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
+	}
+
+	@Override
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
 		}
-		SoundManager.getInstance().setVolume(currentVolume);
-	}
 
-	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	public double getVolume() {
-		return volume;
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		view = View.inflate(context, R.layout.brick_change_volume_by, null);
+		view = getViewWithAlpha(alphaValue);
 
-		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_text_view);
+		setCheckboxView(R.id.brick_change_volume_by_checkbox);
+		final Brick brickInstance = this;
+
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
+		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
-		edit.setText(String.valueOf(volume));
+		volume.setTextFieldId(R.id.brick_change_volume_by_edit_text);
+		volume.refreshTextField(view);
 
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 
 		edit.setOnClickListener(this);
-
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_change_volume_by, null);
-		return view;
+		prototypeView = View.inflate(context, R.layout.brick_change_volume_by, null);
+		TextView textSetVolumenTo = (TextView) prototypeView
+				.findViewById(R.id.brick_change_volume_by_prototype_text_view);
+		textSetVolumenTo.setText(String.valueOf(volume.interpretDouble(sprite)));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeVolumeByNBrick(getSprite(), getVolume());
+		return new ChangeVolumeByNBrick(getSprite(), volume.clone());
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+
+		if (view != null) {
+
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_volume_by_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView changeVolume = (TextView) view.findViewById(R.id.brick_change_volume_by_label);
+			EditText editVolume = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
+			changeVolume.setTextColor(changeVolume.getTextColors().withAlpha(alphaValue));
+			editVolume.setTextColor(editVolume.getTextColors().withAlpha(alphaValue));
+			editVolume.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+		return view;
 	}
 
 	@Override
 	public void onClick(View view) {
-		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
+		FormulaEditorFragment.showFragment(view, this, volume);
+	}
 
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(volume));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-						| InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					volume = Float.parseFloat(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_volume_by_brick");
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.changeVolumeByN(sprite, volume));
+		return null;
 	}
 }

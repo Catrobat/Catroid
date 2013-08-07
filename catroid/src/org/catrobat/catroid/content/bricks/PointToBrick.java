@@ -23,29 +23,50 @@
 package org.catrobat.catroid.content.bricks;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.res.ColorStateList;
+import android.database.DataSetObserver;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
-public class PointToBrick implements Brick {
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+public class PointToBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
-	private Sprite pointedSprite;
+	private Sprite pointedObject;
+	private transient String oldSelectedObject;
+	private transient AdapterView<?> adapterView;
 
 	public PointToBrick(Sprite sprite, Sprite pointedSprite) {
 		this.sprite = sprite;
-		this.pointedSprite = pointedSprite;
+		this.pointedObject = pointedSprite;
+		this.oldSelectedObject = "";
 	}
 
 	public PointToBrick() {
@@ -58,120 +79,70 @@ public class PointToBrick implements Brick {
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		PointToBrick copyBrick = (PointToBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override
-	public void execute() {
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
-				.getSpriteList();
-		if (!spriteList.contains(pointedSprite)) {
-			pointedSprite = null;
+	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
 		}
-
-		if (pointedSprite == null) {
-			pointedSprite = this.sprite;
-		}
-
-		int spriteXPosition = 0, spriteYPosition = 0;
-		int pointedSpriteXPosition = 0, pointedSpriteYPosition = 0;
-		double base = 0.0, height = 0.0, value = 0.0;
-
-		sprite.costume.aquireXYWidthHeightLock();
-		spriteXPosition = (int) sprite.costume.getXPosition();
-		spriteYPosition = (int) sprite.costume.getYPosition();
-		sprite.costume.releaseXYWidthHeightLock();
-		pointedSprite.costume.aquireXYWidthHeightLock();
-		pointedSpriteXPosition = (int) pointedSprite.costume.getXPosition();
-		pointedSpriteYPosition = (int) pointedSprite.costume.getYPosition();
-		pointedSprite.costume.releaseXYWidthHeightLock();
-
-		double rotationDegrees;
-		if (spriteXPosition == pointedSpriteXPosition && spriteYPosition == pointedSpriteYPosition) {
-			rotationDegrees = 90;
-		} else if (spriteXPosition == pointedSpriteXPosition || spriteYPosition == pointedSpriteYPosition) {
-			if (spriteXPosition == pointedSpriteXPosition) {
-				if (spriteYPosition > pointedSpriteYPosition) {
-					rotationDegrees = 180;
-				} else {
-					rotationDegrees = 0;
-				}
-			} else {
-				if (spriteXPosition > pointedSpriteXPosition) {
-					rotationDegrees = 270;
-				} else {
-					rotationDegrees = 90;
-				}
-			}
-
-		} else {
-			base = Math.abs(spriteYPosition - pointedSpriteYPosition);
-			height = Math.abs(spriteXPosition - pointedSpriteXPosition);
-			value = Math.toDegrees(Math.atan(base / height));
-
-			if (spriteXPosition < pointedSpriteXPosition) {
-				if (spriteYPosition > pointedSpriteYPosition) {
-					rotationDegrees = 90 + value;
-				} else {
-					rotationDegrees = 90 - value;
-				}
-			} else {
-				if (spriteYPosition > pointedSpriteYPosition) {
-					rotationDegrees = 270 - value;
-				} else {
-					rotationDegrees = 270 + value;
-				}
-			}
-		}
-		sprite.costume.rotation = (-(float) rotationDegrees) + 90f;
-	}
-
-	@Override
-	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.brick_point_to, null);
+		view = inflater.inflate(R.layout.brick_point_to, null);
+		view = getViewWithAlpha(alphaValue);
 
-		final Spinner spinner = (Spinner) brickView.findViewById(R.id.brick_point_to_spinner);
+		setCheckboxView(R.id.brick_point_to_checkbox);
+
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
+
+		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
 		spinner.setFocusableInTouchMode(false);
 		spinner.setFocusable(false);
-		spinner.setClickable(true);
-		spinner.setEnabled(true);
-
-		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
-		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinnerAdapter.add(context.getString(R.string.broadcast_nothing_selected));
-
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
-				.getSpriteList();
-		for (Sprite sprite : spriteList) {
-			String spriteName = sprite.getName();
-			String temp = this.sprite.getName();
-			if (!spriteName.equals(temp) && !spriteName.equals("Background")) {
-				spinnerAdapter.add(sprite.getName());
-			}
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+			spinner.setClickable(true);
+			spinner.setEnabled(true);
+		} else {
+			spinner.setClickable(false);
+			spinner.setEnabled(false);
 		}
-		spinner.setAdapter(spinnerAdapter);
+
+		final ArrayAdapter<String> spinnerAdapter = getArrayAdapterFromSpriteList(context);
+
+		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinner, spinnerAdapter);
+
+		spinner.setAdapter(spinnerAdapterWrapper);
 
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				String itemSelected = parent.getSelectedItem().toString();
-				String nothingSelected = context.getString(R.string.broadcast_nothing_selected);
-				final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance()
-						.getCurrentProject().getSpriteList();
 
-				if (itemSelected.equals(nothingSelected)) {
-					pointedSprite = null;
-				}
-				for (Sprite sprite : spriteList) {
-					String spriteName = sprite.getName();
-					if (spriteName.equals(itemSelected)) {
-						pointedSprite = sprite;
+				if (itemSelected.equals(context.getString(R.string.new_broadcast_message))) {
+					pointedObject = null;
+				} else {
+					final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance()
+							.getCurrentProject().getSpriteList();
+
+					for (Sprite sprite : spriteList) {
+						String spriteName = sprite.getName();
+						if (spriteName.equals(itemSelected)) {
+							pointedObject = sprite;
+							break;
+						}
 					}
 				}
+				adapterView = parent;
 			}
 
 			@Override
@@ -179,25 +150,229 @@ public class PointToBrick implements Brick {
 			}
 		});
 
-		if (spriteList.contains(pointedSprite)) {
-			int pointedSpriteIndex = spinnerAdapter.getPosition(pointedSprite.getName());
-			spinner.setSelection(pointedSpriteIndex);
-		} else {
-			spinner.setSelection(0);
+		setSpinnerSelection(spinner);
+
+		return view;
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+
+		if (view != null) {
+
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_point_to_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textPointToLabel = (TextView) view.findViewById(R.id.brick_point_to_label);
+			textPointToLabel.setTextColor(textPointToLabel.getTextColors().withAlpha(alphaValue));
+			Spinner pointToSpinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
+			ColorStateList color = textPointToLabel.getTextColors().withAlpha(alphaValue);
+			pointToSpinner.getBackground().setAlpha(alphaValue);
+			if (adapterView != null) {
+				((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			}
+
+			this.alphaValue = (alphaValue);
+
 		}
 
-		return brickView;
+		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.brick_point_to, null);
+		Spinner pointToSpinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
+		pointToSpinner.setFocusableInTouchMode(false);
+		pointToSpinner.setFocusable(false);
+		SpinnerAdapter pointToSpinnerAdapter = getArrayAdapterFromSpriteList(context);
+		pointToSpinner.setAdapter(pointToSpinnerAdapter);
+		setSpinnerSelection(pointToSpinner);
 		return view;
 	}
 
 	@Override
 	public Brick clone() {
-		return new PointToBrick(sprite, pointedSprite);
+		return new PointToBrick(sprite, pointedObject);
+	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.pointTo(sprite, pointedObject));
+		return null;
+	}
+
+	private void setSpinnerSelection(Spinner spinner) {
+		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
+				.getSpriteList();
+
+		if (spriteList.contains(pointedObject)) {
+			oldSelectedObject = pointedObject.getName();
+			spinner.setSelection(
+					((SpinnerAdapterWrapper) spinner.getAdapter()).getAdapter().getPosition(pointedObject.getName()),
+					true);
+		} else {
+			if (oldSelectedObject != null && !oldSelectedObject.equals("")) {
+				spinner.setSelection(
+						((SpinnerAdapterWrapper) spinner.getAdapter()).getAdapter().getPosition(this.oldSelectedObject),
+						true);
+			} else {
+				if (spinner.getAdapter().getCount() > 1) {
+					spinner.setSelection(1, true);
+				} else {
+					spinner.setSelection(0, true);
+				}
+			}
+		}
+	}
+
+	private ArrayAdapter<String> getArrayAdapterFromSpriteList(Context context) {
+		final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context,
+				android.R.layout.simple_spinner_item);
+		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		arrayAdapter.add(context.getString(R.string.new_broadcast_message));
+
+		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
+				.getSpriteList();
+
+		for (Sprite sprite : spriteList) {
+			String spriteName = sprite.getName();
+			String temp = this.sprite.getName();
+			if (!spriteName.equals(temp) && !spriteName.equals(context.getString(R.string.background))) {
+				arrayAdapter.add(sprite.getName());
+			}
+		}
+
+		return arrayAdapter;
+	}
+
+	private class SpinnerAdapterWrapper implements SpinnerAdapter {
+
+		protected Context context;
+		protected Spinner spinner;
+		protected ArrayAdapter<String> spinnerAdapter;
+		private DataSetObserver currentDataSetObserver;
+
+		private boolean isTouchInDropDownView;
+
+		public SpinnerAdapterWrapper(Context context, Spinner spinner, ArrayAdapter<String> spinnerAdapter) {
+			this.context = context;
+			this.spinner = spinner;
+			this.spinnerAdapter = spinnerAdapter;
+
+			this.isTouchInDropDownView = false;
+		}
+
+		@Override
+		public void registerDataSetObserver(DataSetObserver paramDataSetObserver) {
+			currentDataSetObserver = paramDataSetObserver;
+			spinnerAdapter.registerDataSetObserver(paramDataSetObserver);
+		}
+
+		@Override
+		public void unregisterDataSetObserver(DataSetObserver paramDataSetObserver) {
+			spinnerAdapter.unregisterDataSetObserver(paramDataSetObserver);
+		}
+
+		@Override
+		public int getCount() {
+			return spinnerAdapter.getCount();
+		}
+
+		@Override
+		public Object getItem(int paramInt) {
+			return spinnerAdapter.getItem(paramInt);
+		}
+
+		@Override
+		public long getItemId(int paramInt) {
+			String currentSpriteName = spinnerAdapter.getItem(paramInt).toString();
+			if (!currentSpriteName.equals(context.getString(R.string.new_broadcast_message))) {
+				oldSelectedObject = currentSpriteName;
+			}
+			return spinnerAdapter.getItemId(paramInt);
+		}
+
+		@Override
+		public boolean hasStableIds() {
+			return spinnerAdapter.hasStableIds();
+		}
+
+		@Override
+		public View getView(int paramInt, View paramView, ViewGroup paramViewGroup) {
+			if (isTouchInDropDownView) {
+				isTouchInDropDownView = false;
+				if (paramInt == 0) {
+					showNewSpriteDialog();
+				}
+			}
+			return spinnerAdapter.getView(paramInt, paramView, paramViewGroup);
+		}
+
+		@Override
+		public int getItemViewType(int paramInt) {
+			return spinnerAdapter.getItemViewType(paramInt);
+		}
+
+		@Override
+		public int getViewTypeCount() {
+			return spinnerAdapter.getViewTypeCount();
+		}
+
+		@Override
+		public boolean isEmpty() {
+			return spinnerAdapter.isEmpty();
+		}
+
+		@Override
+		public View getDropDownView(int paramInt, View paramView, ViewGroup paramViewGroup) {
+			spinnerAdapter = getArrayAdapterFromSpriteList(context);
+			registerDataSetObserver(currentDataSetObserver);
+			View dropDownView = spinnerAdapter.getDropDownView(paramInt, paramView, paramViewGroup);
+
+			dropDownView.setOnTouchListener(new OnTouchListener() {
+				@Override
+				public boolean onTouch(View paramView, MotionEvent paramMotionEvent) {
+					isTouchInDropDownView = true;
+					return false;
+				}
+			});
+
+			return dropDownView;
+		}
+
+		public ArrayAdapter<String> getAdapter() {
+			return spinnerAdapter;
+		}
+
+		protected void showNewSpriteDialog() {
+			NewSpriteDialog dialog = new NewSpriteDialog() {
+
+				@Override
+				protected boolean handleOkButton() {
+					if (super.handleOkButton()) {
+						String newSpriteName = (input.getText().toString()).trim();
+
+						spinnerAdapter.add(newSpriteName);
+						oldSelectedObject = newSpriteName;
+						setSpinnerSelection(spinner);
+
+						return true;
+					}
+
+					return false;
+				}
+
+				@Override
+				public void onDismiss(DialogInterface dialog) {
+					setSpinnerSelection(spinner);
+					super.onDismiss(dialog);
+				}
+			};
+
+			dialog.show(((ScriptActivity) context).getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+		}
 	}
 }

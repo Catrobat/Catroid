@@ -5,6 +5,13 @@
 # workspace settings
 *.metadata
 
+#IntelliJ IDEA
+.idea
+*.iml
+*.ipr
+*.iws
+out
+
 # files for the dex VM
 *.dex
 
@@ -19,4 +26,5 @@ gen/
 local.properties
 proguard-project.txt
 lint.xml
+.checkstyle
 !libraryProjects/actionbarsherlock/lint.xml

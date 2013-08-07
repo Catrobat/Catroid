@@ -26,79 +26,70 @@ import java.io.File;
 import java.util.Arrays;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.CostumeData;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-
-import com.jayway.android.robotium.solo.Solo;
-
-public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivity> {
-	private Solo solo;
+public class TouchAxisTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	public TouchAxisTest() {
-		super(StageActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
-
+		UiTestUtils.prepareStageForTest();
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 	}
 
 	// This prevents regression of https://github.com/Catrobat/Catroid/issues/3
+
 	public void testYAxis() {
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 
-		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, 100);
+		solo.clickOnScreen(ScreenValues.SCREEN_WIDTH / 2, 100);
 		solo.sleep(500);
 
 		byte[] blackPixel = { (byte) 0, (byte) 0, (byte) 0, (byte) 255 };
-		byte[] screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH / 2, 100, 1, 1);
+		byte[] screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2, 100, 1, 1);
 
 		assertTrue("Pixels didn't match! Touch area is off!", Arrays.equals(blackPixel, screenPixel));
 	}
 
 	private void createProject() {
-		Values.SCREEN_HEIGHT = 800;
-		Values.SCREEN_WIDTH = 480;
+		ScreenValues.SCREEN_HEIGHT = 800;
+		ScreenValues.SCREEN_WIDTH = 480;
 
 		Project testProject = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		final String alphaTestImageName = "alpha_test_image.png";
 
 		Sprite touchSprite = new Sprite("touchSprite");
 		Script startScript = new StartScript(touchSprite);
-		SetCostumeBrick setAlphaCostumeBrick = new SetCostumeBrick(touchSprite);
+		SetLookBrick setAlphaLookBrick = new SetLookBrick(touchSprite);
 
-		CostumeData touchCostumeData = new CostumeData();
-		touchCostumeData.setCostumeName(alphaTestImageName);
-		touchSprite.getCostumeDataList().add(touchCostumeData);
+		LookData touchLookData = new LookData();
+		touchLookData.setLookName(alphaTestImageName);
+		touchSprite.getLookDataList().add(touchLookData);
 
-		setAlphaCostumeBrick.setCostume(touchCostumeData);
+		setAlphaLookBrick.setLook(touchLookData);
 
-		startScript.addBrick(setAlphaCostumeBrick);
+		startScript.addBrick(setAlphaLookBrick);
 		touchSprite.addScript(startScript);
 
 		WhenScript touchWhenScript = new WhenScript(touchSprite);
@@ -114,7 +105,7 @@ public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivit
 		File alphaTestImage = UiTestUtils.saveFileToProject(testProject.getName(), alphaTestImageName,
 				org.catrobat.catroid.uitest.R.raw.alpha_test_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
-		touchCostumeData.setCostumeFilename(alphaTestImage.getName());
+		touchLookData.setLookFilename(alphaTestImage.getName());
 
 		StorageHandler.getInstance().saveProject(testProject);
 		ProjectManager.getInstance().setProject(testProject);

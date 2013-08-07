@@ -25,7 +25,6 @@ package org.catrobat.catroid.transfers;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
-import org.catrobat.catroid.utils.UtilToken;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -77,21 +76,22 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			if (!Utils.isNetworkAvailable(context)) {
 				return false;
 			}
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
 			String email = UtilDeviceInfo.getUserEmail(context);
 			String language = UtilDeviceInfo.getUserLanguageCode(context);
 			String country = RegistrationData.INSTANCE.getCountryCode();
-			String token = UtilToken.calculateToken(username, password);
+			//String country = UtilDeviceInfo.getUserCountryCode(context);
+			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 			String gender = RegistrationData.INSTANCE.getGender();
 			String birthdayMonth = RegistrationData.INSTANCE.getBirthdayMonth();
 			String birthdayYear = RegistrationData.INSTANCE.getBirthdayYear();
 			String city = RegistrationData.INSTANCE.getCity();
 
 			userRegistered = ServerCalls.getInstance().registerOrCheckToken(username, password, email, language,
-					country, token, gender, birthdayMonth, birthdayYear, city);
+					country, token, gender, birthdayMonth, birthdayYear, city, context);
 
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			sharedPreferences.edit().putString(Constants.TOKEN, token).commit();
-
 			return true;
 
 		} catch (WebconnectionException e) {

@@ -20,74 +20,57 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:orientation="horizontal" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <CheckBox
+        android:id="@+id/brick_change_ghost_effect_checkbox"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/brick_violet"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/brick_change_ghost_effect_layout"
+        style="@style/BrickContainer.Look.Medium"
+        android:gravity="center_vertical"
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/ChangeGhostEffectTextView"
-            style="@style/BrickText"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
+            android:id="@+id/brick_change_ghost_effect_label"
+            style="@style/BrickText.SingleLine"
             android:text="@string/brick_change_ghost_effect" >
         </TextView>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/ChangeGhostEffectTextView"
-                style="@style/BrickText"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:paddingRight="5dp"
+                android:id="@+id/brick_change_ghost_effect_by"
+                style="@style/BrickText.SingleLine"
                 android:text="@string/by_label" >
             </TextView>
 
             <TextView
-                android:id="@+id/brick_change_ghost_effect_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dip"
-                android:layout_toRightOf="@+id/ChangeGhostEffectTextView"
-                android:background="@color/white"
-                android:gravity="right"
-                android:minHeight="30dip"
-                android:minWidth="50dip"
-                android:paddingRight="5dip"
-                android:text="25"
-                android:textSize="20dip" >
+                android:id="@+id/brick_change_ghost_effect_prototype_text_view"
+                style="@style/BrickPrototypeTextView" >
             </TextView>
 
             <EditText
                 android:id="@+id/brick_change_ghost_effect_edit_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/ChangeGhostEffectTextView"
-                android:clickable="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:gravity="right"
-                android:inputType="number|numberDecimal|numberSigned"
-                android:maxLength="6"
-                android:maxLines="1"
-                android:minWidth="60dip"
-                android:numeric="signed"
-                android:text="25"
-                android:visibility="gone" >
+                style="@style/BrickEditText"
+                android:maxEms="10"
+                android:inputType="number|numberDecimal|numberSigned" >
             </EditText>
+
         </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

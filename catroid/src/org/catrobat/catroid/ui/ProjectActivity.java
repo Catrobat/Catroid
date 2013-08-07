@@ -22,17 +22,20 @@
  */
 package org.catrobat.catroid.ui;
 
+import java.util.concurrent.locks.Lock;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
-import org.catrobat.catroid.utils.ErrorListenerInterface;
-import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -42,10 +45,10 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class ProjectActivity extends SherlockFragmentActivity implements ErrorListenerInterface {
+public class ProjectActivity extends SherlockFragmentActivity {
 
-	private ActionBar actionBar;
 	private SpritesListFragment spritesListFragment;
+	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,13 +59,14 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 	@Override
 	protected void onStart() {
 		super.onStart();
-		actionBar = getSupportActionBar();
 
+		final ActionBar actionBar = getSupportActionBar();
 		String title = ProjectManager.getInstance().getCurrentProject().getName();
 		actionBar.setTitle(title);
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setHomeButtonEnabled(true);
 
-		spritesListFragment = (SpritesListFragment) getSupportFragmentManager().findFragmentById(R.id.fr_sprites_list);
+		spritesListFragment = (SpritesListFragment) getSupportFragmentManager().findFragmentById(
+				R.id.fragment_sprites_list);
 	}
 
 	// Code from Stackoverflow to reduce memory problems
@@ -89,6 +93,12 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 	}
 
 	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		handleShowDetails(spritesListFragment.getShowDetails(), menu.findItem(R.id.show_details));
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_current_project, menu);
 		return super.onCreateOptionsMenu(menu);
@@ -104,17 +114,12 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 				break;
 			}
 			case R.id.show_details: {
-				if (spritesListFragment.getShowDetails()) {
-					spritesListFragment.setShowDetails(false);
-					item.setTitle(getString(R.string.show_details));
-				} else {
-					spritesListFragment.setShowDetails(true);
-					item.setTitle(getString(R.string.hide_details));
-				}
+				handleShowDetails(!spritesListFragment.getShowDetails(), item);
 				break;
 			}
 
 			case R.id.copy: {
+				spritesListFragment.startCopyActionMode();
 				break;
 			}
 
@@ -145,7 +150,6 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 				startActivity(intent);
 				break;
 			}
-
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -153,16 +157,12 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
+			SensorHandler.startSensorListener(this);
 			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
 			startActivityForResult(intent, StageActivity.STAGE_ACTIVITY_FINISH);
 		}
 		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
-			ProjectManager projectManager = ProjectManager.getInstance();
-			int currentSpritePos = projectManager.getCurrentSpritePosition();
-			int currentScriptPos = projectManager.getCurrentScriptPosition();
-			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, this, false);
-			projectManager.setCurrentSpriteWithPosition(currentSpritePos);
-			projectManager.setCurrentScriptWithPosition(currentScriptPos);
+			SensorHandler.stopSensorListeners();
 		}
 	}
 
@@ -170,11 +170,8 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 		if (hasFocus) {
-			sendBroadcast(new Intent(ScriptTabActivity.ACTION_SPRITES_LIST_INIT));
+			sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_INIT));
 		}
-	}
-
-	public void handleProjectActivityItemLongClick(View view) {
 	}
 
 	public void handleCheckBoxClick(View view) {
@@ -182,17 +179,43 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 	}
 
 	public void handleAddButton(View view) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		NewSpriteDialog dialog = new NewSpriteDialog();
 		dialog.show(getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	public void handlePlayButton(View view) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}
 
 	@Override
-	public void showErrorDialog(String errorMessage) {
-		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		// Dismiss ActionMode without effecting sounds
+		if (spritesListFragment.getActionModeActive()) {
+			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+				SpriteAdapter adapter = (SpriteAdapter) spritesListFragment.getListAdapter();
+				adapter.clearCheckedSprites();
+			}
+		}
+		return super.dispatchKeyEvent(event);
+	}
+
+	public void handleShowDetails(boolean showDetails, MenuItem item) {
+		spritesListFragment.setShowDetails(showDetails);
+
+		String menuItemText = "";
+		if (showDetails) {
+			menuItemText = getString(R.string.hide_details);
+		} else {
+			menuItemText = getString(R.string.show_details);
+		}
+		item.setTitle(menuItemText);
 	}
 }

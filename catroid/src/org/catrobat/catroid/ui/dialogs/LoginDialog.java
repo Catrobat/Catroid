@@ -114,7 +114,7 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
 
 	private void handlePasswordForgottenButtonClick() {
 		String username = usernameEditText.getText().toString();
-		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTP : ServerCalls.BASE_URL_HTTP;
+		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTP : ServerCalls.BASE_URL_HTTPS;
 
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(baseUrl + PASSWORD_FORGOTTEN_PATH + username));
 		getActivity().startActivity(browserIntent);

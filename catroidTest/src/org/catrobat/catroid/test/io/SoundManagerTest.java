@@ -27,11 +27,11 @@ import java.io.IOException;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
-import org.catrobat.catroid.test.R;
 
 public class SoundManagerTest extends InstrumentationTestCase {
 	private static final int LONG_TEST_SOUND = R.raw.longtestsound;
@@ -103,7 +103,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		SoundManager.getInstance().resume();
 		assertTrue("MediaPlayer is not playing after resume", mediaPlayer.isPlaying());
 
-		final int duration = mediaPlayer.getDuration() + 100;
+		final int duration = mediaPlayer.getDuration() + 300;
 		Thread.sleep(duration);
 
 		assertFalse("MediaPlayer is not done playing after pause and resume", mediaPlayer.isPlaying());

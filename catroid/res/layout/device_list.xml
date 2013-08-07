@@ -20,9 +20,8 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/linLayout_nxt_bluetooth"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/solid_black"
@@ -39,13 +38,10 @@
         android:textSize="15sp"
         android:visibility="gone" />
 
-    <TextView
+    <View
         android:layout_width="fill_parent"
-        android:layout_height="1sp"
-        android:background="#505050"
-        android:text=""
-        android:textColor="@android:color/primary_text_dark"
-        android:textSize="1px" />
+        android:layout_height="1dp"
+        android:background="@color/bluetooth_device_list_divider_color" />
 
     <ListView
         android:id="@+id/paired_devices"
@@ -66,13 +62,10 @@
         android:textSize="15sp"
         android:visibility="gone" />
 
-    <TextView
+    <View
         android:layout_width="fill_parent"
-        android:layout_height="1sp"
-        android:background="#505050"
-        android:text=""
-        android:textColor="@android:color/primary_text_dark"
-        android:textSize="1px" />
+        android:layout_height="1dp"
+        android:background="@color/bluetooth_device_list_divider_color" />
 
     <ListView
         android:id="@+id/new_devices"

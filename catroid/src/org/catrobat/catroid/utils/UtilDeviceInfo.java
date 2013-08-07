@@ -36,8 +36,8 @@ public class UtilDeviceInfo {
 			return null;
 		}
 		Account[] accounts = AccountManager.get(context).getAccountsByType("com.google");
-		for (Account account : accounts) {
-			return account.name;
+		if (accounts.length > 0) {
+			return accounts[0].name;
 		}
 		return null;
 	}
@@ -48,7 +48,7 @@ public class UtilDeviceInfo {
 
 	public static String getUserCountryCode(Context context) {
 		String country = Locale.getDefault().getCountry();
-		if (country.length() == 0) {
+		if (country.isEmpty()) {
 			country = SERVER_VALUE_FOR_UNDEFINED_COUNTRY;
 		}
 		return country;

@@ -25,11 +25,11 @@ package org.catrobat.catroid.test.content;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
@@ -43,11 +43,11 @@ import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.test.utils.XMLValidationUtil;
-import org.catrobat.catroid.ui.dialogs.AddBrickDialog;
+import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.utils.UtilFile;
 import org.json.JSONException;
 
+import android.content.Context;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
@@ -68,7 +68,6 @@ public class XMLValidatingTest extends AndroidTestCase {
 		TestUtils.clearProject(testProjectName);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void testSerializeProjectWithAllBricks() throws IllegalArgumentException, IllegalAccessException,
 			InvocationTargetException, IOException, JSONException {
 
@@ -81,7 +80,7 @@ public class XMLValidatingTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		Script startScript = new StartScript(sprite);
 		Script whenScript = new WhenScript(sprite);
-		Script broadcastScript = new BroadcastScript(sprite);
+		Script broadcastScript = new BroadcastScript(sprite, "message1");
 		sprite.addScript(startScript);
 		sprite.addScript(whenScript);
 		sprite.addScript(broadcastScript);
@@ -91,31 +90,31 @@ public class XMLValidatingTest extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(startScript);
 
-		Method[] methods = AddBrickDialog.class.getDeclaredMethods();
-		HashMap<String, List<Brick>> brickMap = null;
-		for (Method method : methods) {
-			if (method.getName().equalsIgnoreCase("setupBrickMap")) {
-				method.setAccessible(true);
-				brickMap = (HashMap<String, List<Brick>>) method.invoke(null, sprite, getContext());
-				break;
-			}
+		Context context = getContext();
+		String[] categories = { context.getString(R.string.category_control),
+				context.getString(R.string.category_motion), context.getString(R.string.category_sound),
+				context.getString(R.string.category_looks), context.getString(R.string.category_variables),
+				context.getString(R.string.category_lego_nxt) };
+
+		CategoryBricksFactory brickFactory = new CategoryBricksFactory();
+		List<Brick> bricks = new ArrayList<Brick>();
+		for (String category : categories) {
+			bricks.addAll(brickFactory.getBricks(category, sprite, context));
 		}
 
-		for (List<Brick> brickList : brickMap.values()) {
-			for (Brick brick : brickList) {
-				if (brick.getClass().equals(WhenBrick.class) || brick.getClass().equals(WhenStartedBrick.class)
-						|| brick.getClass().equals(BroadcastReceiverBrick.class)) {
-					Log.i("XMLValidationtest", "These bricks are not in the new schema");
-				} else {
-					startScript.addBrick(brick);
-				}
+		for (Brick brick : bricks) {
+			if (brick.getClass().equals(WhenBrick.class) || brick.getClass().equals(WhenStartedBrick.class)
+					|| brick.getClass().equals(BroadcastReceiverBrick.class)) {
+				Log.i("XMLValidationtest", "These bricks are not in the new schema");
+			} else {
+				startScript.addBrick(brick);
 			}
 		}
 
 		assertTrue("no bricks added to the start script", startScript.getBrickList().size() > 0);
 		StorageHandler.getInstance().saveProject(project);
-
-		XMLValidationUtil.sendProjectXMLToServerForValidating(project);
+		// TODO: add XML validation based on xsd
+		//	XMLValidationUtil.sendProjectXMLToServerForValidating(project);
 	}
 
 }

@@ -22,33 +22,47 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ScriptTabActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import org.catrobat.catroid.R;
 
-public class ChangeSizeByNBrick implements Brick, OnClickListener {
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
-	private double size;
+	private Formula size;
 
-	private transient View view;
+	private transient View prototypeView;
 
 	public ChangeSizeByNBrick() {
 
 	}
 
-	public ChangeSizeByNBrick(Sprite sprite, double size) {
+	public ChangeSizeByNBrick(Sprite sprite, double sizeValue) {
 		this.sprite = sprite;
+
+		size = new Formula(sizeValue);
+	}
+
+	public ChangeSizeByNBrick(Sprite sprite, Formula size) {
+		this.sprite = sprite;
+
 		this.size = size;
 	}
 
@@ -58,71 +72,96 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void execute() {
-		float newSize = sprite.costume.getSize() + ((float) size / 100f);
-		if (newSize < 0f) {
-			newSize = 0f;
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		ChangeSizeByNBrick copyBrick = (ChangeSizeByNBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
+	}
+
+	@Override
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
 		}
-		sprite.costume.setSize(newSize);
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_change_size_by_n, null);
+		view = getViewWithAlpha(alphaValue);
 
-		TextView text = (TextView) view.findViewById(R.id.brick_change_size_by_text_view);
+		setCheckboxView(R.id.brick_change_size_by_checkbox);
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
+		TextView text = (TextView) view.findViewById(R.id.brick_change_size_by_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
-		edit.setText(String.valueOf(size));
+		size.setTextFieldId(R.id.brick_change_size_by_edit_text);
+		size.refreshTextField(view);
 
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 
 		edit.setOnClickListener(this);
-
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_size_by_n, null);
+		prototypeView = View.inflate(context, R.layout.brick_change_size_by_n, null);
+		TextView textChangeSizeBy = (TextView) prototypeView
+				.findViewById(R.id.brick_change_size_by_prototype_text_view);
+		textChangeSizeBy.setText(String.valueOf(size.interpretDouble(sprite)));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeSizeByNBrick(getSprite(), size);
+		return new ChangeSizeByNBrick(getSprite(), size.clone());
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+
+		if (view != null) {
+
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_size_by_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView changeSizeBy = (TextView) view.findViewById(R.id.brick_change_size_by_label);
+			TextView textPercent = (TextView) view.findViewById(R.id.brick_change_size_by_percent);
+			EditText editChangeSize = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
+			changeSizeBy.setTextColor(changeSizeBy.getTextColors().withAlpha(alphaValue));
+			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
+			editChangeSize.setTextColor(editChangeSize.getTextColors().withAlpha(alphaValue));
+			editChangeSize.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
+		return view;
 	}
 
 	@Override
 	public void onClick(View view) {
-		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
+		FormulaEditorFragment.showFragment(view, this, size);
+	}
 
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(size));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-						| InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.changeSizeByN(sprite, size));
+		return null;
+	}
 
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					size = Double.parseDouble(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_size_by_n_brick");
+	@Override
+	public Formula getFormula() {
+		return size;
 	}
 }

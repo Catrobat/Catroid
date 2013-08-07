@@ -22,43 +22,34 @@
  */
 package org.catrobat.catroid.uitest.stage;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Values;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
+import android.view.WindowManager;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActivity> {
-
-	private Solo solo;
+public class SimpleStageTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	public SimpleStageTest() {
-		super(StageActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
-	}
+		UiTestUtils.createEmptyProject();
+		ScreenValues.SCREEN_HEIGHT = 20;
+		ScreenValues.SCREEN_WIDTH = 20;
 
-	@Override
-	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
 	}
 
 	public void testSimple() {
-		solo.waitForActivity(StageActivity.class.getSimpleName());
 		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
 
 		byte[] result = StageActivity.stageListener.getPixels(0, 0, 1, 1);
@@ -69,15 +60,13 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 
 		result = StageActivity.stageListener.getPixels(-1, -1, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, result);
-		assertTrue("Just for FileTest", true);
 	}
 
-	private void createProject() {
-		Values.SCREEN_HEIGHT = 20;
-		Values.SCREEN_WIDTH = 20;
-		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+	public void testScreenAlwaysOn() {
+		final int windowFlags = solo.getCurrentActivity().getWindow().getAttributes().flags;
 
-		ProjectManager.getInstance().setProject(project);
-		StorageHandler.getInstance().saveProject(project);
+		assertTrue("Window flags do not contain FLAG_KEEP_SCREEN_ON!",
+				(windowFlags & WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) != 0);
 	}
+
 }

@@ -36,56 +36,39 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
+import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
+public class PlaceAtBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
-/**
- * 
- * @author Daniel Burtscher
- * 
- */
-public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
-
-	private Solo solo;
 	private Project project;
 	private PlaceAtBrick placeAtBrick;
 
 	public PlaceAtBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
-	}
-
-	@Smoke
 	public void testPlaceAtBrick() throws InterruptedException {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 5 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 5, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 4, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -98,30 +81,15 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		assertEquals("Wrong Brick instance.", projectBrickList.get(2), adapter.getChild(groupCount - 1, 2));
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(3), adapter.getChild(groupCount - 1, 3));
-		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_place_at_x)));
+		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_place_at)));
 
 		int xPosition = 987;
 		int yPosition = 654;
-		String buttonPositiveText = solo.getString(R.string.ok);
 
-		solo.clickOnEditText(0);
-		solo.waitForText(buttonPositiveText);
-		solo.clearEditText(0);
-		solo.enterText(0, xPosition + "");
-		solo.clickOnButton(buttonPositiveText);
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 2, xPosition, "xPosition", placeAtBrick);
+		solo.sleep(200);
 
-		int actualXPosition = (Integer) UiTestUtils.getPrivateField("xPosition", placeAtBrick);
-		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
-		assertEquals("Value in Brick is not updated", xPosition, actualXPosition);
-
-		solo.clickOnEditText(1);
-		solo.clearEditText(0);
-		solo.enterText(0, yPosition + "");
-		solo.clickOnButton(buttonPositiveText);
-
-		int actualYPosition = (Integer) UiTestUtils.getPrivateField("yPosition", placeAtBrick);
-		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
-		assertEquals("Value in Brick is not updated", yPosition, actualYPosition);
+		UiTestUtils.testBrickWithFormulaEditor(solo, 1, 2, yPosition, "yPosition", placeAtBrick);
 	}
 
 	private void createProject() {

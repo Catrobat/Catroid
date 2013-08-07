@@ -28,12 +28,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 import org.catrobat.catroid.common.Constants;
-
 
 public class UtilZip {
 	private static final int QUICKEST_COMPRESSION = 0;
@@ -41,7 +42,6 @@ public class UtilZip {
 	private static ZipOutputStream zipOutputStream;
 
 	public static boolean writeToZipFile(String[] filePaths, String zipFile) {
-
 		try {
 			FileOutputStream fileOutputStream = new FileOutputStream(zipFile);
 			zipOutputStream = new ZipOutputStream(fileOutputStream);
@@ -80,47 +80,50 @@ public class UtilZip {
 		byte[] readBuffer = new byte[Constants.BUFFER_8K];
 		int bytesIn = 0;
 
-		FileInputStream fis = new FileInputStream(file);
-		ZipEntry anEntry = new ZipEntry(zipEntryPath + file.getName());
-		zipOutputStream.putNextEntry(anEntry);
+		FileInputStream fileInputStream = new FileInputStream(file);
+		ZipEntry zipEntry = new ZipEntry(zipEntryPath + file.getName());
+		zipOutputStream.putNextEntry(zipEntry);
 
-		while ((bytesIn = fis.read(readBuffer)) != -1) {
+		while ((bytesIn = fileInputStream.read(readBuffer)) != -1) {
 			zipOutputStream.write(readBuffer, 0, bytesIn);
 		}
 		zipOutputStream.closeEntry();
-		fis.close();
+		fileInputStream.close();
 	}
 
 	public static boolean unZipFile(String zipFile, String outDirectory) {
 		try {
-			FileInputStream fin = new FileInputStream(zipFile);
-			ZipInputStream zin = new ZipInputStream(fin);
 			ZipEntry zipEntry = null;
 
-			BufferedOutputStream dest = null;
+			BufferedOutputStream destinationOutputStream = null;
 			byte data[] = new byte[Constants.BUFFER_8K];
-			while ((zipEntry = zin.getNextEntry()) != null) {
+			ZipFile zipfile = new ZipFile(zipFile);
+			Enumeration<? extends ZipEntry> e = zipfile.entries();
+			while (e.hasMoreElements()) {
+
+				zipEntry = e.nextElement();
+				InputStream zipInputStream = zipfile.getInputStream(zipEntry);
 
 				if (zipEntry.isDirectory()) {
-					File f = new File(Utils.buildPath(outDirectory, zipEntry.getName()));
-					f.mkdir();
-					zin.closeEntry();
+					File file = new File(Utils.buildPath(outDirectory, zipEntry.getName()));
+					file.mkdir();
+					zipInputStream.close();
 					continue;
 				}
-				File f = new File(Utils.buildPath(outDirectory, zipEntry.getName()));
-				f.getParentFile().mkdirs();
-				FileOutputStream fos = new FileOutputStream(f);
+				File file = new File(Utils.buildPath(outDirectory, zipEntry.getName()));
+				file.getParentFile().mkdirs();
+				FileOutputStream fileOutputStream = new FileOutputStream(file);
 
 				int count;
-				dest = new BufferedOutputStream(fos, Constants.BUFFER_8K);
-				while ((count = zin.read(data, 0, Constants.BUFFER_8K)) != -1) {
-					dest.write(data, 0, count);
+				destinationOutputStream = new BufferedOutputStream(fileOutputStream, Constants.BUFFER_8K);
+				while ((count = zipInputStream.read(data, 0, Constants.BUFFER_8K)) != -1) {
+					destinationOutputStream.write(data, 0, count);
 				}
-				dest.flush();
-				dest.close();
+				destinationOutputStream.flush();
+				destinationOutputStream.close();
+				zipInputStream.close();
 
 			}
-			zin.close();
 
 			return true;
 		} catch (FileNotFoundException e) {

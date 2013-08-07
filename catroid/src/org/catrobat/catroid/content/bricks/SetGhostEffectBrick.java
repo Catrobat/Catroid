@@ -22,34 +22,51 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import java.util.List;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ScriptTabActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import android.content.Context;
-import android.text.InputType;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import org.catrobat.catroid.R;
 
-public class SetGhostEffectBrick implements Brick, OnClickListener {
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+public class SetGhostEffectBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
-	private double transparency;
-	private Sprite sprite;
+	private Formula transparency;
 
-	private transient View view;
+	private transient View prototypeView;
 
 	public SetGhostEffectBrick(Sprite sprite, double ghostEffectValue) {
 		this.sprite = sprite;
-		this.transparency = ghostEffectValue;
+		transparency = new Formula(ghostEffectValue);
+	}
+
+	public SetGhostEffectBrick(Sprite sprite, Formula transparency) {
+		this.sprite = sprite;
+		this.transparency = transparency;
 	}
 
 	public SetGhostEffectBrick() {
 
+	}
+
+	@Override
+	public Formula getFormula() {
+		return transparency;
 	}
 
 	@Override
@@ -58,71 +75,94 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void execute() {
-		sprite.costume.setAlphaValue((100f - (float) transparency) / 100);
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		SetGhostEffectBrick copyBrick = (SetGhostEffectBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	public double getGhostEffectValue() {
-		return transparency;
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
 
 		view = View.inflate(context, R.layout.brick_set_ghost_effect, null);
+		view = getViewWithAlpha(alphaValue);
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to_text_view);
+		setCheckboxView(R.id.brick_set_ghost_effect_checkbox);
+
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
+
+		TextView textX = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to_prototype_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
-		editX.setText(String.valueOf(transparency));
-
+		transparency.setTextFieldId(R.id.brick_set_ghost_effect_to_edit_text);
+		transparency.refreshTextField(view);
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
 
 		editX.setOnClickListener(this);
-
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_set_ghost_effect, null);
+		prototypeView = View.inflate(context, R.layout.brick_set_ghost_effect, null);
+		TextView textSetGhostEffect = (TextView) prototypeView
+				.findViewById(R.id.brick_set_ghost_effect_to_prototype_text_view);
+		textSetGhostEffect.setText(String.valueOf(transparency.interpretDouble(sprite)));
+		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new SetGhostEffectBrick(getSprite(), getGhostEffectValue());
+		return new SetGhostEffectBrick(getSprite(), transparency.clone());
+	}
+
+	@Override
+	public View getViewWithAlpha(int alphaValue) {
+
+		if (view != null) {
+
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_ghost_effect_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textGhostLabel = (TextView) view.findViewById(R.id.brick_set_ghost_effect_label);
+			TextView textGhostTo = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to);
+			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_ghost_effect_percent);
+			EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
+			textGhostLabel.setTextColor(textGhostLabel.getTextColors().withAlpha(alphaValue));
+			textGhostTo.setTextColor(textGhostTo.getTextColors().withAlpha(alphaValue));
+			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
+			editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
+			editGhostEffect.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
+		return view;
 	}
 
 	@Override
 	public void onClick(View view) {
-		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
+		FormulaEditorFragment.showFragment(view, this, transparency);
+	}
 
-		BrickTextDialog editDialog = new BrickTextDialog() {
-			@Override
-			protected void initialize() {
-				input.setText(String.valueOf(transparency));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-						| InputType.TYPE_NUMBER_FLAG_SIGNED);
-				input.setSelectAllOnFocus(true);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				try {
-					transparency = Double.parseDouble(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-
-				return true;
-			}
-		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_set_ghost_effect_brick");
+	@Override
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setGhostEffect(sprite, transparency));
+		return null;
 	}
 }

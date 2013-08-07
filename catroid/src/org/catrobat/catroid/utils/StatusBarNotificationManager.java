@@ -23,7 +23,7 @@
 package org.catrobat.catroid.utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -31,45 +31,35 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.SparseArray;
 
 public class StatusBarNotificationManager {
 
-	private Integer uploadId;
-	private Integer downloadId;
-	private Integer copyId;
-	private HashMap<Integer, NotificationData> uploadNotificationDataMap;
-	private HashMap<Integer, NotificationData> downloadNotificationDataMap;
-	private HashMap<Integer, NotificationData> copyNotificationDataMap;
+	private static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
+
+	private int uploadId;
+	private int downloadId;
+	private int copyId;
+
+	private SparseArray<NotificationData> uploadNotificationDataArray = new SparseArray<NotificationData>();
+	private SparseArray<NotificationData> downloadNotificationDataArray = new SparseArray<NotificationData>();
+	private SparseArray<NotificationData> copyNotificationDataArray = new SparseArray<NotificationData>();
+
 	private Notification copyNotification;
 	private Notification uploadNotification;
 	private Notification downloadNotification;
 
 	//needed when download service is running in background
-	public ArrayList<String> downloadProjectName;
-	public ArrayList<String> downloadProjectZipFileString;
+	public List<String> downloadProjectName = new ArrayList<String>();
+	public List<String> downloadProjectZipFileString = new ArrayList<String>();
 
-	public static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
-
-	@SuppressLint("UseSparseArrays")
 	private StatusBarNotificationManager() {
-		this.uploadId = 0;
-		this.downloadId = 0;
-		this.copyId = 0;
-		this.uploadNotification = null;
-		this.downloadNotification = null;
-		this.copyNotification = null;
-		this.copyNotificationDataMap = new HashMap<Integer, NotificationData>();
-		this.uploadNotificationDataMap = new HashMap<Integer, NotificationData>();
-		this.downloadNotificationDataMap = new HashMap<Integer, NotificationData>();
-		this.downloadProjectName = new ArrayList<String>();
-		this.downloadProjectZipFileString = new ArrayList<String>();
 	}
 
 	public static StatusBarNotificationManager getInstance() {
@@ -77,11 +67,11 @@ public class StatusBarNotificationManager {
 	}
 
 	public MainMenuActivity getActivity(int id) {
-		MainMenuActivity activity = downloadNotificationDataMap.get(id).getActivity();
+		MainMenuActivity activity = downloadNotificationDataArray.get(id).getActivity();
 		return activity;
 	}
 
-	public Integer createNotification(String name, Context context, int notificationCode) {
+	public int createNotification(String name, Context context, int notificationCode) {
 		int id = 0;
 		if (notificationCode == Constants.UPLOAD_NOTIFICATION) {
 			id = createUploadNotification(name, context, notificationCode);
@@ -97,11 +87,11 @@ public class StatusBarNotificationManager {
 	}
 
 	@SuppressWarnings("deprecation")
-	private Integer createUploadNotification(String name, Context context, int notificationCode) {
+	private int createUploadNotification(String name, Context context, int notificationCode) {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
 		String notificationTitle = context.getString(R.string.notification_upload_title);
-		boolean newUploadNotification = uploadNotificationDataMap.isEmpty();
+		boolean newUploadNotification = isArrayEmpty(uploadNotificationDataArray);
 
 		Intent intent = new Intent(context, MainMenuActivity.class);
 		intent.setAction(Intent.ACTION_MAIN);
@@ -109,10 +99,10 @@ public class StatusBarNotificationManager {
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 		NotificationData data = new NotificationData(pendingIntent, context, name, notificationTitle,
 				(MainMenuActivity) context);
-		uploadNotificationDataMap.put(uploadId, data);
+		uploadNotificationDataArray.put(uploadId, data);
 
 		if (newUploadNotification) {
-			uploadNotification = new Notification(R.drawable.main_menu_upload, notificationTitle,
+			uploadNotification = new Notification(R.drawable.ic_stat_upload_notification, notificationTitle,
 					System.currentTimeMillis());
 			uploadNotification.flags = Notification.FLAG_AUTO_CANCEL;
 			uploadNotification.number += 1;
@@ -127,11 +117,11 @@ public class StatusBarNotificationManager {
 	}
 
 	@SuppressWarnings("deprecation")
-	private Integer createCopyNotification(String name, Context context, int notificationCode) {
+	private int createCopyNotification(String name, Context context, int notificationCode) {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
 		String notificationTitle = context.getString(R.string.notification_title_copy_project);
-		boolean newCopyNotification = copyNotificationDataMap.isEmpty();
+		boolean newCopyNotification = isArrayEmpty(copyNotificationDataArray);
 
 		Intent intent = new Intent(context, MyProjectsActivity.class);
 
@@ -139,10 +129,10 @@ public class StatusBarNotificationManager {
 		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 		NotificationData data = new NotificationData(pendingIntent, context, name, notificationTitle, null);
-		copyNotificationDataMap.put(copyId, data);
+		copyNotificationDataArray.put(copyId, data);
 
 		if (newCopyNotification) {
-			copyNotification = new Notification(R.drawable.main_menu_upload, notificationTitle,
+			copyNotification = new Notification(R.drawable.ic_stat_copy_notification, notificationTitle,
 					System.currentTimeMillis());
 			copyNotification.flags = Notification.FLAG_AUTO_CANCEL;
 			copyNotification.number += 1;
@@ -158,11 +148,11 @@ public class StatusBarNotificationManager {
 	}
 
 	@SuppressWarnings("deprecation")
-	private Integer createDownloadNotification(String name, Context context, int notificationCode) {
+	private int createDownloadNotification(String name, Context context, int notificationCode) {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
 		String notificationTitle = context.getString(R.string.notification_download_title);
-		boolean newDownloadNotification = downloadNotificationDataMap.isEmpty();
+		boolean newDownloadNotification = isArrayEmpty(downloadNotificationDataArray);
 
 		Intent intent = new Intent(context, MainMenuActivity.class);
 		intent.setAction(Intent.ACTION_MAIN);
@@ -170,10 +160,10 @@ public class StatusBarNotificationManager {
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 		NotificationData data = new NotificationData(pendingIntent, context, name, notificationTitle,
 				(MainMenuActivity) context);
-		downloadNotificationDataMap.put(downloadId, data);
+		downloadNotificationDataArray.put(downloadId, data);
 
 		if (newDownloadNotification) {
-			downloadNotification = new Notification(R.drawable.main_menu_upload, notificationTitle,
+			downloadNotification = new Notification(R.drawable.ic_stat_download_notification, notificationTitle,
 					System.currentTimeMillis());
 			downloadNotification.flags = Notification.FLAG_AUTO_CANCEL;
 			downloadNotification.number += 1;
@@ -187,7 +177,7 @@ public class StatusBarNotificationManager {
 		return downloadId;
 	}
 
-	public void updateNotification(Integer id, String message, int notificationCode, boolean finished) {
+	public void updateNotification(int id, String message, int notificationCode, boolean finished) {
 		if (notificationCode == Constants.UPLOAD_NOTIFICATION) {
 			updateUploadNotification(id, message, notificationCode, finished);
 		} else if (notificationCode == Constants.DOWNLOAD_NOTIFICATION) {
@@ -196,10 +186,10 @@ public class StatusBarNotificationManager {
 	}
 
 	@SuppressWarnings("deprecation")
-	private void updateUploadNotification(Integer id, String message, int notificationCode, boolean finished) {
-		Context context = uploadNotificationDataMap.get(id).getContext();
-		String notificationTitle = uploadNotificationDataMap.get(id).getNotificationTitle();
-		PendingIntent pendingIntent = uploadNotificationDataMap.get(id).getPendingIntent();
+	private void updateUploadNotification(int id, String message, int notificationCode, boolean finished) {
+		Context context = uploadNotificationDataArray.get(id).getContext();
+		String notificationTitle = uploadNotificationDataArray.get(id).getNotificationTitle();
+		PendingIntent pendingIntent = uploadNotificationDataArray.get(id).getPendingIntent();
 
 		if (finished) {
 			uploadNotification.number--;
@@ -212,10 +202,10 @@ public class StatusBarNotificationManager {
 	}
 
 	@SuppressWarnings("deprecation")
-	private void updateDownloadNotification(Integer id, String message, int notificationCode, boolean finished) {
-		Context context = downloadNotificationDataMap.get(id).getContext();
-		String notificationTitle = downloadNotificationDataMap.get(id).getNotificationTitle();
-		PendingIntent pendingIntent = downloadNotificationDataMap.get(id).getPendingIntent();
+	private void updateDownloadNotification(int id, String message, int notificationCode, boolean finished) {
+		Context context = downloadNotificationDataArray.get(id).getContext();
+		String notificationTitle = downloadNotificationDataArray.get(id).getNotificationTitle();
+		PendingIntent pendingIntent = downloadNotificationDataArray.get(id).getPendingIntent();
 
 		if (finished) {
 			downloadNotification.number--;
@@ -230,11 +220,15 @@ public class StatusBarNotificationManager {
 	public void displayDialogs(MainMenuActivity activity) {
 		for (int i = 0; i < downloadProjectName.size() && i < downloadProjectZipFileString.size(); i++) {
 			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, downloadProjectName.get(i),
-					downloadProjectZipFileString.get(i), activity);
-			renameDialog.show();
+					downloadProjectZipFileString.get(i));
+			renameDialog.show(activity.getSupportFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
 		}
 		downloadProjectName.clear();
 		downloadProjectZipFileString.clear();
+	}
+
+	private boolean isArrayEmpty(SparseArray<NotificationData> array) {
+		return array.size() == 0;
 	}
 
 }

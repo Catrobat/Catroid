@@ -60,7 +60,7 @@ public class ImageEditing {
 		return newBitmap;
 	}
 
-	public static Bitmap getScaledBitmapFromPath(String imagePath, int outWidth, int outHeight, boolean justScaleDown) {
+	public static Bitmap getScaledBitmapFromPath(String imagePath, int outputWidth, int outputHeight, boolean justScaleDown) {
 		if (imagePath == null) {
 			return null;
 		}
@@ -68,11 +68,11 @@ public class ImageEditing {
 		int[] imageDimensions = new int[2];
 		imageDimensions = getImageDimensions(imagePath);
 
-		int origWidth = imageDimensions[0];
-		int origHeight = imageDimensions[1];
+		int originalWidth = imageDimensions[0];
+		int originalHeight = imageDimensions[1];
 
-		double sampleSizeWidth = (origWidth / (double) outWidth);
-		double sampleSizeHeight = origHeight / (double) outHeight;
+		double sampleSizeWidth = (originalWidth / (double) outputWidth);
+		double sampleSizeHeight = originalHeight / (double) outputHeight;
 		double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
 		int sampleSizeRounded = (int) Math.floor(sampleSize);
 
@@ -80,8 +80,8 @@ public class ImageEditing {
 			return BitmapFactory.decodeFile(imagePath);
 		}
 
-		int newHeight = (int) Math.ceil(origHeight / sampleSize);
-		int newWidth = (int) Math.ceil(origWidth / sampleSize);
+		int newHeight = (int) Math.ceil(originalHeight / sampleSize);
+		int newWidth = (int) Math.ceil(originalWidth / sampleSize);
 
 		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 		bitmapOptions.inSampleSize = sampleSizeRounded;
@@ -93,12 +93,12 @@ public class ImageEditing {
 	public static int[] getImageDimensions(String imagePath) {
 		int[] imageDimensions = new int[2];
 
-		BitmapFactory.Options o = new BitmapFactory.Options();
-		o.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(imagePath, o);
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(imagePath, options);
 
-		imageDimensions[0] = o.outWidth;
-		imageDimensions[1] = o.outHeight;
+		imageDimensions[0] = options.outWidth;
+		imageDimensions[1] = options.outHeight;
 
 		return imageDimensions;
 	}
@@ -111,11 +111,11 @@ public class ImageEditing {
 
 	public static void overwriteImageFileWithNewBitmap(File imageFile) throws FileNotFoundException {
 		BitmapFactory.Options options = new BitmapFactory.Options();
-		Bitmap unmutableBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
-		int bitmapWidth = unmutableBitmap.getWidth();
-		int bitmapHeight = unmutableBitmap.getHeight();
+		Bitmap immutableBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
+		int bitmapWidth = immutableBitmap.getWidth();
+		int bitmapHeight = immutableBitmap.getHeight();
 		int[] bitmapPixels = new int[bitmapWidth * bitmapHeight];
-		unmutableBitmap.getPixels(bitmapPixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight);
+		immutableBitmap.getPixels(bitmapPixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight);
 
 		Bitmap mutableBitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.ARGB_8888);
 		mutableBitmap.setPixels(bitmapPixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight);

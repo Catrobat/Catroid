@@ -23,18 +23,20 @@
 package org.catrobat.catroid.stage;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import org.catrobat.catroid.R;
+import android.view.WindowManager;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 
 public class StageActivity extends AndroidApplication {
+	public static final String TAG = StageActivity.class.getSimpleName();
 
-	private boolean stagePlaying = true;
 	public static StageListener stageListener;
 	private boolean resizePossible;
 	private StageDialog stageDialog;
@@ -46,83 +48,77 @@ public class StageActivity extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		stageListener = new StageListener();
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
-		this.calculateScreenSizes();
+		calculateScreenSizes();
 		initialize(stageListener, true);
 	}
 
 	@Override
 	public void onBackPressed() {
-		pauseOrContinue();
+		pause();
 		stageDialog.show();
 	}
 
-	@Override
-	protected void onDestroy() {
-		if (stagePlaying) {
-			this.manageLoadAndFinish();
-		}
-		super.onDestroy();
-	}
-
 	public void manageLoadAndFinish() {
-		finish();
 		stageListener.pause();
 		stageListener.finish();
 
 		PreStageActivity.shutdownResources();
-		stagePlaying = false;
-
+	}
+	
+	public void onPause()
+	{
+		SensorHandler.stopSensorListeners();
+		super.onPause();
+	}
+	
+	public void onResume()
+	{
+		SensorHandler.startSensorListener(this);
+		super.onResume();
 	}
 
-	public void toggleAxes() {
-		if (stageListener.axesOn) {
-			stageListener.axesOn = false;
-		} else {
-			stageListener.axesOn = true;
-		}
+	public void pause() {
+		SensorHandler.stopSensorListeners();
+		stageListener.menuPause();
 	}
 
-	public void pauseOrContinue() {
-		if (stagePlaying) {
-			stageListener.menuPause();
-			stagePlaying = false;
-		} else {
-			stageListener.menuResume();
-			stagePlaying = true;
-		}
-	}
-
-	private void calculateScreenSizes() {
-		ifLandscapeSwitchWidthAndHeight();
-		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().virtualScreenWidth;
-		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().virtualScreenHeight;
-		if (virtualScreenWidth == Values.SCREEN_WIDTH && virtualScreenHeight == Values.SCREEN_HEIGHT) {
-			resizePossible = false;
-			return;
-		}
-		resizePossible = true;
-		stageListener.maximizeViewPortWidth = Values.SCREEN_WIDTH + 1;
-		do {
-			stageListener.maximizeViewPortWidth--;
-			stageListener.maximizeViewPortHeight = (int) (((float) stageListener.maximizeViewPortWidth / (float) virtualScreenWidth) * virtualScreenHeight);
-		} while (stageListener.maximizeViewPortHeight > Values.SCREEN_HEIGHT);
-
-		stageListener.maximizeViewPortX = (Values.SCREEN_WIDTH - stageListener.maximizeViewPortWidth) / 2;
-		stageListener.maximizeViewPortY = (Values.SCREEN_HEIGHT - stageListener.maximizeViewPortHeight) / 2;
-	}
-
-	private void ifLandscapeSwitchWidthAndHeight() {
-		if (Values.SCREEN_WIDTH > Values.SCREEN_HEIGHT) {
-			int tmp = Values.SCREEN_HEIGHT;
-			Values.SCREEN_HEIGHT = Values.SCREEN_WIDTH;
-			Values.SCREEN_WIDTH = tmp;
-		}
+	public void resume() {
+		stageListener.menuResume();
+		SensorHandler.startSensorListener(this);
 	}
 
 	public boolean getResizePossible() {
 		return resizePossible;
+	}
+
+	private void calculateScreenSizes() {
+		ifLandscapeSwitchWidthAndHeight();
+		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
+		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
+		if (virtualScreenWidth == ScreenValues.SCREEN_WIDTH && virtualScreenHeight == ScreenValues.SCREEN_HEIGHT) {
+			resizePossible = false;
+			return;
+		}
+		resizePossible = true;
+		stageListener.maximizeViewPortWidth = ScreenValues.SCREEN_WIDTH + 1;
+		do {
+			stageListener.maximizeViewPortWidth--;
+			stageListener.maximizeViewPortHeight = (int) (((float) stageListener.maximizeViewPortWidth / (float) virtualScreenWidth) * virtualScreenHeight);
+		} while (stageListener.maximizeViewPortHeight > ScreenValues.SCREEN_HEIGHT);
+
+		stageListener.maximizeViewPortX = (ScreenValues.SCREEN_WIDTH - stageListener.maximizeViewPortWidth) / 2;
+		stageListener.maximizeViewPortY = (ScreenValues.SCREEN_HEIGHT - stageListener.maximizeViewPortHeight) / 2;
+	}
+
+	private void ifLandscapeSwitchWidthAndHeight() {
+		if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
+			int tmp = ScreenValues.SCREEN_HEIGHT;
+			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
+			ScreenValues.SCREEN_WIDTH = tmp;
+		}
 	}
 
 }

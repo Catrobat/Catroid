@@ -28,8 +28,12 @@
         android:showAsAction="withText"
         android:title="@string/main_menu_settings"/>
     <item
+        android:id="@+id/menu_rate_app"
+        android:showAsAction="withText"
+        android:title="@string/main_menu_rate_app"/>
+    <item
         android:id="@+id/menu_about"
         android:showAsAction="withText"
-        android:title="@string/main_menu_about_catroid"/>
+        android:title="@string/main_menu_about_pocketcode"/>
 
 </menu>

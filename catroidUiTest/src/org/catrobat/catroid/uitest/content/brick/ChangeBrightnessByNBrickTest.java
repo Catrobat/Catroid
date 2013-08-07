@@ -32,53 +32,40 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
-import android.view.KeyEvent;
+import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class ChangeBrightnessByNBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class ChangeBrightnessByNBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final double BRIGHTNESS_TO_CHANGE = 56.6;
 
-	private Solo solo;
 	private Project project;
 	private ChangeBrightnessByNBrick changeBrightnessByNBrick;
 
 	public ChangeBrightnessByNBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
-	}
-
-	@Smoke
 	public void testChangeBrightnessByNBrick() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -87,24 +74,8 @@ public class ChangeBrightnessByNBrickTest extends ActivityInstrumentationTestCas
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_change_brightness)));
 
-		solo.clickOnEditText(0);
-		solo.sleep(500);
-		assertTrue("Dialog is not visible", solo.searchText(solo.getString(R.string.ok)));
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-		assertTrue("Dialog is not visible", solo.searchText(solo.getString(R.string.ok)));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
-		assertTrue("Dialog is not visible", solo.searchText(solo.getString(R.string.ok)));
-		solo.clearEditText(0);
-		solo.enterText(0, BRIGHTNESS_TO_CHANGE + "");
-		solo.sleep(500);
-		solo.sendKey(KeyEvent.KEYCODE_ENTER);
-		solo.sleep(1000);
-
-		assertEquals("Wrong text in field", BRIGHTNESS_TO_CHANGE, changeBrightnessByNBrick.getChangeBrightness());
-		assertEquals("Text not updated", BRIGHTNESS_TO_CHANGE,
-				Double.parseDouble(solo.getEditText(0).getText().toString()));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, BRIGHTNESS_TO_CHANGE, "changeBrightness",
+				changeBrightnessByNBrick);
 	}
 
 	private void createProject() {

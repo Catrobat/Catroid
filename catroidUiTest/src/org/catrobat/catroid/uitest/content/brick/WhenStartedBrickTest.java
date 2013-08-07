@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.content.brick;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -34,18 +35,11 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import org.catrobat.catroid.R;
-
-import com.jayway.android.robotium.solo.Solo;
-
-public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private Solo solo;
+public class WhenStartedBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private Project project;
-
-	//private static final String TAG = WhenBrickTest.class.getSimpleName();
 
 	public WhenStartedBrickTest() {
 		super(MainMenuActivity.class);
@@ -53,20 +47,17 @@ public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<MainM
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-
-		ProjectManager.getInstance().deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
-
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
-		solo = null;
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	public void testWhenStartedBrick() {
@@ -76,8 +67,9 @@ public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<MainM
 
 		ArrayList<Integer> yPosition;
 		int addedYPosition;
+		float whenBrickPosition = 300;
 
-		assertEquals("Incorrect number of bricks.", 4 + 1, solo.getCurrentListViews().get(0).getCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 4, UiTestUtils.getScriptListView(solo).getCount());
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
@@ -87,7 +79,7 @@ public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<MainM
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_when_started);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(yPosition.size() - 1) + 20, 100);
@@ -101,9 +93,12 @@ public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.sleep(200);
 
-		UiTestUtils.addNewBrick(solo, R.string.brick_when_started);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.clickOnText(solo.getString(R.string.category_control));
+		solo.searchText(solo.getString(R.string.category_control));
+		solo.clickOnScreen(200, whenBrickPosition);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(3) + 20, 100);
@@ -111,12 +106,12 @@ public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<MainM
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(0) instanceof WhenScript));
+				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof WhenScript));
 
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(1).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof StartScript));
+				(ProjectManager.getInstance().getCurrentSprite().getScript(2) instanceof StartScript));
 
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(2).getBrickList();
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
@@ -127,7 +122,7 @@ public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<MainM
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_when_started);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.goBack();
@@ -141,7 +136,7 @@ public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<MainM
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(1).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof StartScript));
+				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof WhenScript));
 
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(2).getBrickList();
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());

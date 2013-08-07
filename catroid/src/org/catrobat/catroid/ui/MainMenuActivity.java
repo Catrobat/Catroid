@@ -24,12 +24,14 @@ package org.catrobat.catroid.ui;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.concurrent.locks.Lock;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.io.LoadProjectTask;
+import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
 import org.catrobat.catroid.transfers.ProjectDownloadService;
@@ -38,11 +40,15 @@ import org.catrobat.catroid.ui.dialogs.LoginDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.RegistrationDialogStepOneDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
-import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
+import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.ServerCalls;
 
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -50,10 +56,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -61,7 +72,10 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener,
-		ErrorListenerInterface {
+		OnLoadProjectCompleteListener {
+
+	private static final String TYPE_FILE = "file";
+	private static final String TYPE_HTTP = "http";
 
 	private class DownloadReceiver extends ResultReceiver {
 
@@ -83,7 +97,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				String notificationMessage = "Download " + progress + "% "
 						+ getString(R.string.notification_percent_completed) + ":" + projectName;
 
-				StatusBarNotificationManager.INSTANCE.updateNotification(notificationId, notificationMessage,
+				StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage,
 						Constants.DOWNLOAD_NOTIFICATION, endOfFileReached);
 			}
 		}
@@ -92,11 +106,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	private static final String TAG = "MainMenuActivity";
 	private static final String PROJECTNAME_TAG = "fname=";
 
-	private ProjectManager projectManager;
-
 	private ActionBar actionBar;
-
-	private boolean ignoreResume = false;
+	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -112,122 +123,30 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setTitle(R.string.app_name);
 
-		projectManager = ProjectManager.getInstance();
-		Utils.loadProjectIfNeeded(this, this);
-
-		if (projectManager.getCurrentProject() == null) {
-			findViewById(R.id.main_menu_button_continue).setEnabled(false);
-		}
+		findViewById(R.id.main_menu_button_continue).setEnabled(false);
 
 		// Load external project from URL or local file system.
 		Uri loadExternalProjectUri = getIntent().getData();
 		getIntent().setData(null);
 
-		if (loadExternalProjectUri == null) {
-			return;
-		}
-		if (loadExternalProjectUri.getScheme().equals("http")) {
-			String url = loadExternalProjectUri.toString();
-			int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
-			String projectName = url.substring(projectNameIndex);
-			try {
-				projectName = URLDecoder.decode(projectName, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				Log.e(TAG, "Could not decode project name: " + projectName, e);
-			}
-
-			Intent downloadIntent = new Intent(this, ProjectDownloadService.class);
-			downloadIntent.putExtra("receiver", new DownloadReceiver(new Handler()));
-			downloadIntent.putExtra("downloadName", projectName);
-			downloadIntent.putExtra("url", url);
-			int notificationId = createNotification(projectName);
-			downloadIntent.putExtra("notificationId", notificationId);
-			startService(downloadIntent);
-
-		} else if (loadExternalProjectUri.getScheme().equals("file")) {
-
-			String path = loadExternalProjectUri.getPath();
-			int a = path.lastIndexOf('/') + 1;
-			int b = path.lastIndexOf('.');
-			String projectName = path.substring(a, b);
-			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
-				Utils.displayErrorMessageFragment(getSupportFragmentManager(),
-						getResources().getString(R.string.error_load_project));
-			}
-		}
-	}
-
-	public int createNotification(String downloadName) {
-		StatusBarNotificationManager manager = StatusBarNotificationManager.INSTANCE;
-		int notificationId = manager.createNotification(downloadName, this, Constants.DOWNLOAD_NOTIFICATION);
-		return notificationId;
-	}
-
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-
-		ignoreResume = false;
-		PreStageActivity.shutdownPersistentResources();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_main_menu, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.menu_settings: {
-				Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
-				startActivity(intent);
-				return true;
-			}
-			case R.id.menu_about: {
-				AboutDialogFragment aboutDialog = new AboutDialogFragment();
-				aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
-				return true;
-			}
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-			Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
-			startActivity(intent);
+		if (loadExternalProjectUri != null) {
+			loadProgramFromExternalSource(loadExternalProjectUri);
 		}
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
-		if (ProjectManager.INSTANCE.getCurrentProject() == null) {
-			return;
-		}
-		if (!ignoreResume) {
-			PreStageActivity.shutdownPersistentResources();
-		}
-		ignoreResume = false;
 
-		ProjectManager.INSTANCE.loadProject(ProjectManager.INSTANCE.getCurrentProject().getName(), this, this, false);
-
-		StatusBarNotificationManager.INSTANCE.displayDialogs(this);
-	}
-
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		super.onWindowFocusChanged(hasFocus);
-
-		if (ProjectManager.getInstance().getCurrentProject() == null) {
-			return;
-		}
+		PreStageActivity.shutdownPersistentResources();
+		UtilFile.createStandardProjectIfRootDirectoryIsEmpty(this);
+		setMainMenuButtonContinueText();
+		findViewById(R.id.main_menu_button_continue).setEnabled(true);
+		StatusBarNotificationManager.getInstance().displayDialogs(this);
 	}
 
 	@Override
@@ -240,10 +159,10 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		// onPause is sufficient --> gets called before "process_killed",
 		// onStop(), onDestroy(), onRestart()
 		// also when you switch activities
-		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
-			ProjectManager.INSTANCE.saveProject();
-			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.INSTANCE.getCurrentProject()
-					.getName());
+		if (ProjectManager.getInstance().getCurrentProject() != null) {
+			ProjectManager.getInstance().saveProject();
+			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.getInstance()
+					.getCurrentProject().getName());
 		}
 	}
 
@@ -260,56 +179,129 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		System.gc();
 	}
 
-	private void unbindDrawables(View view) {
-		if (view.getBackground() != null) {
-			view.getBackground().setCallback(null);
-		}
-		if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
-			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-				unbindDrawables(((ViewGroup) view).getChildAt(i));
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_settings: {
+				Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
+				startActivity(intent);
+				return true;
 			}
-			((ViewGroup) view).removeAllViews();
+			case R.id.menu_rate_app:
+				launchMarket();
+				return true;
+			case R.id.menu_about: {
+				AboutDialogFragment aboutDialog = new AboutDialogFragment();
+				aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
+				return true;
+			}
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	// Taken from http://stackoverflow.com/a/11270668
+	private void launchMarket() {
+		Uri uri = Uri.parse("market://details?id=" + getPackageName());
+		Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+		try {
+			startActivity(myAppLinkToMarket);
+		} catch (ActivityNotFoundException e) {
+			Toast.makeText(this, R.string.main_menu_play_store_not_installed, Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	public void handleContinueButton(View v) {
-		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), false);
+		loadProjectTask.setOnLoadProjectCompleteListener(this);
+		loadProjectTask.execute();
+	}
+
+	@Override
+	public void onLoadProjectSuccess() {
+		if (ProjectManager.getInstance().getCurrentProject() != null) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
 	}
 
 	public void handleNewButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		NewProjectDialog dialog = new NewProjectDialog();
 		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	public void handleProgramsButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		Intent intent = new Intent(MainMenuActivity.this, MyProjectsActivity.class);
 		startActivity(intent);
 	}
 
-	public void handleUploadButton(View v) {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		String token = preferences.getString(Constants.TOKEN, null);
-
-		if (token == null || token.length() == 0 || token.equals("0")) {
-			showRegisterDialog();
-		} else {
-			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token);
-			checkTokenTask.setOnCheckTokenCompleteListener(this);
-			checkTokenTask.execute();
+	public void handleForumButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
 		}
-	}
-
-	public void handleWebButton(View v) {
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catroid_website).toString()));
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catrobat_forum).toString()));
 		startActivity(browserIntent);
 	}
 
-	public void handleForumButton(View v) {
-		Intent browerIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catrobat_forum).toString()));
-		startActivity(browerIntent);
+	public void handleWebButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(getText(R.string.main_menu_web_dialog_title));
+		builder.setMessage(getText(R.string.main_menu_web_dialog_message));
+
+		builder.setPositiveButton(getText(R.string.ok), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.pocketcode_website)
+						.toString()));
+				startActivity(browserIntent);
+			}
+		});
+		builder.setNegativeButton(getText(R.string.cancel_button), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog alertDialog = builder.create();
+		alertDialog.setCanceledOnTouchOutside(true);
+		alertDialog.show();
+	}
+
+	public void handleUploadButton(View v) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+
+		if (token == Constants.NO_TOKEN || token.length() != ServerCalls.TOKEN_LENGTH
+				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
+			showRegisterDialog();
+		} else {
+			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token, username);
+			checkTokenTask.setOnCheckTokenCompleteListener(this);
+			checkTokenTask.execute();
+		}
 	}
 
 	@Override
@@ -333,8 +325,69 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		registrationDialog.show(getSupportFragmentManager(), RegistrationDialogStepOneDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	@Override
-	public void showErrorDialog(String errorMessage) {
-		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
+	public int createNotification(String downloadName) {
+		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
+		int notificationId = manager.createNotification(downloadName, this, Constants.DOWNLOAD_NOTIFICATION);
+		return notificationId;
+	}
+
+	private void unbindDrawables(View view) {
+		if (view.getBackground() != null) {
+			view.getBackground().setCallback(null);
+		}
+		if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
+			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+				unbindDrawables(((ViewGroup) view).getChildAt(i));
+			}
+			((ViewGroup) view).removeAllViews();
+		}
+	}
+
+	private void loadProgramFromExternalSource(Uri loadExternalProjectUri) {
+		String scheme = loadExternalProjectUri.getScheme();
+		if (scheme.startsWith((TYPE_HTTP))) {
+			String url = loadExternalProjectUri.toString();
+			int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
+			String projectName = url.substring(projectNameIndex);
+			try {
+				projectName = URLDecoder.decode(projectName, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				Log.e(TAG, "Could not decode project name: " + projectName, e);
+			}
+
+			Intent downloadIntent = new Intent(this, ProjectDownloadService.class);
+			downloadIntent.putExtra("receiver", new DownloadReceiver(new Handler()));
+			downloadIntent.putExtra("downloadName", projectName);
+			downloadIntent.putExtra("url", url);
+			int notificationId = createNotification(projectName);
+			downloadIntent.putExtra("notificationId", notificationId);
+			startService(downloadIntent);
+
+		} else if (scheme.equals(TYPE_FILE)) {
+
+			String path = loadExternalProjectUri.getPath();
+			int a = path.lastIndexOf('/') + 1;
+			int b = path.lastIndexOf('.');
+			String projectName = path.substring(a, b);
+			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
+				Utils.showErrorDialog(this, getResources().getString(R.string.error_load_project));
+			}
+		}
+	}
+
+	private void setMainMenuButtonContinueText() {
+		Button mainMenuButtonContinue = (Button) this.findViewById(R.id.main_menu_button_continue);
+		TextAppearanceSpan textAppearanceSpan = new TextAppearanceSpan(this, R.style.MainMenuButtonTextSecondLine);
+		SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+		String mainMenuContinue = this.getString(R.string.main_menu_continue);
+
+		spannableStringBuilder.append(mainMenuContinue);
+		spannableStringBuilder.append("\n");
+		spannableStringBuilder.append(Utils.getCurrentProjectName(this));
+
+		spannableStringBuilder.setSpan(textAppearanceSpan, mainMenuContinue.length() + 1,
+				spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+		mainMenuButtonContinue.setText(spannableStringBuilder);
 	}
 }

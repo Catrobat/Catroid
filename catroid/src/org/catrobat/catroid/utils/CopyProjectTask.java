@@ -37,11 +37,11 @@ import android.widget.Toast;
 
 public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 
-	private ProjectsListFragment parentActivity;
+	private ProjectsListFragment parentFragment;
 	private String newName;
 
 	public CopyProjectTask(ProjectsListFragment parentActivity) {
-		this.parentActivity = parentActivity;
+		this.parentFragment = parentActivity;
 	}
 
 	@Override
@@ -78,17 +78,23 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 	protected void onPostExecute(Boolean result) {
 		super.onPostExecute(result);
 
+		//quickfix: if fragment is not attached an instrumentation fault occurs
+		//return if fragment is detached
+		if (!parentFragment.isAdded()) {
+			return;
+			//parentFragment.onAttach(parentActivity);
+		}
+
 		if (!result) {
-			Utils.displayErrorMessageFragment(parentActivity.getFragmentManager(),
-					parentActivity.getString(R.string.error_copy_project));
+			Utils.showErrorDialog(parentFragment.getActivity(), parentFragment.getString(R.string.error_copy_project));
 			return;
 		}
 
 		Toast.makeText(
-				parentActivity.getActivity(),
-				parentActivity.getString(R.string.project_name) + " " + newName + " "
-						+ parentActivity.getString(R.string.copy_project_finished), Toast.LENGTH_SHORT).show();
-		parentActivity.onCopyProject(false);
+				parentFragment.getActivity(),
+				parentFragment.getString(R.string.project_name) + " " + newName + " "
+						+ parentFragment.getString(R.string.copy_project_finished), Toast.LENGTH_SHORT).show();
+		parentFragment.onCopyProject();
 	}
 
 	private void copyDirectory(File destinationFile, File sourceFile) throws IOException {
@@ -105,6 +111,6 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 
 	public void createNotification(String projectName) {
 		StatusBarNotificationManager copyManager = StatusBarNotificationManager.getInstance();
-		copyManager.createNotification(projectName, parentActivity.getActivity(), Constants.COPY_NOTIFICATION);
+		copyManager.createNotification(projectName, parentFragment.getActivity(), Constants.COPY_NOTIFICATION);
 	}
 }

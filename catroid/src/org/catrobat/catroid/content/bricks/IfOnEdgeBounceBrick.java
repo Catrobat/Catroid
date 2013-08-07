@@ -22,20 +22,27 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.ProjectManager;
+import java.util.List;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-public class IfOnEdgeBounceBrick implements Brick {
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+public class IfOnEdgeBounceBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
-
-	private transient View view;
 
 	public IfOnEdgeBounceBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -51,76 +58,54 @@ public class IfOnEdgeBounceBrick implements Brick {
 	}
 
 	@Override
-	public void execute() {
-		float size = sprite.costume.getSize();
-
-		sprite.costume.aquireXYWidthHeightLock();
-		float width = sprite.costume.getWidth() * size;
-		float height = sprite.costume.getHeight() * size;
-		int xPosition = (int) sprite.costume.getXPosition();
-		int yPosition = (int) sprite.costume.getYPosition();
-		sprite.costume.releaseXYWidthHeightLock();
-
-		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().virtualScreenWidth / 2;
-		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().virtualScreenHeight / 2;
-		float rotationResult = -sprite.costume.rotation + 90f;
-
-		if (xPosition < -virtualScreenWidth + width / 2) {
-
-			rotationResult = Math.abs(rotationResult);
-			xPosition = -virtualScreenWidth + (int) (width / 2);
-
-		} else if (xPosition > virtualScreenWidth - width / 2) {
-
-			rotationResult = -Math.abs(rotationResult);
-
-			xPosition = virtualScreenWidth - (int) (width / 2);
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
 		}
+		view = View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
+		view = getViewWithAlpha(alphaValue);
 
-		if (yPosition > virtualScreenHeight - height / 2) {
-
-			if (Math.abs(rotationResult) < 90f) {
-				if (rotationResult < 0f) {
-					rotationResult = -180f - rotationResult;
-				} else {
-					rotationResult = 180f - rotationResult;
-				}
+		setCheckboxView(R.id.brick_if_on_edge_bounce_checkbox);
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
 			}
+		});
 
-			yPosition = virtualScreenHeight - (int) (height / 2);
-
-		} else if (yPosition < -virtualScreenHeight + height / 2) {
-
-			if (Math.abs(rotationResult) > 90f) {
-				if (rotationResult < 0f) {
-					rotationResult = -180f - rotationResult;
-				} else {
-					rotationResult = 180f - rotationResult;
-				}
-			}
-
-			yPosition = -virtualScreenHeight + (int) (height / 2);
-		}
-
-		sprite.costume.rotation = -rotationResult + 90f;
-
-		sprite.costume.aquireXYWidthHeightLock();
-		sprite.costume.setXYPosition(xPosition, yPosition);
-		sprite.costume.releaseXYWidthHeightLock();
+		return view;
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprite;
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		IfOnEdgeBounceBrick copyBrick = (IfOnEdgeBounceBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
+	public View getViewWithAlpha(int alphaValue) {
+
+		if (view != null) {
+
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_if_on_edge_bounce_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+			this.alphaValue = (alphaValue);
+
+			TextView ifBounceLabel = (TextView) view.findViewById(R.id.brick_if_on_edge_bounce_label);
+			ifBounceLabel.setTextColor(ifBounceLabel.getTextColors().withAlpha(alphaValue));
+
 		}
 
 		return view;
+	}
+
+	@Override
+	public Brick clone() {
+		return new IfOnEdgeBounceBrick(sprite);
 	}
 
 	@Override
@@ -129,8 +114,8 @@ public class IfOnEdgeBounceBrick implements Brick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new IfOnEdgeBounceBrick(sprite);
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.ifOnEdgeBounce(sprite));
+		return null;
 	}
-
 }

@@ -20,65 +20,46 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout01"
-    android:layout_width="wrap_content"
+
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/brick_yellow"
-    android:focusable="false"
-    android:focusableInTouchMode="false" >
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/ValueTextView"
-        style="@style/BrickText"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:text="@string/brick_repeat" >
-    </TextView>
-
-    <TextView
-        android:id="@+id/LabelTextView"
-        style="@style/BrickText"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip"
-        android:text="@string/times_label" >
-    </TextView>
-
-    <TextView
-        android:id="@+id/brick_repeat_text_view"
+    <CheckBox
+        android:id="@+id/brick_repeat_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="5dip"
-        android:layout_toLeftOf="@+id/LabelTextView"
-        android:background="@color/white"
-        android:gravity="right"
-        android:minHeight="30dip"
-        android:minWidth="50dip"
-        android:paddingRight="5dip"
-        android:text="3"
-        android:textSize="20dip" >
+        android:gravity="center_vertical"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/brick_repeat_layout"
+        style="@style/BrickContainer.Control.Small" >
+
+        <TextView
+            android:id="@+id/brick_repeat_label"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_repeat" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/brick_repeat_prototype_text_view"
+            style="@style/BrickPrototypeTextView" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/brick_repeat_edit_text"
+            style="@style/BrickEditTextMultiple"
+            android:inputType="number|numberDecimal" >
+        </EditText>
+
+        <TextView
+        android:id="@+id/brick_repeat_time_text_view"
+        style="@style/BrickText.SingleLine" >
     </TextView>
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/brick_repeat_edit_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/LabelTextView"
-        android:clickable="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:gravity="right"
-        android:inputType="number|numberDecimal"
-        android:maxLength="10"
-        android:maxLines="1"
-        android:minWidth="75dip"
-        android:text="3"
-        android:visibility="gone" >
-    </EditText>
-
-</RelativeLayout>
+</LinearLayout>

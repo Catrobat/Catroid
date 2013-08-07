@@ -31,8 +31,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXTBtCommunicator;
 import org.catrobat.catroid.LegoNXT.LegoNXTCommunicator;
 import org.catrobat.catroid.bluetooth.DeviceListActivity;
-import org.catrobat.catroid.common.CostumeData;
-import org.catrobat.catroid.common.Values;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -42,24 +42,24 @@ import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int IMAGE_FILE_ID = org.catrobat.catroid.uitest.R.raw.icon;
 	private static final int MOTOR_ACTION = 0;
 	private static final int MOTOR_STOP = 1;
@@ -68,15 +68,15 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	// needed for testdevices
 	// Bluetooth server is running with a name that starts with 'kitty'
 	// e.g. kittyroid-0, kittyslave-0
-	private static final String PAIRED_BlUETOOTH_SERVER_DEVICE_NAME = "kitty";
+	private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "kitty";
 
 	// needed for testdevices
 	// unavailable device is paired with a name that starts with 'SWEET'
 	// e.g. SWEETHEART
+
 	private static final String PAIRED_UNAVAILABLE_DEVICE_NAME = "SWEET";
 	private static final String PAIRED_UNAVAILABLE_DEVICE_MAC = "00:23:4D:F5:A6:18";
 
-	private Solo solo;
 	private final String projectName = UiTestUtils.PROJECTNAME1;
 	private final String spriteName = "testSprite";
 
@@ -88,21 +88,12 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 	@Override
 	public void setUp() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		UiTestUtils.prepareStageForTest();
 	}
 
 	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!
+	@Device
 	public void testNXTFunctionality() {
 		createTestproject(projectName);
 
@@ -117,18 +108,18 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		ArrayList<String> autoConnectIDs = new ArrayList<String>();
 		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
 		DeviceListActivity deviceListActivity = new DeviceListActivity();
-		UiTestUtils.setPrivateField("autoConnectIDs", deviceListActivity, autoConnectIDs, false);
+		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.sleep(2000);
 
-		ListView deviceList = solo.getCurrentListViews().get(0);
+		ListView deviceList = solo.getCurrentViews(ListView.class).get(0);
 		String connectedDeviceName = null;
 		for (int i = 0; i < deviceList.getCount(); i++) {
 			String deviceName = (String) deviceList.getItemAtPosition(i);
-			if (deviceName.startsWith(PAIRED_BlUETOOTH_SERVER_DEVICE_NAME)) {
+			if (deviceName.startsWith(PAIRED_BLUETOOTH_SERVER_DEVICE_NAME)) {
 				connectedDeviceName = deviceName;
 				break;
 			}
@@ -138,7 +129,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.sleep(8000);
 		solo.assertCurrentActivity("Not in stage - connection to bluetooth-device failed", StageActivity.class);
 
-		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
+		solo.clickOnScreen(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT / 2);
 		solo.sleep(10000);
 
 		ArrayList<byte[]> executedCommands = LegoNXTCommunicator.getReceivedMessageList();
@@ -180,6 +171,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	}
 
 	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!
+	@Device
 	public void testNXTPersistentConnection() {
 		createTestproject(projectName);
 
@@ -195,7 +187,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		String connectedDeviceMacAdress = null;
 		while (iterator.hasNext()) {
 			BluetoothDevice device = iterator.next();
-			if (device.getName().startsWith(PAIRED_BlUETOOTH_SERVER_DEVICE_NAME)) {
+			if (device.getName().startsWith(PAIRED_BLUETOOTH_SERVER_DEVICE_NAME)) {
 				connectedDeviceMacAdress = device.getAddress();
 			}
 		}
@@ -205,14 +197,14 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.clickOnText(spriteName);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.scripts));
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		ArrayList<String> autoConnectIDs = new ArrayList<String>();
 		autoConnectIDs.add(connectedDeviceMacAdress);
 		DeviceListActivity deviceListActivity = new DeviceListActivity();
-		UiTestUtils.setPrivateField("autoConnectIDs", deviceListActivity, autoConnectIDs, false);
+		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+		UiTestUtils.clickOnActionBar(solo, R.id.button_play);
 		solo.sleep(6500);// increase this sleep if probs!
 
 		solo.goBack();
@@ -222,7 +214,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.goBack();
 		solo.sleep(1000);
 		//Device is still connected (until visiting main menu or exiting program)!
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.sleep(1000);
 		solo.assertCurrentActivity("BT connection was not there anymore!!!", StageActivity.class);
 
@@ -238,28 +230,29 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		autoConnectIDs = new ArrayList<String>();
 		autoConnectIDs.add(PAIRED_UNAVAILABLE_DEVICE_MAC);
-		UiTestUtils.setPrivateField("autoConnectIDs", deviceListActivity, autoConnectIDs, false);
+		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.sleep(10000); //yes, has to be that long! waiting for auto connection timeout!
 
 		assertTrue("I should be on the bluetooth device choosing screen, but am not!",
 				solo.searchText(connectedDeviceMacAdress));
 
 		solo.clickOnText(PAIRED_UNAVAILABLE_DEVICE_NAME);
-		solo.sleep(8000);
+		solo.waitForText(solo.getString(R.string.brick_when_started), 1, 20000);
 		solo.assertCurrentActivity("Incorrect Activity reached!", ProjectActivity.class);
 	}
 
+	@Device
 	public void testNXTConnectionDialogGoBack() {
 		createTestproject(projectName);
 
 		ArrayList<String> autoConnectIDs = new ArrayList<String>();
 		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
 		DeviceListActivity deviceListActivity = new DeviceListActivity();
-		UiTestUtils.setPrivateField("autoConnectIDs", deviceListActivity, autoConnectIDs, false);
+		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
 		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
@@ -268,14 +261,14 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 			solo.sleep(5000);
 		}
 
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.sleep(1000);
 		solo.assertCurrentActivity("Devicelist not shown!", DeviceListActivity.class);
 		solo.goBack();
 		solo.sleep(1000);
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.sleep(1000);
 		solo.assertCurrentActivity("Devicelist not shown!", DeviceListActivity.class);
 
@@ -285,7 +278,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		Sprite firstSprite = new Sprite(spriteName);
 		Script startScript = new StartScript(firstSprite);
 		Script whenScript = new WhenScript(firstSprite);
-		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
+		SetLookBrick setLookBrick = new SetLookBrick(firstSprite);
 
 		LegoNxtMotorActionBrick legoMotorActionBrick = new LegoNxtMotorActionBrick(firstSprite,
 				LegoNxtMotorActionBrick.Motor.MOTOR_A_C, 100);
@@ -315,7 +308,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		whenScript.addBrick(thirdWaitBrick);
 		whenScript.addBrick(legoPlayToneBrick);
 
-		startScript.addBrick(setCostumeBrick);
+		startScript.addBrick(setLookBrick);
 		firstSprite.addScript(startScript);
 		firstSprite.addScript(whenScript);
 
@@ -327,11 +320,11 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		File image = UiTestUtils.saveFileToProject(projectName, imageName, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.IMAGE);
 
-		CostumeData costumeData = new CostumeData();
-		costumeData.setCostumeFilename(image.getName());
-		costumeData.setCostumeName(imageName);
-		setCostumeBrick.setCostume(costumeData);
-		firstSprite.getCostumeDataList().add(costumeData);
+		LookData lookData = new LookData();
+		lookData.setLookFilename(image.getName());
+		lookData.setLookName(imageName);
+		setLookBrick.setLook(lookData);
+		firstSprite.getLookDataList().add(lookData);
 
 		StorageHandler.getInstance().saveProject(project);
 	}

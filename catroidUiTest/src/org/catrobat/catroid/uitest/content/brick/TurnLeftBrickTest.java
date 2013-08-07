@@ -32,51 +32,41 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
+import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
+public class TurnLeftBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
-public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
-
-	private Solo solo;
 	private Project project;
 	private TurnLeftBrick turnLeftBrick;
 
 	public TurnLeftBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
-	}
-
-	@Smoke
 	public void testTurnLeftBrickTest() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -87,14 +77,14 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 		double turnDegrees = 25;
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, turnDegrees + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.insertValueViaFormulaEditor(solo, 0, turnDegrees);
 
-		double actualDegrees = (Double) UiTestUtils.getPrivateField("degrees", turnLeftBrick);
-		assertEquals("Wrong text in field", turnDegrees, actualDegrees);
+		Formula actualDegrees = (Formula) Reflection.getPrivateField(turnLeftBrick, "degrees");
+		assertEquals("Wrong text in field", turnDegrees, actualDegrees.interpretDouble(null));
 		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
+
+		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
+		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1.4);
 	}
 
 	private void createProject() {

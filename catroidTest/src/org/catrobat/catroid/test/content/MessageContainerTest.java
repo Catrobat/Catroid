@@ -22,37 +22,114 @@
  */
 package org.catrobat.catroid.test.content;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.BroadcastBrick;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.test.utils.TestUtils;
 
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 
-public class MessageContainerTest extends InstrumentationTestCase {
+public class MessageContainerTest extends AndroidTestCase {
 
-	public void testContainer() {
-		String testMessage1 = "test1";
-		String testMessage2 = "test2";
+	private final String projectName1 = "TestProject1";
+	private final String projectName2 = "TestProject2";
+	private final String projectName3 = "TestProject3";
+	private final String broadcastMessage1 = "testBroadcast1";
+	private final String broadcastMessage2 = "testBroadcast2";
 
-		MessageContainer testContainer = new MessageContainer();
-		testContainer.addMessage(testMessage1);
-		Set<String> messages = testContainer.getMessages();
-		assertEquals("Wrong amount of messages", 1, messages.size());
-		assertTrue("Doesn't contain message", messages.contains(testMessage1));
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		createTestProjects();
+	}
 
-		BroadcastScript script = new BroadcastScript(null);
-		testContainer.addMessage(testMessage2, script);
-		testContainer.addMessage(testMessage2);
-		assertEquals("Wrong amount of messages", 2, messages.size());
-		assertTrue("Doesn't contain message", messages.contains(testMessage2));
+	@Override
+	protected void tearDown() {
+		TestUtils.deleteTestProjects(projectName1, projectName2, projectName3);
+	}
 
-		Vector<BroadcastScript> receiverVector = testContainer.getReceiverOfMessage(testMessage2);
-		assertTrue("Doesn't contain script", receiverVector.contains(script));
+	public void testLoadProject() {
+		boolean loaded = ProjectManager.getInstance().loadProject(projectName1, getContext(), false);
+		assertTrue("Project was not loaded successfully", loaded);
+		if (loaded) {
+			Set<String> keySet = getMessages();
+			assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
+		}
+	}
 
-		testContainer.deleteReceiverScript(testMessage2, script);
-		receiverVector = testContainer.getReceiverOfMessage(testMessage2);
-		assertFalse("Still contains removed script", receiverVector.contains(script));
+	public void testLoadTwoProjects() {
+		boolean loaded = ProjectManager.getInstance().loadProject(projectName1, getContext(), false);
+		assertTrue("Project1 was not loaded successfully", loaded);
+
+		Set<String> keySet = getMessages();
+		assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
+
+		loaded = ProjectManager.getInstance().loadProject(projectName2, getContext(), false);
+		assertTrue("Project2 was not loaded successfully", loaded);
+		keySet = getMessages();
+		assertEquals("Broadcast message is in the message container", false, keySet.contains(broadcastMessage1));
+		assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage2));
+	}
+
+	public void testLoadCorruptedProjectAndCheckForBackup() {
+		boolean loaded = ProjectManager.getInstance().loadProject(projectName1, getContext(), false);
+		assertTrue("Project1 was not loaded successfully", loaded);
+
+		Set<String> keySet = getMessages();
+		assertEquals("Broadcast message has the false position", true, keySet.contains(broadcastMessage1));
+
+		loaded = ProjectManager.getInstance().loadProject(projectName3, getContext(), false);
+		assertFalse("Corrupted project was loaded", loaded);
+		keySet = getMessages();
+		assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
+	}
+
+	private void createTestProjects() {
+		Project project1 = new Project(getContext(), projectName1);
+
+		Sprite sprite1 = new Sprite("cat");
+		Script script1 = new StartScript(sprite1);
+		BroadcastBrick brick1 = new BroadcastBrick(sprite1, broadcastMessage1);
+		script1.addBrick(brick1);
+		sprite1.addScript(script1);
+
+		BroadcastScript broadcastScript1 = new BroadcastScript(sprite1, broadcastMessage1);
+		sprite1.addScript(broadcastScript1);
+
+		project1.addSprite(sprite1);
+
+		StorageHandler.getInstance().saveProject(project1);
+
+		Project project2 = new Project(getContext(), projectName2);
+
+		Sprite sprite2 = new Sprite("cat");
+		Script script2 = new StartScript(sprite2);
+		BroadcastBrick brick2 = new BroadcastBrick(sprite2, broadcastMessage2);
+		script2.addBrick(brick2);
+		sprite2.addScript(script2);
+
+		BroadcastScript broadcastScript2 = new BroadcastScript(sprite2, broadcastMessage2);
+		sprite2.addScript(broadcastScript2);
+
+		project2.addSprite(sprite2);
+
+		StorageHandler.getInstance().saveProject(project2);
+	}
+
+	@SuppressWarnings("unchecked")
+	private Set<String> getMessages() {
+		return ((Map<String, List<BroadcastScript>>) Reflection.getPrivateField(MessageContainer.class, "receiverMap"))
+				.keySet();
 	}
 }

@@ -21,31 +21,51 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="10dp" >
+    android:orientation="vertical" >
 
     <TextView
+        android:id="@+id/dialog_about_text_view_license_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="10dp"
         android:text="@string/dialog_about_license_info" />
 
     <TextView
         android:id="@+id/dialog_about_text_view_url"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_about_text_view_license_info"
         android:gravity="center"
         android:textColorLink="#E68B00"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/dialog_about_text_catrobat_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_about_text_view_url"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:textColorLink="#E68B00"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/dialog_about_text_view_version_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_about_text_catrobat_url"
         android:gravity="right"
-        android:textSize="8dp" />
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp"
+        android:textSize="8sp"
+        tools:ignore="SmallSp" />
 
-</LinearLayout>
+</RelativeLayout>

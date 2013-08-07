@@ -22,32 +22,29 @@
  */
 package org.catrobat.catroid.content;
 
-import java.util.concurrent.CountDownLatch;
+import java.util.ArrayList;
 
-import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.MessageContainer;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 
-
-public class BroadcastScript extends Script {
+public class BroadcastScript extends Script implements BroadcastMessage {
 
 	private static final long serialVersionUID = 1L;
-	private String receivedMessage = "";
+	private String receivedMessage;
 
-	public BroadcastScript(Sprite sprite) {
+	public BroadcastScript(Sprite sprite, String broadcastMessage) {
 		super(sprite);
-		super.isFinished = true;
-	}
-
-	public BroadcastScript(Sprite sprite, BroadcastReceiverBrick brick) {
-		this(sprite);
-		this.brick = brick;
+		setBroadcastMessage(broadcastMessage);
 	}
 
 	@Override
 	public ScriptBrick getScriptBrick() {
 		if (brick == null) {
-			brick = new BroadcastReceiverBrick(sprite, this);
+			brick = new BroadcastReceiverBrick(object, this);
 		}
 
 		return brick;
@@ -55,29 +52,38 @@ public class BroadcastScript extends Script {
 
 	@Override
 	protected Object readResolve() {
-		isFinished = true;
-		if (receivedMessage != null && receivedMessage.length() != 0) {
-			ProjectManager.getInstance().getMessageContainer().addMessage(receivedMessage, this);
-		}
+		MessageContainer.addMessage(receivedMessage, this);
 		super.readResolve();
 		return this;
 	}
 
-	public void setBroadcastMessage(String selectedMessage) {
-		ProjectManager.getInstance().getMessageContainer().deleteReceiverScript(this.receivedMessage, this);
-		this.receivedMessage = selectedMessage;
-		ProjectManager.getInstance().getMessageContainer().addMessage(this.receivedMessage, this);
-	}
-
+	@Override
 	public String getBroadcastMessage() {
-		return this.receivedMessage;
+		return receivedMessage;
 	}
 
-	public void executeBroadcast(CountDownLatch simultaneousStart) {
-		sprite.startScriptBroadcast(this, simultaneousStart);
+	public void setBroadcastMessage(String broadcastMessage) {
+		MessageContainer.removeReceiverScript(this.receivedMessage, this);
+		this.receivedMessage = broadcastMessage;
+		MessageContainer.addMessage(this.receivedMessage, this);
+
 	}
 
-	public void executeBroadcastWait(CountDownLatch simultaneousStart, CountDownLatch wait) {
-		sprite.startScriptBroadcastWait(this, simultaneousStart, wait);
+	@Override
+	public Script copyScriptForSprite(Sprite copySprite) {
+		BroadcastScript cloneScript = new BroadcastScript(copySprite, receivedMessage);
+		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
+
+		for (Brick brick : getBrickList()) {
+			Brick copiedBrick = brick.copyBrickForSprite(copySprite, cloneScript);
+			if (copiedBrick instanceof IfLogicEndBrick) {
+				setIfBrickReferences((IfLogicEndBrick) copiedBrick, (IfLogicEndBrick) brick);
+			} else if (copiedBrick instanceof LoopEndBrick) {
+				setLoopBrickReferences((LoopEndBrick) copiedBrick, (LoopEndBrick) brick);
+			}
+			cloneBrickList.add(copiedBrick);
+		}
+
+		return cloneScript;
 	}
 }

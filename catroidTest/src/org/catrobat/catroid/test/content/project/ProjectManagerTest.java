@@ -24,10 +24,13 @@ package org.catrobat.catroid.test.content.project;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -35,10 +38,13 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
 
@@ -71,14 +77,14 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 				Context.CONTEXT_IGNORE_SECURITY);
 
 		// initializeNewProject
-		projectManager.initializeNewProject(projectNameOne, context);
+		projectManager.initializeNewProject(projectNameOne, context, false);
 		assertNotNull("no current project set", projectManager.getCurrentProject());
 		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
 				.getName());
 
 		// verify that new project is default project (see StorageHandler.createDefaultProject)
 		int spriteCount = projectManager.getCurrentProject().getSpriteList().size();
-		assertEquals("New project has wrong number of sprites", 2, spriteCount);
+		assertEquals("New project has wrong number of sprites", 5, spriteCount);
 		Sprite catroid = projectManager.getCurrentProject().getSpriteList().get(1);
 		assertEquals("Catroid sprite has wrong number of scripts", 2, catroid.getNumberOfScripts());
 
@@ -99,7 +105,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertNotNull("no current script set", projectManager.getCurrentScript());
 
 		// loadProject
-		projectManager.loadProject(projectNameOne, context, null, false);
+		projectManager.loadProject(projectNameOne, context, false);
 		assertNotNull("no current project set", projectManager.getCurrentProject());
 		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
 				.getName());
@@ -120,10 +126,42 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 		// addBrick
 		projectManager.setCurrentScript(script2);
-		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite2);
-		projectManager.getCurrentScript().addBrick(setCostumeBrick);
+		SetLookBrick setLookBrick = new SetLookBrick(sprite2);
+		projectManager.getCurrentScript().addBrick(setLookBrick);
 		assertTrue("Brick not in current Script",
-				projectManager.getCurrentScript().getBrickList().contains(setCostumeBrick));
+				projectManager.getCurrentScript().getBrickList().contains(setLookBrick));
+	}
+
+	public void testEmptyProject() throws NameNotFoundException, IOException {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Context context = getInstrumentation().getContext().createPackageContext("org.catrobat.catroid",
+				Context.CONTEXT_IGNORE_SECURITY);
+
+		projectManager.initializeNewProject(projectNameOne, context, true);
+		Project currentProject = projectManager.getCurrentProject();
+		assertNotNull("no current project set", currentProject);
+
+		assertEquals("Wrong project name", projectNameOne, currentProject.getName());
+		assertEquals("Wrong number of sprites", 1, currentProject.getSpriteList().size());
+
+		UserVariablesContainer variablesContainer = currentProject.getUserVariables();
+
+		@SuppressWarnings("unchecked")
+		List<UserVariable> userVariableList = (List<UserVariable>) Reflection.getPrivateField(
+				UserVariablesContainer.class, variablesContainer, "projectVariables");
+		@SuppressWarnings("unchecked")
+		Map<Sprite, List<UserVariable>> spriteVariablesMap = (Map<Sprite, List<UserVariable>>) Reflection
+				.getPrivateField(UserVariablesContainer.class, variablesContainer, "spriteVariables");
+
+		assertEquals("Wrong number of variables", 0, userVariableList.size());
+		assertEquals("Wrong number of variables", 0, spriteVariablesMap.size());
+
+		Sprite background = currentProject.getSpriteList().get(0);
+		assertEquals("Wrong sprite name", context.getString(R.string.background), background.getName());
+		assertEquals("Script list not empty", 0, background.getNumberOfScripts());
+		assertEquals("Brick list not empty", 0, background.getNumberOfBricks());
+		assertEquals("Look data not empty", 0, background.getLookDataList().size());
+		assertEquals("Sound list not empty", 0, background.getSoundList().size());
 	}
 
 	public void testRenameProject() throws IOException {
@@ -131,11 +169,11 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		String newProjectName = "newProject";
 		ProjectManager projectManager = ProjectManager.getInstance();
 
-		createTestProject(oldProjectName);
-		if (!projectManager.renameProject(newProjectName, getInstrumentation().getContext(), null)) {
+		Project project = createTestProject(oldProjectName);
+		if (!projectManager.renameProject(newProjectName, getInstrumentation().getContext())) {
 			fail("could not rename Project");
 		}
-		projectManager.saveProject();
+		StorageHandler.getInstance().saveProject(project);
 
 		File oldProjectFolder = new File(Constants.DEFAULT_ROOT + "/" + oldProjectName);
 		File oldProjectFile = new File(Constants.DEFAULT_ROOT + "/" + oldProjectName + "/" + Constants.PROJECTCODE_NAME);
@@ -173,13 +211,13 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		otherScript = new StartScript(secondSprite);
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
-		SetCostumeBrick costumeBrick = new SetCostumeBrick(firstSprite);
+		SetLookBrick lookBrick = new SetLookBrick(firstSprite);
 		File image = TestUtils.saveFileToProject(projectName, "image.png", org.catrobat.catroid.test.R.raw.icon,
 				getInstrumentation().getContext(), 0);
-		CostumeData costumeData = new CostumeData();
-		costumeData.setCostumeFilename(image.getName());
-		costumeData.setCostumeName("name");
-		costumeBrick.setCostume(costumeData);
+		LookData lookData = new LookData();
+		lookData.setLookFilename(image.getName());
+		lookData.setLookName("name");
+		lookBrick.setLook(lookData);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(secondSprite, size);
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
