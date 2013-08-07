@@ -103,7 +103,7 @@
         
         <activity
             android:name=".ui.WebViewActivity"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
  
         <activity
             android:name=".stage.StageActivity"
