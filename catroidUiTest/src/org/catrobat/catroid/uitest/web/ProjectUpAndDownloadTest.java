@@ -499,7 +499,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	}
 
 	private void downloadProjectAndReplace(String projectName) {
-		String downloadUrl = TEST_FILE_DOWNLOAD_URL + serverProjectId + Constants.CATROBAT_EXTENTION;
+		String downloadUrl = TEST_FILE_DOWNLOAD_URL + serverProjectId + Constants.CATROBAT_EXTENSION;
 		downloadUrl += "?fname=" + projectName;
 
 		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
@@ -526,7 +526,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 	@SuppressWarnings("unused")
 	private void downloadProject() {
-		String downloadUrl = TEST_FILE_DOWNLOAD_URL + serverProjectId + Constants.CATROBAT_EXTENTION;
+		String downloadUrl = TEST_FILE_DOWNLOAD_URL + serverProjectId + Constants.CATROBAT_EXTENSION;
 		downloadUrl += "?fname=" + newTestProject;
 
 		Intent intent = new Intent(getActivity(), MainMenuActivity.class);

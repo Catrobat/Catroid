@@ -31,8 +31,8 @@ public final class Constants {
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
 	public static final String APPLICATION_BUILD_NAME = ""; // updated from jenkins nightly/release build
 	public static final String PROJECTCODE_NAME = "code.xml";
-	public static final String CATROBAT_EXTENTION = ".catrobat";
-	public static final String RECORDING_EXTENTION = ".mp3";
+	public static final String CATROBAT_EXTENSION = ".catrobat";
+	public static final String RECORDING_EXTENSION = ".mp3";
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
 			+ "/Pocket Code";
