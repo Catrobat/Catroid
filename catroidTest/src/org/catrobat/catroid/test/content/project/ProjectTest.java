@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.project;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
@@ -37,8 +38,8 @@ public class ProjectTest extends AndroidTestCase {
 		Project project = new Project(getContext(), "testProject");
 		PackageInfo packageInfo = getContext().getPackageManager().getPackageInfo("org.catrobat.catroid", 0);
 		XmlHeader projectXmlHeader = project.getXmlHeader();
-		assertEquals("Incorrect version name", packageInfo.versionName,
-				(String) Reflection.getPrivateField(projectXmlHeader, "applicationVersion"));
+		assertEquals("Incorrect version name", getContext().getString(R.string.version_prefix)
+				+ packageInfo.versionName, (String) Reflection.getPrivateField(projectXmlHeader, "applicationVersion"));
 	}
 
 	public void testAddRemoveSprite() {

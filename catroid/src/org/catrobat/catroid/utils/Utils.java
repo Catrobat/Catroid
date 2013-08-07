@@ -256,7 +256,7 @@ public class Utils {
 		try {
 			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(),
 					PackageManager.GET_META_DATA);
-			versionName = packageInfo.versionName;
+			versionName = context.getString(R.string.version_prefix) + packageInfo.versionName;
 		} catch (NameNotFoundException nameNotFoundException) {
 			Log.e(TAG, "Name not found", nameNotFoundException);
 		}
