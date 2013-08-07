@@ -114,7 +114,7 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 		}
 		try {
 			String recordPath = Utils.buildPath(Constants.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
-					+ Constants.RECORDING_EXTENTION);
+					+ Constants.RECORDING_EXTENSION);
 			soundRecorder = new SoundRecorder(recordPath);
 			soundRecorder.start();
 			setViewsToRecordingState();
