@@ -35,6 +35,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
+import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.mockups.MockSoundActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -324,7 +325,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		Intent intent = new Intent(getInstrumentation().getContext(), MockSoundActivity.class);
 		intent.putExtras(bundleForExternalSource);
 
-		getSoundFragment().startActivityForResult(intent, SoundFragment.REQUEST_SELECT_MUSIC);
+		getSoundFragment().startActivityForResult(intent, SoundController.REQUEST_SELECT_MUSIC);
 		solo.sleep(1000);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Should be in SoundActivity", ScriptActivity.class.getSimpleName());

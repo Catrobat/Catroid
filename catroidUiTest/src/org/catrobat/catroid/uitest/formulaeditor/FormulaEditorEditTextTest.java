@@ -123,7 +123,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
-		BackgroundColorSpan COLOR_HIGHLIGHT = (BackgroundColorSpan) Reflection.getPrivateField(
+		BackgroundColorSpan colorHighlight = (BackgroundColorSpan) Reflection.getPrivateField(
 				new FormulaEditorEditText(getActivity()), "COLOR_HIGHLIGHT");
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
@@ -132,10 +132,10 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		setAbsoluteCursorPosition(2);
 
 		assertEquals("Selection cursor not found in text, but should be", 0,
-				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().getSpanStart(COLOR_HIGHLIGHT));
+				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().getSpanStart(colorHighlight));
 		assertEquals("Selection cursor not found in text, but should be",
 				solo.getString(R.string.formula_editor_function_rand).length() + "( 0 , 1 )".length(), solo
-						.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().getSpanEnd(COLOR_HIGHLIGHT));
+						.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().getSpanEnd(colorHighlight));
 
 		assertEquals("Cursor not found in text, but should be", 2, solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)
 				.getSelectionEnd());
@@ -143,7 +143,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	}
 
 	public void testDoubleTapSelection() {
-		BackgroundColorSpan COLOR_HIGHLIGHT = (BackgroundColorSpan) Reflection.getPrivateField(
+		BackgroundColorSpan colorHighlight = (BackgroundColorSpan) Reflection.getPrivateField(
 				new FormulaEditorEditText(getActivity()), "COLOR_HIGHLIGHT");
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
 
@@ -153,18 +153,18 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		assertTrue("Text not found", solo.searchText("11111", true));
 
 		assertTrue("Selection cursor found in text, but should not be", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)
-				.getText().getSpanStart(COLOR_HIGHLIGHT) == -1);
+				.getText().getSpanStart(colorHighlight) == -1);
 		setAbsoluteCursorPosition(3);
 		doubleClickOnFormulaEditorEditText();
 		assertEquals("Selection cursor not found in text, but should be", 0,
-				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().getSpanStart(COLOR_HIGHLIGHT));
+				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().getSpanStart(colorHighlight));
 		assertEquals("Selection cursor not found in text, but should be", 6,
-				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().getSpanEnd(COLOR_HIGHLIGHT));
+				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().getSpanEnd(colorHighlight));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
 		assertFalse("Text found but shouldnt", solo.searchText("11111", true));
 		assertTrue("Error cursor found in text, but should not be", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)
-				.getText().getSpanStart(COLOR_HIGHLIGHT) == -1);
+				.getText().getSpanStart(colorHighlight) == -1);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));
 		assertTrue("Text not found", solo.searchText(solo.getString(R.string.formula_editor_function_rand) + "(", true));
@@ -390,11 +390,11 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	public void testErrorInFirstAndLastCharactersAndEmptyFormula() {
 
 		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		BackgroundColorSpan COLOR_ERROR = (BackgroundColorSpan) Reflection.getPrivateField(new FormulaEditorEditText(
+		BackgroundColorSpan colorError = (BackgroundColorSpan) Reflection.getPrivateField(new FormulaEditorEditText(
 				getActivity()), "COLOR_ERROR");
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		assertTrue("Error cursor found in text, but should not be",
-				solo.getEditText(1).getText().getSpanStart(COLOR_ERROR) == -1);
+				solo.getEditText(1).getText().getSpanStart(colorError) == -1);
 		solo.goBack();
 		assertTrue("Toast not found", solo.searchText(solo.getString(R.string.formula_editor_parse_fail)));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));

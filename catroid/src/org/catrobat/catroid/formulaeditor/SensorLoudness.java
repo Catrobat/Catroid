@@ -33,10 +33,10 @@ import android.util.Log;
 public class SensorLoudness {
 
 	private static SensorLoudness instance = null;
-	private final int UPDATE_INTERVAL = 50;
-	private final double SCALE_RANGE = 100d;
+	private static final int UPDATE_INTERVAL = 50;
+	private static final double SCALE_RANGE = 100d;
 
-	private final double MAX_AMP_VALUE = 32767d;
+	private static final double MAX_AMP_VALUE = 32767d;
 	private ArrayList<SensorCustomEventListener> listenerList = new ArrayList<SensorCustomEventListener>();
 
 	private SoundRecorder recorder = null;

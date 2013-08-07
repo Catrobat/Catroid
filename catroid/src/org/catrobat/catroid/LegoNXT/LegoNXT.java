@@ -54,13 +54,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-/**
- * @author une
- * 
- */
 public class LegoNXT implements BTConnectable {
 
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
+	private static final int TONE_COMMAND = 101;
 
 	private LegoNXTCommunicator myNXTCommunicator;
 
@@ -69,14 +66,12 @@ public class LegoNXT implements BTConnectable {
 	private Handler recieverHandler;
 	private Activity activity;
 
-	private static int TONE_COMMAND = 101;
-
 	public LegoNXT(Activity activity, Handler recieverHandler) {
 		this.activity = activity;
 		this.recieverHandler = recieverHandler;
 	}
 
-	public void startBTCommunicator(String mac_address) {
+	public void startBTCommunicator(String macAddress) {
 
 		if (myNXTCommunicator != null) {
 			try {
@@ -89,7 +84,7 @@ public class LegoNXT implements BTConnectable {
 				activity.getResources());
 		btcHandler = myNXTCommunicator.getHandler();
 
-		((LegoNXTBtCommunicator) myNXTCommunicator).setMACAddress(mac_address);
+		((LegoNXTBtCommunicator) myNXTCommunicator).setMACAddress(macAddress);
 		myNXTCommunicator.start();
 	}
 

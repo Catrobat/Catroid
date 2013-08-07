@@ -52,11 +52,11 @@ public class LCPMessage {
 
 	// Command types constants. Indicates type of packet being sent or received.
 
-	public static byte DIRECT_COMMAND_REPLY = 0x00;
-	public static byte SYSTEM_COMMAND_REPLY = 0x01;
-	public static byte REPLY_COMMAND = 0x02;
-	public static byte DIRECT_COMMAND_NOREPLY = (byte) 0x80; // Avoids ~100ms latency
-	public static byte SYSTEM_COMMAND_NOREPLY = (byte) 0x81; // Avoids ~100ms latency
+	public static final byte DIRECT_COMMAND_REPLY = 0x00;
+	public static final byte SYSTEM_COMMAND_REPLY = 0x01;
+	public static final byte REPLY_COMMAND = 0x02;
+	public static final byte DIRECT_COMMAND_NOREPLY = (byte) 0x80; // Avoids ~100ms latency
+	public static final byte SYSTEM_COMMAND_NOREPLY = (byte) 0x81; // Avoids ~100ms latency
 
 	// Direct Commands
 	public static final byte START_PROGRAM = 0x00;
@@ -80,8 +80,8 @@ public class LCPMessage {
 	public static final byte MESSAGE_READ = 0x13;
 
 	// NXJ additions
-	public static byte NXJ_DISCONNECT = 0x20;
-	public static byte NXJ_DEFRAG = 0x21;
+	public static final byte NXJ_DISCONNECT = 0x20;
+	public static final byte NXJ_DEFRAG = 0x21;
 
 	// MINDdroidConnector additions
 	public static final byte SAY_TEXT = 0x30;
@@ -122,7 +122,7 @@ public class LCPMessage {
 	public static final byte NOT_IMPLEMENTED = (byte) 0xFD;
 
 	// Firmware codes
-	public static byte[] FIRMWARE_VERSION_LEJOSMINDDROID = { 0x6c, 0x4d, 0x49, 0x64 };
+	public static final byte[] FIRMWARE_VERSION_LEJOSMINDDROID = { 0x6c, 0x4d, 0x49, 0x64 };
 
 	private static boolean requestConfirmFromDevice = false;
 

@@ -109,6 +109,7 @@ import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Context;
@@ -161,12 +162,12 @@ public class UiTestUtils {
 	public static final int LOOKS_INDEX = 1;
 	public static final int SOUNDS_INDEX = 2;
 
-	private static final List<Integer> fragmentIndexList = new ArrayList<Integer>();
+	private static final List<Integer> FRAGMENT_INDEX_LIST = new ArrayList<Integer>();
 
 	static {
-		fragmentIndexList.add(R.id.fragment_script_relative_layout);
-		fragmentIndexList.add(R.id.fragment_look_relative_layout);
-		fragmentIndexList.add(R.id.fragment_sound_relative_layout);
+		FRAGMENT_INDEX_LIST.add(R.id.fragment_script_relative_layout);
+		FRAGMENT_INDEX_LIST.add(R.id.fragment_look_relative_layout);
+		FRAGMENT_INDEX_LIST.add(R.id.fragment_sound_relative_layout);
 	}
 
 	public static enum FileTypes {
@@ -492,15 +493,15 @@ public class UiTestUtils {
 
 		ArrayList<Brick> brickList = new ArrayList<Brick>();
 
-		IfLogicBeginBrick IfBeginBrick = new IfLogicBeginBrick(firstSprite, 0);
-		IfLogicElseBrick IfElseBrick = new IfLogicElseBrick(firstSprite, IfBeginBrick);
-		IfLogicEndBrick IfEndBrick = new IfLogicEndBrick(firstSprite, IfElseBrick, IfBeginBrick);
+		IfLogicBeginBrick ifBeginBrick = new IfLogicBeginBrick(firstSprite, 0);
+		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(firstSprite, ifBeginBrick);
+		IfLogicEndBrick ifEndBrick = new IfLogicEndBrick(firstSprite, ifElseBrick, ifBeginBrick);
 
-		brickList.add(IfBeginBrick);
+		brickList.add(ifBeginBrick);
 		brickList.add(new ShowBrick(firstSprite));
-		brickList.add(IfElseBrick);
+		brickList.add(ifElseBrick);
 		brickList.add(new ComeToFrontBrick(firstSprite));
-		brickList.add(IfEndBrick);
+		brickList.add(ifEndBrick);
 
 		for (Brick brick : brickList) {
 			testScript.addBrick(brick);
@@ -1089,6 +1090,7 @@ public class UiTestUtils {
 				MotionEvent downEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
 						MotionEvent.ACTION_DOWN, xFrom, yFrom, 0);
 				activity.dispatchTouchEvent(downEvent);
+				downEvent.recycle();
 			}
 		});
 
@@ -1108,6 +1110,7 @@ public class UiTestUtils {
 					activity.dispatchTouchEvent(moveEvent);
 
 					solo.sleep(20);
+					moveEvent.recycle();
 				}
 			}
 		});
@@ -1120,6 +1123,7 @@ public class UiTestUtils {
 				MotionEvent upEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
 						MotionEvent.ACTION_UP, xTo, yTo, 0);
 				activity.dispatchTouchEvent(upEvent);
+				upEvent.recycle();
 			}
 		});
 
@@ -1163,6 +1167,7 @@ public class UiTestUtils {
 		activity.startActivity(intent);
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static void clickOnHomeActionBarButton(Solo solo) {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			Activity activity = solo.getCurrentActivity();
@@ -1318,8 +1323,8 @@ public class UiTestUtils {
 		}
 	}
 
-	public static View getViewContainerByIds(Solo solo, int id, int container_id) {
-		View parent = solo.getView(container_id);
+	public static View getViewContainerByIds(Solo solo, int id, int containerId) {
+		View parent = solo.getView(containerId);
 		List<View> views = solo.getViews(parent);
 		for (View view : views) {
 			if (view.getId() == id) {
@@ -1389,7 +1394,7 @@ public class UiTestUtils {
 		solo.waitForActivity(ProgramMenuActivity.class);
 		solo.clickOnButton(fragmentIndex);
 		solo.waitForActivity(ScriptActivity.class);
-		int id = fragmentIndexList.get(fragmentIndex);
+		int id = FRAGMENT_INDEX_LIST.get(fragmentIndex);
 		solo.waitForFragmentById(id);
 	}
 }

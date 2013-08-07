@@ -41,18 +41,18 @@ public class LegoNxtMotorTurnAngleAction extends TemporalAction {
 
 		int degreesValue = degrees.interpretInteger(sprite);
 
-		int temp_angle = degreesValue;
+		int tmpAngle = degreesValue;
 		int direction = 1;
 		if (degreesValue < 0) {
 			direction = -1;
-			temp_angle = degreesValue + (-2 * degreesValue);
+			tmpAngle = degreesValue + (-2 * degreesValue);
 		}
 
 		if (motorEnum.equals(Motor.MOTOR_A_C)) {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), -1 * direction * 30, temp_angle);
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), direction * 30, temp_angle);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), -1 * direction * 30, tmpAngle);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), direction * 30, tmpAngle);
 		} else {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), direction * 30, temp_angle);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), direction * 30, tmpAngle);
 		}
 
 		/*

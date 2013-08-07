@@ -38,7 +38,7 @@ Resources and links
 * Visit us on IRC: [#catroid](http://webchat.freenode.net/?channels=catroid&uio=d4) on [freenode](http://freenode.net/)
 * [Our Google group](https://groups.google.com/forum/?fromgroups#!forum/catrobat)
 * [Catroid project blog](http://blog.catroid.org/)
- 
+
 License
 =======
 [License](http://developer.catrobat.org/licenses) of our project (mainly AGPL v3).

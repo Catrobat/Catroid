@@ -140,8 +140,8 @@ public class UserVariablesContainer implements Serializable {
 		}
 	}
 
-	private void resetUserVariables(List<UserVariable> UserVariableList) {
-		for (UserVariable userVariable : UserVariableList) {
+	private void resetUserVariables(List<UserVariable> userVariableList) {
+		for (UserVariable userVariable : userVariableList) {
 			userVariable.setValue(0);
 		}
 	}
