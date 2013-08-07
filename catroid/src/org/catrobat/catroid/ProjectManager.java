@@ -75,7 +75,7 @@ public class ProjectManager {
 						if (errorMessage) {
 							Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
 						}
-						Log.e("CATROID", "Cannot load project.", e);
+						Log.e("CATROID", "Cannot load project TESTING.", e);
 						return false;
 					}
 				}
