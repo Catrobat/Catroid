@@ -99,6 +99,12 @@
                     android:scheme="file" />
             </intent-filter>
         </activity>
+       
+        
+        <activity
+            android:name=".ui.WebViewActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+ 
         <activity
             android:name=".stage.StageActivity"
             android:configChanges="orientation"

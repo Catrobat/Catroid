@@ -45,9 +45,7 @@ import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
-import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -75,6 +73,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 	private static final String TYPE_FILE = "file";
 	private static final String TYPE_HTTP = "http";
+	public static final String WEBVIEW_URL = "https://www.pocketcode.org/";
 
 	private class DownloadReceiver extends ResultReceiver {
 
@@ -261,28 +260,34 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			return;
 		}
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(getText(R.string.main_menu_web_dialog_title));
-		builder.setMessage(getText(R.string.main_menu_web_dialog_message));
+		/*
+		 * AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		 * builder.setTitle(getText(R.string.main_menu_web_dialog_title));
+		 * builder.setMessage(getText(R.string.main_menu_web_dialog_message));
+		 * 
+		 * builder.setPositiveButton(getText(R.string.ok), new DialogInterface.OnClickListener() {
+		 * 
+		 * @Override
+		 * public void onClick(DialogInterface dialog, int id) {
+		 * 
+		 * }
+		 * });
+		 * builder.setNegativeButton(getText(R.string.cancel_button), new DialogInterface.OnClickListener() {
+		 * 
+		 * @Override
+		 * public void onClick(DialogInterface dialog, int id) {
+		 * dialog.cancel();
+		 * }
+		 * });
+		 * 
+		 * AlertDialog alertDialog = builder.create();
+		 * alertDialog.setCanceledOnTouchOutside(true);
+		 * alertDialog.show();
+		 */
 
-		builder.setPositiveButton(getText(R.string.ok), new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.pocketcode_website)
-						.toString()));
-				startActivity(browserIntent);
-			}
-		});
-		builder.setNegativeButton(getText(R.string.cancel_button), new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-			}
-		});
+		Intent intent = new Intent(MainMenuActivity.this, WebViewActivity.class);
+		startActivity(intent);
 
-		AlertDialog alertDialog = builder.create();
-		alertDialog.setCanceledOnTouchOutside(true);
-		alertDialog.show();
 	}
 
 	public void handleUploadButton(View v) {
