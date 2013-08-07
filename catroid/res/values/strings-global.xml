@@ -50,6 +50,7 @@
     <string name="catrobat_forum" translatable="false">http://catrob.at/PocketCodeUserForum</string>
     <string name="catrobat_terms_of_use" translatable="false">https://pocketcode.org/termsOfUse</string>
     <string name="about_catrobat_url" translatable="false">http://developer.catrobat.org</string>
+    <string name="version_prefix" translateable="false">Andr.</string>
 
     <!-- Settings, some overridden in values-v14 -->
     <string name="scrolling_cache_enabled">false</string>
