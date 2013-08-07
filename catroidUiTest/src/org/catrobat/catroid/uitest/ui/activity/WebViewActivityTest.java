@@ -63,7 +63,8 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertEquals("Current Activity is not WebViewActivity", WebViewActivity.class, solo.getCurrentActivity()
 				.getClass());
 
-		assertTrue("website hasn't been loaded properly", solo.searchText("\u00A9 Catrobat"));
+		String copyright = "\u00A9";
+		assertTrue("website hasn't been loaded properly", solo.searchText(copyright + " Catrobat"));
 
 	}
 

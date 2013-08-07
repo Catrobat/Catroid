@@ -260,31 +260,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			return;
 		}
 
-		/*
-		 * AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		 * builder.setTitle(getText(R.string.main_menu_web_dialog_title));
-		 * builder.setMessage(getText(R.string.main_menu_web_dialog_message));
-		 * 
-		 * builder.setPositiveButton(getText(R.string.ok), new DialogInterface.OnClickListener() {
-		 * 
-		 * @Override
-		 * public void onClick(DialogInterface dialog, int id) {
-		 * 
-		 * }
-		 * });
-		 * builder.setNegativeButton(getText(R.string.cancel_button), new DialogInterface.OnClickListener() {
-		 * 
-		 * @Override
-		 * public void onClick(DialogInterface dialog, int id) {
-		 * dialog.cancel();
-		 * }
-		 * });
-		 * 
-		 * AlertDialog alertDialog = builder.create();
-		 * alertDialog.setCanceledOnTouchOutside(true);
-		 * alertDialog.show();
-		 */
-
 		Intent intent = new Intent(MainMenuActivity.this, WebViewActivity.class);
 		startActivity(intent);
 
