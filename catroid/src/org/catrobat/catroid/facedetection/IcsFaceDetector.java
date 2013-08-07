@@ -22,9 +22,12 @@
  */
 package org.catrobat.catroid.facedetection;
 
+import java.io.IOException;
+
 import android.annotation.TargetApi;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.hardware.Camera.Face;
 import android.hardware.Camera.FaceDetectionListener;
@@ -47,6 +50,12 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 			return;
 		}
 		camera.setFaceDetectionListener(this);
+		try {
+			camera.setPreviewTexture(new SurfaceTexture(0));
+			// TODO
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		camera.startPreview();
 		camera.startFaceDetection();
 	}

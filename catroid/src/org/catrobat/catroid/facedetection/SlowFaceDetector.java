@@ -49,6 +49,7 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 
 	@Override
 	public void startFaceDetection() {
+		Log.d("Blah", "Slow Start");
 		if (camera != null) {
 			return;
 		}
@@ -58,10 +59,12 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 		}
 		camera.setPreviewCallback(this);
 		camera.startPreview();
+		Log.d("Blah", "Slow Started");
 	}
 
 	@Override
 	public void stopFaceDetection() {
+		Log.d("Blah", "Slow Stop");
 		if (camera == null) {
 			return;
 		}
@@ -117,6 +120,8 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 		FaceDetector detector = new FaceDetector(width, height, NUMBER_OF_FACES);
 		Face[] faces = new Face[NUMBER_OF_FACES];
 		int numberOfFaces = detector.findFaces(rgb565_bitmap, faces);
+
+		Log.d("Blah", "Slow detecting");
 
 		boolean detected = numberOfFaces > 0;
 		onFaceDetected(detected);
