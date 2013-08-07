@@ -43,7 +43,7 @@ public class ProjectManager {
 	private static final ProjectManager INSTANCE = new ProjectManager();
 
 	private Project project;
-	private Script currentScript;
+	private Script CurrentScript;
 	private Sprite currentSprite;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
@@ -108,7 +108,7 @@ public class ProjectManager {
 			}
 			MessageContainer.clearBackup();
 			currentSprite = null;
-			currentScript = null;
+			CurrentScript = null;
 			Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
 			return true;
 		}
@@ -132,7 +132,7 @@ public class ProjectManager {
 			fileChecksumContainer = new FileChecksumContainer();
 			project = StandardProjectHandler.createAndSaveStandardProject(context);
 			currentSprite = null;
-			currentScript = null;
+			CurrentScript = null;
 			return true;
 		} catch (Exception e) {
 			Log.e("CATROID", "Cannot initialize default project.", e);
@@ -151,7 +151,7 @@ public class ProjectManager {
 		}
 
 		currentSprite = null;
-		currentScript = null;
+		CurrentScript = null;
 		saveProject();
 	}
 
@@ -160,7 +160,7 @@ public class ProjectManager {
 	}
 
 	public void setProject(Project project) {
-		currentScript = null;
+		CurrentScript = null;
 		currentSprite = null;
 
 		this.project = project;
@@ -255,14 +255,14 @@ public class ProjectManager {
 	}
 
 	public Script getCurrentScript() {
-		return currentScript;
+		return CurrentScript;
 	}
 
 	public void setCurrentScript(Script script) {
 		if (script == null) {
-			currentScript = null;
+			CurrentScript = null;
 		} else if (currentSprite.getScriptIndex(script) != -1) {
-			currentScript = script;
+			CurrentScript = script;
 		}
 	}
 
@@ -293,7 +293,7 @@ public class ProjectManager {
 			return -1;
 		}
 
-		return project.getSpriteList().get(currentSpritePosition).getScriptIndex(currentScript);
+		return project.getSpriteList().get(currentSpritePosition).getScriptIndex(CurrentScript);
 	}
 
 	private String createTemporaryDirectoryName(String projectDirectoryName) {
