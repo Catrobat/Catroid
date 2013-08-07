@@ -24,10 +24,7 @@ package org.catrobat.catroid.transfers;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
-import org.catrobat.catroid.utils.StatusBarNotificationManager;
+import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ConnectionWrapper;
@@ -39,7 +36,6 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.ResultReceiver;
-import android.util.Log;
 import android.widget.Toast;
 
 public class ProjectDownloadService extends IntentService {
@@ -54,7 +50,7 @@ public class ProjectDownloadService extends IntentService {
 	private String projectName;
 	private String zipFileString;
 	private String url;
-	private boolean result, showOverwriteDialog;
+	private boolean showOverwriteDialog;
 	Notification downloadNotification;
 	PendingIntent pendingDownload;
 	private Integer notificationId;
@@ -87,44 +83,18 @@ public class ProjectDownloadService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-
+		boolean result = false;
 		receiver = (ResultReceiver) intent.getParcelableExtra(RECEIVER_TAG);
-		showOverwriteDialog = false;
 		try {
-			ServerCalls.getInstance().downloadProject(url, zipFileString, receiver, notificationId, projectName);
-
-			if (StorageHandler.getInstance().projectExistsIgnoreCase(projectName)) {
-				showOverwriteDialog = true;
-				result = true;
-			}
+			ServerCalls.getInstance().downloadProject(url, zipFileString, receiver, notificationId);
 
 			if (!showOverwriteDialog) {
 				result = UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
 			}
-
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void onDestroy() {
-
-		if (result && showOverwriteDialog) {
-			//project name and zip file string are temporariliy saved in the StatusBarNotificationManager to create it later on in the right context  
-			StatusBarNotificationManager.getInstance().downloadProjectName.add(projectName);
-			StatusBarNotificationManager.getInstance().downloadProjectZipFileString.add(zipFileString);
-			try {
-				//The context of the calling activity is needed, otherwise an exception occurs
-				MainMenuActivity activity = StatusBarNotificationManager.getInstance().getActivity(notificationId);
-				OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, projectName, zipFileString);
-				renameDialog.show(activity.getSupportFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
-
-				Log.e("blah", "running? " + activity.getCurrentFocus());
-			} catch (RuntimeException e) {
-				e.printStackTrace();
-			}
-			return;
+		} finally {
+			DownloadUtil.getInstance().downloadFinished(projectName);
 		}
 
 		if (!result) {
@@ -132,16 +102,7 @@ public class ProjectDownloadService extends IntentService {
 			return;
 		}
 
-		Toast.makeText(this, R.string.success_project_download, Toast.LENGTH_SHORT).show();
-
-		try {
-			MainMenuActivity activity = StatusBarNotificationManager.getInstance().getActivity(notificationId);
-			Log.e("blah", "running? " + activity.getCurrentFocus());
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-		}
-
-		super.onDestroy();
+		showDialog(R.string.success_project_download);
 	}
 
 	private void showDialog(int messageId) {

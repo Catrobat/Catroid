@@ -62,6 +62,7 @@ public class ServerCalls {
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
 
 	public static final String BASE_URL_HTTPS = "https://www.pocketcode.org/";
+	public static final String PROJECT_PREFIX_URL = BASE_URL_HTTPS + "details/";
 
 	private static final String FILE_UPLOAD_URL = BASE_URL_HTTPS + "api/upload/upload.json";
 	private static final String CHECK_TOKEN_URL = BASE_URL_HTTPS + "api/checkToken/check.json";
@@ -77,6 +78,8 @@ public class ServerCalls {
 
 	public static final int TOKEN_LENGTH = 32;
 	public static final String TOKEN_CODE_INVALID = "-1";
+
+	public static final String JSON_PROJECT_ID = "projectId";
 
 	private static final String JSON_STATUS_CODE = "statusCode";
 	private static final String JSON_ANSWER = "answer";
@@ -165,11 +168,11 @@ public class ServerCalls {
 	}
 
 	public void downloadProject(String downloadUrl, String zipFileString, ResultReceiver receiver,
-			Integer notificationId, String projectName) throws WebconnectionException {
+			Integer notificationId) throws WebconnectionException {
 
 		try {
 			connection.doHttpPostFileDownload(downloadUrl, new HashMap<String, String>(), zipFileString, receiver,
-					notificationId, projectName);
+					notificationId);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Malformed URL");

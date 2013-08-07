@@ -234,7 +234,6 @@
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">"값을 입력하십시오"</string>
     <string name="notification_screenshot_ok">"스크린샷이 저장되었습니다."</string>
-    <string name="notification_load_project_cancel">"프로젝트 로드 중 취소되었습니다."</string>
     <!-- Error messages -->
     <string name="error_no_sd_card">"Catroid을 실행하기 위해서는 SD 카드가 필요합니다.  \n SD 카드를 삽입하고 다시 시도하십시오."</string>
     <string name="error_no_name_entered">"이름을 입력하세요."</string>

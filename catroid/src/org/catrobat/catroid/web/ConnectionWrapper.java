@@ -78,7 +78,7 @@ public class ConnectionWrapper {
 	}
 
 	public void doHttpPostFileDownload(String urlString, HashMap<String, String> postValues, String filePath,
-			ResultReceiver receiver, Integer notificationId, String projectName) throws IOException {
+			ResultReceiver receiver, Integer notificationId) throws IOException {
 		HttpRequest request = HttpRequest.post(urlString);
 		File file = new File(filePath);
 		file.getParentFile().mkdirs();
@@ -86,7 +86,7 @@ public class ConnectionWrapper {
 		request = request.form(postValues).acceptGzipEncoding();
 		long fileSize = request.contentLength();
 		OutputStream stream = new ProgressBufferedOutputStream(new FileOutputStream(file), request.bufferSize(),
-				fileSize, receiver, notificationId, projectName);
+				fileSize, receiver, notificationId);
 		request.receive(stream);
 		stream.close();
 	}

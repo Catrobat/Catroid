@@ -22,31 +22,38 @@
  */
 package org.catrobat.catroid.utils;
 
-import org.catrobat.catroid.ui.MainMenuActivity;
-
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 
 public class NotificationData {
 
-	private PendingIntent pendingIntent;
 	private Context context;
-	private String programName;
-	private String notificationTitlePrefix;
-	private MainMenuActivity activity;
-	private Notification notification;
 	private NotificationCompat.Builder notificationBuilder;
+	private PendingIntent pendingIntent;
 
-	public NotificationData(PendingIntent pendingIntent, Context context, String programName,
-			String notificationTitlePrefix, MainMenuActivity activity, Notification notification) {
-		this.pendingIntent = pendingIntent;
+	private int notificationIcon;
+	private String programName;
+
+	private String notificationTitlePrefixWorking;
+	private String notificationTitlePrefixDone;
+
+	private String notificationTextWorking;
+	private String notificationTextDone;
+
+	public NotificationData(Context context, PendingIntent pendingIntent, int notificationIcon, String programName,
+			String notificationTitlePrefixWorking, String notificationTitlePrefixDone, String notificationTextWorking,
+			String notificationTextDone) {
 		this.context = context;
+		this.pendingIntent = pendingIntent;
+
+		this.notificationIcon = notificationIcon;
 		this.programName = programName;
-		this.notificationTitlePrefix = notificationTitlePrefix;
-		this.activity = activity;
-		this.notification = notification;
+
+		this.notificationTitlePrefixWorking = notificationTitlePrefixWorking;
+		this.notificationTitlePrefixDone = notificationTitlePrefixDone;
+		this.notificationTextWorking = notificationTextWorking;
+		this.notificationTextDone = notificationTextDone;
 	}
 
 	public PendingIntent getPendingIntent() {
@@ -67,6 +74,10 @@ public class NotificationData {
 		return this;
 	}
 
+	public int getNotificationIcon() {
+		return notificationIcon;
+	}
+
 	public String getProgramName() {
 		return programName;
 	}
@@ -76,31 +87,20 @@ public class NotificationData {
 		return this;
 	}
 
-	public String getNotificationTitle() {
-		return notificationTitlePrefix + programName;
+	public String getNotificationTitleWorking() {
+		return notificationTitlePrefixWorking + programName;
 	}
 
-	public NotificationData setNotificationTitlePrefix(String notificationTitlePrefix) {
-		this.notificationTitlePrefix = notificationTitlePrefix;
-		return this;
+	public String getNotificationTitleDone() {
+		return notificationTitlePrefixDone + programName;
 	}
 
-	public MainMenuActivity getActivity() {
-		return activity;
+	public String getNotificationTextWorking() {
+		return notificationTextWorking;
 	}
 
-	public NotificationData setActivity(MainMenuActivity activity) {
-		this.activity = activity;
-		return this;
-	}
-
-	public Notification getNotification() {
-		return notification;
-	}
-
-	public NotificationData setNotification(Notification notification) {
-		this.notification = notification;
-		return this;
+	public String getNotificationTextDone() {
+		return notificationTextDone;
 	}
 
 	public NotificationCompat.Builder getNotificationBuilder() {

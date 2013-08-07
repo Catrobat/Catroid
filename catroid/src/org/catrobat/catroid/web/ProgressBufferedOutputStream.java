@@ -36,9 +36,7 @@ public class ProgressBufferedOutputStream extends BufferedOutputStream {
 
 	public static final String TAG_PROGRESS = "currentDownloadProgress";
 	public static final String TAG_ENDOFFILE = "endOfFileReached";
-	public static final String TAG_UNKNOWN = "unknown";
 	public static final String TAG_NOTIFICATION_ID = "notificationId";
-	public static final String TAG_PROJECT_NAME = "projectName";
 
 	private final static String TAG = ProgressBufferedOutputStream.class.getSimpleName();
 
@@ -46,16 +44,14 @@ public class ProgressBufferedOutputStream extends BufferedOutputStream {
 	private long currentFileStatus;
 	private ResultReceiver receiver;
 	private Integer notificationId;
-	private String programName;
 
 	public ProgressBufferedOutputStream(OutputStream out, int size, long fileSize, ResultReceiver receiver,
-			Integer notificationId, String programName) throws IOException {
+			Integer notificationId) throws IOException {
 		super(out, size);
 
 		this.fileSize = fileSize;
 		this.receiver = receiver;
 		this.notificationId = notificationId;
-		this.programName = programName;
 		currentFileStatus = 0;
 	}
 
@@ -84,9 +80,7 @@ public class ProgressBufferedOutputStream extends BufferedOutputStream {
 		Bundle progressBundle = new Bundle();
 		progressBundle.putLong(TAG_PROGRESS, progress);
 		progressBundle.putBoolean(TAG_ENDOFFILE, endOfFileReached);
-		progressBundle.putBoolean(TAG_UNKNOWN, false);
 		progressBundle.putInt(TAG_NOTIFICATION_ID, notificationId);
-		progressBundle.putString(TAG_PROJECT_NAME, programName);
 		receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, progressBundle);
 	}
 

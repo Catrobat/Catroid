@@ -48,7 +48,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -312,9 +311,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		solo.goBack();
 
-		StatusBarNotificationManager.getInstance().downloadProjectName.add(UiTestUtils.PROJECTNAME1);
-		StatusBarNotificationManager.getInstance().downloadProjectZipFileString.add(Utils.buildPath(Constants.TMP_PATH,
-				"down" + Constants.CATROBAT_EXTENTION));
+		// FIXME
 
 		sendIntent(UiTestUtils.PROJECTNAME1);
 		solo.sleep(200);

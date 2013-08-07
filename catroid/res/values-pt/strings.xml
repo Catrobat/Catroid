@@ -257,7 +257,6 @@
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">"Insira um valor"</string>
     <string name="notification_screenshot_ok">"Foto da tela salvo"</string>
-    <string name="notification_load_project_cancel">"Cancelado abertura do projeto"</string>
     <!-- Error messages -->
     <string name="error_no_writiable_external_storage_available">"Catroid requer armazenamento externo desbloqueado como um cartão SD para executar, mas nenhum foi encontrado.\nCorrija isso desbloqueando seu cartão SD ou inseririndo um."</string>
     <string name="error_no_name_entered">"Por favor, digite um nome"</string>

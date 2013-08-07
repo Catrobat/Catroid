@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.ui;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.concurrent.locks.Lock;
 
 import org.catrobat.catroid.ProjectManager;
@@ -34,16 +32,15 @@ import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
-import org.catrobat.catroid.transfers.ProjectDownloadService;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
+import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.web.ProgressBufferedOutputStream;
 import org.catrobat.catroid.web.ServerCalls;
 
 import android.app.AlertDialog;
@@ -53,8 +50,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -76,32 +71,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 	private String TYPE_FILE = "file";
 	private String TYPE_HTTP = "http";
-
-	private class DownloadReceiver extends ResultReceiver {
-
-		public DownloadReceiver(Handler handler) {
-			super(handler);
-		}
-
-		@Override
-		protected void onReceiveResult(int resultCode, Bundle resultData) {
-			super.onReceiveResult(resultCode, resultData);
-			if (resultCode == Constants.UPDATE_DOWNLOAD_PROGRESS) {
-				long progress = resultData.getLong(ProgressBufferedOutputStream.TAG_PROGRESS);
-				boolean endOfFileReached = resultData.getBoolean(ProgressBufferedOutputStream.TAG_ENDOFFILE);
-				Integer notificationId = resultData.getInt(ProgressBufferedOutputStream.TAG_NOTIFICATION_ID);
-				if (endOfFileReached) {
-					progress = 100;
-				}
-
-				StatusBarNotificationManager.getInstance().updateDownloadNotification(notificationId,
-						Long.valueOf(progress).intValue(), "", 0, endOfFileReached);
-			}
-		}
-	}
-
-	private static final String TAG = "MainMenuActivity";
-	private static final String PROJECTNAME_TAG = "fname=";
 
 	private ActionBar actionBar;
 	private Lock viewSwitchLock = new ViewSwitchLock();
@@ -144,10 +113,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		UtilFile.createStandardProjectIfRootDirectoryIsEmpty(this);
 		setMainMenuButtonContinueText();
 		findViewById(R.id.main_menu_button_continue).setEnabled(true);
-		boolean dialogsAreShown = StatusBarNotificationManager.getInstance().displayDialogs(this);
-
 		String projectName = getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
-		if (projectName != null && !dialogsAreShown) {
+		if (projectName != null) {
 			loadProjectInBackground(projectName);
 		}
 		getIntent().removeExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
@@ -218,6 +185,11 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		} catch (ActivityNotFoundException e) {
 			Toast.makeText(this, R.string.main_menu_play_store_not_installed, Toast.LENGTH_SHORT).show();
 		}
+	}
+
+	// needed because of android:onClick in activity_main_menu.xml
+	public void handleContinueButton(View v) {
+		handleContinueButton();
 	}
 
 	public void handleContinueButton() {
@@ -324,9 +296,11 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		uploadProjectDialog.show(getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
+	// FIXME
+	@Deprecated
 	public int createNotification(String downloadName) {
 		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
-		int notificationId = manager.createDownloadNotification(downloadName, this);
+		int notificationId = manager.createDownloadNotification(this, downloadName);
 		return notificationId;
 	}
 
@@ -351,21 +325,23 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		String scheme = loadExternalProjectUri.getScheme();
 		if (scheme.startsWith((TYPE_HTTP))) {
 			String url = loadExternalProjectUri.toString();
-			int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
-			String projectName = url.substring(projectNameIndex);
-			try {
-				projectName = URLDecoder.decode(projectName, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				Log.e(TAG, "Could not decode project name: " + projectName, e);
-			}
-
-			Intent downloadIntent = new Intent(this, ProjectDownloadService.class);
-			downloadIntent.putExtra(ProjectDownloadService.RECEIVER_TAG, new DownloadReceiver(new Handler()));
-			downloadIntent.putExtra(ProjectDownloadService.DOWNLOAD_NAME_TAG, projectName);
-			downloadIntent.putExtra(ProjectDownloadService.URL_TAG, url);
-			int notificationId = createNotification(projectName);
-			downloadIntent.putExtra(ProjectDownloadService.ID_TAG, notificationId);
-			startService(downloadIntent);
+			DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(this, url);
+			// FIXME
+			//			int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
+			//			String projectName = url.substring(projectNameIndex);
+			//			try {
+			//				projectName = URLDecoder.decode(projectName, "UTF-8");
+			//			} catch (UnsupportedEncodingException e) {
+			//				Log.e(TAG, "Could not decode project name: " + projectName, e);
+			//			}
+			//
+			//			Intent downloadIntent = new Intent(this, ProjectDownloadService.class);
+			//			downloadIntent.putExtra(ProjectDownloadService.RECEIVER_TAG, new DownloadReceiver(new Handler()));
+			//			downloadIntent.putExtra(ProjectDownloadService.DOWNLOAD_NAME_TAG, projectName);
+			//			downloadIntent.putExtra(ProjectDownloadService.URL_TAG, url);
+			//			int notificationId = createNotification(projectName);
+			//			downloadIntent.putExtra(ProjectDownloadService.ID_TAG, notificationId);
+			//			startService(downloadIntent);
 
 		} else if (scheme.equals(TYPE_FILE)) {
 

@@ -396,7 +396,7 @@
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Please enter a value</string>
     <string name="notification_screenshot_ok">Screenshot saved</string>
-    <string name="notification_load_project_cancel">Canceled loading program</string>
+    <string name="notification_download_project_cancel">Canceled downloading program</string>
     <!--  -->
 
 

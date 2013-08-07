@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
 
@@ -46,7 +45,9 @@ public class StatusBarNotificationManager {
 	private HashMap<Integer, NotificationData> notificationDataMap;
 
 	//needed when download service is running in background
+	@Deprecated
 	public ArrayList<String> downloadProjectName;
+	@Deprecated
 	public ArrayList<String> downloadProjectZipFileString;
 
 	NotificationManager notificationManager;
@@ -66,26 +67,8 @@ public class StatusBarNotificationManager {
 		return INSTANCE;
 	}
 
-	public MainMenuActivity getActivity(int id) {
-		MainMenuActivity activity = notificationDataMap.get(id).getActivity();
-		return activity;
-	}
-
-	@Deprecated
-	public Integer createNotification(String name, Context context, int notificationCode) {
-		//		int id = 0;
-		//		initNotificationManager(context);
-		//		if (notificationCode == Constants.UPLOAD_NOTIFICATION) {
-		//			id = createUploadNotification(name, context, notificationCode);
-		//			uploadId++;
-		//		} else if (notificationCode == Constants.DOWNLOAD_NOTIFICATION) {
-		//			id = createDownloadNotification(name, context);
-		//			downloadId++;
-		//		} else if (notificationCode == Constants.COPY_NOTIFICATION) {
-		//			id = createCopyNotification(name, context, notificationCode);
-		//			copyId++;
-		//		}
-		return -1;
+	public Context getContext(int id) {
+		return notificationDataMap.get(id).getContext();
 	}
 
 	private void initNotificationManager(Context context) {
@@ -94,18 +77,12 @@ public class StatusBarNotificationManager {
 		}
 	}
 
-	public Integer createUploadNotification(String name, Context context, int notificationCode) {
+	public Integer createUploadNotification(String name, Context context) {
 		//		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Activity.NOTIFICATION_SERVICE);
 		//		String notificationTitle = context.getString(R.string.notification_upload_title);
 		//		boolean newUploadNotification = notificationDataMap.isEmpty();
 		//
-		//		Intent intent = new Intent(context, MainMenuActivity.class);
-		//		intent.setAction(Intent.ACTION_MAIN);
-		//		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-		//		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-		//		NotificationData data = new NotificationData(pendingIntent, context, name, notificationTitle,
-		//				(MainMenuActivity) context, null);
-		//		notificationDataMap.put(uploadId, data);
+
 		//
 		//		if (newUploadNotification) {
 		//			uploadNotification = new Notification(R.drawable.ic_stat_upload_notification, notificationTitle,
@@ -120,11 +97,30 @@ public class StatusBarNotificationManager {
 		//		}
 		//
 		//		return uploadId;
-		return -1;
+
+		//		initNotificationManager(context);
+		//
+		//		Intent intent = new Intent(context, MainMenuActivity.class);
+		//		intent.setAction(Intent.ACTION_MAIN);
+		//		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+		//		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+		//
+		//		NotificationData data = new NotificationData(pendingIntent, context, name, "Uploading ",
+		//				(MainMenuActivity) context, null);
+		//
+		//		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
+		//		notificationBuilder.setContentTitle(data.getNotificationTitleWorking()).setContentText("Upload in progress")
+		//				.setSmallIcon(R.drawable.ic_launcher).setOngoing(true);
+		//
+		//		data.setNotificationBuilder(notificationBuilder);
+		//		notificationDataMap.put(notificationId, data);
+
+		return notificationId++;
 	}
 
-	public Integer createCopyNotification(String name, Context context, int notificationCode) {
-		//		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Activity.NOTIFICATION_SERVICE);
+	public Integer createCopyNotification(String name, Context context) {
+		//		NotificationManager notificationManager = (NotificationManager) context
+		//				.getSystemService(Activity.NOTIFICATION_SERVICE);
 		//		String notificationTitle = context.getString(R.string.notification_title_copy_project);
 		//		boolean newCopyNotification = notificationDataMap.isEmpty();
 		//
@@ -153,37 +149,46 @@ public class StatusBarNotificationManager {
 		return -1;
 	}
 
-	public Integer createDownloadNotification(String name, Context context) {
+	public Integer createDownloadNotification(Context context, String programName) {
 		initNotificationManager(context);
-
-		NotificationData data = new NotificationData(null, context, name, "Downloading ", (MainMenuActivity) context,
-				null);
-
-		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
-		notificationBuilder.setContentTitle(data.getNotificationTitle()).setContentText("Download in progress")
-				.setSmallIcon(R.drawable.ic_plus).setOngoing(true);
 
 		Intent downloadIntent = new Intent(context, MainMenuActivity.class);
 		downloadIntent.setAction(Intent.ACTION_MAIN).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-				.putExtra(EXTRA_PROJECT_NAME, name);
+				.putExtra(EXTRA_PROJECT_NAME, programName);
 
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, downloadIntent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
-		data.setPendingIntent(pendingIntent).setNotificationBuilder(notificationBuilder);
+
+		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_launcher, programName,
+				"Downloading ", "Start ", "Download in progress", "Download completed");
+
+		return createNotification(context, data);
+	}
+
+	public Integer createNotification(Context context, NotificationData data) {
+		initNotificationManager(context);
+
+		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
+		notificationBuilder.setContentTitle(data.getNotificationTitleWorking())
+				.setContentText(data.getNotificationTextWorking()).setSmallIcon(data.getNotificationIcon())
+				.setOngoing(true);
+
+		data.setNotificationBuilder(notificationBuilder);
 		notificationDataMap.put(notificationId, data);
 
 		return notificationId++;
 	}
 
+	@Deprecated
 	public void updateNotification(Integer id, String message, int notificationCode, boolean finished) {
-		if (notificationCode == Constants.UPLOAD_NOTIFICATION) {
-			updateUploadNotification(id, message, notificationCode, finished);
-		} else if (notificationCode == Constants.DOWNLOAD_NOTIFICATION) {
-			//			updateDownloadNotification(id, message, notificationCode, finished);
-		}
+		//		if (notificationCode == Constants.UPLOAD_NOTIFICATION) {
+		//			updateUploadNotification(id, message, notificationCode, finished);
+		//		} else if (notificationCode == Constants.DOWNLOAD_NOTIFICATION) {
+		//			updateDownloadNotification(id, message, notificationCode, finished);
+		//		}
 	}
 
-	private void updateUploadNotification(Integer id, String message, int notificationCode, boolean finished) {
+	public void updateUploadNotification(Integer id, int progress, boolean finished, String url) {
 		//		Context context = notificationDataMap.get(id)
 		//				.getContext();
 		//		String notificationTitle = notificationDataMap.get(id)
@@ -198,25 +203,37 @@ public class StatusBarNotificationManager {
 		//
 		//		NotificationManager uploadNotificationManager = (NotificationManager) context.getSystemService(Activity.NOTIFICATION_SERVICE);
 		//		uploadNotificationManager.notify(notificationCode, uploadNotification);
+
+		//		NotificationData notificationData = notificationDataMap.get(id);
+		//		NotificationCompat.Builder notificationBuilder = notificationData.getNotificationBuilder();
+		//		notificationBuilder.setProgress(100, progress, false);
+		//		notificationManager.notify(id, notificationBuilder.build());
+		//
+		//		if (finished) {
+		//			notificationData.setNotificationTitlePrefix("View ");
+		//			notificationBuilder.setContentTitle(notificationData.getNotificationTitleWorking())
+		//					.setContentText("Upload complete").setProgress(0, 0, false).setAutoCancel(true)
+		//					.setContentIntent(notificationData.getPendingIntent()).setOngoing(false);
+		//			notificationManager.notify(id, notificationBuilder.build());
+		//		}
 	}
 
-	public void updateDownloadNotification(Integer id, int progress, String message, int notificationCode,
-			boolean finished) {
+	public void updateNotification(Integer id, int progress, boolean finished) {
 		NotificationData notificationData = notificationDataMap.get(id);
 		NotificationCompat.Builder notificationBuilder = notificationData.getNotificationBuilder();
 		notificationBuilder.setProgress(100, progress, false);
 		notificationManager.notify(id, notificationBuilder.build());
 
 		if (finished) {
-			notificationData.setNotificationTitlePrefix("Start ");
-			notificationBuilder.setContentTitle(notificationData.getNotificationTitle())
-					.setContentText("Download complete").setProgress(0, 0, false).setAutoCancel(true)
-					.setContentIntent(notificationData.getPendingIntent()).setSmallIcon(R.drawable.ic_media_play)
-					.setOngoing(false);
+			notificationBuilder.setContentTitle(notificationData.getNotificationTitleDone())
+					.setContentText(notificationData.getNotificationTextDone()).setProgress(0, 0, false)
+					.setAutoCancel(true).setContentIntent(notificationData.getPendingIntent()).setOngoing(false);
 			notificationManager.notify(id, notificationBuilder.build());
 		}
 	}
 
+	// FIXME
+	@Deprecated
 	public boolean displayDialogs(MainMenuActivity activity) {
 		boolean dialogsAreShown = false;
 		for (int i = 0; i < downloadProjectName.size() && i < downloadProjectZipFileString.size(); i++) {
@@ -231,6 +248,8 @@ public class StatusBarNotificationManager {
 		return dialogsAreShown;
 	}
 
+	// FIXME
+	@Deprecated
 	public void cancelNotification(String projectName) {
 		for (Map.Entry<Integer, NotificationData> entry : notificationDataMap.entrySet()) {
 			if (entry.getValue().getProgramName().compareTo(projectName) == 0) {
@@ -242,6 +261,8 @@ public class StatusBarNotificationManager {
 		}
 	}
 
+	// FIXME
+	@Deprecated
 	public void projectRenamed(Context context, String oldProjectName, String newProjectName) {
 		for (Map.Entry<Integer, NotificationData> entry : notificationDataMap.entrySet()) {
 			if (entry.getValue().getProgramName().compareTo(oldProjectName) == 0) {
@@ -256,7 +277,7 @@ public class StatusBarNotificationManager {
 
 				entry.getValue().setPendingIntent(pendingIntent);
 				NotificationCompat.Builder builder = entry.getValue().getNotificationBuilder();
-				builder.setContentTitle(entry.getValue().getNotificationTitle()).setContentIntent(pendingIntent);
+				builder.setContentTitle(entry.getValue().getNotificationTitleWorking()).setContentIntent(pendingIntent);
 
 				notificationManager.notify(entry.getKey(), builder.build());
 

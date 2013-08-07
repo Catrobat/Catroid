@@ -262,9 +262,11 @@ public class UploadProjectDialog extends DialogFragment {
 	}
 
 	public int createNotification(String uploadName) {
-		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
-		int notificationId = manager.createNotification(uploadName, getActivity(), Constants.UPLOAD_NOTIFICATION);
-		return notificationId;
+		return -1;
+		//FIXME create notification
+		//StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
+		//int notificationId = manager.createNotification(uploadName, getActivity(), Constants.UPLOAD_NOTIFICATION);
+		//return notificationId;
 	}
 
 	private void handleCancelButtonClick() {
