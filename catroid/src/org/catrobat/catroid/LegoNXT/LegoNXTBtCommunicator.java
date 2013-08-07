@@ -73,7 +73,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 	private OutputStream nxtOutputStream = null;
 	private InputStream nxtInputStream = null;
 
-	private String mMACaddress;
+	private String macAddress;
 	private BTConnectable myOwner;
 
 	public LegoNXTBtCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter,
@@ -85,7 +85,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 	}
 
 	public void setMACAddress(String mMACaddress) {
-		this.mMACaddress = mMACaddress;
+		this.macAddress = mMACaddress;
 	}
 
 	/**
@@ -132,12 +132,12 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 		try {
 			BluetoothSocket nxtBTSocketTemporary;
 			BluetoothDevice nxtDevice = null;
-			nxtDevice = btAdapter.getRemoteDevice(mMACaddress);
+			nxtDevice = btAdapter.getRemoteDevice(macAddress);
 			if (nxtDevice == null) {
 				if (uiHandler == null) {
 					throw new IOException();
 				} else {
-					sendToast(mResources.getString(R.string.no_paired_nxt));
+					sendToast(resources.getString(R.string.no_paired_nxt));
 					sendState(STATE_CONNECTERROR);
 					return;
 				}
@@ -151,7 +151,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 			} catch (IOException e) {
 				if (myOwner.isPairing()) {
 					if (uiHandler != null) {
-						sendToast(mResources.getString(R.string.pairing_message));
+						sendToast(resources.getString(R.string.pairing_message));
 						sendState(STATE_CONNECTERROR_PAIRING);
 					} else {
 						throw e;
@@ -183,7 +183,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 				throw e;
 			} else {
 				if (myOwner.isPairing()) {
-					sendToast(mResources.getString(R.string.pairing_message));
+					sendToast(resources.getString(R.string.pairing_message));
 				}
 				sendState(STATE_CONNECTERROR);
 				return;
@@ -220,7 +220,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 			if (uiHandler == null) {
 				throw e;
 			} else {
-				sendToast(mResources.getString(R.string.problem_at_closing));
+				sendToast(resources.getString(R.string.problem_at_closing));
 			}
 		}
 	}

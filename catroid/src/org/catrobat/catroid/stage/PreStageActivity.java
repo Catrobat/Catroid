@@ -69,15 +69,15 @@ public class PreStageActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		int required_resources = getRequiredRessources();
-		requiredResourceCounter = Integer.bitCount(required_resources);
+		int requiredResources = getRequiredRessources();
+		requiredResourceCounter = Integer.bitCount(requiredResources);
 
-		if ((required_resources & Brick.TEXT_TO_SPEECH) > 0) {
+		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
 			Intent checkIntent = new Intent();
 			checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 			startActivityForResult(checkIntent, REQUEST_TEXT_TO_SPEECH);
 		}
-		if ((required_resources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
+		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			BluetoothManager bluetoothManager = new BluetoothManager(this);
 
 			int bluetoothState = bluetoothManager.activateBluetooth();
@@ -94,7 +94,7 @@ public class PreStageActivity extends Activity {
 
 			}
 		}
-		if ((required_resources & Brick.FACE_DETECTION) > 0) {
+		if ((requiredResources & Brick.FACE_DETECTION) > 0) {
 			boolean success = FaceDetectionHandler.startFaceDetection();
 			if (success) {
 				resourceInitialized();

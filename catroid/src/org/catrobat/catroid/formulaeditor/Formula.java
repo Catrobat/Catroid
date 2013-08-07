@@ -140,17 +140,17 @@ public class Formula implements Serializable {
 			if (position < 0 || formulaTextFieldLayout == null) {
 				return;
 			}
-			int char_count = formulaTextFieldLayout.getLineVisibleEnd(0);
-			if (formulaString.length() > char_count && char_count > 0) {
-				int start = position - (char_count / 2);
-				int end = position + (char_count / 2) + 1;
+			int characterCount = formulaTextFieldLayout.getLineVisibleEnd(0);
+			if (formulaString.length() > characterCount && characterCount > 0) {
+				int start = position - (characterCount / 2);
+				int end = position + (characterCount / 2) + 1;
 				if (end > formulaString.length() - 1) {
 					end = formulaString.length() - 1;
-					start = end - char_count;
+					start = end - characterCount;
 				}
 				if (start < 0) {
 					start = 0;
-					end = char_count;
+					end = characterCount;
 				}
 				formulaTextField.setText(formulaString.substring(start, end));
 			}

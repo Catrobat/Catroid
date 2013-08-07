@@ -42,7 +42,7 @@ public class SensorHandler implements SensorEventListener, OnFaceDetectedListene
 	private Sensor rotationVectorSensor = null;
 	private float[] rotationMatrix = new float[16];
 	private float[] rotationVector = new float[3];
-	public static final float radianToDegreeConst = 180f / (float) Math.PI;
+	public static final float RADIAN_TO_DEGREE_CONST = 180f / (float) Math.PI;
 
 	private float linearAcceleartionX = 0f;
 	private float linearAcceleartionY = 0f;
@@ -126,7 +126,7 @@ public class SensorHandler implements SensorEventListener, OnFaceDetectedListene
 						instance.rotationVector);
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
 				sensorValue = Double.valueOf(orientations[0]);
-				return sensorValue * radianToDegreeConst * -1f;
+				return sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
 
 			case X_INCLINATION:
 
@@ -135,7 +135,7 @@ public class SensorHandler implements SensorEventListener, OnFaceDetectedListene
 						instance.rotationVector);
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
 				sensorValue = Double.valueOf(orientations[2]);
-				return sensorValue * radianToDegreeConst * -1f;
+				return sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
 
 			case Y_INCLINATION:
 				orientations = new float[3];
@@ -143,14 +143,14 @@ public class SensorHandler implements SensorEventListener, OnFaceDetectedListene
 						instance.rotationVector);
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
 
-				float xInclinationUsedToExtendRangeOfRoll = orientations[2] * radianToDegreeConst * -1f;
+				float xInclinationUsedToExtendRangeOfRoll = orientations[2] * RADIAN_TO_DEGREE_CONST * -1f;
 
 				sensorValue = Double.valueOf(orientations[1]);
 
 				if (Math.abs(xInclinationUsedToExtendRangeOfRoll) <= 90f) {
-					return sensorValue * radianToDegreeConst * -1f;
+					return sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
 				} else {
-					float uncorrectedYInclination = sensorValue.floatValue() * radianToDegreeConst * -1f;
+					float uncorrectedYInclination = sensorValue.floatValue() * RADIAN_TO_DEGREE_CONST * -1f;
 
 					if (uncorrectedYInclination > 0f) {
 						return (double) 180f - uncorrectedYInclination;

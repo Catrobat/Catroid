@@ -120,15 +120,15 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
 
-	private LinearLayout btn_add;
+	private LinearLayout addButton;
 
 	public void setOnSoundInfoListChangedAfterNewListener(OnSoundInfoListChangedAfterNewListener listener) {
 		soundInfoListChangedAfterNewListener = listener;
 	}
 
 	private void setHandleAddbutton() {
-		btn_add = (LinearLayout) getSherlockActivity().findViewById(R.id.button_add);
-		btn_add.setOnClickListener(new OnClickListener() {
+		addButton = (LinearLayout) getSherlockActivity().findViewById(R.id.button_add);
+		addButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				handleAddButton();

@@ -30,11 +30,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 public class SetXAction extends TemporalAction {
 
 	private Sprite sprite;
-	private Formula x;
+	private Formula xPosition;
 
 	@Override
 	protected void update(float delta) {
-		sprite.look.setXInUserInterfaceDimensionUnit(x.interpretFloat(sprite));
+		sprite.look.setXInUserInterfaceDimensionUnit(xPosition.interpretFloat(sprite));
 	}
 
 	public void setSprite(Sprite sprite) {
@@ -42,7 +42,7 @@ public class SetXAction extends TemporalAction {
 	}
 
 	public void setX(Formula x) {
-		this.x = x;
+		this.xPosition = x;
 	}
 
 }

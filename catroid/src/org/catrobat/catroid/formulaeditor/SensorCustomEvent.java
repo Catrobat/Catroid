@@ -27,8 +27,8 @@ public class SensorCustomEvent {
 	public long timestamp;
 	public final float[] values;
 
-	public SensorCustomEvent(Sensors SourceSensor, float[] values) {
-		sensor = SourceSensor;
+	public SensorCustomEvent(Sensors sourceSensor, float[] values) {
+		sensor = sourceSensor;
 		this.values = values;
 		timestamp = System.currentTimeMillis();
 	}

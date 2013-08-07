@@ -121,7 +121,7 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 
 	private void assertSoundRecording(int recordNumber) {
 		String recordPath = Utils.buildPath(Constants.TMP_PATH,
-				solo.getString(R.string.soundrecorder_recorded_filename) + Constants.RECORDING_EXTENTION);
+				solo.getString(R.string.soundrecorder_recorded_filename) + Constants.RECORDING_EXTENSION);
 		File recordedFile = new File(recordPath);
 		assertTrue("recorded sound file not found in file system", recordedFile.exists());
 

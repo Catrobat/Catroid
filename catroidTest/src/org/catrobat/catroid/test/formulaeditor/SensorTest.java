@@ -230,18 +230,18 @@ public class SensorTest extends InstrumentationTestCase {
 		android.hardware.SensorManager.getRotationMatrixFromVector(rotationMatrix, rotationVector);
 		android.hardware.SensorManager.getOrientation(rotationMatrix, orientations);
 
-		double expectedCompassDirection = Double.valueOf(orientations[0]) * SensorHandler.radianToDegreeConst * -1f;
-		double expectedXInclination = Double.valueOf(orientations[2]) * SensorHandler.radianToDegreeConst * -1f;
+		double expectedCompassDirection = Double.valueOf(orientations[0]) * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
+		double expectedXInclination = Double.valueOf(orientations[2]) * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
 		double expectedYInclination;
 
-		float xInclinationUsedToExtendRangeOfRoll = orientations[2] * SensorHandler.radianToDegreeConst * -1f;
+		float xInclinationUsedToExtendRangeOfRoll = orientations[2] * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
 
 		Double sensorValue = Double.valueOf(orientations[1]);
 
 		if (Math.abs(xInclinationUsedToExtendRangeOfRoll) <= 90f) {
-			expectedYInclination = sensorValue * SensorHandler.radianToDegreeConst * -1f;
+			expectedYInclination = sensorValue * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
 		} else {
-			float uncorrectedYInclination = sensorValue.floatValue() * SensorHandler.radianToDegreeConst * -1f;
+			float uncorrectedYInclination = sensorValue.floatValue() * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
 
 			if (uncorrectedYInclination > 0f) {
 				expectedYInclination = 180f - uncorrectedYInclination;

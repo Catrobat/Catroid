@@ -44,8 +44,8 @@ public class LookData implements Serializable, Cloneable {
 	private transient Bitmap thumbnailBitmap;
 	private transient Integer width;
 	private transient Integer height;
-	private transient static final int THUMBNAIL_WIDTH = 150;
-	private transient static final int THUMBNAIL_HEIGHT = 150;
+	private static final transient int THUMBNAIL_WIDTH = 150;
+	private static final transient int THUMBNAIL_HEIGHT = 150;
 	private transient Pixmap pixmap = null;
 	private transient Pixmap originalPixmap = null;
 	private transient TextureRegion region = null;

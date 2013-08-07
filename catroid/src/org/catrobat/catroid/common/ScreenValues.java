@@ -23,7 +23,7 @@
 package org.catrobat.catroid.common;
 
 public class ScreenValues {
-
+	// CHECKSTYLE DISABLE StaticVariableNameCheck FOR 2 LINES
 	public static int SCREEN_WIDTH;
 	public static int SCREEN_HEIGHT;
 }
