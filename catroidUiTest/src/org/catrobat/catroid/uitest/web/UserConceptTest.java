@@ -23,11 +23,8 @@
 package org.catrobat.catroid.uitest.web;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.Calendar;
-=======
 import java.util.Locale;
->>>>>>> master
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -124,23 +121,14 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 	public void testTokenPersistance() throws Throwable {
 		setTestUrl();
 
-		solo.clickOnText(solo.getString(R.string.main_menu_upload));
-<<<<<<< HEAD
-		solo.sleep(1000);
-		solo.clickOnButton(solo.getString(R.string.already_registered_login));
-		solo.sleep(1000);
-
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, "").commit();
-		solo.sleep(1500);
-		fillLoginDialog(true);
 
-=======
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.waitForText(loginDialogTitle);
 		fillLoginDialog(true);
 
 		solo.waitForText(uploadDialogTitle);
->>>>>>> master
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 		solo.goBack();
 
@@ -157,20 +145,12 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		prefs.edit().putString(Constants.TOKEN, "wrong_token").commit();
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
-<<<<<<< HEAD
-		solo.sleep(3000);
-=======
 		solo.waitForText(loginDialogTitle);
->>>>>>> master
 		fillLoginDialog(true);
 		solo.sleep(1000);
 
-<<<<<<< HEAD
-		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
-=======
 		assertNotNull("Upload Dialog is not shown.", uploadDialogTitle);
 		UiTestUtils.goBackToHome(getInstrumentation());
->>>>>>> master
 	}
 
 	@Device
@@ -181,17 +161,9 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		prefs.edit().putString(Constants.TOKEN, null).commit();
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
-<<<<<<< HEAD
-		solo.sleep(1000);
-		fillRegistrationDialogs(false);
-		solo.sleep(1000);
 
-		assertNotNull("no error dialog is shown", solo.getText(solo.getString(R.string.register_error)));
-		solo.clickOnButton(0);
-		assertNotNull("Register Dialog is not shown.", solo.getText(solo.getString(R.string.register_dialog_title)));
-=======
 		solo.waitForText(loginDialogTitle);
-		fillLoginDialog(false);
+		fillRegistrationDialogs(false);
 
 		assertNotNull("no error dialog is shown", solo.getText(solo.getString(R.string.register_error)));
 		solo.clickOnButton(0);
@@ -207,7 +179,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.waitForText(loginDialogTitle);
 
 		String username = "UpperCaseUser" + System.currentTimeMillis();
-		fillLoginDialogWithUsername(true, username);
+		fillLoginDialog(true);
 
 		solo.waitForText(uploadDialogTitle);
 		solo.goBack();
@@ -224,14 +196,12 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.waitForText(loginDialogTitle);
 
 		username = username.toLowerCase(Locale.ENGLISH);
-		fillLoginDialogWithUsername(true, username);
+		fillLoginDialog(true);
 		solo.waitForText(uploadDialogTitle);
 
 		TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
 		ArrayList<View> currentViews = solo.getCurrentViews();
 		assertTrue("Cannot login because username is upper or lower case", currentViews.contains(uploadProject));
-
->>>>>>> master
 	}
 
 	public void testAlreadyRegistered() throws Throwable {
@@ -247,7 +217,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertTrue("Login dialog not shown", solo.searchText(solo.getString(R.string.login_dialog_title)));
 	}
 
-<<<<<<< HEAD
 	public void testRegisterErrors() throws Throwable {
 		setTestUrl();
 		clearSharedPreferences();
@@ -311,30 +280,10 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		if (userCountry.toLowerCase().equals("de")) {
 			monthJanuary = "Jänner";
 			monthFebruary = "Februar";
-=======
-	private void fillLoginDialogWithUsername(boolean correct, String username) {
-		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
-		ArrayList<EditText> currentEditTexts = solo.getCurrentViews(EditText.class);
-		// enter a username
-		String testUser = username;
-		solo.clearEditText(currentEditTexts.get(0));
-		solo.enterText(currentEditTexts.get(0), testUser);
-		solo.goBack();
-		// enter a password
-		String testPassword;
-		if (correct) {
-			testPassword = "blubblub";
->>>>>>> master
 		} else {
 			monthJanuary = "January";
 			monthFebruary = "February";
 		}
-<<<<<<< HEAD
-=======
-		solo.clearEditText(currentEditTexts.get(1));
-		solo.clickOnView(currentEditTexts.get(1));
-		solo.enterText(currentEditTexts.get(1), testPassword);
->>>>>>> master
 
 		assertEquals("Month spinner initialized with wrong value", monthJanuary, selectedMonth);
 		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
@@ -364,8 +313,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.enterText(passwordConfirmation, testPassword + "wrong");
 		// set the email to use. we need a random email because the server does not allow same email with different users 
 		String testEmail = testUser + "@gmail.com";
-<<<<<<< HEAD
-		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
+		Reflection.setPrivateField("emailForUiTests", testEmail, false);
 		solo.clickOnButton(solo.getString(R.string.register));
 		assertTrue("Wrong password confirmation was accepted",
 				solo.waitForText(solo.getString(R.string.register_password_mismatch)));
@@ -398,70 +346,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		assertTrue("Upload dialog not displayed",
 				solo.waitForText(solo.getString(R.string.upload_project_dialog_title)));
-=======
-		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
-
-		int buttonId = android.R.id.button1;
-		solo.clickOnView(solo.getView(buttonId));
->>>>>>> master
-	}
-
-	private void fillLoginDialog(boolean correct) {
-		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
-		ArrayList<EditText> currentEditTexts = solo.getCurrentViews(EditText.class);
-		// enter a username
-		String testUser = "testUser" + System.currentTimeMillis();
-		solo.clearEditText(currentEditTexts.get(0));
-		solo.enterText(currentEditTexts.get(0), testUser);
-		solo.goBack();
-		// enter a password
-		String testPassword;
-		if (correct) {
-			testPassword = "blubblub";
-		} else {
-			testPassword = "short";
-		}
-		solo.clearEditText(currentEditTexts.get(1));
-		solo.clickOnView(currentEditTexts.get(1));
-		solo.enterText(currentEditTexts.get(1), testPassword);
-
-<<<<<<< HEAD
-		solo.sleep(500);
-		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
-		solo.sleep(500);
-		fillRegistrationDialogsUntilStepFive();
-		solo.sleep(500);
-
-		String username = "MAXmustermann"; //real username is MaxMustermann
-		String password = "password";
-		String testEmail = "maxmustermann@gmail.com";
-		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
-		EditText usernameEditText = (EditText) solo.getView(R.id.username);
-		EditText passwordEditText = (EditText) solo.getView(R.id.password);
-		EditText passwordConfirmationEditText = (EditText) solo.getView(R.id.password_confirmation);
-		solo.clearEditText(usernameEditText);
-
-		solo.enterText(usernameEditText, username);
-		solo.enterText(passwordEditText, password);
-		solo.enterText(passwordConfirmationEditText, password);
-		solo.clickOnButton(solo.getString(R.string.register));
-		solo.sleep(2000);
-
-		assertTrue("No registration completed text shown",
-				solo.waitForText(solo.getString(R.string.registration_completed)));
-		solo.clickOnButton(solo.getString(R.string.upload_button));
-		solo.sleep(500);
-
-		assertTrue("Upload dialog not displayed",
-				solo.waitForText(solo.getString(R.string.upload_project_dialog_title)));
-=======
-		// set the email to use. we need a random email because the server does not allow same email with different users 
-		String testEmail = testUser + "@gmail.com";
-		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
->>>>>>> master
-
-		int buttonId = android.R.id.button1;
-		solo.clickOnView(solo.getView(buttonId));
 	}
 
 	private void setTestUrl() throws Throwable {
@@ -497,7 +381,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		// set the email to use. we need a random email because the server does not allow same email with different users 
 		String testEmail = testUser + "@gmail.com";
-		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
+		Reflection.setPrivateField("emailForUiTests", testEmail, false);
 		solo.sleep(1000);
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testPassword));
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
@@ -564,7 +448,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		// set the email to use. we need a random email because the server does not allow same email with different users 
 		String testEmail = testUser + "@gmail.com";
-		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
+		Reflection.setPrivateField("emailForUiTests", testEmail, false);
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testPassword));
 		solo.sleep(1000);
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));

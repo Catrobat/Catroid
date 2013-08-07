@@ -488,12 +488,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		String resultString = (String) Reflection.getPrivateField(ServerCalls.getInstance(), "resultString");
 
 		try {
-<<<<<<< HEAD
-			boolean success = solo.waitForText(solo.getString(R.string.success_project_upload), 1, 40000);
-			assertTrue("Upload failed. Internet connection?", success);
-			String resultString = (String) UiTestUtils.getPrivateField("resultString", ServerCalls.getInstance());
-=======
->>>>>>> master
 			JSONObject jsonObject;
 			jsonObject = new JSONObject(resultString);
 			serverProjectId = jsonObject.optInt("projectId");

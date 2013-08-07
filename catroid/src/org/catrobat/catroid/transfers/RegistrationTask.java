@@ -99,7 +99,6 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			message = e.getMessage();
 		}
 		return false;
-
 	}
 
 	@Override
