@@ -121,6 +121,7 @@
 
     <!-- Script fragment -->
     <string name="dialog_confirm_delete_brick_title">Diesen Baustein löschen?</string>
+    <string name="dialog_confirm_delete_script_title">Dieses Skript löschen?</string>
     <string name="dialog_confirm_delete_multiple_bricks_title">Diese Bausteine löschen?</string>
     <string name="dialog_confirm_delete_brick_message">Kann nicht rückgängig gemacht werden!</string>
     <!--  -->
@@ -197,6 +198,7 @@
     <string name="brick_context_dialog_copy_brick">Kopiere Baustein</string>
     <string name="brick_context_dialog_animate_bricks">Animiere Baustein-Teile</string>
     <string name="brick_context_dialog_formula_edit_brick">Bearbeite Formel</string>
+    <string name="brick_context_dialog_delete_script">Lösche Skript</string>
     <!--  -->
 
 
