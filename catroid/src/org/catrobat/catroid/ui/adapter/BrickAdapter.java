@@ -870,9 +870,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if (brickList.get(itemPosition) instanceof NestingBrick) {
 			items.add(context.getText(R.string.brick_context_dialog_animate_bricks));
 		}
-		items.add(context.getText(R.string.brick_context_dialog_delete_brick));
 		if (!(brickList.get(itemPosition) instanceof ScriptBrick)) {
 			items.add(context.getText(R.string.brick_context_dialog_copy_brick));
+			items.add(context.getText(R.string.brick_context_dialog_delete_brick));
+		} else {
+			items.add(context.getText(R.string.brick_context_dialog_delete_script));
 		}
 		if (brickList.get(itemPosition) instanceof FormulaBrick) {
 			items.add(context.getText(R.string.brick_context_dialog_formula_edit_brick));
@@ -901,7 +903,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					view.performLongClick();
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_copy_brick))) {
 					copyBrickListAndProject(itemPosition, false);
-				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_brick))) {
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_brick))
+						|| clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_script))) {
 					showConfirmDeleteDialog(itemPosition);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_animate_bricks))) {
 					int itemPosition = calculateItemPositionAndTouchPointY(view);
@@ -946,8 +949,14 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		this.clickItemPosition = itemPosition;
 		String yes = context.getString(R.string.yes);
 		String no = context.getString(R.string.no);
-		String title = context.getString(R.string.dialog_confirm_delete_brick_title);
+		String title;
 		String message = context.getString(R.string.dialog_confirm_delete_brick_message);
+
+		if (getItem(clickItemPosition) instanceof ScriptBrick) {
+			title = context.getString(R.string.dialog_confirm_delete_script_title);
+		} else {
+			title = context.getString(R.string.dialog_confirm_delete_brick_title);
+		}
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle(title);

@@ -78,8 +78,8 @@ public class ScriptDeleteTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		solo.waitForText(solo.getString(R.string.brick_when_started));
 		solo.clickOnText(solo.getString(R.string.brick_when_started));
-		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick));
-		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_script));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_script));
 
 		solo.waitForText(solo.getString(R.string.yes));
 		solo.clickOnButton(solo.getString(R.string.yes));
@@ -91,8 +91,8 @@ public class ScriptDeleteTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		solo.waitForText(solo.getString(R.string.brick_broadcast_receive));
 		solo.clickOnText(solo.getString(R.string.brick_broadcast_receive));
-		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick));
-		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_script));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_script));
 		solo.waitForText(solo.getString(R.string.yes));
 		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.waitForText(solo.getString(R.string.brick_when_started));
