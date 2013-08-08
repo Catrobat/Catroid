@@ -93,8 +93,8 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 
 		solo.waitForText(solo.getString(R.string.brick_broadcast_receive));
 		solo.clickOnText(solo.getString(R.string.brick_broadcast_receive));
-		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick));
-		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_script));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_script));
 		solo.waitForText(solo.getString(R.string.yes));
 		solo.clickOnButton(solo.getString(R.string.yes));
 
@@ -203,7 +203,7 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 
 	private void gainFocus() {
 		solo.clickOnText(solo.getString(R.string.brick_broadcast_receive));
-		if (solo.searchText(solo.getString(R.string.brick_context_dialog_delete_brick), true)) {
+		if (solo.searchText(solo.getString(R.string.brick_context_dialog_delete_script), true)) {
 			solo.goBack();
 		}
 	}
