@@ -180,6 +180,22 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertEquals("The copies are not the same", bigBlue2.hashCode(), bigBlue3.hashCode());
 	}
 
+	public void testIncrementUsage() {
+
+		Sprite testSprite = new Sprite("testSprite");
+		ArrayList<LookData> lookDataList = new ArrayList<LookData>();
+
+		LookData lookData = new LookData();
+		lookData.setLookName("testLook");
+		lookData.setLookFilename(testImage.getName());
+		lookDataList.add(lookData);
+		project.addSprite(testSprite.clone());
+
+		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
+
+		assertEquals("Usage counter has not been incremented!", 2, container.getUsage(Utils.md5Checksum(testImage)));
+	}
+
 	public void testDecrementUsage() {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 		storageHandler.deleteFile(testImageCopy.getAbsolutePath());

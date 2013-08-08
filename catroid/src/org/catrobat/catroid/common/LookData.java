@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.common;
 
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 
 import org.catrobat.catroid.ProjectManager;
@@ -56,6 +57,12 @@ public class LookData implements Serializable, Cloneable {
 
 		cloneLookData.name = this.name;
 		cloneLookData.fileName = this.fileName;
+		String filePath = getPathToImageDirectory() + "/" + fileName;
+		try {
+			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(filePath);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 
 		return cloneLookData;
 	}
