@@ -23,8 +23,8 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.Utils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -137,7 +137,7 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 			DownloadUtil.getInstance().startDownload(context, url, programName);
 		} else if (renameButton.isChecked()) {
 			String newProgramName = projectText.getText().toString();
-			if (StorageHandler.getInstance().projectExistsIgnoreCase(newProgramName)) {
+			if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(newProgramName)) {
 				return false;
 			}
 

@@ -317,6 +317,7 @@ public class StorageHandler {
 		return false;
 	}
 
+	@Deprecated
 	public boolean projectExistsIgnoreCase(String projectName) {
 		File projectDirectory = new File(Utils.buildProjectPath(projectName));
 		if (!projectDirectory.exists()) {

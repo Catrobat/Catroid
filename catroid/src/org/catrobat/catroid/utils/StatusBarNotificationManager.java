@@ -218,13 +218,13 @@ public class StatusBarNotificationManager {
 		//		}
 	}
 
-	public void updateNotification(Integer id, int progress, boolean finished) {
+	public void updateNotification(Integer id, int progressInPercent) {
 		NotificationData notificationData = notificationDataMap.get(id);
 		NotificationCompat.Builder notificationBuilder = notificationData.getNotificationBuilder();
-		notificationBuilder.setProgress(100, progress, false);
+		notificationBuilder.setProgress(100, progressInPercent, false);
 		notificationManager.notify(id, notificationBuilder.build());
 
-		if (finished) {
+		if (progressInPercent == 100) {
 			notificationBuilder.setContentTitle(notificationData.getNotificationTitleDone())
 					.setContentText(notificationData.getNotificationTextDone()).setProgress(0, 0, false)
 					.setAutoCancel(true).setContentIntent(notificationData.getPendingIntent()).setOngoing(false);

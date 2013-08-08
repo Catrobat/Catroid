@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment;
 import org.catrobat.catroid.utils.CopyProjectTask;
 import org.catrobat.catroid.utils.Utils;
@@ -68,7 +67,7 @@ public class CopyProjectDialog extends TextDialog {
 		if (newProjectName.equalsIgnoreCase("")) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.notification_invalid_text_entered));
 			return false;
-		} else if (StorageHandler.getInstance().projectExistsIgnoreCase(newProjectName)) {
+		} else if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(newProjectName)) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_project_exists));
 			return false;
 		}

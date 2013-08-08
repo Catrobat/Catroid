@@ -26,11 +26,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.ProjectDownloadService;
+import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
 import org.catrobat.catroid.web.ProgressBufferedOutputStream;
 
 import android.content.Context;
@@ -38,6 +39,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 public class DownloadUtil {
@@ -59,7 +61,7 @@ public class DownloadUtil {
 		return instance;
 	}
 
-	public void prepareDownloadAndStartIfPossible(Context context, String url) {
+	public void prepareDownloadAndStartIfPossible(FragmentActivity activity, String url) {
 		int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
 		String programName = url.substring(projectNameIndex);
 		try {
@@ -69,17 +71,19 @@ public class DownloadUtil {
 			return;
 		}
 
-		boolean newProgramName = programDownloadQueue.add(programName)
-				&& !StorageHandler.getInstance().projectExistsIgnoreCase(programName);
-		if (!newProgramName) {
+		boolean programNameExists = Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(programName);
+		if (programNameExists) {
 			Log.v(TAG, "Program name exists - show overwrite dialog");
-			// FIXME show overwritedialog here
+			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, programName, url);
+			renameDialog.show(activity.getSupportFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
 		} else {
-			startDownload(context, url, programName);
+			startDownload(activity, url, programName);
 		}
 	}
 
 	public void startDownload(Context context, String url, String programName) {
+		programDownloadQueue.add(programName.toLowerCase(Locale.getDefault()));
+
 		Intent downloadIntent = new Intent(context, ProjectDownloadService.class);
 		downloadIntent.putExtra(ProjectDownloadService.RECEIVER_TAG, new DownloadReceiver(new Handler()));
 		downloadIntent.putExtra(ProjectDownloadService.DOWNLOAD_NAME_TAG, programName);
@@ -91,7 +95,11 @@ public class DownloadUtil {
 	}
 
 	public void downloadFinished(String programName) {
-		programDownloadQueue.remove(programName);
+		programDownloadQueue.remove(programName.toLowerCase(Locale.getDefault()));
+	}
+
+	public boolean isProgramNameInDownloadQueueIgnoreCase(String programName) {
+		return programDownloadQueue.contains(programName.toLowerCase(Locale.getDefault()));
 	}
 
 	private class DownloadReceiver extends ResultReceiver {
@@ -111,7 +119,7 @@ public class DownloadUtil {
 				}
 
 				StatusBarNotificationManager.getInstance().updateNotification(notificationId,
-						Long.valueOf(progress).intValue(), endOfFileReached);
+						Long.valueOf(progress).intValue());
 			}
 		}
 	}
