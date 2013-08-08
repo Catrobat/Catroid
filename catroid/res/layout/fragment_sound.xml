@@ -36,7 +36,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:cacheColorHint="#00000000"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp" />
+        android:divider="@android:color/transparent" />
 
 </RelativeLayout>

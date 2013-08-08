@@ -49,4 +49,19 @@ public class SensorManager implements SensorManagerInterface {
 		return this.sensorManager.getDefaultSensor(type);
 	}
 
+	@Override
+	public void unregisterListener(SensorCustomEventListener listener) {
+		SensorLoudness.getSensorLoudness().unregisterListener(listener);
+	}
+
+	@Override
+	public boolean registerListener(SensorCustomEventListener listener, Sensors sensor) {
+		switch (sensor) {
+			case LOUDNESS:
+				return SensorLoudness.getSensorLoudness().registerListener(listener);
+			default:
+				return false;
+		}
+	}
+
 }

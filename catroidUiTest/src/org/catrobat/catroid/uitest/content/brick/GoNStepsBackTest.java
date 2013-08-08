@@ -39,7 +39,6 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -67,7 +66,6 @@ public class GoNStepsBackTest extends BaseActivityInstrumentationTestCase<Script
 		super.setUp();
 	}
 
-	@Smoke
 	public void testGoNStepsBackBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

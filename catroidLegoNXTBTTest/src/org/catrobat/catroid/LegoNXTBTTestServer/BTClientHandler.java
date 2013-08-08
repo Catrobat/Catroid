@@ -34,11 +34,11 @@ import javax.microedition.io.StreamConnection;
 
 public class BTClientHandler extends Thread
 {
-  public static byte DIRECT_COMMAND_REPLY = 0;
-  public static byte SYSTEM_COMMAND_REPLY = 1;
-  public static byte REPLY_COMMAND = 2;
-  public static byte DIRECT_COMMAND_NOREPLY = -128;
-  public static byte SYSTEM_COMMAND_NOREPLY = -127;
+  public static final byte DIRECT_COMMAND_REPLY = 0;
+  public static final byte SYSTEM_COMMAND_REPLY = 1;
+  public static final byte REPLY_COMMAND = 2;
+  public static final byte DIRECT_COMMAND_NOREPLY = -128;
+  public static final byte SYSTEM_COMMAND_NOREPLY = -127;
   public static final byte SET_OUTPUT_STATE = 4;
   public static final byte SET_INPUT_MODE = 5;
   public static final byte GET_OUTPUT_STATE = 6;

@@ -424,12 +424,12 @@ public class Utils {
 	}
 
 	public static int convertDoubleToPluralInteger(double value) {
-		double abs_value = Math.abs(value);
-		if (abs_value > 2.5) {
-			return (int) Math.round(abs_value);
+		double absoluteValue = Math.abs(value);
+		if (absoluteValue > 2.5) {
+			return (int) Math.round(absoluteValue);
 		} else {
-			if (abs_value == 0.0 || abs_value == 1.0 || abs_value == 2.0) {
-				return (int) abs_value;
+			if (absoluteValue == 0.0 || absoluteValue == 1.0 || absoluteValue == 2.0) {
+				return (int) absoluteValue;
 			} else {
 				// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
 				// in hopefully all possible languages

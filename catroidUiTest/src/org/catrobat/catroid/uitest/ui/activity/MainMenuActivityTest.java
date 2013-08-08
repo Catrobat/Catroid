@@ -81,7 +81,10 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 	public void tearDown() throws Exception {
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithBlacklistedCharacters)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithWhitelistedCharacters)));
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	@Device
@@ -402,27 +405,5 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.goBack();
 		assertTrue("The name of the current project is not displayed on the continue button", solo.getButton(0)
 				.getText().toString().endsWith(testProject2));
-	}
-
-	public void testCommunityDialog() {
-		String webButtonText = solo.getString(R.string.main_menu_web);
-		String cancelButtonText = solo.getString(R.string.cancel_button);
-		String dialogTitleText = solo.getString(R.string.main_menu_web_dialog_title);
-
-		solo.clickOnButton(webButtonText);
-		solo.sleep(300);
-		assertTrue("Alert dialog title not found", solo.searchText(dialogTitleText));
-		assertTrue("Alert dialog message not found",
-				solo.searchText(solo.getString(R.string.main_menu_web_dialog_message)));
-		assertTrue("OK button not found", solo.searchText(solo.getString(R.string.ok)));
-		assertTrue("Cancel button not found", solo.searchText(cancelButtonText));
-
-		solo.clickOnButton(cancelButtonText);
-		solo.sleep(200);
-		assertFalse("Dialog was not closed when pressing cancel", solo.searchText(dialogTitleText));
-		solo.clickOnButton(webButtonText);
-		solo.sleep(300);
-		solo.goBack();
-		assertFalse("Dialog was not closed when clicked back button", solo.searchText(dialogTitleText));
 	}
 }

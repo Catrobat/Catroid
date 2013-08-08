@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,11 +19,40 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+ */
 
-    <item><shape>
-            <gradient android:angle="0" android:centerColor="@color/gray" android:endColor="@color/gray" android:startColor="@color/gray" />
-        </shape></item>
+package org.catrobat.catroid.uitest.util;
 
-</layer-list>
+import org.catrobat.catroid.soundrecorder.SoundRecorder;
+
+public class SimulatedSoundRecorder extends SoundRecorder {
+	private boolean recording = false;
+
+	public SimulatedSoundRecorder(String path) {
+		super(path);
+	}
+
+	@Override
+	public void start() {
+		recording = true;
+	}
+
+	@Override
+	public boolean isRecording() {
+		return recording;
+	}
+
+	@Override
+	public void stop() {
+		if (!recording) {
+			throw new IllegalStateException();
+		}
+		recording = false;
+	}
+
+	@Override
+	public int getMaxAmplitude() {
+		return (int) (Math.random() * 32000 + 767);
+	}
+
+}

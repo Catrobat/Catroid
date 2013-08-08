@@ -108,13 +108,13 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 			}
 		});
 
-		TextView prototype_text = (TextView) view.findViewById(R.id.brick_change_variable_prototype_view);
-		EditText edit_text = (EditText) view.findViewById(R.id.brick_change_variable_edit_text);
-		prototype_text.setVisibility(View.GONE);
+		TextView prototypeText = (TextView) view.findViewById(R.id.brick_change_variable_prototype_view);
+		EditText editText = (EditText) view.findViewById(R.id.brick_change_variable_edit_text);
+		prototypeText.setVisibility(View.GONE);
 		variableFormula.setTextFieldId(R.id.brick_change_variable_edit_text);
 		variableFormula.refreshTextField(view);
-		edit_text.setVisibility(View.VISIBLE);
-		edit_text.setOnClickListener(this);
+		editText.setVisibility(View.VISIBLE);
+		editText.setOnClickListener(this);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
 		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()

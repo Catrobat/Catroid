@@ -21,20 +21,20 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.Catroid" parent="Theme.Sherlock.ForceOverflow">
         <item name="actionBarStyle">@style/Widget.Catroid.ActionBar</item>
-        <item name="android:actionBarStyle">@style/Widget.Catroid.ActionBar</item>
+        <item name="android:actionBarStyle" tools:ignore="NewApi">@style/Widget.Catroid.ActionBar</item>
     </style>
 
     <style name="Widget.Catroid.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
         <item name="background">@drawable/actionbar_background</item>
         <item name="android:background">@drawable/actionbar_background</item>
         <item name="homeAsUpIndicator">@drawable/ic_actionbar_back</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_actionbar_back</item>
+        <item name="android:homeAsUpIndicator" tools:ignore="NewApi">@drawable/ic_actionbar_back</item>
         <item name="titleTextStyle">@style/Widget.Catroid.ActionBar.Title</item>
-        <item name="android:titleTextStyle">@style/Widget.Catroid.ActionBar.Title</item>
+        <item name="android:titleTextStyle" tools:ignore="NewApi">@style/Widget.Catroid.ActionBar.Title</item>
         <item name="height">@dimen/actionbar_height</item>
     </style>
 
@@ -76,7 +76,7 @@
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
-    
+
     <style name="ListViewShadowed">
         <item name="android:cacheColorHint">@color/solid_black</item>
         <item name="android:drawSelectorOnTop">false</item>
@@ -122,13 +122,13 @@
         <item name="android:textColor">@color/list_view_item_title_text_color</item>
         <item name="android:textSize">22sp</item>
     </style>
-    
+
     <style name="ListViewItemDetailsText">
         <item name="android:singleLine">true</item>
         <item name="android:textColor">@color/list_view_item_details_text_color</item>
         <item name="android:textSize">14sp</item>
     </style>
-    
+
     <style name="ProgramMenuButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/program_menu_button_height</item>
@@ -158,12 +158,11 @@
     <style name="BrickText.SingleLine">
         <item name="android:maxLines">1</item>
     </style>
-    
+
     <style name="BrickText.Multiple">
         <item name="android:layout_centerVertical">true</item>
         <item name="android:maxLines">1</item>
     </style>
-    
 
     <style name="BrickPrototypeTextView" parent="android:style/Widget.EditText">
         <item name="android:focusable">false</item>
@@ -181,7 +180,7 @@
         <item name="android:maxLines">1</item>
         <item name="android:visibility">gone</item>
     </style>
-    
+
     <style name="BrickEditTextMultiple" parent="@style/BrickEditText">
         <item name="android:maxEms">6</item>
     </style>
@@ -345,7 +344,7 @@
         <item name="android:textColor">@color/sound_fragment_text_main_color</item>
         <item name="android:textSize">22sp</item>
     </style>
-    
+
     <style name="sound_fragment_detail" parent="fragment_basic_style">
         <item name="android:textColor">@color/sound_fragment_text_detail_color</item>
         <item name="android:textSize">14sp</item>
@@ -369,18 +368,18 @@
         <item name="android:layout_marginBottom">@dimen/key_margin</item>
         <item name="android:layout_marginRight">@dimen/key_margin</item>
     </style>
-    
-    <style name="formulaeditor_variblelist_fragment_main" parent ="fragment_basic_style">
+
+    <style name="formulaeditor_variblelist_fragment_main" parent="fragment_basic_style">
         <item name="android:textColor">@color/sound_fragment_text_main_color</item>
         <item name="android:textSize">22sp</item>
     </style>
-    
-    <style name="formulaeditor_variblelist_fragment_variable_value" parent ="fragment_basic_style">
+
+    <style name="formulaeditor_variblelist_fragment_variable_value" parent="fragment_basic_style">
         <item name="android:textColor">@color/solid_white</item>
         <item name="android:textSize">22sp</item>
     </style>
-    
-        <style name="BrickCategory">
+
+    <style name="BrickCategory">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
@@ -420,7 +419,7 @@
         <item name="android:background">@drawable/brick_selection_background_variables</item>
         <item name="android:drawableRight">@drawable/main_menu_button_arrow_variables</item>
     </style>
-    
+
     <style name="BrickCategoryText.Lego">
         <item name="android:background">@drawable/brick_selection_background_lego</item>
         <item name="android:drawableRight">@drawable/main_menu_button_arrow_lego</item>

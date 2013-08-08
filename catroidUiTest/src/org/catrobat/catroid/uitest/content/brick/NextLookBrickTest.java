@@ -37,7 +37,6 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
 
 public class NextLookBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
@@ -57,7 +56,6 @@ public class NextLookBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 		super.setUp();
 	}
 
-	@Smoke
 	public void testNextLookBrick() {
 		ListView view = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) view.getAdapter();

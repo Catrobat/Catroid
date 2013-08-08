@@ -98,11 +98,11 @@ public abstract class LegoNXTCommunicator extends Thread {
 	protected static ArrayList<byte[]> receivedMessages = new ArrayList<byte[]>();
 	protected byte[] returnMessage;
 
-	protected Resources mResources;
+	protected Resources resources;
 
 	public LegoNXTCommunicator(Handler uiHandler, Resources resources) {
 		this.uiHandler = uiHandler;
-		this.mResources = resources;
+		this.resources = resources;
 	}
 
 	public static ArrayList<byte[]> getReceivedMessageList() {

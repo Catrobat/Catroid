@@ -38,7 +38,6 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
 import android.util.SparseArray;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -67,13 +66,11 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 		// when starting in ScriptActivity
 		createProject();
 		super.setUp();
-
 		expectedSpinnterText.put(broadcastReceiverSpinnerId, defaultBroadcastMessage);
 		expectedSpinnterText.put(broadcastSpinnerId, defaultBroadcastMessage);
 		expectedSpinnterText.put(broadcastWaitSpinnerId, defaultBroadcastMessage);
 	}
 
-	@Smoke
 	public void testBroadcastBricks() {
 		checkSetupBricks();
 
@@ -94,11 +91,16 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 		dismissEnterNewTextIntoSpinner(broadcastSpinnerId);
 		dismissEnterNewTextIntoSpinner(broadcastWaitSpinnerId);
 
-		solo.clickLongOnText(solo.getString(R.string.brick_broadcast_receive));
-		solo.clickOnText(solo.getString(R.string.delete));
+		solo.waitForText(solo.getString(R.string.brick_broadcast_receive));
+		solo.clickOnText(solo.getString(R.string.brick_broadcast_receive));
+		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		solo.waitForText(solo.getString(R.string.yes));
 		solo.clickOnButton(solo.getString(R.string.yes));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
+
+		//to gain focus
 		solo.clickOnScreen(200, 200);
 		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
 			solo.goBack();

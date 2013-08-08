@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.Utils;
 
 import android.app.AlertDialog;
@@ -46,7 +47,7 @@ public class AboutDialogFragment extends DialogFragment {
 		TextView aboutUrlTextView = (TextView) view.findViewById(R.id.dialog_about_text_view_url);
 		aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-		String aboutUrl = getString(R.string.about_link_template, getString(R.string.about_pocketcode_license_url),
+		String aboutUrl = getString(R.string.about_link_template, Constants.ABOUT_POCKETCODE_LICENSE_URL,
 				getString(R.string.dialog_about_pocketcode_license_link_text));
 
 		aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
@@ -54,7 +55,7 @@ public class AboutDialogFragment extends DialogFragment {
 		TextView aboutUrlCatrobatView = (TextView) view.findViewById(R.id.dialog_about_text_catrobat_url);
 		aboutUrlCatrobatView.setMovementMethod(LinkMovementMethod.getInstance());
 
-		String aboutCatrobatUrl = getString(R.string.about_link_template, getString(R.string.about_catrobat_url),
+		String aboutCatrobatUrl = getString(R.string.about_link_template, Constants.CATROBAT_ABOUT_URL,
 				getString(R.string.dialog_about_catrobat_link_text));
 
 		aboutUrlCatrobatView.setText(Html.fromHtml(aboutCatrobatUrl));

@@ -45,7 +45,7 @@ public class ProjectDownloadService extends IntentService {
 	public static final String URL_TAG = "url";
 	public static final String ID_TAG = "notificationId";
 
-	private static final String DOWNLOAD_FILE_NAME = "down" + Constants.CATROBAT_EXTENTION;
+	private static final String DOWNLOAD_FILE_NAME = "down" + Constants.CATROBAT_EXTENSION;
 
 	private String projectName;
 	private String zipFileString;

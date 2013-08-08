@@ -198,7 +198,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		switch (item.getItemId()) {
 			case R.id.delete:
 				inContextMode = true;
-				contextActionMode = getSherlockActivity().startActionMode(mContextModeCallback);
+				contextActionMode = getSherlockActivity().startActionMode(contextModeCallback);
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -283,7 +283,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		return false;
 	}
 
-	private ActionMode.Callback mContextModeCallback = new ActionMode.Callback() {
+	private ActionMode.Callback contextModeCallback = new ActionMode.Callback() {
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,16 +19,9 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+ */
+package org.catrobat.catroid.formulaeditor;
 
-    <item
-        android:id="@+id/script_menu_delete"
-        android:title="@string/delete"/>
-	
-    <item
-        android:id="@+id/script_menu_copy"
-        android:title="@string/copy"
-        android:visible="true"/>
-    
-</menu>
+public interface SensorCustomEventListener {
+	abstract void onCustomSensorChanged(SensorCustomEvent event);
+}

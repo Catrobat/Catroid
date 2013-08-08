@@ -112,8 +112,6 @@
     <string name="soundrecorder_recorded_filename">"録音"</string>
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">"テキストツースピーチエンジンがインストールされていません。\nテキストツースピーチを今すぐインストールしますか？"</string>
-    <!-- Script context menu -->
-    <string name="script_context_menu_title">"スクリプト"</string>
     <!-- New project dialog -->
     <string name="new_project_dialog_title">"新規プロジェクトの名前"</string>
     <string name="new_project_dialog_hint">"私のプロジェクト"</string>

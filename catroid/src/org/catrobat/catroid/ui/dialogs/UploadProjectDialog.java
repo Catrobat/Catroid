@@ -79,10 +79,8 @@ public class UploadProjectDialog extends DialogFragment {
 					progressPercent = UtilFile.getProgressFromBytes(projectName, progress);
 				}
 
-				String notificationMessage = "Upload " + progressPercent + "% "
-						+ activity.getString(R.string.notification_percent_completed) + ":" + projectName;
-				StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage,
-						Constants.UPLOAD_NOTIFICATION, endOfFileReached);
+				StatusBarNotificationManager.getInstance().updateNotification(notificationId,
+						Long.valueOf(progressPercent).intValue());
 			}
 		}
 	}
