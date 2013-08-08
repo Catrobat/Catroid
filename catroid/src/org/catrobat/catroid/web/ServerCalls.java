@@ -61,16 +61,15 @@ public class ServerCalls {
 	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
 
-	public static final String BASE_URL_HTTPS = "https://www.pocketcode.org/";
-
-	private static final String FILE_UPLOAD_URL = BASE_URL_HTTPS + "api/upload/upload.json";
-	private static final String CHECK_TOKEN_URL = BASE_URL_HTTPS + "api/checkToken/check.json";
-	private static final String REGISTRATION_URL = BASE_URL_HTTPS + "api/loginOrRegister/loginOrRegister.json";
+	private static final String FILE_UPLOAD_URL = Constants.BASE_URL_HTTPS + "api/upload/upload.json";
+	private static final String CHECK_TOKEN_URL = Constants.BASE_URL_HTTPS + "api/checkToken/check.json";
+	private static final String REGISTRATION_URL = Constants.BASE_URL_HTTPS
+			+ "api/loginOrRegister/loginOrRegister.json";
 
 	public static final String BASE_URL_TEST_HTTP = "http://catroidtest.ist.tugraz.at/";
 
 	public static final String TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTP + "api/upload/upload.json";
-	public static final String FILE_UPLOAD_URL_HTTPS = BASE_URL_HTTPS + "api/upload/upload.json";
+	public static final String FILE_UPLOAD_URL_HTTPS = Constants.BASE_URL_HTTPS + "api/upload/upload.json";
 
 	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTP + "api/checkToken/check.json";
 	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTP + "api/loginOrRegister/loginOrRegister.json";
