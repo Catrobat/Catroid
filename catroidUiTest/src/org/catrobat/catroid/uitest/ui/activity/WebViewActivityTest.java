@@ -26,25 +26,21 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 
 import android.webkit.WebView;
 
-import com.jayway.android.robotium.solo.By;
-
 public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+	private static final String COPYRIGHT_CHARACTER = "\u00A9";
 
 	public WebViewActivityTest() {
 		super(MainMenuActivity.class);
 	}
 
-	@Device
-	public void testWebViewSimple() {
-
+	public void testWebView() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_web));
-
-		solo.waitForWebElement(By.id(solo.getString(R.id.webView)));
+		solo.waitForView(solo.getView(R.id.webView));
+		solo.sleep(2000);
 
 		assertEquals("Current Activity is not WebViewActivity", WebViewActivity.class, solo.getCurrentActivity()
 				.getClass());
@@ -52,21 +48,6 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		WebView webView = (WebView) solo.getCurrentActivity().findViewById(R.id.webView);
 		assertEquals("URL is not correct", Constants.BASE_URL_HTTPS, webView.getUrl());
 
+		assertTrue("website hasn't been loaded properly", solo.searchText(COPYRIGHT_CHARACTER + " Catrobat"));
 	}
-
-	@Device
-	public void testWebViewCheckIfPageHasLoaded() {
-
-		solo.clickOnButton(solo.getString(R.string.main_menu_web));
-
-		solo.waitForWebElement(By.id(solo.getString(R.id.webView)));
-
-		assertEquals("Current Activity is not WebViewActivity", WebViewActivity.class, solo.getCurrentActivity()
-				.getClass());
-
-		String copyright = "\u00A9";
-		assertTrue("website hasn't been loaded properly", solo.searchText(copyright + " Catrobat"));
-
-	}
-
 }

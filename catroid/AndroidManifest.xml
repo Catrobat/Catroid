@@ -25,14 +25,14 @@
     package="org.catrobat.catroid"
     android:installLocation="auto"
     android:versionCode="6"
-    android:versionName="0.8.5">
-	
-    <supports-screens 
-        android:smallScreens="true"
-        android:normalScreens="true"
+    android:versionName="0.8.5" >
+
+    <supports-screens
         android:largeScreens="true"
-        android:xlargeScreens="false"/>
-    
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="false" />
+
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="17" />
@@ -68,25 +68,23 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                
+
                 <data
                     android:host="*"
                     android:pathPattern="@string/catroid_extension_pathPattern"
                     android:scheme="http" />
             </intent-filter>
-            
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                
+
                 <data
                     android:host="*"
                     android:pathPattern="@string/catroid_extension_pathPattern"
                     android:scheme="https" />
             </intent-filter>
-            
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -99,12 +97,10 @@
                     android:scheme="file" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name=".ui.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Catroid" />
-        
         <activity
             android:name=".stage.StageActivity"
             android:configChanges="orientation"
@@ -125,9 +121,9 @@
             android:theme="@style/Theme.Catroid" />
         <activity
             android:name=".ui.ScriptActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Catroid"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.MyProjectsActivity"
             android:noHistory="true"
