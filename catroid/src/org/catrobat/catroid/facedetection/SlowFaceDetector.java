@@ -57,6 +57,7 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 		if (camera == null) {
 			return;
 		}
+		//		setTextureForICSversions(camera);
 		camera.setPreviewCallback(this);
 		camera.startPreview();
 		Log.d("Blah", "Slow Started");
@@ -144,5 +145,19 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 		relativeFaceSize = relativeFaceSize > 100 ? 100 : relativeFaceSize;
 		onFaceDetected(relativePoint, relativeFaceSize);
 	}
+
+	//	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	//	private void setTextureForICSversions(Camera camera) {
+	//		int currentApi = android.os.Build.VERSION.SDK_INT;
+	//		if (currentApi < android.os.Build.VERSION_CODES.HONEYCOMB) {
+	//			return;
+	//		}
+	//		SurfaceTexture texture = new SurfaceTexture(0); // TODO
+	//		try {
+	//			camera.setPreviewTexture(texture);
+	//		} catch (IOException e) {
+	//			e.printStackTrace();
+	//		}
+	//	}
 
 }

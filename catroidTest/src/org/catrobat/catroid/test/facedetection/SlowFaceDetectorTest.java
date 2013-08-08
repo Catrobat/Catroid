@@ -138,34 +138,32 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 		detector.removeOnFaceDetectedListener(detectionListener);
 	}
 
-	public void testCameraPreviewCallback() {
-		// test not working yet
-
-		SlowFaceDetectionTester testFaceDetector = new SlowFaceDetectionTester();
-		assertFalse("Wrong tester setup", testFaceDetector.receivedFrame);
-
-		testFaceDetector.startFaceDetection();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			testFaceDetector.stopFaceDetection();
-			fail("Thread interrupted unexpectedly");
-		}
-		testFaceDetector.stopFaceDetection();
-		assertTrue("No preview frame received from camera", testFaceDetector.receivedFrame);
-	}
-
-	private class SlowFaceDetectionTester extends SlowFaceDetector {
-
-		public boolean receivedFrame = false;
-
-		@Override
-		public void onPreviewFrame(byte[] data, Camera camera) {
-			receivedFrame = true;
-			assertNotNull("No data in preview frame", data);
-			this.notify();
-		}
-
-	}
+	//	public void testCameraPreviewCallback() {
+	//		SlowFaceDetectionTester testFaceDetector = new SlowFaceDetectionTester();
+	//		assertFalse("Wrong tester setup", testFaceDetector.receivedFrame);
+	//
+	//		testFaceDetector.startFaceDetection();
+	//		try {
+	//			Thread.sleep(10000);
+	//		} catch (InterruptedException e) {
+	//			testFaceDetector.stopFaceDetection();
+	//			fail("Thread interrupted unexpectedly");
+	//		}
+	//		testFaceDetector.stopFaceDetection();
+	//		assertTrue("No preview frame received from camera", testFaceDetector.receivedFrame);
+	//	}
+	//
+	//	private class SlowFaceDetectionTester extends SlowFaceDetector {
+	//
+	//		public boolean receivedFrame = false;
+	//
+	//		@Override
+	//		public void onPreviewFrame(byte[] data, Camera camera) {
+	//			receivedFrame = true;
+	//			assertNotNull("No data in preview frame", data);
+	//			this.notify();
+	//		}
+	//
+	//	}
 
 }

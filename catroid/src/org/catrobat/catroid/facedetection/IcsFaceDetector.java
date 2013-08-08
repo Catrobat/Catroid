@@ -38,6 +38,7 @@ import android.util.Log;
 public class IcsFaceDetector extends FaceDetector implements FaceDetectionListener {
 
 	private Camera camera;
+	private SurfaceTexture texture = new SurfaceTexture(0); // TODO
 
 	@Override
 	public void startFaceDetection() {
@@ -51,8 +52,7 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 		}
 		camera.setFaceDetectionListener(this);
 		try {
-			camera.setPreviewTexture(new SurfaceTexture(0));
-			// TODO
+			camera.setPreviewTexture(texture);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
