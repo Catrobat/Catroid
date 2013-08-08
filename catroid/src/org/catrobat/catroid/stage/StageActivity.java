@@ -32,6 +32,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.io.PcConnectionManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 
 public class StageActivity extends AndroidApplication {
@@ -53,6 +54,7 @@ public class StageActivity extends AndroidApplication {
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 		initialize(stageListener, true);
+		PcConnectionManager.getInstance(this).setStageActivity(this);
 	}
 
 	@Override
@@ -67,15 +69,15 @@ public class StageActivity extends AndroidApplication {
 
 		PreStageActivity.shutdownResources();
 	}
-	
-	public void onPause()
-	{
+
+	@Override
+	public void onPause() {
 		SensorHandler.stopSensorListeners();
 		super.onPause();
 	}
-	
-	public void onResume()
-	{
+
+	@Override
+	public void onResume() {
 		SensorHandler.startSensorListener(this);
 		super.onResume();
 	}

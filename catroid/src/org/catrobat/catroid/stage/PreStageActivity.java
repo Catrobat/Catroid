@@ -26,8 +26,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -35,6 +37,14 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
+import android.view.View;
+import android.view.View.MeasureSpec;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
@@ -44,6 +54,8 @@ import org.catrobat.catroid.bluetooth.DeviceListActivity;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.SendToPcBrick;
+import org.catrobat.catroid.io.PcConnectionManager;
 import org.catrobat.catroid.legonxt.LegoNXT;
 import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
 
@@ -97,6 +109,16 @@ public class PreStageActivity extends Activity {
 				}
 
 			}
+		}
+		if ((requiredResources & Brick.CONNECTION_TO_PC) > 0) {
+			if (!PcConnectionManager.getInstance(this).getConnectionAlreadySetUp()
+					|| PcConnectionManager.getInstance(this).getConnection() == null) {
+				AlertDialog connectionDialog = createSetUpConnectionAlert();
+				connectionDialog.show();
+			} else {
+				resourceInitialized();
+			}
+
 		}
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
 			startStage();
@@ -306,4 +328,63 @@ public class PreStageActivity extends Activity {
 			}
 		}
 	};
+
+	private Spinner ipSpinner;
+
+	private AlertDialog createSetUpConnectionAlert() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setView(this.findViewById(R.layout.dialog_pc_connection_setup));
+
+		final View dialogLayout = View.inflate(builder.getContext(), R.layout.dialog_pc_connection_setup, null);
+		LinearLayout imageLayout = (LinearLayout) dialogLayout.findViewById(R.id.dialog_connection_setup_layout);
+		SendToPcBrick sendToPcBrick = new SendToPcBrick(null);
+		ImageView brickImageView = new ImageView(builder.getContext());
+		View brickView = sendToPcBrick.getPrototypeView(builder.getContext());
+		brickView.setDrawingCacheEnabled(true);
+		brickView.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+		brickView.layout(0, 0, brickView.getMeasuredWidth(), brickView.getMeasuredHeight());
+		brickView.buildDrawingCache(true);
+		Bitmap brickBitmap = brickView.getDrawingCache();
+		brickBitmap.prepareToDraw();
+		brickImageView.setImageBitmap(brickBitmap);
+		brickImageView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		brickImageView.setPadding(0, 10, 0, 10);
+		brickImageView.setScaleType(ImageView.ScaleType.FIT_START);
+
+		imageLayout.addView(brickImageView);
+
+		final Context context = this;
+		builder.setTitle(R.string.dialog_connection_setup_title).setCancelable(false)
+				.setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						resourceFailed();
+					}
+				}).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						if (PcConnectionManager.getInstance(context).setUpConnection(ipSpinner)) {
+							PcConnectionManager.getInstance(context).setConnectionAlreadySetUp(true);
+							resourceInitialized();
+						} else {
+							resourceFailed();
+						}
+					}
+				}).setView(dialogLayout);
+
+		Button scanButton = (Button) dialogLayout.findViewById(R.id.dialog_connection_setup_button);
+		scanButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+
+				ipSpinner = (Spinner) dialogLayout.findViewById(R.id.dialog_connection_setup_spinner);
+				PcConnectionManager.getInstance(context).broadcast(ipSpinner);
+			}
+		});
+
+		return builder.create();
+	}
 }

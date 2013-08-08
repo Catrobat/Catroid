@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.PcConnectionManager;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.Utils;
 
@@ -56,6 +57,8 @@ public class ProjectManager {
 	}
 
 	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
+		PcConnectionManager.getInstance(null).setConnectionAlreadySetUp(false);
+		PcConnectionManager.getInstance(null).setConnection(null);
 		fileChecksumContainer = new FileChecksumContainer();
 		Project oldProject = project;
 		MessageContainer.createBackup();

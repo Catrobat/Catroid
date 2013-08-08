@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,19 +19,24 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+ */
+package org.catrobat.catroid.content.actions;
 
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="setting_mindstorm_bricks"
-            android:summary="@string/preference_description_mindstorm_bricks"
-            android:title="@string/preference_title_enable_mindstorm_bricks" />
-        
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="setting_pc_connection_bricks"
-            android:summary="@string/preference_description_pc_connection"
-            android:title="@string/preference_title_enable_pc_connection" />
+import org.catrobat.catroid.content.Sprite;
 
-</PreferenceScreen>
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+
+public class SendToPcAction extends TemporalAction {
+
+	private Sprite sprite;
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
+
+	@Override
+	protected void update(float percent) {
+
+	}
+
+}

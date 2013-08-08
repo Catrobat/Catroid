@@ -90,6 +90,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.SendToPcBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -205,6 +206,7 @@ public class StorageHandler {
 		xstream.alias("pointInDirectionBrick", PointInDirectionBrick.class);
 		xstream.alias("pointToBrick", PointToBrick.class);
 		xstream.alias("repeatBrick", RepeatBrick.class);
+		xstream.alias("sendToPcBrick", SendToPcBrick.class);
 		xstream.alias("setBrightnessBrick", SetBrightnessBrick.class);
 		xstream.alias("setGhostEffectBrick", SetGhostEffectBrick.class);
 		xstream.alias("setLookBrick", SetLookBrick.class);

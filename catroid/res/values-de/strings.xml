@@ -70,6 +70,8 @@
     <string name="preference_title">Einstellungen</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorm Bausteine</string>
     <string name="preference_description_mindstorm_bricks">Erlaube Steuerung von Lego Mindstorm Robotern</string>
+    <string name="preference_title_enable_pc_connection">Verbindung zu PC - Bausteine</string>
+    <string name="preference_description_pc_connection">Erlaube Steuerung von PC</string>
     <!--  -->
 
 
@@ -375,6 +377,7 @@
     <string name="brick_variable_spinner_create_new_variable">Neu…</string>
     <string name="brick_note_default_value">"Anmerkung hier hinzufügen…" </string>
     <string name="brick_broadcast_default_value">"Nachricht 1"</string>
+    <string name="brick_send_to_pc">"Sende an PC: "</string>
     <!--  -->
 
 
@@ -467,6 +470,17 @@
     <string name="nxt_motor_all">Alle</string>
     <!--  -->
 
+	<!-- WiFiHID Strings -->
+    <string name="default_key">Taste</string>
+    <string name="dialog_connection_setup">Dieser Brick benötigt eine Verbindung zu einem PC: </string>
+    <string name="dialog_connection_setup_title">Verbindung wird benötigt</string>
+    <string name="dialog_connection_setup_connection_to">Verbinde mit:</string>
+    <string name="dialog_connection_setup_scan">Suche nach verfügbaren PCs</string>
+    <string name="prog_dialog_scan_wait">Scannen</string>   
+    <string name="no_devices_found">Es wurden keine Geräte gefunden.</string>    
+    <string name="connection_broke_1">Verbindung zu \"</string>
+    <string name="connection_broke_2">\" ist abegebrochen.</string>
+    <!--  -->
 
     <!-- Formula Editor Strings -->
     <string name="formula_editor_true">Wahr</string>
