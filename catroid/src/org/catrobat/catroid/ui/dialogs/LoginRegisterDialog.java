@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.RegistrationTask;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 import org.catrobat.catroid.web.ServerCalls;
@@ -62,7 +63,7 @@ public class LoginRegisterDialog extends DialogFragment implements OnRegistratio
 		passwordEditText = (EditText) rootView.findViewById(R.id.password);
 		termsOfUseLinkTextView = (TextView) rootView.findViewById(R.id.register_terms_link);
 
-		String termsOfUseUrl = getString(R.string.about_link_template, getString(R.string.catrobat_terms_of_use),
+		String termsOfUseUrl = getString(R.string.about_link_template, Constants.CATROBAT_TERMS_OF_USE_URL,
 				getString(R.string.register_pocketcode_terms_of_use_text));
 		termsOfUseLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
 		termsOfUseLinkTextView.setText(Html.fromHtml(termsOfUseUrl));
@@ -123,7 +124,7 @@ public class LoginRegisterDialog extends DialogFragment implements OnRegistratio
 
 	private void handlePasswordForgottenButtonClick() {
 		String username = usernameEditText.getText().toString();
-		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTP : ServerCalls.BASE_URL_HTTPS;
+		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTP : Constants.BASE_URL_HTTPS;
 
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(baseUrl + PASSWORD_FORGOTTEN_PATH + username));
 		getActivity().startActivity(browserIntent);
