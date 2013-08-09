@@ -28,18 +28,19 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.io.CustomKeyboard;
+import org.catrobat.catroid.ui.dialogs.KeyboardDialog;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.FragmentActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.KeyboardView;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
@@ -51,10 +52,20 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 public class SendToPcBrick extends BrickBaseType implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
-	private int key = 0;
+	private transient KeyboardView mKeyboardView;
+	private transient EditText edit;
+	private transient CustomKeyboard keyboard;
+	private int key;
 
 	public SendToPcBrick(Sprite sprite) {
 		this.sprite = sprite;
+		keyboard = null;
+	}
+
+	public SendToPcBrick(Sprite sprite, int key) {
+		this.sprite = sprite;
+		this.key = key;
+		keyboard = null;
 	}
 
 	public SendToPcBrick() {
@@ -75,7 +86,7 @@ public class SendToPcBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new SendToPcBrick(getSprite());
+		return new SendToPcBrick(getSprite(), key);
 	}
 
 	@Override
@@ -83,7 +94,6 @@ public class SendToPcBrick extends BrickBaseType implements OnClickListener {
 		if (animationState) {
 			return view;
 		}
-
 		view = View.inflate(context, R.layout.brick_send_to_pc, null);
 		view = getViewWithAlpha(alphaValue);
 
@@ -97,20 +107,115 @@ public class SendToPcBrick extends BrickBaseType implements OnClickListener {
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-		TextView text = (TextView) view.findViewById(R.id.brick_send_to_pc_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_send_to_pc_edit_text);
-
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
-		edit.setOnClickListener(this);
+		TextView textForSendKey = (TextView) view.findViewById(R.id.brick_send_to_pc_prototype_text_view);
+		textForSendKey.setVisibility(View.GONE);
+		edit = (EditText) view.findViewById(R.id.brick_send_to_pc_edit_text);
+		initializeForKeyboard();
 		return view;
+	}
+
+	public void initializeForKeyboard() {
+		edit.setClickable(true);
+		edit.setEnabled(true);
+		edit.setFocusable(true);
+		edit.setVisibility(View.VISIBLE);
+		KeyboardDialog keyboardDialog = new KeyboardDialog();
+		if (keyboardDialog != null) {
+			keyboard = new CustomKeyboard(keyboardDialog, view.getContext(), this);
+		}
+		keyboard.registerEditText(view, edit);
+		if (key != 0) {
+			setEditText();
+		}
+	}
+
+	public void hideCustomKeyboard() {
+		mKeyboardView = (KeyboardView) view.findViewById(R.id.keyboard_view);
+		mKeyboardView.setVisibility(View.GONE);
+		mKeyboardView.setEnabled(false);
+		Activity activity = (Activity) view.getContext();
+		activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+	}
+
+	public void showCustomKeyboard(Context context) {
+		Keyboard keyboard = new Keyboard(context, R.xml.send_to_pc_keyboard);
+		mKeyboardView = (KeyboardView) view.findViewById(R.id.keyboard_view);
+		mKeyboardView.setFocusable(false);
+		mKeyboardView.setFocusableInTouchMode(false);
+		mKeyboardView.setKeyboard(keyboard);
+		mKeyboardView.setEnabled(true);
+		mKeyboardView.setVisibility(View.VISIBLE);
+		if (view != null) {
+			((InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+					view.getWindowToken(), 0);
+		}
+	}
+
+	public void setKey(int key) {
+		this.key = key;
+		setEditText();
+	}
+
+	public int getKey() {
+		return key;
+	}
+
+	public void setEditText() {
+		switch (key) {
+			case 1:
+				edit.setText(R.string.key_alt);
+				break;
+			case 2:
+				edit.setText(R.string.key_alt_gr);
+				break;
+			case 8:
+				edit.setText(R.string.key_back_space);
+				break;
+			case 9:
+				edit.setText(R.string.key_tab);
+				break;
+			case 13:
+				edit.setText(R.string.key_enter);
+				break;
+			case 16:
+				edit.setText(R.string.key_shift);
+				break;
+			case 17:
+				edit.setText(R.string.key_control);
+				break;
+			case 20:
+				edit.setText(R.string.key_caps_lock);
+				break;
+			case 27:
+				edit.setText(R.string.key_escape);
+				break;
+			case 28:
+				edit.setText(R.string.key_arrow_up);
+				break;
+			case 32:
+				edit.setText(R.string.key_space);
+				break;
+			case 37:
+				edit.setText(R.string.key_arrow_left);
+				break;
+			case 39:
+				edit.setText(R.string.key_arrow_right);
+				break;
+			case 40:
+				edit.setText(R.string.key_arrow_down);
+				break;
+			default:
+				break;
+		}
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_send_to_pc, null);
-		TextView textSendToPc = (TextView) prototypeView.findViewById(R.id.brick_send_to_pc_prototype_text_view);
-		textSendToPc.setText(R.string.default_key);
+		TextView textForSendKey = (TextView) prototypeView.findViewById(R.id.brick_send_to_pc_prototype_text_view);
+		textForSendKey.setText(R.string.default_key_text);
+		edit = (EditText) prototypeView.findViewById(R.id.brick_send_to_pc_edit_text);
+		edit.setVisibility(View.GONE);
 		return prototypeView;
 	}
 
@@ -118,19 +223,15 @@ public class SendToPcBrick extends BrickBaseType implements OnClickListener {
 	public View getViewWithAlpha(int alphaValue) {
 
 		if (view != null) {
-
 			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_send_to_pc_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-
 			TextView textKey = (TextView) view.findViewById(R.id.brick_send_to_pc_label);
-			EditText editKey = (EditText) view.findViewById(R.id.brick_send_to_pc_edit_text);
+			edit = (EditText) view.findViewById(R.id.brick_send_to_pc_edit_text);
 			textKey.setTextColor(textKey.getTextColors().withAlpha(alphaValue));
-			editKey.setTextColor(editKey.getTextColors().withAlpha(alphaValue));
-			editKey.getBackground().setAlpha(alphaValue);
-
+			edit.setTextColor(edit.getTextColors().withAlpha(alphaValue));
+			edit.getBackground().setAlpha(alphaValue);
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -142,67 +243,11 @@ public class SendToPcBrick extends BrickBaseType implements OnClickListener {
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		showSelectLetterDialog(view.getContext());
-	}
-
-	private void showSelectLetterDialog(final Context context) {
-		BrickTextDialog editDialog = new BrickTextDialog() {
-
-			@Override
-			protected void initialize() {
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				final char newLetter;
-				try {
-					newLetter = (input.getText().charAt(0));
-				} catch (IndexOutOfBoundsException e) {
-					dismiss();
-					return false;
-				}
-				command = newLetter;
-				letter = newLetter;
-				return true;
-			}
-
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				super.onDismiss(dialog);
-			}
-
-			@Override
-			protected boolean getPositiveButtonEnabled() {
-				return true;
-			}
-
-			@Override
-			protected TextWatcher getInputTextChangedListener(Button buttonPositive) {
-				return new TextWatcher() {
-					@Override
-					public void onTextChanged(CharSequence s, int start, int before, int count) {
-					}
-
-					@Override
-					public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-					}
-
-					@Override
-					public void afterTextChanged(Editable s) {
-						if (s.length() > 1) {
-							s.replace(0, s.length(), String.valueOf(s.charAt(s.length() - 1)));
-						}
-					}
-				};
-			}
-		};
-
-		editDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "dialog_send_brick");
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.sendToPc(sprite));
+		sequence.addAction(ExtendedActions.sendToPc(this));
 		return null;
 	}
 }

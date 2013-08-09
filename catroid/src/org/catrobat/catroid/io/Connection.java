@@ -22,6 +22,12 @@
  */
 package org.catrobat.catroid.io;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.util.Log;
+
+import org.catrobat.catroid.R;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -32,12 +38,6 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-
-import org.catrobat.catroid.R;
-
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.util.Log;
 
 public class Connection extends Thread {
 	public static enum connectionState {
@@ -184,6 +184,7 @@ public class Connection extends Thread {
 						.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
+								connectionManager.setConnectionAlreadySetUp(false);
 								connectionManager.getStageActivity().exit();
 								stopThread();
 							}

@@ -78,6 +78,7 @@ public class PreStageActivity extends Activity {
 	private ProgressDialog connectingProgressDialog;
 	private static TextToSpeech textToSpeech;
 	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
+	private AlertDialog connectionDialog;
 
 	private boolean autoConnect = false;
 
@@ -113,7 +114,7 @@ public class PreStageActivity extends Activity {
 		if ((requiredResources & Brick.CONNECTION_TO_PC) > 0) {
 			if (!PcConnectionManager.getInstance(this).getConnectionAlreadySetUp()
 					|| PcConnectionManager.getInstance(this).getConnection() == null) {
-				AlertDialog connectionDialog = createSetUpConnectionAlert();
+				connectionDialog = createSetUpConnectionAlert();
 				connectionDialog.show();
 			} else {
 				resourceInitialized();
@@ -369,7 +370,8 @@ public class PreStageActivity extends Activity {
 							PcConnectionManager.getInstance(context).setConnectionAlreadySetUp(true);
 							resourceInitialized();
 						} else {
-							resourceFailed();
+							AlertDialog noDeviceSelectedDialog = createNoDeviceSelectedDialog();
+							noDeviceSelectedDialog.show();
 						}
 					}
 				}).setView(dialogLayout);
@@ -384,7 +386,22 @@ public class PreStageActivity extends Activity {
 				PcConnectionManager.getInstance(context).broadcast(ipSpinner);
 			}
 		});
+		scanButton.performClick();
 
+		return builder.create();
+	}
+
+	public AlertDialog createNoDeviceSelectedDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(getString(R.string.no_device_selected)).setCancelable(false)
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						connectionDialog.dismiss();
+						connectionDialog = createSetUpConnectionAlert();
+						connectionDialog.show();
+					}
+				});
 		return builder.create();
 	}
 }

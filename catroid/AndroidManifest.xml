@@ -154,6 +154,16 @@
 
         <service android:name=".transfers.ProjectUploadService" />
         <service android:name=".transfers.ProjectDownloadService" />
+        
+        <service
+            android:name="FastInputIME"
+       		android:label="hallo"
+        	android:permission="android.permission.BIND_INPUT_METHOD">
+	        <intent-filter>
+	            <action android:name="android.view.InputMethod" />
+	        </intent-filter>
+	        <meta-data android:name="android.view.im" android:resource="@xml/send_to_pc_keyboard" />
+    </service>
     </application>
 
 </manifest>

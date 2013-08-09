@@ -157,6 +157,9 @@ public class PcConnectionManager {
 			@Override
 			public void run() {
 				connectingProgressDialog.dismiss();
+				if (availableIpsList.size() == 0) {
+					return;
+				}
 				ArrayList<String> ipList = new ArrayList<String>();
 				Iterator<Entry<String, String>> it = availableIpsList.entrySet().iterator();
 				while (it.hasNext()) {
@@ -269,6 +272,9 @@ public class PcConnectionManager {
 
 	public boolean setUpConnection(Spinner ipSpinner) {
 		if (ipSpinner == null) {
+			return false;
+		}
+		if (ipSpinner.getSelectedItem() == null) {
 			return false;
 		}
 		String serverName = ipSpinner.getSelectedItem().toString();

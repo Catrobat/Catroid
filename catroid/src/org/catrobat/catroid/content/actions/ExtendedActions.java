@@ -31,6 +31,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.SendToPcBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -350,9 +351,9 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static Action sendToPc(Sprite sprite) {
+	public static Action sendToPc(SendToPcBrick sendToPcBrick) {
 		SendToPcAction action = action(SendToPcAction.class);
-		action.setSprite(sprite);
+		action.setSendToPcBrick(sendToPcBrick);
 		return action;
 	}
 }

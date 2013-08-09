@@ -375,6 +375,7 @@
     <string name="brick_variable_spinner_create_new_variable">New…</string>
     <string name="brick_note_default_value">"add comment here…"</string>
     <string name="brick_broadcast_default_value">"message 1"</string>
+    <string name="brick_send_to_pc">"Send to PC: "</string>
     <!--  -->
 
 

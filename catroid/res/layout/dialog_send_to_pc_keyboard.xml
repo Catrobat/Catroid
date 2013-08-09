@@ -1,4 +1,5 @@
-/**
+<?xml version="1.0" encoding="utf-8"?>
+<!--
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -19,36 +20,20 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package org.catrobat.catroid.content.actions;
-
-import org.catrobat.catroid.content.bricks.SendToPcBrick;
-import org.catrobat.catroid.io.Command;
-import org.catrobat.catroid.io.Connection;
-import org.catrobat.catroid.io.PcConnectionManager;
-
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-
-public class SendToPcAction extends TemporalAction {
-
-	private SendToPcBrick sendToPcBrick;
-
-	@Override
-	protected void update(float percent) {
-		Connection connection = PcConnectionManager.getInstance(null).getConnection();
-		if (connection != null) {
-			Command command = createCommand();
-			if (command != null) {
-				connection.addCommand(command);
-			}
-		}
-	}
-
-	public Command createCommand() {
-		return new Command(sendToPcBrick.getKey(), Command.commandType.SINGLE_KEY);
-	}
-
-	public void setSendToPcBrick(SendToPcBrick sendToPcBrick) {
-		this.sendToPcBrick = sendToPcBrick;
-	}
-}
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    
+    
+    
+      <android.inputmethodservice.KeyboardView
+	       android:id="@+id/keyboard_view"
+	       android:layout_width="fill_parent"
+	       android:layout_height="wrap_content"
+	       android:layout_gravity="center"
+	       android:focusable="true"
+	       android:focusableInTouchMode="true"
+	       android:visibility="gone" />
+    
+</RelativeLayout>

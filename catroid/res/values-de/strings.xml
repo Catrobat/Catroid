@@ -475,11 +475,31 @@
     <string name="dialog_connection_setup">Dieser Brick benötigt eine Verbindung zu einem PC: </string>
     <string name="dialog_connection_setup_title">Verbindung wird benötigt</string>
     <string name="dialog_connection_setup_connection_to">Verbinde mit:</string>
-    <string name="dialog_connection_setup_scan">Suche nach verfügbaren PCs</string>
+    <string name="dialog_connection_setup_scan">Erneut Scannen.</string>
+    <string name="dialog_custom_keyboard">Zu sendende Taste:</string>
     <string name="prog_dialog_scan_wait">Scannen</string>   
     <string name="no_devices_found">Es wurden keine Geräte gefunden.</string>    
+    <string name="no_device_selected">Um eine Verbindung herzustellen muss ein PC ausgewählt sein.</string>    
     <string name="connection_broke_1">Verbindung zu \"</string>
     <string name="connection_broke_2">\" ist abegebrochen.</string>
+    <string name="default_key_text">Taste</string>
+    <!--  -->
+    
+    <!-- WiFiHID Keyboard Strings -->
+    <string name="key_control">CTRL</string>
+    <string name="key_alt">ALT</string>
+    <string name="key_alt_gr">ALT GR</string>
+    <string name="key_caps_lock">CAPS LOCK</string>
+    <string name="key_shift">SHIFT</string>
+    <string name="key_tab">TAB</string>
+    <string name="key_space">SPACE</string>   
+    <string name="key_back_space">BACK SPACE</string>    
+    <string name="key_enter">ENTER</string>
+    <string name="key_arrow_up">UP</string>
+    <string name="key_arrow_down">DOWN</string>
+    <string name="key_arrow_left">LEFT</string>
+    <string name="key_arrow_right">RIGHT</string>
+    <string name="key_escape">ESC</string>
     <!--  -->
 
     <!-- Formula Editor Strings -->
