@@ -27,18 +27,18 @@ public class RegistrationData {
 	private String userName;
 	private String password;
 	private String gender;
-	private String city;
+	private String email;
 	private String countryCode;
 	private String birthdayMonth;
 	private String birthdayYear;
 
-	public static final RegistrationData INSTANCE = new RegistrationData();
+	private static final RegistrationData INSTANCE = new RegistrationData();
 
 	private RegistrationData() {
 		this.userName = null;
 		this.password = null;
 		this.gender = null;
-		this.city = null;
+		this.email = null;
 		this.countryCode = null;
 		this.birthdayMonth = null;
 		this.birthdayYear = null;
@@ -72,12 +72,12 @@ public class RegistrationData {
 		this.gender = gender;
 	}
 
-	public String getCity() {
-		return city;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getBirthdayMonth() {

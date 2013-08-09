@@ -2,27 +2,33 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.catrobat.catroid.ui.dialogs;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
@@ -34,73 +40,89 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
 import android.widget.EditText;
+import org.catrobat.catroid.utils.UtilDeviceInfo;
 
 public class RegistrationDialogStepThreeDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step3";
+    public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step3";
 
-	private EditText city;
-	private Button nextButton;
+    private EditText emailEditText;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.dialog_register_city, container);
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_email, null);
 
-		city = (EditText) rootView.findViewById(R.id.city);
-		nextButton = (Button) rootView.findViewById(R.id.next_button);
-		nextButton.setEnabled(false);
+        emailEditText = (EditText) view.findViewById(R.id.email);
+        final String userEmail = UtilDeviceInfo.getUserEmail(getActivity());
 
-		city.addTextChangedListener(new TextWatcher() {
+        final Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
+                .setTitle(R.string.register_dialog_title)
+                .setPositiveButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                }).create();
 
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (city.length() == 0) {
-					nextButton.setEnabled(false);
-				} else {
-					nextButton.setEnabled(true);
-				}
-			}
+        alertDialog.setCanceledOnTouchOutside(true);
+        alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                if (!userEmail.isEmpty()) {
+                    emailEditText.setText(userEmail);
+                } else {
+                    ((AlertDialog) alertDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
+                }
+                emailEditText.addTextChangedListener(new TextWatcher() {
 
-			@Override
-			public void afterTextChanged(Editable s) {
-			}
-		});
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    }
 
-		nextButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				handleNextButtonClick();
-			}
-		});
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
 
-		getDialog().setTitle(R.string.register_dialog_title);
-		getDialog().setCanceledOnTouchOutside(true);
-		getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        if (emailEditText.length() == 0) {
+                            ((AlertDialog) alertDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
+                        } else {
+                            ((AlertDialog) alertDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
+                        }
+                    }
+                });
 
-		return rootView;
-	}
+                Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                positiveButton.setOnClickListener(new OnClickListener() {
 
-	private void handleNextButtonClick() {
+                    @Override
+                    public void onClick(View v) {
+                        handleNextButtonClick();
+                    }
+                });
+            }
+        });
 
-		String cityString = city.getText().toString();
-		RegistrationData.INSTANCE.setCity(cityString);
+        return alertDialog;
+    }
 
-		RegistrationDialogStepFourDialog registerStepFourDialog = new RegistrationDialogStepFourDialog();
-		dismiss();
-		registerStepFourDialog.show(getActivity().getSupportFragmentManager(),
-				RegistrationDialogStepFourDialog.DIALOG_FRAGMENT_TAG);
-	}
+    private void handleNextButtonClick() {
 
-	@Override
-	public void onRegistrationComplete() {
-		dismiss();
-	}
+        String emailString = emailEditText.getText().toString().trim();
+        RegistrationData.getInstance().setEmail(emailString);
+
+        RegistrationDialogStepFourDialog registerStepFourDialog = new RegistrationDialogStepFourDialog();
+        dismiss();
+        registerStepFourDialog.show(getActivity().getSupportFragmentManager(),
+                RegistrationDialogStepFourDialog.DIALOG_FRAGMENT_TAG);
+    }
+
+    @Override
+    public void onRegistrationComplete() {
+        dismiss();
+    }
 }

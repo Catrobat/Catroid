@@ -276,8 +276,9 @@
     <string name="register_gender">Geschlecht:</string>
     <string name="register_male">Männlich</string>
     <string name="register_female">Weiblich</string>
+    <string name="register_other">Anderes</string>
     <string name="register_country">Land:</string>
-    <string name="register_city">Stadt:</string>
+    <string name="register_email">E-Mail:</string>
     <string name="register_birthday">Geburtstag:</string>
     <string name="register_birthday_month">Monat:</string>
     <string name="register_birthday_year">Jahr:</string>

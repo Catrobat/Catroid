@@ -76,23 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/birthday_month"
-        android:layout_toRightOf="@+id/birthday_month_text" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/birthday_year" >
-
-      
-       <Button
-            android:id="@+id/next_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:text="@string/next_registration_step" />
-    </LinearLayout>
-
+        android:layout_toRightOf="@+id/birthday_month_text"
+        android:paddingBottom="10dp"/>
 
 </RelativeLayout>

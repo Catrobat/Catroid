@@ -22,73 +22,71 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:theme="@android:style/Theme.Light" >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:theme="@android:style/Theme.Light">
 
     <TextView
-        android:id="@+id/step1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:text="@string/registration_step1" />
+            android:id="@+id/step1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/registration_step1"/>
 
     <TextView
-        android:id="@+id/gender_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:paddingTop="10dp"
-        android:text="@string/register_gender" >
+            android:id="@+id/gender_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/register_gender">
     </TextView>
 
     <RadioButton
-        android:id="@+id/gender_male"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/gender_text"
-        android:text="@string/register_male" />
+            android:id="@+id/gender_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gender_text"
+            android:text="@string/register_male"/>
 
     <RadioButton
-        android:id="@+id/gender_female"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/gender_male"
-        android:text="@string/register_female" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/gender_female"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/next_button"
-            android:layout_width="match_parent"
+            android:id="@+id/gender_female"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:text="@string/next_registration_step" />
-    </LinearLayout>
+            android:layout_below="@+id/gender_male"
+            android:text="@string/register_female"/>
+
+    <RadioButton
+            android:id="@+id/gender_other"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gender_female"
+            android:text="@string/register_other"/>
+
+    <EditText
+            android:id="@+id/gender_other_edittext"
+            android:maxLines="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/gender_other"
+            android:layout_below="@+id/gender_female"
+            android:minEms="5"
+            />
 
     <TextView
-        android:id="@+id/already_registered_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_below="@+id/linearLayout1"
-        android:text="@string/already_registered" />
-    
-    <Button
-            android:id="@+id/login_button"
-            android:layout_width="match_parent"
+            android:id="@+id/already_registered_view"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:layout_below="@+id/already_registered_view"
-            android:text="@string/already_registered_login" />
+            android:gravity="left"
+            android:layout_below="@id/gender_other"
+            android:layout_marginLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/already_registered"/>
 
 </RelativeLayout>

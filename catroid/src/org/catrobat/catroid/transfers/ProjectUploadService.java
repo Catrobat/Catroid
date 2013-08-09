@@ -81,7 +81,7 @@ public class ProjectUploadService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		receiver = (ResultReceiver) intent.getParcelableExtra("receiver");
+		receiver = intent.getParcelableExtra("receiver");
 		try {
 			if (projectPath == null) {
 				result = false;
@@ -115,7 +115,10 @@ public class ProjectUploadService extends IntentService {
 			}
 
 			//String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
-			String userEmail = UtilDeviceInfo.getUserEmail(this);
+            String userEmail = RegistrationData.getInstance().getEmail();
+            if(userEmail.isEmpty()){
+                userEmail = UtilDeviceInfo.getUserEmail(this);
+            }
 			String language = UtilDeviceInfo.getUserLanguageCode(this);
 
 			Context context = getApplicationContext();

@@ -22,6 +22,9 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 
@@ -38,25 +41,23 @@ public class RegistrationDialogStepSixDialog extends DialogFragment implements O
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step6";
 
-	private Button uploadButton;
-
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.dialog_register_completed, container);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_completed, null);
 
-		uploadButton = (Button) rootView.findViewById(R.id.upload_button);
-		uploadButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				handleUploadButtonClick();
-			}
-		});
+        final Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
+                .setTitle(R.string.register_dialog_title)
+                .setPositiveButton(R.string.upload_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        handleUploadButtonClick();
+                    }
+                }).create();
 
-		getDialog().setTitle(R.string.upload_project_dialog_title);
-		getDialog().setCanceledOnTouchOutside(true);
-		getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        alertDialog.setCanceledOnTouchOutside(true);
+        alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-		return rootView;
+		return alertDialog;
 	}
 
 	private void handleUploadButtonClick() {

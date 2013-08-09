@@ -87,6 +87,8 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.waitForText(loginDialogTitle);
 
+		fillRegistrationDialogsUntilStepFive();
+
 		assertTrue("Licence text not present", solo.searchText(solo.getString(R.string.register_terms)));
 		assertTrue("Licence link not present",
 				solo.searchText(solo.getString(R.string.register_pocketcode_terms_of_use_text)));
@@ -265,7 +267,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		Button nextButton = (Button) solo.getView(R.id.next_button);
 		assertFalse("Next button is enabled!", nextButton.isEnabled());
-		EditText city = (EditText) solo.getView(R.id.city);
+		EditText city = (EditText) solo.getView(R.id.email);
 		solo.enterText(city, "Graz");
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(300);
@@ -399,7 +401,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(300);
 
-		EditText city = (EditText) solo.getView(R.id.city);
+		EditText city = (EditText) solo.getView(R.id.email);
 		solo.enterText(city, "Graz");
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(500);
@@ -418,7 +420,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(300);
 
-		EditText city = (EditText) solo.getView(R.id.city);
+		EditText city = (EditText) solo.getView(R.id.email);
 		solo.enterText(city, "Graz");
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(500);

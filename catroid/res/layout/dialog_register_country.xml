@@ -50,23 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/country_text"
+        android:paddingBottom="10dp"
          />
-
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/country" >
-
-      
-       <Button
-            android:id="@+id/next_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:text="@string/next_registration_step" />
-    </LinearLayout>
-
 
 </RelativeLayout>

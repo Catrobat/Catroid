@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.transfers.RegistrationTask;
@@ -51,48 +53,36 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
 
 	private EditText usernameEditText;
 	private EditText passwordEditText;
-	private Button login;
-	private Button passwordForgotten;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.dialog_login, container);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_login, null);
 
-		usernameEditText = (EditText) rootView.findViewById(R.id.username);
-		passwordEditText = (EditText) rootView.findViewById(R.id.password);
-		login = (Button) rootView.findViewById(R.id.login_register_button);
-		passwordForgotten = (Button) rootView.findViewById(R.id.password_forgotten_button);
+		usernameEditText = (EditText) view.findViewById(R.id.username);
+		passwordEditText = (EditText) view.findViewById(R.id.password);
 
-		usernameEditText.setText(RegistrationData.INSTANCE.getUserName());
-		passwordEditText.setText(RegistrationData.INSTANCE.getPassword());
+		usernameEditText.setText(RegistrationData.getInstance().getUserName());
+		passwordEditText.setText(RegistrationData.getInstance().getPassword());
 
-		login.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				handleLoginButtonClick();
-			}
-		});
-		passwordForgotten.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				handlePasswordForgottenButtonClick();
-			}
-		});
+        Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
+                .setTitle(R.string.login_dialog_title)
+                .setPositiveButton(R.string.login, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        handleLoginButtonClick();
+                    }
+                }).setNegativeButton(R.string.password_forgotten, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        handlePasswordForgottenButtonClick();
+                    }
+                })
+                .create();
 
-		getDialog().setTitle(R.string.login_dialog_title);
-		getDialog().setCanceledOnTouchOutside(true);
-		getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        alertDialog.setCanceledOnTouchOutside(true);
+        alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-		getDialog().setOnShowListener(new OnShowListener() {
-			@Override
-			public void onShow(DialogInterface dialog) {
-				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
-						Context.INPUT_METHOD_SERVICE);
-				inputManager.showSoftInput(usernameEditText, InputMethodManager.SHOW_IMPLICIT);
-			}
-		});
-
-		return rootView;
+        return alertDialog;
 	}
 
 	@Override
@@ -107,7 +97,7 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
 		String username = usernameEditText.getText().toString();
 		String password = passwordEditText.getText().toString();
 
-		RegistrationTask registrationTask = new RegistrationTask(getActivity(), username, password);
+		RegistrationTask registrationTask = new RegistrationTask(getActivity(), username, password, null);
 		registrationTask.setOnRegistrationCompleteListener(this);
 		registrationTask.execute();
 	}

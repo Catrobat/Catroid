@@ -246,8 +246,9 @@
     <string name="register_gender">Gender:</string>
     <string name="register_male">Male</string>
     <string name="register_female">Female</string>
+    <string name="register_other">Other</string>
     <string name="register_country">Country:</string>
-    <string name="register_city">City:</string>
+    <string name="register_email">E-Mail:</string>
     <string name="register_birthday">Birthday:</string>
     <string name="register_birthday_month">Month:</string>
     <string name="register_birthday_year">Year:</string>

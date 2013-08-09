@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.transfers;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
@@ -46,13 +48,15 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 
 	private String message;
 	private boolean userRegistered;
+    private AlertDialog registrationDialog;
 
 	private OnRegistrationCompleteListener onRegistrationCompleteListener;
 
-	public RegistrationTask(Context activity, String username, String password) {
+	public RegistrationTask(Context activity, String username, String password, AlertDialog registrationDialog) {
 		this.context = activity;
 		this.username = username;
 		this.password = password;
+        this.registrationDialog = registrationDialog;
 	}
 
 	public void setOnRegistrationCompleteListener(OnRegistrationCompleteListener listener) {
@@ -80,13 +84,13 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 
 			String email = UtilDeviceInfo.getUserEmail(context);
 			String language = UtilDeviceInfo.getUserLanguageCode(context);
-			String country = RegistrationData.INSTANCE.getCountryCode();
+			String country = RegistrationData.getInstance().getCountryCode();
 			//String country = UtilDeviceInfo.getUserCountryCode(context);
 			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-			String gender = RegistrationData.INSTANCE.getGender();
-			String birthdayMonth = RegistrationData.INSTANCE.getBirthdayMonth();
-			String birthdayYear = RegistrationData.INSTANCE.getBirthdayYear();
-			String city = RegistrationData.INSTANCE.getCity();
+			String gender = RegistrationData.getInstance().getGender();
+			String birthdayMonth = RegistrationData.getInstance().getBirthdayMonth();
+			String birthdayYear = RegistrationData.getInstance().getBirthdayYear();
+			String city = RegistrationData.getInstance().getEmail();
 
 			userRegistered = ServerCalls.getInstance().registerOrCheckToken(username, password, email, language,
 					country, token, gender, birthdayMonth, birthdayYear, city, context);
@@ -133,11 +137,21 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 		}
 		if (message == null) {
 			new Builder(context).setTitle(R.string.register_error).setMessage(messageId).setPositiveButton("OK", null)
-					.show();
+                    .show().setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            registrationDialog.show();
+                        }
+                    });
 		} else {
-			new Builder(context).setTitle(R.string.register_error).setMessage(message).setPositiveButton("OK", null)
-					.show();
-		}
+            new Builder(context).setTitle(R.string.register_error).setMessage(message).setPositiveButton("OK", null)
+                    .show().setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            registrationDialog.show();
+                        }
+                    });
+        }
 	}
 
 	public interface OnRegistrationCompleteListener {

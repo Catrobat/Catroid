@@ -48,18 +48,4 @@
         android:text="@string/registration_completed" >
     </TextView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/registration_completed_text"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/upload_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:text="@string/upload_button" />
-    </LinearLayout>
-
 </RelativeLayout>
