@@ -71,6 +71,8 @@ public class StageListener implements ApplicationListener {
 	// CHECKSTYLE DISABLE StaticVariableNameCheck FOR 1 LINES
 	private static boolean DYNAMIC_SAMPLING_RATE_FOR_ACTIONS = true;
 
+	public static byte[] testData;//TODO REMOVE
+
 	private float deltaActionTimeDivisor = 10f;
 	private FPSLogger fpsLogger;
 
@@ -379,7 +381,6 @@ public class StageListener implements ApplicationListener {
 				makeAutomaticScreenshot = false;
 			}
 		}
-
 		if (makeScreenshot) {
 			screenshot = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight,
 					true);
@@ -396,6 +397,8 @@ public class StageListener implements ApplicationListener {
 		if (axesOn && !finished) {
 			drawAxes();
 		}
+
+		justForTesting();
 
 		if (DEBUG) {
 			fpsLogger.log();
@@ -556,6 +559,17 @@ public class StageListener implements ApplicationListener {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void justForTesting() {
+
+		Pixmap p = new Pixmap(testData, 0, testData.length);
+		if (p != null) {
+			batch.begin();
+			//batch.draw(new Texture(p), -virtualWidthHalf, -virtualHeightHalf);
+			batch.draw(new Texture(p), -virtualWidthHalf, -virtualHeightHalf, virtualWidth, virtualHeight);
+			batch.end();
 		}
 	}
 }

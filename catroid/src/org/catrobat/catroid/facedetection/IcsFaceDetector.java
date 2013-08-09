@@ -37,8 +37,21 @@ import android.util.Log;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class IcsFaceDetector extends FaceDetector implements FaceDetectionListener {
 
+	public static final int TEXTURE_NAME = 1;
 	private Camera camera;
-	private SurfaceTexture texture = new SurfaceTexture(0); // TODO
+	private SurfaceTexture texture; // TODO
+
+	public IcsFaceDetector() {
+		createTexture();
+	}
+
+	private void createTexture() {
+		//		IntBuffer textures = IntBuffer.allocate(1);
+		//		Gdx.gl.glGenTextures(1, textures);
+		//		int textureID = textures.get(0);
+		//		texture = new SurfaceTexture(textureID);
+		texture = new SurfaceTexture(TEXTURE_NAME);
+	}
 
 	@Override
 	public void startFaceDetection() {
