@@ -45,13 +45,14 @@ public final class Constants {
 	public static final int NO_POSITION = -1;
 
     //Web:
-    public static final String BASE_URL_HTTPS = "https://www.pocketcode.org/";
-    public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
+	public static final String BASE_URL_HTTPS = "https://www.pocketcode.org/";
+	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 
-    public static final String CATROBAT_ABOUT_URL = "http://developer.catrobat.org/";
-    public static final String ABOUT_POCKETCODE_LICENSE_URL = CATROBAT_ABOUT_URL + "licenses";
+	public static final String CATROBAT_ABOUT_URL = "http://developer.catrobat.org/";
+	public static final String ABOUT_POCKETCODE_LICENSE_URL = CATROBAT_ABOUT_URL + "licenses";
 
-    public static final String CATROBAT_FORUM_URL = "http://catrob.at/PocketCodeUserForum";
+	public static final String CATROBAT_FORUM_URL = "http://catrob.at/PocketCodeUserForum";
+
 	public static final String TOKEN = "token";
 	public static final String NO_TOKEN = "no_token";
 	public static final String USERNAME = "username";
@@ -67,8 +68,7 @@ public final class Constants {
 
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
-	public static final String POCKET_PAINT_DOWNLOAD_LINK = "market://details?id="
-			+ POCKET_PAINT_PACKAGE_NAME;
+	public static final String POCKET_PAINT_DOWNLOAD_LINK = "market://details?id=" + POCKET_PAINT_PACKAGE_NAME;
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
 
 	//Services + Notifications

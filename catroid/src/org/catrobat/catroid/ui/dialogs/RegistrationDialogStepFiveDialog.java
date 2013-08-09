@@ -122,7 +122,8 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
 					.setMessage(R.string.register_password_mismatch).setPositiveButton(android.R.string.ok, null).show();
 			return;
 		}
-		RegistrationTask registrationTask = new RegistrationTask(getActivity(), username, password, alertDialog);
+        Context context = getActivity();
+		RegistrationTask registrationTask = new RegistrationTask(context, username, password, alertDialog);
 		registrationTask.setOnRegistrationCompleteListener(this);
 		registrationTask.execute();
 	}

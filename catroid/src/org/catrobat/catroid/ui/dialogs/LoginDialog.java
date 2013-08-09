@@ -26,6 +26,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationData;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.RegistrationTask;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 import org.catrobat.catroid.web.ServerCalls;
@@ -104,7 +105,7 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
 
 	private void handlePasswordForgottenButtonClick() {
 		String username = usernameEditText.getText().toString();
-		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTP : ServerCalls.BASE_URL_HTTPS;
+		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTP : Constants.BASE_URL_HTTPS;
 
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(baseUrl + PASSWORD_FORGOTTEN_PATH + username));
 		getActivity().startActivity(browserIntent);
