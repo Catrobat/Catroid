@@ -36,9 +36,9 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Logger;
 
 import android.graphics.Rect;
-import android.util.Log;
 import android.widget.ImageButton;
 
 import com.jayway.android.robotium.solo.Solo;

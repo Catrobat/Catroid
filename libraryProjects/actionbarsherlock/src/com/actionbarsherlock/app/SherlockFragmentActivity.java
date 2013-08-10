@@ -128,33 +128,33 @@ public class SherlockFragmentActivity extends _ActionBarSherlockTrojanHorse impl
     ///////////////////////////////////////////////////////////////////////////
 
     public MenuInflater getSupportMenuInflater() {
-        if (DEBUG) Logger.d(TAG, "[getSupportMenuInflater]");
+        if (DEBUG) Log.d(TAG, "[getSupportMenuInflater]");
 
         return getSherlock().getMenuInflater();
     }
 
     public void invalidateOptionsMenu() {
-        if (DEBUG) Logger.d(TAG, "[invalidateOptionsMenu]");
+        if (DEBUG) Log.d(TAG, "[invalidateOptionsMenu]");
 
         getSherlock().dispatchInvalidateOptionsMenu();
     }
 
     public void supportInvalidateOptionsMenu() {
-        if (DEBUG) Logger.d(TAG, "[supportInvalidateOptionsMenu]");
+        if (DEBUG) Log.d(TAG, "[supportInvalidateOptionsMenu]");
 
         invalidateOptionsMenu();
     }
 
     @Override
     public final boolean onCreatePanelMenu(int featureId, android.view.Menu menu) {
-        if (DEBUG) Logger.d(TAG, "[onCreatePanelMenu] featureId: " + featureId + ", menu: " + menu);
+        if (DEBUG) Log.d(TAG, "[onCreatePanelMenu] featureId: " + featureId + ", menu: " + menu);
 
         if (featureId == Window.FEATURE_OPTIONS_PANEL && !mIgnoreNativeCreate) {
             mIgnoreNativeCreate = true;
             boolean result = getSherlock().dispatchCreateOptionsMenu(menu);
             mIgnoreNativeCreate = false;
 
-            if (DEBUG) Logger.d(TAG, "[onCreatePanelMenu] returning " + result);
+            if (DEBUG) Log.d(TAG, "[onCreatePanelMenu] returning " + result);
             return result;
         }
         return super.onCreatePanelMenu(featureId, menu);
@@ -167,14 +167,14 @@ public class SherlockFragmentActivity extends _ActionBarSherlockTrojanHorse impl
 
     @Override
     public final boolean onPreparePanel(int featureId, View view, android.view.Menu menu) {
-        if (DEBUG) Logger.d(TAG, "[onPreparePanel] featureId: " + featureId + ", view: " + view + ", menu: " + menu);
+        if (DEBUG) Log.d(TAG, "[onPreparePanel] featureId: " + featureId + ", view: " + view + ", menu: " + menu);
 
         if (featureId == Window.FEATURE_OPTIONS_PANEL && !mIgnoreNativePrepare) {
             mIgnoreNativePrepare = true;
             boolean result = getSherlock().dispatchPrepareOptionsMenu(menu);
             mIgnoreNativePrepare = false;
 
-            if (DEBUG) Logger.d(TAG, "[onPreparePanel] returning " + result);
+            if (DEBUG) Log.d(TAG, "[onPreparePanel] returning " + result);
             return result;
         }
         return super.onPreparePanel(featureId, view, menu);
@@ -187,14 +187,14 @@ public class SherlockFragmentActivity extends _ActionBarSherlockTrojanHorse impl
 
     @Override
     public final boolean onMenuItemSelected(int featureId, android.view.MenuItem item) {
-        if (DEBUG) Logger.d(TAG, "[onMenuItemSelected] featureId: " + featureId + ", item: " + item);
+        if (DEBUG) Log.d(TAG, "[onMenuItemSelected] featureId: " + featureId + ", item: " + item);
 
         if (featureId == Window.FEATURE_OPTIONS_PANEL && !mIgnoreNativeSelected) {
             mIgnoreNativeSelected = true;
             boolean result = getSherlock().dispatchOptionsItemSelected(item);
             mIgnoreNativeSelected = false;
 
-            if (DEBUG) Logger.d(TAG, "[onMenuItemSelected] returning " + result);
+            if (DEBUG) Log.d(TAG, "[onMenuItemSelected] returning " + result);
             return result;
         }
         return super.onMenuItemSelected(featureId, item);

@@ -28,7 +28,7 @@ import android.util.Log;
 
 public class Logger {
 
-	private static boolean debugging = BuildConfig.DEBUG; //If it is a release, it is turned off by default
+	private static boolean debugging = BuildConfig.DEBUG; //If it is a release, it is turned off by default; it can be changed in the SettingsActivity
 
 	public static boolean isDebugging() {
 		return debugging;

@@ -159,7 +159,7 @@ public final class MenuItemImpl implements MenuItem {
                 mMenu.getContext().startActivity(mIntent);
                 return true;
             } catch (ActivityNotFoundException e) {
-                Logger.e(TAG, "Can't find activity to handle intent; ignoring", e);
+                Log.e(TAG, "Can't find activity to handle intent; ignoring", e);
             }
         }
 

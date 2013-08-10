@@ -726,7 +726,7 @@ class ActivityChooserModel extends DataSetObservable {
         for (int i = 0; i < pruneCount; i++) {
             HistoricalRecord prunedRecord = choiceRecords.remove(0);
             if (DEBUG) {
-                Logger.i(LOG_TAG, "Pruned: " + prunedRecord);
+                Log.i(LOG_TAG, "Pruned: " + prunedRecord);
             }
         }
     }
@@ -945,7 +945,7 @@ class ActivityChooserModel extends DataSetObservable {
 
             if (DEBUG) {
                 for (int i = 0; i < activityCount; i++) {
-                    Logger.i(LOG_TAG, "Sorted: " + activities.get(i));
+                    Log.i(LOG_TAG, "Sorted: " + activities.get(i));
                 }
             }
         }
@@ -962,7 +962,7 @@ class ActivityChooserModel extends DataSetObservable {
                 fis = mContext.openFileInput(mHistoryFileName);
             } catch (FileNotFoundException fnfe) {
                 if (DEBUG) {
-                    Logger.i(LOG_TAG, "Could not open historical records file: " + mHistoryFileName);
+                    Log.i(LOG_TAG, "Could not open historical records file: " + mHistoryFileName);
                 }
                 return;
             }
@@ -1006,12 +1006,12 @@ class ActivityChooserModel extends DataSetObservable {
                     readRecords.add(readRecord);
 
                     if (DEBUG) {
-                        Logger.i(LOG_TAG, "Read " + readRecord.toString());
+                        Log.i(LOG_TAG, "Read " + readRecord.toString());
                     }
                 }
 
                 if (DEBUG) {
-                    Logger.i(LOG_TAG, "Read " + readRecords.size() + " historical records.");
+                    Log.i(LOG_TAG, "Read " + readRecords.size() + " historical records.");
                 }
 
                 synchronized (mInstanceLock) {
@@ -1050,9 +1050,9 @@ class ActivityChooserModel extends DataSetObservable {
                     });
                 }
             } catch (XmlPullParserException xppe) {
-                Logger.e(LOG_TAG, "Error reading historical recrod file: " + mHistoryFileName, xppe);
+                Log.e(LOG_TAG, "Error reading historical recrod file: " + mHistoryFileName, xppe);
             } catch (IOException ioe) {
-                Logger.e(LOG_TAG, "Error reading historical recrod file: " + mHistoryFileName, ioe);
+                Log.e(LOG_TAG, "Error reading historical recrod file: " + mHistoryFileName, ioe);
             } finally {
                 if (fis != null) {
                     try {
@@ -1081,7 +1081,7 @@ class ActivityChooserModel extends DataSetObservable {
             try {
                 fos = mContext.openFileOutput(mHistoryFileName, Context.MODE_PRIVATE);
             } catch (FileNotFoundException fnfe) {
-                Logger.e(LOG_TAG, "Error writing historical recrod file: " + mHistoryFileName, fnfe);
+                Log.e(LOG_TAG, "Error writing historical recrod file: " + mHistoryFileName, fnfe);
                 return;
             }
 
@@ -1101,7 +1101,7 @@ class ActivityChooserModel extends DataSetObservable {
                     serializer.attribute(null, ATTRIBUTE_WEIGHT, String.valueOf(record.weight));
                     serializer.endTag(null, TAG_HISTORICAL_RECORD);
                     if (DEBUG) {
-                        Logger.i(LOG_TAG, "Wrote " + record.toString());
+                        Log.i(LOG_TAG, "Wrote " + record.toString());
                     }
                 }
 
@@ -1109,14 +1109,14 @@ class ActivityChooserModel extends DataSetObservable {
                 serializer.endDocument();
 
                 if (DEBUG) {
-                    Logger.i(LOG_TAG, "Wrote " + recordCount + " historical records.");
+                    Log.i(LOG_TAG, "Wrote " + recordCount + " historical records.");
                 }
             } catch (IllegalArgumentException iae) {
-                Logger.e(LOG_TAG, "Error writing historical recrod file: " + mHistoryFileName, iae);
+                Log.e(LOG_TAG, "Error writing historical recrod file: " + mHistoryFileName, iae);
             } catch (IllegalStateException ise) {
-                Logger.e(LOG_TAG, "Error writing historical recrod file: " + mHistoryFileName, ise);
+                Log.e(LOG_TAG, "Error writing historical recrod file: " + mHistoryFileName, ise);
             } catch (IOException ioe) {
-                Logger.e(LOG_TAG, "Error writing historical recrod file: " + mHistoryFileName, ioe);
+                Log.e(LOG_TAG, "Error writing historical recrod file: " + mHistoryFileName, ioe);
             } finally {
                 if (fos != null) {
                     try {

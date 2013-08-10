@@ -44,12 +44,12 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
+import org.catrobat.catroid.utils.Logger;
 import org.catrobat.catroid.utils.UtilFile;
 import org.json.JSONException;
 
 import android.content.Context;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 public class XMLValidatingTest extends AndroidTestCase {
 	private String testProjectName = "xmlTestProjectName";

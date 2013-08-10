@@ -352,11 +352,11 @@ public final class ObjectAnimator extends ValueAnimator {
     @Override
     public void start() {
         if (DBG) {
-            Logger.d("ObjectAnimator", "Anim target, duration: " + mTarget + ", " + getDuration());
+            Log.d("ObjectAnimator", "Anim target, duration: " + mTarget + ", " + getDuration());
             for (int i = 0; i < mValues.length; ++i) {
                 PropertyValuesHolder pvh = mValues[i];
                 ArrayList<Keyframe> keyframes = pvh.mKeyframeSet.mKeyframes;
-                Logger.d("ObjectAnimator", "   Values[" + i + "]: " +
+                Log.d("ObjectAnimator", "   Values[" + i + "]: " +
                     pvh.getPropertyName() + ", " + keyframes.get(0).getValue() + ", " +
                     keyframes.get(pvh.mKeyframeSet.mNumKeyframes - 1).getValue());
             }

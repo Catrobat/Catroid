@@ -24,13 +24,13 @@ package org.catrobat.catroid.test.web;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.utils.Logger;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 /*
  * This tests need an internet connection
