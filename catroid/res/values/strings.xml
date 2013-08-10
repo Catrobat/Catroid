@@ -60,7 +60,6 @@
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
     <!--  -->
 
-
     <!-- Settings activity -->
     <string name="preference_title">Settings</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorms bricks</string>

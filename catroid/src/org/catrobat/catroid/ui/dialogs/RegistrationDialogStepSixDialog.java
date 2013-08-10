@@ -67,7 +67,7 @@ public class RegistrationDialogStepSixDialog extends DialogFragment implements O
 	}
 
 	@Override
-	public void onRegistrationComplete() {
+	public void onRegistrationComplete(boolean success) {
 		dismiss();
 	}
 }

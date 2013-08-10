@@ -122,7 +122,7 @@ public class RegistrationDialogStepThreeDialog extends DialogFragment implements
     }
 
     @Override
-    public void onRegistrationComplete() {
+    public void onRegistrationComplete(boolean success) {
         dismiss();
     }
 }

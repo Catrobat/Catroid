@@ -230,7 +230,6 @@
     <string name="login_register_dialog_title">Einloggen</string>
     <string name="username">Benutzername:</string>
     <string name="password">Passwort:</string>
-    <string name="login_or_register">Einloggen/\nRegistrieren</string>
     <string name="password_forgotten">Passwort\nvergessen</string>
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>

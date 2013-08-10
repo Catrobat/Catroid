@@ -127,7 +127,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 		}
 
 		if (onRegistrationCompleteListener != null) {
-			onRegistrationCompleteListener.onRegistrationComplete();
+			onRegistrationCompleteListener.onRegistrationComplete(true);
 		}
 	}
 
@@ -140,7 +140,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
                     .show().setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            registrationDialog.show();
+                            onRegistrationCompleteListener.onRegistrationComplete(false);
                         }
                     });
 		} else {
@@ -148,7 +148,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
                     .show().setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            registrationDialog.show();
+                            onRegistrationCompleteListener.onRegistrationComplete(false);
                         }
                     });
         }
@@ -156,7 +156,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 
 	public interface OnRegistrationCompleteListener {
 
-		public void onRegistrationComplete();
+		public void onRegistrationComplete(boolean success);
 
 	}
 }

@@ -126,7 +126,7 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 	}
 
     @Override
-    public void onRegistrationComplete() {
+    public void onRegistrationComplete(boolean success) {
         dismiss();
     }
 }

@@ -99,7 +99,7 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 	}
 
 	@Override
-	public void onRegistrationComplete() {
+	public void onRegistrationComplete(boolean success) {
 		dismiss();
 	}
 

@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
@@ -36,17 +37,13 @@ import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteLis
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
@@ -60,6 +57,7 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
 	private CheckBox showPassword;
     private TextView termsOfUseLinkTextView;
     private AlertDialog alertDialog;
+    private FragmentActivity fragmentActivity;
 
 	@Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -122,22 +120,29 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
 					.setMessage(R.string.register_password_mismatch).setPositiveButton(android.R.string.ok, null).show();
 			return;
 		}
-        Context context = getActivity();
-		RegistrationTask registrationTask = new RegistrationTask(context, username, password, alertDialog);
+        fragmentActivity = getActivity();
+		RegistrationTask registrationTask = new RegistrationTask(fragmentActivity, username, password, alertDialog);
 		registrationTask.setOnRegistrationCompleteListener(this);
 		registrationTask.execute();
 	}
 
 	@Override
-	public void onRegistrationComplete() {
-		String username = usernameEditText.getText().toString();
-		String password = passwordEditText.getText().toString();
-		RegistrationData.getInstance().setUserName(username);
-		RegistrationData.getInstance().setPassword(password);
+	public void onRegistrationComplete(boolean success) {
+        if(success){
+            String username = usernameEditText.getText().toString();
+            String password = passwordEditText.getText().toString();
+            RegistrationData.getInstance().setUserName(username);
+            RegistrationData.getInstance().setPassword(password);
 
-		RegistrationDialogStepSixDialog registerStepSixDialog = new RegistrationDialogStepSixDialog();
-		dismiss();
-		registerStepSixDialog.show(getActivity().getSupportFragmentManager(),
-                RegistrationDialogStepSixDialog.DIALOG_FRAGMENT_TAG);
+            RegistrationDialogStepSixDialog registerStepSixDialog = new RegistrationDialogStepSixDialog();
+            dismiss();
+            registerStepSixDialog.show(fragmentActivity.getSupportFragmentManager(),
+            RegistrationDialogStepSixDialog.DIALOG_FRAGMENT_TAG);
+        }else{
+            RegistrationDialogStepFiveDialog registerStepFiveDialog = new RegistrationDialogStepFiveDialog();
+            dismiss();
+            registerStepFiveDialog.show(fragmentActivity.getSupportFragmentManager(),
+                    RegistrationDialogStepFiveDialog.DIALOG_FRAGMENT_TAG);
+        }
 	}
 }
