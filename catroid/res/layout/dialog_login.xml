@@ -63,4 +63,23 @@
         android:maxLines="1" >
     </EditText>
 
+    <TextView
+            android:id="@+id/email_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/password"
+            android:layout_marginLeft="10dp"
+            android:text="@string/register_email" >
+    </TextView>
+
+    <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/email_text"
+            android:inputType="text"
+            android:gravity="top"
+            android:maxLines="1" >
+    </EditText>
+
 </RelativeLayout>

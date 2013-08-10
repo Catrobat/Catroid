@@ -42,7 +42,7 @@ public class ConnectionWrapper {
 	private static final String TAG = ConnectionWrapper.class.getSimpleName();
 
 	public static final String TAG_PROGRESS = "currentDownloadProgress";
-	public static final String TAG_ENDOFFILE = "endOfFileReached";
+	public static final String TAG_END_OF_FILE = "endOfFileReached";
 	public static final String TAG_UNKNOWN = "unknown";
 	public static final String TAG_NOTIFICATION_ID = "notificationId";
 	public static final String TAG_PROJECT_NAME = "projectName";
@@ -69,7 +69,7 @@ public class ConnectionWrapper {
 				throw new WebconnectionException(responseCode, "Error response code should be 200 or 201!");
 			}
 			if (!uploadRequest.ok()) {
-				Log.v(TAG, "Upload not succesful");
+				Log.v(TAG, "Upload not successful");
 			}
 
 			answer = uploadRequest.body();
@@ -92,7 +92,7 @@ public class ConnectionWrapper {
 			Integer notificationId, String projectName) {
 		Bundle progressBundle = new Bundle();
 		progressBundle.putLong(TAG_PROGRESS, progress);
-		progressBundle.putBoolean(TAG_ENDOFFILE, endOfFileReached);
+		progressBundle.putBoolean(TAG_END_OF_FILE, endOfFileReached);
 		progressBundle.putBoolean(TAG_UNKNOWN, unknown);
 		progressBundle.putInt(TAG_NOTIFICATION_ID, notificationId);
 		progressBundle.putString(TAG_PROJECT_NAME, projectName);

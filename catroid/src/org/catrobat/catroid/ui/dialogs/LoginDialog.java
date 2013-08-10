@@ -24,12 +24,15 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.RegistrationTask;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
+import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.web.ServerCalls;
 
 import android.content.DialogInterface;
@@ -49,6 +52,7 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
 
     private EditText usernameEditText;
     private EditText passwordEditText;
+    private EditText emailEditText;
     private FragmentManager fragmentManager;
 
     @Override
@@ -57,9 +61,18 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
 
         usernameEditText = (EditText) view.findViewById(R.id.username);
         passwordEditText = (EditText) view.findViewById(R.id.password);
+        emailEditText = (EditText) view.findViewById(R.id.email);
 
         usernameEditText.setText(RegistrationData.getInstance().getUserName());
         passwordEditText.setText(RegistrationData.getInstance().getPassword());
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String email = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
+        if(email.equals(Constants.NO_EMAIL)){
+            email = UtilDeviceInfo.getUserEmail(getActivity());
+        }
+
+        emailEditText.setText(email);
 
         Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
                 .setTitle(R.string.login_dialog_title)

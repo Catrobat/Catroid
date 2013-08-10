@@ -214,7 +214,7 @@ public class ServerCalls {
 	}
 
 	public boolean registerOrCheckToken(String username, String password, String userEmail, String language,
-			String country, String token, String gender, String birthdayMonth, String birthdayYear, String city,
+			String country, String token, String gender, String birthdayMonth, String birthdayYear,
 			Context context) throws WebconnectionException {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
@@ -225,20 +225,16 @@ public class ServerCalls {
 			postValues.put(REGISTRATION_USERNAME_KEY, username);
 			postValues.put(REGISTRATION_PASSWORD_KEY, password);
 			postValues.put(REGISTRATION_EMAIL_KEY, userEmail);
-			postValues.put(Constants.TOKEN, token);
 			postValues.put(REGISTRATION_USER_GENDER, gender);
 			postValues.put(REG_USER_BIRTHDAY_MONTH, birthdayMonth);
 			postValues.put(REG_USER_BIRTHDAY_YEAR, birthdayYear);
-			postValues.put(REGISTRATION_COUNTRY_KEY, "AT");
+			postValues.put(REGISTRATION_COUNTRY_KEY, country);
 
-			if (token != Constants.NO_TOKEN) {
+			if (!token.equals(Constants.NO_TOKEN)) {
 				postValues.put(Constants.TOKEN, token);
 			}
 
-			if (country != null) {
-				postValues.put(REGISTRATION_COUNTRY_KEY, country);
-			}
-			if (language != null) {
+			if (!language.isEmpty()) {
 				postValues.put(REGISTRATION_LANGUAGE_KEY, language);
 			}
 			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
@@ -258,7 +254,7 @@ public class ServerCalls {
 
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
 				tokenReceived = jsonObject.getString(JSON_TOKEN);
-				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived == ""
+				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.isEmpty()
 						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
 					throw new WebconnectionException(statusCode, serverAnswer);
 				}
@@ -266,6 +262,7 @@ public class ServerCalls {
 					SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 					sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
 					sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
+                    sharedPreferences.edit().putString(Constants.EMAIL, userEmail).commit();
 				}
 			}
 

@@ -82,7 +82,12 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			}
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-			String email = UtilDeviceInfo.getUserEmail(context);
+            String email = RegistrationData.getInstance().getEmail();
+            if(email.isEmpty()){
+                email = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
+            }if(email.equals(Constants.NO_EMAIL)){
+                email = UtilDeviceInfo.getUserEmail(context);
+            }
 			String language = UtilDeviceInfo.getUserLanguageCode(context);
 			String country = RegistrationData.getInstance().getCountryCode();
 			//String country = UtilDeviceInfo.getUserCountryCode(context);
@@ -90,14 +95,10 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			String gender = RegistrationData.getInstance().getGender();
 			String birthdayMonth = RegistrationData.getInstance().getBirthdayMonth();
 			String birthdayYear = RegistrationData.getInstance().getBirthdayYear();
-			String city = RegistrationData.getInstance().getEmail();
 
 			userRegistered = ServerCalls.getInstance().registerOrCheckToken(username, password, email, language,
-					country, token, gender, birthdayMonth, birthdayYear, city, context);
-
-			sharedPreferences.edit().putString(Constants.TOKEN, token).commit();
+					country, token, gender, birthdayMonth, birthdayYear, context);
 			return true;
-
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			message = e.getMessage();

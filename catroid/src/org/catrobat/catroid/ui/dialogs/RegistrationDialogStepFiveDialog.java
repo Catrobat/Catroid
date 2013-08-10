@@ -24,6 +24,8 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -133,6 +135,9 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
             String password = passwordEditText.getText().toString();
             RegistrationData.getInstance().setUserName(username);
             RegistrationData.getInstance().setPassword(password);
+            //String email = RegistrationData.getInstance().getEmail();
+            //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(fragmentActivity);
+            //sharedPreferences.edit().putString(Constants.EMAIL, email).commit();
 
             RegistrationDialogStepSixDialog registerStepSixDialog = new RegistrationDialogStepSixDialog();
             dismiss();

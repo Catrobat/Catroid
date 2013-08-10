@@ -218,14 +218,14 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), false);
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), false, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		loadProjectTask.execute();
 	}
 
 	@Override
-	public void onLoadProjectSuccess() {
-		if (ProjectManager.getInstance().getCurrentProject() != null) {
+	public void onLoadProjectSuccess(boolean startProjectActivity) {
+		if (ProjectManager.getInstance().getCurrentProject() != null && startProjectActivity) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
@@ -268,14 +268,19 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
+        if(ProjectManager.getInstance().getCurrentProject() == null){
+            LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), false, false);
+            loadProjectTask.setOnLoadProjectCompleteListener(this);
+            loadProjectTask.execute();
+        }
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 
-		if (token == Constants.NO_TOKEN || token.length() != ServerCalls.TOKEN_LENGTH
+		if (token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
 				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
 			showRegisterDialog();
 		} else {
+            String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token, username);
 			checkTokenTask.setOnCheckTokenCompleteListener(this);
 			checkTokenTask.execute();
@@ -300,6 +305,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 	private void showRegisterDialog() {
 		RegistrationDialogStepOneDialog registrationDialog = new RegistrationDialogStepOneDialog();
+        registrationDialog.setContext(this);
 		registrationDialog.show(getSupportFragmentManager(), RegistrationDialogStepOneDialog.DIALOG_FRAGMENT_TAG);
 	}
 

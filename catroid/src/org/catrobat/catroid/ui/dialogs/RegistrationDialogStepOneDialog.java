@@ -39,6 +39,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.RadioButton;
+import org.catrobat.catroid.ui.MainMenuActivity;
 
 public class RegistrationDialogStepOneDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
@@ -48,6 +49,7 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
     private RadioButton femaleRadioButton;
     private RadioButton otherGenderRadioButton;
     private EditText otherGenderEdittext;
+    private MainMenuActivity context;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -142,11 +144,15 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
     private void handleAlreadyRegisteredClick() {
         LoginDialog login = new LoginDialog();
         dismiss();
-        login.show(getActivity().getSupportFragmentManager(), LoginDialog.DIALOG_FRAGMENT_TAG);
+        login.show(context, LoginDialog.DIALOG_FRAGMENT_TAG);
     }
 
     @Override
     public void onRegistrationComplete(boolean success) {
         dismiss();
+    }
+
+    public void setContext(MainMenuActivity context) {
+        this.context = context;
     }
 }
