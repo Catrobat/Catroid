@@ -30,7 +30,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
-import android.util.Log;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
@@ -50,9 +49,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnSh
 		addPreferencesFromResource(R.xml.preferences);
 
 		debuggingPreference = (CheckBoxPreference) findPreference(KEY_DEBUGGING);
-
 		debuggingPreference.setChecked(Logger.isDebugging());
-
 		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
 		ActionBar actionBar = getSupportActionBar();
@@ -78,7 +75,6 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnSh
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (key.equals(KEY_DEBUGGING)) {
 			Logger.setDebugging(sharedPreferences.getBoolean(KEY_DEBUGGING, false));
-			Log.d("settings", "changed " + sharedPreferences.getBoolean(KEY_DEBUGGING, false));
 		}
 	}
 
