@@ -105,7 +105,7 @@ public class XMLValidatingTest extends AndroidTestCase {
 		for (Brick brick : bricks) {
 			if (brick.getClass().equals(WhenBrick.class) || brick.getClass().equals(WhenStartedBrick.class)
 					|| brick.getClass().equals(BroadcastReceiverBrick.class)) {
-				Log.i("XMLValidationtest", "These bricks are not in the new schema");
+				Logger.i("XMLValidationtest", "These bricks are not in the new schema");
 			} else {
 				startScript.addBrick(brick);
 			}

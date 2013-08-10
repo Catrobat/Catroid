@@ -164,7 +164,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		int statusCode = 0;
 		int statusCodeWrongLanguageVersion = 518;
 		statusCode = (Integer) Reflection.getPrivateField(ServerCalls.getInstance(), "uploadStatusCode");
-		Log.v("statusCode=", "" + statusCode);
+		Logger.v("statusCode=", "" + statusCode);
 
 		assertTrue("Upload did work, but error toastmessage should have been displayed", uploadErrorOccurred);
 		assertEquals("Wrong status code from Web", statusCodeWrongLanguageVersion, statusCode);
@@ -491,7 +491,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 			JSONObject jsonObject;
 			jsonObject = new JSONObject(resultString);
 			serverProjectId = jsonObject.optInt("projectId");
-			Log.v("serverID=", "" + serverProjectId);
+			Logger.v("serverID=", "" + serverProjectId);
 
 		} catch (JSONException e) {
 			fail("JSON exception orrured");

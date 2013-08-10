@@ -28,8 +28,7 @@ import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
-
-import android.util.Log;
+import org.catrobat.catroid.utils.Logger;
 
 public class InternFormulaParser {
 
@@ -149,12 +148,12 @@ public class InternFormulaParser {
 		try {
 			List<InternToken> copyIternTokensToParse = new ArrayList<InternToken>(internTokensToParse);
 			if (InternFormulaUtils.applyBracketCorrection(copyIternTokensToParse)) {
-				Log.i("info", "applyBracketCorrection-> TRUE");
+				Logger.i("info", "applyBracketCorrection-> TRUE");
 				internTokensToParse.clear();
 				internTokensToParse.addAll(copyIternTokensToParse);
 			}
 		} catch (EmptyStackException emptyStackException) {
-			Log.i("info", "emptyStackException-> TRUE");
+			Logger.i("info", "emptyStackException-> TRUE");
 		}
 
 		addEndOfFileToken();

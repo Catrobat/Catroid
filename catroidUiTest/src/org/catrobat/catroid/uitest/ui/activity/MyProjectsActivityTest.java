@@ -452,13 +452,13 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 					IMAGE_RESOURCE_2, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 		}
 
-		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "before sleep");
+		Logger.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "before sleep");
 		solo.sleep(100);
-		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "after sleep");
+		Logger.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "after sleep");
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "after intent");
+		Logger.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "after intent");
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "activity visible");
+		Logger.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "activity visible");
 
 		ArrayList<ListView> listViews = solo.getCurrentViews(ListView.class);
 		while (solo.getCurrentViews(ListView.class).size() == 0) {
@@ -509,9 +509,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 
 		solo.scrollToBottom();
-		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "scroll bottom");
+		Logger.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "scroll bottom");
 		solo.scrollToTop();
-		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "scroll up");
+		Logger.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "scroll up");
 		solo.sleep(500);
 		int currentViewID;
 		int pixelColor;
@@ -1610,7 +1610,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	//		solo.sleep(200);
 	//		solo.clickOnText(scriptsText);
 	//		solo.sleep(200);
-	//		Log.v("MyProjectsActivityTest", "current activity - " + solo.getCurrentActivity().getClass().getSimpleName());
+	//		Logger.v("MyProjectsActivityTest", "current activity - " + solo.getCurrentActivity().getClass().getSimpleName());
 	//		UiTestUtils.clickOnHomeActionBarButton(solo);
 	//
 	//		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -1732,7 +1732,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			outputStreamWriter.flush();
 			outputStreamWriter.close();
 		} catch (IOException e) {
-			Log.e("CATROID", e.toString());
+			Logger.e("CATROID", e.toString());
 			fail("corrupting project failed due to IOException");
 		}
 	}

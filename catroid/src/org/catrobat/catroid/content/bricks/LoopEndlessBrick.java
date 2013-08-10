@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -35,6 +32,9 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
 
 public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 

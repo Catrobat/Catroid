@@ -22,14 +22,6 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +31,14 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAdapterInterface {
 	private Context context;

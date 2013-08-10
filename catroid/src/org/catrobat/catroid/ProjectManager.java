@@ -33,11 +33,11 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.utils.Logger;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 public class ProjectManager {
 	private static final ProjectManager INSTANCE = new ProjectManager();
@@ -75,7 +75,7 @@ public class ProjectManager {
 						if (errorMessage) {
 							Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
 						}
-						Log.e("CATROID", "Cannot load project.", e);
+						Logger.e("CATROID", "Cannot load project.", e);
 						return false;
 					}
 				}
@@ -135,7 +135,7 @@ public class ProjectManager {
 			currentScript = null;
 			return true;
 		} catch (Exception e) {
-			Log.e("CATROID", "Cannot initialize default project.", e);
+			Logger.e("CATROID", "Cannot initialize default project.", e);
 			Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
 			return false;
 		}

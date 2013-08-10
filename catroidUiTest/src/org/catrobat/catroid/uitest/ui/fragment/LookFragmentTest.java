@@ -204,7 +204,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		Sprite firstSprite = projectManager.getCurrentProject().getSpriteList().get(0);
 		LookData lookToDelete = firstSprite.getLookDataList().get(1);
 
-		Log.d("TEST", "Look to delete: " + lookToDelete.getLookName());
+		Logger.d("TEST", "Look to delete: " + lookToDelete.getLookName());
 
 		String testLookName = SECOND_TEST_LOOK_NAME;
 		assertEquals("The two names should be equal", testLookName, lookToDelete.getLookName());

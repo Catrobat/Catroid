@@ -224,7 +224,7 @@ public class ChangeVariableTest extends BaseActivityInstrumentationTestCase<Main
 					solo.clickOnText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only));
 				}
 			}
-			Log.i("info", "(" + iteration + ")OkButton-found: " + solo.searchButton(solo.getString(R.string.ok)));
+			Logger.i("info", "(" + iteration + ")OkButton-found: " + solo.searchButton(solo.getString(R.string.ok)));
 
 			solo.clickOnButton(solo.getString(R.string.ok));
 			solo.waitForText(solo.getString(R.string.formula_editor_variables), 0, 1000);

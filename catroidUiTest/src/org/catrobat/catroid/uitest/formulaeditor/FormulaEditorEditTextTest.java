@@ -724,7 +724,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		int maxLoops = 100;
 		String lastComputeString = computeTextView.getText().toString();
 		while (maxLoops-- > 0) {
-			Log.e("info", "loopCount " + maxLoops);
+			Logger.e("info", "loopCount " + maxLoops);
 			sensorManager.sendGeneratedSensorValues();
 
 			//Wait for runnable in FormulaEditorComputeDialog to

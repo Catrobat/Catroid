@@ -34,6 +34,7 @@ import org.catrobat.catroid.bluetooth.BluetoothManager;
 import org.catrobat.catroid.bluetooth.DeviceListActivity;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.utils.Logger;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -46,7 +47,6 @@ import android.os.Message;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
-import android.util.Log;
 import android.widget.Toast;
 
 public class PreStageActivity extends Activity {
@@ -137,7 +137,7 @@ public class PreStageActivity extends Activity {
 	}
 
 	private synchronized void resourceInitialized() {
-		//Log.i("res", "Resource initialized: " + requiredResourceCounter);
+		//Logger.i("res", "Resource initialized: " + requiredResourceCounter);
 
 		requiredResourceCounter--;
 		if (requiredResourceCounter == 0) {
@@ -172,7 +172,7 @@ public class PreStageActivity extends Activity {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
+		Logger.i("bt", "requestcode " + requestCode + " result code" + resultCode);
 
 		switch (requestCode) {
 			case REQUEST_ENABLE_BLUETOOTH:
@@ -271,7 +271,7 @@ public class PreStageActivity extends Activity {
 		@Override
 		public void handleMessage(Message myMessage) {
 
-			Log.i("bt", "message" + myMessage.getData().getInt("message"));
+			Logger.i("bt", "message" + myMessage.getData().getInt("message"));
 			switch (myMessage.getData().getInt("message")) {
 				case LegoNXTBtCommunicator.STATE_CONNECTED:
 					//autoConnect = false;

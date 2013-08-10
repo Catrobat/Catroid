@@ -200,7 +200,7 @@ public class ActionBarView extends AbsActionBarView {
                     try {
                         mLogo = pm.getActivityLogo(((Activity) context).getComponentName());
                     } catch (NameNotFoundException e) {
-                        Log.e(TAG, "Activity component name not found!", e);
+                        Logger.e(TAG, "Activity component name not found!", e);
                     }
                 }
                 if (mLogo == null) {
@@ -215,7 +215,7 @@ public class ActionBarView extends AbsActionBarView {
                 try {
                     mIcon = pm.getActivityIcon(((Activity) context).getComponentName());
                 } catch (NameNotFoundException e) {
-                    Log.e(TAG, "Activity component name not found!", e);
+                    Logger.e(TAG, "Activity component name not found!", e);
                 }
             }
             if (mIcon == null) {
@@ -277,7 +277,7 @@ public class ActionBarView extends AbsActionBarView {
         int logo = 0;
         try {
             final String thisPackage = activity.getClass().getName();
-            if (DEBUG) Log.i(TAG, "Parsing AndroidManifest.xml for " + thisPackage);
+            if (DEBUG) Logger.i(TAG, "Parsing AndroidManifest.xml for " + thisPackage);
 
             final String packageName = activity.getApplicationInfo().packageName;
             final AssetManager am = activity.createPackageContext(packageName, 0).getAssets();
@@ -290,10 +290,10 @@ public class ActionBarView extends AbsActionBarView {
 
                     if ("application".equals(name)) {
                         //Check if the <application> has the attribute
-                        if (DEBUG) Log.d(TAG, "Got <application>");
+                        if (DEBUG) Logger.d(TAG, "Got <application>");
 
                         for (int i = xml.getAttributeCount() - 1; i >= 0; i--) {
-                            if (DEBUG) Log.d(TAG, xml.getAttributeName(i) + ": " + xml.getAttributeValue(i));
+                            if (DEBUG) Logger.d(TAG, xml.getAttributeName(i) + ": " + xml.getAttributeValue(i));
 
                             if ("logo".equals(xml.getAttributeName(i))) {
                                 logo = xml.getAttributeResourceValue(i, 0);
@@ -302,13 +302,13 @@ public class ActionBarView extends AbsActionBarView {
                         }
                     } else if ("activity".equals(name)) {
                         //Check if the <activity> is us and has the attribute
-                        if (DEBUG) Log.d(TAG, "Got <activity>");
+                        if (DEBUG) Logger.d(TAG, "Got <activity>");
                         Integer activityLogo = null;
                         String activityPackage = null;
                         boolean isOurActivity = false;
 
                         for (int i = xml.getAttributeCount() - 1; i >= 0; i--) {
-                            if (DEBUG) Log.d(TAG, xml.getAttributeName(i) + ": " + xml.getAttributeValue(i));
+                            if (DEBUG) Logger.d(TAG, xml.getAttributeName(i) + ": " + xml.getAttributeValue(i));
 
                             //We need both uiOptions and name attributes
                             String attrName = xml.getAttributeName(i);
@@ -340,7 +340,7 @@ public class ActionBarView extends AbsActionBarView {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (DEBUG) Log.i(TAG, "Returning " + Integer.toHexString(logo));
+        if (DEBUG) Logger.i(TAG, "Returning " + Integer.toHexString(logo));
         return logo;
     }
 

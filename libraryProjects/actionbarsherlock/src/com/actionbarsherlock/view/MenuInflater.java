@@ -368,7 +368,7 @@ public class MenuInflater {
                             mActionProviderConstructorArguments);
             } else {
                 if (hasActionProvider) {
-                    Log.w(LOG_TAG, "Ignoring attribute 'actionProviderClass'."
+                    Logger.w(LOG_TAG, "Ignoring attribute 'actionProviderClass'."
                             + " Action view already specified.");
                 }
                 itemActionProvider = null;
@@ -431,7 +431,7 @@ public class MenuInflater {
                     item.setActionView(itemActionViewLayout);
                     actionViewSpecified = true;
                 } else {
-                    Log.w(LOG_TAG, "Ignoring attribute 'itemActionViewLayout'."
+                    Logger.w(LOG_TAG, "Ignoring attribute 'itemActionViewLayout'."
                             + " Action view already specified.");
                 }
             }
@@ -464,7 +464,7 @@ public class MenuInflater {
                 Constructor<?> constructor = clazz.getConstructor(constructorSignature);
                 return (T) constructor.newInstance(arguments);
             } catch (Exception e) {
-                Log.w(LOG_TAG, "Cannot instantiate class: " + className, e);
+                Logger.w(LOG_TAG, "Cannot instantiate class: " + className, e);
             }
             return null;
         }

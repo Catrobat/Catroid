@@ -42,13 +42,13 @@ import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Logger;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -377,7 +377,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		Brick brick = fromScript.getBrick(brickPositionFrom);
 		if (draggedBrick != brick) {
-			Log.e(TAG, "Want to save wrong brick");
+			Logger.e(TAG, "Want to save wrong brick");
 			return;
 		}
 		fromScript.removeBrick(brick);
@@ -407,7 +407,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			for (int i = 0; i < nestingBrickList.size(); i++) {
 				if (nestingBrickList.get(i) instanceof DeadEndBrick) {
 					if (i < nestingBrickList.size() - 1) {
-						Log.w(TAG, "Adding a DeadEndBrick in the middle of the NestingBricks");
+						Logger.w(TAG, "Adding a DeadEndBrick in the middle of the NestingBricks");
 					}
 					position = getPositionForDeadEndBrick(position);
 					temp = getScriptAndBrickIndexFromProject(position);
@@ -517,7 +517,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	public void addNewBrick(int position, Brick brickToBeAdded) {
 
 		if (draggedBrick != null) {
-			Log.w(TAG, "Want to add Brick while there is another one currently dragged.");
+			Logger.w(TAG, "Want to add Brick while there is another one currently dragged.");
 			return;
 		}
 
@@ -570,7 +570,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	public void addNewMultipleBricks(int position, Brick brickToBeAdded) {
 
 		if (draggedBrick != null) {
-			Log.w(TAG, "Want to add Brick while there is another one currently dragged.");
+			Logger.w(TAG, "Want to add Brick while there is another one currently dragged.");
 			return;
 		}
 

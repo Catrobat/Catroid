@@ -42,14 +42,15 @@
  */
 package org.catrobat.catroid.LegoNXT;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+
+import org.catrobat.catroid.utils.Logger;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * This class is for talking to a LEGO NXT robot via bluetooth.
@@ -208,9 +209,9 @@ public abstract class LegoNXTCommunicator extends Thread {
 
 	protected void dispatchMessage(byte[] message) {
 
-		//Log.i("bt", "Received response, length: " + message.length);
+		//Logger.i("bt", "Received response, length: " + message.length);
 		//		for (int i = 0; i < message.length; i++) {
-		//			Log.i("bt", " " + (0x000000FF & message[i]));
+		//			Logger.i("bt", " " + (0x000000FF & message[i]));
 		//		}
 
 		switch (message[1]) {
@@ -226,7 +227,7 @@ public abstract class LegoNXTCommunicator extends Thread {
 				analyzeMessageGetOutputState(message);
 				break;
 			default:
-				Log.i("bt", "Unknown Message received by LegoNXTCommunicator over bluetooth " + message.length);
+				Logger.i("bt", "Unknown Message received by LegoNXTCommunicator over bluetooth " + message.length);
 				receivedMessages.add(message);
 				break;
 		}
@@ -234,39 +235,39 @@ public abstract class LegoNXTCommunicator extends Thread {
 
 	protected void analyzeMessageSetOutputState(byte[] message) {
 		//change command byte0 to DIRECT_COMMAND_REPLY to use!
-		Log.i("bt", "Direct command executed: " + (int) message[0]);
-		Log.i("bt", "executed Command was: " + (int) message[1]);
-		Log.i("bt", "Status: " + (int) message[2]);
-		Log.i("bt", "Length: " + message.length);
+		Logger.i("bt", "Direct command executed: " + (int) message[0]);
+		Logger.i("bt", "executed Command was: " + (int) message[1]);
+		Logger.i("bt", "Status: " + (int) message[2]);
+		Logger.i("bt", "Length: " + message.length);
 
 	}
 
 	protected void analyzeMessageGetOutputState(byte[] message) {
 		//See Lego NXT Docu or LCPMessage class for info on numbers!
-		Log.i("bt", "Message Length: " + message.length);
-		Log.i("bt", "GetOutputState executed: " + (int) message[0]);
-		//		Log.i("bt", "----- executed Command:  " + (int) message[1]);
-		//		Log.i("bt", "Status: " + (int) message[2]);
-		//		Log.i("bt", "Used Motor: " + (int) message[3]);
-		//		Log.i("bt", "Used Power: " + (int) message[4]);
-		//Log.i("bt", "Mode: " + (int) message[5]);
-		//Log.i("bt", "Regulation: " + (int) message[6]);
-		//Log.i("bt", "Turn Ratio: " + (int) message[7]);
-		//Log.i("bt", "Run State: " + (int) message[8]);
+		Logger.i("bt", "Message Length: " + message.length);
+		Logger.i("bt", "GetOutputState executed: " + (int) message[0]);
+		//		Logger.i("bt", "----- executed Command:  " + (int) message[1]);
+		//		Logger.i("bt", "Status: " + (int) message[2]);
+		//		Logger.i("bt", "Used Motor: " + (int) message[3]);
+		//		Logger.i("bt", "Used Power: " + (int) message[4]);
+		//Logger.i("bt", "Mode: " + (int) message[5]);
+		//Logger.i("bt", "Regulation: " + (int) message[6]);
+		//Logger.i("bt", "Turn Ratio: " + (int) message[7]);
+		//Logger.i("bt", "Run State: " + (int) message[8]);
 
 		//		int tacholimit = (0x000000FF & message[9]); //unsigned types would be too smart for java, sorry no chance mate!
 		//		tacholimit += ((0x000000FF & message[10]) << 8);
 		//		tacholimit += ((0x000000FF & message[11]) << 16);
 		//		tacholimit += ((0x000000FF & message[12]) << 24);
 
-		//Log.i("bt", "Tacholimit " + tacholimit);
+		//Logger.i("bt", "Tacholimit " + tacholimit);
 		/*
 		 * int tachocount = message[13];
 		 * tachocount += (message[14] << 8);
 		 * tachocount += (message[15] << 16);
 		 * tachocount += (message[16] << 24);
 		 * 
-		 * Log.i("bt", "Tachocount " + tachocount);
+		 * Logger.i("bt", "Tachocount " + tachocount);
 		 */
 	}
 
@@ -294,7 +295,7 @@ public abstract class LegoNXTCommunicator extends Thread {
 	protected synchronized void moveMotor(int motor, int speed, int end) {
 		byte[] message = LCPMessage.getMotorMessage(motor, speed, end);
 		sendMessageAndState(message);
-		//Log.i("bto", "Motor " + motor + " speed " + speed);
+		//Logger.i("bto", "Motor " + motor + " speed " + speed);
 
 		if (requestConfirmFromDevice) {
 			byte[] test = LCPMessage.getOutputStateMessage(motor);

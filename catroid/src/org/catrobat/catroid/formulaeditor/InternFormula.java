@@ -26,9 +26,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.Logger;
 
 import android.content.Context;
-import android.util.Log;
 
 public class InternFormula {
 
@@ -175,17 +175,17 @@ public class InternFormula {
 			case LEFT:
 				this.cursorPositionInternToken = internTokenFormulaList.get(cursorPositionTokenIndex);
 				this.cursorPositionInternTokenIndex = cursorPositionTokenIndex;
-				Log.i("info", "LEFT of " + cursorPositionInternToken.getTokenStringValue());
+				Logger.i("info", "LEFT of " + cursorPositionInternToken.getTokenStringValue());
 				break;
 			case MIDDLE:
 				this.cursorPositionInternToken = internTokenFormulaList.get(cursorPositionTokenIndex);
 				this.cursorPositionInternTokenIndex = cursorPositionTokenIndex;
-				Log.i("info", "SELECTED " + cursorPositionInternToken.getTokenStringValue());
+				Logger.i("info", "SELECTED " + cursorPositionInternToken.getTokenStringValue());
 				break;
 			case RIGHT:
 				this.cursorPositionInternToken = internTokenFormulaList.get(leftCursorPositionTokenIndex);
 				this.cursorPositionInternTokenIndex = leftCursorPositionTokenIndex;
-				Log.i("info", "RIGHT of " + cursorPositionInternToken.getTokenStringValue());
+				Logger.i("info", "RIGHT of " + cursorPositionInternToken.getTokenStringValue());
 				break;
 
 		}
@@ -724,7 +724,7 @@ public class InternFormula {
 	private CursorTokenPropertiesAfterModification replaceCursorPositionInternTokenByTokenList(
 			List<InternToken> internTokensToReplaceWith) {
 
-		Log.i("info", "replaceCursorPositionInternTokenByTokenList:enter");
+		Logger.i("info", "replaceCursorPositionInternTokenByTokenList:enter");
 
 		if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isNumberToken(internTokensToReplaceWith)) {
 

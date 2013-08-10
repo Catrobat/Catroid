@@ -22,9 +22,7 @@
  */
 package org.catrobat.catroid.content;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
@@ -35,7 +33,9 @@ import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Script implements Serializable {
 
@@ -126,7 +126,7 @@ public abstract class Script implements Serializable {
 
 	public boolean containsBrickOfType(Class<?> type) {
 		for (Brick brick : brickList) {
-			//Log.i("bt", brick.REQUIRED_RESSOURCES + "");
+			//Logger.i("bt", brick.REQUIRED_RESSOURCES + "");
 			if (brick.getClass() == type) {
 				return true;
 			}

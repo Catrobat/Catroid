@@ -22,25 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.SortedSet;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.SoundAdapter;
-import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
-import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
-import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
-import org.catrobat.catroid.utils.Utils;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -66,7 +47,6 @@ import android.support.v4.content.Loader;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -83,6 +63,26 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.adapter.SoundAdapter;
+import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
+import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
+import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
+import org.catrobat.catroid.utils.Logger;
+import org.catrobat.catroid.utils.Utils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.SortedSet;
 
 public class SoundFragment extends ScriptActivityFragment implements OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
@@ -317,7 +317,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		Log.d("SoundFragment", "onActivityResult");
+		Logger.d("SoundFragment", "onActivityResult");
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_MUSIC && data != null) {
 			Bundle arguments = new Bundle();
@@ -330,7 +330,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			}
 		}
 		if (requestCode == SoundFragment.REQUEST_SELECT_MUSIC) {
-			Log.d("SoundFragment", "onActivityResult RequestMusic");
+			Logger.d("SoundFragment", "onActivityResult RequestMusic");
 			setHandleAddbutton();
 
 		}
@@ -478,7 +478,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 				soundInfo.isPlaying = true;
 			} catch (IOException e) {
-				Log.e("CATROID", "Cannot start sound.", e);
+				Logger.e("CATROID", "Cannot start sound.", e);
 			}
 		}
 	}
@@ -608,7 +608,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			try {
 				file = StorageHandler.getInstance().copySoundFile(path[0]);
 			} catch (IOException e) {
-				Log.e("CATROID", "Cannot load sound.", e);
+				Logger.e("CATROID", "Cannot load sound.", e);
 			}
 			return file;
 		}

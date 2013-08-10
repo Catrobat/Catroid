@@ -63,7 +63,7 @@ public class XMLValidationUtil {
 		String response = connection.doHttpPost(XML_VALIDATING_URL, postValues);
 
 		JSONObject jsonResponce = new JSONObject(response);
-		Log.i(LOG_TAG, "json responce: " + jsonResponce.toString());
+		Logger.i(LOG_TAG, "json responce: " + jsonResponce.toString());
 		boolean valid = jsonResponce.getBoolean("valid");
 		String message = jsonResponce.optString("message");
 

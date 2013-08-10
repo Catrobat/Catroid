@@ -28,6 +28,7 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.utils.Logger;
 import org.catrobat.catroid.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +37,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 //web status codes are on: https://github.com/Catrobat/Catroweb/blob/master/statusCodes.php
 
@@ -126,14 +126,14 @@ public class ServerCalls {
 
 			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL;
 
-			Log.v(TAG, "url to upload: " + serverUrl);
+			Logger.v(TAG, "url to upload: " + serverUrl);
 
 			String answer = connection.doHttpsPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString,
 					receiver, notificationId);
 			if (answer != null && !answer.isEmpty()) {
 				// check statusCode from Webserver
 				JSONObject jsonObject = null;
-				Log.v(TAG, "result string: " + answer);
+				Logger.v(TAG, "result string: " + answer);
 				jsonObject = new JSONObject(answer);
 				uploadStatusCode = jsonObject.getInt(JSON_STATUS_CODE);
 				String serverAnswer = jsonObject.optString(JSON_ANSWER);
@@ -186,14 +186,14 @@ public class ServerCalls {
 
 			String serverUrl = useTestUrl ? TEST_CHECK_TOKEN_URL : CHECK_TOKEN_URL;
 
-			Log.v(TAG, "post values - token:" + token + "user: " + username);
-			Log.v(TAG, "url to upload: " + serverUrl);
+			Logger.v(TAG, "post values - token:" + token + "user: " + username);
+			Logger.v(TAG, "url to upload: " + serverUrl);
 			resultString = connection.doHttpPost(serverUrl, postValues);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
 
-			Log.v(TAG, "result string: " + resultString);
+			Logger.v(TAG, "result string: " + resultString);
 
 			jsonObject = new JSONObject(resultString);
 			statusCode = jsonObject.getInt(JSON_STATUS_CODE);
@@ -232,14 +232,14 @@ public class ServerCalls {
 			}
 			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
 
-			Log.v(TAG, "url to use: " + serverUrl);
+			Logger.v(TAG, "url to use: " + serverUrl);
 			resultString = connection.doHttpPost(serverUrl, postValues);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
 			String tokenReceived = "";
 
-			Log.v(TAG, "result string: " + resultString);
+			Logger.v(TAG, "result string: " + resultString);
 
 			jsonObject = new JSONObject(resultString);
 			statusCode = jsonObject.getInt(JSON_STATUS_CODE);

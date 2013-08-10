@@ -25,11 +25,11 @@ package org.catrobat.catroid.ui.dialogs;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.utils.Logger;
 
 import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
@@ -98,7 +98,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				makeScreenshot();
 				break;
 			default:
-				Log.w("CATROID", "Unimplemented button clicked! This shouldn't happen!");
+				Logger.w("CATROID", "Unimplemented button clicked! This shouldn't happen!");
 				break;
 		}
 	}
@@ -126,7 +126,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			try {
 				this.wait();
 			} catch (InterruptedException e) {
-				Log.e("CATROID", "Thread activated too early!", e);
+				Logger.e("CATROID", "Thread activated too early!", e);
 			}
 		}
 		stageActivity.resume();

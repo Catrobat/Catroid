@@ -22,11 +22,11 @@
  */
 package org.catrobat.catroid.soundrecorder;
 
-import java.io.File;
-import java.io.IOException;
-
 import android.media.MediaRecorder;
 import android.net.Uri;
+
+import java.io.File;
+import java.io.IOException;
 
 public class SoundRecorder {
 

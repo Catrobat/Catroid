@@ -24,6 +24,7 @@ package org.catrobat.catroid.formulaeditor;
 
 import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Logger;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -31,7 +32,6 @@ import android.text.Layout;
 import android.text.Spannable;
 import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -129,7 +129,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		int selectionEndIndex = internFormula.getExternSelectionEndIndex();
 		TokenSelectionType selectionType = internFormula.getExternSelectionType();
 
-		Log.i("info", "highlightSelection: start=" + selectionStartIndex + "  end=" + selectionEndIndex);
+		Logger.i("info", "highlightSelection: start=" + selectionStartIndex + "  end=" + selectionEndIndex);
 
 		if (selectionStartIndex == -1 || selectionEndIndex == -1 || selectionEndIndex == selectionStartIndex
 				|| selectionEndIndex > highlightSpan.length()) {
@@ -269,7 +269,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 					cursorY = 0;
 				} else if (yCoordinate >= numberOfVisibleLines * lineHeight - lineHeight / 2) {
 					if (!(yCoordinate > layout.getLineCount() * lineHeight - getScrollY() - getPaddingTop())) {
-						Log.e("info", "Scroll down activated");
+						Logger.e("info", "Scroll down activated");
 						scrollBy(0, (int) (lineHeight - firstLineSize + lineHeight / 2));
 					}
 					cursorY = numberOfVisibleLines;

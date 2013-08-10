@@ -101,12 +101,12 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
 import org.catrobat.catroid.utils.ImageEditing;
+import org.catrobat.catroid.utils.Logger;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.util.Log;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
@@ -240,7 +240,7 @@ public class StorageHandler {
 			}
 
 		} catch (Exception e) {
-			Log.e("CATROID", "Cannot load project.", e);
+			Logger.e("CATROID", "Cannot load project.", e);
 			saveLoadLock.unlock();
 			return null;
 		}
@@ -287,7 +287,7 @@ public class StorageHandler {
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.e(TAG, "saveProject threw an exception and failed.");
+			Logger.e(TAG, "saveProject threw an exception and failed.");
 			saveLoadLock.unlock();
 			return false;
 		}

@@ -39,13 +39,13 @@ import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.utils.Logger;
 
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -300,7 +300,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-		Log.i("info", "onKeyDown() ScriptActivity.... keyCode: " + keyCode);
+		Logger.i("info", "onKeyDown() ScriptActivity.... keyCode: " + keyCode);
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
 

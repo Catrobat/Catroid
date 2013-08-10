@@ -312,7 +312,7 @@ public class UiTestUtils {
 	}
 
 	public static void clickEnterClose(Solo solo, EditText editText, String value, int buttonIndex) {
-		Log.v("debug", "Solo.Enter clickEnterClose");
+		Logger.v("debug", "Solo.Enter clickEnterClose");
 		solo.enterText(editText, value);
 		solo.waitForText(solo.getString(R.string.ok));
 		solo.clickOnButton(buttonIndex);
@@ -1380,7 +1380,7 @@ public class UiTestUtils {
 				}
 			});
 		} catch (Throwable throwable) {
-			Log.e("CATROID", throwable.getMessage());
+			Logger.e("CATROID", throwable.getMessage());
 		}
 		solo.sleep(500);
 	}

@@ -165,8 +165,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		double p = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable("p", copiedSprite).getValue();
 
-		Log.e("CATROID", "q hat den Wert: " + q);
-		Log.e("CATROID", "p hat den Wert: " + p);
+		Logger.e("CATROID", "q hat den Wert: " + q);
+		Logger.e("CATROID", "p hat den Wert: " + p);
 
 		assertEquals("The local uservariable q does not exist after copying the sprite!", 0.0, q);
 		assertEquals("The local uservariable p does not exist after copying the sprite!", 0.0, p);

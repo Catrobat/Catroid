@@ -95,7 +95,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 	public void testIfBrickParts() {
 		ArrayList<Integer> yPosition;
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		Log.e("info", "Befor drag item 1 to item 4 + 20");
+		Logger.e("info", "Befor drag item 1 to item 4 + 20");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
@@ -103,7 +103,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(1) instanceof IfLogicBeginBrick));
 
-		Log.e("info", "Befor drag item 2 to item 0");
+		Logger.e("info", "Befor drag item 2 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
@@ -116,7 +116,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		solo.clickOnText(solo.getString(R.string.brick_when_started));
 		solo.goBack();
 
-		Log.e("info", "Before drag item 3 to item 0");
+		Logger.e("info", "Before drag item 3 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
@@ -131,14 +131,14 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 				+ projectBrickList.get(2).getClass().getSimpleName(),
 				projectBrickList.get(2) instanceof ChangeYByNBrick);
 
-		Log.e("info", "Befor drag item 4 to item 0");
+		Logger.e("info", "Befor drag item 4 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4) - 10, 10, yPosition.get(0), 20);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 
-		Log.e("info", "After drag item 4 to item 0");
+		Logger.e("info", "After drag item 4 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
 		//TODO Test commented lines on local test-device in order to find strange jenkins error
@@ -197,7 +197,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 	private void logBrickListForJenkins(ArrayList<Brick> projectBrickList) {
 		for (Brick brick : projectBrickList) {
-			Log.e("info", "Brick at Positon " + projectBrickList.indexOf(brick) + ": "
+			Logger.e("info", "Brick at Positon " + projectBrickList.indexOf(brick) + ": "
 					+ brick.getClass().getSimpleName());
 		}
 	}

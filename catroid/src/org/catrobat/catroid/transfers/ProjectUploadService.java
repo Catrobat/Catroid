@@ -27,6 +27,7 @@ import java.io.IOException;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.utils.Logger;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
@@ -37,7 +38,6 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.ResultReceiver;
-import android.util.Log;
 import android.widget.Toast;
 
 public class ProjectUploadService extends IntentService {
@@ -85,7 +85,7 @@ public class ProjectUploadService extends IntentService {
 		try {
 			if (projectPath == null) {
 				result = false;
-				Log.e(TAG, "project path is null");
+				Logger.e(TAG, "project path is null");
 				return;
 			}
 
@@ -94,7 +94,7 @@ public class ProjectUploadService extends IntentService {
 
 			if (paths == null) {
 				result = false;
-				Log.e(TAG, "project path is not valid");
+				Logger.e(TAG, "project path is not valid");
 				return;
 			}
 
@@ -128,7 +128,7 @@ public class ProjectUploadService extends IntentService {
 			result = false;
 		} catch (WebconnectionException webException) {
 			serverAnswer = webException.getMessage();
-			Log.e(TAG, serverAnswer);
+			Logger.e(TAG, serverAnswer);
 			result = false;
 		}
 	}
