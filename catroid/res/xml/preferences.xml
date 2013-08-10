@@ -32,6 +32,6 @@
         <CheckBoxPreference
             android:key="setting_debugging"
             android:summary="@string/preference_description_debugging"
-            android:title="@string/preference_title_debugging" /> <!-- TODO: Default value -->
+            android:title="@string/preference_title_debugging" />
 
 </PreferenceScreen>
