@@ -45,6 +45,7 @@ public class ProjectManager {
 	private Project project;
 	private Script currentScript;
 	private Sprite currentSprite;
+	private int unusedWarning;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
@@ -56,6 +57,8 @@ public class ProjectManager {
 	}
 
 	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
+		String unusedString;
+		String unsuedString2;
 		fileChecksumContainer = new FileChecksumContainer();
 		Project oldProject = project;
 		MessageContainer.createBackup();
