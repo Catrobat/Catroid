@@ -27,6 +27,9 @@
     <!-- Language independent -->
     <string name="catroid_extension_pathPattern" translatable="false">.*\\.catrobat.*</string>
 
+    <string name="android_version_prefix" translateable="false">Andr.</string>
+    
+    
     <!-- Symbols -->
     <string name="degree_symbol" translatable="false">°</string>
     <string name="percent_symbol" translatable="false">%</string>
@@ -42,6 +45,7 @@
     <string name="number_7" translatable="false">7</string>
     <string name="number_8" translatable="false">8</string>
     <string name="number_9" translatable="false">9</string>
+ 
 
     <string name="about_link_template" translatable="false">&lt;a href="%1$s">%2$s&lt;/a></string>
 
