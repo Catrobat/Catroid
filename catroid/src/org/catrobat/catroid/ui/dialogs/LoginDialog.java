@@ -27,7 +27,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentActivity;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.common.Constants;
@@ -54,8 +54,7 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
     private EditText usernameEditText;
     private EditText passwordEditText;
     private EditText emailEditText;
-    private FragmentManager fragmentManager;
-    private Context context;
+    private FragmentActivity fragmentActivity;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -100,13 +99,11 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
     @Override
     public void onRegistrationComplete(boolean success) {
         if (success) {
-            dismiss();
             UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-            uploadProjectDialog.show(fragmentManager, UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+            uploadProjectDialog.show(fragmentActivity.getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
         } else {
-            dismiss();
             LoginDialog loginDialog = new LoginDialog();
-            loginDialog.show(fragmentManager,
+            loginDialog.show(fragmentActivity.getSupportFragmentManager(),
                     LoginDialog.DIALOG_FRAGMENT_TAG);
         }
 
@@ -116,8 +113,8 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        fragmentManager = getFragmentManager();
-        RegistrationTask registrationTask = new RegistrationTask(context, username, password, null);
+        fragmentActivity = getActivity();
+        RegistrationTask registrationTask = new RegistrationTask(fragmentActivity, username, password);
         registrationTask.setOnRegistrationCompleteListener(this);
         registrationTask.execute();
     }
@@ -128,9 +125,5 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
 
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(baseUrl + PASSWORD_FORGOTTEN_PATH + username));
         getActivity().startActivity(browserIntent);
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
     }
 }

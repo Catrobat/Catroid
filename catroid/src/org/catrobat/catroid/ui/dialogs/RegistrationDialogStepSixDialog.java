@@ -62,8 +62,7 @@ public class RegistrationDialogStepSixDialog extends DialogFragment implements O
 
 	private void handleUploadButtonClick() {
 		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
-		dismiss();
+		uploadProjectDialog.show(getActivity().getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override

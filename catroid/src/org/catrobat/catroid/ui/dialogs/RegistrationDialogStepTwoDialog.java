@@ -113,10 +113,8 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 
 		RegistrationDialogStepThreeDialog registerStepThreeDialog = new RegistrationDialogStepThreeDialog();
 
-        getActivity().getSupportFragmentManager().beginTransaction().add(registerStepThreeDialog,null).addToBackStack(null).commit();
-		//dismiss();
-        //registerStepThreeDialog.show(getFragmentManager(),
-        //		RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
+        registerStepThreeDialog.show(getActivity().getSupportFragmentManager(),
+        		RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private String getCountryCodeFromCountryId(int position) {

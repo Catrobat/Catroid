@@ -48,15 +48,13 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 
 	private String message;
 	private boolean userRegistered;
-    private AlertDialog registrationDialog;
 
 	private OnRegistrationCompleteListener onRegistrationCompleteListener;
 
-	public RegistrationTask(Context activity, String username, String password, AlertDialog registrationDialog) {
+	public RegistrationTask(Context activity, String username, String password) {
 		this.context = activity;
 		this.username = username;
 		this.password = password;
-        this.registrationDialog = registrationDialog;
 	}
 
 	public void setOnRegistrationCompleteListener(OnRegistrationCompleteListener listener) {

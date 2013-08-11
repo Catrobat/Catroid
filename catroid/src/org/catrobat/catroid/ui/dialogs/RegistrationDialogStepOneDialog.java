@@ -137,23 +137,15 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
             RegistrationData.getInstance().setGender(gender);
         }
 
-        //getFragmentManager().beginTransaction().remove(this).addToBackStack(null).commit();
-        //getFragmentManager().beginTransaction().add(new RegistrationDialogStepTwoDialog(), null).commit();
-        //FragmentTransaction ft = getFragmentManager().beginTransaction();
-        //ft.add(new RegistrationDialogStepTwoDialog(), null);
-        //ft.commit();
-
         RegistrationDialogStepTwoDialog registerStepTwoDialog = new RegistrationDialogStepTwoDialog();
 
-        //registrationDialog.show(getSupportFragmentManager(), RegistrationDialogStepOneDialog.DIALOG_FRAGMENT_TAG);
-        getActivity().getSupportFragmentManager().beginTransaction().add(registerStepTwoDialog,null).addToBackStack(null).commit();
-        //registerStepTwoDialog.show(getFragmentManager(),
-         //       RegistrationDialogStepTwoDialog.DIALOG_FRAGMENT_TAG);
+        registerStepTwoDialog.show(getActivity().getSupportFragmentManager(),
+           RegistrationDialogStepTwoDialog.DIALOG_FRAGMENT_TAG);
     }
 
     private void handleAlreadyRegisteredClick() {
         LoginDialog loginDialog = new LoginDialog();
-        loginDialog.setContext(context);
+        //loginDialog.setContext(context);
         //dismiss();
         //loginDialog.show(getFragmentManager(), LoginDialog.DIALOG_FRAGMENT_TAG);
 
