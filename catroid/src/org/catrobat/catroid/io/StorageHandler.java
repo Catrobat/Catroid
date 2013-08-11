@@ -383,8 +383,6 @@ public class StorageHandler {
 
 		Log.d("TAG", "StorageHandler --> copySoundFileBackPack:: path = " + path);
 
-		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
-
 		File backPackDirectory = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
 				Constants.BACKPACK_SOUND_DIRECTORY));
 
@@ -396,11 +394,8 @@ public class StorageHandler {
 		}
 		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
-		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
-		if (fileChecksumContainer.containsChecksum(inputFileChecksum)) {
-			fileChecksumContainer.addChecksum(inputFileChecksum, null);
-			return new File(fileChecksumContainer.getPath(inputFileChecksum));
-		}
+		Log.d("TAG", "StorageHandler:: inputFileCheksum = " + inputFileChecksum);
+
 		File outputFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
 				Constants.BACKPACK_SOUND_DIRECTORY, inputFileChecksum + "_" + inputFile.getName()));
 
@@ -523,8 +518,13 @@ public class StorageHandler {
 	}
 
 	private File copyFileAddCheckSum(File destinationFile, File sourceFile, File directory) throws IOException {
+
+		Log.d("TAG", "StorageHandler-->copyFileAddCheckSum()");
+
 		File copiedFile = UtilFile.copyFile(destinationFile, sourceFile, directory);
 		addChecksum(destinationFile, sourceFile);
+
+		Log.d("TAG", "copiedFile: " + copiedFile.getName() + "Path: " + copiedFile.getPath());
 
 		return copiedFile;
 	}

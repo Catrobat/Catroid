@@ -170,6 +170,9 @@ public class Utils {
 	}
 
 	public static String md5Checksum(File file) {
+
+		Log.d("TAG", "Utils-->md5Checksum()");
+
 		if (!file.isFile()) {
 			return null;
 		}
