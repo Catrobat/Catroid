@@ -46,21 +46,32 @@ public class ServerCallsTest extends AndroidTestCase {
 	private static final String LOG_TAG = ServerCalls.class.getSimpleName();
 	public static final int STATUS_CODE_AUTHENTICATION_FAILED = 601;
 	public static final int STATUS_CODE_AUTHENTICATION_REGISTRATION_FAILED = 602;
+    private String saveToken;
+    private String saveEmail;
 
 	public ServerCallsTest() {
 		super();
+
+
 	}
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		ServerCalls.useTestUrl = true;
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        saveToken = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+        saveEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		TestUtils.clearProject("uploadtestProject");
 		ServerCalls.useTestUrl = false;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        sharedPreferences.edit().putString(Constants.TOKEN, saveToken).commit();
+        sharedPreferences.edit().putString(Constants.EMAIL, saveEmail).commit();
 		super.tearDown();
 	}
 

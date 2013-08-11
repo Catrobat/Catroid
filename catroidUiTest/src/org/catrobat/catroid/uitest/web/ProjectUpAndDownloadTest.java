@@ -66,6 +66,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	private String testDescription = UiTestUtils.PROJECTDESCRIPTION1;
 	private String newTestDescription = UiTestUtils.PROJECTDESCRIPTION2;
 	private String saveToken;
+    private String saveEmail;
 	private String uploadDialogTitle;
 	private int serverProjectId;
 
@@ -79,8 +80,9 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	@UiThreadTest
 	public void setUp() throws Exception {
 		super.setUp();
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		saveToken = prefs.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		saveToken = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+        saveEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
 		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
 	}
 
@@ -88,6 +90,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	public void tearDown() throws Exception {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		sharedPreferences.edit().putString(Constants.TOKEN, saveToken).commit();
+        sharedPreferences.edit().putString(Constants.EMAIL, saveEmail).commit();
 		super.tearDown();
 	}
 

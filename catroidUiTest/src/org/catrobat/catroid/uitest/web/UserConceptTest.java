@@ -55,6 +55,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 	private static final String TEST_USERNAME = "testUser";
 
 	private String saveToken;
+    private String saveEmail;
 	private String loginDialogTitle;
 	private String registerDialogTitle;
 	private String uploadDialogTitle;
@@ -67,8 +68,9 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 	@UiThreadTest
 	public void setUp() throws Exception {
 		super.setUp();
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		saveToken = prefs.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		saveToken = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+        saveEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
 		loginDialogTitle = solo.getString(R.string.login_dialog_title);
 		registerDialogTitle = solo.getString(R.string.register_dialog_title);
 		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
@@ -79,6 +81,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 	public void tearDown() throws Exception {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		sharedPreferences.edit().putString(Constants.TOKEN, saveToken).commit();
+        sharedPreferences.edit().putString(Constants.EMAIL, saveEmail).commit();
 		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", null);
 		super.tearDown();
 	}
