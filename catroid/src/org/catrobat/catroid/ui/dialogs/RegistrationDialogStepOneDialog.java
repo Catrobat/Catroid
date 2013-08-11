@@ -140,9 +140,6 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
 
 	private void handleAlreadyRegisteredClick() {
 		LoginDialog loginDialog = new LoginDialog();
-		//loginDialog.setContext(context);
-		//dismiss();
-		//loginDialog.show(getFragmentManager(), LoginDialog.DIALOG_FRAGMENT_TAG);
 
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		ft.add(loginDialog, null);

@@ -170,10 +170,9 @@ public class ServerCallsTest extends AndroidTestCase {
 					userRegistered);
 
 			String newUser = "testUser" + System.currentTimeMillis();
+            token = Constants.NO_TOKEN;
 			ServerCalls.getInstance().registerOrCheckToken(newUser, testPassword, testEmail, "de", "at", token, "male",
 					"January", "2000", getContext());
-
-			token = Constants.NO_TOKEN;
 
 			assertFalse(
 					"should never be reached because two registrations with the same email address are not allowed",

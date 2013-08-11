@@ -51,8 +51,8 @@ public class ServerCalls {
 	private static final String REGISTRATION_EMAIL_KEY = "registrationEmail";
 	private static final String LOGIN_USERNAME_KEY = "username";
 	private static final String REGISTRATION_USER_GENDER = "registrationGender";
-	private static final String REG_USER_BIRTHDAY_MONTH = "registrationMonth";
-	private static final String REG_USER_BIRTHDAY_YEAR = "registrationYear";
+	private static final String REGISTRATION_USER_BIRTHDAY_MONTH = "registrationMonth";
+	private static final String REGISTRATION_USER_BIRTHDAY_YEAR = "registrationYear";
 
 	private static final String FILE_UPLOAD_TAG = "upload";
 	private static final String PROJECT_NAME_TAG = "projectTitle";
@@ -226,8 +226,8 @@ public class ServerCalls {
 			postValues.put(REGISTRATION_PASSWORD_KEY, password);
 			postValues.put(REGISTRATION_EMAIL_KEY, userEmail);
 			postValues.put(REGISTRATION_USER_GENDER, gender);
-			postValues.put(REG_USER_BIRTHDAY_MONTH, birthdayMonth);
-			postValues.put(REG_USER_BIRTHDAY_YEAR, birthdayYear);
+			postValues.put(REGISTRATION_USER_BIRTHDAY_MONTH, birthdayMonth);
+			postValues.put(REGISTRATION_USER_BIRTHDAY_YEAR, birthdayYear);
 			postValues.put(REGISTRATION_COUNTRY_KEY, country);
 
 			if (!token.equals(Constants.NO_TOKEN)) {
