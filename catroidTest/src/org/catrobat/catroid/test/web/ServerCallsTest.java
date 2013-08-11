@@ -22,9 +22,16 @@
  */
 package org.catrobat.catroid.test.web;
 
+import java.io.File;
+
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Logger;
+import org.catrobat.catroid.utils.UtilZip;
+import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
@@ -258,6 +265,56 @@ public class ServerCallsTest extends AndroidTestCase {
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
+	}
+
+	public void testUploadWithExistingUserWithoutEmail() {
+		File zipFile = null;
+		try {
+			Project project = TestUtils
+					.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION);
+
+			Reflection.setPrivateField(project.getXmlHeader(), "applicationVersion", "0.7.3beta");
+			StorageHandler.getInstance().saveProject(project);
+
+			String projectPath = Constants.DEFAULT_ROOT + "/" + TestUtils.DEFAULT_TEST_PROJECT_NAME;
+
+			File directoryPath = new File(projectPath);
+			String[] paths = directoryPath.list();
+
+			for (int i = 0; i < paths.length; i++) {
+				paths[i] = Utils.buildPath(directoryPath.getAbsolutePath(), paths[i]);
+			}
+
+			String zipFileString = Utils.buildPath(Constants.TMP_PATH, "upload" + Constants.CATROBAT_EXTENSION);
+			zipFile = new File(zipFileString);
+			if (!zipFile.exists()) {
+				zipFile.getParentFile().mkdirs();
+				zipFile.createNewFile();
+			}
+
+			UtilZip.writeToZipFile(paths, zipFileString);
+
+			String testUser = "testUser" + System.currentTimeMillis();
+			String testPassword = "pwspws";
+			String testEmail = testUser + "@gmail.com";
+			String token = Constants.NO_TOKEN;
+
+			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de", "at", token,
+					getContext());
+			token = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(Constants.TOKEN, "");
+			ServerCalls.useTestUrl = true;
+			ServerCalls.getInstance().uploadProject("test", "", zipFileString, null, "de", token, testUser, null, 0,
+					getContext());
+
+		} catch (Exception exception) {
+			Logger.e(LOG_TAG, "testUploadWithExistingUserWithoutEmail: error", exception);
+			fail("Upload with existing user but without e-mail failed!");
+		} finally {
+			if (zipFile != null) {
+				zipFile.delete();
+			}
+		}
+
 	}
 
 	public void testCheckTokenOk() {
