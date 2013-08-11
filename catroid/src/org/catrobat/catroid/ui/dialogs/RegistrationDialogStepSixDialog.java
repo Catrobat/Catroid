@@ -22,40 +22,37 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
 
 public class RegistrationDialogStepSixDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step6";
 
 	@Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_completed, null);
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_completed, null);
 
-        final Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
-                .setTitle(R.string.register_dialog_title)
-                .setPositiveButton(R.string.upload_button, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        handleUploadButtonClick();
-                    }
-                }).create();
+		final Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
+				.setTitle(R.string.register_dialog_title)
+				.setPositiveButton(R.string.upload_button, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						handleUploadButtonClick();
+					}
+				}).create();
 
-        alertDialog.setCanceledOnTouchOutside(true);
-        alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		alertDialog.setCanceledOnTouchOutside(true);
+		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
 		return alertDialog;
 	}

@@ -236,12 +236,10 @@
     <string name="register">Register</string>
     <string name="next_registration_step">Next</string>
     <string name="already_registered">Already registered?</string>
-    <string name="already_registered_login">Login here</string>
     <string name="show_password">Show password</string>
     <string name="password_forgotten">Password forgotten</string>
     <string name="new_user_registered">New account created</string>
     <string name="register_error">Error occurred</string>
-    <string name="register_password_mismatch">Error: Passwords do not match</string>
     <string name="register_gender">Gender:</string>
     <string name="register_male">Male</string>
     <string name="register_female">Female</string>

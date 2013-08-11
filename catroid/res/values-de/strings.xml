@@ -227,7 +227,6 @@
 
 
     <!-- Login Register dialog -->
-    <string name="login_register_dialog_title">Einloggen</string>
     <string name="username">Benutzername:</string>
     <string name="password">Passwort:</string>
     <string name="password_forgotten">Passwort\nvergessen</string>
@@ -266,12 +265,10 @@
     <string name="register">Registrieren</string>
     <string name="next_registration_step">Weiter</string>
     <string name="already_registered">Bereits registriert?</string>
-    <string name="already_registered_login">Hier einloggen</string>
     <string name="show_password">Zeige Passwort</string>
     <string name="password_forgotten">Passwort\nvergessen</string>
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>
-    <string name="register_password_mismatch">Fehler: Passwörter passen nicht zusammen</string>
     <string name="register_gender">Geschlecht:</string>
     <string name="register_male">Männlich</string>
     <string name="register_female">Weiblich</string>

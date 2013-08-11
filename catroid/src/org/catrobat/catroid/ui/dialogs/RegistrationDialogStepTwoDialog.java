@@ -22,23 +22,20 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 
 public class RegistrationDialogStepTwoDialog extends DialogFragment implements OnRegistrationCompleteListener {
@@ -48,24 +45,24 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 	private Spinner countrySpinner;
 
 	@Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_country, null);
 
 		countrySpinner = (Spinner) view.findViewById(R.id.country);
 
 		addItemsOnCountrySpinner();
 
-        Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
-                .setTitle(R.string.register_dialog_title)
-                .setPositiveButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        handleNextButtonClick();
-                    }
-                }).create();
+		Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
+				.setTitle(R.string.register_dialog_title)
+				.setPositiveButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						handleNextButtonClick();
+					}
+				}).create();
 
-        alertDialog.setCanceledOnTouchOutside(true);
-        alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		alertDialog.setCanceledOnTouchOutside(true);
+		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
 		return alertDialog;
 	}
@@ -113,8 +110,8 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 
 		RegistrationDialogStepThreeDialog registerStepThreeDialog = new RegistrationDialogStepThreeDialog();
 
-        registerStepThreeDialog.show(getActivity().getSupportFragmentManager(),
-        		RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
+		registerStepThreeDialog.show(getActivity().getSupportFragmentManager(),
+				RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private String getCountryCodeFromCountryId(int position) {
@@ -125,8 +122,8 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 		return countryCode;
 	}
 
-    @Override
-    public void onRegistrationComplete(boolean success) {
-        dismiss();
-    }
+	@Override
+	public void onRegistrationComplete(boolean success) {
+		dismiss();
+	}
 }

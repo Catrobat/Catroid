@@ -23,16 +23,14 @@
 
 package org.catrobat.catroid.ui.dialogs;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
+import org.catrobat.catroid.utils.UtilDeviceInfo;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
@@ -41,88 +39,88 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.EditText;
-import org.catrobat.catroid.utils.UtilDeviceInfo;
 
 public class RegistrationDialogStepThreeDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
-    public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step3";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step3";
 
-    private EditText emailEditText;
+	private EditText emailEditText;
 
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_email, null);
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_email, null);
 
-        emailEditText = (EditText) view.findViewById(R.id.email);
-        final String userEmail = UtilDeviceInfo.getUserEmail(getActivity());
+		emailEditText = (EditText) view.findViewById(R.id.email);
+		final String userEmail = UtilDeviceInfo.getUserEmail(getActivity());
 
-        final Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
-                .setTitle(R.string.register_dialog_title)
-                .setPositiveButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                }).create();
+		final Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
+				.setTitle(R.string.register_dialog_title)
+				.setPositiveButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+					}
+				}).create();
 
-        alertDialog.setCanceledOnTouchOutside(true);
-        alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		alertDialog.setCanceledOnTouchOutside(true);
+		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                if (!userEmail.isEmpty()) {
-                    emailEditText.setText(userEmail);
-                } else {
-                    ((AlertDialog) alertDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
-                }
-                emailEditText.addTextChangedListener(new TextWatcher() {
+		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				if (!userEmail.isEmpty()) {
+					emailEditText.setText(userEmail);
+				} else {
+					((AlertDialog) alertDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
+				}
+				emailEditText.addTextChangedListener(new TextWatcher() {
 
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    }
+					@Override
+					public void onTextChanged(CharSequence s, int start, int before, int count) {
+					}
 
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
+					@Override
+					public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+					}
 
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        if (emailEditText.length() == 0) {
-                            ((AlertDialog) alertDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
-                        } else {
-                            ((AlertDialog) alertDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
-                        }
-                    }
-                });
+					@Override
+					public void afterTextChanged(Editable s) {
+						if (emailEditText.length() == 0) {
+							((AlertDialog) alertDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
+						} else {
+							((AlertDialog) alertDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
+						}
+					}
+				});
 
-                Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-                positiveButton.setOnClickListener(new OnClickListener() {
+				Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+				positiveButton.setOnClickListener(new OnClickListener() {
 
-                    @Override
-                    public void onClick(View v) {
-                        handleNextButtonClick();
-                    }
-                });
-            }
-        });
+					@Override
+					public void onClick(View v) {
+						handleNextButtonClick();
+					}
+				});
+			}
+		});
 
-        return alertDialog;
-    }
+		return alertDialog;
+	}
 
-    private void handleNextButtonClick() {
+	private void handleNextButtonClick() {
 
-        String emailString = emailEditText.getText().toString().trim();
-        RegistrationData.getInstance().setEmail(emailString);
+		String emailString = emailEditText.getText().toString().trim();
+		RegistrationData.getInstance().setEmail(emailString);
 
-        RegistrationDialogStepFourDialog registerStepFourDialog = new RegistrationDialogStepFourDialog();
-        dismiss();
-        registerStepFourDialog.show(getActivity().getSupportFragmentManager(),
-                RegistrationDialogStepFourDialog.DIALOG_FRAGMENT_TAG);
-    }
+		RegistrationDialogStepFourDialog registerStepFourDialog = new RegistrationDialogStepFourDialog();
+		dismiss();
+		registerStepFourDialog.show(getActivity().getSupportFragmentManager(),
+				RegistrationDialogStepFourDialog.DIALOG_FRAGMENT_TAG);
+	}
 
-    @Override
-    public void onRegistrationComplete(boolean success) {
-        dismiss();
-    }
+	@Override
+	public void onRegistrationComplete(boolean success) {
+		dismiss();
+	}
 }

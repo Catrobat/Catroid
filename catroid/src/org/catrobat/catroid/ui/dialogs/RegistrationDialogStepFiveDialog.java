@@ -22,195 +22,172 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.FragmentManager;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
-import android.text.Editable;
-import android.text.Html;
-import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.transfers.RegistrationTask;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 
-import android.app.AlertDialog.Builder;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
+import android.text.Html;
 import android.text.InputType;
+import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class RegistrationDialogStepFiveDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
-    public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step5";
-    private EditText usernameEditText;
-    private EditText passwordEditText;
-    private EditText passwordConfirmationEditText;
-    private CheckBox showPassword;
-    private TextView termsOfUseLinkTextView;
-    private AlertDialog alertDialog;
-    private FragmentActivity fragmentActivity;
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step5";
+	private EditText usernameEditText;
+	private EditText passwordEditText;
+	private EditText passwordConfirmationEditText;
+	private CheckBox showPassword;
+	private TextView termsOfUseLinkTextView;
+	private AlertDialog alertDialog;
+	private FragmentActivity fragmentActivity;
 
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_username_password, null);
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_username_password, null);
 
-        usernameEditText = (EditText) rootView.findViewById(R.id.username);
-        passwordEditText = (EditText) rootView.findViewById(R.id.password);
-        passwordConfirmationEditText = (EditText) rootView.findViewById(R.id.password_confirmation);
-        showPassword = (CheckBox) rootView.findViewById(R.id.show_password);
-        termsOfUseLinkTextView = (TextView) rootView.findViewById(R.id.register_terms_link);
+		usernameEditText = (EditText) rootView.findViewById(R.id.username);
+		passwordEditText = (EditText) rootView.findViewById(R.id.password);
+		passwordConfirmationEditText = (EditText) rootView.findViewById(R.id.password_confirmation);
+		showPassword = (CheckBox) rootView.findViewById(R.id.show_password);
+		termsOfUseLinkTextView = (TextView) rootView.findViewById(R.id.register_terms_link);
 
-        String termsOfUseUrl = getActivity().getString(R.string.about_link_template, Constants.CATROBAT_TERMS_OF_USE_URL,
-                getString(R.string.register_pocketcode_terms_of_use_text));
-        termsOfUseLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
-        termsOfUseLinkTextView.setText(Html.fromHtml(termsOfUseUrl));
+		String termsOfUseUrl = getActivity().getString(R.string.about_link_template,
+				Constants.CATROBAT_TERMS_OF_USE_URL, getString(R.string.register_pocketcode_terms_of_use_text));
+		termsOfUseLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
+		termsOfUseLinkTextView.setText(Html.fromHtml(termsOfUseUrl));
 
-        usernameEditText.setText("");
-        passwordEditText.setText("");
-        passwordConfirmationEditText.setText("");
-        showPassword.setChecked(false);
+		usernameEditText.setText("");
+		passwordEditText.setText("");
+		passwordConfirmationEditText.setText("");
+		showPassword.setChecked(false);
 
-        showPassword.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (showPassword.isChecked()) {
-                    passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
-                    passwordConfirmationEditText.setInputType(InputType.TYPE_CLASS_TEXT);
-                } else {
-                    passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    passwordConfirmationEditText.setInputType(InputType.TYPE_CLASS_TEXT
-                            | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                }
-            }
-        }
-        );
+		showPassword.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (showPassword.isChecked()) {
+					passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+					passwordConfirmationEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+				} else {
+					passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+					passwordConfirmationEditText.setInputType(InputType.TYPE_CLASS_TEXT
+							| InputType.TYPE_TEXT_VARIATION_PASSWORD);
+				}
+			}
+		});
 
-        alertDialog = new AlertDialog.Builder(
-                getActivity()).setView(rootView).setTitle(R.string.register_dialog_title)
-                .setPositiveButton(R.string.register, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        handleRegisterButtonClick();
-                    }
-                }
-                ).create();
+		alertDialog = new AlertDialog.Builder(getActivity()).setView(rootView).setTitle(R.string.register_dialog_title)
+				.setPositiveButton(R.string.register, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						handleRegisterButtonClick();
+					}
+				}).create();
 
-        alertDialog.setCanceledOnTouchOutside(true);
-        alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		alertDialog.setCanceledOnTouchOutside(true);
+		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
+		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
 
-                final Button registerButton = alertDialog.getButton(Dialog.BUTTON_POSITIVE);
-                registerButton.setEnabled(false);
+				final Button registerButton = alertDialog.getButton(Dialog.BUTTON_POSITIVE);
+				registerButton.setEnabled(false);
 
-                passwordEditText.addTextChangedListener(new TextWatcher() {
+				passwordEditText.addTextChangedListener(new TextWatcher() {
 
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
+					@Override
+					public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+					}
 
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        String password = passwordEditText.getText().toString();
-                        String passwordConfirmation = passwordConfirmationEditText.getText().toString();
-                        if (!password.isEmpty() && password.equals(passwordConfirmation)) {
-                            registerButton.setEnabled(true);
-                        } else {
-                            registerButton.setEnabled(false);
-                        }
-                    }
+					@Override
+					public void onTextChanged(CharSequence s, int start, int before, int count) {
+						String password = passwordEditText.getText().toString();
+						String passwordConfirmation = passwordConfirmationEditText.getText().toString();
+						if (!password.isEmpty() && password.equals(passwordConfirmation)) {
+							registerButton.setEnabled(true);
+						} else {
+							registerButton.setEnabled(false);
+						}
+					}
 
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                    }
-                });
+					@Override
+					public void afterTextChanged(Editable s) {
+					}
+				});
 
-                passwordConfirmationEditText.addTextChangedListener(new TextWatcher() {
+				passwordConfirmationEditText.addTextChangedListener(new TextWatcher() {
 
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
+					@Override
+					public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+					}
 
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        String password = passwordEditText.getText().toString();
-                        String passwordConfirmation = passwordConfirmationEditText.getText().toString();
-                        if (!password.isEmpty() && password.equals(passwordConfirmation)) {
-                            registerButton.setEnabled(true);
-                        } else {
-                            registerButton.setEnabled(false);
-                        }
-                    }
+					@Override
+					public void onTextChanged(CharSequence s, int start, int before, int count) {
+						String password = passwordEditText.getText().toString();
+						String passwordConfirmation = passwordConfirmationEditText.getText().toString();
+						if (!password.isEmpty() && password.equals(passwordConfirmation)) {
+							registerButton.setEnabled(true);
+						} else {
+							registerButton.setEnabled(false);
+						}
+					}
 
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                    }
-                });
-            }
-        });
+					@Override
+					public void afterTextChanged(Editable s) {
+					}
+				});
+			}
+		});
 
-        return alertDialog;
-    }
+		return alertDialog;
+	}
 
-    private void handleRegisterButtonClick() {
+	private void handleRegisterButtonClick() {
 
-        String username = usernameEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
-        String passwordConfirmation = passwordConfirmationEditText.getText().toString();
+		String username = usernameEditText.getText().toString();
+		String password = passwordEditText.getText().toString();
 
-        if (!password.equals(passwordConfirmation)) {
-            final android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
-            new Builder(getActivity()).setTitle(R.string.register_error)
-                    .setMessage(R.string.register_password_mismatch).setPositiveButton(android.R.string.ok, null)
-                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            RegistrationDialogStepFiveDialog registerStepFiveDialog = new RegistrationDialogStepFiveDialog();
-                            dismiss();
-                            registerStepFiveDialog.show(fragmentManager,
-                                    RegistrationDialogStepFiveDialog.DIALOG_FRAGMENT_TAG);
-                        }
-                    })
-                    .create();
-        } else {
-            fragmentActivity = getActivity();
-            RegistrationTask registrationTask = new RegistrationTask(fragmentActivity, username, password);
-            registrationTask.setOnRegistrationCompleteListener(this);
-            registrationTask.execute();
-        }
-    }
+		fragmentActivity = getActivity();
+		RegistrationTask registrationTask = new RegistrationTask(fragmentActivity, username, password);
+		registrationTask.setOnRegistrationCompleteListener(this);
+		registrationTask.execute();
+	}
 
-    @Override
-    public void onRegistrationComplete(boolean success) {
-        if (success) {
-            String username = usernameEditText.getText().toString();
-            String password = passwordEditText.getText().toString();
-            RegistrationData.getInstance().setUserName(username);
-            RegistrationData.getInstance().setPassword(password);
+	@Override
+	public void onRegistrationComplete(boolean success) {
+		if (success) {
+			String username = usernameEditText.getText().toString();
+			String password = passwordEditText.getText().toString();
+			RegistrationData.getInstance().setUserName(username);
+			RegistrationData.getInstance().setPassword(password);
 
-            RegistrationDialogStepSixDialog registerStepSixDialog = new RegistrationDialogStepSixDialog();
-            dismiss();
-            registerStepSixDialog.show(fragmentActivity.getSupportFragmentManager(),
-                    RegistrationDialogStepSixDialog.DIALOG_FRAGMENT_TAG);
-        } else {
-            RegistrationDialogStepFiveDialog registerStepFiveDialog = new RegistrationDialogStepFiveDialog();
-            dismiss();
-            registerStepFiveDialog.show(fragmentActivity.getSupportFragmentManager(),
-                    RegistrationDialogStepFiveDialog.DIALOG_FRAGMENT_TAG);
-        }
-    }
+			RegistrationDialogStepSixDialog registerStepSixDialog = new RegistrationDialogStepSixDialog();
+			dismiss();
+			registerStepSixDialog.show(fragmentActivity.getSupportFragmentManager(),
+					RegistrationDialogStepSixDialog.DIALOG_FRAGMENT_TAG);
+		} else {
+			RegistrationDialogStepFiveDialog registerStepFiveDialog = new RegistrationDialogStepFiveDialog();
+			dismiss();
+			registerStepFiveDialog.show(fragmentActivity.getSupportFragmentManager(),
+					RegistrationDialogStepFiveDialog.DIALOG_FRAGMENT_TAG);
+		}
+	}
 }

@@ -24,22 +24,19 @@ package org.catrobat.catroid.ui.dialogs;
 
 import java.util.Calendar;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 
 public class RegistrationDialogStepFourDialog extends DialogFragment implements OnRegistrationCompleteListener {
@@ -54,8 +51,8 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 	private Spinner yearSpinner;
 
 	@Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_birthday, null);
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_birthday, null);
 
 		monthSpinner = (Spinner) view.findViewById(R.id.birthday_month);
 		yearSpinner = (Spinner) view.findViewById(R.id.birthday_year);
@@ -63,19 +60,19 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 		addItemsOnYearSpinner();
 		addItemsOnMonthSpinner();
 
-        Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
-                .setTitle(R.string.register_dialog_title)
-                .setNeutralButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        handleNextButtonClick();
-                    }
-                }).create();
+		Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
+				.setTitle(R.string.register_dialog_title)
+				.setNeutralButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						handleNextButtonClick();
+					}
+				}).create();
 
-        alertDialog.setCanceledOnTouchOutside(true);
-        alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		alertDialog.setCanceledOnTouchOutside(true);
+		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-        return alertDialog;
+		return alertDialog;
 	}
 
 	private void addItemsOnYearSpinner() {

@@ -302,7 +302,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			String token = Constants.NO_TOKEN;
 
 			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de", "at", token,
-					getContext());
+					"male", "January", "2000", getContext());
 			token = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(Constants.TOKEN, "");
 			ServerCalls.useTestUrl = true;
 			ServerCalls.getInstance().uploadProject("test", "", zipFileString, null, "de", token, testUser, null, 0,

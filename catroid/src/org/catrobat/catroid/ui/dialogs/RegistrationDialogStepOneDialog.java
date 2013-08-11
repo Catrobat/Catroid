@@ -22,145 +22,136 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.support.v4.app.FragmentTransaction;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.RadioButton;
 
 public class RegistrationDialogStepOneDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
-    public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step1";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step1";
 
-    private RadioButton maleRadioButton;
-    private RadioButton femaleRadioButton;
-    private RadioButton otherGenderRadioButton;
-    private EditText otherGenderEdittext;
-    private Context context;
+	private RadioButton maleRadioButton;
+	private RadioButton femaleRadioButton;
+	private RadioButton otherGenderRadioButton;
+	private EditText otherGenderEdittext;
 
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_gender, null);
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_gender, null);
 
-        maleRadioButton = (RadioButton) rootView.findViewById(R.id.gender_male);
-        femaleRadioButton = (RadioButton) rootView.findViewById(R.id.gender_female);
-        otherGenderRadioButton = (RadioButton) rootView.findViewById(R.id.gender_other);
-        otherGenderEdittext = (EditText) rootView.findViewById(R.id.gender_other_edittext);
+		maleRadioButton = (RadioButton) rootView.findViewById(R.id.gender_male);
+		femaleRadioButton = (RadioButton) rootView.findViewById(R.id.gender_female);
+		otherGenderRadioButton = (RadioButton) rootView.findViewById(R.id.gender_other);
+		otherGenderEdittext = (EditText) rootView.findViewById(R.id.gender_other_edittext);
 
-        initializeRadioButtons();
+		initializeRadioButtons();
 
-        Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
-                .setTitle(R.string.register_dialog_title)
-                .setNeutralButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        handleNextButtonClick();
-                    }
-                }).setNegativeButton(R.string.login, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        handleAlreadyRegisteredClick();
-                    }
-                }).create();
+		Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
+				.setTitle(R.string.register_dialog_title)
+				.setNeutralButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						handleNextButtonClick();
+					}
+				}).setNegativeButton(R.string.login, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						handleAlreadyRegisteredClick();
+					}
+				}).create();
 
-        alertDialog.setCanceledOnTouchOutside(true);
-        alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		alertDialog.setCanceledOnTouchOutside(true);
+		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-        return alertDialog;
-    }
+		return alertDialog;
+	}
 
-    private void initializeRadioButtons() {
-        maleRadioButton.setChecked(true);
-        femaleRadioButton.setChecked(false);
-        otherGenderRadioButton.setChecked(false);
-        otherGenderEdittext.setEnabled(false);
+	private void initializeRadioButtons() {
+		maleRadioButton.setChecked(true);
+		femaleRadioButton.setChecked(false);
+		otherGenderRadioButton.setChecked(false);
+		otherGenderEdittext.setEnabled(false);
 
-        maleRadioButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                femaleRadioButton.setChecked(false);
-                otherGenderRadioButton.setChecked(false);
-                otherGenderEdittext.setActivated(false);
-                otherGenderEdittext.setEnabled(false);
-            }
-        });
+		maleRadioButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				femaleRadioButton.setChecked(false);
+				otherGenderRadioButton.setChecked(false);
+				otherGenderEdittext.setEnabled(false);
+			}
+		});
 
-        femaleRadioButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                maleRadioButton.setChecked(false);
-                otherGenderRadioButton.setChecked(false);
-                otherGenderEdittext.setActivated(false);
-                otherGenderEdittext.setEnabled(false);
-            }
-        });
+		femaleRadioButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				maleRadioButton.setChecked(false);
+				otherGenderRadioButton.setChecked(false);
+				otherGenderEdittext.setEnabled(false);
+			}
+		});
 
-        otherGenderRadioButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                maleRadioButton.setChecked(false);
-                femaleRadioButton.setChecked(false);
-                otherGenderEdittext.setEnabled(true);
-                InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
-                        Context.INPUT_METHOD_SERVICE);
-                inputManager.showSoftInput(otherGenderEdittext, InputMethodManager.SHOW_IMPLICIT);
-            }
-        });
-    }
+		otherGenderRadioButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				maleRadioButton.setChecked(false);
+				femaleRadioButton.setChecked(false);
+				otherGenderEdittext.setEnabled(true);
+				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
+						Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(otherGenderEdittext, InputMethodManager.SHOW_IMPLICIT);
+			}
+		});
+	}
 
-    private void handleNextButtonClick() {
+	private void handleNextButtonClick() {
 
-        if (maleRadioButton.isChecked()) {
-            RegistrationData.getInstance().setGender("male");
-        } else if (femaleRadioButton.isChecked()) {
-            RegistrationData.getInstance().setGender("male");
-        } else {
-            String gender = otherGenderEdittext.getText().toString();
-            if(gender.isEmpty()){
-                gender = "other";
-            }
-            RegistrationData.getInstance().setGender(gender);
-        }
+		if (maleRadioButton.isChecked()) {
+			RegistrationData.getInstance().setGender("male");
+		} else if (femaleRadioButton.isChecked()) {
+			RegistrationData.getInstance().setGender("male");
+		} else {
+			String gender = otherGenderEdittext.getText().toString();
+			if (gender.isEmpty()) {
+				gender = "other";
+			}
+			RegistrationData.getInstance().setGender(gender);
+		}
 
-        RegistrationDialogStepTwoDialog registerStepTwoDialog = new RegistrationDialogStepTwoDialog();
+		RegistrationDialogStepTwoDialog registerStepTwoDialog = new RegistrationDialogStepTwoDialog();
 
-        registerStepTwoDialog.show(getActivity().getSupportFragmentManager(),
-           RegistrationDialogStepTwoDialog.DIALOG_FRAGMENT_TAG);
-    }
+		registerStepTwoDialog.show(getActivity().getSupportFragmentManager(),
+				RegistrationDialogStepTwoDialog.DIALOG_FRAGMENT_TAG);
+	}
 
-    private void handleAlreadyRegisteredClick() {
-        LoginDialog loginDialog = new LoginDialog();
-        //loginDialog.setContext(context);
-        //dismiss();
-        //loginDialog.show(getFragmentManager(), LoginDialog.DIALOG_FRAGMENT_TAG);
+	private void handleAlreadyRegisteredClick() {
+		LoginDialog loginDialog = new LoginDialog();
+		//loginDialog.setContext(context);
+		//dismiss();
+		//loginDialog.show(getFragmentManager(), LoginDialog.DIALOG_FRAGMENT_TAG);
 
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.add(loginDialog, null);
-        ft.addToBackStack(null);
-        ft.commit();
-    }
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		ft.add(loginDialog, null);
+		ft.addToBackStack(null);
+		ft.commit();
+	}
 
-    @Override
-    public void onRegistrationComplete(boolean success) {
-        dismiss();
-    }
-
-    public void setContext(Context context){
-        this.context = context;
-    }
+	@Override
+	public void onRegistrationComplete(boolean success) {
+		dismiss();
+	}
 }
