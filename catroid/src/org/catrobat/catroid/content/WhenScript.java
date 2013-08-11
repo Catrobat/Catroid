@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.content;
 
-import java.util.ArrayList;
-
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
+
+import java.util.ArrayList;
 
 public class WhenScript extends Script {
 

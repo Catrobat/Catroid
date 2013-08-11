@@ -22,16 +22,16 @@
  */
 package org.catrobat.catroid.test.code;
 
+import junit.framework.TestCase;
+
+import org.catrobat.catroid.test.utils.Utils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import junit.framework.TestCase;
-
-import org.catrobat.catroid.test.utils.Utils;
 
 public class AssertionErrorMessageTest extends TestCase {
 	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };

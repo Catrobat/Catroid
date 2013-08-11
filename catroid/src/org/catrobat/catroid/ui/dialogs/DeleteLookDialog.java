@@ -22,13 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import java.util.ArrayList;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.ScriptActivity;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -36,7 +29,14 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.ScriptActivity;
+
+import java.util.ArrayList;
 
 public class DeleteLookDialog extends DialogFragment {
 

@@ -22,9 +22,7 @@
  */
 package org.catrobat.catroid.test.content;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.MessageContainer;
@@ -38,7 +36,9 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 
-import android.test.AndroidTestCase;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class MessageContainerTest extends AndroidTestCase {
 

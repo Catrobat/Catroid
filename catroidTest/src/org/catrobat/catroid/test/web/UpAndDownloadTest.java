@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.test.web;
 
-import org.catrobat.catroid.test.utils.TestUtils;
-
 import android.test.AndroidTestCase;
+
+import org.catrobat.catroid.test.utils.TestUtils;
 
 public class UpAndDownloadTest extends AndroidTestCase {
 

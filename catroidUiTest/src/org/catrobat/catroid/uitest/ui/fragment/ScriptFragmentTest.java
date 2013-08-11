@@ -22,9 +22,11 @@
  */
 package org.catrobat.catroid.uitest.ui.fragment;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.view.Display;
+import android.widget.CheckBox;
+import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -44,11 +46,9 @@ import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.view.Display;
-import android.widget.CheckBox;
-import android.widget.ListView;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 

@@ -22,14 +22,7 @@
  */
 package org.catrobat.catroid.test.utiltests;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -49,7 +42,14 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
-import android.test.AndroidTestCase;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class UtilsTest extends AndroidTestCase {
 	private final String testFileContent = "Hello, this is a Test-String";

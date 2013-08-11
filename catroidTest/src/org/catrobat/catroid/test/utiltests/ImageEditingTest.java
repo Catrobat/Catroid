@@ -22,20 +22,21 @@
  */
 package org.catrobat.catroid.test.utiltests;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.utils.ImageEditing;
-
-import junit.framework.TestCase;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Environment;
+
+import junit.framework.TestCase;
+
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.utils.ImageEditing;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class ImageEditingTest extends TestCase {
 

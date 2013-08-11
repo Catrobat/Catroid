@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.content;
 
-import java.util.ArrayList;
-
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+
+import java.util.ArrayList;
 
 public class BroadcastScript extends Script implements BroadcastMessage {
 

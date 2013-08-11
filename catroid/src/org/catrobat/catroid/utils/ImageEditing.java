@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.utils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-
-import org.catrobat.catroid.io.StorageHandler;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+
+import org.catrobat.catroid.io.StorageHandler;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class ImageEditing {
 

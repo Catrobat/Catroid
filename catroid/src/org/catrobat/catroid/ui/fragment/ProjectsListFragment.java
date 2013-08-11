@@ -22,35 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import java.io.File;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.LoadProjectTask;
-import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.adapter.ProjectAdapter;
-import org.catrobat.catroid.ui.adapter.ProjectAdapter.OnProjectCheckedListener;
-import org.catrobat.catroid.ui.dialogs.CopyProjectDialog;
-import org.catrobat.catroid.ui.dialogs.CopyProjectDialog.OnCopyProjectListener;
-import org.catrobat.catroid.ui.dialogs.RenameProjectDialog;
-import org.catrobat.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
-import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
-import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog.OnUpdateProjectDescriptionListener;
-import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.Utils;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -74,6 +45,35 @@ import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.io.LoadProjectTask;
+import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.adapter.ProjectAdapter;
+import org.catrobat.catroid.ui.adapter.ProjectAdapter.OnProjectCheckedListener;
+import org.catrobat.catroid.ui.dialogs.CopyProjectDialog;
+import org.catrobat.catroid.ui.dialogs.CopyProjectDialog.OnCopyProjectListener;
+import org.catrobat.catroid.ui.dialogs.RenameProjectDialog;
+import org.catrobat.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
+import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
+import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog.OnUpdateProjectDescriptionListener;
+import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.Utils;
+
+import java.io.File;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class ProjectsListFragment extends SherlockListFragment implements OnProjectRenameListener,
 		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnProjectCheckedListener,

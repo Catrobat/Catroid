@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.text.Layout;
@@ -37,6 +34,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
+
+import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
