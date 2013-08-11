@@ -22,13 +22,11 @@
  */
 package org.catrobat.catroid.utils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
+import org.catrobat.catroid.ui.MyProjectsActivity;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
@@ -44,12 +42,6 @@ public class StatusBarNotificationManager {
 	private Integer notificationId;
 	private HashMap<Integer, NotificationData> notificationDataMap;
 
-	//needed when download service is running in background
-	@Deprecated
-	public ArrayList<String> downloadProjectName;
-	@Deprecated
-	public ArrayList<String> downloadProjectZipFileString;
-
 	NotificationManager notificationManager;
 
 	public static final String EXTRA_PROJECT_NAME = "projectName";
@@ -58,9 +50,6 @@ public class StatusBarNotificationManager {
 	private StatusBarNotificationManager() {
 		notificationId = 0;
 		notificationDataMap = new HashMap<Integer, NotificationData>();
-
-		downloadProjectName = new ArrayList<String>();
-		downloadProjectZipFileString = new ArrayList<String>();
 	}
 
 	public static StatusBarNotificationManager getInstance() {
@@ -77,7 +66,7 @@ public class StatusBarNotificationManager {
 		}
 	}
 
-	public Integer createUploadNotification(String name, Context context) {
+	public Integer createUploadNotification(Context context, String programName) {
 		//		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Activity.NOTIFICATION_SERVICE);
 		//		String notificationTitle = context.getString(R.string.notification_upload_title);
 		//		boolean newUploadNotification = notificationDataMap.isEmpty();
@@ -115,10 +104,23 @@ public class StatusBarNotificationManager {
 		//		data.setNotificationBuilder(notificationBuilder);
 		//		notificationDataMap.put(notificationId, data);
 
-		return notificationId++;
+		initNotificationManager(context);
+
+		Intent uploadIntent = new Intent(context, MainMenuActivity.class);
+		uploadIntent.setAction(Intent.ACTION_MAIN);
+		uploadIntent = uploadIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, uploadIntent,
+				PendingIntent.FLAG_CANCEL_CURRENT);
+
+		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_launcher, programName,
+				"Uploading ", "Look at ", "Upload in progress", "Upload completed");
+
+		Integer id = createNotification(context, data);
+		showOrUpdateNotification(id, 0);
+		return id;
 	}
 
-	public Integer createCopyNotification(String name, Context context) {
+	public Integer createCopyNotification(Context context, String programName) {
 		//		NotificationManager notificationManager = (NotificationManager) context
 		//				.getSystemService(Activity.NOTIFICATION_SERVICE);
 		//		String notificationTitle = context.getString(R.string.notification_title_copy_project);
@@ -146,7 +148,21 @@ public class StatusBarNotificationManager {
 		//		}
 		//
 		//		return copyId;
-		return -1;
+
+		initNotificationManager(context);
+
+		Intent copyIntent = new Intent(context, MyProjectsActivity.class);
+		copyIntent.setAction(Intent.ACTION_MAIN);
+		copyIntent = copyIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, copyIntent,
+				PendingIntent.FLAG_CANCEL_CURRENT);
+
+		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_launcher, programName,
+				"Copying ", "Start ", "Copying in progress", "Copying completed");
+
+		Integer id = createNotification(context, data);
+		showOrUpdateNotification(id, 0);
+		return id;
 	}
 
 	public Integer createDownloadNotification(Context context, String programName) {
@@ -179,46 +195,7 @@ public class StatusBarNotificationManager {
 		return notificationId++;
 	}
 
-	@Deprecated
-	public void updateNotification(Integer id, String message, int notificationCode, boolean finished) {
-		//		if (notificationCode == Constants.UPLOAD_NOTIFICATION) {
-		//			updateUploadNotification(id, message, notificationCode, finished);
-		//		} else if (notificationCode == Constants.DOWNLOAD_NOTIFICATION) {
-		//			updateDownloadNotification(id, message, notificationCode, finished);
-		//		}
-	}
-
-	public void updateUploadNotification(Integer id, int progress, boolean finished, String url) {
-		//		Context context = notificationDataMap.get(id)
-		//				.getContext();
-		//		String notificationTitle = notificationDataMap.get(id)
-		//				.getNotificationTitle();
-		//		PendingIntent pendingIntent = notificationDataMap.get(id)
-		//				.getPendingIntent();
-		//
-		//		if (finished) {
-		//			uploadNotification.number--;
-		//		}
-		//		uploadNotification.setLatestEventInfo(context, notificationTitle, message, pendingIntent);
-		//
-		//		NotificationManager uploadNotificationManager = (NotificationManager) context.getSystemService(Activity.NOTIFICATION_SERVICE);
-		//		uploadNotificationManager.notify(notificationCode, uploadNotification);
-
-		//		NotificationData notificationData = notificationDataMap.get(id);
-		//		NotificationCompat.Builder notificationBuilder = notificationData.getNotificationBuilder();
-		//		notificationBuilder.setProgress(100, progress, false);
-		//		notificationManager.notify(id, notificationBuilder.build());
-		//
-		//		if (finished) {
-		//			notificationData.setNotificationTitlePrefix("View ");
-		//			notificationBuilder.setContentTitle(notificationData.getNotificationTitleWorking())
-		//					.setContentText("Upload complete").setProgress(0, 0, false).setAutoCancel(true)
-		//					.setContentIntent(notificationData.getPendingIntent()).setOngoing(false);
-		//			notificationManager.notify(id, notificationBuilder.build());
-		//		}
-	}
-
-	public void updateNotification(Integer id, int progressInPercent) {
+	public void showOrUpdateNotification(Integer id, int progressInPercent) {
 		NotificationData notificationData = notificationDataMap.get(id);
 		NotificationCompat.Builder notificationBuilder = notificationData.getNotificationBuilder();
 		notificationBuilder.setProgress(100, progressInPercent, false);
@@ -232,57 +209,8 @@ public class StatusBarNotificationManager {
 		}
 	}
 
-	// FIXME
-	@Deprecated
-	public boolean displayDialogs(MainMenuActivity activity) {
-		boolean dialogsAreShown = false;
-		for (int i = 0; i < downloadProjectName.size() && i < downloadProjectZipFileString.size(); i++) {
-			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, downloadProjectName.get(i),
-					downloadProjectZipFileString.get(i));
-			renameDialog.show(activity.getSupportFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
-			dialogsAreShown = true;
-		}
-		downloadProjectName.clear();
-		downloadProjectZipFileString.clear();
-
-		return dialogsAreShown;
-	}
-
-	// FIXME
-	@Deprecated
-	public void cancelNotification(String projectName) {
-		for (Map.Entry<Integer, NotificationData> entry : notificationDataMap.entrySet()) {
-			if (entry.getValue().getProgramName().compareTo(projectName) == 0) {
-				notificationManager.cancel(entry.getKey());
-				notificationDataMap.remove(entry.getKey());
-
-				break;
-			}
-		}
-	}
-
-	// FIXME
-	@Deprecated
-	public void projectRenamed(Context context, String oldProjectName, String newProjectName) {
-		for (Map.Entry<Integer, NotificationData> entry : notificationDataMap.entrySet()) {
-			if (entry.getValue().getProgramName().compareTo(oldProjectName) == 0) {
-				entry.getValue().setProgramName(newProjectName);
-
-				Intent downloadIntent = new Intent(context, MainMenuActivity.class);
-				downloadIntent.setAction(Intent.ACTION_MAIN).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-						.putExtra(EXTRA_PROJECT_NAME, newProjectName);
-
-				PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, downloadIntent,
-						PendingIntent.FLAG_CANCEL_CURRENT);
-
-				entry.getValue().setPendingIntent(pendingIntent);
-				NotificationCompat.Builder builder = entry.getValue().getNotificationBuilder();
-				builder.setContentTitle(entry.getValue().getNotificationTitleWorking()).setContentIntent(pendingIntent);
-
-				notificationManager.notify(entry.getKey(), builder.build());
-
-				break;
-			}
-		}
+	public void cancelNotification(Integer id) {
+		notificationDataMap.remove(id);
+		notificationManager.cancel(id);
 	}
 }

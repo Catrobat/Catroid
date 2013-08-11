@@ -273,14 +273,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		uploadProjectDialog.show(getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	// FIXME
-	@Deprecated
-	public int createNotification(String downloadName) {
-		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
-		int notificationId = manager.createDownloadNotification(this, downloadName);
-		return notificationId;
-	}
-
 	private void showLoginRegisterDialog() {
 		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
 		loginRegisterDialog.show(getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
@@ -303,23 +295,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		if (scheme.startsWith((TYPE_HTTP))) {
 			String url = loadExternalProjectUri.toString();
 			DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(this, url);
-			// FIXME
-			//			int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
-			//			String projectName = url.substring(projectNameIndex);
-			//			try {
-			//				projectName = URLDecoder.decode(projectName, "UTF-8");
-			//			} catch (UnsupportedEncodingException e) {
-			//				Log.e(TAG, "Could not decode project name: " + projectName, e);
-			//			}
-			//
-			//			Intent downloadIntent = new Intent(this, ProjectDownloadService.class);
-			//			downloadIntent.putExtra(ProjectDownloadService.RECEIVER_TAG, new DownloadReceiver(new Handler()));
-			//			downloadIntent.putExtra(ProjectDownloadService.DOWNLOAD_NAME_TAG, projectName);
-			//			downloadIntent.putExtra(ProjectDownloadService.URL_TAG, url);
-			//			int notificationId = createNotification(projectName);
-			//			downloadIntent.putExtra(ProjectDownloadService.ID_TAG, notificationId);
-			//			startService(downloadIntent);
-
 		} else if (scheme.equals(TYPE_FILE)) {
 
 			String path = loadExternalProjectUri.getPath();

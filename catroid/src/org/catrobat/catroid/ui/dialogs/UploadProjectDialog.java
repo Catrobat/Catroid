@@ -79,7 +79,7 @@ public class UploadProjectDialog extends DialogFragment {
 					progressPercent = UtilFile.getProgressFromBytes(projectName, progress);
 				}
 
-				StatusBarNotificationManager.getInstance().updateNotification(notificationId,
+				StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId,
 						Long.valueOf(progressPercent).intValue());
 			}
 		}
@@ -252,19 +252,12 @@ public class UploadProjectDialog extends DialogFragment {
 		uploadIntent.putExtra("projectPath", projectPath);
 		uploadIntent.putExtra("username", username);
 		uploadIntent.putExtra("token", token);
-		int notificationId = createNotification(uploadName);
+		int notificationId = StatusBarNotificationManager.getInstance().createUploadNotification(getActivity(),
+				uploadName);
 		uploadIntent.putExtra("notificationId", notificationId);
 		activity = getActivity();
 		activity.startService(uploadIntent);
 
-	}
-
-	public int createNotification(String uploadName) {
-		return -1;
-		//FIXME create notification
-		//StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
-		//int notificationId = manager.createNotification(uploadName, getActivity(), Constants.UPLOAD_NOTIFICATION);
-		//return notificationId;
 	}
 
 	private void handleCancelButtonClick() {

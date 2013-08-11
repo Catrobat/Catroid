@@ -118,7 +118,7 @@ public class DownloadUtil {
 					progress = 100;
 				}
 
-				StatusBarNotificationManager.getInstance().updateNotification(notificationId,
+				StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId,
 						Long.valueOf(progress).intValue());
 			}
 		}
