@@ -49,6 +49,7 @@ import com.actionbarsherlock.view.Menu;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
@@ -67,7 +68,6 @@ import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -422,19 +422,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		actionModeActive = false;
 
 		BottomBar.enableButtons(getActivity());
-	}
-
-	public static class ProjectData implements Serializable {
-
-		private static final long serialVersionUID = 1L;
-
-		public String projectName;
-		public long lastUsed;
-
-		public ProjectData(String projectName, long lastUsed) {
-			this.projectName = projectName;
-			this.lastUsed = lastUsed;
-		}
 	}
 
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
