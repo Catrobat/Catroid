@@ -48,7 +48,7 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_country, null);
 
-		countrySpinner = (Spinner) view.findViewById(R.id.country);
+		countrySpinner = (Spinner) view.findViewById(R.id.dialog_register_country_spinner_country);
 
 		addItemsOnCountrySpinner();
 

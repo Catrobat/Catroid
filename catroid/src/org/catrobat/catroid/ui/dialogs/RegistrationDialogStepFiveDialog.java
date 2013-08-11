@@ -63,11 +63,11 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_username_password, null);
 
-		usernameEditText = (EditText) rootView.findViewById(R.id.username);
-		passwordEditText = (EditText) rootView.findViewById(R.id.password);
-		passwordConfirmationEditText = (EditText) rootView.findViewById(R.id.password_confirmation);
-		showPassword = (CheckBox) rootView.findViewById(R.id.show_password);
-		termsOfUseLinkTextView = (TextView) rootView.findViewById(R.id.register_terms_link);
+		usernameEditText = (EditText) rootView.findViewById(R.id.dialog_login_edittext_username);
+		passwordEditText = (EditText) rootView.findViewById(R.id.dialog_login_edittext_password);
+		passwordConfirmationEditText = (EditText) rootView.findViewById(R.id.dialog_register_username_password_edittext_password_confirmation);
+		showPassword = (CheckBox) rootView.findViewById(R.id.dialog_register_username_password_checkbox_showpassword);
+		termsOfUseLinkTextView = (TextView) rootView.findViewById(R.id.dialog_register_username_password_textview_registerterms_link);
 
 		String termsOfUseUrl = getActivity().getString(R.string.about_link_template,
 				Constants.CATROBAT_TERMS_OF_USE_URL, getString(R.string.register_pocketcode_terms_of_use_text));

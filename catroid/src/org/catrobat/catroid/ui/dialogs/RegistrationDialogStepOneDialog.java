@@ -54,10 +54,10 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_gender, null);
 
-		maleRadioButton = (RadioButton) rootView.findViewById(R.id.gender_male);
-		femaleRadioButton = (RadioButton) rootView.findViewById(R.id.gender_female);
-		otherGenderRadioButton = (RadioButton) rootView.findViewById(R.id.gender_other);
-		otherGenderEdittext = (EditText) rootView.findViewById(R.id.gender_other_edittext);
+		maleRadioButton = (RadioButton) rootView.findViewById(R.id.dialog_register_gender_radiobutton_male);
+		femaleRadioButton = (RadioButton) rootView.findViewById(R.id.dialog_register_gender_radiobutton_female);
+		otherGenderRadioButton = (RadioButton) rootView.findViewById(R.id.dialog_register_gender_radiobutton_other);
+		otherGenderEdittext = (EditText) rootView.findViewById(R.id.dialog_register_gender_edittext_other);
 
 		initializeRadioButtons();
 

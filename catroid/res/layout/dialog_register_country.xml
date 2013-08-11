@@ -28,7 +28,7 @@
     android:theme="@android:style/Theme.Light" >
 
     <TextView
-        android:id="@+id/step2"
+        android:id="@+id/dialog_register_country_step2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -38,7 +38,7 @@
         android:text="@string/registration_step2" />
 
     <TextView
-        android:id="@+id/country_text"
+        android:id="@+id/dialog_register_country_textview_country"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -46,10 +46,10 @@
         android:text="@string/register_country" />
     
     <Spinner
-        android:id="@+id/country"
+        android:id="@+id/dialog_register_country_spinner_country"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/country_text"
+        android:layout_below="@+id/dialog_register_country_textview_country"
         android:paddingBottom="10dp"
          />
 

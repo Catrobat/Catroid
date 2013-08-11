@@ -28,7 +28,7 @@
     android:theme="@android:style/Theme.Light" >
     
     <TextView
-        android:id="@+id/step6"
+        android:id="@+id/dialog_register_completed_step6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -38,10 +38,10 @@
         android:text="@string/registration_step6" />
 
     <TextView
-        android:id="@+id/registration_completed_text"
+        android:id="@+id/dialog_register_completed_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/step6"
+        android:layout_toLeftOf="@id/dialog_register_completed_step6"
         android:layout_marginLeft="10dp"
         android:paddingTop="10dp"
         android:paddingRight="10dp"

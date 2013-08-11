@@ -28,7 +28,7 @@
                 android:theme="@android:style/Theme.Light">
 
     <TextView
-            android:id="@+id/step1"
+            android:id="@+id/dialog_register_gender_step1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -38,7 +38,7 @@
             android:text="@string/registration_step1"/>
 
     <TextView
-            android:id="@+id/gender_text"
+            android:id="@+id/dialog_register_gender_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -47,43 +47,43 @@
     </TextView>
 
     <RadioButton
-            android:id="@+id/gender_male"
+            android:id="@+id/dialog_register_gender_radiobutton_male"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/gender_text"
+            android:layout_below="@+id/dialog_register_gender_textview"
             android:text="@string/register_male"/>
 
     <RadioButton
-            android:id="@+id/gender_female"
+            android:id="@+id/dialog_register_gender_radiobutton_female"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/gender_male"
+            android:layout_below="@+id/dialog_register_gender_radiobutton_male"
             android:text="@string/register_female"/>
 
     <RadioButton
-            android:id="@+id/gender_other"
+            android:id="@+id/dialog_register_gender_radiobutton_other"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/gender_female"
+            android:layout_below="@+id/dialog_register_gender_radiobutton_female"
             android:text="@string/register_other"/>
 
     <EditText
-            android:id="@+id/gender_other_edittext"
+            android:id="@+id/dialog_register_gender_edittext_other"
             android:maxLines="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/gender_other"
-            android:layout_below="@+id/gender_female"
+            android:layout_toRightOf="@id/dialog_register_gender_radiobutton_other"
+            android:layout_below="@+id/dialog_register_gender_radiobutton_female"
             android:minEms="5"
             />
 
     <TextView
-            android:id="@+id/already_registered_view"
+            android:id="@+id/dialog_register_gender_textview_alreadyregistered"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:layout_below="@id/gender_other"
+            android:layout_below="@id/dialog_register_gender_radiobutton_other"
             android:layout_marginLeft="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"

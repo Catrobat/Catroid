@@ -29,7 +29,7 @@
     android:theme="@android:style/Theme.Light" >
 
     <TextView
-        android:id="@+id/step4"
+        android:id="@+id/dialog_register_birthday_step4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -39,7 +39,7 @@
         android:text="@string/registration_step4" />
 
     <TextView
-        android:id="@+id/birthday_text"
+        android:id="@+id/dialog_register_birthday_textview_birthday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -47,36 +47,36 @@
         android:text="@string/register_birthday" />
     
     <TextView
-        android:id="@+id/birthday_month_text"
+        android:id="@+id/dialog_register_birthday_textview_month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/birthday_text"
+        android:layout_below="@+id/dialog_register_birthday_textview_birthday"
         android:paddingTop="10dp"
         android:paddingLeft="10dp"
         android:text="@string/register_birthday_month" />
     
     <Spinner
-        android:id="@+id/birthday_month"
+        android:id="@+id/dialog_register_birthday_spinner_month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/birthday_text"
-        android:layout_toRightOf="@+id/birthday_month_text" />
+        android:layout_below="@+id/dialog_register_birthday_textview_birthday"
+        android:layout_toRightOf="@+id/dialog_register_birthday_textview_month" />
     
     <TextView
-        android:id="@+id/birthday_year_text"
+        android:id="@+id/dialog_register_birthday_textview_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/birthday_month"
+        android:layout_below="@+id/dialog_register_birthday_spinner_month"
         android:layout_marginLeft="10dp"
         android:text="@string/register_birthday_year" >
     </TextView>
 
     <Spinner
-        android:id="@+id/birthday_year"
+        android:id="@+id/dialog_register_birthday_spinner_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/birthday_month"
-        android:layout_toRightOf="@+id/birthday_month_text"
+        android:layout_below="@+id/dialog_register_birthday_spinner_month"
+        android:layout_toRightOf="@+id/dialog_register_birthday_textview_month"
         android:paddingBottom="10dp"/>
 
 </RelativeLayout>

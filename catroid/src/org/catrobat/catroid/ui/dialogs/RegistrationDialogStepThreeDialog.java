@@ -52,7 +52,7 @@ public class RegistrationDialogStepThreeDialog extends DialogFragment implements
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_email, null);
 
-		emailEditText = (EditText) view.findViewById(R.id.email);
+		emailEditText = (EditText) view.findViewById(R.id.dialog_login_edittext_email);
 		final String userEmail = UtilDeviceInfo.getUserEmail(getActivity());
 
 		final Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)

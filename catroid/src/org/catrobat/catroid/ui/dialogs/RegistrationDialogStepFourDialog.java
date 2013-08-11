@@ -54,8 +54,8 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_birthday, null);
 
-		monthSpinner = (Spinner) view.findViewById(R.id.birthday_month);
-		yearSpinner = (Spinner) view.findViewById(R.id.birthday_year);
+		monthSpinner = (Spinner) view.findViewById(R.id.dialog_register_birthday_spinner_month);
+		yearSpinner = (Spinner) view.findViewById(R.id.dialog_register_birthday_spinner_year);
 
 		addItemsOnYearSpinner();
 		addItemsOnMonthSpinner();
@@ -63,11 +63,11 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 		Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
 				.setTitle(R.string.register_dialog_title)
 				.setNeutralButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						handleNextButtonClick();
-					}
-				}).create();
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        handleNextButtonClick();
+                    }
+                }).create();
 
 		alertDialog.setCanceledOnTouchOutside(true);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);

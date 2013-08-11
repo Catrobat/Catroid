@@ -235,10 +235,10 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
 
 		solo.waitForDialogToOpen(500);
-		RadioButton male = (RadioButton) solo.getView(R.id.gender_male);
-		RadioButton female = (RadioButton) solo.getView(R.id.gender_female);
-		RadioButton other = (RadioButton) solo.getView(R.id.gender_other);
-		EditText otherGender = (EditText) solo.getView(R.id.gender_other_edittext);
+		RadioButton male = (RadioButton) solo.getView(R.id.dialog_register_gender_radiobutton_male);
+		RadioButton female = (RadioButton) solo.getView(R.id.dialog_register_gender_radiobutton_female);
+		RadioButton other = (RadioButton) solo.getView(R.id.dialog_register_gender_radiobutton_other);
+		EditText otherGender = (EditText) solo.getView(R.id.dialog_register_gender_edittext_other);
 		assertTrue("Male radio button is not checked", male.isChecked());
 		solo.clickOnRadioButton(1);
 		solo.sleep(50);
@@ -256,7 +256,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 
 		solo.waitForDialogToOpen(500);
-		Spinner countrySpinner = (Spinner) solo.getView(R.id.country);
+		Spinner countrySpinner = (Spinner) solo.getView(R.id.dialog_register_country_spinner_country);
 		int selectedItemPosition = countrySpinner.getSelectedItemPosition();
 
 		String[] countryList = getActivity().getResources().getStringArray(R.array.countries_array);
@@ -285,13 +285,13 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clearEditText(0);
 		solo.goBack();
 		assertFalse("Next button is enabled!", nextButton.isEnabled());
-		EditText email = (EditText) solo.getView(R.id.email);
+		EditText email = (EditText) solo.getView(R.id.dialog_login_edittext_email);
 		solo.enterText(email, TEST_USERNAME + System.currentTimeMillis() + "@gmail.com");
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 
 		solo.waitForDialogToOpen(500);
-		Spinner monthSpinner = (Spinner) solo.getView(R.id.birthday_month);
-		Spinner yearSpinner = (Spinner) solo.getView(R.id.birthday_year);
+		Spinner monthSpinner = (Spinner) solo.getView(R.id.dialog_register_birthday_spinner_month);
+		Spinner yearSpinner = (Spinner) solo.getView(R.id.dialog_register_birthday_spinner_year);
 		String selectedMonth = monthSpinner.getSelectedItem().toString();
 		String selectedYear = yearSpinner.getSelectedItem().toString();
 
@@ -320,9 +320,9 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 
 		solo.waitForDialogToOpen(500);
-		EditText username = (EditText) solo.getView(R.id.username);
-		EditText password = (EditText) solo.getView(R.id.password);
-		EditText passwordConfirmation = (EditText) solo.getView(R.id.password_confirmation);
+		EditText username = (EditText) solo.getView(R.id.dialog_login_edittext_username);
+		EditText password = (EditText) solo.getView(R.id.dialog_login_edittext_password);
+		EditText passwordConfirmation = (EditText) solo.getView(R.id.dialog_register_username_password_edittext_password_confirmation);
 		solo.clearEditText(username);
 		solo.enterText(username, TEST_USERNAME + System.currentTimeMillis());
 		String testPassword = "testpassword";
@@ -338,7 +338,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clearEditText(passwordConfirmation);
 		solo.enterText(passwordConfirmation, testPassword);
 		//Check show password is checked and unchecked because solo automatically shows hidden password
-		CheckBox showPassword = (CheckBox) solo.getView(R.id.show_password);
+		CheckBox showPassword = (CheckBox) solo.getView(R.id.dialog_register_username_password_checkbox_showpassword);
 		solo.clickOnView(showPassword);
 		solo.sleep(300);
 		solo.clickOnView(showPassword);
@@ -381,9 +381,9 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	private void fillLoginDialog(String username, String password, String email, boolean correctPassword) {
-		EditText usernameEdittext = (EditText) solo.getView(R.id.username);
-		EditText passwordEdittext = (EditText) solo.getView(R.id.password);
-		EditText emailEdittext = (EditText) solo.getView(R.id.email);
+		EditText usernameEdittext = (EditText) solo.getView(R.id.dialog_login_edittext_username);
+		EditText passwordEdittext = (EditText) solo.getView(R.id.dialog_login_edittext_password);
+		EditText emailEdittext = (EditText) solo.getView(R.id.dialog_login_edittext_email);
 		solo.clearEditText(usernameEdittext);
 		solo.enterText(usernameEdittext, username);
 		if (!correctPassword) {
@@ -422,9 +422,9 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		fillRegistrationDialogUntilStepFive();
 
 		// enter a username
-		EditText usernameEditText = (EditText) solo.getView(R.id.username);
-		EditText password = (EditText) solo.getView(R.id.password);
-		EditText passwordConfirmation = (EditText) solo.getView(R.id.password_confirmation);
+		EditText usernameEditText = (EditText) solo.getView(R.id.dialog_login_edittext_username);
+		EditText password = (EditText) solo.getView(R.id.dialog_login_edittext_password);
+		EditText passwordConfirmation = (EditText) solo.getView(R.id.dialog_register_username_password_edittext_password_confirmation);
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);

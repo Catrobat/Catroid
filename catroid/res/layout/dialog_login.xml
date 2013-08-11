@@ -28,7 +28,7 @@
     android:theme="@android:style/Theme.Light" >
 
     <TextView
-        android:id="@+id/username_text"
+        android:id="@+id/dialog_login_textview_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -36,47 +36,47 @@
     </TextView>
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/dialog_login_edittext_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/username_text"
+        android:layout_below="@+id/dialog_login_textview_username"
         android:inputType="text"
         android:maxLines="1"
         android:selectAllOnFocus="true" />
 
     <TextView
-        android:id="@+id/password_text"
+        android:id="@+id/dialog_login_textview_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/username"
+        android:layout_below="@+id/dialog_login_edittext_username"
         android:layout_marginLeft="10dp"
         android:text="@string/password" >
     </TextView>
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/dialog_login_edittext_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/password_text"
+        android:layout_below="@+id/dialog_login_textview_password"
         android:gravity="top"
         android:inputType="textPassword"
         android:maxLines="1" >
     </EditText>
 
     <TextView
-            android:id="@+id/email_text"
+            android:id="@+id/dialog_login_textview_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/password"
+            android:layout_below="@+id/dialog_login_edittext_password"
             android:layout_marginLeft="10dp"
             android:text="@string/register_email" >
     </TextView>
 
     <EditText
-            android:id="@+id/email"
+            android:id="@+id/dialog_login_edittext_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/email_text"
+            android:layout_below="@+id/dialog_login_textview_email"
             android:inputType="text"
             android:gravity="top"
             android:maxLines="1" >

@@ -28,7 +28,7 @@
     android:theme="@android:style/Theme.Light" >
     
     <TextView
-        android:id="@+id/step3"
+        android:id="@+id/dialog_register_email_step3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -38,7 +38,7 @@
         android:text="@string/registration_step3" />
 
     <TextView
-        android:id="@+id/email_text"
+        android:id="@+id/dialog_login_textview_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -48,10 +48,10 @@
 
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/dialog_login_edittext_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/email_text"
+        android:layout_below="@+id/dialog_login_textview_email"
         android:inputType="text"
         android:maxLines="1"
         android:selectAllOnFocus="true"
