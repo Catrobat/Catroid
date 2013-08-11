@@ -22,15 +22,15 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.fragment.LookFragment;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.fragment.LookFragment;
 
 public class NewLookDialog extends DialogFragment {
 

@@ -22,8 +22,7 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import java.util.LinkedList;
-import java.util.List;
+import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
@@ -31,7 +30,8 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
 
-import android.test.AndroidTestCase;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ParserTestErrorDedection extends AndroidTestCase {
 

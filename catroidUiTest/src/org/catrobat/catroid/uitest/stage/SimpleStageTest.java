@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.uitest.stage;
 
+import android.view.WindowManager;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-
-import android.view.WindowManager;
 
 public class SimpleStageTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 

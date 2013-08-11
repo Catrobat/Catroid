@@ -22,10 +22,9 @@
  */
 package org.catrobat.catroid.test.content.project;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import android.content.Context;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -48,9 +47,10 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
 
-import android.content.Context;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.test.InstrumentationTestCase;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 public class ProjectManagerTest extends InstrumentationTestCase {
 

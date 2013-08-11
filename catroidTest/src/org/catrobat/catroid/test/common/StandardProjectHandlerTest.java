@@ -22,8 +22,7 @@
  */
 package org.catrobat.catroid.test.common;
 
-import java.io.File;
-import java.io.IOException;
+import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
@@ -35,7 +34,8 @@ import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.TestUtils;
 
-import android.test.AndroidTestCase;
+import java.io.File;
+import java.io.IOException;
 
 public class StandardProjectHandlerTest extends AndroidTestCase {
 

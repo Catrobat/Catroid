@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.common;
 
-import java.io.IOException;
-import java.io.Serializable;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.Utils;
+
+import java.io.IOException;
+import java.io.Serializable;
 
 public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable {
 

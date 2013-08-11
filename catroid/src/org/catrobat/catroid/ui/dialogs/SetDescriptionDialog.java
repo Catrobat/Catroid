@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import android.os.Bundle;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-
-import android.os.Bundle;
 
 public class SetDescriptionDialog extends MultiLineTextDialog {
 

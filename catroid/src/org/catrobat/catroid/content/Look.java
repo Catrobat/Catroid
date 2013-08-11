@@ -22,14 +22,6 @@
  */
 package org.catrobat.catroid.content;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -44,6 +36,14 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class Look extends Image {
 	private static final float DEGREE_UI_OFFSET = 90.0f;

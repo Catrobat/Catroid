@@ -22,16 +22,6 @@
  */
 package org.catrobat.catroid.web;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.Proxy;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.HashMap;
-
-import org.catrobat.catroid.common.Constants;
-
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
@@ -39,6 +29,16 @@ import android.util.Log;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
 import com.squareup.okhttp.OkHttpClient;
+
+import org.catrobat.catroid.common.Constants;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.Proxy;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.HashMap;
 
 //web status codes are on: https://github.com/Catrobat/Catroweb/blob/master/statusCodes.php
 

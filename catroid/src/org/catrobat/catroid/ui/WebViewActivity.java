@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.ui;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,6 +32,9 @@ import android.webkit.WebViewClient;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 
 public class WebViewActivity extends SherlockFragmentActivity {
 

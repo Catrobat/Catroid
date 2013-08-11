@@ -22,8 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import java.io.File;
-import java.io.IOException;
+import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -37,7 +36,8 @@ import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
-import android.test.InstrumentationTestCase;
+import java.io.File;
+import java.io.IOException;
 
 public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 

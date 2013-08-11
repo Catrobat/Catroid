@@ -22,9 +22,10 @@
  */
 package org.catrobat.catroid.content;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import android.content.Context;
+import android.os.Build;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -34,10 +35,9 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.utils.Utils;
 
-import android.content.Context;
-import android.os.Build;
-
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @XStreamAlias("program")
 public class Project implements Serializable {

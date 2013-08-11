@@ -22,9 +22,7 @@
  */
 package org.catrobat.catroid.test.io;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -55,7 +53,9 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
 
-import android.test.InstrumentationTestCase;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class MediaPathTest extends InstrumentationTestCase {
 

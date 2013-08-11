@@ -22,10 +22,8 @@
  */
 package org.catrobat.catroid.uitest.stage;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import android.content.Intent;
+import android.os.Bundle;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -46,8 +44,10 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
-import android.content.Intent;
-import android.os.Bundle;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 

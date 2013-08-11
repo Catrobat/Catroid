@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.test.web;
 
-import java.io.File;
-import java.io.IOException;
+import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 
-import android.test.AndroidTestCase;
+import java.io.File;
+import java.io.IOException;
 
 public class ZipTest extends AndroidTestCase {
 

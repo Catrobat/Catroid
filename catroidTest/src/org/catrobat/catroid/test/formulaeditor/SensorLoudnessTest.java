@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
+import android.test.InstrumentationTestCase;
+
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
-
-import android.test.InstrumentationTestCase;
 
 public class SensorLoudnessTest extends InstrumentationTestCase {
 
