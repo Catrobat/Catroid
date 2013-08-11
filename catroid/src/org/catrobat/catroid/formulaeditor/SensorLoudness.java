@@ -26,9 +26,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
+import org.catrobat.catroid.utils.Logger;
 
 import android.os.Handler;
-import android.util.Log;
 
 public class SensorLoudness {
 
@@ -82,7 +82,7 @@ public class SensorLoudness {
 				recorder.start();
 				statusChecker.run();
 			} catch (Exception e) {
-				Log.w(SensorLoudness.class.getSimpleName(), "Could not start recorder", e);
+				Logger.w(SensorLoudness.class.getSimpleName(), "Could not start recorder", e);
 				listenerList.remove(listener);
 				recorder = new SoundRecorder("/dev/null");
 				return false;

@@ -31,10 +31,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.utils.Logger;
 
 import android.os.Bundle;
 import android.os.ResultReceiver;
-import android.util.Log;
 
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
@@ -77,11 +77,11 @@ public class ConnectionWrapper {
 				throw new WebconnectionException(responseCode, "Error response code should be 200 or 201!");
 			}
 			if (!uploadRequest.ok()) {
-				Log.v(TAG, "Upload not succesful");
+				Logger.v(TAG, "Upload not succesful");
 			}
 
 			answer = uploadRequest.body();
-			Log.v(TAG, "Upload response is: " + answer);
+			Logger.v(TAG, "Upload response is: " + answer);
 		}
 		return answer;
 	}

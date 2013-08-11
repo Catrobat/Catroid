@@ -45,8 +45,8 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Logger;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -152,7 +152,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 					solo.clickOnText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only));
 				}
 			}
-			Log.i("info", "(" + iteration + ")OkButton-found: " + solo.searchButton(solo.getString(R.string.ok)));
+			Logger.i("info", "(" + iteration + ")OkButton-found: " + solo.searchButton(solo.getString(R.string.ok)));
 
 			solo.clickOnButton(solo.getString(R.string.ok));
 			solo.waitForText(solo.getString(R.string.formula_editor_variables), 0, 1000);
@@ -350,7 +350,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		EditText text = (EditText) solo.getView(R.id.formula_editor_edit_field);
 		itemString = QUOTE + itemString + QUOTE;
-		Log.i("info", "editText: " + text.getText().toString());
+		Logger.i("info", "editText: " + text.getText().toString());
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 

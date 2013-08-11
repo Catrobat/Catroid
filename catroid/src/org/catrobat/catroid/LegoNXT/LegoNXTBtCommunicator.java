@@ -42,20 +42,20 @@
  */
 package org.catrobat.catroid.LegoNXT;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.reflect.Method;
-import java.util.UUID;
-
-import org.catrobat.catroid.bluetooth.BTConnectable;
-
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.res.Resources;
 import android.os.Handler;
+
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.bluetooth.BTConnectable;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.Method;
+import java.util.UUID;
 
 /**
  * This class is for talking to a LEGO NXT robot via bluetooth.
@@ -272,7 +272,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 		length = (nxtInputStream.read() << 8) + length;
 		byte[] returnMessage = new byte[length];
 		nxtInputStream.read(returnMessage);
-		//Log.i("bt", returnMessage.toString());
+		//Logger.i("bt", returnMessage.toString());
 		return returnMessage;
 	}
 

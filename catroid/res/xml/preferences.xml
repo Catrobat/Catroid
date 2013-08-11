@@ -29,4 +29,9 @@
             android:summary="@string/preference_description_mindstorm_bricks"
             android:title="@string/preference_title_enable_mindstorm_bricks" />
 
+        <CheckBoxPreference
+            android:key="setting_debugging"
+            android:summary="@string/preference_description_debugging"
+            android:title="@string/preference_title_debugging" />
+
 </PreferenceScreen>

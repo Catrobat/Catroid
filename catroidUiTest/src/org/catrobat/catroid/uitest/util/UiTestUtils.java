@@ -104,6 +104,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.utils.Logger;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -122,7 +123,6 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.InputType;
-import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -312,7 +312,7 @@ public class UiTestUtils {
 	}
 
 	public static void clickEnterClose(Solo solo, EditText editText, String value, int buttonIndex) {
-		Log.v("debug", "Solo.Enter clickEnterClose");
+		Logger.v("debug", "Solo.Enter clickEnterClose");
 		solo.enterText(editText, value);
 		solo.waitForText(solo.getString(R.string.ok));
 		solo.clickOnButton(buttonIndex);
@@ -1380,7 +1380,7 @@ public class UiTestUtils {
 				}
 			});
 		} catch (Throwable throwable) {
-			Log.e("CATROID", throwable.getMessage());
+			Logger.e("CATROID", throwable.getMessage());
 		}
 		solo.sleep(500);
 	}

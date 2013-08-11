@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.R;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -40,6 +38,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import org.catrobat.catroid.R;
 
 /**
  * Simple dialog for entering text with ok and cancel button will not permit to

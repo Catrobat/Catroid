@@ -85,8 +85,8 @@ public class WhenBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 
 		// Inactive until spinner is used again
 		//		solo.pressSpinnerItem(0, 0);
-		//		Log.v(TAG, solo.getCurrentSpinners().get(0).getSelectedItemPosition() + "");
-		//		Log.v(TAG, solo.getCurrentSpinners().get(0).getSelectedItem().toString());
+		//		Logger.v(TAG, solo.getCurrentSpinners().get(0).getSelectedItemPosition() + "");
+		//		Logger.v(TAG, solo.getCurrentSpinners().get(0).getSelectedItem().toString());
 		//		solo.sleep(1500);
 		//		assertEquals("Wrong event selected!", 0, solo.getCurrentSpinners().get(0).getSelectedItemPosition());
 

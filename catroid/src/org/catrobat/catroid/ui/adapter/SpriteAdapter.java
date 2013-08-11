@@ -22,14 +22,6 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.Sprite;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +35,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.Sprite;
+
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class SpriteAdapter extends ArrayAdapter<Sprite> {
 

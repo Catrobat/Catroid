@@ -28,8 +28,7 @@ import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
-
-import android.util.Log;
+import org.catrobat.catroid.utils.Logger;
 
 public class FormulaElement implements Serializable {
 
@@ -214,7 +213,7 @@ public class FormulaElement implements Serializable {
 				if (isInteger(minimum) && isInteger(maximum)
 						&& !(rightChild.type == ElementType.NUMBER && rightChild.value.contains("."))
 						&& !(leftChild.type == ElementType.NUMBER && leftChild.value.contains("."))) {
-					Log.i("info", "randomDouble: " + randomDouble);
+					Logger.i("info", "randomDouble: " + randomDouble);
 
 					if ((Math.abs(randomDouble) - (int) Math.abs(randomDouble)) >= 0.5) {
 						return Double.valueOf(randomDouble.intValue()) + 1;

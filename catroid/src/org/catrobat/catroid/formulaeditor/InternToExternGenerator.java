@@ -27,9 +27,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.Logger;
 
 import android.content.Context;
-import android.util.Log;
 
 public class InternToExternGenerator {
 
@@ -111,7 +111,7 @@ public class InternToExternGenerator {
 	}
 
 	public void generateExternStringAndMapping(List<InternToken> internTokenFormula) {
-		Log.i("info", "generateExternStringAndMapping:enter");
+		Logger.i("info", "generateExternStringAndMapping:enter");
 
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 

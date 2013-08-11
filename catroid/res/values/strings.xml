@@ -65,6 +65,9 @@
     <string name="preference_title">Settings</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorms bricks</string>
     <string name="preference_description_mindstorm_bricks">Allow to control Lego Mindstorms robots</string>
+    <string name="preference_title_debugging">Debugging</string>
+    <string name="preference_description_debugging">Enables log output for debugging\nHas to be enabled after every launch</string>
+
     <!--  -->
 
 

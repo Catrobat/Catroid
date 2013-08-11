@@ -40,6 +40,7 @@ import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Logger;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.web.ServerCalls;
 import org.json.JSONException;
@@ -50,7 +51,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.test.UiThreadTest;
-import android.util.Log;
 import android.widget.EditText;
 
 public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
@@ -164,7 +164,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		int statusCode = 0;
 		int statusCodeWrongLanguageVersion = 518;
 		statusCode = (Integer) Reflection.getPrivateField(ServerCalls.getInstance(), "uploadStatusCode");
-		Log.v("statusCode=", "" + statusCode);
+		Logger.v("statusCode=", "" + statusCode);
 
 		assertTrue("Upload did work, but error toastmessage should have been displayed", uploadErrorOccurred);
 		assertEquals("Wrong status code from Web", statusCodeWrongLanguageVersion, statusCode);
@@ -491,7 +491,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 			JSONObject jsonObject;
 			jsonObject = new JSONObject(resultString);
 			serverProjectId = jsonObject.optInt("projectId");
-			Log.v("serverID=", "" + serverProjectId);
+			Logger.v("serverID=", "" + serverProjectId);
 
 		} catch (JSONException e) {
 			fail("JSON exception orrured");

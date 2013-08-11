@@ -22,27 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.SpriteAdapter;
-import org.catrobat.catroid.ui.adapter.SpriteAdapter.OnSpriteCheckedListener;
-import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
-import org.catrobat.catroid.utils.Utils;
-
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -55,7 +34,6 @@ import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -72,6 +50,28 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.ProgramMenuActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.adapter.SpriteAdapter;
+import org.catrobat.catroid.ui.adapter.SpriteAdapter.OnSpriteCheckedListener;
+import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
+import org.catrobat.catroid.utils.Logger;
+import org.catrobat.catroid.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class SpritesListFragment extends SherlockListFragment implements OnSpriteCheckedListener {
 
@@ -119,7 +119,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		try {
 			Utils.loadProjectIfNeeded(getActivity());
 		} catch (ClassCastException exception) {
-			Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
+			Logger.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
 		}
 	}
 
@@ -335,7 +335,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				this.getString(R.string.copy_sprite_prefix).concat(" ").concat(spriteToEdit.getName()).concat(" ")
 						.concat(this.getString(R.string.copy_sprite_finished)), Toast.LENGTH_LONG).show();
 
-		Log.d("Sprite copied", copiedSprite.toString());
+		Logger.d("Sprite copied", copiedSprite.toString());
 	}
 
 	private void copyUserVariables(Sprite copiedSprite) {

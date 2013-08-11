@@ -63,12 +63,12 @@ import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Logger;
 
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -165,8 +165,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		double p = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable("p", copiedSprite).getValue();
 
-		Log.e("CATROID", "q hat den Wert: " + q);
-		Log.e("CATROID", "p hat den Wert: " + p);
+		Logger.e("CATROID", "q hat den Wert: " + q);
+		Logger.e("CATROID", "p hat den Wert: " + p);
 
 		assertEquals("The local uservariable q does not exist after copying the sprite!", 0.0, q);
 		assertEquals("The local uservariable p does not exist after copying the sprite!", 0.0, p);

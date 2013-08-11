@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.fragment;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.Logger;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -31,7 +32,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -167,11 +167,11 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 
 	@Override
 	public boolean onKey(DialogInterface d, int keyCode, KeyEvent event) {
-		Log.i("info", "onKey() in FE-ListFragment! keyCode: " + keyCode);
+		Logger.i("info", "onKey() in FE-ListFragment! keyCode: " + keyCode);
 		boolean returnValue = false;
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
-				Log.i("info", "KEYCODE_BACK pressed in FE-ListFragment!");
+				Logger.i("info", "KEYCODE_BACK pressed in FE-ListFragment!");
 				FragmentTransaction fragTransaction = getSherlockActivity().getSupportFragmentManager()
 						.beginTransaction();
 				fragTransaction.hide(this);

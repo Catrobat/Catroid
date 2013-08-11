@@ -22,15 +22,6 @@
  */
 package org.catrobat.catroid.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.MyProjectsActivity;
-import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
-
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -38,6 +29,15 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.SparseArray;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StatusBarNotificationManager {
 

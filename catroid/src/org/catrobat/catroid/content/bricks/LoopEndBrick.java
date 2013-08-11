@@ -29,10 +29,10 @@ import java.util.List;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.Logger;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -158,7 +158,7 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	@Override
 	public void initialize() {
 		loopBeginBrick = new ForeverBrick(sprite);
-		Log.w(TAG, "Not supposed to create the LoopBeginBrick!");
+		Logger.w(TAG, "Not supposed to create the LoopBeginBrick!");
 	}
 
 	@Override

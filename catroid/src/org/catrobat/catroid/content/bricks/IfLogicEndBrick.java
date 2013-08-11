@@ -29,10 +29,10 @@ import java.util.List;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.Logger;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -157,7 +157,7 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 	@Override
 	public void initialize() {
 		//ifElseBrick = new IfLogicElseBrick(sprite);
-		Log.w(TAG, "Cannot create the IfLogic Bricks from here!");
+		Logger.w(TAG, "Cannot create the IfLogic Bricks from here!");
 	}
 
 	@Override

@@ -41,13 +41,13 @@ import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Logger;
 import org.catrobat.catroid.utils.UtilFile;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int SCREEN_WIDTH = 480;
@@ -117,10 +117,10 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 		Bitmap blackQuad = BitmapFactory.decodeFile(setLookBrick.getImagePath());
 		int blackQuadHeight = blackQuad.getHeight();
 		int blackQuadWidth = blackQuad.getWidth();
-		Log.v(TAG, "black_quad.png x: " + blackQuadHeight + " y: " + blackQuadWidth);
-		Log.v(TAG, "Screenshot height: " + ScreenValues.SCREEN_WIDTH + " width: " + ScreenValues.SCREEN_WIDTH);
+		Logger.v(TAG, "black_quad.png x: " + blackQuadHeight + " y: " + blackQuadWidth);
+		Logger.v(TAG, "Screenshot height: " + ScreenValues.SCREEN_WIDTH + " width: " + ScreenValues.SCREEN_WIDTH);
 
-		Log.v(TAG, (ScreenValues.SCREEN_WIDTH / 2) + (blackQuadHeight / 2) + 5 + "");
+		Logger.v(TAG, (ScreenValues.SCREEN_WIDTH / 2) + (blackQuadHeight / 2) + 5 + "");
 
 		//Two times width, because of the quadratically screenshots
 		int colorInsideSizedQuad = screenshot.getPixel((ScreenValues.SCREEN_WIDTH / 2) + (blackQuadWidth / 2) + 5,
@@ -156,7 +156,7 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 
 		File image = UiTestUtils.saveFileToProject(projectName, "black_quad.png", imageRawId, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.IMAGE);
-		Log.v(TAG, image.getName());
+		Logger.v(TAG, image.getName());
 		LookData lookData = new LookData();
 		lookData.setLookFilename(image.getName());
 		lookData.setLookName("image");

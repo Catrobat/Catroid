@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.utils.Logger;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -37,7 +38,6 @@ import org.catrobat.catroid.web.WebconnectionException;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 /*
  * This tests need an internet connection
@@ -81,7 +81,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 			boolean tokenOk = ServerCalls.getInstance().checkToken(token, testUser);
 
-			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
+			Logger.i(LOG_TAG, "tokenOk: " + tokenOk);
 			assertTrue("token should be ok", tokenOk);
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
@@ -101,7 +101,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
 					"de", "at", token, getContext());
 
-			Log.i(LOG_TAG, "user registered: " + userRegistered);
+			Logger.i(LOG_TAG, "user registered: " + userRegistered);
 			assertTrue("Should be a new user, but server response indicates that this user already exists",
 					userRegistered);
 
@@ -110,7 +110,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de",
 					"at", token, getContext());
 
-			Log.i(LOG_TAG, "user registered: " + userRegistered);
+			Logger.i(LOG_TAG, "user registered: " + userRegistered);
 			assertFalse("Should be an existing user, but server responce indicates that this user is new",
 					userRegistered);
 		} catch (WebconnectionException e) {
@@ -132,7 +132,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
 					"de", "at", token, getContext());
 
-			Log.i(LOG_TAG, "user registered: " + userRegistered);
+			Logger.i(LOG_TAG, "user registered: " + userRegistered);
 			assertTrue("Should be a new user, but server response indicates that this user already exists",
 					userRegistered);
 
@@ -164,7 +164,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
 					"de", "at", token, getContext());
 
-			Log.i(LOG_TAG, "user registered: " + userRegistered);
+			Logger.i(LOG_TAG, "user registered: " + userRegistered);
 			assertTrue("Should be a new user, but server responce indicates that this user already exists",
 					userRegistered);
 
@@ -238,7 +238,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			String username = "anonymous";
 			boolean tokenOk = ServerCalls.getInstance().checkToken(anonymousToken, username);
 
-			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
+			Logger.i(LOG_TAG, "tokenOk: " + tokenOk);
 			assertTrue("token should be ok", tokenOk);
 
 		} catch (WebconnectionException e) {
@@ -256,7 +256,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			String username = "badUser";
 			boolean tokenOk = ServerCalls.getInstance().checkToken(wrongToken, username);
 
-			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
+			Logger.i(LOG_TAG, "tokenOk: " + tokenOk);
 			assertFalse("should not be reanched, exception is thrown", tokenOk);
 
 		} catch (WebconnectionException e) {
@@ -307,7 +307,7 @@ public class ServerCallsTest extends AndroidTestCase {
 					getContext());
 
 		} catch (Exception exception) {
-			Log.e(LOG_TAG, "testUploadWithExistingUserWithoutEmail: error", exception);
+			Logger.e(LOG_TAG, "testUploadWithExistingUserWithoutEmail: error", exception);
 			fail("Upload with existing user but without e-mail failed!");
 		} finally {
 			if (zipFile != null) {
@@ -327,7 +327,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
 					"de", "at", token, getContext());
 
-			Log.i(LOG_TAG, "user registered: " + userRegistered);
+			Logger.i(LOG_TAG, "user registered: " + userRegistered);
 			assertTrue("Should be a new user, but server responce indicates that this user already exists",
 					userRegistered);
 
@@ -335,7 +335,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 			boolean tokenOk = ServerCalls.getInstance().checkToken(token, testUser);
 
-			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
+			Logger.i(LOG_TAG, "tokenOk: " + tokenOk);
 			assertTrue("token should be ok", tokenOk);
 
 		} catch (WebconnectionException e) {

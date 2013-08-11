@@ -33,10 +33,10 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Logger;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -193,7 +193,7 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, 
 	public void initialize() {
 		ifElseBrick = new IfLogicElseBrick(sprite, this);
 		ifEndBrick = new IfLogicEndBrick(sprite, ifElseBrick, this);
-		Log.w(TAG, "Creating if logic stuff");
+		Logger.w(TAG, "Creating if logic stuff");
 	}
 
 	@Override

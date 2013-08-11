@@ -26,6 +26,7 @@ import java.io.IOException;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.utils.Logger;
 import org.catrobat.catroid.utils.Utils;
 
 import android.app.Activity;
@@ -33,7 +34,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -119,11 +119,11 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 			soundRecorder.start();
 			setViewsToRecordingState();
 		} catch (IOException e) {
-			Log.e(TAG, "Error recording sound.", e);
+			Logger.e(TAG, "Error recording sound.", e);
 			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
 		} catch (IllegalStateException e) {
 			// app would crash if other app uses mic, catch IllegalStateException and display Toast
-			Log.e(TAG, "Error recording sound (Other recorder running?).", e);
+			Logger.e(TAG, "Error recording sound (Other recorder running?).", e);
 			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -142,7 +142,7 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 			Uri uri = soundRecorder.getPath();
 			setResult(Activity.RESULT_OK, new Intent(Intent.ACTION_PICK, uri));
 		} catch (IOException e) {
-			Log.e("CATROID", "Error recording sound.", e);
+			Logger.e("CATROID", "Error recording sound.", e);
 			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
 			setResult(Activity.RESULT_CANCELED);
 		}

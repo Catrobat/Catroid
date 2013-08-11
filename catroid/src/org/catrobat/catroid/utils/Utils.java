@@ -29,27 +29,6 @@
 
 package org.catrobat.catroid.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.Semaphore;
-
-import org.catrobat.catroid.BuildConfig;
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.common.StandardProjectHandler;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.StorageHandler;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -66,7 +45,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -75,6 +53,27 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+
+import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.io.StorageHandler;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.Semaphore;
 
 public class Utils {
 
@@ -187,14 +186,14 @@ public class Utils {
 				messageDigest.update(buffer, 0, length);
 			}
 		} catch (IOException e) {
-			Log.w(TAG, "IOException thrown in md5Checksum()");
+			Logger.w(TAG, "IOException thrown in md5Checksum()");
 		} finally {
 			try {
 				if (fis != null) {
 					fis.close();
 				}
 			} catch (IOException e) {
-				Log.w(TAG, "IOException thrown in finally block of md5Checksum()");
+				Logger.w(TAG, "IOException thrown in finally block of md5Checksum()");
 			}
 		}
 
@@ -233,7 +232,7 @@ public class Utils {
 		try {
 			messageDigest = MessageDigest.getInstance("MD5");
 		} catch (NoSuchAlgorithmException e) {
-			Log.w(TAG, "NoSuchAlgorithmException thrown in getMD5MessageDigest()");
+			Logger.w(TAG, "NoSuchAlgorithmException thrown in getMD5MessageDigest()");
 		}
 
 		return messageDigest;
@@ -246,7 +245,7 @@ public class Utils {
 					PackageManager.GET_META_DATA);
 			versionCode = packageInfo.versionCode;
 		} catch (NameNotFoundException nameNotFoundException) {
-			Log.e(TAG, "Name not found", nameNotFoundException);
+			Logger.e(TAG, "Name not found", nameNotFoundException);
 		}
 		return versionCode;
 	}
@@ -258,7 +257,7 @@ public class Utils {
 					PackageManager.GET_META_DATA);
 			versionName = packageInfo.versionName;
 		} catch (NameNotFoundException nameNotFoundException) {
-			Log.e(TAG, "Name not found", nameNotFoundException);
+			Logger.e(TAG, "Name not found", nameNotFoundException);
 		}
 		return versionName;
 	}

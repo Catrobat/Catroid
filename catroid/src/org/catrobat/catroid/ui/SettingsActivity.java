@@ -23,15 +23,23 @@
 package org.catrobat.catroid.ui;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.Logger;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 
-public class SettingsActivity extends SherlockPreferenceActivity {
+public class SettingsActivity extends SherlockPreferenceActivity implements OnSharedPreferenceChangeListener {
+
+	public static final String KEY_DEBUGGING = "setting_debugging";
+
+	private CheckBoxPreference debuggingPreference;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -39,6 +47,10 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		super.onCreate(savedInstanceState);
 
 		addPreferencesFromResource(R.xml.preferences);
+
+		debuggingPreference = (CheckBoxPreference) findPreference(KEY_DEBUGGING);
+		debuggingPreference.setChecked(Logger.isDebugging());
+		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
 		ActionBar actionBar = getSupportActionBar();
 
@@ -58,4 +70,12 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		if (key.equals(KEY_DEBUGGING)) {
+			Logger.setDebugging(sharedPreferences.getBoolean(KEY_DEBUGGING, false));
+		}
+	}
+
 }

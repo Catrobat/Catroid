@@ -30,6 +30,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
+import org.catrobat.catroid.utils.Logger;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -40,7 +41,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -222,7 +222,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		View.OnTouchListener touchListener = new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-				Log.i("info", "viewId: " + view.getId());
+				Logger.i("info", "viewId: " + view.getId());
 				if (event.getAction() == MotionEvent.ACTION_UP) {
 					updateButtonViewOnKeyboard();
 					view.setPressed(false);
@@ -371,7 +371,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	}
 
 	private boolean checkReturnWithoutSaving(int errorType) {
-		Log.i("info", "confirmBackCounter=" + confirmBackCounter + " "
+		Logger.i("info", "confirmBackCounter=" + confirmBackCounter + " "
 				+ (System.currentTimeMillis() <= confirmBackTimeStamp[0] + TIME_WINDOW)
 				+ " confirmSwitchEditTextCounter=" + confirmSwitchEditTextCounter + " "
 				+ (System.currentTimeMillis() <= confirmSwitchEditTextTimeStamp[0] + TIME_WINDOW));
@@ -406,7 +406,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 	@Override
 	public boolean onKey(View view, int keyCode, KeyEvent event) {
-		Log.i("info", "onKey() in FE-Fragment! keyCode: " + keyCode);
+		Logger.i("info", "onKey() in FE-Fragment! keyCode: " + keyCode);
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
 				confirmBackTimeStamp[0] = confirmBackTimeStamp[1];
@@ -475,7 +475,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		formulaEditorBrick.getGlobalVisibleRect(brickRect);
 		formulaEditorKeyboard.getGlobalVisibleRect(keyboardRec);
 
-		Log.e("info", "heights: " + brickRect.bottom + " | " + keyboardRec.top);
+		Logger.e("info", "heights: " + brickRect.bottom + " | " + keyboardRec.top);
 		formulaEditorEditText.setMaxHeight(keyboardRec.top - brickRect.bottom);
 
 	}

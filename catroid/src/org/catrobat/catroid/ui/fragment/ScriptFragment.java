@@ -40,6 +40,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter.OnBrickEditListener;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
+import org.catrobat.catroid.utils.Logger;
 import org.catrobat.catroid.utils.Utils;
 
 import android.app.AlertDialog;
@@ -54,7 +55,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -382,7 +382,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 				}
 
 				if (brickToBeAdded == null) {
-					Log.w(TAG, "NewBrickAddedReceiver: no Brick given in extras");
+					Logger.w(TAG, "NewBrickAddedReceiver: no Brick given in extras");
 					return;
 				}
 				updateAdapterAfterAddNewBrick(brickToBeAdded);

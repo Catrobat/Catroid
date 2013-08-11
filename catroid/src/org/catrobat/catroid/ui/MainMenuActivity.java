@@ -39,6 +39,7 @@ import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
+import org.catrobat.catroid.utils.Logger;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
@@ -56,7 +57,6 @@ import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -324,7 +324,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			try {
 				projectName = URLDecoder.decode(projectName, "UTF-8");
 			} catch (UnsupportedEncodingException e) {
-				Log.e(TAG, "Could not decode project name: " + projectName, e);
+				Logger.e(TAG, "Could not decode project name: " + projectName, e);
 			}
 
 			Intent downloadIntent = new Intent(this, ProjectDownloadService.class);

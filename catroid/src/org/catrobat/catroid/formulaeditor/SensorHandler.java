@@ -22,11 +22,12 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import org.catrobat.catroid.utils.Logger;
+
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.util.Log;
 
 public class SensorHandler implements SensorEventListener, SensorCustomEventListener {
 	private static final String TAG = SensorHandler.class.getSimpleName();
@@ -169,7 +170,7 @@ public class SensorHandler implements SensorEventListener, SensorCustomEventList
 				rotationVector[2] = event.values[2];
 				break;
 			default:
-				Log.v(TAG, "Unhandled sensor type: " + event.sensor.getType());
+				Logger.v(TAG, "Unhandled sensor type: " + event.sensor.getType());
 		}
 	}
 
@@ -180,7 +181,7 @@ public class SensorHandler implements SensorEventListener, SensorCustomEventList
 				instance.loudness = event.values[0];
 				break;
 			default:
-				Log.v(TAG, "Unhandled sensor: " + event.sensor);
+				Logger.v(TAG, "Unhandled sensor: " + event.sensor);
 		}
 	}
 }

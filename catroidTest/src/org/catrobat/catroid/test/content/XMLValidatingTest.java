@@ -44,12 +44,12 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
+import org.catrobat.catroid.utils.Logger;
 import org.catrobat.catroid.utils.UtilFile;
 import org.json.JSONException;
 
 import android.content.Context;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 public class XMLValidatingTest extends AndroidTestCase {
 	private String testProjectName = "xmlTestProjectName";
@@ -105,7 +105,7 @@ public class XMLValidatingTest extends AndroidTestCase {
 		for (Brick brick : bricks) {
 			if (brick.getClass().equals(WhenBrick.class) || brick.getClass().equals(WhenStartedBrick.class)
 					|| brick.getClass().equals(BroadcastReceiverBrick.class)) {
-				Log.i("XMLValidationtest", "These bricks are not in the new schema");
+				Logger.i("XMLValidationtest", "These bricks are not in the new schema");
 			} else {
 				startScript.addBrick(brick);
 			}

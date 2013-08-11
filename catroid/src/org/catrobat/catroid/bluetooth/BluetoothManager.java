@@ -71,7 +71,7 @@ public class BluetoothManager {
 			activity.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
 			return BLUETOOTH_ACTIVATING;
 		} else {
-			//Log.d("TAG", "LOOP!!!!!");
+			//Logger.d("TAG", "LOOP!!!!!");
 			//connectLegoNXT();
 			return BLUETOOTH_ALREADY_ON;
 		}

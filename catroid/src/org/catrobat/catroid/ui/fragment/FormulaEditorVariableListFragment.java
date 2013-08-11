@@ -22,18 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
-import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
-import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
-import org.catrobat.catroid.ui.dialogs.NewVariableDialog.NewVariableDialogListener;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -42,7 +30,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -60,6 +47,19 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
+import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
+import org.catrobat.catroid.ui.dialogs.NewVariableDialog.NewVariableDialogListener;
+import org.catrobat.catroid.utils.Logger;
 
 public class FormulaEditorVariableListFragment extends SherlockListFragment implements Dialog.OnKeyListener,
 		UserVariableAdapter.OnCheckedChangeListener, UserVariableAdapter.OnListItemClickListener,
@@ -85,7 +85,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	@Override
 	public void onResume() {
 		super.onResume();
-		Log.d("CatroidFragmentTag", "FormulaEditorVariableList onresume()");
+		Logger.d("CatroidFragmentTag", "FormulaEditorVariableList onresume()");
 
 	}
 
@@ -128,7 +128,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 	@Override
 	public void onListItemClick(int position) {
-		Log.d("catroid", "onListItemClick");
+		Logger.d("catroid", "onListItemClick");
 		if (!inContextMode) {
 			FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSherlockActivity()
 					.getSupportFragmentManager().findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);

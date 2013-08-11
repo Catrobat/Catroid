@@ -42,8 +42,8 @@ import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Logger;
 
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -224,7 +224,7 @@ public class ChangeVariableTest extends BaseActivityInstrumentationTestCase<Main
 					solo.clickOnText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only));
 				}
 			}
-			Log.i("info", "(" + iteration + ")OkButton-found: " + solo.searchButton(solo.getString(R.string.ok)));
+			Logger.i("info", "(" + iteration + ")OkButton-found: " + solo.searchButton(solo.getString(R.string.ok)));
 
 			solo.clickOnButton(solo.getString(R.string.ok));
 			solo.waitForText(solo.getString(R.string.formula_editor_variables), 0, 1000);

@@ -31,13 +31,12 @@ import junit.framework.Assert;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.utils.Logger;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ConnectionWrapper;
 import org.catrobat.catroid.web.WebconnectionException;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.util.Log;
 
 public class XMLValidationUtil {
 	// TODO: add new XML schema
@@ -63,7 +62,7 @@ public class XMLValidationUtil {
 		String response = connection.doHttpPost(XML_VALIDATING_URL, postValues);
 
 		JSONObject jsonResponce = new JSONObject(response);
-		Log.i(LOG_TAG, "json responce: " + jsonResponce.toString());
+		Logger.i(LOG_TAG, "json responce: " + jsonResponce.toString());
 		boolean valid = jsonResponce.getBoolean("valid");
 		String message = jsonResponce.optString("message");
 

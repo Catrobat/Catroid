@@ -49,10 +49,10 @@ import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.SimulatedSensorManager;
 import org.catrobat.catroid.uitest.util.SimulatedSoundRecorder;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Logger;
 
 import android.graphics.Rect;
 import android.text.style.BackgroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -724,7 +724,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		int maxLoops = 100;
 		String lastComputeString = computeTextView.getText().toString();
 		while (maxLoops-- > 0) {
-			Log.e("info", "loopCount " + maxLoops);
+			Logger.e("info", "loopCount " + maxLoops);
 			sensorManager.sendGeneratedSensorValues();
 
 			//Wait for runnable in FormulaEditorComputeDialog to

@@ -31,12 +31,12 @@ import java.util.TreeSet;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.utils.Logger;
 import org.catrobat.catroid.utils.UtilFile;
 
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -232,7 +232,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 				tempPlayer.reset();
 				tempPlayer.release();
 			} catch (IOException e) {
-				Log.e("CATROID", "Cannot get view.", e);
+				Logger.e("CATROID", "Cannot get view.", e);
 			}
 
 			if (selectMode != ListView.CHOICE_MODE_NONE) {

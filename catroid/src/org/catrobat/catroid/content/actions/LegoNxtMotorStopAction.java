@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+
 import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick.Motor;
-
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class LegoNxtMotorStopAction extends TemporalAction {
 

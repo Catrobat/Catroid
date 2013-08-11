@@ -22,8 +22,8 @@
  */
 package org.catrobat.catroid.utils;
 
-import java.io.File;
-import java.io.IOException;
+import android.os.AsyncTask;
+import android.widget.Toast;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -31,9 +31,8 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment;
 
-import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
+import java.io.File;
+import java.io.IOException;
 
 public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 
@@ -68,7 +67,7 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 
 		} catch (IOException exception) {
 			UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
-			Log.e("CATROID", "Error while copying project, destroy newly created directories.", exception);
+			Logger.e("CATROID", "Error while copying project, destroy newly created directories.", exception);
 			return false;
 		}
 		return true;

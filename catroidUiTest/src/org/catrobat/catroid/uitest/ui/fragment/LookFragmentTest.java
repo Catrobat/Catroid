@@ -41,11 +41,11 @@ import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Logger;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.CheckBox;
@@ -204,7 +204,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		Sprite firstSprite = projectManager.getCurrentProject().getSpriteList().get(0);
 		LookData lookToDelete = firstSprite.getLookDataList().get(1);
 
-		Log.d("TEST", "Look to delete: " + lookToDelete.getLookName());
+		Logger.d("TEST", "Look to delete: " + lookToDelete.getLookName());
 
 		String testLookName = SECOND_TEST_LOOK_NAME;
 		assertEquals("The two names should be equal", testLookName, lookToDelete.getLookName());

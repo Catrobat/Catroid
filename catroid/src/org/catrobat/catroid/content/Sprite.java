@@ -22,9 +22,8 @@
  */
 package org.catrobat.catroid.content;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.FileChecksumContainer;
@@ -33,8 +32,9 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
 
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Sprite implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
