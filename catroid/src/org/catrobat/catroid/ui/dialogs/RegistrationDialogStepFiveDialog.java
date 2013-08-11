@@ -148,7 +148,7 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         String password = passwordEditText.getText().toString();
-                        String passwordConfirmation = passwordEditText.getText().toString();
+                        String passwordConfirmation = passwordConfirmationEditText.getText().toString();
                         if (!password.isEmpty() && password.equals(passwordConfirmation)) {
                             registerButton.setEnabled(true);
                         } else {
@@ -174,13 +174,11 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
 
         if (!password.equals(passwordConfirmation)) {
             final android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
-            //Toast.makeText(getActivity(), R.string.register_password_mismatch, Toast.LENGTH_LONG).show();
             new Builder(getActivity()).setTitle(R.string.register_error)
                     .setMessage(R.string.register_password_mismatch).setPositiveButton(android.R.string.ok, null)
                     .setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            //alertDialog.show();
                             RegistrationDialogStepFiveDialog registerStepFiveDialog = new RegistrationDialogStepFiveDialog();
                             dismiss();
                             registerStepFiveDialog.show(fragmentManager,
@@ -206,7 +204,7 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
 
             RegistrationDialogStepSixDialog registerStepSixDialog = new RegistrationDialogStepSixDialog();
             dismiss();
-            registerStepSixDialog.show(getActivity().getSupportFragmentManager(),
+            registerStepSixDialog.show(fragmentActivity.getSupportFragmentManager(),
                     RegistrationDialogStepSixDialog.DIALOG_FRAGMENT_TAG);
         } else {
             RegistrationDialogStepFiveDialog registerStepFiveDialog = new RegistrationDialogStepFiveDialog();

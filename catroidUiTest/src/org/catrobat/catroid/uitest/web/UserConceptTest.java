@@ -43,6 +43,7 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.test.UiThreadTest;
 import android.view.View;
+import org.catrobat.catroid.web.WebconnectionException;
 
 public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -131,8 +132,11 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
         solo.waitForText(uploadDialogTitle);
         assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
         solo.goBack();
+        solo.clickOnText(solo.getString(R.string.cancel_button));
 
-        solo.waitForDialogToClose(10000);
+        solo.waitForDialogToClose(1000);
+        solo.clickOnText(solo.getString(R.string.main_menu_upload));
+        solo.waitForDialogToOpen(1000);
         assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
     }
 
@@ -144,10 +148,8 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
         sharedPreferences.edit().putString(Constants.TOKEN, "wrong_token").commit();
 
         solo.clickOnText(solo.getString(R.string.main_menu_upload));
-        solo.waitForText(loginDialogTitle);
-        fillLoginDialog(true);
 
-        assertNotNull("Upload Dialog is not shown.", uploadDialogTitle);
+        assertTrue("Registration Dialog not shown - wrong token was accepted", solo.waitForText(registerDialogTitle));
         UiTestUtils.goBackToHome(getInstrumentation());
     }
 
@@ -160,11 +162,11 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 
         solo.clickOnText(solo.getString(R.string.main_menu_upload));
         solo.waitForText(registerDialogTitle);
-        fillRegistrationDialog(true, TEST_USERNAME, false);
+        fillRegistrationDialog(false, TEST_USERNAME, false);
 
         assertNotNull("no error dialog is shown", solo.getText(solo.getString(R.string.register_error)));
         solo.clickOnButton(0);
-        assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.register_dialog_title)));
+        assertNotNull("Registration Dialog is not shown.", solo.getText(solo.getString(R.string.register_dialog_title)));
     }
 
     @Device
@@ -201,14 +203,24 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
     public void testAlreadyRegistered() throws Throwable {
         setTestUrl();
         clearSharedPreferences();
+        String testUser = "testUser" + System.currentTimeMillis();
+        String testPassword = "pwspws";
+        String testEmail = testUser + "@gmail.com";
+
+        registerCorrectUser(testUser, testPassword, testEmail);
+        clearSharedPreferences();
 
         solo.clickOnText(solo.getString(R.string.main_menu_upload));
         solo.waitForDialogToOpen(500);
 
         assertTrue("Registration dialog not shown", solo.searchText(solo.getString(R.string.register_dialog_title)));
         solo.clickOnButton(solo.getString(R.string.login));
-        solo.sleep(300);
+        solo.waitForDialogToOpen(500);
         assertTrue("Login dialog not shown", solo.searchText(solo.getString(R.string.login_dialog_title)));
+
+        fillLoginDialog(testUser, testPassword, testEmail, true);
+        assertTrue("Upload dialog not displayed",
+                solo.waitForText(solo.getString(R.string.upload_project_dialog_title)));
     }
 
     public void testRegisterErrors() throws Throwable {
@@ -307,22 +319,15 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
         EditText password = (EditText) solo.getView(R.id.password);
         EditText passwordConfirmation = (EditText) solo.getView(R.id.password_confirmation);
         solo.clearEditText(username);
-        solo.enterText(username, TEST_USERNAME);
+        solo.enterText(username, TEST_USERNAME + System.currentTimeMillis());
         String testPassword = "testpassword";
         solo.clearEditText(password);
         solo.clearEditText(passwordConfirmation);
         solo.enterText(password, testPassword);
         solo.enterText(passwordConfirmation, testPassword + "wrong");
-        solo.clickOnButton(solo.getString(R.string.register));
-        assertTrue("Wrong password confirmation was accepted",
-                solo.waitForText(solo.getString(R.string.register_password_mismatch)));
-        solo.clickOnButton(0);
-        solo.waitForDialogToOpen(500);
-        username = (EditText) solo.getView(R.id.username);
-        password = (EditText) solo.getView(R.id.password);
-        passwordConfirmation = (EditText) solo.getView(R.id.password_confirmation);
-        solo.clearEditText(username);
-        solo.enterText(username, TEST_USERNAME);
+        Button registerButton = (Button) solo.getView(android.R.id.button1);
+        assertFalse("Register button is enabled!", registerButton.isEnabled());
+
         solo.clearEditText(password);
         solo.enterText(password, testPassword);
         solo.clearEditText(passwordConfirmation);
@@ -344,7 +349,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
                 passwordConfirmation.getInputType() == InputType.TYPE_CLASS_TEXT);
         solo.clickOnButton(solo.getString(R.string.register));
 
-        solo.waitForDialogToOpen(5000);
+        solo.waitForDialogToOpen(2000);
         assertTrue("No registration completed text shown",
                 solo.waitForText(solo.getString(R.string.registration_completed)));
         solo.clickOnButton(solo.getString(R.string.upload_button));
@@ -370,29 +375,22 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
         edit.commit();
     }
 
-    private void fillLoginDialog(boolean correctPassword) {
-        String testUser = TEST_USERNAME + System.currentTimeMillis();
-        EditText username = (EditText) solo.getView(R.id.username);
-        EditText password = (EditText) solo.getView(R.id.password);
-        solo.clearEditText(username);
-        solo.enterText(username, testUser);
-        String testPassword;
-        if (correctPassword) {
-            testPassword = "blubblub";
-        } else {
-            testPassword = "short";
+    private void fillLoginDialog(String username, String password, String email, boolean correctPassword) {
+        EditText usernameEdittext = (EditText) solo.getView(R.id.username);
+        EditText passwordEdittext = (EditText) solo.getView(R.id.password);
+        EditText emailEdittext = (EditText) solo.getView(R.id.email);
+        solo.clearEditText(usernameEdittext);
+        solo.enterText(usernameEdittext, username);
+        if (!correctPassword) {
+            password = "short";
         }
-        solo.clearEditText(password);
-        solo.enterText(password, testPassword);
+        solo.clearEditText(passwordEdittext);
+        solo.enterText(passwordEdittext, password);
 
-        // set the email to use. we need a random email because the server does not allow same email with different users
-        String testEmail = testUser + "@gmail.com";
-        Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
-        solo.sleep(1000);
-        assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testPassword));
-        assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
+        solo.clearEditText(emailEdittext);
+        solo.enterText(emailEdittext, email);
         solo.clickOnButton(solo.getString(R.string.login));
-        solo.sleep(500);
+        solo.waitForDialogToOpen(1000);
     }
 
     private void fillRegistrationDialogUntilStepFive() {
@@ -450,6 +448,16 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
         if(completeStepSix){
             solo.clickOnButton(solo.getString(R.string.upload_button));
             solo.waitForDialogToOpen(500);
+        }
+    }
+
+    private void registerCorrectUser(String testUser, String testPassword, String testEmail) {
+        String token = Constants.NO_TOKEN;
+        try {
+            boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
+                    "de", "at", token, "male", "January", "2000", getActivity());
+        } catch (WebconnectionException e) {
+            e.printStackTrace();
         }
     }
 }
