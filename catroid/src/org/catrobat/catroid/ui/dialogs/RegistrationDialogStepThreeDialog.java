@@ -69,10 +69,10 @@ public class RegistrationDialogStepThreeDialog extends DialogFragment implements
 		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
-				if (!userEmail.isEmpty()) {
-					emailEditText.setText(userEmail);
+				if (userEmail == null || userEmail.isEmpty()) {
+                    ((AlertDialog) alertDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
 				} else {
-					((AlertDialog) alertDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
+                    emailEditText.setText(userEmail);
 				}
 				emailEditText.addTextChangedListener(new TextWatcher() {
 

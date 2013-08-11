@@ -247,6 +247,7 @@ public class UploadProjectDialog extends DialogFragment {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+        String email = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
 		Intent uploadIntent = new Intent(getActivity(), ProjectUploadService.class);
 		uploadIntent.putExtra("receiver", new UploadReceiver(new Handler()));
 		uploadIntent.putExtra("uploadName", uploadName);
@@ -254,6 +255,7 @@ public class UploadProjectDialog extends DialogFragment {
 		uploadIntent.putExtra("projectPath", projectPath);
 		uploadIntent.putExtra("username", username);
 		uploadIntent.putExtra("token", token);
+        uploadIntent.putExtra("email", email);
 		int notificationId = createNotification(uploadName);
 		uploadIntent.putExtra("notificationId", notificationId);
 		activity = getActivity();

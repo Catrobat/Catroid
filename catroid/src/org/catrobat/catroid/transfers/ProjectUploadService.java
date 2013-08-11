@@ -54,8 +54,9 @@ public class ProjectUploadService extends IntentService {
 	public ResultReceiver receiver;
 	private Integer notificationId;
 	private String username;
+    private String email;
 
-	public ProjectUploadService() {
+    public ProjectUploadService() {
 		super("ProjectUploadService");
 	}
 
@@ -67,6 +68,7 @@ public class ProjectUploadService extends IntentService {
 		this.projectDescription = intent.getStringExtra("projectDescription");
 		this.token = intent.getStringExtra("token");
 		this.username = intent.getStringExtra("username");
+        this.email = intent.getStringExtra("email");
 		this.serverAnswer = "";
 		this.result = true;
 		this.notificationId = intent.getIntExtra("notificationId", 0);
@@ -115,14 +117,10 @@ public class ProjectUploadService extends IntentService {
 			}
 
 			//String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
-            String userEmail = RegistrationData.getInstance().getEmail();
-            if(userEmail.isEmpty()){
-                userEmail = UtilDeviceInfo.getUserEmail(this);
-            }
 			String language = UtilDeviceInfo.getUserLanguageCode(this);
 
 			Context context = getApplicationContext();
-			ServerCalls.getInstance().uploadProject(projectName, projectDescription, zipFileString, userEmail,
+			ServerCalls.getInstance().uploadProject(projectName, projectDescription, zipFileString, email,
 					language, token, username, receiver, notificationId, context);
 
 			zipFile.delete();

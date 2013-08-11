@@ -72,7 +72,9 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
 			email = UtilDeviceInfo.getUserEmail(getActivity());
 		}
 
-		emailEditText.setText(email);
+        if(email != null){
+            emailEditText.setText(email);
+        }
 
 		Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(R.string.login_dialog_title)
 				.setPositiveButton(R.string.login, new DialogInterface.OnClickListener() {

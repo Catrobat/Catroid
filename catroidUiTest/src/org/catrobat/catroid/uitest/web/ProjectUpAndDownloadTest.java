@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
+import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
@@ -85,8 +86,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 	@Override
 	public void tearDown() throws Exception {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		sharedPreferences.edit().putString(Constants.TOKEN, saveToken).commit();
 		super.tearDown();
 	}
 
@@ -101,8 +102,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	@Device
 	public void testUploadProjectSuccessAndTokenReplacementAfterUpload() throws Throwable {
 		setServerURLToTestUrl();
-		createTestProject(testProject);
-		addABrickToProject();
+        createTestProject(testProject);
+        addABrickToProject();
 
 		//intent to the main activity is sent since changing activity orientation is not working
 		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
@@ -453,7 +454,9 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	}
 
 	private void addABrickToProject() {
-		solo.clickInList(0);
+        solo.waitForActivity(ProjectActivity.class.getSimpleName());
+        solo.scrollToTop();
+		solo.clickOnText(solo.getString(R.string.background));
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.waitForText(solo.getString(R.string.scripts));
 		solo.clickOnText(solo.getString(R.string.scripts));
@@ -481,9 +484,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		solo.enterText(projectUploadDescription, uploadProjectDescription);
 
 		solo.clickOnButton(solo.getString(R.string.upload_button));
-		solo.sleep(500);
 
-		boolean success = solo.waitForText(solo.getString(R.string.success_project_upload), 1, 50000);
+		boolean success = solo.waitForText(solo.getString(R.string.success_project_upload));
 		assertTrue("Upload failed. Internet connection?", success);
 		String resultString = (String) Reflection.getPrivateField(ServerCalls.getInstance(), "resultString");
 
