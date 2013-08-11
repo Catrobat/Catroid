@@ -37,9 +37,9 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class SettingsActivity extends SherlockPreferenceActivity implements OnSharedPreferenceChangeListener {
 
-	public final static String KEY_DEBUGGING = "setting_debugging";
+	public static final String KEY_DEBUGGING = "setting_debugging";
 
-	CheckBoxPreference debuggingPreference;
+	private CheckBoxPreference debuggingPreference;
 
 	@SuppressWarnings("deprecation")
 	@Override
