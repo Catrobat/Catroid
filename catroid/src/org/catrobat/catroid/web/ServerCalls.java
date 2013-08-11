@@ -118,7 +118,7 @@ public class ServerCalls {
 			HashMap<String, String> postValues = new HashMap<String, String>();
 			postValues.put(PROJECT_NAME_TAG, projectName);
 			postValues.put(PROJECT_DESCRIPTION_TAG, projectDescription);
-			postValues.put(USER_EMAIL, userEmail);
+			postValues.put(USER_EMAIL, userEmail == null ? "" : userEmail);
 			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum);
 			postValues.put(Constants.TOKEN, token);
 			postValues.put(Constants.USERNAME, username);

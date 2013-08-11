@@ -24,6 +24,10 @@ package org.catrobat.catroid.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.Proxy;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import org.catrobat.catroid.common.Constants;
@@ -34,6 +38,7 @@ import android.util.Log;
 
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
+import com.squareup.okhttp.OkHttpClient;
 
 //web status codes are on: https://github.com/Catrobat/Catroweb/blob/master/statusCodes.php
 
@@ -56,7 +61,10 @@ public class ConnectionWrapper {
 		String fileName = postValues.get(TAG_PROJECT_TITLE);
 
 		if (filePath != null) {
-			HttpRequest uploadRequest = HttpRequest.post(urlString);
+			OkHttpClient okHttpClient = new OkHttpClient();
+			okHttpClient.setTransports(Arrays.asList("http/1.1"));
+			HttpRequest.setConnectionFactory(new OkConnectionFactory(okHttpClient));
+			HttpRequest uploadRequest = HttpRequest.post(urlString).chunk(0);
 
 			for (String key : postValues.keySet()) {
 				uploadRequest.part(key, postValues.get(key));
@@ -114,6 +122,40 @@ public class ConnectionWrapper {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
 					"Connection could not be established!");
+		}
+	}
+
+	// Taken from https://gist.github.com/JakeWharton/5797571
+	/**
+	 * A {@link HttpRequest.ConnectionFactory connection factory} which uses OkHttp.
+	 * <p/>
+	 * Call {@link HttpRequest#setConnectionFactory(HttpRequest.ConnectionFactory)} with an instance of this class to
+	 * enable.
+	 */
+	private class OkConnectionFactory implements HttpRequest.ConnectionFactory {
+		private final OkHttpClient client;
+
+		@SuppressWarnings("unused")
+		public OkConnectionFactory() {
+			this(new OkHttpClient());
+		}
+
+		public OkConnectionFactory(OkHttpClient client) {
+			if (client == null) {
+				throw new NullPointerException("Client must not be null.");
+			}
+			this.client = client;
+		}
+
+		@Override
+		public HttpURLConnection create(URL url) throws IOException {
+			return client.open(url);
+		}
+
+		@Override
+		public HttpURLConnection create(URL url, Proxy proxy) throws IOException {
+			throw new UnsupportedOperationException(
+					"Per-connection proxy is not supported. Use OkHttpClient's setProxy instead.");
 		}
 	}
 }
