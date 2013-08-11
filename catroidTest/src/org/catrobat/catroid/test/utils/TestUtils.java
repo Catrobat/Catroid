@@ -169,8 +169,8 @@ public class TestUtils {
 	//		}
 	//	}
 
-	public static void createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(float catrobatLanguageVersion,
-			String name) {
+	public static Project createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
+			float catrobatLanguageVersion, String name) {
 		//		Project project = new ProjectWithCatrobatLanguageVersion(name, catrobatLanguageVersion);
 		Project project = new Project(null, name);
 		project.setCatrobatLanguageVersion(catrobatLanguageVersion);
@@ -184,10 +184,11 @@ public class TestUtils {
 		project.addSprite(firstSprite);
 
 		StorageHandler.getInstance().saveProject(project);
+		return project;
 	}
 
-	public static void createTestProjectOnLocalStorageWithCatrobatLanguageVersion(float catrobatLanguageVersion) {
-		createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(catrobatLanguageVersion,
+	public static Project createTestProjectOnLocalStorageWithCatrobatLanguageVersion(float catrobatLanguageVersion) {
+		return createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(catrobatLanguageVersion,
 				DEFAULT_TEST_PROJECT_NAME);
 	}
 
