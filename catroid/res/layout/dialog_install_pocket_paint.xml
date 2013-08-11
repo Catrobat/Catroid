@@ -30,7 +30,7 @@
         style="@style/DefaultDialog.Item"
         android:layout_marginTop="@dimen/dialog_item_margin"
         android:paddingBottom="0dp"
-        android:text="@string/main_menu_web_dialog_message" />
+        android:text="@string/pocket_paint_not_installed" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
         android:layout_marginRight="16dp" >
 
         <CheckBox
-            android:id="@+id/main_menu_web_dialog_dont_show_checkbox"
+            android:id="@+id/install_pocket_paint_dialog_dont_show_checkbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

@@ -422,8 +422,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
-        menu.findItem(R.id.context_menu_backpack).setVisible(false);
-        menu.findItem(R.id.context_menu_unpacking).setVisible(false);
+		menu.findItem(R.id.context_menu_backpack).setVisible(false);
+		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
 	}
 
 	@Override
@@ -487,7 +487,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
 				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
 
-		if (!LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
+		if (!LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity(), null)) {
 			return;
 		}
 
@@ -653,7 +653,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
 				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
 
-		if (!LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
+		if (!LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity(),
+				lookDataList.get(selectedPosition))) {
 			return;
 		}
 
