@@ -112,9 +112,11 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 		RegistrationData.getInstance().setCountryCode(countryCodeString);
 
 		RegistrationDialogStepThreeDialog registerStepThreeDialog = new RegistrationDialogStepThreeDialog();
-		dismiss();
-		registerStepThreeDialog.show(getFragmentManager(),
-				RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
+
+        getActivity().getSupportFragmentManager().beginTransaction().add(registerStepThreeDialog,null).addToBackStack(null).commit();
+		//dismiss();
+        //registerStepThreeDialog.show(getFragmentManager(),
+        //		RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private String getCountryCodeFromCountryId(int position) {

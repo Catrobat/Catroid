@@ -305,8 +305,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 	private void showRegisterDialog() {
 		RegistrationDialogStepOneDialog registrationDialog = new RegistrationDialogStepOneDialog();
-        registrationDialog.setContext(getBaseContext());
-		registrationDialog.show(getSupportFragmentManager(), RegistrationDialogStepOneDialog.DIALOG_FRAGMENT_TAG);
+        registrationDialog.setContext(this);
+		//registrationDialog.show(getSupportFragmentManager(), RegistrationDialogStepOneDialog.DIALOG_FRAGMENT_TAG);
+        getSupportFragmentManager().beginTransaction().add(registrationDialog,null).addToBackStack(null).commit();
 	}
 
 	public int createNotification(String downloadName) {

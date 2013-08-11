@@ -28,6 +28,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v4.app.FragmentTransaction;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import org.catrobat.catroid.R;
@@ -136,17 +137,30 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
             RegistrationData.getInstance().setGender(gender);
         }
 
+        //getFragmentManager().beginTransaction().remove(this).addToBackStack(null).commit();
+        //getFragmentManager().beginTransaction().add(new RegistrationDialogStepTwoDialog(), null).commit();
+        //FragmentTransaction ft = getFragmentManager().beginTransaction();
+        //ft.add(new RegistrationDialogStepTwoDialog(), null);
+        //ft.commit();
+
         RegistrationDialogStepTwoDialog registerStepTwoDialog = new RegistrationDialogStepTwoDialog();
-        dismiss();
-        registerStepTwoDialog.show(getFragmentManager(),
-                RegistrationDialogStepTwoDialog.DIALOG_FRAGMENT_TAG);
+
+        //registrationDialog.show(getSupportFragmentManager(), RegistrationDialogStepOneDialog.DIALOG_FRAGMENT_TAG);
+        getActivity().getSupportFragmentManager().beginTransaction().add(registerStepTwoDialog,null).addToBackStack(null).commit();
+        //registerStepTwoDialog.show(getFragmentManager(),
+         //       RegistrationDialogStepTwoDialog.DIALOG_FRAGMENT_TAG);
     }
 
     private void handleAlreadyRegisteredClick() {
         LoginDialog loginDialog = new LoginDialog();
         loginDialog.setContext(context);
-        dismiss();
-        loginDialog.show(getFragmentManager(), LoginDialog.DIALOG_FRAGMENT_TAG);
+        //dismiss();
+        //loginDialog.show(getFragmentManager(), LoginDialog.DIALOG_FRAGMENT_TAG);
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.add(loginDialog, null);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     @Override
