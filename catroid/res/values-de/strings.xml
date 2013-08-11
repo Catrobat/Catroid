@@ -185,12 +185,12 @@
     <!--  -->
 
 
-    <!-- Look context menu -->
+    <!-- Look fragmentManager menu -->
     <string name="look_context_menu_edit_in_pocket_paint">Bearbeite In Pocket Paint</string>
     <!--  -->
 
 
-    <!-- Brick context dialog -->
+    <!-- Brick fragmentManager dialog -->
     <string name="brick_context_dialog_move_brick">Verschiebe Baustein</string>
     <string name="brick_context_dialog_delete_brick">Lösche Baustein</string>
     <string name="brick_context_dialog_copy_brick">Kopiere Baustein</string>

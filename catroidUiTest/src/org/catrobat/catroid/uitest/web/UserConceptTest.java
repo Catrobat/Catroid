@@ -23,8 +23,11 @@
 package org.catrobat.catroid.uitest.web;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
+import android.text.InputType;
+import android.widget.*;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -32,6 +35,7 @@ import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.web.ServerCalls;
 
 import android.content.SharedPreferences;
@@ -39,13 +43,14 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.test.UiThreadTest;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
 public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
+    private static final String TEST_USERNAME = "testUser";
+
     private String saveToken;
     private String loginDialogTitle;
+    private String registerDialogTitle;
     private String uploadDialogTitle;
 
     public UserConceptTest() {
@@ -59,14 +64,15 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         saveToken = prefs.getString(Constants.TOKEN, Constants.NO_TOKEN);
         loginDialogTitle = solo.getString(R.string.login_dialog_title);
+        registerDialogTitle = solo.getString(R.string.register_dialog_title);
         uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
         solo.waitForActivity(MainMenuActivity.class);
     }
 
     @Override
     public void tearDown() throws Exception {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        prefs.edit().putString(Constants.TOKEN, saveToken).commit();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedPreferences.edit().putString(Constants.TOKEN, saveToken).commit();
         Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", null);
         super.tearDown();
     }
@@ -74,11 +80,12 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
     @Device
     public void testLicenceLinkPresent() throws Throwable {
         setTestUrl();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        prefs.edit().putString(Constants.TOKEN, null).commit();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedPreferences.edit().putString(Constants.TOKEN, null).commit();
 
         solo.clickOnText(solo.getString(R.string.main_menu_upload));
-        solo.waitForText(loginDialogTitle);
+        solo.waitForText(registerDialogTitle);
+        fillRegistrationDialogUntilStepFive();
 
         assertTrue("Licence text not present", solo.searchText(solo.getString(R.string.register_terms)));
         assertTrue("Licence link not present",
@@ -88,13 +95,13 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
     @Device
     public void testRegisterNewUser() throws Throwable {
         setTestUrl();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        prefs.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
 
         solo.clickOnText(solo.getString(R.string.main_menu_upload));
-        solo.waitForText(loginDialogTitle);
+        solo.waitForText(registerDialogTitle);
 
-        fillLoginDialog(true);
+        fillRegistrationDialog(true, TEST_USERNAME, true);
 
         assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
     }
@@ -114,19 +121,18 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
     public void testTokenPersistance() throws Throwable {
         setTestUrl();
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        prefs.edit().putString(Constants.TOKEN, "").commit();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedPreferences.edit().putString(Constants.TOKEN, "").commit();
 
         solo.clickOnText(solo.getString(R.string.main_menu_upload));
-        solo.waitForText(loginDialogTitle);
-        fillLoginDialog(true);
+        solo.waitForText(registerDialogTitle);
+        fillRegistrationDialog(true, TEST_USERNAME, true);
 
         solo.waitForText(uploadDialogTitle);
         assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
         solo.goBack();
 
         solo.waitForDialogToClose(10000);
-
         assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
     }
 
@@ -134,8 +140,8 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
     public void testRegisterWithWrongToken() throws Throwable {
         setTestUrl();
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        prefs.edit().putString(Constants.TOKEN, "wrong_token").commit();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedPreferences.edit().putString(Constants.TOKEN, "wrong_token").commit();
 
         solo.clickOnText(solo.getString(R.string.main_menu_upload));
         solo.waitForText(loginDialogTitle);
@@ -149,16 +155,16 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
     public void testRegisterWithShortPassword() throws Throwable {
         setTestUrl();
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        prefs.edit().putString(Constants.TOKEN, null).commit();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedPreferences.edit().putString(Constants.TOKEN, null).commit();
 
         solo.clickOnText(solo.getString(R.string.main_menu_upload));
-        solo.waitForText(loginDialogTitle);
-        fillLoginDialog(false);
+        solo.waitForText(registerDialogTitle);
+        fillRegistrationDialog(true, TEST_USERNAME, false);
 
         assertNotNull("no error dialog is shown", solo.getText(solo.getString(R.string.register_error)));
         solo.clickOnButton(0);
-        assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
+        assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.register_dialog_title)));
     }
 
     @Device
@@ -167,14 +173,12 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
         clearSharedPreferences();
 
         solo.clickOnButton(solo.getString(R.string.main_menu_upload));
-        solo.waitForText(loginDialogTitle);
+        solo.waitForText(registerDialogTitle);
 
         String username = "UpperCaseUser" + System.currentTimeMillis();
-        fillLoginDialogWithUsername(true, username);
+        fillRegistrationDialog(true, TEST_USERNAME, true);
 
         solo.waitForText(uploadDialogTitle);
-        solo.goBack();
-        solo.sleep(200);
         solo.goBack();
         String cancel = solo.getString(R.string.cancel_button);
         if (solo.searchText(cancel)) {
@@ -183,17 +187,171 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 
         clearSharedPreferences();
 
-        solo.clickOnButton(solo.getString(R.string.main_menu_upload));
-        solo.waitForText(loginDialogTitle);
-
         username = username.toLowerCase(Locale.ENGLISH);
-        fillLoginDialogWithUsername(true, username);
+        solo.clickOnText(solo.getString(R.string.main_menu_upload));
+        solo.waitForText(registerDialogTitle);
+        fillRegistrationDialog(true, username, true);
         solo.waitForText(uploadDialogTitle);
 
         TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
         ArrayList<View> currentViews = solo.getCurrentViews();
         assertTrue("Cannot login because username is upper or lower case", currentViews.contains(uploadProject));
+    }
 
+    public void testAlreadyRegistered() throws Throwable {
+        setTestUrl();
+        clearSharedPreferences();
+
+        solo.clickOnText(solo.getString(R.string.main_menu_upload));
+        solo.waitForDialogToOpen(500);
+
+        assertTrue("Registration dialog not shown", solo.searchText(solo.getString(R.string.register_dialog_title)));
+        solo.clickOnButton(solo.getString(R.string.login));
+        solo.sleep(300);
+        assertTrue("Login dialog not shown", solo.searchText(solo.getString(R.string.login_dialog_title)));
+    }
+
+    public void testRegisterErrors() throws Throwable {
+        setTestUrl();
+        clearSharedPreferences();
+
+        solo.clickOnButton(solo.getString(R.string.main_menu_upload));
+
+        solo.waitForDialogToOpen(500);
+        RadioButton male = (RadioButton) solo.getView(R.id.gender_male);
+        RadioButton female = (RadioButton) solo.getView(R.id.gender_female);
+        RadioButton other = (RadioButton) solo.getView(R.id.gender_other);
+        EditText otherGender = (EditText) solo.getView(R.id.gender_other_edittext);
+        assertTrue("Male radio button is not checked", male.isChecked());
+        solo.clickOnRadioButton(1);
+        solo.sleep(50);
+        assertTrue("Female radio button is not checked", female.isChecked());
+        assertFalse("Male radio button is still checked after selecting female", male.isChecked());
+        assertFalse("Other gender radio button is checked after selecting female", other.isChecked());
+        assertFalse("Other gender edittext is enabled", otherGender.isEnabled());
+        solo.clickOnRadioButton(2);
+        solo.sleep(50);
+        assertTrue("Other gender radio button is not checked", other.isChecked());
+        assertFalse("Male radio button is still checked after selecting male", male.isChecked());
+        assertFalse("Female radio button is still checked after selecting male", female.isChecked());
+        assertTrue("Other gender edittext is not enabled", otherGender.isEnabled());
+        solo.clickOnRadioButton(0);
+        solo.clickOnButton(solo.getString(R.string.next_registration_step));
+
+        solo.waitForDialogToOpen(500);
+        Spinner countrySpinner = (Spinner) solo.getView(R.id.country);
+        int selectedItemPosition = countrySpinner.getSelectedItemPosition();
+
+        String[] countryList = getActivity().getResources().getStringArray(R.array.countries_array);
+        String userCountry = UtilDeviceInfo.getUserCountryCode(getActivity());
+        int position = 0;
+        for (int stringArrayPosition = 0; stringArrayPosition <= countryList.length; stringArrayPosition++) {
+            String currentItem = countryList[position];
+            int countryPosition = currentItem.indexOf("/");
+            String countryCode = currentItem.substring(0, countryPosition);
+            if (countryCode.equals(userCountry.toLowerCase())) {
+                break;
+            }
+            position++;
+        }
+        assertEquals("Wrong default value selected in country spinner", selectedItemPosition, position);
+
+        solo.pressSpinnerItem(0, 3);
+        solo.sleep(1000);
+        int newSelectedItemPosition = countrySpinner.getSelectedItemPosition();
+        assertEquals("Wrong value selected in country spinner", selectedItemPosition + 3, newSelectedItemPosition);
+        solo.clickOnButton(solo.getString(R.string.next_registration_step));
+
+        solo.waitForDialogToOpen(500);
+        Button nextButton = (Button) solo.getView(android.R.id.button1);
+        solo.clickOnEditText(0);
+        solo.clearEditText(0);
+        solo.goBack();
+        assertFalse("Next button is enabled!", nextButton.isEnabled());
+        EditText email = (EditText) solo.getView(R.id.email);
+        solo.enterText(email, TEST_USERNAME + System.currentTimeMillis() + "@gmail.com");
+        solo.clickOnButton(solo.getString(R.string.next_registration_step));
+
+        solo.waitForDialogToOpen(500);
+        Spinner monthSpinner = (Spinner) solo.getView(R.id.birthday_month);
+        Spinner yearSpinner = (Spinner) solo.getView(R.id.birthday_year);
+        String selectedMonth = monthSpinner.getSelectedItem().toString();
+        String selectedYear = yearSpinner.getSelectedItem().toString();
+
+        String monthJanuary = "";
+        String monthFebruary = "";
+        if (userCountry.toLowerCase().equals("de")) {
+            monthJanuary = "Jänner";
+            monthFebruary = "Februar";
+        } else {
+            monthJanuary = "January";
+            monthFebruary = "February";
+        }
+
+        assertEquals("Month spinner initialized with wrong value", monthJanuary, selectedMonth);
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        assertEquals("Year spinner initialized with wrong value", currentYear - 10, Integer.parseInt(selectedYear));
+        solo.pressSpinnerItem(0, 1);
+        solo.sleep(500);
+        solo.pressSpinnerItem(1, 2);
+        solo.sleep(500);
+        selectedMonth = monthSpinner.getSelectedItem().toString();
+        selectedYear = yearSpinner.getSelectedItem().toString();
+
+        assertEquals("Wrong value selected in month spinner", monthFebruary, selectedMonth);
+        assertEquals("Wrong value selected in year spinner", currentYear - 10 + 2, Integer.parseInt(selectedYear));
+        solo.clickOnButton(solo.getString(R.string.next_registration_step));
+
+        solo.waitForDialogToOpen(500);
+        EditText username = (EditText) solo.getView(R.id.username);
+        EditText password = (EditText) solo.getView(R.id.password);
+        EditText passwordConfirmation = (EditText) solo.getView(R.id.password_confirmation);
+        solo.clearEditText(username);
+        solo.enterText(username, TEST_USERNAME);
+        String testPassword = "testpassword";
+        solo.clearEditText(password);
+        solo.clearEditText(passwordConfirmation);
+        solo.enterText(password, testPassword);
+        solo.enterText(passwordConfirmation, testPassword + "wrong");
+        solo.clickOnButton(solo.getString(R.string.register));
+        assertTrue("Wrong password confirmation was accepted",
+                solo.waitForText(solo.getString(R.string.register_password_mismatch)));
+        solo.clickOnButton(0);
+        solo.waitForDialogToOpen(500);
+        username = (EditText) solo.getView(R.id.username);
+        password = (EditText) solo.getView(R.id.password);
+        passwordConfirmation = (EditText) solo.getView(R.id.password_confirmation);
+        solo.clearEditText(username);
+        solo.enterText(username, TEST_USERNAME);
+        solo.clearEditText(password);
+        solo.enterText(password, testPassword);
+        solo.clearEditText(passwordConfirmation);
+        solo.enterText(passwordConfirmation, testPassword);
+        //Check show password is checked and unchecked because solo automatically shows hidden password
+        CheckBox showPassword = (CheckBox) solo.getView(R.id.show_password);
+        solo.clickOnView(showPassword);
+        solo.sleep(300);
+        solo.clickOnView(showPassword);
+        solo.sleep(300);
+        assertTrue("Password should be hidden" + "inputtype:" + password.getInputType(),
+                password.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD));
+        assertTrue(
+                "Password confirmation should be hidden",
+                passwordConfirmation.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD));
+        solo.clickOnView(showPassword);
+        assertTrue("Password should be visible", password.getInputType() == InputType.TYPE_CLASS_TEXT);
+        assertTrue("Password confirmation should be visible",
+                passwordConfirmation.getInputType() == InputType.TYPE_CLASS_TEXT);
+        solo.clickOnButton(solo.getString(R.string.register));
+
+        solo.waitForDialogToOpen(5000);
+        assertTrue("No registration completed text shown",
+                solo.waitForText(solo.getString(R.string.registration_completed)));
+        solo.clickOnButton(solo.getString(R.string.upload_button));
+
+        solo.waitForDialogToOpen(500);
+        assertTrue("Upload dialog not displayed",
+                solo.waitForText(solo.getString(R.string.upload_project_dialog_title)));
     }
 
     private void setTestUrl() throws Throwable {
@@ -204,65 +362,94 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
         });
     }
 
-    private void fillLoginDialogWithUsername(boolean correct, String username) {
-        assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
-        ArrayList<EditText> currentEditTexts = solo.getCurrentViews(EditText.class);
-        // enter a username
-        String testUser = username;
-        solo.clearEditText(currentEditTexts.get(0));
-        solo.enterText(currentEditTexts.get(0), testUser);
-        solo.goBack();
-        // enter a password
-        String testPassword;
-        if (correct) {
-            testPassword = "blubblub";
-        } else {
-            testPassword = "short";
-        }
-        solo.clearEditText(currentEditTexts.get(1));
-        solo.clickOnView(currentEditTexts.get(1));
-        solo.enterText(currentEditTexts.get(1), testPassword);
-
-        // set the email to use. we need a random email because the server does not allow same email with different users
-        String testEmail = testUser + "@gmail.com";
-        Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
-
-        int buttonId = android.R.id.button1;
-        solo.clickOnView(solo.getView(buttonId));
-    }
-
-    private void fillLoginDialog(boolean correct) {
-        assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
-        ArrayList<EditText> currentEditTexts = solo.getCurrentViews(EditText.class);
-        // enter a username
-        String testUser = "testUser" + System.currentTimeMillis();
-        solo.clearEditText(currentEditTexts.get(0));
-        solo.enterText(currentEditTexts.get(0), testUser);
-        solo.goBack();
-        // enter a password
-        String testPassword;
-        if (correct) {
-            testPassword = "blubblub";
-        } else {
-            testPassword = "short";
-        }
-        solo.clearEditText(currentEditTexts.get(1));
-        solo.clickOnView(currentEditTexts.get(1));
-        solo.enterText(currentEditTexts.get(1), testPassword);
-
-        // set the email to use. we need a random email because the server does not allow same email with different users
-        String testEmail = testUser + "@gmail.com";
-        Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
-
-        int buttonId = android.R.id.button1;
-        solo.clickOnView(solo.getView(buttonId));
-    }
-
     private void clearSharedPreferences() {
         SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getInstrumentation()
                 .getTargetContext());
         Editor edit = defaultSharedPreferences.edit();
         edit.clear();
         edit.commit();
+    }
+
+    private void fillLoginDialog(boolean correctPassword) {
+        String testUser = TEST_USERNAME + System.currentTimeMillis();
+        EditText username = (EditText) solo.getView(R.id.username);
+        EditText password = (EditText) solo.getView(R.id.password);
+        solo.clearEditText(username);
+        solo.enterText(username, testUser);
+        String testPassword;
+        if (correctPassword) {
+            testPassword = "blubblub";
+        } else {
+            testPassword = "short";
+        }
+        solo.clearEditText(password);
+        solo.enterText(password, testPassword);
+
+        // set the email to use. we need a random email because the server does not allow same email with different users
+        String testEmail = testUser + "@gmail.com";
+        Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
+        solo.sleep(1000);
+        assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testPassword));
+        assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
+        solo.clickOnButton(solo.getString(R.string.login));
+        solo.sleep(500);
+    }
+
+    private void fillRegistrationDialogUntilStepFive() {
+        solo.waitForDialogToOpen(500);
+        assertNotNull("Register Dialog is not shown.", solo.getText(solo.getString(R.string.register_dialog_title)));
+        solo.clickOnButton(solo.getString(R.string.next_registration_step));
+
+        solo.waitForDialogToOpen(500);
+        solo.clickOnButton(solo.getString(R.string.next_registration_step));
+
+        solo.waitForDialogToOpen(500);
+        solo.clickOnEditText(0);
+        solo.clearEditText(0);
+        solo.goBack();
+        solo.enterText(0, System.currentTimeMillis() + "@gmail.com");
+        solo.clickOnButton(solo.getString(R.string.next_registration_step));
+
+        solo.waitForDialogToOpen(500);
+        solo.clickOnButton(solo.getString(R.string.next_registration_step));
+        solo.waitForDialogToOpen(500);
+    }
+
+    private void fillRegistrationDialog(boolean correctPassword, String username, boolean completeStepSix) {
+        fillRegistrationDialogUntilStepFive();
+
+        // enter a username
+        EditText usernameEditText = (EditText) solo.getView(R.id.username);
+        EditText password = (EditText) solo.getView(R.id.password);
+        EditText passwordConfirmation = (EditText) solo.getView(R.id.password_confirmation);
+
+        solo.clickOnEditText(0);
+        solo.clearEditText(0);
+        solo.goBack();
+        solo.enterText(usernameEditText, username);
+        // enter a password
+        String testPassword;
+        if (correctPassword) {
+            testPassword = "blubblub";
+        } else {
+            testPassword = "short";
+        }
+        solo.clickOnEditText(1);
+        solo.clearEditText(1);
+        solo.goBack();
+        solo.enterText(password, testPassword);
+
+        solo.clickOnEditText(2);
+        solo.clearEditText(2);
+        solo.goBack();
+        solo.enterText(passwordConfirmation, testPassword);
+
+        solo.clickOnButton(solo.getString(R.string.register));
+        solo.waitForDialogToOpen(5000);
+
+        if(completeStepSix){
+            solo.clickOnButton(solo.getString(R.string.upload_button));
+            solo.waitForDialogToOpen(500);
+        }
     }
 }

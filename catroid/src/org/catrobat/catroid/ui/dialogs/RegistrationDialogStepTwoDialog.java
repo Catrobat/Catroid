@@ -113,7 +113,7 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 
 		RegistrationDialogStepThreeDialog registerStepThreeDialog = new RegistrationDialogStepThreeDialog();
 		dismiss();
-		registerStepThreeDialog.show(getActivity().getSupportFragmentManager(),
+		registerStepThreeDialog.show(getFragmentManager(),
 				RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
 	}
 

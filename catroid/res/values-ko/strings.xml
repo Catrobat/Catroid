@@ -111,7 +111,7 @@
     <string name="soundrecorder_recorded_filename">"녹음"</string>
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">"텍스트 음성 변환 엔진이 설치되어 있지 않습니다! \n 설치하겠습니까?"</string>
-    <!-- Brick context dialog -->
+    <!-- Brick fragmentManager dialog -->
     <string name="brick_context_dialog_move_brick">"블록 이동"</string>
     <string name="brick_context_dialog_delete_brick">"블록 삭제"</string>
     <string name="brick_context_dialog_animate_bricks">"블록 애니메이션"</string>

@@ -83,9 +83,9 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
             String email = RegistrationData.getInstance().getEmail();
-            if(email.isEmpty()){
+            if(email == null || email.isEmpty()){
                 email = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
-            }if(email.equals(Constants.NO_EMAIL)){
+            }if(email == null || email.equals(Constants.NO_EMAIL)){
                 email = UtilDeviceInfo.getUserEmail(context);
             }
 			String language = UtilDeviceInfo.getUserLanguageCode(context);
@@ -141,17 +141,23 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
                     .show().setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            onRegistrationCompleteListener.onRegistrationComplete(false);
+                            if(onRegistrationCompleteListener != null)
+                            {
+                                onRegistrationCompleteListener.onRegistrationComplete(false);
+                            }
                         }
                     });
 		} else {
             new Builder(context).setTitle(R.string.register_error).setMessage(message).setPositiveButton("OK", null)
-                    .show().setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            onRegistrationCompleteListener.onRegistrationComplete(false);
+                            if(onRegistrationCompleteListener != null)
+                            {
+                                onRegistrationCompleteListener.onRegistrationComplete(false);
+                            }
                         }
-                    });
+                    }).show();
         }
 	}
 

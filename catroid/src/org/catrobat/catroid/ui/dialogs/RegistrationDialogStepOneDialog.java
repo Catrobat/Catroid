@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -39,7 +41,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.RadioButton;
-import org.catrobat.catroid.ui.MainMenuActivity;
 
 public class RegistrationDialogStepOneDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
@@ -49,7 +50,7 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
     private RadioButton femaleRadioButton;
     private RadioButton otherGenderRadioButton;
     private EditText otherGenderEdittext;
-    private MainMenuActivity context;
+    private Context context;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -137,14 +138,15 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
 
         RegistrationDialogStepTwoDialog registerStepTwoDialog = new RegistrationDialogStepTwoDialog();
         dismiss();
-        registerStepTwoDialog.show(getActivity().getSupportFragmentManager(),
+        registerStepTwoDialog.show(getFragmentManager(),
                 RegistrationDialogStepTwoDialog.DIALOG_FRAGMENT_TAG);
     }
 
     private void handleAlreadyRegisteredClick() {
-        LoginDialog login = new LoginDialog();
+        LoginDialog loginDialog = new LoginDialog();
+        loginDialog.setContext(context);
         dismiss();
-        login.show(context, LoginDialog.DIALOG_FRAGMENT_TAG);
+        loginDialog.show(getFragmentManager(), LoginDialog.DIALOG_FRAGMENT_TAG);
     }
 
     @Override
@@ -152,7 +154,7 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
         dismiss();
     }
 
-    public void setContext(MainMenuActivity context) {
+    public void setContext(Context context){
         this.context = context;
     }
 }

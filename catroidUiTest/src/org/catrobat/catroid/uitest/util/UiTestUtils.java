@@ -1003,7 +1003,7 @@ public class UiTestUtils {
 
 			String token = Constants.NO_TOKEN;
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-					"de", "at", token, "male", "January", "2000", "Graz", context);
+					"de", "at", token, "male", "January", "2000", context);
 			assert (userRegistered);
 
 		} catch (WebconnectionException e) {

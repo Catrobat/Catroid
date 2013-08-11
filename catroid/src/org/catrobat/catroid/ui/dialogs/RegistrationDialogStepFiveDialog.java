@@ -24,12 +24,14 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
+import android.widget.Toast;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.RegistrationData;
@@ -98,7 +100,7 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
 
         alertDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
                 .setTitle(R.string.register_dialog_title)
-                .setNeutralButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.register, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         handleRegisterButtonClick();
@@ -118,14 +120,27 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
 		String passwordConfirmation = passwordConfirmationEditText.getText().toString();
 
 		if (!password.equals(passwordConfirmation)) {
+            final android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+            //Toast.makeText(getActivity(), R.string.register_password_mismatch, Toast.LENGTH_LONG).show();
 			new Builder(getActivity()).setTitle(R.string.register_error)
-					.setMessage(R.string.register_password_mismatch).setPositiveButton(android.R.string.ok, null).show();
-			return;
-		}
-        fragmentActivity = getActivity();
-		RegistrationTask registrationTask = new RegistrationTask(fragmentActivity, username, password, alertDialog);
-		registrationTask.setOnRegistrationCompleteListener(this);
-		registrationTask.execute();
+            	.setMessage(R.string.register_password_mismatch).setPositiveButton(android.R.string.ok, null)
+                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            //alertDialog.show();
+                            RegistrationDialogStepFiveDialog registerStepFiveDialog = new RegistrationDialogStepFiveDialog();
+                            dismiss();
+                            registerStepFiveDialog.show(fragmentManager,
+                                    RegistrationDialogStepFiveDialog.DIALOG_FRAGMENT_TAG);
+                        }
+                    })
+                    .create();
+		}else{
+            fragmentActivity = getActivity();
+            RegistrationTask registrationTask = new RegistrationTask(fragmentActivity, username, password, alertDialog);
+            registrationTask.setOnRegistrationCompleteListener(this);
+            registrationTask.execute();
+        }
 	}
 
 	@Override
@@ -135,18 +150,15 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
             String password = passwordEditText.getText().toString();
             RegistrationData.getInstance().setUserName(username);
             RegistrationData.getInstance().setPassword(password);
-            //String email = RegistrationData.getInstance().getEmail();
-            //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(fragmentActivity);
-            //sharedPreferences.edit().putString(Constants.EMAIL, email).commit();
 
             RegistrationDialogStepSixDialog registerStepSixDialog = new RegistrationDialogStepSixDialog();
             dismiss();
-            registerStepSixDialog.show(fragmentActivity.getSupportFragmentManager(),
+            registerStepSixDialog.show(getActivity().getSupportFragmentManager(),
             RegistrationDialogStepSixDialog.DIALOG_FRAGMENT_TAG);
         }else{
             RegistrationDialogStepFiveDialog registerStepFiveDialog = new RegistrationDialogStepFiveDialog();
             dismiss();
-            registerStepFiveDialog.show(fragmentActivity.getSupportFragmentManager(),
+            registerStepFiveDialog.show(getFragmentManager(),
                     RegistrationDialogStepFiveDialog.DIALOG_FRAGMENT_TAG);
         }
 	}

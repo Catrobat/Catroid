@@ -117,7 +117,7 @@ public class RegistrationDialogStepThreeDialog extends DialogFragment implements
 
         RegistrationDialogStepFourDialog registerStepFourDialog = new RegistrationDialogStepFourDialog();
         dismiss();
-        registerStepFourDialog.show(getActivity().getSupportFragmentManager(),
+        registerStepFourDialog.show(getFragmentManager(),
                 RegistrationDialogStepFourDialog.DIALOG_FRAGMENT_TAG);
     }
 

@@ -168,7 +168,7 @@
     <string name="broadcast_nothing_selected">Nimic…</string>
     <!-- Point to spinner -->
     <!-- <string name="point_to_select_location">Selectați</string> -->
-    <!-- Stage context menu -->
+    <!-- Stage fragmentManager menu -->
     <!-- <string name="stagemenu_start">Redare/Pauză</string> -->
     <!-- Brick categories -->
     <string name="category_motion">Mișcare</string>

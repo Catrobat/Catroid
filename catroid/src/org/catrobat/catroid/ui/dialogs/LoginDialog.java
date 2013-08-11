@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
@@ -54,6 +55,7 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
     private EditText passwordEditText;
     private EditText emailEditText;
     private FragmentManager fragmentManager;
+    private Context context;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -115,7 +117,7 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
         String password = passwordEditText.getText().toString();
 
         fragmentManager = getFragmentManager();
-        RegistrationTask registrationTask = new RegistrationTask(getActivity(), username, password, null);
+        RegistrationTask registrationTask = new RegistrationTask(context, username, password, null);
         registrationTask.setOnRegistrationCompleteListener(this);
         registrationTask.execute();
     }
@@ -126,5 +128,9 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
 
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(baseUrl + PASSWORD_FORGOTTEN_PATH + username));
         getActivity().startActivity(browserIntent);
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 }
