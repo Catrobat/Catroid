@@ -65,6 +65,8 @@
     <string name="preference_title">Einstellungen</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorm Bausteine</string>
     <string name="preference_description_mindstorm_bricks">Erlaube Steuerung von Lego Mindstorm Robotern</string>
+    <string name="preference_title_debugging">Debugging</string>
+    <string name="preference_description_debugging">Schaltet Log Ausgabe zum Debuggen ein\nMuss nach jedem Start der Anwendung neu eingeschaltet werden.</string>
     <!--  -->
 
 
