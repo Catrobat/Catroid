@@ -59,7 +59,7 @@ public class ServerCallsTest extends AndroidTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		TestUtils.clearProject("uploadtestProject");
+		TestUtils.deleteTestProjects("uploadtestProject");
 		ServerCalls.useTestUrl = false;
 		super.tearDown();
 	}
