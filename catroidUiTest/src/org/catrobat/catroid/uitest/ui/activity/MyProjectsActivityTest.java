@@ -22,36 +22,6 @@
  */
 package org.catrobat.catroid.uitest.ui.activity;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.StandardProjectHandler;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.stage.StageListener;
-import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.MyProjectsActivity;
-import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
-import org.catrobat.catroid.uitest.annotation.Device;
-import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
-import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.UtilZip;
-import org.catrobat.catroid.utils.Utils;
-
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -68,6 +38,36 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.ProjectData;
+import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
+import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.UtilZip;
+import org.catrobat.catroid.utils.Utils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final String INVALID_PROJECT_MODIFIER = "invalidProject";

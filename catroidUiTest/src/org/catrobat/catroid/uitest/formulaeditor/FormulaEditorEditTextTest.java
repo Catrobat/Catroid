@@ -22,8 +22,12 @@
  */
 package org.catrobat.catroid.uitest.formulaeditor;
 
-import java.util.LinkedList;
-import java.util.List;
+import android.graphics.Rect;
+import android.text.style.BackgroundColorSpan;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -50,12 +54,8 @@ import org.catrobat.catroid.uitest.util.SimulatedSensorManager;
 import org.catrobat.catroid.uitest.util.SimulatedSoundRecorder;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.graphics.Rect;
-import android.text.style.BackgroundColorSpan;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
+import java.util.LinkedList;
+import java.util.List;
 
 public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 

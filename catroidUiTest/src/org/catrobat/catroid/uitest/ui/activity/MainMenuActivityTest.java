@@ -22,8 +22,18 @@
  */
 package org.catrobat.catroid.uitest.ui.activity;
 
-import java.io.File;
-import java.io.IOException;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
+import android.preference.PreferenceManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+
+import com.jayway.android.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -50,18 +60,8 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Configuration;
-import android.preference.PreferenceManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-
-import com.jayway.android.robotium.solo.Solo;
+import java.io.File;
+import java.io.IOException;
 
 public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 

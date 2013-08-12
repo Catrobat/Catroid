@@ -22,8 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.io.File;
-import java.util.ArrayList;
+import android.content.Intent;
+import android.os.Bundle;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -44,8 +44,8 @@ import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.content.Intent;
-import android.os.Bundle;
+import java.io.File;
+import java.util.ArrayList;
 
 public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int RESOURCE_LOOK = org.catrobat.catroid.uitest.R.raw.icon;

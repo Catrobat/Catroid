@@ -22,9 +22,8 @@
  */
 package org.catrobat.catroid.uitest.ui.dialog;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import android.app.Activity;
+import android.media.MediaPlayer;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -46,8 +45,9 @@ import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
-import android.app.Activity;
-import android.media.MediaPlayer;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 

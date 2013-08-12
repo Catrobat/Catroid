@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.content;
 
-import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
-
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
+
+import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 
 public class BroadcastListener implements EventListener {
 

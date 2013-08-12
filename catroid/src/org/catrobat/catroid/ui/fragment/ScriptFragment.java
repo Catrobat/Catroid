@@ -22,26 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import java.util.List;
-import java.util.concurrent.locks.Lock;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.ViewSwitchLock;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.adapter.BrickAdapter.OnBrickEditListener;
-import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
-import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
-import org.catrobat.catroid.utils.Utils;
-
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -63,6 +43,26 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.ViewSwitchLock;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.ui.adapter.BrickAdapter.OnBrickEditListener;
+import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
+import org.catrobat.catroid.utils.Utils;
+
+import java.util.List;
+import java.util.concurrent.locks.Lock;
 
 public class ScriptFragment extends ScriptActivityFragment implements OnCategorySelectedListener, OnBrickEditListener {
 

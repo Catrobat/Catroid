@@ -22,16 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.MessageContainer;
-import org.catrobat.catroid.content.BroadcastMessage;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
@@ -49,6 +39,16 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.MessageContainer;
+import org.catrobat.catroid.content.BroadcastMessage;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+
+import java.util.List;
 
 public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	private static final long serialVersionUID = 1L;

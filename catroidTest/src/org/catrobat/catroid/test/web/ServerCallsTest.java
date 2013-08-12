@@ -22,7 +22,10 @@
  */
 package org.catrobat.catroid.test.web;
 
-import java.io.File;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.test.AndroidTestCase;
+import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
@@ -34,10 +37,7 @@ import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.test.AndroidTestCase;
-import android.util.Log;
+import java.io.File;
 
 /*
  * This tests need an internet connection
@@ -59,7 +59,7 @@ public class ServerCallsTest extends AndroidTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		TestUtils.clearProject("uploadtestProject");
+		TestUtils.deleteTestProjects("uploadtestProject");
 		ServerCalls.useTestUrl = false;
 		super.tearDown();
 	}

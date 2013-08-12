@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.bricks;
 
+import android.test.AndroidTestCase;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
@@ -54,8 +56,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.test.utils.Reflection;
-
-import android.test.AndroidTestCase;
 
 public class BrickCloneTest extends AndroidTestCase {
 

@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.uitest.content.interaction;
 
-import java.util.ArrayList;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -42,6 +40,8 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+
+import java.util.ArrayList;
 
 public class MoveBrickAcrossScriptTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private ArrayList<Brick> brickListToCheck;

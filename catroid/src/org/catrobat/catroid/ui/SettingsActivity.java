@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.ui;
 
-import org.catrobat.catroid.R;
-
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
+
+import org.catrobat.catroid.R;
 
 public class SettingsActivity extends SherlockPreferenceActivity {
 

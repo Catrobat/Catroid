@@ -22,8 +22,7 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import java.util.LinkedList;
-import java.util.List;
+import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -33,7 +32,8 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
 
-import android.test.AndroidTestCase;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ParserTestFunctions extends AndroidTestCase {
 

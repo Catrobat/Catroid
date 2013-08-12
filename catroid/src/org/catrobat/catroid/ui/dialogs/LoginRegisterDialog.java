@@ -22,12 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.transfers.RegistrationTask;
-import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
-import org.catrobat.catroid.web.ServerCalls;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -45,6 +39,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.transfers.RegistrationTask;
+import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
+import org.catrobat.catroid.web.ServerCalls;
 
 public class LoginRegisterDialog extends DialogFragment implements OnRegistrationCompleteListener {
 

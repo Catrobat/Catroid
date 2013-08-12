@@ -22,24 +22,6 @@
  */
 package org.catrobat.catroid.ui;
 
-import java.util.concurrent.locks.Lock;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.formulaeditor.SensorHandler;
-import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.ui.fragment.FormulaEditorListFragment;
-import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
-import org.catrobat.catroid.ui.fragment.LookFragment;
-import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
-import org.catrobat.catroid.ui.fragment.SoundFragment;
-
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -58,6 +40,24 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.stage.PreStageActivity;
+import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.ui.fragment.FormulaEditorListFragment;
+import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
+import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
+import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.fragment.SoundFragment;
+
+import java.util.concurrent.locks.Lock;
 
 public class ScriptActivity extends SherlockFragmentActivity {
 	public static final int FRAGMENT_SCRIPTS = 0;

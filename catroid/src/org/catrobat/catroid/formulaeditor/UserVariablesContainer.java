@@ -22,20 +22,20 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import android.content.Context;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
-
-import android.content.Context;
-
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public class UserVariablesContainer implements Serializable {
 	private static final long serialVersionUID = 1L;

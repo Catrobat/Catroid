@@ -23,10 +23,7 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.ExternInternRepresentationMapping;
@@ -41,7 +38,10 @@ import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
 
-import android.test.InstrumentationTestCase;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InternFormulaTest extends InstrumentationTestCase {
 
