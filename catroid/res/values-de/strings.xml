@@ -161,7 +161,6 @@
     <string name="description">Beschreibung:</string>
     <string name="set_description">Beschreibung</string>
     <string name="rename_project">Programm umbenennen</string>
-    <string name="notification_title_copy_project">Kopiere Programm</string>
     <string name="copy_project_finished"> kopiert.</string>
     <string name="program">Programm</string>
     <string name="programs">Programme</string>
@@ -391,6 +390,27 @@
     <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
     <string name="notification_screenshot_ok">Screenshot erfolgreich gespeichert</string>
     <string name="notification_download_project_cancel">Programm herunterladen abgebrochen</string>
+    
+    <string name="notification_copy_title_pending">"Kopiere "</string>
+    <string name="notification_copy_pending">Kopieren wird ausgeführt</string>
+    <string name="notification_copy_finished">Kopieren erfolgreich</string>
+    
+    <string name="notification_upload_title_pending">"Hochladen von "</string>
+    <string name="notification_upload_title_finished">"Anschauen von "</string>
+    <string name="notification_upload_pending">Upload wird ausgeführt</string>
+    <string name="notification_upload_finished">Upload erfolgreich</string>
+    
+    <string name="notification_download_title_pending">"Downloaden von "</string>
+    <string name="notification_download_title_finished">"Starte "</string>
+    <string name="notification_download_pending">Download wird ausgeführt</string>
+    <string name="notification_download_finished">Download erfolgreich</string>
+    
+    <string name="project_rename">(Das Programm wird umbenannt.)</string>
+    <string name="size_of_project">Größe:</string>
+    
+    <string name="upload_button">Hochladen</string>
+    <string name="upload_project_dialog_title">Programm hochladen</string>
+    <string name="upload_description">Beschreibung:</string>
     <!--  -->
 
 
@@ -412,22 +432,6 @@
     <string name="error_upload_project_with_default_name">Das Programm mit dem Namen \'Mein erstes Programm\' kann nicht hochgeladen werden. Bitte das Programm umbenennen.</string>
     <string name="error_upload_default_project">Das Programm entspricht dem Programm \'Mein erstes Programm\'. Bitte ändere es und versuche es noch einmal.</string>
     <!--  -->
-
-
-    <!-- Notifications -->
-    <string name="success_project_upload">Upload erfolgreich.</string>
-    <string name="success_project_download">Download erfolgreich.</string>
-    <string name="upload_button">Hochladen</string>
-    <string name="upload_project_dialog_title">Programm hochladen</string>
-    <string name="upload_description">Beschreibung:</string>
-    <string name="project_rename">(Das Programm wird umbenannt.)</string>
-    <string name="size_of_project">Größe:</string>
-    <string name="notification_percent_download">"Download "</string>
-    <string name="notification_percent_completed">"% abgeschlossen: "</string>
-    <string name="notification_upload_title">Programm raufladen</string>
-    <string name="notification_download_title">Programm runterladen</string>
-    <!--  -->
-
 
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Bühne</string>

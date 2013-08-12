@@ -102,7 +102,7 @@ public class ProjectDownloadService extends IntentService {
 			return;
 		}
 
-		showDialog(R.string.success_project_download);
+		showDialog(R.string.notification_download_finished);
 	}
 
 	private void showDialog(int messageId) {

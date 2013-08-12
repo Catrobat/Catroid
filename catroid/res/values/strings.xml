@@ -162,7 +162,6 @@
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
     <string name="rename_project">Rename Program</string>
-    <string name="notification_title_copy_project">Copy program</string>
     <string name="copy_project_finished"> copied.</string>
     <string name="program">Program</string>
     <string name="programs">Programs</string>
@@ -392,6 +391,27 @@
     <string name="notification_invalid_text_entered">Please enter a value</string>
     <string name="notification_screenshot_ok">Screenshot saved</string>
     <string name="notification_download_project_cancel">Canceled downloading program</string>
+    
+    <string name="notification_copy_title_pending">"Copying "</string>
+    <string name="notification_copy_pending">Copy in progress</string>
+    <string name="notification_copy_finished">Copy completed</string>
+
+    <string name="notification_upload_title_pending">"Uploading "</string>
+    <string name="notification_upload_title_finished">"Look at "</string>
+    <string name="notification_upload_pending">Upload in progress</string>
+    <string name="notification_upload_finished">Upload successful</string>
+    
+    <string name="notification_download_title_pending">"Downloading "</string>
+    <string name="notification_download_title_finished">"Start "</string>
+    <string name="notification_download_pending">Download in progress</string>
+    <string name="notification_download_finished">Download successful</string>
+    
+    <string name="project_rename">(Your program will be renamed.)</string>
+    <string name="size_of_project">Size:</string>
+    
+    <string name="upload_button">Upload</string>
+    <string name="upload_project_dialog_title">Upload program</string>
+    <string name="upload_description">Description:</string>
     <!--  -->
 
 
@@ -412,21 +432,6 @@
     <string name="error_copy_project">An error occurred while copying the program.</string>
     <string name="error_upload_project_with_default_name">You cannot upload a program with the name \'My first program\'. Please rename the program.</string>
     <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
-    <!--  -->
-
-
-    <!-- Notifications -->
-    <string name="success_project_upload">Upload successful.</string>
-    <string name="success_project_download">Download successful.</string>
-    <string name="upload_button">Upload</string>
-    <string name="upload_project_dialog_title">Upload program</string>
-    <string name="upload_description">Description:</string>
-    <string name="project_rename">(Your program will be renamed.)</string>
-    <string name="size_of_project">Size:</string>
-    <string name="notification_percent_download">"Download "</string>
-    <string name="notification_percent_completed">"% completed: "</string>
-    <string name="notification_upload_title">Uploading program</string>
-    <string name="notification_download_title">Downloading program</string>
     <!--  -->
 
 

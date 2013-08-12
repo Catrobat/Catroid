@@ -42,18 +42,18 @@ public class NotificationData {
 	private String notificationTextDone;
 
 	public NotificationData(Context context, PendingIntent pendingIntent, int notificationIcon, String programName,
-			String notificationTitlePrefixWorking, String notificationTitlePrefixDone, String notificationTextWorking,
-			String notificationTextDone) {
+			int notificationTitlePrefixWorkingStringId, int notificationTitlePrefixDoneStringId,
+			int notificationTextWorkingStringId, int notificationTextDoneStringId) {
 		this.context = context;
 		this.pendingIntent = pendingIntent;
 
 		this.notificationIcon = notificationIcon;
 		this.programName = programName;
 
-		this.notificationTitlePrefixWorking = notificationTitlePrefixWorking;
-		this.notificationTitlePrefixDone = notificationTitlePrefixDone;
-		this.notificationTextWorking = notificationTextWorking;
-		this.notificationTextDone = notificationTextDone;
+		this.notificationTitlePrefixWorking = context.getString(notificationTitlePrefixWorkingStringId);
+		this.notificationTitlePrefixDone = context.getString(notificationTitlePrefixDoneStringId);
+		this.notificationTextWorking = context.getString(notificationTextWorkingStringId);
+		this.notificationTextDone = context.getString(notificationTextDoneStringId);
 	}
 
 	public PendingIntent getPendingIntent() {

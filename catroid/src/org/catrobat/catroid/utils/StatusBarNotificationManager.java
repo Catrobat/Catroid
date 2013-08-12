@@ -67,43 +67,6 @@ public class StatusBarNotificationManager {
 	}
 
 	public Integer createUploadNotification(Context context, String programName) {
-		//		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Activity.NOTIFICATION_SERVICE);
-		//		String notificationTitle = context.getString(R.string.notification_upload_title);
-		//		boolean newUploadNotification = notificationDataMap.isEmpty();
-		//
-
-		//
-		//		if (newUploadNotification) {
-		//			uploadNotification = new Notification(R.drawable.ic_stat_upload_notification, notificationTitle,
-		//					System.currentTimeMillis());
-		//			uploadNotification.flags = Notification.FLAG_AUTO_CANCEL;
-		//			uploadNotification.number += 1;
-		//			uploadNotification.setLatestEventInfo(context, notificationTitle, name, pendingIntent);
-		//			notificationManager.notify(notificationCode, uploadNotification);
-		//		} else {
-		//			uploadNotification.number += 1;
-		//			notificationManager.notify(notificationCode, uploadNotification);
-		//		}
-		//
-		//		return uploadId;
-
-		//		initNotificationManager(context);
-		//
-		//		Intent intent = new Intent(context, MainMenuActivity.class);
-		//		intent.setAction(Intent.ACTION_MAIN);
-		//		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-		//		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-		//
-		//		NotificationData data = new NotificationData(pendingIntent, context, name, "Uploading ",
-		//				(MainMenuActivity) context, null);
-		//
-		//		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
-		//		notificationBuilder.setContentTitle(data.getNotificationTitleWorking()).setContentText("Upload in progress")
-		//				.setSmallIcon(R.drawable.ic_launcher).setOngoing(true);
-		//
-		//		data.setNotificationBuilder(notificationBuilder);
-		//		notificationDataMap.put(notificationId, data);
-
 		initNotificationManager(context);
 
 		Intent uploadIntent = new Intent(context, MainMenuActivity.class);
@@ -113,7 +76,8 @@ public class StatusBarNotificationManager {
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
 		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_launcher, programName,
-				"Uploading ", "Look at ", "Upload in progress", "Upload completed");
+				R.string.notification_upload_title_pending, R.string.notification_upload_title_finished,
+				R.string.notification_upload_pending, R.string.notification_upload_finished);
 
 		Integer id = createNotification(context, data);
 		showOrUpdateNotification(id, 0);
@@ -121,34 +85,6 @@ public class StatusBarNotificationManager {
 	}
 
 	public Integer createCopyNotification(Context context, String programName) {
-		//		NotificationManager notificationManager = (NotificationManager) context
-		//				.getSystemService(Activity.NOTIFICATION_SERVICE);
-		//		String notificationTitle = context.getString(R.string.notification_title_copy_project);
-		//		boolean newCopyNotification = notificationDataMap.isEmpty();
-		//
-		//		Intent intent = new Intent(context, MyProjectsActivity.class);
-		//
-		//		intent.setAction(Intent.ACTION_MAIN);
-		//		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-		//		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-		//		NotificationData data = new NotificationData(pendingIntent, context, name, notificationTitle, null, null);
-		//		notificationDataMap.put(copyId, data);
-		//
-		//		if (newCopyNotification) {
-		//			copyNotification = new Notification(R.drawable.ic_stat_copy_notification, notificationTitle,
-		//					System.currentTimeMillis());
-		//			copyNotification.flags = Notification.FLAG_AUTO_CANCEL;
-		//			copyNotification.number += 1;
-		//			copyNotification.setLatestEventInfo(context, notificationTitle, name, pendingIntent);
-		//			notificationManager.notify(notificationCode, copyNotification);
-		//		} else {
-		//			copyNotification.number += 1;
-		//			copyNotification.setLatestEventInfo(context, notificationTitle, name, pendingIntent);
-		//			notificationManager.notify(notificationCode, copyNotification);
-		//		}
-		//
-		//		return copyId;
-
 		initNotificationManager(context);
 
 		Intent copyIntent = new Intent(context, MyProjectsActivity.class);
@@ -158,7 +94,8 @@ public class StatusBarNotificationManager {
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
 		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_launcher, programName,
-				"Copying ", "Start ", "Copying in progress", "Copying completed");
+				R.string.notification_copy_title_pending, R.string.notification_upload_title_finished,
+				R.string.notification_copy_pending, R.string.notification_copy_finished);
 
 		Integer id = createNotification(context, data);
 		showOrUpdateNotification(id, 0);
@@ -176,7 +113,8 @@ public class StatusBarNotificationManager {
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
 		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_launcher, programName,
-				"Downloading ", "Start ", "Download in progress", "Download completed");
+				R.string.notification_download_title_pending, R.string.notification_download_title_finished,
+				R.string.notification_download_pending, R.string.notification_download_finished);
 
 		return createNotification(context, data);
 	}
