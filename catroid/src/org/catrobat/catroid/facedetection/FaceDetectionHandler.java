@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.facedetection;
 
+import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
+
 import android.hardware.Camera;
 
 public class FaceDetectionHandler {
@@ -84,28 +86,28 @@ public class FaceDetectionHandler {
 		paused = false;
 	}
 
-	public static void registerOnFaceDetectedListener(OnFaceDetectedListener listener) {
+	public static void registerOnFaceDetectedListener(SensorCustomEventListener listener) {
 		if (faceDetector == null) {
 			createFaceDetector();
 		}
 		faceDetector.addOnFaceDetectedListener(listener);
 	}
 
-	public static void unregisterOnFaceDetectedListener(OnFaceDetectedListener listener) {
+	public static void unregisterOnFaceDetectedListener(SensorCustomEventListener listener) {
 		if (faceDetector == null) {
 			return;
 		}
 		faceDetector.removeOnFaceDetectedListener(listener);
 	}
 
-	public static void registerOnFaceDetectionStatusListener(OnFaceDetectionStatusChangedListener listener) {
+	public static void registerOnFaceDetectionStatusListener(SensorCustomEventListener listener) {
 		if (faceDetector == null) {
 			createFaceDetector();
 		}
 		faceDetector.addOnFaceDetectionStatusListener(listener);
 	}
 
-	public static void unregisterOnFaceDetectionStatusListener(OnFaceDetectionStatusChangedListener listener) {
+	public static void unregisterOnFaceDetectionStatusListener(SensorCustomEventListener listener) {
 		if (faceDetector == null) {
 			return;
 		}
@@ -113,9 +115,9 @@ public class FaceDetectionHandler {
 	}
 
 	public static boolean isIcsFaceDetectionSupported() {
-		if (true) {
-			return false; // FIXME just for testing
-		}
+		//		if (true) {
+		//			return false; // FIXME just for testing
+		//		}
 		int currentApi = android.os.Build.VERSION.SDK_INT;
 		if (currentApi < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			return false;

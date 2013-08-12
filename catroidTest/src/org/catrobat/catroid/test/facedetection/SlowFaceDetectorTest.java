@@ -3,12 +3,13 @@ package org.catrobat.catroid.test.facedetection;
 import java.util.Random;
 
 import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.facedetection.OnFaceDetectedListener;
 import org.catrobat.catroid.facedetection.SlowFaceDetector;
+import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
+import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
+import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.hardware.Camera;
 import android.test.InstrumentationTestCase;
@@ -75,13 +76,26 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 		SlowFaceDetector detector = new SlowFaceDetector();
 
 		final int[] detectedFaces = new int[4];
-		OnFaceDetectedListener detectionListener = new OnFaceDetectedListener() {
+		SensorCustomEventListener detectionListener = new SensorCustomEventListener() {
 
-			public void onFaceDetected(Point position, int size) {
+			public void onCustomSensorChanged(SensorCustomEvent event) {
 				detectedFaces[COUNTER_INDEX]++;
-				detectedFaces[X_POSITION_INDEX] = position.x;
-				detectedFaces[Y_POSITION_INDEX] = position.y;
-				detectedFaces[SIZE_INDEX] = size;
+				int value = (int) event.values[0];
+				float intFloatDifference = event.values[0] - value;
+				assertEquals("Face detection values should be integer", intFloatDifference, 0f);
+				switch (event.sensor) {
+					case FACE_X_POSITION:
+						detectedFaces[X_POSITION_INDEX] = value;
+						break;
+					case FACE_Y_POSITION:
+						detectedFaces[Y_POSITION_INDEX] = value;
+						break;
+					case FACE_SIZE:
+						detectedFaces[SIZE_INDEX] = value;
+						break;
+					default:
+						fail("Unexpected Sensor on Face Detection event. Expected face size or position.");
+				}
 			}
 		};
 		detector.addOnFaceDetectedListener(detectionListener);
@@ -91,8 +105,7 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 		ParameterList parameters = new ParameterList(centerPoint, Float.valueOf(EYE_DISTANCE),
 				Integer.valueOf(DETECTION_WIDTH), Integer.valueOf(DETECTION_HEIGHT));
 		Reflection.invokeMethod(detector, "onFaceFound", parameters);
-		//detector.onFaceFound(centerPoint, EYE_DISTANCE, DETECTION_WIDTH, DETECTION_HEIGHT);
-		assertEquals("Face Detection Listener does not receive call", 1, detectedFaces[COUNTER_INDEX]);
+		assertEquals("Face Detection Listener does not receive calls", 3, detectedFaces[COUNTER_INDEX]);
 
 		int expectedSize = (int) (EYE_DISTANCE * 400 / DETECTION_WIDTH);
 		assertEquals("Unexpected size of face", expectedSize, detectedFaces[SIZE_INDEX]);
@@ -106,18 +119,20 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 		assertEquals("Unexpected y position of face", expectedYPosition, detectedFaces[Y_POSITION_INDEX]);
 
 		Reflection.invokeMethod(detector, "onFaceFound", parameters);
-		assertEquals("Face Detection Listener does not receive calls", 2, detectedFaces[COUNTER_INDEX]);
+		assertTrue("Face Detection Listener reveices too many calls", detectedFaces[COUNTER_INDEX] <= 6);
+		assertEquals("Face Detection Listener does not receive calls", 6, detectedFaces[COUNTER_INDEX]);
 
 	}
 
 	public void testFaceSizeBounds() {
 		SlowFaceDetector detector = new SlowFaceDetector();
 
-		final int[] faceSize = new int[1];
-		OnFaceDetectedListener detectionListener = new OnFaceDetectedListener() {
-
-			public void onFaceDetected(Point position, int size) {
-				faceSize[0] = size;
+		final float[] faceSize = new float[1];
+		SensorCustomEventListener detectionListener = new SensorCustomEventListener() {
+			public void onCustomSensorChanged(SensorCustomEvent event) {
+				if (event.sensor == Sensors.FACE_SIZE) {
+					faceSize[0] = event.values[0];
+				}
 			}
 		};
 		detector.addOnFaceDetectedListener(detectionListener);

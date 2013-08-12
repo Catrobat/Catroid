@@ -4,11 +4,11 @@ import java.util.Random;
 
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.facedetection.IcsFaceDetector;
-import org.catrobat.catroid.facedetection.OnFaceDetectedListener;
-import org.catrobat.catroid.facedetection.OnFaceDetectionStatusChangedListener;
+import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
+import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
+import org.catrobat.catroid.formulaeditor.Sensors;
 
 import android.annotation.TargetApi;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.Face;
@@ -80,25 +80,24 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testOnFaceDetectionStatusListener() {
 		IcsFaceDetector detector = new IcsFaceDetector();
-		final boolean[] detected = new boolean[1];
-		OnFaceDetectionStatusChangedListener listener = new OnFaceDetectionStatusChangedListener() {
-
-			public void onFaceDetectionStatusChanged(boolean faceDetected) {
-				detected[0] = faceDetected;
+		final float[] detected = new float[1];
+		SensorCustomEventListener listener = new SensorCustomEventListener() {
+			public void onCustomSensorChanged(SensorCustomEvent event) {
+				detected[0] = event.values[0];
 			}
 		};
 		detector.addOnFaceDetectionStatusListener(listener);
-		assertFalse("unexpected detection of a face", detected[0]);
+		assertEquals("unexpected detection of a face", 0f, detected[0]);
 
 		detector.onFaceDetection(new Face[0], null);
-		assertFalse("ICS Face Detector posted wrong status", detected[0]);
+		assertEquals("ICS Face Detector posted wrong status", 0f, detected[0]);
 		Face[] faces = new Face[1];
 		faces[0] = new Face();
 		faces[0].rect = new Rect();
 		detector.onFaceDetection(faces, null);
-		assertTrue("ICS Face Detector posted wrong status", detected[0]);
+		assertEquals("ICS Face Detector posted wrong status", 1f, detected[0]);
 		detector.onFaceDetection(new Face[0], null);
-		assertFalse("ICS Face Detector did not post status change", detected[0]);
+		assertEquals("ICS Face Detector did not post status change", 0f, detected[0]);
 	}
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -106,13 +105,27 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		IcsFaceDetector detector = new IcsFaceDetector();
 
 		final int[] detectedFaces = new int[4];
-		OnFaceDetectedListener detectionListener = new OnFaceDetectedListener() {
+		SensorCustomEventListener detectionListener = new SensorCustomEventListener() {
 
-			public void onFaceDetected(Point position, int size) {
+			public void onCustomSensorChanged(SensorCustomEvent event) {
 				detectedFaces[COUNTER_INDEX]++;
-				detectedFaces[X_POSITION_INDEX] = position.x;
-				detectedFaces[Y_POSITION_INDEX] = position.y;
-				detectedFaces[SIZE_INDEX] = size;
+				int value = (int) event.values[0];
+				float intFloatDifference = event.values[0] - value;
+				assertEquals("Face detection values should be integer", intFloatDifference, 0f);
+				switch (event.sensor) {
+					case FACE_X_POSITION:
+						detectedFaces[X_POSITION_INDEX] = value;
+						break;
+					case FACE_Y_POSITION:
+						detectedFaces[Y_POSITION_INDEX] = value;
+						break;
+					case FACE_SIZE:
+						detectedFaces[SIZE_INDEX] = value;
+						break;
+					default:
+						fail("Unexpected Sensor on Face Detection event. Expected face size or position."
+								+ event.sensor);
+				}
 			}
 		};
 		detector.addOnFaceDetectedListener(detectionListener);
@@ -128,7 +141,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		faces[1].score = 80;
 
 		detector.onFaceDetection(faces, null);
-		assertEquals("Face Detection Listener does not receive call", 1, detectedFaces[COUNTER_INDEX]);
+		assertEquals("Face Detection Listener does not receive calls", 3, detectedFaces[COUNTER_INDEX]);
 
 		int lowScoreFaceSize = LOW_SCORE_FACE_WIDTH * 100 * 2 / FACE_RECT_SIZE;
 		if (detectedFaces[SIZE_INDEX] == lowScoreFaceSize) {
@@ -147,7 +160,8 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		assertEquals("Unexpected y position of face", expectedYPosition, detectedFaces[Y_POSITION_INDEX]);
 
 		detector.onFaceDetection(faces, null);
-		assertEquals("Face Detection Listener does not receive calls", 2, detectedFaces[COUNTER_INDEX]);
+		assertTrue("Face Detection Listener reveices too many calls", detectedFaces[COUNTER_INDEX] <= 6);
+		assertEquals("Face Detection Listener does not receive calls", 6, detectedFaces[COUNTER_INDEX]);
 
 		detector.removeOnFaceDetectedListener(detectionListener);
 	}
@@ -156,11 +170,12 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 	public void testFaceSizeBounds() {
 		IcsFaceDetector detector = new IcsFaceDetector();
 
-		final int[] faceSize = new int[1];
-		OnFaceDetectedListener detectionListener = new OnFaceDetectedListener() {
-
-			public void onFaceDetected(Point position, int size) {
-				faceSize[0] = size;
+		final float[] faceSize = new float[1];
+		SensorCustomEventListener detectionListener = new SensorCustomEventListener() {
+			public void onCustomSensorChanged(SensorCustomEvent event) {
+				if (event.sensor == Sensors.FACE_SIZE) {
+					faceSize[0] = event.values[0];
+				}
 			}
 		};
 		detector.addOnFaceDetectedListener(detectionListener);

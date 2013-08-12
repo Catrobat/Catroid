@@ -2,7 +2,8 @@ package org.catrobat.catroid.test.facedetection;
 
 import junit.framework.TestCase;
 
-import org.catrobat.catroid.facedetection.OnFaceDetectionStatusChangedListener;
+import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
+import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
 import org.catrobat.catroid.test.utils.TestFaceDetector;
 
 public class FaceDetectorTest extends TestCase {
@@ -10,11 +11,17 @@ public class FaceDetectorTest extends TestCase {
 	private int numberOfCalls = 0;
 	private boolean statusFaceDetected = false;
 
-	private OnFaceDetectionStatusChangedListener onFaceDetectionStatusListener = new OnFaceDetectionStatusChangedListener() {
+	private SensorCustomEventListener onFaceDetectionStatusListener = new SensorCustomEventListener() {
 
-		public void onFaceDetectionStatusChanged(boolean faceDetected) {
+		public void onCustomSensorChanged(SensorCustomEvent event) {
 			numberOfCalls++;
-			statusFaceDetected = faceDetected;
+			if (event.values[0] == 1.0f) {
+				statusFaceDetected = true;
+			} else if (event.values[0] == 0.0f) {
+				statusFaceDetected = false;
+			} else {
+				fail("Unexpected value for face detected. Should be 1 for \"detected\" or 0 for \"not detected\".");
+			}
 		}
 	};
 

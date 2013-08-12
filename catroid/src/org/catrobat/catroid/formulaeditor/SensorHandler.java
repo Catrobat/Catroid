@@ -23,18 +23,14 @@
 package org.catrobat.catroid.formulaeditor;
 
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
-import org.catrobat.catroid.facedetection.OnFaceDetectedListener;
-import org.catrobat.catroid.facedetection.OnFaceDetectionStatusChangedListener;
 
 import android.content.Context;
-import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.Log;
 
-public class SensorHandler implements SensorEventListener, OnFaceDetectedListener,
-		OnFaceDetectionStatusChangedListener, SensorCustomEventListener {
+public class SensorHandler implements SensorEventListener, SensorCustomEventListener {
 	private static final String TAG = SensorHandler.class.getSimpleName();
 	private static SensorHandler instance = null;
 	private SensorManagerInterface sensorManager = null;
@@ -49,10 +45,10 @@ public class SensorHandler implements SensorEventListener, OnFaceDetectedListene
 	private float linearAcceleartionZ = 0f;
 
 	private float loudness = 0f;
-	private int faceDetected = 0;
-	private int faceSize = 0;
-	private int facePositionX = 0;
-	private int facePositionY = 0;
+	private float faceDetected = 0f;
+	private float faceSize = 0f;
+	private float facePositionX = 0f;
+	private float facePositionY = 0f;
 
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
@@ -201,26 +197,21 @@ public class SensorHandler implements SensorEventListener, OnFaceDetectedListene
 			case LOUDNESS:
 				instance.loudness = event.values[0];
 				break;
+			case FACE_DETECTED:
+				instance.faceDetected = event.values[0];
+				break;
+			case FACE_SIZE:
+				instance.faceSize = event.values[0];
+				break;
+			case FACE_X_POSITION:
+				instance.facePositionX = event.values[0];
+				break;
+			case FACE_Y_POSITION:
+				instance.facePositionY = event.values[0];
+				break;
 			default:
 				Log.v(TAG, "Unhandled sensor: " + event.sensor);
 		}
 	}
 
-	@Override
-	public void onFaceDetected(Point position, int size) {
-		if (instance == null) {
-			return;
-		}
-		instance.facePositionX = position.x;
-		instance.facePositionY = position.y;
-		instance.faceSize = size;
-	}
-
-	@Override
-	public void onFaceDetectionStatusChanged(boolean faceDetected) {
-		if (instance == null) {
-			return;
-		}
-		instance.faceDetected = faceDetected ? 1 : 0;
-	}
 }

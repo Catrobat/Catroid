@@ -562,8 +562,11 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
+	//TODO REMOVE
 	private void justForTesting() {
-
+		if (testData == null) {
+			return;
+		}
 		Pixmap p = new Pixmap(testData, 0, testData.length);
 		if (p != null) {
 			batch.begin();
