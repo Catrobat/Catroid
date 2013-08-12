@@ -34,9 +34,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
 
-import java.io.Serializable;
 import java.io.FileNotFoundException;
-
+import java.io.Serializable;
 
 public class LookData implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
