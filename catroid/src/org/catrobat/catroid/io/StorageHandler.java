@@ -394,10 +394,13 @@ public class StorageHandler {
 		}
 		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
+		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
+
 		Log.d("TAG", "StorageHandler:: inputFileCheksum = " + inputFileChecksum);
 
 		File outputFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
-				Constants.BACKPACK_SOUND_DIRECTORY, inputFileChecksum + "_" + inputFile.getName()));
+				Constants.BACKPACK_SOUND_DIRECTORY, currentProject + "_" + inputFile.getName() + "_"
+						+ inputFileChecksum));
 
 		return copyFileAddCheckSum(outputFile, inputFile, backPackDirectory);
 	}

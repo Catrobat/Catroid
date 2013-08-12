@@ -263,8 +263,6 @@ public class SoundController {
 
 		copySoundBackPack(selectedSoundInfo, soundInfoList, adapter);
 
-		//copySound(selectedSoundInfo, soundInfoList, adapter);
-
 	}
 
 	private void copySoundBackPack(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList, SoundAdapter adapter) {
@@ -277,7 +275,8 @@ public class SoundController {
 			e.printStackTrace();
 		}
 
-		updateSoundAdapter(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName(), soundInfoList, adapter);
+		updateBackPackActivity(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName(), soundInfoList,
+				adapter);
 
 	}
 
@@ -328,6 +327,19 @@ public class SoundController {
 			deleteSound(position - numberDeleted, soundInfoList, activity);
 			++numberDeleted;
 		}
+	}
+
+	public SoundInfo updateBackPackActivity(String title, String fileName, ArrayList<SoundInfo> soundInfoList,
+			SoundAdapter adapter) {
+		title = Utils.getUniqueSoundName(title);
+
+		SoundInfo newSoundInfo = new SoundInfo();
+		newSoundInfo.setTitle(title);
+		newSoundInfo.setSoundFileName(fileName);
+		soundInfoList.add(newSoundInfo);
+
+		adapter.notifyDataSetChanged();
+		return newSoundInfo;
 	}
 
 	public SoundInfo updateSoundAdapter(String title, String fileName, ArrayList<SoundInfo> soundInfoList,

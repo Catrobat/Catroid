@@ -29,38 +29,33 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
-import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment.OnSoundInfoListChangedAfterNewListener;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 
-public class BackPackSoundActivity extends Activity implements OnSoundEditListener,
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+
+public class BackPackSoundActivity extends SherlockFragmentActivity implements OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
 
 	public static final String TAG = SoundFragment.class.getSimpleName();
 
 	private static int selectedSoundPosition = Constants.NO_POSITION;
+
+	private ActionBar actionBar;
 
 	private MediaPlayer mediaPlayer;
 	private SoundAdapter adapter;
@@ -73,170 +68,242 @@ public class BackPackSoundActivity extends Activity implements OnSoundEditListen
 
 	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
 
-	@SuppressLint("NewApi")
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-
-		Log.d("TAG", "BackPackSoundActivity --> onCreate()");
-
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.sound_list);
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-		android.app.ActionBar actionBar = this.getActionBar();
+		if (savedInstanceState == null) {
+			Bundle bundle = this.getIntent().getExtras();
 
-		actionBar.setTitle("Backpack");
+		}
+
+		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
+		actionBar.setTitle(R.string.backpack);
 
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-
-		Log.d("TAG", "onOptionsItemSelected");
-
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				Intent intent = new Intent(this, MainMenuActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
-
-		}
-
-	}
-
-	public void onActivityCreated(Bundle savedInstanceState) {
-		//super.onActivityCreated(savedInstanceState);
-
-		Log.d("TAG", "BackPackSoundActivity --> onActivityCreated");
-
-		//		listView = getListView();
-		//		registerForContextMenu(listView);
-		//
-		//		if (savedInstanceState != null) {
-		//			selectedSoundInfo = (SoundInfo) savedInstanceState
-		//					.getSerializable(SoundController.BUNDLE_ARGUMENTS_SELECTED_SOUND);
-		//		}
-		//		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		//
-		//		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList, false);
-		//		adapter.setOnSoundEditListener(this);
-		//		setListAdapter(adapter);
-		//		adapter.setSoundFragment(this);
-		//
-		//		Utils.loadProjectIfNeeded(getActivity());
-		//		setHandleAddbutton();
-
-	}
-
-	public void onPrepareOptionMenu(Menu menu) {
-		Log.d("TAG", "BackPackSoundAdapter-->onPrepareOptionsMenu");
-		menu.findItem(R.id.delete).setVisible(true);
-		menu.findItem(R.id.edit_in_pocket_paint).setVisible(false);
-		super.onPrepareOptionsMenu(menu);
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
-
-		if (SoundController.getInstance().isSoundPlaying(mediaPlayer)) {
-			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
-		}
-		selectedSoundInfo = adapter.getItem(selectedSoundPosition);
-		menu.setHeaderTitle(selectedSoundInfo.getTitle());
-		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
-
-		//getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
-		//menu.findItem(R.id.context_menu_copy).setVisible(true);
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_script_activity, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.sound_list, null);
-		return rootView;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.content.DialogInterface.OnKeyListener#onKey(android.content.DialogInterface, int,
-	 * android.view.KeyEvent)
-	 */
 	@Override
-	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-
+	public boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onCreateLoader(int, android.os.Bundle)
-	 */
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoadFinished(android.support.v4.content.Loader,
-	 * java.lang.Object)
-	 */
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
 		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoaderReset(android.support.v4.content.Loader)
-	 */
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener#onSoundPlay(android.view.View)
-	 */
 	@Override
 	public void onSoundPlay(View view) {
 		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener#onSoundPause(android.view.View)
-	 */
 	@Override
 	public void onSoundPause(View view) {
 		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener#onSoundChecked()
-	 */
 	@Override
 	public void onSoundChecked() {
 		// TODO Auto-generated method stub
 
 	}
+
+	//	@SuppressLint("NewApi")
+	//	@Override
+	//	public void onCreate(Bundle savedInstanceState) {
+	//
+	//		Log.d("TAG", "BackPackSoundActivity --> onCreate()");
+	//
+	//		super.onCreate(savedInstanceState);
+	//		setContentView(R.layout.sound_list);
+	//
+	//		android.app.ActionBar actionBar = this.getActionBar();
+	//
+	//		actionBar.setTitle("Backpack");
+	//		actionBar.setHomeButtonEnabled(true);
+	//		actionBar.setDisplayShowTitleEnabled(true);
+	//
+	//	}
+	//
+	//	@Override
+	//	public boolean onOptionsItemSelected(MenuItem item) {
+	//
+	//		Log.d("TAG", "onOptionsItemSelected");
+	//
+	//		switch (item.getItemId()) {
+	//			case android.R.id.home:
+	//				Intent intent = new Intent(this, MainMenuActivity.class);
+	//				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	//				startActivity(intent);
+	//				return true;
+	//			default:
+	//				return super.onOptionsItemSelected(item);
+	//
+	//		}
+	//
+	//	}
+	//
+	//	public void onActivityCreated(Bundle savedInstanceState) {
+	//		//super.onActivityCreated(savedInstanceState);
+	//
+	//		Log.d("TAG", "BackPackSoundActivity --> onActivityCreated");
+	//
+	//		//		listView = getListView();
+	//		//		registerForContextMenu(listView);
+	//		//
+	//		//		if (savedInstanceState != null) {
+	//		//			selectedSoundInfo = (SoundInfo) savedInstanceState
+	//		//					.getSerializable(SoundController.BUNDLE_ARGUMENTS_SELECTED_SOUND);
+	//		//		}
+	//		//		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+	//		//
+	//		//		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList, false);
+	//		//		adapter.setOnSoundEditListener(this);
+	//		//		setListAdapter(adapter);
+	//		//		adapter.setSoundFragment(this);
+	//		//
+	//		//		Utils.loadProjectIfNeeded(getActivity());
+	//		//		setHandleAddbutton();
+	//
+	//	}
+	//
+	//	public void onPrepareOptionMenu(Menu menu) {
+	//		Log.d("TAG", "BackPackSoundAdapter-->onPrepareOptionsMenu");
+	//		menu.findItem(R.id.delete).setVisible(true);
+	//		menu.findItem(R.id.edit_in_pocket_paint).setVisible(false);
+	//		super.onPrepareOptionsMenu(menu);
+	//	}
+	//
+	//	@Override
+	//	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+	//		super.onCreateContextMenu(menu, v, menuInfo);
+	//
+	//		if (SoundController.getInstance().isSoundPlaying(mediaPlayer)) {
+	//			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
+	//		}
+	//		selectedSoundInfo = adapter.getItem(selectedSoundPosition);
+	//		menu.setHeaderTitle(selectedSoundInfo.getTitle());
+	//		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
+	//
+	//		//getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
+	//		//menu.findItem(R.id.context_menu_copy).setVisible(true);
+	//	}
+	//
+	//	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	//		View rootView = inflater.inflate(R.layout.sound_list, null);
+	//		return rootView;
+	//	}
+	//
+	//	/*
+	//	 * (non-Javadoc)
+	//	 * 
+	//	 * @see android.content.DialogInterface.OnKeyListener#onKey(android.content.DialogInterface, int,
+	//	 * android.view.KeyEvent)
+	//	 */
+	//	@Override
+	//	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+	//
+	//		return false;
+	//	}
+	//
+	//	/*
+	//	 * (non-Javadoc)
+	//	 * 
+	//	 * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onCreateLoader(int, android.os.Bundle)
+	//	 */
+	//	@Override
+	//	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+	//		// TODO Auto-generated method stub
+	//		return null;
+	//	}
+	//
+	//	/*
+	//	 * (non-Javadoc)
+	//	 * 
+	//	 * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoadFinished(android.support.v4.content.Loader,
+	//	 * java.lang.Object)
+	//	 */
+	//	@Override
+	//	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
+	//		// TODO Auto-generated method stub
+	//
+	//	}
+	//
+	//	/*
+	//	 * (non-Javadoc)
+	//	 * 
+	//	 * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoaderReset(android.support.v4.content.Loader)
+	//	 */
+	//	@Override
+	//	public void onLoaderReset(Loader<Cursor> arg0) {
+	//		// TODO Auto-generated method stub
+	//
+	//	}
+	//
+	//	/*
+	//	 * (non-Javadoc)
+	//	 * 
+	//	 * @see org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener#onSoundPlay(android.view.View)
+	//	 */
+	//	@Override
+	//	public void onSoundPlay(View view) {
+	//		// TODO Auto-generated method stub
+	//
+	//	}
+	//
+	//	/*
+	//	 * (non-Javadoc)
+	//	 * 
+	//	 * @see org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener#onSoundPause(android.view.View)
+	//	 */
+	//	@Override
+	//	public void onSoundPause(View view) {
+	//		// TODO Auto-generated method stub
+	//
+	//	}
+	//
+	//	/*
+	//	 * (non-Javadoc)
+	//	 * 
+	//	 * @see org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener#onSoundChecked()
+	//	 */
+	//	@Override
+	//	public void onSoundChecked() {
+	//		// TODO Auto-generated method stub
+	//
+	//	}
 
 	// old begins	
 	/*
