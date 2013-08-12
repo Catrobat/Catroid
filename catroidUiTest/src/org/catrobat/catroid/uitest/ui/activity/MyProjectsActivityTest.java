@@ -1590,6 +1590,41 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sleep(600);
 	}
 
+	public void testLongProjectName() {
+		String longProjectName = "veryveryveryverylongprojectname";
+		UiTestUtils.waitForText(solo, solo.getString(R.string.main_menu_programs));
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.waitForText(solo, solo.getString(R.string.new_project_dialog_title));
+
+		EditText addNewProjectEditText = solo.getEditText(0);
+		assertEquals("Not the proper hint set", solo.getString(R.string.new_project_dialog_hint),
+				addNewProjectEditText.getHint());
+		assertEquals("There should no text be set", "", addNewProjectEditText.getText().toString());
+
+		solo.enterText(0, longProjectName);
+		solo.goBack();
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.waitForText(solo.getString(R.string.sprites));
+		solo.goBack();
+
+		solo.waitForText(solo.getString(R.string.main_menu_programs));
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+
+		assertTrue("Projectnames not cropped", solo.searchText(".+\\W+", true));
+
+		UiTestUtils.openOptionsMenu(solo);
+
+		solo.waitForText(solo.getString(R.string.show_details));
+		solo.clickOnText(solo.getString(R.string.show_details));
+		solo.waitForText(longProjectName);
+
+		assertTrue("Long Projectname not found", solo.searchText(longProjectName));
+	}
+
 	// TODO
 	// commented due to causing Screenlock on SlaveDevice
 	// sounds weird, but must be fixed
