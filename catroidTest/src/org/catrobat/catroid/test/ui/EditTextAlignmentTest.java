@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.test.ui;
 
-import java.lang.reflect.Field;
-
-import org.catrobat.catroid.R;
-
 import android.content.Context;
 import android.test.AndroidTestCase;
 import android.text.InputType;
@@ -33,6 +29,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+
+import org.catrobat.catroid.R;
+
+import java.lang.reflect.Field;
 
 public class EditTextAlignmentTest extends AndroidTestCase {
 

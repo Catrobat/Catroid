@@ -22,11 +22,11 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-
-import com.badlogic.gdx.scenes.scene2d.Action;
 
 public class ChangeVariableAction extends Action {
 

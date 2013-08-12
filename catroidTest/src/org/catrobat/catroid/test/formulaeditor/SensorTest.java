@@ -22,9 +22,11 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import java.lang.reflect.Method;
-import java.util.LinkedList;
-import java.util.List;
+import android.graphics.Point;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.test.InstrumentationTestCase;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -48,11 +50,9 @@ import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.test.utils.SimulatedSensorManager;
 import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
 
-import android.graphics.Point;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.test.InstrumentationTestCase;
-import android.util.Log;
+import java.lang.reflect.Method;
+import java.util.LinkedList;
+import java.util.List;
 
 public class SensorTest extends InstrumentationTestCase {
 
@@ -68,7 +68,7 @@ public class SensorTest extends InstrumentationTestCase {
 		createProject();
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-        //For initialization
+		//For initialization
 		SensorLoudness.getSensorLoudness();
 		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
 		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("/dev/null");

@@ -22,19 +22,7 @@
  */
 package org.catrobat.catroid.stage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.LegoNXT.LegoNXT;
-import org.catrobat.catroid.LegoNXT.LegoNXTBtCommunicator;
-import org.catrobat.catroid.bluetooth.BluetoothManager;
-import org.catrobat.catroid.bluetooth.DeviceListActivity;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -49,6 +37,20 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 import android.widget.Toast;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.bluetooth.BluetoothManager;
+import org.catrobat.catroid.bluetooth.DeviceListActivity;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.legonxt.LegoNXT;
+import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
+import org.catrobat.catroid.facedetection.FaceDetectionHandler;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
 
 public class PreStageActivity extends Activity {
 

@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
+
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
 
 public abstract class ScriptBrick extends BrickBaseType implements AllowedAfterDeadEndBrick {
 

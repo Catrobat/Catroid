@@ -22,16 +22,16 @@
  */
 package org.catrobat.catroid.common;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import android.content.Context;
+import android.widget.ArrayAdapter;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
 
-import android.content.Context;
-import android.widget.ArrayAdapter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MessageContainer {
 

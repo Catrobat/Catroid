@@ -22,6 +22,12 @@
  */
 package org.catrobat.catroid.uitest.formulaeditor;
 
+import android.graphics.Rect;
+import android.util.Log;
+import android.widget.ImageButton;
+
+import com.jayway.android.robotium.solo.Solo;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -36,12 +42,6 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-
-import android.graphics.Rect;
-import android.util.Log;
-import android.widget.ImageButton;
-
-import com.jayway.android.robotium.solo.Solo;
 
 public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private Project project;

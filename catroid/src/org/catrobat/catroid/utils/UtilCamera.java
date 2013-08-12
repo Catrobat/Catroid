@@ -22,19 +22,19 @@
  */
 package org.catrobat.catroid.utils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import android.graphics.Bitmap;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 
-import android.graphics.Bitmap;
-import android.media.ExifInterface;
-import android.net.Uri;
-import android.util.Log;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class UtilCamera {
 

@@ -23,8 +23,7 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
-import java.util.LinkedList;
-import java.util.List;
+import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -37,7 +36,8 @@ import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
 
-import android.test.InstrumentationTestCase;
+import java.util.LinkedList;
+import java.util.List;
 
 public class FormulaTest extends InstrumentationTestCase {
 

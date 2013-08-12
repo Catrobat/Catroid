@@ -22,8 +22,9 @@
  */
 package org.catrobat.catroid.uitest.stage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import android.content.Context;
+import android.speech.tts.TextToSpeech;
+import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -44,9 +45,8 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.content.Context;
-import android.speech.tts.TextToSpeech;
-import android.widget.ListView;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SpeakStageTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private TextToSpeechMock textToSpeechMock;

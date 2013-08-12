@@ -40,12 +40,7 @@
  *   		You should have received a copy of the GNU Affero General Public License
  *   		along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.LegoNXT;
-
-import java.io.IOException;
-
-import org.catrobat.catroid.bluetooth.BTConnectable;
-import org.catrobat.catroid.bluetooth.DeviceListActivity;
+package org.catrobat.catroid.legonxt;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -53,6 +48,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
+import org.catrobat.catroid.bluetooth.BTConnectable;
+import org.catrobat.catroid.bluetooth.DeviceListActivity;
+
+import java.io.IOException;
 
 public class LegoNXT implements BTConnectable {
 

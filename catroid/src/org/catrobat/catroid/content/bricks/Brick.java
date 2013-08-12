@@ -22,19 +22,19 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.io.Serializable;
-import java.util.List;
-
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
-
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
+
+import java.io.Serializable;
+import java.util.List;
 
 public interface Brick extends Serializable {
 

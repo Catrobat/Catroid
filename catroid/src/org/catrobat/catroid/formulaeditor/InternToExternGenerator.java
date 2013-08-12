@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import android.content.Context;
+import android.util.Log;
 
 import org.catrobat.catroid.R;
 
-import android.content.Context;
-import android.util.Log;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class InternToExternGenerator {
 

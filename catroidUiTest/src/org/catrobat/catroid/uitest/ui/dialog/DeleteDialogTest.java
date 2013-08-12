@@ -22,8 +22,8 @@
  */
 package org.catrobat.catroid.uitest.ui.dialog;
 
-import java.io.File;
-import java.util.ArrayList;
+import android.view.Display;
+import android.widget.ListAdapter;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -36,8 +36,8 @@ import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.view.Display;
-import android.widget.ListAdapter;
+import java.io.File;
+import java.util.ArrayList;
 
 public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;

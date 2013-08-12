@@ -22,9 +22,7 @@
  */
 package org.catrobat.catroid.uitest.stage;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import android.widget.ListView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -48,7 +46,9 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.widget.ListView;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 

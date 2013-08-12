@@ -22,8 +22,13 @@
  */
 package org.catrobat.catroid.uitest.web;
 
-import java.io.File;
-import java.io.IOException;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.preference.PreferenceManager;
+import android.test.UiThreadTest;
+import android.util.Log;
+import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -45,13 +50,8 @@ import org.catrobat.catroid.web.ServerCalls;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
-import android.preference.PreferenceManager;
-import android.test.UiThreadTest;
-import android.util.Log;
-import android.widget.EditText;
+import java.io.File;
+import java.io.IOException;
 
 public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final String TEST_FILE_DOWNLOAD_URL = "http://catroidtest.ist.tugraz.at/catroid/download/";

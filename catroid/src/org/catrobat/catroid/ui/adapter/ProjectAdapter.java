@@ -22,20 +22,6 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
-import java.io.File;
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.io.ProjectScreenshotLoader;
-import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
-import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.Utils;
-
 import android.content.Context;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -48,6 +34,20 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.ProjectData;
+import org.catrobat.catroid.io.ProjectScreenshotLoader;
+import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.Utils;
+
+import java.io.File;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 	private boolean showDetails;

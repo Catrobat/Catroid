@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.test.AndroidTestCase;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ChangeGhostEffectByNAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
-
-import android.test.AndroidTestCase;
 
 public class ChangeGhostEffectByNActionTest extends AndroidTestCase {
 

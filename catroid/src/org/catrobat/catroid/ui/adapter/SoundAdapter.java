@@ -22,17 +22,6 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.utils.UtilFile;
-
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.SystemClock;
@@ -50,6 +39,17 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.utils.UtilFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActivityAdapterInterface {
 

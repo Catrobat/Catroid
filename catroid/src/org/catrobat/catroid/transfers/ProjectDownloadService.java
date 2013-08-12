@@ -22,6 +22,13 @@
  */
 package org.catrobat.catroid.transfers;
 
+import android.app.IntentService;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.ResultReceiver;
+import android.widget.Toast;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.StorageHandler;
@@ -33,13 +40,6 @@ import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ConnectionWrapper;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
-
-import android.app.IntentService;
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.os.ResultReceiver;
-import android.widget.Toast;
 
 public class ProjectDownloadService extends IntentService {
 

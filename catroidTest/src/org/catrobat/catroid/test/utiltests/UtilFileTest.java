@@ -22,11 +22,8 @@
  */
 package org.catrobat.catroid.test.utiltests;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.DecimalFormat;
-import java.util.List;
+import android.os.Environment;
+import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -36,8 +33,11 @@ import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
-import android.os.Environment;
-import android.test.InstrumentationTestCase;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.DecimalFormat;
+import java.util.List;
 
 public class UtilFileTest extends InstrumentationTestCase {
 	private static final String CATROID_DIRECTORY = Environment.getExternalStorageDirectory().getAbsolutePath()
