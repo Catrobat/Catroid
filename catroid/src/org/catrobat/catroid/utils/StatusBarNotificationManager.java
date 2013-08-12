@@ -22,18 +22,18 @@
  */
 package org.catrobat.catroid.utils;
 
-import java.util.HashMap;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.MyProjectsActivity;
-
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.MyProjectsActivity;
+
+import java.util.HashMap;
 
 public class StatusBarNotificationManager {
 

@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.script;
 
-import java.util.ArrayList;
+import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 
-import android.test.AndroidTestCase;
+import java.util.ArrayList;
 
 public class ScriptTest extends AndroidTestCase {
 

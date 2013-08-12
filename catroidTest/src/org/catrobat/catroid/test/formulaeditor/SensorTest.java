@@ -22,8 +22,9 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import java.util.LinkedList;
-import java.util.List;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -44,9 +45,8 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.SimulatedSensorManager;
 import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
 
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.test.InstrumentationTestCase;
+import java.util.LinkedList;
+import java.util.List;
 
 public class SensorTest extends InstrumentationTestCase {
 

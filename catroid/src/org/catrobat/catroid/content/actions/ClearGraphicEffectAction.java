@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.content.Sprite;
-
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+
+import org.catrobat.catroid.content.Sprite;
 
 public class ClearGraphicEffectAction extends TemporalAction {
 

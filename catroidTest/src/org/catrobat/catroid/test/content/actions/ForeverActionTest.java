@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.test.InstrumentationTestCase;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
-
-import android.test.InstrumentationTestCase;
 
 public class ForeverActionTest extends InstrumentationTestCase {
 

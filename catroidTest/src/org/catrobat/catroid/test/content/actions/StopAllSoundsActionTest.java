@@ -22,8 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import java.io.File;
-import java.io.IOException;
+import android.media.MediaPlayer;
+import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -39,8 +39,8 @@ import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
-import android.media.MediaPlayer;
-import android.test.InstrumentationTestCase;
+import java.io.File;
+import java.io.IOException;
 
 public class StopAllSoundsActionTest extends InstrumentationTestCase {
 	private static final int SOUND_FILE_ID = R.raw.longtestsound;

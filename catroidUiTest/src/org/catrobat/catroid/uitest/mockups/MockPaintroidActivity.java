@@ -22,11 +22,11 @@
  */
 package org.catrobat.catroid.uitest.mockups;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import java.io.File;
 
 public class MockPaintroidActivity extends Activity {
 

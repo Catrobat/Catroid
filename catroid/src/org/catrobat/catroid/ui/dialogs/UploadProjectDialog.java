@@ -22,16 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import java.io.File;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.transfers.ProjectUploadService;
-import org.catrobat.catroid.utils.StatusBarNotificationManager;
-import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.Utils;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -55,6 +45,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.transfers.ProjectUploadService;
+import org.catrobat.catroid.utils.StatusBarNotificationManager;
+import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.Utils;
+
+import java.io.File;
 
 public class UploadProjectDialog extends DialogFragment {
 

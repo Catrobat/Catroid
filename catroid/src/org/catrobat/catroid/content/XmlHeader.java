@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.content;
 
-import java.io.Serializable;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+import java.io.Serializable;
 
 public class XmlHeader implements Serializable {
 

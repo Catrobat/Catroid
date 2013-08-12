@@ -22,9 +22,20 @@
  */
 package org.catrobat.catroid.uitest.ui.activity;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
+import android.util.Log;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.jayway.android.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -64,20 +75,9 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Configuration;
-import android.util.Log;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-import com.jayway.android.robotium.solo.Solo;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final String TEST_SPRITE_NAME = "cat";

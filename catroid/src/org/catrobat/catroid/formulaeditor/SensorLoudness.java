@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import android.os.Handler;
+import android.util.Log;
 
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 
-import android.os.Handler;
-import android.util.Log;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class SensorLoudness {
 

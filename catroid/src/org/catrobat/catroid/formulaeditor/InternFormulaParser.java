@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import java.util.ArrayList;
-import java.util.EmptyStackException;
-import java.util.List;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.EmptyStackException;
+import java.util.List;
 
 public class InternFormulaParser {
 

@@ -22,21 +22,21 @@
  */
 package org.catrobat.catroid.web;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.HashMap;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.ResultReceiver;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.ResultReceiver;
-import android.preference.PreferenceManager;
-import android.util.Log;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.HashMap;
 
 //web status codes are on: https://github.com/Catrobat/Catroweb/blob/master/statusCodes.php
 

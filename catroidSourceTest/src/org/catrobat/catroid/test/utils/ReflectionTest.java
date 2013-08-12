@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.test.utils;
 
+import junit.framework.TestCase;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import junit.framework.TestCase;
 
 public class ReflectionTest extends TestCase {
 	private static final String[] FILES = { "../catroidTest/src/org/catrobat/catroid/test/utils/Reflection.java",

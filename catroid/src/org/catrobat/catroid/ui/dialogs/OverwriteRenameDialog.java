@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.utils.DownloadUtil;
-import org.catrobat.catroid.utils.Utils;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -42,6 +38,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.Utils;
 
 public class OverwriteRenameDialog extends DialogFragment implements OnClickListener {
 	protected RadioButton replaceButton, renameButton;

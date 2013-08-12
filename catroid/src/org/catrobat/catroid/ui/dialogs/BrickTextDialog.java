@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.ui.ScriptActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import org.catrobat.catroid.ui.ScriptActivity;
 
 public abstract class BrickTextDialog extends TextDialog {
 

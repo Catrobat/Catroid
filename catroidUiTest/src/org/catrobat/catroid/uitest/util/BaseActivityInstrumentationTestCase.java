@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.uitest.util;
 
-import org.catrobat.catroid.stage.StageListener;
-
 import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 
 import com.jayway.android.robotium.solo.Solo;
+
+import org.catrobat.catroid.stage.StageListener;
 
 public abstract class BaseActivityInstrumentationTestCase<T extends Activity> extends
 		ActivityInstrumentationTestCase2<T> {

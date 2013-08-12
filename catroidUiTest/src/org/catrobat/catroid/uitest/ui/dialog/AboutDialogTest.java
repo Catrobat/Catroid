@@ -22,15 +22,15 @@
  */
 package org.catrobat.catroid.uitest.ui.dialog;
 
-import java.util.ArrayList;
+import android.view.View;
+import android.widget.Button;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.utils.Utils;
 
-import android.view.View;
-import android.widget.Button;
+import java.util.ArrayList;
 
 public class AboutDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 

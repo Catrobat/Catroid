@@ -22,15 +22,6 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.utils.UtilFile;
-
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,6 +35,15 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.utils.UtilFile;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivityAdapterInterface {
 
