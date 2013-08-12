@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -41,8 +42,7 @@ import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
-import android.widget.ListView;
-import android.widget.TextView;
+import java.util.ArrayList;
 
 public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final double STEPS_TO_MOVE = 23.0;

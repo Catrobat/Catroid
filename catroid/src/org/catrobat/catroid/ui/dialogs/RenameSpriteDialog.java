@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.Utils;
-
-import android.content.Intent;
-import android.os.Bundle;
 
 public class RenameSpriteDialog extends TextDialog {
 

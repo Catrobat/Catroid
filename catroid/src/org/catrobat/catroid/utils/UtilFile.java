@@ -22,6 +22,11 @@
  */
 package org.catrobat.catroid.utils;
 
+import android.content.Context;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -32,11 +37,6 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
-
-import android.content.Context;
 
 public class UtilFile {
 	public static final int TYPE_IMAGE_FILE = 0;

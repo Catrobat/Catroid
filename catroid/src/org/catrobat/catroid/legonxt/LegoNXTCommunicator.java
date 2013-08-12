@@ -40,16 +40,16 @@
  *   		You should have received a copy of the GNU Affero General Public License
  *   		along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.LegoNXT;
-
-import java.io.IOException;
-import java.util.ArrayList;
+package org.catrobat.catroid.legonxt;
 
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * This class is for talking to a LEGO NXT robot via bluetooth.

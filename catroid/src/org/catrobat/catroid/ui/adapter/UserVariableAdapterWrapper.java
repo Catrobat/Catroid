@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -33,6 +30,9 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
 public class UserVariableAdapterWrapper extends BaseAdapter {
 

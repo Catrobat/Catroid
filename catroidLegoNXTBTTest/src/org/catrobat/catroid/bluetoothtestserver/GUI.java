@@ -20,10 +20,11 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.LegoNXTBTTestServer;
+package org.catrobat.catroid.bluetoothtestserver;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;

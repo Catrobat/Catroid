@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
-import java.util.List;
-
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.List;
 
 public class BrickCategoryAdapter extends BaseAdapter {
 	private List<View> categories;

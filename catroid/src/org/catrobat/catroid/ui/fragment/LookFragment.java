@@ -22,32 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.concurrent.locks.Lock;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.ViewSwitchLock;
-import org.catrobat.catroid.ui.adapter.LookAdapter;
-import org.catrobat.catroid.ui.adapter.LookAdapter.OnLookEditListener;
-import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
-import org.catrobat.catroid.ui.dialogs.NewLookDialog;
-import org.catrobat.catroid.ui.dialogs.RenameLookDialog;
-import org.catrobat.catroid.utils.ImageEditing;
-import org.catrobat.catroid.utils.UtilCamera;
-import org.catrobat.catroid.utils.Utils;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -88,6 +62,32 @@ import android.widget.ListView;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.badlogic.gdx.graphics.Pixmap;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.ViewSwitchLock;
+import org.catrobat.catroid.ui.adapter.LookAdapter;
+import org.catrobat.catroid.ui.adapter.LookAdapter.OnLookEditListener;
+import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
+import org.catrobat.catroid.ui.dialogs.NewLookDialog;
+import org.catrobat.catroid.ui.dialogs.RenameLookDialog;
+import org.catrobat.catroid.utils.ImageEditing;
+import org.catrobat.catroid.utils.UtilCamera;
+import org.catrobat.catroid.utils.Utils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.concurrent.locks.Lock;
 
 public class LookFragment extends ScriptActivityFragment implements OnLookEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {

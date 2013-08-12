@@ -22,9 +22,7 @@
  */
 package org.catrobat.catroid.test.io;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -46,7 +44,9 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
-import android.test.AndroidTestCase;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class StorageHandlerTest extends AndroidTestCase {
 	private StorageHandler storageHandler;

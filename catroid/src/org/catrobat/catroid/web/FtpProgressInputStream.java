@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.web;
 
-import java.io.IOException;
-import java.io.InputStream;
+import android.os.Bundle;
+import android.os.ResultReceiver;
 
 import org.catrobat.catroid.common.Constants;
 
-import android.os.Bundle;
-import android.os.ResultReceiver;
+import java.io.IOException;
+import java.io.InputStream;
 
 class FtpProgressInputStream extends InputStream {
 
