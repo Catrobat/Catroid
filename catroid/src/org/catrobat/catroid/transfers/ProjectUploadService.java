@@ -139,7 +139,7 @@ public class ProjectUploadService extends IntentService {
 			showToast(getString(R.string.error_project_upload));
 			return;
 		}
-		showToast(getString(R.string.success_project_upload));
+		showToast(getString(R.string.notification_upload_finished));
 		super.onDestroy();
 	}
 
