@@ -431,4 +431,41 @@
         <item name="android:textSize">@dimen/text_size_medium</item>
     </style>
 
+    <style name="headlineLinearLayout">
+        <item name="android:clickable">true</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="headlineTextView" parent="android:Widget.TextView">
+        <item name="android:paddingBottom">5dip</item>
+        <item name="android:paddingLeft">16dip</item>
+        <item name="android:paddingTop">9dip</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/spritelist_details_text_color</item>
+        <item name="android:textColorHighlight">@color/spritelist_details_text_color</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="headlineView">
+        <item name="android:background">@color/spritelist_separation_line_color</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">50dp</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1.5dp</item>
+    </style>
+    <style name="headlineTextViewObjects" parent="android:Widget.TextView">
+        <item name="android:paddingBottom">5dip</item>
+        <item name="android:paddingLeft">16dip</item>
+        <item name="android:paddingTop">18dip</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/spritelist_details_text_color</item>
+        <item name="android:textColorHighlight">@color/spritelist_details_text_color</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 </resources>
