@@ -564,15 +564,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		File downloadedProjectFile = new File(projectPath + "/" + Constants.PROJECTCODE_NAME);
 		assertTrue("Original Directory does not exist.", downloadedDirectory.exists());
 		assertTrue("Original Project File does not exist.", downloadedProjectFile.exists());
-
-		/*
-		 * TODO: Does not work when testing, but it works in practice
-		 * projectPath = Constants.DEFAULT_ROOT + "/" + newProjectName;
-		 * downloadedDirectory = new File(projectPath);
-		 * downloadedProjectFile = new File(projectPath + "/" + Constants.PROJECTCODE_NAME);
-		 * assertTrue("Downloaded Directory does not exist.", downloadedDirectory.exists());
-		 * assertTrue("Downloaded Project File does not exist.", downloadedProjectFile.exists());
-		 */
 	}
 
 }
