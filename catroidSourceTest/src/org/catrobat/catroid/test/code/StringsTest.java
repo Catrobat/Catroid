@@ -52,16 +52,20 @@ import javax.xml.parsers.ParserConfigurationException;
  * 
  */
 public class StringsTest extends TestCase {
-	private static final String[] LANGUAGES = { "English", "German" }; //, "Russian", "Romanian" };
-	private static final String[] LANGUAGE_SUFFIXES = { "", "-de" }; //, "-ru", "-ro" };
+	private static final String[] LANGUAGES = { "English", "German" };
+	private static final String[] LANGUAGE_SUFFIXES = { "", "-de" };
+
+	private static final String[] OTHER_LANGUAGES = { "Japanese", "Korean", "Portuguese", "Romanian", "Russian" };
+	private static final String[] OTHER_LANGUAGE_SUFFIXES = { "-ja", "-ko", "-pt", "-ro", "-ru" };
+
 	private static final String SOURCE_DIRECTORY = "../catroid/src";
 	private static final String RESOURCES_DIRECTORY = "../catroid/res";
 	private static final String ANDROID_MANIFEST = "../catroid/AndroidManifest.xml";
 	private static final String XML_STRING_PREFIX = "@string/";
 
-	private List<File> getStringFiles() throws IOException {
+	private List<File> getStringFiles(String[] language_suffixes) throws IOException {
 		List<File> stringFiles = new ArrayList<File>();
-		for (String languageSuffix : LANGUAGE_SUFFIXES) {
+		for (String languageSuffix : language_suffixes) {
 			File stringFile = new File("../catroid/res/values" + languageSuffix + "/strings.xml");
 			assertNotNull("File is null: " + stringFile.getCanonicalPath(), stringFile);
 			if (!stringFile.exists() || !stringFile.canRead()) {
@@ -82,10 +86,15 @@ public class StringsTest extends TestCase {
 	}
 
 	private List<String> getAllStringNames() throws SAXException, IOException, ParserConfigurationException {
-		List<String> allStringNames = new ArrayList<String>();
-		List<File> stringFiles = getStringFiles();
+		return getAllStringNames(LANGUAGES, LANGUAGE_SUFFIXES);
+	}
 
-		for (int i = 0; i < LANGUAGES.length; i++) {
+	private List<String> getAllStringNames(String[] languages, String[] language_suffixes) throws SAXException,
+			IOException, ParserConfigurationException {
+		List<String> allStringNames = new ArrayList<String>();
+		List<File> stringFiles = getStringFiles(language_suffixes);
+
+		for (int i = 0; i < languages.length; i++) {
 			File stringFile = stringFiles.get(i);
 
 			NodeList strings = getStrings(stringFile);
@@ -105,17 +114,22 @@ public class StringsTest extends TestCase {
 
 	private Map<String, List<String>> getStringNamesPerLanguage() throws SAXException, IOException,
 			ParserConfigurationException {
-		Map<String, List<String>> languageStrings = new HashMap<String, List<String>>();
-		List<File> stringFiles = getStringFiles();
+		return getStringNamesPerLanguage(LANGUAGES, LANGUAGE_SUFFIXES);
+	}
 
-		for (String language : LANGUAGES) {
+	private Map<String, List<String>> getStringNamesPerLanguage(String[] languages, String[] language_suffixes)
+			throws SAXException, IOException, ParserConfigurationException {
+		Map<String, List<String>> languageStrings = new HashMap<String, List<String>>();
+		List<File> stringFiles = getStringFiles(language_suffixes);
+
+		for (String language : languages) {
 			List<String> stringNames = new ArrayList<String>();
 			languageStrings.put(language, stringNames);
 		}
 
-		for (int i = 0; i < LANGUAGES.length; i++) {
+		for (int i = 0; i < languages.length; i++) {
 			File stringFile = stringFiles.get(i);
-			List<String> languageStringNames = languageStrings.get(LANGUAGES[i]);
+			List<String> languageStringNames = languageStrings.get(languages[i]);
 
 			NodeList strings = getStrings(stringFile);
 			for (int nodeIndex = 0; nodeIndex < strings.getLength(); nodeIndex++) {
@@ -148,6 +162,37 @@ public class StringsTest extends TestCase {
 		}
 
 		assertFalse("There are untranslated Strings:" + errorMessage.toString(), missingStrings);
+	}
+
+	public void testStringsWhichShouldNotExist() throws IOException, ParserConfigurationException, SAXException {
+		boolean missingStrings = false;
+		StringBuilder errorMessage = new StringBuilder();
+
+		List<String> allAllowedStringNames = getAllStringNames();
+		//List<String> allStringNamesFromOtherLanguages = getAllStringNames(OTHER_LANGUAGES, OTHER_LANGUAGE_SUFFIXES);
+		Map<String, List<String>> languageStrings = getStringNamesPerLanguage(OTHER_LANGUAGES, OTHER_LANGUAGE_SUFFIXES);
+
+		for (Map.Entry<String, List<String>> entry : languageStrings.entrySet()) {
+			for (String languageStringName : entry.getValue()) {
+				if (!allAllowedStringNames.contains(languageStringName)) {
+					missingStrings = true;
+					errorMessage.append("\nString with name " + languageStringName + " shouldn't exist in "
+							+ entry.getKey());
+				}
+			}
+		}
+
+		//		for (String stringName : allStringNamesFromOtherLanguages) {
+		//			for (int i = 0; i < OTHER_LANGUAGES.length; i++) {
+		//				List<String> languageStringNames = languageStrings.get(OTHER_LANGUAGES[i]);
+		//				if (!languageStringNames.contains(stringName) && i == 0) {
+		//					missingStrings = true;
+		//					errorMessage.append("\nString with name " + stringName + " is missing in " + OTHER_LANGUAGES[i]);
+		//				}
+		//			}
+		//		}
+
+		assertFalse("There are strings which shouldn't exist:" + errorMessage.toString(), missingStrings);
 	}
 
 	public void testUnusedStrings() throws SAXException, IOException, ParserConfigurationException {
