@@ -379,7 +379,9 @@ public class StorageHandler {
 		return copyFileAddCheckSum(outputFile, inputFile, soundDirectory);
 	}
 
-	public File copySoundFileBackPack(String path) throws IOException {
+	public File copySoundFileBackPack(SoundInfo selectedSoundInfo) throws IOException {
+
+		String path = selectedSoundInfo.getAbsolutePath();
 
 		Log.d("TAG", "StorageHandler --> copySoundFileBackPack:: path = " + path);
 
@@ -399,8 +401,11 @@ public class StorageHandler {
 		Log.d("TAG", "StorageHandler:: inputFileCheksum = " + inputFileChecksum);
 
 		File outputFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
-				Constants.BACKPACK_SOUND_DIRECTORY, currentProject + "_" + inputFile.getName() + "_"
+				Constants.BACKPACK_SOUND_DIRECTORY, currentProject + "_" + selectedSoundInfo.getTitle() + "_"
 						+ inputFileChecksum));
+
+		Log.d("TAG", "inputFile.getName()" + inputFile.getName());
+		Log.d("TAG", "outputFile:" + outputFile.toString());
 
 		return copyFileAddCheckSum(outputFile, inputFile, backPackDirectory);
 	}

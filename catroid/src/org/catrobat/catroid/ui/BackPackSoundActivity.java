@@ -40,6 +40,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ListView;
@@ -59,8 +60,8 @@ public class BackPackSoundActivity extends SherlockFragmentActivity implements O
 
 	private MediaPlayer mediaPlayer;
 	private SoundAdapter adapter;
-	private ArrayList<SoundInfo> soundInfoList;
-	private SoundInfo selectedSoundInfo;
+	private ArrayList<SoundInfo> soundInfoListBackPack;
+	private SoundInfo selectedSoundInfoBackPack;
 
 	private ListView listView;
 
@@ -71,6 +72,8 @@ public class BackPackSoundActivity extends SherlockFragmentActivity implements O
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		Log.d("TAG", "BackPackSoundActivity-->onCreate()");
 
 		setContentView(R.layout.sound_list);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -85,6 +88,37 @@ public class BackPackSoundActivity extends SherlockFragmentActivity implements O
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(R.string.backpack);
 
+		adapter.setBackPackSoundActivity(this);
+
+	}
+
+	public void onActivityCreated(Bundle savedInstanceState) {
+
+		Log.d("TAG", "BackPackActivity-->onActivityCreated()");
+
+		/*
+		 * listView = getListView();
+		 * registerForContextMenu(listView);
+		 * 
+		 * if (savedInstanceState != null) {
+		 * selectedSoundInfo = (SoundInfo) savedInstanceState
+		 * .getSerializable(SoundController.BUNDLE_ARGUMENTS_SELECTED_SOUND);
+		 * }
+		 * soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		 * 
+		 * adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList, false);
+		 * adapter.setOnSoundEditListener(this);
+		 * setListAdapter(adapter);
+		 * adapter.setSoundFragment(this);
+		 * 
+		 * Utils.loadProjectIfNeeded(getActivity());
+		 * setHandleAddbutton();
+		 */
+
+	}
+
+	public ArrayList<SoundInfo> getSoundInfoListBackPack() {
+		return soundInfoListBackPack;
 	}
 
 	@Override

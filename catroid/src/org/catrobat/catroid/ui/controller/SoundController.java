@@ -270,7 +270,7 @@ public class SoundController {
 		try {
 			Log.d("TAG", "SoundController --> copySoundBackPack:: selectedSoundInfo.getAbsolutePathBackPackSound()="
 					+ selectedSoundInfo.getAbsolutePathBackPackSound());
-			StorageHandler.getInstance().copySoundFileBackPack(selectedSoundInfo.getAbsolutePath());
+			StorageHandler.getInstance().copySoundFileBackPack(selectedSoundInfo);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -333,6 +333,7 @@ public class SoundController {
 			SoundAdapter adapter) {
 		title = Utils.getUniqueSoundName(title);
 
+		Log.d("TAG", "SoundController-->updateBackPackActivity():: title = " + title + " and fileName = " + fileName);
 		SoundInfo newSoundInfo = new SoundInfo();
 		newSoundInfo.setTitle(title);
 		newSoundInfo.setSoundFileName(fileName);

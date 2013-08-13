@@ -151,6 +151,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
+		Log.d("TAG", "SoundFragment-->onActivityCreated()");
+
 		listView = getListView();
 		registerForContextMenu(listView);
 
