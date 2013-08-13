@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -52,11 +53,15 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 	private int checkboxId;
 	private int textViewId;
 	private int textViewId2;
+	private int linearLayoutLocalId;
+	private int linearLayoutGlobalId;
 
 	private static class ViewHolder {
 		private CheckBox checkbox;
 		private TextView text1;
 		private TextView text2;
+		private LinearLayout localHeadline;
+		private LinearLayout globalHeadline;
 	}
 
 	public UserVariableAdapter(Context context, List<UserVariable> spriteVariables, List<UserVariable> projectVariables) {
@@ -68,6 +73,8 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		this.checkboxId = R.id.fragment_formula_editor_variablelist_item_checkbox;
 		this.textViewId = R.id.fragment_formula_editor_variablelist_item_name_text_view;
 		this.textViewId2 = R.id.fragment_formula_editor_variablelist_item_value_text_view;
+		this.linearLayoutGlobalId = R.id.variablelist_global_headline;
+		this.linearLayoutLocalId = R.id.variablelist_local_headline;
 	}
 
 	public void setItemLayout(int itemLayout, int textViewId) {
@@ -126,13 +133,29 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 			holder.checkbox = (CheckBox) view.findViewById(checkboxId);
 			holder.text1 = (TextView) view.findViewById(textViewId);
 			holder.text2 = (TextView) view.findViewById(textViewId2);
+			holder.localHeadline = (LinearLayout) view.findViewById(linearLayoutLocalId);
+			holder.globalHeadline = (LinearLayout) view.findViewById(linearLayoutGlobalId);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
+
 		holder.text1.setText(variable.getName() + ":");
 		if (holder.text2 != null) {
 			holder.text2.setText(String.valueOf(variable.getValue()));
+		}
+
+		if (holder.localHeadline != null && holder.globalHeadline != null) {
+			if (spriteVariables.size() != 0 && position == 0) {
+				holder.localHeadline.setVisibility(View.VISIBLE);
+				holder.globalHeadline.setVisibility(View.GONE);
+			} else if (projectVariables.size() != 0 && position == spriteVariables.size()) {
+				holder.localHeadline.setVisibility(View.GONE);
+				holder.globalHeadline.setVisibility(View.VISIBLE);
+			} else {
+				holder.localHeadline.setVisibility(View.GONE);
+				holder.globalHeadline.setVisibility(View.GONE);
+			}
 		}
 
 		if (onListItemClickListener != null) {
