@@ -22,18 +22,6 @@
  */
 package org.catrobat.catroid.utils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
-
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.transfers.ProjectDownloadService;
-import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
-import org.catrobat.catroid.web.ProgressBufferedOutputStream;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,6 +29,18 @@ import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.transfers.ProjectDownloadService;
+import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
+import org.catrobat.catroid.web.ProgressBufferedOutputStream;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 public class DownloadUtil {
 	private static DownloadUtil instance;

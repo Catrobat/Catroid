@@ -22,15 +22,15 @@
  */
 package org.catrobat.catroid.web;
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import org.catrobat.catroid.common.Constants;
-
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
+
+import org.catrobat.catroid.common.Constants;
+
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class ProgressBufferedOutputStream extends BufferedOutputStream {
 
@@ -38,7 +38,7 @@ public class ProgressBufferedOutputStream extends BufferedOutputStream {
 	public static final String TAG_ENDOFFILE = "endOfFileReached";
 	public static final String TAG_NOTIFICATION_ID = "notificationId";
 
-	private final static String TAG = ProgressBufferedOutputStream.class.getSimpleName();
+	private static final String TAG = ProgressBufferedOutputStream.class.getSimpleName();
 
 	private long fileSize;
 	private long currentFileStatus;
