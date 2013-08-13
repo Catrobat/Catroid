@@ -1,6 +1,8 @@
 package org.catrobat.catroid.test.facedetection;
 
-import java.util.Random;
+import android.graphics.PointF;
+import android.hardware.Camera;
+import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.facedetection.SlowFaceDetector;
@@ -10,9 +12,7 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 
-import android.graphics.PointF;
-import android.hardware.Camera;
-import android.test.InstrumentationTestCase;
+import java.util.Random;
 
 public class SlowFaceDetectorTest extends InstrumentationTestCase {
 
@@ -69,6 +69,18 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 			if (camera != null) {
 				camera.release();
 			}
+		}
+	}
+
+	public void testDoubleStart() {
+		SlowFaceDetector detector = new SlowFaceDetector();
+		detector.startFaceDetection();
+		try {
+			detector.startFaceDetection();
+		} catch (Exception e) {
+			fail("Second start of face detector should be ignored and not cause errors: " + e.getMessage());
+		} finally {
+			detector.stopFaceDetection();
 		}
 	}
 

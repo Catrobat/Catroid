@@ -1,6 +1,11 @@
 package org.catrobat.catroid.test.facedetection;
 
-import java.util.Random;
+import android.annotation.TargetApi;
+import android.graphics.Rect;
+import android.hardware.Camera;
+import android.hardware.Camera.Face;
+import android.os.Build;
+import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.facedetection.IcsFaceDetector;
@@ -8,12 +13,7 @@ import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
 import org.catrobat.catroid.formulaeditor.Sensors;
 
-import android.annotation.TargetApi;
-import android.graphics.Rect;
-import android.hardware.Camera;
-import android.hardware.Camera.Face;
-import android.os.Build;
-import android.test.InstrumentationTestCase;
+import java.util.Random;
 
 public class IcsFaceDetectorTest extends InstrumentationTestCase {
 
@@ -74,6 +74,18 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 			if (camera != null) {
 				camera.release();
 			}
+		}
+	}
+
+	public void testDoubleStart() {
+		IcsFaceDetector detector = new IcsFaceDetector();
+		detector.startFaceDetection();
+		try {
+			detector.startFaceDetection();
+		} catch (Exception e) {
+			fail("Second start of face detector should be ignored and not cause errors: " + e.getMessage());
+		} finally {
+			detector.stopFaceDetection();
 		}
 	}
 

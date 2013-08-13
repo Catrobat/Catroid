@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.facedetection;
 
-import java.io.ByteArrayOutputStream;
-
-import org.catrobat.catroid.stage.StageListener;
-
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
@@ -43,46 +39,32 @@ import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
 import android.util.Log;
 
+import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.stage.StageListener;
+
+import java.io.ByteArrayOutputStream;
+
 public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDetector implements Camera.PreviewCallback {
 
 	private static final int NUMBER_OF_FACES = 1;
 
-	private Camera camera;
-
 	@Override
 	public void startFaceDetection() {
 		Log.d("Blah", "Slow Start");
-		if (camera != null) {
-			return;
-		}
-		camera = Camera.open();
-		if (camera == null) {
-			return;
-		}
-		//		setTextureForICSversions(camera);
-		camera.setPreviewCallback(this);
-		camera.startPreview();
+		CameraManager.getInstance().createCamera();
+		CameraManager.getInstance().addOnPreviewFrameCallback(this);
+		CameraManager.getInstance().startCamera();
 		Log.d("Blah", "Slow Started");
 	}
 
 	@Override
 	public void stopFaceDetection() {
 		Log.d("Blah", "Slow Stop");
-		if (camera == null) {
-			return;
-		}
-		camera.setPreviewCallback(null);
-		camera.stopPreview();
-		camera.release();
-		camera = null;
+		CameraManager.getInstance().releaseCamera();
 	}
 
 	@Override
 	public void onPreviewFrame(byte[] data, Camera camera) {
-		if (this.camera == null) {
-			return;
-		}
-
 		Log.d("Blah", "frame");
 		Bitmap preview;
 		Parameters parameters = camera.getParameters();
@@ -101,7 +83,7 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 
 			preview = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
 		}
-		detectFaces(preview);
+		//detectFaces(preview);
 	}
 
 	private void detectFaces(Bitmap bitmap) {
@@ -151,19 +133,5 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 		relativeFaceSize = relativeFaceSize > 100 ? 100 : relativeFaceSize;
 		onFaceDetected(relativePoint, relativeFaceSize);
 	}
-
-	//	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	//	private void setTextureForICSversions(Camera camera) {
-	//		int currentApi = android.os.Build.VERSION.SDK_INT;
-	//		if (currentApi < android.os.Build.VERSION_CODES.HONEYCOMB) {
-	//			return;
-	//		}
-	//		SurfaceTexture texture = new SurfaceTexture(0); // TODO
-	//		try {
-	//			camera.setPreviewTexture(texture);
-	//		} catch (IOException e) {
-	//			e.printStackTrace();
-	//		}
-	//	}
 
 }

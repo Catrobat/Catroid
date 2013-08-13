@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.facedetection;
 
-import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
-
 import android.hardware.Camera;
+
+import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
 
 public class FaceDetectionHandler {
 
