@@ -26,6 +26,7 @@ import android.app.IntentService;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.ResultReceiver;
 import android.widget.Toast;
 
@@ -50,11 +51,11 @@ public class ProjectDownloadService extends IntentService {
 	private String projectName;
 	private String zipFileString;
 	private String url;
-	private boolean showOverwriteDialog;
 	Notification downloadNotification;
 	PendingIntent pendingDownload;
 	private Integer notificationId;
 	public ResultReceiver receiver;
+	private Handler handler;
 
 	// mock object testing
 	protected ConnectionWrapper createConnection() {
@@ -79,6 +80,7 @@ public class ProjectDownloadService extends IntentService {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		handler = new Handler();
 	}
 
 	@Override
@@ -87,10 +89,7 @@ public class ProjectDownloadService extends IntentService {
 		receiver = (ResultReceiver) intent.getParcelableExtra(RECEIVER_TAG);
 		try {
 			ServerCalls.getInstance().downloadProject(url, zipFileString, receiver, notificationId);
-
-			if (!showOverwriteDialog) {
-				result = UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
-			}
+			result = UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 		} finally {
@@ -98,14 +97,19 @@ public class ProjectDownloadService extends IntentService {
 		}
 
 		if (!result) {
-			showDialog(R.string.error_project_download);
+			showToast(R.string.error_project_download);
 			return;
 		}
 
-		showDialog(R.string.notification_download_finished);
+		showToast(R.string.notification_download_finished);
 	}
 
-	private void showDialog(int messageId) {
-		Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
+	private void showToast(final int messageId) {
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(getApplicationContext(), messageId, Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 }
