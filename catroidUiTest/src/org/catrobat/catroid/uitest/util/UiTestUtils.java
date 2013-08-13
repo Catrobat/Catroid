@@ -28,6 +28,7 @@ import static junit.framework.Assert.fail;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -1401,13 +1402,20 @@ public class UiTestUtils {
 		solo.waitForFragmentById(id);
 	}
 
-	public static void cancelAllNotifications() {
+	public static void cancelAllNotifications(Context context) {
+		NotificationManager notificationManager = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
 		@SuppressWarnings("unchecked")
 		Map<Integer, NotificationData> notificationMap = (Map<Integer, NotificationData>) Reflection.getPrivateField(
-				StatusBarNotificationManager.class, "notificationDataMap");
+				StatusBarNotificationManager.class, StatusBarNotificationManager.getInstance(), "notificationDataMap");
+		if (notificationMap == null) {
+			return;
+		}
 
 		for (Map.Entry<Integer, NotificationData> entry : notificationMap.entrySet()) {
-			StatusBarNotificationManager.getInstance().cancelNotification(entry.getKey());
+			notificationManager.cancel(entry.getKey());
 		}
+
+		notificationMap.clear();
 	}
 }
