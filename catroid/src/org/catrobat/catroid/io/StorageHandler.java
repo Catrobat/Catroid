@@ -317,15 +317,6 @@ public class StorageHandler {
 		return false;
 	}
 
-	@Deprecated
-	public boolean projectExistsIgnoreCase(String projectName) {
-		File projectDirectory = new File(Utils.buildProjectPath(projectName));
-		if (!projectDirectory.exists()) {
-			return false;
-		}
-		return true;
-	}
-
 	public File copySoundFile(String path) throws IOException {
 		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
 		File soundDirectory = new File(Utils.buildPath(Utils.buildProjectPath(currentProject),

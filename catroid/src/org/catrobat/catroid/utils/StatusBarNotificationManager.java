@@ -34,13 +34,14 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class StatusBarNotificationManager {
 
 	private static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
 
 	private Integer notificationId;
-	private HashMap<Integer, NotificationData> notificationDataMap;
+	private Map<Integer, NotificationData> notificationDataMap;
 
 	NotificationManager notificationManager;
 

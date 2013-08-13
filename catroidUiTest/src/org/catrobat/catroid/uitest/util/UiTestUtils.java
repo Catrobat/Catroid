@@ -124,6 +124,8 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.utils.NotificationData;
+import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -139,6 +141,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
@@ -1396,5 +1399,15 @@ public class UiTestUtils {
 		solo.waitForActivity(ScriptActivity.class);
 		int id = FRAGMENT_INDEX_LIST.get(fragmentIndex);
 		solo.waitForFragmentById(id);
+	}
+
+	public static void cancelAllNotifications() {
+		@SuppressWarnings("unchecked")
+		Map<Integer, NotificationData> notificationMap = (Map<Integer, NotificationData>) Reflection.getPrivateField(
+				StatusBarNotificationManager.class, "notificationDataMap");
+
+		for (Map.Entry<Integer, NotificationData> entry : notificationMap.entrySet()) {
+			StatusBarNotificationManager.getInstance().cancelNotification(entry.getKey());
+		}
 	}
 }

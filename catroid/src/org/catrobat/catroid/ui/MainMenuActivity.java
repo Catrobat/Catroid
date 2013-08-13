@@ -31,7 +31,6 @@ import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -94,7 +93,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		getIntent().setData(null);
 
 		if (loadExternalProjectUri != null) {
-			Log.e("blah", "main blub");
 			loadProgramFromExternalSource(loadExternalProjectUri);
 		}
 	}

@@ -87,6 +87,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	public void tearDown() throws Exception {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
+		UiTestUtils.cancelAllNotifications();
 		super.tearDown();
 	}
 
