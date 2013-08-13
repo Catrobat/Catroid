@@ -300,7 +300,7 @@ public class ProjectManager {
 		String temporaryDirectorySuffix = "_tmp";
 		String temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix;
 		int suffixCounter = 0;
-		while (StorageHandler.getInstance().projectExistsIgnoreCase(temporaryDirectoryName)) {
+		while (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(temporaryDirectoryName)) {
 			temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix + suffixCounter;
 			suffixCounter++;
 		}

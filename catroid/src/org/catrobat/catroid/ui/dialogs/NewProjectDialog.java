@@ -46,7 +46,6 @@ import android.widget.EditText;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.Utils;
 
@@ -142,7 +141,7 @@ public class NewProjectDialog extends DialogFragment {
 			return;
 		}
 
-		if (StorageHandler.getInstance().projectExistsIgnoreCase(projectName)) {
+		if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(projectName)) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_project_exists));
 			return;
 		}
