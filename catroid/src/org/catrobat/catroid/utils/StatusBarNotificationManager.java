@@ -58,7 +58,12 @@ public class StatusBarNotificationManager {
 	}
 
 	public Context getContext(int id) {
-		return notificationDataMap.get(id).getContext();
+		NotificationData notificationData = notificationDataMap.get(id);
+		if (notificationData == null) {
+			return null;
+		}
+
+		return notificationData.getContext();
 	}
 
 	private void initNotificationManager(Context context) {
@@ -123,10 +128,13 @@ public class StatusBarNotificationManager {
 	public Integer createNotification(Context context, NotificationData data) {
 		initNotificationManager(context);
 
+		PendingIntent doesNothingPendingIntent = PendingIntent.getActivity(context, 0, new Intent(),
+				Intent.FLAG_ACTIVITY_NEW_TASK);
+
 		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
 		notificationBuilder.setContentTitle(data.getNotificationTitleWorking())
 				.setContentText(data.getNotificationTextWorking()).setSmallIcon(data.getNotificationIcon())
-				.setOngoing(true);
+				.setOngoing(true).setContentIntent(doesNothingPendingIntent);
 
 		data.setNotificationBuilder(notificationBuilder);
 		notificationDataMap.put(notificationId, data);
@@ -136,6 +144,10 @@ public class StatusBarNotificationManager {
 
 	public void showOrUpdateNotification(Integer id, int progressInPercent) {
 		NotificationData notificationData = notificationDataMap.get(id);
+		if (notificationData == null) {
+			return;
+		}
+
 		NotificationCompat.Builder notificationBuilder = notificationData.getNotificationBuilder();
 		notificationBuilder.setProgress(100, progressInPercent, false);
 		notificationManager.notify(id, notificationBuilder.build());
