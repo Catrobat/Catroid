@@ -32,8 +32,8 @@ public class OrthoCamController extends InputAdapter {
 	final Vector3 last = new Vector3(-1, -1, -1);
 	final Vector3 delta = new Vector3();
 
-	public OrthoCamController(OrthographicCamera camera) {
-		this.camera = camera;
+	public OrthoCamController(OrthographicCamera Camera) {
+		this.camera = Camera;
 	}
 
 	@Override

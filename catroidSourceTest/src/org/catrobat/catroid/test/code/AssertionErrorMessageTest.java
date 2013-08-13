@@ -71,7 +71,7 @@ public class AssertionErrorMessageTest extends TestCase {
 	}
 
 	private List<AssertMethod> assertMethods;
-	private String regexIsAssertMethod;
+	private String RegexIsAssertMethod;
 	private String regexAssertContainsErrorMessage;
 	private String regexAssertDoesntStartWithNumber;
 	private String regexIsCompleteCommand;
@@ -98,11 +98,11 @@ public class AssertionErrorMessageTest extends TestCase {
 		assertMethods.add(new AssertMethod("fail", 1));
 
 		// Build regular expressions to check if a String is an assert method
-		regexIsAssertMethod = "";
+		RegexIsAssertMethod = "";
 		for (int i = 0; i < assertMethods.size(); i++) {
-			regexIsAssertMethod += "(" + WHITESPACES + assertMethods.get(i).getCommandName() + ANYTHING + ")";
+			RegexIsAssertMethod += "(" + WHITESPACES + assertMethods.get(i).getCommandName() + ANYTHING + ")";
 			if (i < assertMethods.size() - 1) {
-				regexIsAssertMethod += "|";
+				RegexIsAssertMethod += "|";
 			}
 		}
 
@@ -208,7 +208,7 @@ public class AssertionErrorMessageTest extends TestCase {
 		int lineNumber = 0;
 		while ((currentLine = reader.readLine()) != null) {
 			lineNumber++;
-			if (currentLine.matches(regexIsAssertMethod)) {
+			if (currentLine.matches(RegexIsAssertMethod)) {
 				while (!currentLine.matches(regexIsCompleteCommand)) {
 					currentLine += reader.readLine();
 					lineNumber++;
