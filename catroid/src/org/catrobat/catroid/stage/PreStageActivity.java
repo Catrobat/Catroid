@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.stage;
 
-
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -42,11 +40,12 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.BluetoothManager;
 import org.catrobat.catroid.bluetooth.DeviceListActivity;
+import org.catrobat.catroid.camera.VideoDisplayHandler;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.legonxt.LegoNXT;
 import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
-import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,6 +96,7 @@ public class PreStageActivity extends Activity {
 			}
 		}
 		if ((requiredResources & Brick.FACE_DETECTION) > 0) {
+			VideoDisplayHandler.startVideoStream();//TODO
 			boolean success = FaceDetectionHandler.startFaceDetection();
 			if (success) {
 				resourceInitialized();

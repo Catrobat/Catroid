@@ -40,7 +40,6 @@ import android.media.FaceDetector.Face;
 import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
-import org.catrobat.catroid.stage.StageListener;
 
 import java.io.ByteArrayOutputStream;
 
@@ -78,12 +77,9 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			image.compressToJpeg(new Rect(0, 0, width, height), 50, out);
 			byte[] imageBytes = out.toByteArray();
-
-			StageListener.testData = imageBytes;// TODO REMOVE
-
 			preview = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
 		}
-		//detectFaces(preview);
+		detectFaces(preview);
 	}
 
 	private void detectFaces(Bitmap bitmap) {
