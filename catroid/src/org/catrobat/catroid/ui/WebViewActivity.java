@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.webkit.DownloadListener;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -59,6 +60,8 @@ public class WebViewActivity extends SherlockFragmentActivity {
 			public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype,
 					long contentLength) {
 				DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(WebViewActivity.this, url);
+				Toast.makeText(WebViewActivity.this, getText(R.string.notification_download_pending), Toast.LENGTH_LONG)
+						.show();
 			}
 		});
 
