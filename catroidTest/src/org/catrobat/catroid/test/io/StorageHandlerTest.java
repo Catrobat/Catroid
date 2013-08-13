@@ -25,8 +25,6 @@ package org.catrobat.catroid.test.io;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
@@ -42,43 +40,36 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class StorageHandlerTest extends AndroidTestCase {
-	private StorageHandler storageHandler;
+	private final StorageHandler storageHandler;
+	private final String projectName = TestUtils.DEFAULT_TEST_PROJECT_NAME;
 
 	public StorageHandlerTest() throws IOException {
 		storageHandler = StorageHandler.getInstance();
 	}
 
 	@Override
-	public void tearDown() throws Exception {
-		TestUtils.clearProject(getContext().getString(R.string.default_project_name));
-		TestUtils.clearProject("testProject");
-		super.tearDown();
+	public void setUp() {
+		TestUtils.deleteTestProjects();
 	}
 
 	@Override
-	public void setUp() {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/"
-				+ getContext().getString(R.string.default_project_name));
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
+	public void tearDown() throws Exception {
+		TestUtils.deleteTestProjects();
+		super.tearDown();
 	}
 
 	public void testSerializeProject() {
+		final int xPosition = 457;
+		final int yPosition = 598;
+		final float size = 0.8f;
 
-		int xPosition = 457;
-		int yPosition = 598;
-		float size = 0.8f;
-
-		Project project = new Project(getContext(), "testProject");
+		Project project = new Project(getContext(), projectName);
 		Sprite firstSprite = new Sprite("first");
 		Sprite secondSprite = new Sprite("second");
 		Sprite thirdSprite = new Sprite("third");
@@ -91,15 +82,13 @@ public class StorageHandlerTest extends AndroidTestCase {
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
 
-		// adding Bricks: ----------------
 		testScript.addBrick(hideBrick);
 		testScript.addBrick(showBrick);
 		testScript.addBrick(setSizeToBrick);
 		testScript.addBrick(comeToFrontBrick);
 
-		otherScript.addBrick(placeAtBrick); // secondSprite
+		otherScript.addBrick(placeAtBrick);
 		otherScript.setPaused(true);
-		// -------------------------------
 
 		firstSprite.addScript(testScript);
 		secondSprite.addScript(otherScript);
@@ -111,7 +100,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		storageHandler.saveProject(project);
 
-		Project loadedProject = storageHandler.loadProject("testProject");
+		Project loadedProject = storageHandler.loadProject(projectName);
 
 		ArrayList<Sprite> preSpriteList = (ArrayList<Sprite>) project.getSpriteList();
 		ArrayList<Sprite> postSpriteList = (ArrayList<Sprite>) loadedProject.getSpriteList();
