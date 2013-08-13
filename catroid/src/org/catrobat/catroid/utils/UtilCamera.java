@@ -42,7 +42,7 @@ public class UtilCamera {
 	}
 
 	public static Uri getDefaultLookFromCameraUri(String defLookName) {
-		File pictureFile = new File(Constants.TMP_PATH, defLookName + ".jpg");
+		File pictureFile = new File(Constants.DEFAULT_ROOT, defLookName + ".jpg");
 		return Uri.fromFile(pictureFile);
 	}
 
@@ -58,7 +58,7 @@ public class UtilCamera {
 			Bitmap fullSizeBitmap = ImageEditing.getScaledBitmapFromPath(fullSizeImage.getAbsolutePath(),
 					project.getXmlHeader().virtualScreenHeight, project.getXmlHeader().virtualScreenWidth, true);
 			Bitmap rotatedBitmap = ImageEditing.rotateBitmap(fullSizeBitmap, rotate);
-			File downScaledCameraPicture = new File(Constants.TMP_PATH, defLookName + ".jpg");
+			File downScaledCameraPicture = new File(Constants.DEFAULT_ROOT, defLookName + ".jpg");
 			rotatedPictureUri = Uri.fromFile(downScaledCameraPicture);
 			try {
 				StorageHandler.saveBitmapToImageFile(downScaledCameraPicture, rotatedBitmap);
