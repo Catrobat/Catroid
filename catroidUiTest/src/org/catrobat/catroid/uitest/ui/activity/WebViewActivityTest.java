@@ -46,7 +46,7 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				.getClass());
 
 		WebView webView = (WebView) solo.getCurrentActivity().findViewById(R.id.webView);
-		assertEquals("URL is not correct", Constants.BASE_URL_HTTPS, webView.getUrl());
+		assertEquals("URL is not correct", Constants.CATROBAT_WEBVIEW_URL, webView.getUrl());
 
 		assertTrue("website hasn't been loaded properly", solo.searchText(COPYRIGHT_CHARACTER + " Catrobat"));
 	}
