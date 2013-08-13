@@ -53,7 +53,7 @@ public class WebViewActivity extends SherlockFragmentActivity {
 		webView.setWebViewClient(new WebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
 
-		webView.loadUrl(Constants.BASE_URL_HTTPS);
+		webView.loadUrl(Constants.CATROBAT_WEBVIEW_URL);
 
 		webView.setDownloadListener(new DownloadListener() {
 			@Override
