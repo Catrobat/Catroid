@@ -40,12 +40,10 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.web.ServerCalls;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,10 +58,10 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	// needed in commented testmethods
 	// private static final int LONG_TEST_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 
-	private String testProject = UiTestUtils.PROJECTNAME1;
-	private String newTestProject = UiTestUtils.PROJECTNAME2;
-	private String testDescription = UiTestUtils.PROJECTDESCRIPTION1;
-	private String newTestDescription = UiTestUtils.PROJECTDESCRIPTION2;
+	private final String testProject = UiTestUtils.PROJECTNAME1;
+	private final String newTestProject = UiTestUtils.PROJECTNAME2;
+	private final String testDescription = UiTestUtils.PROJECTDESCRIPTION1;
+	private final String newTestDescription = UiTestUtils.PROJECTDESCRIPTION2;
 	private String saveToken;
 	private String uploadDialogTitle;
 	private int serverProjectId;
@@ -102,8 +100,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	@Device
 	public void testUploadProjectSuccessAndTokenReplacementAfterUpload() throws Throwable {
 		setServerURLToTestUrl();
-		createTestProject(testProject);
-		addABrickToProject();
+		UiTestUtils.createTestProject(testProject);
 
 		//intent to the main activity is sent since changing activity orientation is not working
 		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
@@ -130,7 +127,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	public void testUploadProjectOldCatrobatLanguageVersion() throws Throwable {
 		setServerURLToTestUrl();
 
-		createTestProject(testProject);
+		UiTestUtils.createTestProject(testProject);
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 		solo.sleep(1000);
 		UiTestUtils.clickOnHomeActionBarButton(solo);
@@ -224,10 +221,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	public void testRenameProjectDescriptionWhenUploading() throws Throwable {
 		setServerURLToTestUrl();
 
-		String projectName = testProject;
-		String originalProjectDescription = testDescription;
-		createTestProject(projectName);
-		ProjectManager.getInstance().getCurrentProject().setDescription(originalProjectDescription);
+		UiTestUtils.createTestProject(testProject);
+		ProjectManager.getInstance().getCurrentProject().setDescription(testDescription);
 
 		//intent to the main activity is sent since changing activity orientation is not working
 		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
@@ -237,29 +232,22 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		UiTestUtils.createValidUser(getActivity());
 
 		//Project description is changed to testdescription2 in uploadProject()
-		String projectDescriptionSetWhenUploading = newTestDescription;
-		uploadProject(projectName, newTestDescription);
+		uploadProject(testProject, newTestDescription);
 		solo.sleep(5000);
 
-		Project uploadProject = StorageHandler.getInstance().loadProject(projectName);
+		Project uploadProject = StorageHandler.getInstance().loadProject(testProject);
 
-		String deserializedProjectName = uploadProject.getName();
-		String deserializedProjectDescription = uploadProject.getDescription();
-		assertTrue("Deserialized project name was changed", deserializedProjectName.equalsIgnoreCase(projectName));
-		assertTrue("Deserialized project description was not renamed correctly",
-				deserializedProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
-
-		UiTestUtils.clearAllUtilTestProjects();
+		assertEquals("Deserialized project name was changed", testProject, uploadProject.getName());
+		assertEquals("Deserialized project description was not renamed correctly", newTestDescription,
+				uploadProject.getDescription());
 
 		//Download replaces project. Name and description should be testproject1 and testdescription2
-		downloadProjectAndReplace(projectName);
-		Project downloadedProject = StorageHandler.getInstance().loadProject(projectName);
+		downloadProjectAndReplace(testProject);
+		Project downloadedProject = StorageHandler.getInstance().loadProject(testProject);
 
-		String serverProjectName = downloadedProject.getName();
-		String serverProjectDescription = downloadedProject.getDescription();
-		assertTrue("Project name on server was changed", serverProjectName.equalsIgnoreCase(projectName));
-		assertTrue("Project name on server was not correctly renamed",
-				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
+		assertEquals("Project name on server was changed", testProject, downloadedProject.getName());
+		assertEquals("Project name on server was not correctly renamed", newTestDescription,
+				downloadedProject.getDescription());
 	}
 
 	@Device
@@ -267,7 +255,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		setServerURLToTestUrl();
 
 		String testProject = UiTestUtils.JAPANESE_PROJECT_NAME;
-		createTestProject(testProject);
+		UiTestUtils.createTestProject(testProject);
 
 		//intent to the main activity is sent since changing activity orientation is not working
 		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
@@ -277,11 +265,10 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		UiTestUtils.createValidUser(getActivity());
 
 		uploadProject(testProject, "");
-		solo.sleep(5000);
 
+		ProjectManager.getInstance().loadProject(testProject, getActivity(), false);
 		Project uploadProject = StorageHandler.getInstance().loadProject(testProject);
-		String deserializedProjectName = uploadProject.getName();
-		assertTrue("Deserialized project name was changed", deserializedProjectName.equalsIgnoreCase(testProject));
+		assertEquals("Deserialized project name was changed", testProject, uploadProject.getName());
 
 		downloadProjectAndReplace(testProject);
 		Project downloadedProject = StorageHandler.getInstance().loadProject(testProject);
@@ -430,38 +417,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		return true;
 	}
 
-	private void createTestProject(String projectToCreate) {
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectToCreate);
-		if (directory.exists()) {
-			UtilFile.deleteDirectory(directory);
-		}
-		assertFalse("testProject was not deleted!", directory.exists());
-
-		solo.clickOnButton(solo.getString(R.string.main_menu_new));
-		solo.enterText(0, projectToCreate);
-		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.ok));
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
-
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		solo.enterText(0, "new sprite");
-		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.ok));
-		solo.sleep(2000);
-
-		File file = new File(Constants.DEFAULT_ROOT + "/" + projectToCreate + "/" + Constants.PROJECTCODE_NAME);
-		assertTrue(projectToCreate + " was not created!", file.exists());
-	}
-
-	private void addABrickToProject() {
-		solo.clickInList(0);
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
-		solo.waitForText(solo.getString(R.string.scripts));
-		solo.clickOnText(solo.getString(R.string.scripts));
-		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
-		UiTestUtils.goToHomeActivity(getActivity());
-	}
-
 	private void uploadProject(String uploadProjectName, String uploadProjectDescription) {
 		// change project to a non default state
 		Sprite firstSprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
@@ -489,6 +444,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		String resultString = (String) Reflection.getPrivateField(ServerCalls.getInstance(), "resultString");
 
 		try {
+			Log.v("resultString=", "" + resultString);
 			JSONObject jsonObject;
 			jsonObject = new JSONObject(resultString);
 			serverProjectId = jsonObject.optInt("projectId");
@@ -503,11 +459,13 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		String downloadUrl = TEST_FILE_DOWNLOAD_URL + serverProjectId + Constants.CATROBAT_EXTENSION;
 		downloadUrl += "?fname=" + projectName;
 
+		solo.goBack();
+
 		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
 		intent.setAction(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse(downloadUrl));
-		solo.goBack();
 		launchActivityWithIntent("org.catrobat.catroid", MainMenuActivity.class, intent);
+
 		solo.sleep(500);
 		assertTrue("OverwriteRenameDialog not shown.", solo.searchText(solo.getString(R.string.overwrite_text)));
 		solo.clickOnText(solo.getString(R.string.overwrite_replace));
