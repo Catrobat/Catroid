@@ -457,7 +457,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public void startEditInPocketPaintActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(editInPocketCodeCallBack);
+			actionMode = getSherlockActivity().startActionMode(editInPocketPaintCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.disableButtons(getActivity());
 			isRenameActionMode = true;
@@ -552,11 +552,11 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		//scroll down the list to the new item:
 		final ListView listView = getListView();
 		listView.post(new Runnable() {
-			@Override
-			public void run() {
-				listView.setSelection(listView.getCount() - 1);
-			}
-		});
+            @Override
+            public void run() {
+                listView.setSelection(listView.getCount() - 1);
+            }
+        });
 	}
 
 	private void copyImageToCatroid(String originalImagePath) {
@@ -892,7 +892,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 	};
 
-	private ActionMode.Callback editInPocketCodeCallBack = new ActionMode.Callback() {
+	private ActionMode.Callback editInPocketPaintCallBack = new ActionMode.Callback() {
 
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
