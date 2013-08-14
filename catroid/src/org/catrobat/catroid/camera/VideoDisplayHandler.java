@@ -28,7 +28,9 @@ import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 
-import org.catrobat.catroid.stage.StageListener;
+import com.badlogic.gdx.graphics.Pixmap;
+
+import org.catrobat.catroid.common.LookData;
 
 import java.io.ByteArrayOutputStream;
 
@@ -36,7 +38,8 @@ public class VideoDisplayHandler implements Camera.PreviewCallback {
 
 	private static VideoDisplayHandler instance;
 
-	//private List<>
+	private LookData videoLookData = new LookData();
+	private Pixmap videoFramePixmap;
 
 	public static void registerSprite() {
 		if (instance == null) {
@@ -66,21 +69,37 @@ public class VideoDisplayHandler implements Camera.PreviewCallback {
 		}
 	}
 
-	@Override
-	public void onPreviewFrame(byte[] data, Camera camera) {
+	public static byte[] getDecodeableBytesFromCameraFrame(byte[] cameraData, Camera camera) {
 		Parameters parameters = camera.getParameters();
 		int imageFormat = parameters.getPreviewFormat();
 		byte[] decodableBytes;
 		if (imageFormat == ImageFormat.RGB_565 || imageFormat == ImageFormat.JPEG) {
-			decodableBytes = data;
+			decodableBytes = cameraData;
 		} else {
 			int width = parameters.getPreviewSize().width;
 			int height = parameters.getPreviewSize().height;
-			YuvImage image = new YuvImage(data, imageFormat, width, height, null);
+			YuvImage image = new YuvImage(cameraData, imageFormat, width, height, null);
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			image.compressToJpeg(new Rect(0, 0, width, height), 50, out);
 			decodableBytes = out.toByteArray();
 		}
-		StageListener.testData = decodableBytes;
+		return decodableBytes;
+	}
+
+	@Override
+	public void onPreviewFrame(byte[] data, Camera camera) {
+		if (videoFramePixmap != null) {
+			videoFramePixmap.dispose();
+		}
+		byte[] decodeableBytes = getDecodeableBytesFromCameraFrame(data, camera);
+		videoFramePixmap = new Pixmap(decodeableBytes, 0, decodeableBytes.length);
+		videoLookData.setPixmap(videoFramePixmap);
+	}
+
+	public static LookData getVideoLookData() {
+		if (instance == null) {
+			return null;
+		}
+		return instance.videoLookData;
 	}
 }

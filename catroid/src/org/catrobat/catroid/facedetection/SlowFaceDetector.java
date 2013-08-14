@@ -26,22 +26,17 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
-import android.graphics.Rect;
-import android.graphics.YuvImage;
 import android.hardware.Camera;
-import android.hardware.Camera.Parameters;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
 import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
-
-import java.io.ByteArrayOutputStream;
+import org.catrobat.catroid.camera.VideoDisplayHandler;
 
 public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDetector implements Camera.PreviewCallback {
 
@@ -65,20 +60,8 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 	@Override
 	public void onPreviewFrame(byte[] data, Camera camera) {
 		Log.d("Blah", "frame");
-		Bitmap preview;
-		Parameters parameters = camera.getParameters();
-		int imageFormat = parameters.getPreviewFormat();
-		if (imageFormat == ImageFormat.RGB_565 || imageFormat == ImageFormat.JPEG) {
-			preview = BitmapFactory.decodeByteArray(data, 0, data.length);
-		} else {
-			int width = parameters.getPreviewSize().width;
-			int height = parameters.getPreviewSize().height;
-			YuvImage image = new YuvImage(data, imageFormat, width, height, null);
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			image.compressToJpeg(new Rect(0, 0, width, height), 50, out);
-			byte[] imageBytes = out.toByteArray();
-			preview = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-		}
+		byte[] bitmapBytes = VideoDisplayHandler.getDecodeableBytesFromCameraFrame(data, camera);
+		Bitmap preview = BitmapFactory.decodeByteArray(bitmapBytes, 0, bitmapBytes.length);
 		detectFaces(preview);
 	}
 

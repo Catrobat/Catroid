@@ -45,6 +45,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.camera.VideoDisplayHandler;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
@@ -70,8 +71,6 @@ public class StageListener implements ApplicationListener {
 	// needed for UiTests - is disabled to fix crashes with EMMA coverage
 	// CHECKSTYLE DISABLE StaticVariableNameCheck FOR 1 LINES
 	private static boolean DYNAMIC_SAMPLING_RATE_FOR_ACTIONS = true;
-
-	public static byte[] testData;//TODO REMOVE
 
 	private float deltaActionTimeDivisor = 10f;
 	private FPSLogger fpsLogger;
@@ -167,6 +166,7 @@ public class StageListener implements ApplicationListener {
 		for (Sprite sprite : sprites) {
 			sprite.resetSprite();
 			sprite.look.createBrightnessContrastShader();
+			sprite.look.setLookData(VideoDisplayHandler.getVideoLookData());// TODO REMOVE
 			stage.addActor(sprite.look);
 			sprite.resume();
 		}
@@ -399,8 +399,6 @@ public class StageListener implements ApplicationListener {
 			drawAxes();
 		}
 
-		justForTesting();
-
 		if (DEBUG) {
 			fpsLogger.log();
 		}
@@ -563,17 +561,4 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	//TODO REMOVE
-	private void justForTesting() {
-		if (testData == null) {
-			return;
-		}
-		Pixmap p = new Pixmap(testData, 0, testData.length);
-		if (p != null) {
-			batch.begin();
-			//batch.draw(new Texture(p), -virtualWidthHalf, -virtualHeightHalf);
-			batch.draw(new Texture(p), -virtualWidthHalf, -virtualHeightHalf, virtualWidth, virtualHeight);
-			batch.end();
-		}
-	}
 }
