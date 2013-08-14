@@ -28,9 +28,8 @@ import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 
-import com.badlogic.gdx.graphics.Pixmap;
-
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.Sprite;
 
 import java.io.ByteArrayOutputStream;
 
@@ -38,27 +37,33 @@ public class VideoDisplayHandler implements Camera.PreviewCallback {
 
 	private static VideoDisplayHandler instance;
 
-	private LookData videoLookData = new LookData();
-	private Pixmap videoFramePixmap;
+	private VideoLookData videoLookData = new VideoLookData();
+	private boolean started = false;
 
-	public static void registerSprite() {
+	public static void registerSprite(Sprite sprite) {
 		if (instance == null) {
 			instance = new VideoDisplayHandler();
 		}
-
+		VideoLook look = new VideoLook(sprite);
+		look.createBrightnessContrastShader();
+		sprite.look = look;
 	}
 
 	public static void unregisterSprite() {
 		if (instance == null) {
 			return;
 		}
-
+		// not supported yet
 	}
 
 	public static void startVideoStream() {
 		if (instance == null) {
 			instance = new VideoDisplayHandler();
 		}
+		if (instance.started) {
+			return;
+		}
+		instance.started = true;
 		CameraManager.getInstance().addOnPreviewFrameCallback(instance);
 		// camera is currently only started by face detection
 	}
@@ -67,6 +72,8 @@ public class VideoDisplayHandler implements Camera.PreviewCallback {
 		if (instance == null) {
 			return;
 		}
+		CameraManager.getInstance().removeOnPreviewFrameCallback(instance);
+		instance.started = false;
 	}
 
 	public static byte[] getDecodeableBytesFromCameraFrame(byte[] cameraData, Camera camera) {
@@ -88,12 +95,8 @@ public class VideoDisplayHandler implements Camera.PreviewCallback {
 
 	@Override
 	public void onPreviewFrame(byte[] data, Camera camera) {
-		if (videoFramePixmap != null) {
-			videoFramePixmap.dispose();
-		}
 		byte[] decodeableBytes = getDecodeableBytesFromCameraFrame(data, camera);
-		videoFramePixmap = new Pixmap(decodeableBytes, 0, decodeableBytes.length);
-		videoLookData.setPixmap(videoFramePixmap);
+		videoLookData.setVideoFrameData(decodeableBytes);
 	}
 
 	public static LookData getVideoLookData() {
