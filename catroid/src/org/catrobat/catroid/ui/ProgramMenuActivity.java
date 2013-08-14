@@ -28,7 +28,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
@@ -40,7 +39,7 @@ import org.catrobat.catroid.stage.StageActivity;
 
 import java.util.concurrent.locks.Lock;
 
-public class ProgramMenuActivity extends SherlockFragmentActivity {
+public class ProgramMenuActivity extends BaseActivity {
 	private ActionBar actionBar;
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
@@ -91,12 +90,6 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home: {
-				Intent intent = new Intent(this, MainMenuActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				break;
-			}
 			case R.id.settings: {
 				Intent intent = new Intent(this, SettingsActivity.class);
 				startActivity(intent);
