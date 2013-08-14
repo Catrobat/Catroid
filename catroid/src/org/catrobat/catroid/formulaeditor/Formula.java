@@ -157,6 +157,7 @@ public class Formula implements Serializable {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void highlightTextField(View brickView, int orientation) {
 		Drawable highlightBackground = null;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -173,6 +174,7 @@ public class Formula implements Serializable {
 		formulaTextField.setWidth(width);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void removeTextFieldHighlighting(View brickView, int orientation) {
 		EditText formulaTextField = (EditText) brickView.findViewById(formulaTextFieldId);
 
