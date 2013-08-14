@@ -853,6 +853,27 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Second project has been deleted!", solo.searchText(UiTestUtils.PROJECTNAME1));
 	}
 
+	public void testLongClickCancelDeleteAndCopy() {
+
+		String delete = solo.getString(R.string.delete);
+		String copy = solo.getString(R.string.copy);
+
+		createProjects();
+		solo.sleep(400);
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.sleep(200);
+
+		assertFalse("Project is selected!", UiTestUtils.getContextMenuAndGoBackToCheckIfSelected(solo, getActivity(),
+				R.id.delete, delete, UiTestUtils.PROJECTNAME1));
+		solo.goBack();
+		assertFalse("Project is selected!", UiTestUtils.getContextMenuAndGoBackToCheckIfSelected(solo, getActivity(),
+				R.id.copy, copy, UiTestUtils.PROJECTNAME1));
+
+	}
+
 	public void testRenameProject() {
 		createProjects();
 		String currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();

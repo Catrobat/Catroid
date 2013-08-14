@@ -43,6 +43,8 @@ import java.util.concurrent.locks.Lock;
 
 public class MyProjectsActivity extends SherlockFragmentActivity {
 
+	public static final String ACTION_PROJECT_LIST_INIT = "org.catrobat.catroid.PROJECT_LIST_INIT";
+
 	private ActionBar actionBar;
 	private Lock viewSwitchLock = new ViewSwitchLock();
 	private ProjectsListFragment projectsListFragment;
@@ -80,6 +82,14 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 				unbindDrawables(((ViewGroup) view).getChildAt(i));
 			}
 			((ViewGroup) view).removeAllViews();
+		}
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (hasFocus) {
+			sendBroadcast(new Intent(ACTION_PROJECT_LIST_INIT));
 		}
 	}
 

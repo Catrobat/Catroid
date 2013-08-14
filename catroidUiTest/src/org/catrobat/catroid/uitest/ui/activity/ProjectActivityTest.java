@@ -985,6 +985,17 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 	}
 
+	public void testLongClickCancelDeleteAndCopy() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		assertFalse("Sprite is selected!", UiTestUtils.getContextMenuAndGoBackToCheckIfSelected(solo, getActivity(),
+				R.id.delete, delete, FIRST_TEST_SPRITE_NAME));
+		solo.goBack();
+		String copy = solo.getString(R.string.copy);
+		assertFalse("Sprite is selected!", UiTestUtils.getContextMenuAndGoBackToCheckIfSelected(solo, getActivity(),
+				R.id.copy, copy, FIRST_TEST_SPRITE_NAME));
+	}
+
 	public void testRenameActionModeChecking() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());

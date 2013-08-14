@@ -138,7 +138,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	@Override
 	public void onResume() {
 		super.onResume();
-
 		if (actionMode != null) {
 			actionMode.finish();
 			actionMode = null;

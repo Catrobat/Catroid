@@ -121,6 +121,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	private LookDeletedReceiver lookDeletedReceiver;
 	private LookRenamedReceiver lookRenamedReceiver;
 
+	private LooksListInitReceiver looksListInitReceiver;
+
 	private ActionMode actionMode;
 
 	private boolean isRenameActionMode;
@@ -195,11 +197,18 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			lookDeletedReceiver = new LookDeletedReceiver();
 		}
 
+		if (looksListInitReceiver == null) {
+			looksListInitReceiver = new LooksListInitReceiver();
+		}
+
 		IntentFilter intentFilterRenameLook = new IntentFilter(ScriptActivity.ACTION_LOOK_RENAMED);
 		getActivity().registerReceiver(lookRenamedReceiver, intentFilterRenameLook);
 
 		IntentFilter intentFilterDeleteLook = new IntentFilter(ScriptActivity.ACTION_LOOK_DELETED);
 		getActivity().registerReceiver(lookDeletedReceiver, intentFilterDeleteLook);
+
+		IntentFilter intentFilterLooksListInit = new IntentFilter(ScriptActivity.ACTION_LOOKS_LIST_INIT);
+		getActivity().registerReceiver(looksListInitReceiver, intentFilterLooksListInit);
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
@@ -242,6 +251,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		if (lookRenamedReceiver != null) {
 			getActivity().unregisterReceiver(lookRenamedReceiver);
+		}
+
+		if (looksListInitReceiver != null) {
+			getActivity().unregisterReceiver(looksListInitReceiver);
 		}
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
@@ -1065,5 +1078,14 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		public void onLookDataListChangedAfterNew(LookData soundInfo);
 
+	}
+
+	private class LooksListInitReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_LOOKS_LIST_INIT)) {
+				adapter.notifyDataSetChanged();
+			}
+		}
 	}
 }
