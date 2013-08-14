@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
+@SuppressWarnings("deprecation")
 public class PreStageActivity extends Activity {
 
 	private static final int REQUEST_ENABLE_BLUETOOTH = 2000;
@@ -170,7 +171,6 @@ public class PreStageActivity extends Activity {
 		return ressources;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);

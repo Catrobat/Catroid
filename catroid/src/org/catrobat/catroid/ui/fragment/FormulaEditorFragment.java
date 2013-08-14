@@ -466,6 +466,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		((FormulaEditorVariableListFragment) fragment).showFragment(context);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onGlobalLayout() {
 		fragmentView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
