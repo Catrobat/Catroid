@@ -34,6 +34,7 @@ import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -66,6 +67,9 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 
 	public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items, boolean showDetails) {
 		super(context, textViewResourceId, items);
+
+		Log.d("TAG", "SoundAdapter called!");
+
 		this.context = context;
 		this.showDetails = showDetails;
 		this.soundInfoItems = items;

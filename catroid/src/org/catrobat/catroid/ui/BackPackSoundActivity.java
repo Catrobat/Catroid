@@ -88,6 +88,8 @@ public class BackPackSoundActivity extends SherlockFragmentActivity implements O
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(R.string.backpack);
 
+		adapter = new SoundAdapter(this, R.layout.fragment_sound_soundlist_item, soundInfoListBackPack, false);
+		adapter.setOnSoundEditListener(this);
 		adapter.setBackPackSoundActivity(this);
 
 	}
