@@ -569,6 +569,15 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 				solo.waitForText(SECOND_TEST_SOUND_NAME, 0, 200, false, false));
 	}
 
+	public void testLongClickCancelDeleteAndCopy() {
+		assertFalse("Sound is selected!", UiTestUtils.getContextMenuAndGoBackToCheckIfSelected(solo, getActivity(),
+				R.id.delete, delete, FIRST_TEST_SOUND_NAME));
+		solo.goBack();
+		String copy = solo.getString(R.string.copy);
+		assertFalse("Sound is selected!", UiTestUtils.getContextMenuAndGoBackToCheckIfSelected(solo, getActivity(),
+				R.id.copy, copy, FIRST_TEST_SOUND_NAME));
+	}
+
 	public void testAddLookAndDeleteActionMode() {
 		String testSoundName = "testSound";
 
