@@ -136,6 +136,10 @@ public class ServerCalls {
 				// check statusCode from Webserver
 				JSONObject jsonObject = null;
 				Log.v(TAG, "result string: " + answer);
+
+				// needed cause of a beautiful test case which gets resultString through reflection :)
+				resultString = answer;
+
 				jsonObject = new JSONObject(answer);
 				uploadStatusCode = jsonObject.getInt(JSON_STATUS_CODE);
 				String serverAnswer = jsonObject.optString(JSON_ANSWER);
