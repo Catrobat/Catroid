@@ -51,7 +51,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.MediaStore;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -251,15 +250,21 @@ public class SoundController {
 		soundInfo.isPlaying = false;
 	}
 
-	public void backPackSound(SoundInfo selectedSoundInfo, FragmentActivity fragmentActivity,
+	public void backPackSound(SoundInfo selectedSoundInfo, BackPackSoundActivity backPackSoundActivity,
 			ArrayList<SoundInfo> soundInfoList, SoundAdapter adapter) {
 
-		Toast.makeText(fragmentActivity, "Sound " + selectedSoundInfo.getTitle() + " copied into backpack",
-				Toast.LENGTH_SHORT).show();
+		Toast.makeText(backPackSoundActivity.getActivity(),
+				"Sound " + selectedSoundInfo.getTitle() + " copied into backpack", Toast.LENGTH_SHORT).show();
 
-		Intent intentBackPack = new Intent(fragmentActivity, BackPackSoundActivity.class);
+		BackPackListManager.getInstance().addSoundToSoundInfoArrayList(selectedSoundInfo);
 
-		fragmentActivity.startActivity(intentBackPack);
+		// for debugging
+
+		BackPackListManager.getInstance().showSoundInfoArrayList();
+
+		Intent intentBackPack = new Intent(backPackSoundActivity.getActivity(), BackPackSoundActivity.class);
+
+		backPackSoundActivity.startActivity(intentBackPack);
 
 		copySoundBackPack(selectedSoundInfo, soundInfoList, adapter);
 

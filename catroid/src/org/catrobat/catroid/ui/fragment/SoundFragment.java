@@ -36,6 +36,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SoundViewHolder;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
@@ -98,6 +99,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	private MediaPlayer mediaPlayer;
 	private SoundAdapter adapter;
+	private SoundAdapter adapterBackPack;
 	private ArrayList<SoundInfo> soundInfoList;
 	private SoundInfo selectedSoundInfo;
 
@@ -139,6 +141,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+
 	}
 
 	@Override
@@ -166,6 +169,11 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
 		adapter.setSoundFragment(this);
+
+		// added currently
+		adapter = new SoundAdapter(BackPackListManager.getInstance().getBackPackSoundActivityFragment().getActivity(),
+				R.layout.fragment_sound_soundlist_item, BackPackListManager.getInstance().getSoundInfoArrayList(),
+				false);
 
 		Utils.loadProjectIfNeeded(getActivity());
 		setHandleAddbutton();
@@ -436,7 +444,9 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 			case R.id.context_menu_backpack:
 				Log.d("TAG", "Context Menu BackPack!");
-				SoundController.getInstance().backPackSound(selectedSoundInfo, getActivity(), soundInfoList, adapter);
+				SoundController.getInstance().backPackSound(selectedSoundInfo,
+						BackPackListManager.getInstance().getBackPackSoundActivityFragment(),
+						BackPackListManager.getInstance().getSoundInfoArrayList(), adapter);
 				break;
 
 			case R.id.context_menu_copy:

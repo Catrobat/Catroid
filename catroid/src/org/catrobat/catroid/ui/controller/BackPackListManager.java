@@ -22,12 +22,27 @@
  */
 package org.catrobat.catroid.ui.controller;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.ui.BackPackSoundActivity;
+
+import android.util.Log;
+
 public class BackPackListManager {
 
 	private static BackPackListManager instance;
 
+	private final static BackPackSoundActivity backPackSoundActivityFragment = new BackPackSoundActivity();
+
+	private ArrayList<SoundInfo> soundInfoArrayList;
+
 	private BackPackListManager() {
 
+		Log.d("TAG", "Set up BackPackListManager");
+
+		this.soundInfoArrayList = new ArrayList<SoundInfo>();
 	}
 
 	public static BackPackListManager getInstance() {
@@ -35,5 +50,32 @@ public class BackPackListManager {
 			instance = new BackPackListManager();
 		}
 		return instance;
+	}
+
+	public BackPackSoundActivity getBackPackSoundActivityFragment() {
+		return backPackSoundActivityFragment;
+	}
+
+	public ArrayList<SoundInfo> getSoundInfoArrayList() {
+		return soundInfoArrayList;
+	}
+
+	public void setSoundInfoArrayList(ArrayList<SoundInfo> soundInfoArrayList) {
+		this.soundInfoArrayList = soundInfoArrayList;
+	}
+
+	public void addSoundToSoundInfoArrayList(SoundInfo soundInfo) {
+		this.soundInfoArrayList.add(soundInfo);
+	}
+
+	public void showSoundInfoArrayList() {
+		Iterator<SoundInfo> iterator = soundInfoArrayList.iterator();
+
+		while (iterator.hasNext()) {
+			SoundInfo soundInfo = iterator.next();
+
+			Log.d("TAG", "Content of soundInfoArrayList: " + soundInfo.getTitle());
+		}
+
 	}
 }
