@@ -66,6 +66,8 @@ public class BackPackSoundActivity extends BackPackActivityFragment implements O
 	private ArrayList<SoundInfo> soundInfoListBackPack;
 	private SoundInfo selectedSoundInfoBackPack;
 
+	private BackPackListManager backPackListManagerInstance;
+
 	private ListView listView;
 
 	private boolean isResultHandled = false;
@@ -79,6 +81,14 @@ public class BackPackSoundActivity extends BackPackActivityFragment implements O
 
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+
+		backPackListManagerInstance = BackPackListManager.getInstance();
+
+		adapter = new SoundAdapter(backPackListManagerInstance.getBackPackSoundActivityFragment().getActivity(),
+				R.layout.fragment_sound_soundlist_item, backPackListManagerInstance.getSoundInfoArrayList(), false);
+		adapter.setOnSoundEditListener(this);
+		setListAdapter(adapter);
+		adapter.setBackPackSoundActivity(this);
 
 	}
 
@@ -120,6 +130,10 @@ public class BackPackSoundActivity extends BackPackActivityFragment implements O
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putSerializable(SoundController.BUNDLE_ARGUMENTS_SELECTED_SOUND, selectedSoundInfoBackPack);
 		super.onSaveInstanceState(outState);
+	}
+
+	public SoundAdapter getSoundAdapter() {
+		return adapter;
 	}
 
 	/*

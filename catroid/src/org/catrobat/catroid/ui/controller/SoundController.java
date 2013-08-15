@@ -72,14 +72,7 @@ public class SoundController {
 	public static final int ID_LOADER_MEDIA_IMAGE = 1;
 	public static final int REQUEST_SELECT_MUSIC = 0;
 
-	private static SoundAdapter soundAdapter;
-
 	private static SoundController instance;
-
-	public void setUpSoundController(SoundAdapter soundAdapter) {
-
-		SoundController.soundAdapter = soundAdapter;
-	}
 
 	public static SoundController getInstance() {
 		if (instance == null) {
@@ -89,7 +82,7 @@ public class SoundController {
 		return instance;
 	}
 
-	public void updateSoundLogic(final int position, SoundViewHolder holder) {
+	public void updateSoundLogic(final int position, SoundViewHolder holder, final SoundAdapter soundAdapter) {
 		Log.v("Adapter *********", ".........");
 		final SoundInfo soundInfo = soundAdapter.getSoundInfoItems().get(position);
 
@@ -168,10 +161,10 @@ public class SoundController {
 					holder.getTimePlayedChronometer().setVisibility(Chronometer.VISIBLE);
 
 					if (soundAdapter.getCurrentPlayingPosition() == Constants.NO_POSITION) {
-						startPlayingSound(holder.getTimePlayedChronometer(), position);
+						startPlayingSound(holder.getTimePlayedChronometer(), position, soundAdapter);
 					} else if ((position == soundAdapter.getCurrentPlayingPosition())
 							&& (SoundAdapter.getElapsedMilliSeconds() > (milliseconds - 1000))) {
-						stopPlayingSound(soundInfo, holder.getTimePlayedChronometer());
+						stopPlayingSound(soundInfo, holder.getTimePlayedChronometer(), soundAdapter);
 					} else {
 						continuePlayingSound(holder.getTimePlayedChronometer(), SystemClock.elapsedRealtime());
 					}
@@ -183,7 +176,7 @@ public class SoundController {
 					holder.getTimePlayedChronometer().setVisibility(Chronometer.GONE);
 
 					if (position == soundAdapter.getCurrentPlayingPosition()) {
-						stopPlayingSound(soundInfo, holder.getTimePlayedChronometer());
+						stopPlayingSound(soundInfo, holder.getTimePlayedChronometer(), soundAdapter);
 					}
 				}
 
@@ -228,7 +221,7 @@ public class SoundController {
 		}
 	}
 
-	private void startPlayingSound(Chronometer chronometer, int position) {
+	private void startPlayingSound(Chronometer chronometer, int position, final SoundAdapter soundAdapter) {
 		soundAdapter.setCurrentPlayingPosition(position);
 
 		SoundAdapter.setCurrentPlayingBase(SystemClock.elapsedRealtime());
@@ -241,7 +234,7 @@ public class SoundController {
 		chronometer.start();
 	}
 
-	private void stopPlayingSound(SoundInfo soundInfo, Chronometer chronometer) {
+	private void stopPlayingSound(SoundInfo soundInfo, Chronometer chronometer, final SoundAdapter soundAdapter) {
 		chronometer.stop();
 		chronometer.setBase(SystemClock.elapsedRealtime());
 
@@ -262,9 +255,9 @@ public class SoundController {
 
 		BackPackListManager.getInstance().showSoundInfoArrayList();
 
-		Intent intentBackPack = new Intent(backPackSoundActivity.getActivity(), BackPackSoundActivity.class);
-
-		backPackSoundActivity.startActivity(intentBackPack);
+		//		Intent intentBackPack = new Intent(backPackSoundActivity.getActivity(), BackPackSoundActivity.class);
+		//
+		//		backPackSoundActivity.startActivity(intentBackPack);
 
 		copySoundBackPack(selectedSoundInfo, soundInfoList, adapter);
 

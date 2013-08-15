@@ -31,6 +31,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BackPackSoundActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SoundViewHolder;
@@ -99,7 +100,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	private MediaPlayer mediaPlayer;
 	private SoundAdapter adapter;
-	private SoundAdapter adapterBackPack;
 	private ArrayList<SoundInfo> soundInfoList;
 	private SoundInfo selectedSoundInfo;
 
@@ -169,11 +169,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
 		adapter.setSoundFragment(this);
-
-		// added currently
-		adapter = new SoundAdapter(BackPackListManager.getInstance().getBackPackSoundActivityFragment().getActivity(),
-				R.layout.fragment_sound_soundlist_item, BackPackListManager.getInstance().getSoundInfoArrayList(),
-				false);
 
 		Utils.loadProjectIfNeeded(getActivity());
 		setHandleAddbutton();
@@ -444,9 +439,20 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 			case R.id.context_menu_backpack:
 				Log.d("TAG", "Context Menu BackPack!");
+
+				BackPackSoundActivity BackPackActivity = BackPackListManager.getInstance()
+						.getBackPackSoundActivityFragment();
+
+				Activity activity = BackPackActivity.getActivity();
+
+				Intent intentBackPack = new Intent(getActivity(), BackPackSoundActivity.class);
+
+				BackPackListManager.getInstance().getBackPackSoundActivityFragment().startActivity(intentBackPack);
+
 				SoundController.getInstance().backPackSound(selectedSoundInfo,
 						BackPackListManager.getInstance().getBackPackSoundActivityFragment(),
-						BackPackListManager.getInstance().getSoundInfoArrayList(), adapter);
+						BackPackListManager.getInstance().getSoundInfoArrayList(),
+						BackPackListManager.getInstance().getBackPackSoundActivityFragment().getSoundAdapter()); //todo: bp ad.
 				break;
 
 			case R.id.context_menu_copy:
@@ -797,7 +803,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		}
 		SoundController controller = SoundController.getInstance();
 		Log.v("Adapter *********", controller.toString());
-		controller.updateSoundLogic(position, holder);
+		controller.updateSoundLogic(position, holder, adapter);
 
 		return convertView;
 	}

@@ -74,7 +74,6 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 		this.showDetails = showDetails;
 		this.soundInfoItems = items;
 		this.selectMode = ListView.CHOICE_MODE_NONE;
-		SoundController.getInstance().setUpSoundController(this);
 	}
 
 	public void setOnSoundEditListener(OnSoundEditListener listener) {

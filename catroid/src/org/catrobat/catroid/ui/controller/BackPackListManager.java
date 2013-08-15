@@ -30,22 +30,27 @@ import org.catrobat.catroid.ui.BackPackSoundActivity;
 
 import android.util.Log;
 
-public class BackPackListManager {
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
+public class BackPackListManager extends SherlockFragmentActivity {
 
 	private static BackPackListManager instance;
 
 	private final static BackPackSoundActivity backPackSoundActivityFragment = new BackPackSoundActivity();
 
-	private ArrayList<SoundInfo> soundInfoArrayList;
+	private final static ArrayList<SoundInfo> soundInfoArrayList = new ArrayList<SoundInfo>();
 
 	private BackPackListManager() {
 
 		Log.d("TAG", "Set up BackPackListManager");
 
-		this.soundInfoArrayList = new ArrayList<SoundInfo>();
+		//soundInfoArrayList = new ArrayList<SoundInfo>();
 	}
 
 	public static BackPackListManager getInstance() {
+
+		Log.d("TAG", "BackPackListManager-->getInstance()");
+
 		if (instance == null) {
 			instance = new BackPackListManager();
 		}
@@ -60,12 +65,12 @@ public class BackPackListManager {
 		return soundInfoArrayList;
 	}
 
-	public void setSoundInfoArrayList(ArrayList<SoundInfo> soundInfoArrayList) {
-		this.soundInfoArrayList = soundInfoArrayList;
-	}
+	//	public void setSoundInfoArrayList(ArrayList<SoundInfo> soundInfoArrayList) {
+	//		soundInfoArrayList = soundInfoArrayList;
+	//	}
 
 	public void addSoundToSoundInfoArrayList(SoundInfo soundInfo) {
-		this.soundInfoArrayList.add(soundInfo);
+		soundInfoArrayList.add(soundInfo);
 	}
 
 	public void showSoundInfoArrayList() {
