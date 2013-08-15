@@ -40,6 +40,7 @@ import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.InputType;
 import android.util.Log;
+import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -143,7 +144,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
@@ -421,12 +421,12 @@ public class UiTestUtils {
 		solo.sleep(500);
 	}
 
-	public static List<Brick> createTestProject() {
+	public static List<Brick> createTestProject(String projectName) {
 		int xPosition = 457;
 		int yPosition = 598;
 		double size = 0.8;
 
-		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(null, projectName);
 		Sprite firstSprite = new Sprite("cat");
 
 		Script testScript = new StartScript(firstSprite);
@@ -453,7 +453,15 @@ public class UiTestUtils {
 		projectManager.setCurrentScript(testScript);
 		StorageHandler.getInstance().saveProject(project);
 
+		// the application version is needed when the project will be uploaded
+		// 0.7.3beta is the lowest possible version currently accepted by the web
+		Reflection.setPrivateField(project.getXmlHeader(), "applicationVersion", "0.7.3beta");
+
 		return brickList;
+	}
+
+	public static List<Brick> createTestProject() {
+		return createTestProject(DEFAULT_TEST_PROJECT_NAME);
 	}
 
 	public static List<Brick> createTestProjectNestedLoops() {
@@ -1407,14 +1415,14 @@ public class UiTestUtils {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		@SuppressWarnings("unchecked")
-		Map<Integer, NotificationData> notificationMap = (Map<Integer, NotificationData>) Reflection.getPrivateField(
+		SparseArray<NotificationData> notificationMap = (SparseArray<NotificationData>) Reflection.getPrivateField(
 				StatusBarNotificationManager.class, StatusBarNotificationManager.getInstance(), "notificationDataMap");
 		if (notificationMap == null) {
 			return;
 		}
 
-		for (Map.Entry<Integer, NotificationData> entry : notificationMap.entrySet()) {
-			notificationManager.cancel(entry.getKey());
+		for (int i = 0; i < notificationMap.size(); i++) {
+			notificationManager.cancel(notificationMap.keyAt(i));
 		}
 
 		notificationMap.clear();
