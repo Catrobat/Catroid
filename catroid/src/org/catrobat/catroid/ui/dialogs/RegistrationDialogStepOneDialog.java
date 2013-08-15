@@ -53,6 +53,7 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_gender, null);
+        View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_gender_title, null);
 
 		maleRadioButton = (RadioButton) rootView.findViewById(R.id.dialog_register_gender_radiobutton_male);
 		femaleRadioButton = (RadioButton) rootView.findViewById(R.id.dialog_register_gender_radiobutton_female);
@@ -61,7 +62,7 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
 
 		initializeRadioButtons();
 
-		Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
+		AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
 				.setTitle(R.string.register_dialog_title)
 				.setNeutralButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
 					@Override
@@ -73,7 +74,12 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
 					public void onClick(DialogInterface dialog, int id) {
 						handleAlreadyRegisteredClick();
 					}
-				}).create();
+				})
+                .setCustomTitle(titleView)
+                .create();
+
+        //((AlertDialog) alertDialog).setCustomTitle(null);
+
 
 		alertDialog.setCanceledOnTouchOutside(true);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
