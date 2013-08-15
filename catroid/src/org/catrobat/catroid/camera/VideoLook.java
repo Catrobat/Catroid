@@ -32,7 +32,13 @@ public class VideoLook extends Look {
 
 	public VideoLook(Sprite sprite) {
 		super(sprite);
+		setDirectionInUserInterfaceDimensionUnit(0);
 		lookData = VideoDisplayHandler.getVideoLookData();
+	}
+
+	@Override
+	public void setDirectionInUserInterfaceDimensionUnit(float degrees) {
+		super.setDirectionInUserInterfaceDimensionUnit(degrees + 180);//TODO
 	}
 
 	@Override
