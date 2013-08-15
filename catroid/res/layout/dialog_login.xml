@@ -36,7 +36,7 @@
     </TextView>
 
     <EditText
-        android:id="@+id/dialog_login_edittext_username"
+        android:id="@+id/dialog_register_edittext_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/dialog_login_textview_username"
@@ -45,38 +45,38 @@
         android:selectAllOnFocus="true" />
 
     <TextView
-        android:id="@+id/dialog_login_textview_password"
+        android:id="@+id/dialog_register_textview_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dialog_login_edittext_username"
+        android:layout_below="@+id/dialog_register_edittext_username"
         android:layout_marginLeft="10dp"
         android:text="@string/password" >
     </TextView>
 
     <EditText
-        android:id="@+id/dialog_login_edittext_password"
+        android:id="@+id/dialog_register_edittext_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dialog_login_textview_password"
+        android:layout_below="@+id/dialog_register_textview_password"
         android:gravity="top"
         android:inputType="textPassword"
         android:maxLines="1" >
     </EditText>
 
     <TextView
-            android:id="@+id/dialog_login_textview_email"
+            android:id="@+id/dialog_register_textview_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/dialog_login_edittext_password"
+            android:layout_below="@+id/dialog_register_edittext_password"
             android:layout_marginLeft="10dp"
             android:text="@string/register_email" >
     </TextView>
 
     <EditText
-            android:id="@+id/dialog_login_edittext_email"
+            android:id="@+id/dialog_register_edittext_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/dialog_login_textview_email"
+            android:layout_below="@+id/dialog_register_textview_email"
             android:inputType="text"
             android:gravity="top"
             android:maxLines="1" >

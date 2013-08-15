@@ -287,7 +287,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clearEditText(0);
 		solo.goBack();
 		assertFalse("Next button is enabled!", nextButton.isEnabled());
-		EditText email = (EditText) solo.getView(R.id.dialog_login_edittext_email);
+		EditText email = (EditText) solo.getView(R.id.dialog_register_edittext_email);
 		solo.enterText(email, TEST_USERNAME + System.currentTimeMillis() + "@gmail.com");
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 
@@ -322,8 +322,8 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 
 		solo.waitForDialogToOpen(500);
-		EditText username = (EditText) solo.getView(R.id.dialog_login_edittext_username);
-		EditText password = (EditText) solo.getView(R.id.dialog_login_edittext_password);
+		EditText username = (EditText) solo.getView(R.id.dialog_register_edittext_username);
+		EditText password = (EditText) solo.getView(R.id.dialog_register_edittext_password);
 		EditText passwordConfirmation = (EditText) solo.getView(R.id.dialog_register_username_password_edittext_password_confirmation);
 		solo.clearEditText(username);
 		solo.enterText(username, TEST_USERNAME + System.currentTimeMillis());
@@ -383,9 +383,9 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	private void fillLoginDialog(String username, String password, String email, boolean correctPassword) {
-		EditText usernameEdittext = (EditText) solo.getView(R.id.dialog_login_edittext_username);
-		EditText passwordEdittext = (EditText) solo.getView(R.id.dialog_login_edittext_password);
-		EditText emailEdittext = (EditText) solo.getView(R.id.dialog_login_edittext_email);
+		EditText usernameEdittext = (EditText) solo.getView(R.id.dialog_register_edittext_username);
+		EditText passwordEdittext = (EditText) solo.getView(R.id.dialog_register_edittext_password);
+		EditText emailEdittext = (EditText) solo.getView(R.id.dialog_register_edittext_email);
 		solo.clearEditText(usernameEdittext);
 		solo.enterText(usernameEdittext, username);
 		if (!correctPassword) {
@@ -424,8 +424,8 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		fillRegistrationDialogUntilStepFive();
 
 		// enter a username
-		EditText usernameEditText = (EditText) solo.getView(R.id.dialog_login_edittext_username);
-		EditText password = (EditText) solo.getView(R.id.dialog_login_edittext_password);
+		EditText usernameEditText = (EditText) solo.getView(R.id.dialog_register_edittext_username);
+		EditText password = (EditText) solo.getView(R.id.dialog_register_edittext_password);
 		EditText passwordConfirmation = (EditText) solo.getView(R.id.dialog_register_username_password_edittext_password_confirmation);
 
 		solo.clickOnEditText(0);

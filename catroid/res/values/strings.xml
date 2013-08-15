@@ -227,24 +227,26 @@
     <!-- Login Register dialog -->
     <string name="login_dialog_title">Login</string>
     <string name="register_dialog_title">Register</string>
+    <string name="credentials">Credentials</string>
     <string name="username">Username:</string>
     <string name="password">Password:</string>
     <string name="password_confirmation">Please confirm password:</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="next_registration_step">Next</string>
+    <string name="previous_registration_step">Previous</string>
     <string name="already_registered">Already registered?</string>
     <string name="show_password">Show password</string>
     <string name="password_forgotten">Password forgotten</string>
     <string name="new_user_registered">New account created</string>
     <string name="register_error">Error occurred</string>
-    <string name="register_gender">Gender:</string>
+    <string name="register_gender">Gender</string>
     <string name="register_male">Male</string>
     <string name="register_female">Female</string>
     <string name="register_other">Other</string>
-    <string name="register_country">Country:</string>
-    <string name="register_email">E-Mail:</string>
-    <string name="register_birthday">Birthday:</string>
+    <string name="register_country">Country</string>
+    <string name="register_email">E-Mail</string>
+    <string name="register_birthday">Birthday</string>
     <string name="register_birthday_month">Month:</string>
     <string name="register_birthday_year">Year:</string>
     <string name="registration_step1">1/6</string>
@@ -253,7 +255,8 @@
     <string name="registration_step4">4/6</string>
     <string name="registration_step5">5/6</string>
     <string name="registration_step6">6/6</string>
-    <string name="registration_completed">Thank you for registering. Please click on the button to start the upload.</string>
+    <string name="registration_successful">Registration successful</string>
+    <string name="registration_completed">Welcome to the community! Please click on the button to start the upload.</string>
     <string name="register_terms">By registering, you agree to our</string>
     <string name="register_pocketcode_terms_of_use_text">Terms of use</string>
     <!--  -->

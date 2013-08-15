@@ -41,15 +41,17 @@ public class RegistrationDialogStepSixDialog extends DialogFragment implements O
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_completed, null);
+        View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_completed_title, null);
 
 		final Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
-				.setTitle(R.string.register_dialog_title)
+                .setCustomTitle(titleView)
 				.setPositiveButton(R.string.upload_button, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						handleUploadButtonClick();
 					}
-				}).create();
+				})
+                .create();
 
 		alertDialog.setCanceledOnTouchOutside(true);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);

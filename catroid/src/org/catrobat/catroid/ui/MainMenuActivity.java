@@ -29,6 +29,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
@@ -280,8 +281,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	}
 
 	private void showRegisterDialog() {
-		RegistrationDialogStepOneDialog registrationDialog = new RegistrationDialogStepOneDialog();
-		registrationDialog.show(getSupportFragmentManager(), RegistrationDialogStepOneDialog.DIALOG_FRAGMENT_TAG);
+		DialogAlreadyRegistered registrationDialog = new DialogAlreadyRegistered();
+		registrationDialog.show(getSupportFragmentManager(), DialogAlreadyRegistered.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void unbindDrawables(View view) {

@@ -29,27 +29,12 @@
 
     <TextView
             android:id="@+id/dialog_register_gender_title_step1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:paddingTop="20dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="20dp"
-            android:textSize="22sp"
-            android:textColor="@color/abs__holo_blue_light"
+            style="@style/RegistrationDialog.Title"
             android:text="@string/registration_step1"/>
 
     <TextView
             android:id="@+id/dialog_register_gender_title_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:paddingTop="20dp"
-            android:paddingLeft="10dp"
-            android:paddingBottom="20dp"
-            android:textColor="@color/abs__holo_blue_light"
-            android:textSize="22sp"
+            style="@style/RegistrationDialog.Progress"
             android:text="@string/register_gender">
     </TextView>
 

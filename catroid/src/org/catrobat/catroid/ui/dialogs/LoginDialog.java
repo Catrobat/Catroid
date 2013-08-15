@@ -59,9 +59,9 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_login, null);
 
-		usernameEditText = (EditText) view.findViewById(R.id.dialog_login_edittext_username);
-		passwordEditText = (EditText) view.findViewById(R.id.dialog_login_edittext_password);
-		emailEditText = (EditText) view.findViewById(R.id.dialog_login_edittext_email);
+		usernameEditText = (EditText) view.findViewById(R.id.dialog_register_edittext_username);
+		passwordEditText = (EditText) view.findViewById(R.id.dialog_register_edittext_password);
+		emailEditText = (EditText) view.findViewById(R.id.dialog_register_edittext_email);
 
 		usernameEditText.setText(RegistrationData.getInstance().getUserName());
 		passwordEditText.setText(RegistrationData.getInstance().getPassword());

@@ -379,6 +379,24 @@
         <item name="android:textSize">22sp</item>
     </style>
 
+    <style name="RegistrationDialog">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/abs__holo_blue_light</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingBottom">20dp</item>
+    </style>
+
+    <style name="RegistrationDialog.Title">
+        <item name="android:paddingRight">15dp</item>
+    </style>
+
+    <style name="RegistrationDialog.Progress">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
+
     <style name="BrickCategory">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>

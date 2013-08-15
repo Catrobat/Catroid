@@ -21,21 +21,21 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
+ 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:theme="@android:style/Theme.Light" >
-    
+
     <TextView
-        android:id="@+id/dialog_register_textview_email"
+        android:id="@+id/dialog_register_birthday_title_textview_birthday"
         style="@style/RegistrationDialog.Title"
-        android:text="@string/register_email" >
-    </TextView>
+        android:text="@string/register_birthday" />
 
     <TextView
-            android:id="@+id/dialog_register_email_step3"
+            android:id="@+id/dialog_register_birthday_title_step4"
             style="@style/RegistrationDialog.Progress"
-            android:text="@string/registration_step3" />
-
+            android:text="@string/registration_step4" />
+    
 </RelativeLayout>

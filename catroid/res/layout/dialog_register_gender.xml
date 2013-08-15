@@ -27,25 +27,6 @@
                 android:orientation="vertical"
                 android:theme="@android:style/Theme.Light">
 
-    <TextView
-            android:id="@+id/dialog_register_gender_step1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:paddingTop="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/registration_step1"/>
-
-    <TextView
-            android:id="@+id/dialog_register_gender_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:paddingTop="10dp"
-            android:text="@string/register_gender">
-    </TextView>
-
     <RadioButton
             android:id="@+id/dialog_register_gender_radiobutton_male"
             android:layout_width="wrap_content"
@@ -77,16 +58,5 @@
             android:layout_below="@+id/dialog_register_gender_radiobutton_female"
             android:minEms="5"
             />
-
-    <TextView
-            android:id="@+id/dialog_register_gender_textview_alreadyregistered"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:layout_below="@id/dialog_register_gender_radiobutton_other"
-            android:layout_marginLeft="10dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:text="@string/already_registered"/>
 
 </RelativeLayout>

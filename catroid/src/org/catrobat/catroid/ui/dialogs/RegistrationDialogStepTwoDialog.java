@@ -47,19 +47,26 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_country, null);
+        View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_country_title, null);
 
 		countrySpinner = (Spinner) view.findViewById(R.id.dialog_register_country_spinner_country);
 
 		addItemsOnCountrySpinner();
 
 		Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
-				.setTitle(R.string.register_dialog_title)
+                .setCustomTitle(titleView)
 				.setPositiveButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						handleNextButtonClick();
-					}
-				}).create();
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        handleNextButtonClick();
+                    }
+                }).setNegativeButton(R.string.previous_registration_step, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        handleBackClick();
+                    }
+                })
+				.create();
 
 		alertDialog.setCanceledOnTouchOutside(true);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -109,10 +116,15 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 		RegistrationData.getInstance().setCountryCode(countryCodeString);
 
 		RegistrationDialogStepThreeDialog registerStepThreeDialog = new RegistrationDialogStepThreeDialog();
-
 		registerStepThreeDialog.show(getActivity().getSupportFragmentManager(),
 				RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
 	}
+
+    private void handleBackClick() {
+        RegistrationDialogStepOneDialog registerStepOneDialog = new RegistrationDialogStepOneDialog();
+        registerStepOneDialog.show(getActivity().getSupportFragmentManager(),
+                RegistrationDialogStepOneDialog.DIALOG_FRAGMENT_TAG);
+    }
 
 	private String getCountryCodeFromCountryId(int position) {
 		String[] countryList = getActivity().getResources().getStringArray(R.array.countries_array);

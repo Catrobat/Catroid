@@ -62,9 +62,10 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_username_password, null);
+        View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_username_password_title, null);
 
-		usernameEditText = (EditText) rootView.findViewById(R.id.dialog_login_edittext_username);
-		passwordEditText = (EditText) rootView.findViewById(R.id.dialog_login_edittext_password);
+		usernameEditText = (EditText) rootView.findViewById(R.id.dialog_register_edittext_username);
+		passwordEditText = (EditText) rootView.findViewById(R.id.dialog_register_edittext_password);
 		passwordConfirmationEditText = (EditText) rootView.findViewById(R.id.dialog_register_username_password_edittext_password_confirmation);
 		showPassword = (CheckBox) rootView.findViewById(R.id.dialog_register_username_password_checkbox_showpassword);
 		termsOfUseLinkTextView = (TextView) rootView.findViewById(R.id.dialog_register_username_password_textview_registerterms_link);
@@ -93,69 +94,23 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
 			}
 		});
 
-		alertDialog = new AlertDialog.Builder(getActivity()).setView(rootView).setTitle(R.string.register_dialog_title)
+		alertDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
+                .setCustomTitle(titleView)
 				.setPositiveButton(R.string.register, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						handleRegisterButtonClick();
 					}
-				}).create();
+                }).setNegativeButton(R.string.previous_registration_step, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        handleBackClick();
+                    }
+                })
+                .create();
 
 		alertDialog.setCanceledOnTouchOutside(true);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-
-		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-			@Override
-			public void onShow(DialogInterface dialog) {
-
-				final Button registerButton = alertDialog.getButton(Dialog.BUTTON_POSITIVE);
-				registerButton.setEnabled(false);
-
-				passwordEditText.addTextChangedListener(new TextWatcher() {
-
-					@Override
-					public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-					}
-
-					@Override
-					public void onTextChanged(CharSequence s, int start, int before, int count) {
-						String password = passwordEditText.getText().toString();
-						String passwordConfirmation = passwordConfirmationEditText.getText().toString();
-						if (!password.isEmpty() && password.equals(passwordConfirmation)) {
-							registerButton.setEnabled(true);
-						} else {
-							registerButton.setEnabled(false);
-						}
-					}
-
-					@Override
-					public void afterTextChanged(Editable s) {
-					}
-				});
-
-				passwordConfirmationEditText.addTextChangedListener(new TextWatcher() {
-
-					@Override
-					public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-					}
-
-					@Override
-					public void onTextChanged(CharSequence s, int start, int before, int count) {
-						String password = passwordEditText.getText().toString();
-						String passwordConfirmation = passwordConfirmationEditText.getText().toString();
-						if (!password.isEmpty() && password.equals(passwordConfirmation)) {
-							registerButton.setEnabled(true);
-						} else {
-							registerButton.setEnabled(false);
-						}
-					}
-
-					@Override
-					public void afterTextChanged(Editable s) {
-					}
-				});
-			}
-		});
 
 		return alertDialog;
 	}
@@ -170,6 +125,12 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
 		registrationTask.setOnRegistrationCompleteListener(this);
 		registrationTask.execute();
 	}
+
+    private void handleBackClick() {
+        RegistrationDialogStepFourDialog registerStepFourDialog = new RegistrationDialogStepFourDialog();
+        registerStepFourDialog.show(getActivity().getSupportFragmentManager(),
+                RegistrationDialogStepFourDialog.DIALOG_FRAGMENT_TAG);
+    }
 
 	@Override
 	public void onRegistrationComplete(boolean success) {

@@ -51,17 +51,24 @@ public class RegistrationDialogStepThreeDialog extends DialogFragment implements
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_email, null);
+        View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_email_title, null);
 
-		emailEditText = (EditText) view.findViewById(R.id.dialog_login_edittext_email);
+		emailEditText = (EditText) view.findViewById(R.id.dialog_register_edittext_email);
 		final String userEmail = UtilDeviceInfo.getUserEmail(getActivity());
 
 		final Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
-				.setTitle(R.string.register_dialog_title)
+                .setCustomTitle(titleView)
 				.setPositiveButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 					}
-				}).create();
+                }).setNegativeButton(R.string.previous_registration_step, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        handleBackClick();
+                    }
+                })
+                .create();
 
 		alertDialog.setCanceledOnTouchOutside(true);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -114,10 +121,15 @@ public class RegistrationDialogStepThreeDialog extends DialogFragment implements
 		RegistrationData.getInstance().setEmail(emailString);
 
 		RegistrationDialogStepFourDialog registerStepFourDialog = new RegistrationDialogStepFourDialog();
-		dismiss();
 		registerStepFourDialog.show(getActivity().getSupportFragmentManager(),
 				RegistrationDialogStepFourDialog.DIALOG_FRAGMENT_TAG);
 	}
+
+    private void handleBackClick() {
+        RegistrationDialogStepTwoDialog registerStepTwoDialog = new RegistrationDialogStepTwoDialog();
+        registerStepTwoDialog.show(getActivity().getSupportFragmentManager(),
+                RegistrationDialogStepTwoDialog.DIALOG_FRAGMENT_TAG);
+    }
 
 	@Override
 	public void onRegistrationComplete(boolean success) {

@@ -26,16 +26,16 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:theme="@android:style/Theme.Light" >
-    
+
     <TextView
-        android:id="@+id/dialog_register_textview_email"
-        style="@style/RegistrationDialog.Title"
-        android:text="@string/register_email" >
+            android:id="@+id/dialog_register_completed_title_textview"
+            style="@style/RegistrationDialog.Title"
+            android:text="@string/registration_successful" >
     </TextView>
 
     <TextView
-            android:id="@+id/dialog_register_email_step3"
-            style="@style/RegistrationDialog.Progress"
-            android:text="@string/registration_step3" />
+        android:id="@+id/dialog_register_completed_title_step6"
+        style="@style/RegistrationDialog.Progress"
+        android:text="@string/registration_step6" />
 
 </RelativeLayout>

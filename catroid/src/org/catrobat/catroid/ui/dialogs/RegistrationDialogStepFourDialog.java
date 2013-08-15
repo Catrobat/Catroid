@@ -53,6 +53,7 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_birthday, null);
+        View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_birthday_title, null);
 
 		monthSpinner = (Spinner) view.findViewById(R.id.dialog_register_birthday_spinner_month);
 		yearSpinner = (Spinner) view.findViewById(R.id.dialog_register_birthday_spinner_year);
@@ -61,13 +62,19 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 		addItemsOnMonthSpinner();
 
 		Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
-				.setTitle(R.string.register_dialog_title)
-				.setNeutralButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
+                .setCustomTitle(titleView)
+				.setPositiveButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         handleNextButtonClick();
                     }
-                }).create();
+                }).setNegativeButton(R.string.previous_registration_step, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        handleBackClick();
+                    }
+                })
+                .create();
 
 		alertDialog.setCanceledOnTouchOutside(true);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -111,4 +118,10 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 		registerStepFiveDialog.show(getActivity().getSupportFragmentManager(),
 				RegistrationDialogStepFiveDialog.DIALOG_FRAGMENT_TAG);
 	}
+
+    private void handleBackClick() {
+        RegistrationDialogStepThreeDialog registerStepThreeDialog = new RegistrationDialogStepThreeDialog();
+        registerStepThreeDialog.show(getActivity().getSupportFragmentManager(),
+                RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
+    }
 }

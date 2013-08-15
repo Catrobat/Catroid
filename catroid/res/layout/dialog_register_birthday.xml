@@ -29,24 +29,6 @@
     android:theme="@android:style/Theme.Light" >
 
     <TextView
-        android:id="@+id/dialog_register_birthday_step4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:text="@string/registration_step4" />
-
-    <TextView
-        android:id="@+id/dialog_register_birthday_textview_birthday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:paddingTop="10dp"
-        android:text="@string/register_birthday" />
-    
-    <TextView
         android:id="@+id/dialog_register_birthday_textview_month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,10 +39,9 @@
     
     <Spinner
         android:id="@+id/dialog_register_birthday_spinner_month"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dialog_register_birthday_textview_birthday"
-        android:layout_toRightOf="@+id/dialog_register_birthday_textview_month" />
+        android:layout_below="@+id/dialog_register_birthday_textview_month" />
     
     <TextView
         android:id="@+id/dialog_register_birthday_textview_year"
@@ -73,10 +54,9 @@
 
     <Spinner
         android:id="@+id/dialog_register_birthday_spinner_year"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dialog_register_birthday_spinner_month"
-        android:layout_toRightOf="@+id/dialog_register_birthday_textview_month"
+        android:layout_below="@+id/dialog_register_birthday_textview_month"
         android:paddingBottom="10dp"/>
 
 </RelativeLayout>
