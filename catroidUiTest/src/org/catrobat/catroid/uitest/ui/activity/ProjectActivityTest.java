@@ -22,9 +22,20 @@
  */
 package org.catrobat.catroid.uitest.ui.activity;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
+import android.util.Log;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.jayway.android.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -64,20 +75,9 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Configuration;
-import android.util.Log;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-import com.jayway.android.robotium.solo.Solo;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final String TEST_SPRITE_NAME = "cat";
@@ -636,7 +636,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnText(backgroundHeadline);
 		solo.assertCurrentActivity("Click on background headline switched activity!", ProjectActivity.class);
 
-		String objectsHeadline = solo.getString(R.string.spritelist_objects_headline);
+		String objectsHeadline = solo.getString(R.string.sprites);
 		solo.clickOnText(objectsHeadline);
 		solo.assertCurrentActivity("Click on objects headline switched activity!", ProjectActivity.class);
 	}
@@ -983,6 +983,17 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertEquals("Second sprite should be " + FIRST_TEST_SPRITE_NAME, spriteList.get(1).getName(),
 				FIRST_TEST_SPRITE_NAME);
 
+	}
+
+	public void testLongClickCancelDeleteAndCopy() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		assertFalse("Sprite is selected!", UiTestUtils.getContextMenuAndGoBackToCheckIfSelected(solo, getActivity(),
+				R.id.delete, delete, FIRST_TEST_SPRITE_NAME));
+		solo.goBack();
+		String copy = solo.getString(R.string.copy);
+		assertFalse("Sprite is selected!", UiTestUtils.getContextMenuAndGoBackToCheckIfSelected(solo, getActivity(),
+				R.id.copy, copy, FIRST_TEST_SPRITE_NAME));
 	}
 
 	public void testRenameActionModeChecking() {

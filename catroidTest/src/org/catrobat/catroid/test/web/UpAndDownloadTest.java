@@ -26,8 +26,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.test.utils.TestUtils;
-
 import android.test.AndroidTestCase;
+import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.Utils;
 
 public class UpAndDownloadTest extends AndroidTestCase {
 
@@ -56,6 +57,23 @@ public class UpAndDownloadTest extends AndroidTestCase {
         sharedPreferences.edit().putString(Constants.TOKEN, saveToken).commit();
         sharedPreferences.edit().putString(Constants.EMAIL, saveEmail).commit();
 		super.tearDown();
+	}
+
+	public void testDownloadUtil() {
+		try {
+			DownloadUtil.getInstance().startDownload(null, null, "projectSave");
+		} catch (Exception ex) {
+			// Exception thrown because intent could not be started - we won't test the intent here
+		}
+		assertTrue("Program should be in download queue",
+				Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase("projectSave"));
+		assertTrue("Program should be in download queue",
+				Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase("PrOJEcTsAVE"));
+		DownloadUtil.getInstance().downloadFinished("projectSave");
+		assertFalse("Program shouldn't be in download queue anymore",
+				Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase("projectSave"));
+		assertFalse("Program shouldn't be in download queue anymore",
+				Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase("PrOJEcTsAVE"));
 	}
 
 	public void testUpAndDownloadWithService() throws Throwable {

@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.test.ui;
 
-import java.util.concurrent.locks.Lock;
+import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 
-import android.test.AndroidTestCase;
+import java.util.concurrent.locks.Lock;
 
 public class ViewSwitchLockTest extends AndroidTestCase {
 

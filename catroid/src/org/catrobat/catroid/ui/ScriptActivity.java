@@ -22,24 +22,6 @@
  */
 package org.catrobat.catroid.ui;
 
-import java.util.concurrent.locks.Lock;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.formulaeditor.SensorHandler;
-import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.ui.fragment.FormulaEditorListFragment;
-import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
-import org.catrobat.catroid.ui.fragment.LookFragment;
-import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
-import org.catrobat.catroid.ui.fragment.SoundFragment;
-
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -59,6 +41,24 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.stage.PreStageActivity;
+import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.ui.fragment.FormulaEditorListFragment;
+import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
+import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
+import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.fragment.SoundFragment;
+
+import java.util.concurrent.locks.Lock;
+
 public class ScriptActivity extends SherlockFragmentActivity {
 	public static final int FRAGMENT_SCRIPTS = 0;
 	public static final int FRAGMENT_LOOKS = 1;
@@ -73,9 +73,11 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	public static final String ACTION_BRICK_LIST_CHANGED = "org.catrobat.catroid.BRICK_LIST_CHANGED";
 	public static final String ACTION_LOOK_DELETED = "org.catrobat.catroid.LOOK_DELETED";
 	public static final String ACTION_LOOK_RENAMED = "org.catrobat.catroid.LOOK_RENAMED";
+	public static final String ACTION_LOOKS_LIST_INIT = "org.catrobat.catroid.LOOKS_LIST_INIT";
 	public static final String ACTION_SOUND_DELETED = "org.catrobat.catroid.SOUND_DELETED";
 	public static final String ACTION_SOUND_COPIED = "org.catrobat.catroid.SOUND_COPIED";
 	public static final String ACTION_SOUND_RENAMED = "org.catrobat.catroid.SOUND_RENAMED";
+	public static final String ACTION_SOUNDS_LIST_INIT = "org.catrobat.catroid.SOUNDS_LIST_INIT";
 	public static final String ACTION_VARIABLE_DELETED = "org.catrobat.catroid.VARIABLE_DELETED";
 
 	private FragmentManager fragmentManager = getSupportFragmentManager();
@@ -372,6 +374,25 @@ public class ScriptActivity extends SherlockFragmentActivity {
 			}
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (hasFocus) {
+			if (soundFragment != null) {
+				if (soundFragment.isVisible()) {
+					sendBroadcast(new Intent(ScriptActivity.ACTION_SOUNDS_LIST_INIT));
+
+				}
+			}
+			if (lookFragment != null) {
+				if (lookFragment.isVisible()) {
+					sendBroadcast(new Intent(ScriptActivity.ACTION_LOOKS_LIST_INIT));
+				}
+			}
+
+		}
 	}
 
 	public void handleAddButton(View view) {

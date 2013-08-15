@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.io;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.utils.Utils;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
 
 public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	private Activity activity;

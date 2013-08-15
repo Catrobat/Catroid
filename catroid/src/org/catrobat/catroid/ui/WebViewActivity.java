@@ -22,19 +22,20 @@
  */
 package org.catrobat.catroid.ui;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.DownloadListener;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.utils.DownloadUtil;
 
 public class WebViewActivity extends SherlockFragmentActivity {
 
@@ -52,15 +53,15 @@ public class WebViewActivity extends SherlockFragmentActivity {
 		webView.setWebViewClient(new WebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
 
-		webView.loadUrl(Constants.BASE_URL_HTTPS);
+		webView.loadUrl(Constants.CATROBAT_WEBVIEW_URL);
 
 		webView.setDownloadListener(new DownloadListener() {
 			@Override
 			public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype,
 					long contentLength) {
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(url));
-				startActivity(intent);
+				DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(WebViewActivity.this, url);
+				Toast.makeText(WebViewActivity.this, getText(R.string.notification_download_pending), Toast.LENGTH_LONG)
+						.show();
 			}
 		});
 

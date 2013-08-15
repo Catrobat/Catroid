@@ -22,6 +22,13 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
@@ -33,13 +40,6 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 

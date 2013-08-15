@@ -22,7 +22,9 @@
  */
 package org.catrobat.catroid.uitest.content.interaction;
 
-import java.util.ArrayList;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -38,9 +40,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
+import java.util.ArrayList;
 
 public class ScriptChangeTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 

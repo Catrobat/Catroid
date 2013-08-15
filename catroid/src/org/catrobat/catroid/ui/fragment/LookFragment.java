@@ -22,32 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.concurrent.locks.Lock;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.ViewSwitchLock;
-import org.catrobat.catroid.ui.adapter.LookAdapter;
-import org.catrobat.catroid.ui.adapter.LookAdapter.OnLookEditListener;
-import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
-import org.catrobat.catroid.ui.dialogs.NewLookDialog;
-import org.catrobat.catroid.ui.dialogs.RenameLookDialog;
-import org.catrobat.catroid.utils.ImageEditing;
-import org.catrobat.catroid.utils.UtilCamera;
-import org.catrobat.catroid.utils.Utils;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -89,6 +63,32 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.badlogic.gdx.graphics.Pixmap;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.ViewSwitchLock;
+import org.catrobat.catroid.ui.adapter.LookAdapter;
+import org.catrobat.catroid.ui.adapter.LookAdapter.OnLookEditListener;
+import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
+import org.catrobat.catroid.ui.dialogs.NewLookDialog;
+import org.catrobat.catroid.ui.dialogs.RenameLookDialog;
+import org.catrobat.catroid.utils.ImageEditing;
+import org.catrobat.catroid.utils.UtilCamera;
+import org.catrobat.catroid.utils.Utils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.concurrent.locks.Lock;
+
 public class LookFragment extends ScriptActivityFragment implements OnLookEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
 
@@ -120,6 +120,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	private LookDeletedReceiver lookDeletedReceiver;
 	private LookRenamedReceiver lookRenamedReceiver;
+
+	private LooksListInitReceiver looksListInitReceiver;
 
 	private ActionMode actionMode;
 
@@ -195,11 +197,18 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			lookDeletedReceiver = new LookDeletedReceiver();
 		}
 
+		if (looksListInitReceiver == null) {
+			looksListInitReceiver = new LooksListInitReceiver();
+		}
+
 		IntentFilter intentFilterRenameLook = new IntentFilter(ScriptActivity.ACTION_LOOK_RENAMED);
 		getActivity().registerReceiver(lookRenamedReceiver, intentFilterRenameLook);
 
 		IntentFilter intentFilterDeleteLook = new IntentFilter(ScriptActivity.ACTION_LOOK_DELETED);
 		getActivity().registerReceiver(lookDeletedReceiver, intentFilterDeleteLook);
+
+		IntentFilter intentFilterLooksListInit = new IntentFilter(ScriptActivity.ACTION_LOOKS_LIST_INIT);
+		getActivity().registerReceiver(looksListInitReceiver, intentFilterLooksListInit);
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
@@ -242,6 +251,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		if (lookRenamedReceiver != null) {
 			getActivity().unregisterReceiver(lookRenamedReceiver);
+		}
+
+		if (looksListInitReceiver != null) {
+			getActivity().unregisterReceiver(looksListInitReceiver);
 		}
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
@@ -457,7 +470,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public void startEditInPocketPaintActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(editInPocketCodeCallBack);
+			actionMode = getSherlockActivity().startActionMode(editInPocketPaintCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.disableButtons(getActivity());
 			isRenameActionMode = true;
@@ -552,11 +565,11 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		//scroll down the list to the new item:
 		final ListView listView = getListView();
 		listView.post(new Runnable() {
-			@Override
-			public void run() {
-				listView.setSelection(listView.getCount() - 1);
-			}
-		});
+            @Override
+            public void run() {
+                listView.setSelection(listView.getCount() - 1);
+            }
+        });
 	}
 
 	private void copyImageToCatroid(String originalImagePath) {
@@ -892,7 +905,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 	};
 
-	private ActionMode.Callback editInPocketCodeCallBack = new ActionMode.Callback() {
+	private ActionMode.Callback editInPocketPaintCallBack = new ActionMode.Callback() {
 
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
@@ -1065,5 +1078,14 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		public void onLookDataListChangedAfterNew(LookData soundInfo);
 
+	}
+
+	private class LooksListInitReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_LOOKS_LIST_INIT)) {
+				adapter.notifyDataSetChanged();
+			}
+		}
 	}
 }

@@ -22,8 +22,7 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import java.util.LinkedList;
-import java.util.List;
+import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -37,7 +36,8 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 
-import android.test.AndroidTestCase;
+import java.util.LinkedList;
+import java.util.List;
 
 public class UserVariablesInterpretationTest extends AndroidTestCase {
 

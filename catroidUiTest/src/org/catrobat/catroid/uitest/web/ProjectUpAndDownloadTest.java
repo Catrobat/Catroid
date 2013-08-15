@@ -22,8 +22,13 @@
  */
 package org.catrobat.catroid.uitest.web;
 
-import java.io.File;
-import java.io.IOException;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.preference.PreferenceManager;
+import android.test.UiThreadTest;
+import android.util.Log;
+import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -46,13 +51,8 @@ import org.catrobat.catroid.web.ServerCalls;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
-import android.preference.PreferenceManager;
-import android.test.UiThreadTest;
-import android.util.Log;
-import android.widget.EditText;
+import java.io.File;
+import java.io.IOException;
 
 public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final String TEST_FILE_DOWNLOAD_URL = "http://catroidtest.ist.tugraz.at/catroid/download/";
@@ -91,6 +91,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		sharedPreferences.edit().putString(Constants.TOKEN, saveToken).commit();
         sharedPreferences.edit().putString(Constants.EMAIL, saveEmail).commit();
+        UiTestUtils.cancelAllNotifications(getActivity());
 		super.tearDown();
 	}
 
@@ -416,7 +417,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		solo.clickOnButton(uploadButtonText);
 
 		assertTrue("Upload of the modified standard project should be possible, but did not succeed",
-				solo.waitForText(solo.getString(R.string.success_project_upload), 0, 10000));
+				solo.waitForText(solo.getString(R.string.notification_upload_finished), 0, 10000));
 
 	}
 
@@ -488,7 +489,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		solo.clickOnButton(solo.getString(R.string.upload_button));
 
-		boolean success = solo.waitForText(solo.getString(R.string.success_project_upload));
+		boolean success = solo.waitForText(solo.getString(R.string.notification_upload_finished));
 		assertTrue("Upload failed. Internet connection?", success);
 		String resultString = (String) Reflection.getPrivateField(ServerCalls.getInstance(), "resultString");
 
@@ -519,7 +520,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
 		assertTrue("Download takes too long.", waitResult);
-		assertTrue("Download not successful.", solo.searchText(solo.getString(R.string.success_project_download)));
+		assertTrue("Download not successful.", solo.searchText(solo.getString(R.string.notification_download_finished)));
 		assertEquals("Testproject not loaded.", projectName, ProjectManager.getInstance().getCurrentProject().getName());
 
 		String projectPath = Constants.DEFAULT_ROOT + "/" + projectName;
@@ -530,19 +531,18 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	}
 
 	@SuppressWarnings("unused")
-	private void downloadProject() {
+	private void downloadProject(String projectName, String newProjectName) {
 		String downloadUrl = TEST_FILE_DOWNLOAD_URL + serverProjectId + Constants.CATROBAT_EXTENSION;
-		downloadUrl += "?fname=" + newTestProject;
+		downloadUrl += "?fname=" + projectName;
 
 		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
 		intent.setAction(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse(downloadUrl));
 		launchActivityWithIntent("org.catrobat.catroid", MainMenuActivity.class, intent);
-
-		solo.sleep(5000);
+		solo.sleep(500);
 		assertTrue("OverwriteRenameDialog not shown.", solo.searchText(solo.getString(R.string.overwrite_text)));
 		solo.clickOnText(solo.getString(R.string.overwrite_rename));
-		assertTrue("No text field to enter new name.", solo.searchEditText(newTestProject));
+		assertTrue("No text field to enter new name.", solo.searchEditText(projectName));
 
 		/*
 		 * TODO: Does not work when testing, but it works in practice
@@ -556,23 +556,19 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		solo.sleep(500);
 		solo.clearEditText(0);
-		solo.enterText(0, testProject);
+		solo.enterText(0, newProjectName);
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
 		assertTrue("Download takes too long.", waitResult);
-		assertTrue("Download not successful.", solo.searchText(solo.getString(R.string.success_project_download)));
+		assertTrue("Download not successful.", solo.searchText(solo.getString(R.string.notification_download_finished)));
+		assertEquals("Testproject not loaded.", projectName, ProjectManager.getInstance().getCurrentProject().getName());
 
-		String projectPath = Constants.DEFAULT_ROOT + "/" + testProject;
+		String projectPath = Constants.DEFAULT_ROOT + "/" + projectName;
 		File downloadedDirectory = new File(projectPath);
 		File downloadedProjectFile = new File(projectPath + "/" + Constants.PROJECTCODE_NAME);
-		assertTrue("Downloaded Directory does not exist.", downloadedDirectory.exists());
-		assertTrue("Downloaded Project File does not exist.", downloadedProjectFile.exists());
-
-		projectPath = Constants.DEFAULT_ROOT + "/" + newTestProject;
-		downloadedDirectory = new File(projectPath);
-		downloadedProjectFile = new File(projectPath + "/" + Constants.PROJECTCODE_NAME);
 		assertTrue("Original Directory does not exist.", downloadedDirectory.exists());
 		assertTrue("Original Project File does not exist.", downloadedProjectFile.exists());
 	}
+
 }

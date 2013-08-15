@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.io;
 
+import android.media.MediaPlayer;
+
 import java.io.IOException;
 import java.util.ArrayList;
-
-import android.media.MediaPlayer;
 
 public class SoundManager {
 	private ArrayList<MediaPlayer> mediaPlayers;

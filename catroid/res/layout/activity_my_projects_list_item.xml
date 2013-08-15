@@ -62,7 +62,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingRight="14dp"
-            android:src="@drawable/ic_arrow_right_dark" />
+            android:src="@drawable/ic_arrow_right" />
     </RelativeLayout>
 
 </LinearLayout>

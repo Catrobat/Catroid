@@ -44,8 +44,9 @@ public final class Constants {
 
 	public static final int NO_POSITION = -1;
 
-    //Web:
+	//Web:
 	public static final String BASE_URL_HTTPS = "https://www.pocketcode.org/";
+	public static final String CATROBAT_WEBVIEW_URL = BASE_URL_HTTPS + "?inapp";
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 
 	public static final String CATROBAT_ABOUT_URL = "http://developer.catrobat.org/";
@@ -59,6 +60,7 @@ public final class Constants {
 	public static final String NO_USERNAME = "no_username";
     public static final String EMAIL = "email";
     public static final String NO_EMAIL = "no_email";
+
 
 	// Pocket Paint
 	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_PATH";

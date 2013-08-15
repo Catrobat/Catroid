@@ -22,15 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
-import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.InternFormulaParser;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -56,6 +47,15 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.InternFormulaParser;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 
 public class FormulaEditorFragment extends SherlockFragment implements OnKeyListener,
 		ViewTreeObserver.OnGlobalLayoutListener {
@@ -466,6 +466,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		((FormulaEditorVariableListFragment) fragment).showFragment(context);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onGlobalLayout() {
 		fragmentView.getViewTreeObserver().removeGlobalOnLayoutListener(this);

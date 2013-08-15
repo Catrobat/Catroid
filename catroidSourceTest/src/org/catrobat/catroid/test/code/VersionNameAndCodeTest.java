@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.code;
 
+import junit.framework.TestCase;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -30,8 +32,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import junit.framework.TestCase;
 
 public class VersionNameAndCodeTest extends TestCase {
 

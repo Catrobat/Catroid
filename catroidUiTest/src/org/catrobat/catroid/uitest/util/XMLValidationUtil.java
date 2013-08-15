@@ -22,10 +22,7 @@
  */
 package org.catrobat.catroid.uitest.util;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashMap;
+import android.util.Log;
 
 import junit.framework.Assert;
 
@@ -37,7 +34,10 @@ import org.catrobat.catroid.web.WebconnectionException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
 
 public class XMLValidationUtil {
 	// TODO: add new XML schema

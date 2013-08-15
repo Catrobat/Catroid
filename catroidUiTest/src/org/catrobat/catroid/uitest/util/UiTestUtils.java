@@ -25,16 +25,38 @@ package org.catrobat.catroid.uitest.util;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.Instrumentation;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Rect;
+import android.os.Build;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.test.ActivityInstrumentationTestCase2;
+import android.text.InputType;
+import android.util.Log;
+import android.util.SparseIntArray;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.internal.ActionBarSherlockCompat;
+import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
+import com.jayway.android.robotium.solo.Solo;
 
 import junit.framework.AssertionFailedError;
 
@@ -104,41 +126,24 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.utils.NotificationData;
+import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.Instrumentation;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Rect;
-import android.os.Build;
-import android.os.Handler;
-import android.os.SystemClock;
-import android.test.ActivityInstrumentationTestCase2;
-import android.text.InputType;
-import android.util.Log;
-import android.util.SparseIntArray;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.internal.ActionBarSherlockCompat;
-import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
-import com.jayway.android.robotium.solo.Solo;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
@@ -1395,5 +1400,38 @@ public class UiTestUtils {
 		solo.waitForActivity(ScriptActivity.class);
 		int id = FRAGMENT_INDEX_LIST.get(fragmentIndex);
 		solo.waitForFragmentById(id);
+	}
+
+	public static void cancelAllNotifications(Context context) {
+		NotificationManager notificationManager = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		@SuppressWarnings("unchecked")
+		Map<Integer, NotificationData> notificationMap = (Map<Integer, NotificationData>) Reflection.getPrivateField(
+				StatusBarNotificationManager.class, StatusBarNotificationManager.getInstance(), "notificationDataMap");
+		if (notificationMap == null) {
+			return;
+		}
+
+		for (Map.Entry<Integer, NotificationData> entry : notificationMap.entrySet()) {
+			notificationManager.cancel(entry.getKey());
+		}
+
+		notificationMap.clear();
+	}
+
+	public static boolean getContextMenuAndGoBackToCheckIfSelected(Solo solo, Activity activity, int buttonId,
+			String buttonText, String listElementName) {
+		longClickOnTextInList(solo, listElementName);
+		solo.waitForText(buttonText);
+		solo.goBack();
+
+		openActionMode(solo, buttonText, buttonId, activity);
+		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
+		for (CheckBox checkBox : checkBoxList) {
+			if (checkBox.isChecked()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

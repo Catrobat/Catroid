@@ -22,23 +22,24 @@
  */
 package org.catrobat.catroid.web;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.Proxy;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.HashMap;
-
-import org.catrobat.catroid.common.Constants;
-
-import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
 
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
 import com.squareup.okhttp.OkHttpClient;
+
+import org.catrobat.catroid.utils.StatusBarNotificationManager;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.Proxy;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.HashMap;
 
 //web status codes are on: https://github.com/Catrobat/Catroweb/blob/master/statusCodes.php
 
@@ -77,7 +78,11 @@ public class ConnectionWrapper {
 				throw new WebconnectionException(responseCode, "Error response code should be 200 or 201!");
 			}
 			if (!uploadRequest.ok()) {
-				Log.v(TAG, "Upload not successful");
+
+				Log.v(TAG, "Upload not succesful");
+				StatusBarNotificationManager.getInstance().cancelNotification(notificationId);
+			} else {
+				StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId, 100);
 			}
 
 			answer = uploadRequest.body();
@@ -86,33 +91,18 @@ public class ConnectionWrapper {
 		return answer;
 	}
 
-	void updateProgress(ResultReceiver receiver, long progress, boolean endOfFileReached, boolean unknown,
-			Integer notificationId, String projectName) {
-		//send for every 20 kilobytes read a message to update the progress
-		if ((!endOfFileReached)) {
-			sendUpdateIntent(receiver, progress, false, unknown, notificationId, projectName);
-		} else if (endOfFileReached) {
-			sendUpdateIntent(receiver, progress, true, unknown, notificationId, projectName);
-		}
-	}
-
-	private void sendUpdateIntent(ResultReceiver receiver, long progress, boolean endOfFileReached, boolean unknown,
-			Integer notificationId, String projectName) {
-		Bundle progressBundle = new Bundle();
-		progressBundle.putLong(TAG_PROGRESS, progress);
-		progressBundle.putBoolean(TAG_END_OF_FILE, endOfFileReached);
-		progressBundle.putBoolean(TAG_UNKNOWN, unknown);
-		progressBundle.putInt(TAG_NOTIFICATION_ID, notificationId);
-		progressBundle.putString(TAG_PROJECT_NAME, projectName);
-		receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, progressBundle);
-	}
-
 	public void doHttpPostFileDownload(String urlString, HashMap<String, String> postValues, String filePath,
-			ResultReceiver receiver, Integer notificationId, String projectName) throws IOException {
+			ResultReceiver receiver, Integer notificationId) throws IOException {
 		HttpRequest request = HttpRequest.post(urlString);
 		File file = new File(filePath);
 		file.getParentFile().mkdirs();
-		request.form(postValues).acceptGzipEncoding().receive(file);
+
+		request = request.form(postValues).acceptGzipEncoding();
+		long fileSize = request.contentLength();
+		OutputStream stream = new ProgressBufferedOutputStream(new FileOutputStream(file), request.bufferSize(),
+				fileSize, receiver, notificationId);
+		request.receive(stream);
+		stream.close();
 	}
 
 	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws WebconnectionException {

@@ -22,8 +22,14 @@
  */
 package org.catrobat.catroid.uitest.ui.activity;
 
-import java.io.File;
-import java.util.ArrayList;
+import android.app.Activity;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.test.ActivityInstrumentationTestCase2;
+import android.view.View;
+import android.widget.AdapterView.OnItemClickListener;
+
+import com.jayway.android.robotium.solo.Solo;
 
 import junit.framework.TestSuite;
 
@@ -48,14 +54,8 @@ import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.test.ActivityInstrumentationTestCase2;
-import android.view.View;
-import android.widget.AdapterView.OnItemClickListener;
-
-import com.jayway.android.robotium.solo.Solo;
+import java.io.File;
+import java.util.ArrayList;
 
 public class DoubleClickOpensViewOnceTest extends TestSuite {
 	private static final int SOLO_WAIT_FOR_VIEW_TIMEOUT = 3000;
@@ -239,7 +239,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			checkDoubleClickOpensViewOnce(new OnClickCommand() {
 				@Override
 				public void execute() {
-					activity.handleContinueButton(null);
+					activity.handleContinueButton();
 				}
 			}, R.id.main_menu_button_continue, R.id.fragment_sprites_list);
 		}

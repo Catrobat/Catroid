@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import org.catrobat.catroid.R;
+
 import java.util.LinkedList;
 import java.util.List;
-
-import org.catrobat.catroid.R;
 
 public class InternFormulaKeyboardAdapter {
 

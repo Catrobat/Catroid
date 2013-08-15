@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.test.content.project;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.test.AndroidTestCase;
+
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.test.utils.Reflection;
-
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.test.AndroidTestCase;
 
 public class ProjectTest extends AndroidTestCase {
 

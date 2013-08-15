@@ -40,7 +40,7 @@
  *   		You should have received a copy of the GNU Affero General Public License
  *   		along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.LegoNXT;
+package org.catrobat.catroid.legonxt;
 
 /**
  * Class for composing the proper messages for simple

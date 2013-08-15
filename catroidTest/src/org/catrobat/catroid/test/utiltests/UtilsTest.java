@@ -22,14 +22,7 @@
  */
 package org.catrobat.catroid.test.utiltests;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -46,16 +39,25 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
-import android.test.AndroidTestCase;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class UtilsTest extends AndroidTestCase {
 	private final String testFileContent = "Hello, this is a Test-String";
 	private static final String MD5_EMPTY = "D41D8CD98F00B204E9800998ECF8427E";
 	private static final String MD5_CATROID = "4F982D927F4784F69AD6D6AF38FD96AD";
 	private static final String MD5_HELLO_WORLD = "ED076287532E86365E841E92BFC50D8C";
+	private static final String NEW_PROGRAM_NAME = "new name";
 	private File testFile;
 	private File copiedFile;
 
@@ -90,6 +92,7 @@ public class UtilsTest extends AndroidTestCase {
 		if (copiedFile != null && copiedFile.exists()) {
 			copiedFile.delete();
 		}
+		TestUtils.deleteTestProjects(NEW_PROGRAM_NAME);
 		super.tearDown();
 	}
 
@@ -196,7 +199,7 @@ public class UtilsTest extends AndroidTestCase {
 			assertTrue("Failed to recognize the standard project",
 					Utils.isStandardProject(standardProject, getContext()));
 
-			standardProject.setName("new name");
+			standardProject.setName(NEW_PROGRAM_NAME);
 			assertTrue("Failed to recognize renamed standard project",
 					Utils.isStandardProject(standardProject, getContext()));
 

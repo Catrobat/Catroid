@@ -22,15 +22,16 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import java.util.HashMap;
-
-import org.catrobat.catroid.stage.PreStageActivity;
-
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.stage.PreStageActivity;
+
+import java.util.HashMap;
+
+@SuppressWarnings("deprecation")
 public class SpeakAction extends Action {
 
 	private String text;

@@ -22,16 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import java.io.File;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.transfers.ProjectUploadService;
-import org.catrobat.catroid.utils.StatusBarNotificationManager;
-import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.Utils;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -56,6 +46,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.transfers.ProjectUploadService;
+import org.catrobat.catroid.utils.StatusBarNotificationManager;
+import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.Utils;
+
+import java.io.File;
+
 public class UploadProjectDialog extends DialogFragment {
 
 	private class UploadReceiver extends ResultReceiver {
@@ -79,10 +79,8 @@ public class UploadProjectDialog extends DialogFragment {
 					progressPercent = UtilFile.getProgressFromBytes(projectName, progress);
 				}
 
-				String notificationMessage = "Upload " + progressPercent + "% "
-						+ activity.getString(R.string.notification_percent_completed) + ":" + projectName;
-				StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage,
-						Constants.UPLOAD_NOTIFICATION, endOfFileReached);
+				StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId,
+						Long.valueOf(progressPercent).intValue());
 			}
 		}
 	}
@@ -248,6 +246,8 @@ public class UploadProjectDialog extends DialogFragment {
 		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
         String email = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
+        int notificationId = StatusBarNotificationManager.getInstance().createUploadNotification(getActivity(),
+                uploadName);
 		Intent uploadIntent = new Intent(getActivity(), ProjectUploadService.class);
 		uploadIntent.putExtra("receiver", new UploadReceiver(new Handler()));
 		uploadIntent.putExtra("uploadName", uploadName);
@@ -256,17 +256,10 @@ public class UploadProjectDialog extends DialogFragment {
 		uploadIntent.putExtra("username", username);
 		uploadIntent.putExtra("token", token);
         uploadIntent.putExtra("email", email);
-		int notificationId = createNotification(uploadName);
 		uploadIntent.putExtra("notificationId", notificationId);
 		activity = getActivity();
 		activity.startService(uploadIntent);
 
-	}
-
-	public int createNotification(String uploadName) {
-		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
-		int notificationId = manager.createNotification(uploadName, getActivity(), Constants.UPLOAD_NOTIFICATION);
-		return notificationId;
 	}
 
 	private void handleCancelButtonClick() {
