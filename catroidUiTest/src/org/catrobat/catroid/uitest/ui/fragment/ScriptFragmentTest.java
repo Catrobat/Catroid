@@ -233,6 +233,19 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("Second script isn't a broadcast script.", sprite.getScript(1) instanceof BroadcastScript);
 	}
 
+	public void testCopyButtonNotVisibleScriptCategory() {
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+
+		assertFalse("Copy Button visible!", UiTestUtils.menuButtonVisible(solo, R.id.copy));
+
+		String categoryLooksLabel = solo.getString(R.string.category_looks);
+		solo.clickOnText(categoryLooksLabel);
+
+		assertFalse("Copy Button visible!", UiTestUtils.menuButtonVisible(solo, R.id.copy));
+	}
+
 	public void testSimpleDragNDrop() {
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);

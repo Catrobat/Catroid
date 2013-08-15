@@ -1443,4 +1443,15 @@ public class UiTestUtils {
 		}
 		return false;
 	}
+
+	public static boolean menuButtonVisible(Solo solo, int menuItemId) {
+		ArrayList<View> views = solo.getCurrentViews();
+
+		for (View view : views) {
+			if (view.getId() == menuItemId) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
