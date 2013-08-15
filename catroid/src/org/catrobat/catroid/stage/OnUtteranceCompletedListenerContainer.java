@@ -28,6 +28,7 @@ import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("deprecation")
 public class OnUtteranceCompletedListenerContainer implements OnUtteranceCompletedListener {
 	private final Map<String, OnUtteranceCompletedListener> listeners = new HashMap<String, TextToSpeech.OnUtteranceCompletedListener>();
 

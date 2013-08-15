@@ -38,7 +38,7 @@
     <string name="close">"Sluiten"</string>
     <string name="error">"Fout"</string>
     <string name="please_wait">"Even geduld"</string>
-    <string name="loading">"Laden..."</string>
+    <string name="loading">"Laden…"</string>
     <string name="background">"Achtergrond"</string>
     <string name="stage">"Speelveld"</string>
     <string name="ok">"OK"</string>
@@ -253,7 +253,7 @@
 
 
     <!-- Broadcast spinner -->
-    <string name="new_broadcast_message">"Nieuw..."</string>
+    <string name="new_broadcast_message">"Nieuw…"</string>
     <!--  -->
 
 
@@ -365,8 +365,8 @@
     <string name="brick_if_end">"Einde van Als"</string>
     <string name="brick_set_variable">"Maak variabele"</string>
     <string name="brick_change_variable">"Verander variabele"</string>
-    <string name="brick_variable_spinner_create_new_variable">"Nieuw..."</string>
-    <string name="brick_note_default_value">"hier commentaar toevoegen ..."</string>
+    <string name="brick_variable_spinner_create_new_variable">"Nieuw…"</string>
+    <string name="brick_note_default_value">"hier commentaar toevoegen …"</string>
     <string name="brick_broadcast_default_value">"bericht 1"</string>
     <!--  -->
 
@@ -430,7 +430,7 @@
     <string name="button_scan">"Zoeken naar Bluetooth-apparaten"</string>
     <string name="select_device">"Selecteer je Lego Mindstorms NXT"</string>
     <string name="scanning">"Scannen"</string>
-    <string name="connecting_please_wait">"Verbinding maken met je apparaat.\nEven wachten..."</string>
+    <string name="connecting_please_wait">"Verbinding maken met je apparaat.\nEven wachten…"</string>
     <string name="pairing_message">"Maak verbinding, na het koppelen."</string>
     <string name="problem_at_closing">"Er is een fout opgetreden tijdens het verbreken van de verbinding!"</string>
     <string name="bt_connection_failed">"Verbinding maken mislukt!"</string>

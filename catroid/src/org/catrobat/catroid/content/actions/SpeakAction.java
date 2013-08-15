@@ -31,6 +31,7 @@ import org.catrobat.catroid.stage.PreStageActivity;
 
 import java.util.HashMap;
 
+@SuppressWarnings("deprecation")
 public class SpeakAction extends Action {
 
 	private String text;
