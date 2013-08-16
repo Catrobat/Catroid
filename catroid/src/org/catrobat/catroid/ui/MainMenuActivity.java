@@ -32,13 +32,10 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
@@ -63,7 +60,7 @@ import org.catrobat.catroid.web.ServerCalls;
 
 import java.util.concurrent.locks.Lock;
 
-public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener,
+public class MainMenuActivity extends BaseActivity implements OnCheckTokenCompleteListener,
 		OnLoadProjectCompleteListener {
 
 	private static final String TYPE_FILE = "file";
@@ -133,17 +130,12 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		}
 	}
 
-	// Code from Stackoverflow to reduce memory problems
-	// onDestroy() and unbindDrawables() methods taken from
-	// http://stackoverflow.com/a/6779067
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		if (!Utils.externalStorageAvailable()) {
 			return;
 		}
-		unbindDrawables(findViewById(R.id.main_menu));
-		System.gc();
 	}
 
 	@Override
@@ -274,18 +266,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	private void showLoginRegisterDialog() {
 		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
 		loginRegisterDialog.show(getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
-	}
-
-	private void unbindDrawables(View view) {
-		if (view.getBackground() != null) {
-			view.getBackground().setCallback(null);
-		}
-		if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
-			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-				unbindDrawables(((ViewGroup) view).getChildAt(i));
-			}
-			((ViewGroup) view).removeAllViews();
-		}
 	}
 
 	private void loadProgramFromExternalSource(Uri loadExternalProjectUri) {

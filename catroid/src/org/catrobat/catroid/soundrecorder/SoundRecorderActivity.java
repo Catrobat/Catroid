@@ -30,21 +30,18 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
 
-public class SoundRecorderActivity extends SherlockFragmentActivity implements OnClickListener {
+public class SoundRecorderActivity extends BaseActivity implements OnClickListener {
 
 	private static final String TAG = SoundRecorderActivity.class.getSimpleName();
 	private SoundRecorder soundRecorder;
@@ -61,29 +58,6 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 		timeRecorderChronometer = (Chronometer) findViewById(R.id.soundrecorder_chronometer_time_recorded);
 		recordButton.setOnClickListener(this);
 		Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this);
-	}
-
-	// Code from Stackoverflow to reduce memory problems
-	// onDestroy() and unbindDrawables() methods taken from
-	// http://stackoverflow.com/a/6779067
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-
-		unbindDrawables(findViewById(R.id.soundrecorder));
-		System.gc();
-	}
-
-	private void unbindDrawables(View view) {
-		if (view.getBackground() != null) {
-			view.getBackground().setCallback(null);
-		}
-		if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
-			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-				unbindDrawables(((ViewGroup) view).getChildAt(i));
-			}
-			((ViewGroup) view).removeAllViews();
-		}
 	}
 
 	@Override
