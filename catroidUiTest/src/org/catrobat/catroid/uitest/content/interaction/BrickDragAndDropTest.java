@@ -75,9 +75,11 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnScreen(200, 200);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_stop_all_sounds);
-		// just to get focus and get the correct list
 		String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
-		solo.clickOnText(currentSprite);
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+			// just to get focus and get the correct list
+			solo.clickOnText(currentSprite);
+		}
 
 		List<Brick> brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		assertEquals("One Brick should be in bricklist, one hovering and therefore not in project yet", 1,
@@ -125,11 +127,12 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 
 		solo.sleep(200);
 		solo.drag(20, 20, 300, height - 20, 100);
-		// just to get focus and get the correct list
-		currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
-		solo.clickOnText(currentSprite);
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+			// just to get focus and get the correct list
+			currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
+			solo.clickOnText(currentSprite);
+		}
 		solo.sleep(400);
-
 		assertTrue("Last Brick should now be WaitBrick", adapter.getItem(3) instanceof WaitBrick);
 	}
 
