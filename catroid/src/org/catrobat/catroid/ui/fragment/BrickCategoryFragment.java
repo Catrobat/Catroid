@@ -109,6 +109,7 @@ public class BrickCategoryFragment extends SherlockListFragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.findItem(R.id.delete).setVisible(false);
+		menu.findItem(R.id.copy).setVisible(false);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
