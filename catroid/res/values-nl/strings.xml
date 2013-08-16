@@ -282,11 +282,11 @@
     <string name="brick_set_y">"Maak Y:"</string>
     <string name="brick_change_x_by">"Verander X met:"</string>
     <string name="brick_change_y_by">"Verander Y met:"</string>
-    <string name="brick_go_back">"Ga terug"</string>
+    <string name="brick_go_back">"Ga"</string>
 
     <plurals name="brick_go_back_layer_plural">
-        <item quantity="one">"laag"</item>
-        <item quantity="other">"lagen"</item>
+        <item quantity="one">"laag terug"</item>
+        <item quantity="other">"lagen terug"</item>
     </plurals>
 
     <string name="brick_come_to_front">"Ga naar voorgrond"</string>
@@ -302,7 +302,7 @@
     <string name="brick_turn_right">"Draai rechtsom"</string>
     <string name="brick_point_in_direction">"Wijs in richting"</string>
     <string name="brick_point_to">"Richt naar"</string>
-    <string name="brick_glide">"Glijd"</string>
+    <string name="brick_glide">"Glijd in"</string>
     <string name="brick_glide_to_x">"naar X:"</string>
     <!--  -->
 
@@ -314,12 +314,12 @@
     <string name="brick_change_size_by">"Verander grootte met"</string>
     <string name="brick_hide">"Verdwijn"</string>
     <string name="brick_show">"Verschijn"</string>
-    <string name="brick_set_ghost_effect">"Maak doorzichtigheid"</string>
+    <string name="brick_set_ghost_effect">"Stel doorzichtigheid"</string>
     <string name="brick_change_ghost_effect">"Verander doorzichtigheid"</string>
-    <string name="brick_set_brightness">"Maak helderheid"</string>
+    <string name="brick_set_brightness">"Stel helderheid"</string>
     <string name="brick_change_brightness">"Verander helderheid"</string>
     <string name="by_label">"met"</string>
-    <string name="to_label">"naar"</string>
+    <string name="to_label">"in op"</string>
     <string name="brick_clear_graphic_effect">"Grafische effecten verwijderen"</string>
     <string name="brick_next_look">"Volgende uiterlijk"</string>
     <string name="brick_next_background">"Volgende achtergrond"</string>
@@ -337,7 +337,7 @@
 
 
     <!-- Control bricks -->
-    <string name="brick_when_started">"Wanneer het programma wordt gestart"</string>
+    <string name="brick_when_started">"Wanneer programma start"</string>
     <string name="brick_when">"Wanneer aangeklikt"</string>
     <string name="brick_wait">"Wacht"</string>
 
@@ -349,7 +349,7 @@
     <string name="brick_broadcast_receive">"Wanneer ik signaal ontvang"</string>
     <string name="brick_broadcast">"Zend signaal"</string>
     <string name="brick_broadcast_wait">"Zend signaal en wacht"</string>
-    <string name="brick_note">"Noot"</string>
+    <string name="brick_note">"Opmerking"</string>
     <string name="brick_forever">"Herhaal"</string>
     <string name="brick_repeat">"Herhaal"</string>
 
@@ -363,7 +363,7 @@
     <string name="brick_if_begin_second_part">"is waar, dan"</string>
     <string name="brick_if_else">"Anders"</string>
     <string name="brick_if_end">"Einde van Als"</string>
-    <string name="brick_set_variable">"Maak variabele"</string>
+    <string name="brick_set_variable">"Stel variabele"</string>
     <string name="brick_change_variable">"Verander variabele"</string>
     <string name="brick_variable_spinner_create_new_variable">"Nieuw…"</string>
     <string name="brick_note_default_value">"hier commentaar toevoegen …"</string>
