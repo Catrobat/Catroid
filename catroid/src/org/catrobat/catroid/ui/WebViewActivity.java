@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.DownloadListener;
 import android.webkit.WebView;
@@ -30,14 +29,12 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.DownloadUtil;
 
-public class WebViewActivity extends SherlockFragmentActivity {
+public class WebViewActivity extends BaseActivity {
 
 	private WebView webView;
 
@@ -66,18 +63,4 @@ public class WebViewActivity extends SherlockFragmentActivity {
 		});
 
 	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home: {
-				Intent intent = new Intent(this, MainMenuActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				break;
-			}
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
 }

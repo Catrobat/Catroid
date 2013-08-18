@@ -237,7 +237,6 @@ public class UploadProjectDialog extends DialogFragment {
 		}
 
 		projectManager.getCurrentProject().setDeviceData(getActivity());
-		projectManager.saveProject();
 
 		dismiss();
 		String projectPath = Constants.DEFAULT_ROOT + "/" + projectManager.getCurrentProject().getName();
@@ -246,17 +245,20 @@ public class UploadProjectDialog extends DialogFragment {
 		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
         String email = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
-        int notificationId = StatusBarNotificationManager.getInstance().createUploadNotification(getActivity(),
-                uploadName);
 		Intent uploadIntent = new Intent(getActivity(), ProjectUploadService.class);
-		uploadIntent.putExtra("receiver", new UploadReceiver(new Handler()));
-		uploadIntent.putExtra("uploadName", uploadName);
-		uploadIntent.putExtra("projectDescription", projectDescription);
-		uploadIntent.putExtra("projectPath", projectPath);
-		uploadIntent.putExtra("username", username);
-		uploadIntent.putExtra("token", token);
-        uploadIntent.putExtra("email", email);
-		uploadIntent.putExtra("notificationId", notificationId);
+
+		// TODO check this extras - e.g. project description isn't used by web 
+		uploadIntent.putExtra(Constants.INTENT_RECEIVER, new UploadReceiver(new Handler()));
+		uploadIntent.putExtra(Constants.INTENT_UPLOAD_NAME, uploadName);
+		uploadIntent.putExtra(Constants.INTENT_PROJECT_DESCRIPTION, projectDescription);
+		uploadIntent.putExtra(Constants.INTENT_PROJECT_PATH, projectPath);
+		uploadIntent.putExtra(Constants.INTENT_USERNAME, username);
+		uploadIntent.putExtra(Constants.INTENT_TOKEN, token);
+        uploadIntent.putExtra(Constants.INTENT_EMAIL, email);
+
+		int notificationId = StatusBarNotificationManager.getInstance().createUploadNotification(getActivity(),
+				uploadName);
+		uploadIntent.putExtra(Constants.INTENT_NOTIFICATION_ID, notificationId);
 		activity = getActivity();
 		activity.startService(uploadIntent);
 

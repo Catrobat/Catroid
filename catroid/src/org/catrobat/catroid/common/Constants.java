@@ -81,4 +81,14 @@ public final class Constants {
 	public static final int UPLOAD_NOTIFICATION = 102;
 	public static final int DOWNLOAD_NOTIFICATION = 103;
 	public static final int COPY_NOTIFICATION = 104;
+
+    //Upload intent
+    public static final String INTENT_PROJECT_PATH = "projectPath";
+    public static final String INTENT_UPLOAD_NAME = "uploadName";
+    public static final String INTENT_PROJECT_DESCRIPTION = "projectDescription";
+    public static final String INTENT_TOKEN = "token";
+    public static final String INTENT_USERNAME = "username";
+    public static final String INTENT_EMAIL = "email";
+    public static final String INTENT_NOTIFICATION_ID = "notificationId";
+    public static final String INTENT_RECEIVER = "receiver";
 }

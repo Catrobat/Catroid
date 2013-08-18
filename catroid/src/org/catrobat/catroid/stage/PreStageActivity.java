@@ -108,12 +108,6 @@ public class PreStageActivity extends Activity {
 		}
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-
-	}
-
 	//all resources that should be reinitialized with every stage start
 	public static void shutdownResources() {
 		if (textToSpeech != null) {

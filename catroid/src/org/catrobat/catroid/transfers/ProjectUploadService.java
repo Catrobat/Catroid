@@ -36,6 +36,7 @@ import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.common.Constants;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,15 +64,15 @@ public class ProjectUploadService extends IntentService {
     @Override
     public int onStartCommand(Intent intent, int flags, int startID) {
         int returnCode = super.onStartCommand(intent, flags, startID);
-        this.projectPath = intent.getStringExtra("projectPath");
-        this.projectName = intent.getStringExtra("uploadName");
-        this.projectDescription = intent.getStringExtra("projectDescription");
-        this.token = intent.getStringExtra("token");
-        this.username = intent.getStringExtra("username");
-        this.email = intent.getStringExtra("email");
+        this.projectPath = intent.getStringExtra(Constants.INTENT_PROJECT_PATH);
+        this.projectName = intent.getStringExtra(Constants.INTENT_UPLOAD_NAME);
+        this.projectDescription = intent.getStringExtra(Constants.INTENT_PROJECT_DESCRIPTION);
+        this.token = intent.getStringExtra(Constants.INTENT_TOKEN);
+        this.username = intent.getStringExtra(Constants.INTENT_USERNAME);
+        this.email = intent.getStringExtra(Constants.INTENT_EMAIL);
         this.serverAnswer = "";
         this.result = true;
-        this.notificationId = intent.getIntExtra("notificationId", 0);
+        this.notificationId = intent.getIntExtra(Constants.INTENT_NOTIFICATION_ID, 0);
 
         return returnCode;
     }

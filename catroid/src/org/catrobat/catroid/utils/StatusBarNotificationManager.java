@@ -22,35 +22,29 @@
  */
 package org.catrobat.catroid.utils;
 
-import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.util.SparseArray;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class StatusBarNotificationManager {
 
 	private static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
 
-	private Integer notificationId;
-	private Map<Integer, NotificationData> notificationDataMap;
+	private int notificationId;
+	private SparseArray<NotificationData> notificationDataMap = new SparseArray<NotificationData>();
 
-	NotificationManager notificationManager;
+	private NotificationManager notificationManager;
 
 	public static final String EXTRA_PROJECT_NAME = "projectName";
 
-	@SuppressLint("UseSparseArrays")
 	private StatusBarNotificationManager() {
-		notificationId = 0;
-		notificationDataMap = new HashMap<Integer, NotificationData>();
 	}
 
 	public static StatusBarNotificationManager getInstance() {
@@ -72,7 +66,7 @@ public class StatusBarNotificationManager {
 		}
 	}
 
-	public Integer createUploadNotification(Context context, String programName) {
+	public int createUploadNotification(Context context, String programName) {
 		initNotificationManager(context);
 
 		Intent uploadIntent = new Intent(context, MainMenuActivity.class);
@@ -85,12 +79,12 @@ public class StatusBarNotificationManager {
 				R.string.notification_upload_title_pending, R.string.notification_upload_title_finished,
 				R.string.notification_upload_pending, R.string.notification_upload_finished);
 
-		Integer id = createNotification(context, data);
+		int id = createNotification(context, data);
 		showOrUpdateNotification(id, 0);
 		return id;
 	}
 
-	public Integer createCopyNotification(Context context, String programName) {
+	public int createCopyNotification(Context context, String programName) {
 		initNotificationManager(context);
 
 		Intent copyIntent = new Intent(context, MyProjectsActivity.class);
@@ -103,12 +97,12 @@ public class StatusBarNotificationManager {
 				R.string.notification_copy_title_pending, R.string.notification_upload_title_finished,
 				R.string.notification_copy_pending, R.string.notification_copy_finished);
 
-		Integer id = createNotification(context, data);
+		int id = createNotification(context, data);
 		showOrUpdateNotification(id, 0);
 		return id;
 	}
 
-	public Integer createDownloadNotification(Context context, String programName) {
+	public int createDownloadNotification(Context context, String programName) {
 		initNotificationManager(context);
 
 		Intent downloadIntent = new Intent(context, MainMenuActivity.class);
@@ -125,7 +119,7 @@ public class StatusBarNotificationManager {
 		return createNotification(context, data);
 	}
 
-	public Integer createNotification(Context context, NotificationData data) {
+	public int createNotification(Context context, NotificationData data) {
 		initNotificationManager(context);
 
 		PendingIntent doesNothingPendingIntent = PendingIntent.getActivity(context, 0, new Intent(),
@@ -142,7 +136,7 @@ public class StatusBarNotificationManager {
 		return notificationId++;
 	}
 
-	public void showOrUpdateNotification(Integer id, int progressInPercent) {
+	public void showOrUpdateNotification(int id, int progressInPercent) {
 		NotificationData notificationData = notificationDataMap.get(id);
 		if (notificationData == null) {
 			return;
@@ -160,7 +154,7 @@ public class StatusBarNotificationManager {
 		}
 	}
 
-	public void cancelNotification(Integer id) {
+	public void cancelNotification(int id) {
 		notificationDataMap.remove(id);
 		notificationManager.cancel(id);
 	}

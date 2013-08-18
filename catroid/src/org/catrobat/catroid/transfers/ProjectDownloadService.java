@@ -28,6 +28,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.catrobat.catroid.R;
@@ -40,6 +41,8 @@ import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 public class ProjectDownloadService extends IntentService {
+
+	public static final String TAG = ProjectDownloadService.class.getSimpleName();
 
 	public static final String RECEIVER_TAG = "receiver";
 	public static final String DOWNLOAD_NAME_TAG = "downloadName";
@@ -90,6 +93,7 @@ public class ProjectDownloadService extends IntentService {
 		try {
 			ServerCalls.getInstance().downloadProject(url, zipFileString, receiver, notificationId);
 			result = UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
+			Log.v(TAG, "url: " + url + ", zip-file: " + zipFileString + ", notificationId: " + notificationId);
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 		} finally {
