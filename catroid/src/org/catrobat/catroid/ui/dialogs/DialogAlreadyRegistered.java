@@ -65,7 +65,7 @@ public class DialogAlreadyRegistered extends DialogFragment implements OnRegistr
                 })
                 .create();
 
-		alertDialog.setCanceledOnTouchOutside(true);
+		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
 		return alertDialog;
@@ -74,11 +74,13 @@ public class DialogAlreadyRegistered extends DialogFragment implements OnRegistr
     private void handleAlreadyRegisteredClick() {
         LoginDialog loginDialog = new LoginDialog();
         loginDialog.show(getActivity().getSupportFragmentManager(), LoginDialog.DIALOG_FRAGMENT_TAG);
+        dismiss();
     }
 
     private void handleRegisterClick() {
         RegistrationDialogStepOneDialog registrationDialogStepOneDialog = new RegistrationDialogStepOneDialog();
         registrationDialogStepOneDialog.show(getActivity().getSupportFragmentManager(), RegistrationDialogStepOneDialog.DIALOG_FRAGMENT_TAG);
+        dismiss();
     }
 
     @Override

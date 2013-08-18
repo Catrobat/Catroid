@@ -63,9 +63,12 @@ public class ServerCalls {
 
 	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
+    private static final int SERVER_RESPONSE_EMAIL_ALREADY_EXISTING = 300;
+    private static final int SERVER_RESPONSE_EMAIL_EMPTY = 301;
 
 	private static final String FILE_UPLOAD_URL = Constants.BASE_URL_HTTPS + "api/upload/upload.json";
 	private static final String CHECK_TOKEN_URL = Constants.BASE_URL_HTTPS + "api/checkToken/check.json";
+    private static final String CHECK_EMAIL_URL = Constants.BASE_URL_HTTPS + "api/checkEmail/check.json";
 	private static final String REGISTRATION_URL = Constants.BASE_URL_HTTPS
 			+ "api/loginOrRegister/loginOrRegister.json";
 
@@ -75,6 +78,7 @@ public class ServerCalls {
 	public static final String FILE_UPLOAD_URL_HTTPS = Constants.BASE_URL_HTTPS + "api/upload/upload.json";
 
 	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTP + "api/checkToken/check.json";
+    private static final String TEST_CHECK_EMAIL_URL = BASE_URL_TEST_HTTP + "api/checkEmail/check.json";
 	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTP + "api/loginOrRegister/loginOrRegister.json";
 
 	public static final int TOKEN_LENGTH = 32;
@@ -283,4 +287,40 @@ public class ServerCalls {
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
 		}
 	}
+
+    public boolean checkEmail(String email, Context context) throws WebconnectionException {
+        try {
+            HashMap<String, String> postValues = new HashMap<String, String>();
+            postValues.put(Constants.EMAIL, email);
+
+            String serverUrl = useTestUrl ? TEST_CHECK_EMAIL_URL : CHECK_EMAIL_URL;
+
+            Log.v(TAG, "post values - email:" + email);
+            Log.v(TAG, "url to upload: " + serverUrl);
+            resultString = connection.doHttpPost(serverUrl, postValues);
+
+            JSONObject jsonObject = null;
+            int statusCode = 0;
+
+            Log.v(TAG, "result string: " + resultString);
+
+            jsonObject = new JSONObject(resultString);
+            statusCode = jsonObject.getInt(JSON_STATUS_CODE);
+            String serverAnswer = jsonObject.optString(JSON_ANSWER);
+
+            if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
+                return true;
+            }else if (statusCode == SERVER_RESPONSE_EMAIL_ALREADY_EXISTING) {
+                throw new WebconnectionException(statusCode, "E-Mail already registered: " + serverAnswer);
+            }else if (statusCode == SERVER_RESPONSE_EMAIL_EMPTY) {
+                throw new WebconnectionException(statusCode, "E-Mail field is empty: " + serverAnswer);
+            }
+            else {
+                throw new WebconnectionException(statusCode, "server response token ok, but error: " + serverAnswer);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Exception");
+        }
+    }
 }

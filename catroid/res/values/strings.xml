@@ -259,6 +259,7 @@
     <string name="registration_completed">Welcome to the community! Please click on the button to start the upload.</string>
     <string name="register_terms">By registering, you agree to our</string>
     <string name="register_pocketcode_terms_of_use_text">Terms of use</string>
+    <string name="register_password_mismatch">Error: Passwords do not match</string>
     <!--  -->
 
     <!-- OverwriteRenameDialog Strings -->

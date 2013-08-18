@@ -75,10 +75,20 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
 		termsOfUseLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
 		termsOfUseLinkTextView.setText(Html.fromHtml(termsOfUseUrl));
 
-		usernameEditText.setText("");
+        usernameEditText.setText("");
 		passwordEditText.setText("");
 		passwordConfirmationEditText.setText("");
 		showPassword.setChecked(false);
+
+        String username = RegistrationData.getInstance().getUserName();
+        String password = RegistrationData.getInstance().getPassword();
+        if(username != null && !username.isEmpty()){
+            usernameEditText.setText(username);
+        }
+        if(password != null && !password.isEmpty()){
+            passwordEditText.setText(password);
+            passwordConfirmationEditText.setText(password);
+        }
 
 		showPassword.setOnClickListener(new OnClickListener() {
 			@Override
@@ -109,7 +119,7 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
                 })
                 .create();
 
-		alertDialog.setCanceledOnTouchOutside(true);
+		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
 		return alertDialog;
@@ -119,14 +129,30 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
 
 		String username = usernameEditText.getText().toString();
 		String password = passwordEditText.getText().toString();
+        String passwordConfirmation = passwordConfirmationEditText.getText().toString();
 
 		fragmentActivity = getActivity();
-		RegistrationTask registrationTask = new RegistrationTask(fragmentActivity, username, password);
-		registrationTask.setOnRegistrationCompleteListener(this);
-		registrationTask.execute();
+        if (!password.equals(passwordConfirmation)) {
+            new AlertDialog.Builder(getActivity()).setTitle(R.string.register_error)
+                      .setMessage(R.string.register_password_mismatch).setPositiveButton(R.string.ok, null).show()
+            .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    RegistrationDialogStepFiveDialog registerStepFiveDialog = new RegistrationDialogStepFiveDialog();
+                    registerStepFiveDialog.show(fragmentActivity.getSupportFragmentManager(),
+                            RegistrationDialogStepFiveDialog.DIALOG_FRAGMENT_TAG);
+                }
+            });
+        }else{
+            dismiss();
+            RegistrationTask registrationTask = new RegistrationTask(fragmentActivity, username, password);
+            registrationTask.setOnRegistrationCompleteListener(this);
+            registrationTask.execute();
+        }
 	}
 
     private void handleBackClick() {
+        setRegistrationData();
         RegistrationDialogStepFourDialog registerStepFourDialog = new RegistrationDialogStepFourDialog();
         registerStepFourDialog.show(getActivity().getSupportFragmentManager(),
                 RegistrationDialogStepFourDialog.DIALOG_FRAGMENT_TAG);
@@ -135,20 +161,24 @@ public class RegistrationDialogStepFiveDialog extends DialogFragment implements 
 	@Override
 	public void onRegistrationComplete(boolean success) {
 		if (success) {
-			String username = usernameEditText.getText().toString();
-			String password = passwordEditText.getText().toString();
-			RegistrationData.getInstance().setUserName(username);
-			RegistrationData.getInstance().setPassword(password);
+			setRegistrationData();
 
-			RegistrationDialogStepSixDialog registerStepSixDialog = new RegistrationDialogStepSixDialog();
-			dismiss();
+            dismiss();
+            RegistrationDialogStepSixDialog registerStepSixDialog = new RegistrationDialogStepSixDialog();
 			registerStepSixDialog.show(fragmentActivity.getSupportFragmentManager(),
 					RegistrationDialogStepSixDialog.DIALOG_FRAGMENT_TAG);
 		} else {
-			RegistrationDialogStepFiveDialog registerStepFiveDialog = new RegistrationDialogStepFiveDialog();
-			dismiss();
+            dismiss();
+            RegistrationDialogStepFiveDialog registerStepFiveDialog = new RegistrationDialogStepFiveDialog();
 			registerStepFiveDialog.show(fragmentActivity.getSupportFragmentManager(),
 					RegistrationDialogStepFiveDialog.DIALOG_FRAGMENT_TAG);
 		}
 	}
+
+    private void setRegistrationData(){
+        String username = usernameEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+        RegistrationData.getInstance().setUserName(username);
+        RegistrationData.getInstance().setPassword(password);
+    }
 }

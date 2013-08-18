@@ -103,4 +103,14 @@ public class RegistrationData {
 	public void setCountryCode(String countryCode) {
 		this.countryCode = countryCode;
 	}
+
+    public void clearData() {
+        userName = "";
+        password = "";
+        gender = "";
+        email = "";
+        countryCode = "";
+        birthdayMonth = "";
+        birthdayYear = "";
+    }
 }

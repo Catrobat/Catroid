@@ -286,6 +286,8 @@
     <string name="registration_step6">6/6</string>
     <string name="registration_successful">Registrierung erfolgreich</string>
     <string name="registration_completed">Willkommen in der Community! Bitte klicke auf den Button um den Upload zu starten.</string>
+    <string name="register_password_mismatch">Fehler: Passwörter passen nicht zusammen</string>
+
     <!-- OverwriteRenameDialog Strings -->
     <string name="overwrite_text">Projekt mit gleichem Namen existiert bereits!</string>
     <string name="overwrite_replace">ersetze bestehendes Projekt</string>

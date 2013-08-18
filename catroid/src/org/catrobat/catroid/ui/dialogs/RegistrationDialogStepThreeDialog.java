@@ -23,9 +23,10 @@
 
 package org.catrobat.catroid.ui.dialogs;
 
+import android.support.v4.app.FragmentActivity;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.transfers.CheckEmailTask;
 import org.catrobat.catroid.transfers.RegistrationData;
-import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 
 import android.app.AlertDialog;
@@ -42,11 +43,12 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class RegistrationDialogStepThreeDialog extends DialogFragment implements OnRegistrationCompleteListener {
+public class RegistrationDialogStepThreeDialog extends DialogFragment implements CheckEmailTask.OnCheckEmailCompleteListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step3";
 
 	private EditText emailEditText;
+    private FragmentActivity fragmentActivity;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -54,7 +56,14 @@ public class RegistrationDialogStepThreeDialog extends DialogFragment implements
         View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_email_title, null);
 
 		emailEditText = (EditText) view.findViewById(R.id.dialog_register_edittext_email);
-		final String userEmail = UtilDeviceInfo.getUserEmail(getActivity());
+
+        final String userEmail;
+        String previousEmail = RegistrationData.getInstance().getEmail();
+        if(previousEmail != null && !previousEmail.isEmpty()){
+            userEmail = previousEmail;
+        }else{
+            userEmail = UtilDeviceInfo.getUserEmail(getActivity());
+        }
 
 		final Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
                 .setCustomTitle(titleView)
@@ -70,7 +79,7 @@ public class RegistrationDialogStepThreeDialog extends DialogFragment implements
                 })
                 .create();
 
-		alertDialog.setCanceledOnTouchOutside(true);
+		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
 		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
@@ -116,23 +125,36 @@ public class RegistrationDialogStepThreeDialog extends DialogFragment implements
 	}
 
 	private void handleNextButtonClick() {
-
-		String emailString = emailEditText.getText().toString().trim();
-		RegistrationData.getInstance().setEmail(emailString);
-
-		RegistrationDialogStepFourDialog registerStepFourDialog = new RegistrationDialogStepFourDialog();
-		registerStepFourDialog.show(getActivity().getSupportFragmentManager(),
-				RegistrationDialogStepFourDialog.DIALOG_FRAGMENT_TAG);
+        String emailString = emailEditText.getText().toString().trim();
+        fragmentActivity = getActivity();
+        dismiss();
+        CheckEmailTask checkEmailTask = new CheckEmailTask(fragmentActivity, emailString);
+        checkEmailTask.setOnCheckEmailCompleteListener(this);
+        checkEmailTask.execute();
 	}
 
     private void handleBackClick() {
+        setRegistrationData();
+        dismiss();
         RegistrationDialogStepTwoDialog registerStepTwoDialog = new RegistrationDialogStepTwoDialog();
         registerStepTwoDialog.show(getActivity().getSupportFragmentManager(),
                 RegistrationDialogStepTwoDialog.DIALOG_FRAGMENT_TAG);
     }
 
-	@Override
-	public void onRegistrationComplete(boolean success) {
-		dismiss();
-	}
+    private void setRegistrationData(){
+        String emailString = emailEditText.getText().toString().trim();
+        RegistrationData.getInstance().setEmail(emailString);
+    }
+
+    @Override
+    public void onCheckEmailComplete(boolean success) {
+        if(success){
+            setRegistrationData();
+            dismiss();
+
+            RegistrationDialogStepFourDialog registerStepFourDialog = new RegistrationDialogStepFourDialog();
+            registerStepFourDialog.show(fragmentActivity.getSupportFragmentManager(),
+                    RegistrationDialogStepFourDialog.DIALOG_FRAGMENT_TAG);
+        }
+    }
 }

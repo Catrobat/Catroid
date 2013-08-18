@@ -26,13 +26,8 @@ import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
-import android.widget.Toast;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -41,22 +36,20 @@ public class CheckEmailTask extends AsyncTask<Void, Void, Boolean> {
 
 	private Context context;
 	private ProgressDialog progressDialog;
-	private String username;
-	private String password;
+	private String email;
 
 	private String message;
-	private boolean userRegistered;
+	private boolean emailAvailable;
 
-	private OnRegistrationCompleteListener onRegistrationCompleteListener;
+	private OnCheckEmailCompleteListener onCheckEmailCompleteListener;
 
-	public CheckEmailTask(Context activity, String username, String password) {
+	public CheckEmailTask(Context activity, String email) {
 		this.context = activity;
-		this.username = username;
-		this.password = password;
+		this.email = email;
 	}
 
-	public void setOnRegistrationCompleteListener(OnRegistrationCompleteListener listener) {
-		onRegistrationCompleteListener = listener;
+	public void setOnCheckEmailCompleteListener(OnCheckEmailCompleteListener listener) {
+		onCheckEmailCompleteListener = listener;
 	}
 
 	@Override
@@ -72,35 +65,23 @@ public class CheckEmailTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
-		try {
+        return true;
+        /*
+        //TODO: implement with Marko
+        try {
 			if (!Utils.isNetworkAvailable(context)) {
 				return false;
 			}
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-			String email = RegistrationData.getInstance().getEmail();
-			if (email == null || email.isEmpty()) {
-				email = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
-			}
-			if (email == null || email.equals(Constants.NO_EMAIL)) {
-				email = UtilDeviceInfo.getUserEmail(context);
-			}
-			String language = UtilDeviceInfo.getUserLanguageCode(context);
-			String country = RegistrationData.getInstance().getCountryCode();
-			//String country = UtilDeviceInfo.getUserCountryCode(context);
-			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-			String gender = RegistrationData.getInstance().getGender();
-			String birthdayMonth = RegistrationData.getInstance().getBirthdayMonth();
-			String birthdayYear = RegistrationData.getInstance().getBirthdayYear();
-
-			userRegistered = ServerCalls.getInstance().registerOrCheckToken(username, password, email, language,
-					country, token, gender, birthdayMonth, birthdayYear, context);
-			return true;
-		} catch (WebconnectionException e) {
-			e.printStackTrace();
-			message = e.getMessage();
+			emailAvailable = ServerCalls.getInstance().checkEmail(email, context);
+            return emailAvailable;
+            return true;
+		} catch (WebconnectionException exception) {
+			exception.printStackTrace();
+			message = exception.getMessage();
 		}
 		return false;
+		*/
 	}
 
 	@Override
@@ -120,12 +101,8 @@ public class CheckEmailTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 
-		if (userRegistered) {
-			Toast.makeText(context, R.string.new_user_registered, Toast.LENGTH_SHORT).show();
-		}
-
-		if (onRegistrationCompleteListener != null) {
-			onRegistrationCompleteListener.onRegistrationComplete(true);
+		if (onCheckEmailCompleteListener != null) {
+			onCheckEmailCompleteListener.onCheckEmailComplete(true);
 		}
 	}
 
@@ -134,31 +111,29 @@ public class CheckEmailTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 		if (message == null) {
-			new Builder(context).setTitle(R.string.register_error).setMessage(messageId).setPositiveButton("OK", null)
+			new Builder(context).setTitle(R.string.register_error).setMessage(messageId).setPositiveButton(R.string.ok, null)
 					.show().setOnDismissListener(new DialogInterface.OnDismissListener() {
 						@Override
 						public void onDismiss(DialogInterface dialog) {
-							if (onRegistrationCompleteListener != null) {
-								onRegistrationCompleteListener.onRegistrationComplete(false);
+							if (onCheckEmailCompleteListener != null) {
+								onCheckEmailCompleteListener.onCheckEmailComplete(false);
 							}
 						}
 					});
 		} else {
-			new Builder(context).setTitle(R.string.register_error).setMessage(message).setPositiveButton("OK", null)
+			new Builder(context).setTitle(R.string.register_error).setMessage(message).setPositiveButton(R.string.ok, null)
 					.show().setOnDismissListener(new DialogInterface.OnDismissListener() {
-						@Override
-						public void onDismiss(DialogInterface dialog) {
-							if (onRegistrationCompleteListener != null) {
-								onRegistrationCompleteListener.onRegistrationComplete(false);
-							}
-						}
-					});
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    if (onCheckEmailCompleteListener != null) {
+                        onCheckEmailCompleteListener.onCheckEmailComplete(false);
+                    }
+                }
+            });
 		}
 	}
 
-	public interface OnRegistrationCompleteListener {
-
-		public void onRegistrationComplete(boolean success);
-
+	public interface OnCheckEmailCompleteListener {
+		public void onCheckEmailComplete(boolean success);
 	}
 }

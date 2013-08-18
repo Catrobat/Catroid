@@ -41,8 +41,9 @@ import android.widget.Spinner;
 public class RegistrationDialogStepTwoDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step2";
+    private static final String SEPARATOR = "/";
 
-	private Spinner countrySpinner;
+    private Spinner countrySpinner;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -68,18 +69,18 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
                 })
 				.create();
 
-		alertDialog.setCanceledOnTouchOutside(true);
+		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
 		return alertDialog;
 	}
 
-	private void addItemsOnCountrySpinner() {
+    private void addItemsOnCountrySpinner() {
 		String[] countryList = getActivity().getResources().getStringArray(R.array.countries_array);
 
 		for (int position = countryList.length - 1; position >= 0; position--) {
 			String currentItem = countryList[position];
-			int countryPosition = currentItem.indexOf("/") + 1;
+			int countryPosition = currentItem.indexOf(SEPARATOR) + 1;
 			String newCountryString = currentItem.substring(countryPosition, currentItem.length());
 			countryList[position] = newCountryString;
 		}
@@ -87,9 +88,15 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 		ArrayAdapter<CharSequence> countryAdapter = new ArrayAdapter<CharSequence>(getActivity(),
 				android.R.layout.simple_spinner_item, countryList);
 		countrySpinner.setAdapter(countryAdapter);
-		String userCountry = UtilDeviceInfo.getUserCountryCode(getActivity());
+
+        String userCountry = UtilDeviceInfo.getUserCountryCode(getActivity());
+        String previouslySelectedCountry = RegistrationData.getInstance().getCountryCode();
+        if(previouslySelectedCountry != null && !previouslySelectedCountry.isEmpty()){
+            userCountry = previouslySelectedCountry;
+        }
+
 		int localCountryPosition = 0;
-		if (!userCountry.equals("")) {
+		if (!userCountry.isEmpty()) {
 			localCountryPosition = findSpinnerValuePosition(userCountry);
 			countrySpinner.setSelection(localCountryPosition);
 		}
@@ -100,7 +107,7 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 		int position = 0;
 		for (int stringArrayPosition = 0; stringArrayPosition <= countryList.length; stringArrayPosition++) {
 			String currentItem = countryList[position];
-			int countryPosition = currentItem.indexOf("/");
+			int countryPosition = currentItem.indexOf(SEPARATOR);
 			String countryCode = currentItem.substring(0, countryPosition);
 			if (countryCode.equals(value.toLowerCase())) {
 				return position;
@@ -111,25 +118,31 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 	}
 
 	private void handleNextButtonClick() {
-		int countryPosition = countrySpinner.getSelectedItemPosition();
-		String countryCodeString = getCountryCodeFromCountryId(countryPosition);
-		RegistrationData.getInstance().setCountryCode(countryCodeString);
-
+        setRegistrationData();
+        dismiss();
 		RegistrationDialogStepThreeDialog registerStepThreeDialog = new RegistrationDialogStepThreeDialog();
 		registerStepThreeDialog.show(getActivity().getSupportFragmentManager(),
 				RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
 	}
 
     private void handleBackClick() {
+        setRegistrationData();
+        dismiss();
         RegistrationDialogStepOneDialog registerStepOneDialog = new RegistrationDialogStepOneDialog();
         registerStepOneDialog.show(getActivity().getSupportFragmentManager(),
                 RegistrationDialogStepOneDialog.DIALOG_FRAGMENT_TAG);
     }
 
+    private void setRegistrationData(){
+        int countryPosition = countrySpinner.getSelectedItemPosition();
+        String countryCodeString = getCountryCodeFromCountryId(countryPosition);
+        RegistrationData.getInstance().setCountryCode(countryCodeString);
+    }
+
 	private String getCountryCodeFromCountryId(int position) {
 		String[] countryList = getActivity().getResources().getStringArray(R.array.countries_array);
 		String country = countryList[position];
-		int countryPosition = country.indexOf("/");
+		int countryPosition = country.indexOf(SEPARATOR);
 		String countryCode = country.substring(0, countryPosition);
 		return countryCode;
 	}

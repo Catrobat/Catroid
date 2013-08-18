@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 
 import android.app.AlertDialog;
@@ -53,13 +54,14 @@ public class RegistrationDialogStepSixDialog extends DialogFragment implements O
 				})
                 .create();
 
-		alertDialog.setCanceledOnTouchOutside(true);
+		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
 		return alertDialog;
 	}
 
 	private void handleUploadButtonClick() {
+        RegistrationData.getInstance().clearData();
 		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
 		uploadProjectDialog.show(getActivity().getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}

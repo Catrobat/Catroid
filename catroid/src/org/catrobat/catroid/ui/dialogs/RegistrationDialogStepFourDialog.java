@@ -38,6 +38,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import org.catrobat.catroid.utils.UtilDeviceInfo;
 
 public class RegistrationDialogStepFourDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
@@ -76,7 +77,7 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
                 })
                 .create();
 
-		alertDialog.setCanceledOnTouchOutside(true);
+		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
 		return alertDialog;
@@ -90,9 +91,17 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 			yearList[position] = Integer.toString(start);
 			position++;
 		}
+
+        String previousYear = RegistrationData.getInstance().getBirthdayYear();
+        if(previousYear != null && !previousYear.isEmpty()){
+            int previousYearInteger = Integer.parseInt(previousYear);
+            position = previousYearInteger - 1900 + 10;
+        }
+
 		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(getActivity(),
 				android.R.layout.simple_spinner_item, yearList);
 		yearSpinner.setAdapter(adapter);
+
 		yearSpinner.setSelection(position - 10);
 	}
 
@@ -100,6 +109,17 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.months_array,
 				android.R.layout.simple_spinner_item);
 		monthSpinner.setAdapter(adapter);
+
+        String previousMonth = RegistrationData.getInstance().getBirthdayMonth();
+        if(previousMonth != null && !previousMonth.isEmpty()){
+            int position = 0;
+            for(String month : getResources().getStringArray(R.array.months_array)){
+                if(month.equals(previousMonth)){
+                    monthSpinner.setSelection(position);
+                }
+                position++;
+            }
+        }
 	}
 
 	@Override
@@ -108,20 +128,25 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 	}
 
 	private void handleNextButtonClick() {
-		String monthString = monthSpinner.getSelectedItem().toString();
-		String yearString = yearSpinner.getSelectedItem().toString();
-		RegistrationData.getInstance().setBirthdayMonth(monthString);
-		RegistrationData.getInstance().setBirthdayYear(yearString);
-
-		RegistrationDialogStepFiveDialog registerStepFiveDialog = new RegistrationDialogStepFiveDialog();
-		dismiss();
+		setRegistrationData();
+        dismiss();
+        RegistrationDialogStepFiveDialog registerStepFiveDialog = new RegistrationDialogStepFiveDialog();
 		registerStepFiveDialog.show(getActivity().getSupportFragmentManager(),
 				RegistrationDialogStepFiveDialog.DIALOG_FRAGMENT_TAG);
 	}
 
     private void handleBackClick() {
+        setRegistrationData();
+        dismiss();
         RegistrationDialogStepThreeDialog registerStepThreeDialog = new RegistrationDialogStepThreeDialog();
         registerStepThreeDialog.show(getActivity().getSupportFragmentManager(),
                 RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
+    }
+
+    private void setRegistrationData(){
+        String monthString = monthSpinner.getSelectedItem().toString();
+        String yearString = yearSpinner.getSelectedItem().toString();
+        RegistrationData.getInstance().setBirthdayMonth(monthString);
+        RegistrationData.getInstance().setBirthdayYear(yearString);
     }
 }
