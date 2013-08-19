@@ -41,7 +41,7 @@ import java.util.ArrayList;
 
 public class Connection extends Thread {
 	public static enum connectionState {
-		UNDEFINED, CONNECTED, UNCONNECTED
+		UNDEFINED, CONNECTED, UNCONNECTED, UNCONNECTED_ILLEGALVERSION
 	};
 
 	private String ip;
@@ -57,9 +57,12 @@ public class Connection extends Thread {
 	private final int port = 63000;
 	private String serverName;
 	private final int socketTimeout = 1000;
+	private int commandCount;
+	private boolean errorDialogOnScreen;
 
 	public Connection(String ip, PcConnectionManager connect, String serverName) {
 		this.ip = ip;
+		errorDialogOnScreen = false;
 		this.serverName = serverName;
 		client = null;
 		state = connectionState.UNDEFINED;
@@ -73,7 +76,7 @@ public class Connection extends Thread {
 		initialize();
 		while (thisThread == this) {
 
-			if (commandList.size() > 0) {
+			if (commandList.size() > 0 && !errorDialogOnScreen) {
 				sendCommand();
 				waitForResponse();
 			} else {
@@ -87,6 +90,7 @@ public class Connection extends Thread {
 	}
 
 	public void initialize() {
+		commandCount = 0;
 		output = null;
 		objectOutput = null;
 		commandList = new ArrayList<Command>();
@@ -112,7 +116,6 @@ public class Connection extends Thread {
 			PcConnectionManager.getInstance(null).setConnectionAlreadySetUp(false);
 			return;
 		}
-		state = connectionState.CONNECTED;
 		try {
 			output = client.getOutputStream();
 			objectOutput = new ObjectOutputStream(output);
@@ -128,12 +131,44 @@ public class Connection extends Thread {
 			objectInput = new ObjectInputStream(input);
 		} catch (IOException e) {
 			Log.w("Connection", "Connection to " + ip + " broke.");
+			e.printStackTrace();
 			state = connectionState.UNCONNECTED;
 			PcConnectionManager.getInstance(null).setConnectionAlreadySetUp(false);
 			stopThread();
 			return;
 		}
+		if (registerOnServer()) {
+			waitForResponse();
+		}
+		if (state == connectionState.UNCONNECTED_ILLEGALVERSION) {
+			return;
+		}
+		state = connectionState.CONNECTED;
 		PcConnectionManager.getInstance(null).setConnection(this);
+	}
+
+	public boolean registerOnServer() {
+		try {
+			int registrationStart = (Integer) objectInput.readObject();
+			if (registrationStart != 1) {
+				state = connectionState.UNCONNECTED;
+				return false;
+			}
+		} catch (OptionalDataException e) {
+			return false;
+		} catch (ClassNotFoundException e) {
+			return false;
+		} catch (IOException e) {
+			return false;
+		}
+		int versionId = PcConnectionManager.getInstance(null).getVersionId();
+		try {
+			objectOutput.writeObject(versionId);
+		} catch (IOException e) {
+			Log.w("Connection", "Connection to " + ip + " broke.");
+			PcConnectionManager.getInstance(null).setConnectionAlreadySetUp(false);
+		}
+		return true;
 	}
 
 	public connectionState getConnectionState() {
@@ -141,7 +176,34 @@ public class Connection extends Thread {
 	}
 
 	public void sendCommand() {
-		Command actualCommand = commandList.get(0);
+
+		if (commandCount > 2) {
+			handleLongPress();
+		} else {
+			handleSinglePress();
+		}
+	}
+
+	public void handleSinglePress() {
+		writeCommand(commandList.get(0));
+		commandCount = 0;
+		commandList.clear();
+	}
+
+	public void handleLongPress() {
+		//TODO
+	}
+
+	//	public Command startLongPress() {
+	//		//		lastCommand = commandList.get(0).getKey();
+	//		//		return new Command(lastCommand, Command.commandType.LONG_KEY_START);
+	//	}
+
+	//	public Command stopLongPress() {
+	//		//		return new Command(lastCommand, Command.commandType.LONG_KEY_STOP);
+	//	}
+
+	public void writeCommand(Command actualCommand) {
 		try {
 			objectOutput.writeObject(actualCommand);
 		} catch (IOException e1) {
@@ -160,19 +222,58 @@ public class Connection extends Thread {
 		} catch (OptionalDataException e) {
 			Log.w("Connection", "Input was not an object. Was of primitive type.");
 			PcConnectionManager.getInstance(null).setConnectionAlreadySetUp(false);
-			showErrorDialog();
+			if (state != connectionState.UNDEFINED) {
+				showErrorDialog();
+			}
+			state = connectionState.UNCONNECTED;
+			return;
 		} catch (ClassNotFoundException e) {
 			Log.w("Connection", "Illegal class object was sent.");
 			PcConnectionManager.getInstance(null).setConnectionAlreadySetUp(false);
-			showErrorDialog();
+			if (state != connectionState.UNDEFINED) {
+				showErrorDialog();
+			}
+			state = connectionState.UNCONNECTED;
+			return;
 		} catch (IOException e) {
 			Log.w("Connection", "Connection to " + ip + " broke.");
 			PcConnectionManager.getInstance(null).setConnectionAlreadySetUp(false);
-			showErrorDialog();
+			if (state != connectionState.UNDEFINED) {
+				showErrorDialog();
+				return;
+			} else {
+				state = connectionState.UNCONNECTED;
+				return;
+			}
+		}
+		switch (confirmation.getConfirmationState()) {
+			case COMMAND_SEND_SUCCESSFULL:
+				Log.v("Connection", "Command was sent successfull.");
+				break;
+			case ILLEGAL_CLASS:
+				Log.v("Connection", "Command was not accepted. Was of type illegal class.");
+				break;
+			case ILLEGAL_COMMAND:
+				Log.v("Connection", "Command was not accepted. Was not found in list of commands.");
+				break;
+			case LEGAL_VERSION_ID:
+				Log.v("Connection", "Server- and Client versions are compatible.");
+				break;
+			case ILLEGAL_VERSION_ID:
+				Log.v("Connection",
+						"Client was not accepted. Server- and Client versions are incompatible. Client version is too old.");
+				state = connectionState.UNCONNECTED_ILLEGALVERSION;
+				PcConnectionManager.getInstance(null).setServerVersionId(confirmation.getVersionId());
+				stopThread();
+				break;
+
+			default:
+				break;
 		}
 	}
 
 	public void showErrorDialog() {
+		errorDialogOnScreen = true;
 		connectionManager.getStageActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -220,6 +321,7 @@ public class Connection extends Thread {
 	}
 
 	public void addCommand(Command command) {
+		commandCount++;
 		commandList.add(command);
 	}
 }

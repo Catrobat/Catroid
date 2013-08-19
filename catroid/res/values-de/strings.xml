@@ -479,7 +479,11 @@
     <string name="dialog_custom_keyboard">Zu sendende Taste:</string>
     <string name="prog_dialog_scan_wait">Scannen</string>   
     <string name="no_devices_found">Es wurden keine Geräte gefunden.</string>    
-    <string name="no_device_selected">Um eine Verbindung herzustellen muss ein PC ausgewählt sein.</string>    
+    <string name="no_device_selected">Um eine Verbindung herzustellen muss ein PC ausgewählt sein.</string> 
+    <string name="illegalVersionOlder">Diese Version von Catroid ist zu alt und nicht mehr mit \'ServerName\' 
+        kompatibel.</string> 
+    <string name="illegalVersionYounger">Diese Version ist nicht mehr mit ServerName kompatibel. Bitte die
+        neueste Version von \'ServerName\' downloaden.</string> 
     <string name="connection_broke_1">Verbindung zu \"</string>
     <string name="connection_broke_2">\" ist abegebrochen.</string>
     <string name="default_key_text">Taste</string>

@@ -55,6 +55,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SendToPcBrick;
+import org.catrobat.catroid.io.Connection.connectionState;
 import org.catrobat.catroid.io.PcConnectionManager;
 import org.catrobat.catroid.legonxt.LegoNXT;
 import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
@@ -79,6 +80,7 @@ public class PreStageActivity extends Activity {
 	private static TextToSpeech textToSpeech;
 	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
 	private AlertDialog connectionDialog;
+	private boolean suppressBroadcast = false;
 
 	private boolean autoConnect = false;
 
@@ -366,9 +368,29 @@ public class PreStageActivity extends Activity {
 				}).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						if (PcConnectionManager.getInstance(context).setUpConnection(ipSpinner)) {
+						connectionState state = PcConnectionManager.getInstance(context).setUpConnection(ipSpinner);
+						if (state == connectionState.CONNECTED) {
 							PcConnectionManager.getInstance(context).setConnectionAlreadySetUp(true);
 							resourceInitialized();
+						} else if (state == connectionState.UNCONNECTED_ILLEGALVERSION) {
+							AlertDialog.Builder builder = new AlertDialog.Builder(PreStageActivity.this);
+							builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									connectionDialog = createSetUpConnectionAlert();
+									suppressBroadcast = false;
+									connectionDialog.show();
+								}
+							});
+							if (PcConnectionManager.getInstance(context).getVersionId() > PcConnectionManager
+									.getInstance(context).getServerVersionId()) {
+								builder.setMessage(getString(R.string.illegalVersionYounger)).setCancelable(false);
+							} else {
+								builder.setMessage(getString(R.string.illegalVersionOlder)).setCancelable(false);
+							}
+							AlertDialog illegalVersiondialog = builder.create();
+							suppressBroadcast = true;
+							illegalVersiondialog.show();
 						} else {
 							AlertDialog noDeviceSelectedDialog = createNoDeviceSelectedDialog();
 							noDeviceSelectedDialog.show();
@@ -383,7 +405,9 @@ public class PreStageActivity extends Activity {
 			public void onClick(View view) {
 
 				ipSpinner = (Spinner) dialogLayout.findViewById(R.id.dialog_connection_setup_spinner);
-				PcConnectionManager.getInstance(context).broadcast(ipSpinner);
+				if (!suppressBroadcast) {
+					PcConnectionManager.getInstance(context).broadcast(ipSpinner);
+				}
 			}
 		});
 		scanButton.performClick();

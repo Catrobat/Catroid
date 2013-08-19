@@ -22,6 +22,20 @@
  */
 package org.catrobat.catroid.io;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.wifi.WifiManager;
+import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.io.Connection.connectionState;
+import org.catrobat.catroid.stage.StageActivity;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -35,21 +49,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.io.Connection.connectionState;
-import org.catrobat.catroid.stage.StageActivity;
-
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.net.wifi.WifiManager;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.Toast;
-
 public class PcConnectionManager {
+
+	private final int versionId = 1;
 
 	private static PcConnectionManager instance = null;
 	private Context context;
@@ -59,6 +61,7 @@ public class PcConnectionManager {
 	private boolean connectionAlreadySetUp = false;
 	private StageActivity stageActivity;
 	private Connection connection;
+	private int serverVersionId;
 
 	private PcConnectionManager() {
 		connection = null;
@@ -157,9 +160,6 @@ public class PcConnectionManager {
 			@Override
 			public void run() {
 				connectingProgressDialog.dismiss();
-				if (availableIpsList.size() == 0) {
-					return;
-				}
 				ArrayList<String> ipList = new ArrayList<String>();
 				Iterator<Entry<String, String>> it = availableIpsList.entrySet().iterator();
 				while (it.hasNext()) {
@@ -270,36 +270,44 @@ public class PcConnectionManager {
 		return availableIpsList;
 	}
 
-	public boolean setUpConnection(Spinner ipSpinner) {
+	public connectionState setUpConnection(Spinner ipSpinner) {
+		connectionState state;
 		if (ipSpinner == null) {
-			return false;
+			state = connectionState.UNCONNECTED;
+			return state;
 		}
 		if (ipSpinner.getSelectedItem() == null) {
-			return false;
+			state = connectionState.UNCONNECTED;
+			return state;
 		}
 		String serverName = ipSpinner.getSelectedItem().toString();
 		if (!availableIpsList.containsKey(serverName)) {
-			return false;
+			state = connectionState.UNCONNECTED;
+			return state;
 		}
 		String ip = stripPort(availableIpsList.get(serverName));
-		if (waitForAcceptance(ip, serverName)) {
-			return true;
-		} else {
-			return false;
+		return (waitForAcceptance(ip, serverName));
+	}
+
+	public void cancelConnection() {
+		if (connection != null) {
+			connection.stopThread();
+			connection = null;
 		}
 	}
 
-	public boolean waitForAcceptance(String ip, String serverName) {
+	public connectionState waitForAcceptance(String ip, String serverName) {
 		Connection newConnection = null;
-		boolean returnValue = false;
+		connectionState state;
 		if (serverName != null) {
 			newConnection = new Connection(ip, this, serverName);
 			newConnection.start();
 		} else {
-			return false;
+			state = connectionState.UNCONNECTED;
+			return state;
 		}
 		while (true) {
-			connectionState state = newConnection.getConnectionState();
+			state = newConnection.getConnectionState();
 			switch (state) {
 				case UNDEFINED:
 					try {
@@ -309,10 +317,12 @@ public class PcConnectionManager {
 					}
 					continue;
 				case CONNECTED:
-					returnValue = true;
 					break;
 				case UNCONNECTED:
-					returnValue = false;
+					newConnection.stopThread();
+					PcConnectionManager.getInstance(context).setConnectionAlreadySetUp(false);
+					break;
+				case UNCONNECTED_ILLEGALVERSION:
 					newConnection.stopThread();
 					PcConnectionManager.getInstance(context).setConnectionAlreadySetUp(false);
 					break;
@@ -322,7 +332,7 @@ public class PcConnectionManager {
 			}
 			break;
 		}
-		return returnValue;
+		return state;
 	}
 
 	public String stripPort(String ipWithPort) {
@@ -355,6 +365,18 @@ public class PcConnectionManager {
 
 	public Connection getConnection() {
 		return connection;
+	}
+
+	public int getVersionId() {
+		return versionId;
+	}
+
+	public int getServerVersionId() {
+		return serverVersionId;
+	}
+
+	public void setServerVersionId(int serverVersionId) {
+		this.serverVersionId = serverVersionId;
 	}
 
 }

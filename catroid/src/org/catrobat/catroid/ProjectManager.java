@@ -58,7 +58,7 @@ public class ProjectManager {
 
 	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
 		PcConnectionManager.getInstance(null).setConnectionAlreadySetUp(false);
-		PcConnectionManager.getInstance(null).setConnection(null);
+		PcConnectionManager.getInstance(null).cancelConnection();
 		fileChecksumContainer = new FileChecksumContainer();
 		Project oldProject = project;
 		MessageContainer.createBackup();
