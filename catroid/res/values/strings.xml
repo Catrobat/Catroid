@@ -58,6 +58,9 @@
     <string name="main_menu_about_pocketcode">About Pocket Code</string>
     <string name="main_menu_rate_app">Rate us!</string>
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
+    <string name="main_menu_web_dialog_title">Caution!</string>
+    <string name="main_menu_web_dialog_message">Currently alternative browsers like Firefox or Dolphin are not supported</string>
+    <string name="main_menu_web_dialog_dont_show">Don\'t show again</string>
     <!--  -->
 
 
