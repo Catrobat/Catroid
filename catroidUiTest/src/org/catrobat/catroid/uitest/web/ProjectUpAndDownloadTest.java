@@ -66,7 +66,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	private final String testDescription = UiTestUtils.PROJECTDESCRIPTION1;
 	private final String newTestDescription = UiTestUtils.PROJECTDESCRIPTION2;
 	private String saveToken;
-    private String saveEmail;
+	private String saveEmail;
 	private String uploadDialogTitle;
 	private int serverProjectId;
 
@@ -82,7 +82,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		super.setUp();
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		saveToken = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-        saveEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
+		saveEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
 		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
 	}
 
@@ -90,8 +90,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	public void tearDown() throws Exception {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		sharedPreferences.edit().putString(Constants.TOKEN, saveToken).commit();
-        sharedPreferences.edit().putString(Constants.EMAIL, saveEmail).commit();
-        UiTestUtils.cancelAllNotifications(getActivity());
+		sharedPreferences.edit().putString(Constants.EMAIL, saveEmail).commit();
+		UiTestUtils.cancelAllNotifications(getActivity());
 		super.tearDown();
 	}
 
@@ -106,8 +106,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	@Device
 	public void testUploadProjectSuccessAndTokenReplacementAfterUpload() throws Throwable {
 		setServerURLToTestUrl();
-        createTestProject(testProject);
-        addABrickToProject();
+		createTestProject(testProject);
+		addABrickToProject();
 
 		//intent to the main activity is sent since changing activity orientation is not working
 		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
@@ -448,8 +448,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	}
 
 	private void addABrickToProject() {
-        solo.waitForActivity(ProjectActivity.class.getSimpleName());
-        solo.scrollToTop();
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.scrollToTop();
 		solo.clickOnText(solo.getString(R.string.background));
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.waitForText(solo.getString(R.string.scripts));
