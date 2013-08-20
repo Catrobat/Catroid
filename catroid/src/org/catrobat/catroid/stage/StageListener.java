@@ -276,10 +276,10 @@ public class StageListener implements ApplicationListener {
 			sprites = project.getSpriteList();
 			if (spriteSize > 0) {
 				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
-				sprites.get(0).pause();
 			}
+			Sprite sprite;
 			for (int i = 0; i < spriteSize; i++) {
-				Sprite sprite = sprites.get(i);
+				sprite = sprites.get(i);
 				sprite.resetSprite();
 				sprite.look.createBrightnessContrastShader();
 				stage.addActor(sprite.look);
@@ -324,8 +324,13 @@ public class StageListener implements ApplicationListener {
 			if (spriteSize > 0) {
 				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
 			}
+			Sprite sprite;
 			for (int i = 0; i < spriteSize; i++) {
-				sprites.get(i).createStartScriptActionSequence();
+				sprite = sprites.get(i);
+				sprite.createStartScriptActionSequence();
+				if (!sprite.getLookDataList().isEmpty()) {
+					sprite.look.setLookData(sprite.getLookDataList().get(0));
+				}
 			}
 			firstStart = false;
 		}
