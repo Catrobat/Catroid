@@ -80,12 +80,12 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 		//		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, 50, "variable_formula", setVariableBrick);
 		solo.clickOnText("0");
 		UiTestUtils.insertIntegerIntoEditText(solo, 50);
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 
 		//		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, -8, "variable_formula", changeVariableBrick);
 		solo.clickOnText("1");
 		UiTestUtils.insertDoubleIntoEditText(solo, -8.0);
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 
 		solo.waitForView(solo.getView(R.id.button_play));
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
