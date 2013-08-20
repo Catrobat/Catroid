@@ -400,9 +400,10 @@
     <string name="notification_upload_finished">Upload erfolgreich</string>
     
     <string name="notification_download_title_pending">"Downloaden von "</string>
-    <string name="notification_download_title_finished">"Starte "</string>
     <string name="notification_download_pending">Download wird ausgeführt</string>
     <string name="notification_download_finished">Download erfolgreich</string>
+    
+    <string name="notification_title_open">"Öffne "</string>
     
     <string name="project_rename">(Das Programm wird umbenannt.)</string>
     <string name="size_of_project">Größe:</string>

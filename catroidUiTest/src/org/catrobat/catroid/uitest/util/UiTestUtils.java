@@ -1414,17 +1414,11 @@ public class UiTestUtils {
 	public static void cancelAllNotifications(Context context) {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
+		notificationManager.cancelAll();
+
 		@SuppressWarnings("unchecked")
 		SparseArray<NotificationData> notificationMap = (SparseArray<NotificationData>) Reflection.getPrivateField(
 				StatusBarNotificationManager.class, StatusBarNotificationManager.getInstance(), "notificationDataMap");
-		if (notificationMap == null) {
-			return;
-		}
-
-		for (int i = 0; i < notificationMap.size(); i++) {
-			notificationManager.cancel(notificationMap.keyAt(i));
-		}
-
 		notificationMap.clear();
 	}
 

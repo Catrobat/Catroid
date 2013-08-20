@@ -401,9 +401,10 @@
     <string name="notification_upload_finished">Upload successful</string>
     
     <string name="notification_download_title_pending">"Downloading "</string>
-    <string name="notification_download_title_finished">"Start "</string>
     <string name="notification_download_pending">Download in progress</string>
     <string name="notification_download_finished">Download successful</string>
+    
+    <string name="notification_title_open">"Open "</string>
     
     <string name="project_rename">(Your program will be renamed.)</string>
     <string name="size_of_project">Size:</string>

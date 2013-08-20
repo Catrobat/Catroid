@@ -22,7 +22,9 @@
  */
 package org.catrobat.catroid.test.utils;
 
+import android.app.NotificationManager;
 import android.content.Context;
+import android.util.SparseArray;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -34,6 +36,8 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.utils.NotificationData;
+import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.BufferedOutputStream;
@@ -206,5 +210,22 @@ public class TestUtils {
 				UtilFile.deleteDirectory(directory);
 			}
 		}
+	}
+
+	public static void cancelAllNotifications(Context context) {
+		NotificationManager notificationManager = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		@SuppressWarnings("unchecked")
+		SparseArray<NotificationData> notificationMap = (SparseArray<NotificationData>) Reflection.getPrivateField(
+				StatusBarNotificationManager.class, StatusBarNotificationManager.getInstance(), "notificationDataMap");
+		if (notificationMap == null) {
+			return;
+		}
+
+		for (int i = 0; i < notificationMap.size(); i++) {
+			notificationManager.cancel(notificationMap.keyAt(i));
+		}
+
+		notificationMap.clear();
 	}
 }
