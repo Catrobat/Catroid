@@ -92,7 +92,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		sharedPreferences.edit().putString(Constants.TOKEN, null).commit();
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
-		solo.waitForText(registerDialogTitle);
 		fillRegistrationDialogUntilStepFive();
 
 		assertTrue("Licence text not present", solo.searchText(solo.getString(R.string.register_terms)));
@@ -220,15 +219,49 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.waitForDialogToOpen(500);
 
-		assertTrue("Registration dialog not shown", solo.searchText(solo.getString(R.string.register_dialog_title)));
+        assertTrue("Already registered dialog not shown", solo.searchText(registerDialogTitle)
+                && solo.searchText(loginDialogTitle));
+
 		solo.clickOnButton(solo.getString(R.string.login));
 		solo.waitForDialogToOpen(500);
-		assertTrue("Login dialog not shown", solo.searchText(loginDialogTitle));
 
 		fillLoginDialog(testUser, testPassword, testEmail, true);
 		assertTrue("Upload dialog not displayed",
 				solo.waitForText(solo.getString(R.string.upload_project_dialog_title)));
 	}
+
+    public void testRegisterGivenMail() throws Throwable {
+        setTestUrl();
+        clearSharedPreferences();
+        String testUser = "testUser" + System.currentTimeMillis();
+        String testPassword = "pwspws";
+        String testEmail = testUser + "@gmail.com";
+
+        registerCorrectUser(testUser, testPassword, testEmail);
+        clearSharedPreferences();
+
+        assertTrue("Already registered dialog not shown", solo.searchText(registerDialogTitle)
+                && solo.searchText(loginDialogTitle));
+
+        solo.clickOnButton(solo.getString(R.string.register));
+        solo.waitForDialogToOpen(500);
+
+        solo.waitForDialogToOpen(500);
+        solo.clickOnRadioButton(0);
+        solo.clickOnButton(solo.getString(R.string.next_registration_step));
+
+        solo.waitForDialogToOpen(500);
+        solo.clickOnButton(solo.getString(R.string.next_registration_step));
+
+        solo.waitForDialogToOpen(500);
+        solo.clickOnEditText(0);
+        solo.clearEditText(0);
+        solo.goBack();
+        solo.enterText(0, testEmail);
+        solo.clickOnButton(solo.getString(R.string.next_registration_step));
+        //TODO: error message (E-Mail already registered: )
+        assertTrue("E-Mail already exists error dialog not shown", solo.searchText(solo.getString(R.string.error)));
+    }
 
 	public void testRegisterErrors() throws Throwable {
 		setTestUrl();
@@ -242,18 +275,18 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		RadioButton other = (RadioButton) solo.getView(R.id.dialog_register_gender_radiobutton_other);
 		EditText otherGender = (EditText) solo.getView(R.id.dialog_register_gender_edittext_other);
 		assertTrue("Male radio button is not checked", male.isChecked());
-		solo.clickOnRadioButton(1);
+        assertTrue("There is a checked radio button in the beginning", male.isChecked() || female.isChecked() ||
+                other.isChecked());
+        solo.clickOnRadioButton(1);
 		solo.sleep(50);
 		assertTrue("Female radio button is not checked", female.isChecked());
 		assertFalse("Male radio button is still checked after selecting female", male.isChecked());
 		assertFalse("Other gender radio button is checked after selecting female", other.isChecked());
-		assertFalse("Other gender edittext is enabled", otherGender.isEnabled());
-		solo.clickOnRadioButton(2);
+		solo.clickOnEditText(0);
 		solo.sleep(50);
 		assertTrue("Other gender radio button is not checked", other.isChecked());
 		assertFalse("Male radio button is still checked after selecting male", male.isChecked());
 		assertFalse("Female radio button is still checked after selecting male", female.isChecked());
-		assertTrue("Other gender edittext is not enabled", otherGender.isEnabled());
 		solo.clickOnRadioButton(0);
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 
@@ -332,8 +365,9 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clearEditText(passwordConfirmation);
 		solo.enterText(password, testPassword);
 		solo.enterText(passwordConfirmation, testPassword + "wrong");
-		Button registerButton = (Button) solo.getView(android.R.id.button1);
-		assertFalse("Register button is enabled!", registerButton.isEnabled());
+        solo.clickOnText(solo.getString(R.string.register));
+		assertFalse("Password wrong dialog not shown", solo.searchText(solo.getString(R.string.register_password_mismatch)));
+        solo.clickOnButton(0);
 
 		solo.clearEditText(password);
 		solo.enterText(password, testPassword);
@@ -401,8 +435,12 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	private void fillRegistrationDialogUntilStepFive() {
-		solo.waitForDialogToOpen(500);
-		assertNotNull("Register Dialog is not shown.", solo.getText(solo.getString(R.string.register_dialog_title)));
+        solo.waitForDialogToOpen(500);
+        assertNotNull("Register Dialog is not shown.", solo.getText(solo.getString(R.string.register_dialog_title)));
+        solo.clickOnButton(registerDialogTitle);
+
+        solo.waitForDialogToOpen(500);
+        solo.clickOnRadioButton(0);
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 
 		solo.waitForDialogToOpen(500);

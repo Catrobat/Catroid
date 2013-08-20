@@ -65,8 +65,6 @@ public class CheckEmailTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
-        return true;
-        /*
         //TODO: implement with Marko
         try {
 			if (!Utils.isNetworkAvailable(context)) {
@@ -75,13 +73,11 @@ public class CheckEmailTask extends AsyncTask<Void, Void, Boolean> {
 
 			emailAvailable = ServerCalls.getInstance().checkEmail(email, context);
             return emailAvailable;
-            return true;
 		} catch (WebconnectionException exception) {
 			exception.printStackTrace();
 			message = exception.getMessage();
 		}
 		return false;
-		*/
 	}
 
 	@Override
