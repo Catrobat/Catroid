@@ -92,7 +92,7 @@ public class ServerCalls {
 
 	private static final ServerCalls INSTANCE = new ServerCalls();
 
-	public static boolean useTestUrl = true;
+	public static boolean useTestUrl = false;
 	private String resultString;
 	private ConnectionWrapper connection;
 	private String emailForUiTests;

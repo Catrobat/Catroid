@@ -76,6 +76,11 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
             emailEditText.setText(email);
         }
 
+        String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+        if(username != Constants.NO_USERNAME){
+            usernameEditText.setText(username);
+        }
+
 		Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(R.string.login_dialog_title)
 				.setPositiveButton(R.string.login, new DialogInterface.OnClickListener() {
 					@Override
