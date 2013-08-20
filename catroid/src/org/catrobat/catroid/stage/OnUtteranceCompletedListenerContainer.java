@@ -25,22 +25,44 @@ package org.catrobat.catroid.stage;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class OnUtteranceCompletedListenerContainer implements OnUtteranceCompletedListener {
-	private final Map<String, OnUtteranceCompletedListener> listeners = new HashMap<String, TextToSpeech.OnUtteranceCompletedListener>();
+	private final Map<String, List<OnUtteranceCompletedListener>> listeners = new HashMap<String, List<OnUtteranceCompletedListener>>();
 
-	public void addOnUtteranceCompletedListener(OnUtteranceCompletedListener onUtteranceCompletedListener,
-			String utteranceId) {
-		listeners.put(utteranceId, onUtteranceCompletedListener);
+	public synchronized boolean addOnUtteranceCompletedListener(File speechFile,
+			OnUtteranceCompletedListener onUtteranceCompletedListener, String utteranceId) {
+		List<OnUtteranceCompletedListener> utteranceIdListeners = listeners.get(utteranceId);
+
+		if (speechFile.exists() && utteranceIdListeners == null) {
+			onUtteranceCompletedListener.onUtteranceCompleted(utteranceId);
+			return false;
+		}
+
+		if (utteranceIdListeners == null) {
+			utteranceIdListeners = new ArrayList<TextToSpeech.OnUtteranceCompletedListener>();
+			utteranceIdListeners.add(onUtteranceCompletedListener);
+			listeners.put(utteranceId, utteranceIdListeners);
+			return true;
+		}
+
+		if (utteranceIdListeners != null) {
+			utteranceIdListeners.add(onUtteranceCompletedListener);
+		}
+
+		return false;
 	}
 
 	@Override
-	public void onUtteranceCompleted(String utteranceId) {
-		listeners.get(utteranceId).onUtteranceCompleted(utteranceId);
-		listeners.remove(utteranceId);
+	public synchronized void onUtteranceCompleted(String utteranceId) {
+		for (OnUtteranceCompletedListener listener : listeners.get(utteranceId)) {
+			listener.onUtteranceCompleted(utteranceId);
+		}
+		listeners.put(utteranceId, null);
 	}
-
 }

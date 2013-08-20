@@ -36,6 +36,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.io.ProjectScreenshotLoader;
 import org.catrobat.catroid.utils.UtilFile;
@@ -70,6 +71,14 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 
 	private static LayoutInflater inflater;
 	private ProjectScreenshotLoader screenshotLoader;
+
+	private void deleteSpeechFiles() {
+		File pathToSpeechFiles = new File(Constants.TEXT_TO_SPEECH_TMP_PATH);
+		pathToSpeechFiles.mkdirs();
+		for (File file : pathToSpeechFiles.listFiles()) {
+			file.delete();
+		}
+	}
 
 	public ProjectAdapter(Context context, int resource, int textViewResourceId, List<ProjectData> objects) {
 		super(context, resource, textViewResourceId, objects);
@@ -195,6 +204,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 					checkedProjects.add(position);
 				} else {
 					checkedProjects.remove(position);
+					deleteSpeechFiles();
 				}
 				notifyDataSetChanged();
 
