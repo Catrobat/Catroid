@@ -27,6 +27,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -65,14 +66,12 @@ public class CheckEmailTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
-        //TODO: implement with Marko
-        try {
+		try {
 			if (!Utils.isNetworkAvailable(context)) {
 				return false;
 			}
-
 			emailAvailable = ServerCalls.getInstance().checkEmail(email, context);
-            return emailAvailable;
+			return emailAvailable;
 		} catch (WebconnectionException exception) {
 			exception.printStackTrace();
 			message = exception.getMessage();
@@ -107,8 +106,9 @@ public class CheckEmailTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 		if (message == null) {
-			new Builder(context).setTitle(R.string.register_error).setMessage(messageId).setPositiveButton(R.string.ok, null)
-					.show().setOnDismissListener(new DialogInterface.OnDismissListener() {
+			new Builder(context).setTitle(R.string.register_error).setMessage(messageId)
+					.setPositiveButton(R.string.ok, null).show()
+					.setOnDismissListener(new DialogInterface.OnDismissListener() {
 						@Override
 						public void onDismiss(DialogInterface dialog) {
 							if (onCheckEmailCompleteListener != null) {
@@ -117,15 +117,16 @@ public class CheckEmailTask extends AsyncTask<Void, Void, Boolean> {
 						}
 					});
 		} else {
-			new Builder(context).setTitle(R.string.register_error).setMessage(message).setPositiveButton(R.string.ok, null)
-					.show().setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    if (onCheckEmailCompleteListener != null) {
-                        onCheckEmailCompleteListener.onCheckEmailComplete(false);
-                    }
-                }
-            });
+			new Builder(context).setTitle(R.string.register_error).setMessage(message)
+					.setPositiveButton(R.string.ok, null).show()
+					.setOnDismissListener(new DialogInterface.OnDismissListener() {
+						@Override
+						public void onDismiss(DialogInterface dialog) {
+							if (onCheckEmailCompleteListener != null) {
+								onCheckEmailCompleteListener.onCheckEmailComplete(false);
+							}
+						}
+					});
 		}
 	}
 

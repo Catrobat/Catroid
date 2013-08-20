@@ -22,14 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.transfers.RegistrationData;
-import org.catrobat.catroid.transfers.RegistrationTask;
-import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
-import org.catrobat.catroid.utils.UtilDeviceInfo;
-import org.catrobat.catroid.web.ServerCalls;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -44,6 +36,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.transfers.RegistrationData;
+import org.catrobat.catroid.transfers.RegistrationTask;
+import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
+import org.catrobat.catroid.utils.UtilDeviceInfo;
+import org.catrobat.catroid.web.ServerCalls;
 
 public class LoginDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
@@ -72,14 +72,14 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
 			email = UtilDeviceInfo.getUserEmail(getActivity());
 		}
 
-        if(email != null){
-            emailEditText.setText(email);
-        }
+		if (email != null) {
+			emailEditText.setText(email);
+		}
 
-        String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
-        if(username != Constants.NO_USERNAME){
-            usernameEditText.setText(username);
-        }
+		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+		if (username != Constants.NO_USERNAME) {
+			usernameEditText.setText(username);
+		}
 
 		Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(R.string.login_dialog_title)
 				.setPositiveButton(R.string.login, new DialogInterface.OnClickListener() {

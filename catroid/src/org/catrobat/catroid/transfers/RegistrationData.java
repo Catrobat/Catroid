@@ -104,13 +104,13 @@ public class RegistrationData {
 		this.countryCode = countryCode;
 	}
 
-    public void clearData() {
-        userName = "";
-        password = "";
-        gender = "";
-        email = "";
-        countryCode = "";
-        birthdayMonth = "";
-        birthdayYear = "";
-    }
+	public void clearData() {
+		userName = "";
+		password = "";
+		gender = "";
+		email = "";
+		countryCode = "";
+		birthdayMonth = "";
+		birthdayYear = "";
+	}
 }

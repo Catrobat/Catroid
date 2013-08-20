@@ -22,11 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.transfers.RegistrationData;
-import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
-import org.catrobat.catroid.utils.UtilDeviceInfo;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -38,36 +33,39 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.transfers.RegistrationData;
+import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
+import org.catrobat.catroid.utils.UtilDeviceInfo;
+
 public class RegistrationDialogStepTwoDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step2";
-    private static final String SEPARATOR = "/";
+	private static final String SEPARATOR = "/";
 
-    private Spinner countrySpinner;
+	private Spinner countrySpinner;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_country, null);
-        View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_country_title, null);
+		View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_country_title, null);
 
 		countrySpinner = (Spinner) view.findViewById(R.id.dialog_register_country_spinner_country);
 
 		addItemsOnCountrySpinner();
 
-		Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
-                .setCustomTitle(titleView)
+		Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view).setCustomTitle(titleView)
 				.setPositiveButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        handleNextButtonClick();
-                    }
-                }).setNegativeButton(R.string.previous_registration_step, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        handleBackClick();
-                    }
-                })
-				.create();
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						handleNextButtonClick();
+					}
+				}).setNegativeButton(R.string.previous_registration_step, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						handleBackClick();
+					}
+				}).create();
 
 		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -75,7 +73,7 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 		return alertDialog;
 	}
 
-    private void addItemsOnCountrySpinner() {
+	private void addItemsOnCountrySpinner() {
 		String[] countryList = getActivity().getResources().getStringArray(R.array.countries_array);
 
 		for (int position = countryList.length - 1; position >= 0; position--) {
@@ -89,11 +87,11 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 				android.R.layout.simple_spinner_item, countryList);
 		countrySpinner.setAdapter(countryAdapter);
 
-        String userCountry = UtilDeviceInfo.getUserCountryCode(getActivity());
-        String previouslySelectedCountry = RegistrationData.getInstance().getCountryCode();
-        if(previouslySelectedCountry != null && !previouslySelectedCountry.isEmpty()){
-            userCountry = previouslySelectedCountry;
-        }
+		String userCountry = UtilDeviceInfo.getUserCountryCode(getActivity());
+		String previouslySelectedCountry = RegistrationData.getInstance().getCountryCode();
+		if (previouslySelectedCountry != null && !previouslySelectedCountry.isEmpty()) {
+			userCountry = previouslySelectedCountry;
+		}
 
 		int localCountryPosition = 0;
 		if (!userCountry.isEmpty()) {
@@ -118,26 +116,26 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 	}
 
 	private void handleNextButtonClick() {
-        setRegistrationData();
-        dismiss();
+		setRegistrationData();
+		dismiss();
 		RegistrationDialogStepThreeDialog registerStepThreeDialog = new RegistrationDialogStepThreeDialog();
 		registerStepThreeDialog.show(getActivity().getSupportFragmentManager(),
 				RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-    private void handleBackClick() {
-        setRegistrationData();
-        dismiss();
-        RegistrationDialogStepOneDialog registerStepOneDialog = new RegistrationDialogStepOneDialog();
-        registerStepOneDialog.show(getActivity().getSupportFragmentManager(),
-                RegistrationDialogStepOneDialog.DIALOG_FRAGMENT_TAG);
-    }
+	private void handleBackClick() {
+		setRegistrationData();
+		dismiss();
+		RegistrationDialogStepOneDialog registerStepOneDialog = new RegistrationDialogStepOneDialog();
+		registerStepOneDialog.show(getActivity().getSupportFragmentManager(),
+				RegistrationDialogStepOneDialog.DIALOG_FRAGMENT_TAG);
+	}
 
-    private void setRegistrationData(){
-        int countryPosition = countrySpinner.getSelectedItemPosition();
-        String countryCodeString = getCountryCodeFromCountryId(countryPosition);
-        RegistrationData.getInstance().setCountryCode(countryCodeString);
-    }
+	private void setRegistrationData() {
+		int countryPosition = countrySpinner.getSelectedItemPosition();
+		String countryCodeString = getCountryCodeFromCountryId(countryPosition);
+		RegistrationData.getInstance().setCountryCode(countryCodeString);
+	}
 
 	private String getCountryCodeFromCountryId(int position) {
 		String[] countryList = getActivity().getResources().getStringArray(R.array.countries_array);

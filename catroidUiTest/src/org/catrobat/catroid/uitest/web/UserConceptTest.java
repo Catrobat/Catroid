@@ -34,6 +34,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -54,7 +55,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 	private static final String TEST_USERNAME = "testUser";
 
 	private String saveToken;
-    private String saveEmail;
+	private String saveEmail;
 	private String loginDialogTitle;
 	private String registerDialogTitle;
 	private String uploadDialogTitle;
@@ -69,7 +70,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		super.setUp();
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		saveToken = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-        saveEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
+		saveEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
 		loginDialogTitle = solo.getString(R.string.login_dialog_title);
 		registerDialogTitle = solo.getString(R.string.register_dialog_title);
 		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
@@ -80,7 +81,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 	public void tearDown() throws Exception {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		sharedPreferences.edit().putString(Constants.TOKEN, saveToken).commit();
-        sharedPreferences.edit().putString(Constants.EMAIL, saveEmail).commit();
+		sharedPreferences.edit().putString(Constants.EMAIL, saveEmail).commit();
 		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", null);
 		super.tearDown();
 	}
@@ -219,8 +220,8 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.waitForDialogToOpen(500);
 
-        assertTrue("Already registered dialog not shown", solo.searchText(registerDialogTitle)
-                && solo.searchText(loginDialogTitle));
+		assertTrue("Already registered dialog not shown",
+				solo.searchText(registerDialogTitle) && solo.searchText(loginDialogTitle));
 
 		solo.clickOnButton(solo.getString(R.string.login));
 		solo.waitForDialogToOpen(500);
@@ -230,54 +231,60 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 				solo.waitForText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
-    public void testRegisterGivenMail() throws Throwable {
-        setTestUrl();
-        clearSharedPreferences();
-        String testUser = "testUser" + System.currentTimeMillis();
-        String testPassword = "pwspws";
-        String testEmail = testUser + "@gmail.com";
+	public void testRegisterWithGivenMail() throws Throwable {
+		setTestUrl();
+		clearSharedPreferences();
+		String testUser = "testUser" + System.currentTimeMillis();
+		String testPassword = "pwspws";
+		String testEmail = testUser + "@gmail.com";
 
-        registerCorrectUser(testUser, testPassword, testEmail);
-        clearSharedPreferences();
+		registerCorrectUser(testUser, testPassword, testEmail);
+		clearSharedPreferences();
 
-        assertTrue("Already registered dialog not shown", solo.searchText(registerDialogTitle)
-                && solo.searchText(loginDialogTitle));
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+		solo.waitForDialogToOpen(500);
 
-        solo.clickOnButton(solo.getString(R.string.register));
-        solo.waitForDialogToOpen(500);
+		assertTrue("Already registered dialog not shown",
+				solo.searchText(registerDialogTitle) && solo.searchText(loginDialogTitle));
 
-        solo.waitForDialogToOpen(500);
-        solo.clickOnRadioButton(0);
-        solo.clickOnButton(solo.getString(R.string.next_registration_step));
+		solo.clickOnButton(solo.getString(R.string.register));
+		solo.waitForDialogToOpen(500);
 
-        solo.waitForDialogToOpen(500);
-        solo.clickOnButton(solo.getString(R.string.next_registration_step));
+		solo.waitForDialogToOpen(500);
+		solo.clickOnRadioButton(0);
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 
-        solo.waitForDialogToOpen(500);
-        solo.clickOnEditText(0);
-        solo.clearEditText(0);
-        solo.goBack();
-        solo.enterText(0, testEmail);
-        solo.clickOnButton(solo.getString(R.string.next_registration_step));
-        //TODO: error message (E-Mail already registered: )
-        assertTrue("E-Mail already exists error dialog not shown", solo.searchText(solo.getString(R.string.error)));
-    }
+		solo.waitForDialogToOpen(500);
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
+
+		solo.waitForDialogToOpen(500);
+		solo.clickOnEditText(0);
+		solo.clearEditText(0);
+		solo.goBack();
+		solo.enterText(0, testEmail);
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
+		assertTrue("E-Mail already exists error dialog not shown", solo.searchText("E-Mail already registered"));
+	}
 
 	public void testRegisterErrors() throws Throwable {
 		setTestUrl();
 		clearSharedPreferences();
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
+		solo.waitForDialogToOpen(500);
+
+		assertTrue("Already registered dialog not shown",
+				solo.searchText(registerDialogTitle) && solo.searchText(loginDialogTitle));
+
+		solo.clickOnButton(solo.getString(R.string.register));
 
 		solo.waitForDialogToOpen(500);
 		RadioButton male = (RadioButton) solo.getView(R.id.dialog_register_gender_radiobutton_male);
 		RadioButton female = (RadioButton) solo.getView(R.id.dialog_register_gender_radiobutton_female);
 		RadioButton other = (RadioButton) solo.getView(R.id.dialog_register_gender_radiobutton_other);
-		EditText otherGender = (EditText) solo.getView(R.id.dialog_register_gender_edittext_other);
-		assertTrue("Male radio button is not checked", male.isChecked());
-        assertTrue("There is a checked radio button in the beginning", male.isChecked() || female.isChecked() ||
-                other.isChecked());
-        solo.clickOnRadioButton(1);
+		assertFalse("There is a checked radio button in the beginning",
+				male.isChecked() || female.isChecked() || other.isChecked());
+		solo.clickOnRadioButton(1);
 		solo.sleep(50);
 		assertTrue("Female radio button is not checked", female.isChecked());
 		assertFalse("Male radio button is still checked after selecting female", male.isChecked());
@@ -357,7 +364,8 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.waitForDialogToOpen(500);
 		EditText username = (EditText) solo.getView(R.id.dialog_register_edittext_username);
 		EditText password = (EditText) solo.getView(R.id.dialog_register_edittext_password);
-		EditText passwordConfirmation = (EditText) solo.getView(R.id.dialog_register_username_password_edittext_password_confirmation);
+		EditText passwordConfirmation = (EditText) solo
+				.getView(R.id.dialog_register_username_password_edittext_password_confirmation);
 		solo.clearEditText(username);
 		solo.enterText(username, TEST_USERNAME + System.currentTimeMillis());
 		String testPassword = "testpassword";
@@ -365,10 +373,18 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clearEditText(passwordConfirmation);
 		solo.enterText(password, testPassword);
 		solo.enterText(passwordConfirmation, testPassword + "wrong");
-        solo.clickOnText(solo.getString(R.string.register));
-		assertFalse("Password wrong dialog not shown", solo.searchText(solo.getString(R.string.register_password_mismatch)));
-        solo.clickOnButton(0);
+		solo.clickOnText(solo.getString(R.string.register));
+		assertTrue("Password wrong dialog not shown",
+				solo.searchText(solo.getString(R.string.register_password_mismatch)));
+		solo.clickOnButton(0);
 
+		solo.waitForDialogToOpen(500);
+		username = (EditText) solo.getView(R.id.dialog_register_edittext_username);
+		password = (EditText) solo.getView(R.id.dialog_register_edittext_password);
+		passwordConfirmation = (EditText) solo
+				.getView(R.id.dialog_register_username_password_edittext_password_confirmation);
+		solo.clearEditText(username);
+		solo.enterText(username, TEST_USERNAME + System.currentTimeMillis());
 		solo.clearEditText(password);
 		solo.enterText(password, testPassword);
 		solo.clearEditText(passwordConfirmation);
@@ -435,12 +451,12 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	private void fillRegistrationDialogUntilStepFive() {
-        solo.waitForDialogToOpen(500);
-        assertNotNull("Register Dialog is not shown.", solo.getText(solo.getString(R.string.register_dialog_title)));
-        solo.clickOnButton(registerDialogTitle);
+		solo.waitForDialogToOpen(500);
+		assertNotNull("Register Dialog is not shown.", solo.getText(solo.getString(R.string.register_dialog_title)));
+		solo.clickOnButton(registerDialogTitle);
 
-        solo.waitForDialogToOpen(500);
-        solo.clickOnRadioButton(0);
+		solo.waitForDialogToOpen(500);
+		solo.clickOnRadioButton(0);
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 
 		solo.waitForDialogToOpen(500);
@@ -464,7 +480,8 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		// enter a username
 		EditText usernameEditText = (EditText) solo.getView(R.id.dialog_register_edittext_username);
 		EditText password = (EditText) solo.getView(R.id.dialog_register_edittext_password);
-		EditText passwordConfirmation = (EditText) solo.getView(R.id.dialog_register_username_password_edittext_password_confirmation);
+		EditText passwordConfirmation = (EditText) solo
+				.getView(R.id.dialog_register_username_password_edittext_password_confirmation);
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);

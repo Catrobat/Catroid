@@ -23,17 +23,12 @@
 
 package org.catrobat.catroid.ui.dialogs;
 
-import android.support.v4.app.FragmentActivity;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.transfers.CheckEmailTask;
-import org.catrobat.catroid.transfers.RegistrationData;
-import org.catrobat.catroid.utils.UtilDeviceInfo;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -43,41 +38,45 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class RegistrationDialogStepThreeDialog extends DialogFragment implements CheckEmailTask.OnCheckEmailCompleteListener {
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.transfers.CheckEmailTask;
+import org.catrobat.catroid.transfers.RegistrationData;
+import org.catrobat.catroid.utils.UtilDeviceInfo;
+
+public class RegistrationDialogStepThreeDialog extends DialogFragment implements
+		CheckEmailTask.OnCheckEmailCompleteListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step3";
 
 	private EditText emailEditText;
-    private FragmentActivity fragmentActivity;
+	private FragmentActivity fragmentActivity;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_email, null);
-        View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_email_title, null);
+		View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_email_title, null);
 
 		emailEditText = (EditText) view.findViewById(R.id.dialog_register_edittext_email);
 
-        final String userEmail;
-        String previousEmail = RegistrationData.getInstance().getEmail();
-        if(previousEmail != null && !previousEmail.isEmpty()){
-            userEmail = previousEmail;
-        }else{
-            userEmail = UtilDeviceInfo.getUserEmail(getActivity());
-        }
+		final String userEmail;
+		String previousEmail = RegistrationData.getInstance().getEmail();
+		if (previousEmail != null && !previousEmail.isEmpty()) {
+			userEmail = previousEmail;
+		} else {
+			userEmail = UtilDeviceInfo.getUserEmail(getActivity());
+		}
 
-		final Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
-                .setCustomTitle(titleView)
+		final Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view).setCustomTitle(titleView)
 				.setPositiveButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 					}
-                }).setNegativeButton(R.string.previous_registration_step, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        handleBackClick();
-                    }
-                })
-                .create();
+				}).setNegativeButton(R.string.previous_registration_step, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						handleBackClick();
+					}
+				}).create();
 
 		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -86,9 +85,9 @@ public class RegistrationDialogStepThreeDialog extends DialogFragment implements
 			@Override
 			public void onShow(DialogInterface dialog) {
 				if (userEmail == null || userEmail.isEmpty()) {
-                    ((AlertDialog) alertDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
+					((AlertDialog) alertDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
 				} else {
-                    emailEditText.setText(userEmail);
+					emailEditText.setText(userEmail);
 				}
 				emailEditText.addTextChangedListener(new TextWatcher() {
 
@@ -125,41 +124,41 @@ public class RegistrationDialogStepThreeDialog extends DialogFragment implements
 	}
 
 	private void handleNextButtonClick() {
-        String emailString = emailEditText.getText().toString().trim();
-        fragmentActivity = getActivity();
-        dismiss();
-        CheckEmailTask checkEmailTask = new CheckEmailTask(fragmentActivity, emailString);
-        checkEmailTask.setOnCheckEmailCompleteListener(this);
-        checkEmailTask.execute();
+		String emailString = emailEditText.getText().toString().trim();
+		fragmentActivity = getActivity();
+		dismiss();
+		CheckEmailTask checkEmailTask = new CheckEmailTask(fragmentActivity, emailString);
+		checkEmailTask.setOnCheckEmailCompleteListener(this);
+		checkEmailTask.execute();
 	}
 
-    private void handleBackClick() {
-        setRegistrationData();
-        dismiss();
-        RegistrationDialogStepTwoDialog registerStepTwoDialog = new RegistrationDialogStepTwoDialog();
-        registerStepTwoDialog.show(getActivity().getSupportFragmentManager(),
-                RegistrationDialogStepTwoDialog.DIALOG_FRAGMENT_TAG);
-    }
+	private void handleBackClick() {
+		setRegistrationData();
+		dismiss();
+		RegistrationDialogStepTwoDialog registerStepTwoDialog = new RegistrationDialogStepTwoDialog();
+		registerStepTwoDialog.show(getActivity().getSupportFragmentManager(),
+				RegistrationDialogStepTwoDialog.DIALOG_FRAGMENT_TAG);
+	}
 
-    private void setRegistrationData(){
-        String emailString = emailEditText.getText().toString().trim();
-        RegistrationData.getInstance().setEmail(emailString);
-    }
+	private void setRegistrationData() {
+		String emailString = emailEditText.getText().toString().trim();
+		RegistrationData.getInstance().setEmail(emailString);
+	}
 
-    @Override
-    public void onCheckEmailComplete(boolean success) {
-        if(success){
-            setRegistrationData();
-            dismiss();
+	@Override
+	public void onCheckEmailComplete(boolean success) {
+		if (success) {
+			setRegistrationData();
+			dismiss();
 
-            RegistrationDialogStepFourDialog registerStepFourDialog = new RegistrationDialogStepFourDialog();
-            registerStepFourDialog.show(fragmentActivity.getSupportFragmentManager(),
-                    RegistrationDialogStepFourDialog.DIALOG_FRAGMENT_TAG);
-        } else {
-            dismiss();
-            RegistrationDialogStepThreeDialog registerStepThreeDialog = new RegistrationDialogStepThreeDialog();
-            registerStepThreeDialog.show(fragmentActivity.getSupportFragmentManager(),
-                    RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
-        }
-    }
+			RegistrationDialogStepFourDialog registerStepFourDialog = new RegistrationDialogStepFourDialog();
+			registerStepFourDialog.show(fragmentActivity.getSupportFragmentManager(),
+					RegistrationDialogStepFourDialog.DIALOG_FRAGMENT_TAG);
+		} else {
+			dismiss();
+			RegistrationDialogStepThreeDialog registerStepThreeDialog = new RegistrationDialogStepThreeDialog();
+			registerStepThreeDialog.show(fragmentActivity.getSupportFragmentManager(),
+					RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
+		}
+	}
 }

@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.transfers.RegistrationData;
-import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -35,6 +31,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.transfers.RegistrationData;
+import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
+
 public class RegistrationDialogStepSixDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step6";
@@ -42,17 +42,15 @@ public class RegistrationDialogStepSixDialog extends DialogFragment implements O
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_completed, null);
-        View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_completed_title, null);
+		View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_completed_title, null);
 
-		final Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
-                .setCustomTitle(titleView)
+		final Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view).setCustomTitle(titleView)
 				.setPositiveButton(R.string.upload_button, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						handleUploadButtonClick();
 					}
-				})
-                .create();
+				}).create();
 
 		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -61,7 +59,7 @@ public class RegistrationDialogStepSixDialog extends DialogFragment implements O
 	}
 
 	private void handleUploadButtonClick() {
-        RegistrationData.getInstance().clearData();
+		RegistrationData.getInstance().clearData();
 		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
 		uploadProjectDialog.show(getActivity().getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}

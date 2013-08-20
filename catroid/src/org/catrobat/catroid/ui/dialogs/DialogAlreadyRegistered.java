@@ -24,23 +24,12 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.RadioButton;
+
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 
 public class DialogAlreadyRegistered extends DialogFragment implements OnRegistrationCompleteListener {
@@ -50,20 +39,18 @@ public class DialogAlreadyRegistered extends DialogFragment implements OnRegistr
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.already_registered)
-                .setNegativeButton(R.string.register, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        handleRegisterClick();
-                    }
-                }).setPositiveButton(R.string.login, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        handleAlreadyRegisteredClick();
-                    }
-                })
-                .create();
+		AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).setTitle(R.string.already_registered)
+				.setNegativeButton(R.string.register, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						handleRegisterClick();
+					}
+				}).setPositiveButton(R.string.login, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						handleAlreadyRegisteredClick();
+					}
+				}).create();
 
 		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -71,19 +58,20 @@ public class DialogAlreadyRegistered extends DialogFragment implements OnRegistr
 		return alertDialog;
 	}
 
-    private void handleAlreadyRegisteredClick() {
-        LoginDialog loginDialog = new LoginDialog();
-        loginDialog.show(getActivity().getSupportFragmentManager(), LoginDialog.DIALOG_FRAGMENT_TAG);
-        dismiss();
-    }
+	private void handleAlreadyRegisteredClick() {
+		LoginDialog loginDialog = new LoginDialog();
+		loginDialog.show(getActivity().getSupportFragmentManager(), LoginDialog.DIALOG_FRAGMENT_TAG);
+		dismiss();
+	}
 
-    private void handleRegisterClick() {
-        RegistrationDialogStepOneDialog registrationDialogStepOneDialog = new RegistrationDialogStepOneDialog();
-        registrationDialogStepOneDialog.show(getActivity().getSupportFragmentManager(), RegistrationDialogStepOneDialog.DIALOG_FRAGMENT_TAG);
-        dismiss();
-    }
+	private void handleRegisterClick() {
+		RegistrationDialogStepOneDialog registrationDialogStepOneDialog = new RegistrationDialogStepOneDialog();
+		registrationDialogStepOneDialog.show(getActivity().getSupportFragmentManager(),
+				RegistrationDialogStepOneDialog.DIALOG_FRAGMENT_TAG);
+		dismiss();
+	}
 
-    @Override
+	@Override
 	public void onRegistrationComplete(boolean success) {
 		dismiss();
 	}

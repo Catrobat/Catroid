@@ -22,12 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import java.util.Calendar;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.transfers.RegistrationData;
-import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -38,7 +32,12 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import org.catrobat.catroid.utils.UtilDeviceInfo;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.transfers.RegistrationData;
+import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
+
+import java.util.Calendar;
 
 public class RegistrationDialogStepFourDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
@@ -54,7 +53,7 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_birthday, null);
-        View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_birthday_title, null);
+		View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register_birthday_title, null);
 
 		monthSpinner = (Spinner) view.findViewById(R.id.dialog_register_birthday_spinner_month);
 		yearSpinner = (Spinner) view.findViewById(R.id.dialog_register_birthday_spinner_year);
@@ -62,20 +61,18 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 		addItemsOnYearSpinner();
 		addItemsOnMonthSpinner();
 
-		Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view)
-                .setCustomTitle(titleView)
+		Dialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view).setCustomTitle(titleView)
 				.setPositiveButton(R.string.next_registration_step, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        handleNextButtonClick();
-                    }
-                }).setNegativeButton(R.string.previous_registration_step, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        handleBackClick();
-                    }
-                })
-                .create();
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						handleNextButtonClick();
+					}
+				}).setNegativeButton(R.string.previous_registration_step, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						handleBackClick();
+					}
+				}).create();
 
 		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -92,11 +89,11 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 			position++;
 		}
 
-        String previousYear = RegistrationData.getInstance().getBirthdayYear();
-        if(previousYear != null && !previousYear.isEmpty()){
-            int previousYearInteger = Integer.parseInt(previousYear);
-            position = previousYearInteger - 1900 + 10;
-        }
+		String previousYear = RegistrationData.getInstance().getBirthdayYear();
+		if (previousYear != null && !previousYear.isEmpty()) {
+			int previousYearInteger = Integer.parseInt(previousYear);
+			position = previousYearInteger - 1900 + 10;
+		}
 
 		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(getActivity(),
 				android.R.layout.simple_spinner_item, yearList);
@@ -110,16 +107,16 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 				android.R.layout.simple_spinner_item);
 		monthSpinner.setAdapter(adapter);
 
-        String previousMonth = RegistrationData.getInstance().getBirthdayMonth();
-        if(previousMonth != null && !previousMonth.isEmpty()){
-            int position = 0;
-            for(String month : getResources().getStringArray(R.array.months_array)){
-                if(month.equals(previousMonth)){
-                    monthSpinner.setSelection(position);
-                }
-                position++;
-            }
-        }
+		String previousMonth = RegistrationData.getInstance().getBirthdayMonth();
+		if (previousMonth != null && !previousMonth.isEmpty()) {
+			int position = 0;
+			for (String month : getResources().getStringArray(R.array.months_array)) {
+				if (month.equals(previousMonth)) {
+					monthSpinner.setSelection(position);
+				}
+				position++;
+			}
+		}
 	}
 
 	@Override
@@ -129,24 +126,24 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 
 	private void handleNextButtonClick() {
 		setRegistrationData();
-        dismiss();
-        RegistrationDialogStepFiveDialog registerStepFiveDialog = new RegistrationDialogStepFiveDialog();
+		dismiss();
+		RegistrationDialogStepFiveDialog registerStepFiveDialog = new RegistrationDialogStepFiveDialog();
 		registerStepFiveDialog.show(getActivity().getSupportFragmentManager(),
 				RegistrationDialogStepFiveDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-    private void handleBackClick() {
-        setRegistrationData();
-        dismiss();
-        RegistrationDialogStepThreeDialog registerStepThreeDialog = new RegistrationDialogStepThreeDialog();
-        registerStepThreeDialog.show(getActivity().getSupportFragmentManager(),
-                RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
-    }
+	private void handleBackClick() {
+		setRegistrationData();
+		dismiss();
+		RegistrationDialogStepThreeDialog registerStepThreeDialog = new RegistrationDialogStepThreeDialog();
+		registerStepThreeDialog.show(getActivity().getSupportFragmentManager(),
+				RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
+	}
 
-    private void setRegistrationData(){
-        String monthString = monthSpinner.getSelectedItem().toString();
-        String yearString = yearSpinner.getSelectedItem().toString();
-        RegistrationData.getInstance().setBirthdayMonth(monthString);
-        RegistrationData.getInstance().setBirthdayYear(yearString);
-    }
+	private void setRegistrationData() {
+		String monthString = monthSpinner.getSelectedItem().toString();
+		String yearString = yearSpinner.getSelectedItem().toString();
+		RegistrationData.getInstance().setBirthdayMonth(monthString);
+		RegistrationData.getInstance().setBirthdayYear(yearString);
+	}
 }
