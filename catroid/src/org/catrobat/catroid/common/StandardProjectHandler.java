@@ -83,7 +83,7 @@ public class StandardProjectHandler {
 		Project defaultProject = new Project(context, projectName);
 		defaultProject.setDeviceData(context); // density anywhere here
 		StorageHandler.getInstance().saveProject(defaultProject);
-		ProjectManager.getInstance().setProject(defaultProject);
+		ProjectManager.getInstance().setcurrentProject(defaultProject);
 
 		UserVariablesContainer userVariables = defaultProject.getUserVariables();
 
@@ -284,7 +284,7 @@ public class StandardProjectHandler {
         Project emptyProject = new Project(context, projectName);
         emptyProject.setDeviceData(context);
         StorageHandler.getInstance().saveProject(emptyProject);
-        ProjectManager.getInstance().setProject(emptyProject);
+        ProjectManager.getInstance().setcurrentProject(emptyProject);
 
         return emptyProject;
     }

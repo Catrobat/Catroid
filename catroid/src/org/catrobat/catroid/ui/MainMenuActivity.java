@@ -195,7 +195,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), false, true);
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, false, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		loadProjectTask.execute();
 	}

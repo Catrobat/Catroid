@@ -3,21 +3,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
@@ -72,10 +72,10 @@
 
     <!-- About Dialog -->
     <string name="dialog_about_title">About Pocket Code</string>
-    <string name="dialog_about_license_info">Pocket Code is a programming 
-        environment and interpreter for Android devices for the visual 
+    <string name="dialog_about_license_info">Pocket Code is a programming
+        environment and interpreter for Android devices for the visual
         programming language Catrobat.\n\n
-        Pocket Code is mainly licensed under the GNU AGPL v3 License. 
+        Pocket Code is mainly licensed under the GNU AGPL v3 License.
         For the precise details of the license see the link below.\n</string>
     <string name="dialog_about_pocketcode_license_link_text">Pocket Code License</string>
     <string name="dialog_about_catrobat_link_text">About Catrobat</string>
@@ -161,6 +161,7 @@
     <!-- My Projects activity -->
     <string name="last_used">Last access:</string>
     <string name="description">Description:</string>
+    <string name="description_menu">Description</string>
     <string name="set_description">Set description</string>
     <string name="rename_project">Rename Program</string>
     <string name="copy_project_finished"> copied.</string>
@@ -417,7 +418,7 @@
     <string name="notification_invalid_text_entered">Please enter a value</string>
     <string name="notification_screenshot_ok">Screenshot saved</string>
     <string name="notification_download_project_cancel">Canceled downloading program</string>
-    
+
     <string name="notification_copy_title_pending">"Copying "</string>
     <string name="notification_copy_pending">Copy in progress</string>
     <string name="notification_copy_finished">Copy completed</string>
@@ -426,15 +427,15 @@
     <string name="notification_upload_title_finished">"Look at "</string>
     <string name="notification_upload_pending">Upload in progress</string>
     <string name="notification_upload_finished">Upload successful</string>
-    
+
     <string name="notification_download_title_pending">"Downloading "</string>
     <string name="notification_download_title_finished">"Start "</string>
     <string name="notification_download_pending">Download in progress</string>
     <string name="notification_download_finished">Download successful</string>
-    
+
     <string name="project_rename">(Your program will be renamed.)</string>
     <string name="size_of_project">Size:</string>
-    
+
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload program</string>
     <string name="upload_description">Description:</string>
@@ -572,7 +573,7 @@
     <string name="formula_editor_variable_dialog_for_all_sprites">For all objects</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">For this object only</string>
     <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
-    
+
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable selected!</item>
         <item quantity="other">Variables selected!</item>

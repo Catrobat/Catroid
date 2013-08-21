@@ -161,6 +161,7 @@
     <!-- My Projects activity -->
     <string name="last_used">Letzter Zugriff:</string>
     <string name="description">Beschreibung:</string>
+    <string name="description_menu">Beschreibung</string>
     <string name="set_description">Beschreibung</string>
     <string name="rename_project">Programm umbenennen</string>
     <string name="copy_project_finished"> kopiert.</string>

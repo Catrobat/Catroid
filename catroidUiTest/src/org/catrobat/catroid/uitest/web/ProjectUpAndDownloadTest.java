@@ -103,7 +103,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	@Device
 	public void testUploadProjectSuccessAndTokenReplacementAfterUpload() throws Throwable {
 		setServerURLToTestUrl();
-        UiTestUtils.createTestProject(testProject);
+		UiTestUtils.createTestProject(testProject);
 
 		//intent to the main activity is sent since changing activity orientation is not working
 		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
@@ -222,36 +222,39 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 	@Device
 	public void testRenameProjectDescriptionWhenUploading() throws Throwable {
-		setServerURLToTestUrl();
+        setServerURLToTestUrl();
 
-		UiTestUtils.createTestProject(testProject);
-		ProjectManager.getInstance().getCurrentProject().setDescription(testDescription);
+        UiTestUtils.createTestProject(testProject);
+        ProjectManager.getInstance().getCurrentProject().setDescription(testDescription);
 
-		//intent to the main activity is sent since changing activity orientation is not working
-		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
-		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
-		getActivity().startActivity(intent);
+        UiTestUtils.createValidUser(getActivity());
 
-		UiTestUtils.createValidUser(getActivity());
+        //Project description is changed to testdescription2 in uploadProject()
+        uploadProject(testProject, newTestDescription);
+        solo.sleep(5000);
 
-		//Project description is changed to testdescription2 in uploadProject()
-		uploadProject(testProject, newTestDescription);
-		solo.sleep(5000);
+        Project uploadProject = StorageHandler.getInstance().loadProject(testProject);
 
-		Project uploadProject = StorageHandler.getInstance().loadProject(testProject);
+        assertEquals("Deserialized project name was changed", testProject, uploadProject.getName());
+        checkProjectDescription(newTestDescription);
 
-		assertEquals("Deserialized project name was changed", testProject, uploadProject.getName());
-		assertEquals("Deserialized project description was not renamed correctly", newTestDescription,
-				uploadProject.getDescription());
+        //Download replaces project. Name and description should be testproject1 and testdescription2
+        downloadProjectAndReplace(testProject);
+        Project downloadedProject = StorageHandler.getInstance().loadProject(testProject);
 
-		//Download replaces project. Name and description should be testproject1 and testdescription2
-		downloadProjectAndReplace(testProject);
-		Project downloadedProject = StorageHandler.getInstance().loadProject(testProject);
-
-		assertEquals("Project name on server was changed", testProject, downloadedProject.getName());
-		assertEquals("Project name on server was not correctly renamed", newTestDescription,
-				downloadedProject.getDescription());
+        assertEquals("Project name on server was changed", testProject, downloadedProject.getName());
+        checkProjectDescription(newTestDescription);
 	}
+
+    public void checkProjectDescription(String projectDescription){
+        solo.clickOnText(solo.getString(R.string.programs));
+        solo.clickLongOnText(testProject);
+        solo.waitForDialogToOpen(500);
+        solo.clickOnText(solo.getString(R.string.description_menu));
+        assertTrue("Deserialized project description was not renamed correctly", solo.searchText(newTestDescription));
+        solo.clickOnButton(0);
+        solo.goBack();
+    }
 
 	@Device
 	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {
@@ -308,7 +311,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	//		}
 	//		StorageHandler.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
 	//		Project newProject = StorageHandler.getInstance().loadProject(projectName);
-	//		ProjectManager.getInstance().setProject(newProject);
+	//		ProjectManager.getInstance().setcurrentProject(newProject);
 	//
 	//		UiTestUtils.createValidUser(getActivity());
 	//		uploadProject(projectName, "");
@@ -415,7 +418,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 			e.printStackTrace();
 			return false;
 		}
-		ProjectManager.getInstance().setProject(standardProject);
+		ProjectManager.getInstance().setcurrentProject(standardProject);
 		StorageHandler.getInstance().saveProject(standardProject);
 		return true;
 	}

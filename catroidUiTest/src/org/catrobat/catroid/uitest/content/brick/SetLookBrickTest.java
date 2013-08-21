@@ -243,7 +243,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		projectManager.setProject(project);
+		projectManager.setcurrentProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();

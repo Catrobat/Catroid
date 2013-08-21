@@ -115,7 +115,7 @@ public class MoveBrickAcrossScriptTest extends BaseActivityInstrumentationTestCa
 
 		project.addSprite(firstSprite);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 	}
 

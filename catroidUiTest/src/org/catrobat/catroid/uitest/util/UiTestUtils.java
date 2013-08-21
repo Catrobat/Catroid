@@ -448,7 +448,7 @@ public class UiTestUtils {
 		project.addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
-		projectManager.setProject(project);
+		projectManager.setcurrentProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
 		StorageHandler.getInstance().saveProject(project);
@@ -456,6 +456,8 @@ public class UiTestUtils {
 		// the application version is needed when the project will be uploaded
 		// 0.7.3beta is the lowest possible version currently accepted by the web
 		Reflection.setPrivateField(project.getXmlHeader(), "applicationVersion", "0.7.3beta");
+
+        ProjectManager.getInstance().setcurrentProject(project);
 
 		return brickList;
 	}
@@ -491,7 +493,7 @@ public class UiTestUtils {
 		project.addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
-		projectManager.setProject(project);
+		projectManager.setcurrentProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
 
@@ -525,7 +527,7 @@ public class UiTestUtils {
 		project.addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
-		projectManager.setProject(project);
+		projectManager.setcurrentProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
 
@@ -588,7 +590,7 @@ public class UiTestUtils {
 		project.addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
-		projectManager.setProject(project);
+		projectManager.setcurrentProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
 
@@ -624,7 +626,7 @@ public class UiTestUtils {
 		project.addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
-		projectManager.setProject(project);
+		projectManager.setcurrentProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(firstScript);
 
@@ -639,7 +641,7 @@ public class UiTestUtils {
 		project.addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
-		projectManager.setProject(project);
+		projectManager.setcurrentProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
 	}
@@ -730,7 +732,7 @@ public class UiTestUtils {
 	public static Project createProject(String projectName, ArrayList<Sprite> spriteList, Context context) {
 		Project project = new Project(context, projectName);
 		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 
 		for (Sprite sprite : spriteList) {
 			ProjectManager.getInstance().addSprite(sprite);
@@ -1167,7 +1169,7 @@ public class UiTestUtils {
 		project.addSprite(firstSprite);
 
 		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 		return StorageHandler.getInstance().saveProject(project);

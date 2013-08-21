@@ -60,7 +60,7 @@ public class SetVariableActionTest extends AndroidTestCase {
 	public void testChangeVariable() throws InterruptedException {
 		testSprite.removeAllScripts();
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
@@ -108,7 +108,7 @@ public class SetVariableActionTest extends AndroidTestCase {
 	public void testInvalidUserVariable() throws InterruptedException {
 		testSprite.removeAllScripts();
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);

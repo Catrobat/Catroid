@@ -66,7 +66,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 	public void testNestedIfBrick() throws InterruptedException {
 		testSprite.removeAllScripts();
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
@@ -125,7 +125,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 	public void testIfBrick() throws InterruptedException {
 		testSprite.removeAllScripts();
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
@@ -173,7 +173,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 	public void testIfElseBrick() throws InterruptedException {
 		testSprite.removeAllScripts();
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);

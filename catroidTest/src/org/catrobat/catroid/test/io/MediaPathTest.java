@@ -86,7 +86,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 		project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
 
 		Project mockProject = new Project(getInstrumentation().getTargetContext(), "mockProject");

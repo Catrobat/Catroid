@@ -70,7 +70,7 @@ public class UploadProjectDialog extends DialogFragment {
 			if (resultCode == Constants.UPDATE_UPLOAD_PROGRESS) {
 				long progress = resultData.getLong("currentUploadProgress");
 				boolean endOfFileReached = resultData.getBoolean("endOfFileReached");
-				Integer notificationId = resultData.getInt("notificationId");
+				Integer notificationId = resultData.getInt(Constants.INTENT_NOTIFICATION_ID);
 				String projectName = resultData.getString("projectName");
 				long progressPercent = 0;
 				if (endOfFileReached) {

@@ -141,7 +141,7 @@ public class ScriptDeleteTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		project.addSprite(firstSprite);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 	}

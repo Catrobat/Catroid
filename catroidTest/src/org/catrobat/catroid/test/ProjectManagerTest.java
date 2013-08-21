@@ -53,7 +53,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		projectManager.setProject(null);
+		projectManager.setcurrentProject(null);
 		TestUtils.deleteTestProjects(OLD_PROJECT, NEW_PROJECT);
 	}
 

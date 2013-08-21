@@ -134,7 +134,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 
 	public void testGetProjectFiles() {
 		Project project = new Project(null, projectName);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		Sprite sprite = new Sprite("new sprite");
 		project.addSprite(sprite);
 		StorageHandler.getInstance().saveProject(project);

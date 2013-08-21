@@ -62,7 +62,7 @@ public class UserVariablesInterpretationTest extends AndroidTestCase {
 		firstSprite.addScript(startScript);
 		startScript.addBrick(changeBrick);
 		project.addSprite(firstSprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 		UserVariablesContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()

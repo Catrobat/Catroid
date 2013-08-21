@@ -159,7 +159,7 @@ public class ProjectManager {
 		return project;
 	}
 
-	public void setProject(Project project) {
+	public void setcurrentProject(Project project) {
 		currentScript = null;
 		currentSprite = null;
 

@@ -504,7 +504,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		if (standardProject == null) {
 			fail("Could not create standard project");
 		}
-		ProjectManager.getInstance().setProject(standardProject);
+		ProjectManager.getInstance().setcurrentProject(standardProject);
 		StorageHandler.getInstance().saveProject(standardProject);
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
