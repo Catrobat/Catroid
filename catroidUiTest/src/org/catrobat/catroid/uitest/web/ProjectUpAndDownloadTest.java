@@ -526,8 +526,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		solo.clickOnText(solo.getString(R.string.programs));
 		solo.clickLongOnText(testProject);
 		solo.waitForDialogToOpen(500);
-		solo.clickOnText(solo.getString(R.string.description_menu));
-		assertTrue("Deserialized project description was not renamed correctly", solo.searchText(newTestDescription));
+		solo.clickOnText("description");
+		assertTrue("Deserialized project description was not renamed correctly", solo.searchText(projectDescription));
 		solo.clickOnButton(0);
 	}
 
