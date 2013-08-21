@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -57,7 +57,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	// TODO
 	// needed in commented testmethods
 	// private static final int LONG_TEST_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
-
 	private final String testProject = UiTestUtils.PROJECTNAME1;
 	private final String newTestProject = UiTestUtils.PROJECTNAME2;
 	private final String testDescription = UiTestUtils.PROJECTDESCRIPTION1;
@@ -66,7 +65,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	private String saveEmail;
 	private String uploadDialogTitle;
 	private int serverProjectId;
-
 	private Project standardProject;
 
 	public ProjectUpAndDownloadTest() {
@@ -106,7 +104,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		UiTestUtils.createTestProject(testProject);
 
 		//intent to the main activity is sent since changing activity orientation is not working
-		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
+		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);"
 		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
 		getActivity().startActivity(intent);
 
@@ -185,7 +183,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	//		ProjectManager.getInstance().getCurrentProject().setDescription(originalProjectDescription);
 	//
 	//		//intent to the main activity is sent since changing activity orientation is not working
-	//		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
+	//		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);"
 	//		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
 	//		getActivity().startActivity(intent);
 	//
@@ -222,39 +220,34 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 	@Device
 	public void testRenameProjectDescriptionWhenUploading() throws Throwable {
-        setServerURLToTestUrl();
+		setServerURLToTestUrl();
 
-        UiTestUtils.createTestProject(testProject);
-        ProjectManager.getInstance().getCurrentProject().setDescription(testDescription);
+		UiTestUtils.createTestProject(testProject);
+		ProjectManager.getInstance().getCurrentProject().setDescription(testDescription);
 
-        UiTestUtils.createValidUser(getActivity());
+		//intent to the main activity is sent since changing activity orientation is not working
+		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);"
+		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
+		getActivity().startActivity(intent);
 
-        //Project description is changed to testdescription2 in uploadProject()
-        uploadProject(testProject, newTestDescription);
-        solo.sleep(5000);
+		UiTestUtils.createValidUser(getActivity());
 
-        Project uploadProject = StorageHandler.getInstance().loadProject(testProject);
+		//Project description is changed to testdescription2 in uploadProject()
+		uploadProject(testProject, newTestDescription);
+		solo.sleep(5000);
 
-        assertEquals("Deserialized project name was changed", testProject, uploadProject.getName());
-        checkProjectDescription(newTestDescription);
+		Project uploadProject = StorageHandler.getInstance().loadProject(testProject);
 
-        //Download replaces project. Name and description should be testproject1 and testdescription2
-        downloadProjectAndReplace(testProject);
-        Project downloadedProject = StorageHandler.getInstance().loadProject(testProject);
+		assertEquals("Deserialized project name was changed", testProject, uploadProject.getName());
+		checkProjectDescription(newTestDescription);
 
-        assertEquals("Project name on server was changed", testProject, downloadedProject.getName());
-        checkProjectDescription(newTestDescription);
+		//Download replaces project. Name and description should be testproject1 and testdescription2
+		downloadProjectAndReplace(testProject);
+		Project downloadedProject = StorageHandler.getInstance().loadProject(testProject);
+
+		assertEquals("Project name on server was changed", testProject, downloadedProject.getName());
+		checkProjectDescription(newTestDescription);
 	}
-
-    public void checkProjectDescription(String projectDescription){
-        solo.clickOnText(solo.getString(R.string.programs));
-        solo.clickLongOnText(testProject);
-        solo.waitForDialogToOpen(500);
-        solo.clickOnText(solo.getString(R.string.description_menu));
-        assertTrue("Deserialized project description was not renamed correctly", solo.searchText(newTestDescription));
-        solo.clickOnButton(0);
-        solo.goBack();
-    }
 
 	@Device
 	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {
@@ -264,7 +257,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		UiTestUtils.createTestProject(testProject);
 
 		//intent to the main activity is sent since changing activity orientation is not working
-		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
+		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);"
 		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
 		getActivity().startActivity(intent);
 
@@ -527,6 +520,15 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		File downloadedProjectFile = new File(projectPath + "/" + Constants.PROJECTCODE_NAME);
 		assertTrue("Original Directory does not exist.", downloadedDirectory.exists());
 		assertTrue("Original Project File does not exist.", downloadedProjectFile.exists());
+	}
+
+	public void checkProjectDescription(String projectDescription) {
+		solo.clickOnText(solo.getString(R.string.programs));
+		solo.clickLongOnText(testProject);
+		solo.waitForDialogToOpen(500);
+		solo.clickOnText(solo.getString(R.string.description_menu));
+		assertTrue("Deserialized project description was not renamed correctly", solo.searchText(newTestDescription));
+		solo.clickOnButton(0);
 	}
 
 }

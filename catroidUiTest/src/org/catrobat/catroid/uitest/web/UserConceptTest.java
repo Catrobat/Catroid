@@ -53,7 +53,6 @@ import java.util.Locale;
 public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private static final String TEST_USERNAME = "testUser";
-
 	private String saveToken;
 	private String saveEmail;
 	private String loginDialogTitle;
@@ -267,15 +266,15 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		assertTrue("E-Mail already exists error dialog not shown", solo.searchText("E-Mail already registered"));
 
-        solo.clickOnButton(0);
-        solo.waitForDialogToOpen(500);
-        solo.clickOnEditText(0);
-        solo.goBack();
-        solo.clearEditText(0);
-        testEmail = "invalid";
-        solo.enterText(0, testEmail);
-        solo.clickOnButton(solo.getString(R.string.next_registration_step));
-        assertTrue("E-Mail already exists error dialog not shown", solo.searchText("E-Mail is invalid"));
+		solo.clickOnButton(0);
+		solo.waitForDialogToOpen(500);
+		solo.clickOnEditText(0);
+		solo.goBack();
+		solo.clearEditText(0);
+		testEmail = "invalid";
+		solo.enterText(0, testEmail);
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
+		assertTrue("E-Mail already exists error dialog not shown", solo.searchText("E-Mail is invalid"));
 	}
 
 	@Device
