@@ -62,7 +62,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		testCopyFile.getXmlHeader().virtualScreenWidth = 1000;
 		projectManager = ProjectManager.getInstance();
 		storageHandler.saveProject(testCopyFile);
-		projectManager.setProject(testCopyFile);
+		projectManager.setcurrentProject(testCopyFile);
 
 		final String imagePath = Constants.DEFAULT_ROOT + "/testImage.png";
 		testImage = new File(imagePath);

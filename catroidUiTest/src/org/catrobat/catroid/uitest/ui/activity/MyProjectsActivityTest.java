@@ -443,7 +443,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		StorageHandler.getInstance().saveProject(firstCacheTestProject);
 		UiTestUtils.saveFileToProject(cacheProjectName + 0, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
 				IMAGE_RESOURCE_2, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
-		ProjectManager.getInstance().setProject(firstCacheTestProject);
+		ProjectManager.getInstance().setcurrentProject(firstCacheTestProject);
 
 		for (int i = 1; i < numberOfCacheProjects; i++) {
 			solo.sleep(500);
@@ -500,7 +500,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.saveFileToProject(firstCacheProjectName, "screenshot.png", IMAGE_RESOURCE_2, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.ROOT);
 		StorageHandler.getInstance().saveProject(firstCacheTestProject);
-		ProjectManager.getInstance().setProject(firstCacheTestProject);
+		ProjectManager.getInstance().setcurrentProject(firstCacheTestProject);
 
 		//leave and reenter MyProjectsActivity 
 		solo.goBack();
@@ -1560,7 +1560,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		Project project1 = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		StorageHandler.getInstance().saveProject(project1);
-		ProjectManager.getInstance().setProject(project1);
+		ProjectManager.getInstance().setcurrentProject(project1);
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		Sprite testSprite = new Sprite("sprite1");

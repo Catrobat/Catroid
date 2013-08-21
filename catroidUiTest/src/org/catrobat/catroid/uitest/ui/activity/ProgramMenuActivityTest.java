@@ -193,7 +193,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		spriteCat.addScript(scriptTappedCat);
 		project.addSprite(spriteCat);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(spriteCat);
 		ProjectManager.getInstance().setCurrentScript(startScriptCat);
 

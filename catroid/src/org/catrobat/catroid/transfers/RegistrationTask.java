@@ -25,6 +25,7 @@ package org.catrobat.catroid.transfers;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -76,24 +77,31 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			if (!Utils.isNetworkAvailable(context)) {
 				return false;
 			}
-
-			String email = UtilDeviceInfo.getUserEmail(context);
-			String language = UtilDeviceInfo.getUserLanguageCode(context);
-			String country = UtilDeviceInfo.getUserCountryCode(context);
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+			String email = RegistrationData.getInstance().getEmail();
+			if (email == null || email.isEmpty()) {
+				email = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
+			}
+			if (email == null || email.equals(Constants.NO_EMAIL)) {
+				email = UtilDeviceInfo.getUserEmail(context);
+			}
+			String language = UtilDeviceInfo.getUserLanguageCode(context);
+			String country = RegistrationData.getInstance().getCountryCode();
+			//String country = UtilDeviceInfo.getUserCountryCode(context);
 			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+			String gender = RegistrationData.getInstance().getGender();
+			String birthdayMonth = RegistrationData.getInstance().getBirthdayMonth();
+			String birthdayYear = RegistrationData.getInstance().getBirthdayYear();
 
 			userRegistered = ServerCalls.getInstance().registerOrCheckToken(username, password, email, language,
-					country, token, context);
-
+					country, token, gender, birthdayMonth, birthdayYear, context);
 			return true;
-
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			message = e.getMessage();
 		}
 		return false;
-
 	}
 
 	@Override
@@ -118,7 +126,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 		}
 
 		if (onRegistrationCompleteListener != null) {
-			onRegistrationCompleteListener.onRegistrationComplete();
+			onRegistrationCompleteListener.onRegistrationComplete(true);
 		}
 	}
 
@@ -128,16 +136,30 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 		}
 		if (message == null) {
 			new Builder(context).setTitle(R.string.register_error).setMessage(messageId).setPositiveButton("OK", null)
-					.show();
+					.show().setOnDismissListener(new DialogInterface.OnDismissListener() {
+						@Override
+						public void onDismiss(DialogInterface dialog) {
+							if (onRegistrationCompleteListener != null) {
+								onRegistrationCompleteListener.onRegistrationComplete(false);
+							}
+						}
+					});
 		} else {
 			new Builder(context).setTitle(R.string.register_error).setMessage(message).setPositiveButton("OK", null)
-					.show();
+					.show().setOnDismissListener(new DialogInterface.OnDismissListener() {
+						@Override
+						public void onDismiss(DialogInterface dialog) {
+							if (onRegistrationCompleteListener != null) {
+								onRegistrationCompleteListener.onRegistrationComplete(false);
+							}
+						}
+					});
 		}
 	}
 
 	public interface OnRegistrationCompleteListener {
 
-		public void onRegistrationComplete();
+		public void onRegistrationComplete(boolean success);
 
 	}
 }

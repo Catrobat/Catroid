@@ -196,7 +196,7 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		projectManager.setProject(project);
+		projectManager.setcurrentProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();

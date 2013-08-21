@@ -128,7 +128,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		Sprite secondSprite = new Sprite(defaultSpriteName);
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(secondSprite);
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().addSpriteUserVariable("p");
@@ -182,7 +182,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		Sprite secondSprite = new Sprite("Pocket Code");
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(secondSprite);
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables()
@@ -1130,7 +1130,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		project.addSprite(new Sprite(spriteName));
 
-		projectManager.setProject(project);
+		projectManager.setcurrentProject(project);
 		StorageHandler.getInstance().saveProject(project);
 	}
 

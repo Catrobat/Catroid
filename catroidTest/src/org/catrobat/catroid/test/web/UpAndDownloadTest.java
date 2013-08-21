@@ -22,8 +22,11 @@
  */
 package org.catrobat.catroid.test.web;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.test.AndroidTestCase;
 
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -31,6 +34,8 @@ import org.catrobat.catroid.utils.Utils;
 public class UpAndDownloadTest extends AndroidTestCase {
 
 	//private File projectZipOnMockServer;
+	private String saveToken;
+	private String saveEmail;
 
 	public UpAndDownloadTest() {
 		super();
@@ -39,12 +44,19 @@ public class UpAndDownloadTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		//projectZipOnMockServer = new File(Constants.TMP_PATH + "/projectSave" + Constants.CATROBAT_EXTENSION);
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		saveToken = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		saveEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
+
+		//projectZipOnMockServer = new File(Constants.TMP_PATH + "/projectSave" + Constants.CATROID_EXTENTION);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		TestUtils.clearProject("uploadtestProject");
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		sharedPreferences.edit().putString(Constants.TOKEN, saveToken).commit();
+		sharedPreferences.edit().putString(Constants.EMAIL, saveEmail).commit();
 		super.tearDown();
 	}
 

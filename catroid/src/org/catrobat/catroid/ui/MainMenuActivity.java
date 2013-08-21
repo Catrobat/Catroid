@@ -52,7 +52,8 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
-import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
+import org.catrobat.catroid.ui.dialogs.DialogAlreadyRegistered;
+import org.catrobat.catroid.ui.dialogs.LoginDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
@@ -194,14 +195,14 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, false);
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, false, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		loadProjectTask.execute();
 	}
 
 	@Override
-	public void onLoadProjectSuccess() {
-		if (ProjectManager.getInstance().getCurrentProject() != null) {
+	public void onLoadProjectSuccess(boolean startProjectActivity) {
+		if (ProjectManager.getInstance().getCurrentProject() != null && startProjectActivity) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
@@ -290,14 +291,19 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
+		if (ProjectManager.getInstance().getCurrentProject() == null) {
+			LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), false, false);
+			loadProjectTask.setOnLoadProjectCompleteListener(this);
+			loadProjectTask.execute();
+		}
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 
-		if (token == Constants.NO_TOKEN || token.length() != ServerCalls.TOKEN_LENGTH
+		if (token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
 				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
-			showLoginRegisterDialog();
+			showRegisterDialog();
 		} else {
+			String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token, username);
 			checkTokenTask.setOnCheckTokenCompleteListener(this);
 			checkTokenTask.execute();
@@ -306,7 +312,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 
 	@Override
 	public void onTokenNotValid() {
-		showLoginRegisterDialog();
+		showLoginDialog();
 	}
 
 	@Override
@@ -315,9 +321,14 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		uploadProjectDialog.show(getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	private void showLoginRegisterDialog() {
-		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
-		loginRegisterDialog.show(getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
+	private void showLoginDialog() {
+		LoginDialog loginDialog = new LoginDialog();
+		loginDialog.show(getSupportFragmentManager(), LoginDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void showRegisterDialog() {
+		DialogAlreadyRegistered registrationDialog = new DialogAlreadyRegistered();
+		registrationDialog.show(getSupportFragmentManager(), DialogAlreadyRegistered.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void loadProgramFromExternalSource(Uri loadExternalProjectUri) {

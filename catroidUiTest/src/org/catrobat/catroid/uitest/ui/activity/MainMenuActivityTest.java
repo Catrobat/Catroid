@@ -344,7 +344,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		if (standardProject == null) {
 			fail("Could not create standard project");
 		}
-		ProjectManager.getInstance().setProject(standardProject);
+		ProjectManager.getInstance().setcurrentProject(standardProject);
 		StorageHandler.getInstance().saveProject(standardProject);
 
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -376,7 +376,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 				defaultSharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null));
 
 		Intent intent = new Intent(solo.getCurrentActivity(), ProjectActivity.class);
-		ProjectManager.getInstance().setProject(null);
+		ProjectManager.getInstance().setcurrentProject(null);
 		solo.getCurrentActivity().startActivity(intent);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.waitForText(solo, solo.getString(R.string.default_project_backgroundname));

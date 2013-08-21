@@ -86,7 +86,7 @@ public class XMLValidatingTest extends AndroidTestCase {
 		sprite.addScript(broadcastScript);
 		project.addSprite(sprite);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(startScript);
 

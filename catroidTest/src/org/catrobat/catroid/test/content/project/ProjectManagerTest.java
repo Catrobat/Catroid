@@ -202,7 +202,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		storageHandler.saveProject(project);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		Sprite firstSprite = new Sprite("cat");
 		Sprite secondSprite = new Sprite("dog");
 		Sprite thirdSprite = new Sprite("horse");

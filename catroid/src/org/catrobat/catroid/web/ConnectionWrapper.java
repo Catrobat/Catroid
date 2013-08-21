@@ -48,7 +48,7 @@ public class ConnectionWrapper {
 	private static final String TAG = ConnectionWrapper.class.getSimpleName();
 
 	public static final String TAG_PROGRESS = "currentDownloadProgress";
-	public static final String TAG_ENDOFFILE = "endOfFileReached";
+	public static final String TAG_END_OF_FILE = "endOfFileReached";
 	public static final String TAG_UNKNOWN = "unknown";
 	public static final String TAG_NOTIFICATION_ID = "notificationId";
 	public static final String TAG_PROJECT_NAME = "projectName";
@@ -78,6 +78,7 @@ public class ConnectionWrapper {
 				throw new WebconnectionException(responseCode, "Error response code should be 200 or 201!");
 			}
 			if (!uploadRequest.ok()) {
+
 				Log.v(TAG, "Upload not succesful");
 				StatusBarNotificationManager.getInstance().cancelNotification(notificationId);
 			} else {

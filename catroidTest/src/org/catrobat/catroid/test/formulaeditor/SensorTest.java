@@ -121,7 +121,7 @@ public class SensorTest extends InstrumentationTestCase {
 		ChangeSizeByNBrick loudnessBrick = new ChangeSizeByNBrick(firstSprite, formula6);
 		startScript1.addBrick(loudnessBrick);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 		//For initialization

@@ -50,6 +50,9 @@ public class ServerCalls {
 	private static final String REGISTRATION_LANGUAGE_KEY = "registrationLanguage";
 	private static final String REGISTRATION_EMAIL_KEY = "registrationEmail";
 	private static final String LOGIN_USERNAME_KEY = "username";
+	private static final String REGISTRATION_USER_GENDER = "registrationGender";
+	private static final String REGISTRATION_USER_BIRTHDAY_MONTH = "registrationMonth";
+	private static final String REGISTRATION_USER_BIRTHDAY_YEAR = "registrationYear";
 
 	private static final String FILE_UPLOAD_TAG = "upload";
 	private static final String PROJECT_NAME_TAG = "projectTitle";
@@ -60,9 +63,13 @@ public class ServerCalls {
 
 	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
+	private static final int SERVER_RESPONSE_EMAIL_ALREADY_EXISTING = 300;
+	private static final int SERVER_RESPONSE_EMAIL_INVALID = 301;
 
 	private static final String FILE_UPLOAD_URL = Constants.BASE_URL_HTTPS + "api/upload/upload.json";
 	private static final String CHECK_TOKEN_URL = Constants.BASE_URL_HTTPS + "api/checkToken/check.json";
+	private static final String CHECK_EMAIL_URL = Constants.BASE_URL_HTTPS
+			+ "api/checkRegistrationMail/checkRegistrationMail.json";
 	private static final String REGISTRATION_URL = Constants.BASE_URL_HTTPS
 			+ "api/loginOrRegister/loginOrRegister.json";
 
@@ -72,6 +79,8 @@ public class ServerCalls {
 	public static final String FILE_UPLOAD_URL_HTTPS = Constants.BASE_URL_HTTPS + "api/upload/upload.json";
 
 	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTP + "api/checkToken/check.json";
+	private static final String TEST_CHECK_EMAIL_URL = BASE_URL_TEST_HTTP
+			+ "api/checkRegistrationMail/checkRegistrationMail.json";
 	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTP + "api/loginOrRegister/loginOrRegister.json";
 
 	public static final int TOKEN_LENGTH = 32;
@@ -218,23 +227,27 @@ public class ServerCalls {
 	}
 
 	public boolean registerOrCheckToken(String username, String password, String userEmail, String language,
-			String country, String token, Context context) throws WebconnectionException {
+			String country, String token, String gender, String birthdayMonth, String birthdayYear, Context context)
+			throws WebconnectionException {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
 		}
 		try {
 			HashMap<String, String> postValues = new HashMap<String, String>();
+
 			postValues.put(REGISTRATION_USERNAME_KEY, username);
 			postValues.put(REGISTRATION_PASSWORD_KEY, password);
 			postValues.put(REGISTRATION_EMAIL_KEY, userEmail);
-			if (token != Constants.NO_TOKEN) {
+			postValues.put(REGISTRATION_USER_GENDER, gender);
+			postValues.put(REGISTRATION_USER_BIRTHDAY_MONTH, birthdayMonth);
+			postValues.put(REGISTRATION_USER_BIRTHDAY_YEAR, birthdayYear);
+			postValues.put(REGISTRATION_COUNTRY_KEY, country);
+
+			if (!token.equals(Constants.NO_TOKEN)) {
 				postValues.put(Constants.TOKEN, token);
 			}
 
-			if (country != null) {
-				postValues.put(REGISTRATION_COUNTRY_KEY, country);
-			}
-			if (language != null) {
+			if (!language.isEmpty()) {
 				postValues.put(REGISTRATION_LANGUAGE_KEY, language);
 			}
 			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
@@ -254,7 +267,7 @@ public class ServerCalls {
 
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
 				tokenReceived = jsonObject.getString(JSON_TOKEN);
-				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived == ""
+				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.isEmpty()
 						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
 					throw new WebconnectionException(statusCode, serverAnswer);
 				}
@@ -262,6 +275,7 @@ public class ServerCalls {
 					SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 					sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
 					sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
+					sharedPreferences.edit().putString(Constants.EMAIL, userEmail).commit();
 				}
 			}
 
@@ -277,6 +291,41 @@ public class ServerCalls {
 		} catch (JSONException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
+		}
+	}
+
+	public boolean checkEmail(String email, Context context) throws WebconnectionException {
+		try {
+			HashMap<String, String> postValues = new HashMap<String, String>();
+			postValues.put(Constants.EMAIL, email);
+
+			String serverUrl = useTestUrl ? TEST_CHECK_EMAIL_URL : CHECK_EMAIL_URL;
+
+			Log.v(TAG, "post values - email:" + email);
+			Log.v(TAG, "url to upload: " + serverUrl);
+			resultString = connection.doHttpPost(serverUrl, postValues);
+
+			JSONObject jsonObject = null;
+			int statusCode = 0;
+
+			Log.v(TAG, "result string: " + resultString);
+
+			jsonObject = new JSONObject(resultString);
+			statusCode = jsonObject.getInt(JSON_STATUS_CODE);
+			String serverAnswer = jsonObject.optString(JSON_ANSWER);
+
+			if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
+				return true;
+			} else if (statusCode == SERVER_RESPONSE_EMAIL_ALREADY_EXISTING) {
+				throw new WebconnectionException(statusCode, "E-Mail already registered: " + serverAnswer);
+			} else if (statusCode == SERVER_RESPONSE_EMAIL_INVALID) {
+				throw new WebconnectionException(statusCode, "E-Mail is invalid: " + serverAnswer);
+			} else {
+				throw new WebconnectionException(statusCode, "server response token ok, but error: " + serverAnswer);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Exception");
 		}
 	}
 }

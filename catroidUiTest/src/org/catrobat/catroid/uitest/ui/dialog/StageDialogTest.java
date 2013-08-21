@@ -73,7 +73,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 
 	public void testBackButtonPressedTwice() {
 		Project project = createTestProject(testProject);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -122,7 +122,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 	//		project.addSprite(sprite);
 	//
 	//		storageHandler.saveProject(project);
-	//		ProjectManager.getInstance().setProject(project);
+	//		ProjectManager.getInstance().setcurrentProject(project);
 	//
 	//		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
 

@@ -400,7 +400,7 @@ public class Utils {
 						context.getString(R.string.default_project_name), context);
 			}
 
-			ProjectManager.getInstance().setProject(projectToCheck);
+			ProjectManager.getInstance().setcurrentProject(projectToCheck);
 			ProjectManager.getInstance().saveProject();
 
 			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);

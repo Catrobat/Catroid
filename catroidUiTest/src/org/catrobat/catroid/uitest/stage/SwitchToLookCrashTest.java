@@ -195,7 +195,7 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 		project.addSprite(backgroundSprite);
 
 		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(backgroundSprite);
 		ProjectManager.getInstance().setCurrentScript(startScript);
 		storageHandler.saveProject(project);

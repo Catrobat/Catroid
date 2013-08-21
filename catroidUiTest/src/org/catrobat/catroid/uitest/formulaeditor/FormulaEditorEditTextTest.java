@@ -94,7 +94,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		startScript1.addBrick(waitBrick);
 		project.addSprite(firstSprite);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 	}

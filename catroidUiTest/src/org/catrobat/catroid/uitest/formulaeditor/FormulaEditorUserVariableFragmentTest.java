@@ -86,7 +86,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 		Script startScript1 = new StartScript(firstSprite);
@@ -106,7 +106,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 
 		firstSprite = new Sprite("firstSprite");
 		project.addSprite(firstSprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setcurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables()

@@ -58,6 +58,8 @@ public final class Constants {
 	public static final String NO_TOKEN = "no_token";
 	public static final String USERNAME = "username";
 	public static final String NO_USERNAME = "no_username";
+	public static final String EMAIL = "email";
+	public static final String NO_EMAIL = "no_email";
 
 	// Pocket Paint
 	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_PATH";
@@ -78,4 +80,14 @@ public final class Constants {
 	public static final int UPLOAD_NOTIFICATION = 102;
 	public static final int DOWNLOAD_NOTIFICATION = 103;
 	public static final int COPY_NOTIFICATION = 104;
+
+	//Upload intent
+	public static final String INTENT_PROJECT_PATH = "projectPath";
+	public static final String INTENT_UPLOAD_NAME = "uploadName";
+	public static final String INTENT_PROJECT_DESCRIPTION = "projectDescription";
+	public static final String INTENT_TOKEN = "token";
+	public static final String INTENT_USERNAME = "username";
+	public static final String INTENT_EMAIL = "email";
+	public static final String INTENT_NOTIFICATION_ID = "notificationId";
+	public static final String INTENT_RECEIVER = "receiver";
 }

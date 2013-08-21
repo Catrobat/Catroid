@@ -48,6 +48,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 	private String testProject = UiTestUtils.PROJECTNAME1;
 
 	private String saveToken;
+    private String saveEmail;
 	private String uploadDialogTitle;
 	private Project uploadProject;
 
@@ -58,8 +59,9 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		saveToken = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		saveToken = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+        saveEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
 		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
 		createTestProject();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 3000);
@@ -76,8 +78,9 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	@Override
 	public void tearDown() throws Exception {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		sharedPreferences.edit().putString(Constants.TOKEN, saveToken).commit();
+        sharedPreferences.edit().putString(Constants.EMAIL, saveEmail).commit();
 		// normally super.teardown should be called last
 		// but tests crashed with Nullpointer
 		super.tearDown();
@@ -198,7 +201,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertFalse("testProject was not deleted!", directory.exists());
 
 		uploadProject = new Project(getActivity(), testProject);
-		ProjectManager.getInstance().setProject(uploadProject);
+		ProjectManager.getInstance().setcurrentProject(uploadProject);
 		StorageHandler.getInstance().saveProject(uploadProject);
 
 		File file = new File(Constants.DEFAULT_ROOT + "/" + testProject + "/" + Constants.PROJECTCODE_NAME);

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
@@ -20,7 +19,7 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+ -->
 <resources>
 
     <!-- Mindroid motors spinner -->
@@ -43,6 +42,263 @@
         <item>@string/add_look_from_camera</item>
         <item>@string/add_look_choose_image</item>
         <item>@string/add_look_draw_new_image</item>
+    </string-array>
+    <string-array name="months_array">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>Aprile</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+    <string-array name="countries_array">
+        <item>af/Afghanistan</item>
+  <item>al/Albania</item>
+  <item>dz/Algeria</item>
+  <item>as/American Samoa</item>
+  <item>ad/Andorra</item>
+  <item>ao/Angola</item>
+  <item>ai/Anguilla</item>
+  <item>aq/Antarctica</item>
+  <item>ag/Antigua and Barbuda</item>
+  <item>ar/Argentina</item>
+  <item>am/Armenia</item>
+  <item>aw/Aruba</item>
+  <item>au/Australia</item>
+  <item>at/Austria</item>
+  <item>az/Azerbaijan</item>
+  <item>bh/Bahrain</item>
+  <item>bd/Bangladesh</item>
+  <item>bb/Barbados</item>
+  <item>by/Belarus</item>
+  <item>be/Belgium</item>
+  <item>bz/Belize</item>
+  <item>bj/Benin</item>
+  <item>bm/Bermuda</item>
+  <item>bt/Bhutan</item>
+  <item>bo/Bolivia</item>
+  <item>ba/Bosnia and Herzegovina</item>
+  <item>bw/Botswana</item>
+  <item>bv/Bouvet Island</item>
+  <item>br/Brazil</item>
+  <item>io/British Indian Ocean Territory</item>
+  <item>vg/British Virgin Islands</item>
+  <item>bn/Brunei</item>
+  <item>bg/Bulgaria</item>
+  <item>bf/Burkina Faso</item>
+  <item>mm/Burma</item>
+  <item>bi/Burundi</item>
+  <item>kh/Cambodia</item>
+  <item>cm/Cameroon</item>
+  <item>ca/Canada</item>
+  <item>cv/Cape Verde</item>
+  <item>ky/Cayman Islands</item>
+  <item>cf/Central African Republic</item>
+  <item>td/Chad</item>
+  <item>cl/Chile</item>
+  <item>cn/China</item>
+  <item>cx/Christmas Island</item>
+  <item>cc/Cocos (Keeling) Islands</item>
+  <item>co/Colombia</item>
+  <item>km/Comoros</item>
+  <item>cg/Congo</item>
+  <item>ck/Cook Islands</item>
+  <item>cr/Costa Rica</item>
+  <item>hr/Croatia</item>
+  <item>cu/Cuba</item>
+  <item>cy/Cyprus</item>
+  <item>cz/Czech Republic</item>
+  <item>cd/Democratic Republic of the Congo</item>
+  <item>dk/Denmark</item>
+  <item>dj/Djibouti</item>
+  <item>dm/Dominica</item>
+  <item>do/Dominican Republic</item>
+  <item>tl/East Timor</item>
+  <item>ec/Ecuador</item>
+  <item>eg/Egypt</item>
+  <item>sv/El Salvador</item>
+  <item>gq/Equatorial Guinea</item>
+  <item>er/Eritrea</item>
+  <item>ee/Estonia</item>
+  <item>et/Ethiopia</item>
+  <item>fk/Falkland Islands</item>
+  <item>fo/Faroe Islands</item>
+  <item>fj/Fiji</item>
+  <item>fi/Finland</item>
+  <item>fr/France</item>
+  <item>gf/French Guiana</item>
+  <item>pf/French Polynesia</item>
+  <item>tf/French Southern and Antarctic Lands</item>
+  <item>ga/Gabon</item>
+  <item>ge/Georgia</item>
+  <item>de/Germany</item>
+  <item>gh/Ghana</item>
+  <item>gi/Gibraltar</item>
+  <item>gr/Greece</item>
+  <item>gl/Greenland</item>
+  <item>gd/Grenada</item>
+  <item>gp/Guadeloupe</item>
+  <item>gu/Guam</item>
+  <item>gt/Guatemala</item>
+  <item>gn/Guinea</item>
+  <item>gw/Guinea-Bissau</item>
+  <item>gy/Guyana</item>
+  <item>ht/Haiti</item>
+  <item>hm/Heard Island and McDonald Islands</item>
+  <item>hn/Honduras</item>
+  <item>hk/Hong Kong</item>
+  <item>hu/Hungary</item>
+  <item>is/Iceland</item>
+  <item>in/India</item>
+  <item>id/Indonesia</item>
+  <item>ir/Iran</item>
+  <item>iq/Iraq</item>
+  <item>ie/Ireland</item>
+  <item>il/Israel</item>
+  <item>it/Italy</item>
+  <item>ci/Ivory Coast</item>
+  <item>jm/Jamaica</item>
+  <item>jp/Japan</item>
+  <item>jo/Jordan</item>
+  <item>kz/Kazakhstan</item>
+  <item>ke/Kenya</item>
+  <item>ki/Kiribati</item>
+  <item>kw/Kuwait</item>
+  <item>kg/Kyrgyzstan</item>
+  <item>la/Laos</item>
+  <item>lv/Latvia</item>
+  <item>lb/Lebanon</item>
+  <item>ls/Lesotho</item>
+  <item>lr/Liberia</item>
+  <item>ly/Libya</item>
+  <item>li/Liechtenstein</item>
+  <item>lt/Lithuania</item>
+  <item>lu/Luxembourg</item>
+  <item>mo/Macau</item>
+  <item>mk/Macedonia</item>
+  <item>mg/Madagascar</item>
+  <item>mw/Malawi</item>
+  <item>my/Malaysia</item>
+  <item>mv/Maldives</item>
+  <item>ml/Mali</item>
+  <item>mt/Malta</item>
+  <item>mh/Marshall Islands</item>
+  <item>mq/Martinique</item>
+  <item>mr/Mauritania</item>
+  <item>mu/Mauritius</item>
+  <item>yt/Mayotte</item>
+  <item>mx/Mexico</item>
+  <item>fm/Micronesia</item>
+  <item>md/Moldova</item>
+  <item>mc/Monaco</item>
+  <item>mn/Mongolia</item>
+  <item>ms/Montserrat</item>
+  <item>ma/Morocco</item>
+  <item>mz/Mozambique</item>
+  <item>na/Namibia</item>
+  <item>nr/Nauru</item>
+  <item>np/Nepal</item>
+  <item>nl/Netherlands</item>
+  <item>an/Netherlands Antilles</item>
+  <item>nc/New Caledonia</item>
+  <item>nz/New Zealand</item>
+  <item>ni/Nicaragua</item>
+  <item>ne/Niger</item>
+  <item>ng/Nigeria</item>
+  <item>nu/Niue</item>
+  <item>nf/Norfolk Island</item>
+  <item>kp/North Korea</item>
+  <item>mp/Northern Mariana Islands</item>
+  <item>no/Norway</item>
+  <item>om/Oman</item>
+  <item>pk/Pakistan</item>
+  <item>pw/Palau</item>
+  <item>ps/Palestinian territories</item>
+  <item>pa/Panama</item>
+  <item>pg/Papua New Guinea</item>
+  <item>py/Paraguay</item>
+  <item>pe/Peru</item>
+  <item>ph/Philippines</item>
+  <item>pn/Pitcairn Islands</item>
+  <item>pl/Poland</item>
+  <item>pt/Portugal</item>
+  <item>pr/Puerto Rico</item>
+  <item>qa/Qatar</item>
+  <item>ro/Romania</item>
+  <item>ru/Russia</item>
+  <item>rw/Rwanda</item>
+  <item>re/Réunion</item>
+  <item>sh/Saint Helena</item>
+  <item>kn/Saint Kitts and Nevis</item>
+  <item>lc/Saint Lucia</item>
+  <item>pm/Saint Pierre and Miquelon</item>
+  <item>vc/Saint Vincent and the Grenadines</item>
+  <item>ws/Samoa</item>
+  <item>sm/San Marino</item>
+  <item>sa/Saudi Arabia</item>
+  <item>sn/Senegal</item>
+  <item>cs/Serbia and Montenegro</item>
+  <item>sc/Seychelles</item>
+  <item>sl/Sierra Leone</item>
+  <item>sg/Singapore</item>
+  <item>sk/Slovakia</item>
+  <item>si/Slovenia</item>
+  <item>sb/Solomon Islands</item>
+  <item>so/Somalia</item>
+  <item>za/South Africa</item>
+  <item>gs/South Georgia and the South Sandwich Islands</item>
+  <item>kr/South Korea</item>
+  <item>es/Spain</item>
+  <item>lk/Sri Lanka</item>
+  <item>sd/Sudan</item>
+  <item>sr/Suriname</item>
+  <item>sj/Svalbard and Jan Mayen</item>
+  <item>sz/Swaziland</item>
+  <item>se/Sweden</item>
+  <item>ch/Switzerland</item>
+  <item>sy/Syria</item>
+  <item>st/São Tomé and Príncipe</item>
+  <item>tw/Taiwan</item>
+  <item>tj/Tajikistan</item>
+  <item>tz/Tanzania</item>
+  <item>th/Thailand</item>
+  <item>bs/The Bahamas</item>
+  <item>gm/The Gambia</item>
+  <item>tg/Togo</item>
+  <item>tk/Tokelau</item>
+  <item>to/Tonga</item>
+  <item>tt/Trinidad and Tobago</item>
+  <item>tn/Tunisia</item>
+  <item>tr/Turkey</item>
+  <item>tm/Turkmenistan</item>
+  <item>tc/Turks and Caicos Islands</item>
+  <item>tv/Tuvalu</item>
+  <item>ug/Uganda</item>
+  <item>ua/Ukraine</item>
+  <item>ae/United Arab Emirates</item>
+  <item>gb/United Kingdom</item>
+  <item>us/United States</item>
+  <item>um/United States Minor Outlying Islands</item>
+  <item>vi/United States Virgin Islands</item>
+  <item>uy/Uruguay</item>
+  <item>uz/Uzbekistan</item>
+  <item>vu/Vanuatu</item>
+  <item>va/Vatican City State</item>
+  <item>ve/Venezuela</item>
+  <item>vn/Vietnam</item>
+  <item>wf/Wallis and Futuna</item>
+  <item>eh/Western Sahara</item>
+  <item>ye/Yemen</item>
+  <item>zm/Zambia</item>
+  <item>zw/Zimbabwe</item>
+  <item>ax/Åland Islands</item>
+  <item>em/Other</item>
     </string-array>
 
 </resources>

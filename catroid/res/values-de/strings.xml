@@ -186,12 +186,12 @@
     <!--  -->
 
 
-    <!-- Look context menu -->
+    <!-- Look fragmentManager menu -->
     <string name="look_context_menu_edit_in_pocket_paint">Bearbeite In Pocket Paint</string>
     <!--  -->
 
 
-    <!-- Brick context dialog -->
+    <!-- Brick fragmentManager dialog -->
     <string name="brick_context_dialog_move_brick">Verschiebe Baustein</string>
     <string name="brick_context_dialog_delete_brick">Lösche Baustein</string>
     <string name="brick_context_dialog_copy_brick">Kopiere Baustein</string>
@@ -228,10 +228,9 @@
 
 
     <!-- Login Register dialog -->
-    <string name="login_register_dialog_title">Einloggen</string>
     <string name="username">Benutzername:</string>
+    <string name="credentials">Anmeldedaten</string>
     <string name="password">Passwort:</string>
-    <string name="login_or_register">Einloggen/\nRegistrieren</string>
     <string name="password_forgotten">Passwort\nvergessen</string>
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>
@@ -257,6 +256,45 @@
     <string name="stage_dialog_screenshot">Screenshot</string>
     <!--  -->
 
+
+    <!-- Login Register dialog -->
+    <string name="login_dialog_title">Einloggen</string>
+    <string name="register_dialog_title">Registrieren</string>
+    <string name="username">Benutzername:</string>
+    <string name="password">Passwort:</string>
+    <string name="password_confirmation">Bitte Passwort bestätigen:</string>
+    <string name="login">Einloggen</string>
+    <string name="register">Registrieren</string>
+    <string name="next_registration_step">Weiter</string>
+    <string name="previous_registration_step">Zurück</string>
+    <string name="already_registered">Bereits registriert?</string>
+    <string name="show_password">Zeige Passwort</string>
+    <string name="password_forgotten">Passwort\nvergessen</string>
+    <string name="new_user_registered">Neuer Account wurde erstellt</string>
+    <string name="register_error">Fehler aufgetreten</string>
+    <string name="register_gender">Geschlecht</string>
+    <string name="register_male">Männlich</string>
+    <string name="register_female">Weiblich</string>
+    <string name="register_other">Anderes</string>
+    <string name="register_country">Land</string>
+    <string name="register_email">E-Mail</string>
+    <string name="register_birthday">Geburtstag</string>
+    <string name="register_birthday_month">Monat:</string>
+    <string name="register_birthday_year">Jahr:</string>
+    <string name="registration_step1">1/6</string>
+    <string name="registration_step2">2/6</string>
+    <string name="registration_step3">3/6</string>
+    <string name="registration_step4">4/6</string>
+    <string name="registration_step5">5/6</string>
+    <string name="registration_step6">6/6</string>
+    <string name="registration_successful">Registrierung erfolgreich</string>
+    <string name="registration_completed">Willkommen in der Community! Bitte klicke auf den Button um den Upload zu starten.</string>
+    <string name="register_password_mismatch">Fehler: Passwörter passen nicht zusammen</string>
+
+    <!-- OverwriteRenameDialog Strings -->
+    <string name="overwrite_text">Projekt mit gleichem Namen existiert bereits!</string>
+    <string name="overwrite_replace">ersetze bestehendes Projekt</string>
+    <string name="overwrite_rename">benenne heruntergeladenes Projekt um</string>
 
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">Neu…</string>

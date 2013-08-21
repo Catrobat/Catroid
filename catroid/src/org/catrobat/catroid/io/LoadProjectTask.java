@@ -36,13 +36,15 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	private String projectName;
 	private ProgressDialog progressDialog;
 	private boolean showErrorMessage;
+    boolean startProjectActivity;
 
 	private OnLoadProjectCompleteListener onLoadProjectCompleteListener;
 
-	public LoadProjectTask(Activity activity, String projectName, boolean showErrorMessage) {
+	public LoadProjectTask(Activity activity, String projectName, boolean showErrorMessage, boolean startProjectActivity) {
 		this.activity = activity;
 		this.projectName = projectName;
 		this.showErrorMessage = showErrorMessage;
+        this.startProjectActivity = startProjectActivity;
 	}
 
 	public void setOnLoadProjectCompleteListener(OnLoadProjectCompleteListener listener) {
@@ -82,14 +84,14 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 			if (!success && showErrorMessage) {
 				Utils.showErrorDialog(activity, activity.getString(R.string.error_load_project));
 			} else {
-				onLoadProjectCompleteListener.onLoadProjectSuccess();
+				onLoadProjectCompleteListener.onLoadProjectSuccess(startProjectActivity);
 			}
 		}
 	}
 
 	public interface OnLoadProjectCompleteListener {
 
-		public void onLoadProjectSuccess();
+		public void onLoadProjectSuccess(boolean startProjectActivity);
 
 	}
 }
