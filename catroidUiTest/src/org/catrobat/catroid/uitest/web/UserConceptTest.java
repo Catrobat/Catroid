@@ -278,7 +278,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	@Device
-	public void testBackDataPersistance() throws Throwable {
+	public void testRegistrationDataBackPersistance() throws Throwable {
 		setTestUrl();
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
@@ -344,7 +344,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	@Device
-	public void testRegisterErrors() throws Throwable {
+	public void testErrorsRegistration() throws Throwable {
 		setTestUrl();
 		clearSharedPreferences();
 
