@@ -207,6 +207,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertTrue("Cannot login because username is upper or lower case", currentViews.contains(uploadProject));
 	}
 
+	@Device
 	public void testAlreadyRegistered() throws Throwable {
 		setTestUrl();
 		clearSharedPreferences();
@@ -231,6 +232,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 				solo.waitForText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
+	@Device
 	public void testRegisterWithGivenMail() throws Throwable {
 		setTestUrl();
 		clearSharedPreferences();
@@ -264,8 +266,85 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.enterText(0, testEmail);
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		assertTrue("E-Mail already exists error dialog not shown", solo.searchText("E-Mail already registered"));
+
+        solo.clickOnButton(0);
+        solo.waitForDialogToOpen(500);
+        solo.clickOnEditText(0);
+        solo.goBack();
+        solo.clearEditText(0);
+        testEmail = "invalid";
+        solo.enterText(0, testEmail);
+        solo.clickOnButton(solo.getString(R.string.next_registration_step));
+        assertTrue("E-Mail already exists error dialog not shown", solo.searchText("E-Mail is invalid"));
 	}
 
+	@Device
+	public void testBackDataPersistance() throws Throwable {
+		setTestUrl();
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
+
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+
+		solo.waitForDialogToOpen(500);
+		assertTrue("Already registered dialog not shown",
+				solo.searchText(registerDialogTitle) && solo.searchText(loginDialogTitle));
+		solo.clickOnButton(solo.getString(R.string.register));
+
+		String otherGender = "male or female?";
+		solo.waitForDialogToOpen(500);
+		solo.clickOnEditText(0);
+		solo.clearEditText(0);
+		solo.enterText(0, otherGender);
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
+
+		solo.waitForDialogToOpen(500);
+		Spinner countrySpinner = (Spinner) solo.getView(R.id.dialog_register_country_spinner_country);
+		solo.pressSpinnerItem(0, 43);
+		String selectedCountry = countrySpinner.getSelectedItem().toString();
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
+
+		solo.waitForDialogToOpen(500);
+		solo.clickOnEditText(0);
+		solo.clearEditText(0);
+		solo.goBack();
+		String email = System.currentTimeMillis() + "@gmail.com";
+		solo.enterText(0, email);
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
+
+		solo.waitForDialogToOpen(500);
+		Spinner monthSpinner = (Spinner) solo.getView(R.id.dialog_register_birthday_spinner_month);
+		Spinner yearSpinner = (Spinner) solo.getView(R.id.dialog_register_birthday_spinner_year);
+		solo.pressSpinnerItem(0, 2);
+		solo.pressSpinnerItem(1, 2);
+		String selectedMonth = monthSpinner.getSelectedItem().toString();
+		String selectedYear = yearSpinner.getSelectedItem().toString();
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
+		solo.waitForDialogToOpen(500);
+		solo.clickOnButton(solo.getString(R.string.previous_registration_step));
+
+		solo.waitForDialogToOpen(500);
+		monthSpinner = (Spinner) solo.getView(R.id.dialog_register_birthday_spinner_month);
+		yearSpinner = (Spinner) solo.getView(R.id.dialog_register_birthday_spinner_year);
+		assertEquals("Wrong month selected", selectedMonth, monthSpinner.getSelectedItem().toString());
+		assertEquals("Wrong year selected", selectedYear, yearSpinner.getSelectedItem().toString());
+		solo.clickOnButton(solo.getString(R.string.previous_registration_step));
+
+		solo.waitForDialogToOpen(500);
+		assertTrue("Wrong email shown", solo.searchText(email));
+		solo.clickOnButton(solo.getString(R.string.previous_registration_step));
+
+		solo.waitForDialogToOpen(500);
+		assertTrue("Wrong country selected", solo.searchText(selectedCountry));
+		solo.clickOnButton(solo.getString(R.string.previous_registration_step));
+
+		solo.waitForDialogToOpen(500);
+		assertTrue("Gender not shown", solo.searchText(otherGender));
+		RadioButton other = (RadioButton) solo.getView(R.id.dialog_register_gender_radiobutton_other);
+		assertTrue("Gender not selected", other.isChecked());
+	}
+
+	@Device
 	public void testRegisterErrors() throws Throwable {
 		setTestUrl();
 		clearSharedPreferences();

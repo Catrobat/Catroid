@@ -106,8 +106,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	@Device
 	public void testUploadProjectSuccessAndTokenReplacementAfterUpload() throws Throwable {
 		setServerURLToTestUrl();
-		createTestProject(testProject);
-		addABrickToProject();
+        UiTestUtils.createTestProject(testProject);
 
 		//intent to the main activity is sent since changing activity orientation is not working
 		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
@@ -422,40 +421,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		ProjectManager.getInstance().setProject(standardProject);
 		StorageHandler.getInstance().saveProject(standardProject);
 		return true;
-	}
-
-	private void createTestProject(String projectToCreate) {
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectToCreate);
-		if (directory.exists()) {
-			UtilFile.deleteDirectory(directory);
-		}
-		assertFalse("testProject was not deleted!", directory.exists());
-
-		solo.clickOnButton(solo.getString(R.string.main_menu_new));
-		solo.enterText(0, projectToCreate);
-		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.ok));
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
-
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		solo.enterText(0, "new sprite");
-		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.ok));
-		solo.sleep(2000);
-
-		File file = new File(Constants.DEFAULT_ROOT + "/" + projectToCreate + "/" + Constants.PROJECTCODE_NAME);
-		assertTrue(projectToCreate + " was not created!", file.exists());
-	}
-
-	private void addABrickToProject() {
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.scrollToTop();
-		solo.clickOnText(solo.getString(R.string.background));
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
-		solo.waitForText(solo.getString(R.string.scripts));
-		solo.clickOnText(solo.getString(R.string.scripts));
-		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
-		UiTestUtils.goToHomeActivity(getActivity());
 	}
 
 	private void uploadProject(String uploadProjectName, String uploadProjectDescription) {
