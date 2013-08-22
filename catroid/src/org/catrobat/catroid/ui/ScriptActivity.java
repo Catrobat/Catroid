@@ -102,6 +102,8 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		Log.d("TAG", "ScriptActivity called!");
+
 		setContentView(R.layout.activity_script);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -163,6 +165,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				currentFragment = lookFragment;
 				break;
 			case FRAGMENT_SOUNDS:
+				Log.d("TAG", "ScriptActivity --> updateCurrentFragment()");
 				if (soundFragment == null) {
 					soundFragment = new SoundFragment();
 					fragmentExists = false;
@@ -462,6 +465,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				fragment = lookFragment;
 				break;
 			case FRAGMENT_SOUNDS:
+				Log.d("TAG", "ScriptActivityFragment-->getFragment()");
 				fragment = soundFragment;
 				break;
 		}
@@ -469,6 +473,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	}
 
 	public void setCurrentFragment(int fragmentPosition) {
+
 		switch (fragmentPosition) {
 			case FRAGMENT_SCRIPTS:
 				currentFragment = scriptFragment;
@@ -481,6 +486,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 				currentFragmentTag = LookFragment.TAG;
 				break;
 			case FRAGMENT_SOUNDS:
+				Log.d("TAG", "ScriptActivity --> setCurrentFragment()");
 				currentFragment = soundFragment;
 				currentFragmentPosition = FRAGMENT_SOUNDS;
 				currentFragmentTag = SoundFragment.TAG;

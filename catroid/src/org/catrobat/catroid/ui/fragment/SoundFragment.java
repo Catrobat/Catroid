@@ -137,7 +137,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
-		Log.d("TAG", "SoundFragment created!");
+		Log.d("TAG", "SoundFragment called!");
 
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
