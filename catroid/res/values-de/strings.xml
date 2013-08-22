@@ -58,6 +58,9 @@
     <string name="main_menu_about_pocketcode">Über Pocket Code</string>
     <string name="main_menu_rate_app">Bewerte uns!</string>
     <string name="main_menu_play_store_not_installed">Play Store App nicht gefunden</string>
+    <string name="main_menu_web_dialog_title">Achtung!</string>
+    <string name="main_menu_web_dialog_message">Derzeit werden keine alternativen Browser wie Firefox oder Dolphin unterstützt</string>
+    <string name="main_menu_web_dialog_dont_show">Nicht mehr anzeigen</string>
     <!--  -->
 
 
@@ -92,8 +95,7 @@
     <string name="edit_in_pocket_paint">Bearbeite In Pocket Paint</string>
     <string name="sprite">Objekt</string>
     <string name="sprites">Objekte</string>
-    <string name="spritelist_background_headline">HINTERGRUND</string>
-    <string name="spritelist_objects_headline">OBJEKTE</string>
+    <string name="spritelist_background_headline">Hintergrund</string>
     <string name="dialog_confirm_delete_object_title">Dieses Objekt löschen?</string>
     <string name="dialog_confirm_delete_multiple_objects_title">Diese Objekte löschen?</string>
     <string name="dialog_confirm_delete_object_message">Kann nicht rückgängig gemacht werden!</string>
@@ -161,7 +163,6 @@
     <string name="description">Beschreibung:</string>
     <string name="set_description">Beschreibung</string>
     <string name="rename_project">Programm umbenennen</string>
-    <string name="notification_title_copy_project">Kopiere Programm</string>
     <string name="copy_project_finished"> kopiert.</string>
     <string name="program">Programm</string>
     <string name="programs">Programme</string>
@@ -390,7 +391,28 @@
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
     <string name="notification_screenshot_ok">Screenshot erfolgreich gespeichert</string>
-    <string name="notification_load_project_cancel">Programm laden abgebrochen</string>
+    <string name="notification_download_project_cancel">Programm herunterladen abgebrochen</string>
+    
+    <string name="notification_copy_title_pending">"Kopiere "</string>
+    <string name="notification_copy_pending">Kopieren wird ausgeführt</string>
+    <string name="notification_copy_finished">Kopieren erfolgreich</string>
+    
+    <string name="notification_upload_title_pending">"Hochladen von "</string>
+    <string name="notification_upload_title_finished">"Anschauen von "</string>
+    <string name="notification_upload_pending">Upload wird ausgeführt</string>
+    <string name="notification_upload_finished">Upload erfolgreich</string>
+    
+    <string name="notification_download_title_pending">"Downloaden von "</string>
+    <string name="notification_download_title_finished">"Starte "</string>
+    <string name="notification_download_pending">Download wird ausgeführt</string>
+    <string name="notification_download_finished">Download erfolgreich</string>
+    
+    <string name="project_rename">(Das Programm wird umbenannt.)</string>
+    <string name="size_of_project">Größe:</string>
+    
+    <string name="upload_button">Hochladen</string>
+    <string name="upload_project_dialog_title">Programm hochladen</string>
+    <string name="upload_description">Beschreibung:</string>
     <!--  -->
 
 
@@ -412,21 +434,6 @@
     <string name="error_upload_project_with_default_name">Das Programm mit dem Namen \'Mein erstes Programm\' kann nicht hochgeladen werden. Bitte das Programm umbenennen.</string>
     <string name="error_upload_default_project">Das Programm entspricht dem Programm \'Mein erstes Programm\'. Bitte ändere es und versuche es noch einmal.</string>
     <!--  -->
-
-
-    <!-- Notifications -->
-    <string name="success_project_upload">Upload erfolgreich.</string>
-    <string name="success_project_download">Download erfolgreich.</string>
-    <string name="upload_button">Hochladen</string>
-    <string name="upload_project_dialog_title">Programm hochladen</string>
-    <string name="upload_description">Beschreibung:</string>
-    <string name="project_rename">(Das Programm wird umbenannt.)</string>
-    <string name="size_of_project">Größe:</string>
-    <string name="notification_percent_completed">abgeschlossen</string>
-    <string name="notification_upload_title">Programm raufladen</string>
-    <string name="notification_download_title">Programm runterladen</string>
-    <!--  -->
-
 
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Bühne</string>
@@ -539,7 +546,7 @@
     <string name="formula_editor_variable_dialog_for_all_sprites">Für alle Objekte</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
     <string name="formula_editor_variable_dialog_hint">Variablenname eingeben</string>
-
+    
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable ausgewählt!</item>
         <item quantity="other">Variablen ausgewählt!</item>

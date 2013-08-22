@@ -77,6 +77,8 @@ public class ServerCalls {
 	public static final int TOKEN_LENGTH = 32;
 	public static final String TOKEN_CODE_INVALID = "-1";
 
+	public static final String JSON_PROJECT_ID = "projectId";
+
 	private static final String JSON_STATUS_CODE = "statusCode";
 	private static final String JSON_ANSWER = "answer";
 	private static final String JSON_TOKEN = "token";
@@ -134,6 +136,10 @@ public class ServerCalls {
 				// check statusCode from Webserver
 				JSONObject jsonObject = null;
 				Log.v(TAG, "result string: " + answer);
+
+				// needed cause of a beautiful test case which gets resultString through reflection :)
+				resultString = answer;
+
 				jsonObject = new JSONObject(answer);
 				uploadStatusCode = jsonObject.getInt(JSON_STATUS_CODE);
 				String serverAnswer = jsonObject.optString(JSON_ANSWER);
@@ -164,10 +170,11 @@ public class ServerCalls {
 	}
 
 	public void downloadProject(String downloadUrl, String zipFileString, ResultReceiver receiver,
-			Integer notificationId, String projectName) throws WebconnectionException {
+			Integer notificationId) throws WebconnectionException {
+
 		try {
 			connection.doHttpPostFileDownload(downloadUrl, new HashMap<String, String>(), zipFileString, receiver,
-					notificationId, projectName);
+					notificationId);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Malformed URL");

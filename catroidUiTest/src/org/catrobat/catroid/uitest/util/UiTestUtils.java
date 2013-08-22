@@ -28,6 +28,7 @@ import static junit.framework.Assert.fail;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -39,6 +40,7 @@ import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.InputType;
 import android.util.Log;
+import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -46,6 +48,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -124,6 +127,8 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.utils.NotificationData;
+import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -416,12 +421,12 @@ public class UiTestUtils {
 		solo.sleep(500);
 	}
 
-	public static List<Brick> createTestProject() {
+	public static List<Brick> createTestProject(String projectName) {
 		int xPosition = 457;
 		int yPosition = 598;
 		double size = 0.8;
 
-		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(null, projectName);
 		Sprite firstSprite = new Sprite("cat");
 
 		Script testScript = new StartScript(firstSprite);
@@ -448,7 +453,15 @@ public class UiTestUtils {
 		projectManager.setCurrentScript(testScript);
 		StorageHandler.getInstance().saveProject(project);
 
+		// the application version is needed when the project will be uploaded
+		// 0.7.3beta is the lowest possible version currently accepted by the web
+		Reflection.setPrivateField(project.getXmlHeader(), "applicationVersion", "0.7.3beta");
+
 		return brickList;
+	}
+
+	public static List<Brick> createTestProject() {
+		return createTestProject(DEFAULT_TEST_PROJECT_NAME);
 	}
 
 	public static List<Brick> createTestProjectNestedLoops() {
@@ -1396,5 +1409,49 @@ public class UiTestUtils {
 		solo.waitForActivity(ScriptActivity.class);
 		int id = FRAGMENT_INDEX_LIST.get(fragmentIndex);
 		solo.waitForFragmentById(id);
+	}
+
+	public static void cancelAllNotifications(Context context) {
+		NotificationManager notificationManager = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		@SuppressWarnings("unchecked")
+		SparseArray<NotificationData> notificationMap = (SparseArray<NotificationData>) Reflection.getPrivateField(
+				StatusBarNotificationManager.class, StatusBarNotificationManager.getInstance(), "notificationDataMap");
+		if (notificationMap == null) {
+			return;
+		}
+
+		for (int i = 0; i < notificationMap.size(); i++) {
+			notificationManager.cancel(notificationMap.keyAt(i));
+		}
+
+		notificationMap.clear();
+	}
+
+	public static boolean getContextMenuAndGoBackToCheckIfSelected(Solo solo, Activity activity, int buttonId,
+			String buttonText, String listElementName) {
+		longClickOnTextInList(solo, listElementName);
+		solo.waitForText(buttonText);
+		solo.goBack();
+
+		openActionMode(solo, buttonText, buttonId, activity);
+		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
+		for (CheckBox checkBox : checkBoxList) {
+			if (checkBox.isChecked()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean menuButtonVisible(Solo solo, int menuItemId) {
+		ArrayList<View> views = solo.getCurrentViews();
+
+		for (View view : views) {
+			if (view.getId() == menuItemId) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

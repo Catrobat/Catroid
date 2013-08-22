@@ -437,4 +437,13 @@ public class Utils {
 			}
 		}
 	}
+
+	public static boolean checkIfProjectExistsOrIsDownloadingIgnoreCase(String programName) {
+		if (DownloadUtil.getInstance().isProgramNameInDownloadQueueIgnoreCase(programName)) {
+			return true;
+		}
+
+		File projectDirectory = new File(Utils.buildProjectPath(programName));
+		return projectDirectory.exists();
+	}
 }

@@ -46,6 +46,7 @@ public final class Constants {
 
 	//Web:
 	public static final String BASE_URL_HTTPS = "https://www.pocketcode.org/";
+	public static final String CATROBAT_WEBVIEW_URL = BASE_URL_HTTPS + "?inapp";
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 
 	public static final String CATROBAT_ABOUT_URL = "http://developer.catrobat.org/";

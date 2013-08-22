@@ -1006,6 +1006,14 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
 	}
 
+	public void testLongClickCancelDeleteAndCopy() {
+		assertFalse("Look is selected!", UiTestUtils.getContextMenuAndGoBackToCheckIfSelected(solo, getActivity(),
+				R.id.delete, delete, FIRST_TEST_LOOK_NAME));
+		solo.goBack();
+		assertFalse("Look is selected!", UiTestUtils.getContextMenuAndGoBackToCheckIfSelected(solo, getActivity(),
+				R.id.copy, copy, FIRST_TEST_LOOK_NAME));
+	}
+
 	public void testCopyActionModeCheckingAndTitle() {
 		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
 

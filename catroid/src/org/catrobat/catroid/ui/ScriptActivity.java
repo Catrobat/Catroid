@@ -31,13 +31,10 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
@@ -59,7 +56,7 @@ import org.catrobat.catroid.ui.fragment.SoundFragment;
 
 import java.util.concurrent.locks.Lock;
 
-public class ScriptActivity extends SherlockFragmentActivity {
+public class ScriptActivity extends BaseActivity {
 	public static final int FRAGMENT_SCRIPTS = 0;
 	public static final int FRAGMENT_LOOKS = 1;
 	public static final int FRAGMENT_SOUNDS = 2;
@@ -73,9 +70,11 @@ public class ScriptActivity extends SherlockFragmentActivity {
 	public static final String ACTION_BRICK_LIST_CHANGED = "org.catrobat.catroid.BRICK_LIST_CHANGED";
 	public static final String ACTION_LOOK_DELETED = "org.catrobat.catroid.LOOK_DELETED";
 	public static final String ACTION_LOOK_RENAMED = "org.catrobat.catroid.LOOK_RENAMED";
+	public static final String ACTION_LOOKS_LIST_INIT = "org.catrobat.catroid.LOOKS_LIST_INIT";
 	public static final String ACTION_SOUND_DELETED = "org.catrobat.catroid.SOUND_DELETED";
 	public static final String ACTION_SOUND_COPIED = "org.catrobat.catroid.SOUND_COPIED";
 	public static final String ACTION_SOUND_RENAMED = "org.catrobat.catroid.SOUND_RENAMED";
+	public static final String ACTION_SOUNDS_LIST_INIT = "org.catrobat.catroid.SOUNDS_LIST_INIT";
 	public static final String ACTION_VARIABLE_DELETED = "org.catrobat.catroid.VARIABLE_DELETED";
 
 	private FragmentManager fragmentManager = getSupportFragmentManager();
@@ -181,27 +180,10 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		}
 	}
 
-	// Code from Stackoverflow to reduce memory problems
-	// onDestroy() and unbindDrawables() methods taken from
-	// http://stackoverflow.com/a/6779067
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		setVolumeControlStream(AudioManager.STREAM_RING);
-		unbindDrawables(findViewById(R.id.activity_script_root_layout));
-		System.gc();
-	}
-
-	private void unbindDrawables(View view) {
-		if (view.getBackground() != null) {
-			view.getBackground().setCallback(null);
-		}
-		if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
-			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-				unbindDrawables(((ViewGroup) view).getChildAt(i));
-			}
-			((ViewGroup) view).removeAllViews();
-		}
 	}
 
 	@Override
@@ -236,12 +218,6 @@ public class ScriptActivity extends SherlockFragmentActivity {
 		}
 
 		switch (item.getItemId()) {
-			case android.R.id.home:
-				Intent mainMenuIntent = new Intent(this, MainMenuActivity.class);
-				mainMenuIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(mainMenuIntent);
-				break;
-
 			case R.id.show_details:
 				handleShowDetails(!currentFragment.getShowDetails(), item);
 				break;
@@ -372,6 +348,25 @@ public class ScriptActivity extends SherlockFragmentActivity {
 			}
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (hasFocus) {
+			if (soundFragment != null) {
+				if (soundFragment.isVisible()) {
+					sendBroadcast(new Intent(ScriptActivity.ACTION_SOUNDS_LIST_INIT));
+
+				}
+			}
+			if (lookFragment != null) {
+				if (lookFragment.isVisible()) {
+					sendBroadcast(new Intent(ScriptActivity.ACTION_LOOKS_LIST_INIT));
+				}
+			}
+
+		}
 	}
 
 	public void handleAddButton(View view) {

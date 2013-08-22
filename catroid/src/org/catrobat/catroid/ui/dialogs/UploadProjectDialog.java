@@ -79,10 +79,8 @@ public class UploadProjectDialog extends DialogFragment {
 					progressPercent = UtilFile.getProgressFromBytes(projectName, progress);
 				}
 
-				String notificationMessage = "Upload " + progressPercent + "% "
-						+ activity.getString(R.string.notification_percent_completed) + ":" + projectName;
-				StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage,
-						Constants.UPLOAD_NOTIFICATION, endOfFileReached);
+				StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId,
+						Long.valueOf(progressPercent).intValue());
 			}
 		}
 	}
@@ -239,7 +237,6 @@ public class UploadProjectDialog extends DialogFragment {
 		}
 
 		projectManager.getCurrentProject().setDeviceData(getActivity());
-		projectManager.saveProject();
 
 		dismiss();
 		String projectPath = Constants.DEFAULT_ROOT + "/" + projectManager.getCurrentProject().getName();
@@ -248,23 +245,21 @@ public class UploadProjectDialog extends DialogFragment {
 		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 		Intent uploadIntent = new Intent(getActivity(), ProjectUploadService.class);
+
+		// TODO check this extras - e.g. project description isn't used by web 
 		uploadIntent.putExtra("receiver", new UploadReceiver(new Handler()));
 		uploadIntent.putExtra("uploadName", uploadName);
 		uploadIntent.putExtra("projectDescription", projectDescription);
 		uploadIntent.putExtra("projectPath", projectPath);
 		uploadIntent.putExtra("username", username);
 		uploadIntent.putExtra("token", token);
-		int notificationId = createNotification(uploadName);
+
+		int notificationId = StatusBarNotificationManager.getInstance().createUploadNotification(getActivity(),
+				uploadName);
 		uploadIntent.putExtra("notificationId", notificationId);
 		activity = getActivity();
 		activity.startService(uploadIntent);
 
-	}
-
-	public int createNotification(String uploadName) {
-		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
-		int notificationId = manager.createNotification(uploadName, getActivity(), Constants.UPLOAD_NOTIFICATION);
-		return notificationId;
 	}
 
 	private void handleCancelButtonClick() {

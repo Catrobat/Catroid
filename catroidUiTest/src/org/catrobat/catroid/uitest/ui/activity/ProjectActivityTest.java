@@ -636,7 +636,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnText(backgroundHeadline);
 		solo.assertCurrentActivity("Click on background headline switched activity!", ProjectActivity.class);
 
-		String objectsHeadline = solo.getString(R.string.spritelist_objects_headline);
+		String objectsHeadline = solo.getString(R.string.sprites);
 		solo.clickOnText(objectsHeadline);
 		solo.assertCurrentActivity("Click on objects headline switched activity!", ProjectActivity.class);
 	}
@@ -983,6 +983,17 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertEquals("Second sprite should be " + FIRST_TEST_SPRITE_NAME, spriteList.get(1).getName(),
 				FIRST_TEST_SPRITE_NAME);
 
+	}
+
+	public void testLongClickCancelDeleteAndCopy() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		assertFalse("Sprite is selected!", UiTestUtils.getContextMenuAndGoBackToCheckIfSelected(solo, getActivity(),
+				R.id.delete, delete, FIRST_TEST_SPRITE_NAME));
+		solo.goBack();
+		String copy = solo.getString(R.string.copy);
+		assertFalse("Sprite is selected!", UiTestUtils.getContextMenuAndGoBackToCheckIfSelected(solo, getActivity(),
+				R.id.copy, copy, FIRST_TEST_SPRITE_NAME));
 	}
 
 	public void testRenameActionModeChecking() {

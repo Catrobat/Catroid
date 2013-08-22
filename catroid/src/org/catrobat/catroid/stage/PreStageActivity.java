@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.stage;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -51,6 +52,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
+@SuppressWarnings("deprecation")
 public class PreStageActivity extends Activity {
 
 	private static final int REQUEST_ENABLE_BLUETOOTH = 2000;
@@ -117,12 +119,6 @@ public class PreStageActivity extends Activity {
 		}
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-
-	}
-
 	//all resources that should be reinitialized with every stage start
 	public static void shutdownResources() {
 		if (textToSpeech != null) {
@@ -181,7 +177,6 @@ public class PreStageActivity extends Activity {
 		return ressources;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
@@ -279,6 +274,8 @@ public class PreStageActivity extends Activity {
 	}
 
 	//messages from Lego NXT device can be handled here
+	// TODO should be fixed - could lead to problems
+	@SuppressLint("HandlerLeak")
 	final Handler recieveHandler = new Handler() {
 		@Override
 		public void handleMessage(Message myMessage) {

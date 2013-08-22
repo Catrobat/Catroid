@@ -1,4 +1,5 @@
-/**
+<?xml version="1.0" encoding="utf-8"?>
+<!--
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -19,28 +20,16 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package org.catrobat.catroid.stage;
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/variablelist_local_headline"
+    style="@style/headlineLinearLayout">
 
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
+    <TextView
+        style="@style/headlineTextView"
+        android:text="@string/formula_editor_variable_dialog_for_this_sprite_only"/>
 
-import java.util.HashMap;
-import java.util.Map;
+    <View
+        style="@style/headlineView"/>
 
-@SuppressWarnings("deprecation")
-public class OnUtteranceCompletedListenerContainer implements OnUtteranceCompletedListener {
-	private final Map<String, OnUtteranceCompletedListener> listeners = new HashMap<String, TextToSpeech.OnUtteranceCompletedListener>();
-
-	public void addOnUtteranceCompletedListener(OnUtteranceCompletedListener onUtteranceCompletedListener,
-			String utteranceId) {
-		listeners.put(utteranceId, onUtteranceCompletedListener);
-	}
-
-	@Override
-	public void onUtteranceCompleted(String utteranceId) {
-		listeners.get(utteranceId).onUtteranceCompleted(utteranceId);
-		listeners.remove(utteranceId);
-	}
-
-}
+</LinearLayout>

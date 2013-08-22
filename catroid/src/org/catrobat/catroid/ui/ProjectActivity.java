@@ -26,11 +26,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
@@ -46,7 +43,7 @@ import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 
 import java.util.concurrent.locks.Lock;
 
-public class ProjectActivity extends SherlockFragmentActivity {
+public class ProjectActivity extends BaseActivity {
 
 	private SpritesListFragment spritesListFragment;
 	private Lock viewSwitchLock = new ViewSwitchLock();
@@ -70,29 +67,6 @@ public class ProjectActivity extends SherlockFragmentActivity {
 				R.id.fragment_sprites_list);
 	}
 
-	// Code from Stackoverflow to reduce memory problems
-	// onDestroy() and unbindDrawables() methods taken from
-	// http://stackoverflow.com/a/6779067
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-
-		unbindDrawables(findViewById(R.id.ProjectActivityRoot));
-		System.gc();
-	}
-
-	private void unbindDrawables(View view) {
-		if (view.getBackground() != null) {
-			view.getBackground().setCallback(null);
-		}
-		if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
-			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-				unbindDrawables(((ViewGroup) view).getChildAt(i));
-			}
-			((ViewGroup) view).removeAllViews();
-		}
-	}
-
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		handleShowDetails(spritesListFragment.getShowDetails(), menu.findItem(R.id.show_details));
@@ -108,12 +82,6 @@ public class ProjectActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home: {
-				Intent intent = new Intent(this, MainMenuActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				break;
-			}
 			case R.id.show_details: {
 				handleShowDetails(!spritesListFragment.getShowDetails(), item);
 				break;
