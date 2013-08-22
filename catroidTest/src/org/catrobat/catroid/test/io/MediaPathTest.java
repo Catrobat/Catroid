@@ -189,6 +189,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		lookData.setLookName("testLook");
 		lookData.setLookFilename(testImage.getName());
 		lookDataList.add(lookData);
+		project.addSprite(testSprite);
 		project.addSprite(testSprite.clone());
 
 		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
