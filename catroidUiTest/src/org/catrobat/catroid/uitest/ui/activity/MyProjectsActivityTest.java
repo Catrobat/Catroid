@@ -611,6 +611,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		String delete = solo.getString(R.string.delete);
 
+		assertTrue("text not found within 5 secs", solo.waitForText(solo.getString(R.string.programs), 0, 5000));
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 		solo.clickOnCheckBox(0);
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -728,6 +729,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
+		assertTrue("text not found within 5 secs", solo.waitForText(solo.getString(R.string.programs), 0, 5000));
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(1);
@@ -771,6 +773,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
+		assertTrue("text not found within 5 secs", solo.waitForText(solo.getString(R.string.programs), 0, 5000));
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(1);
@@ -809,6 +812,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
+		assertTrue("text not found within 5 secs", solo.waitForText(solo.getString(R.string.programs), 0, 5000));
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(0);
@@ -839,6 +843,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
+		assertTrue("text not found within 5 secs", solo.waitForText(solo.getString(R.string.programs), 0, 5000));
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		solo.clickOnCheckBox(0);

@@ -165,6 +165,31 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 	}
 
+	public void testWatermarks() {
+		TextView watermarkHeading = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_look_text_heading);
+		TextView watermarkDescription = (TextView) solo.getCurrentActivity().findViewById(
+				R.id.fragment_look_text_description);
+		assertEquals("Watermark heading is not correct", solo.getString(R.string.backgrounds), watermarkHeading
+				.getText().toString());
+		assertEquals("Watermark description is not correct",
+				solo.getString(R.string.fragment_background_text_description), watermarkDescription.getText()
+						.toString());
+
+		projectManager.addSprite(new Sprite("test"));
+		solo.goBack();
+		solo.goBack();
+		solo.clickInList(2);
+		solo.clickOnText(solo.getString(R.string.look));
+		solo.sleep(200);
+
+		watermarkHeading = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_look_text_heading);
+		watermarkDescription = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_look_text_description);
+		assertEquals("Watermark heading is not correct", solo.getString(R.string.looks), watermarkHeading.getText()
+				.toString());
+		assertEquals("Watermark description is not correct", solo.getString(R.string.fragment_look_text_description),
+				watermarkDescription.getText().toString());
+	}
+
 	public void testAddNewLookDialog() {
 		String addLookFromCameraText = solo.getString(R.string.add_look_draw_new_image);
 		String addLookFromGalleryText = solo.getString(R.string.add_look_choose_image);

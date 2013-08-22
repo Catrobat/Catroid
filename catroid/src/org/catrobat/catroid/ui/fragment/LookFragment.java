@@ -47,6 +47,7 @@ import android.support.v4.content.Loader;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -58,6 +59,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -159,6 +161,14 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			}
 		}
 		lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
+
+		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
+			TextView watermarkHeading = (TextView) getActivity().findViewById(R.id.fragment_look_text_heading);
+			watermarkHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60.0f);
+			watermarkHeading.setText(R.string.backgrounds);
+			TextView watermarkDescription = (TextView) getActivity().findViewById(R.id.fragment_look_text_description);
+			watermarkDescription.setText(R.string.fragment_background_text_description);
+		}
 
 		adapter = new LookAdapter(getActivity(), R.layout.fragment_look_looklist_item, lookDataList, false);
 		adapter.setOnLookEditListener(this);
@@ -565,11 +575,11 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		//scroll down the list to the new item:
 		final ListView listView = getListView();
 		listView.post(new Runnable() {
-            @Override
-            public void run() {
-                listView.setSelection(listView.getCount() - 1);
-            }
-        });
+			@Override
+			public void run() {
+				listView.setSelection(listView.getCount() - 1);
+			}
+		});
 	}
 
 	private void copyImageToCatroid(String originalImagePath) {

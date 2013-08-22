@@ -159,6 +159,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		solo.clickOnCheckBox(0);
+		solo.clickOnText(SECOND_TEST_SOUND_NAME);
+		assertFalse("Mediaplayer is playing within the checkbox action", soundInfo2.isPlaying);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
@@ -270,6 +272,22 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.sleep(timeToWait);
 
 		assertFalse("Mediaplayer is playing after touching stop button", soundInfo.isPlaying);
+		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
+
+		// test the text fields
+		solo.clickOnText(FIRST_TEST_SOUND_NAME);
+		solo.sleep(timeToWait);
+
+		assertTrue("Mediaplayer is not playing although play button was touched", soundInfo.isPlaying);
+		assertFalse("Mediaplayer is not playing although play button was touched", soundInfo2.isPlaying);
+		checkVisibilityOfViews(GONE, VISIBLE, VISIBLE, VISIBLE, VISIBLE, GONE, GONE);
+
+		solo.sleep(timeToWait);
+		solo.clickOnText(FIRST_TEST_SOUND_NAME);
+		solo.sleep(timeToWait);
+
+		assertFalse("Mediaplayer is playing after touching stop button", soundInfo.isPlaying);
+		assertFalse("Mediaplayer is not playing although play button was touched", soundInfo2.isPlaying);
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 
 		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
@@ -480,7 +498,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		String sound = solo.getString(R.string.category_sound);
 		String sounds = solo.getString(R.string.sounds);
 
-		assertFalse("Sound should not be displayed in title", solo.waitForText(sound, 3, 300, false, true));
+		assertFalse("Sound should not be displayed in title", solo.waitForText(sound, 5, 300, false, true));
 
 		// Check if checkboxes are visible
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, VISIBLE);
