@@ -33,10 +33,12 @@ public final class Constants {
 	public static final String PROJECTCODE_NAME = "code.xml";
 	public static final String CATROBAT_EXTENSION = ".catrobat";
 	public static final String RECORDING_EXTENSION = ".mp3";
+	public static final String TEXT_TO_SPEECH_EXTENSION = ".wav";
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
 			+ "/Pocket Code";
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
+	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 	public static final String IMAGE_DIRECTORY = "images";
 	public static final String SOUND_DIRECTORY = "sounds";
 
