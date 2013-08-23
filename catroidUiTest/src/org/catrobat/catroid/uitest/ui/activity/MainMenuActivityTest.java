@@ -22,8 +22,18 @@
  */
 package org.catrobat.catroid.uitest.ui.activity;
 
-import java.io.File;
-import java.io.IOException;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
+import android.preference.PreferenceManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+
+import com.jayway.android.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -50,18 +60,8 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Configuration;
-import android.preference.PreferenceManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-
-import com.jayway.android.robotium.solo.Solo;
+import java.io.File;
+import java.io.IOException;
 
 public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -405,27 +405,5 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.goBack();
 		assertTrue("The name of the current project is not displayed on the continue button", solo.getButton(0)
 				.getText().toString().endsWith(testProject2));
-	}
-
-	public void testCommunityDialog() {
-		String webButtonText = solo.getString(R.string.main_menu_web);
-		String cancelButtonText = solo.getString(R.string.cancel_button);
-		String dialogTitleText = solo.getString(R.string.main_menu_web_dialog_title);
-
-		solo.clickOnButton(webButtonText);
-		solo.sleep(300);
-		assertTrue("Alert dialog title not found", solo.searchText(dialogTitleText));
-		assertTrue("Alert dialog message not found",
-				solo.searchText(solo.getString(R.string.main_menu_web_dialog_message)));
-		assertTrue("OK button not found", solo.searchText(solo.getString(R.string.ok)));
-		assertTrue("Cancel button not found", solo.searchText(cancelButtonText));
-
-		solo.clickOnButton(cancelButtonText);
-		solo.sleep(200);
-		assertFalse("Dialog was not closed when pressing cancel", solo.searchText(dialogTitleText));
-		solo.clickOnButton(webButtonText);
-		solo.sleep(300);
-		solo.goBack();
-		assertFalse("Dialog was not closed when clicked back button", solo.searchText(dialogTitleText));
 	}
 }

@@ -22,37 +22,43 @@
  */
 package org.catrobat.catroid.transfers;
 
+import android.app.IntentService;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.ResultReceiver;
+import android.util.Log;
+import android.widget.Toast;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
-import org.catrobat.catroid.utils.StatusBarNotificationManager;
+import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ConnectionWrapper;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
-import android.app.IntentService;
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.os.ResultReceiver;
-import android.widget.Toast;
-
 public class ProjectDownloadService extends IntentService {
+
+	public static final String TAG = ProjectDownloadService.class.getSimpleName();
+
+	public static final String RECEIVER_TAG = "receiver";
+	public static final String DOWNLOAD_NAME_TAG = "downloadName";
+	public static final String URL_TAG = "url";
+	public static final String ID_TAG = "notificationId";
 
 	private static final String DOWNLOAD_FILE_NAME = "down" + Constants.CATROBAT_EXTENSION;
 
 	private String projectName;
 	private String zipFileString;
 	private String url;
-	private boolean result, showOverwriteDialog;
 	Notification downloadNotification;
 	PendingIntent pendingDownload;
 	private Integer notificationId;
 	public ResultReceiver receiver;
+	private Handler handler;
 
 	// mock object testing
 	protected ConnectionWrapper createConnection() {
@@ -60,16 +66,16 @@ public class ProjectDownloadService extends IntentService {
 	}
 
 	public ProjectDownloadService() {
-		super("ProjectDownloadService");
+		super(ProjectDownloadService.class.getSimpleName());
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startID) {
 		int returnCode = super.onStartCommand(intent, flags, startID);
-		this.projectName = intent.getStringExtra("downloadName");
+		this.projectName = intent.getStringExtra(DOWNLOAD_NAME_TAG);
 		this.zipFileString = Utils.buildPath(Constants.TMP_PATH, DOWNLOAD_FILE_NAME);
-		this.url = intent.getStringExtra("url");
-		this.notificationId = intent.getIntExtra("notificationId", 0);
+		this.url = intent.getStringExtra(URL_TAG);
+		this.notificationId = intent.getIntExtra(ID_TAG, 0);
 
 		return returnCode;
 	}
@@ -77,57 +83,37 @@ public class ProjectDownloadService extends IntentService {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		handler = new Handler();
 	}
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		receiver = (ResultReceiver) intent.getParcelableExtra("receiver");
-		showOverwriteDialog = false;
+		boolean result = false;
+		receiver = (ResultReceiver) intent.getParcelableExtra(RECEIVER_TAG);
 		try {
-			ServerCalls.getInstance().downloadProject(url, zipFileString, receiver, notificationId, projectName);
-
-			if (StorageHandler.getInstance().projectExistsIgnoreCase(projectName)) {
-				showOverwriteDialog = true;
-				result = true;
-			}
-
-			if (!showOverwriteDialog) {
-				result = UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
-			}
-
+			ServerCalls.getInstance().downloadProject(url, zipFileString, receiver, notificationId);
+			result = UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
+			Log.v(TAG, "url: " + url + ", zip-file: " + zipFileString + ", notificationId: " + notificationId);
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void onDestroy() {
-
-		if (result && showOverwriteDialog) {
-			//project name and zip file string are temporariliy saved in the StatusBarNotificationManager to create it later on in the right context  
-			StatusBarNotificationManager.getInstance().downloadProjectName.add(projectName);
-			StatusBarNotificationManager.getInstance().downloadProjectZipFileString.add(zipFileString);
-			try {
-				//The context of the calling activity is needed, otherwise an exception occurs
-				MainMenuActivity activity = StatusBarNotificationManager.getInstance().getActivity(notificationId);
-				OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, projectName, zipFileString);
-				renameDialog.show(activity.getSupportFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
-			} catch (RuntimeException e) {
-				e.printStackTrace();
-			}
-			return;
+		} finally {
+			DownloadUtil.getInstance().downloadFinished(projectName);
 		}
 
 		if (!result) {
-			showDialog(R.string.error_project_download);
+			showToast(R.string.error_project_download);
 			return;
 		}
 
-		Toast.makeText(this, R.string.success_project_download, Toast.LENGTH_SHORT).show();
-		super.onDestroy();
+		showToast(R.string.notification_download_finished);
 	}
 
-	private void showDialog(int messageId) {
-		Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
+	private void showToast(final int messageId) {
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(getApplicationContext(), messageId, Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 }

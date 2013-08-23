@@ -22,7 +22,10 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.List;
+import android.util.SparseArray;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -38,10 +41,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.util.SparseArray;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
+import java.util.List;
 
 public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
@@ -93,8 +93,8 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 
 		solo.waitForText(solo.getString(R.string.brick_broadcast_receive));
 		solo.clickOnText(solo.getString(R.string.brick_broadcast_receive));
-		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick));
-		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_script));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_script));
 		solo.waitForText(solo.getString(R.string.yes));
 		solo.clickOnButton(solo.getString(R.string.yes));
 
@@ -203,7 +203,7 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 
 	private void gainFocus() {
 		solo.clickOnText(solo.getString(R.string.brick_broadcast_receive));
-		if (solo.searchText(solo.getString(R.string.brick_context_dialog_delete_brick), true)) {
+		if (solo.searchText(solo.getString(R.string.brick_context_dialog_delete_script), true)) {
 			solo.goBack();
 		}
 	}

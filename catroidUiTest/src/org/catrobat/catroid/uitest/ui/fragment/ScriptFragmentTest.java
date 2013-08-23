@@ -22,9 +22,11 @@
  */
 package org.catrobat.catroid.uitest.ui.fragment;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.view.Display;
+import android.widget.CheckBox;
+import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -44,11 +46,9 @@ import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.view.Display;
-import android.widget.CheckBox;
-import android.widget.ListView;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -231,6 +231,19 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Two control bricks should be added.", 2, sprite.getNumberOfScripts());
 		assertTrue("First script isn't a start script.", sprite.getScript(0) instanceof StartScript);
 		assertTrue("Second script isn't a broadcast script.", sprite.getScript(1) instanceof BroadcastScript);
+	}
+
+	public void testCopyButtonNotVisibleScriptCategory() {
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+
+		assertFalse("Copy Button visible!", UiTestUtils.menuButtonVisible(solo, R.id.copy));
+
+		String categoryLooksLabel = solo.getString(R.string.category_looks);
+		solo.clickOnText(categoryLooksLabel);
+
+		assertFalse("Copy Button visible!", UiTestUtils.menuButtonVisible(solo, R.id.copy));
 	}
 
 	public void testSimpleDragNDrop() {
@@ -444,8 +457,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.waitForText(solo.getString(R.string.brick_when_started));
 		solo.clickOnText(solo.getString(R.string.brick_when_started));
-		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick));
-		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_script));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_script));
 		solo.waitForText(solo.getString(R.string.no));
 		solo.clickOnButton(solo.getString(R.string.no));
 

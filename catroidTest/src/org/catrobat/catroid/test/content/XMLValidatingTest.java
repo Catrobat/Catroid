@@ -22,11 +22,9 @@
  */
 package org.catrobat.catroid.test.content;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
+import android.content.Context;
+import android.test.AndroidTestCase;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -47,9 +45,11 @@ import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.utils.UtilFile;
 import org.json.JSONException;
 
-import android.content.Context;
-import android.test.AndroidTestCase;
-import android.util.Log;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class XMLValidatingTest extends AndroidTestCase {
 	private String testProjectName = "xmlTestProjectName";

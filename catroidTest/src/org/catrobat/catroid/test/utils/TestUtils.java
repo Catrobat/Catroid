@@ -22,14 +22,7 @@
  */
 package org.catrobat.catroid.test.utils;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import android.content.Context;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -43,7 +36,14 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.UtilFile;
 
-import android.content.Context;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class TestUtils {
 	public static final int TYPE_IMAGE_FILE = 0;
@@ -169,8 +169,8 @@ public class TestUtils {
 	//		}
 	//	}
 
-	public static void createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(float catrobatLanguageVersion,
-			String name) {
+	public static Project createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
+			float catrobatLanguageVersion, String name) {
 		//		Project project = new ProjectWithCatrobatLanguageVersion(name, catrobatLanguageVersion);
 		Project project = new Project(null, name);
 		project.setCatrobatLanguageVersion(catrobatLanguageVersion);
@@ -184,10 +184,11 @@ public class TestUtils {
 		project.addSprite(firstSprite);
 
 		StorageHandler.getInstance().saveProject(project);
+		return project;
 	}
 
-	public static void createTestProjectOnLocalStorageWithCatrobatLanguageVersion(float catrobatLanguageVersion) {
-		createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(catrobatLanguageVersion,
+	public static Project createTestProjectOnLocalStorageWithCatrobatLanguageVersion(float catrobatLanguageVersion) {
+		return createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(catrobatLanguageVersion,
 				DEFAULT_TEST_PROJECT_NAME);
 	}
 

@@ -22,26 +22,25 @@
  */
 package org.catrobat.catroid.ui;
 
-import java.util.concurrent.locks.Lock;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
+import java.util.concurrent.locks.Lock;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
+public class MyProjectsActivity extends BaseActivity {
 
-public class MyProjectsActivity extends SherlockFragmentActivity {
+	public static final String ACTION_PROJECT_LIST_INIT = "org.catrobat.catroid.PROJECT_LIST_INIT";
 
 	private ActionBar actionBar;
 	private Lock viewSwitchLock = new ViewSwitchLock();
@@ -60,26 +59,11 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 				R.id.fragment_projects_list);
 	}
 
-	// Code from Stackoverflow to reduce memory problems
-	// onDestroy() and unbindDrawables() methods taken from
-	// http://stackoverflow.com/a/6779067
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-
-		unbindDrawables(findViewById(R.id.MyProjectsActivityRoot));
-		System.gc();
-	}
-
-	private void unbindDrawables(View view) {
-		if (view.getBackground() != null) {
-			view.getBackground().setCallback(null);
-		}
-		if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
-			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-				unbindDrawables(((ViewGroup) view).getChildAt(i));
-			}
-			((ViewGroup) view).removeAllViews();
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (hasFocus) {
+			sendBroadcast(new Intent(ACTION_PROJECT_LIST_INIT));
 		}
 	}
 
@@ -98,12 +82,6 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home: {
-				Intent intent = new Intent(this, MainMenuActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				return true;
-			}
 			case R.id.copy: {
 				projectsListFragment.startCopyActionMode();
 				break;

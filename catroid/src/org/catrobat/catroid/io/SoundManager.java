@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.io;
 
+import android.media.MediaPlayer;
+
 import java.io.IOException;
 import java.util.ArrayList;
-
-import android.media.MediaPlayer;
 
 public class SoundManager {
 	private ArrayList<MediaPlayer> mediaPlayers;
@@ -35,7 +35,7 @@ public class SoundManager {
 	public static final int MAX_MEDIA_PLAYERS = 7;
 	private static final SoundManager INSTANCE = new SoundManager();
 
-	private SoundManager() {
+	protected SoundManager() {
 		mediaPlayers = new ArrayList<MediaPlayer>(MAX_MEDIA_PLAYERS);
 	}
 

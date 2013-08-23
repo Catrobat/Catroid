@@ -22,11 +22,11 @@
  */
 package org.catrobat.catroid.ui;
 
-import org.catrobat.catroid.R;
-
 import android.app.Activity;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import org.catrobat.catroid.R;
 
 public class BottomBar {
 

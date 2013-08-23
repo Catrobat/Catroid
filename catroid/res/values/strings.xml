@@ -61,6 +61,7 @@
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
     <string name="main_menu_web_dialog_title">Caution!</string>
     <string name="main_menu_web_dialog_message">Currently alternative browsers like Firefox or Dolphin are not supported</string>
+    <string name="main_menu_web_dialog_dont_show">Don\'t show again</string>
     <!--  -->
 
 
@@ -96,8 +97,7 @@
     <string name="edit_in_pocket_paint">Edit in Pocket Paint</string>
     <string name="sprite">Object</string>
     <string name="sprites">Objects</string>
-    <string name="spritelist_background_headline">BACKGROUND</string>
-    <string name="spritelist_objects_headline">OBJECTS</string>
+    <string name="spritelist_background_headline">Background</string>
     <string name="dialog_confirm_delete_object_title">Delete this object?</string>
     <string name="dialog_confirm_delete_multiple_objects_title">Delete these objects?</string>
     <string name="dialog_confirm_delete_object_message">This can not be undone!</string>
@@ -123,6 +123,7 @@
 
     <!-- Script fragment -->
     <string name="dialog_confirm_delete_brick_title">Delete this brick?</string>
+    <string name="dialog_confirm_delete_script_title">Delete this script?</string>
     <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
     <string name="dialog_confirm_delete_brick_message">This can not be undone!</string>
     <!--  -->
@@ -164,7 +165,6 @@
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
     <string name="rename_project">Rename Program</string>
-    <string name="notification_title_copy_project">Copy program</string>
     <string name="copy_project_finished"> copied.</string>
     <string name="program">Program</string>
     <string name="programs">Programs</string>
@@ -199,6 +199,7 @@
     <string name="brick_context_dialog_copy_brick">Copy Brick</string>
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
+    <string name="brick_context_dialog_delete_script">Delete Script</string>
     <!--  -->
 
 
@@ -392,7 +393,28 @@
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Please enter a value</string>
     <string name="notification_screenshot_ok">Screenshot saved</string>
-    <string name="notification_load_project_cancel">Canceled loading program</string>
+    <string name="notification_download_project_cancel">Canceled downloading program</string>
+    
+    <string name="notification_copy_title_pending">"Copying "</string>
+    <string name="notification_copy_pending">Copy in progress</string>
+    <string name="notification_copy_finished">Copy completed</string>
+
+    <string name="notification_upload_title_pending">"Uploading "</string>
+    <string name="notification_upload_title_finished">"Look at "</string>
+    <string name="notification_upload_pending">Upload in progress</string>
+    <string name="notification_upload_finished">Upload successful</string>
+    
+    <string name="notification_download_title_pending">"Downloading "</string>
+    <string name="notification_download_title_finished">"Start "</string>
+    <string name="notification_download_pending">Download in progress</string>
+    <string name="notification_download_finished">Download successful</string>
+    
+    <string name="project_rename">(Your program will be renamed.)</string>
+    <string name="size_of_project">Size:</string>
+    
+    <string name="upload_button">Upload</string>
+    <string name="upload_project_dialog_title">Upload program</string>
+    <string name="upload_description">Description:</string>
     <!--  -->
 
 
@@ -413,20 +435,6 @@
     <string name="error_copy_project">An error occurred while copying the program.</string>
     <string name="error_upload_project_with_default_name">You cannot upload a program with the name \'My first program\'. Please rename the program.</string>
     <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
-    <!--  -->
-
-
-    <!-- Notifications -->
-    <string name="success_project_upload">Upload successful.</string>
-    <string name="success_project_download">Download successful.</string>
-    <string name="upload_button">Upload</string>
-    <string name="upload_project_dialog_title">Upload program</string>
-    <string name="upload_description">Description:</string>
-    <string name="project_rename">(Your program will be renamed.)</string>
-    <string name="size_of_project">Size:</string>
-    <string name="notification_percent_completed">completed</string>
-    <string name="notification_upload_title">Uploading program</string>
-    <string name="notification_download_title">Downloading program</string>
     <!--  -->
 
 
@@ -541,7 +549,7 @@
     <string name="formula_editor_variable_dialog_for_all_sprites">For all objects</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">For this object only</string>
     <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
-
+    
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable selected!</item>
         <item quantity="other">Variables selected!</item>

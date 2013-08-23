@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import android.test.InstrumentationTestCase;
+
+import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Look;
@@ -32,9 +32,9 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
-import android.test.InstrumentationTestCase;
-
-import com.badlogic.gdx.scenes.scene2d.Action;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 

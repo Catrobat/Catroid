@@ -27,10 +27,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author David Reisenberger, Johannes Iber
- * 
- */
 public class FileChecksumContainer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -40,13 +36,8 @@ public class FileChecksumContainer implements Serializable {
 		private String path;
 	}
 
-	private Map<String, FileInfo> checksumFileInfoMap = new HashMap<String, FileInfo>(); //checksum / FileInfo
+	private Map<String, FileInfo> checksumFileInfoMap = new HashMap<String, FileInfo>();
 
-	/**
-	 * @param checksum
-	 * @param path
-	 * @return true if a new File is added and false if the file already exists
-	 */
 	public boolean addChecksum(String checksum, String path) {
 		if (checksumFileInfoMap.containsKey(checksum)) {
 			FileInfo fileInfo = checksumFileInfoMap.get(checksum);
@@ -77,12 +68,22 @@ public class FileChecksumContainer implements Serializable {
 		}
 	}
 
-	/**
-	 * @param filepath
-	 * @return true if this was the last usage and false if there is another usage
-	 * @throws FileNotFoundException
-	 *             if no entry for this path exists
-	 */
+	public void incrementUsage(String filepath) throws FileNotFoundException {
+		String checksum = null;
+		for (Map.Entry<String, FileInfo> entry : checksumFileInfoMap.entrySet()) {
+
+			if (entry.getValue().path.equalsIgnoreCase(filepath)) {
+				checksum = entry.getKey();
+				break;
+			}
+		}
+		if (checksum == null) {
+			throw new FileNotFoundException();
+		}
+		FileInfo fileInfo = checksumFileInfoMap.get(checksum);
+		fileInfo.usageCounter++;
+	}
+
 	public boolean decrementUsage(String filepath) throws FileNotFoundException {
 		String checksum = null;
 		for (Map.Entry<String, FileInfo> entry : checksumFileInfoMap.entrySet()) {

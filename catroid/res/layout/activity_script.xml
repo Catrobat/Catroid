@@ -20,11 +20,8 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_script_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white" >

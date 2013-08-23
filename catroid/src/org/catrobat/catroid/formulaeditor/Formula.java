@@ -22,18 +22,18 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import java.io.Serializable;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
-
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Layout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
+
+import java.io.Serializable;
 
 public class Formula implements Serializable {
 
@@ -157,6 +157,7 @@ public class Formula implements Serializable {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void highlightTextField(View brickView, int orientation) {
 		Drawable highlightBackground = null;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -173,6 +174,7 @@ public class Formula implements Serializable {
 		formulaTextField.setWidth(width);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void removeTextFieldHighlighting(View brickView, int orientation) {
 		EditText formulaTextField = (EditText) brickView.findViewById(formulaTextFieldId);
 

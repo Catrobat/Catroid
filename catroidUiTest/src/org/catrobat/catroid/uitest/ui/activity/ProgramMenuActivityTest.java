@@ -22,8 +22,13 @@
  */
 package org.catrobat.catroid.uitest.ui.activity;
 
-import java.io.File;
-import java.util.ArrayList;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
+import android.widget.EditText;
+
+import com.jayway.android.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -46,15 +51,12 @@ import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Configuration;
-import android.widget.EditText;
-
-import com.jayway.android.robotium.solo.Solo;
+import java.io.File;
+import java.util.ArrayList;
 
 public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+
+	private String backgroundName = "BackgroundSprite";
 
 	public ProgramMenuActivityTest() {
 		super(MainMenuActivity.class);
@@ -78,7 +80,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 	public void testOrientation() throws NameNotFoundException {
 		/// Method 1: Assert it is currently in portrait mode.
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-		solo.clickOnText("Background");
+		solo.clickOnText(backgroundName);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		assertEquals("ProgramMenuActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, solo
 				.getCurrentActivity().getResources().getConfiguration().orientation);
@@ -105,20 +107,20 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		String spriteName = "sprite1";
-		String backgroundString = "Background";
 
 		addNewSprite(spriteName);
-		solo.clickOnText(backgroundString);
+		solo.clickOnText(backgroundName);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 
 		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
 
-		assertEquals("Current sprite is not " + backgroundString, backgroundString, currentSpriteName);
-		assertTrue("Title doesn't match " + backgroundString, solo.waitForText(currentSpriteName, 0, 200, false, true));
+		assertEquals("Current sprite is not " + backgroundName, backgroundName, currentSpriteName);
+		assertTrue("Title doesn't match " + backgroundName, solo.waitForText(currentSpriteName, 0, 200, false, true));
 
 		solo.goBack();
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForText(spriteName);
 		solo.clickOnText(spriteName);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 
@@ -137,7 +139,8 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		assertTrue("Text on look button is not 'Looks'", solo.searchText(solo.getString(R.string.looks)));
 		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-		solo.clickOnText("Background");
+		solo.clickOnText(backgroundName);
+		solo.waitForText(solo.getString(R.string.backgrounds));
 		assertTrue("Text on look button is not 'Backgrounds'", solo.searchText(solo.getString(R.string.backgrounds)));
 	}
 
@@ -157,7 +160,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 	public void testMenuItemSettings() {
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.clickOnText("Background");
+		solo.clickOnText(backgroundName);
 		solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings));
 		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
 	}
@@ -165,7 +168,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 	public void testMainMenuButton() {
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.clickOnText("Background");
+		solo.clickOnText(backgroundName);
 		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
@@ -176,7 +179,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 	private void createProject() {
 		Project project = new Project(null, UiTestUtils.PROJECTNAME1);
 
-		Sprite spriteCat = new Sprite("Background");
+		Sprite spriteCat = new Sprite(backgroundName);
 		Script startScriptCat = new StartScript(spriteCat);
 		Script scriptTappedCat = new WhenScript(spriteCat);
 		Brick setXBrick = new SetXBrick(spriteCat, 50);

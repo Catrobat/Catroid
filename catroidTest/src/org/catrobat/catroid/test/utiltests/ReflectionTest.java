@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.test.utiltests;
 
-import java.util.Arrays;
+import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.Parameter;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 
-import android.test.AndroidTestCase;
+import java.util.Arrays;
 
 public class ReflectionTest extends AndroidTestCase {
 

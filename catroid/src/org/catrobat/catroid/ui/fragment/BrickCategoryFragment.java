@@ -22,14 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.locks.Lock;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.ViewSwitchLock;
-import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -43,6 +35,14 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.ViewSwitchLock;
+import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.locks.Lock;
 
 public class BrickCategoryFragment extends SherlockListFragment {
 
@@ -109,6 +109,7 @@ public class BrickCategoryFragment extends SherlockListFragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.findItem(R.id.delete).setVisible(false);
+		menu.findItem(R.id.copy).setVisible(false);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 

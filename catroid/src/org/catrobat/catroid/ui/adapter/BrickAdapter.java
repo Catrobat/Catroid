@@ -22,27 +22,6 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.locks.Lock;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.DeadEndBrick;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.content.bricks.NestingBrick;
-import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.ui.ViewSwitchLock;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -61,6 +40,27 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.DeadEndBrick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.NestingBrick;
+import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.ui.ViewSwitchLock;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.locks.Lock;
 
 public class BrickAdapter extends BaseAdapter implements DragAndDropListener, OnClickListener,
 		ScriptActivityAdapterInterface {
@@ -870,9 +870,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if (brickList.get(itemPosition) instanceof NestingBrick) {
 			items.add(context.getText(R.string.brick_context_dialog_animate_bricks));
 		}
-		items.add(context.getText(R.string.brick_context_dialog_delete_brick));
 		if (!(brickList.get(itemPosition) instanceof ScriptBrick)) {
 			items.add(context.getText(R.string.brick_context_dialog_copy_brick));
+			items.add(context.getText(R.string.brick_context_dialog_delete_brick));
+		} else {
+			items.add(context.getText(R.string.brick_context_dialog_delete_script));
 		}
 		if (brickList.get(itemPosition) instanceof FormulaBrick) {
 			items.add(context.getText(R.string.brick_context_dialog_formula_edit_brick));
@@ -901,7 +903,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					view.performLongClick();
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_copy_brick))) {
 					copyBrickListAndProject(itemPosition, false);
-				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_brick))) {
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_brick))
+						|| clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_script))) {
 					showConfirmDeleteDialog(itemPosition);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_animate_bricks))) {
 					int itemPosition = calculateItemPositionAndTouchPointY(view);
@@ -946,8 +949,14 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		this.clickItemPosition = itemPosition;
 		String yes = context.getString(R.string.yes);
 		String no = context.getString(R.string.no);
-		String title = context.getString(R.string.dialog_confirm_delete_brick_title);
+		String title;
 		String message = context.getString(R.string.dialog_confirm_delete_brick_message);
+
+		if (getItem(clickItemPosition) instanceof ScriptBrick) {
+			title = context.getString(R.string.dialog_confirm_delete_script_title);
+		} else {
+			title = context.getString(R.string.dialog_confirm_delete_brick_title);
+		}
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle(title);

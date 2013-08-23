@@ -22,16 +22,16 @@
  */
 package org.catrobat.catroid.test.license;
 
+import junit.framework.TestCase;
+
+import org.catrobat.catroid.test.utils.Utils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.catrobat.catroid.test.utils.Utils;
-
-import junit.framework.TestCase;
 
 public class LicenseTest extends TestCase {
 	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };

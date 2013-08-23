@@ -22,65 +22,93 @@
  */
 package org.catrobat.catroid.utils;
 
-import org.catrobat.catroid.ui.MainMenuActivity;
-
 import android.app.PendingIntent;
 import android.content.Context;
+import android.support.v4.app.NotificationCompat;
 
 public class NotificationData {
 
-	private PendingIntent pendingIntent;
 	private Context context;
-	private String name;
-	private String notificationTitle;
-	private MainMenuActivity activity;
+	private NotificationCompat.Builder notificationBuilder;
+	private PendingIntent pendingIntent;
 
-	public NotificationData(PendingIntent pendingIntent, Context context, String name, String notificationTitle,
-			MainMenuActivity activity) {
-		this.pendingIntent = pendingIntent;
+	private int notificationIcon;
+	private String programName;
+
+	private String notificationTitlePrefixWorking;
+	private String notificationTitlePrefixDone;
+
+	private String notificationTextWorking;
+	private String notificationTextDone;
+
+	public NotificationData(Context context, PendingIntent pendingIntent, int notificationIcon, String programName,
+			int notificationTitlePrefixWorkingStringId, int notificationTitlePrefixDoneStringId,
+			int notificationTextWorkingStringId, int notificationTextDoneStringId) {
 		this.context = context;
-		this.name = name;
-		this.notificationTitle = notificationTitle;
-		this.activity = activity;
+		this.pendingIntent = pendingIntent;
+
+		this.notificationIcon = notificationIcon;
+		this.programName = programName;
+
+		this.notificationTitlePrefixWorking = context.getString(notificationTitlePrefixWorkingStringId);
+		this.notificationTitlePrefixDone = context.getString(notificationTitlePrefixDoneStringId);
+		this.notificationTextWorking = context.getString(notificationTextWorkingStringId);
+		this.notificationTextDone = context.getString(notificationTextDoneStringId);
 	}
 
 	public PendingIntent getPendingIntent() {
 		return pendingIntent;
 	}
 
-	public void setPendingIntent(PendingIntent pendingIntent) {
+	public NotificationData setPendingIntent(PendingIntent pendingIntent) {
 		this.pendingIntent = pendingIntent;
+		return this;
 	}
 
 	public Context getContext() {
 		return context;
 	}
 
-	public void setContext(Context context) {
+	public NotificationData setContext(Context context) {
 		this.context = context;
+		return this;
 	}
 
-	public String getName() {
-		return name;
+	public int getNotificationIcon() {
+		return notificationIcon;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public String getProgramName() {
+		return programName;
 	}
 
-	public String getNotificationTitle() {
-		return notificationTitle;
+	public NotificationData setProgramName(String programName) {
+		this.programName = programName;
+		return this;
 	}
 
-	public void setNotificationTitle(String notificationTitle) {
-		this.notificationTitle = notificationTitle;
+	public String getNotificationTitleWorking() {
+		return notificationTitlePrefixWorking + programName;
 	}
 
-	public MainMenuActivity getActivity() {
-		return activity;
+	public String getNotificationTitleDone() {
+		return notificationTitlePrefixDone + programName;
 	}
 
-	public void setActivity(MainMenuActivity activity) {
-		this.activity = activity;
+	public String getNotificationTextWorking() {
+		return notificationTextWorking;
+	}
+
+	public String getNotificationTextDone() {
+		return notificationTextDone;
+	}
+
+	public NotificationCompat.Builder getNotificationBuilder() {
+		return notificationBuilder;
+	}
+
+	public NotificationData setNotificationBuilder(NotificationCompat.Builder notificationBuilder) {
+		this.notificationBuilder = notificationBuilder;
+		return this;
 	}
 }

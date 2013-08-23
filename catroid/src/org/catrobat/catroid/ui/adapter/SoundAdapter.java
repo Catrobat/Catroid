@@ -22,17 +22,6 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.ui.controller.SoundController;
-import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
-import org.catrobat.catroid.ui.fragment.SoundFragment;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +30,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.actionbarsherlock.view.ActionMode;
+
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.ui.controller.SoundController;
+import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
+import org.catrobat.catroid.ui.fragment.SoundFragment;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActivityAdapterInterface {
 

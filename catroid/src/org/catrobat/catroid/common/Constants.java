@@ -33,10 +33,12 @@ public final class Constants {
 	public static final String PROJECTCODE_NAME = "code.xml";
 	public static final String CATROBAT_EXTENSION = ".catrobat";
 	public static final String RECORDING_EXTENSION = ".mp3";
+	public static final String TEXT_TO_SPEECH_EXTENSION = ".wav";
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
 			+ "/Pocket Code";
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
+	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 	public static final String IMAGE_DIRECTORY = "images";
 	public static final String SOUND_DIRECTORY = "sounds";
 	public static final String BRICK_DIRECTORY = "bricks";
@@ -51,6 +53,14 @@ public final class Constants {
 	public static final int NO_POSITION = -1;
 
 	//Web:
+	public static final String BASE_URL_HTTPS = "https://www.pocketcode.org/";
+	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
+
+	public static final String CATROBAT_ABOUT_URL = "http://developer.catrobat.org/";
+	public static final String ABOUT_POCKETCODE_LICENSE_URL = CATROBAT_ABOUT_URL + "licenses";
+
+	public static final String CATROBAT_FORUM_URL = "http://catrob.at/PocketCodeUserForum";
+
 	public static final String TOKEN = "token";
 	public static final String NO_TOKEN = "no_token";
 	public static final String USERNAME = "username";

@@ -22,20 +22,20 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import android.content.Context;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
-
-import android.content.Context;
-
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public class UserVariablesContainer implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -105,10 +105,6 @@ public class UserVariablesContainer implements Serializable {
 		return variables;
 	}
 
-	public List<UserVariable> createVariableListForCopySprite(Sprite sprite) {
-		return spriteVariables.get(sprite);
-	}
-
 	public void cleanVariableListForSprite(Sprite sprite) {
 		List<UserVariable> vars = spriteVariables.get(sprite);
 		if (vars != null) {
@@ -142,7 +138,7 @@ public class UserVariablesContainer implements Serializable {
 
 	private void resetUserVariables(List<UserVariable> userVariableList) {
 		for (UserVariable userVariable : userVariableList) {
-			userVariable.setValue(0);
+			userVariable.setValue(0.0);
 		}
 	}
 }

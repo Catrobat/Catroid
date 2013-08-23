@@ -23,8 +23,7 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
 import org.catrobat.catroid.formulaeditor.InternFormulaState;
@@ -32,7 +31,8 @@ import org.catrobat.catroid.formulaeditor.InternFormulaTokenSelection;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 
-import android.test.InstrumentationTestCase;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InternFormulaStateTest extends InstrumentationTestCase {
 

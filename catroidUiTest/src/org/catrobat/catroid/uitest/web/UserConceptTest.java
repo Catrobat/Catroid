@@ -22,8 +22,13 @@
  */
 package org.catrobat.catroid.uitest.web;
 
-import java.util.ArrayList;
-import java.util.Locale;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
+import android.test.UiThreadTest;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -34,13 +39,8 @@ import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.web.ServerCalls;
 
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.preference.PreferenceManager;
-import android.test.UiThreadTest;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 

@@ -22,26 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.SoundViewHolder;
-import org.catrobat.catroid.ui.adapter.SoundAdapter;
-import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.ui.controller.SoundController;
-import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
-import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
-import org.catrobat.catroid.utils.Utils;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -85,6 +65,26 @@ import android.widget.TextView;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SoundViewHolder;
+import org.catrobat.catroid.ui.adapter.SoundAdapter;
+import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.SoundController;
+import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
+import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
+import org.catrobat.catroid.utils.Utils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class SoundFragment extends ScriptActivityFragment implements OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
 
@@ -107,6 +107,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private SoundDeletedReceiver soundDeletedReceiver;
 	private SoundRenamedReceiver soundRenamedReceiver;
 	private SoundCopiedReceiver soundCopiedReceiver;
+
+	private SoundsListInitReceiver soundsListInitReceiver;
 
 	private ActionMode actionMode;
 
@@ -216,6 +218,10 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			soundCopiedReceiver = new SoundCopiedReceiver();
 		}
 
+		if (soundsListInitReceiver == null) {
+			soundsListInitReceiver = new SoundsListInitReceiver();
+		}
+
 		IntentFilter intentFilterRenameSound = new IntentFilter(ScriptActivity.ACTION_SOUND_RENAMED);
 		getActivity().registerReceiver(soundRenamedReceiver, intentFilterRenameSound);
 
@@ -224,6 +230,9 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		IntentFilter intentFilterCopySound = new IntentFilter(ScriptActivity.ACTION_SOUND_COPIED);
 		getActivity().registerReceiver(soundCopiedReceiver, intentFilterCopySound);
+
+		IntentFilter intentFilterSoundsListInit = new IntentFilter(ScriptActivity.ACTION_SOUNDS_LIST_INIT);
+		getActivity().registerReceiver(soundsListInitReceiver, intentFilterSoundsListInit);
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
@@ -258,6 +267,10 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		if (soundDeletedReceiver != null) {
 			getActivity().unregisterReceiver(soundDeletedReceiver);
+		}
+
+		if (soundsListInitReceiver != null) {
+			getActivity().unregisterReceiver(soundsListInitReceiver);
 		}
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
@@ -879,6 +892,15 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	public ArrayList<SoundInfo> getSoundInfoList() {
 		return soundInfoList;
+	}
+
+	private class SoundsListInitReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_SOUNDS_LIST_INIT)) {
+				adapter.notifyDataSetChanged();
+			}
+		}
 	}
 
 }

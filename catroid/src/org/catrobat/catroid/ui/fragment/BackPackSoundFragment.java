@@ -22,20 +22,7 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import java.util.ArrayList;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.ui.adapter.BackPackSoundAdapter;
-import org.catrobat.catroid.ui.adapter.SoundAdapter;
-import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.ui.controller.SoundController;
-import org.catrobat.catroid.ui.fragment.SoundFragment.OnSoundInfoListChangedAfterNewListener;
-
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.media.MediaPlayer;
@@ -47,11 +34,22 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.ui.adapter.BackPackSoundAdapter;
+import org.catrobat.catroid.ui.adapter.SoundAdapter;
+import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.SoundController;
+import org.catrobat.catroid.ui.fragment.SoundFragment.OnSoundInfoListChangedAfterNewListener;
+
+import java.util.ArrayList;
 
 public class BackPackSoundFragment extends BackPackActivityFragment implements OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener, BackPackSoundAdapter {
@@ -281,18 +279,18 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements O
 		// TODO Auto-generated method stub
 
 	}
-
-	public abstract class BackPackSoundAdapter extends ArrayAdapter<SoundInfo> {
-
-		public BackPackSoundAdapter(Context context, int resource) {
-			super(context, resource);
-			// TODO Auto-generated constructor stub
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-		}
-
-	}
-
+	/*
+	 * public abstract class BackPackSoundAdapter extends ArrayAdapter<SoundInfo> {
+	 * 
+	 * public BackPackSoundAdapter(Context context, int resource) {
+	 * super(context, resource);
+	 * // TODO Auto-generated constructor stub
+	 * }
+	 * 
+	 * @Override
+	 * public View getView(int position, View convertView, ViewGroup parent) {
+	 * }
+	 * 
+	 * }
+	 */
 }
