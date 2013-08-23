@@ -33,10 +33,10 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.BackPackSoundActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SoundViewHolder;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
+import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.utils.UtilFile;
@@ -243,7 +243,7 @@ public class SoundController {
 		soundInfo.isPlaying = false;
 	}
 
-	public void backPackSound(SoundInfo selectedSoundInfo, BackPackSoundActivity backPackSoundActivity,
+	public void backPackSound(SoundInfo selectedSoundInfo, BackPackSoundFragment backPackSoundActivity,
 			ArrayList<SoundInfo> soundInfoList, SoundAdapter adapter) {
 
 		Toast.makeText(backPackSoundActivity.getActivity(),

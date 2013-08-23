@@ -31,7 +31,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.BackPackSoundActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SoundViewHolder;
@@ -440,12 +439,12 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			case R.id.context_menu_backpack:
 				Log.d("TAG", "Context Menu BackPack!");
 
-				BackPackSoundActivity BackPackActivity = BackPackListManager.getInstance()
+				BackPackSoundFragment BackPackActivity = BackPackListManager.getInstance()
 						.getBackPackSoundActivityFragment();
 
 				Activity activity = BackPackActivity.getActivity();
 
-				Intent intentBackPack = new Intent(getActivity(), BackPackSoundActivity.class);
+				Intent intentBackPack = new Intent(getActivity(), BackPackSoundFragment.class);
 
 				BackPackListManager.getInstance().getBackPackSoundActivityFragment().startActivity(intentBackPack);
 

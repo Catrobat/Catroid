@@ -247,6 +247,7 @@ public class ScriptActivity extends SherlockFragmentActivity {
 
 			case R.id.backpack:
 				Log.d("TAG", "switch --> backPack");
+
 				Intent backPackIntent = new Intent(this, BackPackSoundActivity.class);
 				backPackIntent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
 				startActivity(backPackIntent);

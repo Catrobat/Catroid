@@ -29,8 +29,8 @@ import java.util.TreeSet;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.ui.BackPackSoundActivity;
 import org.catrobat.catroid.ui.controller.SoundController;
+import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 
 import android.content.Context;
@@ -52,7 +52,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 
 	protected Context context;
 	private SoundFragment soundFragment;
-	private BackPackSoundActivity backPackSoundActivity;
+	private BackPackSoundFragment backPackSoundActivity;
 
 	private OnSoundEditListener onSoundEditListener;
 
@@ -204,11 +204,11 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 		return onSoundEditListener;
 	}
 
-	public BackPackSoundActivity getBackPackSoundActivity() {
+	public BackPackSoundFragment getBackPackSoundActivity() {
 		return this.backPackSoundActivity;
 	}
 
-	public void setBackPackSoundActivity(BackPackSoundActivity backPackSoundActivity) {
+	public void setBackPackSoundActivity(BackPackSoundFragment backPackSoundActivity) {
 		this.backPackSoundActivity = backPackSoundActivity;
 	}
 
