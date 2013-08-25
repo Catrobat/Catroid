@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content;
 
+import android.util.Log;
+
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -37,6 +39,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
+import org.catrobat.catroid.camera.VideoLookData;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -226,7 +229,12 @@ public class Look extends Image {
 	}
 
 	protected void checkImageChanged() {
+		if (lookData instanceof VideoLookData) {
+			VideoLookData videoLookData = (VideoLookData) lookData;
+			imageChanged |= videoLookData.hasDataChanged();//TODO
+		}
 		if (imageChanged) {
+			Log.d("Blah", "image refreshing");//TODO
 			if (lookData == null) {
 				setBounds(getX() + getWidth() / 2f, getY() + getHeight() / 2f, 0f, 0f);
 				setDrawable(null);
@@ -250,7 +258,7 @@ public class Look extends Image {
 				brightnessChanged = false;
 			}
 
-			lookData.setTextureRegion();// TODO REMOVE
+			lookData.setTextureRegion();
 			TextureRegion region = lookData.getTextureRegion();
 			TextureRegionDrawable drawable = new TextureRegionDrawable(region);
 			setDrawable(drawable);

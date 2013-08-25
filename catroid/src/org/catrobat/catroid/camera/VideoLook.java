@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.camera;
 
-import android.util.Log;
-
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
@@ -51,11 +49,11 @@ public class VideoLook extends Look {
 		return "";
 	}
 
-	@Override
-	protected void checkImageChanged() {
-		imageChanged = true; // refresh every time!
-		Log.d("Blah", "image refreshing");
-		super.checkImageChanged();
-	}
+	//	@Override
+	//	protected void checkImageChanged() {
+	//		imageChanged = true; // refresh every time!
+	//		Log.d("Blah", "image refreshing");
+	//		super.checkImageChanged();
+	//	}
 
 }

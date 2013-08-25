@@ -50,6 +50,7 @@ public class LookData implements Serializable, Cloneable {
 	private transient Pixmap pixmap = null;
 	private transient Pixmap originalPixmap = null;
 	private transient TextureRegion region = null;
+	private Texture texture;
 
 	@Override
 	public LookData clone() {
@@ -75,13 +76,18 @@ public class LookData implements Serializable, Cloneable {
 
 	public TextureRegion getTextureRegion() {
 		if (region == null) {
-			region = new TextureRegion(new Texture(getPixmap()));
+			setTextureRegion();
 		}
 		return region;
 	}
 
 	public void setTextureRegion() {
-		this.region = new TextureRegion(new Texture(getPixmap()));
+		if (texture == null) {
+			texture = new Texture(getPixmap());
+		} else {
+			texture.draw(getPixmap(), 0, 0);
+		}
+		this.region = new TextureRegion(texture);
 	}
 
 	public Pixmap getPixmap() {

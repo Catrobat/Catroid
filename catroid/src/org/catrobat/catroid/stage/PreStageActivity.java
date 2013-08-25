@@ -105,6 +105,8 @@ public class PreStageActivity extends Activity {
 			} else {
 				resourceFailed();
 			}
+		} else {
+			Log.d("Blah", "NO FD REQUESTED");// TODO
 		}
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
 			startStage();

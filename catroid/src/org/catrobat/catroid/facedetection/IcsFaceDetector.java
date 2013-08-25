@@ -79,6 +79,7 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 			return;
 		}
 		Log.d("Blah", "ICS Stop");
+		running = false;
 		CameraManager.getInstance().releaseCamera();
 	}
 

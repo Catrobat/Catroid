@@ -36,6 +36,10 @@ public class VideoLookData extends LookData {
 	private byte[] videoFrameData;
 	private boolean dataChanged = false;
 
+	public boolean hasDataChanged() {
+		return dataChanged;
+	}
+
 	public void setVideoFrameData(byte[] data) {
 		videoFrameData = data;
 		dataChanged = true;
