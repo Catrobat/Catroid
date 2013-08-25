@@ -41,6 +41,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.BluetoothManager;
 import org.catrobat.catroid.bluetooth.DeviceListActivity;
+import org.catrobat.catroid.camera.VideoDisplayHandler;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
@@ -106,8 +108,6 @@ public class PreStageActivity extends Activity {
 			} else {
 				resourceFailed();
 			}
-		} else {
-			Log.d("Blah", "NO FD REQUESTED");// TODO
 		}
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
 			startStage();
