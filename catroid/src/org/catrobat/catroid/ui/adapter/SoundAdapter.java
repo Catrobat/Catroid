@@ -42,7 +42,7 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActivityAdapterInterface {
+public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdapterInterface {
 
 	protected ArrayList<SoundInfo> soundInfoItems;
 
@@ -50,43 +50,20 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 		return soundInfoItems;
 	}
 
-	protected Context context;
 	private SoundFragment soundFragment;
-	private BackPackSoundFragment backPackSoundActivity;
-
-	private OnSoundEditListener onSoundEditListener;
-
-	private int selectMode;
-	private static long elapsedMilliSeconds;
-	private static long currentPlayingBase;
-	private boolean showDetails;
-
-	private SortedSet<Integer> checkedSounds = new TreeSet<Integer>();
-
-	private int currentPlayingPosition = Constants.NO_POSITION;
 
 	public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items, boolean showDetails) {
-		super(context, textViewResourceId, items);
-
+		super(context, textViewResourceId, items, false);
 		Log.d("TAG", "SoundAdapter called!");
-
-		this.context = context;
-		this.showDetails = showDetails;
-		this.soundInfoItems = items;
-		this.selectMode = ListView.CHOICE_MODE_NONE;
 	}
 
-	public void setOnSoundEditListener(OnSoundEditListener listener) {
-		onSoundEditListener = listener;
-	}
-
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		if (soundFragment == null) {
-			return convertView;
-		}
-		return soundFragment.getView(position, convertView);
-	}
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (soundFragment == null) {
+            return convertView;
+        }
+        return soundFragment.getView(position, convertView);
+    }
 
 	public void onDestroyActionModeRename(ActionMode mode, ListView listView) {
 		Iterator<Integer> iterator = checkedSounds.iterator();
@@ -115,110 +92,4 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 	public void setSoundFragment(SoundFragment soundFragment) {
 		this.soundFragment = soundFragment;
 	}
-
-	@Override
-	public int getAmountOfCheckedItems() {
-		return checkedSounds.size();
-	}
-
-	@Override
-	public SortedSet<Integer> getCheckedItems() {
-		return checkedSounds;
-	}
-
-	public void addCheckedItem(int position) {
-		checkedSounds.add(position);
-	}
-
-	@Override
-	public void clearCheckedItems() {
-		checkedSounds.clear();
-	}
-
-	@Override
-	public void setSelectMode(int mode) {
-		selectMode = mode;
-	}
-
-	@Override
-	public int getSelectMode() {
-		return selectMode;
-	}
-
-	@Override
-	public void setShowDetails(boolean showDetails) {
-		this.showDetails = showDetails;
-	}
-
-	@Override
-	public boolean getShowDetails() {
-		return showDetails;
-	}
-
-	public void setSoundInfoItems(ArrayList<SoundInfo> soundInfoItems) {
-		this.soundInfoItems = soundInfoItems;
-	}
-
-	@Override
-	public Context getContext() {
-		return context;
-	}
-
-	public void setContext(Context context) {
-		this.context = context;
-	}
-
-	public static long getElapsedMilliSeconds() {
-		return elapsedMilliSeconds;
-	}
-
-	public static void setElapsedMilliSeconds(long elapsedMilliSeconds) {
-		SoundAdapter.elapsedMilliSeconds = elapsedMilliSeconds;
-	}
-
-	public static long getCurrentPlayingBase() {
-		return currentPlayingBase;
-	}
-
-	public static void setCurrentPlayingBase(long currentPlayingBase) {
-		SoundAdapter.currentPlayingBase = currentPlayingBase;
-	}
-
-	public SortedSet<Integer> getCheckedSounds() {
-		return checkedSounds;
-	}
-
-	public void setCheckedSounds(SortedSet<Integer> checkedSounds) {
-		this.checkedSounds = checkedSounds;
-	}
-
-	public int getCurrentPlayingPosition() {
-		return currentPlayingPosition;
-	}
-
-	public void setCurrentPlayingPosition(int currentPlayingPosition) {
-		this.currentPlayingPosition = currentPlayingPosition;
-	}
-
-	public OnSoundEditListener getOnSoundEditListener() {
-		return onSoundEditListener;
-	}
-
-	public BackPackSoundFragment getBackPackSoundActivity() {
-		return this.backPackSoundActivity;
-	}
-
-	public void setBackPackSoundActivity(BackPackSoundFragment backPackSoundActivity) {
-		this.backPackSoundActivity = backPackSoundActivity;
-	}
-
-	public interface OnSoundEditListener {
-
-		public void onSoundPlay(View view);
-
-		public void onSoundPause(View view);
-
-		public void onSoundChecked();
-	}
-
 }
