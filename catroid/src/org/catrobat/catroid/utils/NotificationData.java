@@ -28,7 +28,6 @@ import android.support.v4.app.NotificationCompat;
 
 public class NotificationData {
 
-	private Context context;
 	private NotificationCompat.Builder notificationBuilder;
 	private PendingIntent pendingIntent;
 
@@ -44,7 +43,6 @@ public class NotificationData {
 	public NotificationData(Context context, PendingIntent pendingIntent, int notificationIcon, String programName,
 			int notificationTitlePrefixWorkingStringId, int notificationTitlePrefixDoneStringId,
 			int notificationTextWorkingStringId, int notificationTextDoneStringId) {
-		this.context = context;
 		this.pendingIntent = pendingIntent;
 
 		this.notificationIcon = notificationIcon;
@@ -54,6 +52,7 @@ public class NotificationData {
 		this.notificationTitlePrefixDone = context.getString(notificationTitlePrefixDoneStringId);
 		this.notificationTextWorking = context.getString(notificationTextWorkingStringId);
 		this.notificationTextDone = context.getString(notificationTextDoneStringId);
+
 	}
 
 	public PendingIntent getPendingIntent() {
@@ -62,15 +61,6 @@ public class NotificationData {
 
 	public NotificationData setPendingIntent(PendingIntent pendingIntent) {
 		this.pendingIntent = pendingIntent;
-		return this;
-	}
-
-	public Context getContext() {
-		return context;
-	}
-
-	public NotificationData setContext(Context context) {
-		this.context = context;
 		return this;
 	}
 
