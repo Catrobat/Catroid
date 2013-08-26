@@ -22,15 +22,15 @@
  */
 package org.catrobat.catroid.ui.controller;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import android.util.Log;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
 
-import android.util.Log;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class BackPackListManager extends SherlockFragmentActivity {
 
@@ -42,10 +42,9 @@ public class BackPackListManager extends SherlockFragmentActivity {
 
 	private BackPackListManager() {
 
-		Log.d("TAG", "Set up BackPackListManager");
+		Log.d("TAG", "Set up BackPackListManager (Constructor)");
 
 		backPackSoundFragment = new BackPackSoundFragment();
-		//soundInfoArrayList = new ArrayList<SoundInfo>();
 	}
 
 	public static BackPackListManager getInstance() {

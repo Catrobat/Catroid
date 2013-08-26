@@ -76,7 +76,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements O
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
-		Log.d("TAG", "BackPackActivityFragment created!");
+		Log.d("TAG", "BackPackSoundFragment created!");
 
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
@@ -101,7 +101,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements O
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		Log.d("TAG", "SoundFragment-->onActivityCreated()");
+		Log.d("TAG", "BackPackSoundFragment-->onActivityCreated()");
 
 		listView = getListView();
 		registerForContextMenu(listView);
