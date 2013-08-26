@@ -35,7 +35,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SoundViewHolder;
-import org.catrobat.catroid.ui.adapter.SoundAdapter;
+import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
@@ -82,7 +82,7 @@ public class SoundController {
 		return instance;
 	}
 
-	public void updateSoundLogic(final int position, SoundViewHolder holder, final SoundAdapter soundAdapter) {
+	public void updateSoundLogic(final int position, SoundViewHolder holder, final SoundBaseAdapter soundAdapter) {
 		Log.v("Adapter *********", ".........");
 		final SoundInfo soundInfo = soundAdapter.getSoundInfoItems().get(position);
 
@@ -146,11 +146,11 @@ public class SoundController {
 
 				if (soundAdapter.getCurrentPlayingPosition() == Constants.NO_POSITION) {
 
-					SoundAdapter.setElapsedMilliSeconds(0);
+                    SoundBaseAdapter.setElapsedMilliSeconds(0);
 				} else {
 
-					SoundAdapter.setElapsedMilliSeconds(SystemClock.elapsedRealtime()
-							- SoundAdapter.getCurrentPlayingBase());
+                    SoundBaseAdapter.setElapsedMilliSeconds(SystemClock.elapsedRealtime()
+							- SoundBaseAdapter.getCurrentPlayingBase());
 				}
 
 				if (soundInfo.isPlaying) {
@@ -163,7 +163,7 @@ public class SoundController {
 					if (soundAdapter.getCurrentPlayingPosition() == Constants.NO_POSITION) {
 						startPlayingSound(holder.getTimePlayedChronometer(), position, soundAdapter);
 					} else if ((position == soundAdapter.getCurrentPlayingPosition())
-							&& (SoundAdapter.getElapsedMilliSeconds() > (milliseconds - 1000))) {
+							&& (SoundBaseAdapter.getElapsedMilliSeconds() > (milliseconds - 1000))) {
 						stopPlayingSound(soundInfo, holder.getTimePlayedChronometer(), soundAdapter);
 					} else {
 						continuePlayingSound(holder.getTimePlayedChronometer(), SystemClock.elapsedRealtime());
@@ -221,12 +221,12 @@ public class SoundController {
 		}
 	}
 
-	private void startPlayingSound(Chronometer chronometer, int position, final SoundAdapter soundAdapter) {
+	private void startPlayingSound(Chronometer chronometer, int position, final SoundBaseAdapter soundAdapter) {
 		soundAdapter.setCurrentPlayingPosition(position);
 
-		SoundAdapter.setCurrentPlayingBase(SystemClock.elapsedRealtime());
+        SoundBaseAdapter.setCurrentPlayingBase(SystemClock.elapsedRealtime());
 
-		continuePlayingSound(chronometer, SoundAdapter.getCurrentPlayingBase());
+		continuePlayingSound(chronometer, SoundBaseAdapter.getCurrentPlayingBase());
 	}
 
 	private void continuePlayingSound(Chronometer chronometer, long base) {
@@ -234,7 +234,7 @@ public class SoundController {
 		chronometer.start();
 	}
 
-	private void stopPlayingSound(SoundInfo soundInfo, Chronometer chronometer, final SoundAdapter soundAdapter) {
+	private void stopPlayingSound(SoundInfo soundInfo, Chronometer chronometer, final SoundBaseAdapter soundAdapter) {
 		chronometer.stop();
 		chronometer.setBase(SystemClock.elapsedRealtime());
 
@@ -244,7 +244,7 @@ public class SoundController {
 	}
 
 	public void backPackSound(SoundInfo selectedSoundInfo, BackPackSoundFragment backPackSoundActivity,
-			ArrayList<SoundInfo> soundInfoList, SoundAdapter adapter) {
+			ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
 
 		Toast.makeText(backPackSoundActivity.getActivity(),
 				"Sound " + selectedSoundInfo.getTitle() + " copied into backpack", Toast.LENGTH_SHORT).show();
@@ -263,7 +263,7 @@ public class SoundController {
 
 	}
 
-	private void copySoundBackPack(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList, SoundAdapter adapter) {
+	private void copySoundBackPack(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
 
 		try {
 			Log.d("TAG", "SoundController --> copySoundBackPack:: selectedSoundInfo.getAbsolutePathBackPackSound()="
@@ -278,7 +278,7 @@ public class SoundController {
 
 	}
 
-	public SoundInfo copySound(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList, SoundAdapter adapter) {
+	public SoundInfo copySound(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
 
 		try {
 			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
@@ -290,7 +290,7 @@ public class SoundController {
 				adapter);
 	}
 
-	public void copySound(int position, ArrayList<SoundInfo> soundInfoList, SoundAdapter adapter) {
+	public void copySound(int position, ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
 
 		SoundInfo soundInfo = soundInfoList.get(position);
 
@@ -314,7 +314,7 @@ public class SoundController {
 		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
 	}
 
-	public void deleteCheckedSounds(Activity activity, SoundAdapter adapter, ArrayList<SoundInfo> soundInfoList,
+	public void deleteCheckedSounds(Activity activity, SoundBaseAdapter adapter, ArrayList<SoundInfo> soundInfoList,
 			MediaPlayer mediaPlayer) {
 		SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
 		Iterator<Integer> iterator = checkedSounds.iterator();
@@ -328,7 +328,7 @@ public class SoundController {
 	}
 
 	public SoundInfo updateBackPackActivity(String title, String fileName, ArrayList<SoundInfo> soundInfoList,
-			SoundAdapter adapter) {
+        SoundBaseAdapter adapter) {
 		title = Utils.getUniqueSoundName(title);
 
 		Log.d("TAG", "SoundController-->updateBackPackActivity():: title = " + title + " and fileName = " + fileName);
@@ -342,7 +342,7 @@ public class SoundController {
 	}
 
 	public SoundInfo updateSoundAdapter(String title, String fileName, ArrayList<SoundInfo> soundInfoList,
-			SoundAdapter adapter) {
+                                        SoundBaseAdapter adapter) {
 		title = Utils.getUniqueSoundName(title);
 
 		SoundInfo newSoundInfo = new SoundInfo();
@@ -369,7 +369,7 @@ public class SoundController {
 	}
 
 	public void handlePlaySoundButton(View view, ArrayList<SoundInfo> soundInfoList, MediaPlayer mediaPlayer,
-			final SoundAdapter adapter) {
+			final SoundBaseAdapter adapter) {
 		final int position = (Integer) view.getTag();
 		final SoundInfo soundInfo = soundInfoList.get(position);
 
@@ -388,7 +388,7 @@ public class SoundController {
 		});
 	}
 
-	public void stopSoundAndUpdateList(MediaPlayer mediaPlayer, ArrayList<SoundInfo> soundInfoList, SoundAdapter adapter) {
+	public void stopSoundAndUpdateList(MediaPlayer mediaPlayer, ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
 		if (!isSoundPlaying(mediaPlayer)) {
 			return;
 		}
