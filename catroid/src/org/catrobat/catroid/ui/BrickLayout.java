@@ -153,7 +153,7 @@ public class BrickLayout extends ViewGroup {
 
 		int lineThicknessWithorizontalSpacing = 0;
 		int lineThickness = 0;
-		int lineLengthWithorizontalSpacing = 0;
+		int lineLengthWithHorizontalSpacing = 0;
 		int lineLength = 0;
 
 		int prevLinePosition = 0;
@@ -207,8 +207,8 @@ public class BrickLayout extends ViewGroup {
 			LayoutParams layoutParams = (LayoutParams) child.getLayoutParams();
 			int childWidth = preLayoutMeasureWidth(child, sizeWidth, sizeHeight, modeWidth, modeHeight);
 
-			lineLength = lineLengthWithorizontalSpacing + childWidth;
-			lineLengthWithorizontalSpacing = lineLength + horizontalSpacing;
+			lineLength = lineLengthWithHorizontalSpacing + childWidth;
+			lineLengthWithHorizontalSpacing = lineLength + horizontalSpacing;
 
 			boolean newLine = (layoutParams.newLine && totalLengthOfContent - combinedLengthOfPreviousLines > sizeWidth);
 
@@ -229,7 +229,7 @@ public class BrickLayout extends ViewGroup {
 
 				combinedLengthOfPreviousLines += (lineLength - (childWidth + horizontalSpacing));
 				lineLength = childWidth;
-				lineLengthWithorizontalSpacing = lineLength + horizontalSpacing;
+				lineLengthWithHorizontalSpacing = lineLength + horizontalSpacing;
 
 				elementInLineIndex = 0;
 			}
@@ -269,7 +269,7 @@ public class BrickLayout extends ViewGroup {
 
 		lineThicknessWithorizontalSpacing = 0;
 		lineThickness = 0;
-		lineLengthWithorizontalSpacing = 0;
+		lineLengthWithHorizontalSpacing = 0;
 		lineLength = 0;
 
 		prevLinePosition = 0;
@@ -309,12 +309,12 @@ public class BrickLayout extends ViewGroup {
 				boolean updateSmallestHeight = currentLine.minHeight == 0 || currentLine.minHeight > childHeight;
 				currentLine.minHeight = (updateSmallestHeight ? childHeight : currentLine.minHeight);
 
-				lineLength = lineLengthWithorizontalSpacing + childWidth;
-				lineLengthWithorizontalSpacing = lineLength + horizontalSpacing;
+				lineLength = lineLengthWithHorizontalSpacing + childWidth;
+				lineLengthWithHorizontalSpacing = lineLength + horizontalSpacing;
 
 				if (layoutParams.newLine && !newLine) {
 					lineLength += horizontalSpacing;
-					lineLengthWithorizontalSpacing += horizontalSpacing;
+					lineLengthWithHorizontalSpacing += horizontalSpacing;
 				}
 
 				if (newLine) {
@@ -326,7 +326,7 @@ public class BrickLayout extends ViewGroup {
 					lineThickness = childHeight;
 					lineLength = childWidth;
 					lineThicknessWithorizontalSpacing = childHeight + verticalSpacing;
-					lineLengthWithorizontalSpacing = lineLength + horizontalSpacing;
+					lineLengthWithHorizontalSpacing = lineLength + horizontalSpacing;
 				}
 
 				lineThicknessWithorizontalSpacing = Math.max(lineThicknessWithorizontalSpacing, childHeight
