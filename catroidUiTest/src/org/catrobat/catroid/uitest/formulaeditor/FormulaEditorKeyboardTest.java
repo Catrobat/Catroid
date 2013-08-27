@@ -47,8 +47,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 	private Brick changeBrick;
 	private Brick glideToBrick;
 
-	private static final int X_POS_EDIT_TEXT_ID = 0;
-	private static final int Y_POS_EDIT_TEXT_ID = 1;
+	private static final int CHANGE_SIZE_EDIT_TEXT_RID = R.id.brick_change_size_by_edit_text;
 
 	public FormulaEditorKeyboardTest() {
 		super(MainMenuActivity.class);
@@ -83,8 +82,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 
 	public void testNormalKeysKeyboard() {
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_EDIT_TEXT_RID));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
@@ -172,8 +170,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 
 		String itemString = "";
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_EDIT_TEXT_RID));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
@@ -237,8 +234,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 
 		String itemString = "";
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_EDIT_TEXT_RID));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
@@ -333,8 +329,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 
 		String itemString = "";
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_EDIT_TEXT_RID));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
@@ -411,8 +406,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 
 		String itemString = "";
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_EDIT_TEXT_RID));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));

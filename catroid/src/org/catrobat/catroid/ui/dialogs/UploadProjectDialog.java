@@ -153,7 +153,7 @@ public class UploadProjectDialog extends DialogFragment {
 	private void initListeners() {
 		projectUploadName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
+			public void onFocusChange(View view, boolean hasFocus) {
 				if (hasFocus) {
 					getDialog().getWindow()
 							.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
@@ -163,7 +163,7 @@ public class UploadProjectDialog extends DialogFragment {
 
 		projectDescriptionField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
+			public void onFocusChange(View view, boolean hasFocus) {
 				if (hasFocus) {
 					getDialog().getWindow()
 							.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);

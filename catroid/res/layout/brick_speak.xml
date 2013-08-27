@@ -23,6 +23,7 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/org.catrobat.catroid"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -35,11 +36,15 @@
         android:gravity="center_vertical"
         android:visibility="gone" />
 
-    <LinearLayout
+    <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_speak_layout"
         style="@style/BrickContainer.Sound.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="vertical" >
+        android:orientation="horizontal"
+        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
             android:id="@+id/brick_speak_label"
@@ -54,13 +59,14 @@
             android:gravity="left" >
         </TextView>
 
-        <EditText
+        <TextView
             android:id="@+id/brick_speak_edit_text"
             style="@style/BrickEditText"
             android:layout_width="match_parent"
-            android:gravity="left"
-            android:inputType="text" >
-        </EditText>
-    </LinearLayout>
+            app:layout_inputType="text"
+            app:layout_textField="true"
+            android:gravity="left" >
+        </TextView>
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

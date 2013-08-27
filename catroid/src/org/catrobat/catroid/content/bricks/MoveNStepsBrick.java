@@ -30,8 +30,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -105,7 +103,7 @@ public class MoveNStepsBrick extends BrickBaseType implements OnClickListener, F
 		});
 
 		TextView text = (TextView) view.findViewById(R.id.brick_move_n_steps_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
+		TextView edit = (TextView) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
 		steps.setTextFieldId(R.id.brick_move_n_steps_edit_text);
 		steps.refreshTextField(view);
@@ -151,13 +149,13 @@ public class MoveNStepsBrick extends BrickBaseType implements OnClickListener, F
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_move_n_steps_layout);
+			View layout = (View) view.findViewById(R.id.brick_move_n_steps_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView moveNStepsLabel = (TextView) view.findViewById(R.id.brick_move_n_steps_label);
 			TextView times = (TextView) view.findViewById(R.id.brick_move_n_steps_step_text_view);
-			EditText moveNStepsEdit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
+			TextView moveNStepsEdit = (TextView) view.findViewById(R.id.brick_move_n_steps_edit_text);
 			moveNStepsLabel.setTextColor(moveNStepsLabel.getTextColors().withAlpha(alphaValue));
 			times.setTextColor(times.getTextColors().withAlpha(alphaValue));
 			moveNStepsEdit.setTextColor(moveNStepsEdit.getTextColors().withAlpha(alphaValue));

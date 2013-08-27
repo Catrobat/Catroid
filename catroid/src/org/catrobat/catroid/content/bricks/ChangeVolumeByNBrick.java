@@ -29,8 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -105,7 +103,7 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 			}
 		});
 		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
+		TextView edit = (TextView) view.findViewById(R.id.brick_change_volume_by_edit_text);
 		volume.setTextFieldId(R.id.brick_change_volume_by_edit_text);
 		volume.refreshTextField(view);
 
@@ -135,12 +133,12 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_volume_by_layout);
+			View layout = (View) view.findViewById(R.id.brick_change_volume_by_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView changeVolume = (TextView) view.findViewById(R.id.brick_change_volume_by_label);
-			EditText editVolume = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
+			TextView editVolume = (TextView) view.findViewById(R.id.brick_change_volume_by_edit_text);
 			changeVolume.setTextColor(changeVolume.getTextColors().withAlpha(alphaValue));
 			editVolume.setTextColor(editVolume.getTextColors().withAlpha(alphaValue));
 			editVolume.getBackground().setAlpha(alphaValue);

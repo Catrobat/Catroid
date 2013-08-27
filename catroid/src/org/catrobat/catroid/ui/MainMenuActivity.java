@@ -182,7 +182,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 	}
 
 	// needed because of android:onClick in activity_main_menu.xml
-	public void handleContinueButton(View v) {
+	public void handleContinueButton(View view) {
 		handleContinueButton();
 	}
 
@@ -207,7 +207,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		}
 	}
 
-	public void handleNewButton(View v) {
+	public void handleNewButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
@@ -215,7 +215,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	public void handleProgramsButton(View v) {
+	public void handleProgramsButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
@@ -223,7 +223,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		startActivity(intent);
 	}
 
-	public void handleForumButton(View v) {
+	public void handleForumButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
@@ -231,7 +231,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		startActivity(browserIntent);
 	}
 
-	public void handleWebButton(View v) {
+	public void handleWebButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
@@ -286,7 +286,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		alertDialog.show();
 	}
 
-	public void handleUploadButton(View v) {
+	public void handleUploadButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}

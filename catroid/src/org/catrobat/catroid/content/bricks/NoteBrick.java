@@ -32,8 +32,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -98,13 +96,13 @@ public class NoteBrick extends BrickBaseType {
 		});
 
 		TextView textHolder = (TextView) view.findViewById(R.id.brick_note_prototype_text_view);
-		EditText editText = (EditText) view.findViewById(R.id.brick_note_edit_text);
-		editText.setText(note);
+		TextView textField = (TextView) view.findViewById(R.id.brick_note_edit_text);
+		textField.setText(note);
 
 		textHolder.setVisibility(View.GONE);
-		editText.setVisibility(View.VISIBLE);
+		textField.setVisibility(View.VISIBLE);
 
-		editText.setOnClickListener(new OnClickListener() {
+		textField.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
@@ -161,15 +159,15 @@ public class NoteBrick extends BrickBaseType {
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_note_layout);
+			View layout = view.findViewById(R.id.brick_note_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView noteLabel = (TextView) view.findViewById(R.id.brick_note_text_view);
-			EditText noteEditText = (EditText) view.findViewById(R.id.brick_note_edit_text);
+			TextView noteTextView = (TextView) view.findViewById(R.id.brick_note_edit_text);
 			noteLabel.setTextColor(noteLabel.getTextColors().withAlpha(alphaValue));
-			noteEditText.setTextColor(noteEditText.getTextColors().withAlpha(alphaValue));
-			noteEditText.getBackground().setAlpha(alphaValue);
+			noteTextView.setTextColor(noteTextView.getTextColors().withAlpha(alphaValue));
+			noteTextView.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
 
