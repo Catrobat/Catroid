@@ -285,13 +285,13 @@
 
 
     <!-- Motion bricks -->
-    <string name="brick_place_at">Setze Position:</string>
-    <string name="x_label">X:</string>
-    <string name="y_label">Y:</string>
-    <string name="brick_set_x">Setze X auf:</string>
-    <string name="brick_set_y">Setze Y auf:</string>
-    <string name="brick_change_x_by">Ändere X um:</string>
-    <string name="brick_change_y_by">Ändere Y um:</string>
+    <string name="brick_place_at">"Setze Position "</string>
+    <string name="x_label">"X: "</string>
+    <string name="y_label">"Y: "</string>
+    <string name="brick_set_x">"Setze X auf "</string>
+    <string name="brick_set_y">"Setze Y auf "</string>
+    <string name="brick_change_x_by">"Ändere X um "</string>
+    <string name="brick_change_y_by">"Ändere Y um "</string>
     <string name="brick_go_back">Gehe</string>
 
     <plurals name="brick_go_back_layer_plural">
@@ -324,10 +324,10 @@
     <string name="brick_change_size_by">Ändere Größe um</string>
     <string name="brick_hide">Verstecke dich</string>
     <string name="brick_show">Zeige dich</string>
-    <string name="brick_set_ghost_effect">Setze Transparenz</string>
-    <string name="brick_change_ghost_effect">Ändere Transparenz</string>
-    <string name="brick_set_brightness">Setze Helligkeit</string>
-    <string name="brick_change_brightness">Ändere Helligkeit</string>
+    <string name="brick_set_ghost_effect">"Setze Transparenz "</string>
+    <string name="brick_change_ghost_effect">"Ändere Transparenz "</string>
+    <string name="brick_set_brightness">"Setze Helligkeit "</string>
+    <string name="brick_change_brightness">"Ändere Helligkeit "</string>
     <string name="by_label">um</string>
     <string name="to_label">auf</string>
     <string name="brick_clear_graphic_effect">Schalte Grafikeffekte aus</string>
@@ -352,8 +352,8 @@
     <string name="brick_wait">Warte</string>
 
     <plurals name="second_plural">
-        <item quantity="one">Sekunde</item>
-        <item quantity="other">Sekunden</item>
+        <item quantity="one">"Sekunde "</item>
+        <item quantity="other">"Sekunden "</item>
     </plurals>
 
     <string name="brick_broadcast_receive">Wenn ich empfange:</string>

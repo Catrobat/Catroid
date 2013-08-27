@@ -286,13 +286,13 @@
 
 
     <!-- Motion bricks -->
-    <string name="brick_place_at">Place at:</string>
-    <string name="x_label">X:</string>
-    <string name="y_label">Y:</string>
-    <string name="brick_set_x">Set X to:</string>
-    <string name="brick_set_y">Set Y to:</string>
-    <string name="brick_change_x_by">Change X by:</string>
-    <string name="brick_change_y_by">Change Y by:</string>
+    <string name="brick_place_at">"Place at "</string>
+    <string name="x_label">"X: "</string>
+    <string name="y_label">"Y: "</string>
+    <string name="brick_set_x">"Set X to "</string>
+    <string name="brick_set_y">"Set Y to "</string>
+    <string name="brick_change_x_by">"Change X by "</string>
+    <string name="brick_change_y_by">"Change Y by "</string>
     <string name="brick_go_back">Go back</string>
 
     <plurals name="brick_go_back_layer_plural">
@@ -325,10 +325,10 @@
     <string name="brick_change_size_by">Change size by</string>
     <string name="brick_hide">Hide</string>
     <string name="brick_show">Show</string>
-    <string name="brick_set_ghost_effect">Set transparency</string>
-    <string name="brick_change_ghost_effect">Change transparency</string>
-    <string name="brick_set_brightness">Set brightness</string>
-    <string name="brick_change_brightness">Change brightness</string>
+    <string name="brick_set_ghost_effect">"Set transparency "</string>
+    <string name="brick_change_ghost_effect">"Change transparency "</string>
+    <string name="brick_set_brightness">"Set brightness "</string>
+    <string name="brick_change_brightness">"Change brightness "</string>
     <string name="by_label">by</string>
     <string name="to_label">to</string>
     <string name="brick_clear_graphic_effect">Clear graphic effects</string>
@@ -353,8 +353,8 @@
     <string name="brick_wait">Wait</string>
 
     <plurals name="second_plural">
-        <item quantity="one">second</item>
-        <item quantity="other">seconds</item>
+        <item quantity="one">"second "</item>
+        <item quantity="other">"seconds "</item>
     </plurals>
 
     <string name="brick_broadcast_receive">When I receive</string>
