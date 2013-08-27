@@ -65,8 +65,8 @@ public final class Constants {
 	public static final String EXTRA_PICTURE_NAME_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_NAME";
 	public static final String EXTRA_X_VALUE_POCKET_PAINT = "org.catrobat.extra.PAINTROID_X";
 	public static final String EXTRA_Y_VALUE_POCKET_PAINT = "org.catrobat.extra.PAINTROID_Y";
-	public static final String POCKET_PAINT_PACKAGE_NAME = "org.catrobat.paintroid.pocketpaint";
-	public static final String POCKET_PAINT_INTENT_ACTIVITY_NAME = "org.catrobat.paintroid.pocketpaint.MainActivity";
+	public static final String POCKET_PAINT_PACKAGE_NAME = "org.catrobat.paintroid";
+	public static final String POCKET_PAINT_INTENT_ACTIVITY_NAME = "org.catrobat.paintroid.MainActivity";
 
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
