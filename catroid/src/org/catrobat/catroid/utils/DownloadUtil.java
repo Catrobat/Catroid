@@ -83,7 +83,6 @@ public class DownloadUtil {
 
 	public void startDownload(Context context, String url, String programName) {
 		programDownloadQueue.add(programName.toLowerCase(Locale.getDefault()));
-
 		Intent downloadIntent = new Intent(context, ProjectDownloadService.class);
 		downloadIntent.putExtra(ProjectDownloadService.RECEIVER_TAG, new DownloadReceiver(new Handler()));
 		downloadIntent.putExtra(ProjectDownloadService.DOWNLOAD_NAME_TAG, programName);
