@@ -24,7 +24,6 @@
 <resources>
 
     <!-- General terms -->
-    <string name="app_name">Catroid</string>
     <string name="project">proiect</string>
     <string name="sprite">obiect</string>
     <string name="script">script</string>
