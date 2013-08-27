@@ -95,7 +95,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
-		ViewHolder holder;
+		final ViewHolder holder;
 
 		if (convertView == null) {
 			convertView = View.inflate(context, R.layout.fragment_sound_soundlist_item, null);
@@ -238,6 +238,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 			if (selectMode != ListView.CHOICE_MODE_NONE) {
 				holder.playButton.setOnClickListener(null);
 				holder.pauseButton.setOnClickListener(null);
+				holder.soundFragmentButtonLayout.setOnClickListener(null);
 			} else {
 				holder.playButton.setOnClickListener(new OnClickListener() {
 					@Override
@@ -253,6 +254,19 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 					public void onClick(View view) {
 						if (onSoundEditListener != null) {
 							onSoundEditListener.onSoundPause(view);
+						}
+					}
+				});
+
+				holder.soundFragmentButtonLayout.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						if (onSoundEditListener != null) {
+							if (holder.playButton.isShown()) {
+								onSoundEditListener.onSoundPlay(holder.playButton);
+							} else if (holder.pauseButton.isShown()) {
+								onSoundEditListener.onSoundPause(holder.pauseButton);
+							}
 						}
 					}
 				});
