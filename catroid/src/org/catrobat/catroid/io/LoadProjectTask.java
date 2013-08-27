@@ -36,16 +36,15 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	private String projectName;
 	private ProgressDialog progressDialog;
 	private boolean showErrorMessage;
-    private boolean startProjectActivity;
+	private boolean startProjectActivity;
 
 	private OnLoadProjectCompleteListener onLoadProjectCompleteListener;
 
-	public LoadProjectTask(Activity activity, String projectName, boolean showErrorMessage,
-                           boolean startProjectActivity) {
+	public LoadProjectTask(Activity activity, String projectName, boolean showErrorMessage, boolean startProjectActivity) {
 		this.activity = activity;
 		this.projectName = projectName;
 		this.showErrorMessage = showErrorMessage;
-        this.startProjectActivity = startProjectActivity;
+		this.startProjectActivity = startProjectActivity;
 	}
 
 	public void setOnLoadProjectCompleteListener(OnLoadProjectCompleteListener listener) {
