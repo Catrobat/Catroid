@@ -31,9 +31,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
+import android.widget.CompoundButton.OnCheckedChangeListener;import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -159,7 +157,7 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_nxt_motor_stop_layout);
+			View layout = (View) view.findViewById(R.id.brick_nxt_motor_stop_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 

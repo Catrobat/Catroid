@@ -315,7 +315,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 		switch (mode) {
 			case SET_FORMULA_ON_CREATE_VIEW:
-				currentFormula.removeTextFieldHighlighting(brickView, orientation);
 				formulaEditorEditText.enterNewFormula(currentFormula.getInternFormulaState());
 				currentFormula.highlightTextField(brickView, orientation);
 				refreshFormulaPreviewString();
@@ -334,15 +333,14 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 						return;
 					}
 				}
-				if (currentFormula != null) {
-					currentFormula.refreshTextField(brickView);
-				}
 
 				formulaEditorEditText.endEdit();
-				currentFormula.removeTextFieldHighlighting(brickView, orientation);
+
 				currentFormula = newFormula;
-				currentFormula.highlightTextField(brickView, orientation);
 				formulaEditorEditText.enterNewFormula(newFormula.getInternFormulaState());
+
+				refreshFormulaPreviewString();
+
 				break;
 			default:
 				break;
@@ -384,6 +382,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			confirmBackTimeStamp[0] = 0;
 			confirmBackTimeStamp[1] = 0;
 			confirmBackCounter = 0;
+			currentFormula.setDisplayText(null);
 			showToast(R.string.formula_editor_changes_discarded);
 			return true;
 		} else {
@@ -422,6 +421,8 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		if (formulaEditorEditText.hasChanges()) {
 			if (saveFormulaIfPossible()) {
 				onUserDismiss();
+			} else {
+
 			}
 		} else {
 			onUserDismiss();
@@ -429,8 +430,18 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	}
 
 	public void refreshFormulaPreviewString() {
-		currentFormula.refreshTextField(brickView, formulaEditorEditText.getText().toString(),
-				formulaEditorEditText.getAbsoluteCursorPosition());
+		refreshFormulaPreviewString(formulaEditorEditText.getStringFromInternFormula());
+	}
+
+	public void refreshFormulaPreviewString(String newString) {
+		currentFormula.setDisplayText(newString);
+
+		updateBrickView();
+
+		currentFormula.refreshTextField(brickView, newString);
+
+		int orientation = getResources().getConfiguration().orientation;
+		currentFormula.highlightTextField(brickView, orientation);
 	}
 
 	private void showFormulaEditorListFragment(String tag, int actionbarResId) {
@@ -476,7 +487,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		formulaEditorBrick.getGlobalVisibleRect(brickRect);
 		formulaEditorKeyboard.getGlobalVisibleRect(keyboardRec);
 
-		Log.e("info", "heights: " + brickRect.bottom + " | " + keyboardRec.top);
 		formulaEditorEditText.setMaxHeight(keyboardRec.top - brickRect.bottom);
 
 	}

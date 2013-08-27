@@ -99,9 +99,9 @@ public class DeviceListActivity extends Activity {
 		Button scanButton = (Button) findViewById(R.id.button_scan);
 		scanButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(View view) {
 				doDiscovery();
-				v.setVisibility(View.GONE);
+				view.setVisibility(View.GONE);
 			}
 		});
 
@@ -199,9 +199,9 @@ public class DeviceListActivity extends Activity {
 
 	private OnItemClickListener deviceClickListener = new OnItemClickListener() {
 		@Override
-		public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
+		public void onItemClick(AdapterView<?> av, View view, int arg2, long arg3) {
 
-			String info = ((TextView) v).getText().toString();
+			String info = ((TextView) view).getText().toString();
 			if (info.lastIndexOf('-') != info.length() - 18) {
 				return;
 			}

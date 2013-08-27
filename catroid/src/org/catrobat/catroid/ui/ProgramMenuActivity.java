@@ -98,21 +98,21 @@ public class ProgramMenuActivity extends BaseActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void handleScriptsButton(View v) {
+	public void handleScriptsButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
 		startScriptActivity(ScriptActivity.FRAGMENT_SCRIPTS);
 	}
 
-	public void handleLooksButton(View v) {
+	public void handleLooksButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
 		startScriptActivity(ScriptActivity.FRAGMENT_LOOKS);
 	}
 
-	public void handleSoundsButton(View v) {
+	public void handleSoundsButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}

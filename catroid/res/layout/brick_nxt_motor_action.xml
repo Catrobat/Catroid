@@ -23,6 +23,7 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/org.catrobat.catroid"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -35,61 +36,56 @@
         android:gravity="center_vertical"
         android:visibility="gone" />
 
-    <LinearLayout
+    <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_nxt_motor_action_layout"
         style="@style/BrickContainer.Lego.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="vertical" >
+        android:orientation="horizontal"
+        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/lego_motor_action_label"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_motor_action" >
+        </TextView>
+
+        <Spinner
+            android:id="@+id/lego_motor_action_spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false" >
 
-            <TextView
-                android:id="@+id/lego_motor_action_label"
-                style="@style/BrickText.SingleLine"
-                android:text="@string/brick_motor_action" >
-            </TextView>
+            <!-- do not add spinner items here! -->
+        </Spinner>
 
-            <Spinner
-                android:id="@+id/lego_motor_action_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false" >
+        <TextView
+            android:id="@+id/lego_motor_action_speed"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/motor_speed" >
+        </TextView>
 
-                <!-- do not add spinner items here! -->
-            </Spinner>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/motor_action_speed_text_view"
+            style="@style/BrickText.SingleLine" >
+        </TextView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/motor_action_speed_edit_text"
+            style="@style/BrickEditText"
+            app:layout_inputType="number"
+            app:layout_textField="true"
+            android:clickable="false" >
+        </TextView>
 
-            <TextView
-                android:id="@+id/lego_motor_action_speed"
-                style="@style/BrickText.SingleLine"
-                android:text="@string/motor_speed" >
-            </TextView>
-
-            <TextView
-                android:id="@+id/motor_action_speed_text_view"
-                style="@style/BrickText.SingleLine" >
-            </TextView>
-
-            <EditText
-                android:id="@+id/motor_action_speed_edit_text"
-                style="@style/BrickEditTextMultiple"
-                android:clickable="false"
-                android:inputType="number|numberDecimal|numberSigned" >
-            </EditText>
-
-            <TextView
-                android:id="@+id/lego_motor_action_percent"
-                style="@style/BrickText"
-                android:text="@string/percent_symbol" >
-            </TextView>
-        </LinearLayout>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/lego_motor_action_percent"
+            style="@style/BrickText"
+            android:text="@string/percent_symbol" >
+        </TextView>
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

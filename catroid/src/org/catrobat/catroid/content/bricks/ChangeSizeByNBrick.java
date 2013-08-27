@@ -29,8 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -97,7 +95,7 @@ public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener
 			}
 		});
 		TextView text = (TextView) view.findViewById(R.id.brick_change_size_by_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
+		TextView edit = (TextView) view.findViewById(R.id.brick_change_size_by_edit_text);
 		size.setTextFieldId(R.id.brick_change_size_by_edit_text);
 		size.refreshTextField(view);
 
@@ -127,13 +125,13 @@ public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_size_by_layout);
+			View layout = (View) view.findViewById(R.id.brick_change_size_by_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView changeSizeBy = (TextView) view.findViewById(R.id.brick_change_size_by_label);
 			TextView textPercent = (TextView) view.findViewById(R.id.brick_change_size_by_percent);
-			EditText editChangeSize = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
+			TextView editChangeSize = (TextView) view.findViewById(R.id.brick_change_size_by_edit_text);
 			changeSizeBy.setTextColor(changeSizeBy.getTextColors().withAlpha(alphaValue));
 			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
 			editChangeSize.setTextColor(editChangeSize.getTextColors().withAlpha(alphaValue));
