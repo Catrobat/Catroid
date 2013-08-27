@@ -24,13 +24,14 @@ package org.catrobat.catroid.test.ui;
 
 import android.content.Context;
 import android.test.AndroidTestCase;
-import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.BrickLayout.LayoutParams;
+import org.catrobat.catroid.ui.BrickLayout.LayoutParams.InputType;
 
 import java.lang.reflect.Field;
 
@@ -68,15 +69,15 @@ public class EditTextAlignmentTest extends AndroidTestCase {
 						View brickView = inflater.inflate(brickId, null);
 						int editTextId = idField.getInt(null);
 
-						EditText edit = (EditText) brickView.findViewById(editTextId);
-						if ((edit.getInputType() & InputType.TYPE_CLASS_NUMBER) == InputType.TYPE_CLASS_NUMBER) {
-							assertEquals("Brick " + layoutName
-									+ " does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-									Gravity.RIGHT & edit.getGravity());
+						TextView edit = (TextView) brickView.findViewById(editTextId);
+						LayoutParams lp = (LayoutParams) edit.getLayoutParams();
+
+						if (lp.getInputType() == InputType.NUMBER) {
+							assertEquals("Brick " + layoutName + " does not have correct gravity (Gravity.RIGHT)",
+									Gravity.RIGHT, Gravity.RIGHT & edit.getGravity());
 						} else {
-							assertEquals("Brick " + layoutName
-									+ " does not have correct gravity (horizontal alignment)", Gravity.LEFT,
-									Gravity.LEFT & edit.getGravity());
+							assertEquals("Brick " + layoutName + " does not have correct gravity (Gravity.LEFT)",
+									Gravity.LEFT, Gravity.LEFT & edit.getGravity());
 						}
 					}
 				}

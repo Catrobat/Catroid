@@ -29,8 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -102,7 +100,7 @@ public class TurnLeftBrick extends BrickBaseType implements OnClickListener, For
 		});
 
 		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_left_prototype_text_view);
-		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_left_edit_text);
+		TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_left_edit_text);
 		degrees.setTextFieldId(R.id.brick_turn_left_edit_text);
 		degrees.refreshTextField(view);
 
@@ -130,14 +128,14 @@ public class TurnLeftBrick extends BrickBaseType implements OnClickListener, For
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_turn_left_layout);
+			View layout = (View) view.findViewById(R.id.brick_turn_left_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView turnLeftLabel = (TextView) view.findViewById(R.id.brick_turn_left_label);
 			TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_left_prototype_text_view);
 			TextView times = (TextView) view.findViewById(R.id.brick_turn_left_degree_text_view);
-			EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_left_edit_text);
+			TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_left_edit_text);
 
 			textDegrees.setTextColor(textDegrees.getTextColors().withAlpha(alphaValue));
 			turnLeftLabel.setTextColor(turnLeftLabel.getTextColors().withAlpha(alphaValue));

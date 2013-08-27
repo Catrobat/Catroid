@@ -51,10 +51,19 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 
 	public static final String DIALOG_FRAGMENT_TAG = "overwrite_rename_look";
 
-	public OverwriteRenameDialog(Context context, String programName, String url) {
+	public OverwriteRenameDialog() {
 		super();
+	}
+
+	public void setProgramName(String programName) {
 		this.programName = programName;
+	}
+
+	public void setURL(String url) {
 		this.url = url;
+	}
+
+	public void setContext(Context context) {
 		this.context = context;
 	}
 
@@ -88,7 +97,7 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 				Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
 				positiveButton.setOnClickListener(new OnClickListener() {
 					@Override
-					public void onClick(View v) {
+					public void onClick(View view) {
 						handleOkButton();
 					}
 				});
@@ -117,8 +126,8 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 	}
 
 	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
+	public void onClick(View view) {
+		switch (view.getId()) {
 			case R.id.dialog_overwrite_project_radio_replace:
 				projectText.setVisibility(EditText.GONE);
 				break;

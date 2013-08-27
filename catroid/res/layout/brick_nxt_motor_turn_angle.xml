@@ -23,6 +23,7 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/org.catrobat.catroid"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -35,61 +36,56 @@
         android:gravity="center_vertical"
         android:visibility="gone" />
 
-    <LinearLayout
+    <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_nxt_motor_turn_layout"
         style="@style/BrickContainer.Lego.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="vertical" >
+        android:orientation="horizontal"
+        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/brick_nxt_motor_turn_label"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_motor_turn_angle" >
+        </TextView>
+
+        <Spinner
+            android:id="@+id/lego_motor_turn_angle_spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false" >
+        </Spinner>
 
-            <TextView
-                android:id="@+id/brick_nxt_motor_turn_label"
-                style="@style/BrickText.SingleLine"
-                android:text="@string/brick_motor_turn_angle" >
-            </TextView>
+        <TextView
+            android:id="@+id/brick_nxt_motor_turn_angle"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/motor_angle" >
+        </TextView>
 
-            <Spinner
-                android:id="@+id/lego_motor_turn_angle_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false" >
-            </Spinner>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/motor_turn_angle_text_view"
+            style="@style/BrickText.SingleLine" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/motor_turn_angle_edit_text"
+            style="@style/BrickEditText"
+            app:layout_inputType="number"
+            app:layout_textField="true"
+            android:clickable="false"
+            android:visibility="gone" >
+        </TextView>
 
-            <TextView
-                android:id="@+id/brick_nxt_motor_turn_angle"
-                style="@style/BrickText.SingleLine"
-                android:text="@string/motor_angle" >
-            </TextView>
+        <TextView
+            android:id="@+id/brick_nxt_motor_turn_degree"
+            style="@style/BrickText"
+            android:text="@string/degree_symbol" >
+        </TextView>
 
-            <TextView
-                android:id="@+id/motor_turn_angle_text_view"
-                style="@style/BrickText.SingleLine"
-                />
-
-            <EditText
-                android:id="@+id/motor_turn_angle_edit_text"
-                style="@style/BrickEditTextMultiple"
-                android:clickable="false"
-                android:inputType="number|numberDecimal|numberSigned"
-                android:visibility="gone" >
-            </EditText>
-
-            <TextView
-                android:id="@+id/brick_nxt_motor_turn_degree"
-                style="@style/BrickText"
-                android:text="@string/degree_symbol" >
-            </TextView>
-
-            <!--
+        <!--
                      <Button
                     android:id="@+id/directions_btn"
                     android:layout_width="50dip"
@@ -97,8 +93,7 @@
                     android:background="@android:drawable/btn_dropdown"
                     android:clickable="false"
                     android:focusable="false" />
-            -->
-        </LinearLayout>
-    </LinearLayout>
+        -->
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

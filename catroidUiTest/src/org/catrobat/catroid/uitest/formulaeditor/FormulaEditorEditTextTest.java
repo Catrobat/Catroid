@@ -26,7 +26,6 @@ import android.graphics.Rect;
 import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -64,8 +63,9 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	private Brick changeBrick;
 	Script startScript1;
 
-	private static final int X_POS_EDIT_TEXT_ID = 0;
-	private static final int FORMULA_EDITOR_EDIT_TEXT_ID = 1;
+	private static final int CHANGE_SIZE_BY_EDIT_TEXT_RID = R.id.brick_change_size_by_edit_text;
+	private static final int WAIT_EDIT_TEXT_RID = R.id.brick_wait_edit_text;
+	private static final int FORMULA_EDITOR_EDIT_TEXT_ID = 0;
 	private static final int FORMULA_EDITOR_EDIT_TEXT_RID = R.id.formula_editor_edit_field;
 
 	private String veryLongFormulaString = "9999999999999999999.888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888877777777777777777777777777777777777777777777777777777777777777777777777777777666666666666666666666666666666666666666666666666666666666666666666665555555555555555555555555555555555555555555555555555555555555433";
@@ -121,7 +121,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 	public void testSingleTapOnFunctionName() {
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		BackgroundColorSpan colorHighlight = (BackgroundColorSpan) Reflection.getPrivateField(
 				new FormulaEditorEditText(getActivity()), "COLOR_HIGHLIGHT");
@@ -145,7 +145,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	public void testDoubleTapSelection() {
 		BackgroundColorSpan colorHighlight = (BackgroundColorSpan) Reflection.getPrivateField(
 				new FormulaEditorEditText(getActivity()), "COLOR_HIGHLIGHT");
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		for (int i = 0; i < 6; i++) {
 			solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
@@ -202,7 +202,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 	public void testFunctionFirstParameterSelectionAndModification() {
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_sin));
@@ -248,7 +248,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 	public void testBracketValueSelectionAndModification() {
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_bracket_open));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
@@ -283,7 +283,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		int functionRandomLength = solo.getCurrentActivity().getText(R.string.formula_editor_function_rand).length();
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_rand));
@@ -320,7 +320,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 	public void testNumberInsertion() {
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_decimal_mark));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
@@ -371,7 +371,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 	public void testGoBackToDiscardChanges() {
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_decimal_mark));
@@ -383,18 +383,16 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		assertTrue("Toast not found", solo.searchText(solo.getString(R.string.formula_editor_changes_discarded)));
 		assertEquals("Wrong text in FormulaEditor", "0" + getActivity().getString(R.string.formula_editor_decimal_mark)
-				+ "0 ", solo.getEditText(X_POS_EDIT_TEXT_ID).getText().toString());
+				+ "0 ", ((TextView) solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID)).getText().toString());
 
 	}
 
 	public void testErrorInFirstAndLastCharactersAndEmptyFormula() {
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		BackgroundColorSpan colorError = (BackgroundColorSpan) Reflection.getPrivateField(new FormulaEditorEditText(
-				getActivity()), "COLOR_ERROR");
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
+
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		assertTrue("Error cursor found in text, but should not be",
-				solo.getEditText(1).getText().getSpanStart(colorError) == -1);
+
 		solo.goBack();
 		assertTrue("Toast not found", solo.searchText(solo.getString(R.string.formula_editor_parse_fail)));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
@@ -414,7 +412,8 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 	public void testTextCursorAndScrolling() {
 
-		solo.clickOnEditText(1);
+		solo.clickOnView(solo.getView(WAIT_EDIT_TEXT_RID));
+
 		solo.sleep(3000);
 		solo.waitForText(solo.getCurrentActivity().getString(R.string.formula_editor_title));
 
@@ -449,9 +448,9 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	}
 
 	public void testTextPreviewWithCursorPositions() {
-		solo.clickOnEditText(1);
+		solo.clickOnView(solo.getView(WAIT_EDIT_TEXT_RID));
 
-		EditText preview = (EditText) UiTestUtils.getViewContainerByIds(solo, R.id.brick_wait_edit_text,
+		TextView preview = (TextView) UiTestUtils.getViewContainerByIds(solo, R.id.brick_wait_edit_text,
 				R.id.formula_editor_brick_space);
 		FormulaEditorEditText formulaEditorEditText = (FormulaEditorEditText) solo
 				.getView(FORMULA_EDITOR_EDIT_TEXT_RID);
@@ -471,7 +470,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		String editTextString = "";
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_8));
@@ -539,7 +538,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 	public void testStrings() {
 
-		solo.clickOnEditText(0);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		FormulaEditorEditText formulaEditorEditText = (FormulaEditorEditText) solo
 				.getView(FORMULA_EDITOR_EDIT_TEXT_RID);
@@ -665,7 +664,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		SimulatedSensorManager sensorManager = new SimulatedSensorManager();
 		Reflection.setPrivateField(sensorHandler, "sensorManager", sensorManager);
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));

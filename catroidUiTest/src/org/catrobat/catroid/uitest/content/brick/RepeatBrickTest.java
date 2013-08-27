@@ -72,13 +72,13 @@ public class RepeatBrickTest extends BaseActivityInstrumentationTestCase<ScriptA
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_repeat)));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_repeat_edit_text, 1);
 		TextView timesTextView = (TextView) solo.getView(R.id.brick_repeat_time_text_view);
 		assertTrue("Specifier hasn't changed from plural to singular",
 				timesTextView.getText()
 						.equals(timesTextView.getResources().getQuantityString(R.plurals.time_plural, 1)));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 5);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_repeat_edit_text, 5);
 		timesTextView = (TextView) solo.getView(R.id.brick_repeat_time_text_view);
 		assertTrue("Specifier hasn't changed from singular to plural",
 				timesTextView.getText()

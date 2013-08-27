@@ -86,10 +86,12 @@ public class PlaceAtBrickTest extends BaseActivityInstrumentationTestCase<Script
 		int xPosition = 987;
 		int yPosition = 654;
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 2, xPosition, "xPosition", placeAtBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_place_at_edit_text_x, xPosition, "xPosition",
+				placeAtBrick);
 		solo.sleep(200);
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 1, 2, yPosition, "yPosition", placeAtBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_place_at_edit_text_y, yPosition, "yPosition",
+				placeAtBrick);
 	}
 
 	private void createProject() {

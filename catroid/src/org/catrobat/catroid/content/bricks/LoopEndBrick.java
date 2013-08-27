@@ -30,9 +30,7 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -108,9 +106,9 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_loop_end_layout);
+			View layout = (View) view.findViewById(R.id.brick_loop_end_layout);
 			if (layout == null) {
-				layout = (LinearLayout) view.findViewById(R.id.brick_loop_end_no_puzzle_layout);
+				layout = (View) view.findViewById(R.id.brick_loop_end_no_puzzle_layout);
 				TextView loopLabel = (TextView) view.findViewById(R.id.brick_loop_end_no_puzzle_label);
 				loopLabel.setTextColor(loopLabel.getTextColors().withAlpha(alphaValue));
 			} else {

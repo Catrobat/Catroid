@@ -23,6 +23,7 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/org.catrobat.catroid"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -35,9 +36,14 @@
         android:gravity="center_vertical"
         android:visibility="gone" />
 
-    <LinearLayout
+    <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_turn_left_layout"
-        style="@style/BrickContainer.Motion.Small" >
+        style="@style/BrickContainer.Motion.Small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
             android:id="@+id/brick_turn_left_label"
@@ -50,17 +56,19 @@
             style="@style/BrickPrototypeTextView" >
         </TextView>
 
-        <EditText
+        <TextView
             android:id="@+id/brick_turn_left_edit_text"
             style="@style/BrickEditText"
-            android:maxEms="5"
-            android:inputType="number|numberDecimal" >
-        </EditText>
+            app:layout_inputType="number"
+            app:layout_textField="true"
+            android:maxEms="5" >
+        </TextView>
 
         <TextView
             android:id="@+id/brick_turn_left_degree_text_view"
-            style="@style/BrickText.SingleLine" 
-            android:text="@string/degree_symbol">
+            style="@style/BrickText.SingleLine"
+            android:text="@string/degree_symbol" >
         </TextView>
-    </LinearLayout>
+    </org.catrobat.catroid.ui.BrickLayout>
+
 </LinearLayout>

@@ -77,20 +77,21 @@ public class WaitBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 
 		double waitTime = 2.25;
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, waitTime);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_wait_edit_text, waitTime);
 
 		Formula actualWaitTime = (Formula) Reflection.getPrivateField(waitBrick, "timeToWaitInSeconds");
 		assertEquals("Wrong text in field", waitTime, actualWaitTime.interpretDouble(null));
-		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		assertEquals("Text not updated", waitTime,
+				Double.parseDouble(((TextView) solo.getView(R.id.brick_wait_edit_text)).getText().toString()));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_wait_edit_text, 1);
 		TextView secondsTextView = (TextView) solo.getView(R.id.brick_wait_second_text_view);
 		assertTrue(
 				"Specifier hasn't changed from plural to singular",
 				secondsTextView.getText().equals(
 						secondsTextView.getResources().getQuantityString(R.plurals.second_plural, 1)));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1.4);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_wait_edit_text, 1.4);
 		secondsTextView = (TextView) solo.getView(R.id.brick_wait_second_text_view);
 		assertTrue(
 				"Specifier hasn't changed from singular to plural",

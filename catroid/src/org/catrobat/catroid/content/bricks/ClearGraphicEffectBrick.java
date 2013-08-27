@@ -28,9 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -90,7 +88,7 @@ public class ClearGraphicEffectBrick extends BrickBaseType {
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_clear_graphic_effect_layout);
+			View layout = (View) view.findViewById(R.id.brick_clear_graphic_effect_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
