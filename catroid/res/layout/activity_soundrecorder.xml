@@ -47,6 +47,7 @@
         android:background="@color/button_background_top_border_color" />
 
     <FrameLayout
+        android:id="@+id/soundrecorder_record_button_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -65,5 +66,16 @@
             android:scaleType="center"
             android:src="@drawable/microphone_icon" />
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/soundrecorder_record_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/soundrecorder_record_button_layout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:paddingBottom="20dp"
+        android:text="@string/soundrecorder_text_view" />
 
 </RelativeLayout>

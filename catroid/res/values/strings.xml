@@ -121,6 +121,7 @@
 
 
     <!-- Script fragment -->
+    <string name="fragment_script_text_description">Click \"+\" to add Scripts</string>
     <string name="dialog_confirm_delete_brick_title">Delete this brick?</string>
     <string name="dialog_confirm_delete_script_title">Delete this script?</string>
     <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
@@ -129,6 +130,8 @@
 
 
     <!-- Look fragment -->
+    <string name="fragment_look_text_description">Click \"+\" to add Looks</string>
+    <string name="fragment_background_text_description">Click \"+\" to add Backgrounds</string>
     <string name="rename_look_dialog">Rename Look</string>
     <string name="lookname_invalid">This look\'s name is invalid</string>
     <string name="copy_look_addition">copy</string>
@@ -145,6 +148,7 @@
 
 
     <!-- Sound fragment -->
+    <string name="fragment_sound_text_description">Click \"+\" to add Sounds</string>
     <string name="rename_sound_dialog">Rename Sound</string>
     <string name="soundname_invalid">This sound\'s name is invalid</string>
     <string name="sound_play">play</string>
@@ -179,6 +183,7 @@
     <string name="soundrecorder_name">Pocket Code Recorder</string>
     <string name="soundrecorder_error">Sound recording failed</string>
     <string name="soundrecorder_recorded_filename">record</string>
+    <string name="soundrecorder_text_view">Press icon below to start and stop recording.</string>
     <!--  -->
 
 
