@@ -23,7 +23,6 @@
 <resources>
 
     <!-- General terms -->
-    <string name="app_name">"Catroid"</string>
     <string name="cancel_button">"Cancelar"</string>
     <string name="rename">"Renomear"</string>
     <string name="delete">"Excluir"</string>
