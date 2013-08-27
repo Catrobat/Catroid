@@ -284,7 +284,7 @@ public class UiTestUtils {
 				newValue,
 				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
 						.replace(',', '.')));
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(200);
 
 		Formula formula = (Formula) Reflection.getPrivateField(theBrick, fieldName);
@@ -300,9 +300,12 @@ public class UiTestUtils {
 		solo.clickOnView(solo.getView(editTextId));
 		UiTestUtils.insertDoubleIntoEditText(solo, value);
 
-		assertEquals("Text not updated within FormulaEditor", value,
-				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()));
-		solo.goBack();
+		assertEquals(
+				"Text not updated within FormulaEditor",
+				value,
+				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
+						.replace(',', '.')));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(200);
 	}
 

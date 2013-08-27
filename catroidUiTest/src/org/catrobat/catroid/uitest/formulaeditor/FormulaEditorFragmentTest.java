@@ -131,7 +131,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		assertEquals("Wrong text in X EditText", "12 ", ((TextView) solo.getView(X_POS_EDIT_TEXT_RID, 1)).getText()
 				.toString());
 
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(50);
 		assertEquals("Wrong text in X EditText", "12 ", ((TextView) solo.getView(X_POS_EDIT_TEXT_RID)).getText()
 				.toString());
@@ -175,7 +175,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		assertEquals("Undo did something wrong", "1 - 2 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText()
 				.toString());
 
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 
 		assertEquals("Undo did something wrong", "1 - 2 ", ((TextView) solo.getView(X_POS_EDIT_TEXT_RID)).getText()
 				.toString());
@@ -224,7 +224,8 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 				.getText().toString());
 
 		solo.goBack();
-		solo.goBack();
+		solo.waitForText(solo.getString(R.string.formula_editor_discard_changes_dialog_title));
+		solo.clickOnButton(solo.getString(R.string.no));
 
 	}
 
@@ -233,7 +234,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(X_POS_EDIT_TEXT_RID));
 		int maxHistoryElements = (Integer) Reflection.getPrivateField(new FormulaEditorHistory(null),
 				"MAXIMUM_HISTORY_LENGTH");
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
 
 		String searchString = "";
@@ -260,7 +261,8 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 				.getText().toString());
 
 		solo.goBack();
-		solo.goBack();
+		solo.waitForText(solo.getString(R.string.formula_editor_discard_changes_dialog_title));
+		solo.clickOnButton(solo.getString(R.string.no));
 
 	}
 
@@ -284,7 +286,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_3));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_4));
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(250);
 		assertTrue("Save failed toast not found",
 				solo.searchText(solo.getString(R.string.formula_editor_changes_saved)));
@@ -314,7 +316,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		assertEquals("Wrong text in FormulaEditor", newYFormula, solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)
 				.getText().toString());
 
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(300);
 
 		//Interpretation test
@@ -339,7 +341,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_decimal_mark));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
 
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(300);
 
 		Formula formula = (Formula) Reflection.getPrivateField(placeAtBrick, "xPosition");
@@ -359,7 +361,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_decimal_mark));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
 
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(300);
 
 		Formula anotherFormula = (Formula) Reflection.getPrivateField(placeAtBrick, "yPosition");
@@ -384,7 +386,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_3));
 
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(300);
 
 		Formula formula = (Formula) Reflection.getPrivateField(placeAtBrick, "xPosition");
@@ -404,7 +406,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_4));
 
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(300);
 
 		Formula anotherFormula = (Formula) Reflection.getPrivateField(placeAtBrick, "yPosition");
@@ -437,6 +439,8 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 		solo.clickOnView(solo.getView(Y_POS_EDIT_TEXT_RID, 1));
 		solo.goBack();
+		solo.waitForText(solo.getString(R.string.formula_editor_discard_changes_dialog_title));
+		solo.clickOnButton(solo.getString(R.string.yes));
 
 		boolean isFound = solo.searchText("6") && solo.searchText("-");
 		assertTrue("6 or - is/are not found!", isFound);
@@ -447,7 +451,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(Y_POS_EDIT_TEXT_RID));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_5));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 
 		solo.clickOnView(solo.getView(X_POS_EDIT_TEXT_RID, 1));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
@@ -499,10 +503,10 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		assertTrue("Formula Editor Fragment not shown!",
 				solo.waitForText(solo.getString(R.string.formula_editor_title)));
 
-		ImageButton delete = (ImageButton) solo.getView(R.id.formula_editor_keyboard_delete);
+		ImageButton delete = (ImageButton) solo.getView(R.id.formula_editor_edit_field_clear);
 		assertTrue("Delete Button not active!", delete.isEnabled());
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		assertTrue("Delete Button not inactive!", !delete.isEnabled());
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));

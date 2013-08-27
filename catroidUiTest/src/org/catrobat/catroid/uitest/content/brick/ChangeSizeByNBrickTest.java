@@ -81,7 +81,8 @@ public class ChangeSizeByNBrickTest extends BaseActivityInstrumentationTestCase<
 		Formula currentSize = (Formula) Reflection.getPrivateField(changeSizeByNBrick, "size");
 		assertEquals("Wrong text in field", SIZE_TO_CHANGE, currentSize.interpretDouble(null));
 		TextView textView = ((TextView) solo.getView(R.id.brick_change_size_by_edit_text));
-		assertEquals("Text not updated", SIZE_TO_CHANGE, Double.parseDouble(textView.getText().toString()));
+		assertEquals("Text not updated", SIZE_TO_CHANGE,
+				Double.parseDouble(textView.getText().toString().replace(',', '.')));
 
 	}
 

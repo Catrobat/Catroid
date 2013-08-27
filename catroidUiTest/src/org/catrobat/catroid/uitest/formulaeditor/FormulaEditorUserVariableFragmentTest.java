@@ -180,7 +180,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		solo.waitForFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		solo.clickOnView(solo.getView(R.id.button_play));
@@ -234,12 +234,12 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 
 		UserVariable userVariable = (UserVariable) listView.getItemAtPosition(0);
 		Double setVariableToValue = Double.valueOf(SET_USERVARIABLE_TO_BRICK_VALUE);
-		assertTrue("Value of UserVariable not saved after stage!", userVariable.getValue()
-				.compareTo(setVariableToValue) == 0);
+		assertTrue("Value of UserVariable not saved after stage1!",
+				userVariable.getValue().compareTo(setVariableToValue) == 0);
 
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.goBack();
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
@@ -261,12 +261,12 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 
 		userVariable = (UserVariable) listView.getItemAtPosition(0);
 		setVariableToValue = Double.valueOf(SET_USERVARIABLE_TO_BRICK_VALUE);
-		assertTrue("Value of UserVariable not saved after stage!", userVariable.getValue()
-				.compareTo(setVariableToValue) == 0);
+		assertTrue("Value of UserVariable not saved after stage2!",
+				userVariable.getValue().compareTo(setVariableToValue) == 0);
 
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.goBack();
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
@@ -294,8 +294,8 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 
 		userVariable = (UserVariable) listView.getItemAtPosition(0);
 		setVariableToValue = Double.valueOf(SET_USERVARIABLE_TO_BRICK_VALUE);
-		assertTrue("Value of UserVariable not saved after stage!", userVariable.getValue()
-				.compareTo(setVariableToValue) == 0);
+		assertTrue("Value of UserVariable not saved after stage3!",
+				userVariable.getValue().compareTo(setVariableToValue) == 0);
 	}
 
 	public void testCreateUserVariable() {
@@ -316,7 +316,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		String editTextString = text.getText().toString();
 		assertEquals("Wrong text in EditText", itemString, editTextString.substring(0, itemString.length()));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName("zzz");
 	}
@@ -338,7 +338,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		itemString = QUOTE + itemString + QUOTE;
 		Log.i("info", "editText: " + text.getText().toString());
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
 		itemString = itemString.replace(QUOTE, "");

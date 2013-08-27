@@ -86,8 +86,11 @@ public class GoNStepsBackTest extends BaseActivityInstrumentationTestCase<Script
 
 		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK,
 				(int) ((Formula) Reflection.getPrivateField(goNStepsBackBrick, "steps")).interpretDouble(null));
-		assertEquals("Value in Brick is not updated.", (double) STEPS_TO_GO_BACK,
-				Double.valueOf(((TextView) solo.getView(R.id.brick_go_back_edit_text)).getText().toString()));
+		assertEquals(
+				"Value in Brick is not updated.",
+				(double) STEPS_TO_GO_BACK,
+				Double.valueOf(((TextView) solo.getView(R.id.brick_go_back_edit_text)).getText().toString()
+						.replace(',', '.')));
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_go_back_edit_text, 1);
 		TextView secondsTextView = (TextView) solo.getView(R.id.brick_go_back_layers_text_view);

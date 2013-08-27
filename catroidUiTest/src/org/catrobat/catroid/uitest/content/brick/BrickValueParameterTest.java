@@ -248,7 +248,9 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnScreen(200, 200);
 
 		TextView changeBrightnessEditText = (TextView) solo.getView(R.id.brick_change_brightness_edit_text);
-		float changeBrightnessEditTextValue = Float.parseFloat(changeBrightnessEditText.getText().toString());
+		float changeBrightnessEditTextValue = Float.parseFloat(changeBrightnessEditText.getText().toString()
+				.replace(',', '.'));
+
 		assertEquals("Value in Selected Brick ChangeBrightness is not correct",
 				(float) BrickValues.CHANGE_BRITHNESS_BY, changeBrightnessEditTextValue);
 	}
@@ -298,7 +300,8 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		// before parsing an int from the string
 		// in this case, between the minus operator and the value there is a blank also
 		String changeVolumeByEditTextString = changeVolumeByEditText.getText().toString();
-		float changeVolumeByEditTextValue = Float.parseFloat(changeVolumeByEditTextString.replaceAll(" ", ""));
+		float changeVolumeByEditTextValue = Float.parseFloat(changeVolumeByEditTextString.replaceAll(" ", "").replace(
+				',', '.'));
 		assertEquals("Value in Selected Brick ChangeVolumeBy is not correct", BrickValues.CHANGE_VOLUME_BY,
 				changeVolumeByEditTextValue);
 	}
