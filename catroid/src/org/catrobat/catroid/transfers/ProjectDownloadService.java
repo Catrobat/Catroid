@@ -70,17 +70,6 @@ public class ProjectDownloadService extends IntentService {
 	}
 
 	@Override
-	public int onStartCommand(Intent intent, int flags, int startID) {
-		int returnCode = super.onStartCommand(intent, flags, startID);
-		this.projectName = intent.getStringExtra(DOWNLOAD_NAME_TAG);
-		this.zipFileString = Utils.buildPath(Constants.TMP_PATH, DOWNLOAD_FILE_NAME);
-		this.url = intent.getStringExtra(URL_TAG);
-		this.notificationId = intent.getIntExtra(ID_TAG, 0);
-
-		return returnCode;
-	}
-
-	@Override
 	public void onCreate() {
 		super.onCreate();
 		handler = new Handler();
@@ -89,6 +78,12 @@ public class ProjectDownloadService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		boolean result = false;
+
+		this.projectName = intent.getStringExtra(DOWNLOAD_NAME_TAG);
+		this.zipFileString = Utils.buildPath(Constants.TMP_PATH, DOWNLOAD_FILE_NAME);
+		this.url = intent.getStringExtra(URL_TAG);
+		this.notificationId = intent.getIntExtra(ID_TAG, -1);
+
 		receiver = (ResultReceiver) intent.getParcelableExtra(RECEIVER_TAG);
 		try {
 			ServerCalls.getInstance().downloadProject(url, zipFileString, receiver, notificationId);
