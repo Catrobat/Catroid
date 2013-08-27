@@ -34,24 +34,43 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical" />
 
-    <org.catrobat.catroid.formulaeditor.FormulaEditorEditText
-        android:id="@+id/formula_editor_edit_field"
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/formula_editor_brick_space"
-        android:layout_marginTop="5dp"
-        android:background="@color/white"
-        android:hint="@string/formula_nothing_selected"
-        android:inputType="textMultiLine"
-        android:maxLines="5"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp"
-        android:scrollbars="vertical"
-        android:singleLine="false"
-        android:textColor="@color/solid_black"
-        android:textSize="@dimen/text_size_xxlarge" 
-        android:lineSpacingExtra="5dp"/>
+        android:background="@color/white">
+
+        <org.catrobat.catroid.formulaeditor.FormulaEditorEditText
+            android:id="@+id/formula_editor_edit_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/white"
+            android:hint="@string/formula_nothing_selected"
+            android:inputType="textMultiLine"
+            android:lineSpacingExtra="5dp"
+            android:maxLines="5"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="insideInset"
+            android:singleLine="false"
+            android:textColor="@color/solid_black"
+            android:textSize="@dimen/text_size_xxlarge" />
+
+        <ImageButton
+            android:id="@+id/formula_editor_edit_field_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="0dp"
+            android:src="@drawable/icon_backspace"
+            android:background="@color/white"
+            android:contentDescription="@string/formula_editor_image_button_description_delete" />
+    </FrameLayout>
 
     <include
         android:id="@+id/formula_editor_keyboardview"

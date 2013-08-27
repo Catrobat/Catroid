@@ -483,9 +483,9 @@
     <string name="formula_editor_title">Formel Editor</string>
     <string name="formula_editor_changes_saved">Änderungen gespeichert!</string>
     <string name="formula_editor_changes_discarded">Änderungen verworfen!</string>
-    <string name="formula_editor_parse_fail">Fehler in der Eingabe! Zum Verwerfen erneut klicken.</string>
+    <string name="formula_editor_parse_fail">Fehler in der Eingabe!</string>
     <string name="formula_nothing_selected">Bitte Wert eingeben!</string>
-    <string name="formula_editor_parse_fail_formula_too_long">Formel zu lang! Zum Verwerfen erneut klicken.</string>
+    <string name="formula_editor_parse_fail_formula_too_long">Formel zu lang!</string>
     <string name="formula_editor_choose_object_variable">Objekt-Eigenschaften</string>
     <string name="formula_editor_existing_variable">Name wird bereits verwendet!</string>
     <string name="formula_editor_bracket_open">(</string>
@@ -551,6 +551,8 @@
     <string name="formula_editor_variable_dialog_for_all_sprites">Für alle Objekte</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
     <string name="formula_editor_variable_dialog_hint">Variablenname eingeben</string>
+    <string name="formula_editor_discard_changes_dialog_message">Möchten Sie die Änderungen speichern?</string>
+    <string name="formula_editor_discard_changes_dialog_title">Änderungen speichern?</string>
     
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable ausgewählt!</item>

@@ -103,8 +103,11 @@ public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<Scr
 
 		assertEquals("Wrong text in field.", STEPS_TO_MOVE,
 				((Formula) Reflection.getPrivateField(moveNStepsBrick, "steps")).interpretDouble(null));
-		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE,
-				Double.valueOf(((TextView) solo.getView(R.id.brick_move_n_steps_edit_text)).getText().toString()));
+		assertEquals(
+				"Value in Brick is not updated.",
+				STEPS_TO_MOVE,
+				Double.valueOf(((TextView) solo.getView(R.id.brick_move_n_steps_edit_text)).getText().toString()
+						.replace(',', '.')));
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, 1);
 		TextView stepTextView = (TextView) solo.getView(R.id.brick_move_n_steps_step_text_view);

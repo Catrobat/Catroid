@@ -485,9 +485,9 @@
     <string name="formula_editor_title">Formula Editor</string>
     <string name="formula_editor_changes_saved">Changes saved!</string>
     <string name="formula_editor_changes_discarded">Changes discarded!</string>
-    <string name="formula_editor_parse_fail">Syntax Error: Fix or press again now to discard all changes</string>
+    <string name="formula_editor_parse_fail">Syntax Error!</string>
     <string name="formula_nothing_selected">Define input value</string>
-    <string name="formula_editor_parse_fail_formula_too_long">Formula too long! Fix or press again now to discard all changes.</string>
+    <string name="formula_editor_parse_fail_formula_too_long">Formula too long!</string>
     <string name="formula_editor_choose_object_variable">Properties of this object</string>
     <string name="formula_editor_existing_variable">Name already in use!</string>
     <string name="formula_editor_bracket_open">(</string>
@@ -553,6 +553,8 @@
     <string name="formula_editor_variable_dialog_for_all_sprites">For all objects</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">For this object only</string>
     <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
+    <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
+    <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
     
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable selected!</item>

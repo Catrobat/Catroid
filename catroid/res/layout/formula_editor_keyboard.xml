@@ -55,13 +55,12 @@
             android:layout_weight="0.355"
             android:text="@string/formula_editor_compute" />
 
-        <ImageButton
-            android:id="@+id/formula_editor_keyboard_delete"
-            style="@style/FormulaEditorImageButton"
+        <Button
+            android:id="@+id/formula_editor_keyboard_ok"
+            style="@style/FormulaEditorButton"
             android:layout_marginTop="@dimen/key_margin"
             android:layout_weight="0.30"
- 			android:src="@drawable/icon_backspace"
-			android:contentDescription="@string/formula_editor_image_button_description_delete" />
+			android:text="@string/ok" />
     </LinearLayout>
 
     <LinearLayout

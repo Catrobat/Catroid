@@ -82,8 +82,11 @@ public class TurnRightBrickTest extends BaseActivityInstrumentationTestCase<Scri
 		Formula actualDegrees = (Formula) Reflection.getPrivateField(turnRightBrick, "degrees");
 
 		assertEquals("Wrong text in field", TURN_DEGREES, actualDegrees.interpretDouble(null));
-		assertEquals("Text not updated", TURN_DEGREES,
-				Double.parseDouble(((TextView) solo.getView(R.id.brick_turn_right_edit_text)).getText().toString()));
+		assertEquals(
+				"Text not updated",
+				TURN_DEGREES,
+				Double.parseDouble(((TextView) solo.getView(R.id.brick_turn_right_edit_text)).getText().toString()
+						.replace(',', '.')));
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_turn_right_edit_text, 1);
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_turn_right_edit_text, 1.4);
