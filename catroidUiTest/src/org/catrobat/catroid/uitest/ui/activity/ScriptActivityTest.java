@@ -37,6 +37,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -134,6 +135,17 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
 		checkSettingsAndGoBack();
+	}
+
+	//regression test for issue#626; Android version < 4.2
+	@Device
+	public void testActionBarTitle() {
+		assertTrue("Sprite name not found", solo.waitForText("cat"));
+		solo.waitForView(solo.getView(R.id.brick_set_size_to_edit_text));
+		solo.clickOnView(solo.getView(R.id.brick_set_size_to_edit_text));
+		assertTrue("FormulaEditor title not found", solo.waitForText(solo.getString(R.string.formula_editor_title)));
+		solo.goBack();
+		assertTrue("Sprite name not found", solo.waitForText("cat"));
 	}
 
 	private void checkplayProgramButton() {
