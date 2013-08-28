@@ -26,7 +26,10 @@ import android.os.Environment;
 
 public final class Constants {
 
-	public static final float SUPPORTED_CATROBAT_LANGUAGE_VERSION = 0.9f;
+	// Reflection in testcases needed
+	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
+	public static final float SUPPORTED_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.9f);
+
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
 	public static final String APPLICATION_BUILD_NAME = ""; // updated from jenkins nightly/release build
