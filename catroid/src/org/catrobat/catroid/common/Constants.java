@@ -26,7 +26,7 @@ import android.os.Environment;
 
 public final class Constants {
 
-	public static final float SUPPORTED_CATROBAT_LANGUAGE_VERSION = 0.8f;
+	public static final float SUPPORTED_CATROBAT_LANGUAGE_VERSION = 0.9f;
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
 	public static final String APPLICATION_BUILD_NAME = ""; // updated from jenkins nightly/release build
@@ -65,8 +65,8 @@ public final class Constants {
 	public static final String EXTRA_PICTURE_NAME_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_NAME";
 	public static final String EXTRA_X_VALUE_POCKET_PAINT = "org.catrobat.extra.PAINTROID_X";
 	public static final String EXTRA_Y_VALUE_POCKET_PAINT = "org.catrobat.extra.PAINTROID_Y";
-	public static final String POCKET_PAINT_PACKAGE_NAME = "org.catrobat.paintroid.pocketpaint";
-	public static final String POCKET_PAINT_INTENT_ACTIVITY_NAME = "org.catrobat.paintroid.pocketpaint.MainActivity";
+	public static final String POCKET_PAINT_PACKAGE_NAME = "org.catrobat.paintroid";
+	public static final String POCKET_PAINT_INTENT_ACTIVITY_NAME = "org.catrobat.paintroid.MainActivity";
 
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;

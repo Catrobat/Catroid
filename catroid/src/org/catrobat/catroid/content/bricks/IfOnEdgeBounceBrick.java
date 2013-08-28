@@ -27,9 +27,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -90,7 +88,7 @@ public class IfOnEdgeBounceBrick extends BrickBaseType {
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_if_on_edge_bounce_layout);
+			View layout = (View) view.findViewById(R.id.brick_if_on_edge_bounce_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 			this.alphaValue = (alphaValue);

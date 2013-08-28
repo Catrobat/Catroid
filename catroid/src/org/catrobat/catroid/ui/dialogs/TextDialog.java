@@ -62,7 +62,7 @@ public abstract class TextDialog extends DialogFragment {
 
 		input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
+			public void onFocusChange(View view, boolean hasFocus) {
 				if (hasFocus) {
 					getDialog().getWindow()
 							.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
@@ -172,7 +172,7 @@ public abstract class TextDialog extends DialogFragment {
 		Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
 		buttonPositive.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(View view) {
 				boolean okButtonResult = handleOkButton();
 				onOkButtonHandled();
 

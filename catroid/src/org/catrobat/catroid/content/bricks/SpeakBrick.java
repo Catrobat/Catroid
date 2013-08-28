@@ -29,8 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -94,13 +92,13 @@ public class SpeakBrick extends BrickBaseType {
 		});
 
 		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
-		EditText editText = (EditText) view.findViewById(R.id.brick_speak_edit_text);
-		editText.setText(text);
+		TextView textField = (TextView) view.findViewById(R.id.brick_speak_edit_text);
+		textField.setText(text);
 
 		textHolder.setVisibility(View.GONE);
-		editText.setVisibility(View.VISIBLE);
+		textField.setVisibility(View.VISIBLE);
 
-		editText.setOnClickListener(new OnClickListener() {
+		textField.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				if (checkbox.getVisibility() == View.VISIBLE) {
@@ -133,12 +131,12 @@ public class SpeakBrick extends BrickBaseType {
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_speak_layout);
+			View layout = view.findViewById(R.id.brick_speak_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView textSpeak = (TextView) view.findViewById(R.id.brick_speak_label);
-			EditText editDegrees = (EditText) view.findViewById(R.id.brick_speak_edit_text);
+			TextView editDegrees = (TextView) view.findViewById(R.id.brick_speak_edit_text);
 
 			textSpeak.setTextColor(textSpeak.getTextColors().withAlpha(alphaValue));
 			editDegrees.setTextColor(editDegrees.getTextColors().withAlpha(alphaValue));

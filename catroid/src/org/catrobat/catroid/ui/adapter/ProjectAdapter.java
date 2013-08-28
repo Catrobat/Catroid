@@ -32,7 +32,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -54,9 +57,10 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 	private int selectMode;
 	private Set<Integer> checkedProjects = new TreeSet<Integer>();
 	private OnProjectCheckedListener onProjectCheckedListener;
+	private Context context;
 
 	private static class ViewHolder {
-		private View background;
+		private RelativeLayout background;
 		private CheckBox checkbox;
 		private TextView projectName;
 		private ImageView image;
@@ -77,6 +81,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		screenshotLoader = new ProjectScreenshotLoader(context);
 		showDetails = false;
 		selectMode = ListView.CHOICE_MODE_NONE;
+		this.context = context;
 	}
 
 	public void setOnProjectCheckedListener(OnProjectCheckedListener listener) {
@@ -122,7 +127,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.activity_my_projects_list_item, null);
 			holder = new ViewHolder();
-			holder.background = convertView.findViewById(R.id.my_projects_activity_item_background);
+			holder.background = (RelativeLayout) convertView.findViewById(R.id.my_projects_activity_item_background);
 			holder.checkbox = (CheckBox) convertView.findViewById(R.id.project_checkbox);
 			holder.projectName = (TextView) convertView.findViewById(R.id.my_projects_activity_project_title);
 			holder.image = (ImageView) convertView.findViewById(R.id.my_projects_activity_project_image);
@@ -180,8 +185,16 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 
 		if (!showDetails) {
 			holder.projectDetails.setVisibility(View.GONE);
+			holder.projectName.setSingleLine(true);
+			int standardItemHeight = context.getResources().getDimensionPixelSize(R.dimen.my_projects_list_item_height);
+			holder.background.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+					standardItemHeight));
+
 		} else {
 			holder.projectDetails.setVisibility(View.VISIBLE);
+			holder.projectName.setSingleLine(false);
+			holder.background.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+					LayoutParams.WRAP_CONTENT));
 		}
 
 		holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

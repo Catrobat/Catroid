@@ -29,8 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -100,7 +98,7 @@ public class SetVolumeToBrick extends BrickBaseType implements OnClickListener, 
 		});
 
 		TextView text = (TextView) view.findViewById(R.id.brick_set_volume_to_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_set_volume_to_edit_text);
+		TextView edit = (TextView) view.findViewById(R.id.brick_set_volume_to_edit_text);
 		volume.setTextFieldId(R.id.brick_set_volume_to_edit_text);
 		volume.refreshTextField(view);
 		text.setVisibility(View.GONE);
@@ -128,13 +126,13 @@ public class SetVolumeToBrick extends BrickBaseType implements OnClickListener, 
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_volume_to_layout);
+			View layout = (View) view.findViewById(R.id.brick_set_volume_to_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView textVolume = (TextView) view.findViewById(R.id.brick_set_volume_to_text_view);
 			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_volume_to_percent);
-			EditText editVolume = (EditText) view.findViewById(R.id.brick_set_volume_to_edit_text);
+			TextView editVolume = (TextView) view.findViewById(R.id.brick_set_volume_to_edit_text);
 			textVolume.setTextColor(textVolume.getTextColors().withAlpha(alphaValue));
 			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
 			editVolume.setTextColor(editVolume.getTextColors().withAlpha(alphaValue));

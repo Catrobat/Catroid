@@ -182,7 +182,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 	}
 
 	// needed because of android:onClick in activity_main_menu.xml
-	public void handleContinueButton(View v) {
+	public void handleContinueButton(View view) {
 		handleContinueButton();
 	}
 
@@ -194,20 +194,20 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, false);
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, false, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		loadProjectTask.execute();
 	}
 
 	@Override
-	public void onLoadProjectSuccess() {
-		if (ProjectManager.getInstance().getCurrentProject() != null) {
+	public void onLoadProjectSuccess(boolean startProjectActivity) {
+		if (ProjectManager.getInstance().getCurrentProject() != null && startProjectActivity) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
 	}
 
-	public void handleNewButton(View v) {
+	public void handleNewButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
@@ -215,7 +215,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	public void handleProgramsButton(View v) {
+	public void handleProgramsButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
@@ -223,7 +223,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		startActivity(intent);
 	}
 
-	public void handleForumButton(View v) {
+	public void handleForumButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
@@ -231,7 +231,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		startActivity(browserIntent);
 	}
 
-	public void handleWebButton(View v) {
+	public void handleWebButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
@@ -286,15 +286,20 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		alertDialog.show();
 	}
 
-	public void handleUploadButton(View v) {
+	public void handleUploadButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
+		}
+		if (ProjectManager.getInstance().getCurrentProject() == null) {
+			LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), false, false);
+			loadProjectTask.setOnLoadProjectCompleteListener(this);
+			loadProjectTask.execute();
 		}
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 
-		if (token == Constants.NO_TOKEN || token.length() != ServerCalls.TOKEN_LENGTH
+		if (token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
 				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
 			showLoginRegisterDialog();
 		} else {

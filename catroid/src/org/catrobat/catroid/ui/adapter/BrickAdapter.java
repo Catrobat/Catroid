@@ -1055,7 +1055,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	public interface OnBrickEditListener {
 
-		public void onBrickEdit(View v);
+		public void onBrickEdit(View view);
 
 		public void onBrickChecked();
 	}

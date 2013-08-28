@@ -24,7 +24,6 @@
 <resources>
 
     <!-- General terms -->
-    <string name="app_name">Pocket Code</string>
     <string name="cancel_button">Cancel</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
@@ -121,6 +120,7 @@
 
 
     <!-- Script fragment -->
+    <string name="fragment_script_text_description">Click \"+\" to add Scripts</string>
     <string name="dialog_confirm_delete_brick_title">Delete this brick?</string>
     <string name="dialog_confirm_delete_script_title">Delete this script?</string>
     <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
@@ -129,6 +129,8 @@
 
 
     <!-- Look fragment -->
+    <string name="fragment_look_text_description">Click \"+\" to add Looks</string>
+    <string name="fragment_background_text_description">Click \"+\" to add Backgrounds</string>
     <string name="rename_look_dialog">Rename Look</string>
     <string name="lookname_invalid">This look\'s name is invalid</string>
     <string name="copy_look_addition">copy</string>
@@ -145,6 +147,7 @@
 
 
     <!-- Sound fragment -->
+    <string name="fragment_sound_text_description">Click \"+\" to add Sounds</string>
     <string name="rename_sound_dialog">Rename Sound</string>
     <string name="soundname_invalid">This sound\'s name is invalid</string>
     <string name="sound_play">play</string>
@@ -179,6 +182,7 @@
     <string name="soundrecorder_name">Pocket Code Recorder</string>
     <string name="soundrecorder_error">Sound recording failed</string>
     <string name="soundrecorder_recorded_filename">record</string>
+    <string name="soundrecorder_text_view">Press icon below to start and stop recording.</string>
     <!--  -->
 
 
@@ -282,13 +286,13 @@
 
 
     <!-- Motion bricks -->
-    <string name="brick_place_at">Place at:</string>
-    <string name="x_label">X:</string>
-    <string name="y_label">Y:</string>
-    <string name="brick_set_x">Set X to:</string>
-    <string name="brick_set_y">Set Y to:</string>
-    <string name="brick_change_x_by">Change X by:</string>
-    <string name="brick_change_y_by">Change Y by:</string>
+    <string name="brick_place_at">"Place at "</string>
+    <string name="x_label">"X: "</string>
+    <string name="y_label">"Y: "</string>
+    <string name="brick_set_x">"Set X to "</string>
+    <string name="brick_set_y">"Set Y to "</string>
+    <string name="brick_change_x_by">"Change X by "</string>
+    <string name="brick_change_y_by">"Change Y by "</string>
     <string name="brick_go_back">Go back</string>
 
     <plurals name="brick_go_back_layer_plural">
@@ -321,10 +325,10 @@
     <string name="brick_change_size_by">Change size by</string>
     <string name="brick_hide">Hide</string>
     <string name="brick_show">Show</string>
-    <string name="brick_set_ghost_effect">Set transparency</string>
-    <string name="brick_change_ghost_effect">Change transparency</string>
-    <string name="brick_set_brightness">Set brightness</string>
-    <string name="brick_change_brightness">Change brightness</string>
+    <string name="brick_set_ghost_effect">"Set transparency "</string>
+    <string name="brick_change_ghost_effect">"Change transparency "</string>
+    <string name="brick_set_brightness">"Set brightness "</string>
+    <string name="brick_change_brightness">"Change brightness "</string>
     <string name="by_label">by</string>
     <string name="to_label">to</string>
     <string name="brick_clear_graphic_effect">Clear graphic effects</string>
@@ -349,8 +353,8 @@
     <string name="brick_wait">Wait</string>
 
     <plurals name="second_plural">
-        <item quantity="one">second</item>
-        <item quantity="other">seconds</item>
+        <item quantity="one">"second "</item>
+        <item quantity="other">"seconds "</item>
     </plurals>
 
     <string name="brick_broadcast_receive">When I receive</string>
@@ -481,9 +485,9 @@
     <string name="formula_editor_title">Formula Editor</string>
     <string name="formula_editor_changes_saved">Changes saved!</string>
     <string name="formula_editor_changes_discarded">Changes discarded!</string>
-    <string name="formula_editor_parse_fail">Syntax Error: Fix or press again now to discard all changes</string>
+    <string name="formula_editor_parse_fail">Syntax Error!</string>
     <string name="formula_nothing_selected">Define input value</string>
-    <string name="formula_editor_parse_fail_formula_too_long">Formula too long! Fix or press again now to discard all changes.</string>
+    <string name="formula_editor_parse_fail_formula_too_long">Formula too long!</string>
     <string name="formula_editor_choose_object_variable">Properties of this object</string>
     <string name="formula_editor_existing_variable">Name already in use!</string>
     <string name="formula_editor_bracket_open">(</string>
@@ -549,6 +553,8 @@
     <string name="formula_editor_variable_dialog_for_all_sprites">For all objects</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">For this object only</string>
     <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
+    <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
+    <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
     
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable selected!</item>

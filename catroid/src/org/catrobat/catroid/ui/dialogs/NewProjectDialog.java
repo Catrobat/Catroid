@@ -116,7 +116,7 @@ public class NewProjectDialog extends DialogFragment {
 				positiveButton.setOnClickListener(new OnClickListener() {
 
 					@Override
-					public void onClick(View v) {
+					public void onClick(View view) {
 						handleOkButtonClick();
 					}
 				});
