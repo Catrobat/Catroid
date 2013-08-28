@@ -26,6 +26,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.view.View;
 import android.widget.EditText;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -148,6 +149,13 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		solo.assertMemoryNotLow();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		UiTestUtils.getIntoProgramMenuFromMainMenu(solo, 0);
+
+		assertTrue("Bottombar is not visible", solo.getView(R.id.button_play).getVisibility() == View.VISIBLE);
+		assertTrue("Play button is not visible", solo.getView(R.id.button_play).getVisibility() == View.VISIBLE);
+		assertTrue("Add button is not visible", solo.getView(R.id.button_add).getVisibility() == View.GONE);
+		assertTrue("Bottombar separator is not visible",
+				solo.getView(R.id.bottom_bar_separator).getVisibility() == View.GONE);
+
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Not in StageActivity", StageActivity.class);

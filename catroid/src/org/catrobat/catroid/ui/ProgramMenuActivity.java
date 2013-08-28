@@ -53,8 +53,7 @@ public class ProgramMenuActivity extends BaseActivity {
 
 		setContentView(R.layout.activity_program_menu);
 
-		findViewById(R.id.button_add).setVisibility(View.GONE);
-		findViewById(R.id.bottom_bar_separator).setVisibility(View.GONE);
+		BottomBar.hideAddButton(this);
 
 		actionBar = getSupportActionBar();
 

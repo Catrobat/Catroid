@@ -211,6 +211,11 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
 
+	public void testBottombarElementsVisibilty() {
+		assertFalse("Add button is visible", solo.searchButton(solo.getString(R.id.button_add)));
+		assertFalse("Play button is visible", solo.searchButton(solo.getString(R.id.button_play)));
+	}
+
 	public void testLoadProject() {
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject2);
 		UtilFile.deleteDirectory(directory);

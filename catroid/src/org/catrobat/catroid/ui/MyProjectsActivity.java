@@ -52,8 +52,7 @@ public class MyProjectsActivity extends BaseActivity {
 		setContentView(R.layout.activity_my_projects);
 		setUpActionBar();
 
-		findViewById(R.id.bottom_bar_separator).setVisibility(View.GONE);
-		findViewById(R.id.button_play).setVisibility(View.GONE);
+		BottomBar.hidePlayButton(this);
 
 		projectsListFragment = (ProjectsListFragment) getSupportFragmentManager().findFragmentById(
 				R.id.fragment_projects_list);

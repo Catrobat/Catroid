@@ -24,38 +24,45 @@ package org.catrobat.catroid.ui;
 
 import android.app.Activity;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import org.catrobat.catroid.R;
 
 public class BottomBar {
 
-	public static void disableButtons(Activity activity) {
-		setButtonClickable(activity, false);
+	public static void showBottomBar(Activity activity) {
+		activity.findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
 	}
 
-	public static void enableButtons(Activity activity) {
-		setButtonClickable(activity, true);
+	public static void hideBottomBar(Activity activity) {
+		activity.findViewById(R.id.bottom_bar).setVisibility(View.GONE);
 	}
 
-	private static void setButtonClickable(Activity activity, boolean clickable) {
-		LinearLayout bottomBarLayout = (LinearLayout) activity.findViewById(R.id.bottom_bar);
-
-		if (bottomBarLayout != null) {
-			bottomBarLayout.findViewById(R.id.button_add).setClickable(clickable);
-			bottomBarLayout.findViewById(R.id.button_play).setClickable(clickable);
-		}
+	public static void showAddButton(Activity activity) {
+		activity.findViewById(R.id.button_add).setVisibility(View.VISIBLE);
+		updateSeparator(activity);
 	}
 
-	public static void setButtonVisible(Activity activity) {
-		LinearLayout bottomBarLayout = (LinearLayout) activity.findViewById(R.id.bottom_bar);
+	public static void hideAddButton(Activity activity) {
+		activity.findViewById(R.id.button_add).setVisibility(View.GONE);
+		updateSeparator(activity);
+	}
 
-		if (bottomBarLayout != null) {
-			bottomBarLayout.findViewById(R.id.button_add).setVisibility(LinearLayout.VISIBLE);
-			bottomBarLayout.findViewById(R.id.button_play).setVisibility(LinearLayout.VISIBLE);
-			bottomBarLayout.findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
-			bottomBarLayout.findViewById(R.id.bottom_bar_separator).setVisibility(View.VISIBLE);
-			bottomBarLayout.findViewById(R.id.button_play).setVisibility(View.VISIBLE);
+	public static void showPlayButton(Activity activity) {
+		activity.findViewById(R.id.button_play).setVisibility(View.VISIBLE);
+		updateSeparator(activity);
+	}
+
+	public static void hidePlayButton(Activity activity) {
+		activity.findViewById(R.id.button_play).setVisibility(View.GONE);
+		updateSeparator(activity);
+	}
+
+	private static void updateSeparator(Activity activity) {
+		if (activity.findViewById(R.id.button_play).getVisibility() == View.VISIBLE
+				&& activity.findViewById(R.id.button_add).getVisibility() == View.VISIBLE) {
+			activity.findViewById(R.id.bottom_bar_separator).setVisibility(View.VISIBLE);
+		} else {
+			activity.findViewById(R.id.bottom_bar_separator).setVisibility(View.GONE);
 		}
 	}
 }

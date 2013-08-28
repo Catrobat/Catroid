@@ -327,21 +327,21 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	public void startRenameActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 		}
 	}
 
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 		}
 	}
 
 	public void startCopyActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 		}
 	}
 
@@ -441,7 +441,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		actionMode = null;
 		actionModeActive = false;
 
-		BottomBar.enableButtons(getActivity());
+		BottomBar.showBottomBar(getActivity());
 	}
 
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
