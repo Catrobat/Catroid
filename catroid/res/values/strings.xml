@@ -69,6 +69,8 @@
     <string name="preference_title">Settings</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorms bricks</string>
     <string name="preference_description_mindstorm_bricks">Allow to control Lego Mindstorms robots</string>
+    <string name="preference_title_enable_pc_connection">Send to pc bricks</string>
+    <string name="preference_description_pc_connection">Allow to control your pc.</string>
     <!--  -->
 
 
@@ -375,7 +377,7 @@
     <string name="brick_variable_spinner_create_new_variable">New…</string>
     <string name="brick_note_default_value">"add comment here…"</string>
     <string name="brick_broadcast_default_value">"message 1"</string>
-    <string name="brick_send_to_pc">"Send to PC: "</string>
+    <string name="brick_send_to_pc">"Send to PC:   "</string>
     <!--  -->
 
 
@@ -466,6 +468,48 @@
     <string name="nxt_motor_c">C</string>
     <string name="nxt_motor_a_and_c">A+C</string>
     <string name="nxt_motor_all">All</string>
+    <!--  -->
+
+
+    <!-- WiFiHID Strings -->
+    <string name="dialog_connection_setup">This brick requires a connection to a pc: </string>
+    <string name="dialog_connection_setup_title">Connection required</string>
+    <string name="dialog_connection_setup_connection_to">Connect to:</string>
+    <string name="dialog_connection_setup_scan">Scan again.</string>
+    <string name="dialog_custom_keyboard">Key to be sent: </string>
+    <string name="prog_dialog_scan_wait">Scan</string>
+    <string name="no_devices_found">No devices found.</string>
+    <string name="no_device_selected">You have to select a pc to set up a connection.</string>
+    <string name="illegalVersionOlder">This version of Pocket Code is too old and incomatible with \'ServerName\'. 
+        Please get the newest version of Pocket Code.</string>
+    <string name="illegalVersionYounger">This version is incompatible with the \'ServerName\'. Please download
+        the newest version of \'ServerName\'.</string>
+    <string name="connection_broke_1">Connection to \"</string>
+    <string name="connection_broke_2">\" broke.</string>
+    <string name="default_key_text">Key</string>
+    <string name="setting_info_for_send_to_pc">To be able to use \'Sende an Pc: \'brick you have to 
+         download and install \'Name\' to send commands to your pc. You can download \'ServerName\' 
+         from \"-Link-\"</string>
+    <string name="info_project_contains_send_to_pc_brick">This project contains one (or more) \"Send to PC\"-Brick(s).
+        You have to activate \"Allow to control pc\" in the settings to use this brick.</string>
+    <!--  -->
+
+
+    <!-- WiFiHID Keyboard Strings -->
+    <string name="key_control">CTRL</string>
+    <string name="key_alt">ALT</string>
+    <string name="key_alt_gr">ALT GR</string>
+    <string name="key_caps_lock">CAPS LOCK</string>
+    <string name="key_shift">SHIFT</string>
+    <string name="key_tab">TAB</string>
+    <string name="key_space">SPACE</string>
+    <string name="key_back_space">BACK SPACE</string>
+    <string name="key_enter">ENTER</string>
+    <string name="key_arrow_up">UP</string>
+    <string name="key_arrow_down">DOWN</string>
+    <string name="key_arrow_left">LEFT</string>
+    <string name="key_arrow_right">RIGHT</string>
+    <string name="key_escape">ESC</string>
     <!--  -->
 
 

@@ -22,12 +22,6 @@
  */
 package org.catrobat.catroid.io;
 
-import java.util.List;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.SendToPcBrick;
-import org.catrobat.catroid.ui.dialogs.KeyboardDialog;
-
 import android.app.Activity;
 import android.content.Context;
 import android.inputmethodservice.InputMethodService;
@@ -35,6 +29,7 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
+import android.os.Build;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,11 +38,31 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.bricks.SendToPcBrick;
+import org.catrobat.catroid.ui.dialogs.KeyboardDialog;
+
+import java.util.List;
+
 public class CustomKeyboard extends InputMethodService {
 
 	private KeyboardView keyboardView;
-	private EditText inputField;
 	private KeyboardDialog keyboardDialog;
+
+	public static final int KEY_ALT = 1;
+	public static final int KEY_ALT_GR = 2;
+	public static final int KEY_BACKSPACE = 8;
+	public static final int KEY_TAB = 9;
+	public static final int KEY_ENTER = 13;
+	public static final int KEY_SHIFT = 16;
+	public static final int KEY_CONTROL = 17;
+	public static final int KEY_CAPSLOCK = 20;
+	public static final int KEY_ESCAPE = 27;
+	public static final int KEY_ARROW_UP = 28;
+	public static final int KEY_SPACE = 32;
+	public static final int KEY_ARROW_LEFT = 37;
+	public static final int KEY_ARROW_RIGHT = 39;
+	public static final int KEY_ARROW_DOWN = 40;
 
 	public CustomKeyboard(KeyboardDialog keyboardDialog, Context context, SendToPcBrick sendToPcBrick) {
 		keyboardDialog.initialize(context);
@@ -56,18 +71,17 @@ public class CustomKeyboard extends InputMethodService {
 		keyboardDialog.setSendToPcBrick(sendToPcBrick);
 	}
 
-	public void registerEditText(View view, EditText editField) {
-		this.inputField = editField;
+	public void registerEditText(View view, EditText inputField) {
 		inputField.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				showCustomKeyboard(v);
+			public void onClick(View view) {
+				showCustomKeyboard(view);
 			}
 		});
 		inputField.setOnTouchListener(new OnTouchListener() {
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				showCustomKeyboard(v);
+			public boolean onTouch(View view, MotionEvent event) {
+				showCustomKeyboard(view);
 				return true;
 			}
 		});
@@ -75,6 +89,9 @@ public class CustomKeyboard extends InputMethodService {
 	}
 
 	public void setUpKeyboard(View inflatedView) {
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			return;
+		}
 		Activity activity = (Activity) (inflatedView.getContext());
 		final Keyboard keyboard = new Keyboard(activity, R.xml.send_to_pc_keyboard);
 
@@ -100,7 +117,7 @@ public class CustomKeyboard extends InputMethodService {
 						actualKey.pressed = false;
 					}
 					for (Key key : keyList) {
-						if (key.codes[0] == primaryCode && key != actualKey) {
+						if (key.codes[0] == primaryCode) {
 							actualKey = key;
 							actualKey.onPressed();
 							key.pressed = true;

@@ -20,38 +20,32 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.test.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import android.test.InstrumentationTestCase;
 
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.content.actions.SendToPcAction;
 import org.catrobat.catroid.content.bricks.SendToPcBrick;
 import org.catrobat.catroid.io.Command;
 import org.catrobat.catroid.io.Connection;
+import org.catrobat.catroid.io.PcConnectionManager;
+import org.catrobat.catroid.test.utils.Reflection;
 
-public class SendToPcAction extends TemporalAction {
+import java.util.ArrayList;
 
-	private SendToPcBrick sendToPcBrick;
-	private Connection connection;
+public class SendToPcActionTest extends InstrumentationTestCase {
 
-	@Override
-	protected void update(float percent) {
-		if (connection != null) {
-			Command command = createCommand();
-			if (command != null) {
-				connection.addCommand(command);
-			}
-		}
-	}
-
-	public Command createCommand() {
-		return new Command(sendToPcBrick.getKey(), Command.commandType.SINGLE_KEY);
-	}
-
-	public void setSendToPcBrick(SendToPcBrick sendToPcBrick) {
-		this.sendToPcBrick = sendToPcBrick;
-	}
-
-	public void setConnection(Connection connection) {
-		this.connection = connection;
+	public void testNormalBehavior() throws InterruptedException {
+		SendToPcBrick sendToPcBrick = new SendToPcBrick();
+		SendToPcAction action = (SendToPcAction) ExtendedActions.sendToPc(sendToPcBrick);
+		PcConnectionManager connectionManager = PcConnectionManager.getInstance(null);
+		Connection connection = new Connection("192.0.0.1", connectionManager, "testServer");
+		action.setConnection(connection);
+		action.act(1.0f);
+		Thread.sleep(1000);
+		@SuppressWarnings("unchecked")
+		ArrayList<Command> commandList = (ArrayList<Command>) Reflection.getPrivateField(connection, "commandList");
+		assertTrue("CommandList in connection is empty!", commandList.size() > 0);
 	}
 }

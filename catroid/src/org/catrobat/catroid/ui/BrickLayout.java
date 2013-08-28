@@ -375,7 +375,6 @@ public class BrickLayout extends ViewGroup {
 				}
 			}
 		}
-
 		this.setMeasuredDimension(resolveSize(x, widthMeasureSpec), resolveSize(y, heightMeasureSpec));
 	}
 

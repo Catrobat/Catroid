@@ -31,12 +31,14 @@ import android.app.Instrumentation;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.InputType;
 import android.util.Log;
@@ -105,6 +107,7 @@ import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.SendToPcBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -678,12 +681,13 @@ public class UiTestUtils {
 		brickList.add(new PlaySoundBrick(firstSprite));
 		brickList.add(new PointInDirectionBrick(firstSprite, Direction.DOWN));
 		brickList.add(new PointToBrick(firstSprite, firstSprite));
+		brickList.add(new SendToPcBrick(firstSprite));
 		brickList.add(new SetBrightnessBrick(firstSprite, 0));
 		brickList.add(new SetGhostEffectBrick(firstSprite, 0));
 		brickList.add(new SetLookBrick(firstSprite));
 		brickList.add(new SetSizeToBrick(firstSprite, 0));
-		brickList.add(new SetVolumeToBrick(firstSprite, 0));
 		brickList.add(new SetVariableBrick(firstSprite, 0));
+		brickList.add(new SetVolumeToBrick(firstSprite, 0));
 		brickList.add(new SetXBrick(firstSprite, 0));
 		brickList.add(new SetYBrick(firstSprite, 0));
 		brickList.add(new ShowBrick(firstSprite));
@@ -1325,11 +1329,14 @@ public class UiTestUtils {
 	}
 
 	public static void getIntoProgramMenuFromMainMenu(Solo solo, int spriteIndex) {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(solo.getCurrentActivity());
+		sharedPreferences.edit().putBoolean("setting_pc_connection_bricks", true).commit();
 		getIntoSpritesFromMainMenu(solo);
 		solo.sleep(200);
 
 		solo.clickInList(spriteIndex);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		sharedPreferences.edit().putBoolean("setting_pc_connection_bricks", false).commit();
 	}
 
 	public static void getIntoSoundsFromMainMenu(Solo solo) {

@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.SendToPcBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.PcConnectionManager;
 
 public class ExtendedActions extends Actions {
 
@@ -353,6 +354,7 @@ public class ExtendedActions extends Actions {
 
 	public static Action sendToPc(SendToPcBrick sendToPcBrick) {
 		SendToPcAction action = action(SendToPcAction.class);
+		action.setConnection(PcConnectionManager.getInstance(null).getConnection());
 		action.setSendToPcBrick(sendToPcBrick);
 		return action;
 	}

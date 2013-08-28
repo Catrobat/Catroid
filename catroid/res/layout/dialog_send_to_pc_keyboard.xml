@@ -24,16 +24,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
-    
-    
-    
-      <android.inputmethodservice.KeyboardView
-	       android:id="@+id/keyboard_view"
-	       android:layout_width="fill_parent"
-	       android:layout_height="wrap_content"
-	       android:layout_gravity="center"
-	       android:focusable="true"
-	       android:focusableInTouchMode="true"
-	       android:visibility="gone" />
-    
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboard_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone" />
+
 </RelativeLayout>

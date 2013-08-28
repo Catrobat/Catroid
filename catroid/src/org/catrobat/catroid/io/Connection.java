@@ -26,6 +26,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.util.Log;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 
 import java.io.IOException;
@@ -54,9 +55,9 @@ public class Connection extends Thread {
 	private connectionState state;
 	private PcConnectionManager connectionManager;
 	private Connection thisThread;
-	private final int port = 63000;
+	private static final int port = 63000;
 	private String serverName;
-	private final int socketTimeout = 1000;
+	private static final int socketTimeout = 1000;
 	private int commandCount;
 	private boolean errorDialogOnScreen;
 
@@ -69,6 +70,14 @@ public class Connection extends Thread {
 		connectionManager = connect;
 		thisThread = this;
 		Thread.currentThread().setName("connection");
+		if (ip != null) {
+			client = createSocket();
+		}
+		commandList = new ArrayList<Command>();
+	}
+
+	public Socket createSocket() {
+		return new Socket();
 	}
 
 	@Override
@@ -77,7 +86,7 @@ public class Connection extends Thread {
 		while (thisThread == this) {
 
 			if (commandList.size() > 0 && !errorDialogOnScreen) {
-				sendCommand();
+				handleCommand();
 				waitForResponse();
 			} else {
 				try {
@@ -93,10 +102,8 @@ public class Connection extends Thread {
 		commandCount = 0;
 		output = null;
 		objectOutput = null;
-		commandList = new ArrayList<Command>();
 		try {
-			if (ip != null) {
-				client = new Socket();
+			if (client != null) {
 				client.connect(new InetSocketAddress(ip, port), socketTimeout);
 				client.setSoTimeout(1000);
 			} else {
@@ -123,7 +130,11 @@ public class Connection extends Thread {
 			Log.w("Connection", "Connection to " + ip + " broke.");
 			state = connectionState.UNCONNECTED;
 			PcConnectionManager.getInstance(null).setConnectionAlreadySetUp(false);
-			stopThread();
+			try {
+				stopThread();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			return;
 		}
 		try {
@@ -131,10 +142,13 @@ public class Connection extends Thread {
 			objectInput = new ObjectInputStream(input);
 		} catch (IOException e) {
 			Log.w("Connection", "Connection to " + ip + " broke.");
-			e.printStackTrace();
 			state = connectionState.UNCONNECTED;
 			PcConnectionManager.getInstance(null).setConnectionAlreadySetUp(false);
-			stopThread();
+			try {
+				stopThread();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			return;
 		}
 		if (registerOnServer()) {
@@ -164,6 +178,9 @@ public class Connection extends Thread {
 		int versionId = PcConnectionManager.getInstance(null).getVersionId();
 		try {
 			objectOutput.writeObject(versionId);
+			String clientAndProjectName = "" + android.os.Build.MODEL + ": \""
+					+ ProjectManager.getInstance().getCurrentProject().getName() + "\"";
+			objectOutput.writeObject(clientAndProjectName);
 		} catch (IOException e) {
 			Log.w("Connection", "Connection to " + ip + " broke.");
 			PcConnectionManager.getInstance(null).setConnectionAlreadySetUp(false);
@@ -175,7 +192,7 @@ public class Connection extends Thread {
 		return state;
 	}
 
-	public void sendCommand() {
+	public void handleCommand() {
 
 		if (commandCount > 2) {
 			handleLongPress();
@@ -191,17 +208,11 @@ public class Connection extends Thread {
 	}
 
 	public void handleLongPress() {
-		//TODO
+		//TODO: this method could be combined with the analog-stick of the XPeria-Team and behave as
+		// as a "As long as tapped" (as against "When tapped").
+		// E.g.: as long as you hold right with the analog stick, you want the right-arrow-key
+		// of your PC to keep pressed. At the moment, it would only be pressed repeatedly.
 	}
-
-	//	public Command startLongPress() {
-	//		//		lastCommand = commandList.get(0).getKey();
-	//		//		return new Command(lastCommand, Command.commandType.LONG_KEY_START);
-	//	}
-
-	//	public Command stopLongPress() {
-	//		//		return new Command(lastCommand, Command.commandType.LONG_KEY_STOP);
-	//	}
 
 	public void writeCommand(Command actualCommand) {
 		try {
@@ -248,7 +259,7 @@ public class Connection extends Thread {
 		}
 		switch (confirmation.getConfirmationState()) {
 			case COMMAND_SEND_SUCCESSFULL:
-				Log.v("Connection", "Command was sent successfull.");
+				Log.v("Connection", "Command was sent successfully.");
 				break;
 			case ILLEGAL_CLASS:
 				Log.v("Connection", "Command was not accepted. Was of type illegal class.");
@@ -264,7 +275,11 @@ public class Connection extends Thread {
 						"Client was not accepted. Server- and Client versions are incompatible. Client version is too old.");
 				state = connectionState.UNCONNECTED_ILLEGALVERSION;
 				PcConnectionManager.getInstance(null).setServerVersionId(confirmation.getVersionId());
-				stopThread();
+				try {
+					stopThread();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				break;
 
 			default:
@@ -287,16 +302,20 @@ public class Connection extends Thread {
 							public void onClick(DialogInterface dialog, int id) {
 								connectionManager.setConnectionAlreadySetUp(false);
 								connectionManager.getStageActivity().exit();
-								stopThread();
 							}
 						});
 				AlertDialog alert = builder.create();
 				alert.show();
 			}
 		});
+		try {
+			stopThread();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void stopThread() {
+	public void stopThread() throws IOException {
 		thisThread = null;
 		try {
 			if (output != null) {
@@ -316,6 +335,19 @@ public class Connection extends Thread {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			if (objectOutput != null) {
+				objectOutput.close();
+			}
+			if (input != null) {
+				input.close();
+			}
+			if (objectInput != null) {
+				objectInput.close();
+			}
+			if (client != null) {
+				client.close();
+			}
 		}
 		PcConnectionManager.getInstance(null).setConnection(null);
 	}

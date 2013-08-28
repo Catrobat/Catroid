@@ -22,9 +22,7 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.SendToPcBrick;
-
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -33,11 +31,12 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.EditText;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.bricks.SendToPcBrick;
 
 public class KeyboardDialog extends DialogFragment {
 
-	private EditText editText;
 	private Dialog dialog;
 	private View dialogView;
 	private SendToPcBrick sendToPcBrick;
@@ -48,7 +47,8 @@ public class KeyboardDialog extends DialogFragment {
 
 	public void initialize(Context context) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		dialogView = LayoutInflater.from(builder.getContext()).inflate(R.layout.dialog_send_to_pc_keyboard, null);
+		Activity activity = (Activity) context;
+		dialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_send_to_pc_keyboard, null);
 		builder.setView(dialogView).setTitle(R.string.dialog_custom_keyboard)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
@@ -58,13 +58,11 @@ public class KeyboardDialog extends DialogFragment {
 				}).setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						KeyboardDialog.this.key = 0;
-						KeyboardDialog.this.sendToPcBrick.setKey(KeyboardDialog.this.key);
 					}
 				});
 
 		dialog = builder.create();
-		dialog.setCanceledOnTouchOutside(true);
+		dialog.setCanceledOnTouchOutside(false);
 		dialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 	}
 

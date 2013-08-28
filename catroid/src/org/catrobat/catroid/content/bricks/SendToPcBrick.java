@@ -22,7 +22,22 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.KeyboardView;
+import android.view.View;
+import android.view.View.MeasureSpec;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -31,34 +46,19 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.io.CustomKeyboard;
 import org.catrobat.catroid.ui.dialogs.KeyboardDialog;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.inputmethodservice.Keyboard;
-import android.inputmethodservice.KeyboardView;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-public class SendToPcBrick extends BrickBaseType implements OnClickListener {
+public class SendToPcBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
-	private transient KeyboardView mKeyboardView;
-	private transient EditText edit;
+	private transient KeyboardView keyboardView;
+	private transient EditText editTextKey;
 	private transient CustomKeyboard keyboard;
 	private int key;
 
 	public SendToPcBrick(Sprite sprite) {
 		this.sprite = sprite;
+		this.key = CustomKeyboard.KEY_CONTROL;
 		keyboard = null;
 	}
 
@@ -69,7 +69,6 @@ public class SendToPcBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	public SendToPcBrick() {
-
 	}
 
 	@Override
@@ -109,42 +108,42 @@ public class SendToPcBrick extends BrickBaseType implements OnClickListener {
 		});
 		TextView textForSendKey = (TextView) view.findViewById(R.id.brick_send_to_pc_prototype_text_view);
 		textForSendKey.setVisibility(View.GONE);
-		edit = (EditText) view.findViewById(R.id.brick_send_to_pc_edit_text);
+		editTextKey = (EditText) view.findViewById(R.id.brick_send_to_pc_edit_text);
 		initializeForKeyboard();
 		return view;
 	}
 
 	public void initializeForKeyboard() {
-		edit.setClickable(true);
-		edit.setEnabled(true);
-		edit.setFocusable(true);
-		edit.setVisibility(View.VISIBLE);
+		editTextKey.setClickable(true);
+		editTextKey.setEnabled(true);
+		editTextKey.setFocusable(true);
+		editTextKey.setVisibility(View.VISIBLE);
 		KeyboardDialog keyboardDialog = new KeyboardDialog();
 		if (keyboardDialog != null) {
 			keyboard = new CustomKeyboard(keyboardDialog, view.getContext(), this);
 		}
-		keyboard.registerEditText(view, edit);
+		keyboard.registerEditText(view, editTextKey);
 		if (key != 0) {
 			setEditText();
 		}
 	}
 
 	public void hideCustomKeyboard() {
-		mKeyboardView = (KeyboardView) view.findViewById(R.id.keyboard_view);
-		mKeyboardView.setVisibility(View.GONE);
-		mKeyboardView.setEnabled(false);
+		keyboardView = (KeyboardView) view.findViewById(R.id.keyboard_view);
+		keyboardView.setVisibility(View.GONE);
+		keyboardView.setEnabled(false);
 		Activity activity = (Activity) view.getContext();
 		activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
 
 	public void showCustomKeyboard(Context context) {
 		Keyboard keyboard = new Keyboard(context, R.xml.send_to_pc_keyboard);
-		mKeyboardView = (KeyboardView) view.findViewById(R.id.keyboard_view);
-		mKeyboardView.setFocusable(false);
-		mKeyboardView.setFocusableInTouchMode(false);
-		mKeyboardView.setKeyboard(keyboard);
-		mKeyboardView.setEnabled(true);
-		mKeyboardView.setVisibility(View.VISIBLE);
+		keyboardView = (KeyboardView) view.findViewById(R.id.keyboard_view);
+		keyboardView.setFocusable(false);
+		keyboardView.setFocusableInTouchMode(false);
+		keyboardView.setKeyboard(keyboard);
+		keyboardView.setEnabled(true);
+		keyboardView.setVisibility(View.VISIBLE);
 		if (view != null) {
 			((InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
 					view.getWindowToken(), 0);
@@ -162,47 +161,47 @@ public class SendToPcBrick extends BrickBaseType implements OnClickListener {
 
 	public void setEditText() {
 		switch (key) {
-			case 1:
-				edit.setText(R.string.key_alt);
+			case CustomKeyboard.KEY_ALT:
+				editTextKey.setText(R.string.key_alt);
 				break;
-			case 2:
-				edit.setText(R.string.key_alt_gr);
+			case CustomKeyboard.KEY_ALT_GR:
+				editTextKey.setText(R.string.key_alt_gr);
 				break;
-			case 8:
-				edit.setText(R.string.key_back_space);
+			case CustomKeyboard.KEY_BACKSPACE:
+				editTextKey.setText(R.string.key_back_space);
 				break;
-			case 9:
-				edit.setText(R.string.key_tab);
+			case CustomKeyboard.KEY_TAB:
+				editTextKey.setText(R.string.key_tab);
 				break;
-			case 13:
-				edit.setText(R.string.key_enter);
+			case CustomKeyboard.KEY_ENTER:
+				editTextKey.setText(R.string.key_enter);
 				break;
-			case 16:
-				edit.setText(R.string.key_shift);
+			case CustomKeyboard.KEY_SHIFT:
+				editTextKey.setText(R.string.key_shift);
 				break;
-			case 17:
-				edit.setText(R.string.key_control);
+			case CustomKeyboard.KEY_CONTROL:
+				editTextKey.setText(R.string.key_control);
 				break;
-			case 20:
-				edit.setText(R.string.key_caps_lock);
+			case CustomKeyboard.KEY_CAPSLOCK:
+				editTextKey.setText(R.string.key_caps_lock);
 				break;
-			case 27:
-				edit.setText(R.string.key_escape);
+			case CustomKeyboard.KEY_ESCAPE:
+				editTextKey.setText(R.string.key_escape);
 				break;
-			case 28:
-				edit.setText(R.string.key_arrow_up);
+			case CustomKeyboard.KEY_ARROW_UP:
+				editTextKey.setText(R.string.key_arrow_up);
 				break;
-			case 32:
-				edit.setText(R.string.key_space);
+			case CustomKeyboard.KEY_SPACE:
+				editTextKey.setText(R.string.key_space);
 				break;
-			case 37:
-				edit.setText(R.string.key_arrow_left);
+			case CustomKeyboard.KEY_ARROW_LEFT:
+				editTextKey.setText(R.string.key_arrow_left);
 				break;
-			case 39:
-				edit.setText(R.string.key_arrow_right);
+			case CustomKeyboard.KEY_ARROW_RIGHT:
+				editTextKey.setText(R.string.key_arrow_right);
 				break;
-			case 40:
-				edit.setText(R.string.key_arrow_down);
+			case CustomKeyboard.KEY_ARROW_DOWN:
+				editTextKey.setText(R.string.key_arrow_down);
 				break;
 			default:
 				break;
@@ -214,8 +213,10 @@ public class SendToPcBrick extends BrickBaseType implements OnClickListener {
 		View prototypeView = View.inflate(context, R.layout.brick_send_to_pc, null);
 		TextView textForSendKey = (TextView) prototypeView.findViewById(R.id.brick_send_to_pc_prototype_text_view);
 		textForSendKey.setText(R.string.default_key_text);
-		edit = (EditText) prototypeView.findViewById(R.id.brick_send_to_pc_edit_text);
-		edit.setVisibility(View.GONE);
+		editTextKey = (EditText) prototypeView.findViewById(R.id.brick_send_to_pc_edit_text);
+		editTextKey.setVisibility(View.GONE);
+		prototypeView.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
 		return prototypeView;
 	}
 
@@ -223,26 +224,18 @@ public class SendToPcBrick extends BrickBaseType implements OnClickListener {
 	public View getViewWithAlpha(int alphaValue) {
 
 		if (view != null) {
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_send_to_pc_layout);
+			View layout = view.findViewById(R.id.brick_send_to_pc_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 			TextView textKey = (TextView) view.findViewById(R.id.brick_send_to_pc_label);
-			edit = (EditText) view.findViewById(R.id.brick_send_to_pc_edit_text);
+			editTextKey = (EditText) view.findViewById(R.id.brick_send_to_pc_edit_text);
 			textKey.setTextColor(textKey.getTextColors().withAlpha(alphaValue));
-			edit.setTextColor(edit.getTextColors().withAlpha(alphaValue));
-			edit.getBackground().setAlpha(alphaValue);
+			editTextKey.setTextColor(editTextKey.getTextColors().withAlpha(alphaValue));
+			editTextKey.getBackground().setAlpha(alphaValue);
 			this.alphaValue = (alphaValue);
 		}
 
 		return view;
-	}
-
-	@Override
-	public void onClick(View v) {
-
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
 	}
 
 	@Override

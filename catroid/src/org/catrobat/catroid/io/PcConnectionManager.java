@@ -22,17 +22,25 @@
  */
 package org.catrobat.catroid.io;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.SendToPcBrick;
 import org.catrobat.catroid.io.Connection.connectionState;
 import org.catrobat.catroid.stage.StageActivity;
 
@@ -42,34 +50,50 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
+import java.util.Set;
 
 public class PcConnectionManager {
 
-	private final int versionId = 1;
+	private final int versionId = 3;
 
 	private static PcConnectionManager instance = null;
+	private static PcConnectionManagerCreator creator;
 	private Context context;
-	private final int port = 64000;
+	private static final int port = 64000;
+	private String ip;
+
 	private ProgressDialog connectingProgressDialog;
 	private HashMap<String, String> availableIpsList;
 	private boolean connectionAlreadySetUp = false;
 	private StageActivity stageActivity;
 	private Connection connection;
 	private int serverVersionId;
+	private DatagramSocket dataSocket;
+	private WifiManager wifiManager;
+	private AlertDialog infoSettingsDialog;
 
-	private PcConnectionManager() {
+	protected PcConnectionManager(Context context) {
 		connection = null;
+		if (context != null) {
+			wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		}
+		try {
+			dataSocket = new DatagramSocket();
+		} catch (SocketException e) {
+			return;
+		}
 	}
 
 	public static PcConnectionManager getInstance(Context context) {
 		if (instance == null) {
-			instance = new PcConnectionManager();
+			if (creator == null) {
+				instance = new PcConnectionManager(context);
+			} else {
+				instance = creator.create();
+			}
 		}
 		if (context != null) {
 			instance.context = context;
@@ -77,10 +101,13 @@ public class PcConnectionManager {
 		return instance;
 	}
 
+	public static void setCreator(PcConnectionManagerCreator creator) {
+		PcConnectionManager.creator = creator;
+	}
+
 	public void broadcast(Spinner ipSpinner) {
 		BroadcastThread broadcastThread = new BroadcastThread(ipSpinner);
 		broadcastThread.start();
-
 	}
 
 	public class BroadcastThread extends Thread {
@@ -106,18 +133,22 @@ public class PcConnectionManager {
 			});
 			byte[] message = new byte[1];
 			String broadcastAdressString = getBroadcastAddress();
-			InetAddress broadcastAddressInet = stringToInetAddress(broadcastAdressString);
+			InetAddress broadcastInetAddress = IPv4Manager.stringToInetAddress(broadcastAdressString);
 			DatagramPacket dataPacket = null;
-			if (broadcastAddressInet != null) {
-				dataPacket = new DatagramPacket(message, message.length, broadcastAddressInet, port);
+			if (broadcastInetAddress != null) {
+				dataPacket = new DatagramPacket(message, message.length, broadcastInetAddress, port);
 			}
 			availableIpsList = new HashMap<String, String>();
-			DatagramSocket dataSocket = null;
+			if (dataSocket.isClosed()) {
+				try {
+					dataSocket = new DatagramSocket();
+				} catch (SocketException e) {
+				}
+			}
 			try {
-				dataSocket = new DatagramSocket();
 				dataSocket.setSoTimeout(3000);
 			} catch (SocketException e) {
-				e.printStackTrace();
+				Log.v("PcConnectionManager", "Unable to set SocketTimeout");
 				return;
 			}
 			try {
@@ -128,13 +159,14 @@ public class PcConnectionManager {
 				dataSocket.close();
 				return;
 			}
-			byte[] ipAddrServer = new byte[64];
-			DatagramPacket dataRec = new DatagramPacket(ipAddrServer, ipAddrServer.length);
+			byte[] ipAddressServer = new byte[64];
+			DatagramPacket dataPacketReceived = new DatagramPacket(ipAddressServer, ipAddressServer.length);
 			while (true) {
 				try {
-					dataSocket.receive(dataRec);
-					String ipServer = new String(ipAddrServer, 0, dataRec.getLength());
-					availableIpsList.put(ipServer, dataRec.getSocketAddress().toString());
+					dataSocket.receive(dataPacketReceived);
+					String ipServer = new String(dataPacketReceived.getData(), 0, dataPacketReceived.getLength());
+					ip = IPv4Manager.stripPort(dataPacketReceived.getSocketAddress().toString());
+					availableIpsList.put(ipServer, ip);
 				} catch (IOException e) {
 					if (availableIpsList.size() == 0) {
 						activity = (Activity) context;
@@ -155,37 +187,45 @@ public class PcConnectionManager {
 	};
 
 	public void finishBroadcast(final Spinner ipSpinner) {
-		Activity act = (Activity) context;
-		act.runOnUiThread(new Runnable() {
+		Activity activity = (Activity) context;
+		activity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				connectingProgressDialog.dismiss();
 				ArrayList<String> ipList = new ArrayList<String>();
-				Iterator<Entry<String, String>> it = availableIpsList.entrySet().iterator();
-				while (it.hasNext()) {
-					Entry<String, String> pairs = it.next();
-					ipList.add(pairs.getKey());
+				Set<String> keys = availableIpsList.keySet();
+				for (String singleKey : keys) {
+					ipList.add(singleKey);
 				}
 				ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context,
 						android.R.layout.simple_spinner_item, ipList);
 				dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 				ipSpinner.setAdapter(dataAdapter);
-				ipSpinner.setClickable(true);
+				if (ipList.size() > 0) {
+					ipSpinner.setClickable(true);
+				}
 			}
 		});
-
+		try {
+			dataSocket.setBroadcast(false);
+		} catch (SocketException e) {
+		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public String getBroadcastAddress() {
-		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		int ipAddress = 0;
 		int netmask = 0;
 		ipAddress = wifiManager.getConnectionInfo().getIpAddress();
 		if (ipAddress == 0) {
-			InetAddress inetAddress = getIpForHotspot();
+			InetAddress inetAddress = null;
+			try {
+				inetAddress = getIpAddressForHotspot();
+			} catch (SocketException e) {
+			}
 			if (inetAddress != null) {
-				ipAddress = InetAddrToInt(inetAddress);
-				netmask = getNetMaskForHotspot(inetAddress);
+				ipAddress = IPv4Manager.inetAddressToInt(inetAddress);
+				netmask = IPv4Manager.getNetMaskForHotspot(inetAddress);
 			} else {
 				return null;
 			}
@@ -194,80 +234,31 @@ public class PcConnectionManager {
 		}
 		int hostBits = ~netmask;
 		int broadcastAddressInt = hostBits | ipAddress;
-		String broadcastAddress = intToIPAddress(broadcastAddressInt);
+		String broadcastAddress = IPv4Manager.intToIPAddress(broadcastAddressInt);
 		return broadcastAddress;
 	}
 
-	@SuppressLint("DefaultLocale")
-	public String intToIPAddress(int ipInt) {
-		return String.format("%d.%d.%d.%d", (ipInt & 0xff), (ipInt >> 8 & 0xff), (ipInt >> 16 & 0xff),
-				(ipInt >> 24 & 0xff));
-	}
-
-	@SuppressLint("NewApi")
-	public int getNetMaskForHotspot(InetAddress inetAddress) {
-		NetworkInterface network;
-		network = null;
-		try {
-			network = NetworkInterface.getByInetAddress(inetAddress);
-		} catch (SocketException e) {
-			e.printStackTrace();
-		}
-		int numOfHostbits = network.getInterfaceAddresses().get(0).getNetworkPrefixLength();
-		int maskTemp = 0xFFFFFFFF << (32 - numOfHostbits);
-		int mask = 0;
-		mask |= (((maskTemp & 0xFF000000) >> 24 & 0xFF));
-		mask |= ((maskTemp & 0x00FF0000) >> 8 & 0xFF00);
-		mask |= ((maskTemp & 0x0000FF00) << 8);
-		mask |= ((maskTemp & 0x000000FF) << 24);
-		return mask;
-	}
-
-	public int InetAddrToInt(InetAddress inetAddress) {
-		int inetAddressInt = 0;
-		byte[] inetByte = inetAddress.getAddress();
-		for (int i = 0; i < 4; i++) {
-			int shift = (4 - 1 - i) * 8;
-			inetAddressInt += (inetByte[3 - i] & 0x000000FF) << shift;
-		}
-		return inetAddressInt;
-	}
-
-	public InetAddress getIpForHotspot() {
-		InetAddress hotspotAddress = null;
-		try {
-			InetAddress inetAddress = null;
-			for (Enumeration<NetworkInterface> networkInterface = NetworkInterface.getNetworkInterfaces(); networkInterface
+	public InetAddress getIpAddressForHotspot() throws SocketException {
+		InetAddress hotspotIpAddress = null;
+		InetAddress inetAddress = null;
+		for (Enumeration<NetworkInterface> networkInterface = NetworkInterface.getNetworkInterfaces(); networkInterface
+				.hasMoreElements();) {
+			NetworkInterface singleInterface = networkInterface.nextElement();
+			for (Enumeration<InetAddress> ipAddresses = singleInterface.getInetAddresses(); ipAddresses
 					.hasMoreElements();) {
-				NetworkInterface singleInterface = networkInterface.nextElement();
-				for (Enumeration<InetAddress> IpAddresses = singleInterface.getInetAddresses(); IpAddresses
-						.hasMoreElements();) {
-					inetAddress = IpAddresses.nextElement();
-					if (!inetAddress.isLoopbackAddress()
-							&& (singleInterface.getDisplayName().contains("wlan0") || singleInterface.getDisplayName()
-									.contains("eth0"))) {
-						hotspotAddress = inetAddress;
-					}
+				inetAddress = ipAddresses.nextElement();
+				// "wlan0" and "wl0.1" are device-dependent:
+				// when this function crashes, you have to search the interface of your device
+				// (via adb-shell -> # netcfg) and add it below
+				if (!inetAddress.isLoopbackAddress()
+						&& (singleInterface.getDisplayName().contains("wlan0")
+						/* || singleInterface.getDisplayName().contains("eth0") */|| singleInterface.getDisplayName()
+								.contains("wl0.1"))) {
+					hotspotIpAddress = inetAddress;
 				}
 			}
-		} catch (SocketException ex) {
-			ex.getMessage();
 		}
-		return hotspotAddress;
-	}
-
-	public InetAddress stringToInetAddress(String broadcastAddress) {
-		InetAddress broadcastAddressInet = null;
-		try {
-			broadcastAddressInet = InetAddress.getByName(broadcastAddress);
-		} catch (UnknownHostException e1) {
-			e1.printStackTrace();
-		}
-		return broadcastAddressInet;
-	}
-
-	public HashMap<String, String> getAvailableIps() {
-		return availableIpsList;
+		return hotspotIpAddress;
 	}
 
 	public connectionState setUpConnection(Spinner ipSpinner) {
@@ -285,13 +276,17 @@ public class PcConnectionManager {
 			state = connectionState.UNCONNECTED;
 			return state;
 		}
-		String ip = stripPort(availableIpsList.get(serverName));
+		String ip = IPv4Manager.stripPort(availableIpsList.get(serverName));
 		return (waitForAcceptance(ip, serverName));
 	}
 
 	public void cancelConnection() {
 		if (connection != null) {
-			connection.stopThread();
+			try {
+				connection.stopThread();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			connection = null;
 		}
 	}
@@ -300,7 +295,7 @@ public class PcConnectionManager {
 		Connection newConnection = null;
 		connectionState state;
 		if (serverName != null) {
-			newConnection = new Connection(ip, this, serverName);
+			newConnection = createNewConnection(serverName);
 			newConnection.start();
 		} else {
 			state = connectionState.UNCONNECTED;
@@ -319,11 +314,19 @@ public class PcConnectionManager {
 				case CONNECTED:
 					break;
 				case UNCONNECTED:
-					newConnection.stopThread();
+					try {
+						newConnection.stopThread();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 					PcConnectionManager.getInstance(context).setConnectionAlreadySetUp(false);
 					break;
 				case UNCONNECTED_ILLEGALVERSION:
-					newConnection.stopThread();
+					try {
+						newConnection.stopThread();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 					PcConnectionManager.getInstance(context).setConnectionAlreadySetUp(false);
 					break;
 				default:
@@ -335,12 +338,51 @@ public class PcConnectionManager {
 		return state;
 	}
 
-	public String stripPort(String ipWithPort) {
-		int pos = ipWithPort.indexOf(":");
-		if (pos != -1) {
-			ipWithPort = ipWithPort.substring(1, pos);
+	public void checkSettingsIfPcConnectionEnabeled() {
+
+		if (ProjectManager.getInstance().getCurrentProject() == null) {
+			return;
 		}
-		return ipWithPort;
+		ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
+				.getSpriteList();
+
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		for (Sprite sprite : spriteList) {
+			for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
+				Script script = sprite.getScript(i);
+				for (Brick brick : script.getBrickList()) {
+					if (brick instanceof SendToPcBrick
+							&& !sharedPreferences.getBoolean("setting_pc_connection_bricks", false)) {
+						Activity activity = (Activity) context;
+						activity.runOnUiThread(new Runnable() {
+
+							@Override
+							public void run() {
+								startInfoSettingsDialog();
+							}
+						});
+						return;
+					}
+				}
+			}
+		}
+	}
+
+	public void startInfoSettingsDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setMessage(context.getString(R.string.info_project_contains_send_to_pc_brick)).setCancelable(false)
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						infoSettingsDialog.dismiss();
+					}
+				});
+		infoSettingsDialog = builder.create();
+		infoSettingsDialog.show();
+	}
+
+	public Connection createNewConnection(String serverName) {
+		return new Connection(ip, this, serverName);
 	}
 
 	public void setConnectionAlreadySetUp(boolean state) {
@@ -379,4 +421,11 @@ public class PcConnectionManager {
 		this.serverVersionId = serverVersionId;
 	}
 
+	public int getPort() {
+		return port;
+	}
+
+	public static interface PcConnectionManagerCreator {
+		public PcConnectionManager create();
+	}
 }

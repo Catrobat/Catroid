@@ -24,23 +24,24 @@ package org.catrobat.catroid.io;
 
 import java.io.Serializable;
 
-@SuppressWarnings("serial")
 public class Command implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	public static enum commandType {
 		SINGLE_KEY, KEY_COMBINATION, MOUSE
 	};
 
 	private int key;
 	private commandType type;
-	private int[] keyComb;
+	private int[] keyCombination;
 
 	public Command(int key, commandType type) {
 		this.key = key;
 		this.type = type;
 	}
 
-	public Command(int[] keyComb, commandType type) {
-		this.keyComb = keyComb;
+	public Command(int[] keyCombination, commandType type) {
+		this.keyCombination = keyCombination;
 		this.type = type;
 	}
 
@@ -49,7 +50,7 @@ public class Command implements Serializable {
 	}
 
 	public int[] getKeyComb() {
-		return keyComb;
+		return keyCombination;
 	}
 
 	public commandType getCommandType() {

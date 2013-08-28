@@ -28,8 +28,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -38,11 +38,8 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -117,6 +114,15 @@ public class PreStageActivity extends Activity {
 			if (!PcConnectionManager.getInstance(this).getConnectionAlreadySetUp()
 					|| PcConnectionManager.getInstance(this).getConnection() == null) {
 				connectionDialog = createSetUpConnectionAlert();
+				connectionDialog.setCancelable(true);
+				connectionDialog.setCanceledOnTouchOutside(false);
+				connectionDialog.setOnCancelListener(new OnCancelListener() {
+
+					@Override
+					public void onCancel(DialogInterface dialog) {
+						resourceFailed();
+					}
+				});
 				connectionDialog.show();
 			} else {
 				resourceInitialized();
@@ -338,24 +344,10 @@ public class PreStageActivity extends Activity {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setView(this.findViewById(R.layout.dialog_pc_connection_setup));
 
-		final View dialogLayout = View.inflate(builder.getContext(), R.layout.dialog_pc_connection_setup, null);
+		final View dialogLayout = View.inflate(this, R.layout.dialog_pc_connection_setup, null);
 		LinearLayout imageLayout = (LinearLayout) dialogLayout.findViewById(R.id.dialog_connection_setup_layout);
 		SendToPcBrick sendToPcBrick = new SendToPcBrick(null);
-		ImageView brickImageView = new ImageView(builder.getContext());
-		View brickView = sendToPcBrick.getPrototypeView(builder.getContext());
-		brickView.setDrawingCacheEnabled(true);
-		brickView.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
-				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-		brickView.layout(0, 0, brickView.getMeasuredWidth(), brickView.getMeasuredHeight());
-		brickView.buildDrawingCache(true);
-		Bitmap brickBitmap = brickView.getDrawingCache();
-		brickBitmap.prepareToDraw();
-		brickImageView.setImageBitmap(brickBitmap);
-		brickImageView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		brickImageView.setPadding(0, 10, 0, 10);
-		brickImageView.setScaleType(ImageView.ScaleType.FIT_START);
-
-		imageLayout.addView(brickImageView);
+		imageLayout.addView(sendToPcBrick.getPrototypeView(this));
 
 		final Context context = this;
 		builder.setTitle(R.string.dialog_connection_setup_title).setCancelable(false)
@@ -410,6 +402,7 @@ public class PreStageActivity extends Activity {
 				}
 			}
 		});
+
 		scanButton.performClick();
 
 		return builder.create();

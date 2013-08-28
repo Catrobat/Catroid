@@ -25,49 +25,47 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
-    
-    <TextView 
-       android:id="@+id/dialog_connection_setup_text"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_marginLeft="10dp"
-       android:text="@string/dialog_connection_setup"
-       android:paddingTop="5dp"
-       android:paddingBottom="5dp" />
+
+    <TextView
+        android:id="@+id/dialog_connection_setup_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="@string/dialog_connection_setup" />
 
     <LinearLayout
-       android:id="@+id/dialog_connection_setup_layout"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_marginLeft="20dp"
-       android:orientation="vertical" >        
-       
+        android:id="@+id/dialog_connection_setup_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical" >
     </LinearLayout>
-    
-    <TextView 
-       android:id="@+id/dialog_connection_setup_text_2"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_marginLeft="10dp"
-       android:text="@string/dialog_connection_setup_connection_to"
-       android:paddingTop="5dp"
-       android:paddingBottom="5dp" />
+
+    <TextView
+        android:id="@+id/dialog_connection_setup_text_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="@string/dialog_connection_setup_connection_to" />
 
     <Spinner
-	   android:id="@+id/dialog_connection_setup_spinner"
-	   android:layout_width="match_parent"
-	   android:layout_height="wrap_content"
-	   android:clickable="false"
-	   android:focusable="false" />
-   
- 	<Button 
-       android:id="@+id/dialog_connection_setup_button"
-       android:text="@string/dialog_connection_setup_scan"
-       style="?android:attr/buttonStyle"
-       android:layout_gravity="center_horizontal"
-       android:visibility="visible"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       />
-   
+        android:id="@+id/dialog_connection_setup_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false" />
+
+    <Button
+        android:id="@+id/dialog_connection_setup_button"
+        style="?android:attr/buttonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/dialog_connection_setup_scan"
+        android:visibility="visible" />
+
 </LinearLayout>

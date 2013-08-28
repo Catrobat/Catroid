@@ -45,6 +45,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <uses-feature
@@ -154,16 +155,6 @@
 
         <service android:name=".transfers.ProjectUploadService" />
         <service android:name=".transfers.ProjectDownloadService" />
-        
-        <service
-            android:name="FastInputIME"
-       		android:label="hallo"
-        	android:permission="android.permission.BIND_INPUT_METHOD">
-	        <intent-filter>
-	            <action android:name="android.view.InputMethod" />
-	        </intent-filter>
-	        <meta-data android:name="android.view.im" android:resource="@xml/send_to_pc_keyboard" />
-    </service>
     </application>
 
 </manifest>

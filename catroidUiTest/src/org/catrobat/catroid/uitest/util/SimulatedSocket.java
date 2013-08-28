@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.uitest.util;
 
+import org.catrobat.catroid.io.IPv4Manager;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -32,7 +34,7 @@ import java.net.SocketException;
 public class SimulatedSocket extends Socket {
 
 	private String clientIp;
-	private int clientport;
+	private int clientPort;
 	private InputStream mockInputStream;
 	private OutputStream mockOutputStream;
 
@@ -44,8 +46,8 @@ public class SimulatedSocket extends Socket {
 
 	@Override
 	public void connect(SocketAddress remoteAddress, int timeout) throws IOException {
-		clientIp = stripPort(remoteAddress.toString());
-		clientport = stripIp(remoteAddress.toString());
+		clientIp = IPv4Manager.stripPort(remoteAddress.toString());
+		clientPort = stripIp(remoteAddress.toString());
 	}
 
 	@Override
@@ -63,14 +65,6 @@ public class SimulatedSocket extends Socket {
 		return mockInputStream;
 	}
 
-	public String stripPort(String ipWithPort) {
-		int pos = ipWithPort.indexOf(":");
-		if (pos != -1) {
-			ipWithPort = ipWithPort.substring(1, pos);
-		}
-		return ipWithPort;
-	}
-
 	public int stripIp(String ipWithPort) {
 		int pos = ipWithPort.indexOf(":");
 		if (pos != -1) {
@@ -80,7 +74,7 @@ public class SimulatedSocket extends Socket {
 	}
 
 	public int getClientPort() {
-		return clientport;
+		return clientPort;
 	}
 
 	public String getClientIp() {

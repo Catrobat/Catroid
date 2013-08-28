@@ -337,7 +337,6 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 	public void testOverrideMyFirstProject() {
 		String standardProjectName = solo.getString(R.string.default_project_name);
 		Project standardProject = null;
-
 		try {
 			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
 					getInstrumentation().getTargetContext());
