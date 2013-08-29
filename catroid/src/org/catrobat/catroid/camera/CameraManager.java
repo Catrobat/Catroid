@@ -23,6 +23,7 @@
 package org.catrobat.catroid.camera;
 
 import android.hardware.Camera;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +81,7 @@ public class CameraManager implements Camera.PreviewCallback {
 
 	public void addOnPreviewFrameCallback(Camera.PreviewCallback callback) {
 		if (callbacks.contains(callback)) {
+			Log.e("Blah", "already added");
 			return;
 		}
 		callbacks.add(callback);

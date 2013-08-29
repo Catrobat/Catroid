@@ -54,13 +54,14 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 	@Override
 	public void stopFaceDetection() {
 		Log.d("Blah", "Slow Stop");
+		CameraManager.getInstance().removeOnPreviewFrameCallback(this);
 		CameraManager.getInstance().releaseCamera();
 	}
 
 	@Override
 	public void onPreviewFrame(byte[] data, Camera camera) {
 		Log.d("Blah", "frame");
-		byte[] bitmapBytes = VideoDisplayHandler.getDecodeableBytesFromCameraFrame(data, camera);
+		byte[] bitmapBytes = VideoDisplayHandler.getDecodeableBytesFromCameraFrame(data, camera); // TODO only do that once in CameraManager
 		Bitmap preview = BitmapFactory.decodeByteArray(bitmapBytes, 0, bitmapBytes.length);
 		detectFaces(preview);
 	}

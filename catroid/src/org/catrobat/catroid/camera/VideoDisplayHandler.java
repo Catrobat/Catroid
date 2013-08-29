@@ -72,8 +72,9 @@ public class VideoDisplayHandler implements Camera.PreviewCallback {
 		if (instance == null) {
 			return;
 		}
-		CameraManager.getInstance().removeOnPreviewFrameCallback(instance);
 		instance.started = false;
+		CameraManager.getInstance().removeOnPreviewFrameCallback(instance);
+		instance.videoLookData = new VideoLookData(); // TODO why?
 	}
 
 	public static byte[] getDecodeableBytesFromCameraFrame(byte[] cameraData, Camera camera) {

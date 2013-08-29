@@ -47,6 +47,14 @@ public class VideoLookData extends LookData {
 	}
 
 	@Override
+	public void dispose() {
+		super.dispose();
+		if (videoFramePixmap != null) {
+			videoFramePixmap.dispose();
+		}
+	}
+
+	@Override
 	public Pixmap getPixmap() {
 		if (videoFrameData == null) {
 			return super.getPixmap();

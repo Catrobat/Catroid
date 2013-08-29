@@ -33,6 +33,7 @@ import android.os.Build;
 import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.camera.VideoDisplayHandler;
 
 import java.io.IOException;
 
@@ -60,6 +61,7 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 		if (running) {
 			return;
 		}
+		VideoDisplayHandler.startVideoStream();//TODO
 		Log.d("Blah", "ICS Start");
 		Camera camera = CameraManager.getInstance().getCamera();
 		camera.setFaceDetectionListener(this);
@@ -78,6 +80,8 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 		if (!running) {
 			return;
 		}
+
+		VideoDisplayHandler.stopVideoStream();//TODO
 		Log.d("Blah", "ICS Stop");
 		running = false;
 		CameraManager.getInstance().releaseCamera();

@@ -176,6 +176,16 @@ public class LookData implements Serializable, Cloneable {
 		return new int[] { width, height };
 	}
 
+	public void dispose() {
+		if (pixmap == null) {
+			pixmap.dispose();
+		}
+		if (texture != null) {
+			texture.dispose();
+			texture = null;
+		}
+	}
+
 	@Override
 	public String toString() {
 		return name;
