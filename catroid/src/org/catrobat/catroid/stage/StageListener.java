@@ -291,6 +291,7 @@ public class StageListener implements ApplicationListener {
 				Sprite sprite = sprites.get(i);
 				sprite.resetSprite();
 				sprite.look.createBrightnessContrastShader();
+				VideoDisplayHandler.registerSprite(sprite);// TODO REMOVE
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}
