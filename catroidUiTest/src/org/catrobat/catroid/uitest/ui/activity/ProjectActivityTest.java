@@ -319,7 +319,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 	@Device
 	public void testBackgroundSprite() {
-		String sometext = "something" + System.currentTimeMillis();
+		String sometext = UiTestUtils.PROJECTNAME1;
 
 		solo.clickOnText(solo.getString(R.string.main_menu_new));
 		solo.waitForText(solo.getString(R.string.new_project_dialog_title));
