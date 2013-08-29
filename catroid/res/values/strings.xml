@@ -50,8 +50,8 @@
     <string name="main_menu_new">New</string>
     <string name="main_menu_continue">Continue</string>
     <string name="main_menu_programs">Programs</string>
-    <string name="main_menu_forum">Forum</string>
-    <string name="main_menu_web">Community</string>
+    <string name="main_menu_forum">Discuss</string>
+    <string name="main_menu_web">Explore</string>
     <string name="main_menu_upload">Upload</string>
     <string name="main_menu_settings">Settings</string>
     <string name="main_menu_about_pocketcode">About Pocket Code</string>
