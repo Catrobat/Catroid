@@ -144,7 +144,14 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		solo.waitForView(solo.getView(R.id.brick_set_size_to_edit_text));
 		solo.clickOnView(solo.getView(R.id.brick_set_size_to_edit_text));
 		assertTrue("FormulaEditor title not found", solo.waitForText(solo.getString(R.string.formula_editor_title)));
+
 		solo.goBack();
+		// workaround for testdevice - Bug in Catroid-multi-job
+		// for some reason the discard changes dialog appears without changing anything
+		if (solo.searchText(solo.getString(R.string.formula_editor_discard_changes_dialog_title))) {
+			solo.clickOnText(solo.getString(R.string.no));
+		}
+		solo.sleep(200);
 		assertTrue("Sprite name not found", solo.waitForText("cat"));
 	}
 
