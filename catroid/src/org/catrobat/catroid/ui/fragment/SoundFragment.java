@@ -75,7 +75,6 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SoundViewHolder;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
@@ -455,19 +454,33 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			case R.id.context_menu_backpack:
 				Log.d("TAG", "Context Menu BackPack!");
 
-				BackPackSoundFragment BackPackActivity = BackPackListManager.getInstance()
-						.getBackPackSoundActivityFragment();
+				//				Intent intent = new Intent(this, ScriptActivity.class);
+				//				intent.putExtra(ScriptActivity.EXTRA_FRAGMENT_POSITION, fragmentPosition);
+				//				startActivity(intent);
 
-				Activity activity = BackPackActivity.getActivity();
+				Intent intent = new Intent(getActivity(), BackPackActivity.class);
+				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 2);
+				startActivity(intent);
 
-				Intent intentBackPack = new Intent(getActivity(), BackPackSoundFragment.class);
-
-				BackPackListManager.getInstance().getBackPackSoundActivityFragment().startActivity(intentBackPack);
-
-				SoundController.getInstance().backPackSound(selectedSoundInfo,
-						BackPackListManager.getInstance().getBackPackSoundActivityFragment(),
-						BackPackListManager.getInstance().getSoundInfoArrayList(),
-						BackPackListManager.getInstance().getBackPackSoundActivityFragment().getBackPackSoundAdapter()); //todo: bp ad.
+				/*
+				 * BackPackSoundFragment BackPackActivity = BackPackListManager.getInstance()
+				 * .getBackPackSoundActivityFragment();
+				 * 
+				 * Activity activity = BackPackActivity.getActivity();
+				 * 
+				 * Intent intentBackPack = new Intent(getActivity(), BackPackSoundFragment.class);
+				 * 
+				 * BackPackSoundFragment backPackSoundFragment = BackPackListManager.getInstance()
+				 * .getBackPackSoundActivityFragment();
+				 * 
+				 * backPackSoundFragment.startActivity(intentBackPack);
+				 * 
+				 * SoundController.getInstance().backPackSound(selectedSoundInfo,
+				 * BackPackListManager.getInstance().getBackPackSoundActivityFragment(),
+				 * BackPackListManager.getInstance().getSoundInfoArrayList(),
+				 * BackPackListManager.getInstance().getBackPackSoundActivityFragment().getBackPackSoundAdapter());
+				 * //todo: bp ad.
+				 */
 				break;
 
 			case R.id.context_menu_copy:

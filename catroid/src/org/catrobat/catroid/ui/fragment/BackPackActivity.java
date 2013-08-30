@@ -97,6 +97,15 @@ public class BackPackActivity extends BaseActivity {
 			}
 		}
 
+		switch (currentFragmentPosition) {
+			case 2:
+				// it's a Sound
+				if (backPackSoundFragment == null) {
+					Log.d("TAG", "BackPackActivity --> it's a Sound");
+					backPackSoundFragment = new BackPackSoundFragment();
+				}
+		}
+
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		updateCurrentFragment(currentFragmentPosition, fragmentTransaction);
 		fragmentTransaction.commit();

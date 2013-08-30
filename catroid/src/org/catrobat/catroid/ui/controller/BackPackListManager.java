@@ -43,7 +43,7 @@ public class BackPackListManager extends SherlockFragmentActivity {
 	private BackPackListManager() {
 
 		Log.d("TAG", "Set up BackPackListManager (Constructor)");
-
+		// change
 		backPackSoundFragment = new BackPackSoundFragment();
 	}
 
