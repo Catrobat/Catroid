@@ -98,7 +98,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	private static String multipleItemAppendixDeleteActionMode;
 
 	private MediaPlayer mediaPlayer;
-	private SoundAdapter adapter;
+	private SoundBaseAdapter adapter;
 	private ArrayList<SoundInfo> soundInfoList;
 	private SoundInfo selectedSoundInfo;
 
@@ -167,12 +167,15 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
 		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList, false);
+
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
-		adapter.setSoundFragment(this);
+		((SoundAdapter) adapter).setSoundFragment(this);
 
 		Utils.loadProjectIfNeeded(getActivity());
 		setHandleAddbutton();
+
+		Log.d("TAG", "SoundFragment-->onActivityCreated() ends");
 
 	}
 
@@ -632,7 +635,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			adapter.onDestroyActionModeRename(mode, listView);
+			((SoundAdapter) adapter).onDestroyActionModeRename(mode, listView);
 		}
 	};
 
@@ -668,7 +671,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 
-			adapter.onDestroyActionModeCopy(mode);
+			((SoundAdapter) adapter).onDestroyActionModeCopy(mode);
 
 		}
 

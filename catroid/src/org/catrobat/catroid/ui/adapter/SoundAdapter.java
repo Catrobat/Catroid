@@ -26,26 +26,20 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.actionbarsherlock.view.ActionMode;
 
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.controller.SoundController;
-import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdapterInterface {
 
-	protected ArrayList<SoundInfo> soundInfoItems;
-
+	@Override
 	public ArrayList<SoundInfo> getSoundInfoItems() {
 		return soundInfoItems;
 	}
@@ -57,13 +51,13 @@ public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdap
 		Log.d("TAG", "SoundAdapter called!");
 	}
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (soundFragment == null) {
-            return convertView;
-        }
-        return soundFragment.getView(position, convertView);
-    }
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		if (soundFragment == null) {
+			return convertView;
+		}
+		return soundFragment.getView(position, convertView);
+	}
 
 	public void onDestroyActionModeRename(ActionMode mode, ListView listView) {
 		Iterator<Integer> iterator = checkedSounds.iterator();
