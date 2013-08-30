@@ -34,6 +34,8 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -53,7 +55,7 @@ import java.util.ArrayList;
 public class BackPackSoundFragment extends BackPackActivityFragment implements SoundBaseAdapter.OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
 
-	public static final String TAG = SoundFragment.class.getSimpleName();
+	public static final String TAG = BackPackSoundFragment.class.getSimpleName();
 
 	private static int selectedSoundPosition = Constants.NO_POSITION;
 
@@ -75,14 +77,15 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
-		Log.d("TAG", "BackPackActivityFragment created!");
+		Log.d("TAG", "BackPackSoundFragment created!");
 
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 
 		backPackListManagerInstance = BackPackListManager.getInstance();
 
-		adapter = new BackPackSoundAdapter(backPackListManagerInstance.getBackPackSoundActivityFragment().getActivity(),
+		adapter = new BackPackSoundAdapter(
+				backPackListManagerInstance.getBackPackSoundActivityFragment().getActivity(),
 				R.layout.fragment_sound_soundlist_item, backPackListManagerInstance.getSoundInfoArrayList(), false);
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
@@ -92,6 +95,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		Log.d("TAG", "BackPackSoundFragment-->onCreateView()");
 		View rootView = inflater.inflate(R.layout.sound_list, null);
 		return rootView;
 	}
@@ -100,7 +104,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		Log.d("TAG", "SoundFragment-->onActivityCreated()");
+		Log.d("TAG", "BackPackSoundFragment-->onActivityCreated()");
 
 		listView = getListView();
 		registerForContextMenu(listView);
@@ -111,7 +115,8 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		}
 		soundInfoListBackPack = BackPackListManager.getInstance().getSoundInfoArrayList();
 
-		adapter = new BackPackSoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoListBackPack, false);
+		adapter = new BackPackSoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item,
+				soundInfoListBackPack, false);
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
 
@@ -128,6 +133,23 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putSerializable(SoundController.BUNDLE_ARGUMENTS_SELECTED_SOUND, selectedSoundInfoBackPack);
 		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		mediaPlayer = new MediaPlayer();
+		initClickListener();
+	}
+
+	private void initClickListener() {
+		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				selectedSoundPosition = position;
+				return false;
+			}
+		});
 	}
 
 	public BackPackSoundAdapter getBackPackSoundAdapter() {

@@ -97,23 +97,35 @@ public class BackPackActivity extends BaseActivity {
 			}
 		}
 
-		switch (currentFragmentPosition) {
-			case 2:
-				// it's a Sound
-				if (backPackSoundFragment == null) {
-					Log.d("TAG", "BackPackActivity --> it's a Sound");
-					backPackSoundFragment = new BackPackSoundFragment();
-				}
-		}
-
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		updateCurrentFragment(currentFragmentPosition, fragmentTransaction);
+
+		setCurrentFragment(currentFragmentPosition);
+
+		/*
+		 * switch (currentFragmentPosition) {
+		 * case 2:
+		 * // it's a Sound
+		 * if (backPackSoundFragment == null) {
+		 * Log.d("TAG", "BackPackActivity --> it's a Sound");
+		 * backPackSoundFragment = new BackPackSoundFragment();
+		 * currentFragment = backPackSoundFragment;
+		 * //fragmentExists = false;
+		 * //currentFragmentTag = BackPackSoundFragment.TAG;
+		 * }
+		 * }
+		 */
+
+		//updateCurrentFragment(currentFragmentPosition, fragmentTransaction);
 		fragmentTransaction.commit();
+
+		fragmentTransaction.add(R.id.script_fragment_container, currentFragment, currentFragmentTag);
+
+		//fragmentTransaction.show(currentFragment);
 
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setTitle(currentFragmentPosition);
+		//actionBar.setTitle(currentFragmentPosition);
 	}
 
 	private void updateCurrentFragment(int fragmentPosition, FragmentTransaction fragmentTransaction) {
@@ -362,9 +374,17 @@ public class BackPackActivity extends BaseActivity {
 				currentFragmentTag = BackPackLookFragment.TAG;
 				break;
 			case FRAGMENT_BACKPACK_SOUNDS:
+				Log.d("TAG", "BackPackActivity --> it's a Sound!!!");
+
+				if (backPackSoundFragment == null) {
+					Log.d("TAG", "BackPackActivity --> create a new Sound!!!");
+					backPackSoundFragment = new BackPackSoundFragment();
+				}
+
 				currentFragment = backPackSoundFragment;
 				currentFragmentPosition = FRAGMENT_BACKPACK_SOUNDS;
 				currentFragmentTag = BackPackSoundFragment.TAG;
+
 				break;
 		}
 	}
