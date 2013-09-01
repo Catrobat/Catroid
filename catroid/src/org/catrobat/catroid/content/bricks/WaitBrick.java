@@ -29,8 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -111,7 +109,7 @@ public class WaitBrick extends BrickBaseType implements OnClickListener, Formula
 		});
 
 		TextView text = (TextView) view.findViewById(R.id.brick_wait_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_wait_edit_text);
+		TextView edit = (TextView) view.findViewById(R.id.brick_wait_edit_text);
 		timeToWaitInSeconds.setTextFieldId(R.id.brick_wait_edit_text);
 		timeToWaitInSeconds.refreshTextField(view);
 
@@ -155,13 +153,13 @@ public class WaitBrick extends BrickBaseType implements OnClickListener, Formula
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_wait_layout);
+			View layout = (View) view.findViewById(R.id.brick_wait_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView textWaitLabel = (TextView) view.findViewById(R.id.brick_wait_label);
 			TextView textWaitSeconds = (TextView) view.findViewById(R.id.brick_wait_second_text_view);
-			EditText editWait = (EditText) view.findViewById(R.id.brick_wait_edit_text);
+			TextView editWait = (TextView) view.findViewById(R.id.brick_wait_edit_text);
 
 			textWaitLabel.setTextColor(textWaitLabel.getTextColors().withAlpha(alphaValue));
 			textWaitSeconds.setTextColor(textWaitSeconds.getTextColors().withAlpha(alphaValue));

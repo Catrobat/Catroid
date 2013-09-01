@@ -34,8 +34,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -109,12 +107,12 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		});
 
 		TextView prototypeText = (TextView) view.findViewById(R.id.brick_change_variable_prototype_view);
-		EditText editText = (EditText) view.findViewById(R.id.brick_change_variable_edit_text);
+		TextView textField = (TextView) view.findViewById(R.id.brick_change_variable_edit_text);
 		prototypeText.setVisibility(View.GONE);
 		variableFormula.setTextFieldId(R.id.brick_change_variable_edit_text);
 		variableFormula.refreshTextField(view);
-		editText.setVisibility(View.VISIBLE);
-		editText.setOnClickListener(this);
+		textField.setVisibility(View.VISIBLE);
+		textField.setOnClickListener(this);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
 		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
@@ -138,10 +136,11 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		variableSpinner.setOnTouchListener(new OnTouchListener() {
 
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
+			public boolean onTouch(View view, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					if (((Spinner) v).getSelectedItemPosition() == 0 && ((Spinner) v).getAdapter().getCount() == 1) {
-						NewVariableDialog dialog = new NewVariableDialog((Spinner) v);
+					if (((Spinner) view).getSelectedItemPosition() == 0
+							&& ((Spinner) view).getAdapter().getCount() == 1) {
+						NewVariableDialog dialog = new NewVariableDialog((Spinner) view);
 						dialog.addVariableDialogListener(ChangeVariableBrick.this);
 						dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
 								NewVariableDialog.DIALOG_FRAGMENT_TAG);
@@ -200,13 +199,13 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_variable_layout);
+			View layout = view.findViewById(R.id.brick_change_variable_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView textSetVariable = (TextView) view.findViewById(R.id.brick_change_variable_label);
 			TextView textTo = (TextView) view.findViewById(R.id.brick_change_variable_by);
-			EditText editVariable = (EditText) view.findViewById(R.id.brick_change_variable_edit_text);
+			TextView editVariable = (TextView) view.findViewById(R.id.brick_change_variable_edit_text);
 			Spinner variablebrickSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
 
 			ColorStateList color = textSetVariable.getTextColors().withAlpha(alphaValue);

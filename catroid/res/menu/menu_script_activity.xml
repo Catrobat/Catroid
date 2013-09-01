@@ -20,47 +20,48 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item
-        android:id="@+id/copy"
-        android:showAsAction="ifRoom"
-        android:title="@string/copy"
-        android:icon="@drawable/ic_copy" />
+
     <item
         android:id="@+id/delete"
+        android:icon="@drawable/ic_menu_delete"
         android:showAsAction="ifRoom"
-        android:title="@string/delete"
-        android:icon="@drawable/ic_menu_delete" />
+        android:title="@string/delete"/>
+    <item
+        android:id="@+id/copy"
+        android:showAsAction="never"
+        android:title="@string/copy"/>
     <item
         android:id="@+id/cut"
         android:showAsAction="never"
-        android:visible="false"
-        android:title="@string/cut" />
+        android:title="@string/cut"
+        android:visible="false"/>
     <item
         android:id="@+id/insert_below"
         android:showAsAction="never"
-        android:visible="false"
-        android:title="@string/insert_below" />
+        android:title="@string/insert_below"
+        android:visible="false"/>
     <item
         android:id="@+id/move"
         android:showAsAction="never"
-        android:visible="false"
-        android:title="@string/move" />
+        android:title="@string/move"
+        android:visible="false"/>
     <item
         android:id="@+id/rename"
         android:showAsAction="never"
-        android:title="@string/rename" />
+        android:title="@string/rename"/>
     <item
         android:id="@+id/edit_in_pocket_paint"
         android:showAsAction="never"
-        android:title="@string/edit_in_pocket_paint" />
+        android:title="@string/edit_in_pocket_paint"/>
     <item
         android:id="@+id/show_details"
         android:showAsAction="never"
-        android:title="@string/show_details" />
+        android:title="@string/show_details"/>
     <item
         android:id="@+id/settings"
         android:showAsAction="never"
-        android:title="@string/main_menu_settings" />
+        android:title="@string/main_menu_settings"/>
+
 </menu>

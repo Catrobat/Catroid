@@ -560,6 +560,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			Script script = new StartScript(currentSprite);
 			currentSprite.addScript(script);
 			brickList.add(0, script.getScriptBrick());
+			ProjectManager.getInstance().setCurrentScript(script);
 			positionOfInsertedBrick = 1;
 		}
 
@@ -1054,7 +1055,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	public interface OnBrickEditListener {
 
-		public void onBrickEdit(View v);
+		public void onBrickEdit(View view);
 
 		public void onBrickChecked();
 	}

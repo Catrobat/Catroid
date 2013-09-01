@@ -33,8 +33,6 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -61,7 +59,7 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 	private String motor;
 	private transient Motor motorEnum;
 	private Formula degrees;
-	private transient EditText editSpeed;
+	private transient TextView editSpeed;
 	private transient AdapterView<?> adapterView;
 
 	protected Object readResolve() {
@@ -150,7 +148,7 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 		});
 
 		TextView textSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_text_view);
-		editSpeed = (EditText) view.findViewById(R.id.motor_turn_angle_edit_text);
+		editSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_edit_text);
 		degrees.setTextFieldId(R.id.motor_turn_angle_edit_text);
 		degrees.refreshTextField(view);
 
@@ -207,7 +205,7 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_nxt_motor_turn_layout);
+			View layout = view.findViewById(R.id.brick_nxt_motor_turn_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
@@ -215,7 +213,7 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 			TextView textLegoTurnAngleTextView = (TextView) view.findViewById(R.id.brick_nxt_motor_turn_angle);
 			TextView textLegoTurnAngleView = (TextView) view.findViewById(R.id.motor_turn_angle_text_view);
 			TextView textLegoTurnAngleDegree = (TextView) view.findViewById(R.id.brick_nxt_motor_turn_degree);
-			EditText editLegoSpeed = (EditText) view.findViewById(R.id.motor_turn_angle_edit_text);
+			TextView editLegoSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_edit_text);
 
 			textLegoTurnAngleLabel.setTextColor(textLegoTurnAngleLabel.getTextColors().withAlpha(alphaValue));
 			textLegoTurnAngleTextView.setTextColor(textLegoTurnAngleTextView.getTextColors().withAlpha(alphaValue));

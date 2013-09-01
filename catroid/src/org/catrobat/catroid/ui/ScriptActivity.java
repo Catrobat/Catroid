@@ -134,8 +134,8 @@ public class ScriptActivity extends BaseActivity {
 		}
 		buttonAdd.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				handleAddButton(v);
+			public void onClick(View view) {
+				handleAddButton(view);
 			}
 		});
 	}

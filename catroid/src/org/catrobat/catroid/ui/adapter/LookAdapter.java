@@ -179,9 +179,9 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 			if (holder.lookElement.isClickable()) {
 				holder.lookElement.setOnClickListener(new OnClickListener() {
 					@Override
-					public void onClick(View v) {
+					public void onClick(View view) {
 						if (onLookEditListener != null) {
-							onLookEditListener.onLookEdit(v);
+							onLookEditListener.onLookEdit(view);
 						}
 					}
 				});
@@ -233,7 +233,7 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 
 	public interface OnLookEditListener {
 
-		public void onLookEdit(View v);
+		public void onLookEdit(View view);
 
 		public void onLookChecked();
 	}

@@ -288,6 +288,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	public ImageView getGlowingBorder(Bitmap bitmap) {
 		ImageView imageView = new ImageView(getContext());
 		imageView.setBackgroundColor(DRAG_BACKGROUND_COLOR);
+		imageView.setId(R.id.drag_and_drop_list_view_image_view);
 
 		Bitmap glowingBitmap = Bitmap.createBitmap(bitmap.getWidth() + 30, bitmap.getHeight() + 30,
 				Bitmap.Config.ARGB_8888);

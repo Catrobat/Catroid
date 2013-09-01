@@ -29,9 +29,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
+import android.widget.BaseAdapter;import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -171,7 +169,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_broadcast_receive_layout);
+			View layout = (View) view.findViewById(R.id.brick_broadcast_receive_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 			this.alphaValue = (alphaValue);

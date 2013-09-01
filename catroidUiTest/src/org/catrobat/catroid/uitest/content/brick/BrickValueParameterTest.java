@@ -24,7 +24,6 @@ package org.catrobat.catroid.uitest.content.brick;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -175,7 +174,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(solo.getString(R.string.brick_go_back));
 		solo.clickOnScreen(200, 200);
 
-		EditText goBackEditText = (EditText) solo.getView(R.id.brick_go_back_edit_text);
+		TextView goBackEditText = (TextView) solo.getView(R.id.brick_go_back_edit_text);
 		// Formula appends a blank after the value, so last character has to be deleted
 		// before parsing an int from the string
 		String goBackEditTextString = goBackEditText.getText().toString();
@@ -248,8 +247,10 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(solo.getString(R.string.brick_change_brightness));
 		solo.clickOnScreen(200, 200);
 
-		EditText changeBrightnessEditText = (EditText) solo.getView(R.id.brick_change_brightness_edit_text);
-		float changeBrightnessEditTextValue = Float.parseFloat(changeBrightnessEditText.getText().toString());
+		TextView changeBrightnessEditText = (TextView) solo.getView(R.id.brick_change_brightness_edit_text);
+		float changeBrightnessEditTextValue = Float.parseFloat(changeBrightnessEditText.getText().toString()
+				.replace(',', '.'));
+
 		assertEquals("Value in Selected Brick ChangeBrightness is not correct",
 				(float) BrickValues.CHANGE_BRITHNESS_BY, changeBrightnessEditTextValue);
 	}
@@ -284,7 +285,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(solo.getString(R.string.brick_speak));
 		solo.clickOnScreen(200, 200);
 
-		EditText speakEditText = (EditText) solo.getView(R.id.brick_speak_edit_text);
+		TextView speakEditText = (TextView) solo.getView(R.id.brick_speak_edit_text);
 		String speakEditTextValue = speakEditText.getText().toString();
 		assertEquals("Value in Selected Brick Speak is not correct", defaultSpeakValue, speakEditTextValue);
 
@@ -294,12 +295,13 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(solo.getString(R.string.brick_change_volume_by));
 		solo.clickOnScreen(200, 200);
 
-		EditText changeVolumeByEditText = (EditText) solo.getView(R.id.brick_change_volume_by_edit_text);
+		TextView changeVolumeByEditText = (TextView) solo.getView(R.id.brick_change_volume_by_edit_text);
 		// Formula appends a blank after the value, so last character has to be deleted
 		// before parsing an int from the string
 		// in this case, between the minus operator and the value there is a blank also
 		String changeVolumeByEditTextString = changeVolumeByEditText.getText().toString();
-		float changeVolumeByEditTextValue = Float.parseFloat(changeVolumeByEditTextString.replaceAll(" ", ""));
+		float changeVolumeByEditTextValue = Float.parseFloat(changeVolumeByEditTextString.replaceAll(" ", "").replace(
+				',', '.'));
 		assertEquals("Value in Selected Brick ChangeVolumeBy is not correct", BrickValues.CHANGE_VOLUME_BY,
 				changeVolumeByEditTextValue);
 	}
@@ -367,7 +369,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(solo.getString(R.string.brick_repeat));
 		solo.clickOnScreen(200, 200);
 
-		EditText repeatEditText = (EditText) solo.getView(R.id.brick_repeat_edit_text);
+		TextView repeatEditText = (TextView) solo.getView(R.id.brick_repeat_edit_text);
 		// Formula appends a blank after the value, so last character has to be deleted
 		// before parsing an int from the string
 		String repeatEditTextString = repeatEditText.getText().toString();
@@ -418,7 +420,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(solo.getString(R.string.nxt_play_tone));
 		solo.clickOnScreen(200, 200);
 
-		EditText nxtPlayToneEditText = (EditText) solo.getView(R.id.nxt_tone_freq_edit_text);
+		TextView nxtPlayToneEditText = (TextView) solo.getView(R.id.nxt_tone_freq_edit_text);
 		// Formula appends a blank after the value, so last character has to be deleted
 		// before parsing an int from the string
 		String nxtPlayToneEditTextString = nxtPlayToneEditText.getText().toString();

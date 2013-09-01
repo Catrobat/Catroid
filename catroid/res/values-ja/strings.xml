@@ -24,7 +24,6 @@
 <resources>
 
     <!-- General terms -->
-    <string name="app_name">キャット\nロイド</string>
     <string name="project">"プロジェクト"</string>
     <string name="sprite">"スプライト"</string>
     <string name="script">"スクリプト"</string>

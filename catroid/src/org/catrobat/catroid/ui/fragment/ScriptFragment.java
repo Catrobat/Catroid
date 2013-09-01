@@ -246,7 +246,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		getSherlockActivity().findViewById(R.id.button_add).setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(View view) {
 				handleAddButton();
 			}
 		});

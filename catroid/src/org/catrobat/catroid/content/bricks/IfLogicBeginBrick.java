@@ -30,8 +30,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -127,15 +125,15 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, 
 		});
 
 		TextView prototypeTextView = (TextView) view.findViewById(R.id.brick_if_begin_prototype_text_view);
-		EditText ifBeginEditText = (EditText) view.findViewById(R.id.brick_if_begin_edit_text);
+		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_if_begin_edit_text);
 
 		ifCondition.setTextFieldId(R.id.brick_if_begin_edit_text);
 		ifCondition.refreshTextField(view);
 
 		prototypeTextView.setVisibility(View.GONE);
-		ifBeginEditText.setVisibility(View.VISIBLE);
+		ifBeginTextView.setVisibility(View.VISIBLE);
 
-		ifBeginEditText.setOnClickListener(this);
+		ifBeginTextView.setOnClickListener(this);
 
 		return view;
 	}
@@ -145,13 +143,13 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, 
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_if_begin_layout);
+			View layout = (View) view.findViewById(R.id.brick_if_begin_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView ifLabel = (TextView) view.findViewById(R.id.if_label);
 			TextView ifLabelEnd = (TextView) view.findViewById(R.id.if_label_second_part);
-			EditText editX = (EditText) view.findViewById(R.id.brick_if_begin_edit_text);
+			TextView editX = (TextView) view.findViewById(R.id.brick_if_begin_edit_text);
 			ifLabel.setTextColor(ifLabel.getTextColors().withAlpha(alphaValue));
 			ifLabelEnd.setTextColor(ifLabelEnd.getTextColors().withAlpha(alphaValue));
 			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));

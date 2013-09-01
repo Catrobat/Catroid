@@ -36,7 +36,6 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -152,8 +151,8 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		setSpinnerSelection(lookbrickSpinner);
 
 		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
-			textView.setText(R.string.brick_set_background);
+			TextView textField = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
+			textField.setText(R.string.brick_set_background);
 		}
 
 		return view;
@@ -164,7 +163,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_look_layout);
+			View layout = view.findViewById(R.id.brick_set_look_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
@@ -201,8 +200,8 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_look, null);
 		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) prototypeView.findViewById(R.id.brick_set_look_prototype_text_view);
-			textView.setText(R.string.brick_set_background);
+			TextView textField = (TextView) prototypeView.findViewById(R.id.brick_set_look_prototype_text_view);
+			textField.setText(R.string.brick_set_background);
 		}
 		Spinner setLookSpinner = (Spinner) prototypeView.findViewById(R.id.brick_set_look_spinner);
 		setLookSpinner.setFocusableInTouchMode(false);

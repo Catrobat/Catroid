@@ -29,8 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -115,7 +113,7 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener, Form
 		});
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_x);
-		EditText editX = (EditText) view.findViewById(R.id.brick_place_at_edit_text_x);
+		TextView editX = (TextView) view.findViewById(R.id.brick_place_at_edit_text_x);
 		xPosition.setTextFieldId(R.id.brick_place_at_edit_text_x);
 		xPosition.refreshTextField(view);
 
@@ -124,7 +122,7 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener, Form
 		editX.setOnClickListener(this);
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_y);
-		EditText editY = (EditText) view.findViewById(R.id.brick_place_at_edit_text_y);
+		TextView editY = (TextView) view.findViewById(R.id.brick_place_at_edit_text_y);
 		yPosition.setTextFieldId(R.id.brick_place_at_edit_text_y);
 		yPosition.refreshTextField(view);
 		textY.setVisibility(View.GONE);
@@ -153,15 +151,15 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener, Form
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_place_at_layout);
+			View layout = (View) view.findViewById(R.id.brick_place_at_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView placeAtLabel = (TextView) view.findViewById(R.id.brick_place_at_label);
 			TextView placeAtX = (TextView) view.findViewById(R.id.brick_place_at_x_textview);
 			TextView placeAtY = (TextView) view.findViewById(R.id.brick_place_at_y_textview);
-			EditText editX = (EditText) view.findViewById(R.id.brick_place_at_edit_text_x);
-			EditText editY = (EditText) view.findViewById(R.id.brick_place_at_edit_text_y);
+			TextView editX = (TextView) view.findViewById(R.id.brick_place_at_edit_text_x);
+			TextView editY = (TextView) view.findViewById(R.id.brick_place_at_edit_text_y);
 			placeAtLabel.setTextColor(placeAtLabel.getTextColors().withAlpha(alphaValue));
 			placeAtX.setTextColor(placeAtX.getTextColors().withAlpha(alphaValue));
 			placeAtY.setTextColor(placeAtY.getTextColors().withAlpha(alphaValue));

@@ -22,7 +22,6 @@
 --><resources>
 
     <!-- General terms -->
-    <string name="app_name">"Pocket Code"</string>
     <string name="cancel_button">"Annuleren"</string>
     <string name="rename">"Hernoemen"</string>
     <string name="delete">"Verwijderen"</string>

@@ -361,6 +361,9 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Double checkDegeneratedDoubleValues(Double valueToCheck) {
+		if (valueToCheck == null) {
+			return 1.0;
+		}
 		if (valueToCheck.doubleValue() == Double.NEGATIVE_INFINITY) {
 			return -Double.MAX_VALUE;
 		}

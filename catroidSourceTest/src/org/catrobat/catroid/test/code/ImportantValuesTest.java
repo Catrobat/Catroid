@@ -29,7 +29,7 @@ import org.catrobat.catroid.common.Constants;
 public class ImportantValuesTest extends TestCase {
 
 	public void testPaintroidDownloadLink() {
-		assertEquals("wrong paintroid download link", "market://details?id=org.catrobat.paintroid.pocketpaint",
+		assertEquals("wrong paintroid download link", "market://details?id=org.catrobat.paintroid",
 				Constants.POCKET_PAINT_DOWNLOAD_LINK);
 	}
 }

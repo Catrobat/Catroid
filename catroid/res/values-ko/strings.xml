@@ -23,7 +23,6 @@
 <resources>
 
     <!-- General terms -->
-    <string name="app_name">"Catroid"</string>
     <string name="project">"프로젝트"</string>
     <string name="sprite">"스프라이트"</string>
     <string name="script">"스크립트"</string>

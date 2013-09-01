@@ -31,9 +31,9 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-public class SimpleStageTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+public class StageTestSimple extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	public SimpleStageTest() {
+	public StageTestSimple() {
 		super(MainMenuActivity.class);
 	}
 

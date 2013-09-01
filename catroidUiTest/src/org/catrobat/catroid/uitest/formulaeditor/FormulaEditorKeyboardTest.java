@@ -47,8 +47,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 	private Brick changeBrick;
 	private Brick glideToBrick;
 
-	private static final int X_POS_EDIT_TEXT_ID = 0;
-	private static final int Y_POS_EDIT_TEXT_ID = 1;
+	private static final int CHANGE_SIZE_EDIT_TEXT_RID = R.id.brick_change_size_by_edit_text;
 
 	public FormulaEditorKeyboardTest() {
 		super(MainMenuActivity.class);
@@ -83,13 +82,12 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 
 	public void testNormalKeysKeyboard() {
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_EDIT_TEXT_RID));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
 		ArrayList<EditText> textList = solo.getCurrentViews(EditText.class);
@@ -97,65 +95,65 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		EditText text = textList.get(textList.size() - 1);
 
 		assertEquals("Wrong button clicked", "9", text.getText().toString().substring(0, 1));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_8));
 		assertEquals("Wrong button clicked", "8", text.getText().toString().substring(0, 1));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_7));
 		assertEquals("Wrong button clicked", "7", text.getText().toString().substring(0, 1));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_6));
 		assertEquals("Wrong button clicked", "6", text.getText().toString().substring(0, 1));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_5));
 		assertEquals("Wrong button clicked", "5", text.getText().toString().substring(0, 1));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_4));
 		assertEquals("Wrong button clicked", "4", text.getText().toString().substring(0, 1));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_3));
 		assertEquals("Wrong button clicked", "3", text.getText().toString().substring(0, 1));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_2));
 		assertEquals("Wrong button clicked", "2", text.getText().toString().substring(0, 1));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
 		assertEquals("Wrong button clicked", "1", text.getText().toString().substring(0, 1));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
 		assertEquals("Wrong button clicked", "+", text.getText().toString().substring(0, 1));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
 		assertEquals("Wrong button clicked", "-", text.getText().toString().substring(0, 1));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_mult));
 		assertEquals("Wrong button clicked", "×", text.getText().toString().substring(0, 1));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_divide));
 		assertEquals("Wrong button clicked", "÷", text.getText().toString().substring(0, 1));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_bracket_open));
 		assertEquals("Wrong button clicked", getActivity().getString(R.string.formula_editor_bracket_open), text
 				.getText().toString().substring(0, text.length() - 1));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_bracket_close));
 		assertEquals("Wrong button clicked", getActivity().getString(R.string.formula_editor_bracket_close), text
 				.getText().toString().substring(0, text.length() - 1));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));
 		assertEquals(
@@ -163,22 +161,21 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 				solo.getString(R.string.formula_editor_function_rand) + "( 0 , 1 )",
 				text.getText().toString()
 						.substring(0, (solo.getString(R.string.formula_editor_function_rand) + "( 0 , 1 )").length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 	}
 
 	public void testObjectFragment() {
 
 		String itemString = "";
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_EDIT_TEXT_RID));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		ArrayList<EditText> textList = solo.getCurrentViews(EditText.class);
 		EditText text = textList.get(textList.size() - 1);
@@ -188,62 +185,61 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
 		itemString = solo.getString(R.string.formula_editor_object_y);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
 		itemString = solo.getString(R.string.formula_editor_object_ghosteffect);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
 		itemString = solo.getString(R.string.formula_editor_object_brightness);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
 		itemString = solo.getString(R.string.formula_editor_object_size);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
 		itemString = solo.getString(R.string.formula_editor_object_rotation);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
 		itemString = solo.getString(R.string.formula_editor_object_layer);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 	}
 
 	public void testMathFragment() {
 
 		String itemString = "";
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_EDIT_TEXT_RID));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		EditText text = (EditText) solo.getView(R.id.formula_editor_edit_field);
 
@@ -252,56 +248,56 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		itemString = solo.getString(R.string.formula_editor_function_cos);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		itemString = solo.getString(R.string.formula_editor_function_tan);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		itemString = solo.getString(R.string.formula_editor_function_ln);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		itemString = solo.getString(R.string.formula_editor_function_log);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		itemString = solo.getString(R.string.formula_editor_function_pi);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		itemString = solo.getString(R.string.formula_editor_function_sqrt);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 
@@ -309,37 +305,36 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		itemString = solo.getString(R.string.formula_editor_function_abs);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		itemString = solo.getString(R.string.formula_editor_function_round);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 	}
 
 	public void testLogicFragment() {
 
 		String itemString = "";
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_EDIT_TEXT_RID));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		EditText text = (EditText) solo.getView(R.id.formula_editor_edit_field);
 
@@ -348,76 +343,75 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_logic));
 		itemString = solo.getString(R.string.formula_editor_logic_notequal);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_logic));
 		itemString = solo.getString(R.string.formula_editor_logic_lesserthan);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_logic));
 		itemString = solo.getString(R.string.formula_editor_logic_leserequal);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_logic));
 		itemString = solo.getString(R.string.formula_editor_logic_greaterthan);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_logic));
 		itemString = solo.getString(R.string.formula_editor_logic_greaterequal);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_logic));
 		itemString = solo.getString(R.string.formula_editor_logic_and);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_logic));
 		itemString = solo.getString(R.string.formula_editor_logic_or);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_logic));
 		itemString = solo.getString(R.string.formula_editor_logic_not);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 	}
 
 	public void testSensorsFragment() {
 
 		String itemString = "";
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		solo.clickOnEditText(Y_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_EDIT_TEXT_RID));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		ArrayList<EditText> textList = solo.getCurrentViews(EditText.class);
 		EditText text = textList.get(textList.size() - 1);
@@ -427,42 +421,42 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
 		itemString = solo.getString(R.string.formula_editor_sensor_y_acceleration);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
 		itemString = solo.getString(R.string.formula_editor_sensor_z_acceleration);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
 		itemString = solo.getString(R.string.formula_editor_sensor_compass_direction);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
 		itemString = solo.getString(R.string.formula_editor_sensor_x_inclination);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
 		itemString = solo.getString(R.string.formula_editor_sensor_y_inclination);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 	}
 
 }
