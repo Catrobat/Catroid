@@ -22,16 +22,10 @@
  */
 package org.catrobat.catroid.camera;
 
-import android.graphics.ImageFormat;
-import android.graphics.Rect;
-import android.graphics.YuvImage;
 import android.hardware.Camera;
-import android.hardware.Camera.Parameters;
 
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
-
-import java.io.ByteArrayOutputStream;
 
 public class VideoDisplayHandler implements Camera.PreviewCallback {
 
@@ -77,26 +71,9 @@ public class VideoDisplayHandler implements Camera.PreviewCallback {
 		instance.videoLookData = new VideoLookData();
 	}
 
-	public static byte[] getDecodeableBytesFromCameraFrame(byte[] cameraData, Camera camera) {
-		Parameters parameters = camera.getParameters();
-		int imageFormat = parameters.getPreviewFormat();
-		byte[] decodableBytes;
-		if (imageFormat == ImageFormat.RGB_565 || imageFormat == ImageFormat.JPEG) {
-			decodableBytes = cameraData;
-		} else {
-			int width = parameters.getPreviewSize().width;
-			int height = parameters.getPreviewSize().height;
-			YuvImage image = new YuvImage(cameraData, imageFormat, width, height, null);
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			image.compressToJpeg(new Rect(0, 0, width, height), 50, out);
-			decodableBytes = out.toByteArray();
-		}
-		return decodableBytes;
-	}
-
 	@Override
 	public void onPreviewFrame(byte[] data, Camera camera) {
-		byte[] decodeableBytes = getDecodeableBytesFromCameraFrame(data, camera);
+		byte[] decodeableBytes = CameraManager.getInstance().getDecodeableBytesFromCameraFrame(data, camera);
 		videoLookData.setVideoFrameData(decodeableBytes);
 	}
 

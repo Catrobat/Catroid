@@ -36,7 +36,6 @@ import android.media.FaceDetector.Face;
 import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
-import org.catrobat.catroid.camera.VideoDisplayHandler;
 
 public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDetector implements Camera.PreviewCallback {
 
@@ -61,7 +60,7 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 	@Override
 	public void onPreviewFrame(byte[] data, Camera camera) {
 		Log.d("Blah", "frame");
-		byte[] bitmapBytes = VideoDisplayHandler.getDecodeableBytesFromCameraFrame(data, camera); // TODO only do that once in CameraManager
+		byte[] bitmapBytes = CameraManager.getInstance().getDecodeableBytesFromCameraFrame(data, camera); // TODO only do that once in CameraManager
 		Bitmap preview = BitmapFactory.decodeByteArray(bitmapBytes, 0, bitmapBytes.length);
 		detectFaces(preview);
 	}

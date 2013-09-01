@@ -22,18 +22,25 @@
  */
 package org.catrobat.catroid.camera;
 
+import android.graphics.ImageFormat;
+import android.graphics.Rect;
+import android.graphics.YuvImage;
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CameraManager implements Camera.PreviewCallback {
 
 	private static CameraManager instance;
-
 	private Camera camera;
 	private List<Camera.PreviewCallback> callbacks = new ArrayList<Camera.PreviewCallback>();
+	private int previewFormat;
+	private int previewWidth;
+	private int previewHeight;
 
 	public static CameraManager getInstance() {
 		if (instance == null) {
@@ -66,6 +73,12 @@ public class CameraManager implements Camera.PreviewCallback {
 		if (camera == null) {
 			return;
 		}
+		Parameters parameters = camera.getParameters();
+		parameters.setPreviewFormat(ImageFormat.YV12);// TODO
+		previewFormat = parameters.getPreviewFormat();
+		previewWidth = parameters.getPreviewSize().width;
+		previewHeight = parameters.getPreviewSize().height;
+		camera.setParameters(parameters);//TODO
 		camera.startPreview();
 	}
 
@@ -96,6 +109,15 @@ public class CameraManager implements Camera.PreviewCallback {
 		for (Camera.PreviewCallback callback : callbacks) {
 			callback.onPreviewFrame(data, camera);
 		}
+	}
+
+	public byte[] getDecodeableBytesFromCameraFrame(byte[] cameraData, Camera camera) {
+		byte[] decodableBytes;
+		YuvImage image = new YuvImage(cameraData, previewFormat, previewWidth, previewHeight, null);
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		image.compressToJpeg(new Rect(0, 0, previewWidth, previewHeight), 50, out);
+		decodableBytes = out.toByteArray();
+		return decodableBytes;
 	}
 
 }
