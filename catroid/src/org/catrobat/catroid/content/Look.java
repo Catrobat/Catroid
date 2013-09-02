@@ -244,6 +244,7 @@ public class Look extends Image {
 
 			pixmap = lookData.getPixmap();
 			if (pixmap == null) {
+				imageChanged = false;
 				return;//TODO REMOVE
 			}
 			float newX = getX() - (pixmap.getWidth() - getWidth()) / 2f;

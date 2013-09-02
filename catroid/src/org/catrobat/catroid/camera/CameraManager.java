@@ -48,7 +48,7 @@ public class CameraManager implements Camera.PreviewCallback {
 		return instance;
 	}
 
-	public CameraManager() {
+	private CameraManager() {
 
 	}
 
@@ -70,7 +70,7 @@ public class CameraManager implements Camera.PreviewCallback {
 
 	public void startCamera() {
 		if (camera == null) {
-			return;
+			createCamera();
 		}
 		Parameters parameters = camera.getParameters();
 		previewFormat = parameters.getPreviewFormat();
@@ -89,7 +89,7 @@ public class CameraManager implements Camera.PreviewCallback {
 		camera = null;
 	}
 
-	public void addOnPreviewFrameCallback(JpgPreviewCallback callback) {
+	public void addOnJpgPreviewFrameCallback(JpgPreviewCallback callback) {
 		if (callbacks.contains(callback)) {
 			Log.e("Blah", "already added");
 			return;
@@ -97,7 +97,7 @@ public class CameraManager implements Camera.PreviewCallback {
 		callbacks.add(callback);
 	}
 
-	public void removeOnPreviewFrameCallback(JpgPreviewCallback callback) {
+	public void removeOnJpgPreviewFrameCallback(JpgPreviewCallback callback) {
 		callbacks.remove(callback);
 	}
 

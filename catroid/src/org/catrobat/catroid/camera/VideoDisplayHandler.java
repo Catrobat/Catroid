@@ -56,7 +56,7 @@ public class VideoDisplayHandler implements JpgPreviewCallback {
 			return;
 		}
 		instance.started = true;
-		CameraManager.getInstance().addOnPreviewFrameCallback(instance);
+		CameraManager.getInstance().addOnJpgPreviewFrameCallback(instance);
 		// camera is currently only started by face detection
 	}
 
@@ -65,7 +65,7 @@ public class VideoDisplayHandler implements JpgPreviewCallback {
 			return;
 		}
 		instance.started = false;
-		CameraManager.getInstance().removeOnPreviewFrameCallback(instance);
+		CameraManager.getInstance().removeOnJpgPreviewFrameCallback(instance);
 		instance.videoLookData = new VideoLookData();
 	}
 

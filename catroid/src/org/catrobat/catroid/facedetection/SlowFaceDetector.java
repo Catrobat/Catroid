@@ -36,6 +36,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.camera.JpgPreviewCallback;
+import org.catrobat.catroid.camera.VideoDisplayHandler;
 
 public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDetector implements JpgPreviewCallback {
 
@@ -43,16 +44,18 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 
 	@Override
 	public void startFaceDetection() {
+		VideoDisplayHandler.startVideoStream();//TODO
 		Log.d("Blah", "Slow Start");
 		CameraManager.getInstance().createCamera();
-		CameraManager.getInstance().addOnPreviewFrameCallback(this);
+		CameraManager.getInstance().addOnJpgPreviewFrameCallback(this);
 		CameraManager.getInstance().startCamera();
 	}
 
 	@Override
 	public void stopFaceDetection() {
+		VideoDisplayHandler.stopVideoStream();//TODO
 		Log.d("Blah", "Slow Stop");
-		CameraManager.getInstance().removeOnPreviewFrameCallback(this);
+		CameraManager.getInstance().removeOnJpgPreviewFrameCallback(this);
 		CameraManager.getInstance().releaseCamera();
 	}
 
