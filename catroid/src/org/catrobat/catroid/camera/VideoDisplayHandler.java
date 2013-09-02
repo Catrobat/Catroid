@@ -22,12 +22,10 @@
  */
 package org.catrobat.catroid.camera;
 
-import android.hardware.Camera;
-
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 
-public class VideoDisplayHandler implements Camera.PreviewCallback {
+public class VideoDisplayHandler implements JpgPreviewCallback {
 
 	private static VideoDisplayHandler instance;
 
@@ -72,9 +70,8 @@ public class VideoDisplayHandler implements Camera.PreviewCallback {
 	}
 
 	@Override
-	public void onPreviewFrame(byte[] data, Camera camera) {
-		byte[] decodeableBytes = CameraManager.getInstance().getDecodeableBytesFromCameraFrame(data, camera);
-		videoLookData.setVideoFrameData(decodeableBytes);
+	public void onJpgPreviewFrame(byte[] jpgData) {
+		videoLookData.setVideoFrameData(jpgData);
 	}
 
 	public static LookData getVideoLookData() {
@@ -83,4 +80,5 @@ public class VideoDisplayHandler implements Camera.PreviewCallback {
 		}
 		return instance.videoLookData;
 	}
+
 }

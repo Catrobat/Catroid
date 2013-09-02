@@ -30,14 +30,14 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
-import android.hardware.Camera;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
 import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.camera.JpgPreviewCallback;
 
-public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDetector implements Camera.PreviewCallback {
+public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDetector implements JpgPreviewCallback {
 
 	private static final int NUMBER_OF_FACES = 1;
 
@@ -47,7 +47,6 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 		CameraManager.getInstance().createCamera();
 		CameraManager.getInstance().addOnPreviewFrameCallback(this);
 		CameraManager.getInstance().startCamera();
-		Log.d("Blah", "Slow Started");
 	}
 
 	@Override
@@ -58,11 +57,11 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 	}
 
 	@Override
-	public void onPreviewFrame(byte[] data, Camera camera) {
+	public void onJpgPreviewFrame(byte[] data) {
 		Log.d("Blah", "frame");
-		byte[] bitmapBytes = CameraManager.getInstance().getDecodeableBytesFromCameraFrame(data, camera); // TODO only do that once in CameraManager
-		Bitmap preview = BitmapFactory.decodeByteArray(bitmapBytes, 0, bitmapBytes.length);
+		Bitmap preview = BitmapFactory.decodeByteArray(data, 0, data.length);
 		detectFaces(preview);
+		preview.recycle();
 	}
 
 	private void detectFaces(Bitmap bitmap) {

@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.camera;
 
-import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
@@ -37,7 +36,7 @@ public class CameraManager implements Camera.PreviewCallback {
 
 	private static CameraManager instance;
 	private Camera camera;
-	private List<Camera.PreviewCallback> callbacks = new ArrayList<Camera.PreviewCallback>();
+	private List<JpgPreviewCallback> callbacks = new ArrayList<JpgPreviewCallback>();
 	private int previewFormat;
 	private int previewWidth;
 	private int previewHeight;
@@ -74,11 +73,9 @@ public class CameraManager implements Camera.PreviewCallback {
 			return;
 		}
 		Parameters parameters = camera.getParameters();
-		parameters.setPreviewFormat(ImageFormat.YV12);// TODO
 		previewFormat = parameters.getPreviewFormat();
 		previewWidth = parameters.getPreviewSize().width;
 		previewHeight = parameters.getPreviewSize().height;
-		camera.setParameters(parameters);//TODO
 		camera.startPreview();
 	}
 
@@ -92,7 +89,7 @@ public class CameraManager implements Camera.PreviewCallback {
 		camera = null;
 	}
 
-	public void addOnPreviewFrameCallback(Camera.PreviewCallback callback) {
+	public void addOnPreviewFrameCallback(JpgPreviewCallback callback) {
 		if (callbacks.contains(callback)) {
 			Log.e("Blah", "already added");
 			return;
@@ -100,18 +97,19 @@ public class CameraManager implements Camera.PreviewCallback {
 		callbacks.add(callback);
 	}
 
-	public void removeOnPreviewFrameCallback(Camera.PreviewCallback callback) {
+	public void removeOnPreviewFrameCallback(JpgPreviewCallback callback) {
 		callbacks.remove(callback);
 	}
 
 	@Override
 	public void onPreviewFrame(byte[] data, Camera camera) {
-		for (Camera.PreviewCallback callback : callbacks) {
-			callback.onPreviewFrame(data, camera);
+		for (JpgPreviewCallback callback : callbacks) {
+			byte[] jpgData = getDecodeableBytesFromCameraFrame(data);
+			callback.onJpgPreviewFrame(jpgData);
 		}
 	}
 
-	public byte[] getDecodeableBytesFromCameraFrame(byte[] cameraData, Camera camera) {
+	private byte[] getDecodeableBytesFromCameraFrame(byte[] cameraData) {
 		byte[] decodableBytes;
 		YuvImage image = new YuvImage(cameraData, previewFormat, previewWidth, previewHeight, null);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
