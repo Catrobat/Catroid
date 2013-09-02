@@ -39,7 +39,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.LinearLayout;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -181,8 +181,8 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		super.onStart();
 	}
 
-	public void setAddButtonListener(SherlockFragmentActivity sherlokActivity) {
-		LinearLayout buttonAdd = (LinearLayout) sherlokActivity.findViewById(R.id.button_add);
+	public void setAddButtonListener(SherlockFragmentActivity sherlockActivity) {
+		ImageButton buttonAdd = (ImageButton) sherlockActivity.findViewById(R.id.button_add);
 		buttonAdd.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {

@@ -77,7 +77,7 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
 		solo.waitForActivity(ScriptActivity.class);
-		solo.waitForFragmentById(R.id.fragment_script_relative_layout);
+		solo.waitForFragmentById(R.id.fragment_script);
 
 		assertEquals("Current sprite name is not shown as actionbar title or is wrong before adding a brick", "cat",
 				currentSprite);

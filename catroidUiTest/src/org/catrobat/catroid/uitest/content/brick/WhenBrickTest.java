@@ -95,7 +95,7 @@ public class WhenBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 		//		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 1);
 		UiTestUtils.addNewBrick(solo, R.string.brick_when);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(yPosition.size() - 1) + 20, 100);
@@ -114,7 +114,7 @@ public class WhenBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 
 		solo.clickOnScreen(200, 300);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(3) + 20, 100);
@@ -138,7 +138,7 @@ public class WhenBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 
 		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 1);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.goBack();

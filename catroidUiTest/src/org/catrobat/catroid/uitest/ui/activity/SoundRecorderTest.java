@@ -107,7 +107,7 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	private void prepareRecording() {
-		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_sound);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		// quickfix for Jenkins to get rid of Resources$NotFoundException: String resource

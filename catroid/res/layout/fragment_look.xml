@@ -22,12 +22,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_look_relative_layout"
+    android:id="@+id/fragment_look"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/look_fragment_background_color" >
+    android:layout_height="match_parent" >
 
     <RelativeLayout
+        android:id="@android:id/empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
