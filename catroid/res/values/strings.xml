@@ -70,6 +70,18 @@
     <!--  -->
 
 
+    <!-- New Object Dialog -->
+    <string name="dialog_new_object_look_header">with Look from…</string>
+    <string name="dialog_new_object_pocketpaint">Pocket Paint</string>
+    <string name="dialog_new_object_gallery">Gallery</string>
+    <string name="dialog_new_object_camera">Camera</string>
+    <string name="dialog_new_object_look_preview">look preview</string>
+    <string name="dialog_new_object_name">Object name</string>
+    <string name="dialog_new_object_switch_title">New Object created</string>
+    <string name="dialog_new_object_switch_message">Switch to new Object?</string>
+    <!--  -->
+
+
     <!-- About Dialog -->
     <string name="dialog_about_title">About Pocket Code</string>
     <string name="dialog_about_license_info">Pocket Code is a programming 

@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -35,20 +34,28 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.PointToBrick.SpinnerAdapterWrapper;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class PointToBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
 	private Project project;
+	private PointToBrick pointToBrick;
+	private File lookFile;
 
 	private final String spriteName1 = "cat1";
 	private final String spriteName2 = "cat2";
-	private final String newSpriteName = "cat3";
+	private final String newSpriteName1 = "cat3";
+	private final String newSpriteName2 = "cat4";
 
 	public PointToBrickTest() {
 		super(ScriptActivity.class);
@@ -61,6 +68,15 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<Script
 		// when starting in ScriptActivity
 		createProject();
 		super.setUp();
+
+		lookFile = UiTestUtils.setUpLookFile(solo);
+	}
+
+	@Override
+	public void tearDown() throws Exception {
+		lookFile.delete();
+
+		super.tearDown();
 	}
 
 	public void testPointToBrickTest() throws InterruptedException {
@@ -83,23 +99,26 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<Script
 		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.brick_point_to_spinner));
 		solo.waitForText(spinnerNewText);
 		solo.clickInList(0);
-		solo.waitForView(EditText.class);
-		solo.enterText(0, newSpriteName);
-		solo.clickOnButton(solo.getString(R.string.ok));
-		solo.sleep(300);
+		assertTrue("First step of dialog not shown",
+				solo.waitForFragmentByTag(NewSpriteDialog.DIALOG_FRAGMENT_TAG, 5000));
+		solo.goBack();
+
+		createNewObjectWithinBrick(newSpriteName1, R.string.no);
+		assertEquals("In wrong sprite", spriteName1, ProjectManager.getInstance().getCurrentSprite().getName());
 
 		assertEquals("Wrong number of sprites", oldSpriteListSize + 1, project.getSpriteList().size());
-		assertEquals("Wrong selection", newSpriteName, ((Spinner) solo.getView(R.id.brick_point_to_spinner))
+		assertEquals("Wrong selection", newSpriteName1, ((Spinner) solo.getView(R.id.brick_point_to_spinner))
 				.getSelectedItem().toString());
 
 		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.brick_point_to_spinner));
 		solo.waitForText(spinnerNewText);
 		solo.clickInList(0);
 		solo.goBack();
-		solo.goBack();
-
-		assertEquals("Wrong selection", newSpriteName, ((Spinner) solo.getView(R.id.brick_point_to_spinner))
+		assertEquals("Wrong selection", newSpriteName1, ((Spinner) solo.getView(R.id.brick_point_to_spinner))
 				.getSelectedItem().toString());
+
+		createNewObjectWithinBrick(newSpriteName2, R.string.yes);
+		assertEquals("In wrong sprite", newSpriteName2, ProjectManager.getInstance().getCurrentSprite().getName());
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(solo.getString(R.string.category_motion));
@@ -120,7 +139,12 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<Script
 				solo.waitForText(solo.getString(R.string.dialog_confirm_delete_object_message), 0, 1000));
 		solo.clickOnText(solo.getString(R.string.yes));
 
-		solo.clickLongOnText(newSpriteName);
+		solo.clickLongOnText(newSpriteName1);
+		solo.waitForText(solo.getString(R.string.delete));
+		solo.clickOnText(solo.getString(R.string.delete));
+		solo.clickOnButton(solo.getString(R.string.yes));
+
+		solo.clickLongOnText(newSpriteName2);
 		solo.waitForText(solo.getString(R.string.delete));
 		solo.clickOnText(solo.getString(R.string.delete));
 		solo.clickOnButton(solo.getString(R.string.yes));
@@ -151,7 +175,7 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<Script
 		Script startScript1 = new StartScript(sprite1);
 		PlaceAtBrick placeAt1 = new PlaceAtBrick(sprite1, 300, 400);
 		startScript1.addBrick(placeAt1);
-		PointToBrick pointToBrick = new PointToBrick(sprite1, sprite2);
+		pointToBrick = new PointToBrick(sprite1, sprite2);
 		startScript1.addBrick(pointToBrick);
 		sprite1.addScript(startScript1);
 		project.addSprite(sprite1);
@@ -159,5 +183,22 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<Script
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite1);
 		ProjectManager.getInstance().setCurrentScript(startScript1);
+		ProjectManager.getInstance().saveProject();
 	}
+
+	private void createNewObjectWithinBrick(String objectName, int stringToClickOnAtTheEnd) {
+		SpinnerAdapterWrapper spinner = (SpinnerAdapterWrapper) Reflection.getPrivateField(pointToBrick,
+				"spinnerAdapterWrapper");
+
+		UiTestUtils.showAndFilloutNewSpriteDialogWithoutClickingOk(solo, objectName, lookFile,
+				ActionAfterFinished.ACTION_UPDATE_SPINNER, spinner);
+		solo.clickOnButton(solo.getString(R.string.ok));
+
+		UiTestUtils.hidePocketPaintDialog(solo);
+		assertTrue("Dialog not shown",
+				solo.waitForText(solo.getString(R.string.dialog_new_object_switch_message), 0, 10000));
+		solo.clickOnButton(solo.getString(stringToClickOnAtTheEnd));
+		UiTestUtils.hidePocketPaintDialog(solo);
+	}
+
 }

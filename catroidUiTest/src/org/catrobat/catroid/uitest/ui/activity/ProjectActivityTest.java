@@ -29,7 +29,6 @@ import android.content.res.Configuration;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -71,10 +70,12 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,6 +99,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	private ProjectManager projectManager;
 	private List<Sprite> spriteList;
 
+	private File lookFile;
+
 	public ProjectActivityTest() {
 		super(MainMenuActivity.class);
 	}
@@ -107,6 +110,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		super.setUp();
 		UiTestUtils.createTestProject();
 		UiTestUtils.prepareStageForTest();
+		lookFile = UiTestUtils.setUpLookFile(solo);
 
 		projectManager = ProjectManager.getInstance();
 		spriteList = projectManager.getCurrentProject().getSpriteList();
@@ -120,6 +124,13 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		renameDialogTitle = solo.getString(R.string.rename_sprite_dialog);
 		delete = solo.getString(R.string.delete);
 		defaultSpriteName = solo.getString(R.string.default_project_sprites_mole_name) + " 1";
+	}
+
+	@Override
+	public void tearDown() throws Exception {
+		lookFile.delete();
+
+		super.tearDown();
 	}
 
 	public void testCopySpriteWithUserVariables() {
@@ -363,7 +374,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertTrue("Sprite is not in current Project", projectManager.spriteExists(spriteToCheckName));
 
 		final String addedSpriteName = "addedTestSprite";
-		addNewSprite(addedSpriteName);
+		UiTestUtils.addNewSprite(solo, addedSpriteName, lookFile);
 
 		spriteList = projectManager.getCurrentProject().getSpriteList();
 
@@ -392,7 +403,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				solo.searchText("cat", 0, false));
 
 		String addedSpriteName = "addedTestSprite";
-		addNewSprite(addedSpriteName);
+		UiTestUtils.addNewSprite(solo, addedSpriteName, lookFile);
 
 		solo.waitForText(addedSpriteName, 1, 2000);
 		assertTrue("Sprite '" + addedSpriteName + "' was not found - List did not move to last added sprite",
@@ -506,7 +517,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		int expectedLineCount = 1;
 		String spriteName = "poor poor poor poor poor poor poor poor me me me me me me";
 
-		addNewSprite(spriteName);
+		UiTestUtils.addNewSprite(solo, spriteName, lookFile);
 
 		TextView textView = solo.getText(4);
 		assertEquals("linecount is wrong - ellipsize failed", expectedLineCount, textView.getLineCount());
@@ -517,9 +528,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		String addedTestSpriteName = "addedTestSprite";
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-
-		enterTextAndCloseDialog(addedTestSpriteName);
+		UiTestUtils.addNewSprite(solo, addedTestSpriteName, lookFile);
 
 		assertTrue("Sprite not successfully added", projectManager.spriteExists(addedTestSpriteName));
 	}
@@ -529,15 +538,13 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		String spriteName = "spriteError";
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-
-		enterTextAndCloseDialog(spriteName);
+		UiTestUtils.addNewSprite(solo, spriteName, lookFile);
 		assertTrue("Sprite not successfully added", projectManager.spriteExists(spriteName));
 
 		// Add sprite which already exists
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-
-		enterTextAndCloseDialog(spriteName);
+		UiTestUtils.showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, lookFile,
+				ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT, null);
+		solo.clickOnButton(solo.getString(R.string.ok));
 
 		String errorMessageText = solo.getString(R.string.spritename_already_exists);
 		String buttonCloseText = solo.getString(R.string.close);
@@ -548,28 +555,13 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnButton(buttonCloseText);
 		solo.sleep(200);
 
-		solo.sendKey(Solo.ENTER);
-		assertTrue("ErrorMessage not visible", solo.searchText(errorMessageText));
-		solo.sleep(200);
-		solo.clickOnButton(buttonCloseText);
-
 		//Check if button deactivated when adding sprite without name ""
 		UiTestUtils.enterText(solo, 0, "");
 		solo.sleep(200);
 
 		String okButtonText = solo.getString(R.string.ok);
 		boolean okButtonEnabled = solo.getButton(okButtonText).isEnabled();
-		assertFalse("'" + okButtonText + "' button not deactivated", okButtonEnabled);
-
-		// Test to add sprite without name ("") with ENTER key
-		solo.clickOnEditText(0);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(200);
-
-		assertTrue("ErrorMessage not visible", solo.searchText(solo.getString(R.string.spritename_invalid)));
-		solo.clickOnButton(buttonCloseText);
-		solo.sleep(200);
-		assertTrue("not in NewSpriteDialog", solo.searchText(solo.getString(R.string.new_sprite_dialog_title)));
+		assertTrue("'" + okButtonText + "' button is deactivated", okButtonEnabled);
 	}
 
 	public void testRenameSpriteDialog() {
@@ -1155,42 +1147,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
 	}
 
-	public void testConvertVisibleSpriteStringsToObject() {
-		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		assertFalse(">>Sprite<< string found, should be replaced with >>object<<", solo.searchText("Sprite"));
-		assertTrue(">>Object<< string not found", solo.searchText("Object"));
-
-		//set empty string as a object name to reproduce the "invalid name" error
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(200);
-		assertFalse(">>sprite<< string found, should be replaced with >>object<<", solo.searchText("sprite"));
-		assertTrue(">>object<< string not found", solo.searchText("object"));
-		String close = solo.getString(R.string.close);
-		solo.waitForText(close);
-		solo.clickOnButton(close);
-
-		solo.enterText(0, FIRST_TEST_SPRITE_NAME);
-		solo.clickOnButton(solo.getString(R.string.ok));
-		assertFalse(">>sprite<< string found, should be replaced with >>object<<", solo.searchText("sprite"));
-		assertTrue(">>object<< string not found", solo.searchText("object"));
-		solo.clickOnButton(close);
-		solo.goBack();
-
-		solo.clickLongOnText(FIRST_TEST_SPRITE_NAME);
-		solo.clickOnText(solo.getString(R.string.rename));
-		assertFalse(">>Sprite<< string found, should be replaced with >>object<<", solo.searchText("Sprite"));
-		assertTrue(">>Object<< string not found", solo.searchText("Object"));
-		solo.goBack();
-		solo.goBack();
-
-		solo.clickLongOnText(FIRST_TEST_SPRITE_NAME);
-		solo.clickOnText(solo.getString(R.string.copy));
-		assertTrue(">>Object:<< string not found", solo.searchText("Object:"));
-
-	}
-
 	public void testBottombarElementsVisibilty() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
@@ -1199,22 +1155,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertTrue("Add button is visible", solo.getView(R.id.button_add).getVisibility() == View.VISIBLE);
 		assertTrue("Bottombar separator is visible",
 				solo.getView(R.id.bottom_bar_separator).getVisibility() == View.VISIBLE);
-	}
-
-	private void addNewSprite(String spriteName) {
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
-
-		EditText addNewSpriteEditText = solo.getEditText(0);
-
-		// Check if hint is set
-		assertEquals("No proper hint set", solo.getString(R.string.new_sprite_dialog_default_sprite_name),
-				addNewSpriteEditText.getHint());
-		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
-
-		solo.enterText(0, spriteName);
-		solo.clickOnButton(solo.getString(R.string.ok));
-		solo.sleep(200);
 	}
 
 	private void addSprite(String spriteName) {

@@ -84,6 +84,8 @@ public class Utils {
 	public static final int PICTURE_INTENT = 1;
 	public static final int FILE_INTENT = 2;
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
+	private static final int DEFAULT_SCREEN_WIDTH = 1280;
+	private static final int DEFAULT_SCREEN_HEIGHT = 768;
 	private static boolean isUnderTest;
 
 	public static boolean externalStorageAvailable() {
@@ -111,11 +113,18 @@ public class Utils {
 	}
 
 	public static void updateScreenWidthAndHeight(Context context) {
-		WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		DisplayMetrics displayMetrics = new DisplayMetrics();
-		windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-		ScreenValues.SCREEN_WIDTH = displayMetrics.widthPixels;
-		ScreenValues.SCREEN_HEIGHT = displayMetrics.heightPixels;
+		if (context != null) {
+			WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+			DisplayMetrics displayMetrics = new DisplayMetrics();
+			windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+			ScreenValues.SCREEN_WIDTH = displayMetrics.widthPixels;
+			ScreenValues.SCREEN_HEIGHT = displayMetrics.heightPixels;
+		} else {
+			//a null-context should never be passed. However, an educated guess is needed in that case.
+			ScreenValues.SCREEN_WIDTH = DEFAULT_SCREEN_WIDTH;
+			ScreenValues.SCREEN_HEIGHT = DEFAULT_SCREEN_HEIGHT;
+		}
+
 	}
 
 	public static boolean isNetworkAvailable(Context context) {
@@ -312,6 +321,26 @@ public class Utils {
 		return stringToAdapt.replaceAll("[\"*/:<>?\\\\|]", "");
 	}
 
+	public static String getUniqueObjectName(String name) {
+		return searchForNonExistingObjectNameInCurrentProgram(name, 0);
+	}
+
+	private static String searchForNonExistingObjectNameInCurrentProgram(String name, int nextNumber) {
+		String newName;
+
+		if (nextNumber == 0) {
+			newName = name;
+		} else {
+			newName = name + nextNumber;
+		}
+
+		if (ProjectManager.getInstance().spriteExists(newName)) {
+			return searchForNonExistingObjectNameInCurrentProgram(name, ++nextNumber);
+		}
+
+		return newName;
+	}
+
 	public static String getUniqueLookName(String name) {
 		return searchForNonExistingLookName(name, 0);
 	}
@@ -385,6 +414,24 @@ public class Utils {
 			return null;
 		}
 		return pixmap;
+	}
+
+	public static void rewriteImageFileForStage(Context context, File lookFile) throws IOException {
+		// if pixmap cannot be created, image would throw an Exception in stage
+		// so has to be loaded again with other Config
+		Pixmap pixmap = null;
+		pixmap = Utils.getPixmapFromFile(lookFile);
+
+		if (pixmap == null) {
+			ImageEditing.overwriteImageFileWithNewBitmap(lookFile);
+			pixmap = Utils.getPixmapFromFile(lookFile);
+
+			if (pixmap == null) {
+				Utils.showErrorDialog(context, R.string.error_load_image);
+				StorageHandler.getInstance().deleteFile(lookFile.getAbsolutePath());
+				throw new IOException("Pixmap could not be fixed");
+			}
+		}
 	}
 
 	public static String getUniqueProjectName() {

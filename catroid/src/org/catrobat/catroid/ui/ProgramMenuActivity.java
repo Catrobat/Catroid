@@ -42,12 +42,20 @@ import java.util.concurrent.locks.Lock;
 public class ProgramMenuActivity extends BaseActivity {
 
 	private static final String TAG = ProgramMenuActivity.class.getSimpleName();
+	public static final String FORWARD_TO_SCRIPT_ACTIVITY = "forwardToScriptActivity";
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		Bundle bundle = getIntent().getExtras();
+		if (bundle != null && bundle.containsKey(FORWARD_TO_SCRIPT_ACTIVITY)) {
+			Intent intent = new Intent(this, ScriptActivity.class);
+			intent.putExtra(ScriptActivity.EXTRA_FRAGMENT_POSITION, bundle.getInt(FORWARD_TO_SCRIPT_ACTIVITY));
+			startActivity(intent);
+		}
 
 		setContentView(R.layout.activity_program_menu);
 

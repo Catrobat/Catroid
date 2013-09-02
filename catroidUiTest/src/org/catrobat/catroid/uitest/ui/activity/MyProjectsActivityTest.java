@@ -94,9 +94,10 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	private int numberOfCacheProjects = 27;
 	private String cacheProjectName = "cachetestProject";
 
-	// temporarily removed - because of upcoming release, and bad performance of projectdescription	
-	//	private final String lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus consequat lacinia ante, ut sollicitudin est hendrerit ut. Nunc at hendrerit mauris. Morbi tincidunt eleifend ligula, eget gravida ante fermentum vitae. Cras dictum nunc non quam posuere dignissim. Etiam vel gravida lacus. Vivamus facilisis, nunc sit amet placerat rutrum, nisl orci accumsan odio, vitae pretium ipsum urna nec ante. Donec scelerisque viverra felis a varius. Sed lacinia ultricies mi, eu euismod leo ultricies eu. Nunc eleifend dignissim nulla eget dictum. Quisque mi eros, faucibus et pretium a, tempor et libero. Etiam dui felis, ultrices id gravida quis, tempor a turpis.Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam consequat velit eu elit adipiscing eu feugiat sapien euismod. Nunc sollicitudin rhoncus velit nec malesuada. Donec velit quam, luctus in sodales eu, viverra vitae massa. Aenean sed dolor sapien, et lobortis lacus. Proin a est vitae metus fringilla malesuada. Pellentesque eu adipiscing diam. Maecenas massa ante, tincidunt volutpat dapibus vitae, mollis in enim. Sed dictum dolor ultricies metus varius sit amet scelerisque lacus convallis. Nullam dui nisl, mollis a molestie non, tempor vitae arcu. Phasellus vitae metus pellentesque ligula scelerisque adipiscing vitae sed quam. Quisque porta rhoncus magna a porttitor. In ac magna nulla. Donec quis lacus felis, in bibendum massa. ";
+	// temporarily removed - because of upcoming release, and bad performance of projectdescription        
+	//        private final String lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus consequat lacinia ante, ut sollicitudin est hendrerit ut. Nunc at hendrerit mauris. Morbi tincidunt eleifend ligula, eget gravida ante fermentum vitae. Cras dictum nunc non quam posuere dignissim. Etiam vel gravida lacus. Vivamus facilisis, nunc sit amet placerat rutrum, nisl orci accumsan odio, vitae pretium ipsum urna nec ante. Donec scelerisque viverra felis a varius. Sed lacinia ultricies mi, eu euismod leo ultricies eu. Nunc eleifend dignissim nulla eget dictum. Quisque mi eros, faucibus et pretium a, tempor et libero. Etiam dui felis, ultrices id gravida quis, tempor a turpis.Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam consequat velit eu elit adipiscing eu feugiat sapien euismod. Nunc sollicitudin rhoncus velit nec malesuada. Donec velit quam, luctus in sodales eu, viverra vitae massa. Aenean sed dolor sapien, et lobortis lacus. Proin a est vitae metus fringilla malesuada. Pellentesque eu adipiscing diam. Maecenas massa ante, tincidunt volutpat dapibus vitae, mollis in enim. Sed dictum dolor ultricies metus varius sit amet scelerisque lacus convallis. Nullam dui nisl, mollis a molestie non, tempor vitae arcu. Phasellus vitae metus pellentesque ligula scelerisque adipiscing vitae sed quam. Quisque porta rhoncus magna a porttitor. In ac magna nulla. Donec quis lacus felis, in bibendum massa. ";
 	private final String lorem = "Lorem ipsum dolor sit amet";
+	private File lookFile;
 
 	public MyProjectsActivityTest() {
 		super(MainMenuActivity.class);
@@ -106,6 +107,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
+		lookFile = UiTestUtils.setUpLookFile(solo);
 
 		// disable show details when activated
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -123,6 +125,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(WHITELISTED_CHARACTER_STRING)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(BLACKLISTED_CHARACTER_STRING)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(BLACKLISTED_ONLY_CHARACTER_STRING)));
+		lookFile.delete();
 
 		if (renameDirectory != null && renameDirectory.isDirectory()) {
 			UtilFile.deleteDirectory(renameDirectory);
@@ -289,15 +292,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		String backgroundName = solo.getString(R.string.default_project_backgroundname);
 		assertTrue("Program does not open within 5 secs!", solo.waitForText(backgroundName));
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-
-		if (!solo.waitForText(solo.getString(R.string.new_sprite_dialog_default_sprite_name), 0, 5000)) {
-			fail("Edit-Dialog not shown in 5 secs!");
-		}
-		solo.enterText(0, "testSprite");
-		solo.sleep(200);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(500);
+		UiTestUtils.addNewSprite(solo, "testSprite", lookFile);
 		solo.goBack();
 
 		corruptProjectXML(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
@@ -339,15 +334,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				UiTestUtils.clickOnTextInList(solo, standardProjectName));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-
-		if (!solo.waitForText(solo.getString(R.string.new_sprite_dialog_default_sprite_name), 0, 5000)) {
-			fail("Edit-Dialog not shown in 5 secs!");
-		}
-		solo.enterText(0, "testSprite");
-		solo.sleep(200);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(500);
+		UiTestUtils.addNewSprite(solo, "testSprite", lookFile);
 		solo.goBack();
 
 		solo.sleep(200);
@@ -1401,8 +1388,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForDialogToClose(500);
 
 		// temporarily removed - should be added when displaying projectdescription
-		//		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
-		//		assertTrue("description is not shown in activity", solo.searchText("ultricies"));
+		//                assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
+		//                assertTrue("description is not shown in activity", solo.searchText("ultricies"));
 		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
@@ -1441,8 +1428,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sleep(500);
 
 		// temporarily removed - should be added when displaying projectdescription
-		//		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
-		//		assertTrue("description is not shown in activity", solo.searchText("ultricies"));
+		//                assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
+		//                assertTrue("description is not shown in activity", solo.searchText("ultricies"));
 
 		assertEquals("The project is not first in list", UiTestUtils.PROJECTNAME1, ((ProjectData) (solo
 				.getCurrentViews(ListView.class).get(0).getAdapter().getItem(0))).projectName);
@@ -1477,14 +1464,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
-		solo.sleep(1000);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
-		solo.clearEditText(0);
-		solo.enterText(0, "testSprite");
-		solo.sleep(200);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(200);
+
+		UiTestUtils.addNewSprite(solo, "testSprite", lookFile);
 
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());

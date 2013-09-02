@@ -356,6 +356,7 @@ public class LookController {
 
 	public boolean checkIfPocketPaintIsInstalled(Intent intent, final Activity activity) {
 		// Confirm if Pocket Paint is installed else start dialog --------------------------
+
 		List<ResolveInfo> packageList = activity.getPackageManager().queryIntentActivities(intent,
 				PackageManager.MATCH_DEFAULT_ONLY);
 
