@@ -36,6 +36,7 @@ public class CameraManagerTest extends TestCase {
 		} catch (Exception e) {
 			fail("Secound start of camera should be ignored but produced exception: " + e.getMessage());
 		}
+		CameraManager.getInstance().releaseCamera();
 	}
 
 	public void testJpgPreviewFrameCallback() {

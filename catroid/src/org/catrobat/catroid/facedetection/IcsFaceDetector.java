@@ -25,7 +25,6 @@ package org.catrobat.catroid.facedetection;
 import android.annotation.TargetApi;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.hardware.Camera.Face;
 import android.hardware.Camera.FaceDetectionListener;
@@ -33,27 +32,13 @@ import android.os.Build;
 import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
-import org.catrobat.catroid.camera.VideoDisplayHandler;
-
-import java.io.IOException;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class IcsFaceDetector extends FaceDetector implements FaceDetectionListener {
 
-	public static final int TEXTURE_NAME = 1;
-	private SurfaceTexture texture; // TODO
 	private boolean running = false;
 
 	public IcsFaceDetector() {
-		createTexture();
-	}
-
-	private void createTexture() {
-		//		IntBuffer textures = IntBuffer.allocate(1);
-		//		Gdx.gl.glGenTextures(1, textures);
-		//		int textureID = textures.get(0);
-		//		texture = new SurfaceTexture(textureID);
-		texture = new SurfaceTexture(TEXTURE_NAME);
 	}
 
 	@Override
@@ -61,15 +46,9 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 		if (running) {
 			return;
 		}
-		VideoDisplayHandler.startVideoStream();//TODO
 		Log.d("Blah", "ICS Start");
 		Camera camera = CameraManager.getInstance().getCamera();
 		camera.setFaceDetectionListener(this);
-		try {
-			camera.setPreviewTexture(texture);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		CameraManager.getInstance().startCamera();
 		camera.startFaceDetection();
 		running = true;
@@ -80,8 +59,6 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 		if (!running) {
 			return;
 		}
-
-		VideoDisplayHandler.stopVideoStream();//TODO
 		Log.d("Blah", "ICS Stop");
 		running = false;
 		CameraManager.getInstance().releaseCamera();

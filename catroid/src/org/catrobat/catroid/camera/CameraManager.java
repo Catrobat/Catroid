@@ -22,20 +22,26 @@
  */
 package org.catrobat.catroid.camera;
 
+import android.annotation.TargetApi;
 import android.graphics.Rect;
+import android.graphics.SurfaceTexture;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
+import android.os.Build;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CameraManager implements Camera.PreviewCallback {
 
+	public static final int TEXTURE_NAME = 1;
 	private static CameraManager instance;
 	private Camera camera;
+	private SurfaceTexture texture;
 	private List<JpgPreviewCallback> callbacks = new ArrayList<JpgPreviewCallback>();
 	private int previewFormat;
 	private int previewWidth;
@@ -49,7 +55,7 @@ public class CameraManager implements Camera.PreviewCallback {
 	}
 
 	private CameraManager() {
-
+		createTexture();
 	}
 
 	public Camera getCamera() {
@@ -65,6 +71,13 @@ public class CameraManager implements Camera.PreviewCallback {
 		}
 		camera = Camera.open();
 		camera.setPreviewCallback(this);
+		if (texture != null) {
+			try {
+				camera.setPreviewTexture(texture);
+			} catch (IOException e) {
+				e.printStackTrace(); // TODO
+			}
+		}
 		return camera != null;
 	}
 
@@ -116,6 +129,15 @@ public class CameraManager implements Camera.PreviewCallback {
 		image.compressToJpeg(new Rect(0, 0, previewWidth, previewHeight), 50, out);
 		decodableBytes = out.toByteArray();
 		return decodableBytes;
+	}
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void createTexture() {
+		//		IntBuffer textures = IntBuffer.allocate(1);
+		//		Gdx.gl.glGenTextures(1, textures);
+		//		int textureID = textures.get(0);
+		//		texture = new SurfaceTexture(textureID);
+		texture = new SurfaceTexture(TEXTURE_NAME);
 	}
 
 }

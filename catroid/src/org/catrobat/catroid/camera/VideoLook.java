@@ -36,7 +36,7 @@ public class VideoLook extends Look {
 
 	@Override
 	public void setDirectionInUserInterfaceDimensionUnit(float degrees) {
-		super.setDirectionInUserInterfaceDimensionUnit(degrees + 180);//TODO
+		super.setDirectionInUserInterfaceDimensionUnit(degrees + 180);
 	}
 
 	@Override
