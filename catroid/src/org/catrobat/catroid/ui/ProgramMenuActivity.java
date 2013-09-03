@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -40,6 +41,9 @@ import org.catrobat.catroid.stage.StageActivity;
 import java.util.concurrent.locks.Lock;
 
 public class ProgramMenuActivity extends BaseActivity {
+
+	private static final String TAG = ProgramMenuActivity.class.getSimpleName();
+
 	private ActionBar actionBar;
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
@@ -54,9 +58,15 @@ public class ProgramMenuActivity extends BaseActivity {
 
 		actionBar = getSupportActionBar();
 
-		String title = ProjectManager.getInstance().getCurrentSprite().getName();
-		actionBar.setTitle(title);
-		actionBar.setHomeButtonEnabled(true);
+		//The try-catch block is a fix for this bug: https://github.com/Catrobat/Catroid/issues/618
+		try {
+			String title = ProjectManager.getInstance().getCurrentSprite().getName();
+			actionBar.setTitle(title);
+			actionBar.setHomeButtonEnabled(true);
+		} catch (NullPointerException nullPointerException) {
+			Log.e(TAG, "onCreate: NPE -> finishing", nullPointerException);
+			finish();
+		}
 	}
 
 	@Override
