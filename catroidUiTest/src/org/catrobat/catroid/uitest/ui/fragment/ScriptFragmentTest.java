@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -144,6 +145,31 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 				.getNumberOfBricks();
 
 		assertEquals("No brick has been copied!", 2, numberOfBricks);
+	}
+
+	public void testCopyFromContextDialog() {
+		UiTestUtils.createTestProject();
+		for (int index = 0; index < 5; ++index) {
+			ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getScript(0)
+					.addBrick(new ShowBrick());
+		}
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		int numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+
+		solo.clickOnText(solo.getString(R.string.brick_hide));
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_copy_brick));
+		solo.sleep(200);
+
+		ArrayList<Integer> yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		int addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
+		solo.drag(20, 20, addedYPosition, yPosition.get(yPosition.size() - 1) + 20, 20);
+		solo.sleep(200);
+
+		assertEquals("Brick was not copied", numberOfBricks + 1, ProjectManager.getInstance().getCurrentProject()
+				.getSpriteList().get(0).getNumberOfBricks());
 	}
 
 	public void testCreateNewBrickButton() {
