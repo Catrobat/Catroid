@@ -74,6 +74,7 @@ public final class Constants {
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String POCKET_PAINT_DOWNLOAD_LINK = "market://details?id=" + POCKET_PAINT_PACKAGE_NAME;
+	public static final String POCKET_PAINT_DOWNLOAD_LINK_NIGHTLY = "http://files.catrob.at/pocketpaint_nightly.apk";
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
 
 	//Services + Notifications
