@@ -23,6 +23,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- NewApi lint warnings can be ignored - functionality is handled by ActionBarSherlock -->
     <style name="Theme.Catroid" parent="Theme.Sherlock.ForceOverflow">
         <item name="actionBarStyle">@style/Widget.Catroid.ActionBar</item>
         <item name="android:actionBarStyle" tools:ignore="NewApi">@style/Widget.Catroid.ActionBar</item>
@@ -437,11 +438,12 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <!-- textAllCaps lint warning ignored - functionality on 2.3.x: capitalized instead of allcaps -->
     <style name="headlineTextView" parent="android:Widget.TextView">
         <item name="android:paddingBottom">5dip</item>
         <item name="android:paddingLeft">16dip</item>
         <item name="android:paddingTop">9dip</item>
-        <item name="android:textAllCaps">true</item>
+        <item name="android:textAllCaps" tools:ignore="NewApi">true</item>
         <item name="android:textColor">@color/spritelist_details_text_color</item>
         <item name="android:textColorHighlight">@color/spritelist_details_text_color</item>
         <item name="android:textSize">14sp</item>
@@ -458,11 +460,12 @@
         <item name="android:layout_height">1.5dp</item>
     </style>
 
+    <!-- textAllCaps lint warning ignored - functionality on 2.3.x: capitalized instead of allcaps -->
     <style name="headlineTextViewObjects" parent="android:Widget.TextView">
         <item name="android:paddingBottom">5dip</item>
         <item name="android:paddingLeft">16dip</item>
         <item name="android:paddingTop">18dip</item>
-        <item name="android:textAllCaps">true</item>
+        <item name="android:textAllCaps" tools:ignore="NewApi">true</item>
         <item name="android:textColor">@color/spritelist_details_text_color</item>
         <item name="android:textColorHighlight">@color/spritelist_details_text_color</item>
         <item name="android:textSize">14sp</item>
