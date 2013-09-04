@@ -33,9 +33,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
 
-    <application
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:ignore="MissingApplicationIcon,AllowBackup" >
+    <application>
         <uses-library android:name="android.test.runner" />
 
         <activity

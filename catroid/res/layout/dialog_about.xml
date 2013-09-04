@@ -57,6 +57,7 @@
         android:textColorLink="#E68B00"
         android:textSize="20sp" />
 
+    <!-- SmallSp lint warning is ignored - text has to be that small -->
     <TextView
         android:id="@+id/dialog_about_text_view_version_name"
         android:layout_width="match_parent"
