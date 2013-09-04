@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -165,15 +166,20 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 	}
 
-	public void testWatermarks() {
-		TextView watermarkHeading = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_look_text_heading);
-		TextView watermarkDescription = (TextView) solo.getCurrentActivity().findViewById(
+	public void testEmptyView() {
+		TextView emptyViewHeading = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_look_text_heading);
+		TextView emptyViewDescription = (TextView) solo.getCurrentActivity().findViewById(
 				R.id.fragment_look_text_description);
-		assertEquals("Watermark heading is not correct", solo.getString(R.string.backgrounds), watermarkHeading
+
+		// The Views are gone, we can still make assumptions about them
+		assertEquals("Empty View heading is not correct", solo.getString(R.string.backgrounds), emptyViewHeading
 				.getText().toString());
-		assertEquals("Watermark description is not correct",
-				solo.getString(R.string.fragment_background_text_description), watermarkDescription.getText()
+		assertEquals("Empty View description is not correct",
+				solo.getString(R.string.fragment_background_text_description), emptyViewDescription.getText()
 						.toString());
+
+		assertEquals("Empty View shown although there are items in the list!", View.GONE,
+				solo.getView(android.R.id.empty).getVisibility());
 
 		projectManager.addSprite(new Sprite("test"));
 		solo.goBack();
@@ -182,12 +188,16 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnText(solo.getString(R.string.look));
 		solo.sleep(200);
 
-		watermarkHeading = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_look_text_heading);
-		watermarkDescription = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_look_text_description);
-		assertEquals("Watermark heading is not correct", solo.getString(R.string.looks), watermarkHeading.getText()
+		emptyViewHeading = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_look_text_heading);
+		emptyViewDescription = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_look_text_description);
+
+		assertEquals("Empty View heading is not correct", solo.getString(R.string.looks), emptyViewHeading.getText()
 				.toString());
-		assertEquals("Watermark description is not correct", solo.getString(R.string.fragment_look_text_description),
-				watermarkDescription.getText().toString());
+		assertEquals("Empty View description is not correct", solo.getString(R.string.fragment_look_text_description),
+				emptyViewDescription.getText().toString());
+
+		assertEquals("Empty View not shown although there are items in the list!", View.VISIBLE,
+				solo.getView(android.R.id.empty).getVisibility());
 	}
 
 	public void testAddNewLookDialog() {
@@ -735,8 +745,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		}
 
 		LinearLayout bottomBarLayout = (LinearLayout) solo.getView(R.id.bottom_bar);
-		LinearLayout addButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_add);
-		LinearLayout playButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_play);
+		ImageButton addButton = (ImageButton) bottomBarLayout.findViewById(R.id.button_add);
+		ImageButton playButton = (ImageButton) bottomBarLayout.findViewById(R.id.button_play);
 
 		int timeToWait = 300;
 		String addDialogTitle = solo.getString(R.string.new_look_dialog_title);

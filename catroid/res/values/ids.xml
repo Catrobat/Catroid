@@ -20,7 +20,9 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 -->
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/drag_and_drop_list_view_image_view" />
+<resources>
+
+    <item name="drag_and_drop_list_view_image_view" type="id"/>
+
+</resources>

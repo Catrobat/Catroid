@@ -21,14 +21,25 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_script_relative_layout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_script"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/fragment_background_color"
+    android:layout_height="0dip"
+    android:layout_weight="1"
     android:orientation="vertical" >
 
+    <org.catrobat.catroid.ui.dragndrop.DragAndDropListView
+        android:id="@android:id/list"
+        style="@style/ListViewShadowed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="-5dip" >
+    </org.catrobat.catroid.ui.dragndrop.DragAndDropListView>
+
     <RelativeLayout
+        android:id="@android:id/empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -54,36 +65,4 @@
             android:textSize="30sp" />
     </RelativeLayout>
 
-    <!-- Sprite list -->
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
-
-        <ListView
-            android:id="@android:id/list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:cacheColorHint="#00000000" >
-        </ListView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:orientation="vertical" >
-
-            <org.catrobat.catroid.ui.dragndrop.DragAndDropListView
-                android:id="@+id/brick_list_view"
-                style="@style/ListViewShadowed"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="false"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="-5dip" >
-            </org.catrobat.catroid.ui.dragndrop.DragAndDropListView>
-        </LinearLayout>
-    </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>

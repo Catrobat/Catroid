@@ -204,7 +204,7 @@ public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		DeviceListActivity deviceListActivity = new DeviceListActivity();
 		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
-		UiTestUtils.clickOnActionBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.sleep(6500);// increase this sleep if probs!
 
 		solo.goBack();

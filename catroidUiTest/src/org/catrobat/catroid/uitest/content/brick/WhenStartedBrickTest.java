@@ -79,7 +79,7 @@ public class WhenStartedBrickTest extends BaseActivityInstrumentationTestCase<Ma
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_when_started);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(yPosition.size() - 1) + 20, 100);
@@ -98,7 +98,7 @@ public class WhenStartedBrickTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.searchText(solo.getString(R.string.category_control));
 		solo.clickOnScreen(200, whenBrickPosition);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(3) + 20, 100);
@@ -122,7 +122,7 @@ public class WhenStartedBrickTest extends BaseActivityInstrumentationTestCase<Ma
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_when_started);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.goBack();

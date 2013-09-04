@@ -30,6 +30,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -728,8 +729,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
 		LinearLayout bottomBarLayout = (LinearLayout) solo.getView(R.id.bottom_bar);
-		LinearLayout addButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_add);
-		LinearLayout playButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_play);
+		ImageButton addButton = (ImageButton) bottomBarLayout.findViewById(R.id.button_add);
+		ImageButton playButton = (ImageButton) bottomBarLayout.findViewById(R.id.button_play);
 
 		int timeToWait = 300;
 		String addDialogTitle = solo.getString(R.string.new_sprite_dialog_title);
