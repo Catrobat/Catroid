@@ -941,7 +941,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		copy = origin.clone();
 
-		addNewBrick((brickList.size() - 1), copy);
+		addNewBrick(itemPosition, copy);
 
 		notifyDataSetChanged();
 	}
