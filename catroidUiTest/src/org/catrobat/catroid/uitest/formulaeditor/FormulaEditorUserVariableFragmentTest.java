@@ -573,7 +573,7 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 	}
 
 	private ListView getVariableListView() {
-		return solo.getCurrentViews(ListView.class).get(2);
+		return solo.getCurrentViews(ListView.class).get(1);
 	}
 
 }

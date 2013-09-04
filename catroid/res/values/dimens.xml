@@ -43,9 +43,10 @@
     <dimen name="text_size_xxlarge">24sp</dimen>
     <dimen name="brick_category_height">90dp</dimen>
     <dimen name="text_size_brick_category">22sp</dimen>
-    
+
+    <!-- Flow Layout -->
     <dimen name="brick_flow_layout_vertical_spacing">0dp</dimen>
     <dimen name="brick_flow_layout_horizontal_spacing">3dp</dimen>
-    <dimen name="brick_flow_layout_padding">10dp</dimen>
+    <!--  -->
 
 </resources>

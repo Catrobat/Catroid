@@ -30,6 +30,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -433,8 +434,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	public void testBottomBarAndContextMenuOnActionModes() {
 		LinearLayout bottomBarLayout = (LinearLayout) solo.getView(R.id.bottom_bar);
-		LinearLayout addButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_add);
-		LinearLayout playButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_play);
+		ImageButton addButton = (ImageButton) bottomBarLayout.findViewById(R.id.button_add);
+		ImageButton playButton = (ImageButton) bottomBarLayout.findViewById(R.id.button_play);
 
 		int timeToWait = 300;
 		String addDialogTitle = solo.getString(R.string.sound_select_source);
@@ -676,6 +677,34 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.goBack();
 
 		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+	}
+
+	public void testEmptyView() {
+		assertTrue("No sounds are present!", getCurrentNumberOfSounds() > 0);
+
+		TextView emptyViewHeading = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_sound_text_heading);
+		TextView emptyViewDescription = (TextView) solo.getCurrentActivity().findViewById(
+				R.id.fragment_sound_text_description);
+
+		// The Views are gone, we can still make assumptions about them
+		assertEquals("Empty View heading is not correct", solo.getString(R.string.sounds), emptyViewHeading.getText()
+				.toString());
+		assertEquals("Empty View description is not correct", solo.getString(R.string.fragment_sound_text_description),
+				emptyViewDescription.getText().toString());
+
+		assertEquals("Empty View shown although there are items in the list!", View.GONE,
+				solo.getView(android.R.id.empty).getVisibility());
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
+
+		assertEquals("There are still sounds!", 0, getCurrentNumberOfSounds());
+		assertEquals("Empty View not shown although there are items in the list!", View.VISIBLE,
+				solo.getView(android.R.id.empty).getVisibility());
 	}
 
 	private void addNewSound(String title) {

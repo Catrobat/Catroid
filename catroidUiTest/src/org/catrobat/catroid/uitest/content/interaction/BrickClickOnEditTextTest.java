@@ -72,7 +72,7 @@ public class BrickClickOnEditTextTest extends BaseActivityInstrumentationTestCas
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_x);
 		solo.sleep(500);
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(0), 20);
@@ -84,7 +84,7 @@ public class BrickClickOnEditTextTest extends BaseActivityInstrumentationTestCas
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_y);
 		solo.sleep(500);
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(1), 20);

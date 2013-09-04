@@ -59,7 +59,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.LinearLayout;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.actionbarsherlock.view.ActionMode;
@@ -122,14 +122,14 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
 
-	private LinearLayout addButton;
+	private ImageButton addButton;
 
 	public void setOnSoundInfoListChangedAfterNewListener(OnSoundInfoListChangedAfterNewListener listener) {
 		soundInfoListChangedAfterNewListener = listener;
 	}
 
 	private void setHandleAddbutton() {
-		addButton = (LinearLayout) getSherlockActivity().findViewById(R.id.button_add);
+		addButton = (ImageButton) getSherlockActivity().findViewById(R.id.button_add);
 		addButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {

@@ -25,7 +25,7 @@
     android:id="@+id/add_brick_fragment_list"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:background="@color/fragment_background_color"
+    android:background="@color/application_background_color"
     android:orientation="vertical" >
 
     <ListView

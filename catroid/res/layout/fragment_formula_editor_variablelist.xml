@@ -24,7 +24,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/sound_fragment_background_color"
     android:orientation="vertical" >
 
     <ListView
@@ -32,9 +31,8 @@
         style="@style/ListViewShadowed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:cacheColorHint="#00000000"
-		android:divider="@android:color/transparent"
         android:layout_marginTop="3dp"
-        />
+        android:cacheColorHint="#00000000"
+        android:divider="@android:color/transparent" />
 
 </RelativeLayout>

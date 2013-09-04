@@ -163,11 +163,11 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
 
 		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
-			TextView watermarkHeading = (TextView) getActivity().findViewById(R.id.fragment_look_text_heading);
-			watermarkHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60.0f);
-			watermarkHeading.setText(R.string.backgrounds);
-			TextView watermarkDescription = (TextView) getActivity().findViewById(R.id.fragment_look_text_description);
-			watermarkDescription.setText(R.string.fragment_background_text_description);
+			TextView emptyViewHeading = (TextView) getActivity().findViewById(R.id.fragment_look_text_heading);
+			emptyViewHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60.0f);
+			emptyViewHeading.setText(R.string.backgrounds);
+			TextView emptyViewDescription = (TextView) getActivity().findViewById(R.id.fragment_look_text_description);
+			emptyViewDescription.setText(R.string.fragment_background_text_description);
 		}
 
 		adapter = new LookAdapter(getActivity(), R.layout.fragment_look_looklist_item, lookDataList, false);
