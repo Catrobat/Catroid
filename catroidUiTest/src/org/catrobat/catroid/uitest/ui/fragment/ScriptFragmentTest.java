@@ -164,7 +164,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_copy_brick));
 		solo.sleep(200);
 
-		ArrayList<Integer> yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		ArrayList<Integer> yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		int addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 		solo.drag(20, 20, addedYPosition, yPosition.get(yPosition.size() - 1) + 20, 20);
 		solo.sleep(200);
