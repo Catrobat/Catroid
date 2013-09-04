@@ -906,6 +906,48 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				solo.waitForText(deletedSpriteName, 0, 200, false, false));
 	}
 
+	public void testDeleteSelectAll() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		solo.waitForText(solo.getString(R.string.delete));
+		solo.clickOnMenuItem(solo.getString(R.string.select_all), false);
+
+		solo.sleep(200);
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			if (checkBox.isShown()) {
+				assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+			}
+		}
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
+
+		assertFalse("Sprite was not Deleted!", solo.waitForText(FIRST_TEST_SPRITE_NAME, 1, 200));
+		assertFalse("Sprite was not Deleted!", solo.waitForText(SECOND_TEST_SPRITE_NAME, 1, 200));
+		assertFalse("Sprite was not Deleted!", solo.waitForText(THIRD_TEST_SPRITE_NAME, 1, 200));
+		assertFalse("Sprite was not Deleted!", solo.waitForText(FOURTH_TEST_SPRITE_NAME, 1, 200));
+	}
+
+	public void testItemClick() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		solo.clickInList(2);
+
+		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
+		assertTrue("CheckBox not checked", checkBoxList.get(1).isChecked());
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.yes)));
+		solo.clickOnButton(solo.getString(R.string.yes));
+
+		assertFalse("Sprite not deleted", solo.waitForText(FIRST_TEST_SPRITE_NAME, 0, 200));
+	}
+
 	public void testConfirmDeleteObjectDialogTitleChange() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		String delete = solo.getString(R.string.delete);

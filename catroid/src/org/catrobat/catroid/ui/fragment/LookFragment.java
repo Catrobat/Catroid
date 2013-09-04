@@ -826,10 +826,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 			Set<Integer> checkedLooks = adapter.getCheckedItems();
-			Iterator<Integer> iterator = checkedLooks.iterator();
 
-			while (iterator.hasNext()) {
-				int position = iterator.next();
+			for (int position : checkedLooks) {
 				copyLook(position);
 			}
 			clearCheckedLooksAndEnableButtons();
@@ -889,12 +887,20 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			multipleItemAppendixActionMode = getString(R.string.looks);
 
 			mode.setTitle(actionModeTitle);
+			mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
 
 			return true;
 		}
 
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			if (item.getItemId() == R.id.select_all) {
+				for (int position = 0; position < lookDataList.size(); position++) {
+					adapter.addCheckedItem(position);
+				}
+				adapter.notifyDataSetChanged();
+				onLookChecked();
+			}
 			return false;
 		}
 
@@ -919,10 +925,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	private void deleteCheckedLooks() {
 		SortedSet<Integer> checkedLooks = adapter.getCheckedItems();
-		Iterator<Integer> iterator = checkedLooks.iterator();
 		int numberDeleted = 0;
-		while (iterator.hasNext()) {
-			int position = iterator.next();
+		for (int position : checkedLooks) {
 			deleteLook(position - numberDeleted);
 			++numberDeleted;
 		}

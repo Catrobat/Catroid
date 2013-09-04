@@ -139,8 +139,8 @@ public class ProjectManager {
 			currentSprite = null;
 			currentScript = null;
 			return true;
-		} catch (Exception e) {
-			Log.e("CATROID", "Cannot initialize default project.", e);
+		} catch (IOException exception) {
+			Log.e("CATROID", "Cannot initialize default project.", exception);
 			Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
 			return false;
 		}

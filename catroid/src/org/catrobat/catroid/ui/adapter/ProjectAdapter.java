@@ -26,6 +26,8 @@ import android.content.Context;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -56,7 +58,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 	private boolean showDetails;
 	private int selectMode;
 	private Set<Integer> checkedProjects = new TreeSet<Integer>();
-	private OnProjectCheckedListener onProjectCheckedListener;
+	private OnProjectEditListener onProjectEditListener;
 	private Context context;
 
 	private static class ViewHolder {
@@ -84,8 +86,8 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		this.context = context;
 	}
 
-	public void setOnProjectCheckedListener(OnProjectCheckedListener listener) {
-		onProjectCheckedListener = listener;
+	public void setOnProjectEditListener(OnProjectEditListener listener) {
+		onProjectEditListener = listener;
 	}
 
 	public void setShowDetails(boolean showDetails) {
@@ -123,7 +125,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 	@Override
 	public View getView(final int position, View convView, ViewGroup parent) {
 		View convertView = convView;
-		ViewHolder holder;
+		final ViewHolder holder;
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.activity_my_projects_list_item, null);
 			holder = new ViewHolder();
@@ -211,9 +213,33 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 				}
 				notifyDataSetChanged();
 
-				if (onProjectCheckedListener != null) {
-					onProjectCheckedListener.onProjectChecked();
+				if (onProjectEditListener != null) {
+					onProjectEditListener.onProjectChecked();
 				}
+			}
+		});
+
+		holder.background.setOnLongClickListener(new OnLongClickListener() {
+
+			@Override
+			public boolean onLongClick(View view) {
+				if (selectMode != ListView.CHOICE_MODE_NONE) {
+					return true;
+				}
+				return false;
+			}
+		});
+
+		holder.background.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				if (selectMode != ListView.CHOICE_MODE_NONE) {
+					holder.checkbox.setChecked(!holder.checkbox.isChecked());
+				} else if (onProjectEditListener != null) {
+					onProjectEditListener.onProjectEdit(position);
+				}
+
 			}
 		});
 
@@ -251,7 +277,10 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		return convertView;
 	}
 
-	public interface OnProjectCheckedListener {
+	public interface OnProjectEditListener {
 		public void onProjectChecked();
+
+		public void onProjectEdit(int position);
 	}
+
 }

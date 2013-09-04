@@ -682,6 +682,14 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	};
 
 	private ActionMode.Callback backPackModeCallBack = new ActionMode.Callback() {
+		//=======
+		//			SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
+		//
+		//			for (int position : checkedSounds) {
+		//				copySound(position);
+		//			}
+		//			clearCheckedSoundsAndEnableButtons();
+		//>>>>>>> Fix Delete Projects
 
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
@@ -735,11 +743,20 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
 			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
 
+			mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
+
 			return true;
 		}
 
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			if (item.getItemId() == R.id.select_all) {
+				for (int position = 0; position < soundInfoList.size(); position++) {
+					adapter.addCheckedItem(position);
+				}
+				adapter.notifyDataSetChanged();
+				onSoundChecked();
+			}
 			return false;
 		}
 
