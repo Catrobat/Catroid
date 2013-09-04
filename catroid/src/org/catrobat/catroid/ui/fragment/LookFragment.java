@@ -65,6 +65,7 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.badlogic.gdx.graphics.Pixmap;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -740,9 +741,16 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 					.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
-							Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
-									.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
-							startActivity(downloadPocketPaintIntent);
+
+							if (BuildConfig.DEBUG) {
+								Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
+										.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK_NIGHTLY));
+								startActivity(downloadPocketPaintIntent);
+							} else {
+								Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
+										.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
+								startActivity(downloadPocketPaintIntent);
+							}
 						}
 					}).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
 						@Override
