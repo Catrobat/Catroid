@@ -303,7 +303,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void startCopyActionMode() {
-
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
 
@@ -312,7 +311,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			}
 
 			unregisterForContextMenu(listView);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			adapter.setCheckboxVisibility(View.VISIBLE);
 			adapter.setActionMode(true);
 		}
@@ -351,7 +350,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void startDeleteActionMode() {
-
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 
@@ -360,7 +358,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			}
 
 			unregisterForContextMenu(listView);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			adapter.setCheckboxVisibility(View.VISIBLE);
 			adapter.setActionMode(true);
 		}
@@ -487,7 +485,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			setActionModeActive(false);
 
 			registerForContextMenu(listView);
-			BottomBar.enableButtons(getActivity());
+			BottomBar.showBottomBar(getActivity());
 			adapter.setActionMode(false);
 
 		}
@@ -596,7 +594,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		setActionModeActive(false);
 
 		registerForContextMenu(listView);
-		BottomBar.enableButtons(getActivity());
+		BottomBar.showBottomBar(getActivity());
 		adapter.setActionMode(false);
 	}
 

@@ -369,6 +369,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		// Check if checkboxes are visible
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, VISIBLE);
 
@@ -387,6 +389,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	public void testRenameActionModeIfNothingSelected() {
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		// Check if rename ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -396,6 +400,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	public void testRenameActionModeIfSomethingSelectedAndPressingBack() {
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
@@ -408,6 +414,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	public void testRenameActionModeEqualSoundNames() {
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		int checkboxIndex = 1;
 
@@ -440,19 +448,16 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		int timeToWait = 300;
 		String addDialogTitle = solo.getString(R.string.sound_select_source);
 
-		assertTrue("Add button not clickable", addButton.isClickable());
-		assertTrue("Play button not clickable", playButton.isClickable());
-
 		checkIfContextMenuAppears(true, false);
 
 		// Test on rename ActionMode
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		solo.waitForText(rename, 1, timeToWait, false, true);
 
 		checkIfContextMenuAppears(false, false);
-
-		assertFalse("Add button clickable", addButton.isClickable());
-		assertFalse("Play button clickable", playButton.isClickable());
 
 		solo.clickOnView(addButton);
 		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
@@ -466,17 +471,14 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		checkIfContextMenuAppears(true, false);
 
-		assertTrue("Add button not clickable after ActionMode", addButton.isClickable());
-		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
-
 		// Test on delete ActionMode
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		solo.waitForText(delete, 1, timeToWait, false, true);
 
 		checkIfContextMenuAppears(false, true);
-
-		assertFalse("Add button clickable", addButton.isClickable());
-		assertFalse("Play button clickable", playButton.isClickable());
 
 		solo.clickOnView(addButton);
 		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
@@ -493,6 +495,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	public void testDeleteActionModeCheckingAndTitle() {
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		int timeToWaitForTitle = 300;
 
@@ -540,6 +544,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		// Check if rename ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -553,6 +559,9 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		int expectedNumberOfSounds = getCurrentNumberOfSounds();
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
@@ -569,6 +578,9 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		int expectedNumberOfSounds = getCurrentNumberOfSounds() - 1;
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 
@@ -597,7 +609,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 				R.id.copy, copy, FIRST_TEST_SOUND_NAME));
 	}
 
-	public void testAddLookAndDeleteActionMode() {
+	public void testAddSoundAndDeleteActionMode() {
 		String testSoundName = "testSound";
 
 		addNewSound(testSoundName);
@@ -612,6 +624,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertEquals("Wrong number of sounds", 5, currentNumberOfSounds);
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		int[] checkboxIndicesToCheck = { solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2 };
 		int expectedNumberOfSounds = currentNumberOfSounds - checkboxIndicesToCheck.length;
@@ -705,6 +719,14 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertEquals("There are still sounds!", 0, getCurrentNumberOfSounds());
 		assertEquals("Empty View not shown although there are items in the list!", View.VISIBLE,
 				solo.getView(android.R.id.empty).getVisibility());
+	}
+
+	public void testBottombarElementsVisibilty() {
+		assertTrue("Bottombar is not visible", solo.getView(R.id.button_play).getVisibility() == VISIBLE);
+		assertTrue("Add button is not visible", solo.getView(R.id.button_add).getVisibility() == VISIBLE);
+		assertTrue("Play button is not visible", solo.getView(R.id.button_play).getVisibility() == VISIBLE);
+		assertTrue("Bottombar separator is not visible",
+				solo.getView(R.id.bottom_bar_separator).getVisibility() == VISIBLE);
 	}
 
 	private void addNewSound(String title) {

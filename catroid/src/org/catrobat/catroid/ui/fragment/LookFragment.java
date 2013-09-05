@@ -463,7 +463,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
 			unregisterForContextMenu(listView);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
 	}
@@ -473,7 +473,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = true;
 		}
 	}
@@ -483,7 +483,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(editInPocketPaintCallBack);
 			unregisterForContextMenu(listView);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = true;
 		}
 	}
@@ -493,7 +493,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
 	}
@@ -1020,7 +1020,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		setActionModeActive(false);
 
 		registerForContextMenu(listView);
-		BottomBar.enableButtons(getActivity());
+		BottomBar.showBottomBar(getActivity());
 	}
 
 	private void copyLook(int position) {

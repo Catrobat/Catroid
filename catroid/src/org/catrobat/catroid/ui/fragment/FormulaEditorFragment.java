@@ -58,6 +58,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
+import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 
@@ -139,12 +140,12 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			fragTransaction.add(R.id.script_fragment_container, formulaEditorFragment, FORMULA_EDITOR_FRAGMENT_TAG);
 			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
 			fragTransaction.show(formulaEditorFragment);
-			activity.findViewById(R.id.bottom_bar).setVisibility(View.GONE);
+			BottomBar.hideBottomBar(activity);
 		} else if (formulaEditorFragment.isHidden()) {
 			formulaEditorFragment.updateBrickViewAndFormula(brick, formula);
 			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
 			fragTransaction.show(formulaEditorFragment);
-			activity.findViewById(R.id.bottom_bar).setVisibility(View.GONE);
+			BottomBar.hideBottomBar(activity);
 		} else {
 			formulaEditorFragment.setInputFormula(formula, SET_FORMULA_ON_SWITCH_EDIT_TEXT);
 		}
@@ -187,9 +188,8 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 		resetActionBar();
 
-		activity.findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
-		activity.findViewById(R.id.bottom_bar_separator).setVisibility(View.VISIBLE);
-		activity.findViewById(R.id.button_play).setVisibility(View.VISIBLE);
+		BottomBar.showBottomBar(activity);
+		BottomBar.showPlayButton(activity);
 
 	}
 
