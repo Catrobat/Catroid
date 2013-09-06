@@ -37,7 +37,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Chronometer;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
@@ -45,6 +51,7 @@ import com.actionbarsherlock.view.Menu;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.ui.SoundViewHolder;
 import org.catrobat.catroid.ui.adapter.BackPackSoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
@@ -166,6 +173,45 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 	public BackPackSoundAdapter getBackPackSoundAdapter() {
 		return adapter;
+	}
+
+	public View getView(int position, View convertView) {
+		SoundViewHolder holder;
+
+		if (convertView == null) {
+			convertView = View.inflate(getActivity(), R.layout.fragment_sound_soundlist_item, null);
+
+			holder = new SoundViewHolder();
+			holder.playButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_play_image_button);
+			holder.pauseButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_pause_image_button);
+
+			holder.playButton.setVisibility(Button.VISIBLE);
+			holder.pauseButton.setVisibility(Button.GONE);
+
+			holder.soundFragmentButtonLayout = (LinearLayout) convertView
+					.findViewById(R.id.fragment_sound_item_main_linear_layout);
+			holder.checkbox = (CheckBox) convertView.findViewById(R.id.fragment_sound_item_checkbox);
+			holder.titleTextView = (TextView) convertView.findViewById(R.id.fragment_sound_item_title_text_view);
+			holder.timeSeperatorTextView = (TextView) convertView
+					.findViewById(R.id.fragment_sound_item_time_seperator_text_view);
+			holder.timeDurationTextView = (TextView) convertView
+					.findViewById(R.id.fragment_sound_item_duration_text_view);
+			holder.soundFileSizePrefixTextView = (TextView) convertView
+					.findViewById(R.id.fragment_sound_item_size_prefix_text_view);
+			holder.soundFileSizeTextView = (TextView) convertView.findViewById(R.id.fragment_sound_item_size_text_view);
+
+			holder.timePlayedChronometer = (Chronometer) convertView
+					.findViewById(R.id.fragment_sound_item_time_played_chronometer);
+
+			convertView.setTag(holder);
+		} else {
+			holder = (SoundViewHolder) convertView.getTag();
+		}
+		SoundController controller = SoundController.getInstance();
+		Log.v("Adapter *********", controller.toString());
+		controller.updateSoundLogic(position, holder, adapter);
+
+		return convertView;
 	}
 
 	/*
