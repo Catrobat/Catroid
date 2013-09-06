@@ -84,6 +84,11 @@ public class LookData implements Serializable, Cloneable {
 	public void setTextureRegion() {
 		if (texture == null) {
 			texture = new Texture(getPixmap());
+			// TODO
+			//			Pixmap pixmap = getPixmap();
+			//			FrameBuffer b = new FrameBuffer(Format.RGB565, pixmap.getWidth(), pixmap.getHeight(), false);
+			//			b.begin();
+			//			b.getColorBufferTexture().
 		} else {
 			texture.draw(getPixmap(), 0, 0);
 		}

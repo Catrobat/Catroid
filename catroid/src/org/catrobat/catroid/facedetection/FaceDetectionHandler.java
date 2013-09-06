@@ -118,9 +118,9 @@ public class FaceDetectionHandler {
 	}
 
 	public static boolean isIcsFaceDetectionSupported() {
-		if (true) {
-			return false; // FIXME just for testing
-		}
+		//		if (true) {
+		//			return false; // FIXME just for testing
+		//		}
 		int currentApi = android.os.Build.VERSION.SDK_INT;
 		if (currentApi < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			return false;
