@@ -57,7 +57,7 @@ public class BackPackListManager extends SherlockFragmentActivity {
 		return instance;
 	}
 
-	public BackPackSoundFragment getBackPackSoundActivityFragment() {
+	public BackPackSoundFragment getBackPackSoundFragment() {
 		return backPackSoundFragment;
 	}
 

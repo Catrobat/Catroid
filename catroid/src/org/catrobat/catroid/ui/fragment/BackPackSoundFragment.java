@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -84,9 +85,20 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 		backPackListManagerInstance = BackPackListManager.getInstance();
 
-		adapter = new BackPackSoundAdapter(
-				backPackListManagerInstance.getBackPackSoundActivityFragment().getActivity(),
-				R.layout.fragment_sound_soundlist_item, backPackListManagerInstance.getSoundInfoArrayList(), false);
+		BackPackSoundFragment backPackSoundFragment = backPackListManagerInstance.getBackPackSoundFragment();
+
+		Activity bpSoundActivityFragmentActivity = backPackSoundFragment.getActivity();
+
+		if (bpSoundActivityFragmentActivity == null) {
+			Log.d("TAG", "Activity is null!");
+		}
+
+		if (getActivity() == null) {
+			Log.d("TAG", "Activity is null!");
+		}
+
+		adapter = new BackPackSoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item,
+				backPackListManagerInstance.getSoundInfoArrayList(), false);
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
 		adapter.setBackPackSoundActivity(this);
