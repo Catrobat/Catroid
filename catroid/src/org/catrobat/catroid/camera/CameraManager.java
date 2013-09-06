@@ -168,6 +168,7 @@ public class CameraManager implements Camera.PreviewCallback, OnFrameAvailableLi
 		texture = new SurfaceTexture(textureID);
 		//texture = new SurfaceTexture(TEXTURE_NAME);
 		texture.setOnFrameAvailableListener(this);
+		Matrix.setIdentityM(transformMatrix, 0);
 		renderer = new VideoRender(textureID);
 
 	}
@@ -179,6 +180,7 @@ public class CameraManager implements Camera.PreviewCallback, OnFrameAvailableLi
 			texture.updateTexImage();
 			texture.getTransformMatrix(transformMatrix);
 			frameAvailable = false;
+			renderer.setTransformMatrix(transformMatrix);
 		}
 		renderer.onDrawFrame(Gdx.gl10);
 	}
@@ -238,7 +240,11 @@ public class CameraManager implements Camera.PreviewCallback, OnFrameAvailableLi
 				+ "  gl_FragColor = texture2D(sTexture, vTextureCoord);\n" + "}\n";
 
 		private float[] mMVPMatrix = new float[16];
-		private float[] mSTMatrix = new float[16];
+		private float[] mSTMatrix;
+
+		public void setTransformMatrix(float[] matrix) {
+			mSTMatrix = matrix;
+		}
 
 		private int mProgram;
 		private int mTextureID;
@@ -254,7 +260,6 @@ public class CameraManager implements Camera.PreviewCallback, OnFrameAvailableLi
 					.order(ByteOrder.nativeOrder()).asFloatBuffer();
 			mTriangleVertices.put(mTriangleVerticesData).position(0);
 
-			Matrix.setIdentityM(mSTMatrix, 0);
 			create(Gdx.gl10);
 
 		}
@@ -398,10 +403,10 @@ public class CameraManager implements Camera.PreviewCallback, OnFrameAvailableLi
 
 		private void checkGlError(String op) {
 			int error;
-			//			while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
-			//				Log.e(TAG, op + ": glError " + error);
-			//				throw new RuntimeException(op + ": glError " + error);
-			//			}
+			while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
+				Log.e(TAG, op + ": glError " + error);
+				throw new RuntimeException(op + ": glError " + error);
+			}
 		}
 
 	} // End of class VideoRender.

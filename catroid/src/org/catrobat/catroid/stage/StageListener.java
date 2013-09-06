@@ -45,7 +45,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.camera.VideoDisplayHandler;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
@@ -167,7 +166,7 @@ public class StageListener implements ApplicationListener {
 		for (Sprite sprite : sprites) {
 			sprite.resetSprite();
 			sprite.look.createBrightnessContrastShader();
-			VideoDisplayHandler.registerSprite(sprite);// TODO REMOVE
+			//VideoDisplayHandler.registerSprite(sprite);// TODO REMOVE
 			//sprite.look.setLookData(VideoDisplayHandler.getVideoLookData());// TODO REMOVE
 			stage.addActor(sprite.look);
 			sprite.resume();
@@ -291,7 +290,7 @@ public class StageListener implements ApplicationListener {
 				sprite = sprites.get(i);
 				sprite.resetSprite();
 				sprite.look.createBrightnessContrastShader();
-				VideoDisplayHandler.registerSprite(sprite);// TODO REMOVE
+				//VideoDisplayHandler.registerSprite(sprite);// TODO REMOVE
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}
