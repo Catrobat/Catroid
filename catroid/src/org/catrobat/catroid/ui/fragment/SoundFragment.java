@@ -75,6 +75,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SoundViewHolder;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
@@ -460,6 +461,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 				Intent intent = new Intent(getActivity(), BackPackActivity.class);
 				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 2);
+
 				startActivity(intent);
 
 				/*
@@ -474,13 +476,25 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				 * .getBackPackSoundActivityFragment();
 				 * 
 				 * backPackSoundFragment.startActivity(intentBackPack);
-				 * 
-				 * SoundController.getInstance().backPackSound(selectedSoundInfo,
-				 * BackPackListManager.getInstance().getBackPackSoundActivityFragment(),
-				 * BackPackListManager.getInstance().getSoundInfoArrayList(),
-				 * BackPackListManager.getInstance().getBackPackSoundActivityFragment().getBackPackSoundAdapter());
-				 * //todo: bp ad.
 				 */
+
+				try {
+					wait(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				if (BackPackListManager.getInstance().getBackPackSoundFragment() == null) {
+					Log.d("TAG", "BackPackSoundFragment is null!!!");
+				}
+
+				SoundController.getInstance().backPackSound(selectedSoundInfo,
+						BackPackListManager.getInstance().getBackPackSoundFragment(),
+						BackPackListManager.getInstance().getSoundInfoArrayList(),
+						BackPackListManager.getInstance().getBackPackSoundFragment().getBackPackSoundAdapter());
+				//todo: bp ad.
+
 				break;
 
 			case R.id.context_menu_copy:

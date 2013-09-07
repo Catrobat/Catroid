@@ -73,6 +73,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	private BackPackSoundAdapter adapter;
 	private ArrayList<SoundInfo> soundInfoListBackPack;
 	private SoundInfo selectedSoundInfoBackPack;
+	//private Activity backPackSoundFragmentActivity;
 
 	private BackPackListManager backPackListManagerInstance;
 
@@ -97,11 +98,19 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		Activity bpSoundActivityFragmentActivity = backPackSoundFragment.getActivity();
 
 		if (bpSoundActivityFragmentActivity == null) {
-			Log.d("TAG", "Activity is null!");
+			Log.d("TAG", "bpSoundActivityFragmentActivity is null!");
 		}
 
 		if (getActivity() == null) {
 			Log.d("TAG", "Activity is null!");
+		}
+
+		ArrayList<SoundInfo> globalSoundInfoArrayList = backPackListManagerInstance.getSoundInfoArrayList();
+
+		Log.d("TAG", "Size of List: " + globalSoundInfoArrayList.size());
+
+		while (globalSoundInfoArrayList.iterator().hasNext()) {
+			Log.d("TAG", "Size of List: " + globalSoundInfoArrayList.size());
 		}
 
 		adapter = new BackPackSoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item,
