@@ -478,13 +478,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				 * backPackSoundFragment.startActivity(intentBackPack);
 				 */
 
-				try {
-					wait(2000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
 				if (BackPackListManager.getInstance().getBackPackSoundFragment() == null) {
 					Log.d("TAG", "BackPackSoundFragment is null!!!");
 				}
