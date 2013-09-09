@@ -52,7 +52,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.SoundViewHolder;
-import org.catrobat.catroid.ui.adapter.BackPackSoundAdapter;
+import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
@@ -70,8 +70,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	private ActionBar actionBar;
 
 	private MediaPlayer mediaPlayer;
-	private BackPackSoundAdapter adapter;
-	private ArrayList<SoundInfo> soundInfoListBackPack;
+	private SoundAdapter adapter;
 	private SoundInfo selectedSoundInfoBackPack;
 	//private Activity backPackSoundFragmentActivity;
 
@@ -112,13 +111,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		while (globalSoundInfoArrayList.iterator().hasNext()) {
 			Log.d("TAG", "Size of List: " + globalSoundInfoArrayList.size());
 		}
-
-		adapter = new BackPackSoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item,
-				backPackListManagerInstance.getSoundInfoArrayList(), false);
-		adapter.setOnSoundEditListener(this);
-		setListAdapter(adapter);
-		adapter.setBackPackSoundActivity(this);
-
 	}
 
 	@Override
@@ -141,12 +133,12 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 			selectedSoundInfoBackPack = (SoundInfo) savedInstanceState
 					.getSerializable(SoundController.BUNDLE_ARGUMENTS_SELECTED_SOUND);
 		}
-		soundInfoListBackPack = BackPackListManager.getInstance().getSoundInfoArrayList();
 
-		adapter = new BackPackSoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item,
-				soundInfoListBackPack, false);
+		adapter = new SoundAdapter(getActivity(), R.id.fragment_sound_item_title_text_view,
+				R.layout.fragment_sound_soundlist_item, backPackListManagerInstance.getSoundInfoArrayList(), false);
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
+		//adapter.setBackPackSoundActivity(this);
 
 	}
 
@@ -180,9 +172,11 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		});
 	}
 
-	public BackPackSoundAdapter getBackPackSoundAdapter() {
-		return adapter;
-	}
+	/*
+	 * public BackPackSoundAdapter getBackPackSoundAdapter() {
+	 * return adapter;
+	 * }
+	 */
 
 	public View getView(int position, View convertView) {
 		SoundViewHolder holder;
@@ -366,5 +360,9 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	protected void showDeleteDialog() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public SoundAdapter getAdapter() {
+		return adapter;
 	}
 }

@@ -168,7 +168,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		}
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
-		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList, false);
+		adapter = new SoundAdapter(getActivity(), R.id.fragment_sound_item_title_text_view,
+				R.layout.fragment_sound_soundlist_item, soundInfoList, false);
 
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
@@ -359,22 +360,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 		}
 
-		if (requestCode == 1) {
-
-			if (resultCode == RESULT_OK) {
-				String result = data.getStringExtra("result");
-				Log.d("TAG", "Result code was RESULT_OK!");
-
-				SoundController.getInstance().backPackSound(selectedSoundInfo,
-						BackPackListManager.getInstance().getBackPackSoundFragment(),
-						BackPackListManager.getInstance().getSoundInfoArrayList(),
-						BackPackListManager.getInstance().getBackPackSoundFragment().getBackPackSoundAdapter());
-
-			} else {
-				Log.d("TAG", "Result Code doesn't match!");
-			}
-		}
-
 	}
 
 	@Override
@@ -477,8 +462,11 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 				Intent intent = new Intent(getActivity(), BackPackActivity.class);
 				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 2);
+				//Intent.putExtra(BackPackActivity.SOUND_INFO, selectedSoundInfo);
 
-				startActivityForResult(intent, 1);
+				BackPackListManager.setCurrentSoundInfo(selectedSoundInfo);
+
+				startActivity(intent);
 
 				// moved to onActivityResult()
 

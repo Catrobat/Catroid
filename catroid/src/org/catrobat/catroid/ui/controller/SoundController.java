@@ -43,7 +43,6 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -246,13 +245,18 @@ public class SoundController {
 	public void backPackSound(SoundInfo selectedSoundInfo, BackPackSoundFragment backPackSoundActivity,
 			ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
 
-		if (backPackSoundActivity.getActivity() == null) {
+		if (backPackSoundActivity.getSherlockActivity() == null) {
 			Log.d("TAG", "@SoundController-->Activity is null!");
 		}
 
-		Toast.makeText(backPackSoundActivity.getActivity(),
-				"Sound " + selectedSoundInfo.getTitle() + " copied into backpack", Toast.LENGTH_SHORT).show();
+		if (backPackSoundActivity == null) {
+			Log.d("TAG", "backPackSoundActivity is NULL!");
+		}
 
+		/*
+		 * Toast.makeText(backPackSoundActivity.getSherlockActivity(),
+		 * "Sound " + selectedSoundInfo.getTitle() + " copied into backpack", Toast.LENGTH_SHORT).show();
+		 */
 		BackPackListManager.getInstance().addSoundToSoundInfoArrayList(selectedSoundInfo);
 
 		// for debugging

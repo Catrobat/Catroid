@@ -41,6 +41,8 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.SoundController;
 
 import java.util.concurrent.locks.Lock;
 
@@ -98,11 +100,8 @@ public class BackPackActivity extends BaseActivity {
 		}
 
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
 		setCurrentFragment(currentFragmentPosition);
-
 		fragmentTransaction.commit();
-
 		fragmentTransaction.add(R.id.script_fragment_container, currentFragment, currentFragmentTag);
 
 		final ActionBar actionBar = getSupportActionBar();
@@ -110,12 +109,21 @@ public class BackPackActivity extends BaseActivity {
 		actionBar.setDisplayShowTitleEnabled(true);
 		//actionBar.setTitle(currentFragmentPosition);
 
-		String result = null;
-		Intent returnIntent = new Intent();
-		returnIntent.putExtra("result", result);
-		setResult(RESULT_OK, returnIntent);
-		finish();
+		//		String result = null;
+		//		Intent returnIntent = new Intent();
+		//		returnIntent.putExtra("result", result);
+		//		setResult(RESULT_OK, returnIntent);
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		//@SuppressWarnings("unused")
+		//BackPackSoundAdapter ad = backPackSoundFragment.getAdapter();
+
+		SoundController.getInstance().backPackSound(BackPackListManager.getCurrentSoundInfo(), backPackSoundFragment,
+				BackPackListManager.getInstance().getSoundInfoArrayList(), backPackSoundFragment.getAdapter());
+	};
 
 	private void updateCurrentFragment(int fragmentPosition, FragmentTransaction fragmentTransaction) {
 		boolean fragmentExists = true;

@@ -25,18 +25,13 @@ package org.catrobat.catroid.ui.adapter;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import com.actionbarsherlock.view.ActionMode;
+
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.ui.controller.SoundController;
-import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
-import org.catrobat.catroid.ui.fragment.SoundFragment;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -50,19 +45,20 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ScriptA
 
 	protected Context context;
 
-    protected OnSoundEditListener onSoundEditListener;
+	protected OnSoundEditListener onSoundEditListener;
 
-    protected int selectMode;
-    protected static long elapsedMilliSeconds;
-    protected static long currentPlayingBase;
-    protected boolean showDetails;
+	protected int selectMode;
+	protected static long elapsedMilliSeconds;
+	protected static long currentPlayingBase;
+	protected boolean showDetails;
 
 	protected SortedSet<Integer> checkedSounds = new TreeSet<Integer>();
 
 	private int currentPlayingPosition = Constants.NO_POSITION;
 
-	public SoundBaseAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items, boolean showDetails) {
-		super(context, textViewResourceId, items);
+	public SoundBaseAdapter(final Context context, int resource, int textViewResourceId, ArrayList<SoundInfo> items,
+			boolean showDetails) {
+		super(context, resource, textViewResourceId, items);
 
 		Log.d("TAG", "SoundBaseAdapter called!");
 

@@ -40,11 +40,16 @@ public class BackPackListManager extends SherlockFragmentActivity {
 
 	private final static ArrayList<SoundInfo> soundInfoArrayList = new ArrayList<SoundInfo>();
 
+	private static SoundInfo currentSoundInfo;
+
 	private BackPackListManager() {
 
 		Log.d("TAG", "Set up BackPackListManager (Constructor)");
 		// change
-		backPackSoundFragment = new BackPackSoundFragment();
+		if (backPackSoundFragment == null) {
+			backPackSoundFragment = new BackPackSoundFragment();
+		}
+
 	}
 
 	public static BackPackListManager getInstance() {
@@ -82,5 +87,13 @@ public class BackPackListManager extends SherlockFragmentActivity {
 			Log.d("TAG", "Content of soundInfoArrayList: " + soundInfo.getTitle());
 		}
 
+	}
+
+	public static SoundInfo getCurrentSoundInfo() {
+		return currentSoundInfo;
+	}
+
+	public static void setCurrentSoundInfo(SoundInfo currentSoundInfo) {
+		BackPackListManager.currentSoundInfo = currentSoundInfo;
 	}
 }
