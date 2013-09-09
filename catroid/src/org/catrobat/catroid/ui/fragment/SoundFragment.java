@@ -168,8 +168,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		}
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
-		adapter = new SoundAdapter(getActivity(), R.id.fragment_sound_item_title_text_view,
-				R.layout.fragment_sound_soundlist_item, soundInfoList, false);
+		//R.id.fragment_sound_item_title_text_view,
+		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList, false);
 
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);

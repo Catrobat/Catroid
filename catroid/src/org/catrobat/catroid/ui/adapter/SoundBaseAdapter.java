@@ -56,9 +56,9 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ScriptA
 
 	private int currentPlayingPosition = Constants.NO_POSITION;
 
-	public SoundBaseAdapter(final Context context, int resource, int textViewResourceId, ArrayList<SoundInfo> items,
+	public SoundBaseAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items,
 			boolean showDetails) {
-		super(context, resource, textViewResourceId, items);
+		super(context, textViewResourceId, items);
 
 		Log.d("TAG", "SoundBaseAdapter called!");
 
