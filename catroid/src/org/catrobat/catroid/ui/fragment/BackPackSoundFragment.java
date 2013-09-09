@@ -122,8 +122,9 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		int id = R.id.fragment_sound_item_title_text_view;
 		int layout = R.layout.fragment_sound_soundlist_item;
 		//R.layout.fragment_sound_soundlist_item
-		adapter = new BackPackSoundAdapter(getActivity(), R.layout.activity_list_backpack_sound, BackPackListManager
-				.getInstance().getSoundInfoArrayList(), false);
+		adapter = new BackPackSoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item,
+				R.id.fragment_sound_item_title_text_view, BackPackListManager.getInstance().getSoundInfoArrayList(),
+				false);
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
 

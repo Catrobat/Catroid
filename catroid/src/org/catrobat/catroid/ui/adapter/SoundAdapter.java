@@ -46,8 +46,9 @@ public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdap
 
 	private SoundFragment soundFragment;
 
-	public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items, boolean showDetails) {
-		super(context, textViewResourceId, items, false);
+	public SoundAdapter(final Context context, int Resource, int textViewResourceId, ArrayList<SoundInfo> items,
+			boolean showDetails) {
+		super(context, Resource, textViewResourceId, items, false);
 		Log.d("TAG", "SoundAdapter called!");
 	}
 
