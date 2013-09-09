@@ -119,6 +119,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	private LinearLayout addButton;
 
+	private static final int RESULT_OK = -1;
+
 	public void setOnSoundInfoListChangedAfterNewListener(OnSoundInfoListChangedAfterNewListener listener) {
 		soundInfoListChangedAfterNewListener = listener;
 	}
@@ -338,6 +340,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
+		Log.d("TAG", "SoundFragment --> onActivityResult()");
+
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == SoundController.REQUEST_SELECT_MUSIC && data != null) {
 			Bundle arguments = new Bundle();
@@ -353,6 +357,22 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			Log.d("SoundFragment", "onActivityResult RequestMusic");
 			setHandleAddbutton();
 
+		}
+
+		if (requestCode == 1) {
+
+			if (resultCode == RESULT_OK) {
+				String result = data.getStringExtra("result");
+				Log.d("TAG", "Result code was RESULT_OK!");
+
+				SoundController.getInstance().backPackSound(selectedSoundInfo,
+						BackPackListManager.getInstance().getBackPackSoundFragment(),
+						BackPackListManager.getInstance().getSoundInfoArrayList(),
+						BackPackListManager.getInstance().getBackPackSoundFragment().getBackPackSoundAdapter());
+
+			} else {
+				Log.d("TAG", "Result Code doesn't match!");
+			}
 		}
 
 	}
@@ -455,38 +475,17 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			case R.id.context_menu_backpack:
 				Log.d("TAG", "Context Menu BackPack!");
 
-				//				Intent intent = new Intent(this, ScriptActivity.class);
-				//				intent.putExtra(ScriptActivity.EXTRA_FRAGMENT_POSITION, fragmentPosition);
-				//				startActivity(intent);
-
 				Intent intent = new Intent(getActivity(), BackPackActivity.class);
 				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 2);
 
-				startActivity(intent);
+				startActivityForResult(intent, 1);
 
-				/*
-				 * BackPackSoundFragment BackPackActivity = BackPackListManager.getInstance()
-				 * .getBackPackSoundActivityFragment();
-				 * 
-				 * Activity activity = BackPackActivity.getActivity();
-				 * 
-				 * Intent intentBackPack = new Intent(getActivity(), BackPackSoundFragment.class);
-				 * 
-				 * BackPackSoundFragment backPackSoundFragment = BackPackListManager.getInstance()
-				 * .getBackPackSoundActivityFragment();
-				 * 
-				 * backPackSoundFragment.startActivity(intentBackPack);
-				 */
+				// moved to onActivityResult()
 
-				if (BackPackListManager.getInstance().getBackPackSoundFragment() == null) {
-					Log.d("TAG", "BackPackSoundFragment is null!!!");
-				}
-
-				SoundController.getInstance().backPackSound(selectedSoundInfo,
-						BackPackListManager.getInstance().getBackPackSoundFragment(),
-						BackPackListManager.getInstance().getSoundInfoArrayList(),
-						BackPackListManager.getInstance().getBackPackSoundFragment().getBackPackSoundAdapter());
-				//todo: bp ad.
+				//				SoundController.getInstance().backPackSound(selectedSoundInfo,
+				//						BackPackListManager.getInstance().getBackPackSoundFragment(),
+				//						BackPackListManager.getInstance().getSoundInfoArrayList(),
+				//						BackPackListManager.getInstance().getBackPackSoundFragment().getBackPackSoundAdapter());
 
 				break;
 

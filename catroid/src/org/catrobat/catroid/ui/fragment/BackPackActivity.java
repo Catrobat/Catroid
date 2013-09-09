@@ -101,31 +101,20 @@ public class BackPackActivity extends BaseActivity {
 
 		setCurrentFragment(currentFragmentPosition);
 
-		/*
-		 * switch (currentFragmentPosition) {
-		 * case 2:
-		 * // it's a Sound
-		 * if (backPackSoundFragment == null) {
-		 * Log.d("TAG", "BackPackActivity --> it's a Sound");
-		 * backPackSoundFragment = new BackPackSoundFragment();
-		 * currentFragment = backPackSoundFragment;
-		 * //fragmentExists = false;
-		 * //currentFragmentTag = BackPackSoundFragment.TAG;
-		 * }
-		 * }
-		 */
-
-		//updateCurrentFragment(currentFragmentPosition, fragmentTransaction);
 		fragmentTransaction.commit();
 
 		fragmentTransaction.add(R.id.script_fragment_container, currentFragment, currentFragmentTag);
-
-		//fragmentTransaction.show(currentFragment);
 
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
 		//actionBar.setTitle(currentFragmentPosition);
+
+		String result = null;
+		Intent returnIntent = new Intent();
+		returnIntent.putExtra("result", result);
+		setResult(RESULT_OK, returnIntent);
+		finish();
 	}
 
 	private void updateCurrentFragment(int fragmentPosition, FragmentTransaction fragmentTransaction) {
