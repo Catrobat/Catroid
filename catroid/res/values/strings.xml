@@ -182,7 +182,7 @@
     <string name="soundrecorder_name">Pocket Code Recorder</string>
     <string name="soundrecorder_error">Sound recording failed</string>
     <string name="soundrecorder_recorded_filename">record</string>
-    <string name="soundrecorder_text_view">Press icon below to start and stop recording.</string>
+    <string name="soundrecorder_text_view">Press icon above to start and stop recording.</string>
     <!--  -->
 
 

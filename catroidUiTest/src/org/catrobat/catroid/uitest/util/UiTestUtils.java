@@ -51,6 +51,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -173,9 +174,9 @@ public class UiTestUtils {
 	private static final List<Integer> FRAGMENT_INDEX_LIST = new ArrayList<Integer>();
 
 	static {
-		FRAGMENT_INDEX_LIST.add(R.id.fragment_script_relative_layout);
-		FRAGMENT_INDEX_LIST.add(R.id.fragment_look_relative_layout);
-		FRAGMENT_INDEX_LIST.add(R.id.fragment_sound_relative_layout);
+		FRAGMENT_INDEX_LIST.add(R.id.fragment_script);
+		FRAGMENT_INDEX_LIST.add(R.id.fragment_look);
+		FRAGMENT_INDEX_LIST.add(R.id.fragment_sound);
 	}
 
 	public static enum FileTypes {
@@ -1091,9 +1092,9 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnBottomBar(Solo solo, int buttonId) {
-		solo.waitForView(LinearLayout.class);
-		LinearLayout linearLayout = (LinearLayout) solo.getView(buttonId);
-		solo.clickOnView(linearLayout);
+		solo.waitForView(ImageButton.class);
+		ImageButton imageButton = (ImageButton) solo.getView(buttonId);
+		solo.clickOnView(imageButton);
 	}
 
 	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
@@ -1199,7 +1200,7 @@ public class UiTestUtils {
 	}
 
 	public static int getAddedListItemYPosition(Solo solo) {
-		ArrayList<Integer> yPositionsList = getListItemYPositions(solo, 1);
+		ArrayList<Integer> yPositionsList = getListItemYPositions(solo, 0);
 		int middleYPositionIndex = yPositionsList.size() / 2;
 
 		return yPositionsList.get(middleYPositionIndex);
@@ -1253,7 +1254,6 @@ public class UiTestUtils {
 			}
 		});
 
-		solo.clickInList(0); // needed because of bug(?) in Nexus S 2.3.6
 		solo.sleep(1000);
 	}
 
@@ -1435,7 +1435,7 @@ public class UiTestUtils {
 	}
 
 	public static ListView getScriptListView(Solo solo) {
-		return solo.getCurrentViews(ListView.class).get(1);
+		return solo.getCurrentViews(ListView.class).get(0);
 	}
 
 	public static void waitForFragment(Solo solo, int fragmentRootLayoutId) {

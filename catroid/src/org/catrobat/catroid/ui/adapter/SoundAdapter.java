@@ -81,7 +81,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 	private static class ViewHolder {
 		private ImageButton playButton;
 		private ImageButton pauseButton;
-		private LinearLayout soundFragmentButtonLayout;
+		private LinearLayout background;
 		private CheckBox checkbox;
 		private TextView titleTextView;
 		private TextView timeSeperatorTextView;
@@ -107,8 +107,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 			holder.playButton.setVisibility(Button.VISIBLE);
 			holder.pauseButton.setVisibility(Button.GONE);
 
-			holder.soundFragmentButtonLayout = (LinearLayout) convertView
-					.findViewById(R.id.fragment_sound_item_main_linear_layout);
+			holder.background = (LinearLayout) convertView.findViewById(R.id.fragment_sound_item_main_linear_layout);
 			holder.checkbox = (CheckBox) convertView.findViewById(R.id.fragment_sound_item_checkbox);
 			holder.titleTextView = (TextView) convertView.findViewById(R.id.fragment_sound_item_title_text_view);
 			holder.timeSeperatorTextView = (TextView) convertView
@@ -156,11 +155,11 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 			if (selectMode != ListView.CHOICE_MODE_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
 				holder.checkbox.setVisibility(View.VISIBLE);
-				holder.soundFragmentButtonLayout.setBackgroundResource(R.drawable.button_background_shadowed);
+				holder.background.setBackgroundResource(R.drawable.button_background_shadowed);
 			} else {
 				holder.checkbox.setVisibility(View.GONE);
 				holder.checkbox.setVisibility(View.GONE);
-				holder.soundFragmentButtonLayout.setBackgroundResource(R.drawable.button_background_selector);
+				holder.background.setBackgroundResource(R.drawable.button_background_selector);
 				holder.checkbox.setChecked(false);
 				clearCheckedItems();
 			}
@@ -238,7 +237,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 			if (selectMode != ListView.CHOICE_MODE_NONE) {
 				holder.playButton.setOnClickListener(null);
 				holder.pauseButton.setOnClickListener(null);
-				holder.soundFragmentButtonLayout.setOnClickListener(null);
+				holder.background.setOnClickListener(null);
 			} else {
 				holder.playButton.setOnClickListener(new OnClickListener() {
 					@Override
@@ -258,7 +257,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 					}
 				});
 
-				holder.soundFragmentButtonLayout.setOnClickListener(new OnClickListener() {
+				holder.background.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View view) {
 						if (onSoundEditListener != null) {

@@ -25,6 +25,4 @@ gen/
 # Local configuration file (sdk path, etc)
 local.properties
 proguard-project.txt
-lint.xml
 .checkstyle
-!libraryProjects/actionbarsherlock/lint.xml

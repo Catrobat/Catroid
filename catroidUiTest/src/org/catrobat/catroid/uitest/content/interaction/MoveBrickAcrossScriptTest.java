@@ -64,7 +64,7 @@ public class MoveBrickAcrossScriptTest extends BaseActivityInstrumentationTestCa
 		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
 
-		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 4);
 
 		int numberOfBricks = ProjectManager.getInstance().getCurrentScript().getBrickList().size();

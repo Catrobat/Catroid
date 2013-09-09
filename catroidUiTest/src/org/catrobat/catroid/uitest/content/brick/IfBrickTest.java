@@ -98,7 +98,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		Log.e("info", "Befor drag item 1 to item 4 + 20");
 		logBrickListForJenkins(projectBrickList);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(4) + 20, 20);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(1) instanceof IfLogicBeginBrick));
@@ -106,7 +106,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		Log.e("info", "Befor drag item 2 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, yPosition.get(0), 20);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(0) instanceof IfLogicBeginBrick));
@@ -119,7 +119,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		Log.e("info", "Before drag item 3 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(3), 10, yPosition.get(0), 20);
 
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
@@ -134,7 +134,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		Log.e("info", "Befor drag item 4 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4) - 10, 10, yPosition.get(0), 20);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 
@@ -152,7 +152,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		//
 
 		//		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
-		//		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		//		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		//		int addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 		//
 		//		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
@@ -160,14 +160,14 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		//
 		//		solo.goBack();
 		//
-		//		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		//		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		//		solo.clickOnScreen(20, yPosition.get(3));
 		//		clickOnDeleteInDialog();
 		//
 		//		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		//		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
 		//
-		//		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		//		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		//		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(2) + 20, 20);
 		//		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
 		//		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
@@ -175,16 +175,16 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		//		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
 		//
 		//		UiTestUtils.addNewBrick(solo, R.string.brick_if_begin);
-		//		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		//		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		//		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 		//		solo.drag(20, 20, addedYPosition, yPosition.get(3) + 20, 20);
 		//
 		//		UiTestUtils.addNewBrick(solo, R.string.brick_set_look);
-		//		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		//		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		//		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 		//		solo.drag(20, 20, addedYPosition, yPosition.get(5) + 20, 20);
 		//
-		//		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		//		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		//		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, yPosition.get(5) + 20, 20);
 		//		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
 		//

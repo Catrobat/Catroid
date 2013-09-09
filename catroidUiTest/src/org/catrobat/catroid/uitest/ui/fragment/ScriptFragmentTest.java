@@ -24,9 +24,10 @@ package org.catrobat.catroid.uitest.ui.fragment;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.view.Display;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -39,6 +40,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -73,6 +75,9 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		solo.clickOnCheckBox(0);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -89,6 +94,9 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		solo.clickOnCheckBox(1);
 		solo.clickOnCheckBox(2);
 
@@ -108,6 +116,9 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		solo.clickOnCheckBox(1);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -144,6 +155,31 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 				.getNumberOfBricks();
 
 		assertEquals("No brick has been copied!", 2, numberOfBricks);
+	}
+
+	public void testCopyFromContextDialog() {
+		UiTestUtils.createTestProject();
+		for (int index = 0; index < 5; ++index) {
+			ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getScript(0)
+					.addBrick(new ShowBrick());
+		}
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		int numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+
+		solo.clickOnText(solo.getString(R.string.brick_hide));
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_copy_brick));
+		solo.sleep(200);
+
+		ArrayList<Integer> yPosition = UiTestUtils.getListItemYPositions(solo, 0);
+		int addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
+		solo.drag(20, 20, addedYPosition, yPosition.get(yPosition.size() - 1) + 20, 20);
+		solo.sleep(200);
+
+		assertEquals("Brick was not copied", numberOfBricks + 1, ProjectManager.getInstance().getCurrentProject()
+				.getSpriteList().get(0).getNumberOfBricks());
 	}
 
 	public void testCreateNewBrickButton() {
@@ -248,7 +284,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		Script script = sprite.getScript(0);
 		assertTrue("Single script isn't empty.", script.getBrickList().isEmpty());
 
-		List<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+		List<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
 		solo.clickOnScreen(20, yPositionList.get(0) + 20);
 		solo.sleep(200);
@@ -274,7 +310,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	public void testSimpleDragNDrop() {
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(4), 10, yPositionList.get(2) - 3, 20);
@@ -294,6 +330,9 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		solo.clickOnCheckBox(0);
 
 		String expectedTitle = solo.getString(R.string.delete) + " " + Integer.toString(brickListToCheck.size() + 1)
@@ -317,6 +356,9 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		solo.clickOnCheckBox(0);
 
 		solo.goBack();
@@ -334,6 +376,9 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 				.getBrickList();
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		solo.clickOnCheckBox(0);
 
 		for (int position = 1; position < brickList.size(); position++) {
@@ -356,6 +401,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		solo.clickOnCheckBox(1);
 		solo.clickOnCheckBox(2);
@@ -381,6 +428,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		solo.clickOnCheckBox(3);
 		String expectedTitle = solo.getString(R.string.delete) + " " + 3 + " "
@@ -408,7 +457,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		int numberOfForeverBricks = 0;
 		int numberOfEndBricks = 0;
 
-		ListView dragAndDropListView = solo.getCurrentViews(ListView.class).get(1);
+		ListView dragAndDropListView = solo.getCurrentViews(ListView.class).get(0);
 		List<Brick> currentBrickList = new ArrayList<Brick>();
 
 		for (int position = 0; position < dragAndDropListView.getChildCount(); position++) {
@@ -436,6 +485,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		solo.clickOnCheckBox(2);
 		solo.clickOnCheckBox(5);
 		String expectedTitle = solo.getString(R.string.delete) + " " + 5 + " "
@@ -460,7 +511,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		int numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
 				.getNumberOfBricks();
 
-		ListView dragAndDropListView = solo.getCurrentViews(ListView.class).get(1);
+		ListView dragAndDropListView = solo.getCurrentViews(ListView.class).get(0);
 		List<Brick> currentBrickList = new ArrayList<Brick>();
 
 		for (int position = 0; position < dragAndDropListView.getChildCount(); position++) {
@@ -473,12 +524,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	public void testDeleteItem() {
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
-
-		Display display = getActivity().getWindowManager().getDefaultDisplay();
-		@SuppressWarnings("deprecation")
-		int displayWidth = display.getWidth();
 
 		solo.waitForText(solo.getString(R.string.brick_when_started));
 		solo.clickOnText(solo.getString(R.string.brick_when_started));
@@ -487,17 +534,10 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.waitForText(solo.getString(R.string.no));
 		solo.clickOnButton(solo.getString(R.string.no));
 
-		UiTestUtils.longClickAndDrag(solo, 30, yPositionList.get(2), displayWidth, yPositionList.get(2), 40);
-		solo.sleep(1000);
+		solo.sleep(500);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
-		assertEquals("This brick shouldn't be deleted due TrashView does not exist", brickListToCheck.size(),
-				brickList.size());
-
-		solo.clickOnScreen(20, yPositionList.get(2));
-		if (!solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick), 0, 5000)) {
-			fail("Text not shown in 5 secs!");
-		}
+		solo.clickOnText(solo.getString(R.string.brick_show));
 		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick));
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
 		solo.waitForText(solo.getString(R.string.yes));
@@ -514,6 +554,41 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Incorrect brick order after deleting a brick", brickListToCheck.get(2), brickList.get(1));
 		assertEquals("Incorrect brick order after deleting a brick", brickListToCheck.get(3), brickList.get(2));
 		assertEquals("Incorrect brick order after deleting a brick", brickListToCheck.get(4), brickList.get(3));
+	}
+
+	public void testEmptyView() {
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		int numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+		assertTrue("There are no bricks!", numberOfBricks > 0);
+
+		TextView emptyViewHeading = (TextView) solo.getCurrentActivity()
+				.findViewById(R.id.fragment_script_text_heading);
+		TextView emptyViewDescription = (TextView) solo.getCurrentActivity().findViewById(
+				R.id.fragment_script_text_description);
+
+		// The Views are gone, we can still make assumptions about them
+		assertEquals("Empty View heading is not correct", solo.getString(R.string.scripts), emptyViewHeading.getText()
+				.toString());
+		assertEquals("Empty View description is not correct",
+				solo.getString(R.string.fragment_script_text_description), emptyViewDescription.getText().toString());
+
+		assertEquals("Empty View shown although there are items in the list!", View.GONE,
+				solo.getView(android.R.id.empty).getVisibility());
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		solo.clickOnCheckBox(0);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
+
+		numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		assertEquals("Not all Bricks have been deleted!", 0, numberOfBricks);
+		assertEquals("Empty View not shown although there are items in the list!", View.VISIBLE,
+				solo.getView(android.R.id.empty).getVisibility());
 	}
 
 	public void testBackgroundBricks() {
@@ -577,6 +652,16 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		//assertFalse("Found menu item '" + delete + "'", solo.waitForText(delete, 1, timeToWait, false, true));
 		assertFalse("Found menu item '" + rename + "'", solo.waitForText(rename, 1, timeToWait, false, true));
 		assertFalse("Found menu item '" + showDetails + "'", solo.waitForText(showDetails, 1, timeToWait, false, true));
+	}
+
+	public void testBottombarElementsVisibilty() {
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		assertTrue("Bottombar is not visible", solo.getView(R.id.bottom_bar).getVisibility() == View.VISIBLE);
+		assertTrue("Add button is not visible", solo.getView(R.id.button_add).getVisibility() == View.VISIBLE);
+		assertTrue("Play button is not visible", solo.getView(R.id.button_play).getVisibility() == View.VISIBLE);
+		assertTrue("Bottombar separator is not visible",
+				solo.getView(R.id.bottom_bar_separator).getVisibility() == View.VISIBLE);
 	}
 
 	@Device

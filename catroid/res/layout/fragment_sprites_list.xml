@@ -21,16 +21,8 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/list"
+    style="@style/ListViewShadowed"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/project_activity_background_color"
-    android:orientation="vertical" >
-
-    <ListView
-        android:id="@android:id/list"
-        style="@style/ListViewShadowed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-</LinearLayout>
+    android:layout_height="wrap_content" />

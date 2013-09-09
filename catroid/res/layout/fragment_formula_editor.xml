@@ -24,7 +24,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/darkblue"
     android:theme="@android:style/Theme.Light" >
 
     <LinearLayout
@@ -38,7 +37,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/formula_editor_brick_space"
-        android:background="@color/white">
+        android:background="@color/white" >
 
         <org.catrobat.catroid.formulaeditor.FormulaEditorEditText
             android:id="@+id/formula_editor_edit_field"
@@ -54,8 +53,8 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:paddingTop="5dp"
-            android:scrollbars="vertical"
             android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
             android:singleLine="false"
             android:textColor="@color/solid_black"
             android:textSize="@dimen/text_size_xxlarge" />
@@ -67,9 +66,9 @@
             android:layout_gravity="right|bottom"
             android:layout_marginBottom="5dp"
             android:layout_marginRight="0dp"
-            android:src="@drawable/icon_backspace"
             android:background="@color/white"
-            android:contentDescription="@string/formula_editor_image_button_description_delete" />
+            android:contentDescription="@string/formula_editor_image_button_description_delete"
+            android:src="@drawable/icon_backspace" />
     </FrameLayout>
 
     <include
