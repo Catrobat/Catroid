@@ -70,6 +70,15 @@ public class BackPackListManager extends SherlockFragmentActivity {
 		return soundInfoArrayList;
 	}
 
+	public void setSoundInfoArrayListEmpty() {
+
+		Log.d("TAG", "Set ArrayList empty, Size of ArrayList before setting empty: " + soundInfoArrayList.size());
+
+		soundInfoArrayList.clear();
+
+		Log.d("TAG", "Set ArrayList empty, Size of ArrayList after setting empty: " + soundInfoArrayList.size());
+	}
+
 	//	public void setSoundInfoArrayList(ArrayList<SoundInfo> soundInfoArrayList) {
 	//		soundInfoArrayList = soundInfoArrayList;
 	//	}

@@ -52,6 +52,9 @@ public class BackPackActivity extends BaseActivity {
 	public static final int FRAGMENT_BACKPACK_SOUNDS = 2;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "org.catrobat.catroid.ui.fragmentPosition";
+	public static final String BACKPACK_ITEM = "backpackItem";
+
+	private boolean backpackItem = false;
 
 	/*
 	 * public static final String ACTION_SPRITES_LIST_INIT = "org.catrobat.catroid.SPRITES_LIST_INIT";
@@ -96,6 +99,7 @@ public class BackPackActivity extends BaseActivity {
 
 			if (bundle != null) {
 				currentFragmentPosition = bundle.getInt(EXTRA_FRAGMENT_POSITION, FRAGMENT_BACKPACK_SCRIPTS);
+				backpackItem = bundle.getBoolean(BACKPACK_ITEM);
 			}
 		}
 
@@ -120,9 +124,12 @@ public class BackPackActivity extends BaseActivity {
 		super.onResume();
 		//@SuppressWarnings("unused")
 		//BackPackSoundAdapter ad = backPackSoundFragment.getAdapter();
-
-		SoundController.getInstance().backPackSound(BackPackListManager.getCurrentSoundInfo(), backPackSoundFragment,
-				BackPackListManager.getInstance().getSoundInfoArrayList(), backPackSoundFragment.getAdapter());
+		if (backpackItem) {
+			SoundController.getInstance().backPackSound(BackPackListManager.getCurrentSoundInfo(),
+					backPackSoundFragment, BackPackListManager.getInstance().getSoundInfoArrayList(),
+					backPackSoundFragment.getAdapter());
+			backpackItem = false;
+		}
 	};
 
 	private void updateCurrentFragment(int fragmentPosition, FragmentTransaction fragmentTransaction) {

@@ -257,7 +257,7 @@ public class SoundController {
 		 * Toast.makeText(backPackSoundActivity.getSherlockActivity(),
 		 * "Sound " + selectedSoundInfo.getTitle() + " copied into backpack", Toast.LENGTH_SHORT).show();
 		 */
-		BackPackListManager.getInstance().addSoundToSoundInfoArrayList(selectedSoundInfo);
+		//BackPackListManager.getInstance().addSoundToSoundInfoArrayList(selectedSoundInfo);
 
 		// for debugging
 
@@ -268,7 +268,7 @@ public class SoundController {
 		//		backPackSoundActivity.startActivity(intentBackPack);
 
 		copySoundBackPack(selectedSoundInfo, soundInfoList, adapter);
-
+		adapter.notifyDataSetChanged();
 	}
 
 	private void copySoundBackPack(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList,

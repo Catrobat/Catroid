@@ -463,19 +463,9 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 				Intent intent = new Intent(getActivity(), BackPackActivity.class);
 				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 2);
-				//Intent.putExtra(BackPackActivity.SOUND_INFO, selectedSoundInfo);
-
+				intent.putExtra(BackPackActivity.BACKPACK_ITEM, true);
 				BackPackListManager.setCurrentSoundInfo(selectedSoundInfo);
-
 				startActivity(intent);
-
-				// moved to onActivityResult()
-
-				//				SoundController.getInstance().backPackSound(selectedSoundInfo,
-				//						BackPackListManager.getInstance().getBackPackSoundFragment(),
-				//						BackPackListManager.getInstance().getSoundInfoArrayList(),
-				//						BackPackListManager.getInstance().getBackPackSoundFragment().getBackPackSoundAdapter());
-
 				break;
 
 			case R.id.context_menu_copy:
