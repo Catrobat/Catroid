@@ -42,16 +42,19 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 	}
 
 	@Override
-	public void startFaceDetection() {
+	public boolean startFaceDetection() {
 		if (running) {
-			return;
+			return true;
 		}
 		Log.d("Blah", "ICS Start");
 		Camera camera = CameraManager.getInstance().getCamera();
+		if (camera == null) {
+			return false;
+		}
 		camera.setFaceDetectionListener(this);
-		CameraManager.getInstance().startCamera();
+		running = CameraManager.getInstance().startCamera();
 		camera.startFaceDetection();
-		running = true;
+		return running;
 	}
 
 	@Override

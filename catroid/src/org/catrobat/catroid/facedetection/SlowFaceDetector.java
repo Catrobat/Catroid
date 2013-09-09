@@ -42,10 +42,10 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 	private static final int NUMBER_OF_FACES = 1;
 
 	@Override
-	public void startFaceDetection() {
+	public boolean startFaceDetection() {
 		Log.d("Blah", "Slow Start");
 		CameraManager.getInstance().addOnJpgPreviewFrameCallback(this);
-		CameraManager.getInstance().startCamera();
+		return CameraManager.getInstance().startCamera();
 	}
 
 	@Override

@@ -45,16 +45,18 @@ public class FaceDetectionHandler {
 	}
 
 	public static boolean startFaceDetection() {
+		if (running) {
+			return true;
+		}
 		if (faceDetector == null) {
 			createFaceDetector();
 			if (faceDetector == null) {
 				return false;
 			}
 		}
-		running = true;
 		//VideoDisplayHandler.startVideoStream();//TODO
-		faceDetector.startFaceDetection();
-		return true;
+		running = faceDetector.startFaceDetection();
+		return running;
 	}
 
 	public static void stopFaceDetection() {

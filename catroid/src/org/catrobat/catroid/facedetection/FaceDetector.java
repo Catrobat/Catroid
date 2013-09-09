@@ -40,7 +40,7 @@ public abstract class FaceDetector {
 
 	private boolean faceDetected = false;
 
-	public abstract void startFaceDetection();
+	public abstract boolean startFaceDetection();
 
 	public abstract void stopFaceDetection();
 
