@@ -50,7 +50,7 @@ public class LookData implements Serializable, Cloneable {
 	private transient Pixmap pixmap = null;
 	private transient Pixmap originalPixmap = null;
 	private transient TextureRegion region = null;
-	private Texture texture;
+	private transient Texture texture;
 
 	@Override
 	public LookData clone() {

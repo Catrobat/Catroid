@@ -13,6 +13,22 @@ public class CameraManagerTest extends TestCase {
 
 	private static final int MAX_FRAME_DELAY_IN_MS = 1000;
 
+	public void testCameraNotAvailable() {
+		Camera camera = null;
+		camera = Camera.open();
+
+		try {
+			boolean started = CameraManager.getInstance().startCamera();
+			assertFalse("Expected camera not to be able to start when hardware already in use", started);
+		} catch (Exception exc) {
+			fail("Unavailable camera should not cause an exception \"" + exc.getMessage() + "\"");
+		} finally {
+			if (camera != null) {
+				camera.release();
+			}
+		}
+	}
+
 	public void testCameraRelease() {
 		CameraManager.getInstance().startCamera();
 		CameraManager.getInstance().releaseCamera();
@@ -30,7 +46,8 @@ public class CameraManagerTest extends TestCase {
 	}
 
 	public void testDoubleStart() {
-		CameraManager.getInstance().startCamera();
+		boolean success = CameraManager.getInstance().startCamera();
+		assertTrue("Camera was not started properly", success);
 		try {
 			CameraManager.getInstance().startCamera();
 		} catch (Exception e) {
@@ -52,12 +69,13 @@ public class CameraManagerTest extends TestCase {
 			}
 		};
 		CameraManager.getInstance().addOnJpgPreviewFrameCallback(callback);
-		CameraManager.getInstance().startCamera();
+		boolean success = CameraManager.getInstance().startCamera();
+		assertTrue("Camera was not started properly", success);
 		try {
 			Thread.sleep(MAX_FRAME_DELAY_IN_MS);
 		} catch (InterruptedException e) {
 		}
-		assertTrue("Did not receive frage data from camera", calls[0] > 0);
+		assertTrue("Did not receive frame data from camera", calls[0] > 0);
 		CameraManager.getInstance().removeOnJpgPreviewFrameCallback(callback);
 		CameraManager.getInstance().releaseCamera();
 	}

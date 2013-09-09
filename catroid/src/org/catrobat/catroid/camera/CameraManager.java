@@ -80,31 +80,40 @@ public class CameraManager implements Camera.PreviewCallback, OnFrameAvailableLi
 		return camera;
 	}
 
-	public boolean createCamera() {
+	private boolean createCamera() {
 		if (camera != null) {
 			return false;
 		}
-		camera = Camera.open();
+		try {
+			camera = Camera.open();
+		} catch (RuntimeException exception) {
+			return false;
+		}
 		camera.setPreviewCallback(this);
 		if (texture != null) {
 			try {
-				camera.setPreviewTexture(texture);
+				camera.setPreviewTexture(texture);// TODO what happens on old API?
 			} catch (IOException e) {
 				e.printStackTrace(); // TODO
+				return false;
 			}
 		}
-		return camera != null;
+		return true;
 	}
 
-	public void startCamera() {
+	public boolean startCamera() {
 		if (camera == null) {
-			createCamera();
+			boolean success = createCamera();
+			if (!success) {
+				return false;
+			}
 		}
 		Parameters parameters = camera.getParameters();
 		previewFormat = parameters.getPreviewFormat();
 		previewWidth = parameters.getPreviewSize().width;
 		previewHeight = parameters.getPreviewSize().height;
 		camera.startPreview();
+		return true;
 	}
 
 	public void releaseCamera() {

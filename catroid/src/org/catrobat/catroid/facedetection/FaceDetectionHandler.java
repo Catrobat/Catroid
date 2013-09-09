@@ -24,7 +24,6 @@ package org.catrobat.catroid.facedetection;
 
 import android.hardware.Camera;
 
-import org.catrobat.catroid.camera.VideoDisplayHandler;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
 
 public class FaceDetectionHandler {
@@ -53,7 +52,7 @@ public class FaceDetectionHandler {
 			}
 		}
 		running = true;
-		VideoDisplayHandler.startVideoStream();//TODO
+		//VideoDisplayHandler.startVideoStream();//TODO
 		faceDetector.startFaceDetection();
 		return true;
 	}
@@ -65,7 +64,7 @@ public class FaceDetectionHandler {
 		if (faceDetector == null) {
 			return;
 		}
-		VideoDisplayHandler.stopVideoStream();//TODO
+		//VideoDisplayHandler.stopVideoStream();//TODO
 		faceDetector.stopFaceDetection();
 		running = false;
 	}
