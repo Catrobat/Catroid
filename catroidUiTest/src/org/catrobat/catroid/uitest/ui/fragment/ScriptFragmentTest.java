@@ -42,8 +42,11 @@ import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -742,5 +745,23 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.goBack();
 
 		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
+	}
+
+	public void testReturnFromStageAfterInvokingFormulaEditor() {
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		solo.clickOnView(solo.getView(R.id.brick_set_size_to_edit_text));
+		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+
+		solo.goBack();
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+
+		solo.waitForActivity(StageActivity.class);
+		solo.goBack();
+		solo.goBack();
+
+		solo.assertCurrentActivity("Wrong Activity", ScriptActivity.class);
 	}
 }
