@@ -565,11 +565,11 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		//scroll down the list to the new item:
 		final ListView listView = getListView();
 		listView.post(new Runnable() {
-            @Override
-            public void run() {
-                listView.setSelection(listView.getCount() - 1);
-            }
-        });
+			@Override
+			public void run() {
+				listView.setSelection(listView.getCount() - 1);
+			}
+		});
 	}
 
 	private void copyImageToCatroid(String originalImagePath) {
@@ -1087,5 +1087,16 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				adapter.notifyDataSetChanged();
 			}
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#startBackPackActionMode()
+	 */
+	@Override
+	public void startBackPackActionMode() {
+		// TODO Auto-generated method stub
+
 	}
 }

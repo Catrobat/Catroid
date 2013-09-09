@@ -636,4 +636,15 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			actionMode.setTitle(completeSpannedTitle);
 		}
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#startBackPackActionMode()
+	 */
+	@Override
+	public void startBackPackActionMode() {
+		// TODO Auto-generated method stub
+
+	}
 }

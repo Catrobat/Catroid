@@ -52,6 +52,8 @@ public abstract class ScriptActivityFragment extends SherlockListFragment {
 
 	public abstract void startEditInPocketPaintActionMode();
 
+	public abstract void startBackPackActionMode();
+
 	public abstract void handleAddButton();
 
 	protected abstract void showRenameDialog();

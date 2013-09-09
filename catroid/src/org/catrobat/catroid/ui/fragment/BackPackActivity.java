@@ -36,6 +36,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -44,6 +45,7 @@ import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
 
+import java.util.Iterator;
 import java.util.concurrent.locks.Lock;
 
 public class BackPackActivity extends BaseActivity {
@@ -112,63 +114,28 @@ public class BackPackActivity extends BaseActivity {
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
 		//actionBar.setTitle(currentFragmentPosition);
-
-		//		String result = null;
-		//		Intent returnIntent = new Intent();
-		//		returnIntent.putExtra("result", result);
-		//		setResult(RESULT_OK, returnIntent);
+		BackPackListManager.setBackPackSoundFragment(backPackSoundFragment);
+		Log.d("TAG", "BackPackActivity-->onCreate()-->setBackPackSoundFragment **********");
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		//@SuppressWarnings("unused")
-		//BackPackSoundAdapter ad = backPackSoundFragment.getAdapter();
 		if (backpackItem) {
-			SoundController.getInstance().backPackSound(BackPackListManager.getCurrentSoundInfo(),
-					backPackSoundFragment, BackPackListManager.getInstance().getSoundInfoArrayList(),
-					backPackSoundFragment.getAdapter());
+			Iterator<SoundInfo> iterator = BackPackListManager.getActionBarSoundInfoArrayList().iterator();
+
+			while (iterator.hasNext()) {
+				SoundInfo soundInfo = iterator.next();
+				BackPackListManager.setCurrentSoundInfo(soundInfo);
+				SoundController.getInstance().backPackSound(BackPackListManager.getCurrentSoundInfo(),
+						backPackSoundFragment, BackPackListManager.getInstance().getSoundInfoArrayList(),
+						backPackSoundFragment.getAdapter());
+
+			}
+			BackPackListManager.getActionBarSoundInfoArrayList().clear();
 			backpackItem = false;
 		}
 	};
-
-	private void updateCurrentFragment(int fragmentPosition, FragmentTransaction fragmentTransaction) {
-		boolean fragmentExists = true;
-		currentFragmentPosition = fragmentPosition;
-
-		switch (currentFragmentPosition) {
-			case FRAGMENT_BACKPACK_SCRIPTS:
-				if (backPackScriptFragment == null) {
-					backPackScriptFragment = new BackPackScriptFragment();
-					fragmentExists = false;
-					currentFragmentTag = BackPackScriptFragment.TAG;
-				}
-				currentFragment = backPackScriptFragment;
-				break;
-			case FRAGMENT_BACKPACK_LOOKS:
-				if (backPackLookFragment == null) {
-					backPackLookFragment = new BackPackLookFragment();
-					fragmentExists = false;
-					currentFragmentTag = LookFragment.TAG;
-				}
-				currentFragment = backPackLookFragment;
-				break;
-			case FRAGMENT_BACKPACK_SOUNDS:
-				if (backPackSoundFragment == null) {
-					backPackSoundFragment = new BackPackSoundFragment();
-					fragmentExists = false;
-					currentFragmentTag = SoundFragment.TAG;
-				}
-				currentFragment = backPackSoundFragment;
-				break;
-		}
-
-		if (fragmentExists) {
-			fragmentTransaction.show(currentFragment);
-		} else {
-			fragmentTransaction.add(R.id.script_fragment_container, currentFragment, currentFragmentTag);
-		}
-	}
 
 	@Override
 	protected void onDestroy() {
@@ -383,6 +350,7 @@ public class BackPackActivity extends BaseActivity {
 				if (backPackSoundFragment == null) {
 					Log.d("TAG", "BackPackActivity --> create a new Sound!!!");
 					backPackSoundFragment = new BackPackSoundFragment();
+
 				}
 
 				currentFragment = backPackSoundFragment;

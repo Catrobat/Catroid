@@ -46,7 +46,6 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
-import org.catrobat.catroid.ui.fragment.BackPackActivity;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorListFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
@@ -231,9 +230,7 @@ public class ScriptActivity extends BaseActivity {
 			case R.id.backpack:
 				Log.d("TAG", "switch --> backPack");
 
-				Intent backPackIntent = new Intent(this, BackPackActivity.class);
-				backPackIntent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-				startActivity(backPackIntent);
+				currentFragment.startBackPackActionMode();
 				break;
 
 			case R.id.show_details:

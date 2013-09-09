@@ -119,8 +119,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	private LinearLayout addButton;
 
-	private static final int RESULT_OK = -1;
-
 	public void setOnSoundInfoListChangedAfterNewListener(OnSoundInfoListChangedAfterNewListener listener) {
 		soundInfoListChangedAfterNewListener = listener;
 	}
@@ -311,6 +309,19 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	}
 
 	@Override
+	public void startBackPackActionMode() {
+
+		if (actionMode == null) {
+			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
+			actionMode = getSherlockActivity().startActionMode(backPackModeCallBack);
+			unregisterForContextMenu(listView);
+			BottomBar.disableButtons(getActivity());
+			isRenameActionMode = false;
+		}
+
+	}
+
+	@Override
 	public void startRenameActionMode() {
 		if (actionMode == null) {
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
@@ -465,6 +476,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 2);
 				intent.putExtra(BackPackActivity.BACKPACK_ITEM, true);
 				BackPackListManager.setCurrentSoundInfo(selectedSoundInfo);
+				BackPackListManager.getInstance().addSoundToActionBarSoundInfoArrayList(selectedSoundInfo);
 				startActivity(intent);
 				break;
 
@@ -670,6 +682,44 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		public void onDestroyActionMode(ActionMode mode) {
 
 			((SoundAdapter) adapter).onDestroyActionModeCopy(mode);
+
+		}
+
+	};
+
+	private ActionMode.Callback backPackModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+
+			Log.d("TAG", "BackPackModeCallBack, Type ActionMode.Callback");
+
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
+			setActionModeActive(true);
+
+			actionModeTitle = getString(R.string.backpack);
+			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
+			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
+
+			mode.setTitle(actionModeTitle);
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+
+			((SoundAdapter) adapter).onDestroyActionModeBackPack(mode);
 
 		}
 

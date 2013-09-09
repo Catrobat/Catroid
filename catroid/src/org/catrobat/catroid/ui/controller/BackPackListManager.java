@@ -40,16 +40,12 @@ public class BackPackListManager extends SherlockFragmentActivity {
 
 	private final static ArrayList<SoundInfo> soundInfoArrayList = new ArrayList<SoundInfo>();
 
+	private final static ArrayList<SoundInfo> actionBarSoundInfoArrayList = new ArrayList<SoundInfo>();
+
 	private static SoundInfo currentSoundInfo;
 
 	private BackPackListManager() {
-
 		Log.d("TAG", "Set up BackPackListManager (Constructor)");
-		// change
-		if (backPackSoundFragment == null) {
-			backPackSoundFragment = new BackPackSoundFragment();
-		}
-
 	}
 
 	public static BackPackListManager getInstance() {
@@ -60,10 +56,6 @@ public class BackPackListManager extends SherlockFragmentActivity {
 			instance = new BackPackListManager();
 		}
 		return instance;
-	}
-
-	public BackPackSoundFragment getBackPackSoundFragment() {
-		return backPackSoundFragment;
 	}
 
 	public ArrayList<SoundInfo> getSoundInfoArrayList() {
@@ -98,11 +90,28 @@ public class BackPackListManager extends SherlockFragmentActivity {
 
 	}
 
+	public static ArrayList<SoundInfo> getActionBarSoundInfoArrayList() {
+		return actionBarSoundInfoArrayList;
+	}
+
+	public void addSoundToActionBarSoundInfoArrayList(SoundInfo soundInfo) {
+		Log.d("TAG", "addSoundToActionBarSoundInfoArrayList: " + soundInfo.getTitle());
+		actionBarSoundInfoArrayList.add(soundInfo);
+	}
+
 	public static SoundInfo getCurrentSoundInfo() {
 		return currentSoundInfo;
 	}
 
 	public static void setCurrentSoundInfo(SoundInfo currentSoundInfo) {
 		BackPackListManager.currentSoundInfo = currentSoundInfo;
+	}
+
+	public static BackPackSoundFragment getBackPackSoundFragment() {
+		return backPackSoundFragment;
+	}
+
+	public static void setBackPackSoundFragment(BackPackSoundFragment backPackSoundFragment) {
+		BackPackListManager.backPackSoundFragment = backPackSoundFragment;
 	}
 }
