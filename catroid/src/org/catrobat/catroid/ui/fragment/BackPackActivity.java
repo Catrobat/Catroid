@@ -139,7 +139,6 @@ public class BackPackActivity extends BaseActivity {
 		if (currentFragment != null) {
 			handleShowDetails(currentFragment.getShowDetails(), menu.findItem(R.id.show_details));
 			menu.findItem(R.id.backpack).setVisible(false);
-			menu.findItem(R.id.copy).setVisible(false); // it won't disappear!
 			menu.findItem(R.id.cut).setVisible(false);
 			menu.findItem(R.id.rename).setVisible(false);
 
