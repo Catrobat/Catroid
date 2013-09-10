@@ -24,6 +24,8 @@ package org.catrobat.catroid.uitest.ui.fragment;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -58,6 +60,7 @@ import java.util.List;
 public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
+	private static final String SCRIPT_FRAGMENT_TEST_TAG = ScriptFragmentTest.class.getSimpleName();
 
 	public ScriptFragmentTest() {
 		super(MainMenuActivity.class);
@@ -747,7 +750,13 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
 	}
 
+	@SuppressWarnings("deprecation")
 	public void testReturnFromStageAfterInvokingFormulaEditor() {
+		if (Settings.System.getInt(getActivity().getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0) == 0) {
+			Log.i(SCRIPT_FRAGMENT_TEST_TAG, "Developer option \'Don't keep activities\' is not set.");
+			return;
+		}
+
 		UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
