@@ -152,6 +152,12 @@
         <item name="android:textSize">@dimen/text_size_main_menu_button_continue_program_name</item>
         <item name="android:textColor">@color/main_menu_button_text_continue_program_name_color</item>
     </style>
+    
+    <style name="MainMenuButtonTextSecondLineDisabled">
+        <item name="android:textSize">@dimen/text_size_main_menu_button_continue_program_name</item>
+        <item name="android:textColor">@color/main_menu_button_text_continue_program_name_color_disabled</item>
+        <item name="android:alpha">127</item>
+    </style>
 
     <style name="ListViewItemTitleText">
         <item name="android:paddingLeft">12.5dp</item>

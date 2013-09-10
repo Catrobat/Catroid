@@ -348,7 +348,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		String yes = solo.getString(R.string.yes);
 		solo.waitForText(yes);
 		solo.clickOnText(yes);
-		assertTrue("delete dialog not closed in time", solo.waitForText(standardProjectName));
+		assertFalse("standard project was restored", solo.waitForText(standardProjectName));
 
 		solo.waitForText(standardProjectName);
 		assertTrue("longclick on project '" + standardProjectName + "' in list not successful",
@@ -718,7 +718,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(buttonDeleteText);
 		solo.waitForText(yes);
 		solo.clickOnText(yes);
-		assertTrue("delete dialog not closed in time", solo.waitForText(defaultProjectName));
 		assertFalse("project " + UiTestUtils.PROJECTNAME1 + " is still visible",
 				solo.searchText(UiTestUtils.PROJECTNAME1, 1));
 		assertNotSame("the deleted project is still the current project", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
@@ -755,8 +754,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			assertFalse("Project not deleted",
 					solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " " + count, 0, 200));
 		}
-
-		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.default_project_name)));
 	}
 
 	public void testItemClick() {
@@ -921,6 +918,52 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		assertTrue("First project has been deleted!", solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		assertTrue("Second project has been deleted!", solo.searchText(UiTestUtils.PROJECTNAME1));
+	}
+
+	public void testEmptyView() {
+		//createProjects();
+		Project project2 = new Project(getActivity(), UiTestUtils.PROJECTNAME1);
+		StorageHandler.getInstance().saveProject(project2);
+		solo.sleep(200);
+		assertTrue("MainMenuActivity not present", solo.waitForActivity(MainMenuActivity.class.getSimpleName()));
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		TextView emptyViewHeading = (TextView) solo.getCurrentActivity().findViewById(
+				R.id.fragment_projects_text_heading);
+		TextView emptyViewDescription = (TextView) solo.getCurrentActivity().findViewById(
+				R.id.fragment_projects_text_description);
+
+		// The Views are gone, we can still make assumptions about them
+		assertEquals("Empty View heading is not correct", solo.getString(R.string.programs), emptyViewHeading.getText()
+				.toString());
+		assertEquals("Empty View description is not correct",
+				solo.getString(R.string.fragment_projects_text_description), emptyViewDescription.getText().toString());
+
+		assertEquals("Empty View shown although there are items in the list!", View.GONE,
+				solo.getView(android.R.id.empty).getVisibility());
+
+		//delete project
+
+		solo.clickLongOnText(UiTestUtils.PROJECTNAME1);
+
+		solo.waitForText(solo.getString(R.string.delete));
+		solo.clickOnText(solo.getString(R.string.delete));
+		solo.waitForText(solo.getString(R.string.yes));
+		solo.clickOnText(solo.getString(R.string.yes));
+
+		emptyViewHeading = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_projects_text_heading);
+		emptyViewDescription = (TextView) solo.getCurrentActivity().findViewById(
+				R.id.fragment_projects_text_description);
+
+		assertEquals("Empty View heading is not correct", solo.getString(R.string.programs), emptyViewHeading.getText()
+				.toString());
+		assertEquals("Empty View description is not correct",
+				solo.getString(R.string.fragment_projects_text_description), emptyViewDescription.getText().toString());
+
+		solo.sleep(200);
+		assertEquals("Empty View not shown although there are items in the list!", View.VISIBLE,
+				solo.getView(android.R.id.empty).getVisibility());
 	}
 
 	public void testLongClickCancelDeleteAndCopy() {
@@ -1627,6 +1670,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	public void testBottombarElementsVisibilty() {
+
+		UiTestUtils.createEmptyProject();
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 
 		assertTrue("Bottombar is not visible", solo.getView(R.id.bottom_bar).getVisibility() == View.VISIBLE);

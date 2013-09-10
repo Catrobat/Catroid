@@ -49,7 +49,7 @@
         android:layout_weight="1.5"
         android:drawableLeft="@drawable/ic_main_menu_continue"
         android:onClick="handleContinueButton"
-        android:text="@string/main_menu_continue" />
+        android:text="@string/main_menu_continue"/>
 
     <Button
         android:id="@+id/main_menu_button_new"

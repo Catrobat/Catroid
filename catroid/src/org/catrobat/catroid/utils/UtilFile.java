@@ -64,8 +64,10 @@ public final class UtilFile {
 
 		File[] contents = fileOrDirectory.listFiles();
 		long size = 0;
-		for (File file : contents) {
-			size += file.isDirectory() ? getSizeOfFileOrDirectoryInByte(file) : file.length();
+		if (contents != null) {
+			for (File file : contents) {
+				size += file.isDirectory() ? getSizeOfFileOrDirectoryInByte(file) : file.length();
+			}
 		}
 		return size;
 	}
@@ -175,6 +177,7 @@ public final class UtilFile {
 	 */
 	public static List<String> getProjectNames(File directory) {
 		List<String> projectList = new ArrayList<String>();
+
 		File[] fileList = directory.listFiles();
 		if (fileList != null) {
 			FilenameFilter filenameFilter = new FilenameFilter() {

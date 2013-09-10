@@ -24,6 +24,7 @@ package org.catrobat.catroid.uitest.ui.dialog;
 
 import android.app.Activity;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -54,7 +55,7 @@ import java.util.List;
 
 public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private String testProject = UiTestUtils.PROJECTNAME1;
+	private String testProject = UiTestUtils.DEFAULT_TEST_PROJECT_NAME;
 
 	public StageDialogTest() {
 		super(MainMenuActivity.class);
@@ -64,6 +65,10 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 	public void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
+		UiTestUtils.createTestProject();
+		solo.sleep(1000);
+		//Project project = createAndSaveTestProject(testProject);
+		//ProjectManager.getInstance().setProject(project);
 	}
 
 	@Override
@@ -75,11 +80,18 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	public void testBackButtonPressedTwice() {
-		Project project = createTestProject(testProject);
-		ProjectManager.getInstance().setProject(project);
+		//Project project = createAndSaveTestProject(testProject);
+		//ProjectManager.getInstance().setProject(project);
 
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		//Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronTask", true);
+
+		Log.d("Test", "Test");
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+
+		solo.clickOnText(solo.getString(R.string.main_menu_programs));
+
+		solo.clickOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		assertTrue("Program is not in stage activity", solo.waitForActivity(ProjectActivity.class.getSimpleName()));
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
@@ -91,11 +103,13 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	public void testBackToPreviousActivity() {
-		createAndSaveTestProject(testProject);
+		//createAndSaveTestProject(testProject);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
-		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
+		//assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
+		assertTrue("Cannot click project.", solo.waitForText(testProject));
+		solo.clickOnText(testProject);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		Activity previousActivity = getActivity();
@@ -127,6 +141,8 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
+		solo.clickOnText(solo.getString(R.string.main_menu_programs));
+		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
@@ -258,6 +274,8 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		StorageHandler.getInstance().saveProject(project);
 
+		solo.clickOnText(solo.getString(R.string.main_menu_programs));
+		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
@@ -280,7 +298,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	public void testAxesOnOff() {
-		createAndSaveTestProject(testProject);
+		//createAndSaveTestProject(testProject);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -451,17 +469,33 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	private Project createTestProject(String projectName) {
-		Project project = new Project(getActivity(), projectName);
-		Sprite firstSprite = new Sprite("cat");
-		Sprite secondSprite = new Sprite("dog");
-		Sprite thirdSprite = new Sprite("horse");
-		Sprite fourthSprite = new Sprite("pig");
 
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
-		project.addSprite(thirdSprite);
-		project.addSprite(fourthSprite);
+		UiTestUtils.createTestProject();
+		UiTestUtils.prepareStageForTest();
 
+		ProjectManager projectManager = ProjectManager.getInstance();
+		List<Sprite> spriteList = projectManager.getCurrentProject().getSpriteList();
+
+		spriteList.add(new Sprite("cat"));
+		spriteList.add(new Sprite("dog"));
+		spriteList.add(new Sprite("horse"));
+		spriteList.add(new Sprite("pig"));
+
+		Project project = projectManager.getCurrentProject();
+		//		Sprite firstSprite = new Sprite("cat");
+		//		Sprite secondSprite = new Sprite("dog");
+		//		Sprite thirdSprite = new Sprite("horse");
+		//		Sprite fourthSprite = new Sprite("pig");
+		//
+		//		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		//
+		//		spriteList.add(firstSprite);
+		//		spriteList.add(secondSprite);
+		//		spriteList.add(thirdSprite);
+		//		spriteList.add(fourthSprite);
+		//
+		//		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
+		//
 		return project;
 	}
 

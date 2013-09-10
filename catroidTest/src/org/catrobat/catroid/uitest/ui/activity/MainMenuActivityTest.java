@@ -54,6 +54,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -77,6 +78,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 	@Override
 	public void tearDown() throws Exception {
+		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronTask", true);
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithBlacklistedCharacters)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithWhitelistedCharacters)));
 		// normally super.teardown should be called last
@@ -86,6 +88,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 	}
 
 	public void testCreateNewProject() {
+		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronTask", false);
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject);
 		UtilFile.deleteDirectory(directory);
 		assertFalse("testProject was not deleted!", directory.exists());
@@ -257,6 +260,31 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertEquals("Sprite at index 3 is not \"horse\"!", "horse", third.getName());
 		Sprite fourth = (Sprite) spritesList.getItemAtPosition(4);
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
+	}
+
+	public void testResumeButtonDisabling() {
+		solo.waitForText(solo.getString(R.string.main_menu_continue));
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		assertFalse("Continue Button was not disabled", solo.waitForActivity(ProjectActivity.class));
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
+		String hintNewProjectText = solo.getString(R.string.new_project_dialog_hint);
+		solo.waitForText(hintNewProjectText);
+		EditText addNewProjectEditText = solo.getEditText(0);
+		assertEquals("Not the proper hint set", hintNewProjectText, addNewProjectEditText.getHint());
+		assertEquals("There should no text be set", "", addNewProjectEditText.getText().toString());
+		solo.clearEditText(0);
+		solo.enterText(0, testProject);
+		String buttonOKText = solo.getString(R.string.ok);
+		solo.waitForText(buttonOKText);
+		solo.clickOnText(buttonOKText);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+
+		solo.goBack();
+		solo.sleep(500);
+		solo.waitForText(solo.getString(R.string.main_menu_continue));
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		assertTrue("Continue Button was not enabled", solo.waitForActivity(ProjectActivity.class));
 	}
 
 	public void testRateAppMenuExists() {
