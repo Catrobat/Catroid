@@ -63,7 +63,6 @@ import org.catrobat.catroid.ui.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter.OnProjectEditListener;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog.OnCopyProjectListener;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
@@ -327,6 +326,11 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 	@Override
 	public void onProjectEdit(int position) {
+		getActivity().findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.progress_circle).bringToFront();
+		getActivity().findViewById(R.id.fragment_projects_list).setVisibility(View.GONE);
+		getActivity().findViewById(R.id.bottom_bar).setVisibility(View.GONE);
+
 		LoadProjectTask loadProjectTask = new LoadProjectTask(getActivity(), (adapter.getItem(position)).projectName,
 				true, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(parentFragment);

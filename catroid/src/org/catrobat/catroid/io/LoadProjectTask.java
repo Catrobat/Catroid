@@ -23,8 +23,9 @@
 package org.catrobat.catroid.io;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -34,9 +35,9 @@ import org.catrobat.catroid.utils.Utils;
 public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	private Activity activity;
 	private String projectName;
-	private ProgressDialog progressDialog;
 	private boolean showErrorMessage;
 	private boolean startProjectActivity;
+	private LinearLayout linearLayoutProgressCircle;
 
 	private OnLoadProjectCompleteListener onLoadProjectCompleteListener;
 
@@ -57,9 +58,9 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 		if (activity == null) {
 			return;
 		}
-		String title = activity.getString(R.string.please_wait);
-		String message = activity.getString(R.string.loading);
-		progressDialog = ProgressDialog.show(activity, title, message);
+		linearLayoutProgressCircle = (LinearLayout) activity.findViewById(R.id.progress_circle);
+		linearLayoutProgressCircle.setVisibility(View.VISIBLE);
+		linearLayoutProgressCircle.bringToFront();
 	}
 
 	@Override
@@ -77,9 +78,6 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	protected void onPostExecute(Boolean success) {
 		super.onPostExecute(success);
 
-		if (progressDialog != null && progressDialog.isShowing()) {
-			progressDialog.dismiss();
-		}
 		if (onLoadProjectCompleteListener != null) {
 			if (!success && showErrorMessage) {
 				Utils.showErrorDialog(activity, R.string.error_load_project);
