@@ -39,10 +39,17 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.TestUtils;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class SpriteTest extends AndroidTestCase {
 
 	private static final String LOCAL_VARIABLE_NAME = "test_local";
 	private static final double LOCAL_VARIABLE_VALUE = 0xDEADBEEF;
+
+	private static final String GLOBAL_VARIABLE_NAME = "test_global";
+	private static final double GLOBAL_VARIABLE_VALUE = 0xC0FFEE;
 
 	private Sprite sprite;
 	private Project project;
@@ -55,6 +62,10 @@ public class SpriteTest extends AndroidTestCase {
 		project.addSprite(sprite);
 		project.getUserVariables().addSpriteUserVariableToSprite(sprite, LOCAL_VARIABLE_NAME);
 		project.getUserVariables().getUserVariable(LOCAL_VARIABLE_NAME, sprite).setValue(LOCAL_VARIABLE_VALUE);
+
+		project.getUserVariables().addProjectUserVariable(GLOBAL_VARIABLE_NAME);
+		project.getUserVariables().getUserVariable(GLOBAL_VARIABLE_NAME, null).setValue(GLOBAL_VARIABLE_VALUE);
+
 		ProjectManager.getInstance().setProject(project);
 	}
 
@@ -70,6 +81,12 @@ public class SpriteTest extends AndroidTestCase {
 		assertNotNull("local variable isn't copied properly", clonedVariable);
 		assertEquals("variable not cloned properly", LOCAL_VARIABLE_NAME, clonedVariable.getName());
 		assertEquals("variable not cloned properly", LOCAL_VARIABLE_VALUE, clonedVariable.getValue());
+
+		List<UserVariable> userVariableList = project.getUserVariables().getOrCreateVariableListForSprite(clonedSprite);
+		Set<String> hashSet = new HashSet<String>();
+		for (UserVariable userVariable : userVariableList) {
+			assertTrue("Variable already exists", hashSet.add(userVariable.getName()));
+		}
 	}
 
 	public void testAddScript() {
