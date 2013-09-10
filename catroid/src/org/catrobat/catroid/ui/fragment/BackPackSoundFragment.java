@@ -50,6 +50,7 @@ import com.actionbarsherlock.view.Menu;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.SoundViewHolder;
 import org.catrobat.catroid.ui.adapter.BackPackSoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
@@ -115,8 +116,10 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		menu.findItem(R.id.copy).setVisible(true);
+		menu.findItem(R.id.copy).setVisible(false);
 		menu.findItem(R.id.edit_in_pocket_paint).setVisible(false);
+
+		BottomBar.hideBottomBar(getActivity());
 		super.onPrepareOptionsMenu(menu);
 	}
 
