@@ -41,6 +41,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -242,8 +243,14 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		if (!currentProject.getSpriteList().contains(this.sprite)) {
+			throw new RuntimeException("this is not the current project");
+		}
+
 		SetVariableBrick copyBrick = (SetVariableBrick) clone();
 		copyBrick.sprite = sprite;
+		copyBrick.userVariable = currentProject.getUserVariables().getUserVariable(userVariable.getName(), sprite);
 		return copyBrick;
 	}
 

@@ -57,7 +57,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
@@ -322,8 +321,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 
-		copyUserVariables(copiedSprite);
-
 		projectManager.addSprite(copiedSprite);
 		projectManager.setCurrentSprite(copiedSprite);
 
@@ -335,21 +332,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 						.concat(this.getString(R.string.copy_sprite_finished)), Toast.LENGTH_LONG).show();
 
 		Log.d("Sprite copied", copiedSprite.toString());
-	}
-
-	private void copyUserVariables(Sprite copiedSprite) {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		UserVariablesContainer userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
-
-		List<UserVariable> userVariablesList = userVariablesContainer.getOrCreateVariableListForSprite(spriteToEdit);
-
-		if (userVariablesList != null) {
-			userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
-			for (int variable = 0; variable < userVariablesList.size(); variable++) {
-				String userVariableName = userVariablesList.get(variable).getName();
-				userVariablesContainer.addSpriteUserVariableToSprite(copiedSprite, userVariableName);
-			}
-		}
 	}
 
 	private static String getSpriteName(String name, int nextNumber) {
