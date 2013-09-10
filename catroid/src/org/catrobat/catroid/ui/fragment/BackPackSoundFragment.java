@@ -130,7 +130,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		}
 		adapter = new BackPackSoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item,
 				R.id.fragment_sound_item_title_text_view, BackPackListManager.getInstance().getSoundInfoArrayList(),
-				false);
+				false, this);
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
 
@@ -238,7 +238,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 			holder.pauseButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_pause_image_button);
 
 			holder.playButton.setVisibility(Button.VISIBLE);
-			holder.pauseButton.setVisibility(Button.GONE);
+			holder.pauseButton.setVisibility(Button.INVISIBLE);
 
 			holder.soundFragmentButtonLayout = (LinearLayout) convertView
 					.findViewById(R.id.fragment_sound_item_main_linear_layout);

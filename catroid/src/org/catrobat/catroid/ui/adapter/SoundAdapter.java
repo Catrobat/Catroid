@@ -87,10 +87,12 @@ public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdap
 			BackPackListManager.getInstance().addSoundToActionBarSoundInfoArrayList(soundInfoItems.get(position));
 		}
 
-		Intent intent = new Intent(soundFragment.getActivity(), BackPackActivity.class);
-		intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 2);
-		intent.putExtra(BackPackActivity.BACKPACK_ITEM, true);
-		soundFragment.getActivity().startActivity(intent);
+		if (!checkedSounds.isEmpty()) {
+			Intent intent = new Intent(soundFragment.getActivity(), BackPackActivity.class);
+			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 2);
+			intent.putExtra(BackPackActivity.BACKPACK_ITEM, true);
+			soundFragment.getActivity().startActivity(intent);
+		}
 
 		soundFragment.clearCheckedSoundsAndEnableButtons();
 	}
