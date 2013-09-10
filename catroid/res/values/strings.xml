@@ -150,6 +150,7 @@
     <!-- Sound fragment -->
     <string name="fragment_sound_text_description">Click \"+\" to add Sounds</string>
     <string name="rename_sound_dialog">Rename Sound</string>
+    <string name="backpack_title">BackPack</string>
     <string name="soundname_invalid">This sound\'s name is invalid</string>
     <string name="sound_play">play</string>
     <string name="sound_pause">pause</string>
