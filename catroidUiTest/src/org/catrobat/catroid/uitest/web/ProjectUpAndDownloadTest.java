@@ -443,6 +443,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		solo.clearEditText(projectUploadDescription);
 		solo.enterText(projectUploadDescription, uploadProjectDescription);
 
+		solo.goBack();
+
 		solo.clickOnButton(solo.getString(R.string.upload_button));
 		solo.sleep(500);
 

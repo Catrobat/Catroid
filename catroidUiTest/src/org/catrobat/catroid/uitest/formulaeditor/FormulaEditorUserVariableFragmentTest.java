@@ -51,6 +51,7 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -539,6 +540,10 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 	public void testVariableListHeadlines() {
 		String local = "local";
 		String global = "global";
+		String globalHeadline = solo.getString(R.string.formula_editor_variable_dialog_for_all_sprites).toUpperCase(
+				Locale.getDefault());
+		String localHeadline = solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only)
+				.toUpperCase(Locale.getDefault());
 
 		solo.clickOnView(solo.getView(CHANGE_SIZE_EDIT_TEXT_RID));
 
@@ -547,27 +552,23 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 
 		createUserVariableFromVariableFragment(global, true);
 
-		assertTrue("Global Headline not shown",
-				solo.searchText(solo.getString(R.string.formula_editor_variable_dialog_for_all_sprites), true));
+		assertTrue("Global Headline not shown", solo.searchText(globalHeadline, true));
 
 		createUserVariableFromVariableFragment(local, false);
 
-		assertTrue("Local Headline not shown",
-				solo.searchText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only), true));
+		assertTrue("Local Headline not shown", solo.searchText(localHeadline, true));
 
 		solo.clickLongOnText(global);
 		solo.waitForText(solo.getString(R.string.delete));
 		solo.clickOnText(solo.getString(R.string.delete));
 
-		assertFalse("Global Headline still shown",
-				solo.searchText(solo.getString(R.string.formula_editor_variable_dialog_for_all_sprites), true));
+		assertFalse("Global Headline still shown", solo.searchText(globalHeadline, true));
 
 		solo.clickLongOnText(local);
 		solo.waitForText(solo.getString(R.string.delete));
 		solo.clickOnText(solo.getString(R.string.delete));
 
-		assertFalse("Local Headline still shown",
-				solo.searchText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only), true));
+		assertFalse("Local Headline still shown", solo.searchText(localHeadline, true));
 
 	}
 

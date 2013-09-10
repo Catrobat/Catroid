@@ -78,6 +78,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final String TEST_SPRITE_NAME = "cat";
@@ -631,11 +632,11 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	public void testClickOnHeadlines() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
-		String backgroundHeadline = solo.getString(R.string.spritelist_background_headline);
+		String backgroundHeadline = solo.getString(R.string.spritelist_background_headline).toUpperCase(Locale.getDefault());
 		solo.clickOnText(backgroundHeadline);
 		solo.assertCurrentActivity("Click on background headline switched activity!", ProjectActivity.class);
 
-		String objectsHeadline = solo.getString(R.string.sprites);
+		String objectsHeadline = solo.getString(R.string.sprites).toUpperCase(Locale.getDefault());
 		solo.clickOnText(objectsHeadline);
 		solo.assertCurrentActivity("Click on objects headline switched activity!", ProjectActivity.class);
 	}

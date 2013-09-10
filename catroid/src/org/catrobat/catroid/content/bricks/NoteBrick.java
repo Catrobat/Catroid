@@ -116,6 +116,7 @@ public class NoteBrick extends BrickBaseType {
 					protected void initialize() {
 						input.setText(note);
 						input.setSelectAllOnFocus(true);
+						inputTitle.setText(R.string.dialog_edit_note_text);
 					}
 
 					@Override
@@ -144,6 +145,11 @@ public class NoteBrick extends BrickBaseType {
 					protected boolean handleOkButton() {
 						note = (input.getText().toString()).trim();
 						return true;
+					}
+
+					@Override
+					protected String getTitle() {
+						return getString(R.string.dialog_edit_note_title);
 					}
 				};
 

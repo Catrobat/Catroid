@@ -73,5 +73,6 @@
 
     <!-- Device List Colors -->
     <color name="bluetooth_device_list_divider_color">#505050</color>
+    <color name="dialog_text_line">#696969</color>
 
 </resources>

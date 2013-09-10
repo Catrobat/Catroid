@@ -143,6 +143,7 @@
     <string name="dialog_confirm_delete_look_title">Delete this look?</string>
     <string name="dialog_confirm_delete_multiple_looks_title">Delete these looks?</string>
     <string name="dialog_confirm_delete_look_message">This can not be undone!</string>
+    <string name="lookname">look name:</string>
     <!--  -->
 
 
@@ -160,6 +161,7 @@
     <string name="dialog_confirm_delete_sound_title">Delete this sound?</string>
     <string name="dialog_confirm_delete_multiple_sounds_title">Delete these sounds?</string>
     <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
+    <string name="sound_name">sound name:</string>
     <!--  -->
 
 
@@ -176,6 +178,7 @@
     <string name="dialog_confirm_delete_program_message">This can not be undone!</string>
     <string name="details_date_today">Today</string>
     <string name="details_date_yesterday">Yesterday</string>
+    <string name="dialog_copy_project_title">Copy program</string>
     <!--  -->
 
 
@@ -221,10 +224,11 @@
 
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">My Object</string>
-    <string name="new_sprite_dialog_title">Name of new Object</string>
+    <string name="new_sprite_dialog_title">New Object</string>
     <string name="spritename_already_exists">This object name already exists</string>
     <string name="rename_sprite_dialog">Rename Object</string>
     <string name="spritename_invalid">This object name is invalid</string>
+    <string name="sprite_name">Object name:</string>
     <!--  -->
 
 
@@ -261,6 +265,8 @@
 
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">New…</string>
+    <string name="dialog_new_broadcast_message_title">New message</string>
+    <string name="dialog_new_broadcast_message_name">message:</string>
     <!--  -->
 
 
@@ -340,6 +346,8 @@
     <string name="brick_change_volume_by">Change volume by</string>
     <string name="brick_speak">Speak</string>
     <string name="brick_speak_default_value">"Hello!"</string>
+    <string name="dialog_edit_speak_title">Edit Text</string>
+    <string name="dialog_edit_speak_text">Speak:</string>
     <!--  -->
 
 
@@ -359,6 +367,8 @@
     <string name="brick_note">Note</string>
     <string name="brick_forever">Forever</string>
     <string name="brick_repeat">Repeat</string>
+    <string name="dialog_edit_note_title">Edit note</string>
+    <string name="dialog_edit_note_text">Note:</string>
 
     <plurals name="time_plural">
         <item quantity="one">time</item>
@@ -545,7 +555,7 @@
     <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
-
+    <string name="variable_name">variable name:</string>
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable selected!</item>
         <item quantity="other">Variables selected!</item>

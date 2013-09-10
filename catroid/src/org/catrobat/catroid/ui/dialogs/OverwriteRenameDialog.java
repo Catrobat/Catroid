@@ -34,9 +34,11 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.catrobat.catroid.R;
@@ -48,6 +50,8 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 	protected String programName, url;
 	protected Context context;
 	protected EditText projectText;
+	protected TextView projectTextView;
+	protected View projectTextLine;
 
 	public static final String DIALOG_FRAGMENT_TAG = "overwrite_rename_look";
 
@@ -77,6 +81,8 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 		renameButton.setOnClickListener(this);
 		projectText = (EditText) dialogView.findViewById(R.id.dialog_overwrite_project_edit);
 		projectText.setText(programName);
+		projectTextView = (TextView) dialogView.findViewById(R.id.dialog_overwrite_project_edit_text);
+		projectTextLine = dialogView.findViewById(R.id.dialog_overwrite_project_edit_line);
 
 		Dialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView).setTitle(R.string.overwrite_text)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -90,6 +96,8 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 								.show();
 					}
 				}).create();
+
+		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 		dialog.setOnShowListener(new OnShowListener() {
 			@Override
@@ -129,10 +137,14 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.dialog_overwrite_project_radio_replace:
+				projectTextView.setVisibility(TextView.GONE);
+				projectTextLine.setVisibility(View.GONE);
 				projectText.setVisibility(EditText.GONE);
 				break;
 
 			case R.id.dialog_overwrite_project_radio_rename:
+				projectTextView.setVisibility(TextView.VISIBLE);
+				projectTextLine.setVisibility(View.VISIBLE);
 				projectText.setVisibility(EditText.VISIBLE);
 				break;
 

@@ -36,6 +36,7 @@ public class NewSpriteDialog extends TextDialog {
 
 	@Override
 	protected void initialize() {
+		inputTitle.setText(R.string.sprite_name);
 	}
 
 	@Override
