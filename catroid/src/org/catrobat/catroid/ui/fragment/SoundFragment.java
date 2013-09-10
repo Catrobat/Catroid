@@ -265,6 +265,10 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			getActivity().unregisterReceiver(soundDeletedReceiver);
 		}
 
+		if (soundCopiedReceiver != null) {
+			getActivity().unregisterReceiver(soundCopiedReceiver);
+		}
+
 		if (soundsListInitReceiver != null) {
 			getActivity().unregisterReceiver(soundsListInitReceiver);
 		}
