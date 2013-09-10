@@ -84,7 +84,7 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.LOOKS_INDEX);
-		UiTestUtils.waitForFragment(solo, R.id.fragment_look_relative_layout);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_look);
 
 		clickOnContextMenuItem(lookName, deleteLookText);
 

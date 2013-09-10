@@ -117,18 +117,18 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
 
-	private LinearLayout addButton;
+	private ImageButton addButton;
 
 	public void setOnSoundInfoListChangedAfterNewListener(OnSoundInfoListChangedAfterNewListener listener) {
 		soundInfoListChangedAfterNewListener = listener;
 	}
 
 	private void setHandleAddbutton() {
-		addButton = (LinearLayout) getSherlockActivity().findViewById(R.id.button_add);
+		addButton = (ImageButton) getSherlockActivity().findViewById(R.id.button_add);
 		addButton.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(View view) {
 				handleAddButton();
 			}
 		});
@@ -296,12 +296,11 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void startCopyActionMode() {
-
 		if (actionMode == null) {
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
 			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
 			unregisterForContextMenu(listView);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
 
@@ -314,7 +313,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
 			actionMode = getSherlockActivity().startActionMode(backPackModeCallBack);
 			unregisterForContextMenu(listView);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
 
@@ -326,19 +325,18 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = true;
 		}
 	}
 
 	@Override
 	public void startDeleteActionMode() {
-
 		if (actionMode == null) {
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
 	}
@@ -450,8 +448,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
+	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, view, menuInfo);
 
 		if (SoundController.getInstance().isSoundPlaying(mediaPlayer)) {
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
@@ -812,7 +810,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		setActionModeActive(false);
 
 		registerForContextMenu(listView);
-		BottomBar.enableButtons(getActivity());
+		BottomBar.showBottomBar(getActivity());
 	}
 
 	@Override

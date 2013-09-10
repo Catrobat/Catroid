@@ -29,8 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -101,7 +99,7 @@ public class SetYBrick extends BrickBaseType implements OnClickListener, Formula
 		});
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_set_y_prototype_text_view);
-		EditText editY = (EditText) view.findViewById(R.id.brick_set_y_edit_text);
+		TextView editY = (TextView) view.findViewById(R.id.brick_set_y_edit_text);
 		yPosition.setTextFieldId(R.id.brick_set_y_edit_text);
 		yPosition.refreshTextField(view);
 		textY.setVisibility(View.GONE);
@@ -128,12 +126,12 @@ public class SetYBrick extends BrickBaseType implements OnClickListener, Formula
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_y_layout);
+			View layout = (View) view.findViewById(R.id.brick_set_y_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView textY = (TextView) view.findViewById(R.id.brick_set_y_textview);
-			EditText editY = (EditText) view.findViewById(R.id.brick_set_y_edit_text);
+			TextView editY = (TextView) view.findViewById(R.id.brick_set_y_edit_text);
 			textY.setTextColor(textY.getTextColors().withAlpha(alphaValue));
 			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
 			editY.getBackground().setAlpha(alphaValue);

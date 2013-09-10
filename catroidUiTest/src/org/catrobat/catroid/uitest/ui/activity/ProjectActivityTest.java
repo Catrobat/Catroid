@@ -30,6 +30,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -319,7 +320,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 	@Device
 	public void testBackgroundSprite() {
-		String sometext = "something" + System.currentTimeMillis();
+		String sometext = UiTestUtils.PROJECTNAME1;
 
 		solo.clickOnText(solo.getString(R.string.main_menu_new));
 		solo.waitForText(solo.getString(R.string.new_project_dialog_title));
@@ -728,25 +729,22 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
 		LinearLayout bottomBarLayout = (LinearLayout) solo.getView(R.id.bottom_bar);
-		LinearLayout addButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_add);
-		LinearLayout playButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_play);
+		ImageButton addButton = (ImageButton) bottomBarLayout.findViewById(R.id.button_add);
+		ImageButton playButton = (ImageButton) bottomBarLayout.findViewById(R.id.button_play);
 
 		int timeToWait = 300;
 		String addDialogTitle = solo.getString(R.string.new_sprite_dialog_title);
-
-		assertTrue("Add button not clickable", addButton.isClickable());
-		assertTrue("Play button not clickable", playButton.isClickable());
 
 		checkIfContextMenuAppears(true, false);
 
 		// Test on rename ActionMode
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		solo.waitForText(rename, 1, timeToWait, false, true);
 
 		checkIfContextMenuAppears(false, false);
-
-		assertFalse("Add button clickable", addButton.isClickable());
-		assertFalse("Play button clickable", playButton.isClickable());
 
 		solo.clickOnView(addButton);
 		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
@@ -760,17 +758,14 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		checkIfContextMenuAppears(true, false);
 
-		assertTrue("Add button not clickable after ActionMode", addButton.isClickable());
-		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
-
 		// Test on delete ActionMode
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		solo.waitForText(delete, 1, timeToWait, false, true);
 
 		checkIfContextMenuAppears(false, true);
-
-		assertFalse("Add button clickable", addButton.isClickable());
-		assertFalse("Play button clickable", playButton.isClickable());
 
 		solo.clickOnView(addButton);
 		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
@@ -789,6 +784,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		int timeToWaitForTitle = 300;
 
@@ -836,6 +833,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		int timeToWait = 300;
 
 		// Check if rename ActionMode disappears if nothing was selected
@@ -855,6 +854,9 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		int timeToWait = 300;
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
@@ -875,6 +877,9 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		int expectedNumberOfSprites = getCurrentNumberOfSprites() - 1;
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 
@@ -908,6 +913,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		solo.clickOnCheckBox(1);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -921,6 +928,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnText(no);
 		solo.sleep(500);
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
@@ -936,6 +945,9 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		solo.clickOnCheckBox(1);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -966,6 +978,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.scrollListToBottom(0);
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		solo.clickOnCheckBox(1);
 		solo.clickOnCheckBox(2);
@@ -1000,6 +1014,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 
 		solo.clickOnCheckBox(0);
@@ -1017,6 +1033,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
 		int timeToWait = 200;
 
 		// Check if rename ActionMode disappears if nothing was selected
@@ -1030,6 +1048,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	public void testRenameActionModeIfSelectedAndPressingBack() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		int timeToWait = 200;
 
@@ -1048,7 +1068,9 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		String renamedSpriteName = "renamedSprite";
 
 		solo.clickOnMenuItem(rename);
+
 		assertTrue("ActionMode title is not set correctly!", solo.searchText(rename));
+		assertTrue("Bottombar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
@@ -1106,6 +1128,16 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnText(solo.getString(R.string.copy));
 		assertTrue(">>Object:<< string not found", solo.searchText("Object:"));
 
+	}
+
+	public void testBottombarElementsVisibilty() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		assertTrue("Bottombar is not visible", solo.getView(R.id.bottom_bar).getVisibility() == View.VISIBLE);
+		assertTrue("Play button is not visible", solo.getView(R.id.button_play).getVisibility() == View.VISIBLE);
+		assertTrue("Add button is visible", solo.getView(R.id.button_add).getVisibility() == View.VISIBLE);
+		assertTrue("Bottombar separator is visible",
+				solo.getView(R.id.bottom_bar_separator).getVisibility() == View.VISIBLE);
 	}
 
 	private void addNewSprite(String spriteName) {

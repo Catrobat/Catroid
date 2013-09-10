@@ -22,16 +22,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/add_brick_fragment_list"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:background="@color/fragment_background_color"
+    android:background="@color/application_background_color"
     android:orientation="vertical" >
-    
+
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:cacheColorHint="#00000000" 
+        android:cacheColorHint="#00000000"
         android:divider="@android:color/transparent" />
 
 </LinearLayout>

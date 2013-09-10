@@ -23,6 +23,7 @@
 package org.catrobat.catroid.uitest.content.brick;
 
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -77,14 +78,18 @@ public class TurnLeftBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 
 		double turnDegrees = 25;
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, turnDegrees);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_turn_left_edit_text, turnDegrees);
 
 		Formula actualDegrees = (Formula) Reflection.getPrivateField(turnLeftBrick, "degrees");
 		assertEquals("Wrong text in field", turnDegrees, actualDegrees.interpretDouble(null));
-		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		assertEquals(
+				"Text not updated",
+				turnDegrees,
+				Double.parseDouble(((TextView) solo.getView(R.id.brick_turn_left_edit_text)).getText().toString()
+						.replace(',', '.')));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1.4);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_turn_left_edit_text, 1);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_turn_left_edit_text, 1.4);
 	}
 
 	private void createProject() {

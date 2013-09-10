@@ -26,7 +26,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
-    android:layout_toRightOf="@+id/my_projects_activity_project_image" >
+    android:paddingBottom="9dp"
+    android:layout_toRightOf="@+id/my_projects_activity_project_image">
 
     <TextView
         android:id="@+id/my_projects_activity_project_title"
@@ -34,7 +35,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:maxLines="2" />
+        android:maxLines="2"/>
 
     <RelativeLayout
         android:id="@+id/my_projects_activity_list_item_details"
@@ -42,7 +43,7 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         style="@style/ListViewItemDetailsText"
-        android:layout_below="@id/my_projects_activity_project_title" >
+        android:layout_below="@id/my_projects_activity_project_title">
 
         <TextView
             android:id="@+id/my_projects_activity_project_changed_1"

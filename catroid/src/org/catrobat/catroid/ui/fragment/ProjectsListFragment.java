@@ -233,7 +233,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				LoadProjectTask loadProjectTask = new LoadProjectTask(getActivity(),
-						(adapter.getItem(position)).projectName, true);
+						(adapter.getItem(position)).projectName, true, true);
 				loadProjectTask.setOnLoadProjectCompleteListener(parentFragment);
 				loadProjectTask.execute();
 			}
@@ -241,14 +241,14 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	}
 
 	@Override
-	public void onLoadProjectSuccess() {
+	public void onLoadProjectSuccess(boolean startProjectActivity) {
 		Intent intent = new Intent(getActivity(), ProjectActivity.class);
 		getActivity().startActivity(intent);
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
+	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, view, menuInfo);
 
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
 
@@ -327,21 +327,21 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	public void startRenameActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 		}
 	}
 
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 		}
 	}
 
 	public void startCopyActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 		}
 	}
 
@@ -441,7 +441,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		actionMode = null;
 		actionModeActive = false;
 
-		BottomBar.enableButtons(getActivity());
+		BottomBar.showBottomBar(getActivity());
 	}
 
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {

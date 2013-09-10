@@ -23,6 +23,7 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/org.catrobat.catroid"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -35,10 +36,14 @@
         android:gravity="center_vertical"
         android:visibility="gone" />
 
-    <LinearLayout
+    <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_broadcast_receive_layout"
         style="@style/BrickContainer.Script.Medium"
-        android:orientation="vertical" >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
             style="@style/BrickText.SingleLine"
@@ -51,6 +56,6 @@
             android:layout_height="wrap_content"
             android:clickable="false"
             android:focusable="false" />
-    </LinearLayout>
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

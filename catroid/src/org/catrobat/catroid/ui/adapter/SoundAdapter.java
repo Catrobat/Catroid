@@ -56,6 +56,7 @@ public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdap
 			return convertView;
 		}
 		return soundFragment.getView(position, convertView);
+
 	}
 
 	public void onDestroyActionModeRename(ActionMode mode, ListView listView) {

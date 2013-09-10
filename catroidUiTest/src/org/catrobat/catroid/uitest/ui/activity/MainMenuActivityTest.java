@@ -211,6 +211,11 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
 
+	public void testBottombarElementsVisibilty() {
+		assertFalse("Add button is visible", solo.searchButton(solo.getString(R.id.button_add)));
+		assertFalse("Play button is visible", solo.searchButton(solo.getString(R.id.button_play)));
+	}
+
 	public void testLoadProject() {
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject2);
 		UtilFile.deleteDirectory(directory);
@@ -243,13 +248,13 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.sleep(200);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		assertTrue("MyProjectsActivity not shown", solo.waitForActivity(MyProjectsActivity.class.getSimpleName()));
 		solo.clickOnText(testProject3);
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		assertTrue("ProjectActivity not shown", solo.waitForActivity(ProjectActivity.class.getSimpleName()));
 		solo.goBack();
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		assertTrue("MainMenuActivity not shown", solo.waitForActivity(MainMenuActivity.class.getSimpleName()));
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		assertTrue("ProjectActivity not shown", solo.waitForActivity(ProjectActivity.class.getSimpleName()));
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);

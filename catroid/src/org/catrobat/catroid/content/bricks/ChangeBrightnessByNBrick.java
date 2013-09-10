@@ -29,8 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -96,7 +94,7 @@ public class ChangeBrightnessByNBrick extends BrickBaseType implements OnClickLi
 			}
 		});
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_brightness_prototype_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_change_brightness_edit_text);
+		TextView editX = (TextView) view.findViewById(R.id.brick_change_brightness_edit_text);
 		changeBrightness.setTextFieldId(R.id.brick_change_brightness_edit_text);
 		changeBrightness.refreshTextField(view);
 
@@ -126,13 +124,13 @@ public class ChangeBrightnessByNBrick extends BrickBaseType implements OnClickLi
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_brightness_layout);
+			View layout = view.findViewById(R.id.brick_change_brightness_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView textBrightness = (TextView) view.findViewById(R.id.brick_change_brightness_label);
 			TextView textBy = (TextView) view.findViewById(R.id.brick_change_brightness_by_textview);
-			EditText editBrightness = (EditText) view.findViewById(R.id.brick_change_brightness_edit_text);
+			TextView editBrightness = (TextView) view.findViewById(R.id.brick_change_brightness_edit_text);
 			textBrightness.setTextColor(textBrightness.getTextColors().withAlpha(alphaValue));
 			textBy.setTextColor(textBy.getTextColors().withAlpha(alphaValue));
 			editBrightness.setTextColor(editBrightness.getTextColors().withAlpha(alphaValue));

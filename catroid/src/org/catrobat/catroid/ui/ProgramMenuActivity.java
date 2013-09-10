@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -40,6 +41,9 @@ import org.catrobat.catroid.stage.StageActivity;
 import java.util.concurrent.locks.Lock;
 
 public class ProgramMenuActivity extends BaseActivity {
+
+	private static final String TAG = ProgramMenuActivity.class.getSimpleName();
+
 	private ActionBar actionBar;
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
@@ -49,14 +53,19 @@ public class ProgramMenuActivity extends BaseActivity {
 
 		setContentView(R.layout.activity_program_menu);
 
-		findViewById(R.id.button_add).setVisibility(View.GONE);
-		findViewById(R.id.bottom_bar_separator).setVisibility(View.GONE);
+		BottomBar.hideAddButton(this);
 
 		actionBar = getSupportActionBar();
 
-		String title = ProjectManager.getInstance().getCurrentSprite().getName();
-		actionBar.setTitle(title);
-		actionBar.setHomeButtonEnabled(true);
+		//The try-catch block is a fix for this bug: https://github.com/Catrobat/Catroid/issues/618
+		try {
+			String title = ProjectManager.getInstance().getCurrentSprite().getName();
+			actionBar.setTitle(title);
+			actionBar.setHomeButtonEnabled(true);
+		} catch (NullPointerException nullPointerException) {
+			Log.e(TAG, "onCreate: NPE -> finishing", nullPointerException);
+			finish();
+		}
 	}
 
 	@Override
@@ -98,21 +107,21 @@ public class ProgramMenuActivity extends BaseActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void handleScriptsButton(View v) {
+	public void handleScriptsButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
 		startScriptActivity(ScriptActivity.FRAGMENT_SCRIPTS);
 	}
 
-	public void handleLooksButton(View v) {
+	public void handleLooksButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
 		startScriptActivity(ScriptActivity.FRAGMENT_LOOKS);
 	}
 
-	public void handleSoundsButton(View v) {
+	public void handleSoundsButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}

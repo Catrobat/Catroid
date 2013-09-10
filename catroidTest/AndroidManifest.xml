@@ -23,8 +23,8 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.catrobat.catroid.test"
-    android:versionCode="6"
-    android:versionName="0.8.5" >
+    android:versionCode="9"
+    android:versionName="0.9.2" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -32,10 +32,7 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <application
-        xmlns:tools="http://schemas.android.com/tools"
-        android:label="@string/app_name"
-        tools:ignore="MissingApplicationIcon,AllowBackup" >
+    <application android:label="@string/app_name" >
         <uses-library android:name="android.test.runner" />
     </application>
 

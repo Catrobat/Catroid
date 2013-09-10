@@ -87,7 +87,7 @@ public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<Scr
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentViews(ListView.class).get(1).getChildCount());
+		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentViews(ListView.class).get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -96,23 +96,27 @@ public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<Scr
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_move)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, STEPS_TO_MOVE, "steps", moveNStepsBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, STEPS_TO_MOVE, "steps",
+				moveNStepsBrick);
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, STEPS_TO_MOVE);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, STEPS_TO_MOVE);
 
 		assertEquals("Wrong text in field.", STEPS_TO_MOVE,
 				((Formula) Reflection.getPrivateField(moveNStepsBrick, "steps")).interpretDouble(null));
-		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE,
-				Double.valueOf(solo.getEditText(0).getText().toString()));
+		assertEquals(
+				"Value in Brick is not updated.",
+				STEPS_TO_MOVE,
+				Double.valueOf(((TextView) solo.getView(R.id.brick_move_n_steps_edit_text)).getText().toString()
+						.replace(',', '.')));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, 1);
 		TextView stepTextView = (TextView) solo.getView(R.id.brick_move_n_steps_step_text_view);
 		assertTrue(
 				"Specifier hasn't changed from plural to singular",
 				stepTextView.getText().equals(
 						stepTextView.getResources().getQuantityString(R.plurals.brick_move_n_step_plural, 1)));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1.4);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, 1.4);
 		stepTextView = (TextView) solo.getView(R.id.brick_move_n_steps_step_text_view);
 		assertTrue(
 				"Specifier hasn't changed from singular to plural",

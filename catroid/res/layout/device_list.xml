@@ -24,7 +24,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@color/solid_black"
     android:orientation="vertical" >
 
     <TextView

@@ -24,7 +24,6 @@
 <resources>
 
     <!-- General terms -->
-    <string name="app_name">Pocket Code</string>
     <string name="cancel_button">Abbrechen</string>
     <string name="rename">Umbenennen</string>
     <string name="delete">Löschen</string>
@@ -51,8 +50,8 @@
     <string name="main_menu_new">Neu</string>
     <string name="main_menu_continue">Fortsetzen</string>
     <string name="main_menu_programs">Programme</string>
-    <string name="main_menu_forum">Forum</string>
-    <string name="main_menu_web">Community</string>
+    <string name="main_menu_forum">Diskutieren</string>
+    <string name="main_menu_web">Erkunden</string>
     <string name="main_menu_upload">Hochladen</string>
     <string name="main_menu_settings">Einstellungen</string>
     <string name="main_menu_about_pocketcode">Über Pocket Code</string>
@@ -120,6 +119,7 @@
 
 
     <!-- Script fragment -->
+    <string name="fragment_script_text_description">Klicke auf \"+\" um Skripte hinzuzufügen</string>
     <string name="dialog_confirm_delete_brick_title">Diesen Baustein löschen?</string>
     <string name="dialog_confirm_delete_script_title">Dieses Skript löschen?</string>
     <string name="dialog_confirm_delete_multiple_bricks_title">Diese Bausteine löschen?</string>
@@ -128,6 +128,8 @@
 
 
     <!-- Look fragment -->
+    <string name="fragment_look_text_description">Klicke auf \"+\" um Aussehen hinzuzufügen</string>
+    <string name="fragment_background_text_description">Klicke auf \"+\" um Hintergründe hinzuzufügen</string>
     <string name="rename_look_dialog">Aussehen umbenennen</string>
     <string name="lookname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="copy_look_addition">Kopie</string>
@@ -144,6 +146,7 @@
 
 
     <!-- Sound fragment -->
+    <string name="fragment_sound_text_description">Klicke auf \"+\" um Klänge hinzuzufügen</string>
     <string name="rename_sound_dialog">Klang umbenennen</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="sound_play">abspielen</string>
@@ -178,6 +181,7 @@
     <string name="soundrecorder_name">Pocket Code Recorder</string>
     <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
     <string name="soundrecorder_recorded_filename">Aufnahme</string>
+    <string name="soundrecorder_text_view">Zum Starten und Stoppen der Aufnahme klicke auf das Symbol oben.</string>
     <!--  -->
 
 
@@ -281,13 +285,13 @@
 
 
     <!-- Motion bricks -->
-    <string name="brick_place_at">Setze Position:</string>
-    <string name="x_label">X:</string>
-    <string name="y_label">Y:</string>
-    <string name="brick_set_x">Setze X auf:</string>
-    <string name="brick_set_y">Setze Y auf:</string>
-    <string name="brick_change_x_by">Ändere X um:</string>
-    <string name="brick_change_y_by">Ändere Y um:</string>
+    <string name="brick_place_at">"Setze Position "</string>
+    <string name="x_label">"X: "</string>
+    <string name="y_label">"Y: "</string>
+    <string name="brick_set_x">"Setze X auf "</string>
+    <string name="brick_set_y">"Setze Y auf "</string>
+    <string name="brick_change_x_by">"Ändere X um "</string>
+    <string name="brick_change_y_by">"Ändere Y um "</string>
     <string name="brick_go_back">Gehe</string>
 
     <plurals name="brick_go_back_layer_plural">
@@ -320,10 +324,10 @@
     <string name="brick_change_size_by">Ändere Größe um</string>
     <string name="brick_hide">Verstecke dich</string>
     <string name="brick_show">Zeige dich</string>
-    <string name="brick_set_ghost_effect">Setze Transparenz</string>
-    <string name="brick_change_ghost_effect">Ändere Transparenz</string>
-    <string name="brick_set_brightness">Setze Helligkeit</string>
-    <string name="brick_change_brightness">Ändere Helligkeit</string>
+    <string name="brick_set_ghost_effect">"Setze Transparenz "</string>
+    <string name="brick_change_ghost_effect">"Ändere Transparenz "</string>
+    <string name="brick_set_brightness">"Setze Helligkeit "</string>
+    <string name="brick_change_brightness">"Ändere Helligkeit "</string>
     <string name="by_label">um</string>
     <string name="to_label">auf</string>
     <string name="brick_clear_graphic_effect">Schalte Grafikeffekte aus</string>
@@ -348,8 +352,8 @@
     <string name="brick_wait">Warte</string>
 
     <plurals name="second_plural">
-        <item quantity="one">Sekunde</item>
-        <item quantity="other">Sekunden</item>
+        <item quantity="one">"Sekunde "</item>
+        <item quantity="other">"Sekunden "</item>
     </plurals>
 
     <string name="brick_broadcast_receive">Wenn ich empfange:</string>
@@ -403,9 +407,10 @@
     <string name="notification_upload_finished">Upload erfolgreich</string>
     
     <string name="notification_download_title_pending">"Downloaden von "</string>
-    <string name="notification_download_title_finished">"Starte "</string>
     <string name="notification_download_pending">Download wird ausgeführt</string>
     <string name="notification_download_finished">Download erfolgreich</string>
+    
+    <string name="notification_title_open">"Öffne "</string>
     
     <string name="project_rename">(Das Programm wird umbenannt.)</string>
     <string name="size_of_project">Größe:</string>
@@ -478,9 +483,9 @@
     <string name="formula_editor_title">Formel Editor</string>
     <string name="formula_editor_changes_saved">Änderungen gespeichert!</string>
     <string name="formula_editor_changes_discarded">Änderungen verworfen!</string>
-    <string name="formula_editor_parse_fail">Fehler in der Eingabe! Zum Verwerfen erneut klicken.</string>
+    <string name="formula_editor_parse_fail">Fehler in der Eingabe!</string>
     <string name="formula_nothing_selected">Bitte Wert eingeben!</string>
-    <string name="formula_editor_parse_fail_formula_too_long">Formel zu lang! Zum Verwerfen erneut klicken.</string>
+    <string name="formula_editor_parse_fail_formula_too_long">Formel zu lang!</string>
     <string name="formula_editor_choose_object_variable">Objekt-Eigenschaften</string>
     <string name="formula_editor_existing_variable">Name wird bereits verwendet!</string>
     <string name="formula_editor_bracket_open">(</string>
@@ -546,6 +551,8 @@
     <string name="formula_editor_variable_dialog_for_all_sprites">Für alle Objekte</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
     <string name="formula_editor_variable_dialog_hint">Variablenname eingeben</string>
+    <string name="formula_editor_discard_changes_dialog_message">Möchten Sie die Änderungen speichern?</string>
+    <string name="formula_editor_discard_changes_dialog_title">Änderungen speichern?</string>
     
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable ausgewählt!</item>

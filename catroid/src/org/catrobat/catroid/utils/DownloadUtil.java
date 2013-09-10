@@ -74,7 +74,12 @@ public class DownloadUtil {
 		boolean programNameExists = Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(programName);
 		if (programNameExists) {
 			Log.v(TAG, "Program name exists - show overwrite dialog");
-			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, programName, url);
+			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog();
+
+			renameDialog.setContext(activity);
+			renameDialog.setProgramName(programName);
+			renameDialog.setURL(url);
+
 			renameDialog.show(activity.getSupportFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
 		} else {
 			startDownload(activity, url, programName);
@@ -83,7 +88,6 @@ public class DownloadUtil {
 
 	public void startDownload(Context context, String url, String programName) {
 		programDownloadQueue.add(programName.toLowerCase(Locale.getDefault()));
-
 		Intent downloadIntent = new Intent(context, ProjectDownloadService.class);
 		downloadIntent.putExtra(ProjectDownloadService.RECEIVER_TAG, new DownloadReceiver(new Handler()));
 		downloadIntent.putExtra(ProjectDownloadService.DOWNLOAD_NAME_TAG, programName);

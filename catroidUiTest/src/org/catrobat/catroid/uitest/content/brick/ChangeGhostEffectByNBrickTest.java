@@ -75,8 +75,8 @@ public class ChangeGhostEffectByNBrickTest extends BaseActivityInstrumentationTe
 		assertTrue("Wrong Brick instance.", adapter.getChild(groupCount - 1, 0) instanceof ChangeGhostEffectByNBrick);
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_change_ghost_effect)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, EFFECT_TO_CHANGE, "changeGhostEffect",
-				changeGhostEffectByNBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_change_ghost_effect_edit_text, EFFECT_TO_CHANGE,
+				"changeGhostEffect", changeGhostEffectByNBrick);
 
 	}
 

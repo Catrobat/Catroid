@@ -63,7 +63,7 @@ public class NextLookBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentViews(ListView.class).get(1).getChildCount());
+		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentViews(ListView.class).get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();

@@ -23,6 +23,7 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/org.catrobat.catroid"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -35,58 +36,56 @@
         android:gravity="center_vertical"
         android:visibility="gone" />
 
-    <LinearLayout
+    <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_place_at_layout"
         style="@style/BrickContainer.Motion.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="vertical" >
+        android:orientation="horizontal"
+        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/brick_place_at_label"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_place_at" >
+        </TextView>
 
-            <TextView
-                android:id="@+id/brick_place_at_label"
-                style="@style/BrickText.SingleLine"
-                android:text="@string/brick_place_at" >
-            </TextView>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/brick_place_at_x_textview"
+            style="@style/BrickText.SingleLine"
+            app:layout_newLine="true"
+            android:text="@string/x_label" >
+        </TextView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-			
-            <TextView
-                android:id="@+id/brick_place_at_x_textview"
-                style="@style/BrickText.SingleLine"
-                android:text="@string/x_label" >
-            </TextView>
-            
-            <TextView
-                android:id="@+id/brick_place_at_prototype_text_view_x"
-                style="@style/BrickPrototypeTextView" />
+        <TextView
+            android:id="@+id/brick_place_at_prototype_text_view_x"
+            style="@style/BrickPrototypeTextView" />
 
-            <EditText
-                android:id="@+id/brick_place_at_edit_text_x"
-                style="@style/BrickEditTextMultiple"
-                android:inputType="number|numberDecimal|numberSigned" >
-            </EditText>
+        <TextView
+            android:id="@+id/brick_place_at_edit_text_x"
+            style="@style/BrickEditText"
+            app:layout_inputType="number"
+            app:layout_textField="true" >
+        </TextView>
 
-            <TextView
-                android:id="@+id/brick_place_at_y_textview"
-                style="@style/BrickText.SingleLine"
-                android:text="@string/y_label" >
-            </TextView>
+        <TextView
+            android:id="@+id/brick_place_at_y_textview"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/y_label" >
+        </TextView>
 
-            <TextView
-                android:id="@+id/brick_place_at_prototype_text_view_y"
-                style="@style/BrickPrototypeTextView" />
+        <TextView
+            android:id="@+id/brick_place_at_prototype_text_view_y"
+            style="@style/BrickPrototypeTextView" />
 
-            <EditText
-                android:id="@+id/brick_place_at_edit_text_y"
-                style="@style/BrickEditTextMultiple"
-                android:inputType="number|numberDecimal|numberSigned" >
-            </EditText>
-        </LinearLayout>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/brick_place_at_edit_text_y"
+            style="@style/BrickEditText"
+            app:layout_inputType="number"
+            app:layout_textField="true" >
+        </TextView>
+    </org.catrobat.catroid.ui.BrickLayout>
+
 </LinearLayout>

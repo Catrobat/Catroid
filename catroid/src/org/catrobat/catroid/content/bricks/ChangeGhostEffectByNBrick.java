@@ -29,8 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -99,7 +97,7 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 			}
 		});
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
+		TextView editX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
 		changeGhostEffect.setTextFieldId(R.id.brick_change_ghost_effect_edit_text);
 		changeGhostEffect.refreshTextField(view);
 
@@ -128,13 +126,13 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_ghost_effect_layout);
+			View layout = (View) view.findViewById(R.id.brick_change_ghost_effect_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView textGhost = (TextView) view.findViewById(R.id.brick_change_ghost_effect_label);
 			TextView textGhostBy = (TextView) view.findViewById(R.id.brick_change_ghost_effect_by);
-			EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
+			TextView editGhostEffect = (TextView) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
 			textGhost.setTextColor(textGhost.getTextColors().withAlpha(alphaValue));
 			textGhostBy.setTextColor(textGhostBy.getTextColors().withAlpha(alphaValue));
 			editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));

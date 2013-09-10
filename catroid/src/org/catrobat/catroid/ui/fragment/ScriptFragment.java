@@ -105,7 +105,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_script, null);
 
-		listView = (DragAndDropListView) rootView.findViewById(R.id.brick_list_view);
+		listView = (DragAndDropListView) rootView.findViewById(android.R.id.list);
 
 		return rootView;
 	}
@@ -246,7 +246,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		getSherlockActivity().findViewById(R.id.button_add).setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(View view) {
 				handleAddButton();
 			}
 		});
@@ -303,7 +303,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void startCopyActionMode() {
-
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
 
@@ -312,7 +311,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			}
 
 			unregisterForContextMenu(listView);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			adapter.setCheckboxVisibility(View.VISIBLE);
 			adapter.setActionMode(true);
 		}
@@ -351,7 +350,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void startDeleteActionMode() {
-
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 
@@ -360,7 +358,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			}
 
 			unregisterForContextMenu(listView);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			adapter.setCheckboxVisibility(View.VISIBLE);
 			adapter.setActionMode(true);
 		}
@@ -487,7 +485,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			setActionModeActive(false);
 
 			registerForContextMenu(listView);
-			BottomBar.enableButtons(getActivity());
+			BottomBar.showBottomBar(getActivity());
 			adapter.setActionMode(false);
 
 		}
@@ -596,7 +594,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		setActionModeActive(false);
 
 		registerForContextMenu(listView);
-		BottomBar.enableButtons(getActivity());
+		BottomBar.showBottomBar(getActivity());
 		adapter.setActionMode(false);
 	}
 

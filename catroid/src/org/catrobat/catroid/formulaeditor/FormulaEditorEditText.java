@@ -157,9 +157,15 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 		internFormula.handleKeyInput(resource, context, userVariableName);
 		history.push(internFormula.getInternFormulaState());
-		updateTextAndCursorFromInternFormula();
+
+		String resultingText = updateTextAndCursorFromInternFormula();
 		setSelection(absoluteCursorPosition);
-		formulaEditorFragment.refreshFormulaPreviewString();
+
+		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
+	}
+
+	public String getStringFromInternFormula() {
+		return internFormula.getExternFormulaString();
 	}
 
 	public boolean hasChanges() {
@@ -218,7 +224,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		super.setSelection(index);
 	}
 
-	private void updateTextAndCursorFromInternFormula() {
+	private String updateTextAndCursorFromInternFormula() {
 		String newExternFormulaString = internFormula.getExternFormulaString();
 		setText(newExternFormulaString);
 		absoluteCursorPosition = internFormula.getExternCursorPosition();
@@ -227,10 +233,12 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		}
 
 		highlightSelection();
+
+		return newExternFormulaString;
 	}
 
 	@Override
-	public boolean onTouch(View v, MotionEvent motion) {
+	public boolean onTouch(View view, MotionEvent motion) {
 		return gestureDetector.onTouchEvent(motion);
 	}
 

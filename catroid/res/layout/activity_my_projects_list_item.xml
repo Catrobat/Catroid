@@ -24,7 +24,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="0dp"
-    android:background="@color/my_projects_activity_background_color"
     android:orientation="horizontal" >
 
     <CheckBox
@@ -40,7 +39,8 @@
         android:id="@+id/my_projects_activity_item_background"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/my_projects_list_item_height"
-        android:background="@drawable/button_background_selector" >
+        android:background="@drawable/button_background_selector"
+        android:minHeight="@dimen/my_projects_list_item_height" >
 
         <ImageView
             android:id="@+id/my_projects_activity_project_image"

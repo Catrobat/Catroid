@@ -82,21 +82,24 @@ public class GoNStepsBackTest extends BaseActivityInstrumentationTestCase<Script
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_go_back)));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, STEPS_TO_GO_BACK);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_go_back_edit_text, STEPS_TO_GO_BACK);
 
 		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK,
 				(int) ((Formula) Reflection.getPrivateField(goNStepsBackBrick, "steps")).interpretDouble(null));
-		assertEquals("Value in Brick is not updated.", (double) STEPS_TO_GO_BACK,
-				Double.valueOf(solo.getEditText(0).getText().toString()));
+		assertEquals(
+				"Value in Brick is not updated.",
+				(double) STEPS_TO_GO_BACK,
+				Double.valueOf(((TextView) solo.getView(R.id.brick_go_back_edit_text)).getText().toString()
+						.replace(',', '.')));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_go_back_edit_text, 1);
 		TextView secondsTextView = (TextView) solo.getView(R.id.brick_go_back_layers_text_view);
 		assertTrue(
 				"Specifier hasn't changed from plural to singular",
 				secondsTextView.getText().equals(
 						dragDropListView.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural, 1)));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 2);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_go_back_edit_text, 2);
 		secondsTextView = (TextView) solo.getView(R.id.brick_go_back_layers_text_view);
 		assertTrue(
 				"Specifier hasn't changed from singular to plural",

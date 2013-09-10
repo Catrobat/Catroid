@@ -31,7 +31,6 @@ import android.util.SparseArray;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.MyProjectsActivity;
 
 public class StatusBarNotificationManager {
 
@@ -51,15 +50,6 @@ public class StatusBarNotificationManager {
 		return INSTANCE;
 	}
 
-	public Context getContext(int id) {
-		NotificationData notificationData = notificationDataMap.get(id);
-		if (notificationData == null) {
-			return null;
-		}
-
-		return notificationData.getContext();
-	}
-
 	private void initNotificationManager(Context context) {
 		if (notificationManager == null) {
 			notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -67,6 +57,9 @@ public class StatusBarNotificationManager {
 	}
 
 	public int createUploadNotification(Context context, String programName) {
+		if (context == null || programName == null) {
+			return -1;
+		}
 		initNotificationManager(context);
 
 		Intent uploadIntent = new Intent(context, MainMenuActivity.class);
@@ -85,16 +78,20 @@ public class StatusBarNotificationManager {
 	}
 
 	public int createCopyNotification(Context context, String programName) {
+		if (context == null || programName == null) {
+			return -1;
+		}
 		initNotificationManager(context);
 
-		Intent copyIntent = new Intent(context, MyProjectsActivity.class);
-		copyIntent.setAction(Intent.ACTION_MAIN);
-		copyIntent = copyIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+		Intent copyIntent = new Intent(context, MainMenuActivity.class);
+		copyIntent.setAction(Intent.ACTION_MAIN).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+				.putExtra(EXTRA_PROJECT_NAME, programName);
+
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, copyIntent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
 		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_launcher, programName,
-				R.string.notification_copy_title_pending, R.string.notification_upload_title_finished,
+				R.string.notification_copy_title_pending, R.string.notification_title_open,
 				R.string.notification_copy_pending, R.string.notification_copy_finished);
 
 		int id = createNotification(context, data);
@@ -103,6 +100,9 @@ public class StatusBarNotificationManager {
 	}
 
 	public int createDownloadNotification(Context context, String programName) {
+		if (context == null || programName == null) {
+			return -1;
+		}
 		initNotificationManager(context);
 
 		Intent downloadIntent = new Intent(context, MainMenuActivity.class);
@@ -113,13 +113,13 @@ public class StatusBarNotificationManager {
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
 		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_launcher, programName,
-				R.string.notification_download_title_pending, R.string.notification_download_title_finished,
+				R.string.notification_download_title_pending, R.string.notification_title_open,
 				R.string.notification_download_pending, R.string.notification_download_finished);
 
 		return createNotification(context, data);
 	}
 
-	public int createNotification(Context context, NotificationData data) {
+	private int createNotification(Context context, NotificationData data) {
 		initNotificationManager(context);
 
 		PendingIntent doesNothingPendingIntent = PendingIntent.getActivity(context, 0, new Intent(),
