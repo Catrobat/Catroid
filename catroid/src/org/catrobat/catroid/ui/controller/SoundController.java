@@ -245,38 +245,18 @@ public class SoundController {
 	public void backPackSound(SoundInfo selectedSoundInfo, BackPackSoundFragment backPackSoundActivity,
 			ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
 
-		if (backPackSoundActivity.getSherlockActivity() == null) {
-			Log.d("TAG", "@SoundController-->Activity is null!");
-		}
-
-		if (backPackSoundActivity == null) {
-			Log.d("TAG", "backPackSoundActivity is NULL!");
-		}
-
 		/*
 		 * Toast.makeText(backPackSoundActivity.getSherlockActivity(),
 		 * "Sound " + selectedSoundInfo.getTitle() + " copied into backpack", Toast.LENGTH_SHORT).show();
 		 */
-		//BackPackListManager.getInstance().addSoundToSoundInfoArrayList(selectedSoundInfo);
-
-		// for debugging
-
-		BackPackListManager.getInstance().showSoundInfoArrayList();
-
-		//		Intent intentBackPack = new Intent(backPackSoundActivity.getActivity(), BackPackSoundActivity.class);
-		//
-		//		backPackSoundActivity.startActivity(intentBackPack);
 
 		copySoundBackPack(selectedSoundInfo, soundInfoList, adapter);
-		adapter.notifyDataSetChanged();
 	}
 
 	private void copySoundBackPack(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList,
 			SoundBaseAdapter adapter) {
 
 		try {
-			Log.d("TAG", "SoundController --> copySoundBackPack:: selectedSoundInfo.getAbsolutePathBackPackSound()="
-					+ selectedSoundInfo.getAbsolutePathBackPackSound());
 			StorageHandler.getInstance().copySoundFileBackPack(selectedSoundInfo);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -284,7 +264,6 @@ public class SoundController {
 
 		updateBackPackActivity(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName(), soundInfoList,
 				adapter);
-
 	}
 
 	public SoundInfo copySound(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
@@ -340,7 +319,6 @@ public class SoundController {
 			SoundBaseAdapter adapter) {
 		title = Utils.getUniqueSoundName(title);
 
-		Log.d("TAG", "SoundController-->updateBackPackActivity():: title = " + title + " and fileName = " + fileName);
 		SoundInfo newSoundInfo = new SoundInfo();
 		newSoundInfo.setTitle(title);
 		newSoundInfo.setSoundFileName(fileName);

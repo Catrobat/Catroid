@@ -27,7 +27,6 @@ import android.util.Log;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -35,13 +34,8 @@ import java.util.Iterator;
 public class BackPackListManager extends SherlockFragmentActivity {
 
 	private static BackPackListManager instance;
-
-	private static BackPackSoundFragment backPackSoundFragment;
-
 	private final static ArrayList<SoundInfo> soundInfoArrayList = new ArrayList<SoundInfo>();
-
 	private final static ArrayList<SoundInfo> actionBarSoundInfoArrayList = new ArrayList<SoundInfo>();
-
 	private static SoundInfo currentSoundInfo;
 
 	private BackPackListManager() {
@@ -65,15 +59,9 @@ public class BackPackListManager extends SherlockFragmentActivity {
 	public void setSoundInfoArrayListEmpty() {
 
 		Log.d("TAG", "Set ArrayList empty, Size of ArrayList before setting empty: " + soundInfoArrayList.size());
-
 		soundInfoArrayList.clear();
-
 		Log.d("TAG", "Set ArrayList empty, Size of ArrayList after setting empty: " + soundInfoArrayList.size());
 	}
-
-	//	public void setSoundInfoArrayList(ArrayList<SoundInfo> soundInfoArrayList) {
-	//		soundInfoArrayList = soundInfoArrayList;
-	//	}
 
 	public void addSoundToSoundInfoArrayList(SoundInfo soundInfo) {
 		soundInfoArrayList.add(soundInfo);
@@ -105,13 +93,5 @@ public class BackPackListManager extends SherlockFragmentActivity {
 
 	public static void setCurrentSoundInfo(SoundInfo currentSoundInfo) {
 		BackPackListManager.currentSoundInfo = currentSoundInfo;
-	}
-
-	public static BackPackSoundFragment getBackPackSoundFragment() {
-		return backPackSoundFragment;
-	}
-
-	public static void setBackPackSoundFragment(BackPackSoundFragment backPackSoundFragment) {
-		BackPackListManager.backPackSoundFragment = backPackSoundFragment;
 	}
 }

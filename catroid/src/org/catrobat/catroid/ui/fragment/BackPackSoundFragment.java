@@ -27,7 +27,6 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.util.Log;
@@ -70,7 +69,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	private MediaPlayer mediaPlayer;
 	private BackPackSoundAdapter adapter;
 	private SoundInfo selectedSoundInfoBackPack;
-	//private Activity backPackSoundFragmentActivity;
 
 	private ListView listView;
 
@@ -85,16 +83,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-
-		//		backPackListManagerInstance = BackPackListManager.getInstance();
-		//
-		//		BackPackSoundFragment backPackSoundFragment = backPackListManagerInstance.getBackPackSoundFragment();
-		//
-		//		Activity bpSoundActivityFragmentActivity = backPackSoundFragment.getActivity();
-		//
-		//		ArrayList<SoundInfo> globalSoundInfoArrayList = backPackListManagerInstance.getSoundInfoArrayList();
-		//
-		//		Log.d("TAG", "Size of List: " + globalSoundInfoArrayList.size());
 	}
 
 	@Override
@@ -104,7 +92,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		return rootView;
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -118,10 +105,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 			selectedSoundInfoBackPack = (SoundInfo) savedInstanceState
 					.getSerializable(SoundController.BUNDLE_ARGUMENTS_SELECTED_SOUND);
 		}
-		FragmentActivity activity = getActivity();
-		int id = R.id.fragment_sound_item_title_text_view;
-		int layout = R.layout.fragment_sound_soundlist_item;
-		//R.layout.fragment_sound_soundlist_item
 		adapter = new BackPackSoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item,
 				R.id.fragment_sound_item_title_text_view, BackPackListManager.getInstance().getSoundInfoArrayList(),
 				false);
@@ -159,12 +142,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 			}
 		});
 	}
-
-	/*
-	 * public BackPackSoundAdapter getBackPackSoundAdapter() {
-	 * return adapter;
-	 * }
-	 */
 
 	public View getView(int position, View convertView) {
 
@@ -208,148 +185,68 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		return convertView;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.content.DialogInterface.OnKeyListener#onKey(android.content.DialogInterface, int,
-	 * android.view.KeyEvent)
-	 */
 	@Override
 	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onCreateLoader(int, android.os.Bundle)
-	 */
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoadFinished(android.support.v4.content.Loader,
-	 * java.lang.Object)
-	 */
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
-		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoaderReset(android.support.v4.content.Loader)
-	 */
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener#onSoundPlay(android.view.View)
-	 */
 	@Override
 	public void onSoundPlay(View view) {
-		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener#onSoundPause(android.view.View)
-	 */
 	@Override
 	public void onSoundPause(View view) {
-		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener#onSoundChecked()
-	 */
 	@Override
 	public void onSoundChecked() {
-		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.fragment.BackPackActivityFragment#getShowDetails()
-	 */
 	@Override
 	public boolean getShowDetails() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.fragment.BackPackActivityFragment#setShowDetails(boolean)
-	 */
 	@Override
 	public void setShowDetails(boolean showDetails) {
-		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.fragment.BackPackActivityFragment#setSelectMode(int)
-	 */
 	@Override
 	public void setSelectMode(int selectMode) {
-		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.fragment.BackPackActivityFragment#getSelectMode()
-	 */
 	@Override
 	public int getSelectMode() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.fragment.BackPackActivityFragment#startDeleteActionMode()
-	 */
 	@Override
 	public void startDeleteActionMode() {
-		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.fragment.BackPackActivityFragment#showDeleteDialog()
-	 */
 	@Override
 	protected void showDeleteDialog() {
-		// TODO Auto-generated method stub
 
 	}
 

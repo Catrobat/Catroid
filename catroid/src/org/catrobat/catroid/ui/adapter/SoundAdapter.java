@@ -42,11 +42,6 @@ import java.util.Iterator;
 
 public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdapterInterface {
 
-	@Override
-	public ArrayList<SoundInfo> getSoundInfoItems() {
-		return soundInfoItems;
-	}
-
 	private SoundFragment soundFragment;
 
 	public SoundAdapter(final Context context, int Resource, int textViewResourceId, ArrayList<SoundInfo> items,
@@ -72,7 +67,6 @@ public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdap
 			soundFragment.showRenameDialog();
 		}
 		soundFragment.clearCheckedSoundsAndEnableButtons();
-
 	}
 
 	public void onDestroyActionModeCopy(ActionMode mode) {
@@ -82,15 +76,11 @@ public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdap
 			int position = iterator.next();
 			SoundController.getInstance().copySound(position, soundFragment.getSoundInfoList(), this);
 		}
-
 		soundFragment.clearCheckedSoundsAndEnableButtons();
-
 	}
 
 	public void onDestroyActionModeBackPack(ActionMode mode) {
-
 		Iterator<Integer> iterator = checkedSounds.iterator();
-
 		while (iterator.hasNext()) {
 			int position = iterator.next();
 			BackPackListManager.getInstance().addSoundToActionBarSoundInfoArrayList(soundInfoItems.get(position));
@@ -101,24 +91,15 @@ public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdap
 		intent.putExtra(BackPackActivity.BACKPACK_ITEM, true);
 		soundFragment.getActivity().startActivity(intent);
 
-		/*
-		 * Iterator<Integer> iterator = checkedSounds.iterator();
-		 * 
-		 * while (iterator.hasNext()) {
-		 * int position = iterator.next();
-		 * SoundController.getInstance().backPackSound(soundFragment.getSoundInfoList().get(position),
-		 * BackPackListManager.getBackPackSoundFragment(),
-		 * BackPackListManager.getInstance().getSoundInfoArrayList(),
-		 * BackPackListManager.getBackPackSoundFragment().getAdapter());
-		 * }
-		 */
-
 		soundFragment.clearCheckedSoundsAndEnableButtons();
-
-		//BackPackListManager.getInstance().getBackPackSoundFragment().getAdapter().notifyDataSetChanged();
 	}
 
 	public void setSoundFragment(SoundFragment soundFragment) {
 		this.soundFragment = soundFragment;
+	}
+
+	@Override
+	public ArrayList<SoundInfo> getSoundInfoItems() {
+		return soundInfoItems;
 	}
 }

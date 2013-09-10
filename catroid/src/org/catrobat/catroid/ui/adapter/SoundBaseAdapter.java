@@ -39,12 +39,7 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ScriptA
 
 	protected ArrayList<SoundInfo> soundInfoItems;
 
-	public ArrayList<SoundInfo> getSoundInfoItems() {
-		return soundInfoItems;
-	}
-
 	protected Context context;
-
 	protected OnSoundEditListener onSoundEditListener;
 
 	protected int selectMode;
@@ -66,6 +61,10 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ScriptA
 		this.showDetails = showDetails;
 		this.soundInfoItems = items;
 		this.selectMode = ListView.CHOICE_MODE_NONE;
+	}
+
+	public ArrayList<SoundInfo> getSoundInfoItems() {
+		return soundInfoItems;
 	}
 
 	public void setOnSoundEditListener(OnSoundEditListener listener) {

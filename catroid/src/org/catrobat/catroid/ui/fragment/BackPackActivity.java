@@ -40,13 +40,11 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
 
 import java.util.Iterator;
-import java.util.concurrent.locks.Lock;
 
 public class BackPackActivity extends BaseActivity {
 	public static final int FRAGMENT_BACKPACK_SCRIPTS = 0;
@@ -62,18 +60,16 @@ public class BackPackActivity extends BaseActivity {
 	 * public static final String ACTION_SPRITES_LIST_INIT = "org.catrobat.catroid.SPRITES_LIST_INIT";
 	 * public static final String ACTION_SPRITES_LIST_CHANGED = "org.catrobat.catroid.SPRITES_LIST_CHANGED";
 	 * public static final String ACTION_BRICK_LIST_CHANGED = "org.catrobat.catroid.BRICK_LIST_CHANGED";
-	 * public static final String ACTION_LOOK_DELETED = "org.catrobat.catroid.LOOK_DELETED";
 	 * public static final String ACTION_LOOKS_LIST_INIT = "org.catrobat.catroid.LOOKS_LIST_INIT";
-	 * public static final String ACTION_SOUND_DELETED = "org.catrobat.catroid.SOUND_DELETED";
-	 * public static final String ACTION_SOUND_RENAMED = "org.catrobat.catroid.SOUND_RENAMED";
 	 * public static final String ACTION_SOUNDS_LIST_INIT = "org.catrobat.catroid.SOUNDS_LIST_INIT";
 	 * public static final String ACTION_VARIABLE_DELETED = "org.catrobat.catroid.VARIABLE_DELETED";
 	 */
+	public static final String ACTION_SOUND_DELETED = "org.catrobat.catroid.SOUND_DELETED";
+	public static final String ACTION_LOOK_DELETED = "org.catrobat.catroid.LOOK_DELETED";
+	public static final String ACTION_SCRIPT_DELETED = "org.catrobat.catroid.SCRIPT_DELETED";
 
 	private FragmentManager fragmentManager = getSupportFragmentManager();
 
-	//private ScriptFragment scriptFragment = null;
-	//private LookFragment lookFragment = null;
 	private BackPackSoundFragment backPackSoundFragment = null;
 	private BackPackLookFragment backPackLookFragment = null;
 	private BackPackScriptFragment backPackScriptFragment = null;
@@ -82,8 +78,6 @@ public class BackPackActivity extends BaseActivity {
 
 	private static int currentFragmentPosition;
 	private String currentFragmentTag;
-
-	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -113,9 +107,7 @@ public class BackPackActivity extends BaseActivity {
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
-		//actionBar.setTitle(currentFragmentPosition);
-		BackPackListManager.setBackPackSoundFragment(backPackSoundFragment);
-		Log.d("TAG", "BackPackActivity-->onCreate()-->setBackPackSoundFragment **********");
+		//actionBar.setTitle(currentFragmentPosition); ??
 	}
 
 	@Override
@@ -130,7 +122,6 @@ public class BackPackActivity extends BaseActivity {
 				SoundController.getInstance().backPackSound(BackPackListManager.getCurrentSoundInfo(),
 						backPackSoundFragment, BackPackListManager.getInstance().getSoundInfoArrayList(),
 						backPackSoundFragment.getAdapter());
-
 			}
 			BackPackListManager.getActionBarSoundInfoArrayList().clear();
 			backpackItem = false;
@@ -160,23 +151,6 @@ public class BackPackActivity extends BaseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		/*
-		 * if (isHoveringActive()) {
-		 * backPackScriptFragment.getListView().animateHoveringBrick();
-		 * return super.onOptionsItemSelected(item);
-		 * }
-		 * 
-		 * FormulaEditorVariableListFragment formulaEditorVariableListFragment = (FormulaEditorVariableListFragment)
-		 * getSupportFragmentManager()
-		 * .findFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
-		 * 
-		 * if (formulaEditorVariableListFragment != null) {
-		 * if (formulaEditorVariableListFragment.isVisible()) {
-		 * return super.onOptionsItemSelected(item);
-		 * }
-		 * }
-		 */
-
 		switch (item.getItemId()) {
 			case android.R.id.home:
 				Intent mainMenuIntent = new Intent(this, MainMenuActivity.class);
@@ -205,85 +179,6 @@ public class BackPackActivity extends BaseActivity {
 	}
 
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-		FragmentManager fragmentManager = getSupportFragmentManager();
-
-		if (backPackScriptFragment != null) {
-			if (backPackScriptFragment.isVisible()) {
-				if (backPackScriptFragment.onKey(null, keyCode, event)) {
-					return true;
-				}
-			}
-		}
-
-		if (backPackSoundFragment != null) {
-			if (backPackSoundFragment.isVisible()) {
-				if (backPackSoundFragment.onKey(null, keyCode, event)) {
-					return true;
-				}
-			}
-		}
-
-		if (backPackLookFragment != null) {
-			if (backPackLookFragment.isVisible()) {
-				if (backPackLookFragment.onKey(null, keyCode, event)) {
-					return true;
-				}
-			}
-		}
-
-		/*
-		 * int backStackEntryCount = fragmentManager.getBackStackEntryCount();
-		 * for (int i = backStackEntryCount; i > 0; --i) {
-		 * String backStackEntryName = fragmentManager.getBackStackEntryAt(i - 1).getName();
-		 * if (backStackEntryName != null
-		 * && (backStackEntryName.equals(BackPackLookFragment.TAG) ||
-		 * backStackEntryName.equals(BackPackSoundFragment.TAG))) {
-		 * fragmentManager.popBackStack();
-		 * } else {
-		 * break;
-		 * }
-		 * }
-		 * 
-		 * if (keyCode == KeyEvent.KEYCODE_BACK) {
-		 * if (currentFragmentPosition == FRAGMENT_BACKPACK_SCRIPTS) {
-		 * DragAndDropListView listView = backPackScriptFragment.getListView();
-		 * if (listView.isCurrentlyDragging()) {
-		 * listView.resetDraggingScreen();
-		 * 
-		 * BrickAdapter adapter = scriptFragment.getAdapter();
-		 * adapter.removeDraggedBrick();
-		 * return true;
-		 * }
-		 * }
-		 * }
-		 */
-		return super.onKeyDown(keyCode, event);
-	}
-
-	/*
-	 * @Override
-	 * public void onWindowFocusChanged(boolean hasFocus) {
-	 * super.onWindowFocusChanged(hasFocus);
-	 * if (hasFocus) {
-	 * if (backPackScriptFragment != null) {
-	 * if (backPackScriptFragment.isVisible()) {
-	 * sendBroadcast(new Intent(BackPackActivity.ACTION_SOUNDS_LIST_INIT));
-	 * 
-	 * }
-	 * }
-	 * if (lookFragment != null) {
-	 * if (lookFragment.isVisible()) {
-	 * sendBroadcast(new Intent(BackPackActivity.ACTION_LOOKS_LIST_INIT));
-	 * }
-	 * }
-	 * 
-	 * }
-	 * }
-	 */
-
-	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		//Dismiss ActionMode without effecting checked items
 
@@ -298,7 +193,6 @@ public class BackPackActivity extends BaseActivity {
 				((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
 			}
 		}
-
 		return super.dispatchKeyEvent(event);
 	}
 
@@ -350,7 +244,6 @@ public class BackPackActivity extends BaseActivity {
 				if (backPackSoundFragment == null) {
 					Log.d("TAG", "BackPackActivity --> create a new Sound!!!");
 					backPackSoundFragment = new BackPackSoundFragment();
-
 				}
 
 				currentFragment = backPackSoundFragment;
