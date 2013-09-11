@@ -122,7 +122,9 @@ public class CameraManager implements Camera.PreviewCallback, OnFrameAvailableLi
 		}
 		camera.setPreviewCallback(null);
 		camera.stopPreview();
+		Log.i("Blah", "stopped");
 		camera.release();
+		Log.i("Blah", "released");
 		camera = null;
 	}
 
@@ -140,8 +142,12 @@ public class CameraManager implements Camera.PreviewCallback, OnFrameAvailableLi
 
 	@Override
 	public void onPreviewFrame(byte[] data, Camera camera) {
+		//Log.d("Blah", "callback  ");
+		if (callbacks.size() == 0) {
+			return;
+		}
+		byte[] jpgData = getDecodeableBytesFromCameraFrame(data);
 		for (JpgPreviewCallback callback : callbacks) {
-			byte[] jpgData = getDecodeableBytesFromCameraFrame(data);
 			callback.onJpgPreviewFrame(jpgData);
 		}
 	}

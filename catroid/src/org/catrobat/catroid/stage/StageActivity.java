@@ -71,12 +71,14 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onPause() {
 		SensorHandler.stopSensorListeners();
+		stageListener.activityPause();
 		super.onPause();
 	}
 
 	@Override
 	public void onResume() {
 		SensorHandler.startSensorListener(this);
+		stageListener.activityResume();
 		super.onResume();
 	}
 

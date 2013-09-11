@@ -37,6 +37,22 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		ScreenValues.SCREEN_HEIGHT = 1080;
 	}
 
+	public void testNotAvailable() {
+		Camera camera = null;
+		try {
+			camera = Camera.open();
+			IcsFaceDetector detector = new IcsFaceDetector();
+			boolean success = detector.startFaceDetection();
+			assertFalse("IcsFaceDetector should not start if camera not available.", success);
+		} catch (Exception exc) {
+			fail("Camera not available (" + exc.getMessage() + ")");
+		} finally {
+			if (camera != null) {
+				camera.release();
+			}
+		}
+	}
+
 	public void testStartAndStop() {
 
 		Camera camera = null;
@@ -54,7 +70,8 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		assertNotNull("Cannot instantiate IcsFaceDetector", detector);
 
 		try {
-			detector.startFaceDetection();
+			boolean success = detector.startFaceDetection();
+			assertTrue("IcsFaceDetector could not start", success);
 		} catch (Exception exc) {
 			fail("Cannot start face detection (" + exc.getMessage() + ")");
 		}

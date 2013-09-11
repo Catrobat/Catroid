@@ -191,6 +191,16 @@ public class StageListener implements ApplicationListener {
 		skipFirstFrameForAutomaticScreenshot = true;
 	}
 
+	void activityResume() {
+		if (!paused) {
+			FaceDetectionHandler.resumeFaceDetection();
+		}
+	}
+
+	void activityPause() {
+		FaceDetectionHandler.pauseFaceDetection();
+	}
+
 	void menuResume() {
 		if (reloadProject) {
 			return;

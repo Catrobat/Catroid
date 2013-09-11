@@ -7,8 +7,9 @@ public class TestFaceDetector extends FaceDetector {
 	public boolean started = false;
 
 	@Override
-	public void startFaceDetection() {
+	public boolean startFaceDetection() {
 		started = true;
+		return true;
 	}
 
 	@Override

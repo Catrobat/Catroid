@@ -32,6 +32,22 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 		ScreenValues.SCREEN_HEIGHT = 1080;
 	}
 
+	public void testNotAvailable() {
+		Camera camera = null;
+		try {
+			camera = Camera.open();
+			SlowFaceDetector detector = new SlowFaceDetector();
+			boolean success = detector.startFaceDetection();
+			assertFalse("SlowFaceDetector should not start if camera not available.", success);
+		} catch (Exception exc) {
+			fail("Camera not available (" + exc.getMessage() + ")");
+		} finally {
+			if (camera != null) {
+				camera.release();
+			}
+		}
+	}
+
 	public void testStartAndStop() {
 
 		Camera camera = null;

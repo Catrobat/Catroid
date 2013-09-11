@@ -40,7 +40,7 @@ public class FaceDetectionHandler {
 		}
 	}
 
-	public boolean isFaceDetectionRunning() {
+	public static boolean isFaceDetectionRunning() {
 		return running;
 	}
 
@@ -80,6 +80,7 @@ public class FaceDetectionHandler {
 		}
 		paused = true;
 		stopFaceDetection();
+		running = false;
 	}
 
 	public static void resumeFaceDetection() {
