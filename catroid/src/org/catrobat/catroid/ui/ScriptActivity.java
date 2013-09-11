@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -378,6 +379,15 @@ public class ScriptActivity extends BaseActivity {
 
 	public void handlePlayButton(View view) {
 		updateHandleAddButtonClickListener();
+
+		Fragment formulaEditorFragment = fragmentManager
+				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+		if (formulaEditorFragment != null) {
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			fragmentTransaction.remove(formulaEditorFragment);
+			fragmentTransaction.commit();
+		}
+
 		if (isHoveringActive()) {
 			scriptFragment.getListView().animateHoveringBrick();
 		} else {
