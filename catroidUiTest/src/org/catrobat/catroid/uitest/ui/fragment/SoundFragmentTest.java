@@ -411,6 +411,18 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	}
 
+	public void testBackPackActionModeIfSomethingSelectedAndPressingBack() {
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, getActivity());
+
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+		solo.goBack();
+
+		assertFalse("BackPack title didn't show up", solo.waitForText(backPackDialogTitle, 0, TIME_TO_WAIT));
+
+	}
+
 	public void testRenameActionModeIfSomethingSelectedAndPressingBack() {
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
