@@ -119,7 +119,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		rename = solo.getString(R.string.rename);
 		renameDialogTitle = solo.getString(R.string.rename_sound_dialog);
-		backPackDialogTitle = solo.getString(R.string.backpack_title);
+		backPackDialogTitle = solo.getString(R.string.backpack);
 		delete = solo.getString(R.string.delete);
 		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_sound_title);
 
@@ -407,8 +407,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 		UiTestUtils.acceptAndCloseActionMode(solo);
-		assertFalse("Rename dialog showed up", solo.waitForText(renameDialogTitle, 0, TIME_TO_WAIT));
-		//assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, TIME_TO_WAIT));
+		assertTrue("BackPack title didn't show up", solo.waitForText(backPackDialogTitle, 0, TIME_TO_WAIT));
 
 	}
 
