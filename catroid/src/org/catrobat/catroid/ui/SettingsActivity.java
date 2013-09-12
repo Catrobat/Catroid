@@ -26,14 +26,11 @@ import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.os.Bundle;
 import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceChangeListener;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.camera.CameraManager;
 
 public class SettingsActivity extends SherlockPreferenceActivity {
 
@@ -44,7 +41,8 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 		addPreferencesFromResource(R.xml.preferences);
 
-		ListPreference listPreference = (ListPreference) findPreference("setting_select_camera");
+		ListPreference listPreference = (ListPreference) findPreference(getResources().getString(
+				R.string.preference_key_select_camera));
 		int cameraCount = Camera.getNumberOfCameras();
 		String[] entryValues = new String[cameraCount];
 		CharSequence[] entries = new CharSequence[cameraCount];
@@ -64,14 +62,6 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		}
 		listPreference.setEntries(entries);
 		listPreference.setEntryValues(entryValues);
-		listPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				CameraManager.getInstance().setCameraID(Integer.parseInt((String) newValue));
-				return true;
-			}
-		});
 
 		ActionBar actionBar = getSupportActionBar();
 

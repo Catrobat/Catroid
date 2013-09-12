@@ -24,6 +24,8 @@ package org.catrobat.catroid.camera;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.graphics.SurfaceTexture.OnFrameAvailableListener;
@@ -34,10 +36,13 @@ import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
+
+import org.catrobat.catroid.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -81,8 +86,14 @@ public class CameraManager implements Camera.PreviewCallback, OnFrameAvailableLi
 		return camera;
 	}
 
-	public void setCameraID(int id) {
-		cameraID = id;
+	public void updateCameraID(Context context) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+		Log.i("Blah", "hey " + context.getResources().getString(R.string.preference_key_select_camera));
+		String idAsString = preferences.getString(
+				context.getResources().getString(R.string.preference_key_select_camera), "0");
+		Log.i("Blah", "read " + idAsString);
+		cameraID = Integer.parseInt(idAsString);
 	}
 
 	private boolean createCamera() {
@@ -91,6 +102,7 @@ public class CameraManager implements Camera.PreviewCallback, OnFrameAvailableLi
 		}
 		try {
 			camera = Camera.open(cameraID);
+			Log.i("Blah", "opened camera " + cameraID);
 		} catch (RuntimeException exception) {
 			return false;
 		}
@@ -127,15 +139,12 @@ public class CameraManager implements Camera.PreviewCallback, OnFrameAvailableLi
 		}
 		camera.setPreviewCallback(null);
 		camera.stopPreview();
-		Log.i("Blah", "stopped");
 		camera.release();
-		Log.i("Blah", "released");
 		camera = null;
 	}
 
 	public void addOnJpgPreviewFrameCallback(JpgPreviewCallback callback) {
 		if (callbacks.contains(callback)) {
-			Log.e("Blah", "already added");
 			return;
 		}
 		callbacks.add(callback);
