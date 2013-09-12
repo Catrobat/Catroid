@@ -76,7 +76,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private String renameDialogTitle;
 	private String delete;
 	private String deleteDialogTitle;
-	private String editInPaintroid;
 
 	private LookData lookData;
 	private LookData lookData2;
@@ -147,7 +146,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		renameDialogTitle = solo.getString(R.string.rename_look_dialog);
 		delete = solo.getString(R.string.delete);
 		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_look_title);
-		editInPaintroid = solo.getString(R.string.edit_in_pocket_paint);
 
 		if (getLookAdapter().getShowDetails()) {
 			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
@@ -394,7 +392,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Picture changed", md5ChecksumImageFileBeforeIntent, md5ChecksumImageFileAfterIntent);
 	}
 
-	public void testEditImageInPaintroidThreeWorkflows() {
+	public void testEditImageInPaintroid() {
 
 		Reflection.setPrivateField(Constants.class, "POCKET_PAINT_PACKAGE_NAME", "destroy.intent");
 		Reflection.setPrivateField(Constants.class, "POCKET_PAINT_INTENT_ACTIVITY_NAME", "for.science");
@@ -403,68 +401,18 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Paintroid not installed dialog missing after click on look",
 				solo.searchText(solo.getString(R.string.pocket_paint_not_installed)));
 		solo.clickOnButton(solo.getString(R.string.no));
-
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, solo.getString(R.string.edit_in_pocket_paint));
-		assertTrue("Paintroid not installed dialog missing after longclick on look and context menu selection",
-				solo.searchText(solo.getString(R.string.pocket_paint_not_installed)));
-		solo.clickOnButton(solo.getString(R.string.no));
-
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.edit_in_pocket_paint), 0, getActivity());
-
-		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
-
-		solo.clickOnCheckBox(1);
-		UiTestUtils.acceptAndCloseActionMode(solo);
-		assertTrue("Paintroid not installed dialog missing after action mode selection",
-				solo.searchText(solo.getString(R.string.pocket_paint_not_installed)));
-		solo.clickOnButton(solo.getString(R.string.no));
 	}
 
-	public void tesEditInPaintroidActionModeChecking() {
-		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
-		UiTestUtils.openActionMode(solo, editInPaintroid, 0, getActivity());
-
-		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
-
-		// Check if checkboxes are visible
-		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, VISIBLE);
-
-		checkIfCheckboxesAreCorrectlyChecked(false, false);
-		solo.clickOnCheckBox(0);
-		checkIfCheckboxesAreCorrectlyChecked(true, false);
-
-		// Check if only single-selection is possible
-		solo.clickOnCheckBox(1);
-		checkIfCheckboxesAreCorrectlyChecked(false, true);
-
-		solo.clickOnCheckBox(1);
-		checkIfCheckboxesAreCorrectlyChecked(false, false);
+	public void testEditInPaintroidNotInContextMenu() {
+		solo.clickLongOnText(FIRST_TEST_LOOK_NAME);
+		assertFalse("\'Edit in Pocket Paint\' is still visible in context menu",
+				solo.searchText("Edit in Pocket Paint"));
 	}
 
-	public void testEditInPaintroidActionModeIfNothingSelected() {
-		UiTestUtils.openActionMode(solo, editInPaintroid, 0, getActivity());
-
-		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
-
-		// Check if rename ActionMode disappears if nothing was selected
-		checkIfCheckboxesAreCorrectlyChecked(false, false);
-		UiTestUtils.acceptAndCloseActionMode(solo);
-		assertFalse("Paintroid dialog showed up", solo.waitForText(renameDialogTitle, 0, TIME_TO_WAIT));
-		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, TIME_TO_WAIT));
-	}
-
-	public void testEditInPaintroidActionModeIfSomethingSelectedAndPressingBack() {
-		UiTestUtils.openActionMode(solo, editInPaintroid, 0, getActivity());
-
-		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
-
-		solo.clickOnCheckBox(1);
-		checkIfCheckboxesAreCorrectlyChecked(false, true);
-		solo.goBack();
-
-		// Check if rename ActionMode disappears if back was pressed
-		assertFalse("Paintroid dialog showed up", solo.waitForText(renameDialogTitle, 0, TIME_TO_WAIT));
-		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, TIME_TO_WAIT));
+	public void testEditInPaintroidNotInOverflowMenu() {
+		solo.sendKey(Solo.MENU);
+		assertFalse("\'Edit in Pocket Paint\' is still visible in overflow menu",
+				solo.searchText("Edit in Pocket Paint"));
 	}
 
 	public void testEditImageWithPaintroid() {

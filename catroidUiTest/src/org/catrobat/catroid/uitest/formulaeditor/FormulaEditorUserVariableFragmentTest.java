@@ -507,7 +507,6 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		assertFalse("MenuItem should not be found!", ids.contains(R.id.insert_below));
 		assertFalse("MenuItem should not be found!", ids.contains(R.id.move));
 		assertFalse("MenuItem should not be found!", ids.contains(R.id.rename));
-		assertFalse("MenuItem should not be found!", ids.contains(R.id.edit_in_pocket_paint));
 		assertFalse("MenuItem should not be found!", ids.contains(R.id.show_details));
 		assertFalse("MenuItem should not be found!", ids.contains(R.id.settings));
 	}

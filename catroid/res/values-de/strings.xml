@@ -92,7 +92,6 @@
     <string name="show_details">Details anzeigen</string>
     <string name="hide_details">Details verbergen</string>
     <string name="insert_below">Darunter einfügen</string>
-    <string name="edit_in_pocket_paint">Bearbeite In Pocket Paint</string>
     <string name="sprite">Objekt</string>
     <string name="sprites">Objekte</string>
     <string name="spritelist_background_headline">Hintergrund</string>
@@ -187,11 +186,6 @@
 
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt installieren?</string>
-    <!--  -->
-
-
-    <!-- Look context menu -->
-    <string name="look_context_menu_edit_in_pocket_paint">Bearbeite In Pocket Paint</string>
     <!--  -->
 
 
@@ -396,25 +390,19 @@
     <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
     <string name="notification_screenshot_ok">Screenshot erfolgreich gespeichert</string>
     <string name="notification_download_project_cancel">Programm herunterladen abgebrochen</string>
-    
     <string name="notification_copy_title_pending">"Kopiere "</string>
     <string name="notification_copy_pending">Kopieren wird ausgeführt</string>
     <string name="notification_copy_finished">Kopieren erfolgreich</string>
-    
     <string name="notification_upload_title_pending">"Hochladen von "</string>
     <string name="notification_upload_title_finished">"Anschauen von "</string>
     <string name="notification_upload_pending">Upload wird ausgeführt</string>
     <string name="notification_upload_finished">Upload erfolgreich</string>
-    
     <string name="notification_download_title_pending">"Downloaden von "</string>
     <string name="notification_download_pending">Download wird ausgeführt</string>
     <string name="notification_download_finished">Download erfolgreich</string>
-    
     <string name="notification_title_open">"Öffne "</string>
-    
     <string name="project_rename">(Das Programm wird umbenannt.)</string>
     <string name="size_of_project">Größe:</string>
-    
     <string name="upload_button">Hochladen</string>
     <string name="upload_project_dialog_title">Programm hochladen</string>
     <string name="upload_description">Beschreibung:</string>
@@ -439,6 +427,7 @@
     <string name="error_upload_project_with_default_name">Das Programm mit dem Namen \'Mein erstes Programm\' kann nicht hochgeladen werden. Bitte das Programm umbenennen.</string>
     <string name="error_upload_default_project">Das Programm entspricht dem Programm \'Mein erstes Programm\'. Bitte ändere es und versuche es noch einmal.</string>
     <!--  -->
+
 
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Bühne</string>
@@ -553,7 +542,7 @@
     <string name="formula_editor_variable_dialog_hint">Variablenname eingeben</string>
     <string name="formula_editor_discard_changes_dialog_message">Möchten Sie die Änderungen speichern?</string>
     <string name="formula_editor_discard_changes_dialog_title">Änderungen speichern?</string>
-    
+
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable ausgewählt!</item>
         <item quantity="other">Variablen ausgewählt!</item>
