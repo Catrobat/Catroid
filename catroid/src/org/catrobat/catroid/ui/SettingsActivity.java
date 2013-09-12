@@ -22,12 +22,18 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.hardware.Camera;
+import android.hardware.Camera.CameraInfo;
 import android.os.Bundle;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.camera.CameraManager;
 
 public class SettingsActivity extends SherlockPreferenceActivity {
 
@@ -37,6 +43,35 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		super.onCreate(savedInstanceState);
 
 		addPreferencesFromResource(R.xml.preferences);
+
+		ListPreference listPreference = (ListPreference) findPreference("setting_select_camera");
+		int cameraCount = Camera.getNumberOfCameras();
+		String[] entryValues = new String[cameraCount];
+		CharSequence[] entries = new CharSequence[cameraCount];
+		for (int id = 0; id < cameraCount; id++) {
+			entryValues[id] = Integer.toString(id);
+			Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+			Camera.getCameraInfo(id, cameraInfo);
+			switch (cameraInfo.facing) {
+				case CameraInfo.CAMERA_FACING_FRONT:
+					entries[id] = getResources().getText(R.string.camera_facing_front);
+					break;
+				case CameraInfo.CAMERA_FACING_BACK:
+					entries[id] = getResources().getText(R.string.camera_facing_back);
+					break;
+			// TODO find better names for cameras (for n>=3)
+			}
+		}
+		listPreference.setEntries(entries);
+		listPreference.setEntryValues(entryValues);
+		listPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				CameraManager.getInstance().setCameraID(Integer.parseInt((String) newValue));
+				return true;
+			}
+		});
 
 		ActionBar actionBar = getSupportActionBar();
 

@@ -60,6 +60,7 @@ public class CameraManager implements Camera.PreviewCallback, OnFrameAvailableLi
 	private int previewFormat;
 	private int previewWidth;
 	private int previewHeight;
+	private int cameraID = 0;
 	private boolean frameAvailable = false;
 
 	public static CameraManager getInstance() {
@@ -80,12 +81,16 @@ public class CameraManager implements Camera.PreviewCallback, OnFrameAvailableLi
 		return camera;
 	}
 
+	public void setCameraID(int id) {
+		cameraID = id;
+	}
+
 	private boolean createCamera() {
 		if (camera != null) {
 			return false;
 		}
 		try {
-			camera = Camera.open();
+			camera = Camera.open(cameraID);
 		} catch (RuntimeException exception) {
 			return false;
 		}

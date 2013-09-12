@@ -67,6 +67,8 @@
     <string name="preference_title">Settings</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorms bricks</string>
     <string name="preference_description_mindstorm_bricks">Allow to control Lego Mindstorms robots</string>
+    <string name="preference_title_select_camera">Choose Camera</string>
+    <string name="preference_description_select_camera">which is used for face detection</string>
     <!--  -->
 
 
@@ -564,6 +566,12 @@
         <item quantity="one">Variable selected!</item>
         <item quantity="other">Variables selected!</item>
     </plurals>
+    <!--  -->
+    
+
+    <!-- Camera Strings -->
+    <string name="camera_facing_front">Front Camera</string>
+    <string name="camera_facing_back">Back Camera</string>
     <!--  -->
 
 </resources>
