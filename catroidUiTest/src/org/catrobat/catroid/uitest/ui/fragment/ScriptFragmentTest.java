@@ -24,6 +24,8 @@ package org.catrobat.catroid.uitest.ui.fragment;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -42,8 +44,11 @@ import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -55,6 +60,7 @@ import java.util.List;
 public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
+	private static final String SCRIPT_FRAGMENT_TEST_TAG = ScriptFragmentTest.class.getSimpleName();
 
 	public ScriptFragmentTest() {
 		super(MainMenuActivity.class);
@@ -180,6 +186,39 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		assertEquals("Brick was not copied", numberOfBricks + 1, ProjectManager.getInstance().getCurrentProject()
 				.getSpriteList().get(0).getNumberOfBricks());
+	}
+
+	public void testCopyCopiedBrick() {
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		solo.clickOnCheckBox(0);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
+
+		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
+		solo.clickOnText(solo.getString(R.string.brick_when_started));
+		solo.sleep(100);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(1);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		int numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+
+		assertEquals("No brick has been copied!", 2, numberOfBricks);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(2);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
+
+		assertEquals("No brick has been copied!", 3, numberOfBricks);
 	}
 
 	public void testCreateNewBrickButton() {
@@ -709,5 +748,29 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.goBack();
 
 		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
+	}
+
+	@SuppressWarnings("deprecation")
+	public void testReturnFromStageAfterInvokingFormulaEditor() {
+		if (Settings.System.getInt(getActivity().getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0) == 0) {
+			Log.i(SCRIPT_FRAGMENT_TEST_TAG, "Developer option \'Don't keep activities\' is not set.");
+			return;
+		}
+
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		solo.clickOnView(solo.getView(R.id.brick_set_size_to_edit_text));
+		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+
+		solo.goBack();
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+
+		solo.waitForActivity(StageActivity.class);
+		solo.goBack();
+		solo.goBack();
+
+		solo.assertCurrentActivity("Wrong Activity", ScriptActivity.class);
 	}
 }

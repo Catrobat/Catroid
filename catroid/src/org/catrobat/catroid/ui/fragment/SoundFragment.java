@@ -265,6 +265,10 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			getActivity().unregisterReceiver(soundDeletedReceiver);
 		}
 
+		if (soundCopiedReceiver != null) {
+			getActivity().unregisterReceiver(soundCopiedReceiver);
+		}
+
 		if (soundsListInitReceiver != null) {
 			getActivity().unregisterReceiver(soundsListInitReceiver);
 		}
@@ -514,7 +518,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		switch (item.getItemId()) {
 
 			case R.id.context_menu_copy:
-				copySound();
+				copySound(selectedSoundPosition);
 				break;
 
 			case R.id.context_menu_cut:
@@ -535,21 +539,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				break;
 		}
 		return super.onContextItemSelected(item);
-	}
-
-	/**
-	 * 
-	 */
-	private void copySound() {
-
-		try {
-			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		updateSoundAdapter(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName());
-
 	}
 
 	@Override
@@ -758,12 +747,15 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		try {
 			StorageHandler.getInstance().copySoundFile(soundInfo.getAbsolutePath());
+
+			String soundName = soundInfo.getTitle() + "_" + getString(R.string.copy_addition);
+			String soundFileName = soundInfo.getSoundFileName();
+
+			updateSoundAdapter(soundName, soundFileName);
 		} catch (IOException e) {
+			Utils.showErrorDialog(getActivity(), getString(R.string.error_load_sound));
 			e.printStackTrace();
 		}
-
-		updateSoundAdapter(soundInfo.getTitle(), soundInfo.getSoundFileName());
-
 	}
 
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
