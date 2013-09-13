@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.content;
 
-import android.util.Log;
-
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -238,7 +236,6 @@ public class Look extends Image {
 			imageChanged |= videoLookData.hasDataChanged();//TODO
 		}
 		if (imageChanged) {
-			Log.d("Blah", "image refreshing");//TODO
 			if (lookData == null) {
 				setBounds(getX() + getWidth() / 2f, getY() + getHeight() / 2f, 0f, 0f);
 				setDrawable(null);

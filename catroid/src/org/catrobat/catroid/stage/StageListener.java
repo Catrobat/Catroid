@@ -195,6 +195,7 @@ public class StageListener implements ApplicationListener {
 		if (!paused) {
 			FaceDetectionHandler.resumeFaceDetection();
 		}
+
 	}
 
 	void activityPause() {
@@ -278,7 +279,6 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void render() {
-
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		if (reloadProject) {
