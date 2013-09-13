@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class UtilFile {
 	public static final int TYPE_IMAGE_FILE = 0;
@@ -82,7 +83,7 @@ public class UtilFile {
 		int exponent = (int) (Math.log(bytes) / Math.log(unit));
 		char prefix = ("KMGTPE").charAt(exponent - 1);
 
-		return String.format("%.1f %sB", bytes / Math.pow(unit, exponent), prefix);
+		return String.format(Locale.getDefault(), "%.1f %sB", bytes / Math.pow(unit, exponent), prefix);
 	}
 
 	public static boolean clearDirectory(File path) {
