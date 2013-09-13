@@ -85,6 +85,7 @@ public class BackPackActivity extends BaseActivity {
 
 		Log.d("TAG", "BackPackActivity-->onCreate()");
 
+		setTitle(R.string.backpack_title);
 		setContentView(R.layout.activity_script);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 

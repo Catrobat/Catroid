@@ -70,6 +70,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	private String delete;
 	private String deleteDialogTitle;
 	private String backPackDialogTitle;
+	private String backPackTitle;
 
 	private SoundInfo soundInfo;
 	private SoundInfo soundInfo2;
@@ -120,6 +121,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		rename = solo.getString(R.string.rename);
 		renameDialogTitle = solo.getString(R.string.rename_sound_dialog);
 		backPackDialogTitle = solo.getString(R.string.backpack);
+		backPackTitle = solo.getString(R.string.backpack_title);
 		delete = solo.getString(R.string.delete);
 		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_sound_title);
 
@@ -417,10 +419,34 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
+
+		assertTrue("BackPack title didn't show up", solo.waitForText(backPackDialogTitle, 0, TIME_TO_WAIT));
 		solo.goBack();
+		assertFalse("BackPack title didn't show up", solo.waitForText(backPackTitle, 0, TIME_TO_WAIT));
 
-		assertFalse("BackPack title didn't show up", solo.waitForText(backPackDialogTitle, 0, TIME_TO_WAIT));
+	}
 
+	public void testBackPackActionModeIfSomethingSelectedForBackPack() {
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, getActivity());
+
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		assertTrue("BackPack title didn't show up", solo.waitForText(backPackTitle, 0, TIME_TO_WAIT));
+
+	}
+
+	public void testBackPackSoundContextMenu() {
+		SoundAdapter adapter = getSoundAdapter();
+		assertNotNull("Could not get Adapter", adapter);
+
+		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.backpack));
+
+		solo.waitForDialogToClose(1000);
+
+		assertTrue("BackPack title didn't show up", solo.waitForText(backPackTitle, 0, TIME_TO_WAIT));
 	}
 
 	public void testRenameActionModeIfSomethingSelectedAndPressingBack() {
