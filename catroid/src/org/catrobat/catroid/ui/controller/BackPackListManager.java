@@ -22,14 +22,11 @@
  */
 package org.catrobat.catroid.ui.controller;
 
-import android.util.Log;
-
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import org.catrobat.catroid.common.SoundInfo;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class BackPackListManager extends SherlockFragmentActivity {
 
@@ -39,12 +36,9 @@ public class BackPackListManager extends SherlockFragmentActivity {
 	private static SoundInfo currentSoundInfo;
 
 	private BackPackListManager() {
-		Log.d("TAG", "Set up BackPackListManager (Constructor)");
 	}
 
 	public static BackPackListManager getInstance() {
-
-		Log.d("TAG", "BackPackListManager-->getInstance()");
 
 		if (instance == null) {
 			instance = new BackPackListManager();
@@ -57,33 +51,30 @@ public class BackPackListManager extends SherlockFragmentActivity {
 	}
 
 	public void setSoundInfoArrayListEmpty() {
-
-		Log.d("TAG", "Set ArrayList empty, Size of ArrayList before setting empty: " + soundInfoArrayList.size());
 		soundInfoArrayList.clear();
-		Log.d("TAG", "Set ArrayList empty, Size of ArrayList after setting empty: " + soundInfoArrayList.size());
 	}
 
 	public void addSoundToSoundInfoArrayList(SoundInfo soundInfo) {
 		soundInfoArrayList.add(soundInfo);
 	}
 
-	public void showSoundInfoArrayList() {
-		Iterator<SoundInfo> iterator = soundInfoArrayList.iterator();
-
-		while (iterator.hasNext()) {
-			SoundInfo soundInfo = iterator.next();
-
-			Log.d("TAG", "Content of soundInfoArrayList: " + soundInfo.getTitle());
-		}
-
-	}
+	// just for Debugging
+	/*
+	 * public void showSoundInfoArrayList() {
+	 * Iterator<SoundInfo> iterator = soundInfoArrayList.iterator();
+	 * 
+	 * while (iterator.hasNext()) {
+	 * SoundInfo soundInfo = iterator.next();
+	 * }
+	 * 
+	 * }
+	 */
 
 	public static ArrayList<SoundInfo> getActionBarSoundInfoArrayList() {
 		return actionBarSoundInfoArrayList;
 	}
 
 	public void addSoundToActionBarSoundInfoArrayList(SoundInfo soundInfo) {
-		Log.d("TAG", "addSoundToActionBarSoundInfoArrayList: " + soundInfo.getTitle());
 		actionBarSoundInfoArrayList.add(soundInfo);
 	}
 

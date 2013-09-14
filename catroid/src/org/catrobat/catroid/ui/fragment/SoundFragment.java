@@ -137,9 +137,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-
-		Log.d("TAG", "SoundFragment called!");
-
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 
@@ -154,8 +151,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-		Log.d("TAG", "SoundFragment-->onActivityCreated()");
 
 		listView = getListView();
 		registerForContextMenu(listView);
@@ -175,8 +170,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 		Utils.loadProjectIfNeeded(getActivity());
 		setHandleAddbutton();
-
-		Log.d("TAG", "SoundFragment-->onActivityCreated() ends");
 
 	}
 
@@ -350,8 +343,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		Log.d("TAG", "SoundFragment --> onActivityResult()");
-
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == SoundController.REQUEST_SELECT_MUSIC && data != null) {
 			Bundle arguments = new Bundle();
@@ -467,8 +458,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		switch (item.getItemId()) {
 
 			case R.id.context_menu_backpack:
-				Log.d("TAG", "Context Menu BackPack!");
-
 				Intent intent = new Intent(getActivity(), BackPackActivity.class);
 				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 2);
 				intent.putExtra(BackPackActivity.BACKPACK_ITEM, true);
@@ -609,8 +598,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
-			Log.d("TAG", "SoundCopiedReceiver!");
-
 			if (intent.getAction().equals(ScriptActivity.ACTION_SOUND_COPIED)) {
 				adapter.notifyDataSetChanged();
 				getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
@@ -656,8 +643,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 
-			Log.d("TAG", "CopyModeCallBack, Type ActionMode.Callback");
-
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
@@ -693,8 +678,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-
-			Log.d("TAG", "BackPackModeCallBack, Type ActionMode.Callback");
 
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);

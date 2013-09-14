@@ -54,7 +54,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
@@ -69,7 +68,6 @@ import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
-import org.catrobat.catroid.ui.fragment.SoundFragment.OnSoundInfoListChangedAfterNewListener;
 
 public class BackPackSoundFragment extends BackPackActivityFragment implements SoundBaseAdapter.OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
@@ -79,8 +77,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	private static int selectedSoundPosition = Constants.NO_POSITION;
 
 	private SoundDeletedReceiver soundDeletedReceiver;
-
-	private ActionBar actionBar;
 
 	private ActionMode actionMode;
 
@@ -95,22 +91,14 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 	private ListView listView;
 
-	private boolean isResultHandled = false;
-
-	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-
-		Log.d("TAG", "BackPackSoundFragment created!");
-
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.d("TAG", "BackPackSoundFragment-->onCreateView()");
 		View rootView = inflater.inflate(R.layout.sound_list, null);
 		return rootView;
 	}
@@ -118,8 +106,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-		Log.d("TAG", "BackPackSoundFragment-->onActivityCreated()");
 
 		listView = getListView();
 		registerForContextMenu(listView);
@@ -225,8 +211,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	}
 
 	public View getView(int position, View convertView) {
-
-		Log.d("TAG", "@BackPackSoundFragment-->getView()");
 
 		SoundViewHolder holder;
 

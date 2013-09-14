@@ -24,7 +24,7 @@ package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -44,10 +44,13 @@ public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdap
 
 	private SoundFragment soundFragment;
 
+	public SoundAdapter(final Context context, AttributeSet attributeSet, int currentPlayingPosition) {
+		super(context, currentPlayingPosition);
+	}
+
 	public SoundAdapter(final Context context, int Resource, int textViewResourceId, ArrayList<SoundInfo> items,
 			boolean showDetails) {
 		super(context, Resource, textViewResourceId, items, false);
-		Log.d("TAG", "SoundAdapter called!");
 	}
 
 	@Override

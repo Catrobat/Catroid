@@ -378,29 +378,20 @@ public class StorageHandler {
 
 		String path = selectedSoundInfo.getAbsolutePath();
 
-		Log.d("TAG", "StorageHandler --> copySoundFileBackPack:: path = " + path);
-
 		File backPackDirectory = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
 				Constants.BACKPACK_SOUND_DIRECTORY));
 
 		File inputFile = new File(path);
 		if (!inputFile.exists() || !inputFile.canRead()) {
-			Log.d("TAG", "storageHandler --> File does not exist!, Exists():" + inputFile.exists() + ", canRead(): "
-					+ inputFile.canRead());
 			return null;
 		}
 		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
 		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
 
-		Log.d("TAG", "StorageHandler:: inputFileCheksum = " + inputFileChecksum);
-
 		File outputFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
 				Constants.BACKPACK_SOUND_DIRECTORY, currentProject + "_" + selectedSoundInfo.getTitle() + "_"
 						+ inputFileChecksum));
-
-		Log.d("TAG", "inputFile.getName()" + inputFile.getName());
-		Log.d("TAG", "outputFile:" + outputFile.toString());
 
 		return copyFileAddCheckSum(outputFile, inputFile, backPackDirectory);
 	}
@@ -522,12 +513,8 @@ public class StorageHandler {
 
 	private File copyFileAddCheckSum(File destinationFile, File sourceFile, File directory) throws IOException {
 
-		Log.d("TAG", "StorageHandler-->copyFileAddCheckSum()");
-
 		File copiedFile = UtilFile.copyFile(destinationFile, sourceFile, directory);
 		addChecksum(destinationFile, sourceFile);
-
-		Log.d("TAG", "copiedFile: " + copiedFile.getName() + "Path: " + copiedFile.getPath());
 
 		return copiedFile;
 	}

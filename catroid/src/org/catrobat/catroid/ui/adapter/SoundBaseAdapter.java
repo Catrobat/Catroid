@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -51,12 +50,13 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ScriptA
 
 	private int currentPlayingPosition = Constants.NO_POSITION;
 
+	public SoundBaseAdapter(final Context context, int currentPlayingposition) {
+		super(context, currentPlayingposition);
+	}
+
 	public SoundBaseAdapter(final Context context, int resource, int textViewResourceId, ArrayList<SoundInfo> items,
 			boolean showDetails) {
 		super(context, resource, textViewResourceId, items);
-
-		Log.d("TAG", "SoundBaseAdapter called!");
-
 		this.context = context;
 		this.showDetails = showDetails;
 		this.soundInfoItems = items;

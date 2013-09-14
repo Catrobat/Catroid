@@ -27,7 +27,6 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.ListAdapter;
 
@@ -82,9 +81,6 @@ public class BackPackActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		Log.d("TAG", "BackPackActivity-->onCreate()");
-
 		setTitle(R.string.backpack_title);
 		setContentView(R.layout.activity_script);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -244,13 +240,9 @@ public class BackPackActivity extends BaseActivity {
 				currentFragmentTag = BackPackLookFragment.TAG;
 				break;
 			case FRAGMENT_BACKPACK_SOUNDS:
-				Log.d("TAG", "BackPackActivity --> it's a Sound!!!");
-
 				if (backPackSoundFragment == null) {
-					Log.d("TAG", "BackPackActivity --> create a new Sound!!!");
 					backPackSoundFragment = new BackPackSoundFragment();
 				}
-
 				currentFragment = backPackSoundFragment;
 				currentFragmentPosition = FRAGMENT_BACKPACK_SOUNDS;
 				currentFragmentTag = BackPackSoundFragment.TAG;
