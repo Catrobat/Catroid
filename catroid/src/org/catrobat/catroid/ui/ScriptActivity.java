@@ -223,9 +223,9 @@ public class ScriptActivity extends BaseActivity {
 				startActivity(mainMenuIntent);
 				break;
 
-			case R.id.backpack:
-				currentFragment.startBackPackActionMode();
-				break;
+//			case R.id.backpack:
+//				currentFragment.startBackPackActionMode();
+//				break;
 
 			case R.id.show_details:
 				handleShowDetails(!currentFragment.getShowDetails(), item);
