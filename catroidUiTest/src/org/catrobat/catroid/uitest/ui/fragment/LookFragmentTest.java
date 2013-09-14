@@ -226,7 +226,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		int newCount = adapter.getCount();
 
-		if (solo.searchText(testLookName + "_" + solo.getString(R.string.copy_look_addition), 1, true)) {
+		if (solo.searchText(testLookName + "_" + solo.getString(R.string.copy_addition), 1, true)) {
 			assertEquals("Old count was not correct", 2, oldCount);
 			assertEquals("New count is not correct - copy should be added", 3, newCount);
 			assertEquals("Count of the lookDataList is not correct", newCount, lookDataList.size());
@@ -664,7 +664,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		String defaultLookName = solo.getString(R.string.default_look_name);
 		String newLookName = defaultLookName;
-		String copyAdditionString = solo.getString(R.string.copy_look_addition);
+		String copyAdditionString = solo.getString(R.string.copy_addition);
 
 		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, copy);
 
@@ -1154,7 +1154,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		int currentNumberOfLooks = lookDataList.size();
 		int expectedNumberOfLooks = currentNumberOfLooks + 2;
 
-		String copiedLookAddition = "_" + solo.getString(R.string.copy_look_addition);
+		String copiedLookAddition = "_" + solo.getString(R.string.copy_addition);
 		solo.sleep(500);
 
 		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());

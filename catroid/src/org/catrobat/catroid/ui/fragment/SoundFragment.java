@@ -267,6 +267,10 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			getActivity().unregisterReceiver(soundDeletedReceiver);
 		}
 
+		if (soundCopiedReceiver != null) {
+			getActivity().unregisterReceiver(soundCopiedReceiver);
+		}
+
 		if (soundsListInitReceiver != null) {
 			getActivity().unregisterReceiver(soundsListInitReceiver);
 		}
@@ -471,6 +475,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				SoundInfo newSoundInfo = SoundController.getInstance().copySound(selectedSoundInfo, soundInfoList,
 						adapter);
 				updateSoundAdapter(newSoundInfo);
+
 				break;
 
 			case R.id.context_menu_cut:

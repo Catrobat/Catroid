@@ -517,6 +517,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		scriptList = ProjectManager.getInstance().getCurrentScript();
 		scriptList.addBrick(copy);
 		adapter.addNewMultipleBricks(newPosition, copy);
+		adapter.initBrickList();
 
 		ProjectManager.getInstance().saveProject();
 		adapter.notifyDataSetChanged();

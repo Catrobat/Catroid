@@ -1031,7 +1031,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 			StorageHandler.getInstance().copyImage(projectName, lookData.getAbsolutePath(), null);
 
-			String imageName = lookData.getLookName() + "_" + getString(R.string.copy_look_addition);
+			String imageName = lookData.getLookName() + "_" + getString(R.string.copy_addition);
 			String imageFileName = lookData.getLookFileName();
 
 			updateLookAdapter(imageName, imageFileName);

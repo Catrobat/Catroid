@@ -33,6 +33,7 @@
     <string name="cut">Cut</string>
     <string name="move">Move</string>
     <string name="backpack">Backpack</string>
+    <string name="copy_addition">copy</string>
     <!--  -->
 
 
@@ -134,7 +135,6 @@
     <string name="fragment_background_text_description">Click \"+\" to add Backgrounds</string>
     <string name="rename_look_dialog">Rename Look</string>
     <string name="lookname_invalid">This look\'s name is invalid</string>
-    <string name="copy_look_addition">copy</string>
     <string name="pocket_paint_not_installed">Pocket Paint is not installed!\nDo you want to install it?</string>
     <string name="default_look_name">look</string>
     <string name="delete_look_dialog">Delete look?</string>

@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import android.annotation.SuppressLint;
 import android.util.SparseArray;
 
 public class ExternInternRepresentationMapping {
@@ -31,6 +32,8 @@ public class ExternInternRepresentationMapping {
 
 	private int externStringLength = 0;
 
+	// Suppressed as FormulaEditor is full with checks on null and thats not possible with SparseIntArray()
+	@SuppressLint("UseSparseArrays")
 	public ExternInternRepresentationMapping() {
 		externInternMapping = new SparseArray<Integer>();
 		internExternMapping = new SparseArray<ExternToken>();
