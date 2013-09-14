@@ -915,7 +915,32 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			if (file != null) {
 				String fileName = file.getName();
 				String soundTitle = fileName.substring(fileName.indexOf('_') + 1, fileName.lastIndexOf('.'));
-				SoundController.getInstance().updateSoundAdapter(soundTitle, fileName, soundInfoList, adapter);
+				SoundInfo newSoundInfo = SoundController.getInstance().updateSoundAdapter(soundTitle, fileName,
+						soundInfoList, adapter);
+
+				if (soundInfoListChangedAfterNewListener != null) {
+					soundInfoListChangedAfterNewListener.onSoundInfoListChangedAfterNew(newSoundInfo);
+				}
+				//scroll down the list to the new item:
+				{
+					final ListView listView = getListView();
+					listView.post(new Runnable() {
+						@Override
+						public void run() {
+							listView.setSelection(listView.getCount() - 1);
+						}
+					});
+				}
+
+				if (isResultHandled) {
+					isResultHandled = false;
+
+					ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+					if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
+							&& scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
+						SoundController.getInstance().switchToScriptFragment(SoundFragment.this);
+					}
+				}
 			} else {
 				Utils.showErrorDialog(getActivity(), getString(R.string.error_load_sound));
 			}

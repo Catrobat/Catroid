@@ -245,11 +245,6 @@ public class SoundController {
 	public void backPackSound(SoundInfo selectedSoundInfo, BackPackSoundFragment backPackSoundActivity,
 			ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
 
-		/*
-		 * Toast.makeText(backPackSoundActivity.getSherlockActivity(),
-		 * "Sound " + selectedSoundInfo.getTitle() + " copied into backpack", Toast.LENGTH_SHORT).show();
-		 */
-
 		copySoundBackPack(selectedSoundInfo, soundInfoList, adapter);
 	}
 
@@ -330,6 +325,7 @@ public class SoundController {
 
 	public SoundInfo updateSoundAdapter(String title, String fileName, ArrayList<SoundInfo> soundInfoList,
 			SoundBaseAdapter adapter) {
+
 		title = Utils.getUniqueSoundName(title);
 
 		SoundInfo newSoundInfo = new SoundInfo();
