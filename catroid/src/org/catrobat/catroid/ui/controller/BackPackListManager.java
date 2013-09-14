@@ -31,8 +31,8 @@ import java.util.ArrayList;
 public class BackPackListManager extends SherlockFragmentActivity {
 
 	private static BackPackListManager instance;
-	private final static ArrayList<SoundInfo> soundInfoArrayList = new ArrayList<SoundInfo>();
-	private final static ArrayList<SoundInfo> actionBarSoundInfoArrayList = new ArrayList<SoundInfo>();
+	private static final ArrayList<SoundInfo> SOUNDINFOARRAYLIST = new ArrayList<SoundInfo>();
+	private static final ArrayList<SoundInfo> ACTIONBARSOUNDINFOARRAYLIST = new ArrayList<SoundInfo>();
 	private static SoundInfo currentSoundInfo;
 
 	private BackPackListManager() {
@@ -47,15 +47,15 @@ public class BackPackListManager extends SherlockFragmentActivity {
 	}
 
 	public ArrayList<SoundInfo> getSoundInfoArrayList() {
-		return soundInfoArrayList;
+		return SOUNDINFOARRAYLIST;
 	}
 
 	public void setSoundInfoArrayListEmpty() {
-		soundInfoArrayList.clear();
+		SOUNDINFOARRAYLIST.clear();
 	}
 
 	public void addSoundToSoundInfoArrayList(SoundInfo soundInfo) {
-		soundInfoArrayList.add(soundInfo);
+		SOUNDINFOARRAYLIST.add(soundInfo);
 	}
 
 	// just for Debugging
@@ -71,11 +71,11 @@ public class BackPackListManager extends SherlockFragmentActivity {
 	 */
 
 	public static ArrayList<SoundInfo> getActionBarSoundInfoArrayList() {
-		return actionBarSoundInfoArrayList;
+		return ACTIONBARSOUNDINFOARRAYLIST;
 	}
 
 	public void addSoundToActionBarSoundInfoArrayList(SoundInfo soundInfo) {
-		actionBarSoundInfoArrayList.add(soundInfo);
+		ACTIONBARSOUNDINFOARRAYLIST.add(soundInfo);
 	}
 
 	public static SoundInfo getCurrentSoundInfo() {

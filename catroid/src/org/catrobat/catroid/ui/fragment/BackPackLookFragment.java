@@ -30,12 +30,14 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.actionbarsherlock.view.Menu;
+
 import org.catrobat.catroid.R;
 
-public class BackPackLookFragment extends BackPackActivityFragment implements Dialog.OnKeyListener{
+public class BackPackLookFragment extends BackPackActivityFragment implements Dialog.OnKeyListener {
 
-    public static final String TAG = SoundFragment.class.getSimpleName();
+	public static final String TAG = SoundFragment.class.getSimpleName();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,38 +71,38 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 		super.onSaveInstanceState(outState);
 	}
 
-    @Override
-    public boolean getShowDetails() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Override
+	public boolean getShowDetails() {
+		return false; //To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    @Override
-    public void setShowDetails(boolean showDetails) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Override
+	public void setShowDetails(boolean showDetails) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    @Override
-    public void setSelectMode(int selectMode) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Override
+	public void setSelectMode(int selectMode) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    @Override
-    public int getSelectMode() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Override
+	public int getSelectMode() {
+		return 0; //To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    @Override
-    public void startDeleteActionMode() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Override
+	public void startDeleteActionMode() {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    @Override
-    protected void showDeleteDialog() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Override
+	protected void showDeleteDialog() {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    @Override
-    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Override
+	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+		return false; //To change body of implemented methods use File | Settings | File Templates.
+	}
 }

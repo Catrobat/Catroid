@@ -25,24 +25,22 @@ package org.catrobat.catroid.ui.fragment;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.actionbarsherlock.view.Menu;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 public class BackPackScriptFragment extends BackPackActivityFragment implements Dialog.OnKeyListener {
 
-    public static final String TAG = SoundFragment.class.getSimpleName();
+	public static final String TAG = SoundFragment.class.getSimpleName();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-
-		Log.d("TAG", "BackPackActivityFragment created!");
-
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 	}
@@ -70,42 +68,42 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 		super.onSaveInstanceState(outState);
 	}
 
-    @Override
-    public boolean getShowDetails() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Override
+	public boolean getShowDetails() {
+		return false; //To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    @Override
-    public void setShowDetails(boolean showDetails) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Override
+	public void setShowDetails(boolean showDetails) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    @Override
-    public void setSelectMode(int selectMode) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Override
+	public void setSelectMode(int selectMode) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    @Override
-    public int getSelectMode() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Override
+	public int getSelectMode() {
+		return 0; //To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    @Override
-    public void startDeleteActionMode() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Override
+	public void startDeleteActionMode() {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    @Override
-    protected void showDeleteDialog() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Override
+	protected void showDeleteDialog() {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    @Override
-    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Override
+	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+		return false; //To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    public BrickAdapter getAdapter() {
-        return null;
-    }
+	public BrickAdapter getAdapter() {
+		return null;
+	}
 }
