@@ -222,10 +222,9 @@ public class ScriptActivity extends BaseActivity {
 				mainMenuIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(mainMenuIntent);
 				break;
-
-//			case R.id.backpack:
-//				currentFragment.startBackPackActionMode();
-//				break;
+			case R.id.backpack:
+				currentFragment.startBackPackActionMode();
+				break;
 
 			case R.id.show_details:
 				handleShowDetails(!currentFragment.getShowDetails(), item);

@@ -26,8 +26,8 @@
    <item
         android:id="@+id/backpack"
         android:showAsAction="never"
-        android:title="@string/backpack"
-        android:icon="@drawable/backpack" />
+        android:title="@string/backpack" />
+
     <item
         android:id="@+id/copy"
         android:showAsAction="never"
@@ -41,9 +41,8 @@
   
     <item
         android:id="@+id/cut"
-        android:showAsAction="ifRoom"
-        android:title="@string/cut"
-        android:icon="@drawable/backpack" />
+        android:showAsAction="never"
+        android:title="@string/cut" />
 
     <item
         android:id="@+id/insert_below"
