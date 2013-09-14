@@ -37,7 +37,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 public class BackPackScriptFragment extends BackPackActivityFragment implements Dialog.OnKeyListener {
 
-	public static final String TAG = SoundFragment.class.getSimpleName();
+	public static final String TAG = BackPackScriptFragment.class.getSimpleName();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
