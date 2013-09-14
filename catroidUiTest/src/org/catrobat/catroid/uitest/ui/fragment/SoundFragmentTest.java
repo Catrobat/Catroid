@@ -287,7 +287,6 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		// test the text fields
 		solo.clickOnView(playImageButton);
-		//solo.clickOnText(FIRST_TEST_SOUND_NAME);
 		solo.sleep(timeToWait);
 
 		assertTrue("Mediaplayer is not playing although play button was touched", soundInfo.isPlaying);
@@ -415,6 +414,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.waitForActivity(BackPackActivity.class.getSimpleName(), 1000);
 		assertTrue("BackPack dialog title didn't show up", solo.waitForText(backPackDialogTitle, 0, TIME_TO_WAIT));
 
 	}
