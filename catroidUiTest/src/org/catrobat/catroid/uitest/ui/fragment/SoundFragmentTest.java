@@ -44,6 +44,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.BackPackActivity;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
@@ -85,6 +86,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	private ProjectManager projectManager;
 
+	private BackPackListManager backPackListManager;
+
 	public SoundFragmentTest() {
 		super(MainMenuActivity.class);
 	}
@@ -94,6 +97,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		super.setUp();
 		UiTestUtils.createTestProject();
 
+		backPackListManager = BackPackListManager.getInstance();
 		projectManager = ProjectManager.getInstance();
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
@@ -459,14 +463,14 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertNotNull("Could not get Adapter", adapter);
 		int timeToWait = 1000;
 
-		soundInfoList = projectManager.getCurrentSprite().getSoundList();
-		SoundInfo soundInfo = soundInfoList.get(0);
-
 		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.backpack));
 
 		solo.waitForDialogToClose(1000);
 
 		assertTrue("BackPack title didn't show up", solo.waitForText(backPackTitle, 0, TIME_TO_WAIT));
+
+		soundInfoList = backPackListManager.getSoundInfoArrayList();
+		SoundInfo soundInfo = soundInfoList.get(0);
 
 		solo.clickOnView(playImageButton);
 		solo.sleep(timeToWait);
