@@ -32,6 +32,7 @@
     <string name="copy">Kopieren</string>
     <string name="cut">Ausschneiden</string>
     <string name="move">Verschieben</string>
+    <string name="backpack">Backpack</string>
     <!--  -->
 
 
@@ -148,6 +149,7 @@
     <!-- Sound fragment -->
     <string name="fragment_sound_text_description">Klicke auf \"+\" um Klänge hinzuzufügen</string>
     <string name="rename_sound_dialog">Klang umbenennen</string>
+    <string name="backpack_title">BackPack</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="sound_play">abspielen</string>
     <string name="sound_pause">pausieren</string>

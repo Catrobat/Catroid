@@ -45,7 +45,7 @@ public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdap
 	private SoundFragment soundFragment;
 
 	public SoundAdapter(final Context context, AttributeSet attributeSet, int currentPlayingPosition) {
-		super(context, currentPlayingPosition);
+		super(context, attributeSet, currentPlayingPosition);
 	}
 
 	public SoundAdapter(final Context context, int Resource, int textViewResourceId, ArrayList<SoundInfo> items,
