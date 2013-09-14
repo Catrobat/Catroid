@@ -286,7 +286,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 
 		// test the text fields
-		solo.clickOnText(FIRST_TEST_SOUND_NAME);
+		solo.clickOnView(playImageButton);
+		//solo.clickOnText(FIRST_TEST_SOUND_NAME);
 		solo.sleep(timeToWait);
 
 		assertTrue("Mediaplayer is not playing although play button was touched", soundInfo.isPlaying);
