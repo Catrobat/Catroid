@@ -53,6 +53,10 @@ public class CheckForAssertionsTest extends TestCase {
 				reader.close();
 				return;
 			}
+			if (line.matches("[^(//)]*fail\\(.*")) {
+				reader.close();
+				return;
+			}
 		}
 		errorMessages.append(file.getName() + " does not seem to contain assertions\n");
 		assertionNotFound = true;

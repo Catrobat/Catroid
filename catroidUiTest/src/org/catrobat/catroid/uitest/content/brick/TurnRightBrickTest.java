@@ -82,6 +82,7 @@ public class TurnRightBrickTest extends BaseActivityInstrumentationTestCase<Scri
 		Formula actualDegrees = (Formula) Reflection.getPrivateField(turnRightBrick, "degrees");
 
 		assertEquals("Wrong text in field", TURN_DEGREES, actualDegrees.interpretDouble(null));
+
 		assertEquals(
 				"Text not updated",
 				TURN_DEGREES,

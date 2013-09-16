@@ -48,7 +48,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -381,15 +380,6 @@ public class Utils {
 			return null;
 		}
 		return pixmap;
-	}
-
-	public static void setBottomBarActivated(Activity activity, boolean isActive) {
-		LinearLayout bottomBarLayout = (LinearLayout) activity.findViewById(R.id.bottom_bar);
-
-		if (bottomBarLayout != null) {
-			bottomBarLayout.findViewById(R.id.button_add).setClickable(isActive);
-			bottomBarLayout.findViewById(R.id.button_play).setClickable(isActive);
-		}
 	}
 
 	public static boolean isStandardProject(Project projectToCheck, Context context) {

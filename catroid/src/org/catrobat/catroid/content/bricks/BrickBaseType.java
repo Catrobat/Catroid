@@ -141,4 +141,9 @@ public class BrickBaseType implements Brick {
 		return null;
 	}
 
+	@Override
+	public void setAlpha(int a) {
+		alphaValue = a;
+	}
+
 }

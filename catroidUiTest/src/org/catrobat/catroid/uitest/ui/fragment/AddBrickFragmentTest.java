@@ -102,7 +102,9 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnText(selectSoundCatogory);
 		String selectPlaySound = solo.getString(R.string.brick_play_sound);
 		solo.clickOnText(selectPlaySound);
-		solo.clickOnScreen(400, 200);
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(500);
 		String selectNewSound = solo.getString(R.string.new_broadcast_message);
 		solo.clickOnText(selectNewSound);
 		solo.clickOnText(selectNewSound);

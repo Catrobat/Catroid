@@ -79,6 +79,7 @@ public class GlideToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		assertEquals("Text not updated within FormulaEditor", duration,
 				Double.parseDouble(textViewDuration.getText().toString().replace(',', '.')));
+
 		assertEquals("Text not updated within FormulaEditor", xPosition,
 				Integer.parseInt(textViewX.getText().toString().substring(0, 3)));
 		assertEquals("Text not updated within FormulaEditor", yPosition,

@@ -93,13 +93,14 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 	public boolean restoreInstance = false;
 	private View fragmentView;
-	private VariableDeletedReceiver variableDeletedReceiver;
+	private VariableChangedReceiver variableDeletedReceiver;
 
 	public FormulaEditorFragment() {
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 		setUpActionBar();
@@ -120,7 +121,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	}
 
 	public static void showFragment(View view, Brick brick, Formula formula) {
-
 		SherlockFragmentActivity activity = null;
 		activity = (SherlockFragmentActivity) view.getContext();
 
@@ -190,7 +190,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 		BottomBar.showBottomBar(activity);
 		BottomBar.showPlayButton(activity);
-
 	}
 
 	@Override
@@ -360,7 +359,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		}
 	}
 
-	private boolean saveFormulaIfPossible() {
+	public boolean saveFormulaIfPossible() {
 		InternFormulaParser formulaToParse = formulaEditorEditText.getFormulaParser();
 		FormulaElement formulaParseTree = formulaToParse.parseFormula();
 		int err = formulaToParse.getErrorTokenIndex();
@@ -368,7 +367,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			case PARSER_OK:
 				currentFormula.setRoot(formulaParseTree);
 				if (formulaEditorBrick != null) {
-					currentFormula.refreshTextField(brickView);
+					refreshFormulaPreviewString();
 				}
 				formulaEditorEditText.formulaSaved();
 				showToast(R.string.formula_editor_changes_saved);
@@ -378,6 +377,19 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			default:
 				formulaEditorEditText.setParseErrorCursorAndSelection();
 				return checkReturnWithoutSaving(PARSER_INPUT_SYNTAX_ERROR);
+		}
+	}
+
+	public void saveFormulaIfPossibleQuiet() {
+		InternFormulaParser formulaToParse = formulaEditorEditText.getFormulaParser();
+		FormulaElement formulaParseTree = formulaToParse.parseFormula();
+		int err = formulaToParse.getErrorTokenIndex();
+		if (err == PARSER_OK) {
+			currentFormula.setRoot(formulaParseTree);
+			if (formulaEditorBrick != null) {
+				refreshFormulaPreviewString();
+			}
+			formulaEditorEditText.formulaSaved();
 		}
 	}
 
@@ -543,7 +555,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		formulaEditorEditText.handleKeyEvent(0, userVariableName);
 	}
 
-	private class VariableDeletedReceiver extends BroadcastReceiver {
+	private class VariableChangedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptActivity.ACTION_VARIABLE_DELETED)) {
@@ -566,7 +578,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		super.onResume();
 
 		if (variableDeletedReceiver == null) {
-			variableDeletedReceiver = new VariableDeletedReceiver();
+			variableDeletedReceiver = new VariableChangedReceiver();
 		}
 
 		IntentFilter filterVariableDeleted = new IntentFilter(ScriptActivity.ACTION_VARIABLE_DELETED);

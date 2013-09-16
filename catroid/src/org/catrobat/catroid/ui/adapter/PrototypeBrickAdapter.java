@@ -46,14 +46,22 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 		this.brickList = brickList;
 	}
 
+	public void addBrickToList(Brick brick) {
+		brickList.add(brick);
+		notifyDataSetChanged();
+	}
+
+	@Override
 	public int getCount() {
 		return brickList.size();
 	}
 
+	@Override
 	public Brick getItem(int position) {
 		return brickList.get(position);
 	}
 
+	@Override
 	public long getItemId(int position) {
 		return position;
 	}
@@ -68,6 +76,7 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 		return brickList.size();
 	}
 
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		if (convertView == null) {

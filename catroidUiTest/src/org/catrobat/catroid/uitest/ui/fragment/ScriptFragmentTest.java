@@ -149,8 +149,9 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickOnButton(solo.getString(R.string.yes));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
-		solo.clickOnText(solo.getString(R.string.brick_when_started));
-		solo.sleep(100);
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(500);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		solo.clickOnCheckBox(1);
@@ -199,8 +200,9 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickOnButton(solo.getString(R.string.yes));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
-		solo.clickOnText(solo.getString(R.string.brick_when_started));
-		solo.sleep(100);
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(500);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		solo.clickOnCheckBox(1);
@@ -228,8 +230,9 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		int brickCountInList = brickListToCheck.size();
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
-		solo.clickOnText(solo.getString(R.string.brick_when_started));
-		solo.sleep(100);
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(500);
 
 		assertTrue("Wait brick is not in List", solo.searchText(solo.getString(R.string.brick_wait)));
 
@@ -658,13 +661,17 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickOnText(categoryLooks);
 		assertTrue("SetLookBrick was not renamed for background sprite", solo.searchText(setBackground));
 		solo.clickOnText(setBackground);
-		solo.clickOnText(solo.getString(R.string.brick_when_started));
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(500);
 		assertTrue("SetLookBrick was not renamed for background sprite", solo.searchText(setBackground));
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryLooks);
 		assertTrue("NextLookBrick was not renamed for background sprite", solo.searchText(nextBackground));
 		solo.clickOnText(nextBackground);
-		solo.clickOnText(solo.getString(R.string.brick_when_started));
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(500);
 		assertTrue("NextLookBrick was not renamed for background sprite", solo.searchText(nextBackground));
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);

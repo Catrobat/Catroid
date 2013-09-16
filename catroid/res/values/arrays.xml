@@ -44,5 +44,13 @@
         <item>@string/add_look_choose_image</item>
         <item>@string/add_look_draw_new_image</item>
     </string-array>
+    
+    <!-- User Brick UI Data Editor Fragment -->
+    <string-array name="data_editor_buttons">
+        <item>@string/add_text</item>
+        <item>@string/add_variable</item>
+        <item>@string/add_line_break</item>
+        <item>@string/close</item>
+    </string-array>
 
 </resources>

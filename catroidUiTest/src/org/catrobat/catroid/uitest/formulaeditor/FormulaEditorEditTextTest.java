@@ -432,6 +432,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	public void testErrorInFirstAndLastCharactersAndEmptyFormula() {
 
 		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
+
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 

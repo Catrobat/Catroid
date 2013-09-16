@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.UserBrick;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,7 +51,16 @@ public abstract class Script implements Serializable {
 	public Script() {
 	}
 
-	public abstract Script copyScriptForSprite(Sprite copySprite);
+	public abstract Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks);
+
+	protected UserBrick findBrickWithId(List<UserBrick> list, int id) {
+		for (UserBrick brick : list) {
+			if (brick.getId() == id) {
+				return brick;
+			}
+		}
+		return null;
+	}
 
 	protected Object readResolve() {
 		init();

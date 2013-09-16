@@ -1653,6 +1653,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		solo.enterText(0, longProjectName);
 		solo.goBack();
+		solo.waitForDialogToOpen(2000);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.waitForText(solo.getString(R.string.sprites));
 		solo.goBack();
