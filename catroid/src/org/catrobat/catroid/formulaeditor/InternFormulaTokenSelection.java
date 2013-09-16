@@ -54,13 +54,9 @@ public class InternFormulaTokenSelection {
 
 		if (objectToCompare instanceof InternFormulaTokenSelection) {
 			InternFormulaTokenSelection selectionToCompare = (InternFormulaTokenSelection) objectToCompare;
-			if (internTokenSelectionStart != selectionToCompare.internTokenSelectionStart) {
-				return false;
-			}
-			if (internTokenSelectionEnd != selectionToCompare.internTokenSelectionEnd) {
-				return false;
-			}
-			if (tokenSelectionType != selectionToCompare.tokenSelectionType) {
+			if (internTokenSelectionStart != selectionToCompare.internTokenSelectionStart
+					|| internTokenSelectionEnd != selectionToCompare.internTokenSelectionEnd
+					|| tokenSelectionType != selectionToCompare.tokenSelectionType) {
 				return false;
 			}
 			return true;

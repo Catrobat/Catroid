@@ -435,15 +435,9 @@ public class FormulaElement implements Serializable {
 	}
 
 	public boolean containsElement(ElementType elementType) {
-		if (type.equals(elementType)) {
-			return true;
-		}
-
-		if (leftChild != null && leftChild.containsElement(elementType)) {
-			return true;
-		}
-
-		if (rightChild != null && rightChild.containsElement(elementType)) {
+		if (type.equals(elementType)
+				|| (leftChild != null && (leftChild.containsElement(elementType) || rightChild
+						.containsElement(elementType)))) {
 			return true;
 		}
 		return false;

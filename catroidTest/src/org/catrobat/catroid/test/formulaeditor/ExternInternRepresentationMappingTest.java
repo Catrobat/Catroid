@@ -40,14 +40,16 @@ public class ExternInternRepresentationMappingTest extends InstrumentationTestCa
 		externInternRepresentationMapping.putMapping(externTokenStringStartIndex, externTokenStringEndIndex,
 				internTokenListIndex);
 
-		assertEquals("getExternTokenStartIndex returns wrong value", externTokenStringStartIndex,
+		assertEquals("getExternTokenStartIndex returns wrong value", externTokenStringStartIndex.intValue(),
 				externInternRepresentationMapping.getExternTokenStartIndex(internTokenListIndex));
 
-		assertEquals("getExternTokenEndIndex returns wrong value", externTokenStringEndIndex,
+		assertEquals("getExternTokenEndIndex returns wrong value", externTokenStringEndIndex.intValue(),
 				externInternRepresentationMapping.getExternTokenEndIndex(internTokenListIndex));
 
-		assertNull("Mapping should not exist", externInternRepresentationMapping.getExternTokenStartIndex(1));
-		assertNull("Mapping should not exist", externInternRepresentationMapping.getExternTokenEndIndex(1));
+		assertEquals("Mapping should not exist", ExternInternRepresentationMapping.MAPPING_NOT_FOUND,
+				externInternRepresentationMapping.getExternTokenStartIndex(1));
+		assertEquals("Mapping should not exist", ExternInternRepresentationMapping.MAPPING_NOT_FOUND,
+				externInternRepresentationMapping.getExternTokenEndIndex(1));
 
 	}
 }
