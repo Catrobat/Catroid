@@ -250,10 +250,6 @@ public class ScriptActivity extends BaseActivity {
 				Intent settingsIntent = new Intent(ScriptActivity.this, SettingsActivity.class);
 				startActivity(settingsIntent);
 				break;
-
-			case R.id.edit_in_pocket_paint:
-				currentFragment.startEditInPocketPaintActionMode();
-				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
