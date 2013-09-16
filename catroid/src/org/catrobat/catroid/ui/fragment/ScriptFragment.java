@@ -126,7 +126,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.rename).setVisible(false);
-		menu.findItem(R.id.edit_in_pocket_paint).setVisible(false);
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -362,10 +361,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			adapter.setCheckboxVisibility(View.VISIBLE);
 			adapter.setActionMode(true);
 		}
-	}
-
-	@Override
-	public void startEditInPocketPaintActionMode() {
 	}
 
 	@Override

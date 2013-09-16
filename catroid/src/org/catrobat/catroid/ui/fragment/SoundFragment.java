@@ -175,7 +175,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.copy).setVisible(true);
-		menu.findItem(R.id.edit_in_pocket_paint).setVisible(false);
 		super.onPrepareOptionsMenu(menu);
 	}
 
@@ -321,11 +320,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
-	}
-
-	@Override
-	public void startEditInPocketPaintActionMode() {
-
 	}
 
 	@Override
