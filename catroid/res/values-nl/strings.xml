@@ -19,7 +19,8 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
---><resources>
+-->
+<resources>
 
     <!-- General terms -->
     <string name="cancel_button">"Annuleren"</string>
@@ -83,7 +84,6 @@
     <string name="show_details">"Details tonen"</string>
     <string name="hide_details">"Details verbergen"</string>
     <string name="insert_below">"Hieronder invoegen"</string>
-    <string name="edit_in_pocket_paint">"Bewerken in Pocket Paint"</string>
     <string name="sprite">"Object"</string>
     <string name="sprites">"Objecten"</string>
     <string name="spritelist_background_headline">"ACHTERGROND"</string>
@@ -176,11 +176,6 @@
 
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">"Text-to-Speech engine is niet geïnstalleerd!\nWil je het installeren?"</string>
-    <!--  -->
-
-
-    <!-- Look context menu -->
-    <string name="look_context_menu_edit_in_pocket_paint">"Bewerken in Pocket Paint"</string>
     <!--  -->
 
 
