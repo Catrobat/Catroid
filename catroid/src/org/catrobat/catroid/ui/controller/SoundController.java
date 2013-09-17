@@ -81,7 +81,7 @@ public class SoundController {
 		return instance;
 	}
 
-	public void updateSoundLogic(final int position, SoundViewHolder holder, final SoundBaseAdapter soundAdapter) {
+	public void updateSoundLogic(final int position, final SoundViewHolder holder, final SoundBaseAdapter soundAdapter) {
 		final SoundInfo soundInfo = soundAdapter.getSoundInfoItems().get(position);
 
 		if (soundInfo != null) {
@@ -216,6 +216,15 @@ public class SoundController {
 					}
 				});
 			}
+			holder.getSoundFragmentButtonLayout().setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View view) {
+					if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
+						holder.getCheckbox().setChecked(!holder.checkbox.isChecked());
+					}
+				}
+			});
 		}
 	}
 

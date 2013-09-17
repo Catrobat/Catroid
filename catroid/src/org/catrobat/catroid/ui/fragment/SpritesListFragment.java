@@ -29,21 +29,26 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -67,7 +72,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 public class SpritesListFragment extends SherlockListFragment implements OnSpriteEditListener {
@@ -341,13 +346,12 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	private static String getSpriteName(String name, int nextNumber) {
 		String newName;
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		if (nextNumber == 0) {
 			newName = name;
 		} else {
 			newName = name + nextNumber;
 		}
-		for (Sprite sprite : spriteList) {
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
 			if (sprite.getName().equals(newName)) {
 				return getSpriteName(name, ++nextNumber);
 			}
@@ -408,9 +412,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	}
 
 	private void deleteCheckedSprites() {
-		Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
 		int numDeleted = 0;
-		for (int position : checkedSprites) {
+		for (int position : spriteAdapter.getCheckedSprites()) {
 			spriteToEdit = (Sprite) getListView().getItemAtPosition(position - numDeleted);
 			deleteSprite();
 			numDeleted++;
@@ -502,19 +505,39 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 			mode.setTitle(multiSelectActionModeTitle);
 			mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
+			com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
+			View view = item.getActionView();
+			if (view instanceof TextView) {
+				Resources resources = getResources();
+				int paddingInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16,
+						resources.getDisplayMetrics());
+
+				((TextView) view).setTextSize(12);
+				((TextView) view).setText(getString(R.string.select_all).toUpperCase(Locale.getDefault()));
+				((TextView) view).setPadding(0, 0, paddingInDp, 0);
+				((TextView) view).setTextColor(resources.getColor(R.color.white));
+				((TextView) view).setTypeface(null, Typeface.BOLD);
+
+				view.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View view) {
+						for (int position = 1; position < spriteList.size(); position++) {
+							spriteAdapter.addCheckedSprite(position);
+						}
+						spriteAdapter.notifyDataSetChanged();
+						view.setVisibility(View.GONE);
+						onSpriteChecked();
+					}
+
+				});
+			}
 
 			return true;
 		}
 
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
-			if (item.getItemId() == R.id.select_all) {
-				for (int position = 1; position < spriteList.size(); position++) {
-					spriteAdapter.addCheckedSprite(position);
-				}
-				spriteAdapter.notifyDataSetChanged();
-				onSpriteChecked();
-			}
 			return false;
 		}
 
@@ -591,8 +614,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
-			for (int position : checkedSprites) {
+			for (int position : spriteAdapter.getCheckedSprites()) {
 				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
 				copySprite();
 			}
@@ -613,14 +635,11 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	}
 
 	private void deleteSpriteFiles() {
-		List<LookData> lookDataList = spriteToEdit.getLookDataList();
-		List<SoundInfo> soundInfoList = spriteToEdit.getSoundList();
-
-		for (LookData currentLookData : lookDataList) {
+		for (LookData currentLookData : spriteToEdit.getLookDataList()) {
 			StorageHandler.getInstance().deleteFile(currentLookData.getAbsolutePath());
 		}
 
-		for (SoundInfo currentSoundInfo : soundInfoList) {
+		for (SoundInfo currentSoundInfo : spriteToEdit.getSoundList()) {
 			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath());
 		}
 	}

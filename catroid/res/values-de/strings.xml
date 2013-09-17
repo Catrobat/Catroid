@@ -100,7 +100,7 @@
     <string name="dialog_confirm_delete_object_title">Dieses Objekt löschen?</string>
     <string name="dialog_confirm_delete_multiple_objects_title">Diese Objekte löschen?</string>
     <string name="dialog_confirm_delete_object_message">Kann nicht rückgängig gemacht werden!</string>
-    <string name="select_all">Alle Auswählen</string>
+    <string name="select_all">Alle auswählen</string>
     <!--  -->
 
 

@@ -100,7 +100,7 @@
     <string name="dialog_confirm_delete_object_title">Delete this object?</string>
     <string name="dialog_confirm_delete_multiple_objects_title">Delete these objects?</string>
     <string name="dialog_confirm_delete_object_message">This can not be undone!</string>
-    <string name="select_all">Select All</string>
+    <string name="select_all">Select all</string>
     <!--  -->
 
 

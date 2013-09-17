@@ -32,7 +32,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,6 +45,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -86,6 +89,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class SoundFragment extends ScriptActivityFragment implements SoundBaseAdapter.OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
@@ -744,19 +748,39 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
 
 			mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
+			com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
+			View view = item.getActionView();
+			if (view instanceof TextView) {
+				Resources resources = getResources();
+				int paddingInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16,
+						resources.getDisplayMetrics());
+
+				((TextView) view).setTextSize(12);
+				((TextView) view).setText(getString(R.string.select_all).toUpperCase(Locale.getDefault()));
+				((TextView) view).setPadding(0, 0, paddingInDp, 0);
+				((TextView) view).setTextColor(resources.getColor(R.color.white));
+				((TextView) view).setTypeface(null, Typeface.BOLD);
+
+				view.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View view) {
+						for (int position = 0; position < soundInfoList.size(); position++) {
+							adapter.addCheckedItem(position);
+						}
+						adapter.notifyDataSetChanged();
+						view.setVisibility(View.GONE);
+						onSoundChecked();
+					}
+
+				});
+			}
 
 			return true;
 		}
 
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
-			if (item.getItemId() == R.id.select_all) {
-				for (int position = 0; position < soundInfoList.size(); position++) {
-					adapter.addCheckedItem(position);
-				}
-				adapter.notifyDataSetChanged();
-				onSoundChecked();
-			}
 			return false;
 		}
 

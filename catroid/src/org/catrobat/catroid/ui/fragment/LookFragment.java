@@ -34,8 +34,10 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -54,6 +56,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -88,8 +91,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.concurrent.locks.Lock;
 
 public class LookFragment extends ScriptActivityFragment implements OnLookEditListener,
@@ -825,9 +828,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			Set<Integer> checkedLooks = adapter.getCheckedItems();
-
-			for (int position : checkedLooks) {
+			for (int position : adapter.getCheckedItems()) {
 				copyLook(position);
 			}
 			clearCheckedLooksAndEnableButtons();
@@ -888,19 +889,40 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 			mode.setTitle(actionModeTitle);
 			mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
+			com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
+			View view = item.getActionView();
+			if (view instanceof TextView) {
+				Resources resources = getResources();
+				int paddingInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16,
+						resources.getDisplayMetrics());
+
+				((TextView) view).setTextSize(12);
+				((TextView) view).setText(getString(R.string.select_all).toUpperCase(Locale.getDefault()));
+				((TextView) view).setPadding(0, 0, paddingInDp, 0);
+				((TextView) view).setTextColor(resources.getColor(R.color.white));
+				((TextView) view).setTypeface(null, Typeface.BOLD);
+
+				view.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View view) {
+						for (int position = 0; position < lookDataList.size(); position++) {
+							adapter.addCheckedItem(position);
+						}
+						adapter.notifyDataSetChanged();
+						view.setVisibility(View.GONE);
+						onLookChecked();
+					}
+
+				});
+			}
 
 			return true;
 		}
 
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
-			if (item.getItemId() == R.id.select_all) {
-				for (int position = 0; position < lookDataList.size(); position++) {
-					adapter.addCheckedItem(position);
-				}
-				adapter.notifyDataSetChanged();
-				onLookChecked();
-			}
+
 			return false;
 		}
 
@@ -924,9 +946,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	private void deleteCheckedLooks() {
-		SortedSet<Integer> checkedLooks = adapter.getCheckedItems();
 		int numberDeleted = 0;
-		for (int position : checkedLooks) {
+		for (int position : adapter.getCheckedItems()) {
 			deleteLook(position - numberDeleted);
 			++numberDeleted;
 		}

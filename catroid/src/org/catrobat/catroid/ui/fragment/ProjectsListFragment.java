@@ -29,19 +29,24 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
@@ -75,6 +80,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 public class ProjectsListFragment extends SherlockListFragment implements OnProjectRenameListener,
@@ -158,7 +164,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		}
 
 		initAdapter();
-		initClickListener();
 	}
 
 	@Override
@@ -170,19 +175,16 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	@Override
 	public void onProjectRename(boolean isCurrentProject) {
 		initAdapter();
-		initClickListener();
 	}
 
 	@Override
 	public void onCopyProject() {
 		initAdapter();
-		initClickListener();
 	}
 
 	@Override
 	public void onUpdateProjectDescription() {
 		initAdapter();
-		initClickListener();
 	}
 
 	public void setShowDetails(boolean showDetails) {
@@ -225,6 +227,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		adapter = new ProjectAdapter(getActivity(), R.layout.activity_my_projects_list_item,
 				R.id.my_projects_activity_project_title, projectList);
 		setListAdapter(adapter);
+		initClickListener();
 	}
 
 	private void initClickListener() {
@@ -411,9 +414,8 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	}
 
 	private void deleteCheckedProjects() {
-		Set<Integer> checkedSprites = adapter.getCheckedProjects();
 		int numDeleted = 0;
-		for (Integer position : checkedSprites) {
+		for (int position : adapter.getCheckedProjects()) {
 			projectToEdit = (ProjectData) getListView().getItemAtPosition(position - numDeleted);
 			deleteProject();
 			numDeleted++;
@@ -422,15 +424,12 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		if (projectList.isEmpty()) {
 			ProjectManager projectManager = ProjectManager.getInstance();
 			projectManager.initializeDefaultProject(getActivity());
-		} else {
-			LoadProjectTask loadProjectTask = new LoadProjectTask(getActivity(), projectList.get(0).projectName, false,
-					false);
-			loadProjectTask.setOnLoadProjectCompleteListener(this);
-			loadProjectTask.execute();
+		} else if (ProjectManager.getInstance().getCurrentProject() == null) {
+			Utils.saveToPreferences(getActivity().getApplicationContext(), Constants.PREF_PROJECTNAME_KEY,
+					projectList.get(0).projectName);
 		}
 
 		initAdapter();
-		initClickListener();
 	}
 
 	private void clearCheckedProjectsAndEnableButtons() {
@@ -462,19 +461,39 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			mode.setTitle(deleteActionModeTitle);
 
 			mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
+			com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
+			View view = item.getActionView();
+			if (view instanceof TextView) {
+				Resources resources = getResources();
+				int paddingInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16,
+						resources.getDisplayMetrics());
+
+				((TextView) view).setTextSize(12);
+				((TextView) view).setText(getString(R.string.select_all).toUpperCase(Locale.getDefault()));
+				((TextView) view).setPadding(0, 0, paddingInDp, 0);
+				((TextView) view).setTextColor(resources.getColor(R.color.white));
+				((TextView) view).setTypeface(null, Typeface.BOLD);
+
+				view.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View view) {
+						for (int position = 0; position < projectList.size(); position++) {
+							adapter.addCheckedProject(position);
+						}
+						adapter.notifyDataSetChanged();
+						view.setVisibility(View.GONE);
+						onProjectChecked();
+
+					}
+				});
+			}
 
 			return true;
 		}
 
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
-			if (item.getItemId() == R.id.select_all) {
-				for (int position = 0; position < projectList.size(); position++) {
-					adapter.addCheckedProject(position);
-				}
-				adapter.notifyDataSetChanged();
-				onProjectChecked();
-			}
 			return false;
 		}
 

@@ -69,6 +69,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final String INVALID_PROJECT_MODIFIER = "invalidProject";
@@ -743,7 +744,10 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		UiTestUtils.clickOnActionBar(solo, R.id.delete);
 		solo.waitForText(solo.getString(R.string.delete));
-		solo.clickOnText(solo.getString(R.string.select_all));
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		solo.clickOnText(selectAll);
+		solo.sleep(200);
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
 

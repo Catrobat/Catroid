@@ -21,7 +21,13 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/select_all" android:title="@string/select_all" android:showAsAction="ifRoom"></item>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <item
+        android:id="@+id/select_all"
+        android:actionViewClass="android.widget.TextView"
+        tools:ignore="all" >
+    </item>
 
 </menu>

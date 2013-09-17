@@ -911,8 +911,10 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+
 		solo.waitForText(solo.getString(R.string.delete));
-		solo.clickOnMenuItem(solo.getString(R.string.select_all), false);
+		solo.clickOnText(selectAll);
 
 		solo.sleep(200);
 		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
@@ -920,6 +922,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				assertTrue("CheckBox is not Checked!", checkBox.isChecked());
 			}
 		}
+
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		String yes = solo.getString(R.string.yes);

@@ -55,6 +55,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
@@ -171,6 +172,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		solo.clickOnCheckBox(0);
 
+		solo.clickOnText(SECOND_TEST_SOUND_NAME);
 		assertFalse("Mediaplayer is playing within the checkbox action", soundInfo2.isPlaying);
 		solo.clickOnText(SECOND_TEST_SOUND_NAME);
 
@@ -593,11 +595,13 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	public void testDeleteSelectAll() {
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
-		solo.clickOnText(solo.getString(R.string.select_all));
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		solo.clickOnText(selectAll);
 
 		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
 			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
 		}
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		String yes = solo.getString(R.string.yes);

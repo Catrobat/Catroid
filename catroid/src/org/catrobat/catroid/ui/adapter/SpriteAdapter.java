@@ -217,7 +217,6 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 				holder.checkbox.setVisibility(View.VISIBLE);
 				holder.arrow.setVisibility(View.GONE);
 				holder.background.setBackgroundResource(R.drawable.button_background_shadowed);
-
 			} else {
 				holder.background.setBackgroundResource(R.drawable.button_background_selector);
 				holder.checkbox.setVisibility(View.GONE);

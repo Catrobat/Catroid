@@ -54,6 +54,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
@@ -968,11 +969,13 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testDeleteSelectAll() {
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
-		solo.clickOnText(solo.getString(R.string.select_all));
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		solo.clickOnText(selectAll);
 
 		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
 			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
 		}
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		String yes = solo.getString(R.string.yes);
