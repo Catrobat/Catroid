@@ -36,8 +36,8 @@ public class BackPackSoundAdapter extends SoundBaseAdapter implements ScriptActi
 
 	private BackPackSoundFragment backPackSoundFragment;
 
-	public BackPackSoundAdapter(Context context, AttributeSet attributeSet, int something) {
-		super(context, attributeSet, something);
+	public BackPackSoundAdapter(Context context, AttributeSet attributeSet, int currentPlayingposition) {
+		super(context, attributeSet, currentPlayingposition);
 	}
 
 	public BackPackSoundAdapter(Context context, int resource, int textViewResourceId, ArrayList<SoundInfo> items,

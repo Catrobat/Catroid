@@ -30,52 +30,37 @@ import java.util.ArrayList;
 
 public class BackPackListManager extends SherlockFragmentActivity {
 
-	private static BackPackListManager instance;
-	private static final ArrayList<SoundInfo> SOUNDINFOARRAYLIST = new ArrayList<SoundInfo>();
-	private static final ArrayList<SoundInfo> ACTIONBARSOUNDINFOARRAYLIST = new ArrayList<SoundInfo>();
+	private static BackPackListManager INSTANCE = new BackPackListManager();
+	private static final ArrayList<SoundInfo> SOUND_INFO_ARRAY_LIST = new ArrayList<SoundInfo>();
+	private static final ArrayList<SoundInfo> ACTION_BAR_SOUND_INFO_ARRAY_LIST = new ArrayList<SoundInfo>();
 	private static SoundInfo currentSoundInfo;
 
-	private BackPackListManager() {
+	protected BackPackListManager() {
 	}
 
 	public static BackPackListManager getInstance() {
+		return INSTANCE;
 
-		if (instance == null) {
-			instance = new BackPackListManager();
-		}
-		return instance;
 	}
 
 	public ArrayList<SoundInfo> getSoundInfoArrayList() {
-		return SOUNDINFOARRAYLIST;
+		return SOUND_INFO_ARRAY_LIST;
 	}
 
 	public void setSoundInfoArrayListEmpty() {
-		SOUNDINFOARRAYLIST.clear();
+		SOUND_INFO_ARRAY_LIST.clear();
 	}
 
 	public void addSoundToSoundInfoArrayList(SoundInfo soundInfo) {
-		SOUNDINFOARRAYLIST.add(soundInfo);
+		SOUND_INFO_ARRAY_LIST.add(soundInfo);
 	}
 
-	// just for Debugging
-	/*
-	 * public void showSoundInfoArrayList() {
-	 * Iterator<SoundInfo> iterator = soundInfoArrayList.iterator();
-	 * 
-	 * while (iterator.hasNext()) {
-	 * SoundInfo soundInfo = iterator.next();
-	 * }
-	 * 
-	 * }
-	 */
-
 	public static ArrayList<SoundInfo> getActionBarSoundInfoArrayList() {
-		return ACTIONBARSOUNDINFOARRAYLIST;
+		return ACTION_BAR_SOUND_INFO_ARRAY_LIST;
 	}
 
 	public void addSoundToActionBarSoundInfoArrayList(SoundInfo soundInfo) {
-		ACTIONBARSOUNDINFOARRAYLIST.add(soundInfo);
+		ACTION_BAR_SOUND_INFO_ARRAY_LIST.add(soundInfo);
 	}
 
 	public static SoundInfo getCurrentSoundInfo() {

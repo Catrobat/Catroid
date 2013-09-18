@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.fragment;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,9 +40,6 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-
-		Log.d("TAG", "BackPackActivityFragment created!");
-
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 	}

@@ -82,7 +82,6 @@ public class SoundController {
 	}
 
 	public void updateSoundLogic(final int position, SoundViewHolder holder, final SoundBaseAdapter soundAdapter) {
-		Log.v("Adapter *********", ".........");
 		final SoundInfo soundInfo = soundAdapter.getSoundInfoItems().get(position);
 
 		if (soundInfo != null) {
@@ -364,7 +363,7 @@ public class SoundController {
 
 		mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
 			@Override
-			public void onCompletion(MediaPlayer mp) {
+			public void onCompletion(MediaPlayer mediaplayer) {
 				soundInfo.isPlaying = false;
 				adapter.notifyDataSetChanged();
 			}

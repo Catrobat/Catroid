@@ -851,7 +851,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			holder = (SoundViewHolder) convertView.getTag();
 		}
 		SoundController controller = SoundController.getInstance();
-		Log.v("Adapter *********", controller.toString());
 		controller.updateSoundLogic(position, holder, adapter);
 
 		return convertView;

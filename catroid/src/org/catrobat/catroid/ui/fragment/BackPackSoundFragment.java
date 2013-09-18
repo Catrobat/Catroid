@@ -39,7 +39,6 @@ import android.support.v4.content.Loader;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -244,7 +243,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 			holder = (SoundViewHolder) convertView.getTag();
 		}
 		SoundController controller = SoundController.getInstance();
-		Log.v("Adapter *********", controller.toString());
 		controller.updateSoundLogic(position, holder, adapter);
 
 		return convertView;
@@ -417,8 +415,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	};
 
 	private void showConfirmDeleteDialog() {
-		String yes = getActivity().getString(R.string.yes);
-		String no = getActivity().getString(R.string.no);
 		String title = "";
 		if (adapter.getAmountOfCheckedItems() == 1) {
 			title = getActivity().getString(R.string.dialog_confirm_delete_sound_title);
@@ -431,7 +427,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(title);
 		builder.setMessage(message);
-		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
+		builder.setPositiveButton(getActivity().getString(R.string.yes), new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				SoundController.getInstance().deleteCheckedSounds(getActivity(), adapter,
@@ -439,7 +435,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 				clearCheckedSoundsAndEnableButtons();
 			}
 		});
-		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(getActivity().getString(R.string.no), new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();

@@ -150,7 +150,7 @@
     <!-- Sound fragment -->
     <string name="fragment_sound_text_description">Klicke auf \"+\" um Klänge hinzuzufügen</string>
     <string name="rename_sound_dialog">Klang umbenennen</string>
-    <string name="backpack_title">BackPack</string>
+    <string name="backpack_title">Rucksack</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="sound_play">abspielen</string>
     <string name="sound_pause">pausieren</string>
