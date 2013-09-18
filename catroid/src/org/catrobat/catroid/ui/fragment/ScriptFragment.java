@@ -630,4 +630,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			actionMode.setTitle(completeSpannedTitle);
 		}
 	}
+
+	@Override
+	public void startBackPackActionMode() {
+
+	}
 }

@@ -170,6 +170,7 @@ public class Utils {
 	}
 
 	public static String md5Checksum(File file) {
+
 		if (!file.isFile()) {
 			return null;
 		}

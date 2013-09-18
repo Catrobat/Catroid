@@ -103,7 +103,7 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
-		solo.sleep(1000);
+		solo.sleep(2000);
 
 		Formula lookXPositionFormula = getFormulaBySensor(Sensors.OBJECT_X);
 		assertEquals("Variable shows false x position", SPRITE_X_POSITION,
