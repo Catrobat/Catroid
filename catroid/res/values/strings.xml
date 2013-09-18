@@ -94,7 +94,6 @@
     <string name="show_details">Show Details</string>
     <string name="hide_details">Hide Details</string>
     <string name="insert_below">Insert Below</string>
-    <string name="edit_in_pocket_paint">Edit in Pocket Paint</string>
     <string name="sprite">Object</string>
     <string name="sprites">Objects</string>
     <string name="spritelist_background_headline">Background</string>
@@ -190,11 +189,6 @@
 
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
-    <!--  -->
-
-
-    <!-- Look context menu -->
-    <string name="look_context_menu_edit_in_pocket_paint">Edit in Pocket Paint</string>
     <!--  -->
 
 
@@ -399,25 +393,19 @@
     <string name="notification_invalid_text_entered">Please enter a value</string>
     <string name="notification_screenshot_ok">Screenshot saved</string>
     <string name="notification_download_project_cancel">Canceled downloading program</string>
-    
     <string name="notification_copy_title_pending">"Copying "</string>
     <string name="notification_copy_pending">Copy in progress</string>
     <string name="notification_copy_finished">Copy completed</string>
-
     <string name="notification_upload_title_pending">"Uploading "</string>
     <string name="notification_upload_title_finished">"Look at "</string>
     <string name="notification_upload_pending">Upload in progress</string>
     <string name="notification_upload_finished">Upload successful</string>
-    
     <string name="notification_download_title_pending">"Downloading "</string>
     <string name="notification_download_pending">Download in progress</string>
     <string name="notification_download_finished">Download successful</string>
-    
     <string name="notification_title_open">"Open "</string>
-    
     <string name="project_rename">(Your program will be renamed.)</string>
     <string name="size_of_project">Size:</string>
-    
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload program</string>
     <string name="upload_description">Description:</string>
@@ -557,7 +545,7 @@
     <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
-    
+
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable selected!</item>
         <item quantity="other">Variables selected!</item>

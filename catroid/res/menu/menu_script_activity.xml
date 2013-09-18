@@ -59,10 +59,6 @@
         android:showAsAction="never"
         android:title="@string/rename"/>
     <item
-        android:id="@+id/edit_in_pocket_paint"
-        android:showAsAction="never"
-        android:title="@string/edit_in_pocket_paint"/>
-    <item
         android:id="@+id/show_details"
         android:showAsAction="never"
         android:title="@string/show_details"/>

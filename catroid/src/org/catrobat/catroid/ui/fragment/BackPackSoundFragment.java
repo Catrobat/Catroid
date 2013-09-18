@@ -124,8 +124,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.copy).setVisible(false);
-		menu.findItem(R.id.edit_in_pocket_paint).setVisible(false);
-
 		BottomBar.hideBottomBar(getActivity());
 		super.onPrepareOptionsMenu(menu);
 	}
