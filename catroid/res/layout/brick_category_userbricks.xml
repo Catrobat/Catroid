@@ -28,5 +28,5 @@
         style="@style/BrickCategoryText.UserBricks"
         android:text="@string/category_user_bricks" >
     </TextView>
-    
+
 </LinearLayout>

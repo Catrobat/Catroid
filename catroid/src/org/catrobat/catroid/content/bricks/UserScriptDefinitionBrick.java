@@ -44,15 +44,11 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.UserScript;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.UserBrickDataEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
-
-/**
- * @author forestjohnson
- * 
- */
 
 public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickListener {
 	private UserScript userScript;
@@ -106,15 +102,15 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 
 	public void renameVariablesInFormulas(String oldName, String newName, Context context) {
 		List<Brick> brickList = userScript.getBrickList();
-		for (Brick b : brickList) {
-			if (b instanceof MultiFormulaBrick) {
-				List<Formula> formulaList = ((MultiFormulaBrick) b).getFormulas();
+		for (Brick brick : brickList) {
+			if (brick instanceof MultiFormulaBrick) {
+				List<Formula> formulaList = ((MultiFormulaBrick) brick).getFormulas();
 				for (Formula formula : formulaList) {
 					formula.updateVariableReferences(oldName, newName, context);
 				}
 			}
-			if (b instanceof FormulaBrick) {
-				Formula formula = ((FormulaBrick) b).getFormula();
+			if (brick instanceof FormulaBrick) {
+				Formula formula = ((FormulaBrick) brick).getFormula();
 				formula.updateVariableReferences(oldName, newName, context);
 			}
 		}
@@ -122,15 +118,15 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 
 	public void removeVariablesInFormulas(String name, Context context) {
 		List<Brick> brickList = userScript.getBrickList();
-		for (Brick b : brickList) {
-			if (b instanceof MultiFormulaBrick) {
-				List<Formula> formulaList = ((MultiFormulaBrick) b).getFormulas();
+		for (Brick brick : brickList) {
+			if (brick instanceof MultiFormulaBrick) {
+				List<Formula> formulaList = ((MultiFormulaBrick) brick).getFormulas();
 				for (Formula formula : formulaList) {
 					formula.removeVariableReferences(name, context);
 				}
 			}
-			if (b instanceof FormulaBrick) {
-				Formula formula = ((FormulaBrick) b).getFormula();
+			if (brick instanceof FormulaBrick) {
+				Formula formula = ((FormulaBrick) brick).getFormula();
 				formula.removeVariableReferences(name, context);
 			}
 		}
@@ -197,8 +193,10 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 
 		view.setDrawingCacheEnabled(true);
 
-		view.measure(MeasureSpec.makeMeasureSpec(ScreenValues.SCREEN_WIDTH, MeasureSpec.EXACTLY),
-				MeasureSpec.makeMeasureSpec(Utils.getPhysicalPixels(400, view.getContext()), MeasureSpec.AT_MOST));
+		view.measure(MeasureSpec.makeMeasureSpec(ScreenValues.SCREEN_WIDTH, MeasureSpec.EXACTLY), MeasureSpec
+				.makeMeasureSpec(
+						Utils.getPhysicalPixels(DragAndDropListView.WIDTH_OF_BRICK_PREVIEW_IMAGE, view.getContext()),
+						MeasureSpec.AT_MOST));
 		view.layout(0, 0, ScreenValues.SCREEN_WIDTH, view.getMeasuredHeight());
 
 		view.setDrawingCacheBackgroundColor(Color.TRANSPARENT);
@@ -215,7 +213,7 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 		return bitmap;
 	}
 
-	public ImageView getBorderedPreview(Bitmap bitmap) {
+	public ImageView getBorderedPreview(final Bitmap bitmap) {
 		ImageView imageView = new ImageView(view.getContext());
 		imageView.setBackgroundColor(Color.TRANSPARENT);
 
@@ -275,15 +273,15 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 
 	public Bitmap getWithBorder(int radius, Bitmap bitmap, int color) {
 
-		int w = bitmap.getWidth();
-		int h = bitmap.getHeight();
-		int w2 = w + radius * 2;
-		int h2 = h + radius * 2;
+		int width = bitmap.getWidth();
+		int height = bitmap.getHeight();
+		int borderedWidth = width + radius * 2;
+		int borderedHeight = height + radius * 2;
 
-		Bitmap toReturn = Bitmap.createBitmap(w2, h2, Bitmap.Config.ARGB_8888);
+		Bitmap toReturn = Bitmap.createBitmap(borderedWidth, borderedHeight, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(toReturn);
 
-		Bitmap border = Bitmap.createBitmap(w2, h2, Bitmap.Config.ARGB_8888);
+		Bitmap border = Bitmap.createBitmap(borderedWidth, borderedHeight, Bitmap.Config.ARGB_8888);
 		Canvas borderCanvas = new Canvas(border);
 
 		Bitmap alpha = bitmap.extractAlpha();

@@ -29,10 +29,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
-/**
- * @author forestjohnson
- * 
- */
 public class UserBrickScriptActivity extends ScriptActivity {
 
 	private static UserBrick cachedUserBrick;

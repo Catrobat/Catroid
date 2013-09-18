@@ -43,28 +43,6 @@
  	    android:orientation="horizontal"
  	    app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
  	    app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
- 	    
- 	    <!--  
- 	    <TextView
- 	        style="@style/BrickText"
- 	        android:text="@string/brick_change_x_by"
- 	        ></TextView>
- 	    
- 	     <TextView
- 	        style="@style/BrickText"
- 	        android:text="@string/brick_change_x_by"
- 	        ></TextView>
- 	     <TextView
- 	        style="@style/BrickText"
- 	        android:text="@string/brick_change_x_by"
- 	        ></TextView>
- 	    <EditText
- 	        style="@style/BrickEditText"
- 	        android:text="@string/brick_change_x_by"
- 	        android:visibility="visible" >
-		</EditText>
-		 -->
- 	    
 	</org.catrobat.catroid.ui.BrickLayout>
  	
 </LinearLayout>

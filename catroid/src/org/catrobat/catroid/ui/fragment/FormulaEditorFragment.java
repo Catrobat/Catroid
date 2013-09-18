@@ -380,19 +380,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		}
 	}
 
-	public void saveFormulaIfPossibleQuiet() {
-		InternFormulaParser formulaToParse = formulaEditorEditText.getFormulaParser();
-		FormulaElement formulaParseTree = formulaToParse.parseFormula();
-		int err = formulaToParse.getErrorTokenIndex();
-		if (err == PARSER_OK) {
-			currentFormula.setRoot(formulaParseTree);
-			if (formulaEditorBrick != null) {
-				refreshFormulaPreviewString();
-			}
-			formulaEditorEditText.formulaSaved();
-		}
-	}
-
 	private boolean checkReturnWithoutSaving(int errorType) {
 		Log.i("info",
 				"confirmSwitchEditTextCounter=" + confirmSwitchEditTextCounter + " "

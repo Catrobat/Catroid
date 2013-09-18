@@ -130,11 +130,11 @@ public class Sprite implements Serializable, Cloneable {
 		return userBricks;
 	}
 
-	void initUserBrickList(String defaultText, String defaultVariable, int nextUserBrickID) {
+	void initUserBrickList(String defaultText, String defaultVariable, int nextUserBrickId) {
 		userBricks = new ArrayList<UserBrick>();
 
 		// the UserBrick constructor will insert the UserBrick into this Sprite's userBricks list.
-		UserBrick exampleBrick = new UserBrick(this, nextUserBrickID);
+		UserBrick exampleBrick = new UserBrick(this, nextUserBrickId);
 		exampleBrick.addUIText(defaultText);
 		exampleBrick.addUIVariable(defaultVariable);
 
@@ -187,7 +187,7 @@ public class Sprite implements Serializable, Cloneable {
 			UserBrick original = (UserBrick) brick;
 
 			UserBrick deepClone = new UserBrick(cloneSprite, original.getId());
-			deepClone.uiData = original.uiData.clone();
+			deepClone.uiDataArray = original.uiDataArray.clone();
 			deepClone.updateUIComponents(null);
 
 			UserScriptDefinitionBrick clonedDefinitionBrick = new UserScriptDefinitionBrick(cloneSprite, deepClone,

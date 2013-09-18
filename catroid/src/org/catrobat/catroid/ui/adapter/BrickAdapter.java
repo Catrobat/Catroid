@@ -154,12 +154,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private void initBrickListUserScript() {
 		userScript = getUserScript();
-		Log.d("FOREST", "BA.initBrickListUserScript.userScript = " + (userScript == null ? "null" : userScript.toString()));
-
 		brickList = new ArrayList<Brick>();
-
 		brickList.add(userScript.getScriptBrick());
-		Log.d("FOREST", "BA.initBrickListUserScript.userScript.getScriptBrick() = " + (userScript.getScriptBrick() == null ? "null" : userScript.getScriptBrick().toString()));
 
 		userScript.getScriptBrick().setBrickAdapter(this);
 		for (Brick brick : userScript.getBrickList()) {

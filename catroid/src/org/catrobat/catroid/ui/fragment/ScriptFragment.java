@@ -158,7 +158,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onResume() {
 		super.onResume();
-		Log.d("FOREST", "SF.onResume");
 
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;

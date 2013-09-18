@@ -23,25 +23,24 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/org.catrobat.catroid"
-    style="@style/userBrickDataTextBackground"
     android:id="@+id/brick_data_line_break"
+    style="@style/userBrickDataTextBackground"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="right"
+    app:layout_newLine="true"
     android:baselineAligned="true"
+    android:gravity="right"
     android:orientation="horizontal"
-    android:paddingTop="8dp" 
+    android:paddingBottom="10dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:paddingBottom="10dp"
-    app:layout_newLine="true">
-            
-   	<Button
-   	    android:id="@+id/button"
-   	    android:layout_width="30dp"
-   	    android:layout_height="25dp"
-   	    android:layout_marginTop="2dp"
-   	    android:background="@drawable/brick_data_close"
-   	 />
+    android:paddingTop="8dp" >
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="30dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/brick_data_close" />
 
 </LinearLayout>

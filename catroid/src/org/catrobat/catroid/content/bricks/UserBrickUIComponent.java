@@ -28,10 +28,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.io.Serializable;
 
-/**
- * @author forestjohnson
- * 
- */
 public class UserBrickUIComponent implements Serializable {
 
 	private static final long serialVersionUID = 1L;

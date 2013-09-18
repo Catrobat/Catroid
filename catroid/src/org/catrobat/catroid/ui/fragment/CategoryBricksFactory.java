@@ -120,15 +120,15 @@ public class CategoryBricksFactory {
 			tempList = setupLegoNxtCategoryList(sprite);
 		}
 
-		for (Brick b : tempList) {
+		for (Brick brick : tempList) {
 			ScriptBrick brickAsScriptBrick;
 			try {
-				brickAsScriptBrick = (ScriptBrick) b;
+				brickAsScriptBrick = (ScriptBrick) brick;
 			} catch (ClassCastException e) {
 				brickAsScriptBrick = null;
 			}
 			if (!isUserScriptMode || brickAsScriptBrick == null) {
-				toReturn.add(b);
+				toReturn.add(brick);
 			}
 		}
 

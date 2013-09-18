@@ -52,11 +52,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * @author forestjohnson
- * 
- */
-
 public class UserBrick extends BrickBaseType implements OnClickListener, MultiFormulaBrick {
 	private static final long serialVersionUID = 1L;
 
@@ -67,7 +62,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 	private ArrayList<UserBrickUIComponent> uiComponents;
 
 	// belonging to stored brick
-	public UserBrickUIDataArray uiData;
+	public UserBrickUIDataArray uiDataArray;
 	private int lastDataVersion = 0;
 	private int userBrickId;
 
@@ -75,7 +70,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 		this.userBrickId = userBrickId;
 		this.sprite = sprite;
 		sprite.addUserBrick(this);
-		uiData = new UserBrickUIDataArray();
+		uiDataArray = new UserBrickUIDataArray();
 		this.definitionBrick = new UserScriptDefinitionBrick(sprite, this, userBrickId);
 
 		updateUIComponents(null);
@@ -84,14 +79,13 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 	public UserBrick(Sprite sprite, UserBrickUIDataArray uiData, UserScriptDefinitionBrick definitionBrick) {
 		this.userBrickId = definitionBrick.getUserBrickId();
 		this.sprite = sprite;
-		this.uiData = uiData;
+		this.uiDataArray = uiData;
 		this.definitionBrick = definitionBrick;
 		updateUIComponents(null);
 	}
 
 	@Override
 	public int getRequiredResources() {
-
 		return definitionBrick.getRequiredResources();
 	}
 
@@ -107,9 +101,9 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 		data.isVariable = false;
 		data.isEditModeLineBreak = false;
 		data.name = context.getResources().getString(id);
-		int toReturn = uiData.size();
-		uiData.add(data);
-		uiData.version++;
+		int toReturn = uiDataArray.size();
+		uiDataArray.add(data);
+		uiDataArray.version++;
 		return toReturn;
 	}
 
@@ -118,9 +112,9 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 		data.isVariable = false;
 		data.isEditModeLineBreak = false;
 		data.name = text;
-		int toReturn = uiData.size();
-		uiData.add(data);
-		uiData.version++;
+		int toReturn = uiDataArray.size();
+		uiDataArray.add(data);
+		uiDataArray.version++;
 		return toReturn;
 	}
 
@@ -129,8 +123,8 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 		data.isVariable = false;
 		data.isEditModeLineBreak = true;
 		data.name = "linebreak";
-		uiData.add(data);
-		uiData.version++;
+		uiDataArray.add(data);
+		uiDataArray.version++;
 	}
 
 	public int addUILocalizedVariable(Context context, int id) {
@@ -145,9 +139,9 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 			variablesContainer.addUserBrickUserVariableToUserBrick(userBrickId, data.name);
 		}
 
-		int toReturn = uiData.size();
-		uiData.add(data);
-		uiData.version++;
+		int toReturn = uiDataArray.size();
+		uiDataArray.add(data);
+		uiDataArray.version++;
 		return toReturn;
 	}
 
@@ -163,16 +157,16 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 			variablesContainer.addUserBrickUserVariableToUserBrick(userBrickId, comp.name);
 		}
 
-		int toReturn = uiData.size();
-		uiData.add(comp);
-		uiData.version++;
+		int toReturn = uiDataArray.size();
+		uiDataArray.add(comp);
+		uiDataArray.version++;
 		return toReturn;
 	}
 
 	public void renameUIElement(String oldName, String newName, Context context) {
 		UserBrickUIData variable = null;
 		boolean isVariable = false;
-		for (UserBrickUIData data : uiData) {
+		for (UserBrickUIData data : uiDataArray) {
 			if (data.name.equals(oldName)) {
 				variable = data;
 				isVariable = data.isVariable;
@@ -193,19 +187,19 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 	}
 
 	public void removeDataAt(int id, Context context) {
-		definitionBrick.removeVariablesInFormulas(uiData.get(id).name, context);
+		definitionBrick.removeVariablesInFormulas(uiDataArray.get(id).name, context);
 
-		if (uiData.get(id).isVariable && ProjectManager.getInstance().getCurrentProject() != null) {
+		if (uiDataArray.get(id).isVariable && ProjectManager.getInstance().getCurrentProject() != null) {
 			UserVariablesContainer variablesContainer = null;
 			variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
-			variablesContainer.deleteUserVariableFromUserBrick(userBrickId, uiData.get(id).name);
+			variablesContainer.deleteUserVariableFromUserBrick(userBrickId, uiDataArray.get(id).name);
 		}
-		uiData.remove(id);
-		uiData.version++;
+		uiDataArray.remove(id);
+		uiDataArray.version++;
 	}
 
 	public boolean isInstanceOf(UserBrick b) {
-		return (b.uiData == uiData);
+		return (b.uiDataArray == uiDataArray);
 	}
 
 	public Iterator<UserBrickUIComponent> getUIComponentIterator() {
@@ -215,14 +209,14 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 	public void updateUIComponents(Context context) {
 		ArrayList<UserBrickUIComponent> newUIComponents = new ArrayList<UserBrickUIComponent>();
 
-		for (int i = 0; i < uiData.size(); i++) {
-			UserBrickUIComponent c = new UserBrickUIComponent();
-			c.dataIndex = i;
-			if (uiData.get(i).isVariable) {
-				c.variableFormula = new Formula(0);
-				c.variableName = uiData.get(i).name;
+		for (int i = 0; i < uiDataArray.size(); i++) {
+			UserBrickUIComponent component = new UserBrickUIComponent();
+			component.dataIndex = i;
+			if (uiDataArray.get(i).isVariable) {
+				component.variableFormula = new Formula(0);
+				component.variableName = uiDataArray.get(i).name;
 			}
-			newUIComponents.add(c);
+			newUIComponents.add(component);
 		}
 
 		if (context != null && uiComponents != null) {
@@ -230,7 +224,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 		}
 
 		uiComponents = newUIComponents;
-		lastDataVersion = uiData.version;
+		lastDataVersion = uiDataArray.version;
 	}
 
 	@Override
@@ -248,12 +242,12 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 			Context context) {
 
 		for (UserBrickUIComponent fromElement : from) {
-			if (fromElement.dataIndex < uiData.size()) {
-				UserBrickUIData fromData = uiData.get(fromElement.dataIndex);
+			if (fromElement.dataIndex < uiDataArray.size()) {
+				UserBrickUIData fromData = uiDataArray.get(fromElement.dataIndex);
 				if (fromData.isVariable) {
 					for (UserBrickUIComponent toElement : to) {
-						if (toElement.dataIndex < uiData.size()) {
-							UserBrickUIData toData = uiData.get(toElement.dataIndex);
+						if (toElement.dataIndex < uiDataArray.size()) {
+							UserBrickUIData toData = uiDataArray.get(toElement.dataIndex);
 							if (fromData.name.equals(toData.name)) {
 								toElement.variableFormula = fromElement.variableFormula;
 								toElement.variableName = toData.name;
@@ -271,17 +265,17 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 	public void reorderUIData(int from, int to) {
 
 		if (to == -1) {
-			UserBrickUIData d = uiData.remove(from);
-			uiData.add(0, d);
+			UserBrickUIData d = uiDataArray.remove(from);
+			uiDataArray.add(0, d);
 		} else if (from <= to) {
-			UserBrickUIData d = uiData.remove(from);
-			uiData.add(to, d);
+			UserBrickUIData d = uiDataArray.remove(from);
+			uiDataArray.add(to, d);
 		} else {
 			// from > to
-			UserBrickUIData d = uiData.remove(from);
-			uiData.add(to + 1, d);
+			UserBrickUIData d = uiDataArray.remove(from);
+			uiDataArray.add(to + 1, d);
 		}
-		uiData.version++;
+		uiDataArray.version++;
 	}
 
 	public void appendBrickToScript(Brick brick) {
@@ -327,7 +321,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 		if (view == null) {
 			return null;
 		}
-		if (lastDataVersion < uiData.version || uiComponents == null) {
+		if (lastDataVersion < uiDataArray.version || uiComponents == null) {
 			updateUIComponents(view.getContext());
 			onLayoutChanged(view);
 		}
@@ -336,11 +330,11 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 
-		for (UserBrickUIComponent c : uiComponents) {
-			if (c != null && c.textView != null) {
-				c.textView.setTextColor(c.textView.getTextColors().withAlpha(alphaValue));
-				if (c.textView.getBackground() != null) {
-					c.textView.getBackground().setAlpha(alphaValue);
+		for (UserBrickUIComponent component : uiComponents) {
+			if (component != null && component.textView != null) {
+				component.textView.setTextColor(component.textView.getTextColors().withAlpha(alphaValue));
+				if (component.textView.getBackground() != null) {
+					component.textView.getBackground().setAlpha(alphaValue);
 				}
 			}
 		}
@@ -350,7 +344,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 	}
 
 	public void onLayoutChanged(View currentView) {
-		if (lastDataVersion < uiData.version || uiComponents == null) {
+		if (lastDataVersion < uiDataArray.version || uiComponents == null) {
 			updateUIComponents(currentView.getContext());
 		}
 
@@ -358,15 +352,15 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 
 		Context context = currentView.getContext();
 
-		BrickLayout layout2 = (BrickLayout) currentView.findViewById(R.id.brick_user_flow_layout);
-		if (layout2.getChildCount() > 0) {
-			layout2.removeAllViews();
+		BrickLayout layout = (BrickLayout) currentView.findViewById(R.id.brick_user_flow_layout);
+		if (layout.getChildCount() > 0) {
+			layout.removeAllViews();
 		}
 
 		int id = 0;
-		for (UserBrickUIComponent c : uiComponents) {
+		for (UserBrickUIComponent component : uiComponents) {
 			TextView currentTextView = null;
-			UserBrickUIData d = uiData.get(c.dataIndex);
+			UserBrickUIData d = uiDataArray.get(component.dataIndex);
 			if (d.isEditModeLineBreak) {
 				continue;
 			}
@@ -375,14 +369,14 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 
 				if (prototype) {
 					currentTextView.setTextAppearance(context, R.style.BrickPrototypeTextView);
-					currentTextView.setText(String.valueOf(c.variableFormula.interpretInteger(sprite)));
+					currentTextView.setText(String.valueOf(component.variableFormula.interpretInteger(sprite)));
 				} else {
 					currentTextView.setId(id);
 					currentTextView.setTextAppearance(context, R.style.BrickEditText);
 
-					c.variableFormula.setTextFieldId(currentTextView.getId());
-					String formulaString = c.variableFormula.getDisplayString(currentTextView.getContext());
-					c.variableFormula.refreshTextField(currentTextView, formulaString);
+					component.variableFormula.setTextFieldId(currentTextView.getId());
+					String formulaString = component.variableFormula.getDisplayString(currentTextView.getContext());
+					component.variableFormula.refreshTextField(currentTextView, formulaString);
 
 					// This stuff isn't being included by the style when I use setTextAppearance.
 					currentTextView.setFocusable(false);
@@ -405,7 +399,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 				currentTextView.setClickable(false);
 			}
 
-			layout2.addView(currentTextView);
+			layout.addView(currentTextView);
 
 			if (d.newLineHint) {
 				BrickLayout.LayoutParams params = (BrickLayout.LayoutParams) currentTextView.getLayoutParams();
@@ -414,9 +408,9 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 			}
 
 			if (prototype) {
-				c.prototypeView = currentTextView;
+				component.prototypeView = currentTextView;
 			} else {
-				c.textView = currentTextView;
+				component.textView = currentTextView;
 			}
 			id++;
 		}
@@ -424,9 +418,9 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 
 	public CharSequence getName(Context context) {
 		CharSequence name = "";
-		for (UserBrickUIData d : uiData) {
-			if (!d.isVariable) {
-				name = d.name;
+		for (UserBrickUIData data : uiDataArray) {
+			if (!data.isVariable) {
+				name = data.name;
 				break;
 			}
 		}
@@ -435,7 +429,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 
 	@Override
 	public UserBrick clone() {
-		return new UserBrick(getSprite(), uiData, definitionBrick);
+		return new UserBrick(getSprite(), uiDataArray, definitionBrick);
 	}
 
 	@Override
@@ -445,7 +439,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 		}
 
 		for (UserBrickUIComponent c : uiComponents) {
-			UserBrickUIData d = uiData.get(c.dataIndex);
+			UserBrickUIData d = uiDataArray.get(c.dataIndex);
 
 			if (d.isVariable && c.textView.getId() == eventOrigin.getId()) {
 				FormulaEditorFragment.showFragment(view, this, c.variableFormula);

@@ -180,8 +180,8 @@ public class UserBrickEditElementDialog extends SherlockDialogFragment {
 				if (editable.length() == 0) {
 					positiveButton.setEnabled(false);
 				}
-				for (String s : takenVariables) {
-					if (editable.toString().equals(s)) {
+				for (String takenName : takenVariables) {
+					if (editable.toString().equals(takenName)) {
 						positiveButton.setEnabled(false);
 						break;
 					}

@@ -26,10 +26,6 @@ import org.catrobat.catroid.content.bricks.UserBrickVariable;
 
 import java.util.List;
 
-/**
- * @author forestjohnson
- * 
- */
 public class UserBrickStageToken {
 
 	public int userBrickId;

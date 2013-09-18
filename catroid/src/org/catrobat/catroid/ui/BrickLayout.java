@@ -109,9 +109,9 @@ public class BrickLayout extends ViewGroup {
 		int modeWidth = MeasureSpec.getMode(widthMeasureSpec);
 		int modeHeight = MeasureSpec.getMode(heightMeasureSpec);
 
-		int lineThicknessWithorizontalSpacing = 0;
+		int lineThicknessWithHorizontalSpacing = 0;
 		int lineThickness = 0;
-		int lineLengthWithorizontalSpacing = 0;
+		int lineLengthWithHorizontalSpacing = 0;
 		int lineLength = 0;
 
 		int prevLinePosition = 0;
@@ -165,8 +165,8 @@ public class BrickLayout extends ViewGroup {
 			LayoutParams layoutParams = (LayoutParams) child.getLayoutParams();
 			int childWidth = preLayoutMeasureWidth(child, sizeWidth, sizeHeight, modeWidth, modeHeight);
 
-			lineLength = lineLengthWithorizontalSpacing + childWidth;
-			lineLengthWithorizontalSpacing = lineLength + horizontalSpacing;
+			lineLength = lineLengthWithHorizontalSpacing + childWidth;
+			lineLengthWithHorizontalSpacing = lineLength + horizontalSpacing;
 
 			boolean newLine = (layoutParams.newLine && totalLengthOfContent - combinedLengthOfPreviousLines > sizeWidth);
 
@@ -187,7 +187,7 @@ public class BrickLayout extends ViewGroup {
 
 				combinedLengthOfPreviousLines += (lineLength - (childWidth + horizontalSpacing));
 				lineLength = childWidth;
-				lineLengthWithorizontalSpacing = lineLength + horizontalSpacing;
+				lineLengthWithHorizontalSpacing = lineLength + horizontalSpacing;
 
 				elementInLineIndex = 0;
 			}
@@ -225,9 +225,9 @@ public class BrickLayout extends ViewGroup {
 
 		// ************************ BEGIN LAYOUT ************************
 
-		lineThicknessWithorizontalSpacing = 0;
+		lineThicknessWithHorizontalSpacing = 0;
 		lineThickness = 0;
-		lineLengthWithorizontalSpacing = 0;
+		lineLengthWithHorizontalSpacing = 0;
 		lineLength = 0;
 
 		prevLinePosition = 0;
@@ -267,27 +267,27 @@ public class BrickLayout extends ViewGroup {
 				boolean updateSmallestHeight = currentLine.minHeight == 0 || currentLine.minHeight > childHeight;
 				currentLine.minHeight = (updateSmallestHeight ? childHeight : currentLine.minHeight);
 
-				lineLength = lineLengthWithorizontalSpacing + childWidth;
-				lineLengthWithorizontalSpacing = lineLength + horizontalSpacing;
+				lineLength = lineLengthWithHorizontalSpacing + childWidth;
+				lineLengthWithHorizontalSpacing = lineLength + horizontalSpacing;
 
 				if (layoutParams.newLine && !newLine) {
 					lineLength += horizontalSpacing;
-					lineLengthWithorizontalSpacing += horizontalSpacing;
+					lineLengthWithHorizontalSpacing += horizontalSpacing;
 				}
 
 				if (newLine) {
 					newLine = false;
-					prevLinePosition = prevLinePosition + lineThicknessWithorizontalSpacing;
+					prevLinePosition = prevLinePosition + lineThicknessWithHorizontalSpacing;
 
 					currentLine = getNextLine(currentLine);
 
 					lineThickness = childHeight;
 					lineLength = childWidth;
-					lineThicknessWithorizontalSpacing = childHeight + verticalSpacing;
-					lineLengthWithorizontalSpacing = lineLength + horizontalSpacing;
+					lineThicknessWithHorizontalSpacing = childHeight + verticalSpacing;
+					lineLengthWithHorizontalSpacing = lineLength + horizontalSpacing;
 				}
 
-				lineThicknessWithorizontalSpacing = Math.max(lineThicknessWithorizontalSpacing, childHeight
+				lineThicknessWithHorizontalSpacing = Math.max(lineThicknessWithHorizontalSpacing, childHeight
 						+ verticalSpacing);
 				lineThickness = Math.max(lineThickness, childHeight);
 
@@ -435,8 +435,8 @@ public class BrickLayout extends ViewGroup {
 	}
 
 	@Override
-	protected LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
-		return new LayoutParams(p);
+	protected LayoutParams generateLayoutParams(ViewGroup.LayoutParams layoutParameters) {
+		return new LayoutParams(layoutParameters);
 	}
 
 	private void readStyleParameters(Context context, AttributeSet attributeSet) {

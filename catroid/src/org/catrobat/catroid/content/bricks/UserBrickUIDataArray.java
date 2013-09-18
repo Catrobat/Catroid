@@ -25,10 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * @author forestjohnson
- * 
- */
 public class UserBrickUIDataArray extends ArrayList<UserBrickUIData> implements Serializable {
 
 	private static final long serialVersionUID = 1L;

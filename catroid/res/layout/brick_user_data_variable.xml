@@ -22,50 +22,48 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/userBrickDataTextBackground"
     android:id="@+id/brick_data_parameter"
+    style="@style/userBrickDataTextBackground"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingTop="6dp"
+    android:paddingBottom="12dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:paddingBottom="12dp" >
+    android:paddingTop="6dp" >
 
-      <TextView
-          style="NoBackgroundStyle"
-          android:id="@+id/text_view"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:background="@drawable/brick_data_param"
-          android:paddingBottom="2dp"
-          android:paddingLeft="4dp"
-          android:paddingRight="4dp"
-          android:paddingTop="0dp"
-          android:textColor="@color/solid_white"
-          android:textSize="16sp"
-          android:textStyle="bold" >
+    <TextView
+        android:id="@+id/text_view"
+        style="NoBackgroundStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/brick_data_param"
+        android:paddingBottom="2dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="0dp"
+        android:textColor="@color/solid_white"
+        android:textSize="16sp"
+        android:textStyle="bold" >
+    </TextView>
 
-      </TextView>
+    <TextView
+        android:id="@+id/separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:paddingTop="0dp"
+        android:text="@string/separator"
+        android:textColor="@color/solid_white"
+        android:textSize="20sp" >
+    </TextView>
 
-	<TextView
-    	android:id="@+id/separator"
-    	android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:paddingTop="0dp"
-		android:paddingLeft="3dp"
-		android:paddingRight="3dp"
-    	android:textColor="@color/solid_white"
-  		android:text="@string/separator"
-		android:textSize="20sp" >
-	</TextView>
-      
-	<Button
-	    android:id="@+id/button"
-	    android:layout_width="30dp"
-	    android:layout_height="25dp"
-	    android:layout_marginTop="2dp"
-	    android:background="@drawable/brick_data_close"
-	 />
+    <Button
+        android:id="@+id/button"
+        android:layout_width="30dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/brick_data_close" />
 
 </LinearLayout>

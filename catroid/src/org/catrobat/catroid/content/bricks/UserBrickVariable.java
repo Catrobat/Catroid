@@ -25,10 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-/**
- * @author forestjohnson
- * 
- */
 public class UserBrickVariable {
 	public UserVariable variable;
 	public Formula formula;

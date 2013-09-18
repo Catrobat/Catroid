@@ -37,14 +37,12 @@
         android:visibility="gone" >
     </CheckBox>
 
- 	<org.catrobat.catroid.ui.DragNDropBrickLayout
- 	    android:id="@+id/brick_user_flow_layout"
- 	    style="@style/BrickContainer.UserBrick.Small"
- 	    android:orientation="horizontal"
- 	    app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
- 	    app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+    <org.catrobat.catroid.ui.DragNDropBrickLayout
+        android:id="@+id/brick_user_flow_layout"
+        style="@style/BrickContainer.UserBrick.Small"
+        android:orientation="horizontal"
+        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+    </org.catrobat.catroid.ui.DragNDropBrickLayout>
 
- 	    
-	</org.catrobat.catroid.ui.DragNDropBrickLayout>
- 	
 </LinearLayout>

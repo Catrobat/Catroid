@@ -119,12 +119,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ScriptActivity"
-            android:theme="@style/Theme.Catroid"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
          <activity
             android:name=".ui.UserBrickScriptActivity"
-            android:theme="@style/Theme.Catroid"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity

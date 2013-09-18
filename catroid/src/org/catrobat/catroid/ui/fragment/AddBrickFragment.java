@@ -77,8 +77,8 @@ public class AddBrickFragment extends SherlockListFragment {
 	private static int listIndexToFocus = -1;
 	private boolean cameDirectlyFromScriptActivity = false;
 
-	public static void setBrickFocus(UserBrick b) {
-		brickToFocus = b;
+	public static void setBrickFocus(UserBrick userBrick) {
+		brickToFocus = userBrick;
 	}
 
 	public static AddBrickFragment newInstance(String selectedCategory, ScriptFragment scriptFragment) {
@@ -116,11 +116,11 @@ public class AddBrickFragment extends SherlockListFragment {
 				cameDirectlyFromScriptActivity = true;
 				int i = 0;
 				for (Brick brick : brickList) {
-					UserBrick b = ((UserBrick) brick);
-					if (brickToFocus.isInstanceOf(b)) {
+					UserBrick userBrick = ((UserBrick) brick);
+					if (brickToFocus.isInstanceOf(userBrick)) {
 
 						listIndexToFocus = i;
-						animateBrick(b, adapter);
+						animateBrick(userBrick, adapter);
 
 						brickToFocus = null;
 						break;
@@ -129,8 +129,6 @@ public class AddBrickFragment extends SherlockListFragment {
 				}
 			}
 
-			//Log.d("FOREST", "ABF.setupSelectedCategory: // enable add button");
-			// enable add button
 			BottomBar.showBottomBar(getActivity());
 			BottomBar.hidePlayButton(getActivity());
 		}
@@ -293,7 +291,6 @@ public class AddBrickFragment extends SherlockListFragment {
 				if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_add_to_script))) {
 					addBrickToScript(clickedBrick);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_edit_brick))) {
-					//Log.d("FOREST", "ABF.launchBrickScriptActivityOnBrick");
 					launchBrickScriptActivityOnBrick(context, clickedBrick);
 				}
 			}

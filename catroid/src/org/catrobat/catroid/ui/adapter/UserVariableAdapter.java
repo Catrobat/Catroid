@@ -276,11 +276,11 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 	}
 
 	public List<UserVariable> getCheckedUserVariables() {
-		List<UserVariable> vars = new ArrayList<UserVariable>();
+		List<UserVariable> variables = new ArrayList<UserVariable>();
 		for (int pos : getCheckedItems()) {
-			vars.add(getItem(pos));
+			variables.add(getItem(pos));
 		}
-		return vars;
+		return variables;
 	}
 
 	@Override

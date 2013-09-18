@@ -22,47 +22,45 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/userBrickDataTextBackground"
     android:id="@+id/brick_data_text"
+    style="@style/userBrickDataTextBackground"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:baselineAligned="true"
     android:measureWithLargestChild="false"
     android:orientation="horizontal"
-    android:paddingTop="8dp" 
+    android:paddingBottom="10dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:paddingBottom="10dp">
+    android:paddingTop="8dp" >
 
-        <TextView
-            android:id="@+id/text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="0dp"
-			android:paddingLeft="3dp"
-			android:paddingRight="5dp"
-            android:textColor="@color/solid_white"
-            android:textStyle="bold" 
-            android:textSize="16sp" >
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="3dp"
+        android:paddingRight="5dp"
+        android:paddingTop="0dp"
+        android:textColor="@color/solid_white"
+        android:textSize="16sp"
+        android:textStyle="bold" >
+    </TextView>
 
-        </TextView>
-        
-		<TextView
-            android:id="@+id/separator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="0dp"
-            android:textColor="@color/solid_white"
-            android:text="@string/separator"
-            android:textSize="20sp" >
-        </TextView>
-            
-   	<Button
-   	    android:id="@+id/button"
-   	    android:layout_width="30dp"
-   	    android:layout_height="25dp"
-   	    android:layout_marginTop="2dp"
-   	    android:background="@drawable/brick_data_close"
-   	 />
+    <TextView
+        android:id="@+id/separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="0dp"
+        android:text="@string/separator"
+        android:textColor="@color/solid_white"
+        android:textSize="20sp" >
+    </TextView>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="30dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/brick_data_close" />
 
 </LinearLayout>

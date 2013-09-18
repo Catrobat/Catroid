@@ -27,4 +27,5 @@
     android:layout_height="wrap_content"
     android:minHeight="@dimen/brick_data_edit_cursor_size"
     android:src="@drawable/brick_data_insert" >
+
 </ImageView>

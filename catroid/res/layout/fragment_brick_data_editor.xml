@@ -43,7 +43,6 @@
         android:entries="@array/data_editor_buttons"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true" >
-
     </ListView>
 
 </RelativeLayout>

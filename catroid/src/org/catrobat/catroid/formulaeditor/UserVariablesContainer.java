@@ -43,6 +43,8 @@ import java.util.Map;
 public class UserVariablesContainer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private static final int INVALID_ID = -1;
+
 	@XStreamAlias("programVariableList")
 	private List<UserVariable> projectVariables;
 	@XStreamAlias("objectVariableList")
@@ -61,7 +63,7 @@ public class UserVariablesContainer implements Serializable {
 
 	public UserVariableAdapter createUserVariableAdapter(Context context, int userBrickId, Sprite sprite) {
 		List<UserVariable> userBrickVariables = null;
-		if (userBrickId == -1) {
+		if (userBrickId == INVALID_ID) {
 			userBrickVariables = new LinkedList<UserVariable>();
 		} else {
 			userBrickVariables = getOrCreateVariableListForUserBrick(userBrickId);
@@ -126,7 +128,7 @@ public class UserVariablesContainer implements Serializable {
 	public void deleteUserVariableByName(String userVariableName) {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		UserBrick currentUserBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		int userBrickId = -1;
+		int userBrickId = INVALID_ID;
 		if (currentUserBrick != null) {
 			userBrickId = currentUserBrick.getDefinitionBrick().getUserBrickId();
 		}
@@ -158,9 +160,9 @@ public class UserVariablesContainer implements Serializable {
 	}
 
 	public void cleanVariableListForUserBrick(int userBrickId) {
-		List<UserVariable> vars = userBrickVariables.get(userBrickId);
-		if (vars != null) {
-			vars.clear();
+		List<UserVariable> variables = userBrickVariables.get(userBrickId);
+		if (variables != null) {
+			variables.clear();
 		}
 		userBrickVariables.remove(userBrickId);
 	}
@@ -175,9 +177,9 @@ public class UserVariablesContainer implements Serializable {
 	}
 
 	public void cleanVariableListForSprite(Sprite sprite) {
-		List<UserVariable> vars = spriteVariables.get(sprite);
-		if (vars != null) {
-			vars.clear();
+		List<UserVariable> variables = spriteVariables.get(sprite);
+		if (variables != null) {
+			variables.clear();
 		}
 		spriteVariables.remove(sprite);
 	}
@@ -206,7 +208,7 @@ public class UserVariablesContainer implements Serializable {
 			return spriteVariables;
 		}
 
-		if (userBrickId != -1) {
+		if (userBrickId != INVALID_ID) {
 			List<UserVariable> userBrickVariables = getOrCreateVariableListForUserBrick(userBrickId);
 			variableToReturn = findUserVariable(name, userBrickVariables);
 			if (variableToReturn != null) {
