@@ -44,7 +44,6 @@ public final class Constants {
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 	public static final String IMAGE_DIRECTORY = "images";
 	public static final String SOUND_DIRECTORY = "sounds";
-	public static final String BRICK_DIRECTORY = "bricks";
 	public static final String BACKPACK_DIRECTORY = "backpack";
 
 	public static final String BACKPACK_SOUND_DIRECTORY = "backpack_sound";
