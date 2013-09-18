@@ -179,7 +179,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		menu.findItem(R.id.copy).setVisible(true);
 
 		boolean visibility = false;
-		if (!BuildConfig.DEBUG) {
+		if (BuildConfig.DEBUG) {
 			visibility = true;
 		}
 		menu.findItem(R.id.backpack).setVisible(visibility);
@@ -458,7 +458,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_copy).setVisible(true);
 		//TODO: remove this when inserting of sound items from backpack is possible
-		if (BuildConfig.DEBUG) {
+		if (!BuildConfig.DEBUG) {
 			menu.findItem(R.id.context_menu_backpack).setVisible(false);
 		}
 	}

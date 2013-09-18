@@ -22,20 +22,18 @@
  */
 package org.catrobat.catroid.ui.controller;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-
 import org.catrobat.catroid.common.SoundInfo;
 
 import java.util.ArrayList;
 
-public class BackPackListManager extends SherlockFragmentActivity {
+public class BackPackListManager {
 
-	private static BackPackListManager INSTANCE = new BackPackListManager();
+	private static final BackPackListManager INSTANCE = new BackPackListManager();
 	private static final ArrayList<SoundInfo> SOUND_INFO_ARRAY_LIST = new ArrayList<SoundInfo>();
 	private static final ArrayList<SoundInfo> ACTION_BAR_SOUND_INFO_ARRAY_LIST = new ArrayList<SoundInfo>();
 	private static SoundInfo currentSoundInfo;
 
-	protected BackPackListManager() {
+	private BackPackListManager() {
 	}
 
 	public static BackPackListManager getInstance() {
