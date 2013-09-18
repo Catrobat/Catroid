@@ -128,7 +128,6 @@ public class AddBrickFragment extends SherlockListFragment {
 					i++;
 				}
 			}
-
 			BottomBar.showBottomBar(getActivity());
 			BottomBar.hidePlayButton(getActivity());
 		}
