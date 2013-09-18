@@ -49,7 +49,6 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -703,7 +702,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 				solo.getView(R.id.bottom_bar_separator).getVisibility() == View.VISIBLE);
 	}
 
-	@Device
 	public void testOptionsEnableLegoMindstormBricks() {
 		UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);

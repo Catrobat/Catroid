@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -67,7 +66,6 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 		super.tearDown();
 	}
 
-	@Device
 	public void testVariableBricks() {
 		Spinner setVariableSpinner = solo.getCurrentViews(Spinner.class).get(0);
 		Spinner changeVariableSpinner = solo.getCurrentViews(Spinner.class).get(1);
@@ -90,7 +88,7 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 		solo.waitForView(solo.getView(R.id.button_play));
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(1500);
+		solo.sleep(5000);
 
 		assertEquals("Variable has the wrong value after stage", 42.0,
 				userVariablesContainer.getUserVariable("p2", sprite).getValue());
