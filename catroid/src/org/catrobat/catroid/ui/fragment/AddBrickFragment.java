@@ -134,7 +134,7 @@ public class AddBrickFragment extends SherlockListFragment {
 		}
 	}
 
-	private void animateBrick(final Brick b, PrototypeBrickAdapter adapter) {
+	private void animateBrick(final Brick brick, PrototypeBrickAdapter adapter) {
 		Context context = getActivity();
 		Animation animation = AnimationUtils.loadAnimation(context, R.anim.blink);
 
@@ -142,7 +142,7 @@ public class AddBrickFragment extends SherlockListFragment {
 
 			@Override
 			public void onAnimationStart(Animation animation) {
-				b.setAnimationState(true);
+				brick.setAnimationState(true);
 			}
 
 			@Override
@@ -152,11 +152,11 @@ public class AddBrickFragment extends SherlockListFragment {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				b.setAnimationState(false);
+				brick.setAnimationState(false);
 			}
 		});
 
-		View view = b.getView(context, 0, adapter);
+		View view = brick.getView(context, 0, adapter);
 
 		view.startAnimation(animation);
 	}
