@@ -280,30 +280,28 @@ public class StorageHandler {
 						Constants.NO_MEDIA_FILE));
 				noMediaFile.createNewFile();
 
-				//File backPackDirectory = new File(Constants.DEFAULT_ROOT + "/" + Constants.BACKPACK_DIRECTORY);
-				//backPackDirectory.mkdir();
-				/*
-				 * noMediaFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
-				 * Constants.NO_MEDIA_FILE));
-				 * noMediaFile.createNewFile();
-				 * 
-				 * 
-				 * File backPackSoundDirectory = new File(Constants.DEFAULT_ROOT + "/" + Constants.BACKPACK_DIRECTORY
-				 * + "/" + Constants.BACKPACK_SOUND_DIRECTORY);
-				 * backPackSoundDirectory.mkdir();
-				 * 
-				 * noMediaFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
-				 * Constants.BACKPACK_SOUND_DIRECTORY, Constants.NO_MEDIA_FILE));
-				 * noMediaFile.createNewFile();
-				 * 
-				 * File backPackImageDirectory = new File(Constants.DEFAULT_ROOT + "/" + Constants.BACKPACK_DIRECTORY
-				 * + "/" + Constants.BACKPACK_IMAGE_DIRECTORY);
-				 * backPackImageDirectory.mkdir();
-				 * 
-				 * noMediaFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
-				 * Constants.BACKPACK_IMAGE_DIRECTORY, Constants.NO_MEDIA_FILE));
-				 * noMediaFile.createNewFile();
-				 */
+				File backPackDirectory = new File(Constants.DEFAULT_ROOT + "/" + Constants.BACKPACK_DIRECTORY);
+				backPackDirectory.mkdir();
+
+				noMediaFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+						Constants.NO_MEDIA_FILE));
+				noMediaFile.createNewFile();
+
+				File backPackSoundDirectory = new File(Constants.DEFAULT_ROOT + "/" + Constants.BACKPACK_DIRECTORY
+						+ "/" + Constants.BACKPACK_SOUND_DIRECTORY);
+				backPackSoundDirectory.mkdir();
+
+				noMediaFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+						Constants.BACKPACK_SOUND_DIRECTORY, Constants.NO_MEDIA_FILE));
+				noMediaFile.createNewFile();
+
+				File backPackImageDirectory = new File(Constants.DEFAULT_ROOT + "/" + Constants.BACKPACK_DIRECTORY
+						+ "/" + Constants.BACKPACK_IMAGE_DIRECTORY);
+				backPackImageDirectory.mkdir();
+
+				noMediaFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+						Constants.BACKPACK_IMAGE_DIRECTORY, Constants.NO_MEDIA_FILE));
+				noMediaFile.createNewFile();
 
 			}
 
