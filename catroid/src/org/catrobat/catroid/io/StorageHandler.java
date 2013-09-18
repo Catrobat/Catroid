@@ -97,6 +97,7 @@ import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -263,6 +264,8 @@ public class StorageHandler {
 			if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
 				projectDirectory.mkdir();
 
+				BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
+
 				File imageDirectory = new File(Utils.buildPath(projectDirectoryName, Constants.IMAGE_DIRECTORY));
 				imageDirectory.mkdir();
 
@@ -276,6 +279,30 @@ public class StorageHandler {
 				noMediaFile = new File(Utils.buildPath(projectDirectoryName, Constants.SOUND_DIRECTORY,
 						Constants.NO_MEDIA_FILE));
 				noMediaFile.createNewFile();
+
+				File backPackDirectory = new File(Constants.DEFAULT_ROOT + "/" + Constants.BACKPACK_DIRECTORY);
+				backPackDirectory.mkdir();
+
+				noMediaFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+						Constants.NO_MEDIA_FILE));
+				noMediaFile.createNewFile();
+
+				File backPackSoundDirectory = new File(Constants.DEFAULT_ROOT + "/" + Constants.BACKPACK_DIRECTORY
+						+ "/" + Constants.BACKPACK_SOUND_DIRECTORY);
+				backPackSoundDirectory.mkdir();
+
+				noMediaFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+						Constants.BACKPACK_SOUND_DIRECTORY, Constants.NO_MEDIA_FILE));
+				noMediaFile.createNewFile();
+
+				File backPackImageDirectory = new File(Constants.DEFAULT_ROOT + "/" + Constants.BACKPACK_DIRECTORY
+						+ "/" + Constants.BACKPACK_IMAGE_DIRECTORY);
+				backPackImageDirectory.mkdir();
+
+				noMediaFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+						Constants.BACKPACK_IMAGE_DIRECTORY, Constants.NO_MEDIA_FILE));
+				noMediaFile.createNewFile();
+
 			}
 
 			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
@@ -337,6 +364,28 @@ public class StorageHandler {
 				+ inputFile.getName()));
 
 		return copyFileAddCheckSum(outputFile, inputFile, soundDirectory);
+	}
+
+	public File copySoundFileBackPack(SoundInfo selectedSoundInfo) throws IOException {
+
+		String path = selectedSoundInfo.getAbsolutePath();
+
+		File backPackDirectory = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+				Constants.BACKPACK_SOUND_DIRECTORY));
+
+		File inputFile = new File(path);
+		if (!inputFile.exists() || !inputFile.canRead()) {
+			return null;
+		}
+		String inputFileChecksum = Utils.md5Checksum(inputFile);
+
+		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
+
+		File outputFile = new File(Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+				Constants.BACKPACK_SOUND_DIRECTORY, currentProject + "_" + selectedSoundInfo.getTitle() + "_"
+						+ inputFileChecksum));
+
+		return copyFileAddCheckSum(outputFile, inputFile, backPackDirectory);
 	}
 
 	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {
@@ -455,6 +504,7 @@ public class StorageHandler {
 	}
 
 	private File copyFileAddCheckSum(File destinationFile, File sourceFile, File directory) throws IOException {
+
 		File copiedFile = UtilFile.copyFile(destinationFile, sourceFile, directory);
 		addChecksum(destinationFile, sourceFile);
 

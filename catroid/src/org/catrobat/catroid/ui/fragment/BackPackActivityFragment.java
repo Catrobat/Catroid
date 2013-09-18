@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,31 +19,32 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-	<item
-        android:id="@+id/context_menu_backpack"
-        android:title="@string/backpack" />
-    <item
-        android:id="@+id/context_menu_copy"
-        android:title="@string/copy" />
-    <item
-        android:id="@+id/context_menu_cut"
-        android:title="@string/cut"
-        android:visible="false" />
-    <item
-        android:id="@+id/context_menu_insert_below"
-        android:title="@string/insert_below"
-        android:visible="false" />
-    <item
-        android:id="@+id/context_menu_move"
-        android:title="@string/move"
-        android:visible="false" />
-    <item
-        android:id="@+id/context_menu_rename"
-        android:title="@string/rename" />
-    <item
-        android:id="@+id/context_menu_delete"
-        android:title="@string/delete" />
+ */
+package org.catrobat.catroid.ui.fragment;
 
-</menu>
+import com.actionbarsherlock.app.SherlockListFragment;
+
+public abstract class BackPackActivityFragment extends SherlockListFragment {
+
+	protected boolean actionModeActive = false;
+
+	public boolean getActionModeActive() {
+		return actionModeActive;
+	}
+
+	public void setActionModeActive(boolean actionModeActive) {
+		this.actionModeActive = actionModeActive;
+	}
+
+	public abstract boolean getShowDetails();
+
+	public abstract void setShowDetails(boolean showDetails);
+
+	public abstract void setSelectMode(int selectMode);
+
+	public abstract int getSelectMode();
+
+	public abstract void startDeleteActionMode();
+
+	protected abstract void showDeleteDialog();
+}
