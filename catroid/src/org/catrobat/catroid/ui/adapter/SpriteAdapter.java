@@ -115,7 +115,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View spriteView = convertView;
-		ViewHolder holder = new ViewHolder();
+		ViewHolder holder;
 		if (convertView == null) {
 			spriteView = inflater.inflate(R.layout.activity_project_spritelist_item, null);
 			holder = new ViewHolder();

@@ -69,36 +69,32 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 
 	@Override
 	public boolean getShowDetails() {
-		return false; //To change body of implemented methods use File | Settings | File Templates.
+		return false;
 	}
 
 	@Override
 	public void setShowDetails(boolean showDetails) {
-		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
 	public void setSelectMode(int selectMode) {
-		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
 	public int getSelectMode() {
-		return 0; //To change body of implemented methods use File | Settings | File Templates.
+		return 0;
 	}
 
 	@Override
 	public void startDeleteActionMode() {
-		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
 	protected void showDeleteDialog() {
-		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
 	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-		return false; //To change body of implemented methods use File | Settings | File Templates.
+		return false;
 	}
 }
