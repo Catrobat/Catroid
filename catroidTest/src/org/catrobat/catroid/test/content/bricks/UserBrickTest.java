@@ -220,8 +220,8 @@ public class UserBrickTest extends AndroidTestCase {
 		brick.addUIVariable("test1");
 
 		UserBrick cloneBrick = brick.clone();
-		UserBrickUIDataArray array = (UserBrickUIDataArray) Reflection.getPrivateField(brick, "uiData");
-		UserBrickUIDataArray clonedArray = (UserBrickUIDataArray) Reflection.getPrivateField(cloneBrick, "uiData");
+		UserBrickUIDataArray array = (UserBrickUIDataArray) Reflection.getPrivateField(brick, "uiDataArray");
+		UserBrickUIDataArray clonedArray = (UserBrickUIDataArray) Reflection.getPrivateField(cloneBrick, "uiDataArray");
 		assertTrue("The cloned brick has a different uiDataArray than the original brick", array == clonedArray);
 
 		UserScriptDefinitionBrick definition = (UserScriptDefinitionBrick) Reflection.getPrivateField(brick,
