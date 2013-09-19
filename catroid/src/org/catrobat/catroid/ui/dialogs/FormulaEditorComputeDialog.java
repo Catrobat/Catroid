@@ -35,6 +35,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 public class FormulaEditorComputeDialog extends AlertDialog implements SensorEventListener {
@@ -100,8 +101,12 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 			});
 		} else {
 			floatInterpretationResult = formulaToCompute.interpretFloat(sprite);
-			floatInterpretationResult *= 100;
-			floatInterpretationResult = Math.round(floatInterpretationResult) / 100f;
+
+			//Log.d("TAG", "Before: " + floatInterpretationResult);
+			//floatInterpretationResult *= 100;
+			//floatInterpretationResult = Math.round(floatInterpretationResult) / 100f;
+
+			Log.d("TAG", "floatInterpretationResult: " + floatInterpretationResult);
 			computeTextView.post(new Runnable() {
 				@Override
 				public void run() {
