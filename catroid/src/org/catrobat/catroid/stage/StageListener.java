@@ -260,7 +260,7 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void render() {
-
+		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		if (reloadProject) {
