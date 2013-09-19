@@ -66,7 +66,7 @@ public class ServerCalls {
 	private static final String REGISTRATION_URL = Constants.BASE_URL_HTTPS
 			+ "api/loginOrRegister/loginOrRegister.json";
 
-	public static final String BASE_URL_TEST_HTTP = "http://catroidtest.ist.tugraz.at/";
+	public static final String BASE_URL_TEST_HTTP = "http://catroid-test.catrob.at/";
 
 	public static final String TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTP + "api/upload/upload.json";
 	public static final String FILE_UPLOAD_URL_HTTPS = Constants.BASE_URL_HTTPS + "api/upload/upload.json";
