@@ -218,11 +218,6 @@ public class ScriptActivity extends BaseActivity {
 		}
 
 		switch (item.getItemId()) {
-			case android.R.id.home:
-				Intent mainMenuIntent = new Intent(this, MainMenuActivity.class);
-				mainMenuIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(mainMenuIntent);
-				break;
 			case R.id.backpack:
 				currentFragment.startBackPackActionMode();
 				break;
