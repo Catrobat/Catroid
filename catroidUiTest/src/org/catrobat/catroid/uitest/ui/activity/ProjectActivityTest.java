@@ -1077,7 +1077,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clearEditText(0);
 		solo.enterText(0, renamedSpriteName);
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(100);
 
@@ -1109,7 +1108,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnButton(close);
 
 		solo.enterText(0, FIRST_TEST_SPRITE_NAME);
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		assertFalse(">>sprite<< string found, should be replaced with >>object<<", solo.searchText("sprite"));
 		assertTrue(">>object<< string not found", solo.searchText("object"));
@@ -1151,7 +1149,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
 
 		solo.enterText(0, spriteName);
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(200);
 	}

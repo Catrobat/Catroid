@@ -86,7 +86,6 @@ public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<ScriptAc
 		solo.clickOnView(solo.getView(R.id.brick_speak_edit_text));
 		solo.clearEditText(0);
 		solo.enterText(0, testString);
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		String brickText = (String) Reflection.getPrivateField(speakBrick, "text");
@@ -97,7 +96,6 @@ public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<ScriptAc
 		solo.clickOnView(solo.getView(R.id.brick_speak_edit_text));
 		solo.clearEditText(0);
 		solo.enterText(0, testLeadingWhitespaces);
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		brickText = (String) Reflection.getPrivateField(speakBrick, "text");
@@ -108,7 +106,6 @@ public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<ScriptAc
 		solo.clickOnView(solo.getView(R.id.brick_speak_edit_text));
 		solo.clearEditText(0);
 		solo.enterText(0, testTrailingWhitespaces);
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		brickText = (String) Reflection.getPrivateField(speakBrick, "text");

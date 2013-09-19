@@ -43,25 +43,19 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 
 	@Override
 	protected void setUp() throws Exception {
-		Log.v(TAG, "Setup #1");
+		Log.v(TAG, "setUp");
 		super.setUp();
-		Log.v(TAG, "Setup #2");
 		UiTestUtils.clearAllUtilTestProjects();
-		Log.v(TAG, "Setup #3");
 		solo = new Solo(getInstrumentation(), getActivity());
-		Log.v(TAG, "Setup #4");
 		Reflection.setPrivateField(StageListener.class, "makeAutomaticScreenshot", false);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		Log.v(TAG, "Teardown #1");
+		Log.v(TAG, "tearDown");
 		solo.finishOpenedActivities();
-		Log.v(TAG, "Teardown #2");
 		UiTestUtils.clearAllUtilTestProjects();
-		Log.v(TAG, "Teardown #3");
 		super.tearDown();
-		Log.v(TAG, "Teardown #4");
 		solo = null;
 	}
 

@@ -153,7 +153,6 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
