@@ -184,6 +184,24 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	}
 
+	public void testCopySelectAll() {
+		int numberOfSoundsBeforeCopy = getCurrentNumberOfSounds();
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		solo.clickOnText(selectAll);
+
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+		}
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		int numberOfSoundsAfterCopy = getCurrentNumberOfSounds();
+
+		assertEquals("No all sounds have been copied!", numberOfSoundsBeforeCopy * 2, numberOfSoundsAfterCopy);
+	}
+
 	public void testDeleteSoundContextMenu() {
 		SoundAdapter adapter = getSoundAdapter();
 		assertNotNull("Could not get Adapter", adapter);

@@ -1047,6 +1047,20 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 	}
 
+	public void checkAllItems() {
+		for (Brick brick : brickList) {
+			if ((brick instanceof ScriptBrick)) {
+				addElementToCheckedBricks(brick);
+				animatedBricks.add(brick);
+				if (brick.getCheckBox() != null) {
+					brick.getCheckBox().setChecked(true);
+					brick.setCheckedBoolean(true);
+				}
+				smartBrickSelection(brick, true);
+			}
+		}
+	}
+
 	public void setCheckboxVisibility(int visibility) {
 		for (Brick brick : brickList) {
 			brick.setCheckboxVisibility(visibility);

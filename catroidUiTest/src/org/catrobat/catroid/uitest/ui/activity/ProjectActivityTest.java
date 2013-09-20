@@ -318,6 +318,25 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				.getBrickList().size(), brickCounter);
 	}
 
+	public void testCopySelectAll() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		int CurrentNumberOfSprites = getCurrentNumberOfSprites() - 1;
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		solo.clickOnText(selectAll);
+
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			if (checkBox.isShown()) {
+				assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+			}
+		}
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		checkIfNumberOfSpritesIsEqual(CurrentNumberOfSprites * 2 + 1);
+	}
+
 	public void testBackgroundSprite() {
 		String sometext = UiTestUtils.PROJECTNAME1;
 
@@ -632,7 +651,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	public void testClickOnHeadlines() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
-		String backgroundHeadline = solo.getString(R.string.spritelist_background_headline).toUpperCase(Locale.getDefault());
+		String backgroundHeadline = solo.getString(R.string.spritelist_background_headline).toUpperCase(
+				Locale.getDefault());
 		solo.clickOnText(backgroundHeadline);
 		solo.assertCurrentActivity("Click on background headline switched activity!", ProjectActivity.class);
 

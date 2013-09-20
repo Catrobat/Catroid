@@ -40,6 +40,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -63,6 +64,7 @@ import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelected
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.locks.Lock;
 
 public class ScriptFragment extends ScriptActivityFragment implements OnCategorySelectedListener, OnBrickEditListener {
@@ -398,6 +400,27 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 	}
 
+	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
+		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
+		com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
+		View view = item.getActionView();
+
+		if (view.getId() == R.id.select_all) {
+			View selectAllView = getLayoutInflater(null).inflate(R.layout.action_mode_select_all, null);
+			((TextView) selectAllView).setText(getString(R.string.select_all).toUpperCase(Locale.getDefault()));
+			selectAllView.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View view) {
+					adapter.checkAllItems();
+					view.setVisibility(View.GONE);
+				}
+
+			});
+			item.setActionView(selectAllView);
+		}
+	}
+
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
 
 		@Override
@@ -415,6 +438,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			multipleItemAppendixActionMode = getString(R.string.brick_multiple);
 
 			mode.setTitle(actionModeTitle);
+			addSelectAllActionModeButton(mode, menu);
 
 			return true;
 		}

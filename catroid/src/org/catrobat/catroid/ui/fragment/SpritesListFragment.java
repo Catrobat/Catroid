@@ -29,15 +29,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -452,6 +449,30 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		return actionModeActive;
 	}
 
+	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
+		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
+		com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
+		View view = item.getActionView();
+		if (view.getId() == R.id.select_all) {
+			View selectAllView = getLayoutInflater(null).inflate(R.layout.action_mode_select_all, null);
+			((TextView) selectAllView).setText(getString(R.string.select_all).toUpperCase(Locale.getDefault()));
+			selectAllView.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View view) {
+					for (int position = 1; position < spriteList.size(); position++) {
+						spriteAdapter.addCheckedSprite(position);
+					}
+					spriteAdapter.notifyDataSetChanged();
+					view.setVisibility(View.GONE);
+					onSpriteChecked();
+				}
+
+			});
+			item.setActionView(selectAllView);
+		}
+	}
+
 	private class SpriteRenamedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -504,34 +525,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			multipleItemAppendixMultiSelectActionMode = getString(R.string.sprites);
 
 			mode.setTitle(multiSelectActionModeTitle);
-			mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
-			com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
-			View view = item.getActionView();
-			if (view instanceof TextView) {
-				Resources resources = getResources();
-				int paddingInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16,
-						resources.getDisplayMetrics());
-
-				((TextView) view).setTextSize(12);
-				((TextView) view).setText(getString(R.string.select_all).toUpperCase(Locale.getDefault()));
-				((TextView) view).setPadding(0, 0, paddingInDp, 0);
-				((TextView) view).setTextColor(resources.getColor(R.color.white));
-				((TextView) view).setTypeface(null, Typeface.BOLD);
-
-				view.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View view) {
-						for (int position = 1; position < spriteList.size(); position++) {
-							spriteAdapter.addCheckedSprite(position);
-						}
-						spriteAdapter.notifyDataSetChanged();
-						view.setVisibility(View.GONE);
-						onSpriteChecked();
-					}
-
-				});
-			}
+			addSelectAllActionModeButton(mode, menu);
 
 			return true;
 		}
@@ -603,6 +597,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			multipleItemAppendixMultiSelectActionMode = getString(R.string.sprites);
 
 			mode.setTitle(multiSelectActionModeTitle);
+			addSelectAllActionModeButton(mode, menu);
 
 			return true;
 		}

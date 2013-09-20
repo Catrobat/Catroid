@@ -34,10 +34,8 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -800,6 +798,31 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 	}
 
+	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
+		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
+		com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
+		View view = item.getActionView();
+
+		if (view.getId() == R.id.select_all) {
+			View selectAllView = getLayoutInflater(null).inflate(R.layout.action_mode_select_all, null);
+			((TextView) selectAllView).setText(getString(R.string.select_all).toUpperCase(Locale.getDefault()));
+			selectAllView.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View view) {
+					for (int position = 0; position < lookDataList.size(); position++) {
+						adapter.addCheckedItem(position);
+					}
+					adapter.notifyDataSetChanged();
+					view.setVisibility(View.GONE);
+					onLookChecked();
+				}
+
+			});
+			item.setActionView(selectAllView);
+		}
+	}
+
 	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
 
 		@Override
@@ -817,6 +840,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			multipleItemAppendixActionMode = getString(R.string.looks);
 
 			mode.setTitle(actionModeTitle);
+			addSelectAllActionModeButton(mode, menu);
 
 			return true;
 		}
@@ -888,41 +912,13 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			multipleItemAppendixActionMode = getString(R.string.looks);
 
 			mode.setTitle(actionModeTitle);
-			mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
-			com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
-			View view = item.getActionView();
-			if (view instanceof TextView) {
-				Resources resources = getResources();
-				int paddingInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16,
-						resources.getDisplayMetrics());
-
-				((TextView) view).setTextSize(12);
-				((TextView) view).setText(getString(R.string.select_all).toUpperCase(Locale.getDefault()));
-				((TextView) view).setPadding(0, 0, paddingInDp, 0);
-				((TextView) view).setTextColor(resources.getColor(R.color.white));
-				((TextView) view).setTypeface(null, Typeface.BOLD);
-
-				view.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View view) {
-						for (int position = 0; position < lookDataList.size(); position++) {
-							adapter.addCheckedItem(position);
-						}
-						adapter.notifyDataSetChanged();
-						view.setVisibility(View.GONE);
-						onLookChecked();
-					}
-
-				});
-			}
+			addSelectAllActionModeButton(mode, menu);
 
 			return true;
 		}
 
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
-
 			return false;
 		}
 

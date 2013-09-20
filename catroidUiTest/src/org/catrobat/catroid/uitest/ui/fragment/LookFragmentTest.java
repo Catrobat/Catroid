@@ -1163,6 +1163,22 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 						&& solo.searchText(SECOND_TEST_LOOK_NAME + copiedLookAddition));
 	}
 
+	public void testCopySelectAll() {
+		int currentNumberOfLooks = lookDataList.size();
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		solo.clickOnText(selectAll);
+
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+		}
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		checkIfNumberOfLooksIsEqual(currentNumberOfLooks * 2);
+	}
+
 	public void testResolutionWhenCroppedWithPaintroid() {
 		solo.clickOnMenuItem(solo.getString(R.string.show_details));
 		solo.sleep(200);

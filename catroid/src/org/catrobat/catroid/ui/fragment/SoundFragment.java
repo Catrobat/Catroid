@@ -32,9 +32,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,7 +43,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -621,6 +618,31 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		}
 	}
 
+	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
+		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
+		com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
+		View view = item.getActionView();
+
+		if (view.getId() == R.id.select_all) {
+			View selectAllView = getLayoutInflater(null).inflate(R.layout.action_mode_select_all, null);
+			((TextView) selectAllView).setText(getString(R.string.select_all).toUpperCase(Locale.getDefault()));
+			selectAllView.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View view) {
+					for (int position = 0; position < soundInfoList.size(); position++) {
+						adapter.addCheckedItem(position);
+					}
+					adapter.notifyDataSetChanged();
+					view.setVisibility(View.GONE);
+					onSoundChecked();
+				}
+
+			});
+			item.setActionView(selectAllView);
+		}
+	}
+
 	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
 
 		@Override
@@ -667,6 +689,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
 
 			mode.setTitle(actionModeTitle);
+			addSelectAllActionModeButton(mode, menu);
 
 			return true;
 		}
@@ -686,14 +709,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	};
 
 	private ActionMode.Callback backPackModeCallBack = new ActionMode.Callback() {
-		//=======
-		//			SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
-		//
-		//			for (int position : checkedSounds) {
-		//				copySound(position);
-		//			}
-		//			clearCheckedSoundsAndEnableButtons();
-		//>>>>>>> Fix Delete Projects
 
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
@@ -747,34 +762,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
 			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
 
-			mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
-			com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
-			View view = item.getActionView();
-			if (view instanceof TextView) {
-				Resources resources = getResources();
-				int paddingInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16,
-						resources.getDisplayMetrics());
-
-				((TextView) view).setTextSize(12);
-				((TextView) view).setText(getString(R.string.select_all).toUpperCase(Locale.getDefault()));
-				((TextView) view).setPadding(0, 0, paddingInDp, 0);
-				((TextView) view).setTextColor(resources.getColor(R.color.white));
-				((TextView) view).setTypeface(null, Typeface.BOLD);
-
-				view.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View view) {
-						for (int position = 0; position < soundInfoList.size(); position++) {
-							adapter.addCheckedItem(position);
-						}
-						adapter.notifyDataSetChanged();
-						view.setVisibility(View.GONE);
-						onSoundChecked();
-					}
-
-				});
-			}
+			addSelectAllActionModeButton(mode, menu);
 
 			return true;
 		}

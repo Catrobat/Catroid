@@ -94,10 +94,6 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		checkedSprites.add(position);
 	}
 
-	public void removeCheckedSprite(int position) {
-		checkedSprites.remove(Integer.valueOf(position));
-	}
-
 	public void clearCheckedSprites() {
 		checkedSprites.clear();
 	}
