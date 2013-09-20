@@ -151,7 +151,7 @@ public class BrickLayout extends ViewGroup {
 		int modeWidth = MeasureSpec.getMode(widthMeasureSpec);
 		int modeHeight = MeasureSpec.getMode(heightMeasureSpec);
 
-		int lineThicknessWithorizontalSpacing = 0;
+		int lineThicknessWithHorizontalSpacing = 0;
 		int lineThickness = 0;
 		int lineLengthWithHorizontalSpacing = 0;
 		int lineLength = 0;
@@ -267,7 +267,7 @@ public class BrickLayout extends ViewGroup {
 
 		// ************************ BEGIN LAYOUT ************************
 
-		lineThicknessWithorizontalSpacing = 0;
+		lineThicknessWithHorizontalSpacing = 0;
 		lineThickness = 0;
 		lineLengthWithHorizontalSpacing = 0;
 		lineLength = 0;
@@ -319,17 +319,17 @@ public class BrickLayout extends ViewGroup {
 
 				if (newLine) {
 					newLine = false;
-					prevLinePosition = prevLinePosition + lineThicknessWithorizontalSpacing;
+					prevLinePosition = prevLinePosition + lineThicknessWithHorizontalSpacing;
 
 					currentLine = getNextLine(currentLine);
 
 					lineThickness = childHeight;
 					lineLength = childWidth;
-					lineThicknessWithorizontalSpacing = childHeight + verticalSpacing;
+					lineThicknessWithHorizontalSpacing = childHeight + verticalSpacing;
 					lineLengthWithHorizontalSpacing = lineLength + horizontalSpacing;
 				}
 
-				lineThicknessWithorizontalSpacing = Math.max(lineThicknessWithorizontalSpacing, childHeight
+				lineThicknessWithHorizontalSpacing = Math.max(lineThicknessWithHorizontalSpacing, childHeight
 						+ verticalSpacing);
 				lineThickness = Math.max(lineThickness, childHeight);
 
