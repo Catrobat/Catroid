@@ -1293,6 +1293,11 @@ public class UiTestUtils {
 
 	public static void comparePixelArrayWithPixelScreenArray(byte[] pixelArray, byte[] screenArray, int x, int y,
 			int screenWidth, int screenHeight) {
+		comparePixelArrayWithPixelScreenArrayWithTolerance(pixelArray, screenArray, x, y, screenWidth, screenHeight, 10);
+	}
+
+	public static void comparePixelArrayWithPixelScreenArrayWithTolerance(byte[] pixelArray, byte[] screenArray, int x, int y,
+			int screenWidth, int screenHeight, int tolerance) {
 		assertEquals("Length of pixel array not 4", 4, pixelArray.length);
 		int convertedX = x + (screenWidth / 2);
 		int convertedY = y + (screenHeight / 2);
@@ -1300,10 +1305,10 @@ public class UiTestUtils {
 		for (int i = 0; i < 4; i++) {
 			screenPixel[i] = screenArray[(convertedX * 3 + convertedX + convertedY * screenWidth * 4) + i];
 		}
-		assertEquals("Pixels don't have same content.", pixelArray[0], screenPixel[0], 10);
-		assertEquals("Pixels don't have same content.", pixelArray[1], screenPixel[1], 10);
-		assertEquals("Pixels don't have same content.", pixelArray[2], screenPixel[2], 10);
-		assertEquals("Pixels don't have same content.", pixelArray[3], screenPixel[3], 10);
+		assertEquals("Pixels don't have same content.", pixelArray[0], screenPixel[0], tolerance);
+		assertEquals("Pixels don't have same content.", pixelArray[1], screenPixel[1], tolerance);
+		assertEquals("Pixels don't have same content.", pixelArray[2], screenPixel[2], tolerance);
+		assertEquals("Pixels don't have same content.", pixelArray[3], screenPixel[3], tolerance);
 	}
 
 	/**

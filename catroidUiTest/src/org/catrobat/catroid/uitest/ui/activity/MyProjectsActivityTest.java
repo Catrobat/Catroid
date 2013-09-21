@@ -1593,7 +1593,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		Project project2 = new Project(getActivity(), UiTestUtils.PROJECTNAME1);
 		StorageHandler.getInstance().saveProject(project2);
 
-		solo.sleep(2000);
+		solo.sleep(4000);
 
 		Project project1 = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		StorageHandler.getInstance().saveProject(project1);
@@ -1624,7 +1624,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.saveFileToProject(UiTestUtils.PROJECTNAME1, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
 				IMAGE_RESOURCE_3, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 
-		solo.sleep(600);
+		solo.sleep(1000);
 	}
 
 	public void testBottombarElementsVisibilty() {

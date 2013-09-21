@@ -56,7 +56,7 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 	private static final byte[] BLUE_PIXEL = { 0, (byte) 162, (byte) 232, (byte) 255 };
 	private static final byte[] WHITE_PIXEL = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
 	private static final byte[] BLACK_PIXEL = { (byte) 0, (byte) 0, (byte) 0, (byte) 255 };
-	private static final byte[] BLACK_BRIGHTNESS_PIXEL = { (byte) 127, (byte) 127, (byte) 127, (byte) 255 };
+	private static final byte[] BLACK_BRIGHTNESS_PIXEL = { (byte) -124, (byte) -124, (byte) -124, (byte) 255 };
 
 	private Project project;
 
@@ -78,6 +78,9 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1400);
 		byte[] screenArray = StageActivity.stageListener.getPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+		UiTestUtils.comparePixelArrayWithPixelScreenArrayWithTolerance(WHITE_PIXEL, screenArray, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,
+				0);
 
 		UiTestUtils
 				.comparePixelArrayWithPixelScreenArray(RED_PIXEL, screenArray, -41, -41, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -154,7 +157,7 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		screenArray = StageActivity.stageListener.getPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(BLACK_BRIGHTNESS_PIXEL, screenArray, -54, 55, SCREEN_WIDTH,
 				SCREEN_HEIGHT);
-		assertTrue("Just for FileTest", true);
+
 	}
 
 	public void testBehaviourWithoutBricks() {
