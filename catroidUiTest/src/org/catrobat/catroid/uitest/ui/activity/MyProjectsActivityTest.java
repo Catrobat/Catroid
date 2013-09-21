@@ -1227,16 +1227,19 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		DateFormat mediumDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
 		createProjects();
 
-		File projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
-				Constants.PROJECTCODE_NAME));
-		projectCodeFile.setLastModified(date.getTime());
+		String projectFilePath = Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
+				Constants.PROJECTCODE_NAME);
+		File projectCodeFile = new File(projectFilePath);
+		boolean succeededInSettingModifiedDate = projectCodeFile.setLastModified(date.getTime());
+		assertTrue("Failed to set last modified on " + projectFilePath, succeededInSettingModifiedDate);
 
-		projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(UiTestUtils.PROJECTNAME1),
-				Constants.PROJECTCODE_NAME));
+		projectFilePath = Utils.buildPath(Utils.buildProjectPath(UiTestUtils.PROJECTNAME1), Constants.PROJECTCODE_NAME);
+		projectCodeFile = new File(projectFilePath);
 		Date now = new Date();
-		projectCodeFile.setLastModified(now.getTime() - DateUtils.DAY_IN_MILLIS);
+		succeededInSettingModifiedDate = projectCodeFile.setLastModified(now.getTime() - DateUtils.DAY_IN_MILLIS);
+		assertTrue("Failed to set last modified on " + projectFilePath, succeededInSettingModifiedDate);
 
-		solo.sleep(200);
+		solo.sleep(2000);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
