@@ -1234,7 +1234,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(UiTestUtils.PROJECTNAME1),
 				Constants.PROJECTCODE_NAME));
 		Date now = new Date();
-		System.gc();
 		projectCodeFile.setLastModified(now.getTime() - DateUtils.DAY_IN_MILLIS);
 
 		solo.sleep(200);
