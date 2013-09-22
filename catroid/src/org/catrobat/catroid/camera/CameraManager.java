@@ -29,6 +29,7 @@ import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
+import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.Parameters;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -52,6 +53,8 @@ public class CameraManager implements Camera.PreviewCallback {
 	private int previewWidth;
 	private int previewHeight;
 	private int cameraID = 0;
+	private int orientation = 0;
+	private boolean facingBack = true;
 
 	public static CameraManager getInstance() {
 		if (instance == null) {
@@ -82,6 +85,19 @@ public class CameraManager implements Camera.PreviewCallback {
 				context.getResources().getString(R.string.preference_key_select_camera), "0");
 		Log.i("Blah", "read " + idAsString);
 		cameraID = Integer.parseInt(idAsString);
+
+		CameraInfo cameraInfo = new CameraInfo();
+		Camera.getCameraInfo(cameraID, cameraInfo);
+		orientation = cameraInfo.orientation;
+		facingBack = cameraInfo.facing == CameraInfo.CAMERA_FACING_BACK;
+	}
+
+	public int getOrientation() {
+		return orientation;
+	}
+
+	public boolean isFacingBack() {
+		return facingBack;
 	}
 
 	private boolean createCamera() {

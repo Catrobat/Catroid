@@ -57,7 +57,6 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 
 	@Override
 	public void onJpgPreviewFrame(byte[] data) {
-		Log.d("Blah", "frame");
 		Bitmap preview = BitmapFactory.decodeByteArray(data, 0, data.length);
 		detectFaces(preview);
 		preview.recycle();
@@ -71,8 +70,10 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 		int width = bitmap.getHeight();
 
 		Matrix rotateAndInvertX = new Matrix();
-		rotateAndInvertX.postRotate(90);
-		rotateAndInvertX.postScale(-1, 1);
+		int rotationAngle = CameraManager.getInstance().getOrientation();
+		boolean invertX = CameraManager.getInstance().isFacingBack();
+		rotateAndInvertX.postRotate(rotationAngle);
+		rotateAndInvertX.postScale(invertX ? -1 : 1, 1);
 		Bitmap portraitBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
 				rotateAndInvertX, true);
 		Bitmap rgb565_bitmap = Bitmap.createBitmap(width, height, Config.RGB_565);
@@ -87,7 +88,7 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 		Face[] faces = new Face[NUMBER_OF_FACES];
 		int numberOfFaces = detector.findFaces(rgb565_bitmap, faces);
 
-		Log.d("Blah", "Slow detecting");
+		Log.d("Blah", "Slow detecting");// TODO REMOVE
 
 		boolean detected = numberOfFaces > 0;
 		onFaceDetected(detected);
