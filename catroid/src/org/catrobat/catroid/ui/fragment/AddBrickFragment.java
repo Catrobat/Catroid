@@ -366,7 +366,6 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 			unregisterForContextMenu(this.getListView());
 			BottomBar.hideBottomBar(getActivity());
 			adapter.setCheckboxVisibility(View.VISIBLE);
-			adapter.setActionMode(true);
 		}
 	}
 
@@ -408,7 +407,6 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 	};
 
 	public void setSelectMode(int selectMode) {
-		adapter.setSelectMode(selectMode);
 		adapter.notifyDataSetChanged();
 	}
 
@@ -473,7 +471,6 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 
 		registerForContextMenu(getListView());
 		BottomBar.showBottomBar(getActivity());
-		adapter.setActionMode(false);
 	}
 
 	public void onBrickChecked() {

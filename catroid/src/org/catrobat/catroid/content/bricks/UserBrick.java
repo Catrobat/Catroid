@@ -206,6 +206,10 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 		return uiComponents.iterator();
 	}
 
+	public ArrayList<UserBrickUIComponent> getUIComponents() {
+		return uiComponents;
+	}
+
 	public void updateUIComponents(Context context) {
 		ArrayList<UserBrickUIComponent> newUIComponents = new ArrayList<UserBrickUIComponent>();
 
@@ -219,8 +223,8 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 			newUIComponents.add(component);
 		}
 
-		if (context != null && uiComponents != null) {
-			copyFormulasMatchingNames(uiComponents, newUIComponents, context);
+		if (uiComponents != null) {
+			copyFormulasMatchingNames(uiComponents, newUIComponents);
 		}
 
 		uiComponents = newUIComponents;
@@ -238,8 +242,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 		return list;
 	}
 
-	private void copyFormulasMatchingNames(ArrayList<UserBrickUIComponent> from, ArrayList<UserBrickUIComponent> to,
-			Context context) {
+	public void copyFormulasMatchingNames(ArrayList<UserBrickUIComponent> from, ArrayList<UserBrickUIComponent> to) {
 
 		for (UserBrickUIComponent fromElement : from) {
 			if (fromElement.dataIndex < uiDataArray.size()) {
@@ -476,11 +479,18 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 		variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
 
 		for (UserBrickUIComponent uiComponent : uiComponents) {
-			if (uiComponent.variableFormula != null && uiComponent.variableName != null) {
-				List<UserVariable> variables = variablesContainer.getOrCreateVariableListForUserBrick(userBrickId);
-				UserVariable variable = variablesContainer.findUserVariable(uiComponent.variableName, variables);
 
-				theList.add(new UserBrickVariable(variable, uiComponent.variableFormula));
+			if (uiComponent.variableFormula != null && uiComponent.dataIndex < uiDataArray.size()) {
+				UserBrickUIData uiData = uiDataArray.get(uiComponent.dataIndex);
+				if (uiData.isVariable) {
+					List<UserVariable> variables = variablesContainer.getOrCreateVariableListForUserBrick(userBrickId);
+					UserVariable variable = variablesContainer.findUserVariable(uiData.name, variables);
+					if (variable == null) {
+						variable = variablesContainer.addUserBrickUserVariableToUserBrick(userBrickId, uiData.name);
+					}
+
+					theList.add(new UserBrickVariable(variable, uiComponent.variableFormula));
+				}
 			}
 		}
 		return new UserBrickStageToken(theList, userBrickId);

@@ -209,7 +209,7 @@ public class Sprite implements Serializable, Cloneable {
 			cloneUserBrickList.add(deepClone);
 		}
 
-		// once all the UserBricks have been copied over, we can copy thier scripts over as well
+		// once all the UserBricks have been copied over, we can copy their scripts over as well
 		// (preserve recursive references)
 		for (Brick cloneBrick : cloneUserBrickList) {
 			UserBrick deepClone = (UserBrick) cloneBrick;
@@ -228,6 +228,7 @@ public class Sprite implements Serializable, Cloneable {
 		}
 		cloneSprite.scriptList = cloneScriptList;
 
+		// update the IDs to preserve the uniqueness of these ids (for example in the stage).
 		for (UserBrick cloneBrick : cloneUserBrickList) {
 			cloneBrick.setId(cloneBrick.getId() + cloneUserBrickList.size());
 			UserScriptDefinitionBrick definitionBrick = cloneBrick.getDefinitionBrick();

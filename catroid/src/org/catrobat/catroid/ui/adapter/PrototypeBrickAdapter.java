@@ -49,8 +49,6 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 	private List<Brick> brickList;
 
 	private List<Brick> checkedBricks = new ArrayList<Brick>();
-	private int selectMode;
-	private boolean actionMode = false;
 
 	public PrototypeBrickAdapter(Context context, List<Brick> brickList) {
 		this.context = context;
@@ -94,20 +92,12 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 		}
 	}
 
-	public void setActionMode(boolean actionMode) {
-		this.actionMode = actionMode;
-	}
-
 	public int getAmountOfCheckedItems() {
 		return getCheckedBricks().size();
 	}
 
 	public List<Brick> getCheckedBricks() {
 		return checkedBricks;
-	}
-
-	public void setSelectMode(int mode) {
-		selectMode = mode;
 	}
 
 	public List<Brick> getBrickList() {

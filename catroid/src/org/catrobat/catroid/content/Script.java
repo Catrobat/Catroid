@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.bricks.Brick;
@@ -54,6 +56,30 @@ public abstract class Script implements Serializable {
 
 	public abstract Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks);
 
+	public void doCopy(Sprite copySprite, Script cloneScript, List<UserBrick> preCopiedUserBricks) {
+		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
+		for (Brick brick : getBrickList()) {
+			Brick copiedBrick = null;
+			if (brick instanceof UserBrick) {
+				UserBrick original = ((UserBrick) brick);
+				UserBrick precopiedRootBrick = findBrickWithId(preCopiedUserBricks, original.getId());
+				UserBrick copiedUserBrick = precopiedRootBrick.copyBrickForSprite(copySprite, cloneScript);
+				copiedUserBrick
+						.copyFormulasMatchingNames(original.getUIComponents(), copiedUserBrick.getUIComponents());
+				copiedBrick = copiedUserBrick;
+			} else {
+				copiedBrick = brick.copyBrickForSprite(copySprite, cloneScript);
+			}
+
+			if (copiedBrick instanceof IfLogicEndBrick) {
+				setIfBrickReferences((IfLogicEndBrick) copiedBrick, (IfLogicEndBrick) brick);
+			} else if (copiedBrick instanceof LoopEndBrick) {
+				setLoopBrickReferences((LoopEndBrick) copiedBrick, (LoopEndBrick) brick);
+			}
+			cloneBrickList.add(copiedBrick);
+		}
+	}
+
 	protected UserBrick findBrickWithId(List<UserBrick> list, int id) {
 		for (UserBrick brick : list) {
 			if (brick.getId() == id) {
@@ -84,13 +110,21 @@ public abstract class Script implements Serializable {
 		ArrayList<SequenceAction> sequenceList = new ArrayList<SequenceAction>();
 		sequenceList.add(sequence);
 		for (int i = 0; i < brickList.size(); i++) {
+			String brickName = brickList.get(i).getClass().getSimpleName();
+			if (brickList.get(i) instanceof UserBrick) {
+				UserBrick userBrick = (UserBrick) brickList.get(i);
+				brickName += ":" + userBrick.uiDataArray.get(0).name;
+			}
+			Log.d("FOREST", "doing " + i + ": " + brickName);
 			List<SequenceAction> actions = brickList.get(i).addActionToSequence(
 					sequenceList.get(sequenceList.size() - 1));
 			if (actions != null) {
 				for (SequenceAction action : actions) {
 					if (sequenceList.contains(action)) {
+						Log.d("FOREST", "removing action" + i + ": " + brickName);
 						sequenceList.remove(action);
 					} else {
+						Log.d("FOREST", "adding action" + i + ": " + brickName);
 						sequenceList.add(action);
 					}
 				}

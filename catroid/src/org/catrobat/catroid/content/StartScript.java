@@ -22,14 +22,10 @@
  */
 package org.catrobat.catroid.content;
 
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
-import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StartScript extends Script {
@@ -63,24 +59,8 @@ public class StartScript extends Script {
 	@Override
 	public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
 		Script cloneScript = new StartScript(copySprite);
-		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
 
-		for (Brick brick : getBrickList()) {
-			Brick copiedBrick = null;
-			if (brick instanceof UserBrick) {
-				UserBrick precopiedRootBrick = findBrickWithId(preCopiedUserBricks, ((UserBrick) brick).getId());
-				copiedBrick = precopiedRootBrick.copyBrickForSprite(copySprite, cloneScript);
-			} else {
-				copiedBrick = brick.copyBrickForSprite(copySprite, cloneScript);
-			}
-
-			if (copiedBrick instanceof IfLogicEndBrick) {
-				setIfBrickReferences((IfLogicEndBrick) copiedBrick, (IfLogicEndBrick) brick);
-			} else if (copiedBrick instanceof LoopEndBrick) {
-				setLoopBrickReferences((LoopEndBrick) copiedBrick, (LoopEndBrick) brick);
-			}
-			cloneBrickList.add(copiedBrick);
-		}
+		doCopy(copySprite, cloneScript, preCopiedUserBricks);
 
 		return cloneScript;
 	}
