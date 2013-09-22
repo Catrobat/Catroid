@@ -59,6 +59,13 @@ public class FaceDetectionHandler {
 		return running;
 	}
 
+	public static void resetFaceDedection() {
+		if (running) {
+			stopFaceDetection();
+		}
+		paused = false;
+	}
+
 	public static void stopFaceDetection() {
 		if (!running) {
 			return;

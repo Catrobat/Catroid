@@ -100,7 +100,9 @@ public class PreStageActivity extends Activity {
 
 			}
 		}
+		FaceDetectionHandler.resetFaceDedection();
 		if ((requiredResources & Brick.FACE_DETECTION) > 0) {
+			Log.v("Blah", "msg" + requiredResources);
 			CameraManager.getInstance().updateCameraID(this);
 			boolean success = FaceDetectionHandler.startFaceDetection();
 			if (success) {

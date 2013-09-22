@@ -43,7 +43,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int SCREEN_WIDTH = 480;
 	private static final int SCREEN_HEIGHT = 800;
-	private static final int SLEEP_TIME = 1000;
+	private static final int SLEEP_TIME = 300;
 
 	private Project project;
 	Sprite sprite;
@@ -66,6 +66,9 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 		solo.sleep(SLEEP_TIME);
 		assertTrue("Face detection was not started although it is needed as a resource",
 				FaceDetectionHandler.isFaceDetectionRunning());
+		solo.goBackToActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(SLEEP_TIME);
+		assertFalse("Face detection was not stopped", FaceDetectionHandler.isFaceDetectionRunning());
 	}
 
 	public void testResourceNotNeeded() throws Exception {
@@ -77,6 +80,31 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 		solo.sleep(SLEEP_TIME);
 		assertFalse("Face detection was started although it is not needed as a resource",
 				FaceDetectionHandler.isFaceDetectionRunning());
+		solo.goBackToActivity(MainMenuActivity.class.getSimpleName());
+	}
+
+	public void testResourceChanged() throws Exception {
+		createProject(true);
+		UiTestUtils.prepareStageForTest();
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(SLEEP_TIME);
+		assertTrue("Face detection was not started although it is needed as a resource",
+				FaceDetectionHandler.isFaceDetectionRunning());
+		solo.goBackToActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(SLEEP_TIME);
+		assertFalse("Face detection was not stopped", FaceDetectionHandler.isFaceDetectionRunning());
+		createProject(false);
+		UiTestUtils.prepareStageForTest();
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(SLEEP_TIME);
+		assertFalse("Face detection was resumed although it is not needed anymore"
+				+ " (if testResourceNotNeeded succeeds: FaceDetectionHandler.reset might be missing)",
+				FaceDetectionHandler.isFaceDetectionRunning());
+		solo.goBackToActivity(MainMenuActivity.class.getSimpleName());
 	}
 
 	private void createProject(boolean faceDetection) {
