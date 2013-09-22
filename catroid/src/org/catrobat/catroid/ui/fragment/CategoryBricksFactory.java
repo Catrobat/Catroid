@@ -86,13 +86,10 @@ import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 public class CategoryBricksFactory {
-
-	private HashMap<UserBrick, Boolean> cycleDetectionMap = new HashMap<UserBrick, Boolean>();
 
 	public List<Brick> getBricks(String category, Sprite sprite, Context context) {
 
@@ -238,9 +235,7 @@ public class CategoryBricksFactory {
 		if (userBrickWeAreAddingTo != null) {
 			// Maintain a Directed Acyclic Graph of UserBrick call order: Don't allow cycles.
 			for (UserBrick brick : userBrickList) {
-				cycleDetectionMap = new HashMap<UserBrick, Boolean>();
-				cycleDetectionMap.put(userBrickWeAreAddingTo, true);
-				if (findCycle(brick)) {
+				if (!checkForCycle(brick, userBrickWeAreAddingTo)) {
 					newList.add(brick);
 				}
 			}
@@ -252,22 +247,18 @@ public class CategoryBricksFactory {
 		return newList;
 	}
 
-	public boolean findCycle(UserBrick parentBrick) {
-		if (cycleDetectionMap.containsKey(parentBrick)) {
+	public boolean checkForCycle(UserBrick currentBrick, UserBrick parentBrick) {
+		if (parentBrick.getId() == currentBrick.getId()) {
 			return true;
 		}
 
-		cycleDetectionMap.put(parentBrick, true);
-
-		boolean found = false;
-		for (Brick childBrick : parentBrick.getDefinitionBrick().getUserScript().getBrickList()) {
-			if (childBrick instanceof UserBrick && findCycle(((UserBrick) childBrick))) {
-				found = true;
-				break;
+		for (Brick childBrick : currentBrick.getDefinitionBrick().getUserScript().getBrickList()) {
+			if (childBrick instanceof UserBrick && checkForCycle(((UserBrick) childBrick), parentBrick)) {
+				return true;
 			}
 		}
-		return found;
 
+		return false;
 	}
 
 	private List<Brick> setupLegoNxtCategoryList(Sprite sprite) {
