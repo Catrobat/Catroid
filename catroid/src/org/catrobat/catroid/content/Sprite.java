@@ -106,12 +106,24 @@ public class Sprite implements Serializable, Cloneable {
 
 	}
 
-	public UserBrick addUserBrick(UserBrick b) {
+	public void removeUserBrick(UserBrick brickToRemove) {
+		for (UserBrick userBrick : userBricks) {
+			userBrick.getDefinitionBrick().getUserScript().removeInstancesOfUserBrick(brickToRemove);
+		}
+
+		for (Script script : scriptList) {
+			script.removeInstancesOfUserBrick(brickToRemove);
+		}
+
+		userBricks.remove(brickToRemove);
+	}
+
+	public UserBrick addUserBrick(UserBrick brick) {
 		if (userBricks == null) {
 			userBricks = new ArrayList<UserBrick>();
 		}
-		userBricks.add(b);
-		return b;
+		userBricks.add(brick);
+		return brick;
 	}
 
 	public List<UserBrick> getUserBrickList() {

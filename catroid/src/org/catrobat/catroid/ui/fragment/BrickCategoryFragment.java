@@ -50,13 +50,13 @@ public class BrickCategoryFragment extends SherlockListFragment {
 	public static final String BRICK_CATEGORY_FRAGMENT_TAG = "brick_category_fragment";
 
 	private CharSequence previousActionBarTitle;
-	private OnCategorySelectedListener onCategorySelectedListener;
+	private OnCategorySelectedListener scriptFragment;
 	private BrickCategoryAdapter adapter;
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	public void setOnCategorySelectedListener(OnCategorySelectedListener listener) {
-		onCategorySelectedListener = listener;
+		scriptFragment = listener;
 	}
 
 	@Override
@@ -87,8 +87,8 @@ public class BrickCategoryFragment extends SherlockListFragment {
 					return;
 				}
 
-				if (onCategorySelectedListener != null) {
-					onCategorySelectedListener.onCategorySelected(adapter.getItem(position));
+				if (scriptFragment != null) {
+					scriptFragment.onCategorySelected(adapter.getItem(position));
 				}
 			}
 		});

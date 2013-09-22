@@ -73,7 +73,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		ScriptActivityAdapterInterface {
 
 	private static final String TAG = BrickAdapter.class.getSimpleName();
-	private static final int ALPHA_FULL = 255;
+	public static final int ALPHA_FULL = 255;
 	private static final int ALPHA_GREYED = 100;
 	private Context context;
 

@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Script implements Serializable {
@@ -106,6 +107,23 @@ public abstract class Script implements Serializable {
 	public void addBrick(int position, Brick brick) {
 		if (brick != null) {
 			brickList.add(position, brick);
+		}
+	}
+
+	public void removeInstancesOfUserBrick(UserBrick userBrickToRemove) {
+		LinkedList<Brick> toRemove = new LinkedList<Brick>();
+
+		for (Brick brick : brickList) {
+			if (brick instanceof UserBrick) {
+				UserBrick userBrick = (UserBrick) brick;
+				if (userBrick.getDefinitionBrick() == userBrickToRemove.getDefinitionBrick()) {
+					toRemove.add(brick);
+				}
+			}
+		}
+
+		for (Brick brick : toRemove) {
+			brickList.remove(brick);
 		}
 	}
 

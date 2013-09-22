@@ -75,6 +75,8 @@ public interface Brick extends Serializable {
 
 	public void setCheckboxView(int id);
 
+	public void setCheckboxView(int id, View view);
+
 	public View getViewWithAlpha(int alphaValue);
 
 	void setAnimationState(boolean animationState);

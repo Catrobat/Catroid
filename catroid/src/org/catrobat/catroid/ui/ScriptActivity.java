@@ -86,6 +86,7 @@ public class ScriptActivity extends BaseActivity {
 	private SoundFragment soundFragment = null;
 
 	private ScriptActivityFragment currentFragment = null;
+	private DeleteModeListener deleteModeListener;
 
 	private static int currentFragmentPosition;
 	private String currentFragmentTag;
@@ -269,7 +270,11 @@ public class ScriptActivity extends BaseActivity {
 				break;
 
 			case R.id.delete:
-				currentFragment.startDeleteActionMode();
+				if (deleteModeListener != null) {
+					deleteModeListener.startDeleteActionMode();
+				} else {
+					currentFragment.startDeleteActionMode();
+				}
 				break;
 
 			case R.id.settings:
@@ -477,6 +482,10 @@ public class ScriptActivity extends BaseActivity {
 			menuItemText = getString(R.string.show_details);
 		}
 		item.setTitle(menuItemText);
+	}
+
+	public void setDeleteModeListener(DeleteModeListener listener) {
+		deleteModeListener = listener;
 	}
 
 	public ScriptActivityFragment getFragment(int fragmentPosition) {

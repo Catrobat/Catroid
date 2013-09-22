@@ -34,6 +34,10 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +50,7 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
@@ -57,13 +62,15 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.DeleteModeListener;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddBrickFragment extends SherlockListFragment {
+public class AddBrickFragment extends SherlockListFragment implements DeleteModeListener {
 
 	private static final String BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category";
 	public static final String ADD_BRICK_FRAGMENT_TAG = "add_brick_fragment";
@@ -72,6 +79,15 @@ public class AddBrickFragment extends SherlockListFragment {
 	private PrototypeBrickAdapter adapter;
 	private CategoryBricksFactory categoryBricksFactory = new CategoryBricksFactory();
 	public static AddBrickFragment addButtonHandler = null;
+
+	protected boolean actionModeActive = false;
+	private static String actionModeTitle;
+
+	private static String singleItemAppendixActionMode;
+	private static String multipleItemAppendixActionMode;
+	private static String userBricksCategoryString;
+
+	private ActionMode actionMode;
 
 	private static UserBrick brickToFocus;
 	private static int listIndexToFocus = -1;
@@ -87,6 +103,7 @@ public class AddBrickFragment extends SherlockListFragment {
 		arguments.putString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY, selectedCategory);
 		fragment.setArguments(arguments);
 		fragment.scriptFragment = scriptFragment;
+		userBricksCategoryString = scriptFragment.getString(R.string.category_user_bricks);
 		return fragment;
 	}
 
@@ -109,8 +126,11 @@ public class AddBrickFragment extends SherlockListFragment {
 		adapter = new PrototypeBrickAdapter(context, brickList);
 		setListAdapter(adapter);
 
-		if (selectedCategory.equals(context.getString(R.string.category_user_bricks))) {
+		if (selectedCategory.equals(userBricksCategoryString)) {
 			addButtonHandler = this;
+
+			ScriptActivity activity = (ScriptActivity) scriptFragment.getActivity();
+			activity.setDeleteModeListener(this);
 
 			if (brickToFocus != null) {
 				cameDirectlyFromScriptActivity = true;
@@ -201,7 +221,10 @@ public class AddBrickFragment extends SherlockListFragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		menu.findItem(R.id.delete).setVisible(false);
+		String selectedCategory = getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY);
+		if (selectedCategory.equals(userBricksCategoryString)) {
+			menu.findItem(R.id.delete).setVisible(true);
+		}
 		menu.findItem(R.id.copy).setVisible(false);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
@@ -218,6 +241,9 @@ public class AddBrickFragment extends SherlockListFragment {
 			BottomBar.hideBottomBar(getActivity());
 		}
 
+		ScriptActivity activity = (ScriptActivity) scriptFragment.getActivity();
+		activity.setDeleteModeListener(null);
+
 		super.onDestroy();
 	}
 
@@ -225,6 +251,9 @@ public class AddBrickFragment extends SherlockListFragment {
 	public void onPause() {
 		super.onPause();
 		addButtonHandler = null;
+		ScriptActivity activity = (ScriptActivity) scriptFragment.getActivity();
+		activity.setDeleteModeListener(null);
+
 	}
 
 	@Override
@@ -232,6 +261,9 @@ public class AddBrickFragment extends SherlockListFragment {
 		super.onResume();
 		setupSelectedBrickCategory();
 		addButtonHandler = this;
+
+		ScriptActivity activity = (ScriptActivity) scriptFragment.getActivity();
+		activity.setDeleteModeListener(this);
 
 	}
 
@@ -323,6 +355,155 @@ public class AddBrickFragment extends SherlockListFragment {
 		fragmentTransaction.commit();
 
 		BottomBar.showBottomBar(getActivity());
+	}
+
+	@Override
+	public void startDeleteActionMode() {
+		Log.d("FOREST", "ABF.startDeleteActionMode");
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+
+			unregisterForContextMenu(this.getListView());
+			BottomBar.hideBottomBar(getActivity());
+			adapter.setCheckboxVisibility(View.VISIBLE);
+			adapter.setActionMode(true);
+		}
+	}
+
+	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
+			actionModeActive = true;
+
+			actionModeTitle = getString(R.string.delete);
+			singleItemAppendixActionMode = getString(R.string.brick_single);
+			multipleItemAppendixActionMode = getString(R.string.brick_multiple);
+
+			mode.setTitle(actionModeTitle);
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+
+			if (adapter.getAmountOfCheckedItems() == 0) {
+				clearCheckedBricksAndEnableButtons();
+			} else {
+				showConfirmDeleteDialog(false);
+			}
+		}
+	};
+
+	public void setSelectMode(int selectMode) {
+		adapter.setSelectMode(selectMode);
+		adapter.notifyDataSetChanged();
+	}
+
+	private void deleteBrick(Brick brick) {
+		int brickId = adapter.getBrickList().indexOf(brick);
+		Log.d("FOREST", "ABF.deleteBrick" + brickId);
+		if (brickId != -1) {
+			adapter.removeUserBrick(brick);
+		}
+	}
+
+	private void deleteCheckedBricks() {
+		Log.d("FOREST", "ABF.deleteCheckedBricks");
+		List<Brick> checkedBricks = adapter.getReversedCheckedBrickList();
+
+		for (Brick brick : checkedBricks) {
+			deleteBrick(brick);
+		}
+	}
+
+	private void showConfirmDeleteDialog(boolean fromContextMenu) {
+		String yes = getActivity().getString(R.string.yes);
+		String no = getActivity().getString(R.string.no);
+		String title = "";
+		if (adapter.getAmountOfCheckedItems() == 1) {
+			title = getActivity().getString(R.string.dialog_confirm_delete_brick_title);
+		} else {
+			title = getActivity().getString(R.string.dialog_confirm_delete_multiple_bricks_title);
+		}
+
+		String message = getActivity().getString(R.string.dialog_confirm_delete_brick_message);
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setTitle(title);
+		builder.setMessage(message);
+		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				Log.d("FOREST", "ABF.showConfirmDeleteDialog.setPositiveButton.onClick ");
+				deleteCheckedBricks();
+				clearCheckedBricksAndEnableButtons();
+			}
+		});
+		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+				clearCheckedBricksAndEnableButtons();
+			}
+		});
+
+		AlertDialog alertDialog = builder.create();
+		alertDialog.show();
+	}
+
+	private void clearCheckedBricksAndEnableButtons() {
+		setSelectMode(ListView.CHOICE_MODE_NONE);
+		adapter.clearCheckedItems();
+
+		actionMode = null;
+		actionModeActive = false;
+
+		registerForContextMenu(getListView());
+		BottomBar.showBottomBar(getActivity());
+		adapter.setActionMode(false);
+	}
+
+	public void onBrickChecked() {
+		if (actionMode == null) {
+			return;
+		}
+
+		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
+
+		if (numberOfSelectedItems == 0) {
+			actionMode.setTitle(actionModeTitle);
+		} else {
+			String appendix = multipleItemAppendixActionMode;
+
+			if (numberOfSelectedItems == 1) {
+				appendix = singleItemAppendixActionMode;
+			}
+
+			String numberOfItems = Integer.toString(numberOfSelectedItems);
+			String completeTitle = actionModeTitle + " " + numberOfItems + " " + appendix;
+
+			int titleLength = actionModeTitle.length();
+
+			Spannable completeSpannedTitle = new SpannableString(completeTitle);
+			completeSpannedTitle.setSpan(
+					new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)), titleLength + 1,
+					titleLength + (1 + numberOfItems.length()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+			actionMode.setTitle(completeSpannedTitle);
+		}
 	}
 
 	public void launchBrickScriptActivityOnBrick(Context context, Brick brick) {
