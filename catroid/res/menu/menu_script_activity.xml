@@ -27,6 +27,11 @@
         android:id="@+id/backpack"
         android:showAsAction="never"
         android:title="@string/backpack" />
+   
+     <item
+        android:id="@+id/unpacking"
+        android:showAsAction="always"
+        android:title="@string/unpacking" />
 
     <item
         android:id="@+id/copy"

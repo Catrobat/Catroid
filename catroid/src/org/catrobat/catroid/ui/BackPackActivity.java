@@ -127,6 +127,7 @@ public class BackPackActivity extends BaseActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (currentFragment != null) {
 			handleShowDetails(currentFragment.getShowDetails(), menu.findItem(R.id.show_details));
+			menu.findItem(R.id.unpacking).setVisible(false);
 			menu.findItem(R.id.backpack).setVisible(false);
 			menu.findItem(R.id.cut).setVisible(false);
 			menu.findItem(R.id.rename).setVisible(false);

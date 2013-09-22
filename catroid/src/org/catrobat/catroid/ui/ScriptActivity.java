@@ -233,6 +233,15 @@ public class ScriptActivity extends BaseActivity {
 			case R.id.cut:
 				break;
 
+			case R.id.unpacking:
+				Log.d("TAG", "UNPACKING");
+				Intent intent = new Intent(currentFragment.getActivity(), BackPackActivity.class);
+				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 2);
+				String currentProjectName = ProjectManager.getInstance().getCurrentProject().toString();
+				Log.d("TAG", "UnPacking begins...Sounds will be unpacked into " + currentProjectName);
+				startActivity(intent);
+				break;
+
 			case R.id.insert_below:
 				break;
 

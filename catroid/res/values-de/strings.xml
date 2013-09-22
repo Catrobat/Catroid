@@ -33,6 +33,7 @@
     <string name="cut">Ausschneiden</string>
     <string name="move">Verschieben</string>
     <string name="backpack">Einpacken</string>
+    <string name="unpacking">Auspacken</string>
     <string name="copy_addition">Kopie</string>
 
     <!--  -->
