@@ -37,7 +37,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -359,7 +358,6 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 
 	@Override
 	public void startDeleteActionMode() {
-		Log.d("FOREST", "ABF.startDeleteActionMode");
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 
@@ -412,14 +410,12 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 
 	private void deleteBrick(Brick brick) {
 		int brickId = adapter.getBrickList().indexOf(brick);
-		Log.d("FOREST", "ABF.deleteBrick" + brickId);
 		if (brickId != -1) {
 			adapter.removeUserBrick(brick);
 		}
 	}
 
 	private void deleteCheckedBricks() {
-		Log.d("FOREST", "ABF.deleteCheckedBricks");
 		List<Brick> checkedBricks = adapter.getReversedCheckedBrickList();
 
 		for (Brick brick : checkedBricks) {
@@ -445,7 +441,6 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				Log.d("FOREST", "ABF.showConfirmDeleteDialog.setPositiveButton.onClick ");
 				deleteCheckedBricks();
 				clearCheckedBricksAndEnableButtons();
 			}

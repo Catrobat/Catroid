@@ -28,7 +28,6 @@ package org.catrobat.catroid.ui.adapter;
  */
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -86,7 +85,6 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 	}
 
 	public void setCheckboxVisibility(int visibility) {
-		Log.d("FOREST", "PBA.setCheckboxVisibility: " + visibility);
 		for (Brick brick : brickList) {
 			brick.setCheckboxVisibility(visibility);
 		}
@@ -113,7 +111,6 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 	}
 
 	public void handleCheck(Brick brick, boolean isChecked) {
-		Log.d("FOREST", "PBA.handleCheck");
 		if (brick != null && brick.getCheckBox() != null) {
 			brick.getCheckBox().setChecked(isChecked);
 			if (isChecked) {

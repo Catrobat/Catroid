@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.content.sprite;
 
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -152,7 +151,6 @@ public class SpriteTest extends AndroidTestCase {
 				}
 
 				if (clonedBrick.getId() - numberOfBricks == brick.getId()) {
-					Log.d("FOREST", "did test");
 					UserScriptDefinitionBrick originalDefinitionBrick = brick.getDefinitionBrick();
 					UserScriptDefinitionBrick clonedDefinitionBrick = clonedBrick.getDefinitionBrick();
 
@@ -223,7 +221,6 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("formulaList.size() after innerBrick.updateUIComponents()" + formulaList.size(), 1,
 				formulaList.size());
 		for (Formula formula : formulaList) {
-			Log.d("FOREST", "setOneFormula");
 			formula.setRoot(new FormulaElement(elementType, value, null));
 			if (expectedValue != null) {
 				assertEquals("Unexpected value from interpretFloat: ", expectedValue, formula.interpretFloat(sprite));
