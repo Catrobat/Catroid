@@ -154,8 +154,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		Log.d("TAG", "Started SoundFragment!");
-
 		listView = getListView();
 		registerForContextMenu(listView);
 
@@ -187,6 +185,14 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		}
 		menu.findItem(R.id.backpack).setVisible(visibility);
 		menu.findItem(R.id.cut).setVisible(false);
+
+		Log.d("TAG", "Size of SoundInfoArrayList: " + BackPackListManager.getInstance().getSoundInfoArrayList().size());
+
+		if (BackPackListManager.getInstance().getSoundInfoArrayList().size() > 0) {
+			menu.findItem(R.id.unpacking).setVisible(true);
+		} else {
+			menu.findItem(R.id.unpacking).setVisible(false);
+		}
 
 		super.onPrepareOptionsMenu(menu);
 	}

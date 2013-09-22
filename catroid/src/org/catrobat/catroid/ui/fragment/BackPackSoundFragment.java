@@ -39,11 +39,16 @@ import android.support.v4.content.Loader;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -126,6 +131,43 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		menu.findItem(R.id.copy).setVisible(false);
 		BottomBar.hideBottomBar(getActivity());
 		super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, view, menuInfo);
+
+		if (SoundController.getInstance().isSoundPlaying(mediaPlayer)) {
+			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer,
+					BackPackListManager.getInstance().getSoundInfoArrayList(), adapter);
+		}
+		selectedSoundInfoBackPack = adapter.getItem(selectedSoundPosition);
+		menu.setHeaderTitle(selectedSoundInfoBackPack.getTitle());
+		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
+
+		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
+		menu.findItem(R.id.context_menu_copy).setVisible(true);
+		menu.findItem(R.id.context_menu_cut).setVisible(false);
+		menu.findItem(R.id.context_menu_delete).setVisible(true);
+		menu.findItem(R.id.context_menu_backpack).setVisible(false);
+		menu.findItem(R.id.context_menu_rename).setVisible(false);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		Log.d("TAG", "BackPackSoundFragment-->onContextItemSelected");
+		switch (item.getItemId()) {
+
+			case R.id.context_menu_copy:
+				Log.d("TAG", "Choosen to copy the backpacked sound!");
+				SoundController.getInstance().unpackingSoundToProjectCopy(selectedSoundInfoBackPack);
+				break;
+			case R.id.context_menu_delete:
+				Log.d("TAG", "Choosen to delete the backpacked sound!");
+				showConfirmDeleteDialog();
+				break;
+		}
+		return super.onContextItemSelected(item);
 	}
 
 	@Override

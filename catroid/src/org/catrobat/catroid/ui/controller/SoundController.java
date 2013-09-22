@@ -260,6 +260,14 @@ public class SoundController {
 				adapter);
 	}
 
+	public void unpackingSoundToProjectCopy(SoundInfo selectedSoundInfo) {
+		try {
+			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public SoundInfo copySound(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
 
 		try {
