@@ -1239,7 +1239,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		succeededInSettingModifiedDate = projectCodeFile.setLastModified(now.getTime() - DateUtils.DAY_IN_MILLIS);
 		assertTrue("Failed to set last modified on " + projectFilePath, succeededInSettingModifiedDate);
 
-		solo.sleep(2000);
+		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
