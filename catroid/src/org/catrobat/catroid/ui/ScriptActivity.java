@@ -101,7 +101,6 @@ public class ScriptActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_script);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -219,6 +218,10 @@ public class ScriptActivity extends BaseActivity {
 		}
 
 		switch (item.getItemId()) {
+			case R.id.backpack:
+				currentFragment.startBackPackActionMode();
+				break;
+
 			case R.id.show_details:
 				handleShowDetails(!currentFragment.getShowDetails(), item);
 				break;
@@ -249,10 +252,6 @@ public class ScriptActivity extends BaseActivity {
 			case R.id.settings:
 				Intent settingsIntent = new Intent(ScriptActivity.this, SettingsActivity.class);
 				startActivity(settingsIntent);
-				break;
-
-			case R.id.edit_in_pocket_paint:
-				currentFragment.startEditInPocketPaintActionMode();
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -467,6 +466,7 @@ public class ScriptActivity extends BaseActivity {
 	}
 
 	public void setCurrentFragment(int fragmentPosition) {
+
 		switch (fragmentPosition) {
 			case FRAGMENT_SCRIPTS:
 				currentFragment = scriptFragment;

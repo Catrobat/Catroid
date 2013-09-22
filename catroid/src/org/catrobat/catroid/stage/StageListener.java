@@ -162,12 +162,9 @@ public class StageListener implements ApplicationListener {
 
 		sprites = project.getSpriteList();
 
-		//VideoDisplayHandler.registerSprite(sprites.get(0));// TODO REMOVE
 		for (Sprite sprite : sprites) {
 			sprite.resetSprite();
 			sprite.look.createBrightnessContrastShader();
-			//VideoDisplayHandler.registerSprite(sprite);// TODO REMOVE
-			//sprite.look.setLookData(VideoDisplayHandler.getVideoLookData());// TODO REMOVE
 			stage.addActor(sprite.look);
 			sprite.resume();
 		}
@@ -279,6 +276,7 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void render() {
+		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		if (reloadProject) {
@@ -300,7 +298,6 @@ public class StageListener implements ApplicationListener {
 				sprite = sprites.get(i);
 				sprite.resetSprite();
 				sprite.look.createBrightnessContrastShader();
-				//VideoDisplayHandler.registerSprite(sprite);// TODO REMOVE
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}
@@ -576,5 +573,4 @@ public class StageListener implements ApplicationListener {
 			e.printStackTrace();
 		}
 	}
-
 }

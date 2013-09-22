@@ -316,7 +316,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
-		menu.findItem(R.id.context_edit_in_pocket_paint).setVisible(true);
 	}
 
 	@Override
@@ -344,10 +343,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 			case R.id.context_menu_delete: {
 				showConfirmDeleteDialog();
-				break;
-			}
-			case R.id.context_edit_in_pocket_paint: {
-				sendPocketPaintIntent(selectedLookPosition);
 				break;
 			}
 		}
@@ -472,16 +467,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	public void startRenameActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
-			unregisterForContextMenu(listView);
-			BottomBar.hideBottomBar(getActivity());
-			isRenameActionMode = true;
-		}
-	}
-
-	@Override
-	public void startEditInPocketPaintActionMode() {
-		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(editInPocketPaintCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = true;
@@ -923,41 +908,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 	};
 
-	private ActionMode.Callback editInPocketPaintCallBack = new ActionMode.Callback() {
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(ListView.CHOICE_MODE_SINGLE);
-			mode.setTitle(getString(R.string.edit_in_pocket_paint));
-
-			setActionModeActive(true);
-
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			Set<Integer> checkedLooks = adapter.getCheckedItems();
-			Iterator<Integer> iterator = checkedLooks.iterator();
-
-			while (iterator.hasNext()) {
-				int position = iterator.next();
-				sendPocketPaintIntent(position);
-			}
-			clearCheckedLooksAndEnableButtons();
-		}
-	};
-
 	private void deleteLook(int position) {
 		StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath());
 
@@ -1106,4 +1056,9 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			}
 		}
 	}
+
+	@Override
+	public void startBackPackActionMode() {
+	}
+
 }
