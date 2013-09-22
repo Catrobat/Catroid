@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content;
 
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
@@ -37,6 +38,19 @@ public class UserScript extends Script {
 	public UserScript(Sprite sprite, UserScriptDefinitionBrick brick) {
 		super(sprite);
 		this.brick = definitionBrick = brick;
+	}
+
+	@Override
+	public int getRequiredResources() {
+		int resources = Brick.NO_RESOURCES;
+
+		for (Brick brick : brickList) {
+			if (brick instanceof UserBrick && ((UserBrick) brick).getDefinitionBrick() == definitionBrick) {
+				continue;
+			}
+			resources |= brick.getRequiredResources();
+		}
+		return resources;
 	}
 
 	@Override

@@ -396,7 +396,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		int scriptPosition = temp[0];
 		int brickPosition = temp[1];
 
-		Script newScript = scriptBrick.initScript(currentSprite);
+		Script newScript = scriptBrick.getScriptSafe(currentSprite);
 		if (currentSprite.getNumberOfBricks() > 0) {
 			int addScriptTo = position == 0 ? 0 : scriptPosition + 1;
 			currentSprite.addScript(addScriptTo, newScript);
@@ -628,7 +628,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		int scriptCount = currentSprite.getNumberOfScripts();
 		if (scriptCount == 0 && brickToBeAdded instanceof ScriptBrick) {
-			currentSprite.addScript(((ScriptBrick) brickToBeAdded).initScript(currentSprite));
+			currentSprite.addScript(((ScriptBrick) brickToBeAdded).getScriptSafe(currentSprite));
 			initBrickList();
 			notifyDataSetChanged();
 			return;
@@ -683,7 +683,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		int scriptCount = currentSprite.getNumberOfScripts();
 		if (scriptCount == 0 && brickToBeAdded instanceof ScriptBrick) {
-			currentSprite.addScript(((ScriptBrick) brickToBeAdded).initScript(currentSprite));
+			currentSprite.addScript(((ScriptBrick) brickToBeAdded).getScriptSafe(currentSprite));
 			initBrickList();
 			notifyDataSetChanged();
 			return;
@@ -1132,7 +1132,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				if (getItem(clickItemPosition) instanceof ScriptBrick) {
-					scriptToDelete = ((ScriptBrick) getItem(clickItemPosition)).initScript(ProjectManager.getInstance()
+					scriptToDelete = ((ScriptBrick) getItem(clickItemPosition)).getScriptSafe(ProjectManager.getInstance()
 							.getCurrentSprite());
 					handleScriptDelete(sprite, scriptToDelete);
 					scriptToDelete = null;

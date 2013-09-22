@@ -42,7 +42,7 @@ import java.util.List;
 public abstract class Script implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private ArrayList<Brick> brickList;
+	protected ArrayList<Brick> brickList;
 
 	protected transient ScriptBrick brick;
 
@@ -168,12 +168,14 @@ public abstract class Script implements Serializable {
 	}
 
 	public int getRequiredResources() {
-		int ressources = Brick.NO_RESOURCES;
+		int resources = Brick.NO_RESOURCES;
 
 		for (Brick brick : brickList) {
-			ressources |= brick.getRequiredResources();
+			if (brick instanceof UserBrick) {
+				resources |= brick.getRequiredResources();
+			}
 		}
-		return ressources;
+		return resources;
 	}
 
 	public boolean containsBrickOfType(Class<?> type) {

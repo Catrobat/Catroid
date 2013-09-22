@@ -255,7 +255,7 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 	}
 
 	@Override
-	public Script initScript(Sprite sprite) {
+	public Script getScriptSafe(Sprite sprite) {
 		if (getUserScript() == null) {
 			setUserScript(new UserScript(sprite, this));
 		}

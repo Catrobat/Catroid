@@ -105,7 +105,7 @@ public class WhenStartedBrick extends ScriptBrick {
 	}
 
 	@Override
-	public Script initScript(Sprite sprite) {
+	public Script getScriptSafe(Sprite sprite) {
 		if (script == null) {
 			script = new StartScript(sprite);
 		}

@@ -198,8 +198,8 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 		uiDataArray.version++;
 	}
 
-	public boolean isInstanceOf(UserBrick b) {
-		return (b.uiDataArray == uiDataArray);
+	public boolean isInstanceOf(UserBrick other) {
+		return (other.uiDataArray == uiDataArray);
 	}
 
 	public Iterator<UserBrickUIComponent> getUIComponentIterator() {
@@ -450,21 +450,22 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 		}
 	}
 
-	// this function is called when this brick's action is being placed into a sequence
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 
 		UserBrickStageToken stageToken = getStageToken();
 
+		ArrayList<SequenceAction> returnActionList = new ArrayList<SequenceAction>();
+
 		SequenceAction userSequence = ExtendedActions.sequence();
-		Script userScript = definitionBrick.initScript(sprite); // getScript
+		Script userScript = definitionBrick.getScriptSafe(sprite);
 		userScript.run(userSequence);
 
-		ArrayList<SequenceAction> returnActionList = new ArrayList<SequenceAction>();
 		returnActionList.add(userSequence);
 
 		Action action = ExtendedActions.userBrick(sprite, userSequence, stageToken);
 		sequence.addAction(action);
+
 		return returnActionList;
 	}
 

@@ -33,7 +33,7 @@ public abstract class ScriptBrick extends BrickBaseType implements AllowedAfterD
 
 	private static final long serialVersionUID = 1L;
 
-	public abstract Script initScript(Sprite sprite);
+	public abstract Script getScriptSafe(Sprite sprite);
 
 	@Override
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {

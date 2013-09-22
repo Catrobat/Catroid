@@ -335,7 +335,7 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 		scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded.clone());
 
 		if (brickToBeAdded instanceof ScriptBrick) {
-			Script script = ((ScriptBrick) brickToBeAdded).initScript(ProjectManager.getInstance().getCurrentSprite());
+			Script script = ((ScriptBrick) brickToBeAdded).getScriptSafe(ProjectManager.getInstance().getCurrentSprite());
 			ProjectManager.getInstance().setCurrentScript(script);
 		}
 
