@@ -71,13 +71,13 @@ public class CameraManagerTest extends TestCase {
 		CameraManager.getInstance().addOnJpgPreviewFrameCallback(callback);
 		boolean success = CameraManager.getInstance().startCamera();
 		assertTrue("Camera was not started properly", success);
-		//		try {
-		//			Thread.sleep(MAX_FRAME_DELAY_IN_MS);
-		//		} catch (InterruptedException e) {
-		//		}
-		//assertTrue("Did not receive frame data from camera", calls[0] > 0);
-		//CameraManager.getInstance().removeOnJpgPreviewFrameCallback(callback);
-		//CameraManager.getInstance().releaseCamera();
+		try {
+			Thread.sleep(MAX_FRAME_DELAY_IN_MS);
+		} catch (InterruptedException e) {
+		}
+		assertTrue("Did not receive frame data from camera", calls[0] > 0);
+		CameraManager.getInstance().removeOnJpgPreviewFrameCallback(callback);
+		CameraManager.getInstance().releaseCamera();
 	}
 
 	public void testGetInstance() {

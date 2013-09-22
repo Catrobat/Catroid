@@ -28,11 +28,9 @@ import android.net.Uri;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -52,10 +50,6 @@ public class FaceDetectionStartStopTest extends BaseActivityInstrumentationTestC
 
 	private Project projectFaceDetection;
 	Sprite sprite;
-	Sprite greenSprite;
-	WhenScript yellowWhenScript;
-	BroadcastScript greenBroadcastScript;
-	String broadcastMessage = "broadcastMessage";
 
 	public FaceDetectionStartStopTest() {
 		super(MainMenuActivity.class);
