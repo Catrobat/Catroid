@@ -97,6 +97,7 @@ public class SpriteTest extends AndroidTestCase {
 
 	public void testSpriteCloneWithUserBrick() {
 		Integer moveValue = 6;
+		Integer secondMoveValue = 4;
 		int numberOfBricks = 0;
 
 		UserBrick outerBrick = new UserBrick(sprite, 0);
@@ -179,18 +180,20 @@ public class SpriteTest extends AndroidTestCase {
 			}
 		}
 
+		UserBrick clonedOuterBrick = (UserBrick) clonedSprite.getScript(0).getBrickList().get(0);
+		setOneFormula(clonedOuterBrick, ElementType.NUMBER, secondMoveValue.toString(), (float) secondMoveValue);
+
 		assertEquals("unexpected minimum Id:", 0, minId);
 		assertEquals("unexpected maximum Id:", (numberOfBricks * 2) - 1, maxId);
 
-		float expectedX = moveValue;
-		runScriptOnSprite(sprite, 0, expectedX);
-		runScriptOnSprite(clonedSprite, 0, expectedX);
+		runScriptOnSprite(sprite, 0, moveValue);
+		runScriptOnSprite(clonedSprite, 0, secondMoveValue);
 
-		runScriptOnSprite(sprite, expectedX, expectedX);
-		runScriptOnSprite(clonedSprite, expectedX, expectedX);
+		runScriptOnSprite(sprite, moveValue, moveValue);
+		runScriptOnSprite(clonedSprite, secondMoveValue, secondMoveValue);
 
-		runScriptOnSprite(sprite, expectedX * 2, expectedX);
-		runScriptOnSprite(clonedSprite, expectedX * 2, expectedX);
+		runScriptOnSprite(sprite, moveValue * 2, moveValue);
+		runScriptOnSprite(clonedSprite, secondMoveValue * 2, secondMoveValue);
 	}
 
 	private void runScriptOnSprite(Sprite theSprite, float expectedOrignalX, float expectedDeltaX) {

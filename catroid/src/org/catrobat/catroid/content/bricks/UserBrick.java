@@ -252,7 +252,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 						if (toElement.dataIndex < uiDataArray.size()) {
 							UserBrickUIData toData = uiDataArray.get(toElement.dataIndex);
 							if (fromData.name.equals(toData.name)) {
-								toElement.variableFormula = fromElement.variableFormula;
+								toElement.variableFormula = fromElement.variableFormula.clone();
 								toElement.variableName = toData.name;
 							}
 						}
