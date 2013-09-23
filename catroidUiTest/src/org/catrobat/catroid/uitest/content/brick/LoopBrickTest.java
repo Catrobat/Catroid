@@ -42,7 +42,6 @@ import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -150,7 +149,6 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof LoopEndBrick);
 	}
 
-	@Device
 	public void testForeverBrick() {
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 
@@ -173,6 +171,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 				((NestingBrick) projectBrickList.get(2)).getAllNestingBrickParts(false).get(1), projectBrickList.get(4));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_change_brightness);
+		solo.sleep(500);
 		UiTestUtils.dragFloatingBrick(solo, 1.25f);
 
 		assertEquals("Incorrect number of bricks.", 8, projectBrickList.size());
