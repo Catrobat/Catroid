@@ -55,6 +55,7 @@ public class RenameSoundDialog extends TextDialog {
 	protected void initialize() {
 		oldSoundTitle = getArguments().getString(BUNDLE_ARGUMENTS_OLD_SOUND_NAME);
 		input.setText(oldSoundTitle);
+		inputTitle.setText(R.string.sound_name);
 	}
 
 	@Override

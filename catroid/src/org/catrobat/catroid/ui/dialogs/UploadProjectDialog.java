@@ -122,6 +122,7 @@ public class UploadProjectDialog extends DialogFragment {
 
 		dialog.setCanceledOnTouchOutside(true);
 		dialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 		dialog.setOnShowListener(new OnShowListener() {
 			@Override

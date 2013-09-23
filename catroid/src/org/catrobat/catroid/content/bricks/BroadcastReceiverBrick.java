@@ -29,7 +29,8 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.BaseAdapter;import android.widget.Spinner;
+import android.widget.BaseAdapter;
+import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -169,7 +170,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_broadcast_receive_layout);
+			View layout = view.findViewById(R.id.brick_broadcast_receive_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 			this.alphaValue = (alphaValue);
@@ -195,6 +196,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 
 			@Override
 			protected void initialize() {
+				inputTitle.setText(R.string.dialog_new_broadcast_message_name);
 			}
 
 			@Override
@@ -216,6 +218,11 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 			public void onDismiss(DialogInterface dialog) {
 				setSpinnerSelection(spinner);
 				super.onDismiss(dialog);
+			}
+
+			@Override
+			protected String getTitle() {
+				return getString(R.string.dialog_new_broadcast_message_title);
 			}
 		};
 

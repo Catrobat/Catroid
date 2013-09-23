@@ -258,7 +258,6 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getText(R.string.main_menu_web_dialog_title));
-		builder.setMessage(getText(R.string.main_menu_web_dialog_message));
 		builder.setView(checkboxView);
 
 		builder.setPositiveButton(getText(R.string.ok), new DialogInterface.OnClickListener() {

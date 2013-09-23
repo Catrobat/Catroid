@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,15 +19,32 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/variablelist_global_headline"
-    style="@style/headlineLinearLayout" >
+ */
+package org.catrobat.catroid.ui;
 
-    <org.catrobat.catroid.ui.CapitalizedTextView
-        style="@style/headlineTextView"
-        android:text="@string/formula_editor_variable_dialog_for_all_sprites" />
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.ViewTreeObserver.OnPreDrawListener;
+import android.widget.TextView;
 
-    <View style="@style/headlineView" />
+import java.util.Locale;
 
-</LinearLayout>
+public class CapitalizedTextView extends TextView implements OnPreDrawListener {
+
+	public CapitalizedTextView(Context context) {
+		super(context);
+	}
+
+	public CapitalizedTextView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
+
+	public CapitalizedTextView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+	}
+
+	@Override
+	public void setText(CharSequence text, BufferType type) {
+		super.setText(text.toString().toUpperCase(Locale.getDefault()), type);
+	}
+}
