@@ -970,6 +970,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		setActionModeActive(false);
 
 		registerForContextMenu(listView);
+
 		BottomBar.showBottomBar(getActivity());
 	}
 

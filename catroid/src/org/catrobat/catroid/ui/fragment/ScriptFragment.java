@@ -150,6 +150,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		if (sprite == null) {
 			return;
 		}
+		BottomBar.showBottomBar(getActivity());
 
 		initListeners();
 	}
@@ -176,7 +177,13 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		IntentFilter filterBrickListChanged = new IntentFilter(ScriptActivity.ACTION_BRICK_LIST_CHANGED);
 		getActivity().registerReceiver(brickListChangedReceiver, filterBrickListChanged);
 
+		BottomBar.showBottomBar(getActivity());
+		BottomBar.showPlayButton(getActivity());
+		BottomBar.showAddButton(getActivity());
+
 		initListeners();
+
+		adapter.resetAlphas();
 	}
 
 	@Override
@@ -220,7 +227,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 		adapter.notifyDataSetChanged();
-
 	}
 
 	public void updateAdapterAfterAddNewBrick(Brick brickToBeAdded) {
@@ -252,9 +258,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		adapter = new BrickAdapter(getActivity(), sprite, listView);
 		adapter.setOnBrickEditListener(this);
+		ScriptActivity activity = (ScriptActivity) getActivity();
+		activity.setupBrickAdapter(adapter);
 
 		if (ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() > 0) {
-			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).initScript(sprite));
+			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).getScriptSafe(sprite));
 		}
 
 		listView.setOnCreateContextMenuListener(this);
@@ -265,6 +273,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void showCategoryFragment() {
+
 		BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
 		brickCategoryFragment.setOnCategorySelectedListener(this);
 		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -320,6 +329,12 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void handleAddButton() {
 		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+
+		// addButtonHandler != null when the user brick category is open in the AddBrickFragment
+		if (AddBrickFragment.addButtonHandler != null) {
+			AddBrickFragment.addButtonHandler.handleAddButton();
 			return;
 		}
 
@@ -489,9 +504,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	private void copyBrick(Brick brick) {
 
 		if (brick instanceof ScriptBrick) {
-			scriptToEdit = ((ScriptBrick) brick).initScript(ProjectManager.getInstance().getCurrentSprite());
+			scriptToEdit = ((ScriptBrick) brick).getScriptSafe(ProjectManager.getInstance().getCurrentSprite());
 
-			Script clonedScript = scriptToEdit.copyScriptForSprite(sprite);
+			Script clonedScript = scriptToEdit.copyScriptForSprite(sprite, sprite.getUserBrickList());
 
 			sprite.addScript(clonedScript);
 			adapter.initBrickList();
@@ -521,7 +536,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	private void deleteBrick(Brick brick) {
 
 		if (brick instanceof ScriptBrick) {
-			scriptToEdit = ((ScriptBrick) brick).initScript(ProjectManager.getInstance().getCurrentSprite());
+			scriptToEdit = ((ScriptBrick) brick).getScriptSafe(ProjectManager.getInstance().getCurrentSprite());
 			adapter.handleScriptDelete(sprite, scriptToEdit);
 			return;
 		}

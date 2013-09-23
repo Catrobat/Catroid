@@ -92,6 +92,11 @@ public class BrickBaseType implements Brick {
 
 	@Override
 	public void setCheckboxView(int id) {
+		setCheckboxView(id, view);
+	}
+
+	@Override
+	public void setCheckboxView(int id, View view) {
 		int checkboxVisibility = View.GONE;
 		boolean enabled = true;
 		boolean isChecked = false;
@@ -139,6 +144,11 @@ public class BrickBaseType implements Brick {
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		return null;
+	}
+
+	@Override
+	public void setAlpha(int newAlpha) {
+		alphaValue = newAlpha;
 	}
 
 }

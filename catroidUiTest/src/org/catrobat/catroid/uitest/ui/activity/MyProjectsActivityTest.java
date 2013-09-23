@@ -1223,14 +1223,17 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		DateFormat mediumDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
 		createProjects();
 
-		File projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
-				Constants.PROJECTCODE_NAME));
-		projectCodeFile.setLastModified(date.getTime());
+		String projectFilePath = Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
+				Constants.PROJECTCODE_NAME);
+		File projectCodeFile = new File(projectFilePath);
+		boolean succeededInSettingModifiedDate = projectCodeFile.setLastModified(date.getTime());
+		assertTrue("Failed to set last modified on " + projectFilePath, succeededInSettingModifiedDate);
 
-		projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(UiTestUtils.PROJECTNAME1),
-				Constants.PROJECTCODE_NAME));
+		projectFilePath = Utils.buildPath(Utils.buildProjectPath(UiTestUtils.PROJECTNAME1), Constants.PROJECTCODE_NAME);
+		projectCodeFile = new File(projectFilePath);
 		Date now = new Date();
-		projectCodeFile.setLastModified(now.getTime() - DateUtils.DAY_IN_MILLIS);
+		succeededInSettingModifiedDate = projectCodeFile.setLastModified(now.getTime() - DateUtils.DAY_IN_MILLIS);
+		assertTrue("Failed to set last modified on " + projectFilePath, succeededInSettingModifiedDate);
 
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -1647,6 +1650,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		solo.enterText(0, longProjectName);
 		solo.goBack();
+		solo.waitForDialogToOpen(2000);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.waitForText(solo.getString(R.string.sprites));
 		solo.goBack();

@@ -31,6 +31,8 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 
@@ -45,6 +47,8 @@ public class Sprite implements Serializable, Cloneable {
 	private ArrayList<LookData> lookList;
 	private ArrayList<SoundInfo> soundList;
 	public transient Look look;
+	private ArrayList<UserBrick> userBricks;
+	private int newUserBrickNext = 1;
 
 	public transient boolean isPaused;
 
@@ -78,6 +82,9 @@ public class Sprite implements Serializable, Cloneable {
 		if (scriptList == null) {
 			scriptList = new ArrayList<Script>();
 		}
+		if (userBricks == null) {
+			userBricks = new ArrayList<UserBrick>();
+		}
 	}
 
 	public void resetSprite() {
@@ -96,6 +103,52 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public Sprite() {
+
+	}
+
+	public void removeUserBrick(UserBrick brickToRemove) {
+		for (UserBrick userBrick : userBricks) {
+			userBrick.getDefinitionBrick().getUserScript().removeInstancesOfUserBrick(brickToRemove);
+		}
+
+		for (Script script : scriptList) {
+			script.removeInstancesOfUserBrick(brickToRemove);
+		}
+
+		userBricks.remove(brickToRemove);
+	}
+
+	public UserBrick addUserBrick(UserBrick brick) {
+		if (userBricks == null) {
+			userBricks = new ArrayList<UserBrick>();
+		}
+		userBricks.add(brick);
+		return brick;
+	}
+
+	public List<UserBrick> getUserBrickList() {
+		if (userBricks == null) {
+			userBricks = new ArrayList<UserBrick>();
+		}
+		return userBricks;
+	}
+
+	public List<UserBrick> getUserBrickListAtLeastOneBrick(String defaultText, String defaultVariable) {
+		if (userBricks == null || userBricks.size() == 0) {
+			int newBrickId = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+					.getAndIncrementUserBrickId();
+			initUserBrickList(defaultText, defaultVariable, newBrickId);
+		}
+		return userBricks;
+	}
+
+	void initUserBrickList(String defaultText, String defaultVariable, int nextUserBrickId) {
+		userBricks = new ArrayList<UserBrick>();
+
+		// the UserBrick constructor will insert the UserBrick into this Sprite's userBricks list.
+		UserBrick exampleBrick = new UserBrick(this, nextUserBrickId);
+		exampleBrick.addUIText(defaultText);
+		exampleBrick.addUIVariable(defaultVariable);
 
 	}
 
@@ -126,7 +179,7 @@ public class Sprite implements Serializable, Cloneable {
 		List<UserVariable> originalSpriteVariables = userVariables.getOrCreateVariableListForSprite(this);
 		List<UserVariable> clonedSpriteVariables = userVariables.getOrCreateVariableListForSprite(cloneSprite);
 		for (UserVariable variable : originalSpriteVariables) {
-			clonedSpriteVariables.add(new UserVariable(variable.getName(), variable.getValue()));
+			clonedSpriteVariables.add(new UserVariable(variable.getName(), variable.getValue(), clonedSpriteVariables));
 		}
 
 		ArrayList<LookData> cloneLookList = new ArrayList<LookData>();
@@ -141,13 +194,47 @@ public class Sprite implements Serializable, Cloneable {
 		}
 		cloneSprite.soundList = cloneSoundList;
 
+		ArrayList<UserBrick> cloneUserBrickList = new ArrayList<UserBrick>();
+		for (Brick brick : this.userBricks) {
+			UserBrick original = (UserBrick) brick;
+
+			UserBrick deepClone = new UserBrick(cloneSprite, original.getId());
+			deepClone.uiDataArray = original.uiDataArray.clone();
+			deepClone.updateUIComponents(null);
+
+			UserScriptDefinitionBrick clonedDefinitionBrick = new UserScriptDefinitionBrick(cloneSprite, deepClone,
+					original.getId());
+			deepClone.setDefinitionBrick(clonedDefinitionBrick);
+
+			cloneUserBrickList.add(deepClone);
+		}
+
+		// once all the UserBricks have been copied over, we can copy their scripts over as well
+		// (preserve recursive references)
+		for (Brick cloneBrick : cloneUserBrickList) {
+			UserBrick deepClone = (UserBrick) cloneBrick;
+			UserBrick original = findBrickWithId(userBricks, deepClone.getId());
+
+			UserScript originalScript = original.getDefinitionBrick().getUserScript();
+			UserScript newScript = originalScript.copyScriptForSprite(cloneSprite, cloneUserBrickList);
+			deepClone.getDefinitionBrick().setUserScript(newScript);
+		}
+
 		//The scripts have to be the last copied items
 		List<Script> cloneScriptList = new ArrayList<Script>();
 		for (Script element : this.scriptList) {
-			Script addElement = element.copyScriptForSprite(cloneSprite);
+			Script addElement = element.copyScriptForSprite(cloneSprite, cloneUserBrickList);
 			cloneScriptList.add(addElement);
 		}
 		cloneSprite.scriptList = cloneScriptList;
+
+		// update the IDs to preserve the uniqueness of these ids (for example in the stage).
+		for (UserBrick cloneBrick : cloneUserBrickList) {
+			cloneBrick.setId(cloneBrick.getId() + cloneUserBrickList.size());
+			UserScriptDefinitionBrick definitionBrick = cloneBrick.getDefinitionBrick();
+			definitionBrick.setUserBrickId(definitionBrick.getUserBrickId() + cloneUserBrickList.size());
+		}
+		cloneSprite.userBricks = cloneUserBrickList;
 
 		cloneSprite.init();
 
@@ -160,6 +247,15 @@ public class Sprite implements Serializable, Cloneable {
 
 		return cloneSprite;
 
+	}
+
+	protected UserBrick findBrickWithId(List<UserBrick> list, int id) {
+		for (UserBrick brick : list) {
+			if (brick.getId() == id) {
+				return brick;
+			}
+		}
+		return null;
 	}
 
 	public void createWhenScriptActionSequence(String action) {
@@ -284,6 +380,10 @@ public class Sprite implements Serializable, Cloneable {
 			ressources |= script.getRequiredResources();
 		}
 		return ressources;
+	}
+
+	public int getNextNewUserBrickId() {
+		return newUserBrickNext++;
 	}
 
 	@Override

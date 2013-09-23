@@ -86,6 +86,12 @@ public class Formula implements Serializable {
 		}
 	}
 
+	public void updateVariableReferences(String oldName, String newName, Context context) {
+		internFormula.updateVariableReferences(oldName, newName, context);
+		formulaTree.updateVariableReferences(oldName, newName, context);
+		displayText = null;
+	}
+
 	public void setDisplayText(String text) {
 		displayText = text;
 	}
@@ -103,7 +109,7 @@ public class Formula implements Serializable {
 	}
 
 	public double interpretDouble(Sprite sprite) {
-		return formulaTree.interpretRecursive(sprite);
+		return this.formulaTree.interpretRecursive(sprite);
 	}
 
 	public float interpretFloat(Sprite sprite) {
@@ -190,6 +196,11 @@ public class Formula implements Serializable {
 		}
 
 		return new Formula(0);
+	}
+
+	public void removeVariableReferences(String name, Context context) {
+		internFormula.removeVariableReferences(name, context);
+
 	}
 
 }

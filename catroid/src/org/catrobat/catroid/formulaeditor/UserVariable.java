@@ -23,19 +23,23 @@
 package org.catrobat.catroid.formulaeditor;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class UserVariable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private List<UserVariable> context;
 	private String name;
 	private transient double value;
 
-	public UserVariable(final String name) {
+	public UserVariable(String name, List<UserVariable> context) {
+		this.context = context;
 		this.name = name;
 		this.value = 0.0;
 	}
 
-	public UserVariable(final String name, final double value) {
+	public UserVariable(final String name, final double value, List<UserVariable> context) {
+		this.context = context;
 		this.name = name;
 		this.value = value;
 	}
@@ -50,6 +54,10 @@ public class UserVariable implements Serializable {
 
 	public String getName() {
 		return name;
+	}
+
+	public List<UserVariable> getContext() {
+		return context;
 	}
 
 }

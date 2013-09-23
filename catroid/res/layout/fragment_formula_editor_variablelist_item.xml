@@ -30,6 +30,8 @@
 
     <include layout="@layout/fragment_formula_editor_variablelist_local_headline" />
 
+     <include layout="@layout/fragment_formula_editor_variablelist_userbrick_headline" />
+    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
