@@ -79,17 +79,18 @@ public class CameraManager implements Camera.PreviewCallback {
 
 	public void updateCameraID(Context context) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-		Log.i("Blah", "hey " + context.getResources().getString(R.string.preference_key_select_camera));
 		String idAsString = preferences.getString(
 				context.getResources().getString(R.string.preference_key_select_camera), "0");
-		Log.i("Blah", "read " + idAsString);
 		cameraID = Integer.parseInt(idAsString);
 
 		CameraInfo cameraInfo = new CameraInfo();
 		Camera.getCameraInfo(cameraID, cameraInfo);
 		orientation = cameraInfo.orientation;
 		facingBack = cameraInfo.facing == CameraInfo.CAMERA_FACING_BACK;
+	}
+
+	public int getCameraID() {
+		return cameraID;
 	}
 
 	public int getOrientation() {
