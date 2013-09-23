@@ -682,8 +682,8 @@ public class UiTestUtils {
 		brickList.add(new SetGhostEffectBrick(firstSprite, 0));
 		brickList.add(new SetLookBrick(firstSprite));
 		brickList.add(new SetSizeToBrick(firstSprite, 0));
-		brickList.add(new SetVolumeToBrick(firstSprite, 0));
 		brickList.add(new SetVariableBrick(firstSprite, 0));
+		brickList.add(new SetVolumeToBrick(firstSprite, 0));
 		brickList.add(new SetXBrick(firstSprite, 0));
 		brickList.add(new SetYBrick(firstSprite, 0));
 		brickList.add(new ShowBrick(firstSprite));

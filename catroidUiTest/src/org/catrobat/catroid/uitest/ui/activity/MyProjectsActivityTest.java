@@ -408,7 +408,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				viewBitmap = viewToTest.getDrawingCache();
 				int testPixelX = viewBitmap.getWidth() / 2;
 				int testPixelY = viewBitmap.getHeight() / 2;
-				//the following equals ARGB value #fff8fcf8, which is 
+				//the following equals ARGB value #fff8fcf8, which is
 				//the white value on the test device
 				int expectedWhite = -459528;
 				switch (counter) {
@@ -436,7 +436,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		}
 	}
 
-	@Device
 	public void testImageCache() {
 		deleteCacheProjects = true;
 
@@ -530,9 +529,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				int testPixelX = viewBitmap.getWidth() / 2;
 				int testPixelY = viewBitmap.getHeight() / 2;
 
-				//the following equals ARGB value #fff8fcf8, which is 
-				//the white value on the test device
-				int expectedWhite = -459528;
+				//the following equals ARGB value #ffffffff, which is
+				//the white value on the emulated test device
+				int expectedWhite = -1;
 				switch (counter) {
 					case 1:
 						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
@@ -724,7 +723,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				.getCurrentProject().getName());
 	}
 
-	@Device
 	public void testDeleteProjectViaActionBar() {
 		String delete = solo.getString(R.string.delete);
 		createProjects();
@@ -1158,11 +1156,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.goBack();
 	}
 
-	// this test MUST run on Device
-	// otherwise testProjectDetailsLastAccess fails
-	// TODO
-	// tests should run without dependencies - should be fixed
-	@Device
 	public void testProjectDetails() {
 		String showDetailsText = solo.getString(R.string.show_details);
 		String hideDetailsText = solo.getString(R.string.hide_details);
@@ -1211,7 +1204,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Menu item still says \"Hide Details\"!", solo.searchText(showDetailsText));
 	}
 
-	@Device
 	public void testProjectDetailsLastAccess() {
 		String showDetailsText = solo.getString(R.string.show_details);
 
