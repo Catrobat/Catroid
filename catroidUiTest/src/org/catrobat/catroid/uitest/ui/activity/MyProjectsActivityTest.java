@@ -601,7 +601,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Project was deleted!", solo.searchText(UiTestUtils.PROJECTNAME1));
 	}
 
-	@Device
 	public void testChooseNoOnDeleteQuestionInActionMode() {
 		createProjects();
 		solo.sleep(200);
@@ -769,7 +768,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	}
 
-	@Device
 	public void testConfirmDeleteProgramDialogTitleChange() {
 		String delete = solo.getString(R.string.delete);
 		createProjects();
@@ -809,7 +807,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(no);
 	}
 
-	@Device
 	public void testDeleteActionModeTitleChange() {
 		String deleteActionModeTitle = solo.getString(R.string.delete);
 		String singleItemAppendixDeleteActionMode = solo.getString(R.string.program);
@@ -835,7 +832,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	}
 
-	@Device
 	public void testCancelDeleteActionMode() {
 		// zipping of programs needed for jenkins
 		// test does not work without removing all programs
@@ -1324,7 +1320,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(buttonCloseText);
 	}
 
-	@Device
 	public void testSetDescriptionCurrentProject() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -1343,8 +1338,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clearEditText(0);
 		solo.enterText(0, lorem);
 		solo.sleep(300);
-		solo.sendKey(Solo.ENTER);
-		solo.sendKey(Solo.ENTER);
+		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
 
 		// temporarily removed - should be added when displaying projectdescription

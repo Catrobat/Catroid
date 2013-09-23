@@ -71,7 +71,6 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -318,7 +317,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				.getBrickList().size(), brickCounter);
 	}
 
-	@Device
 	public void testBackgroundSprite() {
 		String sometext = UiTestUtils.PROJECTNAME1;
 
@@ -1243,7 +1241,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		// Don't use UiTestUtils.clickEnterClose(solo, 0, "text")
 		solo.clearEditText(0);
 		solo.enterText(0, text);
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(200);
 	}
