@@ -22,7 +22,9 @@
  */
 package org.catrobat.catroid.uitest.ui.dialog;
 
+import android.annotation.TargetApi;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
@@ -93,7 +95,6 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		});
 	}
 
-	@Device
 	public void testUploadDialog() throws Throwable {
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.waitForText(uploadDialogTitle);
@@ -121,7 +122,8 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clearEditText(0);
 		solo.enterText(0, UiTestUtils.PROJECTNAME2);
 		assertEquals("rename View is hidden.", renameView.getVisibility(), View.VISIBLE);
-		solo.goBack();
+
+		solo.sendKey(Solo.ENTER);
 
 		solo.clickOnButton(solo.getString(R.string.cancel_button));
 	}
@@ -130,7 +132,6 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testUploadingProjectDescriptionDefaultValue() throws Throwable {
 		String testDescription = "Test description";
 		String actionSetDescriptionText = solo.getString(R.string.set_description);
-		String setDescriptionDialogTitle = solo.getString(R.string.description);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -138,10 +139,10 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickLongOnText(uploadProject.getName().toString());
 		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clickOnText(actionSetDescriptionText);
-		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
+		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clearEditText(0);
 		solo.enterText(0, testDescription);
-		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
+		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.sleep(300);
 
 		// workaround - Ok button not clickable
@@ -162,6 +163,8 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Project description was not set or is wrong", testDescription, uploadDescription);
 	}
 
+	// Not testable with Android 2.3, because solo is not able to enter new lines
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public void testProjectDescriptionUploadProject() throws Throwable {
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		boolean uploadDialogShown = solo.waitForText(uploadDialogTitle);
@@ -180,14 +183,13 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Project description field is not multiline", newProjectDescriptionInputTypeReference,
 				projectUploadDescriptionInputType);
 
-		int projectUploadNameNumberOfLines = (editTextUploadName.getHeight()
-				- editTextUploadName.getCompoundPaddingTop() - editTextUploadName.getCompoundPaddingBottom())
-				/ editTextUploadName.getLineHeight();
-		int projectUploadDescriptionNumberOfLines = (editTextUploadDescription.getHeight()
-				- editTextUploadDescription.getCompoundPaddingTop() - editTextUploadDescription
-					.getCompoundPaddingBottom()) / editTextUploadDescription.getLineHeight();
+		int projectUploadNameNumberOfLines = editTextUploadName.getLineCount();
 		assertEquals("Project name field is not a text field", 1, projectUploadNameNumberOfLines);
-		assertEquals("Project description field is not multiline", 2, projectUploadDescriptionNumberOfLines);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			int projectUploadDescriptionNumberOfLines = editTextUploadDescription.getMaxLines();
+			assertEquals("Project description field is not multiline", 2, projectUploadDescriptionNumberOfLines);
+		}
 	}
 
 	private void createTestProject() {

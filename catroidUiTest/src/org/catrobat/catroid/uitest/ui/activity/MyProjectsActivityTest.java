@@ -55,6 +55,7 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
@@ -115,7 +116,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
+		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronTask", true);
+
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(WHITELISTED_CHARACTER_STRING)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(BLACKLISTED_CHARACTER_STRING)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(BLACKLISTED_ONLY_CHARACTER_STRING)));
@@ -601,7 +603,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Project was deleted!", solo.searchText(UiTestUtils.PROJECTNAME1));
 	}
 
-	@Device
 	public void testChooseNoOnDeleteQuestionInActionMode() {
 		createProjects();
 		solo.sleep(200);
@@ -769,7 +770,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	}
 
-	@Device
 	public void testConfirmDeleteProgramDialogTitleChange() {
 		String delete = solo.getString(R.string.delete);
 		createProjects();
@@ -809,7 +809,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(no);
 	}
 
-	@Device
 	public void testDeleteActionModeTitleChange() {
 		String deleteActionModeTitle = solo.getString(R.string.delete);
 		String singleItemAppendixDeleteActionMode = solo.getString(R.string.program);
@@ -835,7 +834,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	}
 
-	@Device
 	public void testCancelDeleteActionMode() {
 		// zipping of programs needed for jenkins
 		// test does not work without removing all programs
@@ -1225,16 +1223,24 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		Date date = new Date(1357038000000l);
 		DateFormat mediumDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
-		createProjects();
 
-		File projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
-				Constants.PROJECTCODE_NAME));
-		projectCodeFile.setLastModified(date.getTime());
+		// sometimes standard project is not created for some reason!
+		// this test needs at least 3 projects in list!
+		// creating standard project if no project is loaded on test start
+		createStandardProgramIfNeeded();
 
-		projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(UiTestUtils.PROJECTNAME1),
-				Constants.PROJECTCODE_NAME));
+		createProjectsWithoutSprites();
+		String projectFilePath = Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
+				Constants.PROJECTCODE_NAME);
+		File projectCodeFile = new File(projectFilePath);
+		boolean succeededInSettingModifiedDate = projectCodeFile.setLastModified(date.getTime());
+		assertTrue("Failed to set last modified on " + projectFilePath, succeededInSettingModifiedDate);
+
+		projectFilePath = Utils.buildPath(Utils.buildProjectPath(UiTestUtils.PROJECTNAME1), Constants.PROJECTCODE_NAME);
+		projectCodeFile = new File(projectFilePath);
 		Date now = new Date();
-		projectCodeFile.setLastModified(now.getTime() - DateUtils.DAY_IN_MILLIS);
+		succeededInSettingModifiedDate = projectCodeFile.setLastModified(now.getTime() - DateUtils.DAY_IN_MILLIS);
+		assertTrue("Failed to set last modified on " + projectFilePath, succeededInSettingModifiedDate);
 
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -1324,13 +1330,11 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(buttonCloseText);
 	}
 
-	@Device
 	public void testSetDescriptionCurrentProject() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(300);
 		String actionSetDescriptionText = solo.getString(R.string.set_description);
-		String setDescriptionDialogTitle = solo.getString(R.string.description);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -1339,12 +1343,11 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clickOnText(actionSetDescriptionText);
-		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
+		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clearEditText(0);
 		solo.enterText(0, lorem);
 		solo.sleep(300);
-		solo.sendKey(Solo.ENTER);
-		solo.sendKey(Solo.ENTER);
+		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
 
 		// temporarily removed - should be added when displaying projectdescription
@@ -1354,19 +1357,20 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clickOnText(actionSetDescriptionText);
-		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
+		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
 		assertTrue("description is not set in project", ProjectManager.getInstance().getCurrentProject()
 				.getDescription().equalsIgnoreCase(lorem));
 	}
 
-	@Device
 	public void testSetDescription() {
 		createProjects();
+
+		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronTask", false);
+
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(300);
 		String actionSetDescriptionText = solo.getString(R.string.set_description);
-		String setDescriptionDialogTitle = solo.getString(R.string.description);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -1379,7 +1383,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		solo.clickOnText(actionSetDescriptionText);
 
-		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
+		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 
 		solo.clearEditText(0);
 		solo.enterText(0, lorem);
@@ -1403,7 +1407,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		solo.clickOnText(actionSetDescriptionText);
 
-		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
+		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		assertTrue("description is not shown in edittext", solo.searchText("Lorem ipsum"));
 
 		ProjectManager.getInstance().loadProject(UiTestUtils.PROJECTNAME1, getActivity(), true);
@@ -1588,45 +1592,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
-	public void createProjects() {
-
-		Project project2 = new Project(getActivity(), UiTestUtils.PROJECTNAME1);
-		StorageHandler.getInstance().saveProject(project2);
-
-		solo.sleep(4000);
-
-		Project project1 = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		StorageHandler.getInstance().saveProject(project1);
-		ProjectManager.getInstance().setProject(project1);
-		ProjectManager projectManager = ProjectManager.getInstance();
-
-		Sprite testSprite = new Sprite("sprite1");
-		projectManager.addSprite(testSprite);
-		projectManager.setCurrentSprite(testSprite);
-
-		File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
-				IMAGE_RESOURCE_1, getActivity(), UiTestUtils.FileTypes.IMAGE);
-
-		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
-		LookData lookData = new LookData();
-		lookData.setLookFilename(imageFile.getName());
-		lookData.setLookName("testname");
-		lookDataList.add(lookData);
-		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
-
-		StorageHandler.getInstance().saveProject(project1);
-
-		//-------------------------------------------------
-
-		UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
-				IMAGE_RESOURCE_2, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
-
-		UiTestUtils.saveFileToProject(UiTestUtils.PROJECTNAME1, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
-				IMAGE_RESOURCE_3, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
-
-		solo.sleep(1000);
-	}
-
 	public void testBottombarElementsVisibilty() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 
@@ -1638,6 +1603,10 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	public void testLongProjectName() {
+		// create standard program if needed
+		// missing default program caused testing errors
+		createStandardProgramIfNeeded();
+
 		String longProjectName = "veryveryveryverylongprojectname";
 		UiTestUtils.waitForText(solo, solo.getString(R.string.main_menu_programs));
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -1840,4 +1809,64 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		}
 	}
 
+	private void createProjects() {
+		Project project2 = new Project(getActivity(), UiTestUtils.PROJECTNAME1);
+		StorageHandler.getInstance().saveProject(project2);
+
+		solo.sleep(2000);
+
+		Project project1 = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		StorageHandler.getInstance().saveProject(project1);
+		ProjectManager.getInstance().setProject(project1);
+		ProjectManager projectManager = ProjectManager.getInstance();
+
+		Sprite testSprite = new Sprite("sprite1");
+		projectManager.addSprite(testSprite);
+		projectManager.setCurrentSprite(testSprite);
+
+		File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
+				IMAGE_RESOURCE_1, getActivity(), UiTestUtils.FileTypes.IMAGE);
+
+		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		LookData lookData = new LookData();
+		lookData.setLookFilename(imageFile.getName());
+		lookData.setLookName("testname");
+		lookDataList.add(lookData);
+		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
+
+		StorageHandler.getInstance().saveProject(project1);
+
+		//-------------------------------------------------
+
+		UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
+				IMAGE_RESOURCE_2, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
+
+		UiTestUtils.saveFileToProject(UiTestUtils.PROJECTNAME1, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
+				IMAGE_RESOURCE_3, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
+
+		solo.sleep(1000);
+	}
+
+	private void createProjectsWithoutSprites() {
+		Project project1 = new Project(getActivity(), UiTestUtils.PROJECTNAME1);
+		StorageHandler.getInstance().saveProject(project1);
+		solo.sleep(2000);
+
+		Project project2 = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		StorageHandler.getInstance().saveProject(project2);
+		solo.sleep(2000);
+	}
+
+	private void createStandardProgramIfNeeded() {
+		File rootDirectory = new File(Constants.DEFAULT_ROOT);
+		if (UtilFile.getProjectNames(rootDirectory).isEmpty()) {
+			Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "projectlist empty - creating standard project");
+			try {
+				StandardProjectHandler.createAndSaveStandardProject(getActivity());
+			} catch (IOException e) {
+				e.printStackTrace();
+				fail("Standard Project could not be not created");
+			}
+		}
+	}
 }

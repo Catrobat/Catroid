@@ -111,12 +111,18 @@ public class SpeakBrick extends BrickBaseType {
 					protected void initialize() {
 						input.setText(text);
 						input.setSelectAllOnFocus(true);
+						inputTitle.setText(R.string.dialog_edit_speak_text);
 					}
 
 					@Override
 					protected boolean handleOkButton() {
 						text = (input.getText().toString()).trim();
 						return true;
+					}
+
+					@Override
+					protected String getTitle() {
+						return getString(R.string.dialog_edit_speak_title);
 					}
 				};
 

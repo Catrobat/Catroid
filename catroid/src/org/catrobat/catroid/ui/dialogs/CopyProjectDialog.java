@@ -58,6 +58,7 @@ public class CopyProjectDialog extends TextDialog {
 	protected void initialize() {
 		oldProjectName = getArguments().getString(BUNDLE_ARGUMENTS_OLD_PROJECT_NAME);
 		input.setText(oldProjectName);
+		inputTitle.setText(R.string.new_project_name);
 	}
 
 	@Override
@@ -97,6 +98,6 @@ public class CopyProjectDialog extends TextDialog {
 
 	@Override
 	protected String getTitle() {
-		return null;
+		return getString(R.string.dialog_copy_project_title);
 	}
 }

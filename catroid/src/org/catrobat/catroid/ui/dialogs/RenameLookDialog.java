@@ -55,6 +55,7 @@ public class RenameLookDialog extends TextDialog {
 	protected void initialize() {
 		oldLookName = getArguments().getString(BUNDLE_ARGUMENTS_OLD_LOOK_NAME);
 		input.setText(oldLookName);
+		inputTitle.setText(R.string.lookname);
 	}
 
 	@Override

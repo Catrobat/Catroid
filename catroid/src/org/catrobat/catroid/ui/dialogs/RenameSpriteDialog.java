@@ -52,6 +52,7 @@ public class RenameSpriteDialog extends TextDialog {
 	protected void initialize() {
 		oldSpriteName = getArguments().getString(BUNDLE_ARGUMENTS_OLD_SPRITE_NAME);
 		input.setText(oldSpriteName);
+		inputTitle.setText(R.string.sprite_name);
 	}
 
 	@Override

@@ -35,6 +35,7 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -76,6 +77,7 @@ public class LoginRegisterDialog extends DialogFragment implements OnRegistratio
 				.setPositiveButton(getString(R.string.login_or_register), null)
 				.setNeutralButton(getString(R.string.password_forgotten), null).create();
 		loginRegisterDialog.setCanceledOnTouchOutside(true);
+		loginRegisterDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 		loginRegisterDialog.setOnShowListener(new OnShowListener() {
 			@Override

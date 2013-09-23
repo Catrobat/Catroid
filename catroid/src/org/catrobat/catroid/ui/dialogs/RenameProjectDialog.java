@@ -56,6 +56,7 @@ public class RenameProjectDialog extends TextDialog {
 	protected void initialize() {
 		oldProjectName = getArguments().getString(BUNDLE_ARGUMENTS_OLD_PROJECT_NAME);
 		input.setText(oldProjectName);
+		inputTitle.setText(R.string.new_project_name);
 	}
 
 	@Override
