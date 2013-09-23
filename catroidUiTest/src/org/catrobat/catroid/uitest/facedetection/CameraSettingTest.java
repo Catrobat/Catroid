@@ -25,6 +25,8 @@ package org.catrobat.catroid.uitest.facedetection;
 import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.preference.PreferenceManager;
+import android.view.View;
+import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -44,6 +46,8 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import java.util.ArrayList;
+
 public class CameraSettingTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int SCREEN_WIDTH = 480;
 	private static final int SCREEN_HEIGHT = 800;
@@ -60,13 +64,35 @@ public class CameraSettingTest extends BaseActivityInstrumentationTestCase<MainM
 		super.setUp();
 		createCameraProject();
 		UiTestUtils.prepareStageForTest();
-	}
-
-	public void testAWriteSettings() {
-		assertTrue("Device must have at least 2 cameras for this test", Camera.getNumberOfCameras() >= 2);
-
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		solo.sleep(300);
+	}
+
+	public void testSettingsList() {
+		solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings));
+
+		String cameraSettingsTitle = solo.getString(R.string.preference_title_select_camera);
+		solo.waitForText(cameraSettingsTitle);
+		solo.clickOnText(cameraSettingsTitle);
+		solo.sleep(300);
+
+		boolean listFound = false;
+		ArrayList<View> views = solo.getCurrentViews();
+		for (View view : views) {
+			if (view instanceof ListView) {
+				listFound = true;
+				ListView listView = (ListView) view;
+				assertEquals("Number of camera choices does not match camera count", Camera.getNumberOfCameras(),
+						listView.getChildCount());
+				break;
+			}
+		}
+		assertTrue("No list with camera choices available in Settings", listFound);
+	}
+
+	public void testWriteSettings() {
+		assertTrue("Device must have at least 2 cameras for this test", Camera.getNumberOfCameras() >= 2);
+
 		solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings));
 
 		String cameraSettingsTitle = solo.getString(R.string.preference_title_select_camera);
@@ -96,7 +122,6 @@ public class CameraSettingTest extends BaseActivityInstrumentationTestCase<MainM
 
 		writeCameraIDPreference("1");
 
-		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
@@ -112,6 +137,9 @@ public class CameraSettingTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
 		assertEquals("CameraManager did not properly update camera id", 0, CameraManager.getInstance().getCameraID());
+
+		solo.goBackToActivity(MainMenuActivity.class.getSimpleName());
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 	}
 
 	private int readCameraIDPreference() {
