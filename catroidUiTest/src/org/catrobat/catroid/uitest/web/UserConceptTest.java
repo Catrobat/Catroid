@@ -30,6 +30,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jayway.android.robotium.solo.Solo;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -177,6 +179,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		username = username.toLowerCase(Locale.ENGLISH);
 		fillLoginDialogWithUsername(true, username);
 		solo.waitForText(uploadDialogTitle);
+		solo.goBack();
 
 		TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
 		ArrayList<View> currentViews = solo.getCurrentViews();
@@ -194,11 +197,12 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 
 	private void fillLoginDialogWithUsername(boolean correct, String username) {
 		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
-		ArrayList<EditText> currentEditTexts = solo.getCurrentViews(EditText.class);
 		// enter a username
 		String testUser = username;
-		solo.clearEditText(currentEditTexts.get(0));
-		solo.enterText(currentEditTexts.get(0), testUser);
+		EditText projectNameEditText = (EditText) solo.getView(R.id.username);
+		solo.clearEditText(projectNameEditText);
+		solo.enterText(projectNameEditText, testUser);
+		solo.sendKey(Solo.ENTER);
 		// enter a password
 		String testPassword;
 		if (correct) {
@@ -206,13 +210,15 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		} else {
 			testPassword = "short";
 		}
-		solo.clearEditText(currentEditTexts.get(1));
-		solo.clickOnView(currentEditTexts.get(1));
-		solo.enterText(currentEditTexts.get(1), testPassword);
+		EditText passwordEditText = (EditText) solo.getView(R.id.password);
+		solo.clearEditText(passwordEditText);
+		solo.clickOnView(passwordEditText);
+		solo.enterText(passwordEditText, testPassword);
 
 		// set the email to use. we need a random email because the server does not allow same email with different users 
 		String testEmail = testUser + "@gmail.com";
 		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
+		solo.sendKey(Solo.ENTER);
 
 		int buttonId = android.R.id.button1;
 		solo.clickOnView(solo.getView(buttonId));

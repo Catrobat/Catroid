@@ -32,7 +32,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;import android.widget.Spinner;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
@@ -159,7 +160,7 @@ public class BroadcastWaitBrick extends BrickBaseType implements BroadcastMessag
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_broadcast_wait_layout);
+			View layout = view.findViewById(R.id.brick_broadcast_wait_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
@@ -191,6 +192,7 @@ public class BroadcastWaitBrick extends BrickBaseType implements BroadcastMessag
 
 			@Override
 			protected void initialize() {
+				inputTitle.setText(R.string.dialog_new_broadcast_message_name);
 			}
 
 			@Override
@@ -211,6 +213,11 @@ public class BroadcastWaitBrick extends BrickBaseType implements BroadcastMessag
 			public void onDismiss(DialogInterface dialog) {
 				setSpinnerSelection(spinner);
 				super.onDismiss(dialog);
+			}
+
+			@Override
+			protected String getTitle() {
+				return getString(R.string.dialog_new_broadcast_message_title);
 			}
 		};
 

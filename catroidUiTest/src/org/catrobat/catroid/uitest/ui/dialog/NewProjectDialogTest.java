@@ -119,8 +119,7 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.sleep(2000);
 		assertEquals("New project name field is not a text field", newProjectInputTypeReference, newProjectInputType);
 
-		int projectNameNumberOfLines = (newProjectName.getHeight() - newProjectName.getCompoundPaddingTop() - newProjectName
-				.getCompoundPaddingBottom()) / newProjectName.getLineHeight();
+		int projectNameNumberOfLines = newProjectName.getLineCount();
 
 		assertEquals("Project name field is not a text field", 1, projectNameNumberOfLines);
 
