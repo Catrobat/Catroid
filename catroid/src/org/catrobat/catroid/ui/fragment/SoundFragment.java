@@ -86,7 +86,6 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class SoundFragment extends ScriptActivityFragment implements SoundBaseAdapter.OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
@@ -619,28 +618,20 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
-		com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
-		View view = item.getActionView();
+		Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu).setOnClickListener(
+				new OnClickListener() {
 
-		if (view.getId() == R.id.select_all) {
-			View selectAllView = getLayoutInflater(null).inflate(R.layout.action_mode_select_all, null);
-			((TextView) selectAllView).setText(getString(R.string.select_all).toUpperCase(Locale.getDefault()));
-			selectAllView.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View view) {
-					for (int position = 0; position < soundInfoList.size(); position++) {
-						adapter.addCheckedItem(position);
+					@Override
+					public void onClick(View view) {
+						for (int position = 0; position < soundInfoList.size(); position++) {
+							adapter.addCheckedItem(position);
+						}
+						adapter.notifyDataSetChanged();
+						view.setVisibility(View.GONE);
+						onSoundChecked();
 					}
-					adapter.notifyDataSetChanged();
-					view.setVisibility(View.GONE);
-					onSoundChecked();
-				}
 
-			});
-			item.setActionView(selectAllView);
-		}
+				});
 	}
 
 	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {

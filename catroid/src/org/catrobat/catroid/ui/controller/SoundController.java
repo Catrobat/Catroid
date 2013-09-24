@@ -70,6 +70,7 @@ public class SoundController {
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
 	public static final int ID_LOADER_MEDIA_IMAGE = 1;
 	public static final int REQUEST_SELECT_MUSIC = 0;
+	private static final String TAG = SoundController.class.getSimpleName();
 
 	private static SoundController instance;
 
@@ -190,13 +191,23 @@ public class SoundController {
 
 				tempPlayer.reset();
 				tempPlayer.release();
-			} catch (IOException e) {
-				Log.e("CATROID", "Cannot get view.", e);
+			} catch (IOException ioException) {
+				Log.e(TAG, "Cannot get view.", ioException);
 			}
 
+			OnClickListener listItemOnClickListener = (new OnClickListener() {
+
+				@Override
+				public void onClick(View view) {
+					if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
+						holder.getCheckbox().setChecked(!holder.checkbox.isChecked());
+					}
+				}
+			});
+
 			if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
-				holder.getPlayButton().setOnClickListener(null);
-				holder.getPauseButton().setOnClickListener(null);
+				holder.getPlayButton().setOnClickListener(listItemOnClickListener);
+				holder.getPauseButton().setOnClickListener(listItemOnClickListener);
 			} else {
 				holder.getPlayButton().setOnClickListener(new OnClickListener() {
 					@Override
@@ -216,15 +227,7 @@ public class SoundController {
 					}
 				});
 			}
-			holder.getSoundFragmentButtonLayout().setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View view) {
-					if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
-						holder.getCheckbox().setChecked(!holder.checkbox.isChecked());
-					}
-				}
-			});
+			holder.getSoundFragmentButtonLayout().setOnClickListener(listItemOnClickListener);
 		}
 	}
 
@@ -397,8 +400,8 @@ public class SoundController {
 				mediaPlayer.start();
 
 				soundInfo.isPlaying = true;
-			} catch (IOException e) {
-				Log.e("CATROID", "Cannot start sound.", e);
+			} catch (IOException ioException) {
+				Log.e(TAG, "Cannot start sound.", ioException);
 			}
 		}
 	}

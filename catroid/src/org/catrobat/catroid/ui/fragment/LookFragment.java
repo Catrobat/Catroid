@@ -89,7 +89,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 
@@ -799,28 +798,20 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
-		com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
-		View view = item.getActionView();
+		Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu).setOnClickListener(
+				new OnClickListener() {
 
-		if (view.getId() == R.id.select_all) {
-			View selectAllView = getLayoutInflater(null).inflate(R.layout.action_mode_select_all, null);
-			((TextView) selectAllView).setText(getString(R.string.select_all).toUpperCase(Locale.getDefault()));
-			selectAllView.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View view) {
-					for (int position = 0; position < lookDataList.size(); position++) {
-						adapter.addCheckedItem(position);
+					@Override
+					public void onClick(View view) {
+						for (int position = 0; position < lookDataList.size(); position++) {
+							adapter.addCheckedItem(position);
+						}
+						adapter.notifyDataSetChanged();
+						view.setVisibility(View.GONE);
+						onLookChecked();
 					}
-					adapter.notifyDataSetChanged();
-					view.setVisibility(View.GONE);
-					onLookChecked();
-				}
 
-			});
-			item.setActionView(selectAllView);
-		}
+				});
 	}
 
 	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {

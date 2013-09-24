@@ -47,9 +47,13 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.Menu;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.GdxNativesLoader;
@@ -167,6 +171,18 @@ public class Utils {
 		});
 		Dialog errorDialog = builder.create();
 		errorDialog.show();
+	}
+
+	public static View addSelectAllActionModeButton(LayoutInflater inflator, ActionMode mode, Menu menu) {
+		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
+		com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
+		View view = item.getActionView();
+		if (view.getId() == R.id.select_all) {
+			View selectAllView = inflator.inflate(R.layout.action_mode_select_all, null);
+			item.setActionView(selectAllView);
+			return selectAllView;
+		}
+		return null;
 	}
 
 	public static String md5Checksum(File file) {

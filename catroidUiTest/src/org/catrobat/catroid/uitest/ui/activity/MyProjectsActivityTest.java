@@ -669,8 +669,10 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1, true));
 		assertTrue("project " + UiTestUtils.PROJECTNAME1 + " is not visible anymore",
 				solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
-		assertNotSame("the deleted project is still the current project", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-				ProjectManager.getInstance().getCurrentProject().getName());
+		if (ProjectManager.getInstance().getCurrentProject() != null) {
+			assertNotSame("the deleted project is still the current project", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+					ProjectManager.getInstance().getCurrentProject().getName());
+		}
 	}
 
 	public void testDeleteAllProjects() {
@@ -708,10 +710,12 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1));
 		assertTrue("project " + UiTestUtils.PROJECTNAME1 + " is not visible anymore",
 				solo.searchText(UiTestUtils.PROJECTNAME1, 1));
-		assertNotSame("the deleted project is still the current project", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-				projectManager.getCurrentProject().getName());
-		assertEquals(UiTestUtils.PROJECTNAME1 + " should be the current project", UiTestUtils.PROJECTNAME1,
-				projectManager.getCurrentProject().getName());
+		if (projectManager.getCurrentProject() != null) {
+			assertNotSame("the deleted project is still the current project", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+					projectManager.getCurrentProject().getName());
+			assertEquals(UiTestUtils.PROJECTNAME1 + " should be the current project", UiTestUtils.PROJECTNAME1,
+					projectManager.getCurrentProject().getName());
+		}
 
 		//delete second project
 		solo.waitForText(UiTestUtils.PROJECTNAME1);

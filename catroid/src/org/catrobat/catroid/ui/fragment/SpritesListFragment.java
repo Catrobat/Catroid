@@ -45,7 +45,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -69,7 +68,6 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.Set;
 
 public class SpritesListFragment extends SherlockListFragment implements OnSpriteEditListener {
@@ -450,27 +448,20 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
-		com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
-		View view = item.getActionView();
-		if (view.getId() == R.id.select_all) {
-			View selectAllView = getLayoutInflater(null).inflate(R.layout.action_mode_select_all, null);
-			((TextView) selectAllView).setText(getString(R.string.select_all).toUpperCase(Locale.getDefault()));
-			selectAllView.setOnClickListener(new OnClickListener() {
+		Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu).setOnClickListener(
+				new OnClickListener() {
 
-				@Override
-				public void onClick(View view) {
-					for (int position = 1; position < spriteList.size(); position++) {
-						spriteAdapter.addCheckedSprite(position);
+					@Override
+					public void onClick(View view) {
+						for (int position = 1; position < spriteList.size(); position++) {
+							spriteAdapter.addCheckedSprite(position);
+						}
+						spriteAdapter.notifyDataSetChanged();
+						view.setVisibility(View.GONE);
+						onSpriteChecked();
 					}
-					spriteAdapter.notifyDataSetChanged();
-					view.setVisibility(View.GONE);
-					onSpriteChecked();
-				}
 
-			});
-			item.setActionView(selectAllView);
-		}
+				});
 	}
 
 	private class SpriteRenamedReceiver extends BroadcastReceiver {

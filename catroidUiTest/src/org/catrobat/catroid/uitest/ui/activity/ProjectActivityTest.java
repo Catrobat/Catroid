@@ -303,13 +303,11 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		solo.goBack();
 		solo.sleep(500);
-		solo.clickLongOnText(defaultSpriteName);
+		solo.clickLongOnText(defaultSpriteName + "$");
 		solo.clickOnText(getActivity().getString(R.string.delete));
 		String yes = solo.getString(R.string.yes);
 		solo.waitForText(yes);
 		solo.clickOnText(yes);
-		solo.sleep(500);
-		solo.sendKey(Solo.ENTER);
 		solo.sleep(500);
 		solo.clickOnText(defaultSpriteName + solo.getString(R.string.copy_sprite_name_suffix));
 		solo.sleep(500);
@@ -320,7 +318,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 	public void testCopySelectAll() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-		int CurrentNumberOfSprites = getCurrentNumberOfSprites() - 1;
+		int currentNumberOfSprites = getCurrentNumberOfSprites() - 1;
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		solo.clickOnText(selectAll);
@@ -334,7 +332,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		checkIfNumberOfSpritesIsEqual(CurrentNumberOfSprites * 2 + 1);
+		checkIfNumberOfSpritesIsEqual(currentNumberOfSprites * 2 + 1);
 	}
 
 	public void testBackgroundSprite() {

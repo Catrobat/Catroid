@@ -43,7 +43,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
@@ -77,7 +76,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 public class ProjectsListFragment extends SherlockListFragment implements OnProjectRenameListener,
@@ -439,6 +437,23 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		BottomBar.showBottomBar(getActivity());
 	}
 
+	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
+		Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu).setOnClickListener(
+				new OnClickListener() {
+
+					@Override
+					public void onClick(View view) {
+						for (int position = 0; position < projectList.size(); position++) {
+							adapter.addCheckedProject(position);
+						}
+						adapter.notifyDataSetChanged();
+						view.setVisibility(View.GONE);
+						onProjectChecked();
+					}
+
+				});
+	}
+
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
@@ -456,28 +471,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			multipleItemAppendixDeleteActionMode = getString(R.string.programs);
 
 			mode.setTitle(deleteActionModeTitle);
-
-			mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
-			com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
-			View view = item.getActionView();
-			if (view.getId() == R.id.select_all) {
-				View selectAllView = getLayoutInflater(null).inflate(R.layout.action_mode_select_all, null);
-				((TextView) selectAllView).setText(getString(R.string.select_all).toUpperCase(Locale.getDefault()));
-				selectAllView.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View view) {
-						for (int position = 0; position < projectList.size(); position++) {
-							adapter.addCheckedProject(position);
-						}
-						adapter.notifyDataSetChanged();
-						view.setVisibility(View.GONE);
-						onProjectChecked();
-
-					}
-				});
-				item.setActionView(selectAllView);
-			}
+			addSelectAllActionModeButton(mode, menu);
 
 			return true;
 		}
