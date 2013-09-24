@@ -57,6 +57,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -160,7 +161,10 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 			case R.id.context_menu_copy:
 				Log.d("TAG", "Choosen to copy the backpacked sound!");
-				SoundController.getInstance().unpackingSoundToProjectCopy(selectedSoundInfoBackPack);
+				SoundController.getInstance().copySound(selectedSoundInfoBackPack,
+						BackPackListManager.getCurrentSoundInfoArrayList(), BackPackListManager.getCurrentAdapter());
+				Toast.makeText(getActivity(), "File " + selectedSoundInfoBackPack.getTitle() + " was unpacked!",
+						Toast.LENGTH_LONG).show();
 				break;
 			case R.id.context_menu_delete:
 				Log.d("TAG", "Choosen to delete the backpacked sound!");

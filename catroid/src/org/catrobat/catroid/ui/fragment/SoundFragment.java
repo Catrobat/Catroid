@@ -141,11 +141,11 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
 		View rootView = inflater.inflate(R.layout.fragment_sounds, null);
 		return rootView;
 	}
@@ -172,6 +172,10 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 		Utils.loadProjectIfNeeded(getActivity());
 		setHandleAddbutton();
+
+		// set adapter and soundInfoList for ev. unpacking
+		BackPackListManager.getInstance().setCurrentSoundInfoList(soundInfoList);
+		BackPackListManager.getInstance().setCurrentSoundAdapter(adapter);
 
 	}
 
@@ -977,6 +981,16 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				adapter.notifyDataSetChanged();
 			}
 		}
+	}
+
+	@Override
+	public SoundBaseAdapter getSoundBaseAdapter() {
+		return adapter;
+	}
+
+	@Override
+	public ArrayList<SoundInfo> getSoundInfoListForUnPacking() {
+		return soundInfoList;
 	}
 
 }
