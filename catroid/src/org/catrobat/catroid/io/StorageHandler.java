@@ -131,6 +131,7 @@ public class StorageHandler {
 	private static final StorageHandler INSTANCE;
 
 	private XStream xstream;
+	private File backPackDirectory;
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private ReentrantLock saveLoadLock = new ReentrantLock();
 
@@ -289,7 +290,7 @@ public class StorageHandler {
 				noMediaFile = new File(buildPath(projectDirectoryName, SOUND_DIRECTORY, NO_MEDIA_FILE));
 				noMediaFile.createNewFile();
 
-				File backPackDirectory = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY));
+				backPackDirectory = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY));
 				backPackDirectory.mkdir();
 
 				noMediaFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, NO_MEDIA_FILE));
@@ -326,6 +327,10 @@ public class StorageHandler {
 			saveLoadLock.unlock();
 			return false;
 		}
+	}
+
+	public void deleteBackPack() {
+
 	}
 
 	public boolean deleteProject(Project project) {

@@ -165,6 +165,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 						BackPackListManager.getCurrentSoundInfoArrayList(), BackPackListManager.getCurrentAdapter());
 				Toast.makeText(getActivity(), "File " + selectedSoundInfoBackPack.getTitle() + " was unpacked!",
 						Toast.LENGTH_LONG).show();
+
 				break;
 			case R.id.context_menu_delete:
 				Log.d("TAG", "Choosen to delete the backpacked sound!");
