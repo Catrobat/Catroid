@@ -150,13 +150,10 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		// enter a new title
 		solo.clearEditText(0);
-		solo.clickOnEditText(0);
 		solo.enterText(0, newTestProject);
-		solo.goBack();
 
 		// enter a description
 		solo.clearEditText(1);
-		solo.clickOnEditText(1);
 		solo.enterText(1, newTestDescription);
 
 		solo.clickOnButton(solo.getString(R.string.upload_button));
@@ -442,8 +439,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		EditText projectUploadDescription = (EditText) solo.getView(R.id.project_description_upload);
 		solo.clearEditText(projectUploadDescription);
 		solo.enterText(projectUploadDescription, uploadProjectDescription);
-
-		solo.goBack();
 
 		solo.clickOnButton(solo.getString(R.string.upload_button));
 		solo.sleep(500);

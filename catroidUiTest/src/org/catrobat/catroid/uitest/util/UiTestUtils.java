@@ -1154,8 +1154,8 @@ public class UiTestUtils {
 		comparePixelArrayWithPixelScreenArrayWithTolerance(pixelArray, screenArray, x, y, screenWidth, screenHeight, 10);
 	}
 
-	public static void comparePixelArrayWithPixelScreenArrayWithTolerance(byte[] pixelArray, byte[] screenArray, int x, int y,
-			int screenWidth, int screenHeight, int tolerance) {
+	public static void comparePixelArrayWithPixelScreenArrayWithTolerance(byte[] pixelArray, byte[] screenArray, int x,
+			int y, int screenWidth, int screenHeight, int tolerance) {
 		assertEquals("Length of pixel array not 4", 4, pixelArray.length);
 		int convertedX = x + (screenWidth / 2);
 		int convertedY = y + (screenHeight / 2);
@@ -1565,5 +1565,12 @@ public class UiTestUtils {
 			}
 		}
 		return false;
+	}
+
+	public static String ecsapeRegularExpressionMetaCharacters(String stringToEscape) {
+		stringToEscape = stringToEscape.replaceAll("\n", " ");
+		stringToEscape = stringToEscape.replaceAll("\\)", "\\)");
+		stringToEscape = stringToEscape.replaceAll("\\(", "\\(");
+		return stringToEscape;
 	}
 }
