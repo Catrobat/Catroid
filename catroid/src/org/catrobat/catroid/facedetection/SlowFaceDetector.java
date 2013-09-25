@@ -76,19 +76,17 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 		rotateAndInvertX.postScale(invertX ? -1 : 1, 1);
 		Bitmap portraitBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
 				rotateAndInvertX, true);
-		Bitmap rgb565_bitmap = Bitmap.createBitmap(width, height, Config.RGB_565);
+		Bitmap rgb565Bitmap = Bitmap.createBitmap(width, height, Config.RGB_565);
 		Paint paint = new Paint();
 		paint.setDither(true);
 
 		Canvas canvas = new Canvas();
-		canvas.setBitmap(rgb565_bitmap);
+		canvas.setBitmap(rgb565Bitmap);
 		canvas.drawBitmap(portraitBitmap, 0, 0, paint);
 
 		FaceDetector detector = new FaceDetector(width, height, NUMBER_OF_FACES);
 		Face[] faces = new Face[NUMBER_OF_FACES];
-		int numberOfFaces = detector.findFaces(rgb565_bitmap, faces);
-
-		Log.d("Blah", "Slow detecting");// TODO REMOVE
+		int numberOfFaces = detector.findFaces(rgb565Bitmap, faces);
 
 		boolean detected = numberOfFaces > 0;
 		onFaceDetected(detected);
