@@ -29,8 +29,6 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
 
-import com.jayway.android.robotium.solo.Solo;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -38,7 +36,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
-import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -120,7 +117,6 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnButton(solo.getString(R.string.cancel_button));
 	}
 
-	@Device
 	public void testUploadingProjectDescriptionDefaultValue() throws Throwable {
 		String testDescription = "Test description";
 		String actionSetDescriptionText = solo.getString(R.string.set_description);
@@ -137,9 +133,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.sleep(300);
 
-		// workaround - Ok button not clickable
-		solo.sendKey(Solo.ENTER);
-		solo.sendKey(Solo.ENTER);
+		solo.clickOnText(solo.getString(R.string.ok));
 
 		solo.waitForDialogToClose(500);
 		solo.goBack();
