@@ -82,10 +82,7 @@ public class CameraTest extends BaseActivityInstrumentationTestCase<MainMenuActi
 		assertTrue("Face detection is not running (so the camera was probably no started either)",
 				FaceDetectionHandler.isFaceDetectionRunning());
 		CameraManager.getInstance().addOnJpgPreviewFrameCallback(callback);
-		try {
-			Thread.sleep(MAX_FRAME_DELAY_IN_MS);
-		} catch (InterruptedException e) {
-		}
+		solo.sleep(MAX_FRAME_DELAY_IN_MS);
 		assertTrue("Did not receive frame data from camera", calls[0] > 0);
 		CameraManager.getInstance().removeOnJpgPreviewFrameCallback(callback);
 	}

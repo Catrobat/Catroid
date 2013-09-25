@@ -55,6 +55,7 @@ public class CameraManager implements Camera.PreviewCallback {
 	private int cameraID = 0;
 	private int orientation = 0;
 	private boolean facingBack = true;
+	private boolean useTexture = false;
 
 	public static CameraManager getInstance() {
 		if (instance == null) {
@@ -66,6 +67,7 @@ public class CameraManager implements Camera.PreviewCallback {
 	private CameraManager() {
 		int currentApi = android.os.Build.VERSION.SDK_INT;
 		if (currentApi >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+			useTexture = true;
 			createTexture();
 		}
 	}
@@ -112,12 +114,14 @@ public class CameraManager implements Camera.PreviewCallback {
 			return false;
 		}
 		camera.setPreviewCallback(this);
-		if (texture != null) {
-			try {
-				camera.setPreviewTexture(texture);
-			} catch (IOException e) {
-				e.printStackTrace(); // TODO
-				return false;
+		if (useTexture) {
+			if (texture != null) {
+				try {
+					camera.setPreviewTexture(texture);
+				} catch (IOException e) {
+					e.printStackTrace(); // TODO
+					return false;
+				}
 			}
 		}
 		return true;
