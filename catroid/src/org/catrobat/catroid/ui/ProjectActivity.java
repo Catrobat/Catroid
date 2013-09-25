@@ -112,12 +112,6 @@ public class ProjectActivity extends BaseActivity {
 				spritesListFragment.startDeleteActionMode();
 				break;
 			}
-
-			case R.id.settings: {
-				Intent intent = new Intent(ProjectActivity.this, SettingsActivity.class);
-				startActivity(intent);
-				break;
-			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -178,12 +172,6 @@ public class ProjectActivity extends BaseActivity {
 	public void handleShowDetails(boolean showDetails, MenuItem item) {
 		spritesListFragment.setShowDetails(showDetails);
 
-		String menuItemText = "";
-		if (showDetails) {
-			menuItemText = getString(R.string.hide_details);
-		} else {
-			menuItemText = getString(R.string.show_details);
-		}
-		item.setTitle(menuItemText);
+		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
 	}
 }
