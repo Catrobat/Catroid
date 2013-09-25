@@ -238,8 +238,6 @@ public class ScriptActivity extends BaseActivity {
 				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 2);
 				String currentProjectName = ProjectManager.getInstance().getCurrentProject().getName().toString();
 				Log.d("TAG", "Sounds will be unpacked into " + currentProjectName);
-				currentFragment.getSoundInfoListForUnPacking();
-				currentFragment.getSoundBaseAdapter();
 				startActivity(intent);
 				break;
 

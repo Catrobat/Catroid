@@ -132,6 +132,7 @@ public class StorageHandler {
 
 	private XStream xstream;
 	private File backPackDirectory;
+	private File backPackSoundDirectory;
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private ReentrantLock saveLoadLock = new ReentrantLock();
 
@@ -235,6 +236,10 @@ public class StorageHandler {
 		return INSTANCE;
 	}
 
+	public File getBackPackSoundDirectory() {
+		return backPackSoundDirectory;
+	}
+
 	public Project loadProject(String projectName) {
 		saveLoadLock.lock();
 		createCatroidRoot();
@@ -296,8 +301,7 @@ public class StorageHandler {
 				noMediaFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, NO_MEDIA_FILE));
 				noMediaFile.createNewFile();
 
-				File backPackSoundDirectory = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY,
-						BACKPACK_SOUND_DIRECTORY));
+				backPackSoundDirectory = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY));
 				backPackSoundDirectory.mkdir();
 
 				noMediaFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY,
@@ -329,7 +333,7 @@ public class StorageHandler {
 		}
 	}
 
-	public void deleteBackPack() {
+	public void setBackPackSoundDirectoryEmpty() {
 
 	}
 

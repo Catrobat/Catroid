@@ -24,11 +24,6 @@ package org.catrobat.catroid.ui.fragment;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
-
-import java.util.ArrayList;
-
 public abstract class ScriptActivityFragment extends SherlockListFragment {
 
 	protected boolean actionModeActive = false;
@@ -62,8 +57,4 @@ public abstract class ScriptActivityFragment extends SherlockListFragment {
 	protected abstract void showRenameDialog();
 
 	protected abstract void showDeleteDialog();
-
-	public abstract ArrayList<SoundInfo> getSoundInfoListForUnPacking();
-
-	public abstract SoundBaseAdapter getSoundBaseAdapter();
 }

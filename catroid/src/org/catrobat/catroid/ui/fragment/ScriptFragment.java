@@ -48,7 +48,6 @@ import com.actionbarsherlock.view.MenuInflater;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -58,13 +57,11 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickAdapter.OnBrickEditListener;
-import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 
@@ -639,25 +636,4 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#getSoundInfoListForUnPacking()
-	 */
-	@Override
-	public ArrayList<SoundInfo> getSoundInfoListForUnPacking() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#getSoundBaseAdapter()
-	 */
-	@Override
-	public SoundBaseAdapter getSoundBaseAdapter() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

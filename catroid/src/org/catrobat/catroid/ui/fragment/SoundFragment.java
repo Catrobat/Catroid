@@ -982,15 +982,4 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			}
 		}
 	}
-
-	@Override
-	public SoundBaseAdapter getSoundBaseAdapter() {
-		return adapter;
-	}
-
-	@Override
-	public ArrayList<SoundInfo> getSoundInfoListForUnPacking() {
-		return soundInfoList;
-	}
-
 }
