@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.controller;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class BackPackListManager {
@@ -35,6 +36,7 @@ public class BackPackListManager {
 	private static SoundInfo currentSoundInfo;
 	private static ArrayList<SoundInfo> currentSoundInfoArrayList;
 	private static SoundBaseAdapter currentAdapter;
+	private static File backPackSoundDirectory;
 
 	private BackPackListManager() {
 	}
@@ -88,5 +90,15 @@ public class BackPackListManager {
 
 	public static SoundBaseAdapter getCurrentAdapter() {
 		return currentAdapter;
+	}
+
+	public static void setBackPackSoundDirectory(File currentBackPackSoundDirectory) {
+		backPackSoundDirectory = currentBackPackSoundDirectory;
+
+	}
+
+	public static File getBackPackSoundDirectory() {
+		return backPackSoundDirectory;
+
 	}
 }

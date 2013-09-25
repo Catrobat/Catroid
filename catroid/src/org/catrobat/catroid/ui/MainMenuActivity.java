@@ -34,6 +34,7 @@ import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -51,6 +52,7 @@ import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
@@ -98,6 +100,9 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		if (loadExternalProjectUri != null) {
 			loadProgramFromExternalSource(loadExternalProjectUri);
 		}
+
+		BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
+		Log.d("TAG", "onCreate ------------------" + BackPackListManager.getInstance().getSoundInfoArrayList().size());
 	}
 
 	@Override
@@ -142,6 +147,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		if (!Utils.externalStorageAvailable()) {
 			return;
 		}
+
 	}
 
 	@Override

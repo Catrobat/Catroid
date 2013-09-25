@@ -278,42 +278,42 @@ public class StorageHandler {
 			String projectDirectoryName = buildProjectPath(project.getName());
 			File projectDirectory = new File(projectDirectoryName);
 
+			backPackDirectory = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY));
+			backPackDirectory.mkdir();
+
+			File noMediaFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, NO_MEDIA_FILE));
+			noMediaFile.createNewFile();
+
+			backPackSoundDirectory = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY));
+			backPackSoundDirectory.mkdir();
+
+			BackPackListManager.setBackPackSoundDirectory(backPackSoundDirectory);
+
+			noMediaFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY, NO_MEDIA_FILE));
+			noMediaFile.createNewFile();
+
+			File backPackImageDirectory = new File(
+					buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_IMAGE_DIRECTORY));
+			backPackImageDirectory.mkdir();
+
+			noMediaFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_IMAGE_DIRECTORY, NO_MEDIA_FILE));
+			noMediaFile.createNewFile();
+
 			if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
 				projectDirectory.mkdir();
 
-				BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
+				//BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
 
 				File imageDirectory = new File(buildPath(projectDirectoryName, IMAGE_DIRECTORY));
 				imageDirectory.mkdir();
 
-				File noMediaFile = new File(buildPath(projectDirectoryName, IMAGE_DIRECTORY, NO_MEDIA_FILE));
+				noMediaFile = new File(buildPath(projectDirectoryName, IMAGE_DIRECTORY, NO_MEDIA_FILE));
 				noMediaFile.createNewFile();
 
 				File soundDirectory = new File(buildPath(projectDirectoryName, SOUND_DIRECTORY));
 				soundDirectory.mkdir();
 
 				noMediaFile = new File(buildPath(projectDirectoryName, SOUND_DIRECTORY, NO_MEDIA_FILE));
-				noMediaFile.createNewFile();
-
-				backPackDirectory = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY));
-				backPackDirectory.mkdir();
-
-				noMediaFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, NO_MEDIA_FILE));
-				noMediaFile.createNewFile();
-
-				backPackSoundDirectory = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY));
-				backPackSoundDirectory.mkdir();
-
-				noMediaFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY,
-						NO_MEDIA_FILE));
-				noMediaFile.createNewFile();
-
-				File backPackImageDirectory = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY,
-						BACKPACK_IMAGE_DIRECTORY));
-				backPackImageDirectory.mkdir();
-
-				noMediaFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_IMAGE_DIRECTORY,
-						NO_MEDIA_FILE));
 				noMediaFile.createNewFile();
 
 			}
@@ -333,7 +333,19 @@ public class StorageHandler {
 		}
 	}
 
-	public void setBackPackSoundDirectoryEmpty() {
+	public void setBackPackSoundDirectoryEmpty(File directory) {
+
+		if (directory.listFiles().length > 1) {
+			Log.d("TAG", "DIRECTORY IS NOT EMPTY!");
+
+			for (File node : directory.listFiles()) {
+				//Log.d("TAG", "BACKPACK: " + node.getName());
+				if (!(node.getName().equals(".nomedia"))) {
+					node.delete();
+				}
+			}
+
+		}
 
 	}
 
