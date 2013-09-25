@@ -118,7 +118,6 @@
     <string name="rename_sound_dialog">Переименовать звук</string>
     <string name="soundname_invalid">Это название звука недействительно</string>
     <string name="sound_play">проигрывание</string>
-    <string name="sound_pause">пауза </string>
     <string name="sound_rename">переименовать</string>
     <string name="sound_select_source">Выберите звук</string>
     <string name="delete_sound_dialog">Удалить звук?</string>

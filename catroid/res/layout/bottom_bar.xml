@@ -56,6 +56,6 @@
         android:layout_weight="1"
         android:background="@drawable/bottom_bar_background_selector"
         android:onClick="handlePlayButton"
-        android:src="@drawable/ic_media_play" />
+        android:src="@drawable/ic_play" />
 
 </LinearLayout>

@@ -87,7 +87,7 @@ public class SoundController {
 
 		if (soundInfo != null) {
 			holder.playButton.setTag(position);
-			holder.pauseButton.setTag(position);
+			holder.stopButton.setTag(position);
 			holder.titleTextView.setText(soundInfo.getTitle());
 
 			holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -154,7 +154,7 @@ public class SoundController {
 
 				if (soundInfo.isPlaying) {
 					holder.playButton.setVisibility(Button.GONE);
-					holder.pauseButton.setVisibility(Button.VISIBLE);
+					holder.stopButton.setVisibility(Button.VISIBLE);
 
 					holder.timeDurationTextView.setVisibility(TextView.VISIBLE);
 					holder.timePlayedChronometer.setVisibility(Chronometer.VISIBLE);
@@ -169,7 +169,7 @@ public class SoundController {
 					}
 				} else {
 					holder.playButton.setVisibility(Button.VISIBLE);
-					holder.pauseButton.setVisibility(Button.GONE);
+					holder.stopButton.setVisibility(Button.GONE);
 
 					holder.timePlayedChronometer.setVisibility(TextView.GONE);
 					holder.timePlayedChronometer.setVisibility(Chronometer.GONE);
@@ -180,8 +180,8 @@ public class SoundController {
 				}
 
 				if (soundAdapter.getShowDetails()) {
-					holder.soundFileSizeTextView.setText(
-							UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
+					holder.soundFileSizeTextView
+							.setText(UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
 					holder.soundFileSizeTextView.setVisibility(TextView.VISIBLE);
 					holder.soundFileSizePrefixTextView.setVisibility(TextView.VISIBLE);
 				} else {
@@ -207,7 +207,7 @@ public class SoundController {
 
 			if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
 				holder.playButton.setOnClickListener(listItemOnClickListener);
-				holder.pauseButton.setOnClickListener(listItemOnClickListener);
+				holder.stopButton.setOnClickListener(listItemOnClickListener);
 			} else {
 				holder.playButton.setOnClickListener(new OnClickListener() {
 					@Override
@@ -218,7 +218,7 @@ public class SoundController {
 					}
 				});
 
-				holder.pauseButton.setOnClickListener(new OnClickListener() {
+				holder.stopButton.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View view) {
 						if (soundAdapter.getOnSoundEditListener() != null) {

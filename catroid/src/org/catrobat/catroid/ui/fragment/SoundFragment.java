@@ -863,10 +863,10 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 			holder = new SoundViewHolder();
 			holder.playButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_play_image_button);
-			holder.pauseButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_pause_image_button);
+			holder.stopButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_stop_image_button);
 
 			holder.playButton.setVisibility(Button.VISIBLE);
-			holder.pauseButton.setVisibility(Button.GONE);
+			holder.stopButton.setVisibility(Button.GONE);
 
 			holder.soundFragmentButtonLayout = (LinearLayout) convertView
 					.findViewById(R.id.fragment_sound_item_main_linear_layout);

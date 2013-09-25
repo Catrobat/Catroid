@@ -258,10 +258,10 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 			holder = new SoundViewHolder();
 			holder.playButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_play_image_button);
-			holder.pauseButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_pause_image_button);
+			holder.stopButton = (ImageButton) convertView.findViewById(R.id.fragment_sound_item_stop_image_button);
 
 			holder.playButton.setVisibility(Button.VISIBLE);
-			holder.pauseButton.setVisibility(Button.INVISIBLE);
+			holder.stopButton.setVisibility(Button.INVISIBLE);
 
 			holder.soundFragmentButtonLayout = (LinearLayout) convertView
 					.findViewById(R.id.fragment_sound_item_main_linear_layout);

@@ -91,7 +91,6 @@
     <string name="rename_sound_dialog">"소리 이름 바꾸기"</string>
     <string name="soundname_invalid">"소리의 이름이 잘못되었습니다"</string>
     <string name="sound_play">"재생"</string>
-    <string name="sound_pause">"일지정지"</string>
     <string name="sound_select_source">"소리 선택"</string>
     <string name="delete_sound_dialog">"소리를 삭제 하시겠습니까?"</string>
     <!-- My Projects activity -->

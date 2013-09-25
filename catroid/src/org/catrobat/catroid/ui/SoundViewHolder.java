@@ -30,7 +30,7 @@ import android.widget.TextView;
 
 public class SoundViewHolder {
 	public ImageButton playButton;
-	public ImageButton pauseButton;
+	public ImageButton stopButton;
 	public LinearLayout soundFragmentButtonLayout;
 	public CheckBox checkbox;
 	public TextView titleTextView;

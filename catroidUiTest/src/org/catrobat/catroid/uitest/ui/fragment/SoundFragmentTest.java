@@ -299,7 +299,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertFalse("Mediaplayer is playing although no play button was touched", soundInfo.isPlaying);
 
 		ImageButton playImageButton = (ImageButton) solo.getView(R.id.fragment_sound_item_play_image_button);
-		ImageButton pauseImageButton = (ImageButton) solo.getView(R.id.fragment_sound_item_pause_image_button);
+		ImageButton stopImageButton = (ImageButton) solo.getView(R.id.fragment_sound_item_stop_image_button);
 
 		solo.clickOnView(playImageButton);
 		solo.sleep(timeToWait);
@@ -308,7 +308,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		checkVisibilityOfViews(GONE, VISIBLE, VISIBLE, VISIBLE, VISIBLE, GONE, GONE);
 
 		solo.sleep(timeToWait);
-		solo.clickOnView(pauseImageButton);
+		solo.clickOnView(stopImageButton);
 		solo.sleep(timeToWait);
 
 		assertFalse("Mediaplayer is playing after touching stop button", soundInfo.isPlaying);
@@ -1051,12 +1051,12 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		return (SoundAdapter) getSoundFragment().getListAdapter();
 	}
 
-	private void checkVisibilityOfViews(int playButtonVisibility, int pauseButtonVisibility, int soundNameVisibility,
+	private void checkVisibilityOfViews(int playButtonVisibility, int stopButtonVisibility, int soundNameVisibility,
 			int timePlayedVisibility, int soundDurationVisibility, int soundSizeVisibility, int checkBoxVisibility) {
 		assertTrue("Play button " + getAssertMessageAffix(playButtonVisibility),
 				solo.getView(R.id.fragment_sound_item_play_image_button).getVisibility() == playButtonVisibility);
-		assertTrue("Pause button " + getAssertMessageAffix(pauseButtonVisibility),
-				solo.getView(R.id.fragment_sound_item_pause_image_button).getVisibility() == pauseButtonVisibility);
+		assertTrue("Stop button " + getAssertMessageAffix(stopButtonVisibility),
+				solo.getView(R.id.fragment_sound_item_stop_image_button).getVisibility() == stopButtonVisibility);
 		assertTrue("Sound name " + getAssertMessageAffix(soundNameVisibility),
 				solo.getView(R.id.fragment_sound_item_title_text_view).getVisibility() == soundNameVisibility);
 		assertTrue("Chronometer " + getAssertMessageAffix(timePlayedVisibility),

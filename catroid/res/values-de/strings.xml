@@ -151,7 +151,7 @@
     <string name="backpack_title">Rucksack</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="sound_play">abspielen</string>
-    <string name="sound_pause">pausieren</string>
+    <string name="sound_stop">stoppen</string>
     <string name="sound_select_source">Klang auswählen</string>
     <string name="sound_time_seperator">/</string>
     <string name="delete_sound_dialog">Klang löschen?</string>

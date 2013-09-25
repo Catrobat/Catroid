@@ -152,7 +152,7 @@
     <string name="backpack_title">BackPack</string>
     <string name="soundname_invalid">This sound\'s name is invalid</string>
     <string name="sound_play">play</string>
-    <string name="sound_pause">pause</string>
+    <string name="sound_stop">stop</string>
     <string name="sound_select_source">Select a sound</string>
     <string name="sound_time_seperator">/</string>
     <string name="delete_sound_dialog">Delete sound?</string>
