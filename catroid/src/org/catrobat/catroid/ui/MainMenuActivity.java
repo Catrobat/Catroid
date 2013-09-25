@@ -34,7 +34,6 @@ import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -102,7 +101,6 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		}
 
 		BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
-		Log.d("TAG", "onCreate ------------------" + BackPackListManager.getInstance().getSoundInfoArrayList().size());
 	}
 
 	@Override

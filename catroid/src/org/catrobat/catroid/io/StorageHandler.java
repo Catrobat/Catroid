@@ -336,10 +336,7 @@ public class StorageHandler {
 	public void setBackPackSoundDirectoryEmpty(File directory) {
 
 		if (directory.listFiles().length > 1) {
-			Log.d("TAG", "DIRECTORY IS NOT EMPTY!");
-
 			for (File node : directory.listFiles()) {
-				//Log.d("TAG", "BACKPACK: " + node.getName());
 				if (!(node.getName().equals(".nomedia"))) {
 					node.delete();
 				}

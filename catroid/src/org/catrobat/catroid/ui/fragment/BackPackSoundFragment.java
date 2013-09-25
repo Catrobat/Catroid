@@ -39,7 +39,6 @@ import android.support.v4.content.Loader;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -156,19 +155,15 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		Log.d("TAG", "BackPackSoundFragment-->onContextItemSelected");
 		switch (item.getItemId()) {
 
 			case R.id.context_menu_copy:
-				Log.d("TAG", "Choosen to copy the backpacked sound!");
 				SoundController.getInstance().copySound(selectedSoundInfoBackPack,
 						BackPackListManager.getCurrentSoundInfoArrayList(), BackPackListManager.getCurrentAdapter());
 				Toast.makeText(getActivity(), "File " + selectedSoundInfoBackPack.getTitle() + " was unpacked!",
 						Toast.LENGTH_LONG).show();
-
 				break;
 			case R.id.context_menu_delete:
-				Log.d("TAG", "Choosen to delete the backpacked sound!");
 				showConfirmDeleteDialog();
 				break;
 		}
