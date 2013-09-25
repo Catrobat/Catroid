@@ -119,6 +119,14 @@ public class Project implements Serializable {
 		return xmlHeader.getDescription();
 	}
 
+	public void setScreenMode(String screenMode) {
+		xmlHeader.setScreenMode(screenMode);
+	}
+
+	public String getScreenMode() {
+		return xmlHeader.getScreenMode();
+	}
+
 	public float getCatrobatLanguageVersion() {
 		return xmlHeader.getCatrobatLanguageVersion();
 	}

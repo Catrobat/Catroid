@@ -31,4 +31,5 @@ public final class ScreenValues {
 	private ScreenValues() {
 		throw new AssertionError();
 	}
+
 }

@@ -128,6 +128,7 @@ public final class Utils {
 			ScreenValues.SCREEN_HEIGHT = DEFAULT_SCREEN_HEIGHT;
 		}
 
+		ScreenValues.ASPECT_RATIO = (float) ScreenValues.SCREEN_WIDTH / (float) ScreenValues.SCREEN_HEIGHT;
 	}
 
 	public static boolean isNetworkAvailable(Context context) {

@@ -97,19 +97,29 @@ public class StageActivity extends AndroidApplication {
 		ifLandscapeSwitchWidthAndHeight();
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
+		float aspectRatio = (float) virtualScreenWidth / (float) virtualScreenHeight;
+
 		if (virtualScreenWidth == ScreenValues.SCREEN_WIDTH && virtualScreenHeight == ScreenValues.SCREEN_HEIGHT) {
 			resizePossible = false;
 			return;
 		}
-		resizePossible = true;
-		stageListener.maximizeViewPortWidth = ScreenValues.SCREEN_WIDTH + 1;
-		do {
-			stageListener.maximizeViewPortWidth--;
-			stageListener.maximizeViewPortHeight = (int) (((float) stageListener.maximizeViewPortWidth / (float) virtualScreenWidth) * virtualScreenHeight);
-		} while (stageListener.maximizeViewPortHeight > ScreenValues.SCREEN_HEIGHT);
 
-		stageListener.maximizeViewPortX = (ScreenValues.SCREEN_WIDTH - stageListener.maximizeViewPortWidth) / 2;
-		stageListener.maximizeViewPortY = (ScreenValues.SCREEN_HEIGHT - stageListener.maximizeViewPortHeight) / 2;
+		resizePossible = true;
+		float scale = 1f;
+		float ratioHeight = (float) ScreenValues.SCREEN_HEIGHT / (float) virtualScreenHeight;
+		float ratioWidth = (float) ScreenValues.SCREEN_WIDTH / (float) virtualScreenWidth;
+		if (aspectRatio < ScreenValues.ASPECT_RATIO) {
+			scale = ratioWidth / ratioHeight;
+			stageListener.maximizeViewPortWidth = (int) (ScreenValues.SCREEN_WIDTH * scale);
+			stageListener.maximizeViewPortX = (int) ((ScreenValues.SCREEN_WIDTH - stageListener.maximizeViewPortWidth) / 2f);
+			stageListener.maximizeViewPortHeight = ScreenValues.SCREEN_HEIGHT;
+
+		} else if (aspectRatio > ScreenValues.ASPECT_RATIO) {
+			scale = ratioHeight / ratioWidth;
+			stageListener.maximizeViewPortHeight = (int) (ScreenValues.SCREEN_HEIGHT * scale);
+			stageListener.maximizeViewPortY = (int) ((ScreenValues.SCREEN_HEIGHT - stageListener.maximizeViewPortHeight) / 2f);
+			stageListener.maximizeViewPortWidth = ScreenValues.SCREEN_WIDTH;
+		}
 	}
 
 	private void ifLandscapeSwitchWidthAndHeight() {

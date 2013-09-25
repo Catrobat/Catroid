@@ -152,7 +152,7 @@ public class StageListener implements ApplicationListener {
 		virtualWidthHalf = virtualWidth / 2;
 		virtualHeightHalf = virtualHeight / 2;
 
-		screenMode = ScreenModes.STRETCH;
+		screenMode = getScreenMode();
 
 		stage = new Stage(virtualWidth, virtualHeight, true);
 		batch = stage.getSpriteBatch();
@@ -188,6 +188,18 @@ public class StageListener implements ApplicationListener {
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
 		}
+	}
+
+	/**
+	 * @return
+	 */
+	private ScreenModes getScreenMode() {
+		if (ProjectManager.getInstance().getCurrentProject().getScreenMode().equals(ScreenModes.STRETCH.name())) {
+			return ScreenModes.STRETCH;
+		} else {
+			return ScreenModes.MAXIMIZE;
+		}
+
 	}
 
 	void menuResume() {
@@ -258,6 +270,11 @@ public class StageListener implements ApplicationListener {
 			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
 		}
 
+		if (screenMode == ScreenModes.STRETCH) {
+			ProjectManager.getInstance().getCurrentProject().setScreenMode(ScreenModes.STRETCH.name());
+		} else if (screenMode == ScreenModes.MAXIMIZE) {
+			ProjectManager.getInstance().getCurrentProject().setScreenMode(ScreenModes.MAXIMIZE.name());
+		}
 	}
 
 	@Override
@@ -294,15 +311,15 @@ public class StageListener implements ApplicationListener {
 		}
 
 		switch (screenMode) {
-			case MAXIMIZE:
+			case STRETCH:
 				Gdx.gl.glViewport(maximizeViewPortX, maximizeViewPortY, maximizeViewPortWidth, maximizeViewPortHeight);
 				screenshotWidth = maximizeViewPortWidth;
 				screenshotHeight = maximizeViewPortHeight;
 				screenshotX = maximizeViewPortX;
 				screenshotY = maximizeViewPortY;
 				break;
-			case STRETCH:
-			default:
+
+			case MAXIMIZE:
 				Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
 				screenshotWidth = ScreenValues.SCREEN_WIDTH;
 				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
