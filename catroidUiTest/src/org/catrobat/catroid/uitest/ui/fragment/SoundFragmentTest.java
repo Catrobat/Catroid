@@ -67,6 +67,9 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	private static final String FIRST_TEST_SOUND_NAME = "testSound1";
 	private static final String SECOND_TEST_SOUND_NAME = "testSound2";
 
+	private static final String FIRST_TEST_UNPACKING_SOUND_NAME = "testSound11";
+	private static final String SECOND_TEST_UNPACKING_SOUND_NAME = "testSound21";
+
 	private String rename;
 	private String renameDialogTitle;
 	private String delete;
@@ -479,6 +482,83 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.sleep(timeToWait);
 
 		assertTrue("Mediaplayer is not playing although play button was touched", soundInfo.isPlaying);
+	}
+
+	public void testSimpleUnpacking() {
+		SoundAdapter adapter = getSoundAdapter();
+		assertNotNull("Could not get Adapter", adapter);
+		int timeToWait = 1000;
+
+		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.backpack));
+
+		solo.sleep(timeToWait);
+		clickOnContextMenuItem(FIRST_TEST_UNPACKING_SOUND_NAME, solo.getString(R.string.copy));
+
+		solo.waitForDialogToClose(1000);
+
+		solo.goBack();
+
+		assertTrue("Sound wasn't unpacked!", solo.waitForText(FIRST_TEST_UNPACKING_SOUND_NAME, 0, TIME_TO_WAIT));
+	}
+
+	public void testSimpleUnpackingAndDelete() {
+		SoundAdapter adapter = getSoundAdapter();
+		int oldCount = adapter.getCount();
+		assertNotNull("Could not get Adapter", adapter);
+		int timeToWait = 1000;
+
+		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.backpack));
+
+		solo.sleep(timeToWait);
+
+		solo.goBack();
+
+		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.delete));
+
+		solo.waitForText(deleteDialogTitle);
+		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.sleep(50);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.unpacking), R.id.unpacking, getActivity());
+
+		clickOnContextMenuItem(FIRST_TEST_UNPACKING_SOUND_NAME, solo.getString(R.string.copy));
+
+		solo.waitForDialogToClose(1000);
+
+		solo.goBack();
+
+		assertTrue("Sound wasn't unpacked!", solo.waitForText(FIRST_TEST_UNPACKING_SOUND_NAME, 0, TIME_TO_WAIT));
+
+		int newCount = adapter.getCount();
+		assertEquals("Counts have to be equal", oldCount, newCount);
+	}
+
+	public void testMultipleUnpacking() {
+		SoundAdapter adapter = getSoundAdapter();
+		assertNotNull("Could not get Adapter", adapter);
+		int timeToWait = 1000;
+
+		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.backpack));
+
+		solo.sleep(timeToWait);
+		clickOnContextMenuItem(FIRST_TEST_UNPACKING_SOUND_NAME, solo.getString(R.string.copy));
+
+		solo.waitForDialogToClose(1000);
+
+		solo.goBack();
+
+		assertTrue("Sound wasn't unpacked!", solo.waitForText(FIRST_TEST_UNPACKING_SOUND_NAME, 0, TIME_TO_WAIT));
+
+		clickOnContextMenuItem(SECOND_TEST_SOUND_NAME, solo.getString(R.string.backpack));
+
+		solo.sleep(timeToWait);
+		clickOnContextMenuItem(SECOND_TEST_UNPACKING_SOUND_NAME, solo.getString(R.string.copy));
+
+		solo.waitForDialogToClose(1000);
+
+		solo.goBack();
+
+		assertTrue("Sound wasn't unpacked!", solo.waitForText(SECOND_TEST_UNPACKING_SOUND_NAME, 0, TIME_TO_WAIT));
 	}
 
 	public void testRenameActionModeIfSomethingSelectedAndPressingBack() {
