@@ -101,7 +101,6 @@ public class LookData implements Serializable, Cloneable {
 			if (absolutePath != null) {
 				pixmap = new Pixmap(Gdx.files.absolute(absolutePath));
 			} else {
-				// TODO return default Pixmap 
 				return null;
 			}
 		}

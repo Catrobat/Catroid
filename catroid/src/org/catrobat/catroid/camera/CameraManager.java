@@ -114,7 +114,7 @@ public class CameraManager implements Camera.PreviewCallback {
 		camera.setPreviewCallback(this);
 		if (texture != null) {
 			try {
-				camera.setPreviewTexture(texture);// TODO what happens on old API?
+				camera.setPreviewTexture(texture);
 			} catch (IOException e) {
 				e.printStackTrace(); // TODO
 				return false;

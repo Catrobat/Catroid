@@ -54,7 +54,6 @@ public class FaceDetectionHandler {
 				return false;
 			}
 		}
-		//VideoDisplayHandler.startVideoStream();//TODO
 		running = faceDetector.startFaceDetection();
 		return running;
 	}
@@ -73,7 +72,6 @@ public class FaceDetectionHandler {
 		if (faceDetector == null) {
 			return;
 		}
-		//VideoDisplayHandler.stopVideoStream();//TODO
 		faceDetector.stopFaceDetection();
 		running = false;
 	}

@@ -37,7 +37,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
-import org.catrobat.catroid.camera.VideoLookData;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -193,10 +192,6 @@ public class Look extends Image {
 
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
-		//CameraManager.getInstance().draw();//TODO REMOVE
-		//		if (true) {
-		//			return;
-		//		}
 		checkImageChanged();
 		batch.setShader(shader);
 		if (alpha == 0.0f) {
@@ -231,10 +226,6 @@ public class Look extends Image {
 	}
 
 	protected void checkImageChanged() {
-		if (lookData instanceof VideoLookData) {
-			VideoLookData videoLookData = (VideoLookData) lookData;
-			imageChanged |= videoLookData.hasDataChanged();//TODO
-		}
 		if (imageChanged) {
 			if (lookData == null) {
 				setBounds(getX() + getWidth() / 2f, getY() + getHeight() / 2f, 0f, 0f);
