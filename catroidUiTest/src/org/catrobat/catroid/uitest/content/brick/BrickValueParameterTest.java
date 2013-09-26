@@ -443,7 +443,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 				nxtPlayToneEditTextValue);
 	}
 
-	@Smoke
 	public void testRobotAlbertBricksDefaultValues() {
 
 		//TODO: Check if Spinner-Value is correct

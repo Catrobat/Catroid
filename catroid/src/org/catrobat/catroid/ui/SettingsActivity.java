@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
@@ -44,5 +43,4 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		actionBar.setTitle(R.string.preference_title);
 		actionBar.setHomeButtonEnabled(true);
 	}
-		Log.d("!!!!!!!!!!!!!!", "onOptionsItemSelected");
 }

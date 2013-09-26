@@ -22,7 +22,10 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.os.Build;
+import android.test.suitebuilder.annotation.Smoke;
+import android.widget.ListView;
+import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -37,10 +40,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.os.Build;
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
-import android.widget.Spinner;
+import java.util.ArrayList;
 
 public class RobotAlbertMotorActionBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final int SET_SPEED = 30;
@@ -80,7 +80,7 @@ public class RobotAlbertMotorActionBrickTest extends BaseActivityInstrumentation
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_motor_action)));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.motor_speed)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, SET_SPEED, "speed", motorBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.motor_action_speed_edit_text, SET_SPEED, "speed", motorBrick);
 
 		String[] motors = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
 		assertTrue("Spinner items list too short!", motors.length == 4);
