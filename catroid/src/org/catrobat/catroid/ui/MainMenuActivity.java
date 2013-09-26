@@ -336,7 +336,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 			int b = path.lastIndexOf('.');
 			String projectName = path.substring(a, b);
 			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
-				Utils.showErrorDialog(this, getResources().getString(R.string.error_load_project));
+				Utils.showErrorDialog(this, R.string.error_load_project);
 			}
 		}
 	}

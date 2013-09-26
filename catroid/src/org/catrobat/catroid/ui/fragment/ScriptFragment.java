@@ -556,22 +556,18 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	private void showConfirmDeleteDialog(boolean fromContextMenu) {
 		this.deleteScriptFromContextMenu = fromContextMenu;
-		String yes = getActivity().getString(R.string.yes);
-		String no = getActivity().getString(R.string.no);
-		String title = "";
+		int titleId;
 		if ((deleteScriptFromContextMenu && scriptToEdit.getBrickList().size() == 0)
 				|| adapter.getAmountOfCheckedItems() == 1) {
-			title = getActivity().getString(R.string.dialog_confirm_delete_brick_title);
+			titleId = R.string.dialog_confirm_delete_brick_title;
 		} else {
-			title = getActivity().getString(R.string.dialog_confirm_delete_multiple_bricks_title);
+			titleId = R.string.dialog_confirm_delete_multiple_bricks_title;
 		}
 
-		String message = getActivity().getString(R.string.dialog_confirm_delete_brick_message);
-
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(title);
-		builder.setMessage(message);
-		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
+		builder.setTitle(titleId);
+		builder.setMessage(R.string.dialog_confirm_delete_brick_message);
+		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				if (deleteScriptFromContextMenu) {
@@ -582,7 +578,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 				}
 			}
 		});
-		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();

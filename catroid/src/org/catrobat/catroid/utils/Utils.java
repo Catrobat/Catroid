@@ -102,9 +102,9 @@ public class Utils {
 		if (!externalStorageAvailable()) {
 			Builder builder = new AlertDialog.Builder(context);
 
-			builder.setTitle(context.getString(R.string.error));
-			builder.setMessage(context.getString(R.string.error_no_writiable_external_storage_available));
-			builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+			builder.setTitle(R.string.error);
+			builder.setMessage(R.string.error_no_writiable_external_storage_available);
+			builder.setNeutralButton(R.string.close, new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					((Activity) context).moveTaskToBack(true);
@@ -160,11 +160,11 @@ public class Utils {
 		return buildPath(Constants.DEFAULT_ROOT, deleteSpecialCharactersInString(projectName));
 	}
 
-	public static void showErrorDialog(Context context, String errorMessage) {
+	public static void showErrorDialog(Context context, int errorMessageId) {
 		Builder builder = new AlertDialog.Builder(context);
-		builder.setTitle(context.getString(R.string.error));
-		builder.setMessage(errorMessage);
-		builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+		builder.setTitle(R.string.error);
+		builder.setMessage(errorMessageId);
+		builder.setNeutralButton(R.string.close, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 			}

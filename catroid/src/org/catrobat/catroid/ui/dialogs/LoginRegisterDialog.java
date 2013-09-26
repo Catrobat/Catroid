@@ -73,9 +73,8 @@ public class LoginRegisterDialog extends DialogFragment implements OnRegistratio
 		passwordEditText.setText("");
 
 		final AlertDialog loginRegisterDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
-				.setTitle(getString(R.string.login_register_dialog_title))
-				.setPositiveButton(getString(R.string.login_or_register), null)
-				.setNeutralButton(getString(R.string.password_forgotten), null).create();
+				.setTitle(R.string.login_register_dialog_title).setPositiveButton(R.string.login_or_register, null)
+				.setNeutralButton(R.string.password_forgotten, null).create();
 		loginRegisterDialog.setCanceledOnTouchOutside(true);
 		loginRegisterDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 

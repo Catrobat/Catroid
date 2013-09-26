@@ -75,7 +75,7 @@ public class ProjectManager {
 						MessageContainer.clearBackup();
 					} catch (IOException ioException) {
 						if (errorMessage) {
-							Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
+							Utils.showErrorDialog(context, R.string.error_load_project);
 						}
 						Log.e(TAG, "Cannot load project.", ioException);
 						return false;
@@ -83,14 +83,14 @@ public class ProjectManager {
 				}
 			}
 			if (errorMessage) {
-				Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
+				Utils.showErrorDialog(context, R.string.error_load_project);
 			}
 			return false;
 		} else if (!Utils.isApplicationDebuggable(context)
 				&& (project.getCatrobatLanguageVersion() > Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION)) {
 			project = oldProject;
 			if (errorMessage) {
-				Utils.showErrorDialog(context, context.getString(R.string.error_project_compatability));
+				Utils.showErrorDialog(context, R.string.error_project_compatability);
 				// TODO show dialog to download latest catroid version instead
 			}
 			return false;
@@ -98,7 +98,7 @@ public class ProjectManager {
 				&& (project.getCatrobatLanguageVersion() < Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION)) {
 			project = oldProject;
 			if (errorMessage) {
-				Utils.showErrorDialog(context, context.getString(R.string.error_project_compatability));
+				Utils.showErrorDialog(context, R.string.error_project_compatability);
 				// TODO show dialog to convert project to a supported version
 			}
 			return false;
@@ -142,7 +142,7 @@ public class ProjectManager {
 			return true;
 		} catch (IOException ioException) {
 			Log.e(TAG, "Cannot initialize default project.", ioException);
-			Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
+			Utils.showErrorDialog(context, R.string.error_load_project);
 			return false;
 		}
 	}
@@ -179,7 +179,7 @@ public class ProjectManager {
 
 	public boolean renameProject(String newProjectName, Context context) {
 		if (StorageHandler.getInstance().projectExistsCheckCase(newProjectName)) {
-			Utils.showErrorDialog(context, context.getString(R.string.error_project_exists));
+			Utils.showErrorDialog(context, R.string.error_project_exists);
 			return false;
 		}
 
@@ -208,7 +208,7 @@ public class ProjectManager {
 		}
 
 		if (!directoryRenamed) {
-			Utils.showErrorDialog(context, context.getString(R.string.error_rename_project));
+			Utils.showErrorDialog(context, R.string.error_rename_project);
 		}
 
 		return directoryRenamed;
@@ -216,7 +216,7 @@ public class ProjectManager {
 
 	public boolean renameProjectNameAndDescription(String newProjectName, String newProjectDescription, Context context) {
 		if (StorageHandler.getInstance().projectExistsCheckCase(newProjectName)) {
-			Utils.showErrorDialog(context, context.getString(R.string.error_project_exists));
+			Utils.showErrorDialog(context, R.string.error_project_exists);
 			return false;
 		}
 
@@ -246,7 +246,7 @@ public class ProjectManager {
 		}
 
 		if (!directoryRenamed) {
-			Utils.showErrorDialog(context, context.getString(R.string.error_rename_project));
+			Utils.showErrorDialog(context, R.string.error_rename_project);
 		}
 
 		return directoryRenamed;

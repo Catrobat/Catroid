@@ -41,21 +41,21 @@ public class NewSpriteDialog extends TextDialog {
 
 	@Override
 	protected boolean handleOkButton() {
-		String newSpriteName = (input.getText().toString()).trim();
+		String newSpriteName = input.getText().toString().trim();
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		if (projectManager.spriteExists(newSpriteName)) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.spritename_already_exists));
+			Utils.showErrorDialog(getActivity(), R.string.spritename_already_exists);
 			return false;
 		}
 
 		if (newSpriteName == null || newSpriteName.equalsIgnoreCase("")) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.spritename_invalid));
+			Utils.showErrorDialog(getActivity(), R.string.spritename_invalid);
 			return false;
 		}
 
 		if (projectManager.spriteExists(newSpriteName)) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.spritename_already_exists));
+			Utils.showErrorDialog(getActivity(), R.string.spritename_already_exists);
 			return false;
 		}
 

@@ -84,12 +84,11 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	private LinearLayout formulaEditorKeyboard;
 	private ImageButton formularEditorFieldDeleteButton;
 	private LinearLayout formulaEditorBrick;
+	private Toast toast;
 	private View brickView;
 	private long[] confirmSwitchEditTextTimeStamp = { 0, 0 };
 	private int confirmSwitchEditTextCounter = 0;
 	private CharSequence previousActionBarTitle;
-
-	private Toast formularEditorToast;
 
 	public boolean restoreInstance = false;
 	private View fragmentView;
@@ -111,7 +110,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 		previousActionBarTitle = ProjectManager.getInstance().getCurrentSprite().getName();
 		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setTitle(getString(R.string.formula_editor_title));
+		actionBar.setTitle(R.string.formula_editor_title);
 	}
 
 	private void resetActionBar() {
@@ -408,20 +407,17 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 	}
 
-	private void showToast(int ressourceId) {
-		if (formularEditorToast != null) {
-			View toastView = formularEditorToast.getView();
-			if (toastView != null) {
-				formularEditorToast.setText(getString(ressourceId));
-				if (!toastView.isShown()) {
-					formularEditorToast.show();
-				}
-				return;
-			}
+	/*
+	 * TODO Remove Toasts from this class and replace them with something useful
+	 * This is a hack more than anything else. We shouldn't use Toasts if we're going to change the message all the time
+	 */
+	private void showToast(int resourceId) {
+		if (toast == null || toast.getView().getWindowVisibility() != View.VISIBLE) {
+			toast = Toast.makeText(getActivity().getApplicationContext(), resourceId, Toast.LENGTH_SHORT);
+		} else {
+			toast.setText(resourceId);
 		}
-		formularEditorToast = Toast.makeText(context, getString(ressourceId), Toast.LENGTH_LONG);
-		formularEditorToast.show();
-
+		toast.show();
 	}
 
 	@Override

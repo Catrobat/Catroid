@@ -60,7 +60,7 @@ public class RenameLookDialog extends TextDialog {
 
 	@Override
 	protected boolean handleOkButton() {
-		String newLookName = (input.getText().toString()).trim();
+		String newLookName = input.getText().toString().trim();
 
 		if (newLookName.equals(oldLookName)) {
 			dismiss();
@@ -69,7 +69,7 @@ public class RenameLookDialog extends TextDialog {
 		if (newLookName != null && !newLookName.equalsIgnoreCase("")) {
 			newLookName = Utils.getUniqueLookName(newLookName);
 		} else {
-			Utils.showErrorDialog(getActivity(), getString(R.string.lookname_invalid));
+			Utils.showErrorDialog(getActivity(), R.string.lookname_invalid);
 			dismiss();
 		}
 
