@@ -471,6 +471,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_copy).setVisible(true);
+		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
 		//TODO: remove this when inserting of sound items from backpack is possible
 		if (!BuildConfig.DEBUG) {
 			menu.findItem(R.id.context_menu_backpack).setVisible(false);

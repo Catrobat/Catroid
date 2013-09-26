@@ -146,18 +146,19 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
-		menu.findItem(R.id.context_menu_copy).setVisible(true);
+		menu.findItem(R.id.context_menu_copy).setVisible(false);
 		menu.findItem(R.id.context_menu_cut).setVisible(false);
 		menu.findItem(R.id.context_menu_delete).setVisible(true);
 		menu.findItem(R.id.context_menu_backpack).setVisible(false);
 		menu.findItem(R.id.context_menu_rename).setVisible(false);
+		menu.findItem(R.id.context_menu_unpacking).setVisible(true);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 
-			case R.id.context_menu_copy:
+			case R.id.context_menu_unpacking:
 				SoundController.getInstance().copySound(selectedSoundInfoBackPack,
 						BackPackListManager.getCurrentSoundInfoArrayList(), BackPackListManager.getCurrentAdapter());
 				Toast.makeText(getActivity(), "File " + selectedSoundInfoBackPack.getTitle() + " was unpacked!",

@@ -492,7 +492,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.backpack));
 
 		solo.sleep(timeToWait);
-		clickOnContextMenuItem(FIRST_TEST_UNPACKING_SOUND_NAME, solo.getString(R.string.copy));
+		clickOnContextMenuItem(FIRST_TEST_UNPACKING_SOUND_NAME, solo.getString(R.string.unpack));
 
 		solo.waitForDialogToClose(1000);
 
@@ -521,7 +521,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.unpacking), R.id.unpacking, getActivity());
 
-		clickOnContextMenuItem(FIRST_TEST_UNPACKING_SOUND_NAME, solo.getString(R.string.copy));
+		clickOnContextMenuItem(FIRST_TEST_UNPACKING_SOUND_NAME, solo.getString(R.string.unpack));
 
 		solo.waitForDialogToClose(1000);
 
@@ -535,13 +535,14 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	public void testMultipleUnpacking() {
 		SoundAdapter adapter = getSoundAdapter();
+		int oldCount = adapter.getCount();
 		assertNotNull("Could not get Adapter", adapter);
 		int timeToWait = 1000;
 
 		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.backpack));
 
 		solo.sleep(timeToWait);
-		clickOnContextMenuItem(FIRST_TEST_UNPACKING_SOUND_NAME, solo.getString(R.string.copy));
+		clickOnContextMenuItem(FIRST_TEST_UNPACKING_SOUND_NAME, solo.getString(R.string.unpack));
 
 		solo.waitForDialogToClose(1000);
 
@@ -552,13 +553,16 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		clickOnContextMenuItem(SECOND_TEST_SOUND_NAME, solo.getString(R.string.backpack));
 
 		solo.sleep(timeToWait);
-		clickOnContextMenuItem(SECOND_TEST_UNPACKING_SOUND_NAME, solo.getString(R.string.copy));
+		clickOnContextMenuItem(SECOND_TEST_UNPACKING_SOUND_NAME, solo.getString(R.string.unpack));
 
 		solo.waitForDialogToClose(1000);
 
 		solo.goBack();
 
 		assertTrue("Sound wasn't unpacked!", solo.waitForText(SECOND_TEST_UNPACKING_SOUND_NAME, 0, TIME_TO_WAIT));
+
+		int newCount = adapter.getCount();
+		assertEquals("There are sounds missing", oldCount + 2, newCount);
 	}
 
 	public void testRenameActionModeIfSomethingSelectedAndPressingBack() {

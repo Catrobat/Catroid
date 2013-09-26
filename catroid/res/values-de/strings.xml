@@ -34,6 +34,7 @@
     <string name="move">Verschieben</string>
     <string name="backpack">Einpacken</string>
     <string name="unpacking">Auspacken</string>
+    <string name="unpack">Pack es aus</string>
     <string name="copy_addition">Kopie</string>
 
     <!--  -->
