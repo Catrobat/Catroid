@@ -41,6 +41,7 @@ import java.io.IOException;
 
 public class ProjectManager {
 	private static final ProjectManager INSTANCE = new ProjectManager();
+	private static final String TAG = ProjectManager.class.getSimpleName();
 
 	private Project project;
 	private Script currentScript;
@@ -72,11 +73,11 @@ public class ProjectManager {
 					try {
 						project = StandardProjectHandler.createAndSaveStandardProject(context);
 						MessageContainer.clearBackup();
-					} catch (IOException e) {
+					} catch (IOException ioException) {
 						if (errorMessage) {
 							Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
 						}
-						Log.e("CATROID", "Cannot load project.", e);
+						Log.e(TAG, "Cannot load project.", ioException);
 						return false;
 					}
 				}
@@ -139,8 +140,8 @@ public class ProjectManager {
 			currentSprite = null;
 			currentScript = null;
 			return true;
-		} catch (Exception e) {
-			Log.e("CATROID", "Cannot initialize default project.", e);
+		} catch (IOException ioException) {
+			Log.e(TAG, "Cannot initialize default project.", ioException);
 			Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
 			return false;
 		}

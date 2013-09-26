@@ -303,19 +303,36 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		solo.goBack();
 		solo.sleep(500);
-		solo.clickLongOnText(defaultSpriteName);
+		solo.clickLongOnText(defaultSpriteName + "$");
 		solo.clickOnText(getActivity().getString(R.string.delete));
 		String yes = solo.getString(R.string.yes);
 		solo.waitForText(yes);
 		solo.clickOnText(yes);
-		solo.sleep(500);
-		solo.sendKey(Solo.ENTER);
 		solo.sleep(500);
 		solo.clickOnText(defaultSpriteName + solo.getString(R.string.copy_sprite_name_suffix));
 		solo.sleep(500);
 
 		assertEquals("The number of Bricks differs!", ProjectManager.getInstance().getCurrentSprite().getScript(0)
 				.getBrickList().size(), brickCounter);
+	}
+
+	public void testCopySelectAll() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		int currentNumberOfSprites = getCurrentNumberOfSprites() - 1;
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		solo.clickOnText(selectAll);
+
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			if (checkBox.isShown()) {
+				assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+			}
+		}
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		checkIfNumberOfSpritesIsEqual(currentNumberOfSprites * 2 + 1);
 	}
 
 	public void testBackgroundSprite() {
@@ -632,7 +649,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	public void testClickOnHeadlines() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
-		String backgroundHeadline = solo.getString(R.string.spritelist_background_headline).toUpperCase(Locale.getDefault());
+		String backgroundHeadline = solo.getString(R.string.spritelist_background_headline).toUpperCase(
+				Locale.getDefault());
 		solo.clickOnText(backgroundHeadline);
 		solo.assertCurrentActivity("Click on background headline switched activity!", ProjectActivity.class);
 
@@ -904,6 +922,52 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		assertFalse("Sprite '" + deletedSpriteName + "' has been deleted but is still showing!",
 				solo.waitForText(deletedSpriteName, 0, 200, false, false));
+	}
+
+	public void testDeleteSelectAll() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+
+		solo.waitForText(solo.getString(R.string.delete));
+		solo.clickOnText(selectAll);
+
+		solo.sleep(200);
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			if (checkBox.isShown()) {
+				assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+			}
+		}
+
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
+
+		assertFalse("Sprite was not Deleted!", solo.waitForText(FIRST_TEST_SPRITE_NAME, 1, 200));
+		assertFalse("Sprite was not Deleted!", solo.waitForText(SECOND_TEST_SPRITE_NAME, 1, 200));
+		assertFalse("Sprite was not Deleted!", solo.waitForText(THIRD_TEST_SPRITE_NAME, 1, 200));
+		assertFalse("Sprite was not Deleted!", solo.waitForText(FOURTH_TEST_SPRITE_NAME, 1, 200));
+	}
+
+	public void testItemClick() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		solo.clickInList(2);
+
+		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
+		assertTrue("CheckBox not checked", checkBoxList.get(1).isChecked());
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.yes)));
+		solo.clickOnButton(solo.getString(R.string.yes));
+
+		assertFalse("Sprite not deleted", solo.waitForText(FIRST_TEST_SPRITE_NAME, 0, 200));
 	}
 
 	public void testConfirmDeleteObjectDialogTitleChange() {
