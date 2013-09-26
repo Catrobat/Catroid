@@ -40,16 +40,16 @@
     
     <!-- Robot Albert motors spinner -->
     <string-array name="robot_albert_motor_chooser">
-        <item>Left</item>
-        <item>Right</item>
-        <item>Both</item>
+        <item>@string/robot_albert_motor_left</item>
+        <item>@string/robot_albert_motor_right</item>
+        <item>@string/robot_albert_motor_both</item>
     </string-array>
     
     <!-- Robot Albert eye spinner -->
     <string-array name="robot_albert_eye_chooser">
-        <item>Left</item>
-        <item>Right</item>
-        <item>Both</item>
+        <item>@string/robot_albert_eye_left</item>
+        <item>@string/robot_albert_eye_right</item>
+        <item>@string/robot_albert_eye_both</item>
     </string-array>
 
     <!-- Script Activity Spinner -->
