@@ -100,7 +100,9 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 			loadProgramFromExternalSource(loadExternalProjectUri);
 		}
 
-		BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
+		if (!BackPackListManager.isBackpackFlag()) {
+			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
+		}
 	}
 
 	@Override

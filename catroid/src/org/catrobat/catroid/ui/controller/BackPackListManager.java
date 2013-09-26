@@ -37,6 +37,7 @@ public class BackPackListManager {
 	private static ArrayList<SoundInfo> currentSoundInfoArrayList;
 	private static SoundBaseAdapter currentAdapter;
 	private static File backPackSoundDirectory;
+	private static boolean backpackFlag;
 
 	private BackPackListManager() {
 	}
@@ -100,5 +101,13 @@ public class BackPackListManager {
 	public static File getBackPackSoundDirectory() {
 		return backPackSoundDirectory;
 
+	}
+
+	public static void setBackPackFlag(boolean currentBackpackFlag) {
+		backpackFlag = currentBackpackFlag;
+	}
+
+	public static boolean isBackpackFlag() {
+		return backpackFlag;
 	}
 }
